@@ -168,7 +168,7 @@ private slots:
     void            s_CoordinateStyleBT();
     void            s_BlockShapeStyleBT();
 
-    // Text annimation
+    // Text animation
     void            s_ZoomED(int);
     void            s_ZoomResetBT();
     void            s_ScrollXED(int);
@@ -176,13 +176,19 @@ private slots:
     void            s_ScrollYED(int);
     void            s_ScrollYResetBT();
 
-    // Multilple turn annimation
+    // Block animation
+    void            s_BlockAnimCB(int);
+
+    // Multiple turn animation
     void            s_ChgTurnZValue(int);
     void            s_ResetTurnZBT();
     void            s_ChgTurnXValue(int);
     void            s_ResetTurnXBT();
     void            s_ChgTurnYValue(int);
     void            s_ResetTurnYBT();
+
+    // Dissolve animation
+    void            s_ChgDissolveValue(int);
 
 private:
     void            Clean();

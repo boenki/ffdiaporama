@@ -10,7 +10,7 @@
     <x>0</x>
     <y>0</y>
     <width>700</width>
-    <height>713</height>
+    <height>500</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -1328,9 +1328,9 @@ QToolButton:pressed {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-252</y>
+              <y>-436</y>
               <width>262</width>
-              <height>641</height>
+              <height>693</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -2600,7 +2600,7 @@ color: #000000;
                </item>
               </layout>
              </item>
-             <item row="36" column="1">
+             <item row="37" column="1">
               <spacer name="verticalSpacer">
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
@@ -2982,7 +2982,7 @@ color: #000000;
                 </font>
                </property>
                <property name="text">
-                <string>Multiple block turn animation :</string>
+                <string>Block animation :</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -3492,6 +3492,32 @@ color: #000000;
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
+             </item>
+             <item row="32" column="0">
+              <widget class="QLabel" name="BlockAnimLabel">
+               <property name="text">
+                <string>Type :</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="32" column="1">
+              <widget class="QComboBox" name="BlockAnimCB"/>
+             </item>
+             <item row="36" column="0">
+              <widget class="QLabel" name="DissolveLabel">
+               <property name="text">
+                <string>Dissolve :</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="36" column="1">
+              <widget class="QComboBox" name="DissolveCB"/>
              </item>
             </layout>
            </widget>

@@ -28,8 +28,6 @@
 #include "../sharedfiles/cBaseMediaFile.h"
 
 // Specific inclusions
-
-
 class cDiaporama;
 class cDiaporamaObject;
 
@@ -37,7 +35,6 @@ class cDiaporamaObject;
 #include "_ImagesDefinitions.h"
 #include "_SoundDefinitions.h"
 #include "cCustomTableWidget.h"
-
 
 // Transition familly definition
 #define TRANSITIONFAMILLY_BASE              0
@@ -63,9 +60,6 @@ class cDiaporamaObject;
 #define SPEEDWAVE_LINEAR                    0
 #define SPEEDWAVE_SINQUARTER                1
 
-// Composition parameters
-#define SCALINGTEXTFACTOR                   700     // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
-
 // Object type definition
 #define DIAPORAMAOBJECTTYPE_EMPTY           0
 #define DIAPORAMAOBJECTTYPE_IMAGE           1
@@ -75,6 +69,21 @@ class cDiaporamaObject;
 #define SHOTTYPE_STATIC                     0
 #define SHOTTYPE_MOBIL                      1
 #define SHOTTYPE_VIDEO                      2
+
+//============================================
+// Block animations
+//============================================
+
+#define BLOCKANIMTYPE_NONE                  0
+#define BLOCKANIMTYPE_MULTIPLETURN          1
+#define BLOCKANIMTYPE_DISSOLVE              2
+
+#define BLOCKANIMVALUE_APPEAR               0
+#define BLOCKANIMVALUE_DISAPPEAR            1
+#define BLOCKANIMVALUE_BLINK_SLOW           2
+#define BLOCKANIMVALUE_BLINK_MEDIUM         3
+#define BLOCKANIMVALUE_BLINK_FAST           4
+#define BLOCKANIMVALUE_BLINK_VERYFAST       5
 
 //============================================
 // Default values
@@ -123,9 +132,11 @@ public:
     double              RotateYAxis;            // Rotation from Y axis
 
     // Block Annimation
-    int                 TurnZAxis;              // Number of turn from Z axis
-    int                 TurnXAxis;              // Number of turn from X axis
-    int                 TurnYAxis;              // Number of turn from Y axis
+    int                 BlockAnimType;          // Type of block animation (#define BLOCKANIMTYPE_)
+    int                 TurnZAxis;              // BLOCKANIMTYPE_MULTIPLETURN : Number of turn from Z axis
+    int                 TurnXAxis;              // BLOCKANIMTYPE_MULTIPLETURN : Number of turn from X axis
+    int                 TurnYAxis;              // BLOCKANIMTYPE_MULTIPLETURN : Number of turn from Y axis
+    int                 Dissolve;               // BLOCKANIMTYPE_DISSOLVE     : Dissolve value
 
     // Attribut of the text part (Global values)
     QString             Text;                   // Text of the object
@@ -161,7 +172,8 @@ public:
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
     void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
-                                      cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache);
+                                      cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache,int ShotDuration,bool EnableAnimation);
+
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition=true);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
 
@@ -179,6 +191,9 @@ public:
 
     QString     GetBlockShapeStyle();
     void        ApplyBlockShapeStyle(QString StyleDef);
+
+private:
+    QImage      AddShadow(QImage SourceImage,double &DstX,double &DstY,double &DstW,double &DstH,double Distance);
 };
 
 //*********************************************************************************************************************************************

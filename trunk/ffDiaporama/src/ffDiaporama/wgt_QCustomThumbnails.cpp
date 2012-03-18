@@ -43,6 +43,9 @@
 #define ICON_HAVEFILTER                     ":/img/Transform.png"                   // FileName of icon representing block with filter in the timeline
 #define ICON_PLAYERPAUSE                    ":/img/player_pause.png"                // FileName of pause icon
 
+// Composition parameters
+#define SCALINGTEXTFACTOR                   400
+
 //===========================================================================================================================
 
 wgt_QCustomThumbnails::wgt_QCustomThumbnails(QTableWidget *TheTimeline,int TheType) : QLabel(TheTimeline) {
@@ -151,8 +154,8 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                                     l=DiaporamaObject->List[k]->ShotComposition.List.count();    // Stop loop
                                 }
                             }
-                            DiaporamaObject->List[Col]->ShotComposition.List[j]->DrawCompositionObject(&Painter,double(Height)/double(1080),0,0,Width,Height,true,0,StartPosToAdd,NULL,0,NULL,false);
-                        } else DiaporamaObject->List[Col]->ShotComposition.List[j]->DrawCompositionObject(&Painter,double(Height)/double(1080),0,0,Width,Height,true,Position,0,NULL,0,NULL,false);
+                            DiaporamaObject->List[Col]->ShotComposition.List[j]->DrawCompositionObject(&Painter,double(Height)/double(1080),0,0,Width,Height,true,0,StartPosToAdd,NULL,0,NULL,false,0,false);
+                        } else DiaporamaObject->List[Col]->ShotComposition.List[j]->DrawCompositionObject(&Painter,double(Height)/double(1080),0,0,Width,Height,true,Position,0,NULL,0,NULL,false,0,false);
                     }
 
                     // -------------------------- Draw selected box (if needed)

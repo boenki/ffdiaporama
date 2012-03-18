@@ -31,6 +31,9 @@
 #include <QTextCharFormat>
 #include <QTextBlockFormat>
 
+// Composition parameters
+#define SCALINGTEXTFACTOR                   700     // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
+
 //============================================
 // Global static
 //============================================
@@ -56,13 +59,9 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
     w                       = 0.5;
     h                       = 0.5;
 
-    RotateZAxis             = 0;            // Rotation from Z axis
-    RotateXAxis             = 0;            // Rotation from X axis
-    RotateYAxis             = 0;            // Rotation from Y axis
-
-    TurnZAxis               = 0;            // Number of turn from Z axis
-    TurnXAxis               = 0;            // Number of turn from X axis
-    TurnYAxis               = 0;            // Number of turn from Y axis
+    RotateZAxis             = 0;                    // Rotation from Z axis
+    RotateXAxis             = 0;                    // Rotation from X axis
+    RotateYAxis             = 0;                    // Rotation from Y axis
 
     // Text part
     Text                    = "";           // Text of the object
@@ -89,6 +88,13 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
     FormShadowColor         = DEFAULT_SHAPE_SHADOWCOLOR;                        // Color of the shadow of the form
     FormShadow              = 0;                                                // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
     FormShadowDistance      = 5;                                                // Distance from form to shadow
+
+    // Block animation part
+    BlockAnimType           = BLOCKANIMTYPE_NONE;
+    TurnZAxis               = 0;                    // Number of turn from Z axis
+    TurnXAxis               = 0;                    // Number of turn from X axis
+    TurnYAxis               = 0;                    // Number of turn from Y axis
+    Dissolve                = BLOCKANIMVALUE_APPEAR;
 
     // BackgroundBrush is initilise by object constructor except TypeComposition and key
     BackgroundBrush->TypeComposition = TypeComposition;
@@ -126,9 +132,13 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("RotateXAxis",RotateXAxis);                // Rotation from X axis
     Element.setAttribute("RotateYAxis",RotateYAxis);                // Rotation from Y axis
     Element.setAttribute("BackgroundTransparent",Opacity);          // Opacity of the form
+
+    // Block animation
+    Element.setAttribute("BlockAnimType",BlockAnimType);            // Block animation type
     Element.setAttribute("TurnZAxis",TurnZAxis);                    // Number of turn from Z axis
     Element.setAttribute("TurnXAxis",TurnXAxis);                    // Number of turn from X axis
     Element.setAttribute("TurnYAxis",TurnYAxis);                    // Number of turn from Y axis
+    Element.setAttribute("Dissolve",Dissolve);                      // Dissolve value
 
     // Text part
     if ((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
@@ -188,9 +198,13 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         if (Element.hasAttribute("RotateZAxis"))            RotateZAxis =Element.attribute("RotateZAxis").toDouble();           // Rotation from Z axis
         if (Element.hasAttribute("RotateXAxis"))            RotateXAxis =Element.attribute("RotateXAxis").toDouble();           // Rotation from X axis
         if (Element.hasAttribute("RotateYAxis"))            RotateYAxis =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
-        if (Element.hasAttribute("TurnZAxis"))              TurnZAxis   =Element.attribute("TurnZAxis").toInt();                // Number of turn from Z axis
-        if (Element.hasAttribute("TurnXAxis"))              TurnXAxis   =Element.attribute("TurnXAxis").toInt();                // Number of turn from X axis
-        if (Element.hasAttribute("TurnYAxis"))              TurnYAxis   =Element.attribute("TurnYAxis").toInt();                // Number of turn from Y axis
+
+
+        if (Element.hasAttribute("BlockAnimType"))          BlockAnimType   =Element.attribute("BlockAnimType").toInt();        // Block animation type
+        if (Element.hasAttribute("TurnZAxis"))              TurnZAxis       =Element.attribute("TurnZAxis").toInt();            // Number of turn from Z axis
+        if (Element.hasAttribute("TurnXAxis"))              TurnXAxis       =Element.attribute("TurnXAxis").toInt();            // Number of turn from X axis
+        if (Element.hasAttribute("TurnYAxis"))              TurnYAxis       =Element.attribute("TurnYAxis").toInt();            // Number of turn from Y axis
+        if (Element.hasAttribute("Dissolve"))               Dissolve        =Element.attribute("Dissolve").toInt();             // Dissolve value
 
         // Text part
         if ((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
@@ -450,9 +464,11 @@ QString cCompositionObject::GetCoordinateStyle() {
             QString("###RotateZAxis:%1").arg(RotateZAxis,0,'e')+
             QString("###RotateXAxis:%1").arg(RotateXAxis,0,'e')+
             QString("###RotateYAxis:%1").arg(RotateYAxis,0,'e')+
+            QString("###BlockAnimType:%1").arg(BlockAnimType)+
             QString("###TurnZAxis:%1").arg(TurnZAxis)+
             QString("###TurnXAxis:%1").arg(TurnXAxis)+
-            QString("###TurnYAxis:%1").arg(TurnYAxis);
+            QString("###TurnYAxis:%1").arg(TurnYAxis)+
+            QString("###Dissolve:%1").arg(Dissolve);
 
     // If block is image or video
     if ((BackgroundBrush->Image!=NULL)||(BackgroundBrush->Video!=NULL)) {
@@ -504,16 +520,18 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
 
     // Apply Style
     for (int i=0;i<List.count();i++) {
-        if      (List[i].startsWith("X:"))              x          =List[i].mid(QString("X:").length()).toDouble();
-        else if (List[i].startsWith("Y:"))              y          =List[i].mid(QString("Y:").length()).toDouble();
-        else if (List[i].startsWith("W:"))              w          =List[i].mid(QString("W:").length()).toDouble();
-        else if (List[i].startsWith("H:"))              h          =List[i].mid(QString("H:").length()).toDouble();
-        else if (List[i].startsWith("RotateZAxis:"))    RotateZAxis=List[i].mid(QString("RotateZAxis:").length()).toDouble();
-        else if (List[i].startsWith("RotateXAxis:"))    RotateXAxis=List[i].mid(QString("RotateXAxis:").length()).toDouble();
-        else if (List[i].startsWith("RotateYAxis:"))    RotateYAxis=List[i].mid(QString("RotateYAxis:").length()).toDouble();
-        else if (List[i].startsWith("TurnZAxis:"))      TurnZAxis  =List[i].mid(QString("TurnZAxis:").length()).toInt();
-        else if (List[i].startsWith("TurnXAxis:"))      TurnXAxis  =List[i].mid(QString("TurnXAxis:").length()).toInt();
-        else if (List[i].startsWith("TurnYAxis:"))      TurnYAxis  =List[i].mid(QString("TurnYAxis:").length()).toInt();
+        if      (List[i].startsWith("X:"))              x               =List[i].mid(QString("X:").length()).toDouble();
+        else if (List[i].startsWith("Y:"))              y               =List[i].mid(QString("Y:").length()).toDouble();
+        else if (List[i].startsWith("W:"))              w               =List[i].mid(QString("W:").length()).toDouble();
+        else if (List[i].startsWith("H:"))              h               =List[i].mid(QString("H:").length()).toDouble();
+        else if (List[i].startsWith("RotateZAxis:"))    RotateZAxis     =List[i].mid(QString("RotateZAxis:").length()).toDouble();
+        else if (List[i].startsWith("RotateXAxis:"))    RotateXAxis     =List[i].mid(QString("RotateXAxis:").length()).toDouble();
+        else if (List[i].startsWith("RotateYAxis:"))    RotateYAxis     =List[i].mid(QString("RotateYAxis:").length()).toDouble();
+        else if (List[i].startsWith("BlockAnimType:"))  BlockAnimType   =List[i].mid(QString("BlockAnimType:").length()).toInt();
+        else if (List[i].startsWith("TurnZAxis:"))      TurnZAxis       =List[i].mid(QString("TurnZAxis:").length()).toInt();
+        else if (List[i].startsWith("TurnXAxis:"))      TurnXAxis       =List[i].mid(QString("TurnXAxis:").length()).toInt();
+        else if (List[i].startsWith("TurnYAxis:"))      TurnYAxis       =List[i].mid(QString("TurnYAxis:").length()).toInt();
+        else if (List[i].startsWith("Dissolve:"))       Dissolve        =List[i].mid(QString("Dissolve:").length()).toInt();
 
         else if ((List[i].startsWith("FramingStyleIndex:"))||(List[i].startsWith("FramingStyleName:"))||(List[i].startsWith("CustomFramingStyle:"))) {
             QString CustomFramingStyle="";
@@ -584,9 +602,11 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
     RotateZAxis          =CompositionObjectToCopy->RotateZAxis;
     RotateXAxis          =CompositionObjectToCopy->RotateXAxis;
     RotateYAxis          =CompositionObjectToCopy->RotateYAxis;
+    BlockAnimType        =CompositionObjectToCopy->BlockAnimType;
     TurnZAxis            =CompositionObjectToCopy->TurnZAxis;
     TurnXAxis            =CompositionObjectToCopy->TurnXAxis;
     TurnYAxis            =CompositionObjectToCopy->TurnYAxis;
+    Dissolve             =CompositionObjectToCopy->Dissolve;
     Opacity              =CompositionObjectToCopy->Opacity;
     Text                 =CompositionObjectToCopy->Text;
     FontName             =CompositionObjectToCopy->FontName;
@@ -617,7 +637,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 
 // ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
-                                               cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache) {
+                                               cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache,int ShotDuration,bool EnableAnimation) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:DrawCompositionObject");
 
     // W and H = 0 when producing sound track in render process
@@ -643,9 +663,9 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         double TheY             =y;
         double TheW             =w;
         double TheH             =h;
-        double TheRotateZAxis   =RotateZAxis+360*TurnZAxis;
-        double TheRotateXAxis   =RotateXAxis+360*TurnXAxis;
-        double TheRotateYAxis   =RotateYAxis+360*TurnYAxis;
+        double TheRotateZAxis   =RotateZAxis+(EnableAnimation && (BlockAnimType==BLOCKANIMTYPE_MULTIPLETURN)?360*TurnZAxis:0);
+        double TheRotateXAxis   =RotateXAxis+(EnableAnimation && (BlockAnimType==BLOCKANIMTYPE_MULTIPLETURN)?360*TurnXAxis:0);
+        double TheRotateYAxis   =RotateYAxis+(EnableAnimation && (BlockAnimType==BLOCKANIMTYPE_MULTIPLETURN)?360*TurnYAxis:0);
         double TheTxtZoomLevel  =TxtZoomLevel;
         double TheTxtScrollX    =TxtScrollX;
         double TheTxtScrollY    =TxtScrollY;
@@ -661,12 +681,13 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             if (PrevCompoObject->TxtScrollX!=TheTxtScrollX)     TheTxtScrollX   =PrevCompoObject->TxtScrollX+(TheTxtScrollX-PrevCompoObject->TxtScrollX)*PctDone;
             if (PrevCompoObject->TxtScrollY!=TheTxtScrollY)     TheTxtScrollY   =PrevCompoObject->TxtScrollY+(TheTxtScrollY-PrevCompoObject->TxtScrollY)*PctDone;
         } else {
-            TheRotateZAxis=RotateZAxis+360*TurnZAxis*PctDone;
-            TheRotateXAxis=RotateXAxis+360*TurnXAxis*PctDone;
-            TheRotateYAxis=RotateYAxis+360*TurnYAxis*PctDone;
+            if (EnableAnimation && (BlockAnimType==BLOCKANIMTYPE_MULTIPLETURN)) {
+                TheRotateZAxis=RotateZAxis+360*TurnZAxis*PctDone;
+                TheRotateXAxis=RotateXAxis+360*TurnXAxis*PctDone;
+                TheRotateYAxis=RotateYAxis+360*TurnYAxis*PctDone;
+            }
         }
 
-        QPen    Pen;
         double  FullMargin=0;
         double  W=int(TheW*double(width));  if ((int(W) & 0x01)==1) W=W+1;
         double  H=int(TheH*double(height)); if ((int(H) & 0x01)==1) H=H+1;
@@ -675,6 +696,16 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         double  Hb=Wb; // always square image
         AddX-=(Wb-W)/2;
         AddY-=(Hb-H)/2;
+        double  DstX=AddX+TheX*double(width);
+        double  DstY=AddY+TheY*double(height);
+        double  DstW=Wb;
+        double  DstH=Hb;
+
+        //***********************************************************************************
+        // Prepare brush
+        //***********************************************************************************
+
+        QPen     Pen;
         QImage   Img(Wb,Hb,QImage::Format_ARGB32_Premultiplied);
         QPainter Painter;
         Painter.begin(&Img);
@@ -800,41 +831,48 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             Painter.scale((TheTxtZoomLevel/100)*PointSize,(TheTxtZoomLevel/100)*PointSize);
             TextDocument.documentLayout()->draw(&Painter,Context);
         }
+
         Painter.end();
 
         //**********************************************************************************
         // Block shadow part
         //**********************************************************************************
 
-        if ((FormShadow)&&(!Img.isNull())) {
-            double  Distance =double(FormShadowDistance)*ADJUST_RATIO;
-            QImage  ImgShadow=Img.copy();
-            Uint8   *Data    =ImgShadow.bits();
-            QColor  SColor   =QColor(FormShadowColor);
-            Uint8   R        =SColor.red();
-            Uint8   G        =SColor.green();
-            Uint8   B        =SColor.blue();
-            for (int i=0;i<(Wb-1)*(Hb-1);i++) {
-              if (*(Data+3)!=0) {
-                *Data++=B;
-                *Data++=G;
-                *Data++=R;
-                Data++;     // Keep Alpha chanel
-              } else Data+=4;
+        if ((FormShadow)&&(!Img.isNull())) Img=AddShadow(Img,DstX,DstY,DstW,DstH,double(FormShadowDistance)*ADJUST_RATIO);
+
+        //**********************************************************************************
+        // Opacity and dissolve annimation
+        //**********************************************************************************
+        double  DestOpacity=(Opacity==1?0.75:Opacity==2?0.50:Opacity==3?0.25:1);
+
+        if (EnableAnimation) {
+            if (BlockAnimType==BLOCKANIMTYPE_DISSOLVE) {
+
+                double BlinkNumber=0;
+                switch (Dissolve) {
+                    case BLOCKANIMVALUE_APPEAR        : DestOpacity=DestOpacity*PctDone;        break;
+                    case BLOCKANIMVALUE_DISAPPEAR     : DestOpacity=DestOpacity*(1-PctDone);    break;
+                    case BLOCKANIMVALUE_BLINK_SLOW    : BlinkNumber=0.25;                       break;
+                    case BLOCKANIMVALUE_BLINK_MEDIUM  : BlinkNumber=0.5;                        break;
+                    case BLOCKANIMVALUE_BLINK_FAST    : BlinkNumber=1;                          break;
+                    case BLOCKANIMVALUE_BLINK_VERYFAST: BlinkNumber=2;                          break;
+                }
+                if (BlinkNumber!=0) {
+                    BlinkNumber=BlinkNumber*ShotDuration;
+                    if (int(BlinkNumber/1000)!=(BlinkNumber/1000)) BlinkNumber=int(BlinkNumber/1000)+1; else BlinkNumber=int(BlinkNumber/1000); // Adjust to upper 1000
+                    double FullPct=PctDone*BlinkNumber*100;
+                    FullPct=int(FullPct)-int(FullPct/100)*100;
+                    FullPct=(FullPct/100)*2;
+                    if (FullPct<1)  DestOpacity=DestOpacity*(1-FullPct);
+                        else        DestOpacity=DestOpacity*(FullPct-1);
+                }
             }
-            DestPainter->setOpacity(Opacity==0?0.75:Opacity==1?0.50:Opacity==2?0.25:0.10);
-            switch (FormShadow) {
-                case 1  : DestPainter->drawImage(AddX+TheX*double(width)-Distance,AddY+TheY*double(height)-Distance,ImgShadow); break;
-                case 2  : DestPainter->drawImage(AddX+TheX*double(width)+Distance,AddY+TheY*double(height)-Distance,ImgShadow); break;
-                case 3  : DestPainter->drawImage(AddX+TheX*double(width)-Distance,AddY+TheY*double(height)+Distance,ImgShadow); break;
-                default : DestPainter->drawImage(AddX+TheX*double(width)+Distance,AddY+TheY*double(height)+Distance,ImgShadow); break;
-            }
+
         }
-        if ((Opacity>0)&&(Opacity<4)) DestPainter->setOpacity(Opacity==1?0.75:Opacity==2?0.50:0.25); else DestPainter->setOpacity(1);
-        double  DstX=AddX+TheX*double(width);
-        double  DstY=AddY+TheY*double(height);
-        double  DstW=Wb;
-        double  DstH=Hb;
+        DestPainter->setOpacity(DestOpacity);
+
+        //**********************************************************************************
+
         double  SrcX=0;
         double  SrcY=0;
         if (DstX<0) {
@@ -855,6 +893,52 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         if ((!Img.isNull())) DestPainter->drawImage(QRectF(DstX,DstY,DstW,DstH),Img,QRectF(SrcX,SrcY,DstW,DstH));
         DestPainter->setOpacity(1);
     }
+}
+
+//====================================================================================================================
+
+QImage cCompositionObject::AddShadow(QImage SourceImage,double &DstX,double &DstY,double &DstW,double &DstH,double Distance) {
+
+    // 1st step : construct ImgShadow as a mask from SourceImage
+
+    QImage  ImgShadow   =SourceImage.copy();
+    Uint8   *Data       =ImgShadow.bits();
+    QColor  SColor      =QColor(FormShadowColor);
+    Uint8   R           =SColor.red();
+    Uint8   G           =SColor.green();
+    Uint8   B           =SColor.blue();
+
+    for (int i=0;i<(DstW-1)*(DstH-1);i++) {
+      if (*(Data+3)!=0) {
+        *Data++=B;
+        *Data++=G;
+        *Data++=R;
+        Data++;     // Keep Alpha chanel
+      } else Data+=4;
+    }
+
+    // 2nd step : Construct a DestImage mergin shadow image and source image
+
+    DstW=DstW+Distance;
+    DstH=DstH+Distance;
+
+    QImage      DestImage(DstW,DstH,QImage::Format_ARGB32_Premultiplied);
+    QPainter    Painter;
+
+    Painter.begin(&DestImage);
+    Painter.setCompositionMode(QPainter::CompositionMode_Source);
+    Painter.fillRect(QRect(0,0,DstW,DstH),Qt::transparent);
+    Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+    switch (FormShadow) {
+        case 1  : Painter.setOpacity(0.75); Painter.drawImage(0,0,ImgShadow);               Painter.setOpacity(1);  Painter.drawImage(Distance,Distance,SourceImage);  DstX=DstX-Distance;     DstY=DstY-Distance;  break;
+        case 2  : Painter.setOpacity(0.75); Painter.drawImage(Distance,0,ImgShadow);        Painter.setOpacity(1);  Painter.drawImage(0,Distance,SourceImage);                                 DstY=DstY-Distance;  break;
+        case 3  : Painter.setOpacity(0.75); Painter.drawImage(0,Distance,ImgShadow);        Painter.setOpacity(1);  Painter.drawImage(Distance,0,SourceImage);         DstX=DstX-Distance;                          break;
+        default : Painter.setOpacity(0.75); Painter.drawImage(Distance,Distance,ImgShadow); Painter.setOpacity(1);  Painter.drawImage(0,0,SourceImage);                                                             break;
+    }
+
+    Painter.end();
+    return DestImage;
 }
 
 //*********************************************************************************************************************************************
@@ -1034,7 +1118,7 @@ void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Pa
 
         // Add static shot composition
         if (List.count()>0) for (int j=0;j<List[0]->ShotComposition.List.count();j++) {
-            List[0]->ShotComposition.List[j]->DrawCompositionObject(&P,double(ThumbHeight)/1080,0,0,ThumbWidth,ThumbHeight,true,0,0,NULL,0,NULL,false);
+            List[0]->ShotComposition.List[j]->DrawCompositionObject(&P,double(ThumbHeight)/1080,0,0,ThumbWidth,ThumbHeight,true,0,0,NULL,0,NULL,false,List[0]->StaticDuration,false);
         }
 
         P.end();
@@ -1776,7 +1860,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
                 }
                 VideoPosition+=(CurTimePosition-ThePosition);
 
-                CurShot->ShotComposition.List[j]->DrawCompositionObject(NULL,double(H)/double(1080),0,0,0,0,true,VideoPosition,StartPosToAdd,SoundTrackMontage,1,NULL,false);
+                CurShot->ShotComposition.List[j]->DrawCompositionObject(NULL,double(H)/double(1080),0,0,0,0,true,VideoPosition,StartPosToAdd,SoundTrackMontage,1,NULL,false,CurShot->StaticDuration,true);
             }
         }
         return;
@@ -1848,7 +1932,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
         } else VideoPosition=CurTimePosition;
 
         // Draw object
-        CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),0,0,W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,PCTDone,PrevCompoObject,false);
+        CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),0,0,W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,PCTDone,PrevCompoObject,false,CurShot->StaticDuration,true);
 
     }
     P.end();
@@ -2391,7 +2475,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
                 if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush);
                 // Apply composition to background
                 for (int j=0;j<List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List.count();j++)
-                    List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,false);
+                    List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,false,0,false);
                 P.end();
             }
             // same job for Transition Object if a previous was not keep !
@@ -2407,7 +2491,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
                 if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush);
                 // Apply composition to background
                 for (int j=0;j<List[Info->TransitObject_BackgroundIndex]->BackgroundComposition.List.count();j++)
-                    List[Info->TransitObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,false);
+                    List[Info->TransitObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,false,0,false);
                 P.end();
             }
         }
@@ -2971,7 +3055,10 @@ bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber)
 
     bool IsStatic=true;
     if (ShotNumber==0) {
-        for (int i=0;i<Object->List[0]->ShotComposition.List.count();i++) if (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Video!=NULL) IsStatic=false;
+        for (int i=0;i<Object->List[0]->ShotComposition.List.count();i++)
+            if ((Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Video!=NULL)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BlockAnimType!=0))
+                IsStatic=false;
     } else for (int i=0;i<Object->List[ShotNumber]->ShotComposition.List.count();i++) if (Object->List[ShotNumber]->ShotComposition.List[i]->IsVisible) {
         if (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Video!=NULL) IsStatic=false; else {
             if ((Object->List[ShotNumber]->ShotComposition.List[i]->x                              !=Object->List[ShotNumber-1]->ShotComposition.List[i]->x)||
@@ -2981,9 +3068,7 @@ bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber)
                 (Object->List[ShotNumber]->ShotComposition.List[i]->RotateXAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateXAxis)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->RotateYAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateYAxis)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->RotateZAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateZAxis)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->TurnZAxis                      !=0)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->TurnXAxis                      !=0)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->TurnYAxis                      !=0)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BlockAnimType                  !=0)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->TxtZoomLevel                   !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtZoomLevel)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->TxtScrollX                     !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtScrollX)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->TxtScrollY                     !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtScrollY)||
