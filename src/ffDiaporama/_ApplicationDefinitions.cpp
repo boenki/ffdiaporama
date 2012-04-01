@@ -22,6 +22,16 @@
 #include "_ApplicationDefinitions.h"
 #include "_Diaporama.h"
 
+#define RULER_HORIZ_SCREENBORDER    0x0001
+#define RULER_HORIZ_TVMARGIN        0x0002
+#define RULER_HORIZ_SCREENCENTER    0x0004
+#define RULER_HORIZ_UNSELECTED      0x0008
+#define RULER_VERT_SCREENBORDER     0x0010
+#define RULER_VERT_TVMARGIN         0x0020
+#define RULER_VERT_SCREENCENTER     0x0040
+#define RULER_VERT_UNSELECTED       0x0080
+#define RULER_DEFAULT               RULER_HORIZ_SCREENBORDER|RULER_HORIZ_TVMARGIN|RULER_HORIZ_SCREENCENTER|RULER_HORIZ_UNSELECTED|RULER_VERT_SCREENBORDER|RULER_VERT_TVMARGIN|RULER_VERT_SCREENCENTER|RULER_VERT_UNSELECTED
+
 /****************************************************************************
   Other
 ****************************************************************************/
@@ -99,6 +109,7 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgAboutWSP;
     delete DlgffDPjrPropertiesWSP;
     delete DlgInfoFileWSP;
+    delete DlgRulerDef;
 }
 
 //====================================================================================================================
@@ -119,7 +130,7 @@ void cApplicationConfig::InitValues() {
     FixedDuration               = 3000;                     // Default duration for fixed image (msec)
     SpeedWave                   = SPEEDWAVE_LINEAR;         // Default speed wave methode
     ImageGeometry               = GEOMETRY_16_9;            // Project image geometry for image rendering
-    SlideRuler                  = true;                     // if true, ruler is on in slide properties dialog box
+    SlideRuler                  = RULER_DEFAULT;            // if true, ruler is on in slide properties dialog box
     FramingRuler                = true;                     // if true, ruler is on in framing/correction dialog box
     DefaultTitleFilling         = 0;                        // Default Title filling mode
     DefaultAuthor               = "";                       // Default Author name
@@ -182,6 +193,7 @@ void cApplicationConfig::InitValues() {
     DlgAboutWSP                 =new cSaveWindowPosition("DlgAboutWSP",RestoreWindow,false);                // Dialog box "About" - Window size and position
     DlgffDPjrPropertiesWSP      =new cSaveWindowPosition("DlgffDPjrPropertiesWSP",RestoreWindow,false);     // Dialog box "Project properties" - Window size and position
     DlgInfoFileWSP              =new cSaveWindowPosition("DlgInfoFileWSP",RestoreWindow,false);             // Dialog box "File Information" - Window size and position
+    DlgRulerDef                 =new cSaveWindowPosition("DlgRulerDef",RestoreWindow,false);                // Dialog box "Ruler properties" - Window size and position
 
     // Default new text block options
     DefaultBlock_Text_TextST    ="###GLOBALSTYLE###:0";
@@ -255,7 +267,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultTransitionSubType",    DefaultTransitionSubType);
     Element.setAttribute("DefaultTransitionDuration",   DefaultTransitionDuration);
     Element.setAttribute("AskUserToRemove",             AskUserToRemove?"1":"0");
-    Element.setAttribute("SlideRuler",                  SlideRuler?"1":"0");
+    Element.setAttribute("DlgSlideRuler",               SlideRuler);
     Element.setAttribute("FramingRuler",                FramingRuler?"1":"0");
     domDocument.appendChild(Element);
 
@@ -350,6 +362,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     DlgAboutWSP->SaveToXML(domDocument);
     DlgffDPjrPropertiesWSP->SaveToXML(domDocument);
     DlgInfoFileWSP->SaveToXML(domDocument);
+    DlgRulerDef->SaveToXML(domDocument);
 }
 
 //====================================================================================================================
@@ -380,7 +393,8 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         if (Element.hasAttribute("DefaultTransitionSubType"))   DefaultTransitionSubType    =Element.attribute("DefaultTransitionSubType").toInt();
         if (Element.hasAttribute("DefaultTransitionDuration"))  DefaultTransitionDuration   =Element.attribute("DefaultTransitionDuration").toInt();
         if (Element.hasAttribute("AskUserToRemove"))            AskUserToRemove             =Element.attribute("AskUserToRemove")!="0";
-        if (Element.hasAttribute("SlideRuler"))                 SlideRuler                  =Element.attribute("SlideRuler")!="0";
+        if ((Element.hasAttribute("SlideRuler"))&&(Element.attribute("SlideRuler")!="0"))   SlideRuler=RULER_DEFAULT;
+        if (Element.hasAttribute("DlgSlideRuler"))              SlideRuler                  =Element.attribute("DlgSlideRuler").toInt();
         if (Element.hasAttribute("FramingRuler"))               FramingRuler                =Element.attribute("FramingRuler")!="0";
     }
 
@@ -485,6 +499,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     DlgAboutWSP->LoadFromXML(domDocument);
     DlgffDPjrPropertiesWSP->LoadFromXML(domDocument);
     DlgInfoFileWSP->LoadFromXML(domDocument);
+    DlgRulerDef->LoadFromXML(domDocument);
 
     return true;
 }

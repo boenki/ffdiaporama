@@ -2016,6 +2016,65 @@ Vuoi sovrascriverlo?</translation>
     </message>
 </context>
 <context>
+    <name>DlgRulerDef</name>
+    <message>
+        <source>Ruler properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontal rulers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vertical rulers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>screen borders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV margins</source>
+        <translation type="unfinished">Margini TV</translation>
+    </message>
+    <message>
+        <source>Screen center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unselected objects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">Annulla (&amp;C)</translation>
+    </message>
+    <message>
+        <source>Open help page describing this dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>F1</source>
+        <translation type="unfinished">F1</translation>
+    </message>
+</context>
+<context>
     <name>DlgSlideProperties</name>
     <message>
         <source>Slide properties</source>
@@ -2094,10 +2153,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>PgGiù</translation>
     </message>
     <message>
-        <source>Add a new title block</source>
-        <translation>Aggiungi un nuovo titolo al blocco</translation>
-    </message>
-    <message>
         <source>Start a new chapter from here</source>
         <translation>Avvia un nuovo capitolo da quì</translation>
     </message>
@@ -2116,10 +2171,6 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Ins</source>
         <translation>Ins</translation>
-    </message>
-    <message>
-        <source>Remove the current block</source>
-        <translation>Rimuovi il blocco corrente</translation>
     </message>
     <message>
         <source>Del</source>
@@ -2266,20 +2317,8 @@ Vuoi sovrascriverlo?</translation>
         <translation>Coordinate :</translation>
     </message>
     <message>
-        <source>Propertie</source>
-        <translation>proprietà</translation>
-    </message>
-    <message>
-        <source>Value</source>
-        <translation>Valore</translation>
-    </message>
-    <message>
         <source>Enable or disable rulers corresponding to the margins of television sets.</source>
         <translation>Attivare o disattivare i righelli corrispondenti ai margini dei televisori.</translation>
-    </message>
-    <message>
-        <source>TV margins</source>
-        <translation>Margini TV</translation>
     </message>
     <message>
         <source>Accept modification and go to previous slide</source>
@@ -2354,30 +2393,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Allungato a %1 sec</translation>
     </message>
     <message>
-        <source>Object type</source>
-        <translation>Tipo oggetto</translation>
-    </message>
-    <message>
-        <source>Title</source>
-        <translation>Titolo</translation>
-    </message>
-    <message>
-        <source>Image</source>
-        <translation>Immagine</translation>
-    </message>
-    <message>
-        <source>Video</source>
-        <translation>Video</translation>
-    </message>
-    <message>
-        <source>Filename</source>
-        <translation>Nome file</translation>
-    </message>
-    <message>
-        <source>Image size</source>
-        <translation>Dimensione immagine</translation>
-    </message>
-    <message>
         <source>No style for nonstandard geometry image</source>
         <translation>Nessuno stile per geometria immagine non predefinita</translation>
     </message>
@@ -2403,12 +2418,224 @@ Vuoi sovrascriverlo?</translation>
         <translation>Aggiungi files</translation>
     </message>
     <message>
-        <source>Remove bloc</source>
-        <translation>Rimuovi blocco</translation>
+        <source>Display detailled information on current block</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure to want to delete this bloc?</source>
-        <translation>Sei sicuro dicancellare questo blocco?</translation>
+        <source>Reset to 0</source>
+        <translation type="unfinished">Risistemare a 0</translation>
+    </message>
+    <message>
+        <source>Text animation :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define a zoom value for the text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to 100%</source>
+        <translation type="unfinished">Risistemare a 100%</translation>
+    </message>
+    <message>
+        <source>Scroll text from left to right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scroll text from bottom to up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Block animation :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the number of turn to be made around the Z axis during this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the number of turn to be made around the X axis during this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the number of turn to be made around the Y axis during this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dissolve :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit text</source>
+        <translation type="unfinished">Modifica testo</translation>
+    </message>
+    <message>
+        <source>Do image correct or reframming</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move block upward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move block downward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change visible state</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make visible the active block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Take the sound</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy</source>
+        <translation type="unfinished">Copia</translation>
+    </message>
+    <message>
+        <source>Cut</source>
+        <translation type="unfinished">Taglia</translation>
+    </message>
+    <message>
+        <source>Remove block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple block turn</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dissolve</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disappear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blink at slow speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blink at medium speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blink at fast speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blink at very fast speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rullers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to want to delete this block?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange blocks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove current block(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste</source>
+        <translation type="unfinished">Incolla</translation>
+    </message>
+    <message>
+        <source>Align top</source>
+        <translation type="unfinished">Allinea in alto</translation>
+    </message>
+    <message>
+        <source>Align blocks to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align blocks to the middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align bottom</source>
+        <translation type="unfinished">Allinea in basso</translation>
+    </message>
+    <message>
+        <source>Align blocks to the bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align left</source>
+        <translation type="unfinished">Allinea a sinistra</translation>
+    </message>
+    <message>
+        <source>Align blocks to the left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align center</source>
+        <translation type="unfinished">Allinea al centro</translation>
+    </message>
+    <message>
+        <source>Align blocks to the center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align right</source>
+        <translation type="unfinished">Allinea a destra</translation>
+    </message>
+    <message>
+        <source>Align blocks to the right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove blocks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to want to delete these blocks?</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2416,10 +2643,6 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Edit text</source>
         <translation>Modifica testo</translation>
-    </message>
-    <message>
-        <source>Properties for all shots</source>
-        <translation>Propietà per tutti gli scatti</translation>
     </message>
     <message>
         <source>Select font family</source>
@@ -2514,14 +2737,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Selezionare un&apos;immagine tra quelle presenti nella libreria</translation>
     </message>
     <message>
-        <source>Texte style :</source>
-        <translation>Stile testo :</translation>
-    </message>
-    <message>
-        <source>Block background style :</source>
-        <translation>Blocca stile dello sfondo :</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
@@ -2596,6 +2811,42 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Image from library</source>
         <translation>Immagine dalla libreria</translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <translation type="unfinished">Testo</translation>
+    </message>
+    <message>
+        <source>Bullet list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Numbered list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set text to superscript</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set text to subscript</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Increase indent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>decrease indent</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Background</source>
+        <translation type="unfinished">Sfondo</translation>
+    </message>
+    <message>
+        <source>Background properties :</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3185,14 +3436,6 @@ e aiuto</translation>
     <message>
         <source>F8</source>
         <translation>F8</translation>
-    </message>
-    <message>
-        <source>Edit background transition</source>
-        <translation>Modifica transizioni di sfondo</translation>
-    </message>
-    <message>
-        <source>Edit the entering background transition for the slide</source>
-        <translation>Modifica le transizioni di sfondo in entrata per la diapositiva</translation>
     </message>
     <message>
         <source>Search Raster mode in configuration file</source>

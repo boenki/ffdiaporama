@@ -161,6 +161,16 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
 
+    // Force icon in contextual menu
+    ui->actionEdit_background->setIconVisibleInMenu(true);
+    ui->actionEdit_object->setIconVisibleInMenu(true);
+    ui->actionEdit_music->setIconVisibleInMenu(true);
+    ui->actionEdit_object_in_transition->setIconVisibleInMenu(true);
+    ui->actionCut->setIconVisibleInMenu(true);
+    ui->actionCopy->setIconVisibleInMenu(true);
+    ui->actionPaste->setIconVisibleInMenu(true);
+    ui->actionRemove->setIconVisibleInMenu(true);
+
     Diaporama=new cDiaporama(ApplicationConfig);
     Diaporama->Timeline=ui->timeline;
     ui->preview->InitDiaporamaPlay(Diaporama);
@@ -195,16 +205,24 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->ActionAdd_BT,SIGNAL(released()),this,SLOT(s_Action_AddFile()));                             connect(ui->ActionAdd_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddFile()));
     connect(ui->ActionAddtitle_BT,SIGNAL(released()),this,SLOT(s_Action_AddTitle()));                       connect(ui->ActionAddtitle_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddTitle()));
     connect(ui->ActionAddProject_BT,SIGNAL(released()),this,SLOT(s_Action_AddProject()));                   connect(ui->ActionAddProject_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddProject()));
-    connect(ui->ActionRemove_BT,SIGNAL(released()),this,SLOT(s_Action_RemoveObject()));                     connect(ui->ActionRemove_BT_2,SIGNAL(released()),this,SLOT(s_Action_RemoveObject()));
-    connect(ui->ActionCut_BT,SIGNAL(released()),this,SLOT(s_Action_CutToClipboard()));                      connect(ui->ActionCut_BT_2,SIGNAL(released()),this,SLOT(s_Action_CutToClipboard()));
-    connect(ui->ActionCopy_BT,SIGNAL(released()),this,SLOT(s_Action_CopyToClipboard()));                    connect(ui->ActionCopy_BT_2,SIGNAL(released()),this,SLOT(s_Action_CopyToClipboard()));
-    connect(ui->ActionPaste_BT,SIGNAL(released()),this,SLOT(s_Action_PasteFromClipboard()));                connect(ui->ActionPaste_BT_2,SIGNAL(released()),this,SLOT(s_Action_PasteFromClipboard()));
-    connect(ui->ActionEdit_BT,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));                          connect(ui->ActionEdit_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));
+    connect(ui->ActionRemove_BT,SIGNAL(released()),this,SLOT(s_Action_RemoveObject()));
+    connect(ui->ActionRemove_BT_2,SIGNAL(released()),this,SLOT(s_Action_RemoveObject()));
+    connect(ui->actionRemove,SIGNAL(triggered()),this,SLOT(s_Action_RemoveObject()));
+    connect(ui->ActionCut_BT,SIGNAL(released()),this,SLOT(s_Action_CutToClipboard()));
+    connect(ui->ActionCut_BT_2,SIGNAL(released()),this,SLOT(s_Action_CutToClipboard()));
+    connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(s_Action_CutToClipboard()));
+    connect(ui->ActionCopy_BT,SIGNAL(released()),this,SLOT(s_Action_CopyToClipboard()));
+    connect(ui->ActionCopy_BT_2,SIGNAL(released()),this,SLOT(s_Action_CopyToClipboard()));
+    connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(s_Action_CopyToClipboard()));
+    connect(ui->ActionPaste_BT,SIGNAL(released()),this,SLOT(s_Action_PasteFromClipboard()));
+    connect(ui->ActionPaste_BT_2,SIGNAL(released()),this,SLOT(s_Action_PasteFromClipboard()));
+    connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(s_Action_PasteFromClipboard()));
+    connect(ui->ActionEdit_BT,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));
+    connect(ui->ActionEdit_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));
 
     connect(QApplication::clipboard(),SIGNAL(dataChanged()),this,SLOT(s_Event_ClipboardChanged()));
 
     connect(ui->actionEdit_background,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnBackground()));
-    connect(ui->actionEdit_background_transition,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnTransitionBackground()));
     connect(ui->actionEdit_object,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnObject()));
     connect(ui->actionEdit_object_in_transition,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnTransition()));
     connect(ui->actionEdit_music,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnMusic()));
@@ -462,19 +480,24 @@ void MainWindow::RefreshControls() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::RefreshControls");
 
     // Timeline actions
-    ui->ActionRemove_BT->setEnabled(ui->timeline->NbrItem()>0);                                             ui->ActionRemove_BT_2->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionEdit_BT->setEnabled(ui->timeline->NbrItem()>0);                                               ui->ActionEdit_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionRemove_BT->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionRemove_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->actionRemove->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionEdit_BT->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionEdit_BT_2->setEnabled(ui->timeline->NbrItem()>0);
     ui->ZoomMinusBT->setEnabled((ui->timeline->NbrItem()>0)&&(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH));
     ui->ZoomPlusBT->setEnabled((ui->timeline->NbrItem()>0)&&(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH));
 
     // File menu
-    ui->Action_Save_BT->setEnabled(Diaporama->IsModify);                                                    ui->Action_Save_BT_2->setEnabled(Diaporama->IsModify);
-    ui->ActionSave_as_BT->setEnabled(Diaporama->List.count()>0);                                            ui->ActionSave_as_BT_2->setEnabled(Diaporama->List.count()>0);
-    ui->Action_OpenRecent_BT->setEnabled(ApplicationConfig->RecentFile.count()>0);                          ui->Action_OpenRecent_BT_2->setEnabled(ApplicationConfig->RecentFile.count()>0);
+    ui->Action_Save_BT->setEnabled(Diaporama->IsModify);
+    ui->Action_Save_BT_2->setEnabled(Diaporama->IsModify);
+    ui->ActionSave_as_BT->setEnabled(Diaporama->List.count()>0);
+    ui->ActionSave_as_BT_2->setEnabled(Diaporama->List.count()>0);
+    ui->Action_OpenRecent_BT->setEnabled(ApplicationConfig->RecentFile.count()>0);
+    ui->Action_OpenRecent_BT_2->setEnabled(ApplicationConfig->RecentFile.count()>0);
 
     // Project menu
     ui->actionEdit_background->setEnabled(ui->timeline->NbrItem()>0);
-    ui->actionEdit_background_transition->setEnabled(ui->timeline->NbrItem()>0);
     ui->actionEdit_object->setEnabled(ui->timeline->NbrItem()>0);
     ui->actionEdit_object_in_transition->setEnabled(ui->timeline->NbrItem()>0);
     ui->actionEdit_music->setEnabled(ui->timeline->NbrItem()>0);
@@ -482,13 +505,19 @@ void MainWindow::RefreshControls() {
     // Clipboard_Object
     ui->ActionCopy_BT->setEnabled(ui->timeline->CurrentSelected()>=0);
     ui->ActionCopy_BT_2->setEnabled(ui->timeline->CurrentSelected()>=0);
+    ui->actionCopy->setEnabled(ui->timeline->CurrentSelected()>=0);
     ui->ActionCut_BT->setEnabled(ui->timeline->CurrentSelected()>=0);
     ui->ActionCut_BT_2->setEnabled(ui->timeline->CurrentSelected()>=0);
+    ui->actionCut->setEnabled(ui->timeline->CurrentSelected()>=0);
 
-    ui->ActionRender_BT->setEnabled(ui->timeline->NbrItem()>0);                                             ui->ActionRender_BT_2->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionSmartphone_BT->setEnabled(ui->timeline->NbrItem()>0);                                         ui->ActionSmartphone_BT_2->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionMultimedia_BT->setEnabled(ui->timeline->NbrItem()>0);                                         ui->ActionMultimedia_BT_2->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionForTheWEB_BT->setEnabled(ui->timeline->NbrItem()>0);                                          ui->ActionForTheWEB_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionRender_BT->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionRender_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionSmartphone_BT->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionSmartphone_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionMultimedia_BT->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionMultimedia_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionForTheWEB_BT->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionForTheWEB_BT_2->setEnabled(ui->timeline->NbrItem()>0);
 
     ui->ActionLossLess_BT->setEnabled((ui->timeline->NbrItem()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
     ui->ActionLossLess_BT_2->setEnabled((ui->timeline->NbrItem()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
@@ -733,21 +762,6 @@ void MainWindow::s_Event_DoubleClickedOnBackground() {
 }
 
 //====================================================================================================================
-// Double click on transition part of widget in the background track
-//====================================================================================================================
-
-void MainWindow::s_Event_DoubleClickedOnTransitionBackground() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_DoubleClickedOnTransitionBackground");
-
-    ui->preview->SetPlayerToPause();    // Ensure player is stop
-    ui->preview2->SetPlayerToPause();   // Ensure player is stop
-    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnTransitionBackground()));
-        return;
-    }
-}
-
-//====================================================================================================================
 // // Double click on widget in the music track
 //====================================================================================================================
 
@@ -849,13 +863,13 @@ void MainWindow::s_Event_ToolbarChanged(int MenuIndex) {
     QString Html;
     switch (MenuIndex) {
     case 0: Html=QApplication::translate("MainWindow","<html><body>Select a project to open or to create a new project<br>"\
-                                         "To discover ffDiaporama:<br><a href=\"%1\">Consult the WIKI</a></body></html>").arg(3854);
+                                         "To discover ffDiaporama:<br><a href=\"%1\">Consult the WIKI</a></body></html>").arg(HELPFILE_WIKIINDEX);
             break;
     case 1: Html=QApplication::translate("MainWindow","<html><body>Add empty slides or slides based on photos or videos<br>"\
-                                         "To discover how to build your slide show and to animate slides:<br><a href=\"%1\">Discover the principles of functioning of ffDiaporama</a></body></html>").arg(3870);
+                                         "To discover how to build your slide show and to animate slides:<br><a href=\"%1\">Discover the principles of functioning of ffDiaporama</a></body></html>").arg(HELPFILE_PRINCIPLESINDEX);
             break;
     case 2: Html=QApplication::translate("MainWindow","<html><body>Select the equipment type that you plan to use for your video<br>"\
-                                         "To discover how to render videos:<br><a href=\"%1\">Consult the rendering videos WIKI page</a></body></html>").arg(3904);
+                                         "To discover how to render videos:<br><a href=\"%1\">Consult the rendering videos WIKI page</a></body></html>").arg(HELPFILE_RENDERINDEX);
             break;
     case 3: Html=QApplication::translate("MainWindow","<html><body>Visit the ffDiaporama Web site to use the forum,<br>"\
                 "consult tutorials and learn the lastest news:<br><a href=\"http://ffdiaporama.tuxfamily.org\">http://ffdiaporama.tuxfamily.org</a></body></html>");
@@ -1666,6 +1680,26 @@ void MainWindow::s_Action_AddProject() {
 
 //====================================================================================================================
 
+void MainWindow::s_Event_RightClickedOnThumbnail() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_EditObject");
+
+    QMenu *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(ui->actionEdit_background);
+    ContextMenu->addAction(ui->actionEdit_object);
+    ContextMenu->addAction(ui->actionEdit_music);
+    ContextMenu->addAction(ui->actionEdit_object_in_transition);
+    ContextMenu->addSeparator();
+    ContextMenu->addAction(ui->actionCut);
+    ContextMenu->addAction(ui->actionCopy);
+    ContextMenu->addAction(ui->actionPaste);
+    ContextMenu->addSeparator();
+    ContextMenu->addAction(ui->actionRemove);
+    ContextMenu->exec(QCursor::pos());
+    delete ContextMenu;
+}
+
+//====================================================================================================================
+
 void MainWindow::s_Action_EditObject() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_EditObject");
 
@@ -1674,7 +1708,7 @@ void MainWindow::s_Action_EditObject() {
     ContextMenu->addAction(ui->actionEdit_object);
     ContextMenu->addAction(ui->actionEdit_music);
     ContextMenu->addAction(ui->actionEdit_object_in_transition);
-    ContextMenu->addAction(ui->actionEdit_background_transition);
+    //ContextMenu->addAction(ui->actionEdit_background_transition);
     ContextMenu->exec(QCursor::pos());
     delete ContextMenu;
     ui->ActionEdit_BT->setDown(false);
@@ -1830,6 +1864,7 @@ void MainWindow::s_Event_ClipboardChanged() {
 
     ui->ActionPaste_BT->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/slide")));
     ui->ActionPaste_BT_2->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/slide")));
+    ui->actionPaste->setEnabled((QApplication::clipboard())&&(QApplication::clipboard()->mimeData())&&(QApplication::clipboard()->mimeData()->hasFormat("ffDiaporama/slide")));
 }
 
 //====================================================================================================================

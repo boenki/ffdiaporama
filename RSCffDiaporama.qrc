@@ -286,5 +286,13 @@
         <file>img/Text/text_super.png</file>
         <file>img/ScrollX.png</file>
         <file>img/ScrollY.png</file>
+        <file>img/MediaIcons/48x48/Text.png</file>
+        <file>img/aobottom.png</file>
+        <file>img/aocenterh.png</file>
+        <file>img/aocenterv.png</file>
+        <file>img/aoleft.png</file>
+        <file>img/aoright.png</file>
+        <file>img/aotop.png</file>
+        <file>img/arrange.png</file>
     </qresource>
 </RCC>

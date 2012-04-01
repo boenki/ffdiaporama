@@ -77,7 +77,7 @@ void wgt_QCustomThumbnails::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void wgt_QCustomThumbnails::mousePressEvent(QMouseEvent *event) {
-    QLabel::mousePressEvent(event);
+    if (event->button()==Qt::RightButton) emit RightClick(); else QLabel::mousePressEvent(event);
 }
 
 //===========================================================================================================================
@@ -128,7 +128,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                     Col++;
                     if ((Col<Timeline->columnCount()-1)&&(Col<DiaporamaObject->List.count()-1)) Duration=DiaporamaObject->List[Col]->StaticDuration; else {
                         Duration=DiaporamaObject->GetDuration()-Position;  // Last shot
-                        RedColor=(Col<Timeline->columnCount())&&(Duration!=DiaporamaObject->List[Col]->StaticDuration);
+                        RedColor=(Col<Timeline->columnCount())&&(Col<DiaporamaObject->List.count())&&(Duration!=DiaporamaObject->List[Col]->StaticDuration);
                     }
                 } else if (Timeline->cellWidget(0,Col)==this) {
                     int Height=Timeline->rowHeight(0);

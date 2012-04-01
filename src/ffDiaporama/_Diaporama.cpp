@@ -463,12 +463,7 @@ QString cCompositionObject::GetCoordinateStyle() {
             QString("###H:%1").arg(h,0,'e')+
             QString("###RotateZAxis:%1").arg(RotateZAxis,0,'e')+
             QString("###RotateXAxis:%1").arg(RotateXAxis,0,'e')+
-            QString("###RotateYAxis:%1").arg(RotateYAxis,0,'e')+
-            QString("###BlockAnimType:%1").arg(BlockAnimType)+
-            QString("###TurnZAxis:%1").arg(TurnZAxis)+
-            QString("###TurnXAxis:%1").arg(TurnXAxis)+
-            QString("###TurnYAxis:%1").arg(TurnYAxis)+
-            QString("###Dissolve:%1").arg(Dissolve);
+            QString("###RotateYAxis:%1").arg(RotateYAxis,0,'e');
 
     // If block is image or video
     if ((BackgroundBrush->Image!=NULL)||(BackgroundBrush->Video!=NULL)) {
@@ -527,11 +522,6 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
         else if (List[i].startsWith("RotateZAxis:"))    RotateZAxis     =List[i].mid(QString("RotateZAxis:").length()).toDouble();
         else if (List[i].startsWith("RotateXAxis:"))    RotateXAxis     =List[i].mid(QString("RotateXAxis:").length()).toDouble();
         else if (List[i].startsWith("RotateYAxis:"))    RotateYAxis     =List[i].mid(QString("RotateYAxis:").length()).toDouble();
-        else if (List[i].startsWith("BlockAnimType:"))  BlockAnimType   =List[i].mid(QString("BlockAnimType:").length()).toInt();
-        else if (List[i].startsWith("TurnZAxis:"))      TurnZAxis       =List[i].mid(QString("TurnZAxis:").length()).toInt();
-        else if (List[i].startsWith("TurnXAxis:"))      TurnXAxis       =List[i].mid(QString("TurnXAxis:").length()).toInt();
-        else if (List[i].startsWith("TurnYAxis:"))      TurnYAxis       =List[i].mid(QString("TurnYAxis:").length()).toInt();
-        else if (List[i].startsWith("Dissolve:"))       Dissolve        =List[i].mid(QString("Dissolve:").length()).toInt();
 
         else if ((List[i].startsWith("FramingStyleIndex:"))||(List[i].startsWith("FramingStyleName:"))||(List[i].startsWith("CustomFramingStyle:"))) {
             QString CustomFramingStyle="";
@@ -637,38 +627,38 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 
 // ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
-                                               cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache,int ShotDuration,bool EnableAnimation) {
+                                               cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache,int ShotDuration,bool EnableAnimation,
+                                               bool Transfo,double NewX,double NewY,double NewW,double NewH) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:DrawCompositionObject");
 
     // W and H = 0 when producing sound track in render process
     if (!IsVisible) return;
 
-    bool    SoundOnly=((width==0)&&(height==0))||(DestPainter==NULL);
+    bool SoundOnly=(DestPainter==NULL)||(width==0)||(height==0)||(Transfo && ((NewW==0)||(NewH==0)))||(!Transfo && ((w==0)||(h==0)));
 
     if (SoundOnly) {
         // if SoundOnly then load Brush of type BRUSHTYPE_IMAGEDISK to SoundTrackMontage
-        if (BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK) {
+        if ((BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(SoundTrackMontage!=NULL)) {
             QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,0,0),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,NULL);
             if (BR) delete BR;
         }
     } else {
 
-        if (!DestPainter) return;
-
         if (!PreviewMode || GlobalMainWindow->ApplicationConfig->Smoothing) DestPainter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
             else DestPainter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
         // Define values depending on PctDone and PrevCompoObject
-        double TheX             =x;
-        double TheY             =y;
-        double TheW             =w;
-        double TheH             =h;
+        double TheX             =Transfo?NewX:x;
+        double TheY             =Transfo?NewY:y;
+        double TheW             =Transfo?NewW:w;
+        double TheH             =Transfo?NewH:h;
         double TheRotateZAxis   =RotateZAxis+(EnableAnimation && (BlockAnimType==BLOCKANIMTYPE_MULTIPLETURN)?360*TurnZAxis:0);
         double TheRotateXAxis   =RotateXAxis+(EnableAnimation && (BlockAnimType==BLOCKANIMTYPE_MULTIPLETURN)?360*TurnXAxis:0);
         double TheRotateYAxis   =RotateYAxis+(EnableAnimation && (BlockAnimType==BLOCKANIMTYPE_MULTIPLETURN)?360*TurnYAxis:0);
         double TheTxtZoomLevel  =TxtZoomLevel;
         double TheTxtScrollX    =TxtScrollX;
         double TheTxtScrollY    =TxtScrollY;
+
         if (PrevCompoObject) {
             if (PrevCompoObject->x!=TheX)                       TheX            =PrevCompoObject->x+(TheX-PrevCompoObject->x)*PctDone;
             if (PrevCompoObject->y!=TheY)                       TheY            =PrevCompoObject->y+(TheY-PrevCompoObject->y)*PctDone;
@@ -705,193 +695,195 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         // Prepare brush
         //***********************************************************************************
 
-        QPen     Pen;
-        QImage   Img(Wb,Hb,QImage::Format_ARGB32_Premultiplied);
-        QPainter Painter;
-        Painter.begin(&Img);
-        Painter.setCompositionMode(QPainter::CompositionMode_Source);
-        Painter.fillRect(QRect(0,0,Wb,Hb),Qt::transparent);
-        Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        if (!PreviewMode || GlobalMainWindow->ApplicationConfig->Smoothing)  Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-            else Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-        Pen.setCapStyle(Qt::RoundCap);
-        Pen.setJoinStyle(Qt::RoundJoin);
-        Pen.setCosmetic(false);
+        if ((W>0)&&(H>0)) {
+            QPen     Pen;
+            QImage   Img(Wb,Hb,QImage::Format_ARGB32_Premultiplied);
+            QPainter Painter;
+            Painter.begin(&Img);
+            Painter.setCompositionMode(QPainter::CompositionMode_Source);
+            Painter.fillRect(QRect(0,0,Wb,Hb),Qt::transparent);
+            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            if (!PreviewMode || GlobalMainWindow->ApplicationConfig->Smoothing)  Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+                else Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+            Pen.setCapStyle(Qt::RoundCap);
+            Pen.setJoinStyle(Qt::RoundJoin);
+            Pen.setCosmetic(false);
 
-        Pen.setStyle(Qt::SolidLine);
+            Pen.setStyle(Qt::SolidLine);
 
-        // Draw ExternalBorder border
-        if (PenSize==0) Painter.setPen(Qt::NoPen); else {
-            Pen.setColor(PenColor);
-            FullMargin=double(PenSize)*ADJUST_RATIO/double(2);
-            Pen.setWidthF(double(PenSize)*ADJUST_RATIO);
-            Pen.setStyle((Qt::PenStyle)PenStyle);
-            Painter.setPen(Pen);
-        }
-        // All coordonates from center
-        double      CenterX=W/2+(Wb-W)/2;
-        double      CenterY=H/2+(Hb-H)/2;
-        QTransform  Matrix;
-        Matrix.translate(CenterX,CenterY);
-        if (TheRotateZAxis!=0) Matrix.rotate(TheRotateZAxis,Qt::ZAxis);   // Standard axis
-        if (TheRotateXAxis!=0) Matrix.rotate(TheRotateXAxis,Qt::XAxis);   // Rotate from X axis
-        if (TheRotateYAxis!=0) Matrix.rotate(TheRotateYAxis,Qt::YAxis);   // Rotate from Y axis
-        Painter.setWorldTransform(Matrix,false);
-
-        //**********************************************************************************
-        // Block brush & shape part
-        //**********************************************************************************
-
-        if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
-
-            // Create brush with Ken Burns effect !
-            QBrush *BR              =NULL;
-
-            BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
-            if (BR) {
-                QTransform  MatrixBR;
-                MatrixBR.translate(-W/2,-H/2);
-                BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
-                Painter.setBrush(*BR);
-                delete BR;
-            } else {
-                ToLog(LOGMSG_CRITICAL,"Error in cCompositionObject::DrawCompositionObject Brush is NULL !");
+            // Draw ExternalBorder border
+            if (PenSize==0) Painter.setPen(Qt::NoPen); else {
+                Pen.setColor(PenColor);
+                FullMargin=double(PenSize)*ADJUST_RATIO/double(2);
+                Pen.setWidthF(double(PenSize)*ADJUST_RATIO);
+                Pen.setStyle((Qt::PenStyle)PenStyle);
+                Painter.setPen(Pen);
             }
-        }
-        if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-        DrawShape(Painter,BackgroundForm,-W/2,-H/2,W,H,0,0);
-        if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            // All coordonates from center
+            double      CenterX=W/2+(Wb-W)/2;
+            double      CenterY=H/2+(Hb-H)/2;
+            QTransform  Matrix;
+            Matrix.translate(CenterX,CenterY);
+            if (TheRotateZAxis!=0) Matrix.rotate(TheRotateZAxis,Qt::ZAxis);   // Standard axis
+            if (TheRotateXAxis!=0) Matrix.rotate(TheRotateXAxis,Qt::XAxis);   // Rotate from X axis
+            if (TheRotateYAxis!=0) Matrix.rotate(TheRotateYAxis,Qt::YAxis);   // Rotate from Y axis
+            Painter.setWorldTransform(Matrix,false);
 
-        //**********************************************************************************
-        // Text part
-        //**********************************************************************************
+            //**********************************************************************************
+            // Block brush & shape part
+            //**********************************************************************************
 
-        if (TheTxtZoomLevel>0) {
-            FullMargin=FullMargin*2;
+            if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
 
-            double  MarginX=FullMargin;
-            double  MarginY=FullMargin;
+                // Create brush with Ken Burns effect !
+                QBrush *BR              =NULL;
 
-            if (BackgroundForm==3) {                        // 3=Buble
-                MarginX=MarginX+W/250;
-                MarginY=MarginY+H/250;
-            } else if (BackgroundForm==4) {                 // 2=Ellipse
-                MarginX=MarginX+(0.29*(W/2));               // 0.29=1-cos(radians(45°))
-                MarginY=MarginY+(0.29*(H/2));               // 0.29=1-sin(radians(45°))
-            }
-            Painter.setClipRect(MarginX-W/2,MarginY-H/2,W-2*MarginX,H-2*MarginY);
-            Painter.setClipping(true);
-
-            QRectF  BoundingRect(0,0,(W-2*MarginX),H-2*MarginY);
-            double  PointSize=((double(width)/double(SCALINGTEXTFACTOR)));
-
-            QTextDocument TextDocument;
-
-            TextDocument.setHtml(Text);
-            TextDocument.setTextWidth(BoundingRect.width()/PointSize);
-
-            QRectF  FmtBdRect(0,0,
-                              double(TextDocument.documentLayout()->documentSize().width())*(TheTxtZoomLevel/100)*PointSize,
-                              double(TextDocument.documentLayout()->documentSize().height())*(TheTxtZoomLevel/100)*PointSize);
-
-            int     MaxH  =H>FmtBdRect.height()?H:FmtBdRect.height();
-            double  DecalX=(TheTxtScrollX/100)*(BoundingRect.width()+MarginX*2)-FmtBdRect.width()/2;    // Always horizontaly center
-            double  DecalY=(MarginY-H/2+(-TheTxtScrollY/100)*(MaxH+MarginY*2));
-
-            if (VAlign==0)      /*Nothing to do*/;                                              //Qt::AlignTop
-            else if (VAlign==1) DecalY=DecalY+(BoundingRect.height()-FmtBdRect.height())/2;     //Qt::AlignVCenter
-            else                DecalY=DecalY+(BoundingRect.height()-FmtBdRect.height());       //Qt::AlignBottom)
-
-            QAbstractTextDocumentLayout::PaintContext Context;
-
-            QTextCursor         Cursor(&TextDocument);
-            QTextCharFormat     TCF;
-            Cursor.select(QTextCursor::Document);
-            if (StyleText==1) {
-                // Add outerline for painting
-                TCF.setTextOutline(QPen(QColor(FontShadowColor)));
-                Cursor.mergeCharFormat(TCF);
-            } else if (StyleText!=0) {
-                // Paint shadow of the text
-                TCF.setForeground(QBrush(QColor(FontShadowColor)));
-                Cursor.mergeCharFormat(TCF);
-                Painter.save();
-                switch (StyleText) {
-                    case 2: Painter.translate(DecalX-1,DecalY-1);   break;  //2=shadow up-left
-                    case 3: Painter.translate(DecalX+1,DecalY-1);   break;  //3=shadow up-right
-                    case 4: Painter.translate(DecalX-1,DecalY+1);   break;  //4=shadow bt-left
-                    case 5: Painter.translate(DecalX+1,DecalY+1);   break;  //5=shadow bt-right
+                BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
+                if (BR) {
+                    QTransform  MatrixBR;
+                    MatrixBR.translate(-W/2,-H/2);
+                    BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
+                    Painter.setBrush(*BR);
+                    delete BR;
+                } else {
+                    ToLog(LOGMSG_CRITICAL,"Error in cCompositionObject::DrawCompositionObject Brush is NULL !");
                 }
+            }
+            if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
+            DrawShape(Painter,BackgroundForm,-W/2,-H/2,W,H,0,0);
+            if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+            //**********************************************************************************
+            // Text part
+            //**********************************************************************************
+
+            if (TheTxtZoomLevel>0) {
+                FullMargin=FullMargin*2;
+
+                double  MarginX=FullMargin;
+                double  MarginY=FullMargin;
+
+                if (BackgroundForm==3) {                        // 3=Buble
+                    MarginX=MarginX+W/250;
+                    MarginY=MarginY+H/250;
+                } else if (BackgroundForm==4) {                 // 2=Ellipse
+                    MarginX=MarginX+(0.29*(W/2));               // 0.29=1-cos(radians(45°))
+                    MarginY=MarginY+(0.29*(H/2));               // 0.29=1-sin(radians(45°))
+                }
+                Painter.setClipRect(MarginX-W/2,MarginY-H/2,W-2*MarginX,H-2*MarginY);
+                Painter.setClipping(true);
+
+                QRectF  BoundingRect(0,0,(W-2*MarginX),H-2*MarginY);
+                double  PointSize=((double(width)/double(SCALINGTEXTFACTOR)));
+
+                QTextDocument TextDocument;
+
+                TextDocument.setHtml(Text);
+                TextDocument.setTextWidth(BoundingRect.width()/PointSize);
+
+                QRectF  FmtBdRect(0,0,
+                                  double(TextDocument.documentLayout()->documentSize().width())*(TheTxtZoomLevel/100)*PointSize,
+                                  double(TextDocument.documentLayout()->documentSize().height())*(TheTxtZoomLevel/100)*PointSize);
+
+                int     MaxH  =H>FmtBdRect.height()?H:FmtBdRect.height();
+                double  DecalX=(TheTxtScrollX/100)*(BoundingRect.width()+MarginX*2)-FmtBdRect.width()/2;    // Always horizontaly center
+                double  DecalY=(MarginY-H/2+(-TheTxtScrollY/100)*(MaxH+MarginY*2));
+
+                if (VAlign==0)      /*Nothing to do*/;                                              //Qt::AlignTop
+                else if (VAlign==1) DecalY=DecalY+(BoundingRect.height()-FmtBdRect.height())/2;     //Qt::AlignVCenter
+                else                DecalY=DecalY+(BoundingRect.height()-FmtBdRect.height());       //Qt::AlignBottom)
+
+                QAbstractTextDocumentLayout::PaintContext Context;
+
+                QTextCursor         Cursor(&TextDocument);
+                QTextCharFormat     TCF;
+                Cursor.select(QTextCursor::Document);
+                if (StyleText==1) {
+                    // Add outerline for painting
+                    TCF.setTextOutline(QPen(QColor(FontShadowColor)));
+                    Cursor.mergeCharFormat(TCF);
+                } else if (StyleText!=0) {
+                    // Paint shadow of the text
+                    TCF.setForeground(QBrush(QColor(FontShadowColor)));
+                    Cursor.mergeCharFormat(TCF);
+                    Painter.save();
+                    switch (StyleText) {
+                        case 2: Painter.translate(DecalX-1,DecalY-1);   break;  //2=shadow up-left
+                        case 3: Painter.translate(DecalX+1,DecalY-1);   break;  //3=shadow up-right
+                        case 4: Painter.translate(DecalX-1,DecalY+1);   break;  //4=shadow bt-left
+                        case 5: Painter.translate(DecalX+1,DecalY+1);   break;  //5=shadow bt-right
+                    }
+                    Painter.scale((TheTxtZoomLevel/100)*PointSize,(TheTxtZoomLevel/100)*PointSize);
+                    TextDocument.documentLayout()->draw(&Painter,Context);
+                    Painter.restore();
+                    TextDocument.setHtml(Text);     // Restore Text Document
+                }
+                Painter.translate(DecalX,DecalY);
                 Painter.scale((TheTxtZoomLevel/100)*PointSize,(TheTxtZoomLevel/100)*PointSize);
                 TextDocument.documentLayout()->draw(&Painter,Context);
-                Painter.restore();
-                TextDocument.setHtml(Text);     // Restore Text Document
-            }
-            Painter.translate(DecalX,DecalY);
-            Painter.scale((TheTxtZoomLevel/100)*PointSize,(TheTxtZoomLevel/100)*PointSize);
-            TextDocument.documentLayout()->draw(&Painter,Context);
-        }
-
-        Painter.end();
-
-        //**********************************************************************************
-        // Block shadow part
-        //**********************************************************************************
-
-        if ((FormShadow)&&(!Img.isNull())) Img=AddShadow(Img,DstX,DstY,DstW,DstH,double(FormShadowDistance)*ADJUST_RATIO);
-
-        //**********************************************************************************
-        // Opacity and dissolve annimation
-        //**********************************************************************************
-        double  DestOpacity=(Opacity==1?0.75:Opacity==2?0.50:Opacity==3?0.25:1);
-
-        if (EnableAnimation) {
-            if (BlockAnimType==BLOCKANIMTYPE_DISSOLVE) {
-
-                double BlinkNumber=0;
-                switch (Dissolve) {
-                    case BLOCKANIMVALUE_APPEAR        : DestOpacity=DestOpacity*PctDone;        break;
-                    case BLOCKANIMVALUE_DISAPPEAR     : DestOpacity=DestOpacity*(1-PctDone);    break;
-                    case BLOCKANIMVALUE_BLINK_SLOW    : BlinkNumber=0.25;                       break;
-                    case BLOCKANIMVALUE_BLINK_MEDIUM  : BlinkNumber=0.5;                        break;
-                    case BLOCKANIMVALUE_BLINK_FAST    : BlinkNumber=1;                          break;
-                    case BLOCKANIMVALUE_BLINK_VERYFAST: BlinkNumber=2;                          break;
-                }
-                if (BlinkNumber!=0) {
-                    BlinkNumber=BlinkNumber*ShotDuration;
-                    if (int(BlinkNumber/1000)!=(BlinkNumber/1000)) BlinkNumber=int(BlinkNumber/1000)+1; else BlinkNumber=int(BlinkNumber/1000); // Adjust to upper 1000
-                    double FullPct=PctDone*BlinkNumber*100;
-                    FullPct=int(FullPct)-int(FullPct/100)*100;
-                    FullPct=(FullPct/100)*2;
-                    if (FullPct<1)  DestOpacity=DestOpacity*(1-FullPct);
-                        else        DestOpacity=DestOpacity*(FullPct-1);
-                }
             }
 
-        }
-        DestPainter->setOpacity(DestOpacity);
+            Painter.end();
 
-        //**********************************************************************************
+            //**********************************************************************************
+            // Block shadow part
+            //**********************************************************************************
 
-        double  SrcX=0;
-        double  SrcY=0;
-        if (DstX<0) {
-            SrcX=-DstX;
-            DstW+=DstX;
-            DstX=0;
-        }
-        if (DstY<0) {
-            SrcY=-DstY;
-            DstH+=DstY;
-            DstY=0;
-        }
-        if (DstW>width)     DstW=width;
-        if (DstH>height)    DstH=height;
-        if (SrcX+DstW>Wb)   DstW=Wb-SrcX;
-        if (SrcY+DstH>Hb)   DstH=Hb-SrcY;
+            if ((FormShadow)&&(!Img.isNull())) Img=AddShadow(Img,DstX,DstY,DstW,DstH,double(FormShadowDistance)*ADJUST_RATIO);
 
-        if ((!Img.isNull())) DestPainter->drawImage(QRectF(DstX,DstY,DstW,DstH),Img,QRectF(SrcX,SrcY,DstW,DstH));
-        DestPainter->setOpacity(1);
+            //**********************************************************************************
+            // Opacity and dissolve annimation
+            //**********************************************************************************
+            double  DestOpacity=(Opacity==1?0.75:Opacity==2?0.50:Opacity==3?0.25:1);
+
+            if (EnableAnimation) {
+                if (BlockAnimType==BLOCKANIMTYPE_DISSOLVE) {
+
+                    double BlinkNumber=0;
+                    switch (Dissolve) {
+                        case BLOCKANIMVALUE_APPEAR        : DestOpacity=DestOpacity*PctDone;        break;
+                        case BLOCKANIMVALUE_DISAPPEAR     : DestOpacity=DestOpacity*(1-PctDone);    break;
+                        case BLOCKANIMVALUE_BLINK_SLOW    : BlinkNumber=0.25;                       break;
+                        case BLOCKANIMVALUE_BLINK_MEDIUM  : BlinkNumber=0.5;                        break;
+                        case BLOCKANIMVALUE_BLINK_FAST    : BlinkNumber=1;                          break;
+                        case BLOCKANIMVALUE_BLINK_VERYFAST: BlinkNumber=2;                          break;
+                    }
+                    if (BlinkNumber!=0) {
+                        BlinkNumber=BlinkNumber*ShotDuration;
+                        if (int(BlinkNumber/1000)!=(BlinkNumber/1000)) BlinkNumber=int(BlinkNumber/1000)+1; else BlinkNumber=int(BlinkNumber/1000); // Adjust to upper 1000
+                        double FullPct=PctDone*BlinkNumber*100;
+                        FullPct=int(FullPct)-int(FullPct/100)*100;
+                        FullPct=(FullPct/100)*2;
+                        if (FullPct<1)  DestOpacity=DestOpacity*(1-FullPct);
+                            else        DestOpacity=DestOpacity*(FullPct-1);
+                    }
+                }
+
+            }
+            DestPainter->setOpacity(DestOpacity);
+
+            //**********************************************************************************
+
+            double  SrcX=0;
+            double  SrcY=0;
+            if (DstX<0) {
+                SrcX=-DstX;
+                DstW+=DstX;
+                DstX=0;
+            }
+            if (DstY<0) {
+                SrcY=-DstY;
+                DstH+=DstY;
+                DstY=0;
+            }
+            if (DstW>width)     DstW=width;
+            if (DstH>height)    DstH=height;
+            if (SrcX+DstW>Wb)   DstW=Wb-SrcX;
+            if (SrcY+DstH>Hb)   DstH=Hb-SrcY;
+
+            if ((!Img.isNull())) DestPainter->drawImage(QRectF(DstX,DstY,DstW,DstH),Img,QRectF(SrcX,SrcY,DstW,DstH));
+            DestPainter->setOpacity(1);
+        }
     }
 }
 

@@ -74,4 +74,10 @@ void SetLFHeap();
 void PostEvent(int EventType,QString EventParam="");
 void ToLog(int MessageType,QString Message,QString Source="internal");
 
+//====================================================================
+// VARIOUS
+//====================================================================
+
+enum SELECTMODE {SELECTMODE_NONE, SELECTMODE_ONE, SELECTMODE_MULTIPLE};
+
 #endif // _GLOBALDEFINES_H

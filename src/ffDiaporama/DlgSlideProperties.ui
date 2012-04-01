@@ -633,7 +633,7 @@ QToolButton:pressed {
              </font>
             </property>
             <property name="toolTip">
-             <string>Add a new title block</string>
+             <string>Add a new text block</string>
             </property>
             <property name="text">
              <string notr="true">Add title</string>
@@ -830,7 +830,7 @@ QToolButton:pressed {
              </font>
             </property>
             <property name="toolTip">
-             <string>Remove the current block</string>
+             <string>Remove</string>
             </property>
             <property name="text">
              <string notr="true">Remove</string>
@@ -1020,6 +1020,41 @@ QToolButton:pressed {
            </widget>
           </item>
           <item>
+           <widget class="QToolButton" name="ArrangeBT">
+            <property name="minimumSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>20</width>
+              <height>20</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <family>Sans Serif</family>
+              <pointsize>7</pointsize>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>Arrange blocks</string>
+            </property>
+            <property name="text">
+             <string notr="true">Arrange</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../RSCffDiaporama.qrc">
+              <normaloff>:/img/arrange.png</normaloff>:/img/arrange.png</iconset>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonIconOnly</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
            <widget class="QToolButton" name="TextEditBT">
             <property name="minimumSize">
              <size>
@@ -1058,7 +1093,7 @@ QToolButton:pressed {
            </widget>
           </item>
           <item>
-           <widget class="QToolButton" name="ImageEditCorrectBT">
+           <widget class="QToolButton" name="ImageEditBT">
             <property name="minimumSize">
              <size>
               <width>20</width>
@@ -1192,7 +1227,14 @@ QToolButton:pressed {
         </widget>
        </item>
        <item>
-        <widget class="QGraphicsView" name="GraphicsView"/>
+        <widget class="cInteractiveZone" name="InteractiveZone" native="true">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -1222,7 +1264,7 @@ QToolButton:pressed {
              <number>0</number>
             </property>
             <item>
-             <widget class="QTableWidget" name="BlockTable">
+             <widget class="cCustomBlockTable" name="BlockTable">
               <property name="sizePolicy">
                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
@@ -1257,7 +1299,7 @@ QToolButton:pressed {
                <bool>false</bool>
               </property>
               <property name="selectionMode">
-               <enum>QAbstractItemView::SingleSelection</enum>
+               <enum>QAbstractItemView::ExtendedSelection</enum>
               </property>
               <property name="selectionBehavior">
                <enum>QAbstractItemView::SelectRows</enum>
@@ -1328,7 +1370,7 @@ QToolButton:pressed {
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-436</y>
+              <y>0</y>
               <width>262</width>
               <height>693</height>
              </rect>
@@ -2638,7 +2680,7 @@ color: #000000;
               </widget>
              </item>
              <item row="25" column="0">
-              <widget class="QLabel" name="label_22">
+              <widget class="QLabel" name="ZoomLabel">
                <property name="text">
                 <string>Zoom :</string>
                </property>
@@ -3339,7 +3381,7 @@ color: #000000;
               </widget>
              </item>
              <item row="26" column="0">
-              <widget class="QLabel" name="Rotate_Z_2">
+              <widget class="QLabel" name="ScrollXLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3370,7 +3412,7 @@ color: #000000;
               </widget>
              </item>
              <item row="27" column="0">
-              <widget class="QLabel" name="Rotate_Y_2">
+              <widget class="QLabel" name="ScrollYLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3556,7 +3598,7 @@ color: #000000;
         <string>Enable or disable rulers corresponding to the margins of television sets.</string>
        </property>
        <property name="text">
-        <string>TV margins</string>
+        <string>Rullers</string>
        </property>
        <property name="icon">
         <iconset resource="../../RSCffDiaporama.qrc">
@@ -3681,6 +3723,246 @@ color: #000000;
     </layout>
    </item>
   </layout>
+  <action name="actionEditText">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/EditText.png</normaloff>:/img/EditText.png</iconset>
+   </property>
+   <property name="text">
+    <string>Edit text</string>
+   </property>
+   <property name="toolTip">
+    <string>Define the properties of the text block</string>
+   </property>
+  </action>
+  <action name="actionEditImage">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/EditImage.png</normaloff>:/img/EditImage.png</iconset>
+   </property>
+   <property name="text">
+    <string>Do image correct or reframming</string>
+   </property>
+   <property name="toolTip">
+    <string>Define framing and do correction of image or movie</string>
+   </property>
+  </action>
+  <action name="actionEditVideo">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/EditMovie.png</normaloff>:/img/EditMovie.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cut the video</string>
+   </property>
+   <property name="toolTip">
+    <string>Cut the video</string>
+   </property>
+  </action>
+  <action name="actionUpBlock">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
+   </property>
+   <property name="text">
+    <string>Move block upward</string>
+   </property>
+   <property name="toolTip">
+    <string>Change the order of blocks by moving the active block upward (towards the background)</string>
+   </property>
+  </action>
+  <action name="actionDownBlock">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
+   </property>
+   <property name="text">
+    <string>Move block downward</string>
+   </property>
+   <property name="toolTip">
+    <string>Change the order of blocks by moving the active block downward (towards the foreground)</string>
+   </property>
+  </action>
+  <action name="actionSetVisible">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/Visible_OK.png</normaloff>:/img/Visible_OK.png</iconset>
+   </property>
+   <property name="text">
+    <string>Change visible state</string>
+   </property>
+   <property name="toolTip">
+    <string>Make visible the active block</string>
+   </property>
+  </action>
+  <action name="actionTakeSound">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
+   </property>
+   <property name="text">
+    <string>Take the sound</string>
+   </property>
+   <property name="toolTip">
+    <string>Give the sound, during this shot, to the current video block</string>
+   </property>
+  </action>
+  <action name="actionInfo">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/Action_Info.png</normaloff>:/img/Action_Info.png</iconset>
+   </property>
+   <property name="text">
+    <string>Display information</string>
+   </property>
+   <property name="toolTip">
+    <string>Display detailled information on current block</string>
+   </property>
+  </action>
+  <action name="actionCopy">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/editcopy.png</normaloff>:/img/editcopy.png</iconset>
+   </property>
+   <property name="text">
+    <string>Copy</string>
+   </property>
+   <property name="toolTip">
+    <string>Copy the current block to the ffDiaporama clipboard.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
+  </action>
+  <action name="actionCut">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/editcut.png</normaloff>:/img/editcut.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cut</string>
+   </property>
+   <property name="toolTip">
+    <string>Copy the current block to the ffDiaporama clipboard and remove it from the slide</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
+  </action>
+  <action name="actionRemoveBlock">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove current block(s)</string>
+   </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
+  </action>
+  <action name="actionPaste">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/editpaste.png</normaloff>:/img/editpaste.png</iconset>
+   </property>
+   <property name="text">
+    <string>Paste</string>
+   </property>
+   <property name="toolTip">
+    <string>Paste block from the ffDiaporama clipboard and insert it.</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
+  </action>
+  <action name="actionTop">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/aotop.png</normaloff>:/img/aotop.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align top</string>
+   </property>
+   <property name="toolTip">
+    <string>Align blocks to the top</string>
+   </property>
+  </action>
+  <action name="actionMiddle">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/aocenterv.png</normaloff>:/img/aocenterv.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align middle</string>
+   </property>
+   <property name="toolTip">
+    <string>Align blocks to the middle</string>
+   </property>
+  </action>
+  <action name="actionBottom">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/aobottom.png</normaloff>:/img/aobottom.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align bottom</string>
+   </property>
+   <property name="toolTip">
+    <string>Align blocks to the bottom</string>
+   </property>
+  </action>
+  <action name="actionLeft">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/aoleft.png</normaloff>:/img/aoleft.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align left</string>
+   </property>
+   <property name="toolTip">
+    <string>Align blocks to the left</string>
+   </property>
+  </action>
+  <action name="actionCenter">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/aocenterh.png</normaloff>:/img/aocenterh.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align center</string>
+   </property>
+   <property name="toolTip">
+    <string>Align blocks to the center</string>
+   </property>
+  </action>
+  <action name="actionRight">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/aoright.png</normaloff>:/img/aoright.png</iconset>
+   </property>
+   <property name="text">
+    <string>Align right</string>
+   </property>
+   <property name="toolTip">
+    <string>Align blocks to the right</string>
+   </property>
+  </action>
+  <action name="actionAddTextBlock">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add text block</string>
+   </property>
+   <property name="toolTip">
+    <string>Add a new text block</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
@@ -3693,6 +3975,17 @@ color: #000000;
    <extends>QTableWidget</extends>
    <header>cCustomTableWidget.h</header>
   </customwidget>
+  <customwidget>
+   <class>cCustomBlockTable</class>
+   <extends>QTableWidget</extends>
+   <header>cCustomBlockTable.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cInteractiveZone</class>
+   <extends>QWidget</extends>
+   <header>cInteractiveZone.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>RemoveShot</tabstop>
@@ -3701,7 +3994,6 @@ color: #000000;
   <tabstop>ShotTable</tabstop>
   <tabstop>SlideNameED</tabstop>
   <tabstop>ShotDurationED</tabstop>
-  <tabstop>GraphicsView</tabstop>
   <tabstop>TVMarginsBT</tabstop>
   <tabstop>AddTextBlock</tabstop>
   <tabstop>AddFileBlock</tabstop>
@@ -3711,7 +4003,7 @@ color: #000000;
   <tabstop>VisibleBT</tabstop>
   <tabstop>SoundBT</tabstop>
   <tabstop>TextEditBT</tabstop>
-  <tabstop>ImageEditCorrectBT</tabstop>
+  <tabstop>ImageEditBT</tabstop>
   <tabstop>VideoEditBT</tabstop>
   <tabstop>PosXEd</tabstop>
   <tabstop>PosYEd</tabstop>
@@ -3735,6 +4027,7 @@ color: #000000;
   <tabstop>AddShot</tabstop>
  </tabstops>
  <resources>
+  <include location="../../RSCffDiaporama.qrc"/>
   <include location="../../RSCffDiaporama.qrc"/>
  </resources>
  <connections/>

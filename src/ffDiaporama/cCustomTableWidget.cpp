@@ -250,11 +250,11 @@ void cCustomTableWidget::AddObjectToTimeLine(int CurIndex) {
 
     wgt_QCustomThumbnails *ObjectBackground=new wgt_QCustomThumbnails(this,THUMBNAILTYPE_OBJECT);
     connect(ObjectBackground,SIGNAL(EditBackground()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnBackground()));
-    connect(ObjectBackground,SIGNAL(EditBackGTransition()), GlobalMainWindow,SLOT(s_Event_DoubleClickedOnTransitionBackground()));
     connect(ObjectBackground,SIGNAL(EditMediaObject()),     GlobalMainWindow,SLOT(s_Event_DoubleClickedOnObject()));
     connect(ObjectBackground,SIGNAL(EditTransition()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnTransition()));
     connect(ObjectBackground,SIGNAL(EditSoundTrack()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnVideoSound()));
     connect(ObjectBackground,SIGNAL(EditMusicTrack()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnMusic()));
+    connect(ObjectBackground,SIGNAL(RightClick()),          GlobalMainWindow,SLOT(s_Event_RightClickedOnThumbnail()));
 
     if (PartitionMode) {
         // Partition mode

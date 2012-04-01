@@ -30,6 +30,8 @@
 #include "cCustomGraphicsRectItem.h"
 #include "_ApplicationDefinitions.h"
 
+#include "cInteractiveZone.h"
+
 namespace Ui {
     class DlgSlideProperties;
 }
@@ -37,28 +39,30 @@ namespace Ui {
 class DlgSlideProperties : public QCustomDialog {
 Q_OBJECT
 public:
-    cDiaporamaObject        *DiaporamaObject;
     QDomDocument            *Undo;                      // Save object before modification for cancel button
 
-    cCompositionList        *CompositionList;           // Link to Composition List
-    double                  xmax,ymax;                  // Size of the scene
-    int                     NextZValue;                 // Current zvalue
-    QGraphicsScene          *scene;                     // Link to the scene
-    QImage                  *BackgroundImage;           // Background Image
+    double                  DisplayW,DisplayH;
+    cDiaporamaObject        *CurrentSlide;              // Current slide
 
-    sMagneticRuler          MagneticRuler;              // TV Margins ruler
-    int                     WithPen;                    // With for ruler pen
+    SELECTMODE              ShotSelectMode;             // Current shot selection mode
+    cDiaporamaShot          *CurrentShot;               // Current shot (if selection mode = SELECTMODE_ONE)
+    int                     CurrentShotNbr;             // Current shot number (if selection mode = SELECTMODE_ONE)
+
+    cCompositionList        *CompositionList;           // Link to current block List
+    QList<bool>             IsSelected;                 // Table of selection state in the current block list
+    int                     NbrSelected;                // Number of selected blocks
+    SELECTMODE              BlockSelectMode;            // Current block selection mode
+    cCompositionObject      *CurrentCompoObject;        // Current block object (if selection mode = SELECTMODE_ONE)
+    int                     CurrentCompoObjectNbr;      // Number of Current block object (if selection mode = SELECTMODE_ONE)
+
     double                  ProjectGeometry;
+
     QString                 FramingStyleLabelPixmap;
 
     // Re-entrence flags
-    bool                    InBlockTable_SelectionChanged;
-    bool                    InScene_SelectionChanged;
-    bool                    InShotTable_SelectionChanged;
     bool                    InRefreshStyleControls;
     bool                    InRefreshControls;
-    bool                    InRefreshSceneImage;
-    bool                    StopMAJSpinbox;                         // Use to avoid controls to send refreshcontrol
+    bool                    InSelectionChange;
     bool                    StopMajFramingStyle;
 
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
@@ -74,25 +78,19 @@ public:
     virtual void            RestoreWindowState();
 
     void                    RefreshStyleControls();
-    void                    RefreshControls();
-    void                    RefreshSceneImage();
+    void                    RefreshControls(bool UpdateInteractiveZone=true);
     void                    AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
     void                    GetForDisplayUnit(double &DisplayW,double &DisplayH);
     void                    s_Scene_DoubleClick();                      // User double click on a block in the scene widget
 
     // Utility functions
-    cCompositionObject      *GetSelectedCompositionObject();        // Return selected CompositionObject
-    cCompositionObject      *GetSelectedGlobalCompositionObject();  // Return selected CompositionObject in the global composition list
+    cCompositionObject      *GetSelectedCompositionObject();                // Return selected CompositionObject
+    cCompositionObject      *GetGlobalCompositionObject(int IndexKey);      // Return CompositionObject in the global composition list for specific IndexKey
+    cCompositionObject      *GetSelectedGlobalCompositionObject();          // Return selected CompositionObject in the global composition list
     void                    ApplyGlobalPropertiesToAllShots(cCompositionObject *GlobalBlock);
     void                    CopyBlockProperties(cCompositionObject *SourceBlock,cCompositionObject *DestBlock);
 
-    // Context for modifing values to current composition object
-    cCompositionObject      *CompositionObject;
-    cCustomGraphicsRectItem *RectItem;
-    double                  DisplayW,DisplayH;
-
-    bool                    PrepContexte();
-    void                    ApplyToContexte(bool ReposRectItem,bool ApplyGlobal);
+    void                    ApplyToContexte(bool ApplyGlobal);
 
 protected:
     virtual void    resizeEvent(QResizeEvent *);
@@ -101,101 +99,119 @@ protected:
 private slots:
     void            s_Event_ClipboardChanged();
     void            s_RefreshSceneImage();
+    void            s_TVMarginsBt();
 
     void            OKPrevious();
     void            OKNext();
-    void            s_SlideNameChange(QString NewText);
-    void            s_NewChapter(int state);
-    void            s_ShotDurationChange(QTime NewValue);
-    void            ChangeVisibleState();
-    void            s_TVMarginsBt();
 
-    void            s_CopyBlockBT();
-    void            s_CutBlockBT();
-    void            s_PasteBlockBT();
+    // Slide settings
+    void            s_SlideSet_SlideNameChange(QString NewText);
+    void            s_SlideSet_NewChapter(int state);
 
-    void            BlockUp();
-    void            BlockDown();
-
-    // Buttons associated to a Dialog box
-    void            TextEditor();
-    void            ImageEditCorrect();
-    void            VideoEdit();
-    void            Information();
-    void            GetSound();
-
-    // Shot table part
+    // Shot table & settings
     void            s_ShotTable_SelectionChanged();             // User select a shot in the ShotTable widget
     void            s_ShotTable_AddShot();
     void            s_ShotTable_RemoveShot();
-    void            s_ShotTableDragMoveItem();
-    void            s_ShotTableMoveLeft();
-    void            s_ShotTableMoveRight();
+    void            s_ShotTable_DragMoveItem();
+    void            s_ShotTable_MoveLeft();
+    void            s_ShotTable_MoveRight();
+    void            s_ShotTable_DurationChange(QTime NewValue);
 
-    // Block table/scene part
-    void            s_BlockTable_SelectionChanged();            // User select a block in the BlocTable widget
-    void            s_BlockTable_ItemDoubleClicked(QTableWidgetItem * item);
+    // Block table
     void            s_Scene_SelectionChanged();                 // User select a block in the scene widget
+    void            s_BlockTable_SelectionChanged();            // User select a block in the BlocTable widget
+    void            s_BlockTable_StartSelectionChange();
+    void            s_BlockTable_EndSelectionChange();
+    void            s_BlockTable_ItemDoubleClicked(QMouseEvent *);
+    void            s_BlockTable_ItemRightClicked(QMouseEvent *);
     void            s_BlockTable_AddNewTextBlock();
     void            s_BlockTable_AddNewFileBlock();
     void            s_BlockTable_RemoveBlock();
+    void            s_BlockTable_Copy();
+    void            s_BlockTable_Cut();
+    void            s_BlockTable_Paste();
+    void            s_BlockTable_MoveBlockUp();
+    void            s_BlockTable_MoveBlockDown();
 
-    void            s_ChgPosXValue(double);
-    void            s_ChgPosYValue(double);
-    void            s_ChgWidthValue(double);
-    void            s_ChgHeightValue(double);
-    void            s_ChangeBackgroundForm(int);
-    void            s_ChangeOpacity(int);
+    // Block settings : Call of other dialog
+    void            s_BlockSettings_Arrange();
+    void            s_BlockSettings_TextEditor();
+    void            s_BlockSettings_ImageEditCorrect();
+    void            s_BlockSettings_VideoEdit();
+    void            s_BlockSettings_Information();
 
-    void            s_ChgShadowFormValue(int);
-    void            s_ChgShadowDistanceValue(int);
-    void            s_ChgPenSize(int);
-    void            s_ChPenColorCB(int);
-    void            s_ChangePenStyle(int);
-    void            s_ChgShadowColorCB(int);
+    // Block settings : Basic values
+    void            s_BlockSettings_ToggleVisibleState();
+    void            s_BlockSettings_GetSound();
 
-    void            s_ChgRotateZValue(int);
-    void            s_ResetRotateZBT();
+    // Block settings : Coordinates
+    void            s_BlockSettings_PosXValue(double);
+    void            s_BlockSettings_PosYValue(double);
+    void            s_BlockSettings_PosWidthValue(double);
+    void            s_BlockSettings_PosHeightValue(double);
 
-    void            s_ChgRotateXValue(int);
-    void            s_ResetRotateXBT();
+    // Block settings : Rotations
+    void            s_BlockSettings_RotateZValue(int);
+    void            s_BlockSettings_ResetRotateZValue();
+    void            s_BlockSettings_RotateXValue(int);
+    void            s_BlockSettings_ResetRotateXValue();
+    void            s_BlockSettings_RotateYValue(int);
+    void            s_BlockSettings_ResetRotateYValue();
 
-    void            s_ChgRotateYValue(int);
-    void            s_ResetRotateYBT();
+    // Block settings : Shape
+    void            s_BlockSettings_ShapeBackgroundForm(int);
+    void            s_BlockSettings_ShapeOpacity(int);
+    void            s_BlockSettings_ShapeShadowFormValue(int);
+    void            s_BlockSettings_ShapeShadowDistanceValue(int);
+    void            s_BlockSettings_ShapePenSize(int);
+    void            s_BlockSettings_ShapePenColor(int);
+    void            s_BlockSettings_ShapePenStyle(int);
+    void            s_BlockSettings_ShapeShadowColor(int);
 
-    // Style
+    // Block settings : Style
     void            s_ChangeFramingStyle(int);
     void            s_CoordinateStyleBT();
     void            s_BlockShapeStyleBT();
 
-    // Text animation
-    void            s_ZoomED(int);
-    void            s_ZoomResetBT();
-    void            s_ScrollXED(int);
-    void            s_ScrollXResetBT();
-    void            s_ScrollYED(int);
-    void            s_ScrollYResetBT();
+    // Block settings : Alignment
+    void            s_BlockTable_AlignTop();
+    void            s_BlockTable_AlignMiddle();
+    void            s_BlockTable_AlignBottom();
+    void            s_BlockTable_AlignLeft();
+    void            s_BlockTable_AlignCenter();
+    void            s_BlockTable_AlignRight();
 
-    // Block animation
-    void            s_BlockAnimCB(int);
+    // Block settings : Text animation
+    void            s_BlockSettings_TextAnimZoom(int);
+    void            s_BlockSettings_TextAnimZoomReset();
+    void            s_BlockSettings_TextAnimScrollX(int);
+    void            s_BlockSettings_TextAnimScrollXReset();
+    void            s_BlockSettings_TextAnimScrollY(int);
+    void            s_BlockSettings_TextAnimScrollYReset();
 
-    // Multiple turn animation
-    void            s_ChgTurnZValue(int);
-    void            s_ResetTurnZBT();
-    void            s_ChgTurnXValue(int);
-    void            s_ResetTurnXBT();
-    void            s_ChgTurnYValue(int);
-    void            s_ResetTurnYBT();
+    // Block settings : Block animation
+    void            s_BlockSettings_BlockAnimType(int);
 
-    // Dissolve animation
-    void            s_ChgDissolveValue(int);
+    // Block settings/Block animation : Multiple turn animation
+    void            s_BlockSettings_BlockAnimTurnZValue(int);
+    void            s_BlockSettings_BlockAnimTurnZReset();
+    void            s_BlockSettings_BlockAnimTurnXValue(int);
+    void            s_BlockSettings_BlockAnimTurnXReset();
+    void            s_BlockSettings_BlockAnimTurnYValue(int);
+    void            s_BlockSettings_BlockAnimTurnYReset();
+
+    // Block settings/Block animation : Dissolve animation
+    void            s_BlockSettings_BlockAnimDissolveType(int);
+
+    // Block settings/Interactive zone messages
+    void            s_BlockSettings_IntZoneTransformBlocks(double DeltaX,double DeltaY,double ScaleX,double ScaleY,double Sel_X,double Sel_Y,double Sel_W,double Sel_H);
+    void            s_BlockSettings_IntZoneDisplayTransformBlocks(double DeltaX,double DeltaY,double ScaleX,double ScaleY,double Sel_X,double Sel_Y,double Sel_W,double Sel_H);
 
 private:
-    void            Clean();
     void            MakeFormIcon(QComboBox *UICB);
     void            MakeBorderStyleIcon(QComboBox *UICB);
 
-    void            RefreshShotTable(int SetCurrentIndex);
+    void            s_ShotTable_DisplayDuration();
     void            RefreshBlockTable(int SetCurrentIndex);
 
     Ui::DlgSlideProperties *ui;

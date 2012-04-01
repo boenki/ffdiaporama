@@ -48,6 +48,24 @@ struct  sMagneticRuler {
 };
 
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+class QCustomGraphicsScene : public QGraphicsScene {
+Q_OBJECT
+public:
+    explicit    QCustomGraphicsScene(QObject *parent=0);
+                ~QCustomGraphicsScene();
+
+    void        SendDoubleClickEvent();
+    void        SendRightClickEvent();
+
+protected:
+
+signals:
+    void        DoubleClickEvent(QMouseEvent *);
+    void        RightClickEvent(QMouseEvent *);
+};
+
+//---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // class use to add interractive resize to QGraphicsRectItem object
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 class cCustomGraphicsRectItem;
@@ -60,7 +78,7 @@ public:
     bool                    BlockRecursion;
     int                     CurrentPenWith;
 
-    explicit cResizeGraphicsRectItem(QGraphicsScene *scene,cCustomGraphicsRectItem *RectItem,int ZValue,int TypeItem,QGraphicsItem *parent=NULL);
+    explicit cResizeGraphicsRectItem(QCustomGraphicsScene *scene,cCustomGraphicsRectItem *RectItem,int ZValue,int TypeItem,QGraphicsItem *parent=NULL);
     virtual ~cResizeGraphicsRectItem();
 
     void                CalcPosition();
@@ -90,7 +108,7 @@ class cCustomGraphicsRectItem : public QGraphicsRectItem {
 public:
     QWidget             *ParentWidget;
     int                 ParentWidgetType;
-    double               *x,*y,*w,*h,*zoom;
+    double              *x,*y,*w,*h,*zoom;
     sMagneticRuler      *MagneticRuler;     // Link to MagneticRuler parent structure
     bool                BlockZoomChange;    // flag to block zoom changing during change % to pixel
     bool                IsCapture;
@@ -108,7 +126,7 @@ public:
     cResizeGraphicsRectItem *Left;
     cResizeGraphicsRectItem *Right;
 
-    explicit cCustomGraphicsRectItem(QGraphicsScene *scene,int ZValue,double *x,double *y,double *zoom,double *w,double *h,double xmax,double ymax,
+    explicit cCustomGraphicsRectItem(QCustomGraphicsScene *scene,int ZValue,double *x,double *y,double *zoom,double *w,double *h,double xmax,double ymax,
                                      bool KeepAspectRatio,double AspectRatio,sMagneticRuler *MagneticRuler,QWidget *ParentWidget,int ParentWidgetType,
                                      int IndexKey,bool IsVisible);
     virtual ~cCustomGraphicsRectItem();

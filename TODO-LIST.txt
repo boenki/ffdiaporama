@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 14/03/2012) :
+Buggs/TODO (Dernier SVN le 17/03/2012) :
 ----------------------------------------
 TODO
 ----
@@ -17,52 +17,41 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Remet les bonnes taille de caractères pour les vignettes de slide (SVN du 14/03)
--Corrige la taille des polices dans la boite propriétés du projet
--Modifie l'éditeur de texte pour que les propriétés s'additionnent au lieu de se remplacer (SVN du 14/03)
 
 English version / Bug fix :
--Set again correct characteres size for slide thumbnails (SVN of 14/03)
--Fix font size for Project properties dialog
--Modify the text editor so that the properties add up instead of replacing itself (SVN of 14/03)
 
 French version / Nouvelles fonctionnalités :
--Transforme la zone d'annimations multi-tours en une zone à combo et ajoute les annimations de fondu (apparition/disparition/clignottements)
+-Bascule toutes les pages d'aide sur la documentation ffDiaporama 1.3
+-Ajoute un menu contextuel (click droit) quand on click sur une diapositive dans la timeline de la fenêtre principale
+-Force l'affichage des icônes dans le menu edit de la fenêtre principale
+-Modifie l'affichage des blocs dans la table des blocs de la boite slide : Affiche des thumbnails et un résumé des informations
+-Ajoute un menu contextuel (click droit) dans la table des blocs et dans la zone interactive
+-Corrige les lenteurs dans la boite slide
+-Autorise les blocs à avoir des tailles à zéro (avant c'était limité à 3 pixels)
+-Active la sélection multiple dans la table des blocs et refait toute la zone interactive pour autoriser le fonctionnement en multiple-blocs
+    -Déplacement de un ou plusieurs blocs
+    -Redimensionnement de un ou plusieurs blocs
+-Change le fonctionnement du bouton Marge TV en l'ouverture d'une boite de dialogue propriétés des guides
+    -Rend chaque type de guide activable séparément
+    -Ajoute des guides pour les objets non sélectionnés
+    -Rend les centres verticaux et horizontaux des objets attirés par les guides
+-Ajoute des fonctions d'alignement sur selection multiple de blocs (en haut, en bas, au milieu et à droite, à gauche, au autre)
+-Transforme le fonctionnement d'une première série de fonctions pour qu'elles fonctionnent avec une sélection multiple (Suppression de blocs, couper/copier/coller de blocs)
 
 English version / New features :
--Modify multi-turn animation zone to a zone with combo and add dissolve animations (appear/disappear/blinks)
-
--------------------------------------
-Changelog depuis la version 20120305
--------------------------------------
-Bug fix depuis la version 1.2 (French)
-
-Bug fix from 1.2 version (English)
-
-Nouvelles fonctionnalités (French)
-
--Modifie la boite slide :
- - Déplace les boutons de contrôle des bloques au dessus de la zone interactive
- - Supprime la zone information et son slider
- - Ajoute un bouton information ouvrant la boite information sur le fichier de MMFiler
- - Ajoute des boutons de reset pour toutes les valeures
- - Ajoute une zone pour les annimations de textes avec 3 valeurs : Zoom, Scrolling X et Scrolling Y
- - Ajoute une zone pour les annimations de block :
-        - Multi-tour des blocs avec 3 valeurs pour les 3 axes
-        - fondu de blocs (apparition/disparition/clignottements)
-
--Refait completement la boite texte avec passage en RICH text
-
-New features (English)
-
--Modify slide dialog
-  - Move tool buttons under interactive zone
-  - Remove information zone
-  - Add a button to open Information dialog (from MMFiler)
-  - Add reset buttons for all values
-  - Add a zone for text animation with 3 values (Zoom, Scrolling X and Scrolling Y)
-  - Add a zone for blocks annimations
-        - Multi-turn block animations with 3 values for the 3 axis
-        - Dissolve blocks (appear/disappear/blinks)
-
--Completly redone text dialog for using RICH text
+-Switch all help pages to ffDiaporama 1.3 WIKI
+-Add a contextual menu (right click) when we click on a slide thumbnail in the main window timeline
+-Force display of icons in the edit menu of the main window
+-Modify display of blocks in blocks table of the slide dialog: Display thumbnails and an information summary
+-Add contextual menu (right click) on block table and on interactive zone
+-Correct the slowness in slide dialog
+-Authorize blocks to have sizes with zero (before it was limited to 3 pixels)
+-Activate the multiple selection in the blocks table and redoes all the interactive zone to authorize the functioning in multiple blocks
+    -Movement of one or several blocks
+    -Resize of one or several blocks
+-Change the functioning of the TV margins button : Now it opens a Ruller properties dialog
+    -Makes every ruller actionable separately
+    -Add rullers for not selected objects
+    -Set vertical and horizontal centers of objects attracted by rullers
+-Add alignment function on multiple blocks selection (to top, to bottom, to midle and to left, to right, to center)
+-Modify functioning of a first series of function to they work on a multiple bloc selection (Remove of blocks, copy/cut/paste of blocks)

@@ -101,8 +101,8 @@ private slots:
     void    s_Event_DoubleClickedOnTransition();            // Double click on transition part of widget in the object track
     void    s_Event_DoubleClickedOnVideoSound();            // Double click on video sound part of widget in the object track
     void    s_Event_DoubleClickedOnBackground();            // Double click on widget in the background track
-    void    s_Event_DoubleClickedOnTransitionBackground();  // Double click on transition part of widget in the background track
     void    s_Event_DoubleClickedOnMusic();                 // Double click on widget in the music track
+    void    s_Event_RightClickedOnThumbnail();              // Right click
 
     // Actions small bottom right toolbar menu
     void    s_Action_ZoomPlus();
