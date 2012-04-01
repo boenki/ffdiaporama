@@ -172,7 +172,8 @@ public:
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
     void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
-                                      cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache,int ShotDuration,bool EnableAnimation);
+                                      cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache,int ShotDuration,bool EnableAnimation,
+                                      bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0);
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition=true);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);

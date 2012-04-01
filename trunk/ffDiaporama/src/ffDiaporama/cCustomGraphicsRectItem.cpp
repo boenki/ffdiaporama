@@ -23,16 +23,33 @@
 #include "DlgImageCorrection.h"
 #include <QGraphicsView>
 #include <QTransform>
+#include <QGraphicsSceneMouseEvent>
 
 #define HANDLESIZEX     8
 #define HANDLESIZEY     8
 #define HANDLEMAGNETX   18
 #define HANDLEMAGNETY   10
 
+QCustomGraphicsScene::QCustomGraphicsScene(QObject *parent):QGraphicsScene(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomGraphicsScene::QCustomGraphicsScene");
+}
+
+QCustomGraphicsScene::~QCustomGraphicsScene() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomGraphicsScene::~QCustomGraphicsScene");
+}
+
+void QCustomGraphicsScene::SendDoubleClickEvent() {
+    emit DoubleClickEvent(NULL);
+}
+
+void QCustomGraphicsScene::SendRightClickEvent() {
+    emit RightClickEvent(NULL);
+}
+
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // class use to add interractive resize to QGraphicsRectItem object
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
-cResizeGraphicsRectItem::cResizeGraphicsRectItem(QGraphicsScene *scene,cCustomGraphicsRectItem *TheRectItem,int ZValue,int TheTypeItem,QGraphicsItem *parent)
+cResizeGraphicsRectItem::cResizeGraphicsRectItem(QCustomGraphicsScene *scene,cCustomGraphicsRectItem *TheRectItem,int ZValue,int TheTypeItem,QGraphicsItem *parent)
     :QGraphicsRectItem((*TheRectItem->x)*double(scene->sceneRect().width()),(*TheRectItem->y)*double(scene->sceneRect().height()),
      double(scene->sceneRect().width())*(*((TheRectItem->zoom!=NULL)?TheRectItem->zoom:TheRectItem->w)),
      double(scene->sceneRect().height())*(*((TheRectItem->zoom!=NULL)?TheRectItem->zoom:TheRectItem->h)),parent) {
@@ -208,14 +225,14 @@ void cResizeGraphicsRectItem::paint(QPainter *painter,const QStyleOptionGraphics
         if (CurrentTextItem==RectItem) {
 
             if (CurrentTextItem->ParentWidgetType==TYPE_DlgSlideProperties) {
-                if (CurrentPenWith!=((DlgSlideProperties *)CurrentTextItem->ParentWidget)->WithPen) {
+                /*if (CurrentPenWith!=((DlgSlideProperties *)CurrentTextItem->ParentWidget)->WithPen) {
                     CurrentPenWith=((DlgSlideProperties *)CurrentTextItem->ParentWidget)->WithPen;
                     // define a pen for the rectangle
                     QColor  Col=QColor(255,0,0);
                     QPen    Pen=QPen(Col);
                     Pen.setWidth(CurrentPenWith);
                     setPen(Pen);
-                }
+                }*/
             } else if (CurrentPenWith!=1) {
                 CurrentPenWith=1;
                 // define a pen for the rectangle
@@ -834,7 +851,7 @@ void cResizeGraphicsRectItem::ResizeRight(QPointF &newpos) {
 // class use to crop rectangle into the image
 //---------------------------------------------------------------------------------------------------------------------------------------------------------------
 // x,y and zoom or w/h are always give in %
-cCustomGraphicsRectItem::cCustomGraphicsRectItem(QGraphicsScene *TheScene,int ZValue,double *Thex,double *They,double *Thezoom,double *Thew,double *Theh,double xmax,double ymax,
+cCustomGraphicsRectItem::cCustomGraphicsRectItem(QCustomGraphicsScene *TheScene,int ZValue,double *Thex,double *They,double *Thezoom,double *Thew,double *Theh,double xmax,double ymax,
                                                  bool TheKeepAspectRatio,double TheAspectRatio,sMagneticRuler *TheMagneticRuler,QWidget *TheParentWidget,int TheParentWidgetType,
                                                  int TheIndexKey,bool TheIsVisible)
                                                 :QGraphicsRectItem((*Thex)*xmax,(*They)*ymax,xmax*(*((Thezoom!=NULL)?Thezoom:Thew)),ymax*(*((Thezoom!=NULL)?Thezoom:Theh)),NULL)
@@ -973,6 +990,7 @@ void cCustomGraphicsRectItem::mouseReleaseEvent(QGraphicsSceneMouseEvent *event)
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::mouseReleaseEvent");
     IsCapture = false;
     QGraphicsRectItem::mouseReleaseEvent(event);
+    if (event->button()==Qt::RightButton) ((QCustomGraphicsScene *)scene())->SendRightClickEvent();
 }
 
 //====================================================================================================================
@@ -1041,7 +1059,7 @@ void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::SendRefreshBackgroundImage");
     RecalcEmbededResizeRectItem();
     switch (ParentWidgetType) {
-        case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->RefreshSceneImage();          break;
+        //case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->RefreshSceneImage();          break;
         case TYPE_DlgImageCorrection:       ((DlgImageCorrection *)ParentWidget)->RefreshControls();            break;
     }
 }
@@ -1049,10 +1067,11 @@ void cCustomGraphicsRectItem::SendRefreshBackgroundImage() {
 void cCustomGraphicsRectItem::mouseDoubleClickEvent(QGraphicsSceneMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomGraphicsRectItem::mouseDoubleClickEvent");
     QGraphicsRectItem::mouseDoubleClickEvent(event);
-    switch (ParentWidgetType) {
+    ((QCustomGraphicsScene *)scene())->SendDoubleClickEvent();
+    /*switch (ParentWidgetType) {
         case TYPE_DlgSlideProperties:       ((DlgSlideProperties *)ParentWidget)->s_Scene_DoubleClick();      break;
         //case TYPE_DlgImageCorrection:       ((DlgImageCorrection *)ParentWidget)->OnDoubleClick();          break;
-    }
+    }*/
 }
 
 //====================================================================================================================

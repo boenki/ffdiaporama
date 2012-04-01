@@ -325,7 +325,7 @@ void DlgImageCorrection::showEvent(QShowEvent *ev) {
         xmax=ymax;
     }
     // Create the scene
-    scene = new QGraphicsScene();
+    scene = new QCustomGraphicsScene();
     scene->setSceneRect(QRectF(0,0,xmax,ymax));
 
     // Setup scene to control

@@ -39,7 +39,8 @@ TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_pt.ts \
     ../../locale/ffDiaporama_ru.ts \
     ../../locale/ffDiaporama_el.ts \
-    ../../locale/ffDiaporama_cz.ts
+    ../../locale/ffDiaporama_cz.ts \
+    ../../locale/ffDiaporama_zh_TW.ts
 
 SOURCES +=  _ApplicationDefinitions.cpp \
             _SoundDefinitions.cpp \
@@ -51,6 +52,7 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             DlgBackgroundProperties.cpp \
             cCustomGraphicsRectItem.cpp \
             cCustomComboBox.cpp \
+            cCustomBlockTable.cpp \
             DlgMusicProperties.cpp \
             DlgRenderVideo.cpp \
             DlgTransitionProperties.cpp \
@@ -82,37 +84,39 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../sharedfiles/DlgffDPjrProperties.cpp \
             ../sharedfiles/cBrushDefinition.cpp \
             ../sharedfiles/cCustomIcon.cpp \
-            ../sharedfiles/DlgInfoFile.cpp
+            ../sharedfiles/DlgInfoFile.cpp \
+    cInteractiveZone.cpp \
+    DlgRulerDef.cpp
 
 HEADERS  += \
             _SoundDefinitions.h \
             _ImagesDefinitions.h \
             _ApplicationDefinitions.h \
             _Diaporama.h \
+            _StyleDefinitions.h \
             wgt_QVideoPlayer.h \
             wgt_QCustomThumbnails.h \
-            DlgApplicationSettings.h \
-            DlgBackgroundProperties.h \
             cCustomGraphicsRectItem.h \
             cCustomComboBox.h \
+            cCustomTableWidget.h \
+            cCustomBlockTable.h \
+            DlgApplicationSettings.h \
+            DlgBackgroundProperties.h \
             DlgMusicProperties.h \
             DlgRenderVideo.h \
             DlgTransitionProperties.h \
             DlgAbout.h \
-            mainwindow.h \
             DlgSlideProperties.h \
             DlgImageCorrection.h \
             DlgVideoEdit.h \
             DlgTextEdit.h \
-            cCustomTableWidget.h \
             DlgManageStyle.h \
-            _StyleDefinitions.h \
+            ../fmt_filters/fmt_filters.h \
             ../sharedfiles/QCustomRuller.h \
             ../sharedfiles/DlgCheckConfig.h \
             ../sharedfiles/cSaveWindowPosition.h \
             ../sharedfiles/cBaseApplicationConfig.h \
             ../sharedfiles/cFilterTransformObject.h \
-            ../fmt_filters/fmt_filters.h \
             ../sharedfiles/cLuLoImageCache.h \
             ../sharedfiles/cDeviceModelDef.h \
             ../sharedfiles/_GlobalDefines.h \
@@ -125,7 +129,10 @@ HEADERS  += \
             ../sharedfiles/DlgffDPjrProperties.h \
             ../sharedfiles/cBrushDefinition.h \
             ../sharedfiles/cCustomIcon.h \
-            ../sharedfiles/DlgInfoFile.h
+            ../sharedfiles/DlgInfoFile.h \
+            mainwindow.h \
+    cInteractiveZone.h \
+    DlgRulerDef.h
 
 FORMS    += mainwindow.ui \
             wgt_QVideoPlayer.ui \
@@ -143,7 +150,8 @@ FORMS    += mainwindow.ui \
             ../sharedfiles/DlgCheckConfig.ui \
             ../sharedfiles/DlgManageDevices.ui \
             ../sharedfiles/DlgffDPjrProperties.ui \
-            ../sharedfiles/DlgInfoFile.ui
+            ../sharedfiles/DlgInfoFile.ui \
+    DlgRulerDef.ui
 
 
 # Installation on linux systems

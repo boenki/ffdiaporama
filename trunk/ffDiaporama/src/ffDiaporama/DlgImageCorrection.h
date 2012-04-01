@@ -45,7 +45,7 @@ public:
     bool                    FLAGSTOPED;                     // Flag to stop spin box during settings
     bool                    FLAGSTOPSPIN;                   // Flag to stop spin box during blur change
     sMagneticRuler          MagneticRuler;
-    QGraphicsScene          *scene;
+    QCustomGraphicsScene    *scene;
     cCustomGraphicsRectItem *cadre;
     int                     BackgroundForm;
     double                  xmax,ymax;

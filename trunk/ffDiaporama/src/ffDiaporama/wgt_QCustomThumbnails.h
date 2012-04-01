@@ -72,6 +72,7 @@ signals:
     void        EditBackGTransition();
     void        EditBackground();
     void        EditMusicTrack();
+    void        RightClick();
 
 public slots:
 
