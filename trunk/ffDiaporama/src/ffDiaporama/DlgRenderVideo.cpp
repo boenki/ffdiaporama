@@ -730,6 +730,7 @@ void DlgRenderVideo::accept() {
             AudioCodecIndex =7;             // FLAC
             VideoBitRate    =0;             // Not use
             AudioBitRate    =0;             // Not use
+            ExtendV         =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Extend*2;
 
         } else {
 
@@ -744,14 +745,15 @@ void DlgRenderVideo::accept() {
             int i=0;
             while ((i<Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceName!=Device)) i++;
             if (i<Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel.count()) {
-                Standard=Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->Standard;
+                Standard        =Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->Standard;
                 OutputFileFormat=Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->FileFormat;
                 VideoCodecIndex =Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->VideoCodec;
                 AudioCodecIndex =Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioCodec;
-                ImageSize=Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->ImageSize;
-                VideoFrameRate=DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].dFPS;
-                VideoBitRate=Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->VideoBitrate;
-                AudioBitRate=Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioBitrate;
+                ImageSize       =Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->ImageSize;
+                VideoFrameRate  =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].dFPS;
+                VideoBitRate    =Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->VideoBitrate;
+                AudioBitRate    =Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioBitrate;
+                ExtendV         =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Extend*2;
             }
         }
 
@@ -859,7 +861,8 @@ void DlgRenderVideo::accept() {
                                                 vCodec=QString("-f 3gp -vcodec mpeg4 -b:0 %1").arg(VideoBitRate);
                                         } else {
                                             if (QString(VIDEOCODECDEF[VideoCodecIndex].ShortName)==QString("mpeg4"))
-                                                vCodec=QString("-vcodec mpeg4 -vtag xvid -b:0 %1").arg(VideoBitRate);
+                                                //vCodec=QString("-vcodec mpeg4 -vtag xvid -b:0 %1").arg(VideoBitRate);
+                                                vCodec=QString("-vcodec mpeg4 -b:0 %1").arg(VideoBitRate);
                                                 else vCodec=QString("-vcodec libxvid -b:0 %1").arg(VideoBitRate);
                                         }
                                         break;
@@ -1036,9 +1039,14 @@ void DlgRenderVideo::accept() {
                         .arg(Channels)
                         .arg(GeoW)
                         .arg(GeoH);
+/*
+                #ifdef OLDFFMPEG
                 if (ExtendV>0) ffmpegCommand=ffmpegCommand+QString(" -padtop %1 -padbottom %2").arg(ExtendV/2).arg(ExtendV-ExtendV/2);
                 if (ExtendH>0) ffmpegCommand=ffmpegCommand+QString(" -padleft %1 -padright %2").arg(ExtendH/2).arg(ExtendH-ExtendH/2);
-
+                #else
+                if ((ExtendV>0)||(ExtendH>0)) ffmpegCommand=ffmpegCommand+QString(" -vf pad=%1:%2:%3:%4").arg(W+ExtendH).arg(H+ExtendV).arg(ExtendH-ExtendH/2).arg(ExtendV-ExtendV/2);
+                #endif
+*/
                 // Activate multithreading support if getCpuCount()>1 and codec is h264 or VP8
                 if (((getCpuCount()-1)>1)&&(
                         (VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_H264)||
@@ -1121,11 +1129,23 @@ void DlgRenderVideo::accept() {
                     Frame->RenderedImage=NewImage;
                 }
 
+                QImage *ToSave=Frame->RenderedImage;
+                if ((ExtendV>0)||(ExtendH>0)) {
+                    ToSave=new QImage(W+ExtendH,H+ExtendV,QImage::Format_RGB32);
+                    ToSave->fill(0);
+                    QPainter P;
+                    P.begin(ToSave);
+                    P.drawImage(ExtendH/2,ExtendV/2,*Frame->RenderedImage);
+                    P.end();
+                }
+
                 // Save image to the pipe
-                if (!Frame->RenderedImage->save(&Process,"PPM",100)) {
+                if (!ToSave->save(&Process,"PPM",-1)) {
                     CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error sending image to ffmpeg","Error message"),QMessageBox::Close);
                     Continue=false;
                 }
+
+                if (ToSave!=Frame->RenderedImage) delete ToSave;
 
                 // Wait until ffmpeg processed the frame
                 while (Continue &&(Process.bytesToWrite()>0)) {
@@ -1254,7 +1274,8 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             WriteWAV.OutputFormatContext->oformat  =Fmt;
             //OutputFormatContext->timestamp=0;
             WriteWAV.OutputFormatContext->bit_rate =1536;
-            #ifdef OLDFFMPEG
+            #if FF_API_FORMAT_PARAMETERS
+            #else
             AVFormatParameters fpOutFile;
             memset(&fpOutFile,0,sizeof(AVFormatParameters));
             if (av_set_parameters(WriteWAV.OutputFormatContext,&fpOutFile)<0) {
@@ -1325,10 +1346,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     // open the file for writing
     if (Continue) {
         int Err=0;
-        #ifdef OLDFFMPEG
-        if (url_fopen(&WriteWAV.OutputFormatContext->pb,TempWAVFileName.toUtf8(),URL_WRONLY)<0) {
-        #else
+        #if FF_API_OLD_AVIO
         if ((Err=avio_open(&WriteWAV.OutputFormatContext->pb,TempWAVFileName.toUtf8(),AVIO_FLAG_WRITE))<0) {
+        #else
+        if (url_fopen(&WriteWAV.OutputFormatContext->pb,TempWAVFileName.toUtf8(),URL_WRONLY)<0) {
         #endif
             char Buf[500];
             av_strerror(Err,Buf,500);
@@ -1349,10 +1370,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
     // write the header
     if ((Continue)&&
-        #ifdef OLDFFMPEG
-            (av_write_header(WriteWAV.OutputFormatContext)!=0)) {
-        #else
+        #if FF_API_FORMAT_PARAMETERS
             (avformat_write_header(WriteWAV.OutputFormatContext,NULL)<0)) {
+        #else
+            (av_write_header(WriteWAV.OutputFormatContext)!=0)) {
         #endif
         CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file!");
         Continue=false;
@@ -1461,10 +1482,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
     if (PreviousFrame)  delete PreviousFrame;
     if (Frame)          delete Frame;
     if (WriteWAV.OutputFormatContext) {
-        #ifdef OLDFFMPEG
-        if (WriteWAV.OutputFormatContext->pb) url_fclose(WriteWAV.OutputFormatContext->pb);                                   // close the file
-        #else
+        #if FF_API_OLD_AVIO
         if (WriteWAV.OutputFormatContext->pb) avio_close(WriteWAV.OutputFormatContext->pb);                                   // close the file
+        #else
+        if (WriteWAV.OutputFormatContext->pb) url_fclose(WriteWAV.OutputFormatContext->pb);                                   // close the file
         #endif
         if (WriteWAV.OutputFormatContext->streams[0]) {
             avcodec_close(WriteWAV.AudioStream->codec);                                                              // close codec

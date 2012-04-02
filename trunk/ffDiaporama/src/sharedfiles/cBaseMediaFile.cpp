@@ -1372,7 +1372,7 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Open file and get a LibAVFormat context and an associated LibAVCodec decoder
     //*********************************************************************************************************
-    #ifdef OLDFFMPEG
+    #ifdef VERYOLDFFMPEG
     if (av_open_input_file(&ffmpegFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return;
     #else
     if (avformat_open_input(&ffmpegFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return;
@@ -1398,7 +1398,7 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Get metadata
     //*********************************************************************************************************
-    #ifdef OLDFFMPEG
+    #ifdef VERYOLDFFMPEG
     AVMetadataTag *tag=NULL;
     while ((tag=av_metadata_get(ffmpegFile->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX))) {
     #else
@@ -1427,7 +1427,7 @@ void cVideoFile::GetFullInformationFromFile() {
         InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(End).toString("hh:mm:ss.zzz"));
         InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(End-Start).toString("hh:mm:ss.zzz"));
             // Chapter metadata
-            #ifdef OLDFFMPEG
+            #ifdef VERYOLDFFMPEG
             while ((tag=av_metadata_get(ch->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX)))
             #else
             while ((tag=av_dict_get(ch->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
@@ -1520,7 +1520,7 @@ void cVideoFile::GetFullInformationFromFile() {
             }
 
             // Stream metadata
-            #ifdef OLDFFMPEG
+            #ifdef VERYOLDFFMPEG
             while ((tag=av_metadata_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX))) {
             #else
             while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
@@ -1569,7 +1569,7 @@ void cVideoFile::GetFullInformationFromFile() {
             }
 
             // Stream metadata
-            #ifdef OLDFFMPEG
+            #ifdef VERYOLDFFMPEG
             while ((tag=av_metadata_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX)))
             #else
             while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
@@ -2375,7 +2375,7 @@ bool cVideoFile::OpenCodecAndFile() {
     // Open audio stream
     if (AudioStreamNumber!=-1) {
         // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
-        #ifdef OLDFFMPEG
+        #ifdef VERYOLDFFMPEG
         if (av_open_input_file(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
         #else
         if (avformat_open_input(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
@@ -2423,7 +2423,7 @@ bool cVideoFile::OpenCodecAndFile() {
     if ((VideoStreamNumber!=-1)&&(!MusicOnly)) {
 
         // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
-        #ifdef OLDFFMPEG
+        #ifdef VERYOLDFFMPEG
         if (av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
         #else
         if (avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;

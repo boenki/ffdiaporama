@@ -19,8 +19,8 @@ public:
     int                 CurrentShotNbr;                // Current shot number
     QImage              *BackgroundImage;
     QImage              *ForegroundImage;
-    QRect               SceneRect;
-    QRect               CurSelRect;
+    QRectF              SceneRect;
+    QRectF              CurSelRect;
     bool                IsCapture;                      // True if there is an active capture
     QPoint              CapturePos;
     QList<bool>         IsSelected;

@@ -196,6 +196,7 @@ void DlgSlideProperties::DoInitDialog() {
 
     // Force icon in contextual menu
     ui->actionAddTextBlock->setIconVisibleInMenu(true);
+    ui->actionAddFile->setIconVisibleInMenu(true);
     ui->actionEditText->setIconVisibleInMenu(true);
     ui->actionEditImage->setIconVisibleInMenu(true);
     ui->actionEditVideo->setIconVisibleInMenu(true);
@@ -220,15 +221,15 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->OKNextBT,SIGNAL(clicked()),this,SLOT(OKNext()));
     connect(ui->TVMarginsBT,SIGNAL(clicked()),this,SLOT(s_TVMarginsBt()));
 
-    connect(ui->CopyBlockBT,SIGNAL(clicked()),this,SLOT(s_BlockTable_Copy()));                          connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(s_BlockTable_Copy()));
-    connect(ui->CutBlockBT,SIGNAL(clicked()),this,SLOT(s_BlockTable_Cut()));                            connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(s_BlockTable_Cut()));
-    connect(ui->PasteBlockBT,SIGNAL(clicked()),this,SLOT(s_BlockTable_Paste()));                        connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(s_BlockTable_Paste()));
+    connect(ui->CopyBlockBT,SIGNAL(clicked()),this,SLOT(s_BlockTable_Copy()));                                          connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(s_BlockTable_Copy()));
+    connect(ui->CutBlockBT,SIGNAL(clicked()),this,SLOT(s_BlockTable_Cut()));                                            connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(s_BlockTable_Cut()));
+    connect(ui->PasteBlockBT,SIGNAL(clicked()),this,SLOT(s_BlockTable_Paste()));                                        connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(s_BlockTable_Paste()));
 
     connect(ui->VisibleBT,SIGNAL(clicked()),this,SLOT(s_BlockSettings_ToggleVisibleState()));                           connect(ui->actionSetVisible,SIGNAL(triggered()),this,SLOT(s_BlockSettings_ToggleVisibleState()));
     connect(ui->SoundBT,SIGNAL(clicked()),this,SLOT(s_BlockSettings_GetSound()));                                       connect(ui->actionTakeSound,SIGNAL(triggered()),this,SLOT(s_BlockSettings_GetSound()));
 
-    connect(ui->BlockUpBT,SIGNAL(clicked()),this,SLOT(s_BlockTable_MoveBlockUp()));                     connect(ui->actionUpBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_MoveBlockUp()));
-    connect(ui->BlockDownBT,SIGNAL(clicked()),this,SLOT(s_BlockTable_MoveBlockDown()));                 connect(ui->actionDownBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_MoveBlockDown()));
+    connect(ui->BlockUpBT,SIGNAL(clicked()),this,SLOT(s_BlockTable_MoveBlockUp()));                                     connect(ui->actionUpBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_MoveBlockUp()));
+    connect(ui->BlockDownBT,SIGNAL(clicked()),this,SLOT(s_BlockTable_MoveBlockDown()));                                 connect(ui->actionDownBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_MoveBlockDown()));
 
     connect(ui->actionTop,SIGNAL(triggered()),this,SLOT(s_BlockTable_AlignTop()));
     connect(ui->actionMiddle,SIGNAL(triggered()),this,SLOT(s_BlockTable_AlignMiddle()));
@@ -284,7 +285,7 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->BlockTable,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemDoubleClicked(QMouseEvent *)));
     connect(ui->BlockTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemRightClicked(QMouseEvent *)));
     connect(ui->AddTextBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewTextBlock()));                                          connect(ui->actionAddTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewTextBlock()));
-    connect(ui->AddFileBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewFileBlock()));
+    connect(ui->AddFileBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewFileBlock()));                                          connect(ui->actionAddFile,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewFileBlock()));
     connect(ui->RemoveBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_RemoveBlock()));                                               connect(ui->actionRemoveBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_RemoveBlock()));
 
     // Style buttons
@@ -612,15 +613,15 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
         if (CurrentSlide->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
             ui->PosXEd->setRange(-200,200);                 ui->PosXEd->    setValue(CurrentCompoObject->x*100);
             ui->PosYEd->setRange(-200,200);                 ui->PosYEd->    setValue(CurrentCompoObject->y*100);
-            ui->WidthEd->setRange(0,200);                   ui->WidthEd->   setValue(CurrentCompoObject->w*100);
-            ui->HeightEd->setRange(0,200);                  ui->HeightEd->  setValue(CurrentCompoObject->h*100);
+            ui->WidthEd->setRange(1,200);                   ui->WidthEd->   setValue(CurrentCompoObject->w*100);
+            ui->HeightEd->setRange(1,200);                  ui->HeightEd->  setValue(CurrentCompoObject->h*100);
         } else { // DisplayUnit==DISPLAYUNIT_PIXELS
             double DisplayW=0,DisplayH=0;
             GetForDisplayUnit(DisplayW,DisplayH);
             ui->PosXEd->setRange(-2*DisplayW,2*DisplayW);   ui->PosXEd->    setValue(CurrentCompoObject->x*DisplayW);
             ui->PosYEd->setRange(-2*DisplayH,2*DisplayH);   ui->PosYEd->    setValue(CurrentCompoObject->y*DisplayH);
-            ui->WidthEd->setRange(0,2*DisplayW);            ui->WidthEd->   setValue(CurrentCompoObject->w*DisplayW);
-            ui->HeightEd->setRange(0,2*DisplayH);           ui->HeightEd->  setValue(CurrentCompoObject->h*DisplayH);
+            ui->WidthEd->setRange(3,2*DisplayW);            ui->WidthEd->   setValue(CurrentCompoObject->w*DisplayW);
+            ui->HeightEd->setRange(3,2*DisplayH);           ui->HeightEd->  setValue(CurrentCompoObject->h*DisplayH);
         }
     } else {
         ui->PosSize_X->     setEnabled(false);              ui->PosXEd->    setEnabled(false);                                                  ui->PosXEd->  setValue(0);
@@ -1180,6 +1181,7 @@ void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
         ContextMenu->addAction(ui->actionPaste);
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionAddTextBlock);
+        ContextMenu->addAction(ui->actionAddFile);
         ContextMenu->exec(QCursor::pos());
         delete ContextMenu;
 
@@ -2132,10 +2134,11 @@ void DlgSlideProperties::s_BlockSettings_BlockAnimDissolveType(int Value) {
 void DlgSlideProperties::s_BlockSettings_IntZoneTransformBlocks(double Move_X,double Move_Y,double Scale_X,double Scale_Y,double Sel_X,double Sel_Y,double Sel_W,double Sel_H) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_IntZoneTransformBlocks");
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
-        CompositionList->List[i]->x=CompositionList->List[i]->x+Move_X-(CompositionList->List[i]->x-Sel_X)+((CompositionList->List[i]->x-Sel_X)/Sel_W)*(Sel_W+Scale_X);
-        CompositionList->List[i]->y=CompositionList->List[i]->y+Move_Y-(CompositionList->List[i]->y-Sel_Y)+((CompositionList->List[i]->y-Sel_Y)/Sel_H)*(Sel_H+Scale_Y);
-        CompositionList->List[i]->w=(CompositionList->List[i]->w/Sel_W)*(Sel_W+Scale_X);
-        CompositionList->List[i]->h=(CompositionList->List[i]->h/Sel_H)*(Sel_H+Scale_Y);
+        CompositionList->List[i]->x=CompositionList->List[i]->x+Move_X-(CompositionList->List[i]->x-Sel_X)+(Sel_W!=0?((CompositionList->List[i]->x-Sel_X)/Sel_W)*(Sel_W+Scale_X):0);
+        CompositionList->List[i]->y=CompositionList->List[i]->y+Move_Y-(CompositionList->List[i]->y-Sel_Y)+(Sel_H!=0?((CompositionList->List[i]->y-Sel_Y)/Sel_H)*(Sel_H+Scale_Y):0);
+        CompositionList->List[i]->w=Sel_W!=0?(CompositionList->List[i]->w/Sel_W)*(Sel_W+Scale_X):0; if (CompositionList->List[i]->w<0.002) CompositionList->List[i]->w=0.002;
+        if (CompositionList->List[i]->BackgroundBrush->LockGeometry) CompositionList->List[i]->h=((CompositionList->List[i]->w*DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/DisplayH;
+            else CompositionList->List[i]->h=Sel_H!=0?(CompositionList->List[i]->h/Sel_H)*(Sel_H+Scale_Y):0; if (CompositionList->List[i]->h<0.002) CompositionList->List[i]->h=0.002;
     }
     RefreshControls(true);
 }
@@ -2145,10 +2148,14 @@ void DlgSlideProperties::s_BlockSettings_IntZoneDisplayTransformBlocks(double Mo
 
     InRefreshControls=true;
     int i=CurrentCompoObjectNbr;
-    double x=CompositionList->List[i]->x+Move_X-(CompositionList->List[i]->x-Sel_X)+((CompositionList->List[i]->x-Sel_X)/Sel_W)*(Sel_W+Scale_X);
-    double y=CompositionList->List[i]->y+Move_Y-(CompositionList->List[i]->y-Sel_Y)+((CompositionList->List[i]->y-Sel_Y)/Sel_H)*(Sel_H+Scale_Y);
-    double w=(CompositionList->List[i]->w/Sel_W)*(Sel_W+Scale_X);
-    double h=(CompositionList->List[i]->h/Sel_H)*(Sel_H+Scale_Y);
+    double x=CompositionList->List[i]->x+Move_X-(CompositionList->List[i]->x-Sel_X)+(Sel_W!=0?((CompositionList->List[i]->x-Sel_X)/Sel_W)*(Sel_W+Scale_X):0);
+    double y=CompositionList->List[i]->y+Move_Y-(CompositionList->List[i]->y-Sel_Y)+(Sel_H!=0?((CompositionList->List[i]->y-Sel_Y)/Sel_H)*(Sel_H+Scale_Y):0);
+    double w=(Sel_W!=0?(CompositionList->List[i]->w/Sel_W)*(Sel_W+Scale_X):Scale_X);    if (w<0.002) w=0.002;
+    double h;
+    if (CompositionList->List[i]->BackgroundBrush->LockGeometry) h=((w*DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/DisplayH; else {
+        h=(Sel_H!=0?(CompositionList->List[i]->h/Sel_H)*(Sel_H+Scale_Y):Scale_Y);
+        if (h<0.002) h=0.002;
+    }
     if (CurrentSlide->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
         ui->PosXEd->  setValue(x*100);
         ui->PosYEd->  setValue(y*100);

@@ -92,10 +92,10 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
 
         // Apply transformation
         if ((IsCapture)&&(TransfoType!=NOTYETDEFINED)) {
-            NewX=NewX+Move_X-(NewX-Sel_X)+((NewX-Sel_X)/Sel_W)*(Sel_W+Scale_X);
-            NewY=NewY+Move_Y-(NewY-Sel_Y)+((NewY-Sel_Y)/Sel_H)*(Sel_H+Scale_Y);
-            NewW=(NewW/Sel_W)*(Sel_W+Scale_X);
-            NewH=(NewH/Sel_H)*(Sel_H+Scale_Y);
+            NewX=NewX+Move_X-(NewX-Sel_X)+(Sel_W!=0?((NewX-Sel_X)/Sel_W)*(Sel_W+Scale_X):0);
+            NewY=NewY+Move_Y-(NewY-Sel_Y)+(Sel_H!=0?((NewY-Sel_Y)/Sel_H)*(Sel_H+Scale_Y):0);
+            NewW=(Sel_W!=0?(NewW/Sel_W)*(Sel_W+Scale_X):Scale_X);
+            NewH=(Sel_H!=0?(NewH/Sel_H)*(Sel_H+Scale_Y):Scale_Y);
         }
 
         NewRect=QRect(NewX*SceneRect.width(),NewY*SceneRect.height(),NewW*SceneRect.width(),NewH*SceneRect.height());
@@ -147,7 +147,15 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
 
     }
 
-    if (!IsCapture) AspectRatio=double(CurSelRect.height())/double(CurSelRect.width());
+    if (!IsCapture) {
+        if ((CurSelRect.width()==0)||(CurSelRect.height()==0)) {
+            Sel_W=0.02;
+            Sel_H=0.02;
+            CurSelRect.setWidth(2);
+            CurSelRect.setHeight(2);
+        }
+        AspectRatio=double(CurSelRect.height())/double(CurSelRect.width());
+    }
 
     // Draw rullers if they was enabled
     if (MagneticRuler!=0) {
@@ -310,10 +318,10 @@ void cInteractiveZone::RefreshDisplay() {
 
             // Apply transformation
             if ((IsSelected[i])&&(IsCapture)&&(TransfoType!=NOTYETDEFINED)) {
-                NewX=NewX+Move_X-(NewX-Sel_X)+((NewX-Sel_X)/Sel_W)*(Sel_W+Scale_X);
-                NewY=NewY+Move_Y-(NewY-Sel_Y)+((NewY-Sel_Y)/Sel_H)*(Sel_H+Scale_Y);
-                NewW=(NewW/Sel_W)*(Sel_W+Scale_X);
-                NewH=(NewH/Sel_H)*(Sel_H+Scale_Y);
+                NewX=NewX+Move_X-(NewX-Sel_X)+(Sel_W!=0?((NewX-Sel_X)/Sel_W)*(Sel_W+Scale_X):0);
+                NewY=NewY+Move_Y-(NewY-Sel_Y)+(Sel_H!=0?((NewY-Sel_Y)/Sel_H)*(Sel_H+Scale_Y):0);
+                NewW=(Sel_W!=0?(NewW/Sel_W)*(Sel_W+Scale_X):Scale_X);
+                NewH=(Sel_H!=0?(NewH/Sel_H)*(Sel_H+Scale_Y):Scale_Y);
             }
 
             BlockTable->CompositionList->List[i]->DrawCompositionObject(&P,double(ForegroundImage->height())/double(1080),0,0,ForegroundImage->width(),ForegroundImage->height(),true,0,StartVideoPos,
@@ -394,10 +402,10 @@ QRect cInteractiveZone::ComputeNewCurSelRect() {
         double NewW=BlockTable->CompositionList->List[i]->w;
         double NewH=BlockTable->CompositionList->List[i]->h;
 
-        NewX=NewX+Move_X-(NewX-Sel_X)+((NewX-Sel_X)/Sel_W)*(Sel_W+Scale_X);
-        NewY=NewY+Move_Y-(NewY-Sel_Y)+((NewY-Sel_Y)/Sel_H)*(Sel_H+Scale_Y);
-        NewW=(NewW/Sel_W)*(Sel_W+Scale_X);
-        NewH=(NewH/Sel_H)*(Sel_H+Scale_Y);
+        NewX=NewX+Move_X-(NewX-Sel_X)+(Sel_W!=0?((NewX-Sel_X)/Sel_W)*(Sel_W+Scale_X):0);
+        NewY=NewY+Move_Y-(NewY-Sel_Y)+(Sel_H!=0?((NewY-Sel_Y)/Sel_H)*(Sel_H+Scale_Y):0);
+        NewW=(Sel_W!=0?(NewW/Sel_W)*(Sel_W+Scale_X):Scale_X);
+        NewH=(Sel_H!=0?(NewH/Sel_H)*(Sel_H+Scale_Y):Scale_Y);
 
         QRect NewRect=QRect(NewX*SceneRect.width(),NewY*SceneRect.height(),NewW*SceneRect.width(),NewH*SceneRect.height());
         if (CurSelect==0) NewCurSelRect=NewRect; else {
@@ -576,12 +584,15 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         // Bottom left
         } else if (TransfoType==RESIZEDOWNLEFT) {
             // Adjust DX and DY for resize not less than 0
-            if (DX>=Sel_W)  DX=Sel_W;
-            if (DY<=-Sel_H) DY=-Sel_H;
+            if (Sel_W!=0) {
+                if (DX>=Sel_W)  DX=Sel_W;
+                if (DY<=-Sel_H) DY=-Sel_H;
+            }
             Move_X       =DX;
             Scale_X      =-Move_X;
             Move_Y       =0;
             Scale_Y      =LockGeometry?(AspectRatio*Scale_X*SceneRect.width())/SceneRect.height():DY;
+
             NewCurSelRect=ComputeNewCurSelRect();
 
             // Apply magnetic rules vertical
@@ -860,41 +871,17 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
             }
 
         } else if (event->modifiers()==Qt::NoModifier) {
-
-            // Top left
-            if  (IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))) {
-                TransfoType=RESIZEUPLEFT;
-
-            // Left
-            } else if (IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))) {
-                TransfoType=RESIZELEFT;
-
-            // Bottom left
-            } else if (IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))) {
-                TransfoType=RESIZEDOWNLEFT;
-
-            // Top right
-            } else if (IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))) {
-                TransfoType=RESIZEUPRIGHT;
-
-            // Right
-            } else if (IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))) {
-                TransfoType=RESIZERIGHT;
-
-            // Bottom right
-            } else if (IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))) {
-                TransfoType=RESIZEDOWNRIGHT;
-
-            // Top
-            } else if (IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))) {
-                TransfoType=RESIZEUP;
-
-            // Bottom
-            } else if (IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))) {
-                TransfoType=RESIZEDOWN;
-
-            } else {
-
+            // Resize
+            if (IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                           TransfoType=RESIZEDOWNLEFT; // Bottom left
+            else if (IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                          TransfoType=RESIZEUPLEFT;   // Top left
+            else if (IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))   TransfoType=RESIZELEFT;     // Left
+            else if (IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                         TransfoType=RESIZEUPRIGHT;  // Top right
+            else if (IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))   TransfoType=RESIZERIGHT;    // Right
+            else if (IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                      TransfoType=RESIZEDOWNRIGHT;// Bottom right
+            else if (IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))     TransfoType=RESIZEUP;       // Top
+            else if (IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))  TransfoType=RESIZEDOWN;     // Bottom
+            else {
+                // Move
                 if ((NbrSelected==0)||(!IsInSelectedRect(event->pos()))) {
 
                     // Replace current selection
@@ -912,7 +899,6 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
                     }
 
                 }
-                // Move
                 if (IsInSelectedRect(event->pos())) {
                     TransfoType=MOVEBLOCK;
                     setCursor(Qt::ClosedHandCursor);

@@ -3963,6 +3963,18 @@ color: #000000;
     <string>Add a new text block</string>
    </property>
   </action>
+  <action name="actionAddFile">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add file</string>
+   </property>
+   <property name="toolTip">
+    <string>Add a new block of type image or video.</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>
