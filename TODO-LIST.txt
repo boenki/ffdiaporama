@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 17/03/2012) :
+Buggs/TODO (Dernier SVN le 01/04/2012) :
 ----------------------------------------
 TODO
 ----
@@ -17,41 +17,18 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige les "deprecated" pour les versions de libavxx comprises entre 0.53.0 et 0.53.23
+-Correction de problèmes sur les formats générés :
+    -Format RIM  / 16x9 : Passe en 240x136
+    -Format QVGA / 16x9 : Passe en 320x180+PAD
+
 
 English version / Bug fix :
+-Fix "deprecated" issues for libavxx versions between 0.53.0 and 0.53.23
 
 French version / Nouvelles fonctionnalités :
--Bascule toutes les pages d'aide sur la documentation ffDiaporama 1.3
--Ajoute un menu contextuel (click droit) quand on click sur une diapositive dans la timeline de la fenêtre principale
--Force l'affichage des icônes dans le menu edit de la fenêtre principale
--Modifie l'affichage des blocs dans la table des blocs de la boite slide : Affiche des thumbnails et un résumé des informations
--Ajoute un menu contextuel (click droit) dans la table des blocs et dans la zone interactive
--Corrige les lenteurs dans la boite slide
--Autorise les blocs à avoir des tailles à zéro (avant c'était limité à 3 pixels)
--Active la sélection multiple dans la table des blocs et refait toute la zone interactive pour autoriser le fonctionnement en multiple-blocs
-    -Déplacement de un ou plusieurs blocs
-    -Redimensionnement de un ou plusieurs blocs
--Change le fonctionnement du bouton Marge TV en l'ouverture d'une boite de dialogue propriétés des guides
-    -Rend chaque type de guide activable séparément
-    -Ajoute des guides pour les objets non sélectionnés
-    -Rend les centres verticaux et horizontaux des objets attirés par les guides
--Ajoute des fonctions d'alignement sur selection multiple de blocs (en haut, en bas, au milieu et à droite, à gauche, au autre)
--Transforme le fonctionnement d'une première série de fonctions pour qu'elles fonctionnent avec une sélection multiple (Suppression de blocs, couper/copier/coller de blocs)
+-Ajoute l'action "Ajouter un fichier" dans le menu contextuel de la boite slide (quand aucun bloc n'est sélectionné)
 
 English version / New features :
--Switch all help pages to ffDiaporama 1.3 WIKI
--Add a contextual menu (right click) when we click on a slide thumbnail in the main window timeline
--Force display of icons in the edit menu of the main window
--Modify display of blocks in blocks table of the slide dialog: Display thumbnails and an information summary
--Add contextual menu (right click) on block table and on interactive zone
--Correct the slowness in slide dialog
--Authorize blocks to have sizes with zero (before it was limited to 3 pixels)
--Activate the multiple selection in the blocks table and redoes all the interactive zone to authorize the functioning in multiple blocks
-    -Movement of one or several blocks
-    -Resize of one or several blocks
--Change the functioning of the TV margins button : Now it opens a Ruller properties dialog
-    -Makes every ruller actionable separately
-    -Add rullers for not selected objects
-    -Set vertical and horizontal centers of objects attracted by rullers
--Add alignment function on multiple blocks selection (to top, to bottom, to midle and to left, to right, to center)
--Modify functioning of a first series of function to they work on a multiple bloc selection (Remove of blocks, copy/cut/paste of blocks)
+-Add action "Add file" in the contextual menu of the slide dialog (when no block was selected)
+

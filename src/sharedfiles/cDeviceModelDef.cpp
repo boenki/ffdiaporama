@@ -38,7 +38,7 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1440,1080,4,3,25,"25","1080p - 1440x1080 - 25 FPS",0},                                             // SIZE_1080p
             {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0}                                                // SIZE_RIM240
         },{ // GEOMETRY_16_9
-            {320,180,16,9,25,"25","QVGA - 320x180 - 25 FPS",0},                                                 // SIZE_QVGA
+            {320,180,16,9,25,"25","QVGA - 320x180+PAD - 25 FPS",30},                                            // SIZE_QVGA
             {480,270,16,9,25,"25","HVGA - 480x270 - 25 FPS",0},                                                 // SIZE_HVGA
             {640,360,16,9,25,"25","VGA - 640x360 - 25 FPS",0},                                                  // SIZE_VGA
             {720,576,64,45,25,"25","SD/DVD - 720x576 WIDE - 25 FPS",0},                                         // SIZE_DVD
@@ -46,9 +46,9 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,576,16,9,25,"25","XGA - 1024x576 - 25 FPS",0},                                                // SIZE_XGA
             {1280,720,16,9,25,"25","720p - 1280x720 - 25 FPS",0},                                               // SIZE_720P
             {1920,1080,16,9,25,"25","1080p - 1920x1080 - 25 FPS",0},                                            // SIZE_1080p
-            {240,135,16,9,24,"24","RIM 240 - 240x135 - 24 FPS",0}                                               // SIZE_RIM240
+            {240,136,16,9,24,"24","RIM 240 - 240x136 - 24 FPS",0}                                               // SIZE_RIM240
         },{ // GEOMETRY_40_17
-            {320,136,16,9,25,"25","QVGA - 320x136 - 25 FPS",0},                                                 // SIZE_QVGA
+            {320,136,16,9,25,"25","QVGA - 320x136+PAD - 25 FPS",52},                                            // SIZE_QVGA
             {480,204,40,17,25,"25","HVGA - 480x204 - 25 FPS",0},                                                // SIZE_HVGA
             {640,272,40,17,25,"25","VGA - 640x272 - 25 FPS",0},                                                 // SIZE_VGA
             {720,436,64,45,25,"25","SD/DVD - 720x436 WIDE+PAD - 25 FPS",70},                                    // SIZE_DVD
@@ -56,10 +56,10 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,436,40,17,25,"25","XGA - 1024x436 - 25 FPS",0},                                               // SIZE_XGA
             {1280,544,40,17,25,"25","720p - 1280x544 - 25 FPS",0},                                              // SIZE_720P
             {1920,816,40,17,25,"25","1080p - 1920x816 - 25 FPS",0},                                             // SIZE_1080p
-            {240,135,16,9,24,"24","RIM 240 - 240x135+PAD - 24 FPS",16}                                          // SIZE_RIM240
+            {240,136,16,9,24,"24","RIM 240 - 240x136+PAD - 24 FPS",16}                                          // SIZE_RIM240
     }},{// STANDARD_NTSC
         {   // GEOMETRY_4_3
-            {320,240,4,3,double(30000)/double(1001),"30000/1001",   "SMALL - 320x240 - 29.97 FPS",0},           // SIZE_QVGA
+            {320,240,4,3,double(30000)/double(1001),"30000/1001",   "QVGA - 320x240 - 29.97 FPS",0},           // SIZE_QVGA
             {426,320,4,3,double(30000)/double(1001),"30000/1001",   "HVGA - 426x320 - 29.97 FPS",0},            // SIZE_HVGA
             {640,480,4,3,double(30000)/double(1001),"30000/1001",   "VGA - 640x480 - 29.97 FPS",0},             // SIZE_VGA
             {720,480,8,9,double(30000)/double(1001),"30000/1001",   "SD/DVD - 720x480 - 29.97 FPS",0},          // SIZE_DVD
@@ -69,7 +69,7 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1440,1080,4,3,double(24000)/double(1001),"24000/1001", "1080p - 1440x1080 - 23.976 FPS",0},        // SIZE_1080p
             {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0}                                                // SIZE_RIM240
         },{ // GEOMETRY_16_9
-            {320,180,16,9,double(30000)/double(1001),"30000/1001",   "SMALL - 320x180 - 29.97 FPS",0},           // SIZE_QVGA
+            {320,180,16,9,double(30000)/double(1001),"30000/1001",   "QVGA - 320x180 - 29.97 FPS",30},           // SIZE_QVGA
             {480,270,16,9,double(30000)/double(1001),"30000/1001",   "HVGA - 480x270 - 29.97 FPS",0},            // SIZE_HVGA
             {640,360,16,9,double(30000)/double(1001),"30000/1001",   "VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
             {720,480,32,27,double(30000)/double(1001),"30000/1001", "SD/DVD - 720x480 WIDE - 29.97 FPS",0},     // SIZE_DVD
@@ -79,7 +79,7 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1920,1080,16,9,double(24000)/double(1001),"24000/1001", "1080p - 1920x1080 - 23.976 FPS",0},        // SIZE_1080p
             {240,135,16,9,24,"24","RIM 240 - 240x135 - 24 FPS",0}                                               // SIZE_RIM240
         },{ // GEOMETRY_40_17
-            {320,136,40,17,double(30000)/double(1001),"30000/1001",   "SMALL - 320x136 - 29.97 FPS",0},           // SIZE_QVGA
+            {320,136,40,17,double(30000)/double(1001),"30000/1001",   "QVGA - 320x136 - 29.97 FPS",52},           // SIZE_QVGA
             {480,204,40,17,double(30000)/double(1001),"30000/1001",   "HVGA - 480x204 - 29.97 FPS",0},            // SIZE_HVGA
             {640,272,40,17,double(30000)/double(1001),"30000/1001",   "VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
             {720,362,32,27,double(30000)/double(1001),"30000/1001", "SD/DVD - 720x362 WIDE+PAD - 29.97 FPS",59},// SIZE_DVD
