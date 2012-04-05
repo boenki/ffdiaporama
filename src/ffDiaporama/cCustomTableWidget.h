@@ -56,7 +56,8 @@ protected:
 private slots:
 
 signals:
-    void DragMoveItem();
+    void    DragMoveItem();
+    void    RightClickEvent(QMouseEvent *ev);
 };
 
 class cCustomTableWidget2 : public QTableWidget {
@@ -75,7 +76,8 @@ protected:
 private slots:
 
 signals:
-    void DragMoveItem();
+    void    DragMoveItem();
+    void    RightClickEvent(QMouseEvent *ev);
 };
 
 #endif // CCUSTOMTABLEWIDGET_H

@@ -147,6 +147,21 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
         Painter->drawRect(option.rect.x(),option.rect.y(),option.rect.width(),option.rect.height());
         Painter->setOpacity(1);
     }
+
+    //Drag & Drop operation
+    if ((ParentTable->IsDragOn)&&(ParentTable->DragItemDest!=ParentTable->DragItemSource)&&(ParentTable->DragItemDest!=ParentTable->DragItemSource+1)&&((index.row()==ParentTable->DragItemDest)||((index.row()==ParentTable->rowCount()-1)&&(index.row()==ParentTable->DragItemDest-1)))) {
+        Painter->save();
+        Pen.setColor(Qt::red);
+        Pen.setStyle(Qt::SolidLine);
+        Pen.setWidth(10);
+        Painter->setPen(Pen);
+        Painter->setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
+        Painter->setOpacity(0.5);
+        if (index.row()==ParentTable->DragItemDest) Painter->drawLine(0,option.rect.y()+5,option.rect.width(),option.rect.y()+5);
+            else                                    Painter->drawLine(0,option.rect.y()+option.rect.height()-5,option.rect.width(),option.rect.y()+option.rect.height()-5);
+        Painter->setOpacity(1);
+        Painter->restore();
+    }
 }
 
 //********************************************************************************************************************************
@@ -156,9 +171,9 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
 cCustomBlockTable::cCustomBlockTable(QWidget *parent):QTableWidget(parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBlockTable::cCustomBlockTable");
 
-    CompositionList=NULL;
-
-    TextIcon=QImage(":/img/MediaIcons/48x48/Text.png");
+    CompositionList =NULL;
+    IsDragOn        =false;
+    TextIcon        =QImage(":/img/MediaIcons/48x48/Text.png");
 
     setRowCount(0);
 
@@ -188,6 +203,10 @@ cCustomBlockTable::cCustomBlockTable(QWidget *parent):QTableWidget(parent) {
 
     setItemDelegate(new cBlockTableItemDelegate(this));
     setColumnCount(1);
+
+    setDragDropOverwriteMode(false);
+    setAcceptDrops(false);
+    setDropIndicatorShown(false);
 }
 
 //====================================================================================================================
@@ -209,9 +228,69 @@ void cCustomBlockTable::mouseDoubleClickEvent(QMouseEvent *ev) {
 
 //====================================================================================================================
 
-void cCustomBlockTable::mouseReleaseEvent(QMouseEvent *ev) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBlockTable::mouseDoubleClickEvent");
+void cCustomBlockTable::mousePressEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBlockTable::mousePressEvent");
+    QTableWidget::mousePressEvent(event);
+    if (IsDragOn) return;
+    setCursor(Qt::ArrowCursor);
+    IsDragOn      =false;
+    DragItemSource=(event->pos().y()+verticalOffset())/rowHeight(0);
 
-    if (ev->button()==Qt::RightButton) emit RightClickEvent(ev);
-        else QTableWidget::mouseReleaseEvent(ev);
+    QModelIndexList SelList=selectionModel()->selectedIndexes();
+    QList<bool>             IsSelected;
+    for (int i=0;i<rowCount();i++)      IsSelected.append(false);
+    for (int i=0;i<SelList.count();i++) IsSelected[SelList.at(i).row()]=true;
+    int NbrSelected =0;
+    int ObjectNbr   =-1;
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        if (NbrSelected==0) ObjectNbr=i;
+        NbrSelected++;
+    }
+    if ((NbrSelected==1)&&(DragItemSource==ObjectNbr)) {
+        IsDragOn    =true;
+        DragItemDest=DragItemSource;
+        setCursor(Qt::ClosedHandCursor);
+        setUpdatesEnabled(false);
+        setUpdatesEnabled(true);
+    }
+}
+
+//====================================================================================================================
+
+void cCustomBlockTable::mouseMoveEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBlockTable::mouseMoveEvent");
+    if (!IsDragOn) {
+        QTableWidget::mouseMoveEvent(event);
+    } else {
+        if ((event->pos().x()<0)||(event->pos().x()>width())||(event->pos().y()<0)||(event->pos().y()>height())) {
+            setCursor(Qt::ForbiddenCursor);
+        } else {
+            DragItemDest=(event->pos().y()+verticalOffset())/rowHeight(0);
+            if (DragItemDest>rowCount())    setCursor(Qt::ForbiddenCursor);
+                else                        setCursor(Qt::ClosedHandCursor);
+        }
+        setUpdatesEnabled(false);
+        setUpdatesEnabled(true);
+    }
+}
+
+//====================================================================================================================
+
+void cCustomBlockTable::mouseReleaseEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBlockTable::mouseReleaseEvent");
+
+    if (event->button()==Qt::RightButton) {
+        emit RightClickEvent(event);
+    } else if (!IsDragOn) {
+        QTableWidget::mouseReleaseEvent(event);
+    } else {
+        setCursor(Qt::ArrowCursor);
+        IsDragOn=false;
+        if (!((event->pos().x()<0)||(event->pos().x()>width())||(event->pos().y()<0)||(event->pos().y()>height()))) {
+            DragItemDest=(event->pos().y()+verticalOffset())/rowHeight(0);
+            if ((DragItemDest<=rowCount())&&(DragItemDest!=DragItemSource)) emit DragMoveBlock(DragItemSource,DragItemDest);
+       }
+        setUpdatesEnabled(false);
+        setUpdatesEnabled(true);
+    }
 }

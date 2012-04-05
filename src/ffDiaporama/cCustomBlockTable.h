@@ -17,16 +17,23 @@ public:
     cBaseApplicationConfig  *ApplicationConfig;
     cCompositionList        *CompositionList;           // Link to Composition List
     QImage                  TextIcon;
+    int                     DragItemSource;
+    int                     DragItemDest;
+    bool                    IsDragOn;
 
     explicit                cCustomBlockTable(QWidget *parent = 0);
 
     virtual void            resizeEvent(QResizeEvent *);
     virtual void            mouseDoubleClickEvent(QMouseEvent *);
+
+    virtual void            mousePressEvent(QMouseEvent *);
+    virtual void            mouseMoveEvent(QMouseEvent *);
     virtual void            mouseReleaseEvent(QMouseEvent *);
 
 signals:
     void                    DoubleClickEvent(QMouseEvent *ev);
     void                    RightClickEvent(QMouseEvent *ev);
+    void                    DragMoveBlock(int,int);
 
 public slots:
 

@@ -1390,20 +1390,20 @@ Consulltez l&apos;aide pour plus d&apos;informations !</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="65"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="501"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="504"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="741"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="744"/>
         <source>Unlock</source>
         <translation>Pas de contrainte</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="66"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="505"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="745"/>
         <source>Lock to this geometry</source>
         <translation>Verrouiller sur cette géométrie</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="67"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="506"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="746"/>
         <source>Lock to project geometry</source>
         <translation>Verrouiller sur la géométrie du projet</translation>
     </message>
@@ -2008,30 +2008,30 @@ Please select another name!</source>
 SVP, entrer un autre nom !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="525"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="765"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="377"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="398"/>
         <source>Adjust to image width</source>
         <translation>Ajuster sur la largeur de l&apos;image</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="526"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="766"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="378"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="399"/>
         <source>Adjust to image height</source>
         <translation>Ajuster sur la hauteur de l&apos;image</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="527"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="767"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="379"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="400"/>
         <source>Adjust to full image</source>
         <translation>Ajuster sur l&apos;image entière</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="528"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="539"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="541"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="768"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="779"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="781"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="380"/>
         <location filename="../src/ffDiaporama/_StyleDefinitions.cpp" line="401"/>
         <source>Custom</source>
@@ -2220,21 +2220,21 @@ Déplace le fichier actuellement sélectionné dans la liste d&apos;un cran vers
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="701"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="713"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="910"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="941"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1186"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1241"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1250"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="913"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="944"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1206"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1261"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1276"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1291"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1316"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1336"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1345"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1270"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1282"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1297"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1312"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1337"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1357"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1450"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1506"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1510"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1366"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1378"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1471"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1527"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1531"/>
         <source>Render video</source>
         <translation>Générer le film</translation>
     </message>
@@ -2573,77 +2573,77 @@ Do you want to overwrite it ?</source>
 Voulez-vous l&apos;écraser ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="739"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="740"/>
         <source>Device model selection</source>
         <translation>Sélection d&apos;un modèle de périphérique</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="740"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="741"/>
         <source>A device model is require!</source>
         <translation>La sélection d&apos;un modèle de périphérique est nécessaire !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="823"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="825"/>
         <source>Encoding sound</source>
         <translation>Encodage du son</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1010"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1013"/>
         <source>Start ffmpeg encoder</source>
         <translation>Démarre l&apos;encodeur ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1061"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1126"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1133"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1170"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1174"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1069"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1144"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1153"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1190"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1194"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1062"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1070"/>
         <source>Error starting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Erreur lors du lancement de ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1096"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1104"/>
         <source> - Estimated time left : </source>
         <translation> - Temps restant estimé : </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1126"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1144"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation>Erreur lors de la transmission de l&apos;image à ffmeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1133"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1153"/>
         <source>ffmpeg error</source>
         <comment>Error message</comment>
         <translation>Erreur ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1155"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1175"/>
         <source>Closing encoder</source>
         <translation>Stop l&apos;encodeur</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1170"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1190"/>
         <source>Error during ffmpeg process</source>
         <comment>Error message</comment>
         <translation>Erreur durant le processus ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1174"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1194"/>
         <source>Error exiting ffmpeg</source>
         <comment>Error message</comment>
         <translation>Erreur lors de l&apos;arret de ffmpeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1186"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1206"/>
         <source>Job completed succesfully!</source>
         <translation>Génération terminée avec succès !</translation>
     </message>
@@ -2733,697 +2733,755 @@ Voulez-vous l&apos;écraser ?</translation>
         <translation>Propriétés de la diapositive</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="444"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3129"/>
         <source>Shot duration :</source>
         <translation>Durée du plan :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="532"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3102"/>
         <source>Indicate a name for the slide. It is this name which will appear on the thumbnail in the main window timeline.</source>
         <translation>Saisissez ici un nom pour la diapositive. C&apos;est ce nom qui apparaîtra sur la vignette de la diapositive dans la barre de temps de la fenêtre principale.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="878"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3771"/>
-        <source>Change the order of blocks by moving the active block upward (towards the background)</source>
-        <translation>Change l&apos;ordre des blocs en déplaçant le bloc actif vers le haut (vers l&apos;arrière plan)</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="894"/>
-        <source>PgUp</source>
-        <translation>PgUp</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="922"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3783"/>
-        <source>Change the order of blocks by moving the active block downward (towards the foreground)</source>
-        <translation>Change l&apos;ordre des blocs en déplaçant le bloc actif vers le bas (vers le premier plan) </translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="938"/>
-        <source>PgDown</source>
-        <translation>PgDown</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="539"/>
-        <source>Start a new chapter from here</source>
-        <translation>Commencer un nouveau chapitre</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="546"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3109"/>
         <source>Chapter :</source>
         <translation>Chapitre :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="646"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="371"/>
         <source>Ctrl+Ins</source>
         <translation>Ctrl+Ins</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="674"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="399"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3639"/>
         <source>Add a new block of type image or video.</source>
         <translation>Ajoute un nouveau bloc de type image ou vidéo.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="684"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="416"/>
         <source>Ins</source>
         <translation>Ins</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="843"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3864"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3528"/>
         <source>Del</source>
         <translation>Suppr</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="719"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3831"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3495"/>
         <source>Copy the current block to the ffDiaporama clipboard.</source>
         <translation>Copie le bloc actif dans le presse papier de ffDiaporama.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="729"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3834"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3432"/>
+        <source>Move to background</source>
+        <translation>Déplacer vers l&apos;arrière-plan</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3435"/>
+        <source>Change the order of blocks by moving the active block towards the background</source>
+        <translation>Change l&apos;ordre des blocs en déplaçant le bloc actif vers l&apos;arrière plan</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3444"/>
+        <source>Move to foregroung</source>
+        <translation>Déplacer vers le premier plan</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3447"/>
+        <source>Change the order of blocks by moving the active block towards the foreground</source>
+        <translation>Change l&apos;ordre des blocs en déplaçant le bloc actif vers le premier plan</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3492"/>
+        <source>Copy block</source>
+        <translation>Copier bloc(s)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3498"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="757"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3846"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3507"/>
+        <source>Cut block</source>
+        <translation>Couper bloc(s)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3510"/>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide</source>
         <translation>Copie le bloc actif dans le presse papier de ffDiaporama et le supprime de la diapositive</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="767"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3849"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3513"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="795"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3876"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3537"/>
+        <source>Paste block</source>
+        <translation>Coller bloc(s)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3540"/>
         <source>Paste block from the ffDiaporama clipboard and insert it.</source>
         <translation>Colle le bloc actuellement présent dans le presse papier et l&apos;insère.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="805"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3879"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3543"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="966"/>
-        <source>Make visible or hidden the active block</source>
-        <translation>Rendre visible ou invisible le bloc actif</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1001"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3807"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3471"/>
         <source>Give the sound, during this shot, to the current video block</source>
         <translation>Donner le son, pendant ce plan, au bloc vidéo actuellement actif</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1078"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3735"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3399"/>
         <source>Define the properties of the text block</source>
         <translation>Définir les propriétés du texte du bloc</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1088"/>
-        <source>F5</source>
-        <translation>F5</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1116"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3747"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3411"/>
         <source>Define framing and do correction of image or movie</source>
         <translation>Définir le cadrage et corriger l&apos;image de la photo ou du film</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1126"/>
-        <source>F6</source>
-        <translation>F6</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1154"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3756"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3759"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3420"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3423"/>
         <source>Cut the video</source>
         <translation>Couper la vidéo</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1164"/>
-        <source>F7</source>
-        <translation>F7</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1199"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3819"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3483"/>
         <source>Display detailled information on current block</source>
         <translation>Afficher des informations détaillées sur le bloc en cours</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1961"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2058"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2186"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2891"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2997"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3127"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3233"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3339"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1413"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1510"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1638"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2343"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2449"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2579"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2685"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2791"/>
         <source>Reset to 0</source>
         <translation>Remettre à 0</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2334"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1786"/>
         <source>Select a shape for current block</source>
         <translation>Sélectionner une forme pour le bloc</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2384"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1836"/>
         <source>Defined the opaqueness of the block.</source>
         <translation>Définir l&apos;opacité du bloc.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2426"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1878"/>
         <source>Defined the thickness of the border</source>
         <translation>Définir l&apos;épaisseur de la bordure</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2454"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1906"/>
         <source>Defined the color of the line to be used to draw the border</source>
         <translation>Définir la couleur du trait à utiliser pour dessiner la bordure</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2485"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1937"/>
         <source>Defined the type of line (solid, dotted line, etc.)</source>
         <translation>Définir le type de trait (plein, pointillé, etc...)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2131"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2170"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1583"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1622"/>
         <source>Define rotation according to the X axis (defined in degree).</source>
         <translation>Définir l&apos;angle de rotation selon l&apos;axe des X (exprimé en degré).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2003"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2042"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1455"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1494"/>
         <source>Define rotation according to the Y axis (defined in degree).</source>
         <translation>Définir l&apos;angle de rotation selon l&apos;axe des Y (exprimé en degré).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1903"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1942"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1355"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1394"/>
         <source>Define rotation according to the Z axis (defined in degree).</source>
         <translation>Définir l&apos;angle de rotation selon l&apos;axe des Z (exprimé en degré).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2598"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2050"/>
         <source>Defined the distance between the block and its shadow</source>
         <translation>Définir la distance entre le bloc et son ombre</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2626"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2078"/>
         <source>Defined the color of the shadow</source>
         <translation>Définir la couleur de l&apos;ombre</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3628"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3292"/>
         <source>Accept modification and go to previous slide</source>
         <translation>Valider les modifications et passer à la diapositive précédente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3631"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3295"/>
         <source>Previous</source>
         <translation>Précédente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3656"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3320"/>
         <source>Accept modification and go to next slide</source>
         <translation>Valider les modifications et passer à la diapositive suivante</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3659"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3323"/>
         <source>Next</source>
         <translation>Suivante</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3719"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3383"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2356"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1808"/>
         <source>Opacity :</source>
         <translation>Opacité :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2538"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1990"/>
         <source>Shadow :</source>
         <translation>Ombre :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="504"/>
-        <source>Slide name :</source>
-        <translation>Nom de la diapositive :</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="466"/>
-        <source>Total slide duration :</source>
-        <translation>Durée total (diapositive) :</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="139"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="167"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3651"/>
         <source>Append a shot to end of the timeline</source>
         <translation>Ajouter un plan à la fin de la barre de temps</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="142"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3636"/>
+        <source>Add file</source>
+        <translation>Ajouter des fichiers</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3648"/>
         <source>Add shot</source>
         <translation>Ajouter plan</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="180"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="215"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3663"/>
         <source>Remove current selected shot</source>
         <translation>Supprimer le plan actuellement sélectionné, de la barre de temps</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="183"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="833"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3858"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="535"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3522"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="221"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="263"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3675"/>
         <source>Change the order of the shot by moving the current selected shot, of a notch towards the left</source>
         <translation>Changer l&apos;ordre des plans en déplaçant le plan actuellement sélectionné, d&apos;un cran vers la gauche</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="224"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3672"/>
         <source>Move left</source>
         <translation>A gauche</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="256"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="305"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3687"/>
         <source>Change the order of the shot by moving the current selected shot, of a notch towards the right</source>
         <translation>Changer l&apos;ordre des plans en déplaçant le plan actuellement sélectionné, d&apos;un cran vers la droite</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="259"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3684"/>
         <source>Move right</source>
         <translation>A droite</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="394"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3158"/>
         <source>Indicate the duration for the current selected shot.</source>
         <translation>Indiquer la durée que vous souhaiter pour le plan actuellement sélectionné.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="417"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3181"/>
         <source>HH:mm:ss.zzz</source>
         <translation>HH:mm:ss.zzz</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2560"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2012"/>
         <source>Defined in which corner the shadow will be positioned (or no shadow)</source>
         <translation>Définir dans quel coin l&apos;ombre sera positionnée</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1409"/>
-        <source>Coordinates :</source>
-        <translation>Coordonnées :</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2391"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1843"/>
         <source>Border :</source>
         <translation>Bordure :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2306"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1758"/>
         <source>Shape :</source>
         <translation>Forme :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1752"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1204"/>
         <source>Define width of current block</source>
         <translation>Définir la largeur du bloc</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1825"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1277"/>
         <source>Define height of current block</source>
         <translation>Définir la hauteur du bloc</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1596"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1048"/>
         <source>Define X position of current block</source>
         <translation>Définir la position X du bloc</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="636"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3963"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="110"/>
+        <source>Undo last action (CTRL+Z)</source>
+        <translation>Défaire la dernière action (CTRL+Z)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="113"/>
+        <source>Undo</source>
+        <translation>Défaire</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="126"/>
+        <source>Ctrl+Z</source>
+        <translation>Ctrl+Z</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="170"/>
+        <source>Add
+shot</source>
+        <translation>Ajouter
+plan</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="218"/>
+        <source>Remove
+shot</source>
+        <translation>Supprimer
+plan</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="266"/>
+        <source>Move
+left</source>
+        <translation>Déplacer
+à gauche</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="308"/>
+        <source>Move
+right</source>
+        <translation>Déplacer
+à droite</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="354"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3627"/>
         <source>Add a new text block</source>
         <translation>Ajouter un nouveau bloc texte</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1043"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="357"/>
+        <source>Add
+text</source>
+        <translation>Ajouter
+texte</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="402"/>
+        <source>Add
+file</source>
+        <translation>Ajouter
+fichier</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="451"/>
+        <source>Edit block</source>
+        <translation>Editer bloc</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="454"/>
+        <source>Edit
+block</source>
+        <translation>Editer
+bloc</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="493"/>
         <source>Arrange blocks</source>
         <translation>Arranger les blocs</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1669"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="496"/>
+        <source>Arrange
+block</source>
+        <translation>Aranger
+bloc</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="538"/>
+        <source>Block
+information</source>
+        <translation>Propriétés
+du bloc</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="861"/>
+        <source>Slide properties :</source>
+        <translation>Propriétés de la diapositive :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1121"/>
         <source>Define Y position of current block</source>
         <translation>Définir la position Y du bloc</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2216"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="1668"/>
         <source>Block shape :</source>
         <translation>Forme du bloc :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2675"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2127"/>
         <source>Text animation :</source>
         <translation>Annimation de texte :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2685"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2137"/>
         <source>Zoom :</source>
         <translation>Zoom :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2721"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2763"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2173"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2215"/>
         <source>Define a zoom value for the text</source>
         <translation>Définir une valeur de zomm pour le texte</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2785"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2237"/>
         <source>Reset to 100%</source>
         <translation>Remettre à 100%</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2827"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2869"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2279"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2321"/>
         <source>Scroll text from left to right</source>
         <translation>Déplacer le texte de gauche à droite (Scrolling)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2933"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2975"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2385"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2427"/>
         <source>Scroll text from bottom to up</source>
         <translation>Déplacer le texte de bas en haut (Scrolling)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3027"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2479"/>
         <source>Block animation :</source>
         <translation>Animation de bloc :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3063"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3108"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2515"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2560"/>
         <source>Define the number of turn to be made around the Z axis during this shot</source>
         <translation>Définir un nombre de rotation à réaliser autour de l&apos;axe des Z pendant ce plan</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3169"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3214"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2621"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2666"/>
         <source>Define the number of turn to be made around the X axis during this shot</source>
         <translation>Définir un nombre de rotation à réaliser autour de l&apos;axe des X pendant ce plan</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3275"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3320"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2727"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2772"/>
         <source>Define the number of turn to be made around the Y axis during this shot</source>
         <translation>Définir un nombre de rotation à réaliser autour de l&apos;axe des Y pendant ce plan</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3541"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="2993"/>
         <source>Type :</source>
         <translation>Type :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3554"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3006"/>
         <source>Dissolve :</source>
         <translation>Fondu :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3598"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3043"/>
+        <source>Block coordinates :</source>
+        <translation>Coordonnées du bloc :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3074"/>
+        <source>Name :</source>
+        <translation>Nom :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3119"/>
+        <source>Start a new chapter from this slide</source>
+        <translation>Commencer un nouveau chapitre à partir de cette diapositive</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3122"/>
+        <source>Start from here</source>
+        <translation>Commencer ici</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3220"/>
+        <source>Total duration :</source>
+        <translation>Durée totale :</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3265"/>
         <source>Enable or disable rulers corresponding to the margins of television sets.</source>
         <translation>Activer ou désactiver les guides correspondant aux marges des téléviseurs.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3601"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3268"/>
         <source>Rullers</source>
         <translation>Guides</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3642"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3306"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Valider les modifications et quitter la boite de dialogue</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3645"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3309"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3695"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3359"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Annuler les modifications et quitter la boite de dialogue</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3698"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3362"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annuler</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3709"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3373"/>
         <source>Open help page describing this dialog box</source>
         <translation>Ouvrir la page de documentation correspondant à cette boite de dialogue</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3712"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3376"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3732"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3396"/>
         <source>Edit text</source>
         <translation>Editer le texte</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3744"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3408"/>
         <source>Do image correct or reframming</source>
         <translation>Corriger ou récadrer l&apos;image</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3768"/>
-        <source>Move block upward</source>
-        <translation>Déplacer le block vers le haut</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3780"/>
-        <source>Move block downward</source>
-        <translation>Déplacer le bloc vers le bas</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3792"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3456"/>
         <source>Change visible state</source>
         <translation>Passer de visible à invisble ou inversement</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3795"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3459"/>
         <source>Make visible the active block</source>
         <translation>Rendre le boc actif visible</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3804"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3468"/>
         <source>Take the sound</source>
         <translation>Prendre le son</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3816"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3480"/>
         <source>Display information</source>
         <translation>Afficher des informations</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3828"/>
-        <source>Copy</source>
-        <translation>Copier</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3843"/>
-        <source>Cut</source>
-        <translation>Couper</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3861"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3525"/>
         <source>Remove current block(s)</source>
         <translation>Supprimer le(s) bloc(s)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3873"/>
-        <source>Paste</source>
-        <translation>Coller</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3888"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3552"/>
         <source>Align top</source>
         <translation>Aligner en haut</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3891"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3555"/>
         <source>Align blocks to the top</source>
         <translation>Aligner les blocs sur le haut de la sélection</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3900"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3564"/>
         <source>Align middle</source>
         <translation>Aligner au milieu</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3903"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3567"/>
         <source>Align blocks to the middle</source>
         <translation>Aligner les blocs sur le milieu de la sélection</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3912"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3576"/>
         <source>Align bottom</source>
         <translation>Aligner en bas</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3915"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3579"/>
         <source>Align blocks to the bottom</source>
         <translation>Aligner les blocs sur le bas de la sélection</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3924"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3588"/>
         <source>Align left</source>
         <translation>Aligner à gauche</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3927"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3591"/>
         <source>Align blocks to the left</source>
         <translation>Aligner les blocs sur la gauche de la sélection</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3936"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3600"/>
         <source>Align center</source>
         <translation>Aligner au centre</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3939"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3603"/>
         <source>Align blocks to the center</source>
         <translation>Aligner les blocs au centre de la sélection</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3948"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3612"/>
         <source>Align right</source>
         <translation>Aligner à droite</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3951"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3615"/>
         <source>Align blocks to the right</source>
         <translation>Aligner les blocs sur la droite de la sélection</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3960"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3624"/>
         <source>Add text block</source>
         <translation>Ajouter un bloc texte</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1503"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1783"/>
         <source>Remove block</source>
         <translation>Supprimer le bloc</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="145"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="194"/>
         <source>Shadow upper left</source>
         <translation>Ombre en haut à gauche</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="146"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="195"/>
         <source>Shadow upper right</source>
         <translation>Ombre en haut à droite</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="147"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="196"/>
         <source>Shadow bottom left</source>
         <translation>Ombre en bas à gauche</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="148"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="197"/>
         <source>Shadow bottom right</source>
         <translation>Ombre en bas à droite</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="144"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="185"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="193"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="234"/>
         <source>None</source>
         <translation>Aucun</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="108"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="155"/>
         <source>Slide</source>
         <translation>Diapositive</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="186"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="235"/>
         <source>Multiple block turn</source>
         <translation>Multiple rotations</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="187"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="236"/>
         <source>Dissolve</source>
         <translation>Fondu</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="190"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="239"/>
         <source>Appear</source>
         <translation>Apparaître</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="191"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="240"/>
         <source>Disappear</source>
         <translation>Disparaître</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="192"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="241"/>
         <source>Blink at slow speed</source>
         <translation>Clignoter à vitesse lente</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="193"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="242"/>
         <source>Blink at medium speed</source>
         <translation>Clignoter à vitesse moyenne</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="194"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="243"/>
         <source>Blink at fast speed</source>
         <translation>Clignoter à vitesse rapide</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="195"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="244"/>
         <source>Blink at very fast speed</source>
         <translation>Clignoter à vitesse très rapide</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1078"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1311"/>
         <source>Lengthened to %1 sec</source>
         <translation>Allongée à %1 sec</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1503"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1783"/>
         <source>Are you sure to want to delete this block?</source>
         <translation>Etes-vous sur de vouloir supprimer ce bloc ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1506"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1786"/>
         <source>Remove blocks</source>
         <translation>Supprimer le(s) bloc(s)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1506"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1786"/>
         <source>Are you sure to want to delete these blocks?</source>
         <translation>Etes-vous sur de vouloir supprimer ces blocs ?</translation>
     </message>
@@ -3438,23 +3496,24 @@ Voulez-vous l&apos;écraser ?</translation>
         <translation>Sélectionner un fichier</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="964"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.ui" line="3660"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1190"/>
         <source>Remove shot</source>
         <translation>Supprimer un plan</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="964"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1190"/>
         <source>Are you sure to want to delete this shot?</source>
         <translation>Etes-vous sure de vouloir supprimer ce plan ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1249"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1526"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Texte</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1291"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1568"/>
         <source>Add files</source>
         <translation>Ajouter des fichiers</translation>
     </message>
@@ -4556,7 +4615,7 @@ Support</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="649"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1366"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1645"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1425"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
@@ -4564,7 +4623,7 @@ Support</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="653"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1370"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1649"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1433"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
@@ -4572,7 +4631,7 @@ Support</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="659"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1491"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1770"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1591"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1637"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1642"/>
@@ -4895,7 +4954,7 @@ Voulez-vous l&apos;enregistrer ?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImageCorrection.cpp" line="641"/>
-        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1324"/>
+        <location filename="../src/ffDiaporama/DlgSlideProperties.cpp" line="1603"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1405"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
