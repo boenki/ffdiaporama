@@ -72,14 +72,6 @@ wgt_QCustomThumbnails::~wgt_QCustomThumbnails() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QCustomThumbnails::wgt_QCustomThumbnails");
 }
 
-void wgt_QCustomThumbnails::mouseMoveEvent(QMouseEvent *event) {
-    QLabel::mouseMoveEvent(event);
-}
-
-void wgt_QCustomThumbnails::mousePressEvent(QMouseEvent *event) {
-    if (event->button()==Qt::RightButton) emit RightClick(); else QLabel::mousePressEvent(event);
-}
-
 //===========================================================================================================================
 // Double click handler : emit edit signal depending on mouse position
 //===========================================================================================================================
@@ -168,11 +160,11 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                         Painter.setBrush(Qt::NoBrush);
                         Painter.drawRect(0,0,this->width()-1,this->height()-1);
                     }
+                    qDebug()<<"Col"<<Col<<"Dest"<<GlobalMainWindow->DragItemDest<<"Source"<<GlobalMainWindow->DragItemSource;
 
                     // Draw Drag & Drop inserting point (if needed)
-                    if ((GlobalMainWindow->IsDragOn==1)&&(Col!=GlobalMainWindow->DragItemSource)&&((Col!=GlobalMainWindow->DragItemSource+1)||(GlobalMainWindow->DragItemSource!=DiaporamaObject->List.count()-1))&&(Col<DiaporamaObject->List.count())&&(
-                        (Col==GlobalMainWindow->DragItemDest)||((Col==DiaporamaObject->List.count()-1)&&(GlobalMainWindow->DragItemDest>=DiaporamaObject->List.count()))))
-                        {
+                    if ((GlobalMainWindow->IsDragOn==1)&&(Col<DiaporamaObject->List.count())&&(Col!=GlobalMainWindow->DragItemSource)&&
+                        ((Col==GlobalMainWindow->DragItemDest)||((Col==GlobalMainWindow->DragItemDest-1)&&(GlobalMainWindow->DragItemDest==DiaporamaObject->List.count())))) {
                         Painter.save();
                         QPen Pen;
                         Pen.setColor(WidgetDrag_Color);

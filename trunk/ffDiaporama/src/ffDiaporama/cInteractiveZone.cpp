@@ -147,7 +147,7 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
 
     }
 
-    if (!IsCapture) {
+    if ((!IsCapture)&&(NbrSelected>0)) {
         if ((CurSelRect.width()==0)||(CurSelRect.height()==0)) {
             Sel_W=0.02;
             Sel_H=0.02;
@@ -193,7 +193,7 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
             MagnetHoriz.clear();
             double Ecart=0.005;
             // Unselected object
-            if ((MagneticRuler&RULER_VERT_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if (!IsSelected[i]) {
+            if ((MagneticRuler&RULER_VERT_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if ((!IsSelected[i])&&(BlockTable->CompositionList->List[i]->IsVisible)) {
                 double a1=double(CurSelRect.left())/SceneRect.width();
                 double a2=(double(CurSelRect.left())+double(CurSelRect.width())/2)/SceneRect.width();
                 double a3=double(CurSelRect.right())/SceneRect.width();
@@ -204,7 +204,7 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
                 if (((x2>(a1-Ecart))&&(x2<(a1+Ecart)))||((x2>(a2-Ecart))&&(x2<(a2+Ecart)))||((x2>(a3-Ecart))&&(x2<(a3+Ecart)))) MagnetVert.append(x2*SceneRect.width());
                 if (((x3>(a1-Ecart))&&(x3<(a1+Ecart)))||((x3>(a2-Ecart))&&(x3<(a2+Ecart)))||((x3>(a3-Ecart))&&(x3<(a3+Ecart)))) MagnetVert.append(x3*SceneRect.width());
             }
-            if ((MagneticRuler&RULER_HORIZ_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if (!IsSelected[i]) {
+            if ((MagneticRuler&RULER_HORIZ_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if ((!IsSelected[i])&&(BlockTable->CompositionList->List[i]->IsVisible)) {
                 double a1=double(CurSelRect.top())/SceneRect.height();
                 double a2=(double(CurSelRect.top())+double(CurSelRect.height())/2)/SceneRect.height();
                 double a3=double(CurSelRect.bottom())/SceneRect.height();
@@ -345,7 +345,7 @@ void cInteractiveZone::UpdateIsSelected() {
     LockGeometry=false;
 
     for (int i=0;i<BlockTable->rowCount();i++)  IsSelected.append(false);
-    for (int i=0;i<SelList.count();i++)         IsSelected[SelList.at(i).row()]=true;
+    for (int i=0;i<SelList.count();i++)         IsSelected[SelList.at(i).row()]=BlockTable->CompositionList->List[SelList.at(i).row()]->IsVisible;
 
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         NbrSelected++;
@@ -477,7 +477,7 @@ void cInteractiveZone::keyReleaseEvent(QKeyEvent *event) {
 //====================================================================================================================
 
 void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cInteractiveZone::mouseMoveEvent");
+    //ToLog(LOGMSG_DEBUGTRACE,"IN:cInteractiveZone::mouseMoveEvent");   // Remove : too much
     if ((!BlockTable)||(!BlockTable->CompositionList)) return;
 
     if (!IsCapture) {
@@ -498,7 +498,7 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         if ((MagneticRuler&RULER_VERT_TVMARGIN)!=0)        MagnetVert.append(SceneRect.width()-SceneRect.width()*0.05);           // 5% Right TV Margins
         if ((MagneticRuler&RULER_VERT_SCREENCENTER)!=0)    MagnetVert.append(SceneRect.width()*0.5);                              // Center or screen
         // Unselected object
-        if ((MagneticRuler&RULER_VERT_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if (!IsSelected[i]) {
+        if ((MagneticRuler&RULER_VERT_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if ((!IsSelected[i])&&(BlockTable->CompositionList->List[i]->IsVisible)) {
             MagnetVert.append(BlockTable->CompositionList->List[i]->x*SceneRect.width());
             MagnetVert.append(BlockTable->CompositionList->List[i]->x*SceneRect.width()+BlockTable->CompositionList->List[i]->w*SceneRect.width()/2);
             MagnetVert.append(BlockTable->CompositionList->List[i]->x*SceneRect.width()+BlockTable->CompositionList->List[i]->w*SceneRect.width());
@@ -512,7 +512,7 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         if ((MagneticRuler&RULER_HORIZ_TVMARGIN)!=0)         MagnetHoriz.append(SceneRect.height()-SceneRect.height()*0.05);         // 5% Bottom TV Margins
         if ((MagneticRuler&RULER_HORIZ_SCREENCENTER)!=0)     MagnetHoriz.append(SceneRect.height()*0.5);                             // Center or screen
         // Unselected object
-        if ((MagneticRuler&RULER_HORIZ_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if (!IsSelected[i]) {
+        if ((MagneticRuler&RULER_HORIZ_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if ((!IsSelected[i])&&(BlockTable->CompositionList->List[i]->IsVisible)) {
             MagnetHoriz.append(BlockTable->CompositionList->List[i]->y*SceneRect.height());
             MagnetHoriz.append(BlockTable->CompositionList->List[i]->y*SceneRect.height()+BlockTable->CompositionList->List[i]->h*SceneRect.height()/2);
             MagnetHoriz.append(BlockTable->CompositionList->List[i]->y*SceneRect.height()+BlockTable->CompositionList->List[i]->h*SceneRect.height());
@@ -777,12 +777,14 @@ void cInteractiveZone::mouseDoubleClickEvent(QMouseEvent *event) {
             // Try to select another block
             int i=BlockTable->CompositionList->List.count()-1;
             while (i>=0) {
-                QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
-                                    BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
-                if (IsInRect(event->pos(),ObjRect)) {
-                    BlockTable->clearSelection();
-                    BlockTable->setCurrentCell(i,0,QItemSelectionModel::Current|QItemSelectionModel::Select);
-                    break;
+                if (BlockTable->CompositionList->List[i]->IsVisible) {
+                    QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
+                                        BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
+                    if (IsInRect(event->pos(),ObjRect)) {
+                        BlockTable->clearSelection();
+                        BlockTable->setCurrentCell(i,0,QItemSelectionModel::Current|QItemSelectionModel::Select);
+                        break;
+                    }
                 }
                 i--;
             }
@@ -809,12 +811,14 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
             // Try to select another block
             int i=BlockTable->CompositionList->List.count()-1;
             while (i>=0) {
-                QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
-                                    BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
-                if (IsInRect(event->pos(),ObjRect)) {
-                    BlockTable->clearSelection();
-                    BlockTable->setCurrentCell(i,0,QItemSelectionModel::Current|QItemSelectionModel::Select);
-                    break;
+                if (BlockTable->CompositionList->List[i]->IsVisible) {
+                    QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
+                                        BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
+                    if (IsInRect(event->pos(),ObjRect)) {
+                        BlockTable->clearSelection();
+                        BlockTable->setCurrentCell(i,0,QItemSelectionModel::Current|QItemSelectionModel::Select);
+                        break;
+                    }
                 }
                 i--;
             }
@@ -831,11 +835,13 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
             // Try to toggle block to a multi block selection (one click to add, new click to remove)
             int i=BlockTable->CompositionList->List.count()-1;
             while (i>=0) {
-                QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
-                                    BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
-                if (IsInRect(event->pos(),ObjRect)) {
-                    IsSelected[i]=!IsSelected[i];
-                    break;
+                if (BlockTable->CompositionList->List[i]->IsVisible) {
+                    QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
+                                        BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
+                    if (IsInRect(event->pos(),ObjRect)) {
+                        IsSelected[i]=!IsSelected[i];
+                        break;
+                    }
                 }
                 i--;
             }
@@ -859,7 +865,7 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
             if (NbrSelected==1) {
                 int i=IsSelected.count()-1;
                 while ((i>=0)&&(!IsSelected[i])) i--;   // Find current selected block
-                for (int j=i-1;j>=0;j--) {
+                for (int j=i-1;j>=0;j--) if (BlockTable->CompositionList->List[j]->IsVisible) {
                     QRect ObjRect=QRect(BlockTable->CompositionList->List[j]->x*SceneRect.width(),BlockTable->CompositionList->List[j]->y*SceneRect.height(),
                                         BlockTable->CompositionList->List[j]->w*SceneRect.width(),BlockTable->CompositionList->List[j]->h*SceneRect.height());
                     if (IsInRect(event->pos(),ObjRect)) {
@@ -872,14 +878,14 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
 
         } else if (event->modifiers()==Qt::NoModifier) {
             // Resize
-            if (IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                           TransfoType=RESIZEDOWNLEFT; // Bottom left
-            else if (IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                          TransfoType=RESIZEUPLEFT;   // Top left
-            else if (IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))   TransfoType=RESIZELEFT;     // Left
-            else if (IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                         TransfoType=RESIZEUPRIGHT;  // Top right
-            else if (IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))   TransfoType=RESIZERIGHT;    // Right
-            else if (IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                      TransfoType=RESIZEDOWNRIGHT;// Bottom right
-            else if (IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))     TransfoType=RESIZEUP;       // Top
-            else if (IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))  TransfoType=RESIZEDOWN;     // Bottom
+            if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                           TransfoType=RESIZEDOWNLEFT; // Bottom left
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                          TransfoType=RESIZEUPLEFT;   // Top left
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))   TransfoType=RESIZELEFT;     // Left
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                         TransfoType=RESIZEUPRIGHT;  // Top right
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))   TransfoType=RESIZERIGHT;    // Right
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))                      TransfoType=RESIZEDOWNRIGHT;// Bottom right
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))     TransfoType=RESIZEUP;       // Top
+            else if ((NbrSelected>0)&&(IsInRect(event->pos(),QRect(CurSelRect.left()+CurSelRect.width()/2-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY))))  TransfoType=RESIZEDOWN;     // Bottom
             else {
                 // Move
                 if ((NbrSelected==0)||(!IsInSelectedRect(event->pos()))) {
@@ -888,18 +894,18 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
                     BlockTable->clearSelection();
                     int i=BlockTable->CompositionList->List.count()-1;
                     while (i>=0) {
-                        QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
-                                            BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
-                        if (IsInRect(event->pos(),ObjRect)) {
-                            BlockTable->clearSelection();
-                            BlockTable->setCurrentCell(i,0,QItemSelectionModel::Current|QItemSelectionModel::Select);
-                            break;
+                        if (BlockTable->CompositionList->List[i]->IsVisible) {
+                            QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
+                                                BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
+                            if (IsInRect(event->pos(),ObjRect)) {
+                                BlockTable->clearSelection();
+                                BlockTable->setCurrentCell(i,0,QItemSelectionModel::Current|QItemSelectionModel::Select);
+                                break;
+                            }
                         }
                         i--;
                     }
-
-                }
-                if (IsInSelectedRect(event->pos())) {
+                } else if (IsInSelectedRect(event->pos())) {
                     TransfoType=MOVEBLOCK;
                     setCursor(Qt::ClosedHandCursor);
                 }

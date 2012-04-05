@@ -43,13 +43,23 @@
 class QCustomDialog : public QDialog {
 Q_OBJECT
 public:
+    struct sUndoData {
+        int         ActionType;
+        QString     Data;
+        QWidget     *FocusWindow;
+    };
+
+    QList<sUndoData>  UndoDataList;
+
     QString                 HelpURL;
     cBaseApplicationConfig  *BaseApplicationConfig;
     cSaveWindowPosition     *DlgWSP;
     QDomDocument            *Undo;                          // Save object before modification for cancel button
-    QPushButton             *OkBt;
-    QPushButton             *CancelBt;
-    QPushButton             *HelpBt;
+    QStringList             UndoData;
+    QAbstractButton         *OkBt;
+    QAbstractButton         *CancelBt;
+    QAbstractButton         *HelpBt;
+    QAbstractButton         *UndoBt;
 
     explicit        QCustomDialog(QString HelpURL,cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
                     ~QCustomDialog();
@@ -66,6 +76,12 @@ public:
     virtual void    SaveWindowState();
     virtual void    RestoreWindowState();
 
+    virtual void    AppendPartialUndo(int ActionType,QWidget *FocusWindow,bool ForceAdd);
+    virtual void    RemoveLastPartialUndo();
+
+    virtual void    PreparePartialUndo(int,QDomElement) {}     // To be overloaded
+    virtual void    ApplyPartialUndo(int,QDomElement)   {}     // To be overloaded
+
 protected:
     virtual void    accept();
     virtual void    reject();
@@ -77,6 +93,7 @@ protected:
 
 private slots:
     void            doHelp();
+    void            DoPartialUndo();
 };
 
 //*********************************************************

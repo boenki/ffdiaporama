@@ -120,6 +120,7 @@ void cCustomTableWidget::dragMoveEvent(QDragMoveEvent *event) {
 
 void cCustomTableWidget::mousePressEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::mousePressEvent");
+    QTableWidget::mousePressEvent(event);
     if (GlobalMainWindow->IsDragOn==1) return;
     setCursor(Qt::ArrowCursor);
     GlobalMainWindow->IsDragOn=0;
@@ -149,7 +150,7 @@ void cCustomTableWidget::mousePressEvent(QMouseEvent *event) {
 void cCustomTableWidget::mouseMoveEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::mouseMoveEvent");
     if (GlobalMainWindow->IsDragOn!=1) {
-        //QTableWidget::mouseMoveEvent(event);
+        QTableWidget::mouseMoveEvent(event);
     } else {
         int ThumbWidth  =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
         int ThumbHeight =GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
@@ -231,7 +232,10 @@ void cCustomTableWidget::mouseMoveEvent(QMouseEvent *event) {
 
 void cCustomTableWidget::mouseReleaseEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget::mouseReleaseEvent");
-    if (GlobalMainWindow->IsDragOn!=1) {
+    setCursor(Qt::ArrowCursor);
+    if (event->button()==Qt::RightButton) {
+        emit RightClickEvent(event);
+    } else if (GlobalMainWindow->IsDragOn!=1) {
         QTableWidget::mouseReleaseEvent(event);
     } else {
         setCursor(Qt::ArrowCursor);
@@ -254,7 +258,6 @@ void cCustomTableWidget::AddObjectToTimeLine(int CurIndex) {
     connect(ObjectBackground,SIGNAL(EditTransition()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnTransition()));
     connect(ObjectBackground,SIGNAL(EditSoundTrack()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnVideoSound()));
     connect(ObjectBackground,SIGNAL(EditMusicTrack()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnMusic()));
-    connect(ObjectBackground,SIGNAL(RightClick()),          GlobalMainWindow,SLOT(s_Event_RightClickedOnThumbnail()));
 
     if (PartitionMode) {
         // Partition mode
@@ -393,6 +396,7 @@ cCustomTableWidget2::cCustomTableWidget2(QWidget *parent):QTableWidget(parent) {
 
 void cCustomTableWidget2::mousePressEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget2::mousePressEvent");
+    QTableWidget::mousePressEvent(event);
     if (GlobalMainWindow->IsDragOn==1) return;
     setCursor(Qt::ArrowCursor);
     GlobalMainWindow->IsDragOn=0;
@@ -420,19 +424,19 @@ void cCustomTableWidget2::mousePressEvent(QMouseEvent *event) {
 void cCustomTableWidget2::mouseMoveEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget2::mouseMoveEvent");
     if (GlobalMainWindow->IsDragOn!=1) {
-        //QTableWidget::mouseMoveEvent(event);
+        setCursor(Qt::ArrowCursor);
+        QTableWidget::mouseMoveEvent(event);
     } else {
         int ThumbHeight=rowHeight(0);
         int ThumbWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
         int NbrX       =width()/ThumbWidth;
         int NbrY       =height()/ThumbHeight;  if (NbrY>rowCount()) NbrY=rowCount();
-        int ToUse      =GlobalMainWindow->DragItemDest; if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
-        int row        =0;
+        int ToUse      =GlobalMainWindow->DragItemDest; if (GlobalMainWindow->DragItemDest==columnCount()) ToUse--;
         int col        =ToUse;
 
         if (event->pos().x()<0) {
             if (GlobalMainWindow->DragItemDest!=-1) {
-                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(0,col);
                 GlobalMainWindow->DragItemDest=-1;
                 if (ItemToPaint) ItemToPaint->repaint();
             }
@@ -442,7 +446,7 @@ void cCustomTableWidget2::mouseMoveEvent(QMouseEvent *event) {
 
         } else if (event->pos().x()>=NbrX*ThumbWidth) {
             if (GlobalMainWindow->DragItemDest!=-1) {
-                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(0,col);
                 GlobalMainWindow->DragItemDest=-1;
                 if (ItemToPaint) ItemToPaint->repaint();
             }
@@ -453,9 +457,9 @@ void cCustomTableWidget2::mouseMoveEvent(QMouseEvent *event) {
         } else {
             // Get item number under mouse
             int Selected=(event->pos().x()+horizontalOffset())/ThumbWidth;
-            if ((Selected>NbrItem())||(Selected==GlobalMainWindow->DragItemSource)||(Selected==GlobalMainWindow->DragItemSource+1)) {
+            if ((Selected>NbrItem())||(Selected==GlobalMainWindow->DragItemSource)||((Selected==GlobalMainWindow->DragItemSource+1)&&(Selected!=NbrItem()))) {
                 if (GlobalMainWindow->DragItemDest!=-1) {
-                    wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                    wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(0,col);
                     GlobalMainWindow->DragItemDest=-1;
                     if (ItemToPaint) ItemToPaint->repaint();
                 }
@@ -463,14 +467,12 @@ void cCustomTableWidget2::mouseMoveEvent(QMouseEvent *event) {
             } else {
                 setCursor(Qt::ClosedHandCursor);
                 if (Selected!=GlobalMainWindow->DragItemDest) {
-                    wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                    wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(0,col);
                     GlobalMainWindow->DragItemDest=Selected;
                     if (ItemToPaint) ItemToPaint->repaint();
-                    int ToUse=GlobalMainWindow->DragItemDest;
-                    if (GlobalMainWindow->DragItemDest>=GlobalMainWindow->Diaporama->List.count()) ToUse--;
-                    row=0;
-                    col=ToUse;
-                    ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
+                    col=GlobalMainWindow->DragItemDest;
+                    if (GlobalMainWindow->DragItemDest>=columnCount()) col--;
+                    ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(0,col);
                     if (ItemToPaint) ItemToPaint->repaint();
                 }
             }
@@ -480,12 +482,16 @@ void cCustomTableWidget2::mouseMoveEvent(QMouseEvent *event) {
 
 void cCustomTableWidget2::mouseReleaseEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget2::mouseReleaseEvent");
-    if (GlobalMainWindow->IsDragOn!=1) {
+    setCursor(Qt::ArrowCursor);
+    if (event->button()==Qt::RightButton) {
+        emit RightClickEvent(event);
+    } else if (GlobalMainWindow->IsDragOn!=1) {
         QTableWidget::mouseReleaseEvent(event);
     } else {
-        setCursor(Qt::ArrowCursor);
         GlobalMainWindow->IsDragOn=false;
-        if (GlobalMainWindow->DragItemDest!=-1) emit DragMoveItem();
+        if ((GlobalMainWindow->DragItemDest!=-1)&&(GlobalMainWindow->DragItemDest!=GlobalMainWindow->DragItemSource)&&
+            ((GlobalMainWindow->DragItemDest<columnCount())||(GlobalMainWindow->DragItemSource!=columnCount()-1)))
+            emit DragMoveItem();
     }
 }
 
@@ -506,7 +512,7 @@ int cCustomTableWidget2::NbrItem() {
 void cCustomTableWidget2::SetCurrentCell(int Index) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomTableWidget2::SetCurrentCell");
     setUpdatesEnabled(false);
-    setCurrentCell(0,Index);
+    setCurrentCell(0,Index,QItemSelectionModel::Select|QItemSelectionModel::Current);
     setUpdatesEnabled(true);
 }
 

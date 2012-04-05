@@ -64,6 +64,8 @@ public:
     bool                    InRefreshControls;
     bool                    InSelectionChange;
     bool                    StopMajFramingStyle;
+    bool                    InDisplayDuration;
+    bool                    NoPrepUndo;
 
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgSlideProperties();
@@ -80,7 +82,6 @@ public:
     void                    RefreshStyleControls();
     void                    RefreshControls(bool UpdateInteractiveZone=true);
     void                    AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
-    void                    GetForDisplayUnit(double &DisplayW,double &DisplayH);
     void                    s_Scene_DoubleClick();                      // User double click on a block in the scene widget
 
     // Utility functions
@@ -92,9 +93,13 @@ public:
 
     void                    ApplyToContexte(bool ApplyGlobal);
 
+    virtual void            PreparePartialUndo(int ActionType,QDomElement root);
+    virtual void            ApplyPartialUndo(int ActionType,QDomElement root);
+
 protected:
-    virtual void    resizeEvent(QResizeEvent *);
-    virtual void    showEvent(QShowEvent *);
+    virtual void            resizeEvent(QResizeEvent *);
+    virtual void            showEvent(QShowEvent *);
+    virtual void            keyReleaseEvent(QKeyEvent *event);
 
 private slots:
     void            s_Event_ClipboardChanged();
@@ -116,6 +121,7 @@ private slots:
     void            s_ShotTable_MoveLeft();
     void            s_ShotTable_MoveRight();
     void            s_ShotTable_DurationChange(QTime NewValue);
+    void            s_ShotTable_RightClickEvent(QMouseEvent *);
 
     // Block table
     void            s_Scene_SelectionChanged();                 // User select a block in the scene widget
@@ -132,9 +138,11 @@ private slots:
     void            s_BlockTable_Paste();
     void            s_BlockTable_MoveBlockUp();
     void            s_BlockTable_MoveBlockDown();
+    void            s_BlockTable_DragMoveBlock(int,int);
 
     // Block settings : Call of other dialog
     void            s_BlockSettings_Arrange();
+    void            s_BlockSettings_Edit();
     void            s_BlockSettings_TextEditor();
     void            s_BlockSettings_ImageEditCorrect();
     void            s_BlockSettings_VideoEdit();

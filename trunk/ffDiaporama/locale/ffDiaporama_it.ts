@@ -2125,36 +2125,8 @@ Vuoi sovrascriverlo?</translation>
         <translation>Durata diapositiva :</translation>
     </message>
     <message>
-        <source>Total slide duration :</source>
-        <translation>Durata totale scatto :</translation>
-    </message>
-    <message>
-        <source>Slide name :</source>
-        <translation>Nome scatto :</translation>
-    </message>
-    <message>
         <source>Indicate a name for the slide. It is this name which will appear on the thumbnail in the main window timeline.</source>
         <translation>Indicare un nome per lo scatto. E &apos;questo il nome che apparirà sulla miniatura nella linea temporale della finestra principale.</translation>
-    </message>
-    <message>
-        <source>Change the order of blocks by moving the active block upward (towards the background)</source>
-        <translation>Modificare l&apos;ordine dei blocchi spostando il blocco attivo verso l&apos;alto (verso lo sfondo)</translation>
-    </message>
-    <message>
-        <source>PgUp</source>
-        <translation>PgSu</translation>
-    </message>
-    <message>
-        <source>Change the order of blocks by moving the active block downward (towards the foreground)</source>
-        <translation>Modificare l&apos;ordine dei blocchi spostando il blocco attivo verso il basso (verso il primo piano)</translation>
-    </message>
-    <message>
-        <source>PgDown</source>
-        <translation>PgGiù</translation>
-    </message>
-    <message>
-        <source>Start a new chapter from here</source>
-        <translation>Avvia un nuovo capitolo da quì</translation>
     </message>
     <message>
         <source>Chapter :</source>
@@ -2201,10 +2173,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <source>Make visible or hidden the active block</source>
-        <translation>Rendere visibilo o nascosto il blocco attivo</translation>
-    </message>
-    <message>
         <source>Give the sound, during this shot, to the current video block</source>
         <translation>Conferire il suono, durante questa diapositiva, al blocco video corrente</translation>
     </message>
@@ -2213,24 +2181,12 @@ Vuoi sovrascriverlo?</translation>
         <translation>Definire le propietà del blocco di testo</translation>
     </message>
     <message>
-        <source>F5</source>
-        <translation>F5</translation>
-    </message>
-    <message>
         <source>Define framing and do correction of image or movie</source>
         <translation>Definire l&apos;inquadratura e correzione di immagine o filmato</translation>
     </message>
     <message>
-        <source>F6</source>
-        <translation>F6</translation>
-    </message>
-    <message>
         <source>Cut the video</source>
         <translation>Taglia il video</translation>
-    </message>
-    <message>
-        <source>F7</source>
-        <translation>F7</translation>
     </message>
     <message>
         <source>Border :</source>
@@ -2311,10 +2267,6 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Block shape :</source>
         <translation>Forma blocco :</translation>
-    </message>
-    <message>
-        <source>Coordinates :</source>
-        <translation>Coordinate :</translation>
     </message>
     <message>
         <source>Enable or disable rulers corresponding to the margins of television sets.</source>
@@ -2482,14 +2434,6 @@ Vuoi sovrascriverlo?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Move block upward</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Move block downward</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Change visible state</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2504,14 +2448,6 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Display information</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Copy</source>
-        <translation type="unfinished">Copia</translation>
-    </message>
-    <message>
-        <source>Cut</source>
-        <translation type="unfinished">Taglia</translation>
     </message>
     <message>
         <source>Remove block</source>
@@ -2574,10 +2510,6 @@ Vuoi sovrascriverlo?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Paste</source>
-        <translation type="unfinished">Incolla</translation>
-    </message>
-    <message>
         <source>Align top</source>
         <translation type="unfinished">Allinea in alto</translation>
     </message>
@@ -2635,6 +2567,123 @@ Vuoi sovrascriverlo?</translation>
     </message>
     <message>
         <source>Are you sure to want to delete these blocks?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undo last action (CTRL+Z)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+Z</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add
+shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove
+shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move
+left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move
+right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide properties :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Block coordinates :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start a new chapter from this slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start from here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total duration :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move to background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the order of blocks by moving the active block towards the background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move to foregroung</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the order of blocks by moving the active block towards the foreground</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cut block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add
+text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add
+file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit
+block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange
+block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Block
+information</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

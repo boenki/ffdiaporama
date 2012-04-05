@@ -1,10 +1,9 @@
-Buggs/TODO (Dernier SVN le 01/04/2012) :
+Buggs/TODO (Dernier SVN le 02/04/2012) :
 ----------------------------------------
 TODO
 ----
 [ffDiaporama]
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
-
 
 [MMFiler]
 -Ajuster la géométrie des thumb à l'affichage en cours :    Défaut : 1/1    Images : 3/2    Musique: 1/1    Vidéo  : 2/3
@@ -17,18 +16,21 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige les "deprecated" pour les versions de libavxx comprises entre 0.53.0 et 0.53.23
--Correction de problèmes sur les formats générés :
-    -Format RIM  / 16x9 : Passe en 240x136
-    -Format QVGA / 16x9 : Passe en 320x180+PAD
-
+-Re-vérouille la géométrie pour les images et les vidéos dans la boites slide pour les zones d'édition largeur/hauteur
+-Corrige les erreures lors des modifications de coordonnées et de taille via les zones d'édition en projet 4/3 dans la boite slide
 
 English version / Bug fix :
--Fix "deprecated" issues for libavxx versions between 0.53.0 and 0.53.23
+-Lock geometry again for images and videos in slide dialog for width/height edit zone
+-Fix errors when modify coordinates and sizes using edit zone in slide dialog for 4/3 project
 
 French version / Nouvelles fonctionnalités :
--Ajoute l'action "Ajouter un fichier" dans le menu contextuel de la boite slide (quand aucun bloc n'est sélectionné)
+-Change le design de la boite slide
+-Ajoute une fonction undo dans la boite slide
+-Ajoute un menu contextuel (click droit) sur la table des plans de la boite slide
+-Ajoute le drag & drop pour déplacer un bloc dans la table des blocs de la boite slide
 
 English version / New features :
--Add action "Add file" in the contextual menu of the slide dialog (when no block was selected)
-
+-Modify design of the slide dialog
+-Add an undo feature to the slide dialog
+-Add a contectual menu (right click) on the shot table of the slide dialog
+-Add drag & drop to move one block in blocks table of slide dialog
