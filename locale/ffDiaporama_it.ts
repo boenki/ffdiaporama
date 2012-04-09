@@ -2434,10 +2434,6 @@ Vuoi sovrascriverlo?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Change visible state</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Make visible the active block</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2588,16 +2584,6 @@ shot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Move
-left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Move
-right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Edit block</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2684,6 +2670,34 @@ block</source>
     <message>
         <source>Block
 information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock properties to the same values as define for the previous shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unlock properties from this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define properties from this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make hide the active block</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

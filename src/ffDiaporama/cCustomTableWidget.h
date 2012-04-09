@@ -60,24 +60,4 @@ signals:
     void    RightClickEvent(QMouseEvent *ev);
 };
 
-class cCustomTableWidget2 : public QTableWidget {
-Q_OBJECT
-public:
-    explicit    cCustomTableWidget2(QWidget *parent = 0);
-    int         CurrentSelected();
-    int         NbrItem();
-    void        SetCurrentCell(int Index);
-
-protected:
-    virtual void mousePressEvent(QMouseEvent *event);
-    virtual void mouseReleaseEvent(QMouseEvent *event);
-    virtual void mouseMoveEvent(QMouseEvent *event);
-
-private slots:
-
-signals:
-    void    DragMoveItem();
-    void    RightClickEvent(QMouseEvent *ev);
-};
-
 #endif // CCUSTOMTABLEWIDGET_H

@@ -1022,6 +1022,8 @@
   <tabstop>HelpBT</tabstop>
   <tabstop>SelectDestScroll</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="../../RSCffDiaporama.qrc"/>
+ </resources>
  <connections/>
 </ui>

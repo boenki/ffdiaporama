@@ -295,5 +295,6 @@
         <file>img/aotop.png</file>
         <file>img/arrange.png</file>
         <file>img/undo24.png</file>
+        <file>img/Lock24.png</file>
     </qresource>
 </RCC>

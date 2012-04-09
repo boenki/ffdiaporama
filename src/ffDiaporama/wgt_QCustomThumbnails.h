@@ -40,14 +40,12 @@
 // Thumbnail type definition
 #define THUMBNAILTYPE_OBJECT                0
 #define THUMBNAILTYPE_NULL                  1
-#define THUMBNAILTYPE_SHOT                  2
 
 class wgt_QCustomThumbnails : public QLabel {
 Q_OBJECT
 public:
-    QTableWidget        *Timeline;
-    cDiaporamaObject    *DiaporamaObject;   // Use only for THUMBNAILTYPE_SHOT
     int                 Type;
+    QTableWidget        *Timeline;
     bool                HasBackGTransition;
     QRect               BackGTransitionRect;
     bool                HasTransition;
