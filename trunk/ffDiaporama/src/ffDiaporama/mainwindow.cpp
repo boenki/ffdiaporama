@@ -42,12 +42,12 @@
 #include <QFileDialog>
 
 #include "DlgAbout.h"
-#include "DlgBackgroundProperties.h"
-#include "DlgMusicProperties.h"
-#include "DlgSlideProperties.h"
 #include "DlgTransitionProperties.h"
-#include "DlgApplicationSettings.h"
 #include "DlgRenderVideo.h"
+#include "DlgMusic/DlgMusicProperties.h"
+#include "DlgBackground/DlgBackgroundProperties.h"
+#include "DlgSlide/DlgSlideProperties.h"
+#include "DlgAppSettings/DlgApplicationSettings.h"
 
 MainWindow  *GlobalMainWindow=NULL;
 
@@ -60,7 +60,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     CurrentThreadId         =this->thread()->currentThreadId();
     InternetBUILDVERSION    ="";
     GlobalMainWindow        =this;
-    IsFirstInitDone         =false;                 // true when first show window was done
+    IsFirstInitDone         =false;        // true when first show window was done
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
     DragItemSource          =-1;
     DragItemDest            =-1;
@@ -540,6 +540,12 @@ void MainWindow::SetModifyFlag(bool IsModify) {
 
 //====================================================================================================================
 
+void MainWindow::s_Event_SetModifyFlag() {
+    SetModifyFlag(true);
+}
+
+//====================================================================================================================
+
 void MainWindow::s_Action_About() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_About");
 
@@ -679,6 +685,7 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
         DoneAgain=false;
         DlgSlideProperties Dlg(Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgSlideProperties,ApplicationConfig,ApplicationConfig->DlgSlidePropertiesWSP,this);
         Dlg.InitDialog();
+        connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
         int Ret=Dlg.exec();
         if (Ret!=1) {
             SetModifyFlag(true);
@@ -776,7 +783,10 @@ void MainWindow::s_Event_DoubleClickedOnMusic() {
         return;
     }
 
-    if (DlgMusicProperties(Diaporama->List[Diaporama->CurrentCol],this).exec()==0) {
+    DlgMusicProperties Dlg(Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgMusicProperties,ApplicationConfig,ApplicationConfig->DlgMusicPropertiesWSP,this);
+    Dlg.InitDialog();
+    connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+    if (Dlg.exec()==0) {
         SetModifyFlag(true);
         (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();

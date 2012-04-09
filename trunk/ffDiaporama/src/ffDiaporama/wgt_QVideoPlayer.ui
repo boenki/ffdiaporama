@@ -359,7 +359,6 @@ color: white;
  </customwidgets>
  <resources>
   <include location="../../RSCffDiaporama.qrc"/>
-  <include location="../../RSCffDiaporama.qrc"/>
  </resources>
  <connections/>
 </ui>

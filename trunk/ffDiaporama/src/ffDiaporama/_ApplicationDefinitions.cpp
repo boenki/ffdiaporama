@@ -380,6 +380,9 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     if ((domDocument.elementsByTagName("EditorOptions").length()>0)&&(domDocument.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("EditorOptions").item(0).toElement();
         if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue            =Element.attribute("MemCacheMaxValue").toLongLong();
+        #ifdef Q_OS_WIN
+        if ((!IsWindowsXP)&&(MemCacheMaxValue>qlonglong(512*1024*1024))) MemCacheMaxValue=qlonglong(512*1024*1024);
+        #endif
         if (Element.hasAttribute("SDLAudioOldMode"))            SDLAudioOldMode             =Element.attribute("SDLAudioOldMode")=="1";
         if (Element.hasAttribute("AppendObject"))               AppendObject                =Element.attribute("AppendObject")=="1";
         if (Element.hasAttribute("PartitionMode"))              PartitionMode               =Element.attribute("PartitionMode")=="1";

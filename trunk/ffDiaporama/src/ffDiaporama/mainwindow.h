@@ -88,6 +88,7 @@ protected:
 
 private slots:
     void    DoMaximized();                                  // Use on init to force window maximized
+    void    s_Event_SetModifyFlag();
 
     // Event functions
     void    s_Event_ClipboardChanged();                     // Something have changed in the clipboard

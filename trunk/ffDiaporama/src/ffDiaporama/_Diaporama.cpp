@@ -52,6 +52,7 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
     TypeComposition         = TheTypeComposition;
     IndexKey                = TheIndexKey;
     IsVisible               = true;
+    SameAsPrevShot          = false;
     BackgroundBrush         = new cBrushDefinition(ApplicationConfig,&BackgroundList);  // ERROR : BackgroundList is global !
 
     x                       = 0.25;         // Position (x,y) and size (width,height)
@@ -122,6 +123,7 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("IndexKey",IndexKey);
     Element.setAttribute("IsVisible",IsVisible?"1":"0");
+    Element.setAttribute("SameAsPrevShot",SameAsPrevShot?"1":"0");
 
     // Attribut of the object
     Element.setAttribute("x",x);                                    // Position x
@@ -185,41 +187,42 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         bool IsOk=true;
 
-        if (Element.hasAttribute("TypeComposition"))        TypeComposition =Element.attribute("TypeComposition").toInt();
-        if (Element.hasAttribute("IndexKey"))               IndexKey        =Element.attribute("IndexKey").toInt();
-        if (Element.hasAttribute("IsVisible"))              IsVisible       =Element.attribute("IsVisible")=="1";
+        if (Element.hasAttribute("TypeComposition"))            TypeComposition =Element.attribute("TypeComposition").toInt();
+        if (Element.hasAttribute("IndexKey"))                   IndexKey        =Element.attribute("IndexKey").toInt();
+        if (Element.hasAttribute("IsVisible"))                  IsVisible       =Element.attribute("IsVisible")=="1";
+        if (Element.hasAttribute("SameAsPrevShot"))             SameAsPrevShot  =Element.attribute("SameAsPrevShot")=="1";
 
         // Attribut of the object
-        if (Element.hasAttribute("x"))                      x           =Element.attribute("x").toDouble();                     // Position x
-        if (Element.hasAttribute("y"))                      y           =Element.attribute("y").toDouble();                     // Position x
-        if (Element.hasAttribute("w"))                      w           =Element.attribute("w").toDouble();                     // size width
-        if (Element.hasAttribute("h"))                      h           =Element.attribute("h").toDouble();                     // size height
-        if (Element.hasAttribute("BackgroundTransparent"))  Opacity     =Element.attribute("BackgroundTransparent").toInt();    // Style Opacity of the background of the form
-        if (Element.hasAttribute("RotateZAxis"))            RotateZAxis =Element.attribute("RotateZAxis").toDouble();           // Rotation from Z axis
-        if (Element.hasAttribute("RotateXAxis"))            RotateXAxis =Element.attribute("RotateXAxis").toDouble();           // Rotation from X axis
-        if (Element.hasAttribute("RotateYAxis"))            RotateYAxis =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
+        if (Element.hasAttribute("x"))                          x               =Element.attribute("x").toDouble();                     // Position x
+        if (Element.hasAttribute("y"))                          y               =Element.attribute("y").toDouble();                     // Position x
+        if (Element.hasAttribute("w"))                          w               =Element.attribute("w").toDouble();                     // size width
+        if (Element.hasAttribute("h"))                          h               =Element.attribute("h").toDouble();                     // size height
+        if (Element.hasAttribute("BackgroundTransparent"))      Opacity         =Element.attribute("BackgroundTransparent").toInt();    // Style Opacity of the background of the form
+        if (Element.hasAttribute("RotateZAxis"))                RotateZAxis     =Element.attribute("RotateZAxis").toDouble();           // Rotation from Z axis
+        if (Element.hasAttribute("RotateXAxis"))                RotateXAxis     =Element.attribute("RotateXAxis").toDouble();           // Rotation from X axis
+        if (Element.hasAttribute("RotateYAxis"))                RotateYAxis     =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
 
 
-        if (Element.hasAttribute("BlockAnimType"))          BlockAnimType   =Element.attribute("BlockAnimType").toInt();        // Block animation type
-        if (Element.hasAttribute("TurnZAxis"))              TurnZAxis       =Element.attribute("TurnZAxis").toInt();            // Number of turn from Z axis
-        if (Element.hasAttribute("TurnXAxis"))              TurnXAxis       =Element.attribute("TurnXAxis").toInt();            // Number of turn from X axis
-        if (Element.hasAttribute("TurnYAxis"))              TurnYAxis       =Element.attribute("TurnYAxis").toInt();            // Number of turn from Y axis
-        if (Element.hasAttribute("Dissolve"))               Dissolve        =Element.attribute("Dissolve").toInt();             // Dissolve value
+        if (Element.hasAttribute("BlockAnimType"))              BlockAnimType   =Element.attribute("BlockAnimType").toInt();        // Block animation type
+        if (Element.hasAttribute("TurnZAxis"))                  TurnZAxis       =Element.attribute("TurnZAxis").toInt();            // Number of turn from Z axis
+        if (Element.hasAttribute("TurnXAxis"))                  TurnXAxis       =Element.attribute("TurnXAxis").toInt();            // Number of turn from X axis
+        if (Element.hasAttribute("TurnYAxis"))                  TurnYAxis       =Element.attribute("TurnYAxis").toInt();            // Number of turn from Y axis
+        if (Element.hasAttribute("Dissolve"))                   Dissolve        =Element.attribute("Dissolve").toInt();             // Dissolve value
 
         // Text part
         if ((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
             Text=Element.attribute("Text");  // Text of the object
             if (Text!="") {
-                if (Element.hasAttribute("FontName"))           FontName            =Element.attribute("FontName");                             // font name
-                if (Element.hasAttribute("FontSize"))           FontSize            =Element.attribute("FontSize").toInt();                     // font size
-                if (Element.hasAttribute("FontColor"))          FontColor           =Element.attribute("FontColor");                            // font color
-                if (Element.hasAttribute("FontShadowColor"))    FontShadowColor     =Element.attribute("FontShadowColor");                      // font shadow color
-                if (Element.hasAttribute("IsBold"))             IsBold              =Element.attribute("IsBold")=="1";                          // true if bold mode
-                if (Element.hasAttribute("IsItalic"))           IsItalic            =Element.attribute("IsItalic")=="1";                        // true if Italic mode
-                if (Element.hasAttribute("IsUnderline"))        IsUnderline         =Element.attribute("IsUnderline")=="1";                     // true if Underline mode
-                if (Element.hasAttribute("HAlign"))             HAlign              =Element.attribute("HAlign").toInt();                       // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-                if (Element.hasAttribute("VAlign"))             VAlign              =Element.attribute("VAlign").toInt();                       // Vertical alignement : 0=up, 1=center, 2=bottom
-                if (Element.hasAttribute("StyleText"))          StyleText           =Element.attribute("StyleText").toInt();                    // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+                if (Element.hasAttribute("FontName"))           FontName        =Element.attribute("FontName");                             // font name
+                if (Element.hasAttribute("FontSize"))           FontSize        =Element.attribute("FontSize").toInt();                     // font size
+                if (Element.hasAttribute("FontColor"))          FontColor       =Element.attribute("FontColor");                            // font color
+                if (Element.hasAttribute("FontShadowColor"))    FontShadowColor =Element.attribute("FontShadowColor");                      // font shadow color
+                if (Element.hasAttribute("IsBold"))             IsBold          =Element.attribute("IsBold")=="1";                          // true if bold mode
+                if (Element.hasAttribute("IsItalic"))           IsItalic        =Element.attribute("IsItalic")=="1";                        // true if Italic mode
+                if (Element.hasAttribute("IsUnderline"))        IsUnderline     =Element.attribute("IsUnderline")=="1";                     // true if Underline mode
+                if (Element.hasAttribute("HAlign"))             HAlign          =Element.attribute("HAlign").toInt();                       // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+                if (Element.hasAttribute("VAlign"))             VAlign          =Element.attribute("VAlign").toInt();                       // Vertical alignement : 0=up, 1=center, 2=bottom
+                if (Element.hasAttribute("StyleText"))          StyleText       =Element.attribute("StyleText").toInt();                    // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
 
                 // Conversion from plaintext (ffd <1.3)
                 if (!Text.startsWith("<!DOCTYPE HTML")) {
@@ -627,7 +630,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 
 // ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
-                                               cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache,int ShotDuration,bool EnableAnimation,
+                                               cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache,qlonglong ShotDuration,bool EnableAnimation,
                                                bool Transfo,double NewX,double NewY,double NewW,double NewH) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:DrawCompositionObject");
 
@@ -1820,6 +1823,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:PrepareImage");
 
     bool                SoundOnly           =((W==0)&&(H==0));                     // W and H = 0 when producing sound track in render process
+    qlonglong           Duration            =IsCurrentObject?Info->CurrentObject_ShotDuration:Info->TransitObject_ShotDuration;
     cDiaporamaShot      *CurShot            =IsCurrentObject?Info->CurrentObject_CurrentShot:Info->TransitObject_CurrentShot;
     cDiaporamaObject    *CurObject          =IsCurrentObject?Info->CurrentObject:Info->TransitObject;
     int                 CurTimePosition     =(IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime);
@@ -1924,7 +1928,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
         } else VideoPosition=CurTimePosition;
 
         // Draw object
-        CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),0,0,W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,PCTDone,PrevCompoObject,false,CurShot->StaticDuration,true);
+        CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),0,0,W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,PCTDone,PrevCompoObject,false,Duration,true);
 
     }
     P.end();
