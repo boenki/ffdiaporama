@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 05/04/2012) :
+Buggs/TODO (Dernier SVN le 09/04/2012) :
 ----------------------------------------
 TODO
 ----
@@ -17,35 +17,21 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Ajout d'un patch pour prise en compte de GCC 4.7 (Merci à Boenki pour le patch)
--Ajout du nom de fichier dans la boite de sélection de fichier lors des générations de film
--Corrige l'erreur de calcul de vitesse de clignotement sur les plans dans la durée est allongée [1.3 devel]
--[Windows 7] Limite le choix pour le cache mémoire à 256 Mo ou 512 Mo dans la boite de configuration
+-Corrige le bouton annuler de la boite image qui ne restaurait pas les transformations d'images (version 1.3 devel 20120409)
 
 English version / Bug fix :
--Addition of a patch to use with GCC 4.7 (Thanks to Boenki for the patch)
--Addition of filename in select destination file dialog call from render dialog
--Fix duration computation error for blinking when shot duration is lengthened [1.3 devel]
--[Windows 7] Limite possible choice for cache memory to 256 Mb or 512 Mb in configuration dialog
+-Fix cancel button of the image dialog which not restore image transformations (version 1.3 devel 20120409)
 
 French version / Nouvelles fonctionnalités :
--Change le fonctionnement du racourcie SUPPR dans la boite slide :
-    -Si le focus est dans la zone interactive ou la table des blocs => supprime le bloc
-    -Si le focus est dans la table des plans => supprime le plan
--Scroll la table des blocs lors des drag & drop et que la souris est amenée hors de la table
--Ajoute le Drag & drop depuis un explorateur de fichier vers la table des blocs de la boite slide
--Ajoute une fonctionnalité de verouillage des propriétés des blocs sur le plan précédent
-    - Un bloc vérouillé dans un plan ne peut pas être modifié
-    - Les modifications sur un blocs sont répercutés dans les plans suivant tant que le verrouillage est actif
-    - Les blocs du 1er plan ne peuvent pas être verrouillés
+-Refait la zone interactive de la boite image
+-Transforme les guides de la boite image :
+   -Maintenant affiche des guides correspondant aux 4 points du rectangle
+   -Ajoute des guides correspondant au centre de l'image
+-Ajoute l'undo dans la boite image
 
 English version / New features :
--Modify functionning of DEL shortcut in slide dialog :
-    -If focus is on interactive zone or in blocks table => remove the block
-    -If focus is on shots table => remove the shot
--Scroll the blocks table during drag & drop when mouse is brought outside the table
--Add Drag & drop from a file explorer to the blocks table of the slide dialog
--Add a feature to lock blocks properties to their value in previous shot
-    - A locked block in a shot can't be modify
-    - Modifications to a block are echoed in the following shots as long as the locking is active
-    - Blocks of the first shot can't be lock
+-Redone the interactive zone of the image dialog
+-Change rulers of the image dialog
+   -Now diaplay rulers for each 4 points of the rectangle
+   -Add rulers corresponding to image center
+-Add undo feature to image dialog

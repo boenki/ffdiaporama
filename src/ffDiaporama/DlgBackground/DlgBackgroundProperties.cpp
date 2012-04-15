@@ -407,7 +407,11 @@ void DlgBackgroundProperties::s_ChIndexBackgroundCombo(int) {
 void DlgBackgroundProperties::s_ImageEditCorrect() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ImageEditCorrect");
     if (DiaporamaObject->BackgroundBrush->Image) {
-        DlgImageCorrection(NULL,1,DiaporamaObject->BackgroundBrush,0,this).exec();
+
+        //DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
+        DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,HELPFILE_DlgImageCorrection,GlobalMainWindow->ApplicationConfig,GlobalMainWindow->ApplicationConfig->DlgImageCorrectionWSP,this);
+        Dlg.InitDialog();
+        Dlg.exec();
         RefreshControls(ui->NewBackgroundRD->isChecked());
     }
 }

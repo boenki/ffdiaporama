@@ -3374,7 +3374,7 @@ color: #000000;
      <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
    </property>
    <property name="text">
-    <string>Move to foregroung</string>
+    <string>Move to foreground</string>
    </property>
    <property name="toolTip">
     <string>Change the order of blocks by moving the active block towards the foreground</string>

@@ -29,50 +29,47 @@
 #include "../_Diaporama.h"
 #include "../_ApplicationDefinitions.h"
 
-#include "cCustomGraphicsRectItem.h"
-
 namespace Ui {
     class DlgImageCorrection;
 }
 
-class DlgImageCorrection : public QDialog {
+class DlgImageCorrection : public QCustomDialog {
 Q_OBJECT
 public:
-    cCompositionObject      *CurrentTextItem;               // Block to modify
+    cCompositionObject      *CompoObject ;                  // Block to modify
     cBrushDefinition        *CurrentBrush;
-    QDomDocument            *UndoSlide,*UndoShot;           // Save objects before modification for cancel button
     bool                    UndoReloadImage;                // True if image change and undo must reload it
     QString                 UndoBrushFileName;              // Name of previous file is undo
     bool                    IsFirstInitDone;                // true when first show window was done
     bool                    FLAGSTOPED;                     // Flag to stop spin box during settings
     bool                    FLAGSTOPSPIN;                   // Flag to stop spin box during blur change
-    sMagneticRuler          MagneticRuler;
-    QCustomGraphicsScene    *scene;
-    cCustomGraphicsRectItem *cadre;
     int                     BackgroundForm;
-    double                  xmax,ymax;
-    QImage                  *CachedImage;                   // Link to the image to work
     int                     VideoPosition;
     double                  ImageGeometry;
     double                  ProjectGeometry;
     QString                 InitialFilteredString;
+    int                     OnOffFilter;
 
-    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,QWidget *parent = 0);
+    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgImageCorrection();
 
-    void            RefreshBackgroundImage();
+    // function to be overloaded
+    virtual void            DoInitDialog();                             // Initialise dialog
+    virtual void            DoAccept();                                 // Call when user click on Ok button
+    virtual void            DoRejet() { /* Nothing to do */ }           // Call when user click on Cancel button
+    virtual void            PrepareGlobalUndo();                        // Initiale Undo
+    virtual void            DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
+
+    virtual void            PreparePartialUndo(int ActionType,QDomElement root);
+    virtual void            ApplyPartialUndo(int ActionType,QDomElement root);
+
     void            RefreshControls();
 
 protected:
     virtual void    resizeEvent(QResizeEvent *);
     virtual void    showEvent(QShowEvent *);
-    virtual void    reject();
-    virtual void    accept();
 
 private slots:
-    void            Help();
-    void            SetSavedWindowGeometry();
-
     void            s_RotationEDChanged(double Value);
     void            s_XValueEDChanged(double Value);
     void            s_YValueEDChanged(double Value);
@@ -106,6 +103,8 @@ private slots:
     void            ChangeBrushDiskFile();
     void            s_LockGeometryCB(int value);
     void            s_FramingStyleBT();
+    void            s_IntZoneTransformBlocks(double Move_X,double Move_Y,double Scale_X,double Scale_Y);
+    void            s_DisplayIntZoneTransformBlocks(double Move_X,double Move_Y,double Scale_X,double Scale_Y);
 
 private:
     Ui::DlgImageCorrection *ui;
