@@ -36,8 +36,6 @@ namespace Ui {
 class DlgSlideProperties : public QCustomDialog {
 Q_OBJECT
 public:
-    QDomDocument            *Undo;                      // Save object before modification for cancel button
-
     double                  DisplayW,DisplayH;
     cDiaporamaObject        *CurrentSlide;              // Current slide
 

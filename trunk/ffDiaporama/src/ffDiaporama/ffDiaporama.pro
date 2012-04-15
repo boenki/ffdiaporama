@@ -60,7 +60,6 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             DlgMusic/DlgMusicProperties.cpp \
             DlgBackground/DlgBackgroundProperties.cpp \
             DlgAppSettings/DlgApplicationSettings.cpp \
-            DlgImage/cCustomGraphicsRectItem.cpp \
             DlgImage/DlgImageCorrection.cpp \
             DlgSlide/cCustomBlockTable.cpp \
             DlgSlide/DlgSlideProperties.cpp \
@@ -87,7 +86,8 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../sharedfiles/cCustomIcon.cpp \
             ../sharedfiles/DlgInfoFile.cpp \
             ../fmt_filters/fmt_filters.cpp \ 
-    DlgSlide/cCustomShotTable.cpp
+    DlgSlide/cCustomShotTable.cpp \
+    DlgImage/cImgInteractiveZone.cpp
 
 HEADERS  += \
             _SoundDefinitions.h \
@@ -107,7 +107,6 @@ HEADERS  += \
             DlgMusic/DlgMusicProperties.h \
             DlgBackground/DlgBackgroundProperties.h \
             DlgAppSettings/DlgApplicationSettings.h \
-            DlgImage/cCustomGraphicsRectItem.h \
             DlgImage/DlgImageCorrection.h \
             DlgSlide/DlgSlideProperties.h \
             DlgSlide/cCustomBlockTable.h \
@@ -134,7 +133,8 @@ HEADERS  += \
             ../sharedfiles/cCustomIcon.h \
             ../sharedfiles/DlgInfoFile.h \
             ../fmt_filters/fmt_filters.h \ 
-    DlgSlide/cCustomShotTable.h
+    DlgSlide/cCustomShotTable.h \
+    DlgImage/cImgInteractiveZone.h
 
 FORMS    += mainwindow.ui \
             wgt_QVideoPlayer.ui \

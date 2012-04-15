@@ -118,7 +118,8 @@
 // DlgSlideProperties : Slide Dialog
 //********************************************************************************************************************************
 
-DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgSlideProperties) {
+DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgSlideProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DlgSlideProperties");
 
     ui->setupUi(this);
@@ -2160,7 +2161,10 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
 
     QString FileName    =QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).fileName();
     bool UpdateSlideName=(CurrentSlide->SlideName==FileName);
-    if (DlgImageCorrection(CurrentCompoObject,CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,this).exec()==0) {
+
+    DlgImageCorrection Dlg(CurrentCompoObject,CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) {
 
         CurrentBrush->AspectRatio=CurrentBrush->AspectRatio;
         CurrentCompoObject->h =(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;

@@ -34,6 +34,8 @@
 #define RULER_VERT_SCREENCENTER     0x0040
 #define RULER_VERT_UNSELECTED       0x0080
 
+#define MINVALUE                    0.002       // Never less than this value for width or height
+
 //====================================================================================================================
 
 cInteractiveZone::cInteractiveZone(QWidget *parent):QWidget(parent) {
@@ -194,14 +196,15 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
         if ((MagneticRuler&RULER_HORIZ_SCREENCENTER)!=0)     MagnetHoriz.append(SceneRect.height()*0.5);                            // Center or screen
         // Display base rulers
 
-        QPen pen=QPen(Qt::white);
-        pen.setJoinStyle(Qt::RoundJoin);
-        pen.setWidth(2);
+        // Clean collections
+        for (int i=MagnetHoriz.count()-1;i>=0;i--) for (int j=0;j<i;j++) if (int(MagnetHoriz[j])==int(MagnetHoriz[i])) { MagnetHoriz.removeAt(i); break; }
+        for (int i=MagnetVert.count()-1;i>=0;i--)  for (int j=0;j<i;j++) if (int(MagnetVert[j]) ==int(MagnetVert[i]))  { MagnetVert.removeAt(i);  break; }
+
+        Painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
+
+        QPen pen=QPen(QColor(0,255,0));
+        pen.setWidth(1);
         pen.setStyle(Qt::DotLine);
-        Painter.setPen(pen);
-        for (int i=0;i<MagnetVert.count();i++)  Painter.drawLine(MagnetVert[i]+1,0,MagnetVert[i]+1,SceneRect.height());
-        for (int i=0;i<MagnetHoriz.count();i++) Painter.drawLine(0,MagnetHoriz[i]+1,SceneRect.width(),MagnetHoriz[i]+1);
-        pen.setColor(QColor(0,255,0));
         Painter.setPen(pen);
         for (int i=0;i<MagnetVert.count();i++)  Painter.drawLine(MagnetVert[i],0,MagnetVert[i],SceneRect.height());
         for (int i=0;i<MagnetHoriz.count();i++) Painter.drawLine(0,MagnetHoriz[i],SceneRect.width(),MagnetHoriz[i]);
@@ -235,11 +238,10 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
                 if (((y2>(a1-Ecart))&&(y2<(a1+Ecart)))||((y2>(a2-Ecart))&&(y2<(a2+Ecart)))||((y2>(a3-Ecart))&&(y2<(a3+Ecart)))) MagnetHoriz.append(y2*SceneRect.height());
                 if (((y3>(a1-Ecart))&&(y3<(a1+Ecart)))||((y3>(a2-Ecart))&&(y3<(a2+Ecart)))||((y3>(a3-Ecart))&&(y3<(a3+Ecart)))) MagnetHoriz.append(y3*SceneRect.height());
             }
+            // Clean collections
+            for (int i=MagnetHoriz.count()-1;i>=0;i--) for (int j=0;j<i;j++) if (int(MagnetHoriz[j])==int(MagnetHoriz[i])) { MagnetHoriz.removeAt(i); break; }
+            for (int i=MagnetVert.count()-1;i>=0;i--)  for (int j=0;j<i;j++) if (int(MagnetVert[j]) ==int(MagnetVert[i]))  { MagnetVert.removeAt(i);  break; }
             // Display small rulers
-            pen.setColor(Qt::white);
-            Painter.setPen(pen);
-            for (int i=0;i<MagnetVert.count();i++)  Painter.drawLine(MagnetVert[i]+1,0,MagnetVert[i]+1,SceneRect.height());
-            for (int i=0;i<MagnetHoriz.count();i++) Painter.drawLine(0,MagnetHoriz[i]+1,SceneRect.width(),MagnetHoriz[i]+1);
             pen.setColor(QColor(0,255,0));
             Painter.setPen(pen);
             for (int i=0;i<MagnetVert.count();i++)  Painter.drawLine(MagnetVert[i],0,MagnetVert[i],SceneRect.height());
@@ -252,8 +254,6 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
         QPen pen(Qt::white);
         pen.setWidth(2);
         pen.setStyle(Qt::DashLine);
-        Painter.setPen(pen);
-        DrawSelect(Painter,QRectF(CurSelRect.left()+1,CurSelRect.top()+1,CurSelRect.width(),CurSelRect.height()),true);
         pen.setColor(Qt::red);
         Painter.setPen(pen);
         DrawSelect(Painter,CurSelRect,true);
@@ -400,9 +400,9 @@ bool cInteractiveZone::IsInSelectedRect(QPoint Pos) {
 //====================================================================================================================
 
 void cInteractiveZone::ManageCursor(QPoint Pos,Qt::KeyboardModifiers Modifiers) {
-    if      (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                          setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeFDiagCursor);  // Top left
+    if      (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                      setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeBDiagCursor);  // Bottom left
+    else if (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                          setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeFDiagCursor);  // Top left
     else if (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))   setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeHorCursor);    // Left
-    else if (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                      setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeBDiagCursor);  // Bottom left
     else if (IsInRect(Pos,QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                         setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeBDiagCursor);  // Top right
     else if (IsInRect(Pos,QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))   setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeHorCursor);    // Right
     else if (IsInRect(Pos,QRect(CurSelRect.right()-HANDLESIZEX/2,CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                      setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeFDiagCursor);  // Bottom right
@@ -528,8 +528,6 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
             MagnetVert.append(BlockTable->CompositionList->List[i]->x*SceneRect.width()+BlockTable->CompositionList->List[i]->w*SceneRect.width()/2);
             MagnetVert.append(BlockTable->CompositionList->List[i]->x*SceneRect.width()+BlockTable->CompositionList->List[i]->w*SceneRect.width());
         }
-        // Clean collection
-        for (int i=MagnetVert.count()-1;i>=0;i--) for (int j=0;j<i;j++) if (MagnetVert[j]==MagnetVert[i]) { MagnetVert.removeAt(i); break; }
 
         if ((MagneticRuler&RULER_HORIZ_SCREENBORDER)!=0)     MagnetHoriz.append(0);                                                  // Top screen
         if ((MagneticRuler&RULER_HORIZ_SCREENBORDER)!=0)     MagnetHoriz.append(SceneRect.height());                                 // Bottom screen
@@ -542,8 +540,9 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
             MagnetHoriz.append(BlockTable->CompositionList->List[i]->y*SceneRect.height()+BlockTable->CompositionList->List[i]->h*SceneRect.height()/2);
             MagnetHoriz.append(BlockTable->CompositionList->List[i]->y*SceneRect.height()+BlockTable->CompositionList->List[i]->h*SceneRect.height());
         }
-        // Clean collection
-        for (int i=MagnetHoriz.count()-1;i>=0;i--) for (int j=0;j<i;j++) if (MagnetHoriz[j]==MagnetHoriz[i]) { MagnetHoriz.removeAt(i); break; }
+        // Clean collections
+        for (int i=MagnetHoriz.count()-1;i>=0;i--) for (int j=0;j<i;j++) if (int(MagnetHoriz[j])==int(MagnetHoriz[i])) { MagnetHoriz.removeAt(i); break; }
+        for (int i=MagnetVert.count()-1;i>=0;i--)  for (int j=0;j<i;j++) if (int(MagnetVert[j]) ==int(MagnetVert[i]))  { MagnetVert.removeAt(i);  break; }
 
         // *************************************************************************
         // Calc transformation
@@ -556,8 +555,8 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         // Top left
         if  (TransfoType==RESIZEUPLEFT) {
             // Adjust DX and DY for resize not less than 0
-            if (DX>=Sel_W)  DX=Sel_W;
-            if (DY>=Sel_H)  DY=Sel_H;
+            if (DX>=Sel_W-MINVALUE)  DX=Sel_W-MINVALUE;
+            if (DY>=Sel_H-MINVALUE)  DY=Sel_H-MINVALUE;
             Move_X       =DX;
             Move_Y       =LockGeometry?(AspectRatio*Move_X*SceneRect.width())/SceneRect.height():DY;
             Scale_X      =-Move_X;
@@ -585,8 +584,8 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         // Left
         } else if (TransfoType==RESIZELEFT) {
             // Adjust DX and DY for resize not less than 0
-            if (DX>=Sel_W)  DX=Sel_W;
-            if (DY>=Sel_H)  DY=Sel_H;
+            if (DX>=Sel_W-MINVALUE)  DX=Sel_W-MINVALUE;
+            if (DY>=Sel_H-MINVALUE)  DY=Sel_H-MINVALUE;
             Move_X =DX;
             Scale_X=-Move_X;
             if (LockGeometry) {
@@ -610,8 +609,8 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         } else if (TransfoType==RESIZEDOWNLEFT) {
             // Adjust DX and DY for resize not less than 0
             if (Sel_W!=0) {
-                if (DX>=Sel_W)  DX=Sel_W;
-                if (DY<=-Sel_H) DY=-Sel_H;
+                if (DX>=Sel_W-MINVALUE)     DX=Sel_W-MINVALUE;
+                if (DY<=-(Sel_H-MINVALUE))  DY=-(Sel_H-MINVALUE);
             }
             Move_X       =DX;
             Scale_X      =-Move_X;
@@ -641,8 +640,8 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         // Top right
         } else if (TransfoType==RESIZEUPRIGHT) {
             // Adjust DX and DY for resize not less than 0
-            if (DX<=-Sel_W) DX=-Sel_W;
-            if (DY>=Sel_H)  DY=Sel_H;
+            if (DX<=-(Sel_W-MINVALUE))  DX=-(Sel_W-MINVALUE);
+            if (DY>=Sel_H-MINVALUE)     DY=Sel_H-MINVALUE;
             Move_X       =0;
             Scale_X      =DX;
             Move_Y       =LockGeometry?(-AspectRatio*Scale_X*SceneRect.width())/SceneRect.height():DY;
@@ -667,8 +666,8 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         // Right
         } else if (TransfoType==RESIZERIGHT) {
             // Adjust DX and DY for resize not less than 0
-            if (DX<=-Sel_W) DX=-Sel_W;
-            if (DY<=-Sel_H) DY=-Sel_H;
+            if (DX<=-(Sel_W-MINVALUE)) DX=-(Sel_W-MINVALUE);
+            if (DY<=-(Sel_H-MINVALUE)) DY=-(Sel_H-MINVALUE);
             Move_X =0;
             Scale_X=DX;
             if (LockGeometry) {
@@ -689,8 +688,8 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         // Bottom right
         } else if (TransfoType==RESIZEDOWNRIGHT) {
             // Adjust DX and DY for resize not less than 0
-            if (DX<=-Sel_W) DX=-Sel_W;
-            if (DY<=-Sel_H) DY=-Sel_H;
+            if (DX<=-(Sel_W-MINVALUE)) DX=-(Sel_W-MINVALUE);
+            if (DY<=-(Sel_H-MINVALUE)) DY=-(Sel_H-MINVALUE);
             Move_X       =0;
             Scale_X      =DX;
             Move_Y       =0;
@@ -713,7 +712,7 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         // Top
         } else if (TransfoType==RESIZEUP) {
             // Adjust DX and DY for resize not less than 0
-            if (DY>=Sel_H)  DY=Sel_H;
+            if (DY>=Sel_H-MINVALUE)  DY=Sel_H-MINVALUE;
             Move_Y =DY;
             Scale_Y=-Move_Y;
             if (LockGeometry) {
@@ -735,7 +734,7 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         // Bottom
         } else if (TransfoType==RESIZEDOWN) {
             // Adjust DX and DY for resize not less than 0
-            if (DY<=-Sel_H) DY=-Sel_H;
+            if (DY<=-(Sel_H-MINVALUE)) DY=-(Sel_H-MINVALUE);
             Move_Y =0;
             Scale_Y=DY;
             if (LockGeometry) {
