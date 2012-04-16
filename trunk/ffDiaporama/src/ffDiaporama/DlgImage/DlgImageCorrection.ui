@@ -1832,22 +1832,22 @@
       <number>2</number>
      </property>
      <item>
-      <widget class="QToolButton" name="MagneticEdgeBt">
+      <widget class="QPushButton" name="RulersBT">
+       <property name="font">
+        <font>
+         <family>Sans Serif</family>
+         <pointsize>7</pointsize>
+        </font>
+       </property>
        <property name="toolTip">
-        <string>Show/Hide rullers</string>
+        <string>Enable or disable rulers corresponding to the margins of television sets.</string>
        </property>
        <property name="text">
-        <string notr="true"/>
+        <string>Rullers</string>
        </property>
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/ruler_ok.png</normaloff>:/img/ruler_ok.png</iconset>
-       </property>
-       <property name="iconSize">
-        <size>
-         <width>16</width>
-         <height>16</height>
-        </size>
        </property>
       </widget>
      </item>
@@ -1867,7 +1867,7 @@
      <item>
       <widget class="QPushButton" name="UndoBT">
        <property name="toolTip">
-        <string>Undo previous accept</string>
+        <string>Undo last action (CTRL+Z)</string>
        </property>
        <property name="text">
         <string>Undo</string>
@@ -1944,7 +1944,48 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>MagneticEdgeBt</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>FramingStyleBT</tabstop>
+  <tabstop>LockGeometryCB</tabstop>
+  <tabstop>AdjustWBT</tabstop>
+  <tabstop>AdjustHBT</tabstop>
+  <tabstop>AdjustWHBT</tabstop>
+  <tabstop>XValue</tabstop>
+  <tabstop>YValue</tabstop>
+  <tabstop>WValue</tabstop>
+  <tabstop>HValue</tabstop>
+  <tabstop>RotateLeftBT</tabstop>
+  <tabstop>RotateED</tabstop>
+  <tabstop>RotateRightBT</tabstop>
+  <tabstop>BrightnessSlider</tabstop>
+  <tabstop>BrightnessValue</tabstop>
+  <tabstop>BrightnessResetBT</tabstop>
+  <tabstop>ContrastSlider</tabstop>
+  <tabstop>ContrastValue</tabstop>
+  <tabstop>ContrastResetBT</tabstop>
+  <tabstop>GammaSlider</tabstop>
+  <tabstop>GammaValue</tabstop>
+  <tabstop>GammaResetBT</tabstop>
+  <tabstop>RedSlider</tabstop>
+  <tabstop>RedValue</tabstop>
+  <tabstop>RedResetBT</tabstop>
+  <tabstop>GreenSlider</tabstop>
+  <tabstop>GreenValue</tabstop>
+  <tabstop>GreenResetBT</tabstop>
+  <tabstop>BlueSlider</tabstop>
+  <tabstop>BlueValue</tabstop>
+  <tabstop>BlueResetBT</tabstop>
+  <tabstop>FileNameED</tabstop>
+  <tabstop>FileNameBT</tabstop>
+  <tabstop>TransformationCB</tabstop>
+  <tabstop>BlurSigmaSlider</tabstop>
+  <tabstop>BlurSigmaSB</tabstop>
+  <tabstop>BlurSharpenResetBT</tabstop>
+  <tabstop>BlurRadiusSlider</tabstop>
+  <tabstop>BlurRadiusED</tabstop>
+  <tabstop>RadiusResetBT</tabstop>
+  <tabstop>RulersBT</tabstop>
+  <tabstop>UndoBT</tabstop>
   <tabstop>OKBT</tabstop>
   <tabstop>CancelBt</tabstop>
   <tabstop>HelpBT</tabstop>

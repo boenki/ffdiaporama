@@ -22,7 +22,6 @@
 #include "ui_DlgImageCorrection.h"
 
 #include "cImgInteractiveZone.h"
-#include "../mainwindow.h"
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -55,25 +54,25 @@
 #define UNDOACTION_EDITZONE_BLUE            17
 #define UNDOACTION_EDITZONE_GEOMETRY        18
 
-DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition,int TheImageGeometry,
+    QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgImageCorrection) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DlgImageCorrection");
 
     ui->setupUi(this);
-    OkBt        =ui->OKBT;
-    CancelBt    =ui->CancelBt;
-    HelpBt      =ui->HelpBT;
-    UndoBt      =ui->UndoBT;
 
-    BackgroundForm  =TheBackgroundForm;
-    CompoObject     =TheCompoObject;
-    CurrentBrush    =TheCurrentBrush;
-    VideoPosition   =TheVideoPosition;
+    OkBt            =ui->OKBT;
+    CancelBt        =ui->CancelBt;
+    HelpBt          =ui->HelpBT;
+    UndoBt          =ui->UndoBT;
     UndoReloadImage =false;
-
-    IsFirstInitDone = false;                                // true when first show window was done
-    FLAGSTOPED      = false;
-    FLAGSTOPSPIN    = false;
+    FLAGSTOPED      =false;
+    FLAGSTOPSPIN    =false;
+    ffDPrjGeometry  =TheImageGeometry;
+    CurrentBrush    =TheCurrentBrush;
+    CompoObject     =TheCompoObject;
+    ui->InteractiveZone->MagneticRuler=((cApplicationConfig *)BaseApplicationConfig)->FramingRuler;
+    ui->InteractiveZone->InitCachedImage(TheCompoObject,TheBackgroundForm,TheCurrentBrush,TheVideoPosition);
 }
 
 //====================================================================================================================
@@ -91,18 +90,11 @@ void DlgImageCorrection::DoInitDialog() {
 
     if (CurrentBrush->Image) {
         InitialFilteredString=CurrentBrush->Image->BrushFileTransform.FilterToString();
-        ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentBrush->Image->ObjectGeometry);
+        ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.SetImageGeometryFilter(ffDPrjGeometry,CurrentBrush->Image->ObjectGeometry);
      } else if (CurrentBrush->Video) {
         InitialFilteredString=CurrentBrush->Video->BrushFileTransform.FilterToString();
-        ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,CurrentBrush->Video->ObjectGeometry);
+        ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.SetImageGeometryFilter(ffDPrjGeometry,CurrentBrush->Video->ObjectGeometry);
     }
-    ui->InteractiveZone->InitCachedImage(CompoObject,BackgroundForm,CurrentBrush,VideoPosition);
-
-    ui->InteractiveZone->CompoObject=CompoObject;
-    ui->InteractiveZone->BackgroundForm=BackgroundForm;
-    ui->InteractiveZone->CurrentBrush=CurrentBrush;
-    ui->InteractiveZone->VideoPosition=VideoPosition;
-    ui->InteractiveZone->MagneticRuler=GlobalMainWindow->Diaporama->ApplicationConfig->FramingRuler;
 
     ui->LockGeometryCB->view()->setFixedWidth(300);
 
@@ -111,7 +103,7 @@ void DlgImageCorrection::DoInitDialog() {
     ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_PROJECT), QApplication::translate("DlgImageCorrection","Lock to project geometry"));
     ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_IMAGE),   QApplication::translate("DlgImageCorrection","Lock to image geometry"));
 
-    switch (GlobalMainWindow->Diaporama->ImageGeometry) {
+    switch (ffDPrjGeometry) {
         case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
         case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
         case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
@@ -122,7 +114,7 @@ void DlgImageCorrection::DoInitDialog() {
     if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
         else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
     ImageGeometry=QString("%1").arg(ImageGeometry,0,'e').toDouble();  // Rounded to same number as style managment
-    ui->MagneticEdgeBt->setIcon(QIcon(GlobalMainWindow->Diaporama->ApplicationConfig->FramingRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
+    ui->RulersBT->setIcon(QIcon(((cApplicationConfig *)BaseApplicationConfig)->FramingRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
 
     ui->RotateED->setMinimum(-180);
     ui->RotateED->setMaximum(180);
@@ -159,7 +151,7 @@ void DlgImageCorrection::DoInitDialog() {
     connect(ui->AdjustHBT,SIGNAL(clicked()),this,SLOT(s_AdjustH()));
     connect(ui->AdjustWBT,SIGNAL(clicked()),this,SLOT(s_AdjustW()));
     connect(ui->AdjustWHBT,SIGNAL(clicked()),this,SLOT(s_AdjustWH()));
-    connect(ui->MagneticEdgeBt,SIGNAL(clicked()),this,SLOT(s_MagneticEdgeBt()));
+    connect(ui->RulersBT,SIGNAL(clicked()),this,SLOT(s_RulersBT()));
 
     connect(ui->BrightnessSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BrightnessSliderMoved(int)));
     connect(ui->BrightnessValue,SIGNAL(valueChanged(int)),this,SLOT(s_BrightnessSliderMoved(int)));
@@ -194,6 +186,8 @@ void DlgImageCorrection::DoInitDialog() {
     connect(ui->FileNameBT,SIGNAL(clicked()),this,SLOT(ChangeBrushDiskFile()));
     connect(ui->InteractiveZone,SIGNAL(TransformBlock(double,double,double,double)),this,SLOT(s_IntZoneTransformBlocks(double,double,double,double)));
     connect(ui->InteractiveZone,SIGNAL(DisplayTransformBlock(double,double,double,double)),this,SLOT(s_DisplayIntZoneTransformBlocks(double,double,double,double)));
+
+    ui->InteractiveZone->setFocus();
 }
 
 //====================================================================================================================
@@ -320,7 +314,7 @@ void DlgImageCorrection::s_RadiusReset() {
 
 void DlgImageCorrection::resizeEvent(QResizeEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::resizeEvent");
-    ui->InteractiveZone->InitCachedImage(CompoObject,BackgroundForm,CurrentBrush,VideoPosition);
+    ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
 }
 
 //====================================================================================================================
@@ -328,7 +322,7 @@ void DlgImageCorrection::resizeEvent(QResizeEvent *) {
 void DlgImageCorrection::showEvent(QShowEvent *ev) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::showEvent");
     QCustomDialog::showEvent(ev);
-    ui->InteractiveZone->InitCachedImage(CompoObject,BackgroundForm,CurrentBrush,VideoPosition);
+    ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
     RefreshControls();
  }
 
@@ -580,7 +574,7 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
 
     if (CurrentBrush->Image) {
         CurrentBrush->Image->GetInformationFromFile(NewBrushFileName,NULL,NULL);
-        if (CurrentBrush->Image->IsValide) ui->InteractiveZone->InitCachedImage(CompoObject,BackgroundForm,CurrentBrush,VideoPosition);
+        if (CurrentBrush->Image->IsValide) ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
         UndoReloadImage=true;
     } else if (CurrentBrush->Video) {
         QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
@@ -598,7 +592,7 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
                 ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
                 IsValide=false;
             }
-            if (IsValide) ui->InteractiveZone->InitCachedImage(CompoObject,BackgroundForm,CurrentBrush,VideoPosition);
+            if (IsValide) ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
 
             if (!IsValide) {
                 CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
@@ -670,11 +664,11 @@ void DlgImageCorrection::s_BlurRadiusSliderMoved(int Value) {
 
 //====================================================================================================================
 
-void DlgImageCorrection::s_MagneticEdgeBt() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_MagneticEdgeBt");
-    ui->MagneticEdgeBt->setIcon(QIcon(GlobalMainWindow->Diaporama->ApplicationConfig->FramingRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
-    GlobalMainWindow->Diaporama->ApplicationConfig->FramingRuler=!GlobalMainWindow->Diaporama->ApplicationConfig->FramingRuler;
-    ui->InteractiveZone->MagneticRuler=GlobalMainWindow->Diaporama->ApplicationConfig->FramingRuler;
+void DlgImageCorrection::s_RulersBT() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_RulersBT");
+    ((cApplicationConfig *)BaseApplicationConfig)->FramingRuler=!((cApplicationConfig *)BaseApplicationConfig)->FramingRuler;
+    ui->InteractiveZone->MagneticRuler=((cApplicationConfig *)BaseApplicationConfig)->FramingRuler;
+    ui->RulersBT->setIcon(QIcon(((cApplicationConfig *)BaseApplicationConfig)->FramingRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
     ui->InteractiveZone->RefreshDisplay();
 }
 

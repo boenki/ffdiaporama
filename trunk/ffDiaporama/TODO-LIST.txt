@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 09/04/2012) :
+Buggs/TODO (Dernier SVN le 15/04/2012) :
 ----------------------------------------
 TODO
 ----
@@ -17,21 +17,16 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le bouton annuler de la boite image qui ne restaurait pas les transformations d'images (version 1.3 devel 20120409)
+-Corrige le bug d'initialisation qui faisait parfois planter la boite image lors de l'ouverture (Version 20120415)
+-Corrige les erreurs d'affichage d'état du bouton des guides dans la boite image (Version 20120415)
+-Corrige le plantage lors des suppressions successives de plan dans la boite slide (Version 20120403)
 
 English version / Bug fix :
--Fix cancel button of the image dialog which not restore image transformations (version 1.3 devel 20120409)
+-Fix sometimes crash on opening image dialog (Version 20120415)
+-Fix incorect display state of the rulers button in image dialog (Version 20120415)
+-Fix crash during the successive deletions of shot in slide dialog (Version 20120403)
 
 French version / Nouvelles fonctionnalités :
--Refait la zone interactive de la boite image
--Transforme les guides de la boite image :
-   -Maintenant affiche des guides correspondant aux 4 points du rectangle
-   -Ajoute des guides correspondant au centre de l'image
--Ajoute l'undo dans la boite image
 
 English version / New features :
--Redone the interactive zone of the image dialog
--Change rulers of the image dialog
-   -Now diaplay rulers for each 4 points of the rectangle
-   -Add rulers corresponding to image center
--Add undo feature to image dialog
+

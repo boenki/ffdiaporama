@@ -23,7 +23,6 @@
 
 #include "../../sharedfiles/_GlobalDefines.h"
 #include "../_Diaporama.h"
-#include "../_ApplicationDefinitions.h"
 
 #include <QWidget>
 

@@ -409,7 +409,8 @@ void DlgBackgroundProperties::s_ImageEditCorrect() {
     if (DiaporamaObject->BackgroundBrush->Image) {
 
         //DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
-        DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,HELPFILE_DlgImageCorrection,GlobalMainWindow->ApplicationConfig,GlobalMainWindow->ApplicationConfig->DlgImageCorrectionWSP,this);
+        DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,
+                               HELPFILE_DlgImageCorrection,GlobalMainWindow->ApplicationConfig,GlobalMainWindow->ApplicationConfig->DlgImageCorrectionWSP,this);
         Dlg.InitDialog();
         Dlg.exec();
         RefreshControls(ui->NewBackgroundRD->isChecked());
