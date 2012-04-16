@@ -45,6 +45,11 @@ cImgInteractiveZone::cImgInteractiveZone(QWidget *parent):QWidget(parent) {
     CurrentBrush    =NULL;
     VideoPosition   =0;
 
+    Move_X          =0;
+    Scale_X         =0;
+    Move_Y          =0;
+    Scale_Y         =0;
+    SceneRect       =QRectF(0,0,0,0);
     setMouseTracking(true);
 }
 
@@ -94,7 +99,8 @@ void cImgInteractiveZone::InitCachedImage(cCompositionObject *TheCompoObject,int
 //====================================================================================================================
 
 void cImgInteractiveZone::paintEvent(QPaintEvent *) {
-    if (!ForegroundImage) return;
+    if ((!ForegroundImage)||(SceneRect.width()==0)||(SceneRect.height()==0)) return;
+
     QPainter Painter(this);
     Painter.save();
     Painter.translate(SceneRect.left(),SceneRect.top());

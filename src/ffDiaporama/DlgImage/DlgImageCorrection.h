@@ -36,21 +36,19 @@ namespace Ui {
 class DlgImageCorrection : public QCustomDialog {
 Q_OBJECT
 public:
-    cCompositionObject      *CompoObject ;                  // Block to modify
     cBrushDefinition        *CurrentBrush;
+    cCompositionObject      *CompoObject;
+    int                     ffDPrjGeometry;                 // Project image geometry define in ffDiaporama project
     bool                    UndoReloadImage;                // True if image change and undo must reload it
     QString                 UndoBrushFileName;              // Name of previous file is undo
-    bool                    IsFirstInitDone;                // true when first show window was done
     bool                    FLAGSTOPED;                     // Flag to stop spin box during settings
     bool                    FLAGSTOPSPIN;                   // Flag to stop spin box during blur change
-    int                     BackgroundForm;
-    int                     VideoPosition;
     double                  ImageGeometry;
     double                  ProjectGeometry;
     QString                 InitialFilteredString;
     int                     OnOffFilter;
 
-    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,int ImageGeometry,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgImageCorrection();
 
     // function to be overloaded
@@ -70,6 +68,7 @@ protected:
     virtual void    showEvent(QShowEvent *);
 
 private slots:
+    void            s_RulersBT();
     void            s_RotationEDChanged(double Value);
     void            s_XValueEDChanged(double Value);
     void            s_YValueEDChanged(double Value);
@@ -80,7 +79,6 @@ private slots:
     void            s_AdjustW();
     void            s_AdjustH();
     void            s_AdjustWH();
-    void            s_MagneticEdgeBt();
     void            s_BrightnessSliderMoved(int Value);
     void            s_ContrastSliderMoved(int Value);
     void            s_GammaSliderMoved(int Value);

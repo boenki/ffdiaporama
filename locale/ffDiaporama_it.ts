@@ -1006,10 +1006,6 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>Correzione immagine :</translation>
     </message>
     <message>
-        <source>Show/Hide rullers</source>
-        <translation>Mostra/Nascondi Righelli e squadrette</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
@@ -1056,6 +1052,34 @@ Vedere la guida per maggiori dettagli!</translation>
     <message>
         <source>Creating cached filtered file ...</source>
         <translation>Creazione file cache filtrata ...</translation>
+    </message>
+    <message>
+        <source>Enable or disable rulers corresponding to the margins of television sets.</source>
+        <translation type="unfinished">Attivare o disattivare i righelli corrispondenti ai margini dei televisori.</translation>
+    </message>
+    <message>
+        <source>Rullers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+Z</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No style for nonstandard geometry image</source>
+        <translation type="unfinished">Nessuno stile per geometria immagine non predefinita</translation>
+    </message>
+    <message>
+        <source>Select a file</source>
+        <translation type="unfinished">Seleziona un file</translation>
+    </message>
+    <message>
+        <source>Undo last action (CTRL+Z)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2345,14 +2369,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Allungato a %1 sec</translation>
     </message>
     <message>
-        <source>No style for nonstandard geometry image</source>
-        <translation>Nessuno stile per geometria immagine non predefinita</translation>
-    </message>
-    <message>
-        <source>Select a file</source>
-        <translation>Seleziona un file</translation>
-    </message>
-    <message>
         <source>Remove shot</source>
         <translation>Rimuovi diapositiva</translation>
     </message>
@@ -2620,10 +2636,6 @@ shot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Move to foregroung</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Change the order of blocks by moving the active block towards the foreground</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2698,6 +2710,10 @@ information</source>
     </message>
     <message>
         <source>Make hide the active block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move to foreground</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

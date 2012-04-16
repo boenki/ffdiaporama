@@ -1198,10 +1198,12 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ShotTable_RemoveShot");
     if (CurrentSlide->List.count()<2) return;               // Don't remove last shot
     if ((InRefreshControls)||(CurrentShot==NULL)) return;   // No action if in control setup or if no shot was selected
-    AppendPartialUndo(UNDOACTION_SHOTTABLE_REMOVESHOT,ui->ShotTable,true);
-
     if ((((cApplicationConfig *)BaseApplicationConfig)->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgSlideProperties","Remove shot"),QApplication::translate("DlgSlideProperties","Are you sure to want to delete this shot?"),
                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
+
+    AppendPartialUndo(UNDOACTION_SHOTTABLE_REMOVESHOT,ui->ShotTable,true);
+
+    InRefreshControls=true;
 
     // Remove shot from slide
     delete CurrentSlide->List.takeAt(CurrentShotNbr);
@@ -1213,6 +1215,9 @@ void DlgSlideProperties::s_ShotTable_RemoveShot() {
     if (ShotNbr>=CurrentSlide->List.count()) ShotNbr--;
     ui->ShotTable->SetCurrentCell(ShotNbr);
     ui->ShotTable->setUpdatesEnabled(true);
+
+    InRefreshControls=false;
+    s_ShotTable_SelectionChanged();
 }
 
 //===================================================================================
@@ -1286,7 +1291,7 @@ void DlgSlideProperties::s_ShotTable_SelectionChanged() {
     // Because block order can change from a shot to another, try to keep current block by looking at indexkey
     int i       =ui->BlockTable->currentRow();
     int IndexKey=-1;
-    if ((i>=0)&&(i<CompositionList->List.count())) IndexKey=CompositionList->List[i]->IndexKey;
+    if ((CompositionList!=NULL)&&(i>=0)&&(i<CompositionList->List.count())) IndexKey=CompositionList->List[i]->IndexKey;
 
     int CurrentBlockTableIndex=0;
     if (IndexKey!=-1) {
@@ -2162,7 +2167,8 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
     QString FileName    =QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).fileName();
     bool UpdateSlideName=(CurrentSlide->SlideName==FileName);
 
-    DlgImageCorrection Dlg(CurrentCompoObject,CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
+    DlgImageCorrection Dlg(CurrentCompoObject,CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,CurrentSlide->Parent->ImageGeometry,
+                           HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
 
