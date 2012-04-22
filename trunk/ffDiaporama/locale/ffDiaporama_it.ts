@@ -779,6 +779,18 @@ Vedere la guida per maggiori dettagli!</translation>
         <source>Select a file</source>
         <translation>Seleziona un file</translation>
     </message>
+    <message>
+        <source>Undo last action (CTRL+Z)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+Z</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgCheckConfig</name>
@@ -2153,10 +2165,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Indicare un nome per lo scatto. E &apos;questo il nome che apparirà sulla miniatura nella linea temporale della finestra principale.</translation>
     </message>
     <message>
-        <source>Chapter :</source>
-        <translation>Capitolo :</translation>
-    </message>
-    <message>
         <source>Ctrl+Ins</source>
         <translation>Ctrl+Ins</translation>
     </message>
@@ -2604,23 +2612,11 @@ shot</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Slide properties :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Block coordinates :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Name :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Start a new chapter from this slide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start from here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2714,6 +2710,14 @@ information</source>
     </message>
     <message>
         <source>Move to foreground</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start chapter from here</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2927,6 +2931,18 @@ information</source>
         <source>Background properties :</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Undo last action (CTRL+Z)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+Z</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgTransitionProperties</name>
@@ -3114,6 +3130,18 @@ information</source>
     <message>
         <source>F1</source>
         <translation>F1</translation>
+    </message>
+    <message>
+        <source>Undo last action (CTRL+Z)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Undo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+Z</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3856,6 +3884,14 @@ Vuoi aprirlo comunque?</translation>
     <message>
         <source>Rescal image to 8MPix</source>
         <translation>Riscala immagine a 8MPix</translation>
+    </message>
+    <message>
+        <source>Add title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add project</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

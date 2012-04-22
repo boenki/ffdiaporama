@@ -156,7 +156,6 @@ void DlgSlideProperties::DoInitDialog() {
     setWindowTitle(windowTitle()+" - "+QApplication::translate("DlgSlideProperties","Slide")+QString(" %1/%2").arg(CurrentSlide->Parent->CurrentCol+1).arg(CurrentSlide->Parent->List.count()));
     ui->NewChapterCB->setChecked(CurrentSlide->StartNewChapter);
     ui->NewChapterCB->setEnabled(CurrentSlide->Parent->CurrentCol!=0);
-    ui->ChapterLabel->setEnabled(CurrentSlide->Parent->CurrentCol!=0);
     ui->OKPreviousBT->setEnabled(CurrentSlide->Parent->CurrentCol>0);
     ui->OKNextBT->setEnabled(CurrentSlide->Parent->CurrentCol<CurrentSlide->Parent->List.count()-1);
     ui->TVMarginsBT->setIcon(QIcon(QString(ui->InteractiveZone->MagneticRuler!=0?ICON_RULER_ON:ICON_RULER_OFF)));
@@ -1329,13 +1328,8 @@ void DlgSlideProperties::s_ShotTable_DisplayDuration() {
         for (int i=0;i<CurrentSlide->List.count();i++) Duration=Duration+CurrentSlide->List[i]->StaticDuration;
         if (Duration<TotalDuration) AddingDuration=TotalDuration-Duration;
     }
-    if (AddingDuration==0) {
-        ui->MinShotDurationLabel->setVisible(false);
-        ui->MinShotDurationLabel->setText("");
-    } else {
-        ui->MinShotDurationLabel->setVisible(true);
-        ui->MinShotDurationLabel->setText(QString(QApplication::translate("DlgSlideProperties","Lengthened to %1 sec")).arg(double(CurrentShot->StaticDuration+AddingDuration)/1000));
-    }
+    if (AddingDuration==0)  ui->MinShotDurationLabel->setText("");
+        else                ui->MinShotDurationLabel->setText(QString(QApplication::translate("DlgSlideProperties","Lengthened to %1 sec")).arg(double(CurrentShot->StaticDuration+AddingDuration)/1000));
     InDisplayDuration=false;
     for (int i=CurrentShotNbr;i<CurrentSlide->List.count();i++) ui->ShotTable->RepaintCell(i);
     if (CurrentShotNbr!=CurrentSlide->List.count()-1) ui->ShotTable->RepaintCell(CurrentSlide->List.count()-1);
@@ -1371,6 +1365,7 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
         ui->BlockTable->clearSelection();
         ui->BlockTable->setCurrentCell(SetCurrentIndex,0,QItemSelectionModel::Select|QItemSelectionModel::Current);
     } else s_BlockTable_SelectionChanged();
+    if (ui->BlockTable->rowCount()==0) s_BlockTable_SelectionChanged();
     ui->InteractiveZone->RefreshDisplay();
 
 }
@@ -2140,11 +2135,12 @@ void DlgSlideProperties::s_BlockSettings_VideoEdit() {
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)||(!CurrentCompoObject->BackgroundBrush->Video)) return;
 
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITVIDEO,ui->InteractiveZone,true);
-    if (DlgVideoEdit(CurrentCompoObject->BackgroundBrush,this).exec()==0) {
+    DlgVideoEdit Dlg(CurrentCompoObject->BackgroundBrush,HELPFILE_DlgVideoEdit,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgVideoEditWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) {
         ApplyToContexte(true);
-    } else {
-        RemoveLastPartialUndo();
-    }
+        s_ShotTable_DisplayDuration();
+    } else RemoveLastPartialUndo();
 }
 
 //========= Open image correction editor

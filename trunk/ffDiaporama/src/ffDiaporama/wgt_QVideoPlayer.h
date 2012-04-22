@@ -55,10 +55,12 @@ public:
     ~QMovieLabel();
 
 protected:
-    virtual void mouseDoubleClickEvent(QMouseEvent * e);
+    virtual void        mouseDoubleClickEvent(QMouseEvent *e);
+    virtual void	mouseReleaseEvent(QMouseEvent *e);
 
 signals:
     void     DoubleClick();
+    void     RightClickEvent(QMouseEvent *);
 };
 
 class wgt_QVideoPlayer : public QWidget {
@@ -122,6 +124,7 @@ protected:
 
 private slots:
     void    s_DoubleClick();
+    void    s_RightClickEvent(QMouseEvent *);
     void    s_TimerEvent();
     void    s_VideoPlayerPlayPauseBT();
     void    s_SliderPressed();
@@ -138,6 +141,7 @@ private:
 
 signals:
     void     DoubleClick();
+    void     RightClickEvent(QMouseEvent *);
 };
 
 #endif // WGT_QVIDEOPLAYER_H

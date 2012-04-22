@@ -381,6 +381,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowVideoExtension.append("3gp");     AllowVideoExtension.append("3GP");
     AllowVideoExtension.append("ogv");     AllowVideoExtension.append("OGV");
     AllowVideoExtension.append("webm");    AllowVideoExtension.append("WEBM");
+    AllowVideoExtension.append("dv");      AllowVideoExtension.append("DV");
     // List of all file extension allowed for image
     AllowImageExtension.append("bmp");     AllowImageExtension.append("BMP");
     AllowImageExtension.append("gif");     AllowImageExtension.append("GIF");

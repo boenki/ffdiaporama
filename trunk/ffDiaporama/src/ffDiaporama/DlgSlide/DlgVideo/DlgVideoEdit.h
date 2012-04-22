@@ -32,26 +32,30 @@ namespace Ui {
     class DlgVideoEdit;
 }
 
-class DlgVideoEdit : public QDialog {
+class DlgVideoEdit : public QCustomDialog {
 Q_OBJECT
 public:
-    bool                    IsFirstInitDone;            // true when first show window was done
     cBrushDefinition        *CurrentBrush;
-    QDomDocument            *Undo;                      // Save object before modification for cancel button
+    bool                    StopMaj;
 
-    explicit DlgVideoEdit(cBrushDefinition *CurrentBrush,QWidget *parent = 0);
+    explicit DlgVideoEdit(cBrushDefinition *CurrentBrush,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgVideoEdit();
 
-    void            SetActualDuration();
+    void            RefreshControls();
 
-protected:
-    virtual void    showEvent(QShowEvent *);
-    virtual void    reject();
-    virtual void    accept();
+    // function to be overloaded
+    virtual void    DoInitDialog();                             // Initialise dialog
+    virtual void    DoAccept() { /* Nothing to do */ }          // Call when user click on Ok button
+    virtual void    DoRejet()  { /* Nothing to do */ }          // Call when user click on Cancel button
+    virtual void    PrepareGlobalUndo();                        // Initiale Undo
+    virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
+
+    virtual void    PreparePartialUndo(int ActionType,QDomElement root);
+    virtual void    ApplyPartialUndo(int ActionType,QDomElement root);
+
+    virtual void    RestoreWindowState();
 
 private slots:
-    void            Help();
-    void            SetSavedWindowGeometry();
     void            s_DefStartPos();
     void            s_DefEndPos();
     void            s_SeekLeft();

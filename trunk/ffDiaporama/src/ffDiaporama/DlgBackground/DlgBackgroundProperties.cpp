@@ -24,22 +24,30 @@
 
 #include <QFileDialog>
 
-#include "../mainwindow.h"
-
-DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaObject,QWidget *parent):QDialog(parent),ui(new Ui::DlgBackgroundProperties) {
+DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgBackgroundProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::DlgBackgroundProperties");
     ui->setupUi(this);
+    OkBt            =ui->OKBT;
+    CancelBt        =ui->CancelBt;
+    HelpBt          =ui->HelpBT;
+    UndoBt          =ui->UndoBT;
     DiaporamaObject = TheDiaporamaObject;
     StopMAJSpinbox  = false;
-    IsFirstInitDone = false;
+}
 
-    setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+//====================================================================================================================
 
-    // Save object before modification for cancel button
-    Undo=new QDomDocument(APPLICATION_NAME);
-    QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT",DiaporamaObject->Parent->ProjectFileName,true);  // Save object
-    Undo->appendChild(root);                                // Add object to xml document
+DlgBackgroundProperties::~DlgBackgroundProperties() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::~DlgBackgroundProperties");
+    delete ui;
+}
+
+//====================================================================================================================
+// Initialise dialog
+
+void DlgBackgroundProperties::DoInitDialog() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::DoInitDialog");
 
     ui->SameBackgroundRD->setChecked(!DiaporamaObject->BackgroundType);
     ui->NewBackgroundRD->setChecked(DiaporamaObject->BackgroundType);
@@ -56,15 +64,11 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
     ui->BrushTypeCombo->addItem(QApplication::translate("DlgBackgroundProperties","Image from disk"));
     ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_IMAGEDISK)));
 
+    RefreshControls();
+
     // Connect signals
     connect(ui->SameBackgroundRD,SIGNAL(clicked()),this,SLOT(s_SameBackground()));
     connect(ui->NewBackgroundRD,SIGNAL(clicked()),this,SLOT(s_NewBackground()));
-
-    // Define handler
-    connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
-    connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
-    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
-
     connect(ui->BrushTypeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeBrushTypeCombo(int)));
 
     // Handler for custom color/brush/pattern/gradient combo box index change
@@ -86,74 +90,50 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
     ui->FullFillRB->setChecked(DiaporamaObject->BackgroundBrush->FullFilling);
     connect(ui->FullFillRB,SIGNAL(clicked()),this,SLOT(s_FullFill()));
     connect(ui->KeepRatioRB,SIGNAL(clicked()),this,SLOT(s_KeepRatio()));
-
 }
 
 //====================================================================================================================
+// Initiale Undo
 
-DlgBackgroundProperties::~DlgBackgroundProperties() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::~DlgBackgroundProperties");
-    delete ui;
-    delete Undo;
+void DlgBackgroundProperties::PrepareGlobalUndo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::PrepareGlobalUndo");
+
+    Undo=new QDomDocument(APPLICATION_NAME);
+    QDomElement root=Undo->createElement("UNDO-DLG");
+    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT","",NULL);
+    Undo->appendChild(root);
 }
 
 //====================================================================================================================
+// Apply Undo : call when user click on Cancel button
 
-void DlgBackgroundProperties::Help() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::Help");
-    GlobalMainWindow->OpenHelp(HELPFILE_DlgBackgroundProperties);
-}
+void DlgBackgroundProperties::DoGlobalUndo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::DoGlobalUndo");
 
-//====================================================================================================================
-
-void DlgBackgroundProperties::SetSavedWindowGeometry() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::SetSavedWindowGeometry");
-    DiaporamaObject->Parent->ApplicationConfig->DlgBackgroundPropertiesWSP->ApplyToWindow(this);
-}
-
-//====================================================================================================================
-
-void DlgBackgroundProperties::resizeEvent(QResizeEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::resizeEvent");
-    if (IsFirstInitDone) RefreshControls(ui->NewBackgroundRD->isChecked());
-}
-
-//====================================================================================================================
-
-void DlgBackgroundProperties::showEvent(QShowEvent *ev) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::showEvent");
-    QDialog::showEvent(ev);
-    if (IsFirstInitDone) return;
-    QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
-    IsFirstInitDone=true; // Set this flag to true to indicate that now we can prepeare display
-    RefreshControls(ui->NewBackgroundRD->isChecked());
-}
-
-//====================================================================================================================
-
-void DlgBackgroundProperties::reject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::reject");
-    // Save Window size and position
-    DiaporamaObject->Parent->ApplicationConfig->DlgBackgroundPropertiesWSP->SaveWindowState(this);
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
-    done(1);
 }
 
 //====================================================================================================================
 
-void DlgBackgroundProperties::accept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::accept");
-    // Save Window size and position
-    DiaporamaObject->Parent->ApplicationConfig->DlgBackgroundPropertiesWSP->SaveWindowState(this);
-    done(0);
+void DlgBackgroundProperties::PreparePartialUndo(int /*ActionType*/,QDomElement root) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::PreparePartialUndo");
+    DiaporamaObject->SaveToXML(root,"UNDO-DLG-OBJECT","",NULL);
 }
 
 //====================================================================================================================
 
-void DlgBackgroundProperties::SetupUi() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::SetupUi");
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+void DlgBackgroundProperties::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::ApplyPartialUndo");
+    DiaporamaObject->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL);
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgBackgroundProperties::showEvent(QShowEvent *) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::showEvent");
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -162,7 +142,7 @@ void DlgBackgroundProperties::s_SameBackground() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_SameBackground");
     if (DiaporamaObject==NULL) return;
     DiaporamaObject->BackgroundType=false;
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -171,15 +151,15 @@ void DlgBackgroundProperties::s_NewBackground() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_NewBackground");
     if (DiaporamaObject==NULL) return;
     DiaporamaObject->BackgroundType=true;
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //====================================================================================================================
 
-void DlgBackgroundProperties::RefreshControls(bool Allowed) {
+void DlgBackgroundProperties::RefreshControls() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::RefreshControls");
-    if (!IsFirstInitDone) return;
 
+    bool Allowed=ui->NewBackgroundRD->isChecked();
     if (Allowed) {
 
         // Ensure BrushImage is valide
@@ -287,6 +267,7 @@ void DlgBackgroundProperties::RefreshControls(bool Allowed) {
         ui->Preview->setVisible(false);
         ui->scrollArea->setVisible(false);
     }
+    emit RefreshDisplay();
 }
 
 //====================================================================================================================
@@ -295,7 +276,7 @@ void DlgBackgroundProperties::s_ChangeBrushTypeCombo(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChangeBrushTypeCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -304,17 +285,17 @@ void DlgBackgroundProperties::s_SelectFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_SelectFile");
     QString NewFile=QFileDialog::getOpenFileName(this,
                                                  QApplication::translate("DlgBackgroundProperties","Select a file"),
-                                                 GlobalMainWindow->ApplicationConfig->RememberLastDirectories?GlobalMainWindow->ApplicationConfig->LastMediaPath:"",
-                                                 GlobalMainWindow->ApplicationConfig->GetFilterForMediaFile(cBaseApplicationConfig::IMAGEFILE));
+                                                 ((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories?((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath:"",
+                                                 ((cApplicationConfig *)BaseApplicationConfig)->GetFilterForMediaFile(cBaseApplicationConfig::IMAGEFILE));
     QApplication::processEvents();
     if (NewFile=="") return;
-    if (GlobalMainWindow->ApplicationConfig->RememberLastDirectories) GlobalMainWindow->ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
+    if (((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories) ((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
     QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
     if (DiaporamaObject->BackgroundBrush->Image) {
         delete DiaporamaObject->BackgroundBrush->Image;
         DiaporamaObject->BackgroundBrush->Image=NULL;
     }
-    DiaporamaObject->BackgroundBrush->Image=new cImageFile(GlobalMainWindow->ApplicationConfig);
+    DiaporamaObject->BackgroundBrush->Image=new cImageFile(((cApplicationConfig *)BaseApplicationConfig));
     bool IsValide=DiaporamaObject->BackgroundBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL);
     if (!IsValide) {
         delete DiaporamaObject->BackgroundBrush->Image;
@@ -330,7 +311,7 @@ void DlgBackgroundProperties::s_SelectFile() {
             DiaporamaObject->BackgroundBrush->Image=NULL;
         }
     }
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -339,7 +320,7 @@ void DlgBackgroundProperties::s_IntermPosSliderMoved(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_IntermPosSliderMoved");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->Intermediate=double(Value)/100;
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -348,7 +329,7 @@ void DlgBackgroundProperties::s_IntermPosED(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_IntermPosED");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->Intermediate=double(Value)/100;
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -360,7 +341,7 @@ void DlgBackgroundProperties::s_ChIndexPatternBrushCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexPatternBrushCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //========= Gradient shape orientation
@@ -368,7 +349,7 @@ void DlgBackgroundProperties::s_ChIndexGradientOrientationCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientOrientationCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //========= Shape/Gradient shape first color
@@ -376,7 +357,7 @@ void DlgBackgroundProperties::s_ChIndexGradientFirstColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientFirstColorCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //========= Gradient shape last color
@@ -384,7 +365,7 @@ void DlgBackgroundProperties::s_ChIndexGradientFinalColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientFinalColorCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //========= Gradient shape intermediate color
@@ -392,7 +373,7 @@ void DlgBackgroundProperties::s_ChIndexGradientIntermColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientIntermColorCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //========= Background image
@@ -400,7 +381,7 @@ void DlgBackgroundProperties::s_ChIndexBackgroundCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexBackgroundCombo");
     if (StopMAJSpinbox) return;
     DiaporamaObject->BackgroundBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
-    RefreshControls(ui->NewBackgroundRD->isChecked());
+    RefreshControls();
 }
 
 //========= Image file correction
@@ -410,10 +391,10 @@ void DlgBackgroundProperties::s_ImageEditCorrect() {
 
         //DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
         DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,
-                               HELPFILE_DlgImageCorrection,GlobalMainWindow->ApplicationConfig,GlobalMainWindow->ApplicationConfig->DlgImageCorrectionWSP,this);
+                               HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
         Dlg.InitDialog();
         Dlg.exec();
-        RefreshControls(ui->NewBackgroundRD->isChecked());
+        RefreshControls();
     }
 }
 
@@ -423,7 +404,7 @@ void DlgBackgroundProperties::s_FullFill() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_FullFill");
     if (DiaporamaObject->BackgroundBrush->Image) {
         DiaporamaObject->BackgroundBrush->FullFilling=true;
-        RefreshControls(ui->NewBackgroundRD->isChecked());
+        RefreshControls();
     }
 }
 
@@ -433,6 +414,6 @@ void DlgBackgroundProperties::s_KeepRatio() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_KeepRatio");
     if (DiaporamaObject->BackgroundBrush->Image) {
         DiaporamaObject->BackgroundBrush->FullFilling=false;
-        RefreshControls(ui->NewBackgroundRD->isChecked());
+        RefreshControls();
     }
 }

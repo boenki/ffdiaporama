@@ -162,6 +162,9 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
 
     // Force icon in contextual menu
+    ui->actionAddTitle->setIconVisibleInMenu(true);
+    ui->actionAddFiles->setIconVisibleInMenu(true);
+    ui->actionAddProject->setIconVisibleInMenu(true);
     ui->actionEdit_background->setIconVisibleInMenu(true);
     ui->actionEdit_object->setIconVisibleInMenu(true);
     ui->actionEdit_music->setIconVisibleInMenu(true);
@@ -175,8 +178,6 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     Diaporama->Timeline=ui->timeline;
     ui->preview->InitDiaporamaPlay(Diaporama);
     ui->preview2->InitDiaporamaPlay(Diaporama);
-    connect(ui->preview,SIGNAL(DoubleClick()),this,SLOT(s_Event_DoubleClickedOnObject()));
-    connect(ui->preview2,SIGNAL(DoubleClick()),this,SLOT(s_Event_DoubleClickedOnObject()));
 
     ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
     ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
@@ -184,6 +185,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     // We have finish with the SplashScreen
     screen.hide();
 
+    connect(ui->TABTooltip,SIGNAL(linkActivated(const QString)),this,SLOT(s_Action_OpenTABHelpLink(const QString)));
     connect(ui->ToolBoxNormal,SIGNAL(currentChanged(int)),this,SLOT(s_Event_ToolbarChanged(int)));
 
     // Help menu
@@ -202,9 +204,18 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->Action_Exit_BT,SIGNAL(released()),this,SLOT(s_Action_Exit()));                              connect(ui->Action_Exit_BT_2,SIGNAL(released()),this,SLOT(s_Action_Exit()));
 
     // Project menu
-    connect(ui->ActionAdd_BT,SIGNAL(released()),this,SLOT(s_Action_AddFile()));                             connect(ui->ActionAdd_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddFile()));
-    connect(ui->ActionAddtitle_BT,SIGNAL(released()),this,SLOT(s_Action_AddTitle()));                       connect(ui->ActionAddtitle_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddTitle()));
-    connect(ui->ActionAddProject_BT,SIGNAL(released()),this,SLOT(s_Action_AddProject()));                   connect(ui->ActionAddProject_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddProject()));
+    connect(ui->ActionAdd_BT,SIGNAL(released()),this,SLOT(s_Action_AddFile()));
+    connect(ui->ActionAdd_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddFile()));
+    connect(ui->actionAddFiles,SIGNAL(triggered()),this,SLOT(s_Action_AddFile()));
+
+    connect(ui->ActionAddtitle_BT,SIGNAL(released()),this,SLOT(s_Action_AddTitle()));
+    connect(ui->ActionAddtitle_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddTitle()));
+    connect(ui->actionAddTitle,SIGNAL(triggered()),this,SLOT(s_Action_AddTitle()));
+
+    connect(ui->ActionAddProject_BT,SIGNAL(released()),this,SLOT(s_Action_AddProject()));
+    connect(ui->ActionAddProject_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddProject()));
+    connect(ui->actionAddProject,SIGNAL(triggered()),this,SLOT(s_Action_AddProject()));
+
     connect(ui->ActionRemove_BT,SIGNAL(released()),this,SLOT(s_Action_RemoveObject()));
     connect(ui->ActionRemove_BT_2,SIGNAL(released()),this,SLOT(s_Action_RemoveObject()));
     connect(ui->actionRemove,SIGNAL(triggered()),this,SLOT(s_Action_RemoveObject()));
@@ -239,11 +250,18 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->ZoomMinusBT,SIGNAL(released()),this,SLOT(s_Action_ZoomMinus()));
     connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_Event_TimelineSelectionChanged()));
     connect(ui->timeline,SIGNAL(DragMoveItem()),this,SLOT(s_Event_TimelineDragMoveItem()));
-    connect(ui->timeline,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_Event_RightClickedOnThumbnail(QMouseEvent *)));
-
     connect(ui->PartitionBT,SIGNAL(released()),this,SLOT(s_Action_ChPartitionMode()));
     connect(ui->Partition2BT,SIGNAL(released()),this,SLOT(s_Action_ChPartitionMode()));
-    connect(ui->TABTooltip,SIGNAL(linkActivated(const QString)),this,SLOT(s_Action_OpenTABHelpLink(const QString)));
+
+    // Contextual menu
+    connect(ui->timeline,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_Event_ContextualMenu(QMouseEvent *)));
+    connect(ui->preview,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_Event_ContextualMenu(QMouseEvent *)));
+    connect(ui->preview2,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_Event_ContextualMenu(QMouseEvent *)));
+
+    // double click
+    connect(ui->preview,SIGNAL(DoubleClick()),this,SLOT(s_Event_DoubleClickedOnObject()));
+    connect(ui->preview2,SIGNAL(DoubleClick()),this,SLOT(s_Event_DoubleClickedOnObject()));
+
 
     // Prepare title bar depending on running version
     TitleBar=QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
@@ -679,6 +697,7 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
         QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnObject()));
         return;
     }
+    if (Diaporama->List.count()==0) return;
 
     bool DoneAgain=true;
     while (DoneAgain) {
@@ -761,12 +780,21 @@ void MainWindow::s_Event_DoubleClickedOnBackground() {
         QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnBackground()));
         return;
     }
-
-    if (DlgBackgroundProperties(Diaporama->List[Diaporama->CurrentCol],this).exec()==0) {
+    DlgBackgroundProperties Dlg(Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgBackgroundProperties,ApplicationConfig,ApplicationConfig->DlgBackgroundPropertiesWSP,this);
+    Dlg.InitDialog();
+    connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_Event_RefreshDisplay()));
+    if (Dlg.exec()==0) {
         SetModifyFlag(true);
         (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
     }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Event_RefreshDisplay() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_RefreshDisplay");
+    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
 }
 
 //====================================================================================================================
@@ -1691,10 +1719,14 @@ void MainWindow::s_Action_AddProject() {
 
 //====================================================================================================================
 
-void MainWindow::s_Event_RightClickedOnThumbnail(QMouseEvent *) {
+void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_EditObject");
 
     QMenu *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(ui->actionAddTitle);
+    ContextMenu->addAction(ui->actionAddFiles);
+    ContextMenu->addAction(ui->actionAddProject);
+    ContextMenu->addSeparator();
     ContextMenu->addAction(ui->actionEdit_background);
     ContextMenu->addAction(ui->actionEdit_object);
     ContextMenu->addAction(ui->actionEdit_music);

@@ -44,6 +44,11 @@ void QMovieLabel::mouseDoubleClickEvent(QMouseEvent *) {
     emit DoubleClick();
 }
 
+void QMovieLabel::mouseReleaseEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QMovieLabel::mousePressEvent");
+    if (event->button()==Qt::RightButton) emit RightClickEvent(event);  else QLabel::mouseReleaseEvent(event);
+}
+
 //*********************************************************************************************************************************************
 // Base object for image manipulation
 //*********************************************************************************************************************************************
@@ -145,6 +150,7 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
     connect(ui->VideoPlayerPlayPauseBT,SIGNAL(clicked()),this,SLOT(s_VideoPlayerPlayPauseBT()));
     connect(ui->MovieFrame,SIGNAL(DoubleClick()),this,SLOT(s_DoubleClick()));
+    connect(ui->MovieFrame,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_RightClickEvent(QMouseEvent *)));
 
     // Slider control
     connect(ui->CustomRuller,SIGNAL(sliderPressed()),this,SLOT(s_SliderPressed()));
@@ -182,6 +188,13 @@ void wgt_QVideoPlayer::showEvent(QShowEvent *) {
 void wgt_QVideoPlayer::s_DoubleClick() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_DoubleClick");
     emit DoubleClick();
+}
+
+//============================================================================================
+
+void wgt_QVideoPlayer::s_RightClickEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_RightClickEvent");
+    emit RightClickEvent(event);
 }
 
 //============================================================================================

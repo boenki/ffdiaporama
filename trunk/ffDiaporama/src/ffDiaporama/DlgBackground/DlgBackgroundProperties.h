@@ -32,49 +32,53 @@ namespace Ui {
     class DlgBackgroundProperties;
 }
 
-class DlgBackgroundProperties : public QDialog {
+class DlgBackgroundProperties : public QCustomDialog {
 Q_OBJECT
 public:
     cDiaporamaObject    *DiaporamaObject;
-    QDomDocument        *Undo;                          // Save object before modification for cancel button
     bool                StopMAJSpinbox;
-    bool                IsFirstInitDone;
 
-    explicit DlgBackgroundProperties(cDiaporamaObject *DiaporamaObject,QWidget *parent = 0);
+    explicit DlgBackgroundProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgBackgroundProperties();
 
-    void        RefreshControls(bool Allowed);
+    void        RefreshControls();
+
+    // function to be overloaded
+    virtual void    DoInitDialog();                             // Initialise dialog
+    virtual void    DoAccept() { /* Nothing to do */ }          // Call when user click on Ok button
+    virtual void    DoRejet()  { /* Nothing to do */ }          // Call when user click on Cancel button
+    virtual void    PrepareGlobalUndo();                        // Initiale Undo
+    virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
+
+    virtual void    PreparePartialUndo(int ActionType,QDomElement root);
+    virtual void    ApplyPartialUndo(int ActionType,QDomElement root);
 
 protected:
-    virtual void showEvent(QShowEvent *);
-    virtual void resizeEvent(QResizeEvent *);
-    virtual void reject();
-    virtual void accept();
+    virtual void    showEvent(QShowEvent *);
 
 private slots:
-    void        Help();
-    void        SetSavedWindowGeometry();
-    void        s_SameBackground();
-    void        s_NewBackground();
-    void        SetupUi();
-
-    void        s_ChangeBrushTypeCombo(int);
+    void            s_SameBackground();
+    void            s_NewBackground();
+    void            s_ChangeBrushTypeCombo(int);
 
     // Intermediate position for gradient 3 colors
-    void        s_IntermPosSliderMoved(int);
-    void        s_IntermPosED(int);
+    void            s_IntermPosSliderMoved(int);
+    void            s_IntermPosED(int);
 
     // Handler for custom color/brush/pattern/gradient combo box index change
-    void        s_ChIndexPatternBrushCombo(int);
-    void        s_ChIndexGradientOrientationCombo(int);
-    void        s_ChIndexGradientFirstColorCombo(int);
-    void        s_ChIndexGradientFinalColorCombo(int);
-    void        s_ChIndexGradientIntermColorCombo(int);
-    void        s_ChIndexBackgroundCombo(int);
-    void        s_SelectFile();
-    void        s_ImageEditCorrect();
-    void        s_FullFill();
-    void        s_KeepRatio();
+    void            s_ChIndexPatternBrushCombo(int);
+    void            s_ChIndexGradientOrientationCombo(int);
+    void            s_ChIndexGradientFirstColorCombo(int);
+    void            s_ChIndexGradientFinalColorCombo(int);
+    void            s_ChIndexGradientIntermColorCombo(int);
+    void            s_ChIndexBackgroundCombo(int);
+    void            s_SelectFile();
+    void            s_ImageEditCorrect();
+    void            s_FullFill();
+    void            s_KeepRatio();
+
+signals:
+    void            RefreshDisplay();
 
 private:
     Ui::DlgBackgroundProperties *ui;

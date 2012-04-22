@@ -43,23 +43,25 @@ namespace Ui {
 class DlgTextEdit : public QCustomDialog {
 Q_OBJECT
 public:
-    bool                IsFirstInit;
     cCompositionObject  *CurrentTextItem;                       // Text to modify
     cBrushDefinition    *CurrentBrush;                          // Brush to modify
     bool                StopMAJSpinbox;
     cStyleCollection    *StyleTextCollection;                   // Link to text style collection
     cStyleCollection    *StyleTextBackgroundCollection;         // Link to background text style collection
+    QString             CurrentPlainText;
 
     explicit        DlgTextEdit(cCompositionObject *CurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
                                 cStyleCollection *StyleTextCollection,cStyleCollection *StyleTextBackgroundCollection,QWidget *parent=0);
                     ~DlgTextEdit();
 
     // function to be overloaded
-    virtual void    DoInitDialog();                             // Initialise dialog
-    virtual void    DoAccept() {/*Nothing to do*/}              // Call when user click on Ok button
-    virtual void    DoRejet()  {/*Nothing to do*/}              // Call when user click on Cancel button
-    virtual void    PrepareGlobalUndo();                        // Initiale Undo
-    virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
+    virtual void    DoInitDialog();                                         // Initialise dialog
+    virtual void    DoAccept() {/*Nothing to do*/}                          // Call when user click on Ok button
+    virtual void    DoRejet()  {/*Nothing to do*/}                          // Call when user click on Cancel button
+    virtual void    PrepareGlobalUndo();                                    // Initiale Undo
+    virtual void    DoGlobalUndo();                                         // Apply Undo : call when user click on Cancel button
+    virtual void    PreparePartialUndo(int ActionType,QDomElement root);
+    virtual void    ApplyPartialUndo(int ActionType,QDomElement root);
 
     // Other
     void            RefreshControls();

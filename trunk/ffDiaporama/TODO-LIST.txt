@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 15/04/2012) :
+Buggs/TODO (Dernier SVN le 16/04/2012) :
 ----------------------------------------
 TODO
 ----
@@ -17,16 +17,31 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le bug d'initialisation qui faisait parfois planter la boite image lors de l'ouverture (Version 20120415)
--Corrige les erreurs d'affichage d'état du bouton des guides dans la boite image (Version 20120415)
--Corrige le plantage lors des suppressions successives de plan dans la boite slide (Version 20120403)
+-Fixe le plantage quand on fait un click droit dans la table des blocs de la boite diapositive et que celle ci est vide
+-Fixe le plantage quand on fait un double click sur la timeline dans la fenetre principale et que le projet est vide
+-Rend de nouveau actif le bouton des styles pour les fonds de bloc de texte dans la boite texte
+-Met à jours l'affichage de la durée ajoutée quand on sort de la boite d'édition vidéo dans la boite slide
+-Corrige la valeur maximum pour la durée de la vidéo pour le champ position de fin dans la boite vidéo
 
 English version / Bug fix :
--Fix sometimes crash on opening image dialog (Version 20120415)
--Fix incorect display state of the rulers button in image dialog (Version 20120415)
--Fix crash during the successive deletions of shot in slide dialog (Version 20120403)
+-Fix crash when right click on block table in slide dialog and this table is empty
+-Fix crash when double click on timeline in main window and project is empty
+-Set background style button enable again in text dialog
+-Update display of lenghtened duration when leave video edit dialog in slide dialog
+-Fix max duration for end position field in edit video slide
 
 French version / Nouvelles fonctionnalités :
+-Ajoute .dv à la liste des extensions vidéo supportées
+-Ajoute l'UNDO à la boite texte
+-Ajoute l'ouverture du menu contextuel lors des clicks droit sur la fenêtre de preview dans la fenêtre principale
+-Ajoute les options d'insertion (titre, fichiers et projets) dans les menus contextuels de la fenêtre principale
+-Ajoute l'UNDO dans la boite video
+-Rend l'affichage dynamique quand on sélectionne un nouvel arrière plan dans la boite fond de slide
 
 English version / New features :
-
+-Add .dv to supported video file extension for open
+-Add UNDO feature to text dialog
+-Add contextual menu when right click on preview window in main window
+-Add the insertion options (title, file and project) to contextual menus of the main window
+-Add UNDO feature to edit video dialog
+-Change display to dynamique when select another background in background dialog
