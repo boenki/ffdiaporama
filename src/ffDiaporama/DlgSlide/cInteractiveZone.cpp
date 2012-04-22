@@ -93,7 +93,7 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
     QPainter Painter(this);
     Painter.save();
     Painter.translate(SceneRect.left(),SceneRect.top());
-    Painter.drawImage(0,0,*ForegroundImage);
+    Painter.drawImage(-1,-1,*ForegroundImage);
 
     //Painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
     Painter.setBrush(Qt::NoBrush);
@@ -304,8 +304,8 @@ void cInteractiveZone::RefreshDisplay() {
             ForegroundImage=NULL;
         }
 
-        ForegroundImage =new QImage(BackgroundImage->scaled(QSize(this->width(),this->height()),Qt::KeepAspectRatio,Qt::SmoothTransformation));
-        SceneRect       =QRect((this->width()-ForegroundImage->width())/2,(this->height()-ForegroundImage->height())/2,ForegroundImage->width(),ForegroundImage->height());
+        ForegroundImage =new QImage(BackgroundImage->scaled(QSize(this->width()+2,this->height()+2),Qt::KeepAspectRatio,Qt::SmoothTransformation));
+        SceneRect       =QRect((this->width()+2-ForegroundImage->width())/2,(this->height()+2-ForegroundImage->height())/2,ForegroundImage->width(),ForegroundImage->height());
 
         UpdateIsSelected();
 
@@ -349,7 +349,7 @@ void cInteractiveZone::RefreshDisplay() {
                                                                         (IsCapture)&&(TransfoType!=NOTYETDEFINED),NewX,NewY,NewW,NewH);
 
             if ((CurrentShotNbr>0)&&(BlockTable->CompositionList->List[i]->SameAsPrevShot))
-                P.drawImage((NewX+NewW/2)*ForegroundImage->width()-12,(NewY+NewH/2)*ForegroundImage->height()-12,QImage(":/img/Lock24.png"));
+                P.drawImage((NewX+NewW/2)*double(ForegroundImage->width())-12,(NewY+NewH/2)*double(ForegroundImage->height())-12,QImage(":/img/Lock24.png"));
         }
 
         P.restore();

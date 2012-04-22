@@ -1865,6 +1865,45 @@
       </spacer>
      </item>
      <item>
+      <widget class="QPushButton" name="OKBT">
+       <property name="toolTip">
+        <string>Accept modification and exit dialog box</string>
+       </property>
+       <property name="text">
+        <string>&amp;Ok</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../RSCffDiaporama.qrc">
+         <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_9">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>20</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>20</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item>
       <widget class="QPushButton" name="UndoBT">
        <property name="toolTip">
         <string>Undo last action (CTRL+Z)</string>
@@ -1878,20 +1917,6 @@
        </property>
        <property name="shortcut">
         <string>Ctrl+Z</string>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="OKBT">
-       <property name="toolTip">
-        <string>Accept modification and exit dialog box</string>
-       </property>
-       <property name="text">
-        <string>&amp;Ok</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
      </item>
@@ -1985,7 +2010,6 @@
   <tabstop>BlurRadiusED</tabstop>
   <tabstop>RadiusResetBT</tabstop>
   <tabstop>RulersBT</tabstop>
-  <tabstop>UndoBT</tabstop>
   <tabstop>OKBT</tabstop>
   <tabstop>CancelBt</tabstop>
   <tabstop>HelpBT</tabstop>

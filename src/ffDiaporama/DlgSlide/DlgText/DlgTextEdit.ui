@@ -77,7 +77,7 @@
             <string notr="true"/>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
            </property>
            <property name="arrowType">
@@ -203,7 +203,7 @@
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_list.png</normaloff>:/img/Text/text_list.png</iconset>
            </property>
            <property name="checkable">
@@ -238,7 +238,7 @@
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_list_nbr.png</normaloff>:/img/Text/text_list_nbr.png</iconset>
            </property>
            <property name="checkable">
@@ -292,7 +292,7 @@
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_align_left.png</normaloff>:/img/Text/text_align_left.png</iconset>
            </property>
            <property name="checkable">
@@ -327,7 +327,7 @@
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_align_justif.png</normaloff>:/img/Text/text_align_justif.png</iconset>
            </property>
            <property name="checkable">
@@ -359,7 +359,7 @@
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_align_center.png</normaloff>:/img/Text/text_align_center.png</iconset>
            </property>
            <property name="checkable">
@@ -391,7 +391,7 @@
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_align_right.png</normaloff>:/img/Text/text_align_right.png</iconset>
            </property>
            <property name="checkable">
@@ -515,7 +515,7 @@ color: #000000;
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_bold.png</normaloff>:/img/Text/text_bold.png</iconset>
            </property>
            <property name="checkable">
@@ -547,7 +547,7 @@ color: #000000;
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_italic.png</normaloff>:/img/Text/text_italic.png</iconset>
            </property>
            <property name="checkable">
@@ -576,7 +576,7 @@ color: #000000;
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_underline.png</normaloff>:/img/Text/text_underline.png</iconset>
            </property>
            <property name="checkable">
@@ -605,7 +605,7 @@ color: #000000;
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_super.png</normaloff>:/img/Text/text_super.png</iconset>
            </property>
            <property name="checkable">
@@ -634,7 +634,7 @@ color: #000000;
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_sub.png</normaloff>:/img/Text/text_sub.png</iconset>
            </property>
            <property name="checkable">
@@ -682,7 +682,7 @@ color: #000000;
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_indent_in.png</normaloff>:/img/Text/text_indent_in.png</iconset>
            </property>
            <property name="autoExclusive">
@@ -711,7 +711,7 @@ color: #000000;
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_indent_out.png</normaloff>:/img/Text/text_indent_out.png</iconset>
            </property>
            <property name="autoExclusive">
@@ -759,7 +759,7 @@ color: #000000;
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_align_vup.png</normaloff>:/img/Text/text_align_vup.png</iconset>
            </property>
            <property name="checkable">
@@ -791,7 +791,7 @@ color: #000000;
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_align_vcenter.png</normaloff>:/img/Text/text_align_vcenter.png</iconset>
            </property>
            <property name="checkable">
@@ -823,7 +823,7 @@ color: #000000;
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset resource="../../RSCffDiaporama.qrc">
+            <iconset resource="../../../../RSCffDiaporama.qrc">
              <normaloff>:/img/Text/text_align_vbottom.png</normaloff>:/img/Text/text_align_vbottom.png</iconset>
            </property>
            <property name="checkable">
@@ -853,7 +853,7 @@ color: #000000;
         </layout>
        </item>
        <item>
-        <widget class="QTextEdit" name="TextEdit">
+        <widget class="cCustomTextEdit" name="TextEdit">
          <property name="html">
           <string notr="true">&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
@@ -935,7 +935,7 @@ p, li { white-space: pre-wrap; }
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset resource="../../../../RSCffDiaporama.qrc">
                <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
              </property>
              <property name="arrowType">
@@ -980,7 +980,7 @@ p, li { white-space: pre-wrap; }
               <string notr="true"/>
              </property>
              <property name="pixmap">
-              <pixmap resource="../../RSCffDiaporama.qrc">:/img/color.png</pixmap>
+              <pixmap resource="../../../../RSCffDiaporama.qrc">:/img/color.png</pixmap>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1135,7 +1135,7 @@ p, li { white-space: pre-wrap; }
               <string notr="true"/>
              </property>
              <property name="pixmap">
-              <pixmap resource="../../RSCffDiaporama.qrc">:/img/pattern_fill.png</pixmap>
+              <pixmap resource="../../../../RSCffDiaporama.qrc">:/img/pattern_fill.png</pixmap>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1188,7 +1188,7 @@ p, li { white-space: pre-wrap; }
               <string notr="true"/>
              </property>
              <property name="pixmap">
-              <pixmap resource="../../RSCffDiaporama.qrc">:/img/Distance.png</pixmap>
+              <pixmap resource="../../../../RSCffDiaporama.qrc">:/img/Distance.png</pixmap>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1357,7 +1357,7 @@ p, li { white-space: pre-wrap; }
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../RSCffDiaporama.qrc">:/img/object_image.png</pixmap>
+                <pixmap resource="../../../../RSCffDiaporama.qrc">:/img/object_image.png</pixmap>
                </property>
                <property name="scaledContents">
                 <bool>true</bool>
@@ -1459,8 +1459,50 @@ p, li { white-space: pre-wrap; }
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../RSCffDiaporama.qrc">
+        <iconset resource="../../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>20</width>
+         <height>0</height>
+        </size>
+       </property>
+       <property name="maximumSize">
+        <size>
+         <width>20</width>
+         <height>16777215</height>
+        </size>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="UndoBT">
+       <property name="toolTip">
+        <string>Undo last action (CTRL+Z)</string>
+       </property>
+       <property name="text">
+        <string>Undo</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../../RSCffDiaporama.qrc">
+         <normaloff>:/img/undo24.png</normaloff>:/img/undo24.png</iconset>
+       </property>
+       <property name="shortcut">
+        <string>Ctrl+Z</string>
        </property>
       </widget>
      </item>
@@ -1473,7 +1515,7 @@ p, li { white-space: pre-wrap; }
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../RSCffDiaporama.qrc">
+        <iconset resource="../../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -1487,7 +1529,7 @@ p, li { white-space: pre-wrap; }
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../RSCffDiaporama.qrc">
+        <iconset resource="../../../../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
@@ -1519,6 +1561,11 @@ p, li { white-space: pre-wrap; }
    <class>cBackgroundComboBox</class>
    <extends>QComboBox</extends>
    <header>cCustomComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCustomTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>DlgSlide/DlgText/cCustomTextEdit.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

@@ -20,33 +20,42 @@
 
 #include "DlgVideoEdit.h"
 #include "ui_DlgVideoEdit.h"
-#include "../../mainwindow.h"
 
-DlgVideoEdit::DlgVideoEdit(cBrushDefinition *TheCurrentBrush,QWidget *parent):QDialog(parent),ui(new Ui::DlgVideoEdit) {
+// Undo actions
+#define UNDOACTION_STARTPOS     1
+#define UNDOACTION_ENDPOS       2
+#define UNDOACTION_VOLUME       3
+
+DlgVideoEdit::DlgVideoEdit(cBrushDefinition *TheCurrentBrush,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgVideoEdit) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::DlgVideoEdit");
     ui->setupUi(this);
+
+    OkBt            =ui->OKBT;
+    CancelBt        =ui->CancelBt;
+    HelpBt          =ui->HelpBT;
+    UndoBt          =ui->UndoBT;
     CurrentBrush    =TheCurrentBrush;
-    IsFirstInitDone =false;            // true when first show window was done
+    StopMaj         =false;
+}
 
-    setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+//====================================================================================================================
 
-    // Save object before modification for cancel button
-    Undo=new QDomDocument(APPLICATION_NAME);
-    QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
-    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT",GlobalMainWindow->Diaporama->ProjectFileName,true);  // Save object
-    Undo->appendChild(root);                                // Add object to xml document
+DlgVideoEdit::~DlgVideoEdit() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::~DlgVideoEdit");
+    delete ui;
+}
+
+//====================================================================================================================
+// Initialise dialog
+
+void DlgVideoEdit::DoInitDialog() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::DoInitDialog");
 
     // Init embeded widgets
     for (int Factor=150;Factor>=0;Factor-=10) ui->VolumeReductionFactorCB->addItem(QString("%1%").arg(Factor));
-    ui->StartPosEd->setTime(CurrentBrush->Video->StartPos);
-    ui->EndPosEd->setTime(CurrentBrush->Video->EndPos);
-    SetActualDuration();
+    RefreshControls();
 
     // Define handler
-    connect(ui->CloseBT,SIGNAL(clicked()),this,SLOT(reject()));
-    connect(ui->OKBT,SIGNAL(clicked()),this,SLOT(accept()));
-    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(Help()));
-
     connect(ui->VolumeReductionFactorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(MusicReduceFactorChange(int)));
     connect(ui->DefStartPosBT,SIGNAL(clicked()),this,SLOT(s_DefStartPos()));
     connect(ui->DefEndPosBT,SIGNAL(clicked()),this,SLOT(s_DefEndPos()));
@@ -57,108 +66,89 @@ DlgVideoEdit::DlgVideoEdit(cBrushDefinition *TheCurrentBrush,QWidget *parent):QD
 }
 
 //====================================================================================================================
+// Initiale Undo
 
-DlgVideoEdit::~DlgVideoEdit() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::~DlgVideoEdit");
-    delete ui;
-    delete Undo;
+void DlgVideoEdit::PrepareGlobalUndo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::PrepareGlobalUndo");
+
+    Undo=new QDomDocument(APPLICATION_NAME);
+    QDomElement root=Undo->createElement("UNDO-DLG");       // Create xml document and root
+    root.setAttribute("StartPos",CurrentBrush->Video->StartPos.toString("HH:mm:ss.zzz"));
+    root.setAttribute("EndPos",CurrentBrush->Video->EndPos.toString("HH:mm:ss.zzz"));
+    root.setAttribute("SoundVolume",QString("%1").arg(CurrentBrush->SoundVolume,0,'f'));
+    Undo->appendChild(root);                                // Add object to xml document
 }
 
 //====================================================================================================================
+// Apply Undo : call when user click on Cancel button
 
-void DlgVideoEdit::Help() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::Help");
-    GlobalMainWindow->OpenHelp(HELPFILE_DlgVideoEdit);
-}
+void DlgVideoEdit::DoGlobalUndo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::DoGlobalUndo");
 
-//====================================================================================================================
-
-void DlgVideoEdit::SetSavedWindowGeometry() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::SetSavedWindowGeometry");
-    GlobalMainWindow->ApplicationConfig->DlgVideoEditWSP->ApplyToWindow(this);
-    if (!ui->VideoPlayer->IsValide) {
-        ui->VideoPlayer->StartPlay(CurrentBrush->Video,GlobalMainWindow->ApplicationConfig->PreviewFPS);
-        ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
-                                        QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
-                                        -1,0,-1,0);
+    QDomElement root=Undo->documentElement();
+    if (root.tagName()=="UNDO-DLG") {
+        CurrentBrush->Video->StartPos=QTime().fromString(root.attribute("StartPos"));
+        CurrentBrush->Video->EndPos  =QTime().fromString(root.attribute("EndPos"));
+        CurrentBrush->SoundVolume    =root.attribute("SoundVolume").toDouble();
     }
 }
 
 //====================================================================================================================
 
-void DlgVideoEdit::showEvent(QShowEvent *ev) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::showEvent");
-    QDialog::showEvent(ev);
-    if (IsFirstInitDone) return;    // Ensure we do this only one time
-    QTimer::singleShot(0,this,SLOT(SetSavedWindowGeometry()));
-    IsFirstInitDone=true;                                   // Set this flag to true to indicate that now we can prepeare display
+void DlgVideoEdit::PreparePartialUndo(int /*ActionType*/,QDomElement root) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::PreparePartialUndo");
+
+    root.setAttribute("StartPos",CurrentBrush->Video->StartPos.toString("HH:mm:ss.zzz"));               // Start position (video only)
+    root.setAttribute("EndPos",CurrentBrush->Video->EndPos.toString("HH:mm:ss.zzz"));                   // End position (video only)
+    root.setAttribute("SoundVolume",QString("%1").arg(CurrentBrush->SoundVolume,0,'f'));                // Volume of soundtrack (for video only)
 }
 
 //====================================================================================================================
 
-void DlgVideoEdit::reject() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::reject");
-    // Save Window size and position
-    GlobalMainWindow->ApplicationConfig->DlgVideoEditWSP->SaveWindowState(this);
-    QDomElement root=Undo->documentElement();
-    if (root.tagName()=="UNDO-DLG") CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL);
-    done(1);
+void DlgVideoEdit::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::ApplyPartialUndo");
+
+    CurrentBrush->Video->StartPos=QTime().fromString(root.attribute("StartPos"));
+    CurrentBrush->Video->EndPos  =QTime().fromString(root.attribute("EndPos"));
+    CurrentBrush->SoundVolume    =root.attribute("SoundVolume").toDouble();
+    RefreshControls();
 }
 
 //====================================================================================================================
 
-void DlgVideoEdit::accept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::accept");
-    // Save Window size and position
-    GlobalMainWindow->ApplicationConfig->DlgVideoEditWSP->SaveWindowState(this);
-
-
-    // Close the box
-    done(0);
+void DlgVideoEdit::RestoreWindowState() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::RestoreWindowState");
+    QCustomDialog::RestoreWindowState();
+    if (!ui->VideoPlayer->IsValide) {
+        ui->VideoPlayer->StartPlay(CurrentBrush->Video,((cApplicationConfig *)BaseApplicationConfig)->PreviewFPS);
+        ui->EndPosEd->setMaximumTime(CurrentBrush->Video->Duration);
+        RefreshControls();
+    }
 }
 
 //====================================================================================================================
 
-void DlgVideoEdit::s_DefStartPos() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::s_DefStartPos");
-    CurrentBrush->Video->StartPos=ui->VideoPlayer->GetCurrentPos();
-    ui->StartPosEd->setTime(CurrentBrush->Video->StartPos);
-    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
-                                    QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
-                                    -1,0,-1,0);
-    SetActualDuration();
-}
+void DlgVideoEdit::RefreshControls() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::RefreshControls");
 
-//====================================================================================================================
-
-void DlgVideoEdit::s_EditStartPos(QTime NewValue) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::s_EditStartPos");
-    CurrentBrush->Video->StartPos=NewValue;
-    ui->StartPosEd->setTime(CurrentBrush->Video->StartPos);
-    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
-                                    QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
-                                    -1,0,-1,0);
-    SetActualDuration();
-}
-
-//====================================================================================================================
-
-void DlgVideoEdit::SetActualDuration() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::SetActualDuration");
-    QTime Duration;
-
-    Duration=QTime(0,0,0,0).addMSecs(CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos));
-
+    StopMaj=true;
+    QTime Duration=QTime(0,0,0,0).addMSecs(CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos));
     ui->ActualDuration->setText(Duration.toString("hh:mm:ss.zzz"));
-    ui->EndPosEd->setMinimumTime(CurrentBrush->Video->StartPos);
-    ui->StartPosEd->setMaximumTime(CurrentBrush->Video->EndPos);
+    ui->StartPosEd->setMaximumTime(CurrentBrush->Video->EndPos);    ui->StartPosEd->setTime(CurrentBrush->Video->StartPos);
+    ui->EndPosEd->setMinimumTime(CurrentBrush->Video->StartPos);    ui->EndPosEd->setTime(CurrentBrush->Video->EndPos);
     ui->VolumeReductionFactorCB->setCurrentIndex(ui->VolumeReductionFactorCB->findText(QString("%1%").arg(int(CurrentBrush->SoundVolume*100))));
+    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                    QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                    -1,0,-1,0);
+    StopMaj=false;
 }
 
 //====================================================================================================================
 
 void DlgVideoEdit::MusicReduceFactorChange(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::MusicReduceFactorChange");
+    if (StopMaj) return;
+    AppendPartialUndo(UNDOACTION_VOLUME,ui->VolumeReductionFactorCB,true);
     QString Volume=ui->VolumeReductionFactorCB->currentText();
     if (Volume!="") Volume=Volume.left(Volume.length()-1);  // Remove %
     CurrentBrush->SoundVolume=double(Volume.toInt())/100;
@@ -166,26 +156,43 @@ void DlgVideoEdit::MusicReduceFactorChange(int) {
 
 //====================================================================================================================
 
+void DlgVideoEdit::s_DefStartPos() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::s_DefStartPos");
+    if (StopMaj) return;
+    AppendPartialUndo(UNDOACTION_STARTPOS,ui->StartPosEd,true);
+    CurrentBrush->Video->StartPos=ui->VideoPlayer->GetCurrentPos();
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgVideoEdit::s_EditStartPos(QTime NewValue) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::s_EditStartPos");
+    if (StopMaj) return;
+    AppendPartialUndo(UNDOACTION_STARTPOS,ui->StartPosEd,false);
+    CurrentBrush->Video->StartPos=NewValue;
+    RefreshControls();
+}
+
+//====================================================================================================================
+
 void DlgVideoEdit::s_DefEndPos() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::s_DefEndPos");
+    if (StopMaj) return;
+    AppendPartialUndo(UNDOACTION_ENDPOS,ui->EndPosEd,true);
     CurrentBrush->Video->EndPos=ui->VideoPlayer->GetCurrentPos();
-    ui->EndPosEd->setTime(CurrentBrush->Video->EndPos);
-    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
-                                    QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
-                                    -1,0,-1,0);
-    SetActualDuration();
+    RefreshControls();
 }
 
 //====================================================================================================================
 
 void DlgVideoEdit::s_EditEndPos(QTime NewValue) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::s_EditEndPos");
+    if (StopMaj) return;
+    AppendPartialUndo(UNDOACTION_ENDPOS,ui->EndPosEd,false);
     CurrentBrush->Video->EndPos=NewValue;
     ui->EndPosEd->setTime(CurrentBrush->Video->EndPos);
-    ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
-                                    QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
-                                    -1,0,-1,0);
-    SetActualDuration();
+    RefreshControls();
 }
 
 //====================================================================================================================

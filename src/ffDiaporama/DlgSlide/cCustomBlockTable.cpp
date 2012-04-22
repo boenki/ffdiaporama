@@ -257,7 +257,7 @@ void cCustomBlockTable::mouseDoubleClickEvent(QMouseEvent *ev) {
 void cCustomBlockTable::mousePressEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBlockTable::mousePressEvent");
     QTableWidget::mousePressEvent(event);
-    if (IsDragOn) return;
+    if ((IsDragOn)||(rowCount()==0)) return;
     setCursor(Qt::ArrowCursor);
     IsDragOn      =false;
     DragItemSource=(event->pos().y()+verticalOffset())/rowHeight(0);

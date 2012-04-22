@@ -3200,6 +3200,45 @@ and help</string>
     <string>Ctrl+V</string>
    </property>
   </action>
+  <action name="actionAddTitle">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add title</string>
+   </property>
+   <property name="toolTip">
+    <string>Add an empty slide</string>
+   </property>
+  </action>
+  <action name="actionAddFiles">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add files</string>
+   </property>
+   <property name="toolTip">
+    <string>Add image or video as slide (INS)</string>
+   </property>
+   <property name="shortcut">
+    <string>Ins</string>
+   </property>
+  </action>
+  <action name="actionAddProject">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/add_project.png</normaloff>:/img/add_project.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add project</string>
+   </property>
+   <property name="toolTip">
+    <string>Add a previously saved project at the end of this project</string>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

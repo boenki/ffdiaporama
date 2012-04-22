@@ -87,7 +87,8 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../sharedfiles/DlgInfoFile.cpp \
             ../fmt_filters/fmt_filters.cpp \ 
     DlgSlide/cCustomShotTable.cpp \
-    DlgImage/cImgInteractiveZone.cpp
+    DlgImage/cImgInteractiveZone.cpp \
+    DlgSlide/DlgText/cCustomTextEdit.cpp
 
 HEADERS  += \
             _SoundDefinitions.h \
@@ -134,7 +135,8 @@ HEADERS  += \
             ../sharedfiles/DlgInfoFile.h \
             ../fmt_filters/fmt_filters.h \ 
     DlgSlide/cCustomShotTable.h \
-    DlgImage/cImgInteractiveZone.h
+    DlgImage/cImgInteractiveZone.h \
+    DlgSlide/DlgText/cCustomTextEdit.h
 
 FORMS    += mainwindow.ui \
             wgt_QVideoPlayer.ui \

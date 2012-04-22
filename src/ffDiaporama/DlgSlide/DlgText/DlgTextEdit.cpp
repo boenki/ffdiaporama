@@ -20,12 +20,39 @@
 
 #include "DlgTextEdit.h"
 #include "ui_DlgTextEdit.h"
+#include "cCustomTextEdit.h"
 
 #include <QTextCharFormat>
 #include <QTextList>
 #include <QAbstractTextDocumentLayout>
 
-#define SIZERATIO   0.5
+#define SIZERATIO                       0.5
+
+// Undo actions
+#define UNDOACTION_MODIFTEXT            1
+#define UNDOACTION_BRUSHTYPE            2
+#define UNDOACTION_BRUSHPATTERNBRUSH    3
+#define UNDOACTION_BRUSHORIENTATION     4
+#define UNDOACTION_BRUSHFIRSTCOLOR      5
+#define UNDOACTION_BRUSHFINALCOLOR      6
+#define UNDOACTION_BRUSHINTERMCOLOR     7
+#define UNDOACTION_BRUSHINTERMPOS       8
+#define UNDOACTION_BRUSHLIBBRUSH        9
+#define UNDOACTION_FONTCOLOR            10
+#define UNDOACTION_FONTSHADOWCOLOR      11
+#define UNDOACTION_FONTSTYLE            12
+#define UNDOACTION_FONTSIZE             13
+#define UNDOACTION_FONTEFFECT           14
+#define UNDOACTION_CHARSTYLE            15
+#define UNDOACTION_ALIGNH               16
+#define UNDOACTION_ALIGNV               17
+#define UNDOACTION_INDENT               18
+#define UNDOACTION_LIST                 19
+#define UNDOSTYLE_TEXT                  20
+#define UNDOSTYLE_BACKGROUND            21
+
+
+//====================================================================================================================
 
 DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
                          cStyleCollection *TheStyleTextCollection,cStyleCollection *TheStyleTextBackgroundCollection,QWidget *parent):
@@ -37,11 +64,11 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QString HelpURL,
     OkBt                            =ui->OKBT;
     CancelBt                        =ui->CancelBt;
     HelpBt                          =ui->HelpBT;
+    UndoBt                          =ui->UndoBT;
     CurrentTextItem                 =TheCurrentTextItem;
     StyleTextCollection             =TheStyleTextCollection;
     StyleTextBackgroundCollection   =TheStyleTextBackgroundCollection;
     StopMAJSpinbox                  =false;
-    IsFirstInit                     =false;
 }
 
 //====================================================================================================================
@@ -59,6 +86,7 @@ void DlgTextEdit::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::DoInitDialog");
 
     ui->tabWidget->setCurrentIndex(0);
+    ui->TextEdit->setUndoRedoEnabled(false);    // we want to manage the undo
 
     // Init check box
     ui->textLeft->setCheckable(true);
@@ -84,6 +112,7 @@ void DlgTextEdit::DoInitDialog() {
     QTextCursor Cursor=ui->TextEdit->textCursor();
     Cursor.movePosition(QTextCursor::Start);
     ui->TextEdit->setTextCursor(Cursor);
+    CurrentPlainText=ui->TextEdit->toPlainText();
 
     // Init combo box FontEffect
     ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","No effect"));
@@ -107,6 +136,7 @@ void DlgTextEdit::DoInitDialog() {
     // Define handler
     connect(ui->TextEdit,SIGNAL(textChanged()),this,SLOT(s_TextEditChange()));
     connect(ui->TextEdit,SIGNAL(cursorPositionChanged()),this,SLOT(s_cursorPositionChanged()));
+    connect(ui->TextEdit,SIGNAL(UndoSignal()),this,SLOT(DoPartialUndo()));
 
     connect(ui->FontColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontColorCombo(int)));
     connect(ui->StyleShadowColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexFontShadowColorCombo(int)));
@@ -119,15 +149,10 @@ void DlgTextEdit::DoInitDialog() {
     connect(ui->TextSuperBt,SIGNAL(released()),this,SLOT(s_SetTextSuper()));
     connect(ui->TextSubBt,SIGNAL(released()),this,SLOT(s_SetTextSub()));
 
-    connect(ui->TextStyleBT,SIGNAL(pressed()),this,SLOT(s_TextStyleBT()));
-
     connect(ui->textLeft,SIGNAL(pressed()),this,SLOT(s_SetTextLeft()));
     connect(ui->textCenter,SIGNAL(pressed()),this,SLOT(s_SetTextCenter()));
     connect(ui->textRight,SIGNAL(pressed()),this,SLOT(s_SetTextRight()));
     connect(ui->textJustif,SIGNAL(pressed()),this,SLOT(s_SetTextJustif()));
-
-    connect(ui->Souligne,SIGNAL(released()),this,SLOT(s_SetUnderline()));
-    connect(ui->Souligne,SIGNAL(released()),this,SLOT(s_SetUnderline()));
 
     connect(ui->IndentInBt,SIGNAL(pressed()),this,SLOT(s_IndentInBt()));
     connect(ui->IndentOutBt,SIGNAL(pressed()),this,SLOT(s_IndentOutBt()));
@@ -151,6 +176,10 @@ void DlgTextEdit::DoInitDialog() {
     connect(ui->BackgroundCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexBackgroundCombo(int)));
     connect(ui->IntermPosSlider,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
     connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
+
+    // Style
+    connect(ui->TextStyleBT,SIGNAL(pressed()),this,SLOT(s_TextStyleBT()));
+    connect(ui->BackgroundStyleBT,SIGNAL(pressed()),this,SLOT(s_BackgroundStyleBT()));
 
     RefreshControls();
 }
@@ -177,6 +206,30 @@ void DlgTextEdit::DoGlobalUndo() {
     // Restore element
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);
+}
+
+//====================================================================================================================
+
+void DlgTextEdit::PreparePartialUndo(int /*ActionType*/,QDomElement root) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::PreparePartialUndo");
+
+    CurrentTextItem->SaveToXML(root,"UNDO-DLG-OBJECT","",NULL,false);  // Save object
+    root.setAttribute("Position",ui->TextEdit->textCursor().position());
+}
+
+//====================================================================================================================
+
+void DlgTextEdit::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::ApplyPartialUndo");
+
+    CurrentTextItem->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL,false);
+    StopMAJSpinbox=true;
+    ui->TextEdit->setHtml(CurrentTextItem->Text);
+    QTextCursor Cursor=ui->TextEdit->textCursor();
+    Cursor.setPosition(root.attribute("Position").toInt(),QTextCursor::MoveAnchor);
+    ui->TextEdit->setTextCursor(Cursor);
+    StopMAJSpinbox=false;
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -356,6 +409,7 @@ void DlgTextEdit::MakeTextStyleIcon(QComboBox *UICB) {
 void DlgTextEdit::s_SetBold() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetBold");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_CHARSTYLE,ui->TextEdit,true);
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
@@ -374,6 +428,7 @@ void DlgTextEdit::s_SetBold() {
 void DlgTextEdit::s_SetItalic() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetItalic");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_CHARSTYLE,ui->TextEdit,true);
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
@@ -392,6 +447,7 @@ void DlgTextEdit::s_SetItalic() {
 void DlgTextEdit::s_SetUnderline() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetUnderline");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_CHARSTYLE,ui->TextEdit,true);
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
@@ -410,6 +466,7 @@ void DlgTextEdit::s_SetUnderline() {
 void DlgTextEdit::s_SetTextSuper() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextSuper");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_CHARSTYLE,ui->TextEdit,true);
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
@@ -432,6 +489,7 @@ void DlgTextEdit::s_SetTextSuper() {
 void DlgTextEdit::s_SetTextSub() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextSub");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_CHARSTYLE,ui->TextEdit,true);
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
@@ -454,8 +512,9 @@ void DlgTextEdit::s_SetTextSub() {
 void DlgTextEdit::s_SetTextLeft() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextLeft");
     if (StopMAJSpinbox) return;
-    ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0xf0)|Qt::AlignLeft);
+    AppendPartialUndo(UNDOACTION_ALIGNH,ui->TextEdit,true);
 
+    ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0xf0)|Qt::AlignLeft);
     CurrentTextItem->HAlign=0;
     CurrentTextItem->Text=ui->TextEdit->toHtml();
     RefreshControls();
@@ -466,6 +525,8 @@ void DlgTextEdit::s_SetTextLeft() {
 void DlgTextEdit::s_SetTextCenter() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextCenter");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_ALIGNH,ui->TextEdit,true);
+
     ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0xf0)|Qt::AlignHCenter);
     CurrentTextItem->HAlign=1;
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -477,6 +538,8 @@ void DlgTextEdit::s_SetTextCenter() {
 void DlgTextEdit::s_SetTextRight() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextRight");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_ALIGNH,ui->TextEdit,true);
+
     ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0xf0)|Qt::AlignRight);
     CurrentTextItem->HAlign=2;
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -488,6 +551,8 @@ void DlgTextEdit::s_SetTextRight() {
 void DlgTextEdit::s_SetTextJustif() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextJustif");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_ALIGNH,ui->TextEdit,true);
+
     ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0xf0)|Qt::AlignJustify);
     CurrentTextItem->HAlign=3;
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -499,6 +564,7 @@ void DlgTextEdit::s_SetTextJustif() {
 void DlgTextEdit::s_IndentInBt() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_IndentInBt");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_INDENT,ui->TextEdit,true);
 
     QTextCursor         Cursor(ui->TextEdit->textCursor());
     QTextBlockFormat    TBF  =Cursor.blockFormat();
@@ -527,6 +593,7 @@ void DlgTextEdit::s_IndentInBt() {
 void DlgTextEdit::s_IndentOutBt() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_IndentOutBt");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_INDENT,ui->TextEdit,true);
 
     QTextCursor         Cursor(ui->TextEdit->textCursor());
     QTextBlockFormat    TBF  =Cursor.blockFormat();
@@ -555,6 +622,7 @@ void DlgTextEdit::s_IndentOutBt() {
 void DlgTextEdit::s_ListBt() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ListBt");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_LIST,ui->TextEdit,true);
 
     QTextCursor Cursor(ui->TextEdit->textCursor());
     if (Cursor.currentList()!=NULL) {
@@ -583,6 +651,7 @@ void DlgTextEdit::s_ListBt() {
 void DlgTextEdit::s_ListNbrBt() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ListNbrBt");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_LIST,ui->TextEdit,true);
 
     QTextCursor Cursor(ui->TextEdit->textCursor());
     if (Cursor.currentList()!=NULL) {
@@ -610,8 +679,9 @@ void DlgTextEdit::s_ListNbrBt() {
 //========= Vertical alignment up
 void DlgTextEdit::s_SetTextUp() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextUp");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_ALIGNV,ui->TextEdit,true);
+
     CurrentTextItem->VAlign=0;
     ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0x0f)|Qt::AlignTop);
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -622,8 +692,9 @@ void DlgTextEdit::s_SetTextUp() {
 //========= Vertical alignment center
 void DlgTextEdit::s_SetTextVCenter() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextVCenter");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_ALIGNV,ui->TextEdit,true);
+
     CurrentTextItem->VAlign=1;
     ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0x0f)|Qt::AlignVCenter);
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -634,8 +705,9 @@ void DlgTextEdit::s_SetTextVCenter() {
 //========= Vertical alignment bottom
 void DlgTextEdit::s_SetTextBottom() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_SetTextBottom");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_ALIGNV,ui->TextEdit,true);
+
     CurrentTextItem->VAlign=2;
     ui->TextEdit->setAlignment((ui->TextEdit->alignment() & 0x0f)|Qt::AlignBottom);
     CurrentTextItem->Text=ui->TextEdit->toHtml();
@@ -647,6 +719,7 @@ void DlgTextEdit::s_SetTextBottom() {
 void DlgTextEdit::s_ChangeFont(QFont font) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChangeFont");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_FONTSTYLE,ui->TextEdit,false);
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
@@ -664,6 +737,7 @@ void DlgTextEdit::s_ChangeFont(QFont font) {
 void DlgTextEdit::s_ChangeSizeFont(QString size) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChangeSizeFont");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_FONTSIZE,ui->TextEdit,false);
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
     QTextCharFormat TCF;
@@ -680,8 +754,9 @@ void DlgTextEdit::s_ChangeSizeFont(QString size) {
 //========= Style font
 void DlgTextEdit::s_ChangeStyleFont(int Style) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChangeStyleFont");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_FONTEFFECT,ui->TextEdit,false);
+
     CurrentTextItem->StyleText=Style;
     RefreshControls();
 }
@@ -689,16 +764,23 @@ void DlgTextEdit::s_ChangeStyleFont(int Style) {
 //========= Plain text edit
 void DlgTextEdit::s_TextEditChange() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_TextEditChange");
-
     if (StopMAJSpinbox) return;
-    CurrentTextItem->Text=ui->TextEdit->toHtml();
-    RefreshControls();
+
+    QString TextEditText =ui->TextEdit->toHtml();
+    QString PlainTextEdit=ui->TextEdit->toPlainText();
+    if ((CurrentTextItem->Text!=TextEditText)&&(CurrentPlainText!=PlainTextEdit)) {
+        AppendPartialUndo(UNDOACTION_MODIFTEXT,ui->TextEdit,false);
+        CurrentTextItem->Text=ui->TextEdit->toHtml();
+        RefreshControls();
+    }
+    CurrentPlainText=PlainTextEdit;
 }
 
 //========= Font color
 void DlgTextEdit::s_ChIndexFontColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexFontColorCombo");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_FONTCOLOR,ui->TextEdit,false);
 
     CurrentTextItem->FontColor=ui->FontColorCombo->GetCurrentColor();
 
@@ -717,8 +799,9 @@ void DlgTextEdit::s_ChIndexFontColorCombo(int) {
 //========= Text shadow color
 void DlgTextEdit::s_ChIndexFontShadowColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexFontShadowColorCombo");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_FONTSHADOWCOLOR,ui->TextEdit,false);
+
     CurrentTextItem->FontShadowColor=ui->StyleShadowColorCombo->GetCurrentColor();
     RefreshControls();
 }
@@ -727,8 +810,9 @@ void DlgTextEdit::s_ChIndexFontShadowColorCombo(int) {
 
 void DlgTextEdit::s_ChangeBrushTypeCombo(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChangeBrushTypeCombo");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_BRUSHTYPE,ui->TextEdit,true);
+
     CurrentTextItem->BackgroundBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
     RefreshControls();
 }
@@ -737,8 +821,9 @@ void DlgTextEdit::s_ChangeBrushTypeCombo(int Value) {
 
 void DlgTextEdit::s_IntermPosED(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_IntermPosED");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_BRUSHINTERMPOS,ui->TextEdit,false);
+
     CurrentTextItem->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls();
 }
@@ -750,8 +835,9 @@ void DlgTextEdit::s_IntermPosED(int Value) {
 //========= Pattern shape combo
 void DlgTextEdit::s_ChIndexPatternBrushCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexPatternBrushCombo");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_BRUSHPATTERNBRUSH,ui->TextEdit,false);
+
     CurrentTextItem->BackgroundBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
     RefreshControls();
 }
@@ -759,8 +845,9 @@ void DlgTextEdit::s_ChIndexPatternBrushCombo(int) {
 //========= Gradient shape orientation
 void DlgTextEdit::s_ChIndexGradientOrientationCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexGradientOrientationCombo");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_BRUSHORIENTATION,ui->TextEdit,false);
+
     CurrentTextItem->BackgroundBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
     RefreshControls();
 }
@@ -768,8 +855,9 @@ void DlgTextEdit::s_ChIndexGradientOrientationCombo(int) {
 //========= Shape/Gradient shape first color
 void DlgTextEdit::s_ChIndexGradientFirstColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexGradientFirstColorCombo");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_BRUSHFIRSTCOLOR,ui->TextEdit,false);
+
     CurrentTextItem->BackgroundBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
     RefreshControls();
 }
@@ -777,8 +865,9 @@ void DlgTextEdit::s_ChIndexGradientFirstColorCombo(int) {
 //========= Gradient shape last color
 void DlgTextEdit::s_ChIndexGradientFinalColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexGradientFinalColorCombo");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_BRUSHFINALCOLOR,ui->TextEdit,false);
+
     CurrentTextItem->BackgroundBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
     RefreshControls();
 }
@@ -786,8 +875,9 @@ void DlgTextEdit::s_ChIndexGradientFinalColorCombo(int) {
 //========= Gradient shape intermediate color
 void DlgTextEdit::s_ChIndexGradientIntermColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexGradientIntermColorCombo");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_BRUSHINTERMCOLOR,ui->TextEdit,false);
+
     CurrentTextItem->BackgroundBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
     RefreshControls();
 }
@@ -795,8 +885,9 @@ void DlgTextEdit::s_ChIndexGradientIntermColorCombo(int) {
 //========= Background image
 void DlgTextEdit::s_ChIndexBackgroundCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexBackgroundCombo");
-
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_BRUSHLIBBRUSH,ui->TextEdit,false);
+
     CurrentTextItem->BackgroundBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
     RefreshControls();
 }
@@ -812,6 +903,7 @@ void DlgTextEdit::s_TextStyleBT() {
     QString Item=StyleTextCollection->PopupCollectionMenu(this,ActualStyle);
     ui->TextStyleBT->setDown(false);
     if (Item!="") {
+        AppendPartialUndo(UNDOSTYLE_TEXT,ui->TextEdit,true);
         CurrentTextItem->ApplyTextStyle(StyleTextCollection->GetStyleDef(Item));
         ui->TextEdit->setHtml(CurrentTextItem->Text);
         QTextCursor Cursor=ui->TextEdit->textCursor();
@@ -827,6 +919,9 @@ void DlgTextEdit::s_BackgroundStyleBT() {
     QString ActualStyle=CurrentTextItem->GetBackgroundStyle();
     QString Item=StyleTextBackgroundCollection->PopupCollectionMenu(this,ActualStyle);
     ui->BackgroundStyleBT->setDown(false);
-    if (Item!="") CurrentTextItem->ApplyBackgroundStyle(StyleTextBackgroundCollection->GetStyleDef(Item));
+    if (Item!="") {
+        AppendPartialUndo(UNDOSTYLE_BACKGROUND,ui->TextEdit,true);
+        CurrentTextItem->ApplyBackgroundStyle(StyleTextBackgroundCollection->GetStyleDef(Item));
+    }
     RefreshControls();
 }
