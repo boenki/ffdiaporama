@@ -332,6 +332,68 @@ color: white;
          </item>
         </layout>
        </item>
+       <item>
+        <widget class="QToolButton" name="VideoPlayerSaveImageBT">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="minimumSize">
+          <size>
+           <width>30</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="maximumSize">
+          <size>
+           <width>30</width>
+           <height>32</height>
+          </size>
+         </property>
+         <property name="font">
+          <font>
+           <pointsize>9</pointsize>
+          </font>
+         </property>
+         <property name="toolTip">
+          <string extracomment="Tooltip in dialog box">Save this image of the movie</string>
+         </property>
+         <property name="styleSheet">
+          <string notr="true">QToolButton { /* all types of tool button */
+ 	 background: black;
+     border-top: 1px solid #202020;
+     border-bottom: 0px;
+     border-left: 0px;
+     border-right: 0px;
+     border-radius: 0px;
+     background-color: black;
+ }
+
+ QToolButton[popupMode=&quot;1&quot;] { /* only for MenuButtonPopup */
+     padding-right: 10px; /* make way for the popup button */
+ }
+
+ QToolButton:pressed {
+     background-color: black;
+ }</string>
+         </property>
+         <property name="text">
+          <string notr="true">...</string>
+         </property>
+         <property name="icon">
+          <iconset resource="../../RSCffDiaporama.qrc">
+           <normaloff>:/img/Camera.png</normaloff>:/img/Camera.png</iconset>
+         </property>
+         <property name="iconSize">
+          <size>
+           <width>24</width>
+           <height>24</height>
+          </size>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
     </layout>

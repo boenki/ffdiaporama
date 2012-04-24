@@ -1248,6 +1248,14 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 
         // Background properties
         if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
+            if (BackgroundBrush->Image) {
+                delete BackgroundBrush->Image;
+                BackgroundBrush->Image=NULL;
+            }
+            if (BackgroundBrush->Video) {
+                delete BackgroundBrush->Video;
+                BackgroundBrush->Video=NULL;
+            }
             QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
             BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
             bool ModifyFlag;
@@ -2809,7 +2817,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
         CurrentObject_InObjectTime=TimePosition;
         TransitObject_InObjectTime=TimePosition;
     } else {
-        //==============> Retrieve object informations depending on position (in msec)
+        //==============> Retrieve object information depending on position (in msec)
         // Search wich object for given time position
         int AdjustedDuration=(CurrentObject_Number<Diaporama->List.count())?Diaporama->List[CurrentObject_Number]->GetDuration()-Diaporama->GetTransitionDuration(CurrentObject_Number+1):0;
         if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec

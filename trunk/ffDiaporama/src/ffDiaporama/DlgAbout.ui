@@ -255,7 +255,7 @@ This General Public License does not permit incorporating your program into prop
                   </font>
                  </property>
                  <property name="text">
-                  <string>This application was developped using Open Source version of Qt 4.7 SDK</string>
+                  <string>This application was developed using Open Source version of Qt 4.7 SDK</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -662,7 +662,7 @@ This General Public License does not permit incorporating your program into prop
          </widget>
          <widget class="QWidget" name="tab_4">
           <attribute name="title">
-           <string>System informations</string>
+           <string>System information</string>
           </attribute>
           <layout class="QVBoxLayout" name="verticalLayout_6">
            <property name="spacing">

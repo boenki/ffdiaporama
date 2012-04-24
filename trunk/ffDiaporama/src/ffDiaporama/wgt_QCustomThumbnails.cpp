@@ -127,7 +127,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
     Painter.setBrush(QBrush(QColor(WidgetBackground_Color)));
     Painter.drawRect(-1,0,Width+2,Height-1);
 
-    if ((Object)&&(Type==THUMBNAILTYPE_OBJECT)) {
+    if (Object) {
 
         //==========================================================================================================================
         // Track BACKGROUND

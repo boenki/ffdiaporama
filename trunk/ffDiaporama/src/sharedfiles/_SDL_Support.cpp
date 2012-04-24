@@ -19,6 +19,8 @@
    ====================================================================== */
 
 #include "_SDL_Support.h"
+#include "_QCustomDialog.h"
+#include <QMessageBox>
 
 //*********************************************************************************************************************************************
 // SDL global define values
@@ -59,6 +61,9 @@ void SDLFirstInit(double WantedFPS,bool SDLAncMode) {
 
     // Start SDL
     if (SDL_Init(SDL_INIT_AUDIO)) {
+        CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error during startup"),
+                QApplication::translate("MainWindow","Error during initialisation of sound system. Check your configuration and try again"),
+                QMessageBox::Close,QMessageBox::Close);
         ToLog(LOGMSG_CRITICAL,QString("SDLFirstInit=Could not initialize SDL :%1").arg(SDL_GetError()));
         exit(1);    // ExitApplicationWithFatalError
     }
@@ -108,6 +113,9 @@ void SDLSetFPS(double WantedFPS,bool SDLAncMode) {
 
     Desired.silence =0;
     if (SDL_OpenAudio(&Desired,&AudioSpec)<0) {
+        CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error during startup"),
+                QApplication::translate("MainWindow","Error during initialisation of sound system. Check your configuration and try again"),
+                QMessageBox::Close,QMessageBox::Close);
         ToLog(LOGMSG_CRITICAL,QString("SDLFirstInit=Error in SDL_OpenAudio:%1").arg(SDL_GetError()));
         exit(1);    // ExitApplicationWithFatalError
     }

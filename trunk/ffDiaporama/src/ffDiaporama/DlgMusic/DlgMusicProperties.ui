@@ -35,7 +35,7 @@
    <item>
     <widget class="QRadioButton" name="SameMusicRD">
      <property name="toolTip">
-      <string>Allows to continue to play the play list define by a previous slide</string>
+      <string>Allows one to continue to play the play list define by a previous slide</string>
      </property>
      <property name="text">
       <string>Continue current playlist (defined in a previous slide)</string>
@@ -65,7 +65,7 @@
      <item row="1" column="0">
       <widget class="QRadioButton" name="SameMusicReduceVolumeRD">
        <property name="toolTip">
-        <string>Allows to indicate that from now on, the sound volume is reduced.</string>
+        <string>Allows one to indicate that from now on, the sound volume is reduced.</string>
        </property>
        <property name="text">
         <string>Change volume level to :</string>
@@ -192,7 +192,7 @@
    <item>
     <widget class="QRadioButton" name="NewMusicRD">
      <property name="toolTip">
-      <string>Allows to start a new playlist.</string>
+      <string>Allows one to start a new playlist.</string>
      </property>
      <property name="text">
       <string>Start a new playlist from this slide</string>

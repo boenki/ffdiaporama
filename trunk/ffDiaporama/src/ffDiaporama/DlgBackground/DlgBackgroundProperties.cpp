@@ -24,6 +24,23 @@
 
 #include <QFileDialog>
 
+// Undo actions
+#define UNDOACTION_BACKGROUNDTYPE       1
+#define UNDOACTION_BRUSHTYPE            2
+#define UNDOACTION_BRUSHFILE            3
+#define UNDOACTION_INTERMPOS            4
+#define UNDOACTION_PATTERN              5
+#define UNDOACTION_ORIENTATION          6
+#define UNDOACTION_FIRSTCOLOR           7
+#define UNDOACTION_LASTCOLOR            8
+#define UNDOACTION_INTERMCOLOR          9
+#define UNDOACTION_LIBBRUSH             10
+#define UNDOACTION_EDITIMG              11
+#define UNDOACTION_FULLFILL             12
+#define UNDOACTION_KEEPRATIO            13
+
+//====================================================================================================================
+
 DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgBackgroundProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::DlgBackgroundProperties");
@@ -86,8 +103,6 @@ void DlgBackgroundProperties::DoInitDialog() {
     // Image file
     connect(ui->ImageFileBT,SIGNAL(pressed()),this,SLOT(s_SelectFile()));
     connect(ui->ImageEditCorrectBT,SIGNAL(pressed()),this,SLOT(s_ImageEditCorrect()));
-    ui->KeepRatioRB->setChecked(!DiaporamaObject->BackgroundBrush->FullFilling);
-    ui->FullFillRB->setChecked(DiaporamaObject->BackgroundBrush->FullFilling);
     connect(ui->FullFillRB,SIGNAL(clicked()),this,SLOT(s_FullFill()));
     connect(ui->KeepRatioRB,SIGNAL(clicked()),this,SLOT(s_KeepRatio()));
 }
@@ -138,26 +153,13 @@ void DlgBackgroundProperties::showEvent(QShowEvent *) {
 
 //====================================================================================================================
 
-void DlgBackgroundProperties::s_SameBackground() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_SameBackground");
-    if (DiaporamaObject==NULL) return;
-    DiaporamaObject->BackgroundType=false;
-    RefreshControls();
-}
-
-//====================================================================================================================
-
-void DlgBackgroundProperties::s_NewBackground() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_NewBackground");
-    if (DiaporamaObject==NULL) return;
-    DiaporamaObject->BackgroundType=true;
-    RefreshControls();
-}
-
-//====================================================================================================================
-
 void DlgBackgroundProperties::RefreshControls() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::RefreshControls");
+
+    ui->SameBackgroundRD->setChecked(!DiaporamaObject->BackgroundType);
+    ui->NewBackgroundRD->setChecked(DiaporamaObject->BackgroundType);
+    ui->KeepRatioRB->setChecked(!DiaporamaObject->BackgroundBrush->FullFilling);
+    ui->FullFillRB->setChecked(DiaporamaObject->BackgroundBrush->FullFilling);
 
     bool Allowed=ui->NewBackgroundRD->isChecked();
     if (Allowed) {
@@ -272,9 +274,30 @@ void DlgBackgroundProperties::RefreshControls() {
 
 //====================================================================================================================
 
+void DlgBackgroundProperties::s_SameBackground() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_SameBackground");
+    if (DiaporamaObject==NULL) return;
+    AppendPartialUndo(UNDOACTION_BACKGROUNDTYPE,ui->NewBackgroundRD,true);
+    DiaporamaObject->BackgroundType=false;
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgBackgroundProperties::s_NewBackground() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_NewBackground");
+    if (DiaporamaObject==NULL) return;
+    AppendPartialUndo(UNDOACTION_BACKGROUNDTYPE,ui->NewBackgroundRD,true);
+    DiaporamaObject->BackgroundType=true;
+    RefreshControls();
+}
+
+//====================================================================================================================
+
 void DlgBackgroundProperties::s_ChangeBrushTypeCombo(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChangeBrushTypeCombo");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_BRUSHTYPE,ui->BrushTypeCombo,true);
     DiaporamaObject->BackgroundBrush->BrushType=ui->BrushTypeCombo->itemData(Value).toInt();
     RefreshControls();
 }
@@ -289,6 +312,7 @@ void DlgBackgroundProperties::s_SelectFile() {
                                                  ((cApplicationConfig *)BaseApplicationConfig)->GetFilterForMediaFile(cBaseApplicationConfig::IMAGEFILE));
     QApplication::processEvents();
     if (NewFile=="") return;
+    AppendPartialUndo(UNDOACTION_BRUSHFILE,ui->ImageFileBT,true);
     if (((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories) ((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
     QString BrushFileName=QFileInfo(NewFile).absoluteFilePath();
     if (DiaporamaObject->BackgroundBrush->Image) {
@@ -319,6 +343,7 @@ void DlgBackgroundProperties::s_SelectFile() {
 void DlgBackgroundProperties::s_IntermPosSliderMoved(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_IntermPosSliderMoved");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_INTERMPOS,ui->IntermPosED,false);
     DiaporamaObject->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls();
 }
@@ -328,6 +353,7 @@ void DlgBackgroundProperties::s_IntermPosSliderMoved(int Value) {
 void DlgBackgroundProperties::s_IntermPosED(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_IntermPosED");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_INTERMPOS,ui->IntermPosED,false);
     DiaporamaObject->BackgroundBrush->Intermediate=double(Value)/100;
     RefreshControls();
 }
@@ -340,6 +366,7 @@ void DlgBackgroundProperties::s_IntermPosED(int Value) {
 void DlgBackgroundProperties::s_ChIndexPatternBrushCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexPatternBrushCombo");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_PATTERN,ui->PatternBrushCombo,false);
     DiaporamaObject->BackgroundBrush->PatternType=ui->PatternBrushCombo->GetCurrentBrush()->PatternType;
     RefreshControls();
 }
@@ -348,6 +375,7 @@ void DlgBackgroundProperties::s_ChIndexPatternBrushCombo(int) {
 void DlgBackgroundProperties::s_ChIndexGradientOrientationCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientOrientationCombo");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_ORIENTATION,ui->OrientationCombo,false);
     DiaporamaObject->BackgroundBrush->GradientOrientation=ui->OrientationCombo->GetCurrentBrush()->GradientOrientation;
     RefreshControls();
 }
@@ -356,6 +384,7 @@ void DlgBackgroundProperties::s_ChIndexGradientOrientationCombo(int) {
 void DlgBackgroundProperties::s_ChIndexGradientFirstColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientFirstColorCombo");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_FIRSTCOLOR,ui->FirstColorCombo,false);
     DiaporamaObject->BackgroundBrush->ColorD=ui->FirstColorCombo->GetCurrentColor();
     RefreshControls();
 }
@@ -364,6 +393,7 @@ void DlgBackgroundProperties::s_ChIndexGradientFirstColorCombo(int) {
 void DlgBackgroundProperties::s_ChIndexGradientFinalColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientFinalColorCombo");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_LASTCOLOR,ui->FinalColorCombo,false);
     DiaporamaObject->BackgroundBrush->ColorF=ui->FinalColorCombo->GetCurrentColor();
     RefreshControls();
 }
@@ -372,6 +402,7 @@ void DlgBackgroundProperties::s_ChIndexGradientFinalColorCombo(int) {
 void DlgBackgroundProperties::s_ChIndexGradientIntermColorCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexGradientIntermColorCombo");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_INTERMCOLOR,ui->IntermColorCombo,false);
     DiaporamaObject->BackgroundBrush->ColorIntermed=ui->IntermColorCombo->GetCurrentColor();
     RefreshControls();
 }
@@ -380,6 +411,7 @@ void DlgBackgroundProperties::s_ChIndexGradientIntermColorCombo(int) {
 void DlgBackgroundProperties::s_ChIndexBackgroundCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexBackgroundCombo");
     if (StopMAJSpinbox) return;
+    AppendPartialUndo(UNDOACTION_LIBBRUSH,ui->BackgroundCombo,false);
     DiaporamaObject->BackgroundBrush->BrushImage=ui->BackgroundCombo->GetCurrentBackground();
     RefreshControls();
 }
@@ -388,13 +420,17 @@ void DlgBackgroundProperties::s_ChIndexBackgroundCombo(int) {
 void DlgBackgroundProperties::s_ImageEditCorrect() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ImageEditCorrect");
     if (DiaporamaObject->BackgroundBrush->Image) {
+        AppendPartialUndo(UNDOACTION_EDITIMG,ui->ImageEditCorrectBT,false);
 
         //DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
         DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,
                                HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
         Dlg.InitDialog();
-        Dlg.exec();
-        RefreshControls();
+        if (Dlg.exec()==0) {
+            RefreshControls();
+        } else {
+            RemoveLastPartialUndo();
+        }
     }
 }
 
@@ -403,6 +439,7 @@ void DlgBackgroundProperties::s_ImageEditCorrect() {
 void DlgBackgroundProperties::s_FullFill() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_FullFill");
     if (DiaporamaObject->BackgroundBrush->Image) {
+        AppendPartialUndo(UNDOACTION_FULLFILL,ui->FullFillRB,true);
         DiaporamaObject->BackgroundBrush->FullFilling=true;
         RefreshControls();
     }
@@ -413,6 +450,7 @@ void DlgBackgroundProperties::s_FullFill() {
 void DlgBackgroundProperties::s_KeepRatio() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_KeepRatio");
     if (DiaporamaObject->BackgroundBrush->Image) {
+        AppendPartialUndo(UNDOACTION_KEEPRATIO,ui->KeepRatioRB,true);
         DiaporamaObject->BackgroundBrush->FullFilling=false;
         RefreshControls();
     }

@@ -156,6 +156,7 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     connect(ui->CustomRuller,SIGNAL(sliderPressed()),this,SLOT(s_SliderPressed()));
     connect(ui->CustomRuller,SIGNAL(sliderReleased()),this,SLOT(s_SliderReleased()));
     connect(ui->CustomRuller,SIGNAL(valueChanged(int)),this,SLOT(s_SliderMoved(int)));
+    connect(ui->VideoPlayerSaveImageBT,SIGNAL(pressed()),this,SLOT(s_SaveImage()));
 }
 
 //============================================================================================
@@ -181,6 +182,13 @@ void wgt_QVideoPlayer::showEvent(QShowEvent *) {
         SetPlayerToPlay();
         IsInit=true;
     }
+}
+
+//============================================================================================
+
+void wgt_QVideoPlayer::s_SaveImage() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_SaveImage");
+    emit SaveImageEvent();
 }
 
 //============================================================================================
@@ -401,7 +409,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             SetPlayerToPause();    // Stop if it's the end
 
         } else if (ImageList.List.count()>1) {                        // Process
-            // Retrieve frame informations
+            // Retrieve frame information
             cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();
 
             // Display frame
@@ -410,7 +418,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
             ActualDisplay=Frame->RenderedImage;
 
-            // If Diaporama mode and needed, set Diaporama to an other object
+            // If Diaporama mode and needed, set Diaporama to another object
             if (Diaporama) {
                 if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
                     Diaporama->CurrentCol=Frame->CurrentObject_Number;
@@ -459,7 +467,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
             ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));  // Display frame
 
-            // If needed, set Diaporama to an other object
+            // If needed, set Diaporama to another object
             if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
                 if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
                 Diaporama->CurrentCol=Frame->CurrentObject_Number;

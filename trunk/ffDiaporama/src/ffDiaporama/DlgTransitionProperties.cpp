@@ -97,7 +97,7 @@ DlgTransitionProperties::DlgTransitionProperties(cDiaporamaObject *DiaporamaObje
     // Retrieve time information
     TimePosition=DiaporamaObject->Parent->GetObjectStartPosition(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject));
 
-    // Retrieve object informations and create PreviousFrame
+    // Retrieve object information and create PreviousFrame
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);
     DiaporamaObject->Parent->LoadSources(PreviousFrame,double(H)/double(1080),W,H,true,true);                       // Load background and image
 
@@ -295,7 +295,7 @@ void DlgTransitionProperties::s_ChTransitionDurationCB(int) {
     // Retrieve time information
     TimePosition=DiaporamaObject->Parent->GetObjectStartPosition(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject));
 
-    // Retrieve object informations and create PreviousFrame
+    // Retrieve object information and create PreviousFrame
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);
     DiaporamaObject->Parent->LoadSources(PreviousFrame,double(H)/double(1080),W,H,true,true);                       // Load background and image
 

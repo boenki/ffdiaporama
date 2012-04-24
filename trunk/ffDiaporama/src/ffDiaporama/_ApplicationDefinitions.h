@@ -156,6 +156,7 @@ public:
     // Last directories
     QString                 LastProjectPath;                            // Last folder use for project
     QString                 LastRenderVideoPath;                        // Last folder use for render video
+    QString                 LastCaptureImage;                           // Last folder use for captured image
 
     // Preferences
     bool                    SDLAudioOldMode;                            // If true SDL audio use old mode sample instead byte

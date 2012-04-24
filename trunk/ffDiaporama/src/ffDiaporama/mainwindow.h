@@ -96,7 +96,7 @@ private slots:
     void    s_Event_ToolbarChanged(int MenuIndex);          // User change current toolbar TAB
     void    s_Event_NetworkReply(QNetworkReply*);           // Build version was downloaded from internet
 
-    // Timeline
+    // Timeline & player
     void    s_Event_TimelineDragMoveItem();                 // Drag & drop operation in timeline
     void    s_Event_TimelineSelectionChanged();             // Timeline current item changed
     void    s_Event_DoubleClickedOnObject();                // Double click on widget in the object track
@@ -105,6 +105,7 @@ private slots:
     void    s_Event_DoubleClickedOnBackground();            // Double click on widget in the background track
     void    s_Event_DoubleClickedOnMusic();                 // Double click on widget in the music track
     void    s_Event_ContextualMenu(QMouseEvent *);          // Right click
+    void    s_Event_SaveImageEvent();                       // Click on preview save image button
 
     // Actions small bottom right toolbar menu
     void    s_Action_ZoomPlus();

@@ -1096,16 +1096,16 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
         Process.setProcessChannelMode(QProcess::MergedChannels);
         Process.start(Commande);
         if (!Process.waitForStarted()) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to start exiv2 - no exif informations will be decode for %1").arg(FileName));
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to start exiv2 - no exif information will be decode for %1").arg(FileName));
             ExifOk=false;
         }
         if (ExifOk && !Process.waitForFinished()) {
             Process.kill();
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Error during exiv2 process - no exif informations will be decode for %1").arg(FileName));
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Error during exiv2 process - no exif information will be decode for %1").arg(FileName));
             ExifOk=false;
         }
         if (ExifOk && (Process.exitStatus()<0)) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","exiv2 return error %1 - no exif informations will be decode for %2").arg(Process.exitStatus()).arg(FileName));
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","exiv2 return error %1 - no exif information will be decode for %2").arg(Process.exitStatus()).arg(FileName));
             ExifOk=false;
         }
         if (ExifOk) {
@@ -1140,16 +1140,16 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
             Commande=AdjustDirForOS("exiv2 print -pva \""+FileName+"\"");
             Process.start(Commande);
             if (!Process.waitForStarted()) {
-                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to start exiv2 - no exif informations will be decode for %1").arg(FileName));
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to start exiv2 - no exif information will be decode for %1").arg(FileName));
                 ExifOk=false;
             }
             if (ExifOk && !Process.waitForFinished()) {
                 Process.kill();
-                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Error during exiv2 process - no exif informations will be decode for %1").arg(FileName));
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Error during exiv2 process - no exif information will be decode for %1").arg(FileName));
                 ExifOk=false;
             }
             if (ExifOk && (Process.exitStatus()<0)) {
-                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","exiv2 return error %1 - no exif informations will be decode for %2").arg(Process.exitStatus()).arg(FileName));
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","exiv2 return error %1 - no exif information will be decode for %2").arg(Process.exitStatus()).arg(FileName));
                 ExifOk=false;
             }
             if (ExifOk) {
@@ -1436,7 +1436,7 @@ void cVideoFile::GetFullInformationFromFile() {
     }
 
     //*********************************************************************************************************
-    // Get informations about duration
+    // Get information about duration
     //*********************************************************************************************************
     int         hh,mm,ss;
     qlonglong   ms;
@@ -2494,7 +2494,7 @@ bool cVideoFile::OpenCodecAndFile() {
         if (QTime(0,0,0,0).msecsTo(Duration)>1000) Position=1000;   // If video is > 1 sec then get image at 1 sec
         QImage *Img =ImageAt(true,Position,0,NULL,1,false,NULL,false);
         if (Img) {
-            // Get informations about size image
+            // Get information about size image
             ImageWidth=Img->width();
             ImageHeight=Img->height();
             // Compute image geometry
