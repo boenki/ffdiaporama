@@ -649,8 +649,8 @@ void DlgRenderVideo::accept() {
     int                     W,H;
     QProcess                Process;
     bool                    RefreshDisplay;
-    int                     DurationProcess;        // Display informations
-    QString                 DisplayText;            // Display informations
+    int                     DurationProcess;        // Display information
+    QString                 DisplayText;            // Display information
 
     int                     UpdateWidth=0;
 
@@ -1204,7 +1204,7 @@ void DlgRenderVideo::accept() {
         Process.close();
 
         // Inform user of success
-        if (Continue) CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed succesfully!"));
+        if (Continue) CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed successfully!"));
 
         // Save Window size and position
         Diaporama->ApplicationConfig->DlgRenderVideoWSP->SaveWindowState(this);

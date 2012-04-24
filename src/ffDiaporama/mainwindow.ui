@@ -1197,7 +1197,7 @@ WEB</string>
              </font>
             </property>
             <property name="toolTip">
-             <string>Display informations about ffDiaporama</string>
+             <string>Display information about ffDiaporama</string>
             </property>
             <property name="text">
              <string>About</string>
@@ -2415,7 +2415,7 @@ WEB</string>
               </font>
              </property>
              <property name="toolTip">
-              <string>Display informations about ffDiaporama</string>
+              <string>Display information about ffDiaporama</string>
              </property>
              <property name="text">
               <string>About</string>

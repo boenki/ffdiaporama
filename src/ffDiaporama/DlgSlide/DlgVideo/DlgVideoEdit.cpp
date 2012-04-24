@@ -20,6 +20,7 @@
 
 #include "DlgVideoEdit.h"
 #include "ui_DlgVideoEdit.h"
+#include <QFileDialog>
 
 // Undo actions
 #define UNDOACTION_STARTPOS     1
@@ -63,6 +64,7 @@ void DlgVideoEdit::DoInitDialog() {
     connect(ui->SeekRightBt,SIGNAL(clicked()),this,SLOT(s_SeekRight()));
     connect(ui->StartPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditStartPos(QTime)));
     connect(ui->EndPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditEndPos(QTime)));
+    connect(ui->VideoPlayer,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
 }
 
 //====================================================================================================================
@@ -141,6 +143,27 @@ void DlgVideoEdit::RefreshControls() {
                                     QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
                                     -1,0,-1,0);
     StopMaj=false;
+}
+
+//====================================================================================================================
+
+void DlgVideoEdit::s_Event_SaveImageEvent() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::s_Event_SaveImageEvent");
+    ui->VideoPlayer->SetPlayerToPause();
+    QString OutputFileName=((cApplicationConfig *)BaseApplicationConfig)->LastCaptureImage;
+    QString Filter="JPG (*.jpg)";
+    if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
+    OutputFileName=OutputFileName+QApplication::translate("MainWindow","Capture image");
+    OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"PNG (*.png);;JPG (*.jpg)",&Filter);
+    if (OutputFileName!="") {
+        if (((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories) ((cApplicationConfig *)BaseApplicationConfig)->LastCaptureImage=QFileInfo(OutputFileName).absolutePath();     // Keep folder for next use
+        if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
+        if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
+
+        QImage *Image=CurrentBrush->Video->ImageAt(false,ui->VideoPlayer->ActualPosition,0,NULL,1,false,NULL,true);
+        Image->save(OutputFileName,0,100);
+        delete Image;
+    }
 }
 
 //====================================================================================================================

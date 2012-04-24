@@ -157,12 +157,14 @@ void cApplicationConfig::InitValues() {
     #ifdef Q_OS_WIN
         LastProjectPath         = WINDOWS_DOCUMENTS;            // Last folder use for project
         LastRenderVideoPath     = WINDOWS_VIDEO;                // Last folder use for render video
+        LastCaptureImage        = WINDOWS_PICTURES;             // Last folder use for captured image
         if (LastRenderVideoPath=="") LastRenderVideoPath=WINDOWS_DOCUMENTS;
         SDLAudioOldMode         = false;                        // If true SDL audio use old mode sample instead byte
     #endif
     #ifdef Q_WS_X11
         LastProjectPath         = QDir::home().absolutePath();  // Last folder use for project
         LastRenderVideoPath     = QDir::home().absolutePath();  // Last folder use for render video
+        LastCaptureImage        = QDir::home().absolutePath();  // Last folder use for captured image
         SDLAudioOldMode         = true;                         // If true SDL audio use old mode sample instead byte
     #endif
 
@@ -251,6 +253,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
         Element=domDocument.elementsByTagName("LastDirectories").item(0).toElement();
         Element.setAttribute("LastProjectPath",         LastProjectPath);
         Element.setAttribute("LastRenderVideoPath",     LastRenderVideoPath);
+        Element.setAttribute("LastCaptureImage",        LastCaptureImage);
     }
 
     Element=Document.createElement("EditorOptions");
@@ -375,6 +378,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         QDomElement Element=domDocument.elementsByTagName("LastDirectories").item(0).toElement();
         if (Element.hasAttribute("LastProjectPath"))            LastProjectPath             =Element.attribute("LastProjectPath");
         if (Element.hasAttribute("LastRenderVideoPath"))        LastRenderVideoPath         =Element.attribute("LastRenderVideoPath");
+        if (Element.hasAttribute("LastCaptureImage"))           LastCaptureImage            =Element.attribute("LastCaptureImage");
     }
 
     if ((domDocument.elementsByTagName("EditorOptions").length()>0)&&(domDocument.elementsByTagName("EditorOptions").item(0).isElement()==true)) {

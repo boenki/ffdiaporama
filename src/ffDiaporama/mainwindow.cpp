@@ -262,6 +262,9 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->preview,SIGNAL(DoubleClick()),this,SLOT(s_Event_DoubleClickedOnObject()));
     connect(ui->preview2,SIGNAL(DoubleClick()),this,SLOT(s_Event_DoubleClickedOnObject()));
 
+    // Save image event
+    connect(ui->preview,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
+    connect(ui->preview2,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
 
     // Prepare title bar depending on running version
     TitleBar=QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
@@ -885,7 +888,7 @@ void MainWindow::s_Event_TimelineSelectionChanged() {
 }
 
 //====================================================================================================================
-// Update dock informations
+// Update dock information
 //====================================================================================================================
 
 void MainWindow::s_Action_OpenTABHelpLink(const QString Link) {
@@ -1719,8 +1722,66 @@ void MainWindow::s_Action_AddProject() {
 
 //====================================================================================================================
 
+void MainWindow::s_Event_SaveImageEvent() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_SaveImageEvent");
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_Event_SaveImageEvent()));
+        return;
+    }
+    QStringList Size;
+    QMenu *ContextMenu=new QMenu(this);
+    for (int i=0;i<NBR_SIZEDEF;i++)
+        Size.append(QString("%1x%2").arg(DefImageFormat[0][ApplicationConfig->ImageGeometry][i].Width).arg(Diaporama->GetHeightForWidth(DefImageFormat[0][ApplicationConfig->ImageGeometry][i].Width)));
+
+    // Sort list
+    for (int i=0;i<Size.count();i++) {
+        for (int j=0;j<Size.count()-1;j++) {
+            int a=Size[j].left(Size[j].indexOf("x")).toInt();
+            int b=Size[j+1].left(Size[j+1].indexOf("x")).toInt();
+            if (a>b) Size.swap(j,j+1);
+        }
+    }
+
+    for (int i=0;i<Size.count();i++) {
+        QAction *UpdateAction=new QAction(QApplication::translate("MainWindow","Capture the image ")+Size[i],this);
+        ContextMenu->addAction(UpdateAction);
+    }
+    QAction *Ret=ContextMenu->exec(QCursor::pos());
+    if (Ret!=NULL) {
+        QString Format=Ret->text().mid(QApplication::translate("MainWindow","Capture the image ").length());
+        int Width =Format.left(Format.indexOf("x")).toInt();
+        int Height=Format.mid(Format.indexOf("x")+1).toInt();
+        QString OutputFileName=ApplicationConfig->LastCaptureImage;
+        QString Filter="JPG (*.jpg)";
+        if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
+        OutputFileName=OutputFileName+QApplication::translate("MainWindow","Capture image");
+        OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"PNG (*.png);;JPG (*.jpg)",&Filter);
+        if (OutputFileName!="") {
+            if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastCaptureImage=QFileInfo(OutputFileName).absolutePath();     // Keep folder for next use
+            if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
+            if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
+            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Diaporama->CurrentPosition,Diaporama,1);
+            Diaporama->LoadSources(Frame,double(Height)/double(1080),Width,Height,false,0);
+            Diaporama->DoAssembly(Frame,Width,Height);
+            Frame->RenderedImage->save(OutputFileName,0,100);
+            delete Frame;
+        }
+    }
+    delete ContextMenu;
+}
+
+//====================================================================================================================
+
 void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_EditObject");
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_Event_ContextualMenu()));
+        return;
+    }
 
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionAddTitle);
@@ -1745,6 +1806,12 @@ void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
 
 void MainWindow::s_Action_EditObject() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_EditObject");
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(500,this,SLOT(s_Action_EditObject()));
+        return;
+    }
 
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(ui->actionEdit_background);

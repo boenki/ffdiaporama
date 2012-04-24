@@ -1420,7 +1420,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>Select an other file</string>
+              <string>Select another file</string>
              </property>
              <property name="text">
               <string notr="true">...</string>

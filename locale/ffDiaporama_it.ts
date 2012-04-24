@@ -24,10 +24,6 @@
         <translation>Crediti</translation>
     </message>
     <message>
-        <source>This application was developped using Open Source version of Qt 4.7 SDK</source>
-        <translation>Questa applicazione è stata sviluppata usando la versione Open Source di Qt 4.7 SDK</translation>
-    </message>
-    <message>
         <source>WEB site &amp; licence :</source>
         <translation>Web site &amp; licenza :</translation>
     </message>
@@ -64,12 +60,16 @@
         <translation>Gestione TAG basata su TAGLib</translation>
     </message>
     <message>
-        <source>System informations</source>
-        <translation>Informazione di sistema</translation>
-    </message>
-    <message>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
+    </message>
+    <message>
+        <source>This application was developed using Open Source version of Qt 4.7 SDK</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System information</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1006,10 +1006,6 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>Nome del file immagine/video</translation>
     </message>
     <message>
-        <source>Select an other file</source>
-        <translation>Seleziona un altro file</translation>
-    </message>
-    <message>
         <source>Framing :</source>
         <translation>Fotogrammi:</translation>
     </message>
@@ -1091,6 +1087,10 @@ Vedere la guida per maggiori dettagli!</translation>
     </message>
     <message>
         <source>Undo last action (CTRL+Z)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select another file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1587,20 +1587,12 @@ Per favore seleziona un&apos;altro nome!</translation>
         <translation>Propietà musica</translation>
     </message>
     <message>
-        <source>Allows to continue to play the play list define by a previous slide</source>
-        <translation>Permette di continuare l&apos;esecuzione della lista di brani definito da una diapositiva precedente</translation>
-    </message>
-    <message>
         <source>Continue current playlist (defined in a previous slide)</source>
         <translation>Continua la playlist corrente (definita in una diapositiva precedente)</translation>
     </message>
     <message>
         <source>buttonGroup</source>
         <translation>GruppoPulsanti</translation>
-    </message>
-    <message>
-        <source>Allows to indicate that from now on, the sound volume is reduced.</source>
-        <translation>Permette di indicare che da ora in poi, il volume si riduce.</translation>
     </message>
     <message>
         <source>Change volume level to :</source>
@@ -1629,10 +1621,6 @@ Per favore seleziona un&apos;altro nome!</translation>
     <message>
         <source>Normal</source>
         <translation>Normale</translation>
-    </message>
-    <message>
-        <source>Allows to start a new playlist.</source>
-        <translation>Permette l&apos;avvio di una nuova playlist.</translation>
     </message>
     <message>
         <source>Start a new playlist from this slide</source>
@@ -1719,6 +1707,18 @@ Spostare il file corrente selezionato di una tacca verso il basso.</translation>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Formato non supportata</translation>
+    </message>
+    <message>
+        <source>Allows one to continue to play the play list define by a previous slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows one to indicate that from now on, the sound volume is reduced.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows one to start a new playlist.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2047,8 +2047,8 @@ Vuoi sovrascriverlo?</translation>
         <translation>Errore in uscita da ffmpeg</translation>
     </message>
     <message>
-        <source>Job completed succesfully!</source>
-        <translation>Lavoro completato con successo!</translation>
+        <source>Job completed successfully!</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3443,10 +3443,6 @@ WEB</translation>
         <translation>Aiuto</translation>
     </message>
     <message>
-        <source>Display informations about ffDiaporama</source>
-        <translation>Visualizza informazioni su ffDiaporama</translation>
-    </message>
-    <message>
         <source>About</source>
         <translation>Riguardo a</translation>
     </message>
@@ -3893,6 +3889,30 @@ Vuoi aprirlo comunque?</translation>
         <source>Add project</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Display information about ffDiaporama</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Capture image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select destination file</source>
+        <translation type="unfinished">Seleziona file destinazione</translation>
+    </message>
+    <message>
+        <source>Capture the image </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error during startup</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error during initialisation of sound system. Check your configuration and try again</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTree</name>
@@ -4013,16 +4033,16 @@ Vuoi aprirlo comunque?</translation>
         <translation>Immagine non ha metadati EXIF %1</translation>
     </message>
     <message>
-        <source>Impossible to start exiv2 - no exif informations will be decode for %1</source>
-        <translation>Impossibile avviare exiv2 - nessuna informazione exif sarà decodificata per %1</translation>
+        <source>Impossible to start exiv2 - no exif information will be decode for %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Error during exiv2 process - no exif informations will be decode for %1</source>
-        <translation>Errore durante processo exiv2 - nessuna informazione exif sarà decodificata per %1</translation>
+        <source>Error during exiv2 process - no exif information will be decode for %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>exiv2 return error %1 - no exif informations will be decode for %2</source>
-        <translation>exiv2 ritorna errore %1 - nessuna informazione exif sarà decodificata per %2</translation>
+        <source>exiv2 return error %1 - no exif information will be decode for %2</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4133,6 +4153,11 @@ Vuoi aprirlo comunque?</translation>
         <source>Click to start play, click again to pause the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Clicca per avviare la riproduzione, clicca ancora per mettere in pausa il filmato</translation>
+    </message>
+    <message>
+        <source>Save this image of the movie</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>

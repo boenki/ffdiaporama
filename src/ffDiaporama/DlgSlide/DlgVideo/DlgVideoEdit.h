@@ -56,6 +56,7 @@ public:
     virtual void    RestoreWindowState();
 
 private slots:
+    void            s_Event_SaveImageEvent();
     void            s_DefStartPos();
     void            s_DefEndPos();
     void            s_SeekLeft();

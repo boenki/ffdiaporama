@@ -59,8 +59,8 @@ protected:
     virtual void	mouseReleaseEvent(QMouseEvent *e);
 
 signals:
-    void     DoubleClick();
-    void     RightClickEvent(QMouseEvent *);
+    void    DoubleClick();
+    void    RightClickEvent(QMouseEvent *);
 };
 
 class wgt_QVideoPlayer : public QWidget {
@@ -130,6 +130,7 @@ private slots:
     void    s_SliderPressed();
     void    s_SliderReleased();
     void    s_SliderMoved(int Value);
+    void    s_SaveImage();
 
 private:
     void    EnableWidget(bool State);
@@ -140,8 +141,9 @@ private:
     Ui::wgt_QVideoPlayer *ui;
 
 signals:
-    void     DoubleClick();
-    void     RightClickEvent(QMouseEvent *);
+    void    DoubleClick();
+    void    RightClickEvent(QMouseEvent *);
+    void    SaveImageEvent();
 };
 
 #endif // WGT_QVIDEOPLAYER_H
