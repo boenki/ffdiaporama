@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>951</width>
+    <height>713</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -58,7 +58,7 @@
         <string notr="true"/>
        </property>
        <property name="pixmap">
-        <pixmap>:/img/logo_big.png</pixmap>
+        <pixmap resource="../../RSCffDiaporama.qrc">:/img/logo_big.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -235,9 +235,9 @@ This General Public License does not permit incorporating your program into prop
               <property name="geometry">
                <rect>
                 <x>0</x>
-                <y>-77</y>
-                <width>495</width>
-                <height>537</height>
+                <y>0</y>
+                <width>784</width>
+                <height>624</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_2">
@@ -255,7 +255,7 @@ This General Public License does not permit incorporating your program into prop
                   </font>
                  </property>
                  <property name="text">
-                  <string>This application was developed using Open Source version of Qt 4.7 SDK</string>
+                  <string>This application was developed using Open Source version of Qt 4.8 SDK</string>
                  </property>
                  <property name="wordWrap">
                   <bool>true</bool>
@@ -302,7 +302,7 @@ This General Public License does not permit incorporating your program into prop
                   </font>
                  </property>
                  <property name="text">
-                  <string>Video decoding and encoding engines are based on ffmpeg</string>
+                  <string>Video decoding and encoding engines are based on libav</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -499,7 +499,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://qt.nokia.com/products/</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -513,10 +513,10 @@ This General Public License does not permit incorporating your program into prop
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string notr="true">http://www.ffmpeg.org/</string>
+                  <string notr="true">http://libav.org/index.html</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -533,7 +533,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://www.libsdl.org/</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -550,7 +550,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://www.exiv2.org/</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -567,7 +567,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://ksquirrel.sourceforge.net/subprojects.php</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -584,7 +584,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://www.everaldo.com/crystal/</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -601,7 +601,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://creativecommons.org/</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -687,7 +687,7 @@ This General Public License does not permit incorporating your program into prop
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>
@@ -772,7 +772,7 @@ p, li { white-space: pre-wrap; }
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>

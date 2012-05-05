@@ -39,8 +39,7 @@ TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_pt.ts \
     ../../locale/ffDiaporama_ru.ts \
     ../../locale/ffDiaporama_el.ts \
-    ../../locale/ffDiaporama_cz.ts \
-    ../../locale/ffDiaporama_zh_TW.ts
+    ../../locale/ffDiaporama_cz.ts
 
 SOURCES +=  _ApplicationDefinitions.cpp \
             _SoundDefinitions.cpp \

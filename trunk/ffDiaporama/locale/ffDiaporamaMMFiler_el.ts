@@ -297,7 +297,7 @@
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
         <source>ffmpeg not found - critical - application will stop !</source>
-        <translation>Το ffmpeg δεν βρέθηκε - κρίσιμο - η εφαρμογή θα τερμαστιστεί!</translation>
+        <translation>Το ffmpeg δεν βρέθηκε - κρίσιμο - η εφαρμογή θα τερματιστεί!</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="165"/>
@@ -1049,7 +1049,7 @@ and help</source>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="109"/>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="137"/>
         <source>Rescal image to 8MPix</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανακλιμάκωση εικόνας σε 8MPix</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cLuLoImageCache.cpp" line="117"/>
@@ -2018,7 +2018,7 @@ and help</source>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
         <source>Lossless</source>
         <comment>Device database type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Χωρίς απώλειες</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>

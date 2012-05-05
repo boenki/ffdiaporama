@@ -23,6 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
+#include "_QCustomDialog.h"
 
 // Include some additional standard class
 #include <QString>
@@ -34,7 +35,7 @@
 #include "cBaseApplicationConfig.h"
 
 //****************************************************************************************************************************************************************
-// FFMPEG inclusion
+// LIBAV inclusion
 //****************************************************************************************************************************************************************
 
 extern "C" {
@@ -43,79 +44,64 @@ extern "C" {
     #define UINT64_C(c) (c ## ULL)
     #endif
 
-    #include <libavutil/common.h>
-    #include <libavutil/mathematics.h>
+    #include <libavcodec/version.h>
+    #include <libavdevice/avdevice.h>
+    #include <libavfilter/avfilter.h>
+    #include <libavformat/version.h>
     #include <libavutil/avutil.h>
-    #include <libavutil/pixdesc.h>
-    #include <libavcodec/avcodec.h>
-    #include <libavformat/avformat.h>
     #include <libswscale/swscale.h>
 
-    /* ********************************************************************************
-       Create define depending on ffmpeg version to control code creation
-       ********************************************************************************
-       OLDFFMPEG        => prior to 0.53.23
-                            - use <aac -strict experimental> instead of <libvo_aacenc> for aac audio codec
-                            - use <-b> instead of <-b:stream> for video bitrate
-                            - use <-alang> instead of <-metadata:s:1 language> for language of soundtrack
-                            - use <-map_metadata stream:> instead of <-map_metadata:g>
-                            - use <-timestamp now> for timestamp video file
+    #include <libavutil/mathematics.h>
+    #include <libavutil/pixdesc.h>
+    #include <libavutil/audioconvert.h>
 
-                            - use av_open_input_file                instead of avformat_open_input
-                            - use av_close_input_file               instead of avformat_close_input
-                            - use av_find_stream_info               instead of avformat_find_stream_info
-                            - use av_new_stream                     instead of avformat_new_stream
-                            - use av_write_header                   instead of avformat_write_header
-                            - use AVMetadataTag and av_metadata_get instead of AVDictionaryEntry and av_dict_get
-                            - use avcodec_decode_audio3             instead of avcodec_decode_audio4
-                            - use avcodec_get_context_defaults2     instead of avcodec_get_context_defaults3
-                            - use avcodec_open                      instead of avcodec_open2
-                            - use url_fopen                         instead of avio_open
-                            - use url_fclose                        instead of avio_close
+    #include <libavcodec/avcodec.h>
 
-       FFMPEGALLOWBSF   => between 0.53.23 and 0.53.28
-                            - add -bsf:1 aac_adtstoasc to libvo_aacenc video codec
-
-       OLDFFMPEGPRESET  => prior to 0.54
-                            - use ffDiaporama preset files instead of x264 standard preset files + ffDiaporama custom settings
-
-    *************************************************************************************************************************** */
-
-    #if (LIBAVFORMAT_VERSION_MAJOR<53)
-        #define AV_SAMPLE_FMT_S16       SAMPLE_FMT_S16
-        #define AV_SAMPLE_FMT_U8        SAMPLE_FMT_U8
-        #define AV_SAMPLE_FMT_S32       SAMPLE_FMT_S32
-        #define AV_SAMPLE_FMT_FLT       SAMPLE_FMT_FLT
-        #define AV_SAMPLE_FMT_DBL       SAMPLE_FMT_DBL
-        #ifndef AV_CH_STEREO_LEFT
-            #define AV_CH_STEREO_LEFT   CH_STEREO_LEFT
-        #endif
-        #ifndef AV_CH_STEREO_RIGHT
-            #define AV_CH_STEREO_RIGHT  CH_STEREO_RIGHT
-        #endif
-    #endif
-
-    #if (LIBAVFORMAT_VERSION_MAJOR<53) || ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR<23))
-        #define OLDFFMPEG
-        #if (LIBAVFORMAT_VERSION_MAJOR<53)
-            #define VERYOLDFFMPEG
-        #endif
-    #endif
-
-    #if (LIBAVFORMAT_VERSION_MAJOR>53)||((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>28))
-        #define FFMPEGALLOWBSF
-    #endif
-
-    #if (LIBAVFORMAT_VERSION_MAJOR<54)
-        #define OLDFFMPEGPRESET
-    #endif
+    #include <libavformat/avformat.h>
+    #include <libavformat/avio.h>
 }
 
-#ifndef AVIO_FLAG_WRITE
-    #define AVIO_FLAG_WRITE 2
-#endif
-#if (LIBAVFORMAT_VERSION_MAJOR>52)
-    #define FFMPEGWITHTAG
+/* ********************************************************************************
+   Create define depending on libav version to control code creation
+   ********************************************************************************
+   VERSIONS:
+   ---------
+        OPERATING SYSTEM    DATE        BINARY  BIN.VERSION LIBAVUTIL   LIBAVCODEC  LIBAVFORMAT     LIBAVDEVICE     LIBAVFILTER     LIBSWSCALE
+        ----------------    ----------  ------  ----------- ----------  ----------  -----------     -----------     -----------     ----------
+        WINDOWS             2012.03.15  avconv  0.8-1036    51.25.0     54.8.0      54.2.0          53.2.0          2.15.0          2.1.0
+
+        UBUNTU 12.04        2012.01.24  avconv  0.8.1-4     51.22.1     53.35.0     53.21.0         53.2.0          2.15.0          2.1.0
+        UBUNTU 11.10        2011        ffmpeg  0.7.3-4     51.7.0      53.6.0      53.3.0          53.0.0          2.4.0           2.0.0
+
+        OPENSUSE 12.1       2012        ffmpeg  0.10.2      51.35.100   53.61.100   53.32.100       53.4.100        2.61.100        2.1.100
+        OPENSUSE 11.4       2011        ffmpeg  0.8.7       51.9.1      53.8.0      53.5.0          53.1.1          2.23.0          2.0.0
+
+        FEDORA 16           2012        ffmpeg  0.8.10      51.9.1      53.8.0      53.5.0          53.1.1          2.23.0          2.0.0
+
+*************************************************************************************************************************** */
+
+// LIBAV 0.7 = LIBAVUTIL from 51.7 to 51.21 + LIBAVCODEC from 53.6 to 53.34 + LIBAVFORMAT from 53.3 to 53.20
+#if (   ( (LIBAVUTIL_VERSION_MAJOR   ==51)&&(LIBAVUTIL_VERSION_MINOR  >=7)&&(LIBAVUTIL_VERSION_MINOR  <=21) ) && \
+        ( (LIBAVCODEC_VERSION_MAJOR  ==53)&&(LIBAVCODEC_VERSION_MINOR >=6)&&(LIBAVCODEC_VERSION_MINOR <=34) ) && \
+        ( (LIBAVFORMAT_VERSION_MAJOR ==53)&&(LIBAVFORMAT_VERSION_MINOR>=3)&&(LIBAVFORMAT_VERSION_MINOR<=20) ) )
+
+    #define LIBAV_07                            // LIBAV 0.7
+
+    #define LIBAV_FFMPEG                        // FFMPEG binary encoder support
+    #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
+
+// LIBAV 0.8 = LIBAVUTIL from 51.22 + LIBAVCODEC from 53.35 to 54.20 + LIBAVFORMAT from 53.21 to 54.20
+#elif ( ( (LIBAVUTIL_VERSION_MAJOR==51)&&(LIBAVUTIL_VERSION_MINOR>=22) ) && \
+        ( ((LIBAVCODEC_VERSION_MAJOR==53)&&(LIBAVCODEC_VERSION_MINOR>=35))   || ((LIBAVCODEC_VERSION_MAJOR==54)&&(LIBAVCODEC_VERSION_MINOR<20)) ) && \
+        ( ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=21)) || ((LIBAVFORMAT_VERSION_MAJOR==54)&&(LIBAVFORMAT_VERSION_MINOR<20)) ) )
+
+    #define LIBAV_08                            // LIBAV 0.8
+
+    #define LIBAV_FFMPEG                        // FFMPEG binary encoder support
+    #define LIBAV_AVCONV                        // AVCONV binary encoder support
+    #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
+    //#define LIBAV_AVCHD                         // Support for AVCHD format (.mts)
+
 #endif
 
 //****************************************************************************************************************************************************************
@@ -194,11 +180,11 @@ extern int ORDERIMAGENAME[NBR_SIZEDEF];                         // Display order
 #define     VCODECST_X264LL     "X264LL"                        // String x264 lossless ********
 
 struct sVideoCodecDef {
-    bool    IsFind;                                             // true if codec is supported by installed version of ffmpeg
-    int     Codec_id;                                           // ffmpeg codec id
+    bool    IsFind;                                             // true if codec is supported by installed version of libav
+    int     Codec_id;                                           // libav codec id
     int     FFD_VCODEC;                                         // ffDiaporama video codec id
     char    FFD_VCODECST[10];                                   // ffDiaporama video codec id string
-    char    ShortName[50];                                      // short name of the codec (copy of the ffmpeg value)
+    char    ShortName[50];                                      // short name of the codec (copy of the libav value)
     char    LongName[200];                                      // long name of the codec (define by this application)
     char    PossibleBitrate[200];                               // list of possible compression bit rate (define by this application)
     char    DefaultBitrate[NBR_SIZEDEF][10];                    // prefered compression bit rate for each possible size
@@ -210,24 +196,24 @@ extern struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF];
 // Audio codec definitions
 //============================================
 struct sAudioCodecDef {
-    bool    IsFind;                                             // true if codec is supported by installed version of ffmpeg
-    int     Codec_id;                                           // ffmpeg codec id
-    char    ShortName[50];                                      // short name of the codec (copy of the ffmpeg value)
+    bool    IsFind;                                             // true if codec is supported by installed version of libav
+    int     Codec_id;                                           // libav codec id
+    char    ShortName[50];                                      // short name of the codec (copy of the libav value)
     char    LongName[200];                                      // long name of the codec (define by this application)
     char    PossibleBitrate2CH[200];                            // list of possible compression bit rate in stereo mode (define by this application)
     bool    Possibly6CH;                                        // true if this codec support 5.1/6 chanels mode
     char    PossibleBitrate6CH[200];                            // list of possible compression bit rate in 5.1/6 chanels mode (define by this application)
     char    Default[10];                                        // prefered compression bit rate
 };
-#define NBR_AUDIOCODECDEF   8
+#define NBR_AUDIOCODECDEF   9
 extern struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF];
 
 //============================================
 // Format container definitions
 //============================================
 struct sFormatDef {
-    bool    IsFind;                                             // true if format container is supported by installed version of ffmpeg
-    char    ShortName[50];                                      // short name of the format container (copy of the ffmpeg value)
+    bool    IsFind;                                             // true if format container is supported by installed version of libav
+    char    ShortName[50];                                      // short name of the format container (copy of the libav value)
     char    FileExtension[10];                                  // prefered file extension for the format container (define by this application)
     char    LongName[200];                                      // long name of the codec (define by this application)
     char    PossibleVideoCodec[200];                            // list of possible video codec for this format container (using VCODECST String define)
@@ -297,7 +283,7 @@ public:
     virtual bool    LoadFromXML(QDomElement domDocument,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile);
 
     virtual void    TranslatRenderType();
-    virtual void    Initffmpeg();
+    virtual bool    Initffmpeg(QString &BinaryEncoderPath);
 };
 
 #endif // CDEVICEMODELDEF_H

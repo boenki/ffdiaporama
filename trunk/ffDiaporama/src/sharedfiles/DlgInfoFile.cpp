@@ -56,7 +56,7 @@ void DlgInfoFile::DoInitDialog() {
         // General file information
         ui->FileIconLabel->setPixmap(QPixmap().fromImage(MediaFile->Icon100));
         ui->FileNameValue->setText(MediaFile->ShortName);
-        ui->FileTypeValue->setText(MediaFile->GetFileTypeStr());
+        ui->FileTypeValue->setText(MediaFile->GetFileTypeStr()+QString("(%1)").arg(MediaFile->GetInformationValue("Long Format")));
         ui->FileSizeValue->setText(MediaFile->GetFileSizeStr());
         ui->FileCreatedValue->setText(MediaFile->GetFileDateTimeStr(true));
         ui->FileModifyValue->setText(MediaFile->GetFileDateTimeStr(false));
@@ -150,6 +150,8 @@ void DlgInfoFile::DoInitDialog() {
           if ((!((QString)MediaFile->InformationList[i]).startsWith("Chapter_"))
               &&(!((QString)MediaFile->InformationList[i]).startsWith("Video_"))
               &&(!((QString)MediaFile->InformationList[i]).startsWith("Audio_"))
+              &&(!((QString)MediaFile->InformationList[i]).startsWith("Short Format"))
+              &&(!((QString)MediaFile->InformationList[i]).startsWith("Long Format"))
           ) {
             ui->tableWidget->insertRow(ui->tableWidget->rowCount());
             QStringList Value=MediaFile->InformationList[i].split("##");

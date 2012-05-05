@@ -18,7 +18,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-// Somethings needed by ffmpeg
+// Somethings needed by libav
 #ifdef _STDINT_H
     #undef _STDINT_H            // Remove previous inclusion (if exist)
 #endif

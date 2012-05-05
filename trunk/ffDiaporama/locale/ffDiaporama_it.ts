@@ -28,10 +28,6 @@
         <translation>Web site &amp; licenza :</translation>
     </message>
     <message>
-        <source>Video decoding and encoding engines are based on ffmpeg</source>
-        <translation>Motore di decodifica e codifica video è basato su ffmpeg</translation>
-    </message>
-    <message>
         <source>Sound engine for preview is based on SDL - Simple DirectMedia Layer</source>
         <translation>Motore sonoro per l&apos;anteprima è basato su SDL - Simple DirectMedia Layer</translation>
     </message>
@@ -64,12 +60,16 @@
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <source>This application was developed using Open Source version of Qt 4.7 SDK</source>
-        <translation type="unfinished"></translation>
+        <source>System information</source>
+        <translation>Informazioni sistema</translation>
     </message>
     <message>
-        <source>System information</source>
-        <translation type="unfinished"></translation>
+        <source>This application was developed using Open Source version of Qt 4.8 SDK</source>
+        <translation>Quest&apos;applicazione è stata sviluppata utilizzando la versione Open Source di Qt 4.8 SDK</translation>
+    </message>
+    <message>
+        <source>Video decoding and encoding engines are based on libav</source>
+        <translation>Motori di decodifica e codifica video sono basati su libav</translation>
     </message>
 </context>
 <context>
@@ -781,15 +781,15 @@ Vedere la guida per maggiori dettagli!</translation>
     </message>
     <message>
         <source>Undo last action (CTRL+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla l&apos;ultima azione (CTRL+Z)</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Ctrl+Z</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Z</translation>
     </message>
 </context>
 <context>
@@ -823,20 +823,8 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>F1</translation>
     </message>
     <message>
-        <source>ffmpeg not found - critical - application will stop !</source>
-        <translation>ffmpeg non trovato - critico - l&apos;applicazione sarà fermata !</translation>
-    </message>
-    <message>
-        <source>ffmpeg Audio Codecs</source>
-        <translation>ffmpeg Codec Audio</translation>
-    </message>
-    <message>
         <source>available</source>
         <translation>disponibile</translation>
-    </message>
-    <message>
-        <source>Unable to determine ffmpeg version</source>
-        <translation>Impossibile determinare la versione di ffmpeg</translation>
     </message>
     <message>
         <source>LibExiv2 version:</source>
@@ -867,10 +855,6 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>Supporto TAGLib per M4A/MP4</translation>
     </message>
     <message>
-        <source>ffmpeg version:</source>
-        <translation>Versione Ffmpeg:</translation>
-    </message>
-    <message>
         <source>LIBAVCODEC version:</source>
         <translation>Versione LIBAVCODEC:</translation>
     </message>
@@ -883,18 +867,6 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>Versione LIBSWSCALE:</translation>
     </message>
     <message>
-        <source>ffmpeg support for TAG and CHAPTERS</source>
-        <translation>Supporto ffmpeg per TAG e CHAPTERS</translation>
-    </message>
-    <message>
-        <source>ffmpeg Video Codecs</source>
-        <translation>ffmpeg Codec Video</translation>
-    </message>
-    <message>
-        <source>ffmpeg Container Formats</source>
-        <translation>ffmpeg Formati Contenitore</translation>
-    </message>
-    <message>
         <source>LibExiv2/Exiv2 binary version</source>
         <translation>Versione LibExiv2/Exiv2 binario</translation>
     </message>
@@ -905,6 +877,34 @@ Vedere la guida per maggiori dettagli!</translation>
     <message>
         <source>Lossless rendering</source>
         <translation>Generazione lossless</translation>
+    </message>
+    <message>
+        <source>Unable to determine %1 version</source>
+        <translation>Impossibile determinare la versione %1</translation>
+    </message>
+    <message>
+        <source>%1 not found - critical - application will stop !</source>
+        <translation>%1 non trovato - critico - l&apos;applicazione sarà fermata !</translation>
+    </message>
+    <message>
+        <source>encoder version:</source>
+        <translation>versione codificatore:</translation>
+    </message>
+    <message>
+        <source>LIBAV support for TAG and CHAPTERS</source>
+        <translation>Supporto LIBAV per TAG e CAPITOLI</translation>
+    </message>
+    <message>
+        <source>libav Audio Codecs</source>
+        <translation>Codec Audio libav</translation>
+    </message>
+    <message>
+        <source>libav Video Codecs</source>
+        <translation>Codec Video libav</translation>
+    </message>
+    <message>
+        <source>libav Container Formats</source>
+        <translation>Formati contenitori libav</translation>
     </message>
 </context>
 <context>
@@ -1063,35 +1063,35 @@ Vedere la guida per maggiori dettagli!</translation>
     </message>
     <message>
         <source>Enable or disable rulers corresponding to the margins of television sets.</source>
-        <translation type="unfinished">Attivare o disattivare i righelli corrispondenti ai margini dei televisori.</translation>
+        <translation>Attivare o disattivare i righelli corrispondenti ai margini dei televisori.</translation>
     </message>
     <message>
         <source>Rullers</source>
-        <translation type="unfinished"></translation>
+        <translation>Righelli</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Ctrl+Z</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Z</translation>
     </message>
     <message>
         <source>No style for nonstandard geometry image</source>
-        <translation type="unfinished">Nessuno stile per geometria immagine non predefinita</translation>
+        <translation>Nessuno stile per geometria immagine non predefinita</translation>
     </message>
     <message>
         <source>Select a file</source>
-        <translation type="unfinished">Seleziona un file</translation>
+        <translation>Seleziona un file</translation>
     </message>
     <message>
         <source>Undo last action (CTRL+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla l&apos;ultima azione (CTRL+Z)</translation>
     </message>
     <message>
         <source>Select another file</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona un&apos;altro file</translation>
     </message>
 </context>
 <context>
@@ -1710,15 +1710,15 @@ Spostare il file corrente selezionato di una tacca verso il basso.</translation>
     </message>
     <message>
         <source>Allows one to continue to play the play list define by a previous slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Permette di continuare a riprodurre la playlist definita da una diapositiva precedente</translation>
     </message>
     <message>
         <source>Allows one to indicate that from now on, the sound volume is reduced.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permette di indicare che d&apos;ora in poi, il volume è ridotto.</translation>
     </message>
     <message>
         <source>Allows one to start a new playlist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permette di avviare una nuova playlist.</translation>
     </message>
 </context>
 <context>
@@ -2005,18 +2005,9 @@ Vuoi sovrascriverlo?</translation>
         <translation>Codifica suono</translation>
     </message>
     <message>
-        <source>Start ffmpeg encoder</source>
-        <translation>Avvia codifica ffmpeg</translation>
-    </message>
-    <message>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Errore</translation>
-    </message>
-    <message>
-        <source>Error starting ffmpeg</source>
-        <comment>Error message</comment>
-        <translation>Errore avvio ffmpeg</translation>
     </message>
     <message>
         <source> - Estimated time left : </source>
@@ -2028,86 +2019,95 @@ Vuoi sovrascriverlo?</translation>
         <translation>Errore durante l&apos;invio d&apos;immagini per ffmpeg</translation>
     </message>
     <message>
-        <source>ffmpeg error</source>
-        <comment>Error message</comment>
-        <translation>Errore ffmpeg</translation>
-    </message>
-    <message>
         <source>Closing encoder</source>
         <translation>Chiusura codifica</translation>
     </message>
     <message>
-        <source>Error during ffmpeg process</source>
-        <comment>Error message</comment>
-        <translation>Errore durante il processo di ffmpeg</translation>
-    </message>
-    <message>
-        <source>Error exiting ffmpeg</source>
-        <comment>Error message</comment>
-        <translation>Errore in uscita da ffmpeg</translation>
-    </message>
-    <message>
         <source>Job completed successfully!</source>
-        <translation type="unfinished"></translation>
+        <translation>Lavoro completato con successo! </translation>
+    </message>
+    <message>
+        <source>Start avconv encoder</source>
+        <translation>Avvio codifica avconv</translation>
+    </message>
+    <message>
+        <source>Error starting avconv</source>
+        <comment>Error message</comment>
+        <translation>Errore avvio avconv</translation>
+    </message>
+    <message>
+        <source>avconv error</source>
+        <comment>Error message</comment>
+        <translation>errore avconv</translation>
+    </message>
+    <message>
+        <source>Error during avconv process</source>
+        <comment>Error message</comment>
+        <translation>Errore durante processo avconv</translation>
+    </message>
+    <message>
+        <source>Error exiting avconv</source>
+        <comment>Error message</comment>
+        <translation>Errore all&apos;uscita di avconv</translation>
     </message>
 </context>
 <context>
     <name>DlgRulerDef</name>
     <message>
         <source>Ruler properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propietà righello</translation>
     </message>
     <message>
         <source>Horizontal rulers</source>
-        <translation type="unfinished"></translation>
+        <translation>Righelli orizzontali</translation>
     </message>
     <message>
         <source>Vertical rulers</source>
-        <translation type="unfinished"></translation>
+        <translation>Righelli verticali</translation>
     </message>
     <message>
         <source>screen borders</source>
-        <translation type="unfinished"></translation>
+        <translation>Bordi schermo</translation>
     </message>
     <message>
         <source>TV margins</source>
-        <translation type="unfinished">Margini TV</translation>
+        <translation>Margini TV</translation>
     </message>
     <message>
         <source>Screen center</source>
-        <translation type="unfinished"></translation>
+        <translation>Centro schermo</translation>
     </message>
     <message>
         <source>Unselected objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Deseleziona oggetti</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">Annulla (&amp;C)</translation>
+        <translation>Annulla (&amp;C)</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri la pagina di aiuto di questa finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Aiuto(&amp;H)</translation>
     </message>
     <message>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -2395,330 +2395,337 @@ Vuoi sovrascriverlo?</translation>
     </message>
     <message>
         <source>Display detailled information on current block</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizzare informazioni dettagliate sul blocco corrente</translation>
     </message>
     <message>
         <source>Reset to 0</source>
-        <translation type="unfinished">Risistemare a 0</translation>
+        <translation>Ripristina a 0</translation>
     </message>
     <message>
         <source>Text animation :</source>
-        <translation type="unfinished"></translation>
+        <translation>Animazione testo :</translation>
     </message>
     <message>
         <source>Zoom :</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom :</translation>
     </message>
     <message>
         <source>Define a zoom value for the text</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce un valore di zoom per il testo</translation>
     </message>
     <message>
         <source>Reset to 100%</source>
-        <translation type="unfinished">Risistemare a 100%</translation>
+        <translation>Ripristina a 100%</translation>
     </message>
     <message>
         <source>Scroll text from left to right</source>
-        <translation type="unfinished"></translation>
+        <translation>Scorrimento testo da sinistra a destra</translation>
     </message>
     <message>
         <source>Scroll text from bottom to up</source>
-        <translation type="unfinished"></translation>
+        <translation>Scorrimento testo dal basso verso l&apos;alto</translation>
     </message>
     <message>
         <source>Block animation :</source>
-        <translation type="unfinished"></translation>
+        <translation>Blocco animazione :</translation>
     </message>
     <message>
         <source>Define the number of turn to be made around the Z axis during this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Definire il numero di giri da fare intorno all&apos;asse Z durante questa inquadratura</translation>
     </message>
     <message>
         <source>Define the number of turn to be made around the X axis during this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Definire il numero di giri da fare intorno all&apos;asse X durante questa inquadratura</translation>
     </message>
     <message>
         <source>Define the number of turn to be made around the Y axis during this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Definire il numero di giri da fare intorno all&apos;asse Y durante questa inquadratura</translation>
     </message>
     <message>
         <source>Type :</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo :</translation>
     </message>
     <message>
         <source>Dissolve :</source>
-        <translation type="unfinished"></translation>
+        <translation>Dissolvenza :</translation>
     </message>
     <message>
         <source>Edit text</source>
-        <translation type="unfinished">Modifica testo</translation>
+        <translation>Modifica testo</translation>
     </message>
     <message>
         <source>Do image correct or reframming</source>
-        <translation type="unfinished"></translation>
+        <translation>Correzione o riorganizzazione immagine</translation>
     </message>
     <message>
         <source>Make visible the active block</source>
-        <translation type="unfinished"></translation>
+        <translation>Rendi visibile il blocco attivo</translation>
     </message>
     <message>
         <source>Take the sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Prende il suono</translation>
     </message>
     <message>
         <source>Display information</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza informazioni</translation>
     </message>
     <message>
         <source>Remove block</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuove blocco</translation>
     </message>
     <message>
         <source>Multiple block turn</source>
-        <translation type="unfinished"></translation>
+        <translation>Giri multipli del blocco</translation>
     </message>
     <message>
         <source>Dissolve</source>
-        <translation type="unfinished"></translation>
+        <translation>Dissolvenza</translation>
     </message>
     <message>
         <source>Appear</source>
-        <translation type="unfinished"></translation>
+        <translation>Apparire</translation>
     </message>
     <message>
         <source>Disappear</source>
-        <translation type="unfinished"></translation>
+        <translation>Scomparire</translation>
     </message>
     <message>
         <source>Blink at slow speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Lampeggia a bassa velocità</translation>
     </message>
     <message>
         <source>Blink at medium speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Lampeggia a media velocità</translation>
     </message>
     <message>
         <source>Blink at fast speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Lampeggia a forte velocità</translation>
     </message>
     <message>
         <source>Blink at very fast speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Lampeggia a molto forte velocità</translation>
     </message>
     <message>
         <source>Duration:</source>
-        <translation type="unfinished"></translation>
+        <translation>Durata:</translation>
     </message>
     <message>
         <source>Rullers</source>
-        <translation type="unfinished"></translation>
+        <translation>Righelli</translation>
     </message>
     <message>
         <source>Are you sure to want to delete this block?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di voler cancellare questo blocco?</translation>
     </message>
     <message>
         <source>Add a new text block</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunge un nuovo blocco testo</translation>
     </message>
     <message>
         <source>Arrange blocks</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiusta blocchi</translation>
     </message>
     <message>
         <source>Remove current block(s)</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuove il blocco(i) corrente</translation>
     </message>
     <message>
         <source>Align top</source>
-        <translation type="unfinished">Allinea in alto</translation>
+        <translation>Allinea in alto</translation>
     </message>
     <message>
         <source>Align blocks to the top</source>
-        <translation type="unfinished"></translation>
+        <translation>Allinea blocchi verso l&apos;alto</translation>
     </message>
     <message>
         <source>Align middle</source>
-        <translation type="unfinished"></translation>
+        <translation>Allinea al centro</translation>
     </message>
     <message>
         <source>Align blocks to the middle</source>
-        <translation type="unfinished"></translation>
+        <translation>Allinea blocchi al centro</translation>
     </message>
     <message>
         <source>Align bottom</source>
-        <translation type="unfinished">Allinea in basso</translation>
+        <translation>Allinea in basso</translation>
     </message>
     <message>
         <source>Align blocks to the bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Allinea blocchi verso il basso</translation>
     </message>
     <message>
         <source>Align left</source>
-        <translation type="unfinished">Allinea a sinistra</translation>
+        <translation>Allinea a sinistra</translation>
     </message>
     <message>
         <source>Align blocks to the left</source>
-        <translation type="unfinished"></translation>
+        <translation>Allinea blocchi verso sinistra</translation>
     </message>
     <message>
         <source>Align center</source>
-        <translation type="unfinished">Allinea al centro</translation>
+        <translation>Allinea al centro</translation>
     </message>
     <message>
         <source>Align blocks to the center</source>
-        <translation type="unfinished"></translation>
+        <translation>Allinea blocchi verso il centro</translation>
     </message>
     <message>
         <source>Align right</source>
-        <translation type="unfinished">Allinea a destra</translation>
+        <translation>Allinea a destra</translation>
     </message>
     <message>
         <source>Align blocks to the right</source>
-        <translation type="unfinished"></translation>
+        <translation>Allinea blocchi verso destra</translation>
     </message>
     <message>
         <source>Add text block</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunge un blocco testo</translation>
     </message>
     <message>
         <source>Remove blocks</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuove blocchi</translation>
     </message>
     <message>
         <source>Are you sure to want to delete these blocks?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sei sicuro di voler cancellare questi blocchi?</translation>
     </message>
     <message>
         <source>Undo last action (CTRL+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla l&apos;ultima azione (CTRL+Z)</translation>
     </message>
     <message>
         <source>Ctrl+Z</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Z</translation>
     </message>
     <message>
         <source>Add
 shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi
+scatto</translation>
     </message>
     <message>
         <source>Remove
 shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi
+scatto</translation>
     </message>
     <message>
         <source>Edit block</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica blocco</translation>
     </message>
     <message>
         <source>Block coordinates :</source>
-        <translation type="unfinished"></translation>
+        <translation>Coordinate blocco :</translation>
     </message>
     <message>
         <source>Start a new chapter from this slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvia un nuovo capitolo da questa diapositiva</translation>
     </message>
     <message>
         <source>Total duration :</source>
-        <translation type="unfinished"></translation>
+        <translation>Durata totale :</translation>
     </message>
     <message>
         <source>Move to background</source>
-        <translation type="unfinished"></translation>
+        <translation>Muovi verso lo sfondo</translation>
     </message>
     <message>
         <source>Change the order of blocks by moving the active block towards the background</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificare l&apos;ordine dei blocchi spostando il blocco attivo verso il fondo</translation>
     </message>
     <message>
         <source>Change the order of blocks by moving the active block towards the foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificare l&apos;ordine dei blocchi spostando il blocco attivo verso il primo piano</translation>
     </message>
     <message>
         <source>Copy block</source>
-        <translation type="unfinished"></translation>
+        <translation>Copia blocco</translation>
     </message>
     <message>
         <source>Cut block</source>
-        <translation type="unfinished"></translation>
+        <translation>Taglia blocco</translation>
     </message>
     <message>
         <source>Paste block</source>
-        <translation type="unfinished"></translation>
+        <translation>Incolla blocco</translation>
     </message>
     <message>
         <source>Add file</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi file</translation>
     </message>
     <message>
         <source>Add
 text</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi
+testo</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Add
 file</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi
+file</translation>
     </message>
     <message>
         <source>Edit
 block</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica
+blocco</translation>
     </message>
     <message>
         <source>Arrange
 block</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiusta
+blocco</translation>
     </message>
     <message>
         <source>Block
 information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informazioni
+blocco</translation>
     </message>
     <message>
         <source>Visible</source>
-        <translation type="unfinished"></translation>
+        <translation>Visibile</translation>
     </message>
     <message>
         <source>Lock properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Blocco propietà</translation>
     </message>
     <message>
         <source>Lock properties to the same values as define for the previous shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloccare le proprietà agli stessi valori definire per l&apos;inquadratura precedente</translation>
     </message>
     <message>
         <source>Unlock properties from this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Sblocca le propietà da questa inquadratura</translation>
     </message>
     <message>
         <source>Define properties from this shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Definire le propietà da questa inquadratura</translation>
     </message>
     <message>
         <source>Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Nascondi</translation>
     </message>
     <message>
         <source>Make hide the active block</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostare come nascosto il blocco attivo</translation>
     </message>
     <message>
         <source>Move to foreground</source>
-        <translation type="unfinished"></translation>
+        <translation>Spostare verso il primo piano</translation>
     </message>
     <message>
         <source>Slide :</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva :</translation>
     </message>
     <message>
         <source>Start chapter from here</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvia capitolo da qui</translation>
     </message>
 </context>
 <context>
@@ -2897,51 +2904,51 @@ information</source>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished">Testo</translation>
+        <translation>Testo</translation>
     </message>
     <message>
         <source>Bullet list</source>
-        <translation type="unfinished"></translation>
+        <translation>Elenco puntato</translation>
     </message>
     <message>
         <source>Numbered list</source>
-        <translation type="unfinished"></translation>
+        <translation>Elenco numerato</translation>
     </message>
     <message>
         <source>Set text to superscript</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta testo a esponente</translation>
     </message>
     <message>
         <source>Set text to subscript</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta testo a deponente</translation>
     </message>
     <message>
         <source>Increase indent</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumenta indentazione</translation>
     </message>
     <message>
         <source>decrease indent</source>
-        <translation type="unfinished"></translation>
+        <translation>Diminuisce indentazione</translation>
     </message>
     <message>
         <source>Background</source>
-        <translation type="unfinished">Sfondo</translation>
+        <translation>Sfondo</translation>
     </message>
     <message>
         <source>Background properties :</source>
-        <translation type="unfinished"></translation>
+        <translation>Propietà sfondo :</translation>
     </message>
     <message>
         <source>Undo last action (CTRL+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla l&apos;ultima azione (CTRL+Z)</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Ctrl+Z</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Z</translation>
     </message>
 </context>
 <context>
@@ -3133,15 +3140,15 @@ information</source>
     </message>
     <message>
         <source>Undo last action (CTRL+Z)</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla l&apos;ultima azione (CTRL+Z)</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla</translation>
     </message>
     <message>
         <source>Ctrl+Z</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Z</translation>
     </message>
 </context>
 <context>
@@ -3660,26 +3667,6 @@ la geometria dell&apos;immagine nel file non è uguale a quella del progetto cor
         <translation>Avvio di SDL...</translation>
     </message>
     <message>
-        <source>Starting ffmpeg...</source>
-        <translation>Avvio di ffmpeg...</translation>
-    </message>
-    <message>
-        <source>Registered video codecs for encoding :</source>
-        <translation>Codec video registrati per la codifica :</translation>
-    </message>
-    <message>
-        <source>Registered audio codecs for encoding :</source>
-        <translation>Codec audio registrati per la codifica :</translation>
-    </message>
-    <message>
-        <source>Registered container formats for encoding :</source>
-        <translation>Formati contenitore registrati per la codifica :</translation>
-    </message>
-    <message>
-        <source> Device registered for rendering</source>
-        <translation>Dispositivo registrato per il rendering</translation>
-    </message>
-    <message>
         <source>Library :</source>
         <translation>Libreria :</translation>
     </message>
@@ -3883,35 +3870,43 @@ Vuoi aprirlo comunque?</translation>
     </message>
     <message>
         <source>Add title</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi titolo</translation>
     </message>
     <message>
         <source>Add project</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi progetto</translation>
     </message>
     <message>
         <source>Display information about ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Visualizza informazioni riguardo a ffDiaporama</translation>
     </message>
     <message>
         <source>Capture image</source>
-        <translation type="unfinished"></translation>
+        <translation>Cattura immagine</translation>
     </message>
     <message>
         <source>Select destination file</source>
-        <translation type="unfinished">Seleziona file destinazione</translation>
+        <translation>Seleziona il file destinazione</translation>
     </message>
     <message>
         <source>Capture the image </source>
-        <translation type="unfinished"></translation>
+        <translation>Cattura l&apos;immagine</translation>
     </message>
     <message>
         <source>Error during startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore durante l&apos;avvio</translation>
     </message>
     <message>
         <source>Error during initialisation of sound system. Check your configuration and try again</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore durante l&apos;inizializzazione del suono di sistema. Controlla la tua configurazione a prova ancora</translation>
+    </message>
+    <message>
+        <source>Starting libav...</source>
+        <translation>Avvio libav...</translation>
+    </message>
+    <message>
+        <source>ffDiaporama initialisation</source>
+        <translation>Inizializzazione ffDiaporama</translation>
     </message>
 </context>
 <context>
@@ -4034,15 +4029,15 @@ Vuoi aprirlo comunque?</translation>
     </message>
     <message>
         <source>Impossible to start exiv2 - no exif information will be decode for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Impossibile avviare exiv2 - nessuan informazione exif sarà decodificata per %1</translation>
     </message>
     <message>
         <source>Error during exiv2 process - no exif information will be decode for %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Errore durante il processo exiv2 - nessuna informazione exif sarà decodificata per %1</translation>
     </message>
     <message>
         <source>exiv2 return error %1 - no exif information will be decode for %2</source>
-        <translation type="unfinished"></translation>
+        <translation>exiv2 ritorna l&apos;errore %1 - nessuna informazione exif sarà decodificata per %2</translation>
     </message>
 </context>
 <context>
@@ -4157,7 +4152,7 @@ Vuoi aprirlo comunque?</translation>
     <message>
         <source>Save this image of the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished"></translation>
+        <translation>Salva questa immagine per il filmato</translation>
     </message>
 </context>
 </TS>

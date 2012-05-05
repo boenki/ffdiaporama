@@ -69,6 +69,9 @@ public:
     int             Standard;                       // Last standard use for rendering
 
     QString         Language;
+    QString         TempWAVFileName;
+    QString         TempMETAFileName;
+    int             FromSlide,ToSlide;
 
     explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,QWidget *parent = 0);
     ~DlgRenderVideo();
@@ -100,7 +103,12 @@ private slots:
 private:
     Ui::DlgRenderVideo *ui;
 
-    void WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue);
+    void    WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue);
+
+    bool    ComputeVideoPart(QString &vCodec);
+    bool    ComputeAudioPart(QString &aCodec);
+    bool    ComputeTAGPart(  QString &aTAG);
+
 };
 
 #endif // DLGRENDERVIDEO_H

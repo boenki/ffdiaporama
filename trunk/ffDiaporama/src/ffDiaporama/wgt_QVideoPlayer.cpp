@@ -242,8 +242,7 @@ void wgt_QVideoPlayer::Resize() {
     ui->MovieFrame->setFixedWidth(TheWidth);
     ui->MovieFrame->setFixedHeight(TheHeight);
 
-    ui->CustomRuller->setFixedWidth(TheWidth-ui->VideoPlayerPlayPauseBT->width()-ui->Position->width());
-    if (ui->CustomRuller!=NULL) ui->CustomRuller->setFixedWidth(TheWidth-ui->VideoPlayerPlayPauseBT->width()-ui->Position->width());
+    if (ui->CustomRuller!=NULL) ui->CustomRuller->setFixedWidth(TheWidth-ui->VideoPlayerPlayPauseBT->width()-ui->Position->width()-ui->VideoPlayerSaveImageBT->width());
     if (ActualPosition!=-1) {
         int aActualPosition=ActualPosition;
         ActualPosition=-1;

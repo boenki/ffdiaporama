@@ -87,6 +87,9 @@ public:
     enum    FilterFile          {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
     enum    LoadConfigFileType  {USERCONFIGFILE,GLOBALCONFIGFILE};
 
+    QString                 PathEXIV2;                                  // Filename with path to exiv2 binary
+    QString                 BinaryEncoderPath;                          // Filename with path to binary encoder ffmpeg or avconv
+
     bool                    RasterMode;                                 // Enable or disable raster mode [Linux only]
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
     QMainWindow             *TopLevelWindow;                            // Link to MainWindow of the application
@@ -135,8 +138,6 @@ public:
     QString                 CurrentFolder;                              // Current Path
     QString                 CurrentLanguage;                            // Current Language translation
     QString                 ForceLanguage;                              // Empty or forced language
-    QString                 PathEXIV2;                                  // Filename with path to exiv2 binary
-    QString                 PathFFMPEG;                                 // Filename with path to ffmpeg binary
     bool                    MainWinState;                               // WindowsSettings-ismaximized
     cSaveWindowPosition     *MainWinWSP;                                // MainWindow - Window size and position
 

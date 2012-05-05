@@ -1,1 +1,1 @@
-Version devel 1.3 20120424
+Version 1.3.beta1 1.3 20120505

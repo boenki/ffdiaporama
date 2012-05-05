@@ -50,7 +50,7 @@ cStyleCollectionItem::cStyleCollectionItem(bool IsGlobalConf,int IndexKey,QStrin
 
     FromGlobalConf  =IsGlobalConf;                          // true if device model is defined in global config file
     FromUserConf    =!IsGlobalConf;                         // true if device model is defined in user config file
-    IsFind          =false;                                 // true if device model format is supported by installed version of ffmpeg
+    IsFind          =false;                                 // true if device model format is supported by installed version of libav
     StyleIndex      =IndexKey;                              // Style number index key
     StyleName       =TheStyleName;                          // Style name
     StyleDef        =TheStyleDef;                           // Style definition

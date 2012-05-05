@@ -28,66 +28,66 @@
 sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
     {   // STANDARD_PAL
         {   // GEOMETRY_4_3
-            {320,240,4,3,25,"25","QVGA - 320x240 - 25 FPS",0},                                                  // SIZE_QVGA
-            {426,320,4,3,25,"25","HVGA - 426x320 - 25 FPS",0},                                                  // SIZE_HVGA
-            {640,480,4,3,25,"25","VGA - 640x480 - 25 FPS",0},                                                   // SIZE_VGA
-            {720,576,16,15,25,"25","SD/DVD - 720x576 - 25 FPS",0},                                              // SIZE_DVD
-            {640,480,4,3,25,"25","WVGA - 640x480 - 25 FPS",0},                                                  // SIZE_WVGA
-            {1024,768,4,3,25,"25","XGA - 1024x768 - 25 FPS",0},                                                 // SIZE_XGA
-            {960,720,4,3,25,"25","720p - 960x720 - 25 FPS",0},                                                  // SIZE_720P
-            {1440,1080,4,3,25,"25","1080p - 1440x1080 - 25 FPS",0},                                             // SIZE_1080p
-            {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0}                                                // SIZE_RIM240
+            {320,240,4,3,   25,             "25",        "QVGA - 320x240 - 25 FPS",             0},
+            {426,320,4,3,   25,             "25",        "HVGA - 426x320 - 25 FPS",             0},
+            {640,480,4,3,   25,             "25",        "VGA - 640x480 - 25 FPS",              0},
+            {720,576,4,3,   25,             "25",        "SD/DVD - 720x576 - 25 FPS",           0},     // SIZE_DVD - No extend ! special case
+            {640,480,4,3,   25,             "25",        "WVGA - 640x480 - 25 FPS",             0},
+            {1024,768,4,3,  25,             "25",        "XGA - 1024x768 - 25 FPS",             0},
+            {960,720,4,3,   25,             "25",        "720p - 960x720 - 25 FPS",             0},
+            {1440,1080,4,3, 25,             "25",        "1080p - 1440x1080 - 25 FPS",          0},
+            {240,180,4,3,   24,             "24",        "RIM 240 - 240x180 - 24 FPS",          0}
         },{ // GEOMETRY_16_9
-            {320,180,16,9,25,"25","QVGA - 320x180+PAD - 25 FPS",30},                                            // SIZE_QVGA
-            {480,270,16,9,25,"25","HVGA - 480x270 - 25 FPS",0},                                                 // SIZE_HVGA
-            {640,360,16,9,25,"25","VGA - 640x360 - 25 FPS",0},                                                  // SIZE_VGA
-            {720,576,64,45,25,"25","SD/DVD - 720x576 WIDE - 25 FPS",0},                                         // SIZE_DVD
-            {800,450,16,9,25,"25","WVGA - 800x450 - 25 FPS",0},                                                 // SIZE_WVGA
-            {1024,576,16,9,25,"25","XGA - 1024x576 - 25 FPS",0},                                                // SIZE_XGA
-            {1280,720,16,9,25,"25","720p - 1280x720 - 25 FPS",0},                                               // SIZE_720P
-            {1920,1080,16,9,25,"25","1080p - 1920x1080 - 25 FPS",0},                                            // SIZE_1080p
-            {240,136,16,9,24,"24","RIM 240 - 240x136 - 24 FPS",0}                                               // SIZE_RIM240
+            {320,180,4,3,   25,             "25",        "QVGA - 320x180+PAD - 25 FPS",         30},
+            {480,270,16,9,  25,             "25",        "HVGA - 480x270 - 25 FPS",             0},
+            {640,360,16,9,  25,             "25",        "VGA - 640x360 - 25 FPS",              0},
+            {720,576,16,9,  25,             "25",        "SD/DVD - 720x576 WIDE - 25 FPS",      0},     // SIZE_DVD - No extend ! special case
+            {800,450,16,9,  25,             "25",        "WVGA - 800x450 - 25 FPS",             0},
+            {1024,576,16,9, 25,             "25",        "XGA - 1024x576 - 25 FPS",             0},
+            {1280,720,16,9, 25,             "25",        "720p - 1280x720 - 25 FPS",            0},
+            {1920,1080,16,9,25,             "25",        "1080p - 1920x1080 - 25 FPS",          0},
+            {240,136,4,3,   24,             "24",        "RIM 240 - 240x136 - 24 FPS",          22}
         },{ // GEOMETRY_40_17
-            {320,136,16,9,25,"25","QVGA - 320x136+PAD - 25 FPS",52},                                            // SIZE_QVGA
-            {480,204,40,17,25,"25","HVGA - 480x204 - 25 FPS",0},                                                // SIZE_HVGA
-            {640,272,40,17,25,"25","VGA - 640x272 - 25 FPS",0},                                                 // SIZE_VGA
-            {720,436,64,45,25,"25","SD/DVD - 720x436 WIDE+PAD - 25 FPS",70},                                    // SIZE_DVD
-            {800,340,40,17,25,"25","WVGA - 800x340 - 25 FPS",0},                                                // SIZE_WVGA
-            {1024,436,40,17,25,"25","XGA - 1024x436 - 25 FPS",0},                                               // SIZE_XGA
-            {1280,544,40,17,25,"25","720p - 1280x544 - 25 FPS",0},                                              // SIZE_720P
-            {1920,816,40,17,25,"25","1080p - 1920x816 - 25 FPS",0},                                             // SIZE_1080p
-            {240,136,16,9,24,"24","RIM 240 - 240x136+PAD - 24 FPS",16}                                          // SIZE_RIM240
+            {320,136,4,3,   25,             "25",        "QVGA - 320x136+PAD - 25 FPS",         52},
+            {480,204,40,17, 25,             "25",        "HVGA - 480x204 - 25 FPS",             0},
+            {640,272,40,17, 25,             "25",        "VGA - 640x272 - 25 FPS",              0},
+            {720,436,40,17, 25,             "25",        "SD/DVD - 720x436 WIDE - 25 FPS",      0},     // SIZE_DVD - No extend ! special case
+            {800,340,40,17, 25,             "25",        "WVGA - 800x340 - 25 FPS",             0},
+            {1024,436,40,17,25,             "25",        "XGA - 1024x436 - 25 FPS",             0},
+            {1280,544,40,17,25,             "25",        "720p - 1280x544 - 25 FPS",            0},
+            {1920,816,40,17,25,             "25",        "1080p - 1920x816 - 25 FPS",           0},
+            {240,102,4,3,   24,             "24",        "RIM 240 - 240x135+PAD - 24 FPS",      39}
     }},{// STANDARD_NTSC
         {   // GEOMETRY_4_3
-            {320,240,4,3,double(30000)/double(1001),"30000/1001",   "QVGA - 320x240 - 29.97 FPS",0},           // SIZE_QVGA
-            {426,320,4,3,double(30000)/double(1001),"30000/1001",   "HVGA - 426x320 - 29.97 FPS",0},            // SIZE_HVGA
-            {640,480,4,3,double(30000)/double(1001),"30000/1001",   "VGA - 640x480 - 29.97 FPS",0},             // SIZE_VGA
-            {720,480,8,9,double(30000)/double(1001),"30000/1001",   "SD/DVD - 720x480 - 29.97 FPS",0},          // SIZE_DVD
-            {640,480,4,3,double(30000)/double(1001),"30000/1001",   "WVGA - 640x480 - 29.97 FPS",0},            // SIZE_WVGA
-            {1024,768,4,3,double(30000)/double(1001),"30000/1001",  "XGA - 1024x768 - 29.97 FPS",0},            // SIZE_XGA
-            {960,720,4,3,double(24000)/double(1001),"24000/1001",   "720p - 960x720 - 23.976 FPS",0},           // SIZE_720P
-            {1440,1080,4,3,double(24000)/double(1001),"24000/1001", "1080p - 1440x1080 - 23.976 FPS",0},        // SIZE_1080p
-            {240,180,4,3,24,"24","RIM 240 - 240x180 - 24 FPS",0}                                                // SIZE_RIM240
+            {320,240,4,3,   30000L/1001L,   "30000/1001","QVGA - 320x240 - 29.97 FPS",          0},
+            {426,320,4,3,   30000L/1001L,   "30000/1001","HVGA - 426x320 - 29.97 FPS",          0},
+            {640,480,4,3,   30000L/1001L,   "30000/1001","VGA - 640x480 - 29.97 FPS",           0},
+            {720,480,4,3,   30000L/1001L,   "30000/1001","SD/DVD - 720x480 - 29.97 FPS",        0},     // SIZE_DVD - No extend ! special case
+            {640,480,4,3,   30000L/1001L,   "30000/1001","WVGA - 640x480 - 29.97 FPS",          0},
+            {1024,768,4,3,  30000L/1001L,   "30000/1001","XGA - 1024x768 - 29.97 FPS",          0},
+            {960,720,4,3,   24000L/1001L,   "24000/1001","720p - 960x720 - 23.976 FPS",         0},
+            {1440,1080,4,3, 24000L/1001L,   "24000/1001","1080p - 1440x1080 - 23.976 FPS",      0},
+            {240,180,4,3,   24,             "24",        "RIM 240 - 240x180 - 24 FPS",          0}
         },{ // GEOMETRY_16_9
-            {320,180,16,9,double(30000)/double(1001),"30000/1001",   "QVGA - 320x180 - 29.97 FPS",30},           // SIZE_QVGA
-            {480,270,16,9,double(30000)/double(1001),"30000/1001",   "HVGA - 480x270 - 29.97 FPS",0},            // SIZE_HVGA
-            {640,360,16,9,double(30000)/double(1001),"30000/1001",   "VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
-            {720,480,32,27,double(30000)/double(1001),"30000/1001", "SD/DVD - 720x480 WIDE - 29.97 FPS",0},     // SIZE_DVD
-            {800,450,16,9,double(30000)/double(1001),"30000/1001",   "WVGA - 800x450 - 29.97 FPS",0},            // SIZE_WVGA
-            {1024,576,16,9,double(30000)/double(1001),"30000/1001",  "XGA - 1024x576 - 29.97 FPS",0},            // SIZE_XGA
-            {1280,720,16,9,double(24000)/double(1001),"24000/1001",  "720p - 1280x720 - 23.976 FPS",0},          // SIZE_720P
-            {1920,1080,16,9,double(24000)/double(1001),"24000/1001", "1080p - 1920x1080 - 23.976 FPS",0},        // SIZE_1080p
-            {240,135,16,9,24,"24","RIM 240 - 240x135 - 24 FPS",0}                                               // SIZE_RIM240
+            {320,180,4,3,   30000L/1001L,   "30000/1001","QVGA - 320x180+PAD - 29.97 FPS",      30},
+            {480,270,16,9,  30000L/1001L,   "30000/1001","HVGA - 480x270 - 29.97 FPS",          0},
+            {640,360,16,9,  30000L/1001L,   "30000/1001","VGA - 640x272 - 29.97 FPS",           0},
+            {720,480,16,9,  30000L/1001L,   "30000/1001","SD/DVD - 720x480 WIDE - 29.97 FPS",   0},     // SIZE_DVD - No extend ! special case
+            {800,450,16,9,  30000L/1001L,   "30000/1001","WVGA - 800x450 - 29.97 FPS",          0},
+            {1024,576,16,9, 30000L/1001L,   "30000/1001","XGA - 1024x576 - 29.97 FPS",          0},
+            {1280,720,16,9, 24000L/1001L,   "24000/1001","720p - 1280x720 - 23.976 FPS",        0},
+            {1920,1080,16,9,24000L/1001L,   "24000/1001","1080p - 1920x1080 - 23.976 FPS",      0},
+            {240,136,4,3,   24,             "24",        "RIM 240 - 240x135 - 24 FPS",          22}
         },{ // GEOMETRY_40_17
-            {320,136,40,17,double(30000)/double(1001),"30000/1001",   "QVGA - 320x136 - 29.97 FPS",52},           // SIZE_QVGA
-            {480,204,40,17,double(30000)/double(1001),"30000/1001",   "HVGA - 480x204 - 29.97 FPS",0},            // SIZE_HVGA
-            {640,272,40,17,double(30000)/double(1001),"30000/1001",   "VGA - 640x272 - 29.97 FPS",0},             // SIZE_VGA
-            {720,362,32,27,double(30000)/double(1001),"30000/1001", "SD/DVD - 720x362 WIDE+PAD - 29.97 FPS",59},// SIZE_DVD
-            {800,340,40,17,double(30000)/double(1001),"30000/1001",   "WVGA - 800x340 - 29.97 FPS",0},            // SIZE_WVGA
-            {1024,436,40,17,double(30000)/double(1001),"30000/1001",  "XGA - 1024x436 - 29.97 FPS",0},            // SIZE_XGA
-            {1280,544,40,17,double(24000)/double(1001),"24000/1001",  "720p - 1280x544 - 23.976 FPS",0},          // SIZE_720P
-            {1920,816,40,17,double(24000)/double(1001),"24000/1001",  "1080p - 1920x816 - 23.976 FPS",0},         // SIZE_1080p
-            {240,135,16,9,24,"24","RIM 240 - 240x135+PAD - 24 FPS",16}                                          // SIZE_RIM240
+            {320,136,4,3,   30000L/1001L,   "30000/1001","QVGA - 320x136+PAD - 29.97 FPS",      52},
+            {480,204,40,17, 30000L/1001L,   "30000/1001","HVGA - 480x204 - 29.97 FPS",          0},
+            {640,272,40,17, 30000L/1001L,   "30000/1001","VGA - 640x272 - 29.97 FPS",           0},
+            {720,362,40,17, 30000L/1001L,   "30000/1001","SD/DVD - 720x362 WIDE - 29.97 FPS",   0},     // SIZE_DVD - No extend ! special case
+            {800,340,40,17, 30000L/1001L,   "30000/1001","WVGA - 800x340 - 29.97 FPS",          0},
+            {1024,436,40,17,30000L/1001L,   "30000/1001","XGA - 1024x436 - 29.97 FPS",          0},
+            {1280,544,40,17,24000L/1001L,   "24000/1001","720p - 1280x544 - 23.976 FPS",        0},
+            {1920,816,40,17,24000L/1001L,   "24000/1001","1080p - 1920x816 - 23.976 FPS",       0},
+            {240,102,4,3,   24,             "24",        "RIM 240 - 240x135+PAD - 24 FPS",      39}
     }}
 };
 
@@ -144,8 +144,8 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         }
     },{
         false,CODEC_ID_MPEG4,VCODEC_MPEG4,VCODECST_MPEG4,                                   // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
-        "libxvid","DivX/XVid/MPEG-4",                                                       // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#4500k",            // PossibleBitrate
+        "mpeg4","DivX/XVid/MPEG-4",                                                         // ShortName[50], LongName[200]
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#4500k",      // PossibleBitrate
         {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
@@ -244,24 +244,25 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
 struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
     {false, CODEC_ID_PCM_S16LE,"pcm_s16le",         "WAV (PCM signed 16-bit little-endian)","",     false,"",""},
     {false, CODEC_ID_MP3,      "libmp3lame",        "MP3 (MPEG-1/2 Audio Layer III)",       "8k#16k#24k#32k#40k#48k#56k#64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k",     false,"","160k"},
-    {false, CODEC_ID_AAC,      "libfaac",           "AAC-LC (Advanced Audio Codec)",        "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
-    {false, CODEC_ID_AC3,      "ac3",               "AC3 (Doly Digital)",                   "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
-    {false, CODEC_ID_VORBIS,   "libvorbis",         "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",     false,"","128k"},
+    {false, CODEC_ID_AAC,      "aac",               "AAC-LC (Advanced Audio Codec)",        "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
+    {false, CODEC_ID_AC3,      "ac3_fixed",         "AC3 (Doly Digital)",                   "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
+    {false, CODEC_ID_VORBIS,   "vorbis",            "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",     false,"","128k"},
     {false, CODEC_ID_MP2,      "mp2",               "MP2 (MPEG-1 Audio Layer II)",          "64k#96k#128k#192k#256k#500k",     false,"","128k"},
-    {false, CODEC_ID_AMR_NB,   "libopencore_amrnb", "AMR (Adaptive Multi-Rate)",            "4750#5150#5900#6700#7400#7950#10200#12200",     false,"","6700"},
-    {false, CODEC_ID_FLAC,     "flac",              "FLAC (Free Lossless Audio Codec)",     "",     false,"",""}
+    {false, CODEC_ID_AMR_WB,   "libvo_amrwbenc",    "Adaptive Multi-Rate (AMR) Wide-Band",  "6.6k#8.85k#12.65k#14.25k#15.85k#18.25k#19.85k#23.05k#23.85k",     false,"","6.6k"},
+    {false, CODEC_ID_FLAC,     "flac",              "FLAC (Free Lossless Audio Codec)",     "",     false,"",""},
+    {false, CODEC_ID_AMR_NB,   "libopencore_amrnb", "Adaptive Multi-Rate (AMR) NB",         "4750#5150#5900#6700#7400#7950#10200#12200",     false,"","6700"}
 };
 
 struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
-    {false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libopencore_amrnb#amrnb"},
-    {false, "avi",      "avi",  "AVI file format",              "MJPEG#MPEG#MPEG4#H264HQ#H264PQ",   "pcm_s16le#mp2#libmp3lame#mp3#libfaac#aac#ac3"},
-    {false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA#X264LL","pcm_s16le#libmp3lame#mp3#libfaac#aac#ac3#libvorbis#vorbis#flac"},
+    {false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libvo_amrwbenc#libopencore_amrnb"},
+    {false, "avi",      "avi",  "AVI file format",              "MJPEG#MPEG#MPEG4#H264HQ#H264PQ",   "pcm_s16le#mp2#libmp3lame#ac3_fixed"},
+    {false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA#X264LL","pcm_s16le#libmp3lame#libfaac#aac#libvo_aacenc#ac3_fixed#libvorbis#vorbis#flac"},
     {false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                            "pcm_s16le"},
-    {false, "mp4",      "mp4",  "MP4 file format",              "MPEG4#H264HQ#H264PQ",              "libmp3lame#mp3#libfaac#aac"},
-    {false, "mpeg",     "mpg",  "MPEG file format",             "MPEG",                             "mp2#ac3"},
+    {false, "mp4",      "mp4",  "MP4 file format",              "MPEG4#H264HQ#H264PQ",              "libmp3lame#libfaac#aac#libvo_aacenc"},
+    {false, "mpeg",     "mpg",  "MPEG file format",             "MPEG",                             "mp2#ac3_fixed"},
     {false, "webm",     "webm", "WEBM file format",             "VP8",                              "libvorbis#vorbis"},
-    {false, "flv",      "flv",  "FLV Flash file format 2005",   "H263",                             "libmp3lame#mp3"},
-    {false, "flv",      "flv",  "FLV Flash file format 2008",   "H264HQ#H264PQ",                    "libfaac#aac"},
+    {false, "flv",      "flv",  "FLV Flash file format 2005",   "H263",                             "libmp3lame"},
+    {false, "flv",      "flv",  "FLV Flash file format 2008",   "H264HQ#H264PQ",                    "libfaac#aac#libvo_aacenc"},
     {false, "ogg",      "ogv",  "OGV Ogg/Theroa file format",   "THEORA",                           "libvorbis#vorbis"}
 };
 // Note : depending on ffmpeg version :
@@ -269,8 +270,8 @@ struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
 
 struct sFormatDef AUDIOFORMATDEF[NBR_AUDIOFORMATDEF]={
     {false, "flac", "flac", "FLAC (Free Lossless Audio Codec)",         "",         "flac"},
-    {false, "mp4",  "m4a",  "M4A file format",                          "",         "libfaac#aac"},
-    {false, "mp3",  "mp3",  "MP3 (MPEG-1/2 Audio Layer III)",           "",         "libmp3lame#mp3"},
+    {false, "mp4",  "m4a",  "M4A file format",                          "",         "libfaac#aac#libvo_aacenc"},
+    {false, "mp3",  "mp3",  "MP3 (MPEG-1/2 Audio Layer III)",           "",         "libmp3lame"},
     {false, "ogg",  "ogg",  "OGG (Vorbis)",                             "",         "libvorbis#vorbis"},
     {false, "wav",  "wav",  "WAV (PCM signed 16-bit little-endian)",    "",         "pcm_s16le"}
 };
@@ -284,7 +285,7 @@ cDeviceModelDef::cDeviceModelDef(bool IsGlobalConf,int IndexKey) {
 
     FromGlobalConf  =IsGlobalConf;                          // true if device model is defined in global config file
     FromUserConf    =!IsGlobalConf;                         // true if device model is defined in user config file
-    IsFind          =false;                                 // true if device model format is supported by installed version of ffmpeg
+    IsFind          =false;                                 // true if device model format is supported by installed version of libav
     DeviceIndex     =IndexKey;                              // Device number index key
     DeviceName      ="";                                    // long name for the device model
     DeviceType      =0;                                     // device type
@@ -522,108 +523,159 @@ void cDeviceModelList::TranslatRenderType() {
 
 //====================================================================================================================
 
-void cDeviceModelList::Initffmpeg() {
+bool cDeviceModelList::Initffmpeg(QString &BinaryEncoderPath) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::Initffmpeg");
-    ToLog(LOGMSG_INFORMATION,"Starting ffmpeg lib ...");
-    #ifndef OLDFFMPEG
-    avcodec_register_all();
-    //avcodec_init();
-    #endif
 
-    av_register_all();
-    #ifndef OLDFFMPEG
-    avformat_network_init();
-    #endif
+    // First step : check libav version
+    #if (!(defined(LIBAV_07)||defined(LIBAV_08)))
+        CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","ffDiaporama initialisation"),"Incorrect libav version\nApplication will stop!");
+        return false;
+    #else
+        // Second step : search binary encoder
+        bool        Continue=false;
+        QProcess    Process;
 
-    // Check codec to know if they was finded
-    AVCodec *p=NULL;
-    while ((p=av_codec_next(p))) {
-        //if ((p->id==CODEC_ID_PCM_S16LE)||(p->encode!=NULL)) {
-            if (p->type==AVMEDIA_TYPE_AUDIO) {
-                for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(!AUDIOCODECDEF[i].IsFind)) {
-                    AUDIOCODECDEF[i].IsFind=true;
-                    strcpy(AUDIOCODECDEF[i].ShortName,p->name);
-                }
-                if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
-            }
-            if (p->type==AVMEDIA_TYPE_VIDEO) {
-                for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(!VIDEOCODECDEF[i].IsFind)) {
-                    VIDEOCODECDEF[i].IsFind=true;
-                    strcpy(VIDEOCODECDEF[i].ShortName,p->name);
-                }
-            }
-            if (QString(p->name)==QString("libxvid")) strcpy(VIDEOCODECDEF[2].ShortName,p->name);
-        //}
-    }
-
-    // Check format to know if they was finded
-    AVOutputFormat *ofmt=NULL;
-    while ((ofmt=av_oformat_next(ofmt))) {
-        for (int i=0;i<NBR_FORMATDEF;i++) if (strcmp(ofmt->name,FORMATDEF[i].ShortName)==0) {
-            QString     AllowedCodec=FORMATDEF[i].PossibleVideoCodec;
-            QString     Codec="";
-            int         Index=0;
-            bool        IsFindVideoCodec=false;
-            bool        IsFindAudioCodec=false;
-
-            while (AllowedCodec.length()>0) {
-                Index=AllowedCodec.indexOf("#");
-                if (Index>0) {
-                    Codec=AllowedCodec.left(Index);
-                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
-                } else {
-                    Codec=AllowedCodec;
-                    AllowedCodec="";
-                }
-                // Now find index of this codec in the VIDEOCODECDEF
-                Index=0;
-                while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
-                if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) IsFindVideoCodec=true;
-            }
-            AllowedCodec=FORMATDEF[i].PossibleAudioCodec;
-            Codec="";
-            Index=0;
-            while (AllowedCodec.length()>0) {
-                Index=AllowedCodec.indexOf("#");
-                if (Index>0) {
-                    Codec=AllowedCodec.left(Index);
-                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
-                } else {
-                    Codec=AllowedCodec;
-                    AllowedCodec="";
-                }
-                // Now find index of this codec in the AUDIOCODECDEF
-                Index=0;
-                while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
-                if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
-            }
-            FORMATDEF[i].IsFind=IsFindAudioCodec && IsFindVideoCodec;
+        #ifdef LIBAV_AVCONV
+        // Search avconv
+        BinaryEncoderPath="avconv";
+        Process.start(BinaryEncoderPath,QString("-version").split(";"));
+        if (Process.waitForStarted(-1)) {
+            if (!Process.waitForFinished()) Process.kill();
+                else Continue=true;
         }
-    }
+        ToLog(LOGMSG_INFORMATION,QString("Try to found %1 ... %2").arg(BinaryEncoderPath).arg(Continue?"found":"not found"));
+        #endif
 
-    // Check audio format to know if they was finded
-    ofmt=NULL;
-    while ((ofmt=av_oformat_next(ofmt))) {
-        for (int i=0;i<NBR_AUDIOFORMATDEF;i++) if (strcmp(ofmt->name,AUDIOFORMATDEF[i].ShortName)==0) {
-            QString     AllowedCodec=AUDIOFORMATDEF[i].PossibleAudioCodec;
-            QString     Codec="";
-            int         Index=0;
-            bool        IsFindAudioCodec=false;
-            while (AllowedCodec.length()>0) {
-                Index=AllowedCodec.indexOf("#");
-                if (Index>0) {
-                    Codec=AllowedCodec.left(Index);
-                    AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
-                } else {
-                    Codec=AllowedCodec;
-                    AllowedCodec="";
-                }
-                // Now find index of this codec in the AUDIOCODECDEF
-                Index=0;
-                while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
-                if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
+        #ifdef LIBAV_FFMPEG
+        if (!Continue) {
+            // Search ffmpeg
+            BinaryEncoderPath="ffmpeg";
+            Process.start(BinaryEncoderPath,QString("-version").split(";"));
+            if (Process.waitForStarted(-1)) {
+                if (!Process.waitForFinished()) Process.kill();
+                    else Continue=true;
             }
-            AUDIOFORMATDEF[i].IsFind=IsFindAudioCodec;
+            ToLog(LOGMSG_INFORMATION,QString("Try to found %1 ... %2").arg(BinaryEncoderPath).arg(Continue?"found":"not found"));
         }
-    }
+        #endif
+
+        if (!Continue) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","ffDiaporama initialisation"),"Unable to find binary encoder (nor ffmpeg or avconv)\nApplication will stop!");
+        else {
+
+            // Next step : start libav
+            ToLog(LOGMSG_INFORMATION,"Starting libav lib ...");
+            #ifdef LIBAV_08
+                avcodec_register_all();
+                av_register_all();
+                avformat_network_init();
+            #endif
+            #ifdef LIBAV_07
+                avcodec_init();
+                av_register_all();
+            #endif
+
+            // Check codec to know if they was finded
+            AVCodec *p=NULL;
+            while ((p=av_codec_next(p))) {
+                if ((p->encode!=NULL)
+                        #ifdef LIBAV_08
+                        ||(p->encode2!=NULL)
+                        #endif
+                   ) {
+                    if (p->type==AVMEDIA_TYPE_AUDIO) {
+                        for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(!AUDIOCODECDEF[i].IsFind)) {
+                            AUDIOCODECDEF[i].IsFind=true;
+                            //strcpy(AUDIOCODECDEF[i].ShortName,p->name);
+                        }
+                        // special case for vorbis codec : if libvorbis is found, prefer it to default internal vorbis encoder
+                        if (QString(p->name)==QString("libvorbis")) strcpy(AUDIOCODECDEF[4].ShortName,p->name);
+                        // special case for aac codec : if libfaac is found, prefer it to default internal aac encoder
+                        if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
+                        // special case for aac codec : if libvo_aacenc is found, prefer it to default internal aac encoder (ffmpeg 0.7)
+                        if (QString(p->name)==QString("libvo_aacenc")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
+                    }
+                    if (p->type==AVMEDIA_TYPE_VIDEO) {
+                        for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(!VIDEOCODECDEF[i].IsFind)) {
+                            VIDEOCODECDEF[i].IsFind=true;
+                            strcpy(VIDEOCODECDEF[i].ShortName,p->name);
+                        }
+                        // special case for mpeg4 codec : if libxvid is found, prefer it to default mpeg4 internal encoder
+                        if (QString(p->name)==QString("libxvid")) strcpy(VIDEOCODECDEF[2].ShortName,p->name);
+                    }
+                }
+            }
+
+            // Check format to know if they was finded
+            AVOutputFormat *ofmt=NULL;
+            while ((ofmt=av_oformat_next(ofmt))) {
+                for (int i=0;i<NBR_FORMATDEF;i++) if (strcmp(ofmt->name,FORMATDEF[i].ShortName)==0) {
+                    QString     AllowedCodec=FORMATDEF[i].PossibleVideoCodec;
+                    QString     Codec="";
+                    int         Index=0;
+                    bool        IsFindVideoCodec=false;
+                    bool        IsFindAudioCodec=false;
+
+                    while (AllowedCodec.length()>0) {
+                        Index=AllowedCodec.indexOf("#");
+                        if (Index>0) {
+                            Codec=AllowedCodec.left(Index);
+                            AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+                        } else {
+                            Codec=AllowedCodec;
+                            AllowedCodec="";
+                        }
+                        // Now find index of this codec in the VIDEOCODECDEF
+                        Index=0;
+                        while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
+                        if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) IsFindVideoCodec=true;
+                    }
+                    AllowedCodec=FORMATDEF[i].PossibleAudioCodec;
+                    Codec="";
+                    Index=0;
+                    while (AllowedCodec.length()>0) {
+                        Index=AllowedCodec.indexOf("#");
+                        if (Index>0) {
+                            Codec=AllowedCodec.left(Index);
+                            AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+                        } else {
+                            Codec=AllowedCodec;
+                            AllowedCodec="";
+                        }
+                        // Now find index of this codec in the AUDIOCODECDEF
+                        Index=0;
+                        while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
+                        if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
+                    }
+                    FORMATDEF[i].IsFind=IsFindAudioCodec && IsFindVideoCodec;
+                }
+            }
+
+            // Check audio format to know if they was finded
+            ofmt=NULL;
+            while ((ofmt=av_oformat_next(ofmt))) {
+                for (int i=0;i<NBR_AUDIOFORMATDEF;i++) if (strcmp(ofmt->name,AUDIOFORMATDEF[i].ShortName)==0) {
+                    QString     AllowedCodec=AUDIOFORMATDEF[i].PossibleAudioCodec;
+                    QString     Codec="";
+                    int         Index=0;
+                    bool        IsFindAudioCodec=false;
+                    while (AllowedCodec.length()>0) {
+                        Index=AllowedCodec.indexOf("#");
+                        if (Index>0) {
+                            Codec=AllowedCodec.left(Index);
+                            AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+                        } else {
+                            Codec=AllowedCodec;
+                            AllowedCodec="";
+                        }
+                        // Now find index of this codec in the AUDIOCODECDEF
+                        Index=0;
+                        while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
+                        if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
+                    }
+                    AUDIOFORMATDEF[i].IsFind=IsFindAudioCodec;
+                }
+            }
+        }
+        return Continue;
+    #endif
 }

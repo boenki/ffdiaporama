@@ -1372,18 +1372,15 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Open file and get a LibAVFormat context and an associated LibAVCodec decoder
     //*********************************************************************************************************
-    #ifdef VERYOLDFFMPEG
-    if (av_open_input_file(&ffmpegFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return;
-    #else
     if (avformat_open_input(&ffmpegFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return;
-    #endif
-
+    InformationList.append(QString("Short Format##")+QString(ffmpegFile->iformat->name));
+    InformationList.append(QString("Long Format##")+QString(ffmpegFile->iformat->long_name));
     ffmpegFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
 
     //*********************************************************************************************************
     // Search stream in file
     //*********************************************************************************************************
-    #ifdef OLDFFMPEG
+    #ifdef LIBAV_07
     if (av_find_stream_info(ffmpegFile)<0) {
         av_close_input_file(ffmpegFile);// deprecated : use avformat_find_stream_info instead
         return;
@@ -1398,13 +1395,8 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Get metadata
     //*********************************************************************************************************
-    #ifdef VERYOLDFFMPEG
-    AVMetadataTag *tag=NULL;
-    while ((tag=av_metadata_get(ffmpegFile->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX))) {
-    #else
     AVDictionaryEntry *tag=NULL;
     while ((tag=av_dict_get(ffmpegFile->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
-    #endif
         QString Value=QString().fromUtf8(tag->value);
         #ifdef Q_OS_WIN
         Value.replace(char(13),"\n");
@@ -1426,13 +1418,9 @@ void cVideoFile::GetFullInformationFromFile() {
         InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
         InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(End).toString("hh:mm:ss.zzz"));
         InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(End-Start).toString("hh:mm:ss.zzz"));
-            // Chapter metadata
-            #ifdef VERYOLDFFMPEG
-            while ((tag=av_metadata_get(ch->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX)))
-            #else
-            while ((tag=av_dict_get(ch->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
-            #endif
-                InformationList.append("Chapter_"+ChapterNum+":"+QString().fromUtf8(tag->key).toLower()+QString("##")+QString().fromUtf8(tag->value));
+        // Chapter metadata
+        while ((tag=av_dict_get(ch->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
+            InformationList.append("Chapter_"+ChapterNum+":"+QString().fromUtf8(tag->key).toLower()+QString("##")+QString().fromUtf8(tag->value));
     }
 
     //*********************************************************************************************************
@@ -1520,11 +1508,7 @@ void cVideoFile::GetFullInformationFromFile() {
             }
 
             // Stream metadata
-            #ifdef VERYOLDFFMPEG
-            while ((tag=av_metadata_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX))) {
-            #else
             while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
-            #endif
                 // OGV container affect TAG to audio stream !
                 QString Key=QString().fromUtf8(tag->key).toLower();
                 if ((FileName.toLower().endsWith(".ogv"))&&((Key=="title")||(Key=="artist")||(Key=="album")||(Key=="comment")||(Key=="date")||(Key=="composer")||(Key=="encoder")))
@@ -1569,11 +1553,7 @@ void cVideoFile::GetFullInformationFromFile() {
             }
 
             // Stream metadata
-            #ifdef VERYOLDFFMPEG
-            while ((tag=av_metadata_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_METADATA_IGNORE_SUFFIX)))
-            #else
             while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
-            #endif
                 InformationList.append(TrackNum+QString(tag->key)+QString("##")+QString().fromUtf8(tag->value));
 
             // Ensure language exist (Note : AVI ‘AttachedPictureFrame’and FLV container own language at container level instead of track level)
@@ -1590,7 +1570,7 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Close file
     //*********************************************************************************************************
-    #ifdef OLDFFMPEG
+    #ifdef LIBAV_07
     av_close_input_file(ffmpegFile);
     #else
     avformat_close_input(&ffmpegFile);
@@ -1726,7 +1706,7 @@ void cVideoFile::CloseCodecAndFile() {
 
     // Close the video file
     if (ffmpegVideoFile!=NULL) {
-        #ifdef OLDFFMPEG
+        #ifdef LIBAV_07
         av_close_input_file(ffmpegVideoFile);
         #else
         avformat_close_input(&ffmpegVideoFile);
@@ -1741,7 +1721,7 @@ void cVideoFile::CloseCodecAndFile() {
     }
     // Close the audio file
     if (ffmpegAudioFile!=NULL) {
-        #ifdef OLDFFMPEG
+        #ifdef LIBAV_07
         av_close_input_file(ffmpegAudioFile);
         #else
         avformat_close_input(&ffmpegAudioFile);
@@ -1780,28 +1760,28 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     int64_t         AudioLenDecoded     =0;
     uint8_t         *BufferForDecoded   =(uint8_t *)av_malloc(MaxAudioLenDecoded);
     double          dPosition           =double(Position)/1000;     // Position in double format
-    double          AudioDataWanted     =(PreviewMode?SoundTrackBloc->WantedDuration:5)*double(AudioStream->codec->sample_rate)*SrcSampleSize;  // 5 sec for rendering
+    //double          AudioDataWanted     =(PreviewMode?SoundTrackBloc->WantedDuration:5)*double(AudioStream->codec->sample_rate)*SrcSampleSize;  // 5 sec for rendering
+    double          AudioLengthWanted   =(PreviewMode?1:5)*SoundTrackBloc->WantedDuration;                                                      // 5 frame for rendering
 
     bool            Continue        =true;
     double          FramePosition   =dPosition;
     double          FrameDuration   =0;
 
+    // Adjust position if input file have a start_time value
+    if (ffmpegAudioFile->start_time!=AVNOPTSVALUE) dPosition+=double(ffmpegAudioFile->start_time)/double(AV_TIME_BASE);
+
     // Cac difftime between asked position and previous end decoded position
     qlonglong Diff=(qlonglong(SoundTrackBloc->SoundPacketSize*SoundTrackBloc->List.count()+SoundTrackBloc->CurrentTempSize)/DstSampleSize)*1000/SoundTrackBloc->SamplingRate;
-    qlonglong DiffTimePosition=(LastAudioReadedPosition-Diff)-Position;
+    qlonglong DiffTimePosition=(LastAudioReadedPosition-Diff)-(dPosition*1000);
     if (DiffTimePosition<0) DiffTimePosition=-DiffTimePosition;
 
-    // Adjust position if input file have a start_time value
-    if (ffmpegAudioFile->start_time!=AVNOPTSVALUE)
-        dPosition+=double(ffmpegAudioFile->start_time)/double(AV_TIME_BASE);
-
-    #ifdef OLDFFMPEG
+    #ifdef LIBAV_07
         // if Old ffmpeg : Prepare a buffer for sound decoding
         uint8_t *BufferToDecode=(uint8_t *)av_malloc(48000*4*2);   // 2 sec buffer
     #endif
 
     // Calc if we need to seek to a position
-    if ((Position==0)||(DiffTimePosition>10)) {// Allow 10 msec diff (rounded double !)
+    if ((Position==0)||(DiffTimePosition>500)) {// Allow 0,5 sec diff (rounded double !)
         // Flush all buffers
         for (unsigned int i=0;i<ffmpegAudioFile->nb_streams;i++)  {
             AVCodecContext *codec_context = ffmpegAudioFile->streams[i]->codec;
@@ -1848,7 +1828,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                 // NOTE: the audio packet can contain several frames
                 if (FramePosition!=-1) while (PacketTemp.size>0) {
 
-                    #ifdef OLDFFMPEG
+                    #ifdef LIBAV_07
                     // Decode audio data
                     int SizeDecoded     =(AVCODEC_MAX_AUDIO_FRAME_SIZE*3)/2;
                     int Len             =avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
@@ -1866,7 +1846,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                         // if error, we skip the frame and exit the while loop
                         PacketTemp.size=0;
                     } else if (SizeDecoded>0) {
-                        #ifdef OLDFFMPEG
+                        #ifdef LIBAV_07
                         FrameDuration=double(SizeDecoded)/(double(SrcSampleSize)*double(AudioStream->codec->sample_rate));
                         #else
                         SizeDecoded  =Frame->nb_samples*SrcSampleSize;
@@ -1882,7 +1862,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                                 Delta*=SrcSampleSize;
                             }
                             // Append decoded data to BufferForDecoded buffer
-                            #ifdef OLDFFMPEG
+                            #ifdef LIBAV_07
                             memcpy(BufferForDecoded+AudioLenDecoded,BufferToDecode+Delta,SizeDecoded-Delta);
                             #else
                             memcpy(BufferForDecoded+AudioLenDecoded,Frame->data[0]+Delta,SizeDecoded-Delta);
@@ -1895,7 +1875,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                         FramePosition           =FramePosition+FrameDuration;
                         LastAudioReadedPosition =int(FramePosition*1000);    // Keep NextPacketPosition for determine next time if we need to seek
                     }
-                    #ifndef OLDFFMPEG
+                    #ifndef LIBAV_07
                     av_free(Frame);
                     #endif
                 }
@@ -1907,7 +1887,8 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
             StreamPacket=NULL;
 
             // Check if we need to continue loop
-            Continue=(AudioLenDecoded<AudioDataWanted);
+            //Continue=(AudioLenDecoded<AudioDataWanted);
+            Continue=FramePosition<dPosition+AudioLengthWanted;
         }
     }
 
@@ -2084,7 +2065,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     // Now ensure SoundTrackBloc have correct wanted packet (if no then add nullsound)
     //while (SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS) SoundTrackBloc->AppendNullSoundPacket();
 
-    #ifdef OLDFFMPEG
+    #ifdef LIBAV_07
     if (BufferToDecode)   av_free(BufferToDecode);
     #endif
     if (BufferForDecoded) av_free(BufferForDecoded);
@@ -2143,7 +2124,7 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
 
 
     // Calc if we need to seek to a position
-    if ((Position==0)||(DiffTimePosition<0)||(DiffTimePosition>100)) { // Allow 0,1 sec diff
+    if ((Position==0)||(DiffTimePosition<0)||(DiffTimePosition>500)) { // Allow 0,1 sec diff
 
         // Flush all buffers
         for (unsigned int i=0;i<ffmpegVideoFile->nb_streams;i++)  {
@@ -2152,6 +2133,9 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
         }
         FrameBufferYUVReady    = false;
         FrameBufferYUVPosition = 0;
+
+        // Seek to nearest previous key frame
+        ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadVideoFrame => do a seek");
 
         // Seek to nearest previous key frame
         int64_t seek_target=av_rescale_q(int64_t(Position*1000),AV_TIME_BASE_Q,ffmpegVideoFile->streams[VideoStreamNumber]->time_base);
@@ -2375,21 +2359,17 @@ bool cVideoFile::OpenCodecAndFile() {
     // Open audio stream
     if (AudioStreamNumber!=-1) {
         // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
-        #ifdef VERYOLDFFMPEG
-        if (av_open_input_file(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
-        #else
         if (avformat_open_input(&ffmpegAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
-        #endif
 
         ffmpegAudioFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
 
-        #ifdef OLDFFMPEG
-        if (av_find_stream_info(ffmpegAudioFile)<0) {    // deprecated : use avformat_find_stream_info instead
-            av_close_input_file(ffmpegAudioFile);
-        #else
         if (avformat_find_stream_info(ffmpegAudioFile,NULL)<0) {
+            #ifdef LIBAV_07
+            av_close_input_file(ffmpegAudioFile);
+            #endif
+            #ifdef LIBAV_08
             avformat_close_input(&ffmpegAudioFile);
-        #endif
+            #endif
             return false;
         }
 
@@ -2404,18 +2384,13 @@ bool cVideoFile::OpenCodecAndFile() {
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
-        ffmpegAudioFile->streams[AudioStreamNumber]->codec->lowres           =0;                    // low resolution decoding, 1-> 1/2 size, 2->1/4 size
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_concealment=3;
 
-        #ifdef OLDFFMPEG
-        if ((AudioDecoderCodec==NULL)||(avcodec_open(ffmpegAudioFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec)<0)) return false;
-        #else
         if ((AudioDecoderCodec==NULL)||(avcodec_open2(ffmpegAudioFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec,NULL)<0)) return false;
-        #endif
         IsOpen=true;
     }
 
@@ -2423,21 +2398,17 @@ bool cVideoFile::OpenCodecAndFile() {
     if ((VideoStreamNumber!=-1)&&(!MusicOnly)) {
 
         // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
-        #ifdef VERYOLDFFMPEG
-        if (av_open_input_file(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,0,NULL)!=0) return false;
-        #else
         if (avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
-        #endif
 
         ffmpegVideoFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future frames.
 
-        #ifdef OLDFFMPEG
-        if (av_find_stream_info(ffmpegVideoFile)<0) {    // deprecated : use avformat_find_stream_info instead
-            av_close_input_file(ffmpegVideoFile);
-        #else
         if (avformat_find_stream_info(ffmpegVideoFile,NULL)<0) {
+            #ifdef LIBAV_07
+            av_close_input_file(ffmpegVideoFile);
+            #endif
+            #ifdef LIBAV_08
             avformat_close_input(&ffmpegVideoFile);
-        #endif
+            #endif
             return false;
         }
 
@@ -2451,7 +2422,6 @@ bool cVideoFile::OpenCodecAndFile() {
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->lowres           =0;                    // low resolution decoding, 1-> 1/2 size, 2->1/4 size
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
@@ -2459,15 +2429,11 @@ bool cVideoFile::OpenCodecAndFile() {
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
 
         // h264 specific
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();        // Not sure it work with old ffmpeg version !!!!!
-        //ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_ALL;        // Reduce quality but speed reading !
+        ffmpegVideoFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
+        //ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_ALL;      // Reduce quality but speed reading !
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_BIDIR;
 
-        #ifdef OLDFFMPEG
-        if ((VideoDecoderCodec==NULL)||(avcodec_open(ffmpegVideoFile->streams[VideoStreamNumber]->codec,VideoDecoderCodec)<0)) {
-        #else
         if ((VideoDecoderCodec==NULL)||(avcodec_open2(ffmpegVideoFile->streams[VideoStreamNumber]->codec,VideoDecoderCodec,NULL)<0)) {
-        #endif
             CloseCodecAndFile();
             return false;
         }
@@ -2487,6 +2453,14 @@ bool cVideoFile::OpenCodecAndFile() {
         // Special case for DVD mode video without PAR
         if ((AspectRatio==1)&&(ffmpegVideoFile->streams[VideoStreamNumber]->codec->coded_width==720)&&(ffmpegVideoFile->streams[VideoStreamNumber]->codec->coded_height==576))
             AspectRatio=double((576/3)*4)/720;
+
+        // Special case for AVCHD file : add CODEC_FLAG2_SHOW_ALL
+        if (InformationList.contains("Short Format##mpegts",Qt::CaseInsensitive)) {
+            //ffmpegVideoFile->streams[VideoStreamNumber]->codec->has_b_frames =5;
+            //ffmpegVideoFile->streams[VideoStreamNumber]->codec->flags2           |=CODEC_FLAG2_SHOW_ALL;
+            //ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment =FF_EC_DEBLOCK|FF_EC_GUESS_MVS;
+            CodecUsePTS=false;
+        }
 
         // Try to load one image to be sure we can make something with this file
         IsOpen=true;
