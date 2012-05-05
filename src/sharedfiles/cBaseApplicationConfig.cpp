@@ -20,6 +20,7 @@
 
 // Include some common various class
 #include "cBaseApplicationConfig.h"
+#include "cDeviceModelDef.h"
 
 // Include some additional standard class
 #include <QFile>
@@ -382,6 +383,9 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowVideoExtension.append("ogv");     AllowVideoExtension.append("OGV");
     AllowVideoExtension.append("webm");    AllowVideoExtension.append("WEBM");
     AllowVideoExtension.append("dv");      AllowVideoExtension.append("DV");
+#ifdef LIBAV_AVCHD
+    AllowVideoExtension.append("mts");     AllowVideoExtension.append("MTS");
+#endif
     // List of all file extension allowed for image
     AllowImageExtension.append("bmp");     AllowImageExtension.append("BMP");
     AllowImageExtension.append("gif");     AllowImageExtension.append("GIF");
@@ -411,9 +415,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
 
     // set value of external tools path (depending on operating system)
     PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
-    PathFFMPEG      = "ffmpeg";                      // FileName of ffmpeg (with path) : Windows version
-
-    RememberLastDirectories     = true;                     // If true, Remember all directories for future use
+    RememberLastDirectories     = true;                         // If true, Remember all directories for future use
     #ifdef Q_OS_WIN
         LastMediaPath           = WINDOWS_PICTURES;             // Last folder use for image/video
         LastMusicPath           = WINDOWS_MUSIC;                // Last folder use for music

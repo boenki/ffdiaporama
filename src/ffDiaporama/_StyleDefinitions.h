@@ -40,7 +40,7 @@ class cStyleCollectionItem {
 public:
     bool    FromGlobalConf;                                     // true if device model is defined in global config file
     bool    FromUserConf;                                       // true if device model is defined in user config file
-    bool    IsFind;                                             // true if device model format is supported by installed version of ffmpeg
+    bool    IsFind;                                             // true if device model format is supported by installed version of libav
     int     StyleIndex;                                         // Style number index key
     QString StyleName;                                          // Long name for the style
     QString StyleDef;                                           // Style definition

@@ -28,39 +28,46 @@
 
 //====================================================================================================================
 
-bool Checkffmpeg(QString &StatusStr) {
+bool Checkffmpeg(QString &StatusStr,cBaseApplicationConfig *BaseApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:Checkffmpeg");
 
     bool        ffmpegOK=true;
     QProcess    Process;
+    #ifdef Q_OS_WIN
+    QString     ffmpegCommand="\""+BaseApplicationConfig->BinaryEncoderPath+"\"";
+    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    QString     ffmpegCommand=BaseApplicationConfig->BinaryEncoderPath;
+    #endif
 
     //Process.setProcessChannelMode(QProcess::MergedChannels);
-    Process.start("ffmpeg",QString("-version").split(";"));
+
+    Process.start(ffmpegCommand,QString("-version").split(";"));
     if (!Process.waitForStarted(-1)) {
-        ToLog(LOGMSG_CRITICAL,"Impossible to start ffmpeg");
+        ToLog(LOGMSG_CRITICAL,QString("Impossible to start %1").arg(BaseApplicationConfig->BinaryEncoderPath));
         ffmpegOK=false;
     }
     if (ffmpegOK && !Process.waitForFinished()) {
         Process.kill();
-        ToLog(LOGMSG_CRITICAL,"Error during ffmpeg process");
+        ToLog(LOGMSG_CRITICAL,QString("Error during %1 process").arg(BaseApplicationConfig->BinaryEncoderPath));
         ffmpegOK=false;
     }
     if (ffmpegOK && (Process.exitStatus()<0)) {
-        ToLog(LOGMSG_CRITICAL,QString("ffmpeg return error %1").arg(Process.exitStatus()));
+        ToLog(LOGMSG_CRITICAL,QString("%1 return error %2").arg(BaseApplicationConfig->BinaryEncoderPath).arg(Process.exitStatus()));
         ffmpegOK=false;
     }
     if (ffmpegOK) {
         QString     Info=QString().fromLocal8Bit(Process.readAllStandardOutput())+
                          QString().fromLocal8Bit(Process.readAllStandardError());
-        if (Info.indexOf("ffmpeg version ")>=0) {
-            StatusStr=Info.mid(Info.indexOf("ffmpeg version ")+QString("ffmpeg version ").length());
+        if (Info.indexOf(QString("%1 version ").arg(BaseApplicationConfig->BinaryEncoderPath)>=0)) {
+            StatusStr=Info.mid(Info.indexOf(QString("%1 version ").arg(BaseApplicationConfig->BinaryEncoderPath))+QString(QString("%1 version ").arg(BaseApplicationConfig->BinaryEncoderPath)).length());
             StatusStr=StatusStr.left(StatusStr.indexOf("\n"));
             if (StatusStr.indexOf(QString(char(13)))>0) StatusStr=StatusStr.left(StatusStr.indexOf(QString(char(13))));
+            StatusStr=BaseApplicationConfig->BinaryEncoderPath+" "+StatusStr;
         } else {
-            StatusStr=QApplication::translate("DlgCheckConfig","Unable to determine ffmpeg version");
+            StatusStr=QApplication::translate("DlgCheckConfig","Unable to determine %1 version").arg(BaseApplicationConfig->BinaryEncoderPath);
             //ffmpegOK=false;
         }
-    } else StatusStr=QApplication::translate("DlgCheckConfig","ffmpeg not found - critical - application will stop !");
+    } else StatusStr=QApplication::translate("DlgCheckConfig","%1 not found - critical - application will stop !").arg(BaseApplicationConfig->BinaryEncoderPath);
 
     Process.terminate();
     Process.close();
@@ -143,34 +150,34 @@ void DlgCheckConfig::DoInitDialog() {
 
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
-    // ffmpeg
-    ui->ListWidget->addItem(new QListWidgetItem("ffmpeg"));
-    Status=Checkffmpeg(StatusStr);
-    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","ffmpeg version:")+StatusStr));
+    // libav
+    ui->ListWidget->addItem(new QListWidgetItem("libav"));
+    Status=Checkffmpeg(StatusStr,BaseApplicationConfig);
+    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","encoder version:")+StatusStr));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVCODEC version:")+QString("%1").arg(LIBAVCODEC_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MINOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MICRO)+"."+QString("%1").arg(avcodec_version())));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVFORMAT version:")+QString("%1").arg(LIBAVFORMAT_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MINOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MICRO)+"."+QString("%1").arg(avformat_version())));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBSWSCALE version:")+QString("%1").arg(LIBSWSCALE_VERSION_MAJOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MINOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MICRO)+"."+QString("%1").arg(swscale_version())));
 
-    #ifdef FFMPEGWITHTAG
+    #ifdef LIBAV_TAGCHAPTERS
     Status=true;
     #else
     Status=false;
     #endif
-    StatusStr=QApplication::translate("DlgCheckConfig","ffmpeg support for TAG and CHAPTERS")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
+    StatusStr=QApplication::translate("DlgCheckConfig","LIBAV support for TAG and CHAPTERS")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
     ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_YELLOW),StatusStr));
 
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
-    // ffmpeg
-    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","ffmpeg Audio Codecs")));
-    for (int i=0;i<NBR_AUDIOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(AUDIOCODECDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(AUDIOCODECDEF[i].LongName)+" "+(AUDIOCODECDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
+    // libav
+    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","libav Audio Codecs")));
+    for (int i=0;i<NBR_AUDIOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(AUDIOCODECDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(AUDIOCODECDEF[i].LongName)+" "+(AUDIOCODECDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available")+QString(" - Codec=%1").arg(QString(AUDIOCODECDEF[i].ShortName)):QApplication::translate("DlgCheckConfig","not available"))));
 
     ui->ListWidget->addItem(new QListWidgetItem(""));
-    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","ffmpeg Video Codecs")));
-    for (int i=0;i<NBR_VIDEOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(VIDEOCODECDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(VIDEOCODECDEF[i].LongName)+" "+(VIDEOCODECDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
+    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","libav Video Codecs")));
+    for (int i=0;i<NBR_VIDEOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(VIDEOCODECDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(VIDEOCODECDEF[i].LongName)+" "+(VIDEOCODECDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available")+QString(" - Codec=%1").arg(QString(VIDEOCODECDEF[i].ShortName)):QApplication::translate("DlgCheckConfig","not available"))));
 
     ui->ListWidget->addItem(new QListWidgetItem(""));
-    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","ffmpeg Container Formats")));
+    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","libav Container Formats")));
     for (int i=0;i<NBR_FORMATDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(FORMATDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(FORMATDEF[i].LongName)+" "+(FORMATDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
 
     ui->ListWidget->addItem(new QListWidgetItem(""));

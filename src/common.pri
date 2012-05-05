@@ -49,18 +49,18 @@ win32 {
         UI_SOURCES_DIR  += ..\\..\\..\\windebugbuild\\src\\$$TARGET
     }
 
-    INCLUDEPATH += c:\\Qt\\ffmpeg-win32-dev\\include                    #------ ffmpeg library path
+    INCLUDEPATH += C:\\Qt\\libav-win32\\usr\\include                    #------ libav library path
     INCLUDEPATH += c:\\Qt\\SDL-1.2.14\\include                          #------ SDL library path
     INCLUDEPATH += c:\\Qt\\ThirdLib\\include                            #------ Exiv2 and TAGlib library path
     INCLUDEPATH += .                                                    #------ I don't know why, but windows need this !
 
-    LIBS        += -L"c:\\Qt\\ffmpeg-win32-dev\\lib"                    #------ ffmpeg library path
+    LIBS        += -L"C:\\Qt\\libav-win32\\usr\\lib"                    #------ libav library path
     LIBS        += -L"c:\\Qt\\SDL-1.2.14\\lib"                          #------ SDL library path
     LIBS        += -L"c:\\Qt\\ThirdLib\\lib"                            #------ Exiv2 and TAGlib library path
     LIBS        += -lgdi32 -lkernel32                                   #------ Windows GDI lib link
 }
 
 #---- Libs for windows and linux
-LIBS        += -lavformat -lavcodec -lavutil -lswscale                  #------ ffmpeg lib link
+LIBS        += -lavformat -lavcodec -lavutil -lswscale                  #------ libav lib link
 unix:LIBS   += -lexiv2                                                  #------ Exiv2 [and TAGlib]Linux only]
 LIBS        += -ltag                                                    #------ TAGlib

@@ -106,22 +106,13 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     AddToSystemProperties(QString(SDLVERSION_STR)+QString("%1").arg(SDL_MAJOR_VERSION)+"."+QString("%1").arg(SDL_MINOR_VERSION)+"."+QString("%1").arg(SDL_PATCHLEVEL)+"-Licence=GPL version 2.1 or later");
 
     // Register all formats and codecs for libavformat/libavcodec/etc ...
-    screen.showMessage(QApplication::translate("MainWindow","Starting ffmpeg..."),Qt::AlignHCenter|Qt::AlignBottom);
-    ApplicationConfig->DeviceModelList.Initffmpeg();
+    screen.showMessage(QApplication::translate("MainWindow","Starting libav..."),Qt::AlignHCenter|Qt::AlignBottom);
+    if (!ApplicationConfig->DeviceModelList.Initffmpeg(ApplicationConfig->BinaryEncoderPath)) exit(1);
 
-    // Display ffmpeg versions
+    // Display libav versions
     AddToSystemProperties(QString(LIBAVCODECVERSION_STR)+QString("%1").arg(LIBAVCODEC_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MINOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MICRO)+"."+QString("%1").arg(avcodec_version())+"-Licence="+QString(avcodec_license()));
     AddToSystemProperties(QString(LIBAVFORMATVERSION_STR)+QString("%1").arg(LIBAVFORMAT_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MINOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MICRO)+"."+QString("%1").arg(avformat_version())+"-Licence="+QString(avformat_license()));
     AddToSystemProperties(QString(LIBSWSCALEVERSION_STR)+QString("%1").arg(LIBSWSCALE_VERSION_MAJOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MINOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MICRO)+"."+QString("%1").arg(swscale_version())+"-Licence="+QString(swscale_license()));
-
-    // Display finding codecs & formats
-    AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Registered video codecs for encoding :"));
-    for (int i=0;i<NBR_VIDEOCODECDEF;i++) if (VIDEOCODECDEF[i].IsFind) AddToSystemProperties("  "+QString(VIDEOCODECDEF[i].LongName)+"-ffmpeg codec:"+QString(VIDEOCODECDEF[i].ShortName));
-    AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Registered audio codecs for encoding :"));
-    for (int i=0;i<NBR_AUDIOCODECDEF;i++) if (AUDIOCODECDEF[i].IsFind) AddToSystemProperties("  "+QString(AUDIOCODECDEF[i].LongName)+"-ffmpeg codec:"+QString(AUDIOCODECDEF[i].ShortName));
-    AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Registered container formats for encoding :"));
-    for (int i=0;i<NBR_FORMATDEF;i++)     if (FORMATDEF[i].IsFind) AddToSystemProperties("  "+QString(FORMATDEF[i].LongName));
-    AddSeparatorToSystemProperties();   AddToSystemProperties(QString("%1").arg(ApplicationConfig->DeviceModelList.RenderDeviceModel.count())+QApplication::translate("MainWindow"," Device registered for rendering"));
 
     AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Library :"));
     QString Path;
@@ -279,7 +270,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(500,this,SLOT(s_Action_DlgCheckConfig())); else {
         QString Status;
-        if (!Checkffmpeg(Status)) QTimer::singleShot(500,this,SLOT(s_Action_DlgCheckConfig()));
+        if (!Checkffmpeg(Status,ApplicationConfig)) QTimer::singleShot(500,this,SLOT(s_Action_DlgCheckConfig()));
     }
 }
 
@@ -587,7 +578,7 @@ void MainWindow::s_Action_DlgCheckConfig() {
     Dlg.exec();
 
     QString Status;
-    if (!Checkffmpeg(Status)) {
+    if (!Checkffmpeg(Status,ApplicationConfig)) {
         CustomMessageBox(this,QMessageBox::Critical,APPLICATION_NAME,QApplication::translate("MainWindow","Configuration not correct!"));
         close();
     }
@@ -1240,6 +1231,7 @@ void MainWindow::DoOpenFile() {
     while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
     ui->timeline->SetCurrentCell(0);
     RefreshControls();
+    SetTimelineHeight();
     QApplication::restoreOverrideCursor();
     ToStatusBar("");
 }

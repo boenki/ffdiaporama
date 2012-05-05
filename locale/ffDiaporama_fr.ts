@@ -24,6 +24,11 @@
         <translation>Citations</translation>
     </message>
     <message>
+        <location filename="../src/ffDiaporama/DlgAbout.ui" line="258"/>
+        <source>This application was developed using Open Source version of Qt 4.8 SDK</source>
+        <translation>Cette application a été developpé en utilisant la version Open Source du SDK Qt 4.8</translation>
+    </message>
+    <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="268"/>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="318"/>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="349"/>
@@ -33,11 +38,6 @@
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="636"/>
         <source>WEB site &amp; licence :</source>
         <translation>Site WEB et licence :</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgAbout.ui" line="305"/>
-        <source>Video decoding and encoding engines are based on ffmpeg</source>
-        <translation>Les moteurs d&apos;encodage et de décodage vidéo sont basés sur ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="436"/>
@@ -55,9 +55,9 @@
         <translation>Copyright (C) 2011-2012 Dominique Levray</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAbout.ui" line="258"/>
-        <source>This application was developed using Open Source version of Qt 4.7 SDK</source>
-        <translation>Cette application a été developpé en utilisant la version Open Source du SDK Qt 4.7</translation>
+        <location filename="../src/ffDiaporama/DlgAbout.ui" line="305"/>
+        <source>Video decoding and encoding engines are based on libav</source>
+        <translation>Le décodage et l&apos;encodage des vidéos sont basés sur LIBAV</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="367"/>
@@ -1090,124 +1090,124 @@ Consulltez l&apos;aide pour plus d&apos;informations !</translation>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="63"/>
-        <source>ffmpeg not found - critical - application will stop !</source>
-        <translation>ffmpeg non trouvé - critique - l&apos;application va s&apos;arréter !</translation>
-    </message>
-    <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="165"/>
-        <source>ffmpeg Audio Codecs</source>
-        <translation>Codecs audio ffmpeg</translation>
-    </message>
-    <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="113"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="126"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="120"/>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="133"/>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="140"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="159"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="147"/>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="166"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="170"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="174"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="179"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="177"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="181"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="186"/>
         <source>available</source>
         <translation>disponible</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="60"/>
-        <source>Unable to determine ffmpeg version</source>
-        <translation>Impossible de déterminer la version de ffmpeg</translation>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="67"/>
+        <source>Unable to determine %1 version</source>
+        <translation>Impossible de déterminer la version de %1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="103"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="70"/>
+        <source>%1 not found - critical - application will stop !</source>
+        <translation>%1 introuvable - critique - l&apos;application s&apos;arrete !</translation>
+    </message>
+    <message>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="110"/>
         <source>LibExiv2 version:</source>
         <translation>LibExiv2 version : </translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="105"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="112"/>
         <source>LibExiv2/Exiv2 binary version</source>
         <translation>LibExiv2/Exiv2 en version binaire</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="113"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="126"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="120"/>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="133"/>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="140"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="159"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="147"/>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="166"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="170"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="174"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="180"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="177"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="181"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="187"/>
         <source>not available</source>
         <translation>non disponible</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="113"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="120"/>
         <source>LibExiv2 support for preview image</source>
         <translation>LibExiv2 support de la prévisualisation des images</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="119"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="126"/>
         <source>TAGLib version:</source>
         <translation>TAGLib version : </translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="126"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="133"/>
         <source>TAGLib support for FLAC</source>
         <translation>TAGLib support des fichiers FLAC</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="133"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="140"/>
         <source>TAGLib support for ASF/WMA</source>
         <translation>TAGLib support des fichiers ASF/WMA</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="140"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="147"/>
         <source>TAGLib support for M4A/MP4</source>
         <translation>TAGLib support des fichiers M4A/MP4</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="149"/>
-        <source>ffmpeg version:</source>
-        <translation>ffmpeg version : </translation>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="156"/>
+        <source>encoder version:</source>
+        <translation>Version de l&apos;encoder :</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="150"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="166"/>
+        <source>LIBAV support for TAG and CHAPTERS</source>
+        <translation>Support par LIBAV des TAG et des chapitres</translation>
+    </message>
+    <message>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="172"/>
+        <source>libav Audio Codecs</source>
+        <translation>Codecs Audio de LIBAV</translation>
+    </message>
+    <message>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="176"/>
+        <source>libav Video Codecs</source>
+        <translation>Codecs Vidéo de LIBAV</translation>
+    </message>
+    <message>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="180"/>
+        <source>libav Container Formats</source>
+        <translation>Containers de LIBAV</translation>
+    </message>
+    <message>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="157"/>
         <source>LIBAVCODEC version:</source>
         <translation>LIBAVCODEC version : </translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="151"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="158"/>
         <source>LIBAVFORMAT version:</source>
         <translation>LIBAVFORMAT version : </translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="152"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="159"/>
         <source>LIBSWSCALE version:</source>
         <translation>LIBSWSCALE version : </translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="159"/>
-        <source>ffmpeg support for TAG and CHAPTERS</source>
-        <translation>ffmpeg support des TAG et des chapitres</translation>
-    </message>
-    <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="169"/>
-        <source>ffmpeg Video Codecs</source>
-        <translation>Codecs vidéo ffmpeg</translation>
-    </message>
-    <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="173"/>
-        <source>ffmpeg Container Formats</source>
-        <translation>Formats de fichier ffmpeg</translation>
-    </message>
-    <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="178"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="185"/>
         <source>Lossless</source>
         <translation>Sans perte</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="179"/>
-        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="180"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="186"/>
+        <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="187"/>
         <source>Lossless rendering</source>
         <translation>Génération sans perte</translation>
     </message>
@@ -1344,12 +1344,12 @@ Consulltez l&apos;aide pour plus d&apos;informations !</translation>
         <translation>Remettre à zéro</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1909"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1912"/>
         <source>Undo last action (CTRL+Z)</source>
         <translation>Défaire la dernière action (CTRL+Z)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1950"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1953"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
@@ -1389,12 +1389,12 @@ Consulltez l&apos;aide pour plus d&apos;informations !</translation>
         <translation>Guides</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1912"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1915"/>
         <source>Undo</source>
         <translation>Défaire</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1919"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1922"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
@@ -1404,22 +1404,22 @@ Consulltez l&apos;aide pour plus d&apos;informations !</translation>
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1926"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1929"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Annuler les modifications et quitter la boite de dialogue</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1929"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1932"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annuler</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1940"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1943"/>
         <source>Open help page describing this dialog box</source>
         <translation>Ouvrir la page de documentation correspondant à cette boite de dialogue</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1943"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1946"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
@@ -2263,23 +2263,22 @@ Déplace le fichier actuellement sélectionné dans la liste d&apos;un cran vers
 <context>
     <name>DlgRenderVideo</name>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="702"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="714"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="914"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="945"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1207"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1262"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1271"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1283"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1298"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1313"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1338"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1358"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1367"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="668"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="753"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="907"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="919"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1246"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1301"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1310"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1327"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1342"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1363"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1379"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1472"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1528"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1532"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1388"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1395"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1488"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1540"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1544"/>
         <source>Render video</source>
         <translation>Générer le film</translation>
     </message>
@@ -2579,116 +2578,116 @@ Déplace le fichier actuellement sélectionné dans la liste d&apos;un cran vers
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="585"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="659"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="863"/>
         <source>Stop rendering</source>
         <translation>Stop l&apos;encodage</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="666"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="875"/>
         <source>Range selection</source>
         <translation>Sélection d&apos;une plage de diapositive</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="667"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="876"/>
         <source>Slide range is defined to incorrect values</source>
         <translation>La plage est définie a des valeures incorrectes</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="675"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="884"/>
         <source>Language selection</source>
         <translation>Sélection de la langue</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="676"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="885"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
         <translation>La langue doit être vide ou doit contenir un code ISO 639 (3 caractères)
 Consulltez l&apos;aide pour plus d&apos;informations !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="683"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="892"/>
         <source>Overwrite file ?</source>
         <translation>Ecraser le fichier ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="684"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="893"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
         <translation>Le fichier que vous avez sélectionné existe déjà.
 Voulez-vous l&apos;écraser ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="741"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="946"/>
         <source>Device model selection</source>
         <translation>Sélection d&apos;un modèle de périphérique</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="742"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="947"/>
         <source>A device model is require!</source>
         <translation>La sélection d&apos;un modèle de périphérique est nécessaire !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="826"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1031"/>
         <source>Encoding sound</source>
         <translation>Encodage du son</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1014"/>
-        <source>Start ffmpeg encoder</source>
-        <translation>Démarre l&apos;encodeur ffmpeg</translation>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1073"/>
+        <source>Start avconv encoder</source>
+        <translation>Démarre l&apos;encoder avconv</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1070"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1145"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1154"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1191"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1195"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1110"/>
+        <source>Error starting avconv</source>
+        <comment>Error message</comment>
+        <translation>Erreur lors du lancement d&apos;avconv</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1193"/>
+        <source>avconv error</source>
+        <comment>Error message</comment>
+        <translation>Erreur avconv</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1230"/>
+        <source>Error during avconv process</source>
+        <comment>Error message</comment>
+        <translation>Erreur durant l&apos;exécution d&apos;avconv</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1234"/>
+        <source>Error exiting avconv</source>
+        <comment>Error message</comment>
+        <translation>Erreur en quittant avconv</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1109"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1184"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1193"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1230"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1234"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1071"/>
-        <source>Error starting ffmpeg</source>
-        <comment>Error message</comment>
-        <translation>Erreur lors du lancement de ffmpeg</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1105"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1144"/>
         <source> - Estimated time left : </source>
         <translation> - Temps restant estimé : </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1145"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1184"/>
         <source>Error sending image to ffmpeg</source>
         <comment>Error message</comment>
         <translation>Erreur lors de la transmission de l&apos;image à ffmeg</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1154"/>
-        <source>ffmpeg error</source>
-        <comment>Error message</comment>
-        <translation>Erreur ffmpeg</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1176"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1215"/>
         <source>Closing encoder</source>
         <translation>Stop l&apos;encodeur</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1191"/>
-        <source>Error during ffmpeg process</source>
-        <comment>Error message</comment>
-        <translation>Erreur durant le processus ffmpeg</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1195"/>
-        <source>Error exiting ffmpeg</source>
-        <comment>Error message</comment>
-        <translation>Erreur lors de l&apos;arret de ffmpeg</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1207"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1246"/>
         <source>Job completed successfully!</source>
         <translation>Encodage terminé avec succès !</translation>
     </message>
@@ -4665,41 +4664,41 @@ Support</translation>
         <translation>Générer le film</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="60"/>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="74"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="61"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="75"/>
         <source>Search Raster mode in configuration file</source>
         <translation>Recherche du mode Raster dans le fichier de configuration</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="274"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="275"/>
         <source>All suported file (</source>
         <translation>Fichiers supportés (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="281"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="282"/>
         <source>Image file (</source>
         <translation>Fichiers images (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="287"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="288"/>
         <source>Video file (</source>
         <translation>Fichiers vidéos (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="293"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="294"/>
         <source>Music file (</source>
         <translation>Fichiers musicaux (</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="462"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="387"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="464"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="388"/>
         <source>Read configuration file</source>
         <translation>Lecture du fichier de configuration</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="588"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1707"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1467"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1459"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
         <translation>Cette application supporte uniquement les pistes audio en 8 bits non signé ou 16 bits signé</translation>
@@ -4707,7 +4706,7 @@ Support</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="592"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1711"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1475"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1467"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
         <translation>Cette application ne supporte que les piste audio en mono ou stéréo</translation>
@@ -4723,38 +4722,38 @@ Support</translation>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1717"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1724"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1733"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1456"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1448"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1460"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1468"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1476"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1555"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1547"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Erreur</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="464"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="397"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="466"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="398"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la lecture du fichier de configuration</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="469"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="402"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="471"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="403"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la lecture du contenu du fichier de configuration</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="476"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="409"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="478"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="410"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Le fichier de configuration n&apos;est pas valide</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="643"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="456"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="645"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="457"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translation>Erreur durant la création du fichier de configuration</translation>
@@ -4766,8 +4765,8 @@ Support</translation>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1260"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1297"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1252"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1289"/>
         <source>Saving project file ...</source>
         <translation>Sauvegarde du fichier projet ...</translation>
     </message>
@@ -4829,115 +4828,90 @@ La géométrie d&apos;image de ce fichier ne correspond pas à celle du projet e
         <translation>Démarrage de SDL...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="109"/>
-        <source>Starting ffmpeg...</source>
-        <translation>Démarrage de ffmpeg...</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="118"/>
-        <source>Registered video codecs for encoding :</source>
-        <translation>Codecs vidéo disponibles pour l&apos;encodage :</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="120"/>
-        <source>Registered audio codecs for encoding :</source>
-        <translation>Codecs audio disponibles pour l&apos;encodage :</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="122"/>
-        <source>Registered container formats for encoding :</source>
-        <translation>Formats de fichier disponibles pour l&apos;encodage :</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="124"/>
-        <source> Device registered for rendering</source>
-        <translation> équipements enregistrés pour la génération de film</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="126"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="117"/>
         <source>Library :</source>
         <translation>Librairie :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="128"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="119"/>
         <source>Loading background library...</source>
         <translation>Chargement des images d&apos;arrière-plan ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="129"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="120"/>
         <source> images loaded into the background-library from </source>
         <translation> images chargées dans la librairie des images d&apos;arrière-plan depuis </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="130"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="121"/>
         <source>Loading no-luma transitions...</source>
         <translation>Chargement des transitions non luma...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="136"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="127"/>
         <source> no-luma transitions loaded into the transition-library</source>
         <translation> transitions non luma chargées dans la librairie des transitions</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="137"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="128"/>
         <source>Loading luma transitions...</source>
         <translation>Chargement des transitions luma...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="138"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="139"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="140"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="141"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="142"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="143"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="129"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="130"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="131"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="132"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="133"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="134"/>
         <source> luma transitions loaded into the transition-library from </source>
         <translation> transitions luma chargées dans la librairie des transitions depuis </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="144"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="135"/>
         <source>  Total:</source>
         <translation>  Total:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="144"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="135"/>
         <source> transitions loaded into the transition-library</source>
         <translation> transitions chargées dans la librairie des transitions</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="274"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="547"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="265"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="538"/>
         <source>Slide : </source>
         <translation>Diapositive : </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="397"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="388"/>
         <source>Want to save the project before closing?</source>
         <translation>Voulez-vous enregistrer le projet avant de fermer?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="591"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="582"/>
         <source>Configuration not correct!</source>
         <translation>Configuration incorrecte !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="916"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="907"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Visiter le site WEB de ffDiaporama Web pour accéder au forum,&lt;br&gt;consulter des articles et lire les dernières nouvelles :&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1060"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1051"/>
         <source>Saving configuration file and applying new configuration ...</source>
         <translation>Sauvegarde le fichier de configuration et applique les nouveaux paramètres ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1152"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1143"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1166"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1175"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1184"/>
         <source>Open file :</source>
         <translation>Ouverture de :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1198"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1189"/>
         <source>This project was created with a newer version of ffDiaporama.
 If you continue, you take the risk of losing data!
 Do you want to open it nevertheless?</source>
@@ -4946,37 +4920,37 @@ Si vous continuez, vous risquez de perdre des informations !
 Etes vous sur de vouloir ouvrir ce fichier malgré cela ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1489"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1481"/>
         <source>This video files contains more than one chapter.
 Do you want to create one slide for each chapters ?</source>
         <translation>Cette vidéo contient plusieurs chapitres.
 Voulez-vous créer une diapositive pour chaque chapitre ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1718"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1710"/>
         <source>Add project file :</source>
         <translation>Ajout du fichier projet :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1748"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1753"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1740"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1745"/>
         <source>Capture the image </source>
         <translation>Capturer une image en </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1845"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1837"/>
         <source>Remove slide</source>
         <translation>Supprimer une diapositive</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1845"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1837"/>
         <source>Are you sure to want to delete this slide?</source>
         <translation>Etes-vous sure de vouloir supprimer cette diapositive ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1096"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1148"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1170"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1087"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1139"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1161"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>Le projet en cours a été modifié.
@@ -4988,70 +4962,75 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>Chargement des icônes systèmes ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="397"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="109"/>
+        <source>Starting libav...</source>
+        <translation>Démarrage de LIBAV ...</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="388"/>
         <source>Close application</source>
         <translation>Quitter l&apos;application</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="472"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="463"/>
         <source>A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
         <translation>Une nouvelle version de ffDiaporama est disponible sur le site WEB. Merci de faire la mise à jour de http://ffdiaporama.tuxfamily.org !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="557"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="548"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation>&lt;Nouveau projet&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="907"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="898"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Sélectionner un projet à ouvrir ou créer un nouveau projet&lt;br&gt;Pour découvrir ffDiaporama :&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consultez le WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="910"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="901"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Ajouter des diapositives vide ou basée sur des photos ou des vidéos&lt;br&gt;Pour découvrir comment construire votre diaporama et animer vos diapositives :&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Découvrez les principes de fonctionnement de ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="913"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="904"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Sélectionner le type d&apos;équipement que vous comptez utiliser pour visionner votre film&lt;br&gt;Pour découvrir comment générer des vidéos :&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consultez la page &quot;Générer des vidéos&quot;&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1096"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1087"/>
         <source>New project</source>
         <translation>Nouveau projet</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1148"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1170"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1173"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1197"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1139"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1161"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1164"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1188"/>
         <source>Open project</source>
         <translation>Ouvrir un projet</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1286"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1278"/>
         <source>Save project as</source>
         <translation>Enregistrer le projet sous</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3221"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1366"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1358"/>
         <source>Add files</source>
         <translation>Ajouter des fichiers</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="580"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1665"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1447"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1439"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Format non supporté</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1707"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1699"/>
         <source>Add a sub project</source>
         <translation>Ajouter un projet</translation>
     </message>
@@ -5108,8 +5087,8 @@ Voulez-vous l&apos;enregistrer ?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/cCustomTableWidget.cpp" line="80"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1406"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1686"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1398"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1678"/>
         <source>Add file to project :</source>
         <translation>Ajout du fichier au projet :</translation>
     </message>
@@ -5140,13 +5119,13 @@ Voulez-vous l&apos;enregistrer ?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgVideo/DlgVideoEdit.cpp" line="156"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1759"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1751"/>
         <source>Capture image</source>
         <translation>Capturer une image</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgVideo/DlgVideoEdit.cpp" line="157"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1760"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1752"/>
         <source>Select destination file</source>
         <translation>Selectionner un fichier de destination</translation>
     </message>
@@ -5162,29 +5141,35 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <source>Error during initialisation of sound system. Check your configuration and try again</source>
         <translation>Erreur d&apos;initialisation du système sonore. Vérifiez votre configuration et ré-essayez</translation>
     </message>
+    <message>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="531"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="562"/>
+        <source>ffDiaporama initialisation</source>
+        <translation>Initialisation de ffDiaporama</translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTree</name>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="99"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="100"/>
         <source>Kb</source>
         <comment>Unit Kb</comment>
         <translation>Ko</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="100"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="101"/>
         <source>Mb</source>
         <comment>Unit Mb</comment>
         <translation>Mo</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="101"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="102"/>
         <source>Gb</source>
         <comment>Unit Gb</comment>
         <translation>Go</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="102"/>
+        <location filename="../src/sharedfiles/cBaseApplicationConfig.cpp" line="103"/>
         <source>Tb</source>
         <comment>Unit Tb</comment>
         <translation>To</translation>
@@ -5252,19 +5237,19 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>Pas de donnée EXIF dans l&apos;image %1</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1647"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1627"/>
         <source>Video</source>
         <comment>File type</comment>
         <translation>Vidéo</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1646"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1626"/>
         <source>Music</source>
         <comment>File type</comment>
         <translation>Musique</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1491"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1479"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
         <translation>Mono</translation>
@@ -5309,7 +5294,7 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>exiv2 a retourné l&apos;erreur %1 - aucune information exif ne sera décodée pour %2</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1492"/>
+        <location filename="../src/sharedfiles/cBaseMediaFile.cpp" line="1480"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
         <translation>Stéréo</translation>
@@ -5321,7 +5306,7 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>Répertoire</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1488"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1480"/>
         <source>Add video file</source>
         <translation>Ajout d&apos;un fichier vidéo</translation>
     </message>
@@ -5329,98 +5314,98 @@ Voulez-vous l&apos;enregistrer ?</translation>
 <context>
     <name>cDeviceModelList</name>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="504"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="505"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
         <translation>Avancé</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="505"/>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="509"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="506"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
         <translation>Smartphone</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="506"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="507"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
         <translation>Système multimédia</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="507"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
         <translation>Pour Internet</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="508"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="509"/>
         <source>Lossless</source>
         <comment>Device database type</comment>
         <translation>Lossless</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="510"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="511"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
         <translation>Lecteur portable</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="511"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="512"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
         <translation>Netbook/NetPC</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="512"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="513"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
         <translation>Console de jeux portable</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="513"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="514"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
         <translation>Tablette tactile</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="514"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="515"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
         <translation>Disque dur et passerelle multimédia</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="515"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="516"/>
         <source>Player</source>
         <comment>Device database type</comment>
         <translation>Lecteur de salon</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="516"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="517"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
         <translation>Box ADSL</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="517"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="518"/>
         <source>Game console</source>
         <comment>Device database type</comment>
         <translation>Console de jeux</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="518"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="519"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
         <translation>Lecteur Flash SWF</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="519"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="520"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
         <translation>Sites de partage et sites sociaux</translation>
     </message>
     <message>
-        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="520"/>
+        <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="521"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>

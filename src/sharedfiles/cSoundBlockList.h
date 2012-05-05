@@ -27,7 +27,7 @@
 // Include some additional standard class
 #include <QList>
 
-#include "cDeviceModelDef.h"                // Contains ffmpeg include
+#include "cDeviceModelDef.h"                // Contains libav include
 
 // Base object for sound manipulation
 class cSoundBlockList {

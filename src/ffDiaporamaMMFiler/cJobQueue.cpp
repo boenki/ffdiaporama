@@ -328,7 +328,7 @@ void cJobQueue::PostJobStatusChanged(cJob *Job,QString Action,int Percent) {
 QString cJobQueue::ComputeFFMPEGCommand(cJob *Job) {
     QString Source      =Job->SourcesAndDests[Job->CurrentIndex];
     QString Destination =Job->ComputeDestinationName(Source,"");
-    QString ffmpegCmd   =QString("ffmpeg -i \"%1\"").arg(Source);
+    QString ffmpegCmd   =QString("%1 -i \"%2\"").arg(ENCODERNAME).arg(Source);
     if ((Job->IsCommandListContain("-VCO"))&&(Job->IsCommandListContain("-VB")))  {
         int     VideoCodecIndex =Job->CommandListValue("-VCO");
         int     VideoBitRate    =Job->CommandListValue("-VB");
@@ -718,12 +718,12 @@ void cJobQueue::ProcessFFMPEGJob(cJob *Job) {
             QString     ffmpegOutput="";
             QString     ffmpegLine="";
             bool        ffmpegJobStarted=false;
-            PostJobStatusChanged(Job,QApplication::translate("cJobQueue","Process ffmpeg job"),(double(Job->CurrentIndex*StepInJob+InStep++)/double(Job->SourcesAndDests.count()*StepInJob))*100);
+            PostJobStatusChanged(Job,QApplication::translate("cJobQueue","Process avconv job"),(double(Job->CurrentIndex*StepInJob+InStep++)/double(Job->SourcesAndDests.count()*StepInJob))*100);
             Process.setProcessChannelMode(QProcess::MergedChannels);                        // Mix standard and error chanels
             //Process.setWorkingDirectory(Diaporama->ApplicationConfig->UserConfigPath);    // Set working directory to user folder (for log generation)
             Process.start(ffmpegCmd,QIODevice::Append|QIODevice::ReadWrite);                // Start command
             if (!Process.waitForStarted()) {
-                ToLog(LOGMSG_CRITICAL,"    "+QApplication::translate("DlgRenderVideo","Error starting ffmpeg"),JOBQUEUESRC);
+                ToLog(LOGMSG_CRITICAL,"    "+QApplication::translate("DlgRenderVideo","Error starting avconv"),JOBQUEUESRC);
             } else {
                 while (!Process.waitForFinished(1000)) { // 1 sec
                     ffmpegOutput=ffmpegLine+QString().fromLocal8Bit(Process.readAllStandardOutput());
@@ -753,10 +753,10 @@ void cJobQueue::ProcessFFMPEGJob(cJob *Job) {
                 }
 
                 if ((Process.exitStatus()<0)||(!ffmpegJobStarted)) {
-                    if (!ffmpegJobStarted) ToLog(LOGMSG_CRITICAL,"    "+QApplication::translate("cJobQueue","Error : ffmpeg job can't start : %1").arg(ffmpegLine),JOBQUEUESRC);
-                        else               ToLog(LOGMSG_CRITICAL,"    "+QApplication::translate("cJobQueue","Error : ffmpeg return error %1").arg(Process.exitStatus()),JOBQUEUESRC);
+                    if (!ffmpegJobStarted) ToLog(LOGMSG_CRITICAL,"    "+QApplication::translate("cJobQueue","Error : avconv job can't start : %1").arg(ffmpegLine),JOBQUEUESRC);
+                        else               ToLog(LOGMSG_CRITICAL,"    "+QApplication::translate("cJobQueue","Error : avconv return error %1").arg(Process.exitStatus()),JOBQUEUESRC);
                 } else {
-                    ToLog(LOGMSG_INFORMATION,"    "+QApplication::translate("cJobQueue","Succesfully process ffmpeg job"),JOBQUEUESRC);
+                    ToLog(LOGMSG_INFORMATION,"    "+QApplication::translate("cJobQueue","Succesfully process avconv job"),JOBQUEUESRC);
                     PostEvent(EVENT_FileListChanged,QFileInfo(Destination).absolutePath());
 
                     // Step 3 : Transform source file

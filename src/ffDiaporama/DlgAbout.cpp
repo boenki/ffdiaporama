@@ -76,7 +76,7 @@ void DlgAbout::WQtWebSite() {
 void DlgAbout::ffMPEGWebSite() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::ffMPEGWebSite");
 
-    QDesktopServices::openUrl(QUrl("http://www.ffmpeg.org/"));
+    QDesktopServices::openUrl(QUrl("http://libav.org/index.html"));
 }
 
 //====================================================================================================================

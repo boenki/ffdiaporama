@@ -160,7 +160,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig())); else {
         QString Status;
-        if (!Checkffmpeg(Status)) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig()));
+        if (!Checkffmpeg(Status,ApplicationConfig)) QTimer::singleShot(500,this,SLOT(s_DlgCheckConfig()));
     }
 
     // Connect Event Receiver so now we accept messages
@@ -447,7 +447,7 @@ void MainWindow::s_DlgCheckConfig() {
     Dlg.exec();
 
     QString Status;
-    if (!Checkffmpeg(Status)) {
+    if (!Checkffmpeg(Status,ApplicationConfig)) {
         CustomMessageBox(this,QMessageBox::Critical,APPLICATION_NAME,QApplication::translate("MainWindow","Configuration not correct!"));
         close();
     }

@@ -1,13 +1,9 @@
-Buggs/TODO (Dernier SVN le 22/04/2012) :
+Buggs/TODO (Dernier SVN le 24/04/2012) :
 ----------------------------------------
 TODO
 ----
 [ffDiaporama]
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
--WARNING:DlgImageCorrection est appelé par DlgSlide et par DlgBackgroundProperties !
-
--Export des images à finir ... problème avec les formats anamorphique
-+ à ajouter dans la boite vidéo
 
 [MMFiler]
 -Ajuster la géométrie des thumb à l'affichage en cours :    Défaut : 1/1    Images : 3/2    Musique: 1/1    Vidéo  : 2/3
@@ -20,17 +16,17 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige plusieurs phrases anglaises dans l'interface
+-Corrige le bug d'affichage de la barre du lecteur vidéo (tient compte du nouveau bouton !)
+-Corrige le bug de redimensionnement du player lors des chargements de projet quand la géométrie est différente
 
 English version / Bug fix :
--Correct some incorrect sentences in interface
+-Fix display error of ruller of the video player (don't forget new button !)
+-Fix player resize error when loading project with a different geometry
 
 French version / Nouvelles fonctionnalités :
--Ajoute l'UNDO dans la boite de fond de slide
--Ajoute un bouton de capture d'une image sur le lecteur video de prévisualisation
--Ajoute un bouton de capture d'une image sur le lecteur video de la boite de dialogue d'édition des vidéos
+-Passage de LIBAV/ffmpeg à LIBAV/avconv (ffmpeg est encore supporté si avconv n'est pas disponible sur la machine !)
+-Fin du support des LIBAV 0.6
 
 English version / New features :
--Add UNDO feature to edit background slide dialog
--Add a capture image button to the preview video player
--Add a capture image button to the video player of the cut video dialog
+-Switch from LIBAV/ffmpeg to LIBAV/avconv (ffmpeg is always supported if avconv is not available on the computer !)
+-End of support of LIBAV 0.6
