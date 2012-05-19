@@ -1,6 +1,5 @@
 # this file is to be used by qmake for Windows & Linux
 TEMPLATE        = subdirs
-//CONFIG          += ordered
 
 # ffDiaporama main application
 SUBDIRS         += src/ffDiaporama

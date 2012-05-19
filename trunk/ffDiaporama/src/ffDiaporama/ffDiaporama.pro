@@ -67,24 +67,24 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     	    DlgText/cCustomTextEdit.cpp \
             DlgText/DlgTextEdit.cpp \
             DlgVideo/DlgVideoEdit.cpp \
-            ../sharedfiles/_GlobalDefines.cpp \
-            ../sharedfiles/QCustomRuller.cpp \
-            ../sharedfiles/DlgCheckConfig.cpp \
-            ../sharedfiles/cSaveWindowPosition.cpp \
-            ../sharedfiles/cBaseApplicationConfig.cpp \
-            ../sharedfiles/cFilterTransformObject.cpp \
-            ../sharedfiles/cLuLoImageCache.cpp \
-            ../sharedfiles/cDeviceModelDef.cpp \
-            ../sharedfiles/cSoundBlockList.cpp \
-            ../sharedfiles/cBaseMediaFile.cpp \
-            ../sharedfiles/_SDL_Support.cpp \
-            ../sharedfiles/_QCustomDialog.cpp \
-            ../sharedfiles/DlgManageDevices.cpp \
-            ../sharedfiles/QCustomFileInfoLabel.cpp \
-            ../sharedfiles/DlgffDPjrProperties.cpp \
-            ../sharedfiles/cBrushDefinition.cpp \
-            ../sharedfiles/cCustomIcon.cpp \
-            ../sharedfiles/DlgInfoFile.cpp \
+            ../engine/_GlobalDefines.cpp \
+            ../engine/QCustomRuller.cpp \
+            ../engine/DlgCheckConfig.cpp \
+            ../engine/cSaveWindowPosition.cpp \
+            ../engine/cBaseApplicationConfig.cpp \
+            ../engine/cFilterTransformObject.cpp \
+            ../engine/cLuLoImageCache.cpp \
+            ../engine/cDeviceModelDef.cpp \
+            ../engine/cSoundBlockList.cpp \
+            ../engine/cBaseMediaFile.cpp \
+            ../engine/_SDL_Support.cpp \
+            ../engine/_QCustomDialog.cpp \
+            ../engine/DlgManageDevices.cpp \
+            ../engine/QCustomFileInfoLabel.cpp \
+            ../engine/DlgffDPjrProperties.cpp \
+            ../engine/cBrushDefinition.cpp \
+            ../engine/cCustomIcon.cpp \
+            ../engine/DlgInfoFile.cpp \
             ../fmt_filters/fmt_filters.cpp 
 
 HEADERS  += \
@@ -113,24 +113,24 @@ HEADERS  += \
             DlgText/cCustomTextEdit.h \
             DlgText/DlgTextEdit.h \
             DlgVideo/DlgVideoEdit.h \
-            ../sharedfiles/QCustomRuller.h \
-            ../sharedfiles/DlgCheckConfig.h \
-            ../sharedfiles/cSaveWindowPosition.h \
-            ../sharedfiles/cBaseApplicationConfig.h \
-            ../sharedfiles/cFilterTransformObject.h \
-            ../sharedfiles/cLuLoImageCache.h \
-            ../sharedfiles/cDeviceModelDef.h \
-            ../sharedfiles/_GlobalDefines.h \
-            ../sharedfiles/cSoundBlockList.h \
-            ../sharedfiles/cBaseMediaFile.h \
-            ../sharedfiles/_SDL_Support.h \
-            ../sharedfiles/_QCustomDialog.h \
-            ../sharedfiles/DlgManageDevices.h \
-            ../sharedfiles/QCustomFileInfoLabel.h \
-            ../sharedfiles/DlgffDPjrProperties.h \
-            ../sharedfiles/cBrushDefinition.h \
-            ../sharedfiles/cCustomIcon.h \
-            ../sharedfiles/DlgInfoFile.h \
+            ../engine/QCustomRuller.h \
+            ../engine/DlgCheckConfig.h \
+            ../engine/cSaveWindowPosition.h \
+            ../engine/cBaseApplicationConfig.h \
+            ../engine/cFilterTransformObject.h \
+            ../engine/cLuLoImageCache.h \
+            ../engine/cDeviceModelDef.h \
+            ../engine/_GlobalDefines.h \
+            ../engine/cSoundBlockList.h \
+            ../engine/cBaseMediaFile.h \
+            ../engine/_SDL_Support.h \
+            ../engine/_QCustomDialog.h \
+            ../engine/DlgManageDevices.h \
+            ../engine/QCustomFileInfoLabel.h \
+            ../engine/DlgffDPjrProperties.h \
+            ../engine/cBrushDefinition.h \
+            ../engine/cCustomIcon.h \
+            ../engine/DlgInfoFile.h \
             ../fmt_filters/fmt_filters.h 
 
 FORMS    += mainwindow.ui \
@@ -147,10 +147,10 @@ FORMS    += mainwindow.ui \
             DlgSlide/DlgRuler/DlgRulerDef.ui \
             DlgText/DlgTextEdit.ui \
             DlgVideo/DlgVideoEdit.ui \
-            ../sharedfiles/DlgCheckConfig.ui \
-            ../sharedfiles/DlgManageDevices.ui \
-            ../sharedfiles/DlgffDPjrProperties.ui \
-            ../sharedfiles/DlgInfoFile.ui 
+            ../engine/DlgCheckConfig.ui \
+            ../engine/DlgManageDevices.ui \
+            ../engine/DlgffDPjrProperties.ui \
+            ../engine/DlgInfoFile.ui 
 
 
 # Installation on linux systems

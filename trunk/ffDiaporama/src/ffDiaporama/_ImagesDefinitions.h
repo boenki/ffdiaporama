@@ -22,14 +22,14 @@
 #define IMAGESDEFINITIONS_H
 
 // Basic inclusions (common to all files)
-#include "../sharedfiles/_GlobalDefines.h"
+#include "../engine/_GlobalDefines.h"
 
 // Include some common various class
-#include "../sharedfiles/cFilterTransformObject.h"
-#include "../sharedfiles/cLuLoImageCache.h"
-#include "../sharedfiles/cBaseMediaFile.h"
-#include "../sharedfiles/cSoundBlockList.h"
-#include "../sharedfiles/cBrushDefinition.h"
+#include "../engine/cFilterTransformObject.h"
+#include "../engine/cLuLoImageCache.h"
+#include "../engine/cBaseMediaFile.h"
+#include "../engine/cSoundBlockList.h"
+#include "../engine/cBrushDefinition.h"
 
 //*********************************************************************************************************************************************
 // Global class containing icons of transitions

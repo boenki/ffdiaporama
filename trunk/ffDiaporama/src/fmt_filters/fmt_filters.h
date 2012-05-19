@@ -76,7 +76,7 @@ in connection with ImageMagick or the use or other dealings in ImageMagick.
 //========================================
 // Basic inclusions (common to all files)
 //========================================
-#include "../sharedfiles/_GlobalDefines.h"
+#include "../engine/_GlobalDefines.h"
 
 //////////////////////////////////////////
 //                                      //

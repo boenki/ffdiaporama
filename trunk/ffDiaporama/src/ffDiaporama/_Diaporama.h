@@ -22,10 +22,10 @@
 #define CDIAPORAMA_H
 
 // Basic inclusions (common to all files)
-#include "../sharedfiles/_GlobalDefines.h"
+#include "../engine/_GlobalDefines.h"
 
 // Include some additional standard class
-#include "../sharedfiles/cBaseMediaFile.h"
+#include "../engine/cBaseMediaFile.h"
 
 // Specific inclusions
 class cDiaporama;

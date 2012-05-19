@@ -416,7 +416,7 @@ color: white;
   <customwidget>
    <class>QCustomRuller</class>
    <extends>QSlider</extends>
-   <header>../sharedfiles/QCustomRuller.h</header>
+   <header>../engine/QCustomRuller.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -22,10 +22,10 @@
 #define MAINWINDOW_H
 
 // Basic inclusions (common to all files)
-#include "../sharedfiles/_GlobalDefines.h"
+#include "../engine/_GlobalDefines.h"
 
 // Include some common various class
-#include "../sharedfiles/_SDL_Support.h"
+#include "../engine/_SDL_Support.h"
 
 #include <QNetworkReply>
 

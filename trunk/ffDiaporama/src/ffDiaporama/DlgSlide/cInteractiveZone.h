@@ -21,7 +21,7 @@
 #ifndef CINTERACTIVEZONE_H
 #define CINTERACTIVEZONE_H
 
-#include "../../sharedfiles/_GlobalDefines.h"
+#include "../../engine/_GlobalDefines.h"
 #include "../_Diaporama.h"
 #include "../_ApplicationDefinitions.h"
 #include "cCustomBlockTable.h"

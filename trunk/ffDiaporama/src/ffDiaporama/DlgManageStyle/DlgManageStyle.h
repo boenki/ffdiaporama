@@ -22,8 +22,8 @@
 #define DLGMANAGESTYLE_H
 
 // Basic inclusions (common to all files)
-#include "../../sharedfiles/_GlobalDefines.h"
-#include "../../sharedfiles/_QCustomDialog.h"
+#include "../../engine/_GlobalDefines.h"
+#include "../../engine/_QCustomDialog.h"
 
 #include "../_StyleDefinitions.h"
 
