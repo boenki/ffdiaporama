@@ -21,13 +21,10 @@
 #include "_StyleDefinitions.h"
 #include "_ImagesDefinitions.h"
 #include "_ApplicationDefinitions.h"
-
-#include "../engine/DlgCheckConfig.h"
-#include "../engine/DlgffDPjrProperties.h"
+#include "cCustomSlideTable.h"
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "cCustomSlideTable.h"
 
 #include <QClipboard>
 #include <QMimeData>
@@ -39,6 +36,8 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+#include "DlgCheckConfig/DlgCheckConfig.h"
+#include "DlgffDPjrProperties/DlgffDPjrProperties.h"
 #include "DlgRenderVideo/DlgRenderVideo.h"
 #include "DlgAbout/DlgAbout.h"
 #include "DlgTransition/DlgTransitionProperties.h"

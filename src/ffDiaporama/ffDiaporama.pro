@@ -56,6 +56,7 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             DlgTransition/DlgTransitionProperties.cpp \
             DlgMusic/DlgMusicProperties.cpp \
             DlgBackground/DlgBackgroundProperties.cpp \
+            DlgAppSettings/DlgManageDevices/DlgManageDevices.cpp \
             DlgAppSettings/DlgApplicationSettings.cpp \
             DlgImage/cImgInteractiveZone.cpp \
             DlgImage/DlgImageCorrection.cpp \
@@ -67,9 +68,11 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     	    DlgText/cCustomTextEdit.cpp \
             DlgText/DlgTextEdit.cpp \
             DlgVideo/DlgVideoEdit.cpp \
+            DlgCheckConfig/DlgCheckConfig.cpp \
+            DlgInfoFile/DlgInfoFile.cpp \
+            DlgffDPjrProperties/DlgffDPjrProperties.cpp \
             ../engine/_GlobalDefines.cpp \
             ../engine/QCustomRuller.cpp \
-            ../engine/DlgCheckConfig.cpp \
             ../engine/cSaveWindowPosition.cpp \
             ../engine/cBaseApplicationConfig.cpp \
             ../engine/cFilterTransformObject.cpp \
@@ -79,12 +82,9 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../engine/cBaseMediaFile.cpp \
             ../engine/_SDL_Support.cpp \
             ../engine/_QCustomDialog.cpp \
-            ../engine/DlgManageDevices.cpp \
             ../engine/QCustomFileInfoLabel.cpp \
-            ../engine/DlgffDPjrProperties.cpp \
             ../engine/cBrushDefinition.cpp \
             ../engine/cCustomIcon.cpp \
-            ../engine/DlgInfoFile.cpp \
             ../fmt_filters/fmt_filters.cpp 
 
 HEADERS  += \
@@ -102,6 +102,7 @@ HEADERS  += \
             DlgTransition/DlgTransitionProperties.h \
             DlgMusic/DlgMusicProperties.h \
             DlgBackground/DlgBackgroundProperties.h \
+            DlgAppSettings/DlgManageDevices/DlgManageDevices.h \
             DlgAppSettings/DlgApplicationSettings.h \
             DlgImage/cImgInteractiveZone.h \
             DlgImage/DlgImageCorrection.h \
@@ -113,8 +114,10 @@ HEADERS  += \
             DlgText/cCustomTextEdit.h \
             DlgText/DlgTextEdit.h \
             DlgVideo/DlgVideoEdit.h \
+            DlgCheckConfig/DlgCheckConfig.h \
+            DlgInfoFile/DlgInfoFile.h \
+            DlgffDPjrProperties/DlgffDPjrProperties.h \
             ../engine/QCustomRuller.h \
-            ../engine/DlgCheckConfig.h \
             ../engine/cSaveWindowPosition.h \
             ../engine/cBaseApplicationConfig.h \
             ../engine/cFilterTransformObject.h \
@@ -125,12 +128,9 @@ HEADERS  += \
             ../engine/cBaseMediaFile.h \
             ../engine/_SDL_Support.h \
             ../engine/_QCustomDialog.h \
-            ../engine/DlgManageDevices.h \
             ../engine/QCustomFileInfoLabel.h \
-            ../engine/DlgffDPjrProperties.h \
             ../engine/cBrushDefinition.h \
             ../engine/cCustomIcon.h \
-            ../engine/DlgInfoFile.h \
             ../fmt_filters/fmt_filters.h 
 
 FORMS    += mainwindow.ui \
@@ -141,16 +141,16 @@ FORMS    += mainwindow.ui \
             DlgTransition/DlgTransitionProperties.ui \
             DlgMusic/DlgMusicProperties.ui \
             DlgBackground/DlgBackgroundProperties.ui \
+            DlgAppSettings/DlgManageDevices/DlgManageDevices.ui \
             DlgAppSettings/DlgApplicationSettings.ui \
             DlgImage/DlgImageCorrection.ui \
             DlgSlide/DlgSlideProperties.ui \
             DlgSlide/DlgRuler/DlgRulerDef.ui \
             DlgText/DlgTextEdit.ui \
             DlgVideo/DlgVideoEdit.ui \
-            ../engine/DlgCheckConfig.ui \
-            ../engine/DlgManageDevices.ui \
-            ../engine/DlgffDPjrProperties.ui \
-            ../engine/DlgInfoFile.ui 
+            DlgCheckConfig/DlgCheckConfig.ui \
+            DlgInfoFile/DlgInfoFile.ui \
+            DlgffDPjrProperties/DlgffDPjrProperties.ui 
 
 
 # Installation on linux systems

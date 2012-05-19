@@ -22,17 +22,17 @@
 #define DLGMANAGEDEVICES_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-#include "_QCustomDialog.h"
+#include "../../../engine/_GlobalDefines.h"
+#include "../../../engine/_QCustomDialog.h"
 
 // Include some additional standard class
 #include <QString>
 #include <QComboBox>
 
 // Include some common various class
-#include "cBaseApplicationConfig.h"
-#include "cDeviceModelDef.h"
-#include "cSaveWindowPosition.h"
+#include "../../../engine/cBaseApplicationConfig.h"
+#include "../../../engine/cDeviceModelDef.h"
+#include "../../../engine/cSaveWindowPosition.h"
 
 namespace Ui {
     class DlgManageDevices;

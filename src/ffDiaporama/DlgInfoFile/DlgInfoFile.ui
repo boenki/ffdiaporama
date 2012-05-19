@@ -422,7 +422,7 @@
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -436,7 +436,7 @@
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
@@ -458,8 +458,7 @@
   <tabstop>HelpBT</tabstop>
  </tabstops>
  <resources>
-  <include location="../../RSCffDiaporama.qrc"/>
-  <include location="../../RSCffDiaporama.qrc"/>
+  <include location="../../../RSCffDiaporama.qrc"/>
  </resources>
  <connections/>
 </ui>

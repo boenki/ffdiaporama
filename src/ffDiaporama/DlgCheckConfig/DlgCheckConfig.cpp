@@ -20,7 +20,7 @@
 
 #include "DlgCheckConfig.h"
 #include "ui_DlgCheckConfig.h"
-#include "cBaseMediaFile.h"
+#include "../../engine/cBaseMediaFile.h"
 
 #define ICON_GREEN      ":/img/SmallGreen.png"
 #define ICON_RED        ":/img/SmallRed.png"
