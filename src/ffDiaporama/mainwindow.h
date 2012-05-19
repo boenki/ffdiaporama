@@ -48,6 +48,7 @@ public:
     int                     LastCount;
     QString                 InternetBUILDVERSION;
     QString                 TitleBar;
+    QTime                   LastLogMessageTime;
 
     // Variables use for actions
     QString                 FileForIO;
@@ -61,8 +62,6 @@ public:
     Qt::HANDLE              CurrentThreadId;
     bool                    InPlayerUpdate;
 
-    DlgRenderVideo          *CurrentRenderingDialog;
-
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void    InitWindow(QString ForceLanguage,QApplication *App);
@@ -75,18 +74,21 @@ public:
     void    SetTimelineHeight();
     void    CheckVersion();
     void    ToStatusBar(QString Text);
+    void    SetTimelineCurrentCell(int Cell);
 
-    void    DoAddDragAndDropFile();                         // Must be in public part because it was called by cCustomTableWidget
+    void    DoAddDragAndDropFile();                         // Must be in public part because it was called by cCustomSlideTable
     void    DoOpenFileParam();                              // Must be in public part because it was called by main
 
 protected:
-    virtual void resizeEvent(QResizeEvent *);
-    virtual void closeEvent(QCloseEvent *);
-    virtual void showEvent(QShowEvent *);
-    virtual void keyReleaseEvent(QKeyEvent *event);
+    virtual void    resizeEvent(QResizeEvent *);
+    virtual void    closeEvent(QCloseEvent *);
+    virtual void    showEvent(QShowEvent *);
+    virtual void    keyReleaseEvent(QKeyEvent *event);
+    virtual void    customEvent(QEvent *);                  // LOG messages event
 
 
 private slots:
+    void    s_CleanStatusBar();
     void    DoMaximized();                                  // Use on init to force window maximized
     void    s_Event_SetModifyFlag();
     void    s_Event_RefreshDisplay();

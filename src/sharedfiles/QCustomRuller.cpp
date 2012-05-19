@@ -68,6 +68,7 @@ void QCustomRuller::mousePressEvent(QMouseEvent *ev) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::mousePressEvent");
 
     if (ev->button()==Qt::LeftButton) {
+        emit PositionChangeByUser();
         int x1 =int(double(this->width()-TAQUET_SIZE*2)*(double(value())/double(maximum())))+TAQUET_SIZE;
         if ((ev->x()>=x1-ThumbWidth/2)&&(ev->x()<=x1+ThumbWidth/2)) QSlider::mousePressEvent(ev);   // It's on the thumb
         else if ((ev->x()>=TAQUET_SIZE-ThumbWidth/2)&&(ev->x()<=this->width()-TAQUET_SIZE+ThumbWidth/2))          // Set new value

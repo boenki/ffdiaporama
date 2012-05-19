@@ -18,9 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-
-#ifndef DLGMUSICPROPERTIES_H
-#define DLGMUSICPROPERTIES_H
+#ifndef DLGVIDEOEDIT_H
+#define DLGVIDEOEDIT_H
 
 // Basic inclusions (common to all files)
 #include "../../sharedfiles/_GlobalDefines.h"
@@ -30,43 +29,44 @@
 #include "../_Diaporama.h"
 
 namespace Ui {
-    class DlgMusicProperties;
+    class DlgVideoEdit;
 }
 
-class DlgMusicProperties : public QCustomDialog {
+class DlgVideoEdit : public QCustomDialog {
 Q_OBJECT
 public:
-    cDiaporamaObject    *DiaporamaObject;
+    cBrushDefinition        *CurrentBrush;
+    bool                    StopMaj;
 
-    explicit DlgMusicProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
-    ~DlgMusicProperties();
+    explicit DlgVideoEdit(cBrushDefinition *CurrentBrush,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    ~DlgVideoEdit();
+
+    void            RefreshControls();
 
     // function to be overloaded
     virtual void    DoInitDialog();                             // Initialise dialog
-    virtual void    DoAccept();                                 // Call when user click on Ok button
-    virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
+    virtual void    DoAccept() { /* Nothing to do */ }          // Call when user click on Ok button
+    virtual void    DoRejet()  { /* Nothing to do */ }          // Call when user click on Cancel button
     virtual void    PrepareGlobalUndo();                        // Initiale Undo
     virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
 
-    virtual void    RefreshControl();
+    virtual void    PreparePartialUndo(int ActionType,QDomElement root);
+    virtual void    ApplyPartialUndo(int ActionType,QDomElement root);
+
+    virtual void    RestoreWindowState();
 
 private slots:
-    void    s_SameMusic();
-    void    s_SameMusicNormal();
-    void    s_SameMusicReduceVolume();
-    void    s_SameMusicPause();
-    void    s_NewMusic();
-    void    s_AddMusic();
-    void    s_RemoveMusic();
-    void    s_PlayListTable_DoubleClick(QTableWidgetItem *);
-    void    s_PlayListTable_SelectionChanged();
-
-signals:
-    void    SetModifyFlag();
+    void            s_Event_SaveImageEvent();
+    void            s_DefStartPos();
+    void            s_DefEndPos();
+    void            s_SeekLeft();
+    void            s_SeekRight();
+    void            s_EditStartPos(QTime NewValue);
+    void            s_EditEndPos(QTime NewValue);
+    void            MusicReduceFactorChange(int);
 
 private:
-    void SetupUi();
-    Ui::DlgMusicProperties *ui;
+    Ui::DlgVideoEdit *ui;
 };
 
-#endif // DLGMUSICPROPERTIES_H
+#endif // DLGVIDEOEDIT_H

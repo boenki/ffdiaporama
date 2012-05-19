@@ -19,7 +19,6 @@
    ====================================================================== */
 
 #include "_StyleDefinitions.h"
-#include "_SoundDefinitions.h"
 #include "_ImagesDefinitions.h"
 #include "_ApplicationDefinitions.h"
 
@@ -28,8 +27,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "wgt_QCustomThumbnails.h"
-#include "cCustomTableWidget.h"
+#include "cCustomSlideTable.h"
 
 #include <QClipboard>
 #include <QMimeData>
@@ -41,9 +39,9 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
-#include "DlgAbout.h"
-#include "DlgTransitionProperties.h"
-#include "DlgRenderVideo.h"
+#include "DlgRenderVideo/DlgRenderVideo.h"
+#include "DlgAbout/DlgAbout.h"
+#include "DlgTransition/DlgTransitionProperties.h"
 #include "DlgMusic/DlgMusicProperties.h"
 #include "DlgBackground/DlgBackgroundProperties.h"
 #include "DlgSlide/DlgSlideProperties.h"
@@ -66,7 +64,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     DragItemDest            =-1;
     IsDragOn                =0;
     InPlayerUpdate          =false;
-    CurrentRenderingDialog  =NULL;
     setAcceptDrops(true);
     ApplicationConfig->ParentWindow=this;
 }
@@ -166,7 +163,6 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->actionRemove->setIconVisibleInMenu(true);
 
     Diaporama=new cDiaporama(ApplicationConfig);
-    Diaporama->Timeline=ui->timeline;
     ui->preview->InitDiaporamaPlay(Diaporama);
     ui->preview2->InitDiaporamaPlay(Diaporama);
 
@@ -262,6 +258,8 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     if ((TitleBar.indexOf("devel")!=-1)||(TitleBar.indexOf("beta")!=-1)) TitleBar=TitleBar+QString(" - ")+CurrentAppVersion;
 
     // Some other init
+    LastLogMessageTime=QTime::currentTime();
+    EventReceiver=this; // Connect Event Receiver so now we accept LOG messages
     ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+"0 / 0");
     s_Event_ToolbarChanged(0);
     ToStatusBar("");
@@ -283,6 +281,32 @@ MainWindow::~MainWindow() {
     delete ApplicationConfig;
     SDLLastClose();
     delete ui;
+}
+
+//====================================================================================================================
+
+void MainWindow::customEvent(QEvent *event) {
+    if (event->type()!=BaseAppEvent) QMainWindow::customEvent(event); else while (!EventList.isEmpty()) {
+        QString Event      =EventList.takeFirst();
+        int     EventType  =((QString)(Event.split("###;###")[0])).toInt();
+        QString EventParam =Event.split("###;###")[1];
+
+        if (EventType==EVENT_GeneralLogChanged) {
+            //int     MessageType =((QString)EventParam.split("###:###")[0]).toInt();
+            QString Message     =EventParam.split("###:###")[1];
+            //QString EventSource =EventParam.split("###:###")[2];
+            ToStatusBar(Message);
+            LastLogMessageTime=QTime::currentTime();
+            QTimer::singleShot(1000,this,SLOT(s_CleanStatusBar()));
+        }
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_CleanStatusBar() {
+    if (LastLogMessageTime.msecsTo(QTime::currentTime())>=500) ToStatusBar("");
+    //LastLogMessageTime=QTime::currentTime();
 }
 
 //====================================================================================================================
@@ -558,6 +582,12 @@ void MainWindow::s_Event_SetModifyFlag() {
 
 //====================================================================================================================
 
+void MainWindow::SetTimelineCurrentCell(int Cell) {
+    ui->timeline->SetCurrentCell(Cell);
+}
+
+//====================================================================================================================
+
 void MainWindow::s_Action_About() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_About");
 
@@ -711,7 +741,7 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
         }
         if ((Ret==2)||(Ret==3)) {
             Diaporama->CurrentCol=Diaporama->CurrentCol+((Ret==2)?-1:1);
-            Diaporama->Timeline->SetCurrentCell(Diaporama->CurrentCol);
+            SetTimelineCurrentCell(Diaporama->CurrentCol);
 
             // Update slider mark
             if (Diaporama->List.count()>0)
@@ -743,7 +773,10 @@ void MainWindow::s_Event_DoubleClickedOnTransition() {
         return;
     }
 
-    if (DlgTransitionProperties(Diaporama->List[Diaporama->CurrentCol],false,this).exec()==0) {
+    DlgTransitionProperties Dlg(Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgTransitionProperties,ApplicationConfig,ApplicationConfig->DlgTransitionPropertiesWSP,this);
+    Dlg.InitDialog();
+    int Ret=Dlg.exec();
+    if (Ret==0) {
         SetModifyFlag(true);
         (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
@@ -822,9 +855,7 @@ void MainWindow::s_Event_TimelineDragMoveItem() {
 
     if (DragItemSource<DragItemDest) DragItemDest--;
     Diaporama->List.move(DragItemSource,DragItemDest);
-    ui->timeline->setUpdatesEnabled(false);
     ui->timeline->SetCurrentCell(DragItemDest);
-    ui->timeline->setUpdatesEnabled(true);  // Reset timeline painting
 }
 
 //====================================================================================================================
@@ -930,8 +961,10 @@ void MainWindow::s_Action_RenderVideo() {
     ui->ActionRender_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgRenderVideo(*Diaporama,EXPORTMODE_ADVANCED,this).exec();
-    CurrentRenderingDialog=NULL;
+    DlgRenderVideo Dlg(*Diaporama,EXPORTMODE_ADVANCED,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+    Dlg.InitDialog();
+    Dlg.exec();
     AdjustRuller();
 }
 
@@ -948,8 +981,10 @@ void MainWindow::s_Action_RenderSmartphone() {
     ui->ActionSmartphone_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgRenderVideo(*Diaporama,MODE_SMARTPHONE,this).exec();
-    CurrentRenderingDialog=NULL;
+    DlgRenderVideo Dlg(*Diaporama,MODE_SMARTPHONE,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+    Dlg.InitDialog();
+    Dlg.exec();
     AdjustRuller();
 }
 
@@ -966,8 +1001,10 @@ void MainWindow::s_Action_RenderMultimedia() {
     ui->ActionMultimedia_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgRenderVideo(*Diaporama,MODE_MULTIMEDIASYS,this).exec();
-    CurrentRenderingDialog=NULL;
+    DlgRenderVideo Dlg(*Diaporama,MODE_MULTIMEDIASYS,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+    Dlg.InitDialog();
+    Dlg.exec();
     AdjustRuller();
 }
 
@@ -984,8 +1021,10 @@ void MainWindow::s_Action_RenderForTheWEB() {
     ui->ActionForTheWEB_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgRenderVideo(*Diaporama,MODE_FORTHEWEB,this).exec();
-    CurrentRenderingDialog=NULL;
+    DlgRenderVideo Dlg(*Diaporama,MODE_FORTHEWEB,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+    Dlg.InitDialog();
+    Dlg.exec();
     AdjustRuller();
 }
 
@@ -1002,8 +1041,10 @@ void MainWindow::s_Action_RenderLossLess() {
     ui->ActionLossLess_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgRenderVideo(*Diaporama,MODE_LOSSLESS,this).exec();
-    CurrentRenderingDialog=NULL;
+    DlgRenderVideo Dlg(*Diaporama,MODE_LOSSLESS,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+    Dlg.InitDialog();
+    Dlg.exec();
     AdjustRuller();
 }
 
@@ -1102,7 +1143,6 @@ void MainWindow::s_Action_New() {
     // Create new diaporama
     Diaporama=NewDiaporama;
     BackgroundList.ScanDisk("background",Diaporama->ImageGeometry);
-    Diaporama->Timeline=ui->timeline;
     ui->preview->InitDiaporamaPlay(Diaporama);
     ui->preview->SetActualDuration(Diaporama->GetDuration());
     ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
@@ -1211,7 +1251,6 @@ void MainWindow::DoOpenFile() {
 
     // Create new diaporama
     Diaporama=new cDiaporama(ApplicationConfig);
-    Diaporama->Timeline=ui->timeline;
 
     // Init GUI for this project
     ui->preview->InitDiaporamaPlay(Diaporama);

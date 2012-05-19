@@ -18,55 +18,42 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-
-#ifndef DLGMUSICPROPERTIES_H
-#define DLGMUSICPROPERTIES_H
+#ifndef DLGABOUT_H
+#define DLGABOUT_H
 
 // Basic inclusions (common to all files)
 #include "../../sharedfiles/_GlobalDefines.h"
 #include "../../sharedfiles/_QCustomDialog.h"
 
-// Specific inclusions
-#include "../_Diaporama.h"
-
 namespace Ui {
-    class DlgMusicProperties;
+    class DlgAbout;
 }
 
-class DlgMusicProperties : public QCustomDialog {
+class DlgAbout : public QCustomDialog {
 Q_OBJECT
 public:
-    cDiaporamaObject    *DiaporamaObject;
-
-    explicit DlgMusicProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
-    ~DlgMusicProperties();
+    explicit DlgAbout(QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    ~DlgAbout();
 
     // function to be overloaded
     virtual void    DoInitDialog();                             // Initialise dialog
-    virtual void    DoAccept();                                 // Call when user click on Ok button
+    virtual void    DoAccept()          {/*Nothing to do*/}     // Call when user click on Ok button
     virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
-    virtual void    PrepareGlobalUndo();                        // Initiale Undo
-    virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
-
-    virtual void    RefreshControl();
+    virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
+    virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
 
 private slots:
-    void    s_SameMusic();
-    void    s_SameMusicNormal();
-    void    s_SameMusicReduceVolume();
-    void    s_SameMusicPause();
-    void    s_NewMusic();
-    void    s_AddMusic();
-    void    s_RemoveMusic();
-    void    s_PlayListTable_DoubleClick(QTableWidgetItem *);
-    void    s_PlayListTable_SelectionChanged();
-
-signals:
-    void    SetModifyFlag();
+    void    WQtWebSite();
+    void    ffMPEGWebSite();
+    void    SDLWebSite();
+    void    EXIV2WebSite();
+    void    FMTFWebSite();
+    void    CrystalWebSite();
+    void    CC2WebSite();
+    void    TAGLibWebSite();
 
 private:
-    void SetupUi();
-    Ui::DlgMusicProperties *ui;
+    Ui::DlgAbout *ui;
 };
 
-#endif // DLGMUSICPROPERTIES_H
+#endif // DLGABOUT_H

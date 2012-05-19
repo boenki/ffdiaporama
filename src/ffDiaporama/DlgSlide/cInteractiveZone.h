@@ -63,7 +63,7 @@ public:
     void    RefreshDisplay();
 
 protected:
-    virtual void        paintEvent(QPaintEvent *event);
+    virtual void    paintEvent(QPaintEvent *event);
 
     virtual void	mouseDoubleClickEvent(QMouseEvent *event);
     virtual void	mouseMoveEvent(QMouseEvent *event);

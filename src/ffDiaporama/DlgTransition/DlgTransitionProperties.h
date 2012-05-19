@@ -18,9 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-
-#ifndef DLGMUSICPROPERTIES_H
-#define DLGMUSICPROPERTIES_H
+#ifndef DLGTRANSITIONPROPERTIES_H
+#define DLGTRANSITIONPROPERTIES_H
 
 // Basic inclusions (common to all files)
 #include "../../sharedfiles/_GlobalDefines.h"
@@ -30,16 +29,26 @@
 #include "../_Diaporama.h"
 
 namespace Ui {
-    class DlgMusicProperties;
+    class DlgTransitionProperties;
 }
 
-class DlgMusicProperties : public QCustomDialog {
+class DlgTransitionProperties : public QCustomDialog {
 Q_OBJECT
 public:
-    cDiaporamaObject    *DiaporamaObject;
+    cDiaporamaObject        *DiaporamaObject;
+    QTimer                  Timer;
+    int                     MaxItem;
+    cDiaporamaObjectInfo    *PreviousFrame;
+    int                     W,H;
+    int                     TimePosition;
+    int                     AnimationTime;
+    // Previous values
+    int                     TransitionFamilly;
+    int                     TransitionSubType;
+    int                     TransitionDuration;
 
-    explicit DlgMusicProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
-    ~DlgMusicProperties();
+    explicit DlgTransitionProperties(cDiaporamaObject *TheDiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    ~DlgTransitionProperties();
 
     // function to be overloaded
     virtual void    DoInitDialog();                             // Initialise dialog
@@ -48,25 +57,14 @@ public:
     virtual void    PrepareGlobalUndo();                        // Initiale Undo
     virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
 
-    virtual void    RefreshControl();
-
 private slots:
-    void    s_SameMusic();
-    void    s_SameMusicNormal();
-    void    s_SameMusicReduceVolume();
-    void    s_SameMusicPause();
-    void    s_NewMusic();
-    void    s_AddMusic();
-    void    s_RemoveMusic();
-    void    s_PlayListTable_DoubleClick(QTableWidgetItem *);
-    void    s_PlayListTable_SelectionChanged();
-
-signals:
-    void    SetModifyFlag();
+    void            s_ChTransitionTypeCB(int);
+    void            s_TimerEvent();
+    void            s_TableCellChanged(int,int,int,int);
+    void            s_ChTransitionDurationCB(int);
 
 private:
-    void SetupUi();
-    Ui::DlgMusicProperties *ui;
+    Ui::DlgTransitionProperties *ui;
 };
 
-#endif // DLGMUSICPROPERTIES_H
+#endif // DLGTRANSITIONPROPERTIES_H

@@ -18,55 +18,49 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-
-#ifndef DLGMUSICPROPERTIES_H
-#define DLGMUSICPROPERTIES_H
+#ifndef DLGMANAGESTYLE_H
+#define DLGMANAGESTYLE_H
 
 // Basic inclusions (common to all files)
 #include "../../sharedfiles/_GlobalDefines.h"
 #include "../../sharedfiles/_QCustomDialog.h"
 
-// Specific inclusions
-#include "../_Diaporama.h"
+#include "../_StyleDefinitions.h"
+
+//=====================
+// Manage style dialog
+//=====================
 
 namespace Ui {
-    class DlgMusicProperties;
+    class DlgManageStyle;
 }
 
-class DlgMusicProperties : public QCustomDialog {
+class DlgManageStyle : public QCustomDialog {
 Q_OBJECT
 public:
-    cDiaporamaObject    *DiaporamaObject;
+    cStyleCollection    *Collection;
+    cStyleCollection    *UndoCollection;
 
-    explicit DlgMusicProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
-    ~DlgMusicProperties();
+    explicit DlgManageStyle(cStyleCollection *Collection,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    ~DlgManageStyle();
+
+    void        PopulateList(QString StyleToActivate);
 
     // function to be overloaded
     virtual void    DoInitDialog();                             // Initialise dialog
-    virtual void    DoAccept();                                 // Call when user click on Ok button
+    virtual void    DoAccept()          {/*Nothing to do*/}     // Call when user click on Ok button
     virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
     virtual void    PrepareGlobalUndo();                        // Initiale Undo
     virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
 
-    virtual void    RefreshControl();
-
 private slots:
-    void    s_SameMusic();
-    void    s_SameMusicNormal();
-    void    s_SameMusicReduceVolume();
-    void    s_SameMusicPause();
-    void    s_NewMusic();
-    void    s_AddMusic();
-    void    s_RemoveMusic();
-    void    s_PlayListTable_DoubleClick(QTableWidgetItem *);
-    void    s_PlayListTable_SelectionChanged();
-
-signals:
-    void    SetModifyFlag();
+    void        s_currentRowChanged(int);
+    void        s_DBRename();
+    void        s_DBRemove();
+    void        s_DBReset();
 
 private:
-    void SetupUi();
-    Ui::DlgMusicProperties *ui;
+    Ui::DlgManageStyle *ui;
 };
 
-#endif // DLGMUSICPROPERTIES_H
+#endif // DLGMANAGESTYLE_H

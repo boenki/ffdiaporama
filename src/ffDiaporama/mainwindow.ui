@@ -2576,7 +2576,7 @@ and help</string>
      </layout>
     </item>
     <item>
-     <widget class="cCustomTableWidget" name="timeline">
+     <widget class="cCustomSlideTable" name="timeline">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -3248,9 +3248,9 @@ and help</string>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>cCustomTableWidget</class>
+   <class>cCustomSlideTable</class>
    <extends>QTableWidget</extends>
-   <header>cCustomTableWidget.h</header>
+   <header>cCustomSlideTable.h</header>
   </customwidget>
  </customwidgets>
  <resources>
