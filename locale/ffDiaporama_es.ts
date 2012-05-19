@@ -42,12 +42,12 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="258"/>
         <source>This application was developed using Open Source version of Qt 4.8 SDK</source>
-        <translation type="unfinished">Esta aplicación ha sido desarrollada usando la versión Open Source de Qt 4.7 SDK {4.8 ?}</translation>
+        <translation>Esta aplicación ha sido desarrollada usando la versión Open Source de Qt 4.7 SDK {4.8 ?}</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="305"/>
         <source>Video decoding and encoding engines are based on libav</source>
-        <translation type="unfinished"></translation>
+        <translation>Los motores de decodificación y codificación de video están basados en libav</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout.ui" line="336"/>
@@ -1114,12 +1114,12 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="67"/>
         <source>Unable to determine %1 version</source>
-        <translation type="unfinished"></translation>
+        <translation>No se puede determinar la versión %1</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="70"/>
         <source>%1 not found - critical - application will stop !</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 no encontrado - critico - la aplicación se detendrá !</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="110"/>
@@ -1172,27 +1172,28 @@ See help for more details!</source>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="156"/>
         <source>encoder version:</source>
-        <translation type="unfinished"></translation>
+        <translation>versión del codificador:</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="166"/>
         <source>LIBAV support for TAG and CHAPTERS</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>LIBAV soporta TAG y CAPÍTULOS</translatorcomment>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="172"/>
         <source>libav Audio Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>libav Audio Codecs</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="176"/>
         <source>libav Video Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>libav Video Codecs</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="180"/>
         <source>libav Container Formats</source>
-        <translation type="unfinished"></translation>
+        <translation>libav Contenedores Formatos</translation>
     </message>
     <message>
         <location filename="../src/sharedfiles/DlgCheckConfig.cpp" line="157"/>
@@ -2611,31 +2612,31 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1073"/>
         <source>Start avconv encoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciar codificador avconv</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1110"/>
         <source>Error starting avconv</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error iniciando avconv</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1193"/>
         <source>avconv error</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>avconv error</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1230"/>
         <source>Error during avconv process</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error durante el proceso de avcon</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="1234"/>
         <source>Error exiting avconv</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error saliendo de avconv</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo.cpp" line="668"/>
@@ -5028,7 +5029,7 @@ Do you want to create one slide for each chapters ?</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="109"/>
         <source>Starting libav...</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciando libav...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="898"/>
@@ -5180,7 +5181,7 @@ Si continúas, se corre el riesgo de perder datos!
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="531"/>
         <location filename="../src/sharedfiles/cDeviceModelDef.cpp" line="562"/>
         <source>ffDiaporama initialisation</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciando ffDiaporama</translation>
     </message>
 </context>
 <context>

@@ -18,7 +18,7 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "../sharedfiles/_QCustomDialog.h"
+#include "../engine/_QCustomDialog.h"
 // Specific inclusions
 #include "_Diaporama.h"
 #include "_ApplicationDefinitions.h"

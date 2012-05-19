@@ -22,15 +22,15 @@
 #define _STYLEDEFINITIONS_H
 
 // Basic inclusions (common to all files)
-#include "../sharedfiles/_GlobalDefines.h"
+#include "../engine/_GlobalDefines.h"
 
 // Include some additional standard class
 #include <QComboBox>
 
 // Include some common various class
-#include "../sharedfiles/cBaseApplicationConfig.h"
-#include "../sharedfiles/cDeviceModelDef.h"
-#include "../sharedfiles/cBaseMediaFile.h"
+#include "../engine/cBaseApplicationConfig.h"
+#include "../engine/cDeviceModelDef.h"
+#include "../engine/cBaseMediaFile.h"
 
 //============================================
 // Style collection item definition

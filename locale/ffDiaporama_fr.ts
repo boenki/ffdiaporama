@@ -3179,7 +3179,7 @@ du bloc</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2199"/>
         <source>Text animation :</source>
-        <translation>Annimation de texte :</translation>
+        <translation>Animation de texte :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2209"/>

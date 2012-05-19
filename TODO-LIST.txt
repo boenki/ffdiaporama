@@ -1,4 +1,4 @@
-Buggs/TODO (Dernier SVN le 24/04/2012) :
+Bugs/TODO (Dernier SVN le 05/05/2012) :
 ----------------------------------------
 TODO
 ----
@@ -16,17 +16,17 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le bug d'affichage de la barre du lecteur vidéo (tient compte du nouveau bouton !)
--Corrige le bug de redimensionnement du player lors des chargements de projet quand la géométrie est différente
+-Corrige un bug qui empêchait parfois d'avoir du son dans la prévisualisation
 
 English version / Bug fix :
--Fix display error of ruller of the video player (don't forget new button !)
--Fix player resize error when loading project with a different geometry
+-Fix a bug which sometimes prevented from play sound in the preview
 
 French version / Nouvelles fonctionnalités :
--Passage de LIBAV/ffmpeg à LIBAV/avconv (ffmpeg est encore supporté si avconv n'est pas disponible sur la machine !)
--Fin du support des LIBAV 0.6
+-[Windows]Bascule sur libexiv2-12 en mode librairie au lieu du mode binaire
+-Change le comportement de la barre de défilement du lecteur multimédia : quand on click sur une position, le lecteur se met maintenant en pause
+-Améliore le fonctionnement de la barre d'état : Affiche beaucoup plus d'information
 
 English version / New features :
--Switch from LIBAV/ffmpeg to LIBAV/avconv (ffmpeg is always supported if avconv is not available on the computer !)
--End of support of LIBAV 0.6
+-[Windows]Switch to libexiv2-12 using library mode instead of binary mode
+-Change the behavior of the scroll bar of the multimedia reader: when one click on a position, the reader puts himself now in break
+-Improve the status bar: display much more information

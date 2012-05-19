@@ -22,8 +22,8 @@
 #include "_ImagesDefinitions.h"
 #include "_ApplicationDefinitions.h"
 
-#include "../sharedfiles/DlgCheckConfig.h"
-#include "../sharedfiles/DlgffDPjrProperties.h"
+#include "../engine/DlgCheckConfig.h"
+#include "../engine/DlgffDPjrProperties.h"
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"

@@ -22,7 +22,7 @@
 #define CCUSTOMSLIDETABLE_H
 
 // Basic inclusions (common to all files)
-#include "../sharedfiles/_GlobalDefines.h"
+#include "../engine/_GlobalDefines.h"
 
 #include <QTableWidget>
 
