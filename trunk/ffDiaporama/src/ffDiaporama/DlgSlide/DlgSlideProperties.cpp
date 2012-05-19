@@ -25,7 +25,7 @@
 #include "DlgSlideProperties.h"
 #include "ui_DlgSlideProperties.h"
 
-#include "../../engine/DlgInfoFile.h"
+#include "../DlgInfoFile/DlgInfoFile.h"
 #include "../DlgImage/DlgImageCorrection.h"
 #include "../DlgVideo/DlgVideoEdit.h"
 #include "../DlgText/DlgTextEdit.h"

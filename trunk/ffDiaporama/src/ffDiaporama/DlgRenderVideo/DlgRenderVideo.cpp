@@ -19,7 +19,7 @@
    ====================================================================== */
 
 #include "../_ApplicationDefinitions.h"
-#include "../../engine/DlgffDPjrProperties.h"
+#include "../DlgffDPjrProperties/DlgffDPjrProperties.h"
 #include "DlgRenderVideo.h"
 #include "ui_DlgRenderVideo.h"
 

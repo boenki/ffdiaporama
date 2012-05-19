@@ -18,32 +18,34 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef DLGFFDPJRPROPERTIES_H
-#define DLGFFDPJRPROPERTIES_H
+#ifndef DLGCHECKCONFIG_H
+#define DLGCHECKCONFIG_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-#include "_QCustomDialog.h"
+#include "../../engine/_GlobalDefines.h"
+#include "../../engine/_QCustomDialog.h"
 
 // Include some additional standard class
 #include <QString>
-#include <QDialog>
 
 // Include some common various class
-#include "cBaseApplicationConfig.h"
-#include "cBaseMediaFile.h"
+#include "../../engine/cBaseApplicationConfig.h"
+#include "../../engine/cDeviceModelDef.h"
+#include "../../engine/cSaveWindowPosition.h"
 
 namespace Ui {
-    class DlgffDPjrProperties;
+    class DlgCheckConfig;
 }
 
-class DlgffDPjrProperties : public QCustomDialog {
+//bool    CheckExiv2(QString &StatusStr,cBaseApplicationConfig *BaseApplicationConfig);
+bool    Checkffmpeg(QString &StatusStr,cBaseApplicationConfig *BaseApplicationConfig);
+
+
+class DlgCheckConfig : public QCustomDialog {
 Q_OBJECT
 public:
-    cffDProjectFile *ffdProject;
-
-    explicit DlgffDPjrProperties(cffDProjectFile *ffdProject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
-    ~DlgffDPjrProperties();
+    explicit        DlgCheckConfig(QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+                    ~DlgCheckConfig();
 
     // function to be overloaded
     virtual void    DoInitDialog();                             // Initialise dialog
@@ -53,7 +55,7 @@ public:
     virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
 
 private:
-    Ui::DlgffDPjrProperties *ui;
+    Ui::DlgCheckConfig *ui;
 };
 
-#endif // DLGFFDPJRPROPERTIES_H
+#endif // DLGCHECKCONFIG_H

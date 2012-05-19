@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "../../engine/DlgCheckConfig.h"
-#include "../../engine/DlgManageDevices.h"
+#include "../DlgCheckConfig/DlgCheckConfig.h"
+#include "DlgManageDevices/DlgManageDevices.h"
 
 #include "DlgApplicationSettings.h"
 #include "ui_DlgApplicationSettings.h"

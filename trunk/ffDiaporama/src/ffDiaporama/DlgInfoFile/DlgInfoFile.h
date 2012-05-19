@@ -22,16 +22,16 @@
 #define DLGINFOFILE_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
-#include "_QCustomDialog.h"
+#include "../../engine/_GlobalDefines.h"
+#include "../../engine/_QCustomDialog.h"
 
 // Include some additional standard class
 #include <QString>
 
 // Include some common various class
-#include "cBaseApplicationConfig.h"
-#include "cSaveWindowPosition.h"
-#include "cBaseMediaFile.h"
+#include "../../engine/cBaseApplicationConfig.h"
+#include "../../engine/cSaveWindowPosition.h"
+#include "../../engine/cBaseMediaFile.h"
 
 namespace Ui {
     class DlgInfoFile;
