@@ -30,25 +30,49 @@ bool                SDLIsAudioOpen=false;   // true if SDL work at least one tim
 double              SDLCurrentFPS =-1;      // Current FPS setting for SDL
 SDL_AudioSpec       AudioSpec;              // SDL param bloc
 cSDLSoundBlockList  MixedMusic;             // Sound to play
+Uint8               SDLBuf[64000];
+int32_t             SDLBufSize=0;
 
 //*********************************************************************************************************************************************
 // SDL Audio Call Back
 //*********************************************************************************************************************************************
 
+
 void SDLAudioCallback(void *,Uint8 *stream,int len) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SDLAudioCallback");
 
     SDLIsAudioOpen=true;
-    if (len!=MixedMusic.SoundPacketSize) {
+    /*if (len!=MixedMusic.SoundPacketSize) {
         ToLog(LOGMSG_CRITICAL,QString("Error in SDLAudioCallback : Wanted len(%1)<>MixedMusic.SoundPacketSize(%2)").arg(len).arg(MixedMusic.SoundPacketSize));
         return;
+    }*/
+    int32_t CurPos=0;
+    if (SDLBufSize>0) {
+        memcpy(stream,&SDLBuf,SDLBufSize);
+        CurPos=SDLBufSize;
+        SDLBufSize=0;
     }
-    int16_t *Packet=MixedMusic.DetachFirstPacket();
-
-    // Copy data to hardware buffer
-    if (Packet!=NULL) {
-        memcpy(stream,(Uint8 *)Packet,MixedMusic.SoundPacketSize);
-        av_free(Packet);
+    while (len>0) {
+        int16_t *Packet=MixedMusic.DetachFirstPacket();
+        if (Packet!=NULL) {
+            if (len>=MixedMusic.SoundPacketSize) {
+                memcpy(stream+CurPos,(Uint8 *)Packet,MixedMusic.SoundPacketSize);
+                CurPos+=MixedMusic.SoundPacketSize;
+                len   -=MixedMusic.SoundPacketSize;
+            } else {
+                memcpy(stream+CurPos,(Uint8 *)Packet,len);
+                SDLBufSize=MixedMusic.SoundPacketSize-len;
+                memcpy(&SDLBuf,(Uint8 *)Packet+len,SDLBufSize);
+                CurPos+=len;
+                len   -=MixedMusic.SoundPacketSize;
+            }
+            av_free(Packet);
+        } else {
+            memset(stream+CurPos,0,len);
+            len=0;
+            CurPos=0;
+            SDLBufSize=0;
+        }
     }
 }
 
@@ -108,18 +132,22 @@ void SDLSetFPS(double WantedFPS,bool SDLAncMode) {
     Desired.userdata=NULL;                                              // userdata parameter : not used
     Desired.callback=SDLAudioCallback;                                  // Link to callback function
     Desired.samples =MixedMusic.SoundPacketSize/MixedMusic.Channels;    // In samples unit * chanels number for Linux version
-
-    if (!SDLAncMode) Desired.samples/=MixedMusic.SampleBytes;           // New SDL use byte instead of sample
-
+    Desired.size    =Desired.samples*2;
+    Desired.padding =0;
     Desired.silence =0;
-    if (SDL_OpenAudio(&Desired,&AudioSpec)<0) {
+#ifndef Q_OS_WIN
+    if (!SDLAncMode) Desired.samples/=MixedMusic.SampleBytes;           // New SDL use byte instead of sample
+#endif
+    AudioSpec=Desired;
+    bool Error=false;
+    if (SDL_OpenAudio(&Desired,&AudioSpec)<0) Error=true;
+    if (Error) {
         CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error during startup"),
                 QApplication::translate("MainWindow","Error during initialisation of sound system. Check your configuration and try again"),
                 QMessageBox::Close,QMessageBox::Close);
         ToLog(LOGMSG_CRITICAL,QString("SDLFirstInit=Error in SDL_OpenAudio:%1").arg(SDL_GetError()));
         exit(1);    // ExitApplicationWithFatalError
     }
-//    SDLIsAudioOpen=true;
 }
 
 //====================================================================================================================

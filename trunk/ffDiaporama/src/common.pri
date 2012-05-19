@@ -62,5 +62,5 @@ win32 {
 
 #---- Libs for windows and linux
 LIBS        += -lavformat -lavcodec -lavutil -lswscale                  #------ libav lib link
-unix:LIBS   += -lexiv2                                                  #------ Exiv2 [and TAGlib]Linux only]
+LIBS        += -lexiv2                                                  #------ Exiv2
 LIBS        += -ltag                                                    #------ TAGlib

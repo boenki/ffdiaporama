@@ -51,6 +51,7 @@ protected:
     virtual void mousePressEvent(QMouseEvent *);
 
 signals:
+    void    PositionChangeByUser();
 
 public slots:
 

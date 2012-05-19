@@ -42,30 +42,31 @@ TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_cz.ts
 
 SOURCES +=  _ApplicationDefinitions.cpp \
-            _SoundDefinitions.cpp \
             _ImagesDefinitions.cpp \
             _Diaporama.cpp \
             wgt_QVideoPlayer.cpp \
-            wgt_QCustomThumbnails.cpp \
             cCustomComboBox.cpp \
-            DlgRenderVideo.cpp \
-            DlgTransitionProperties.cpp \
-            DlgAbout.cpp \
             mainwindow.cpp \
             main.cpp \
-            cCustomTableWidget.cpp \
-            DlgManageStyle.cpp \
+            cCustomSlideTable.cpp \
             _StyleDefinitions.cpp \
+            DlgRenderVideo/DlgRenderVideo.cpp \
+            DlgManageStyle/DlgManageStyle.cpp \
+            DlgAbout/DlgAbout.cpp \
+            DlgTransition/DlgTransitionProperties.cpp \
             DlgMusic/DlgMusicProperties.cpp \
             DlgBackground/DlgBackgroundProperties.cpp \
             DlgAppSettings/DlgApplicationSettings.cpp \
+            DlgImage/cImgInteractiveZone.cpp \
             DlgImage/DlgImageCorrection.cpp \
             DlgSlide/cCustomBlockTable.cpp \
             DlgSlide/DlgSlideProperties.cpp \
             DlgSlide/cInteractiveZone.cpp \
+            DlgSlide/cCustomShotTable.cpp \
             DlgSlide/DlgRuler/DlgRulerDef.cpp \
-            DlgSlide/DlgText/DlgTextEdit.cpp \
-            DlgSlide/DlgVideo/DlgVideoEdit.cpp \
+    	    DlgText/cCustomTextEdit.cpp \
+            DlgText/DlgTextEdit.cpp \
+            DlgVideo/DlgVideoEdit.cpp \
             ../sharedfiles/_GlobalDefines.cpp \
             ../sharedfiles/QCustomRuller.cpp \
             ../sharedfiles/DlgCheckConfig.cpp \
@@ -84,36 +85,34 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../sharedfiles/cBrushDefinition.cpp \
             ../sharedfiles/cCustomIcon.cpp \
             ../sharedfiles/DlgInfoFile.cpp \
-            ../fmt_filters/fmt_filters.cpp \ 
-    DlgSlide/cCustomShotTable.cpp \
-    DlgImage/cImgInteractiveZone.cpp \
-    DlgSlide/DlgText/cCustomTextEdit.cpp
+            ../fmt_filters/fmt_filters.cpp 
 
 HEADERS  += \
-            _SoundDefinitions.h \
             _ImagesDefinitions.h \
             _ApplicationDefinitions.h \
             _Diaporama.h \
             _StyleDefinitions.h \
             wgt_QVideoPlayer.h \
-            wgt_QCustomThumbnails.h \
             cCustomComboBox.h \
-            cCustomTableWidget.h \
-            DlgRenderVideo.h \
-            DlgTransitionProperties.h \
-            DlgAbout.h \
-            DlgManageStyle.h \
+            cCustomSlideTable.h \
             mainwindow.h \
+            DlgRenderVideo/DlgRenderVideo.h \
+            DlgManageStyle/DlgManageStyle.h \
+            DlgAbout/DlgAbout.h \
+            DlgTransition/DlgTransitionProperties.h \
             DlgMusic/DlgMusicProperties.h \
             DlgBackground/DlgBackgroundProperties.h \
             DlgAppSettings/DlgApplicationSettings.h \
+            DlgImage/cImgInteractiveZone.h \
             DlgImage/DlgImageCorrection.h \
             DlgSlide/DlgSlideProperties.h \
             DlgSlide/cCustomBlockTable.h \
             DlgSlide/cInteractiveZone.h \
+            DlgSlide/cCustomShotTable.h \
             DlgSlide/DlgRuler/DlgRulerDef.h \
-            DlgSlide/DlgText/DlgTextEdit.h \
-            DlgSlide/DlgVideo/DlgVideoEdit.h \
+            DlgText/cCustomTextEdit.h \
+            DlgText/DlgTextEdit.h \
+            DlgVideo/DlgVideoEdit.h \
             ../sharedfiles/QCustomRuller.h \
             ../sharedfiles/DlgCheckConfig.h \
             ../sharedfiles/cSaveWindowPosition.h \
@@ -132,25 +131,22 @@ HEADERS  += \
             ../sharedfiles/cBrushDefinition.h \
             ../sharedfiles/cCustomIcon.h \
             ../sharedfiles/DlgInfoFile.h \
-            ../fmt_filters/fmt_filters.h \ 
-    DlgSlide/cCustomShotTable.h \
-    DlgImage/cImgInteractiveZone.h \
-    DlgSlide/DlgText/cCustomTextEdit.h
+            ../fmt_filters/fmt_filters.h 
 
 FORMS    += mainwindow.ui \
             wgt_QVideoPlayer.ui \
-            DlgRenderVideo.ui \
-            DlgTransitionProperties.ui \
-            DlgAbout.ui \
-            DlgManageStyle.ui \
+            DlgRenderVideo/DlgRenderVideo.ui \
+            DlgManageStyle/DlgManageStyle.ui \
+            DlgAbout/DlgAbout.ui \
+            DlgTransition/DlgTransitionProperties.ui \
             DlgMusic/DlgMusicProperties.ui \
             DlgBackground/DlgBackgroundProperties.ui \
             DlgAppSettings/DlgApplicationSettings.ui \
             DlgImage/DlgImageCorrection.ui \
             DlgSlide/DlgSlideProperties.ui \
             DlgSlide/DlgRuler/DlgRulerDef.ui \
-            DlgSlide/DlgText/DlgTextEdit.ui \
-            DlgSlide/DlgVideo/DlgVideoEdit.ui \
+            DlgText/DlgTextEdit.ui \
+            DlgVideo/DlgVideoEdit.ui \
             ../sharedfiles/DlgCheckConfig.ui \
             ../sharedfiles/DlgManageDevices.ui \
             ../sharedfiles/DlgffDPjrProperties.ui \

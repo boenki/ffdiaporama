@@ -18,8 +18,6 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "wgt_QCustomThumbnails.h"
-
 #include "cCustomShotTable.h"
 #include "cCustomBlockTable.h"
 #include "cInteractiveZone.h"
@@ -29,9 +27,9 @@
 
 #include "../../sharedfiles/DlgInfoFile.h"
 #include "../DlgImage/DlgImageCorrection.h"
+#include "../DlgVideo/DlgVideoEdit.h"
+#include "../DlgText/DlgTextEdit.h"
 #include "DlgRuler/DlgRulerDef.h"
-#include "DlgVideo/DlgVideoEdit.h"
-#include "DlgText/DlgTextEdit.h"
 
 #include <QClipboard>
 #include <QMimeData>
@@ -2615,7 +2613,7 @@ void DlgSlideProperties::s_CoordinateStyleBT() {
     QString ActualStyle=CurrentCompoObject->GetCoordinateStyle();
 
     // Open popup menu
-    QString Item=((cApplicationConfig *)BaseApplicationConfig)->StyleCoordinateCollection.PopupCollectionMenu(this,ActualStyle);
+    QString Item=((cApplicationConfig *)BaseApplicationConfig)->StyleCoordinateCollection.PopupCollectionMenu(this,BaseApplicationConfig,ActualStyle);
     ui->CoordinateStyleBT->setDown(false);
     if (Item!="") {
         CurrentCompoObject->ApplyCoordinateStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleCoordinateCollection.GetStyleDef(Item));
@@ -2632,7 +2630,7 @@ void DlgSlideProperties::s_BlockShapeStyleBT() {
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
     AppendPartialUndo(UNDOACTION_STYLE_SHAPE,ui->InteractiveZone,false);
     QString ActualStyle =CurrentCompoObject->GetBlockShapeStyle();
-    QString Item        =((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.PopupCollectionMenu(this,ActualStyle);
+    QString Item        =((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.PopupCollectionMenu(this,BaseApplicationConfig,ActualStyle);
     ui->BlockShapeStyleBT->setDown(false);
     if (Item!="") {
         CurrentCompoObject->ApplyBlockShapeStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.GetStyleDef(Item));

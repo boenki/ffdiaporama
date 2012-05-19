@@ -798,7 +798,7 @@ void DlgImageCorrection::s_FramingStyleBT() {
     if (!CompoObject) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_FRAMING,ui->InteractiveZone,true);
     QString ActualStyle=CompoObject->GetFramingStyle();
-    QString Item=((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.PopupCollectionMenu(this,ActualStyle);
+    QString Item=((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.PopupCollectionMenu(this,BaseApplicationConfig,ActualStyle);
     ui->FramingStyleBT->setDown(false);
     if (Item!="") {
         QStringList List;

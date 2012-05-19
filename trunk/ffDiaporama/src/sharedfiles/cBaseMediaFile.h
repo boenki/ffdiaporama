@@ -44,7 +44,7 @@
 //****************************************************************************************************************************************************************
 // EXIV2 PART [Linux only - Windows use binary version]
 //****************************************************************************************************************************************************************
-#ifdef Q_OS_LINUX
+//#ifdef Q_OS_LINUX
     #include <exiv2/exif.hpp>
     #if (EXIV2_MAJOR_VERSION==0) && (EXIV2_MINOR_VERSION>20)
         #include <exiv2/exiv2.hpp>
@@ -52,7 +52,7 @@
     #else
         #include <exiv2/image.hpp>
     #endif
-#endif
+//#endif
 
 //****************************************************************************************************************************************************************
 // TAGLIB PART
@@ -301,6 +301,21 @@ public:
     virtual QImage          *ReadVideoFrame(qlonglong Position,bool DontUseEndPos);
     virtual void            ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
     virtual QImage          *ConvertYUVToRGB();
+};
+
+//*********************************************************************************************************************************************
+// Music file
+//*********************************************************************************************************************************************
+
+class cMusicObject : public cVideoFile {
+public:
+    double              Volume;                 // Volume as % from 10% to 150%
+
+    cMusicObject(cBaseApplicationConfig *ApplicationConfig);
+
+    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag);
+    bool        LoadMedia(QString &filename,QStringList *AliasList,bool *ModifyFlag);
 };
 
 #endif // CBASEMEDIAFILE_H

@@ -26,9 +26,9 @@
 #include <QMenu>
 #include <QAction>
 #include <QMessageBox>
-#include "../sharedfiles/_QCustomDialog.h"
 
-#include "DlgManageStyle.h"
+#include "DlgManageStyle/DlgManageStyle.h"
+#include "_ApplicationDefinitions.h"
 
 #define ICON_FRAMING_CUSTOM                 ":/img/action_cancel.png"
 #define ICON_FRAMING_FULL                   ":/img/AdjustWH.png"
@@ -423,7 +423,7 @@ void cStyleCollection::FillCollectionCB(QComboBox *CB,QString ActualStyleName,bo
 
 //************************************************
 
-QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString ActualStyleDef) {
+QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig,QString ActualStyleDef) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::PopupCollectionMenu");
 
     QString Item="";
@@ -466,7 +466,7 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,QString Actu
     Item="";
     if (Ret!=NULL) {
         if (Ret==ActionCreate)                                                              CreateNewStyle(ParentWindow,ActualStyleDef);
-        else if (Ret==ActionManage)                                                         ManageExistingStyle(ParentWindow);
+        else if (Ret==ActionManage)                                                         ManageExistingStyle(ParentWindow,BaseApplicationConfig);
         else if (Ret->toolTip()==QApplication::translate("DlgManageStyle","Update style"))  UpdateExistingStyle((GeometryFilter?ActiveFilter:"")+Ret->text(),ActualStyleDef);
         else Item=/*(GeometryFilter?ActiveFilter:"")+*/Ret->text();
     }
@@ -523,10 +523,11 @@ void cStyleCollection::CreateNewStyle(QWidget *ParentWindow,QString ActualStyleD
 
 //************************************************
 
-void cStyleCollection::ManageExistingStyle(QWidget *ParentWindow) {
+void cStyleCollection::ManageExistingStyle(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::ManageExistingStyle");
 
-    DlgManageStyle Dlg(this,ParentWindow);
+    DlgManageStyle Dlg(this,HELPFILE_DlgManageStyle,(cApplicationConfig *)BaseApplicationConfig,((cApplicationConfig *)BaseApplicationConfig)->DlgManageStyleWSP,ParentWindow);
+    Dlg.InitDialog();
     Dlg.exec();
 }
 

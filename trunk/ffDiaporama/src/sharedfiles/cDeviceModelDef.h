@@ -68,15 +68,17 @@ extern "C" {
    ---------
         OPERATING SYSTEM    DATE        BINARY  BIN.VERSION LIBAVUTIL   LIBAVCODEC  LIBAVFORMAT     LIBAVDEVICE     LIBAVFILTER     LIBSWSCALE
         ----------------    ----------  ------  ----------- ----------  ----------  -----------     -----------     -----------     ----------
-        WINDOWS             2012.03.15  avconv  0.8-1036    51.25.0     54.8.0      54.2.0          53.2.0          2.15.0          2.1.0
+        WINDOWS             LIBAV_08    avconv  0.8-1036    51.25.0     54.8.0      54.2.0          53.2.0          2.15.0          2.1.0
 
-        UBUNTU 12.04        2012.01.24  avconv  0.8.1-4     51.22.1     53.35.0     53.21.0         53.2.0          2.15.0          2.1.0
-        UBUNTU 11.10        2011        ffmpeg  0.7.3-4     51.7.0      53.6.0      53.3.0          53.0.0          2.4.0           2.0.0
+        UBUNTU 12.04        LIBAV_08    avconv  0.8.1-4     51.22.1     53.35.0     53.21.0         53.2.0          2.15.0          2.1.0
+        UBUNTU 11.10        LIBAV_08    ffmpeg  0.7.3-4     51.7.0      53.6.0      53.3.0          53.0.0          2.4.0           2.0.0
 
-        OPENSUSE 12.1       2012        ffmpeg  0.10.2      51.35.100   53.61.100   53.32.100       53.4.100        2.61.100        2.1.100
-        OPENSUSE 11.4       2011        ffmpeg  0.8.7       51.9.1      53.8.0      53.5.0          53.1.1          2.23.0          2.0.0
+        OPENSUSE 12.1       LIBAV_08    ffmpeg  0.10.2      51.35.100   53.61.100   53.32.100       53.4.100        2.61.100        2.1.100
+        OPENSUSE 11.4       LIBAV_08    ffmpeg  0.10.2      51.35.100   53.61.100   53.32.100       53.4.100        2.61.100        2.1.100
 
-        FEDORA 16           2012        ffmpeg  0.8.10      51.9.1      53.8.0      53.5.0          53.1.1          2.23.0          2.0.0
+        FEDORA 16           LIBAV_07    ffmpeg  0.8.10      51.9.1      53.8.0      53.5.0          53.1.1          2.23.0          2.0.0
+
+        MAGEIA 2            LIBAV_08    ffmpeg  0.10.2      51.35.100   53.61.100   53.32.100       53.4.100        2.61.100        2.1.100
 
 *************************************************************************************************************************** */
 
@@ -100,7 +102,10 @@ extern "C" {
     #define LIBAV_FFMPEG                        // FFMPEG binary encoder support
     #define LIBAV_AVCONV                        // AVCONV binary encoder support
     #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
-    //#define LIBAV_AVCHD                         // Support for AVCHD format (.mts)
+
+    #ifdef CODEC_FLAG2_SHOW_ALL
+        #define LIBAV_AVCHD                         // Support for AVCHD format (.mts)
+    #endif
 
 #endif
 

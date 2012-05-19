@@ -971,213 +971,117 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
     bool ExifOk=false;
 
     // ******************************************************************************************************
-    // Try to load EXIF information using library exiv2 [Linux version]
+    // Try to load EXIF information using library exiv2
     // ******************************************************************************************************
-    #ifdef Q_OS_LINUX
-        Exiv2::Image::AutoPtr ImageFile;
-        try {
-            #ifdef Q_OS_WIN
-                ImageFile=Exiv2::ImageFactory::open(FileName.toLocal8Bit().data());
-            #else
-                ImageFile=Exiv2::ImageFactory::open(FileName.toUtf8().data());
-            #endif
-            ExifOk=true;
-        }
-        catch( Exiv2::Error& e ) {
-            ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
-        }
-        if (ExifOk) {
-            ImageFile->readMetadata();
-            // Read data
-            Exiv2::ExifData &exifData = ImageFile->exifData();
-            if (!exifData.empty()) {
-                Exiv2::ExifData::const_iterator end = exifData.end();
-                for (Exiv2::ExifData::const_iterator CurrentData=exifData.begin();CurrentData!=end;++CurrentData) {
-
-                    if ((QString().fromStdString(CurrentData->key())=="Exif.Image.Orientation")&&(CurrentData->tag()==274))
-                        ImageOrientation=QString().fromStdString(CurrentData->value().toString()).toInt();
-
-                    if ((CurrentData->typeId()!=Exiv2::undefined)&&
-                        (!(((CurrentData->typeId()==Exiv2::unsignedByte)||(CurrentData->typeId()==Exiv2::signedByte))&&(CurrentData->size()>64)))) {
-                        QString Key  =QString().fromStdString(CurrentData->key());
-                        #ifdef Q_OS_WIN
-                        QString Value=QString().fromStdString(CurrentData->print(&exifData).c_str());
-                        #else
-                        QString Value=QString().fromUtf8(CurrentData->print(&exifData).c_str());
-                        #endif
-                        if (Key.startsWith("Exif.")) Key=Key.mid(QString("Exif.").length());
-                        InformationList.append(Key+QString("##")+Value);
-                    }
-                }
-            }
-
-            // Append InformationList
-            if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
-            if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
-
-            // Get size information
-            if (GetInformationValue("Photo.PixelXDimension")!="")       ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
-                else if (GetInformationValue("Image.ImageWidth")!="")   ImageWidth =GetInformationValue("Image.ImageWidth").toInt();            // TIFF Version
-            if (GetInformationValue("Photo.PixelYDimension")!="")       ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
-                else if (GetInformationValue("Image.ImageLength")!="")  ImageHeight=GetInformationValue("Image.ImageLength").toInt();           // TIFF Version
-
-            // switch ImageWidth and ImageHeight if image was rotated
-            if ((ImageOrientation==6)||(ImageOrientation==8)) {
-                int IW=ImageWidth;
-                ImageWidth=ImageHeight;
-                ImageHeight=IW;
-            }
-
-            // Read preview image
-            #ifdef EXIV2WITHPREVIEW
-            Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
-            if (Manager) {
-                Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
-                if (!Properties.empty()) {
-                    Exiv2::PreviewImage Image=Manager->getPreviewImage(Properties[Properties.size()-1]);      // Get the latest image (biggest)
-                    QImage *Icon=new QImage();
-                    if (Icon->loadFromData(QByteArray((const char*)Image.pData(),Image.size()))) {
-                        if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
-                            QMatrix matrix;
-                            matrix.rotate(-90);
-                            QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                            delete Icon;
-                            Icon=NewImage;
-                        } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
-                            QMatrix matrix;
-                            matrix.rotate(180);
-                            QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                            delete Icon;
-                            Icon=NewImage;
-                        } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
-                            QMatrix matrix;
-                            matrix.rotate(90);
-                            QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                            delete Icon;
-                            Icon=NewImage;
-                        }
-
-                        // Sometimes, Icon have black bar : try to remove them
-                        if ((double(Icon->width())/double(Icon->height()))!=(double(ImageWidth)/double(ImageHeight))) {
-                            if (ImageWidth>ImageHeight) {
-                                int RealHeight=int((double(Icon->width())*double(ImageHeight))/double(ImageWidth));
-                                int Delta     =Icon->height()-RealHeight;
-                                QImage *NewImage=new QImage(Icon->copy(0,Delta/2,Icon->width(),Icon->height()-Delta));
-                                delete Icon;
-                                Icon=NewImage;
-                            } else {
-                                int RealWidth=int((double(Icon->height())*double(ImageWidth))/double(ImageHeight));
-                                int Delta     =Icon->width()-RealWidth;
-                                QImage *NewImage=new QImage(Icon->copy(Delta/2,0,Icon->width()-Delta,Icon->height()));
-                                delete Icon;
-                                Icon=NewImage;
-                            }
-                        }
-
-                        // if preview Icon have a really small size, then don't use it
-                        if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
-                    }
-                    delete Icon;
-                }
-                delete Manager;
-            }
-            #endif
-        }
-
-    #elif defined(Q_OS_WIN)
-
-        // ******************************************************************************************************
-        // Try to load EXIF information using binary exiv2 [Windows version]
-        // ******************************************************************************************************
-        QString  Commande=AdjustDirForOS("exiv2 print -pa \""+FileName+"\"");
-        QString  Info,Part;
-        QProcess Process;
+    Exiv2::Image::AutoPtr ImageFile;
+    try {
+        #ifdef Q_OS_WIN
+            ImageFile=Exiv2::ImageFactory::open(FileName.toLocal8Bit().data());
+        #else
+            ImageFile=Exiv2::ImageFactory::open(FileName.toUtf8().data());
+        #endif
         ExifOk=true;
-        Process.setProcessChannelMode(QProcess::MergedChannels);
-        Process.start(Commande);
-        if (!Process.waitForStarted()) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to start exiv2 - no exif information will be decode for %1").arg(FileName));
-            ExifOk=false;
-        }
-        if (ExifOk && !Process.waitForFinished()) {
-            Process.kill();
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Error during exiv2 process - no exif information will be decode for %1").arg(FileName));
-            ExifOk=false;
-        }
-        if (ExifOk && (Process.exitStatus()<0)) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","exiv2 return error %1 - no exif information will be decode for %2").arg(Process.exitStatus()).arg(FileName));
-            ExifOk=false;
-        }
-        if (ExifOk) {
-            Info=QString().fromLocal8Bit(Process.readAllStandardOutput());
+    }
+    catch( Exiv2::Error& e ) {
+        ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
+    }
+    if (ExifOk) {
+        ImageFile->readMetadata();
+        // Read data
+        Exiv2::ExifData &exifData = ImageFile->exifData();
+        if (!exifData.empty()) {
+            Exiv2::ExifData::const_iterator end = exifData.end();
+            for (Exiv2::ExifData::const_iterator CurrentData=exifData.begin();CurrentData!=end;++CurrentData) {
 
-            while (Info.length()>0) {
-                if (Info.contains("\n")) {
-                    Part=Info.left(Info.indexOf("\n"));
-                    Info=Info.mid(Info.indexOf("\n")+QString("\n").length());
-                } else {
-                    Part=Info;
-                    Info="";
-                }
-                QString Designation,Value;
-                if (Part.contains(" ")) {
-                    Designation=Part.left(Part.indexOf(" "));
-                    while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
-                    Value=(Part.mid(Part.indexOf(" ")+QString(" ").length())).trimmed();
-                    if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
-                    if (Value.contains(" ")) Value=(Value.mid(Value.indexOf(" ")+QString(" ").length())).trimmed();
-                    if (Part.contains(" ")) Part=Part.left(Part.indexOf(" "));
-                    if (Part.startsWith("Exif.")) Part=Part.mid(QString("Exif.").length());
-                    InformationList.append(Part+"##"+Value);
-                    if ((Part=="Photo.PixelXDimension")||(Part=="Image.ImageWidth"))    ImageWidth =Value.toInt();  // TIFF use Image.ImageWidth instead of Photo.PixelXDimension
-                    if ((Part=="Photo.PixelYDimension")||(Part=="Image.ImageLength"))   ImageHeight=Value.toInt();  // TIFF use Image.ImageLength instead of Photo.PixelYDimension
+                if ((QString().fromStdString(CurrentData->key())=="Exif.Image.Orientation")&&(CurrentData->tag()==274))
+                    ImageOrientation=QString().fromStdString(CurrentData->value().toString()).toInt();
+
+                if ((CurrentData->typeId()!=Exiv2::undefined)&&
+                    (!(((CurrentData->typeId()==Exiv2::unsignedByte)||(CurrentData->typeId()==Exiv2::signedByte))&&(CurrentData->size()>64)))) {
+                    QString Key  =QString().fromStdString(CurrentData->key());
+                    #ifdef Q_OS_WIN
+                    QString Value=QString().fromStdString(CurrentData->print(&exifData).c_str());
+                    #else
+                    QString Value=QString().fromUtf8(CurrentData->print(&exifData).c_str());
+                    #endif
+                    if (Key.startsWith("Exif.")) Key=Key.mid(QString("Exif.").length());
+                    InformationList.append(Key+QString("##")+Value);
                 }
             }
-            Process.terminate();
-            Process.close();
+        }
 
-            // Restart same job with -pva option to get binary value of orientation
-            Commande=AdjustDirForOS("exiv2 print -pva \""+FileName+"\"");
-            Process.start(Commande);
-            if (!Process.waitForStarted()) {
-                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Impossible to start exiv2 - no exif information will be decode for %1").arg(FileName));
-                ExifOk=false;
-            }
-            if (ExifOk && !Process.waitForFinished()) {
-                Process.kill();
-                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Error during exiv2 process - no exif information will be decode for %1").arg(FileName));
-                ExifOk=false;
-            }
-            if (ExifOk && (Process.exitStatus()<0)) {
-                ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","exiv2 return error %1 - no exif information will be decode for %2").arg(Process.exitStatus()).arg(FileName));
-                ExifOk=false;
-            }
-            if (ExifOk) {
-                Info=QString(Process.readAllStandardOutput());
+        // Append InformationList
+        if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
+        if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
 
-                while (Info.length()>0) {
-                    if (Info.contains("\n")) {
-                        Part=Info.left(Info.indexOf("\n"));
-                        Info=Info.mid(Info.indexOf("\n")+QString("\n").length());
-                    } else {
-                        Part=Info;
-                        Info="";
+        // Get size information
+        if (GetInformationValue("Photo.PixelXDimension")!="")       ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
+            else if (GetInformationValue("Image.ImageWidth")!="")   ImageWidth =GetInformationValue("Image.ImageWidth").toInt();            // TIFF Version
+        if (GetInformationValue("Photo.PixelYDimension")!="")       ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
+            else if (GetInformationValue("Image.ImageLength")!="")  ImageHeight=GetInformationValue("Image.ImageLength").toInt();           // TIFF Version
+
+        // switch ImageWidth and ImageHeight if image was rotated
+        if ((ImageOrientation==6)||(ImageOrientation==8)) {
+            int IW=ImageWidth;
+            ImageWidth=ImageHeight;
+            ImageHeight=IW;
+        }
+
+        // Read preview image
+        #ifdef EXIV2WITHPREVIEW
+        Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
+        if (Manager) {
+            Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
+            if (!Properties.empty()) {
+                Exiv2::PreviewImage Image=Manager->getPreviewImage(Properties[Properties.size()-1]);      // Get the latest image (biggest)
+                QImage *Icon=new QImage();
+                if (Icon->loadFromData(QByteArray((const char*)Image.pData(),Image.size()))) {
+                    if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+                        QMatrix matrix;
+                        matrix.rotate(-90);
+                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                        delete Icon;
+                        Icon=NewImage;
+                    } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+                        QMatrix matrix;
+                        matrix.rotate(180);
+                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                        delete Icon;
+                        Icon=NewImage;
+                    } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+                        QMatrix matrix;
+                        matrix.rotate(90);
+                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                        delete Icon;
+                        Icon=NewImage;
                     }
-                    QString Designation,Value;
-                    if (Part.contains(" ")) {
-                        Designation=Part.left(Part.indexOf(" "));
-                        while (Designation.contains(".")) Designation=(Designation.mid(Designation.indexOf(".")+QString(".").length())).trimmed();
-                        if (Designation=="0x0112") {
-                            Value=(Part.mid(Part.lastIndexOf(" ")+QString(" ").length())).trimmed();
-                            ImageOrientation=Value.toInt();
+
+                    // Sometimes, Icon have black bar : try to remove them
+                    if ((double(Icon->width())/double(Icon->height()))!=(double(ImageWidth)/double(ImageHeight))) {
+                        if (ImageWidth>ImageHeight) {
+                            int RealHeight=int((double(Icon->width())*double(ImageHeight))/double(ImageWidth));
+                            int Delta     =Icon->height()-RealHeight;
+                            QImage *NewImage=new QImage(Icon->copy(0,Delta/2,Icon->width(),Icon->height()-Delta));
+                            delete Icon;
+                            Icon=NewImage;
+                        } else {
+                            int RealWidth=int((double(Icon->height())*double(ImageWidth))/double(ImageHeight));
+                            int Delta     =Icon->width()-RealWidth;
+                            QImage *NewImage=new QImage(Icon->copy(Delta/2,0,Icon->width()-Delta,Icon->height()));
+                            delete Icon;
+                            Icon=NewImage;
                         }
                     }
+
+                    // if preview Icon have a really small size, then don't use it
+                    if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
                 }
+                delete Icon;
             }
+            delete Manager;
         }
-        Process.terminate();
-        Process.close();
-    #endif
+        #endif
+    }
 
     //************************************************************************************
     // If no exif preview image (of image too small) then load/create thumbnail
@@ -1790,7 +1694,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
         SoundTrackBloc->ClearList();      // Clear soundtrack list
 
         // Seek to nearest previous key frame
-        ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadAudioFrame => do a seek");
+        ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadAudioFrame => do a seek");
         int64_t seek_target=av_rescale_q(int64_t((dPosition/1000)*AV_TIME_BASE),AV_TIME_BASE_Q,ffmpegAudioFile->streams[AudioStreamNumber]->time_base);
         if (av_seek_frame(ffmpegAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
             // Try in AVSEEK_FLAG_ANY mode
@@ -1945,7 +1849,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 
         // Resampling
         if (SoundTrackBloc->SamplingRate!=AudioStream->codec->sample_rate) {
-            ToLog(LOGMSG_INFORMATION,QString("IN:cVideoFile::ReadAudioFrame => do a resample of %1 bytes").arg(AudioLenDecoded));
+            ToLog(LOGMSG_DEBUGTRACE,QString("IN:cVideoFile::ReadAudioFrame => do a resample of %1 bytes").arg(AudioLenDecoded));
 
             double  NewSize=((double(AudioLenDecoded)/double(DstSampleSize))/double(AudioStream->codec->sample_rate))*double(SoundTrackBloc->SamplingRate);
             double  PasSrc =1/double(AudioStream->codec->sample_rate);
@@ -2135,7 +2039,7 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
         FrameBufferYUVPosition = 0;
 
         // Seek to nearest previous key frame
-        ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadVideoFrame => do a seek");
+        ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadVideoFrame => do a seek");
 
         // Seek to nearest previous key frame
         int64_t seek_target=av_rescale_q(int64_t(Position*1000),AV_TIME_BASE_Q,ffmpegVideoFile->streams[VideoStreamNumber]->time_base);
@@ -2169,7 +2073,10 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
                     else          FramePosition=double((StreamPacket->dts!=AVNOPTSVALUE)?StreamPacket->dts:0)*FrameTimeBase;   // dts instead of pts
 
                 int FrameDecoded=0;
-                avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket);
+                int err=avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket);
+                if (err<0) {
+                    ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadVideoFrame : avcodec_decode_video2 return an error");
+                }
                 if (FrameDecoded>0) DataInBuffer=true;
 
                 // Create image
@@ -2418,29 +2325,56 @@ bool cVideoFile::OpenCodecAndFile() {
         // Find the decoder for the video stream and open it
         VideoDecoderCodec=avcodec_find_decoder(ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_id);
 
-        // Setup decoder options
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
+#ifdef LIBAV_AVCHD
 
-        // h264 specific
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
-        //ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_ALL;      // Reduce quality but speed reading !
-        ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_BIDIR;
+        // Special case for AVCHD file : add CODEC_FLAG2_SHOW_ALL
+        if (InformationList.contains("Short Format##mpegts",Qt::CaseInsensitive)) {
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->flags2           |=CODEC_FLAG2_SHOW_ALL;
+            // Setup decoder options
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_NONE;
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_NONE;
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_NONE;
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
+
+            // Hack to correct wrong frame rates that seem to be generated by some codecs
+            if (ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den==1) ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
+
+            CodecUsePTS=false;
+
+        } else {
+#endif
+            // Setup decoder options
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
+
+            // h264 specific
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_BIDIR;
+
+            // Hack to correct wrong frame rates that seem to be generated by some codecs
+            if (ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den==1) ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
+
+#ifdef LIBAV_AVCHD
+        }
+#endif
+
+        CodecUsePTS=ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_id==CODEC_ID_H264;
 
         if ((VideoDecoderCodec==NULL)||(avcodec_open2(ffmpegVideoFile->streams[VideoStreamNumber]->codec,VideoDecoderCodec,NULL)<0)) {
             CloseCodecAndFile();
             return false;
         }
-        // Hack to correct wrong frame rates that seem to be generated by some codecs
-        if (ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den==1) ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
-
-        CodecUsePTS=ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_id==CODEC_ID_H264;
 
         // Get Aspect Ratio
         AspectRatio=double(ffmpegVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.num)/double(ffmpegVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.den);
@@ -2453,14 +2387,6 @@ bool cVideoFile::OpenCodecAndFile() {
         // Special case for DVD mode video without PAR
         if ((AspectRatio==1)&&(ffmpegVideoFile->streams[VideoStreamNumber]->codec->coded_width==720)&&(ffmpegVideoFile->streams[VideoStreamNumber]->codec->coded_height==576))
             AspectRatio=double((576/3)*4)/720;
-
-        // Special case for AVCHD file : add CODEC_FLAG2_SHOW_ALL
-        if (InformationList.contains("Short Format##mpegts",Qt::CaseInsensitive)) {
-            //ffmpegVideoFile->streams[VideoStreamNumber]->codec->has_b_frames =5;
-            //ffmpegVideoFile->streams[VideoStreamNumber]->codec->flags2           |=CODEC_FLAG2_SHOW_ALL;
-            //ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment =FF_EC_DEBLOCK|FF_EC_GUESS_MVS;
-            CodecUsePTS=false;
-        }
 
         // Try to load one image to be sure we can make something with this file
         IsOpen=true;
@@ -2502,4 +2428,64 @@ bool cVideoFile::OpenCodecAndFile() {
     }
 
     return IsOpen;
+}
+
+//*********************************************************************************************************************************************
+// Base object for music definition
+//*********************************************************************************************************************************************
+
+cMusicObject::cMusicObject(cBaseApplicationConfig *ApplicationConfig):cVideoFile(OBJECTTYPE_MUSICFILE,ApplicationConfig) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cMusicObject::cMusicObject");
+
+    Volume=1.0;                           // Volume as % from 1% to 150%
+}
+
+//====================================================================================================================
+
+void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cMusicObject::SaveToXML");
+
+    QDomDocument    DomDocument;
+    QDomElement     Element=DomDocument.createElement(ElementName);
+    QString         TheFileName;
+
+    if (PathForRelativPath!="") {
+        if (ForceAbsolutPath) TheFileName=QDir(QFileInfo(PathForRelativPath).absolutePath()).absoluteFilePath(FileName);
+            else TheFileName=QDir(QFileInfo(PathForRelativPath).absolutePath()).relativeFilePath(FileName);
+    } else TheFileName=FileName;
+
+    Element.setAttribute("FilePath",TheFileName);
+    Element.setAttribute("StartPos",StartPos.toString());
+    Element.setAttribute("EndPos",  EndPos.toString());
+    Element.setAttribute("Volume",  QString("%1").arg(Volume,0,'f'));
+
+    domDocument.appendChild(Element);
+}
+
+//====================================================================================================================
+
+bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cMusicObject::LoadFromXML");
+
+    if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
+
+        FileName=Element.attribute("FilePath","");
+        if (PathForRelativPath!="") FileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FileName));
+        if (LoadMedia(FileName,AliasList,ModifyFlag)) {
+            StartPos=QTime().fromString(Element.attribute("StartPos"));
+            EndPos  =QTime().fromString(Element.attribute("EndPos"));
+            Volume  =Element.attribute("Volume").toDouble();
+            return true;
+        } else return false;
+    } else return false;
+}
+
+//====================================================================================================================
+
+bool cMusicObject::LoadMedia(QString &TheFilename,QStringList *AliasList,bool *ModifyFlag) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cMusicObject::LoadMedia");
+
+    IsValide=(GetInformationFromFile(TheFilename,AliasList,ModifyFlag))&&(OpenCodecAndFile());
+    return IsValide;
 }

@@ -1281,9 +1281,9 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         MusicReduceFactor =Element.attribute("MusicReduceFactor").toDouble();       // factor for volume reduction if MusicReduceVolume is true
         int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
         for (int i=0;i<MusicNumber;i++) {
-            cMusicObject *MusicObject=new cMusicObject();
+            cMusicObject *MusicObject=new cMusicObject(GlobalMainWindow->ApplicationConfig);
             bool ModifyFlag=false;
-            if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,AliasList,&ModifyFlag,GlobalMainWindow->ApplicationConfig)) IsOk=false;
+            if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
             MusicList.append(*MusicObject);
             if (ModifyFlag) GlobalMainWindow->SetModifyFlag(true);
         }
@@ -1321,7 +1321,6 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:cDiaporama");
 
-    Timeline                    = NULL;
     ApplicationConfig           = TheApplicationConfig;
     ProjectInfo                 = new cffDProjectFile(ApplicationConfig);
     CurrentCol                  = -1;                                                               // Current selected item
@@ -1813,7 +1812,7 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position
         }
 
         // Get more music bloc at correct position (volume is always 100% @ this point !)
-        CurMusic->Music->ImageAt(PreviewMode,Position+StartPosition,0,MusicTrack,1,true,NULL,false);
+        CurMusic->ImageAt(PreviewMode,Position+StartPosition,0,MusicTrack,1,true,NULL,false);
 
         // Apply correct volume to block in queue
         if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);

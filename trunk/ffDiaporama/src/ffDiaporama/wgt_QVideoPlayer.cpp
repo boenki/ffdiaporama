@@ -49,6 +49,27 @@ void QMovieLabel::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button()==Qt::RightButton) emit RightClickEvent(event);  else QLabel::mouseReleaseEvent(event);
 }
 
+void QMovieLabel::SetImage(QImage Image) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QMovieLabel::SetImage");
+    CurrentImage=Image.copy();
+    repaint();
+}
+
+void QMovieLabel::SetImage(QImage *Image) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QMovieLabel::SetImage");
+    CurrentImage=Image->copy();
+    repaint();
+}
+
+void QMovieLabel::paintEvent(QPaintEvent */*event*/) {
+    if (CurrentImage.isNull()) return;
+    QPainter Painter(this);
+    //Painter.save();
+    Painter.drawImage(0,0,CurrentImage);
+    //Painter.restore();
+}
+
+
 //*********************************************************************************************************************************************
 // Base object for image manipulation
 //*********************************************************************************************************************************************
@@ -128,6 +149,7 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     ActualPosition          = -1;
     tDuration               = QTime(0,0,0,0);
     ActualDisplay           = NULL;
+    ResetPositionWanted     = false;
 
     ui->Position->setFixedWidth(DisplayMSec?80:60); ui->Position->setText(QTime(0,0,0,0).toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
     ui->Duration->setFixedWidth(DisplayMSec?80:60); ui->Duration->setText(QTime(0,0,0,0).toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
@@ -156,6 +178,7 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     connect(ui->CustomRuller,SIGNAL(sliderPressed()),this,SLOT(s_SliderPressed()));
     connect(ui->CustomRuller,SIGNAL(sliderReleased()),this,SLOT(s_SliderReleased()));
     connect(ui->CustomRuller,SIGNAL(valueChanged(int)),this,SLOT(s_SliderMoved(int)));
+    connect(ui->CustomRuller,SIGNAL(PositionChangeByUser()),this,SLOT(s_PositionChangeByUser()));
     connect(ui->VideoPlayerSaveImageBT,SIGNAL(pressed()),this,SLOT(s_SaveImage()));
 }
 
@@ -392,6 +415,8 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
     if (GlobalMainWindow->InPlayerUpdate) return;
     GlobalMainWindow->InPlayerUpdate=true;
 
+    if (ResetPositionWanted) SetPlayerToPause();
+
     // Update display in controls
     ui->CustomRuller->setValue(Value);
     ActualPosition=Value;
@@ -413,7 +438,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
             // Display frame
             if ((Frame->RenderedImage)&&(ActualDisplay!=Frame->RenderedImage))
-                ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));
+                ui->MovieFrame->SetImage(Frame->RenderedImage);
 
             ActualDisplay=Frame->RenderedImage;
 
@@ -421,7 +446,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             if (Diaporama) {
                 if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
                     Diaporama->CurrentCol=Frame->CurrentObject_Number;
-                    Diaporama->Timeline->SetCurrentCell(Frame->CurrentObject_Number);
+                    GlobalMainWindow->SetTimelineCurrentCell(Frame->CurrentObject_Number);
 
                     // Update slider mark
                     if (Diaporama->List.count()>0)
@@ -455,7 +480,8 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
             QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,0,NULL,1,false,NULL,false);
             if (VideoImage) {
-                ui->MovieFrame->setPixmap(QPixmap().fromImage(VideoImage->scaledToHeight(ui->MovieFrame->height())));  // Display frame
+                // Display frame
+                ui->MovieFrame->SetImage(VideoImage->scaledToHeight(ui->MovieFrame->height()));
                 delete VideoImage;
             }
 
@@ -464,13 +490,14 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Value,Diaporama,double(1000)/WantedFPS);
             PrepareImage(Frame,false,true);         // This will add frame to the ImageList
             Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
-            ui->MovieFrame->setPixmap(QPixmap().fromImage(*Frame->RenderedImage));  // Display frame
+            // Display frame
+            ui->MovieFrame->SetImage(Frame->RenderedImage);
 
             // If needed, set Diaporama to another object
             if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
                 if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
                 Diaporama->CurrentCol=Frame->CurrentObject_Number;
-                Diaporama->Timeline->SetCurrentCell(Frame->CurrentObject_Number);
+                GlobalMainWindow->SetTimelineCurrentCell(Frame->CurrentObject_Number);
                 if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=false;
 
                 // Update slider mark
@@ -505,6 +532,12 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     TimerTick=!TimerTick;
 
     int LastPosition=0;
+
+    if (ResetPositionWanted) {
+        MixedMusic.ClearList();                         // Free sound buffers
+        ImageList.ClearList();                          // Free ImageList
+        ResetPositionWanted=false;
+    }
 
     // If no image in the list then create the first
     if (ImageList.List.count()==0) {
@@ -564,7 +597,6 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
 void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted,bool AddStartPos) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::PrepareImage");
-    //QTime Now=QTime().currentTime();
     if (SoundWanted) {
         // Ensure MusicTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
@@ -690,4 +722,11 @@ void wgt_QVideoPlayer::SetActualDuration(int Duration) {
     tDuration.setHMS(TimeHour,TimeMinute,TimeSec%60,TimeMSec);
     ui->Position->setText(GetCurrentPos().toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
     ui->Duration->setText(tDuration.toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
+}
+
+//============================================================================================
+
+void wgt_QVideoPlayer::s_PositionChangeByUser() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_PositionChangeByUser");
+    ResetPositionWanted=true;
 }

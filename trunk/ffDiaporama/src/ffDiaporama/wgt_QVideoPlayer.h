@@ -51,16 +51,22 @@ public:
 class QMovieLabel : public QLabel {
 Q_OBJECT
 public:
+    QImage  CurrentImage;
+
     explicit QMovieLabel(QWidget *parent=0);
     ~QMovieLabel();
 
+    void    SetImage(QImage Image);
+    void    SetImage(QImage *Image);
+
 protected:
+    virtual void        paintEvent(QPaintEvent *event);
     virtual void        mouseDoubleClickEvent(QMouseEvent *e);
-    virtual void	mouseReleaseEvent(QMouseEvent *e);
+    virtual void        mouseReleaseEvent(QMouseEvent *e);
 
 signals:
-    void    DoubleClick();
-    void    RightClickEvent(QMouseEvent *);
+    void                DoubleClick();
+    void                RightClickEvent(QMouseEvent *);
 };
 
 class wgt_QVideoPlayer : public QWidget {
@@ -68,7 +74,7 @@ Q_OBJECT
 public:
     bool                *FLAGSTOPITEMSELECTION; // Flag to stop Item Selection process in the timeline
 
-    cVideoFile   *FileInfo;              // Link to the file wrapper object when DlgVideoDialogBox
+    cVideoFile          *FileInfo;              // Link to the file wrapper object when DlgVideoDialogBox
     cDiaporama          *Diaporama;             // Link to the Diaporama hierarchy when preview
 
     int                 ActualPosition;         // Current position (in msec)
@@ -79,6 +85,7 @@ public:
 
     bool                IsValide;               // if true then object if fuly initialise
     bool                IsInit;                 // if true then player was first started
+    bool                ResetPositionWanted;
     QTime               StartPos;               // Start position
     QTime               EndPos;                 // End position
     QIcon               IconPlay;               // Icon : "images/player_play.png"
@@ -131,6 +138,7 @@ private slots:
     void    s_SliderReleased();
     void    s_SliderMoved(int Value);
     void    s_SaveImage();
+    void    s_PositionChangeByUser();
 
 private:
     void    EnableWidget(bool State);

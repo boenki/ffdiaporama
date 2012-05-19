@@ -33,8 +33,6 @@ class cDiaporamaObject;
 
 #include "_ApplicationDefinitions.h"
 #include "_ImagesDefinitions.h"
-#include "_SoundDefinitions.h"
-#include "cCustomTableWidget.h"
 
 // Transition familly definition
 #define TRANSITIONFAMILLY_BASE              0
@@ -352,12 +350,9 @@ public:
 //*********************************************************************************************************************************************
 // Global class containing the project
 //*********************************************************************************************************************************************
-class cCustomTableWidget;
-
 class cDiaporama {
 public:
     cApplicationConfig      *ApplicationConfig;
-    cCustomTableWidget      *Timeline;              // Link to timeline
     cffDProjectFile         *ProjectInfo;
     int                     CurrentCol;             // Current position in the timeline (column)
     qlonglong               CurrentPosition;        // Current position in the timeline (msec)
