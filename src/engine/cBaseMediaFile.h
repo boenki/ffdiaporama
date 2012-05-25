@@ -107,18 +107,6 @@
 
 //****************************************************************************************************************************************************************
 
-class cThumbCache {
-public:
-    QString         ThumbCacheFile;             // ThumbCache file name
-    QDomDocument    ThumbCacheDocument;         // XML document associate to ThumbCache
-    bool            IsModify;
-
-    cThumbCache(QString ThumbCacheFile);
-    ~cThumbCache();
-};
-
-//****************************************************************************************************************************************************************
-
 class cBaseMediaFile : public cCustomIcon {
 public:
     int                     ObjectType;
@@ -160,9 +148,6 @@ public:
     virtual QString         GetTAGInfo()=0;                                 // Return TAG information as formated string
 
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size)=0;
-
-    virtual void            AddThumbnailToCache(cThumbCache *ThumbCache,QDateTime TimeStamp);
-    virtual bool            GetThumbnailFromCache(cThumbCache *ThumbCache);
 };
 
 //*********************************************************************************************************************************************
@@ -240,8 +225,7 @@ public:
     virtual QImage          *ImageAt(bool PreviewMode,cFilterTransformObject *Filter);
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
-    virtual void            GetFullInformationFromFile(cThumbCache *ThumbCache);
-    virtual void            GetFullInformationFromFile() {GetFullInformationFromFile(NULL);}
+    virtual void            GetFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return (ObjectType==OBJECTTYPE_THUMBNAIL?ApplicationConfig->DefaultThumbIcon:ApplicationConfig->DefaultIMAGEIcon).GetIcon(Size); }
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();
