@@ -219,7 +219,7 @@
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
        </property>
       </widget>
@@ -233,7 +233,7 @@
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
        </property>
       </widget>
@@ -248,7 +248,7 @@ Move the current selected file of a notch upward.</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
        </property>
       </widget>
@@ -263,7 +263,7 @@ Move the current selected file of a notch downward.</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
        </property>
       </widget>
@@ -395,7 +395,7 @@ Move the current selected file of a notch downward.</string>
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -409,7 +409,7 @@ Move the current selected file of a notch downward.</string>
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -423,7 +423,7 @@ Move the current selected file of a notch downward.</string>
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">

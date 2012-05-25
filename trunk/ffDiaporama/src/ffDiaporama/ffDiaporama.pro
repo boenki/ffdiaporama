@@ -29,7 +29,8 @@ LIBS		+=-lSDL                                                     # specific for
 # Ressource files
 win32:RC_FILE    += ../../ffDiaporama.rc
 unix:OTHER_FILES += ../../ffDiaporama.rc
-RESOURCES        += ../../RSCffDiaporama.qrc
+RESOURCES        += \
+    ../../RSCffDiaporama.qrc
 
 TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_it.ts \

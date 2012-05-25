@@ -32,7 +32,7 @@
    <string notr="true">MainWindow</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="../../RSCffDiaporama.qrc">
+   <iconset>
     <normaloff>:/application-ffDiaporama.png</normaloff>:/application-ffDiaporama.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -160,7 +160,7 @@ QToolButton:pressed {
 project</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/filenew.png</normaloff>:/img/filenew.png</iconset>
             </property>
             <property name="iconSize">
@@ -211,7 +211,7 @@ project</string>
 project</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/fileopen.png</normaloff>:/img/fileopen.png</iconset>
             </property>
             <property name="iconSize">
@@ -262,7 +262,7 @@ project</string>
 recent</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/filerecent.png</normaloff>:/img/filerecent.png</iconset>
             </property>
             <property name="iconSize">
@@ -310,7 +310,7 @@ recent</string>
 project</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/filesave.png</normaloff>:/img/filesave.png</iconset>
             </property>
             <property name="iconSize">
@@ -361,7 +361,7 @@ project</string>
 project as</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/filesaveas.png</normaloff>:/img/filesaveas.png</iconset>
             </property>
             <property name="iconSize">
@@ -404,7 +404,7 @@ project as</string>
 properties</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/PrjProperties.png</normaloff>:/img/PrjProperties.png</iconset>
             </property>
             <property name="iconSize">
@@ -445,7 +445,7 @@ properties</string>
              <string>Settings</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
             </property>
             <property name="iconSize">
@@ -486,7 +486,7 @@ properties</string>
              <string>Exit</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/exit.png</normaloff>:/img/exit.png</iconset>
             </property>
             <property name="iconSize">
@@ -563,7 +563,7 @@ properties</string>
 title</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
             </property>
             <property name="iconSize">
@@ -611,7 +611,7 @@ title</string>
 files</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
             </property>
             <property name="iconSize">
@@ -656,7 +656,7 @@ files</string>
 project</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/add_project.png</normaloff>:/img/add_project.png</iconset>
             </property>
             <property name="iconSize">
@@ -704,7 +704,7 @@ project</string>
              <string>Cut</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/editcut.png</normaloff>:/img/editcut.png</iconset>
             </property>
             <property name="iconSize">
@@ -748,7 +748,7 @@ project</string>
              <string>Copy</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/editcopy.png</normaloff>:/img/editcopy.png</iconset>
             </property>
             <property name="iconSize">
@@ -792,7 +792,7 @@ project</string>
              <string>Paste</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/editpaste.png</normaloff>:/img/editpaste.png</iconset>
             </property>
             <property name="iconSize">
@@ -846,7 +846,7 @@ project</string>
              <string>Edit</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/edit.png</normaloff>:/img/edit.png</iconset>
             </property>
             <property name="iconSize">
@@ -887,7 +887,7 @@ project</string>
              <string>Remove</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
             </property>
             <property name="iconSize">
@@ -961,7 +961,7 @@ project</string>
 smartphone</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/Smartphone.png</normaloff>:/img/Smartphone.png</iconset>
             </property>
             <property name="iconSize">
@@ -1006,7 +1006,7 @@ smartphone</string>
 system</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/tv.png</normaloff>:/img/tv.png</iconset>
             </property>
             <property name="iconSize">
@@ -1045,7 +1045,7 @@ system</string>
 WEB</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
             </property>
             <property name="iconSize">
@@ -1083,7 +1083,7 @@ WEB</string>
              <string>Lossless</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/Lossless.png</normaloff>:/img/Lossless.png</iconset>
             </property>
             <property name="iconSize">
@@ -1130,7 +1130,7 @@ WEB</string>
              <string>Advanced</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/render.png</normaloff>:/img/render.png</iconset>
             </property>
             <property name="iconSize">
@@ -1203,7 +1203,7 @@ WEB</string>
              <string>About</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/application-ffDiaporama.png</normaloff>:/application-ffDiaporama.png</iconset>
             </property>
             <property name="iconSize">
@@ -1251,7 +1251,7 @@ WEB</string>
 and help</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
             </property>
             <property name="iconSize">
@@ -1301,7 +1301,7 @@ and help</string>
              <string>What's new</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/img/contents.png</normaloff>:/img/contents.png</iconset>
             </property>
             <property name="iconSize">
@@ -1401,7 +1401,7 @@ QToolButton:pressed {
 project</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/filenew.png</normaloff>:/img/filenew.png</iconset>
              </property>
              <property name="iconSize">
@@ -1452,7 +1452,7 @@ project</string>
 project</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/fileopen.png</normaloff>:/img/fileopen.png</iconset>
              </property>
              <property name="iconSize">
@@ -1503,7 +1503,7 @@ project</string>
 recent</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/filerecent.png</normaloff>:/img/filerecent.png</iconset>
              </property>
              <property name="iconSize">
@@ -1551,7 +1551,7 @@ recent</string>
 project</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/filesave.png</normaloff>:/img/filesave.png</iconset>
              </property>
              <property name="iconSize">
@@ -1602,7 +1602,7 @@ project</string>
 project as</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/filesaveas.png</normaloff>:/img/filesaveas.png</iconset>
              </property>
              <property name="iconSize">
@@ -1645,7 +1645,7 @@ project as</string>
 properties</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/PrjProperties.png</normaloff>:/img/PrjProperties.png</iconset>
              </property>
              <property name="iconSize">
@@ -1686,7 +1686,7 @@ properties</string>
               <string>Settings</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
              </property>
              <property name="iconSize">
@@ -1727,7 +1727,7 @@ properties</string>
               <string>Exit</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/exit.png</normaloff>:/img/exit.png</iconset>
              </property>
              <property name="iconSize">
@@ -1802,7 +1802,7 @@ properties</string>
 title</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
              </property>
              <property name="iconSize">
@@ -1850,7 +1850,7 @@ title</string>
 files</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
              </property>
              <property name="iconSize">
@@ -1895,7 +1895,7 @@ files</string>
 project</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/add_project.png</normaloff>:/img/add_project.png</iconset>
              </property>
              <property name="iconSize">
@@ -1943,7 +1943,7 @@ project</string>
               <string>Cut</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/editcut.png</normaloff>:/img/editcut.png</iconset>
              </property>
              <property name="iconSize">
@@ -1987,7 +1987,7 @@ project</string>
               <string>Copy</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/editcopy.png</normaloff>:/img/editcopy.png</iconset>
              </property>
              <property name="iconSize">
@@ -2031,7 +2031,7 @@ project</string>
               <string>Paste</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/editpaste.png</normaloff>:/img/editpaste.png</iconset>
              </property>
              <property name="iconSize">
@@ -2085,7 +2085,7 @@ project</string>
               <string>Edit</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/edit.png</normaloff>:/img/edit.png</iconset>
              </property>
              <property name="iconSize">
@@ -2126,7 +2126,7 @@ project</string>
               <string>Remove</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
              </property>
              <property name="iconSize">
@@ -2198,7 +2198,7 @@ project</string>
 smartphone</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/Smartphone.png</normaloff>:/img/Smartphone.png</iconset>
              </property>
              <property name="iconSize">
@@ -2243,7 +2243,7 @@ smartphone</string>
 system</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/tv.png</normaloff>:/img/tv.png</iconset>
              </property>
              <property name="iconSize">
@@ -2282,7 +2282,7 @@ system</string>
 WEB</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
              </property>
              <property name="iconSize">
@@ -2320,7 +2320,7 @@ WEB</string>
               <string>Lossless</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/Lossless.png</normaloff>:/img/Lossless.png</iconset>
              </property>
              <property name="iconSize">
@@ -2367,7 +2367,7 @@ WEB</string>
               <string>Advanced</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/render.png</normaloff>:/img/render.png</iconset>
              </property>
              <property name="iconSize">
@@ -2421,7 +2421,7 @@ WEB</string>
               <string>About</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/application-ffDiaporama.png</normaloff>:/application-ffDiaporama.png</iconset>
              </property>
              <property name="iconSize">
@@ -2469,7 +2469,7 @@ WEB</string>
 and help</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
              </property>
              <property name="iconSize">
@@ -2519,7 +2519,7 @@ and help</string>
               <string>What's new</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/img/contents.png</normaloff>:/img/contents.png</iconset>
              </property>
              <property name="iconSize">
@@ -2668,7 +2668,7 @@ and help</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset resource="../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/fifteenpieces.png</normaloff>:/img/fifteenpieces.png</iconset>
        </property>
       </row>
@@ -2789,7 +2789,7 @@ and help</string>
                <string notr="true"/>
               </property>
               <property name="pixmap">
-               <pixmap resource="../../RSCffDiaporama.qrc">:/img/logo_big.png</pixmap>
+               <pixmap>:/img/logo_big.png</pixmap>
               </property>
               <property name="scaledContents">
                <bool>true</bool>
@@ -2951,7 +2951,7 @@ and help</string>
          <string>...</string>
         </property>
         <property name="icon">
-         <iconset resource="../../RSCffDiaporama.qrc">
+         <iconset>
           <normaloff>:/img/player_play.png</normaloff>:/img/player_play.png</iconset>
         </property>
        </widget>
@@ -2991,7 +2991,7 @@ and help</string>
          <string notr="true"/>
         </property>
         <property name="icon">
-         <iconset resource="../../RSCffDiaporama.qrc">
+         <iconset>
           <normaloff>:/img/journal.png</normaloff>:/img/journal.png</iconset>
         </property>
        </widget>
@@ -3031,7 +3031,7 @@ and help</string>
          <string notr="true"/>
         </property>
         <property name="icon">
-         <iconset resource="../../RSCffDiaporama.qrc">
+         <iconset>
           <normaloff>:/img/zoomup.png</normaloff>:/img/zoomup.png</iconset>
         </property>
        </widget>
@@ -3071,7 +3071,7 @@ and help</string>
          <string notr="true"/>
         </property>
         <property name="icon">
-         <iconset resource="../../RSCffDiaporama.qrc">
+         <iconset>
           <normaloff>:/img/zoomdown.png</normaloff>:/img/zoomdown.png</iconset>
         </property>
        </widget>
@@ -3082,7 +3082,7 @@ and help</string>
   </widget>
   <action name="actionEdit_background">
    <property name="icon">
-    <iconset resource="../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/fifteenpieces.png</normaloff>:/img/fifteenpieces.png</iconset>
    </property>
    <property name="text">
@@ -3097,7 +3097,7 @@ and help</string>
   </action>
   <action name="actionEdit_object">
    <property name="icon">
-    <iconset resource="../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/edit.png</normaloff>:/img/edit.png</iconset>
    </property>
    <property name="text">
@@ -3112,7 +3112,7 @@ and help</string>
   </action>
   <action name="actionEdit_music">
    <property name="icon">
-    <iconset resource="../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
    </property>
    <property name="text">
@@ -3127,7 +3127,7 @@ and help</string>
   </action>
   <action name="actionEdit_object_in_transition">
    <property name="icon">
-    <iconset resource="../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/Transitions/tr-00-01.png</normaloff>:/img/Transitions/tr-00-01.png</iconset>
    </property>
    <property name="text">
@@ -3142,7 +3142,7 @@ and help</string>
   </action>
   <action name="actionRemove">
    <property name="icon">
-    <iconset resource="../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
    </property>
    <property name="text">
@@ -3157,7 +3157,7 @@ and help</string>
   </action>
   <action name="actionCut">
    <property name="icon">
-    <iconset resource="../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/editcut.png</normaloff>:/img/editcut.png</iconset>
    </property>
    <property name="text">
@@ -3172,7 +3172,7 @@ and help</string>
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset resource="../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/editcopy.png</normaloff>:/img/editcopy.png</iconset>
    </property>
    <property name="text">
@@ -3187,7 +3187,7 @@ and help</string>
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset resource="../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/editpaste.png</normaloff>:/img/editpaste.png</iconset>
    </property>
    <property name="text">
@@ -3202,7 +3202,7 @@ and help</string>
   </action>
   <action name="actionAddTitle">
    <property name="icon">
-    <iconset resource="../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
    </property>
    <property name="text">
@@ -3214,7 +3214,7 @@ and help</string>
   </action>
   <action name="actionAddFiles">
    <property name="icon">
-    <iconset resource="../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
    </property>
    <property name="text">
@@ -3229,7 +3229,7 @@ and help</string>
   </action>
   <action name="actionAddProject">
    <property name="icon">
-    <iconset resource="../../RSCffDiaporama.qrc">
+    <iconset>
      <normaloff>:/img/add_project.png</normaloff>:/img/add_project.png</iconset>
    </property>
    <property name="text">

@@ -73,7 +73,7 @@
         <string>Rename</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/db_add.png</normaloff>:/img/db_add.png</iconset>
        </property>
       </widget>
@@ -87,7 +87,7 @@
         <string>Remove</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/db_remove.png</normaloff>:/img/db_remove.png</iconset>
        </property>
       </widget>
@@ -101,7 +101,7 @@
         <string>Reset to default</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/db_status.png</normaloff>:/img/db_status.png</iconset>
        </property>
       </widget>
@@ -142,7 +142,7 @@
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -156,7 +156,7 @@
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -170,7 +170,7 @@
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
+        <iconset>
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
