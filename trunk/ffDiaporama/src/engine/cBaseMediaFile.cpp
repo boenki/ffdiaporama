@@ -32,66 +32,6 @@
 
 #define FFD_APPLICATION_ROOTNAME    "Project"           // Name of root node in the project xml file
 
-cThumbCache::cThumbCache(QString Path) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbCache::cThumbCache");
-
-    ThumbCacheFile    =AdjustDirForOS(Path+QString(THUMBNAILCACHEFILE));
-    ThumbCacheDocument=QDomDocument(THUMBCACHE_APPNAME);
-
-    QFile   SourceFile(ThumbCacheFile);
-    QString errorStr;
-    int     errorLine,errorColumn;
-
-    bool IsThumbCacheReady=false;
-    if (SourceFile.open(QFile::ReadOnly | QFile::Text)) {
-        IsThumbCacheReady=(ThumbCacheDocument.setContent(&SourceFile,true,&errorStr,&errorLine,&errorColumn))&&(ThumbCacheDocument.documentElement().tagName()==THUMBCACHE_ROOTNAME);
-        SourceFile.close();
-        // Scan all entries to delete thumb for file no longer exist and thumb for file wich timestamp is not the same
-        QDomNodeList    nodeList=ThumbCacheDocument.elementsByTagName("Thumbnails");
-        for (int i=0;i<nodeList.count();i++) {
-            bool        ToDelete=true;
-            QDomElement Element=nodeList.at(i).toElement();
-            QString     ShortFileName="";
-            if (Element.hasAttribute("ShortFileName")) {
-                ShortFileName=Element.attribute("ShortFileName");
-                if (Element.hasAttribute("TimeStamp")) {
-                    QFileInfo FileInfo(AdjustDirForOS(Path+ShortFileName));
-                    QString   TimeStamp=Element.attribute("TimeStamp");
-                    QString   fTimeStamp=FileInfo.lastModified().toString("dd/MM/yyyy hh:mm:ss.zzz");
-                    ToDelete=(!FileInfo.exists());
-                    ToDelete=ToDelete||(fTimeStamp!=TimeStamp);
-                }
-            }
-            if (ToDelete)
-                ThumbCacheDocument.documentElement().removeChild(Element); else i++;
-        }
-    }
-    if (!IsThumbCacheReady) {
-        ThumbCacheDocument=QDomDocument(THUMBCACHE_APPNAME);
-        ThumbCacheDocument.appendChild(ThumbCacheDocument.createElement(THUMBCACHE_ROOTNAME));
-        IsThumbCacheReady=true;
-    }
-}
-
-//****************************************************************************************************************************************************************
-
-cThumbCache::~cThumbCache() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbCache::~cThumbCache");
-
-    if (IsModify) {
-        if ((QFileInfo(ThumbCacheFile).exists())&&(!QFile(ThumbCacheFile).remove())) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("cBaseMediaFile","Error overwritting %1").arg(ThumbCacheFile));
-        } else if (ThumbCacheDocument.elementsByTagName("Thumbnails").count()>0) {
-            QFile DestinationFile(ThumbCacheFile);
-            if (DestinationFile.open(QFile::WriteOnly | QFile::Text)) {
-                QTextStream out(&DestinationFile);
-                ThumbCacheDocument.save(out,4);
-                DestinationFile.close();
-            }
-        }
-    }
-}
-
 //****************************************************************************************************************************************************************
 
 // from Google music manager (see:http://code.google.com/p/gogglesmm/source/browse/src/gmutils.cpp?spec=svn6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13&r=6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13)
@@ -274,95 +214,6 @@ cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig):cCu
 
 cBaseMediaFile::~cBaseMediaFile() {
     ToLog(LOGMSG_DEBUGTRACE,QString("IN:cBaseMediaFile::~cBaseMediaFile for object %1").arg(FileName));
-}
-
-//*****************************************************************************************************************************************
-
-bool cBaseMediaFile::GetThumbnailFromCache(cThumbCache *ThumbCache) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetThumbnailFromCache");
-
-    if (!ThumbCache) return false;
-    bool    IsOk=false;
-
-    QString ShortFileName=ShortName;
-    if (ObjectType==OBJECTTYPE_FOLDER) ShortFileName="###FOLDER###"; else ShortFileName =QFileInfo(FileName).fileName();
-
-    QDomNodeList    nodeList=ThumbCache->ThumbCacheDocument.elementsByTagName("Thumbnails");
-    bool            IsFind=false;
-    for (int i=0;(i<nodeList.count())&&(!IsFind);i++) {
-        QDomElement Element=nodeList.at(i).toElement();
-        if ((Element.hasAttribute("Thumbnail"))&&(Element.hasAttribute("ShortFileName"))&&(Element.hasAttribute("TimeStamp"))&&(Element.attribute("ShortFileName")==ShortFileName)) {
-            if ((Element.attribute("TimeStamp")==ModifDateTime.toString("dd/MM/yyyy hh:mm:ss.zzz"))) {
-                IsFind=true;
-                QImage Image;
-                if (Image.loadFromData(qUncompress(QByteArray::fromHex(Element.attribute("Thumbnail").toUtf8())),"PNG")) {
-                    LoadIcons(&Image);
-                    if (Element.hasAttribute("PixelXDimension")) ImageWidth=Element.attribute("PixelXDimension").toInt();
-                    if (Element.hasAttribute("PixelYDimension")) ImageHeight=Element.attribute("PixelYDimension").toInt();
-                    if (GetInformationValue("Photo.PixelXDimension")=="") InformationList.append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
-                    if (GetInformationValue("Photo.PixelYDimension")=="") InformationList.append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
-                    IsOk=true;
-                } else {
-                    ToLog(LOGMSG_CRITICAL,QString("GetThumbnailFromCache Error reading %1").arg(FileName));
-                }
-            } else {
-                ThumbCache->ThumbCacheDocument.documentElement().removeChild(Element);
-            }
-        }
-    }
-    return IsOk;
-}
-
-//*****************************************************************************************************************************************
-
-void cBaseMediaFile::AddThumbnailToCache(cThumbCache *ThumbCache,QDateTime TimeStamp) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::AddThumbnailToCache");
-
-    if (!ThumbCache)                    return;
-    if (ImageWidth*ImageHeight<1000000) return; // No cache for image <1M pixel
-
-    ThumbCache->IsModify=true;
-
-    QByteArray  Compressed,ImageHexed;
-    QString     ShortFileName=ShortName;
-
-    if (ObjectType==OBJECTTYPE_FOLDER) ShortFileName="###FOLDER###"; else ShortFileName =QFileInfo(FileName).fileName();
-
-    QByteArray  ba;
-    QBuffer     buf(&ba);
-    bool        IsSaved   =false;
-
-    QDomNodeList nodeList=ThumbCache->ThumbCacheDocument.elementsByTagName("Thumbnails");
-    for (int i=0;i<nodeList.count();i++) {
-        QDomElement Element=nodeList.at(i).toElement();
-        if ((Element.hasAttribute("ShortFileName"))&&(Element.attribute("ShortFileName")==ShortFileName)) {
-            IconBIG.save(&buf,"PNG");
-            Compressed=qCompress(ba,1);
-            ImageHexed=Compressed.toHex();
-            Element.setAttribute("Thumbnail",QString(ImageHexed));
-            Element.setAttribute("Width",IconBIG.width());
-            Element.setAttribute("Height",IconBIG.height());
-            Element.setAttribute("PixelXDimension",ImageWidth);
-            Element.setAttribute("PixelYDimension",ImageHeight);
-            Element.setAttribute("TimeStamp",TimeStamp.toString("dd/MM/yyyy hh:mm:ss.zzz"));
-            IsSaved=true;
-            i=nodeList.count();
-        }
-    }
-    if (!IsSaved) {
-        QDomElement SubElement=ThumbCache->ThumbCacheDocument.createElement("Thumbnails");
-        SubElement.setAttribute("ShortFileName",ShortFileName);
-        IconBIG.save(&buf,"PNG");
-        Compressed=qCompress(ba,1);
-        ImageHexed=Compressed.toHex();
-        SubElement.setAttribute("Thumbnail",QString(ImageHexed));
-        SubElement.setAttribute("Width",IconBIG.width());
-        SubElement.setAttribute("Height",IconBIG.height());
-        SubElement.setAttribute("PixelXDimension",ImageWidth);
-        SubElement.setAttribute("PixelYDimension",ImageHeight);
-        SubElement.setAttribute("TimeStamp",TimeStamp.toString("dd/MM/yyyy hh:mm:ss.zzz"));
-        ThumbCache->ThumbCacheDocument.documentElement().appendChild(SubElement);
-    }
 }
 
 //====================================================================================================================
@@ -963,7 +814,7 @@ QString cImageFile::GetFileTypeStr() {
 
 //====================================================================================================================
 
-void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
+void cImageFile::GetFullInformationFromFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::GetFullInformationFromFile");
 
     ImageOrientation    =-1;
@@ -1088,9 +939,6 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
     //************************************************************************************
     if ((IsIconNeeded)&&(Icon16.isNull())) {
 
-        // Try to load thumb from thumbcache (if exist)
-        if (ThumbCache) GetThumbnailFromCache(ThumbCache);
-
         if (Icon16.isNull()) {
             cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,NULL,ApplicationConfig->Smoothing,true);
             if (ImageObject==NULL) {
@@ -1101,7 +949,6 @@ void cImageFile::GetFullInformationFromFile(cThumbCache *ThumbCache) {
                     ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : ValidateCacheRenderImage return NULL for thumbnail creation !");
                 } else {
                     LoadIcons(LN_Image);
-                    if (ThumbCache) AddThumbnailToCache(ThumbCache,ModifDateTime);
                 }
             }
         }
@@ -2330,6 +2177,10 @@ bool cVideoFile::OpenCodecAndFile() {
         // Special case for AVCHD file : add CODEC_FLAG2_SHOW_ALL
         if (InformationList.contains("Short Format##mpegts",Qt::CaseInsensitive)) {
             ffmpegVideoFile->streams[VideoStreamNumber]->codec->flags2           |=CODEC_FLAG2_SHOW_ALL;
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->slice_flags      &= ~(SLICE_FLAG_CODED_ORDER|SLICE_FLAG_ALLOW_FIELD);
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->flags            |=CODEC_FLAG_EMU_EDGE;
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->err_recognition  |= AV_EF_EXPLODE | AV_EF_COMPLIANT | AV_EF_CAREFUL;
+
             // Setup decoder options
             ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
             ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
@@ -2338,6 +2189,8 @@ bool cVideoFile::OpenCodecAndFile() {
             ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_NONE;
             ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_NONE;
             ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_NONE;
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_top         =AVDISCARD_NONE;
+            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_bottom      =AVDISCARD_NONE;
             ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
             ffmpegVideoFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
 
@@ -2345,10 +2198,10 @@ bool cVideoFile::OpenCodecAndFile() {
             if (ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den==1) ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
 
             CodecUsePTS=false;
-
         } else {
 #endif
             // Setup decoder options
+
             ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
             ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
             ffmpegVideoFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection

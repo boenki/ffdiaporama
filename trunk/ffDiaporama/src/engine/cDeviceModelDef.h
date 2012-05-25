@@ -104,7 +104,7 @@ extern "C" {
     #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
 
     #ifdef CODEC_FLAG2_SHOW_ALL
-        #define LIBAV_AVCHD                         // Support for AVCHD format (.mts)
+//        #define LIBAV_AVCHD                         // Support for AVCHD format (.mts)
     #endif
 
 #endif
