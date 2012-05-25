@@ -123,7 +123,7 @@
           <string notr="true">...</string>
          </property>
          <property name="icon">
-          <iconset resource="../../RSCffDiaporama.qrc">
+          <iconset>
            <normaloff>:/img/player_play.png</normaloff>:/img/player_play.png</iconset>
          </property>
          <property name="iconSize">
@@ -383,7 +383,7 @@ color: white;
           <string notr="true">...</string>
          </property>
          <property name="icon">
-          <iconset resource="../../RSCffDiaporama.qrc">
+          <iconset>
            <normaloff>:/img/Camera.png</normaloff>:/img/Camera.png</iconset>
          </property>
          <property name="iconSize">
