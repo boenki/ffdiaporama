@@ -1,1 +1,1 @@
-Version 1.3 20120526
+Version 1.4 devel 20120607

@@ -37,13 +37,13 @@
 
 // Application definition
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "1.3"
+#define APPLICATION_VERSION                 "1.4 devel"
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
 
-#define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
-//#define BUILDVERSION_WEBURL                 "http://download.tuxfamily.org/ffdiaporama/Devel/BUILDVERSION.txt"
+//#define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
+#define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Devel/BUILDVERSION.txt"
 
 // Dialogbox help file
 #define WIKI_CMS_PATH                       "http://ffdiaporama.tuxfamily.org/?page_id="
@@ -68,6 +68,7 @@
 #define HELPFILE_DlgffDPjrProperties        "http://ffdiaporama.tuxfamily.org/?page_id=5321&lang=<local>"
 #define HELPFILE_DlgInfoFile                "http://ffdiaporama.tuxfamily.org/?page_id=5576&lang=<local>"
 #define HELPFILE_DlgRulerDef                ""                                                                  // No page for that !
+#define HELPFILE_DlgManageFavorite          ""                                                                  // No page for that !
 #define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/?page_id=5239&lang=<local>"
 #define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/?cat=5&lang=<local>"
 
@@ -97,6 +98,11 @@
 // Display coordinates unit
 #define DISPLAYUNIT_PERCENT                 0
 #define DISPLAYUNIT_PIXELS                  1
+
+// Mainwindow display mode
+#define DISPLAYWINDOWMODE_PLAYER        0
+#define DISPLAYWINDOWMODE_PARTITION     1
+#define DISPLAYWINDOWMODE_BROWSER       2
 
 // Global values
 extern QString SystemProperties;                                // System properties log
@@ -157,11 +163,15 @@ public:
     QString                 LastProjectPath;                            // Last folder use for project
     QString                 LastRenderVideoPath;                        // Last folder use for render video
     QString                 LastCaptureImage;                           // Last folder use for captured image
+    QString                 CurrentPath;                                // Currently shown path in browser widget
 
     // Preferences
     bool                    SDLAudioOldMode;                            // If true SDL audio use old mode sample instead byte
     bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide
     bool                    PartitionMode;                              // If true, partition mode is on
+    int                     WindowDisplayMode;
+    QString                 BrowserWidgetSplitter;                      // Position of the Browser Widget Splitter
+    QStringList             BrowserFavorites;                           // List of favorites path
 
     // Editor options
     bool                    AppendObject;                               // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
@@ -228,6 +238,7 @@ public:
     cSaveWindowPosition     *DlgffDPjrPropertiesWSP;                    // Dialog box "Project properties" - Window size and position
     cSaveWindowPosition     *DlgInfoFileWSP;                            // Dialog box "File Information" - Window size and position
     cSaveWindowPosition     *DlgRulerDef;                               // Dialog box "Ruler properties" - Window size and position
+    cSaveWindowPosition     *DlgManageFavoriteWSP;                      // Dialog box "Manage favorite" - Window size and position
 
     explicit                cApplicationConfig(QMainWindow *TheTopLevelWindow);
                             ~cApplicationConfig();

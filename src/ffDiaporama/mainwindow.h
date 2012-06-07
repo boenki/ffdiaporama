@@ -26,8 +26,10 @@
 
 // Include some common various class
 #include "../engine/_SDL_Support.h"
+#include "../engine/cDriveList.h"
 
 #include <QNetworkReply>
+#include <QTreeWidgetItem>
 
 // Specific inclusions
 #include "_Diaporama.h"
@@ -45,6 +47,7 @@ public:
     bool                    FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
     cApplicationConfig      *ApplicationConfig;
     cDiaporama              *Diaporama;
+    cDriveList              *DriveList;
     int                     LastCount;
     QString                 InternetBUILDVERSION;
     QString                 TitleBar;
@@ -112,7 +115,10 @@ private slots:
     // Actions small bottom right toolbar menu
     void    s_Action_ZoomPlus();
     void    s_Action_ZoomMinus();
-    void    s_Action_ChPartitionMode();
+    void    s_Action_ChWindowDisplayMode_ToPlayerMode();
+    void    s_Action_ChWindowDisplayMode_ToPartitionMode();
+    void    s_Action_ChWindowDisplayMode_ToBrowserMode();
+    void    s_Action_ChWindowDisplayMode(int Mode);
 
     // Actions File menu
     void    s_Action_New();
@@ -154,7 +160,34 @@ private slots:
     void    DoOpenFile();
     void    DoSaveFile();
 
+    // Browser event
+    void    s_Browser_FloderTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *);
+    void    s_Browser_RefreshAll();
+    void    s_Browser_ChangeDisplayMode();
+    void    s_Browser_DoubleClicked(QMouseEvent *);
+    void    s_Browser_OpenFile();
+    void    s_Browser_RightClicked(QMouseEvent *);
+    void    DoBrowserRefreshFolderInfo();
+    void    DoBrowserRefreshSelectedFileInfo();
+    void    s_Browser_SetToPrevious();
+    void    s_Browser_SetToUpper();
+    void    s_Browser_Favorite();
+    void    s_Browser_AddToFavorite();
+    void    s_Browser_ManageFavorite();
+    void    s_Browser_RemoveFolder();
+    void    s_Browser_RenameFile();
+    void    s_Browser_RenameFolder();
+    void    s_Browser_Properties();
+    void    s_Browser_RemoveFile();
+    void    s_Browser_UseAsPlaylist();
+    void    s_Browser_AddFiles();
+
 private:
+
+    // Browser functions
+    QAction *CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck);
+    QAction *CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck);
+    bool    s_Browser_InRemoveFolder(QString FolderPath);
 
     Ui::MainWindow *ui;
 };

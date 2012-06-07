@@ -29,10 +29,13 @@
 #ifdef Q_OS_WIN
     #include <windows.h>
     #include <QSettings>
+    #include <lmcons.h>
 #endif
 
 #include "cBaseApplicationConfig.h"
 #include "cDriveList.h"
+
+QString PersonalFolder="";
 
 //*******************************************************************************************************************************************************
 
@@ -55,7 +58,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
         Label   =Alias;
     }
 
-    if (Alias==QApplication::translate("QCustomFolderTree","Personal folder")) IconDrive=ApplicationConfig->DefaultUSERIcon.GetIcon(cCustomIcon::ICON16)->copy();
+    if (Alias==PersonalFolder) IconDrive=ApplicationConfig->DefaultUSERIcon.GetIcon(cCustomIcon::ICON16)->copy();
 
     // Adjust path depending on Operating System
     #ifdef Q_OS_WIN
@@ -90,7 +93,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
             }
         } else {
             // Must be a CD/DVD ROM drive without disk
-            if (Label!=QApplication::translate("QCustomFolderTree","Personal folder"))
+            if (Label!=PersonalFolder)
                 Label=Path+"["+QApplication::translate("QCustomFolderTree","Empty drive...")+"]";
         }
 
@@ -317,6 +320,15 @@ cDriveList::cDriveList(cBaseApplicationConfig *TheApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDriveList::cDriveList");
 
     ApplicationConfig=TheApplicationConfig;
+
+    #ifdef Q_OS_WIN
+    TCHAR winUserName[UNLEN+1]; // UNLEN is defined in LMCONS.H
+    DWORD winUserNameSize = sizeof(winUserName);
+    GetUserName(winUserName,&winUserNameSize);
+    PersonalFolder = QString::fromStdWString(winUserName);
+    #else
+    PersonalFolder=QApplication::translate("cDriveList","Personal folder");
+    #endif
 }
 
 //====================================================================================================================
@@ -339,18 +351,12 @@ void cDriveList::UpdateDriveList() {
 
     for (int i=0;i<List.count();i++) List[i].Flag=0;
 
+    if (!SearchDrive(AdjustDirForOS(QDir::homePath()))) List.append(cDriveDesc(QDir::homePath(),PersonalFolder,ApplicationConfig));
     #ifdef Q_OS_WIN
-
-        QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
-        if (!SearchDrive(Settings.value("Personal").toString()))
-            if (!SearchDrive(AdjustDirForOS(Settings.value("Personal").toString())))
-                List.append(cDriveDesc(Settings.value("Personal").toString(),QApplication::translate("QCustomFolderTree","Personal folder"),ApplicationConfig));
         foreach(QFileInfo drive,QDir::drives()) if (!SearchDrive(AdjustDirForOS(drive.filePath()))) List.append(cDriveDesc(drive.filePath(),"",ApplicationConfig));
-
     #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
 
-        if (!SearchDrive(QDir::homePath())) List.append(cDriveDesc(QDir::homePath(),QApplication::translate("QCustomFolderTree","Personal folder"),ApplicationConfig));
-        if (!SearchDrive("/"))              List.append(cDriveDesc("/",QApplication::translate("QCustomFolderTree","System files"),ApplicationConfig));
+        if (!SearchDrive("/")) List.append(cDriveDesc("/",QApplication::translate("QCustomFolderTree","System files"),ApplicationConfig));
 
         // list mounted drives using mount command
         QProcess    Process;
@@ -412,19 +418,26 @@ QIcon cDriveList::GetFolderIcon(QString FilePath) {
     #ifdef Q_OS_LINUX
     if (FilePath.startsWith("~")) FilePath=QDir::homePath()+FilePath.mid(1);
     #endif
+    #ifdef Q_OS_WIN
+        if (FilePath.startsWith(PersonalFolder)) FilePath=QDir::homePath()+FilePath.mid(PersonalFolder.length());
+        FilePath=AdjustDirForOS(FilePath);
+    #endif
 
     QIcon   RetIcon;
 
-    if (RetIcon.isNull()) {
-        // If not a root item but a standard item
+    // Search if it's a root item
+    int i=0;
+    while ((i<List.count())&&(List[i].Path!=FilePath)&&(List[i].Path+QDir::separator()!=FilePath)) i++;
+    if ((i<List.count())&&((List[i].Path==FilePath)||(List[i].Path+QDir::separator()==FilePath)))
+        RetIcon.addPixmap(QPixmap().fromImage(List[i].IconDrive));
 
+    // If not a root item but a standard item
+    if (RetIcon.isNull()) {
         // Check if a folder.jpg file exist
-        if (RetIcon.isNull()) {
-            QFileInfoList Directorys=QDir(FilePath).entryInfoList(QDir::Files);
-            for (int j=0;j<Directorys.count();j++) if (Directorys[j].fileName().toLower()=="folder.jpg") {
-                QString FileName=FilePath+Directorys[j].fileName();
-                RetIcon=QIcon(FileName);
-            }
+        QFileInfoList Directorys=QDir(FilePath).entryInfoList(QDir::Files);
+        for (int j=0;j<Directorys.count();j++) if (Directorys[j].fileName().toLower()=="folder.jpg") {
+            QString FileName=FilePath+Directorys[j].fileName();
+            RetIcon=QIcon(FileName);
         }
     }
 
@@ -483,7 +496,7 @@ QIcon cDriveList::GetFolderIcon(QString FilePath) {
     }
 
     if (RetIcon.isNull()) {
-        if (!FilePath.endsWith(QDir::separator()))  FilePath=FilePath+QDir::separator();
+        if (!FilePath.endsWith(QDir::separator())) FilePath=FilePath+QDir::separator();
         // If root item
         for (int i=0;i<List.count();i++) if (FilePath==List[i].Path) RetIcon=QIcon(QPixmap().fromImage(List[i].IconDrive));
     }

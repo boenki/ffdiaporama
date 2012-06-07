@@ -245,20 +245,27 @@ void cBaseApplicationConfig::PreloadSystemIcons() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::PreloadSystemIcons");
 
     ToLog(LOGMSG_INFORMATION,"Loading system icons...");
-
-    DefaultCDROMIcon.LoadIconsFromIMG(  "cdrom.png");
-    DefaultHDDIcon.LoadIconsFromIMG(    "hdd.png");
-    DefaultUSBIcon.LoadIconsFromIMG(    "usb.png");
-    DefaultREMOTEIcon.LoadIconsFromIMG( "hdd-lan.png");
-    DefaultFOLDERIcon.LoadIconsFromIMG( "directory.png");
-    DefaultDelayedIcon.LoadIconsFromIMG("delayed.png");
-    DefaultFFDIcon.LoadIconsFromIMG(    "ffDiaporama.png");
-    DefaultThumbIcon.LoadIconsFromIMG(  "Thumbnails.png");
-    DefaultIMAGEIcon.LoadIconsFromIMG(  "image.png");
-    DefaultVIDEOIcon.LoadIconsFromIMG(  "video.png");
-    DefaultMUSICIcon.LoadIconsFromIMG(  "audio.png");
-    DefaultUSERIcon.LoadIconsFromIMG(   "folder_home.png");
-    DefaultFILEIcon.LoadIconsFromIMG(   "file.png");
+    #ifdef Q_OS_WIN
+    if (QSysInfo().WindowsVersion>=0x0090) { // At least Windows 7
+        DefaultUSERIcon.LoadIcons(GetIconForFileOrDir("%SystemRoot%\\system32\\imageres.dll",117));
+        DefaultCDROMIcon.LoadIcons(GetIconForFileOrDir("%SystemRoot%\\system32\\shell32.dll",11));
+        DefaultHDDIcon.LoadIcons(GetIconForFileOrDir("%SystemRoot%\\system32\\shell32.dll",8));
+        DefaultFOLDERIcon.LoadIcons(GetIconForFileOrDir("%SystemRoot%\\system32\\shell32.dll",3));
+    }
+    #endif
+    if (DefaultCDROMIcon.Icon16.isNull())   DefaultCDROMIcon.LoadIconsFromIMG(  "cdrom.png");
+    if (DefaultHDDIcon.Icon16.isNull())     DefaultHDDIcon.LoadIconsFromIMG(    "hdd.png");
+    if (DefaultUSBIcon.Icon16.isNull())     DefaultUSBIcon.LoadIconsFromIMG(    "usb.png");
+    if (DefaultREMOTEIcon.Icon16.isNull())  DefaultREMOTEIcon.LoadIconsFromIMG( "hdd-lan.png");
+    if (DefaultFOLDERIcon.Icon16.isNull())  DefaultFOLDERIcon.LoadIconsFromIMG( "directory.png");
+    if (DefaultDelayedIcon.Icon16.isNull()) DefaultDelayedIcon.LoadIconsFromIMG("delayed.png");
+    if (DefaultFFDIcon.Icon16.isNull())     DefaultFFDIcon.LoadIconsFromIMG(    "ffDiaporama.png");
+    if (DefaultThumbIcon.Icon16.isNull())   DefaultThumbIcon.LoadIconsFromIMG(  "Thumbnails.png");
+    if (DefaultIMAGEIcon.Icon16.isNull())   DefaultIMAGEIcon.LoadIconsFromIMG(  "image.png");
+    if (DefaultVIDEOIcon.Icon16.isNull())   DefaultVIDEOIcon.LoadIconsFromIMG(  "video.png");
+    if (DefaultMUSICIcon.Icon16.isNull())   DefaultMUSICIcon.LoadIconsFromIMG(  "audio.png");
+    if (DefaultUSERIcon.Icon16.isNull())    DefaultUSERIcon.LoadIconsFromIMG(   "folder_home.png");
+    if (DefaultFILEIcon.Icon16.isNull())    DefaultFILEIcon.LoadIconsFromIMG(   "file.png");
     VideoMask_120=QImage(":/img/VideoMask_120x180.png");
     VideoMask_150=QImage(":/img/VideoMask_150x200.png");
     VideoMask_162=QImage(":/img/VideoMask_162x216.png");
@@ -429,8 +436,8 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     ShowHiddenFilesAndDir   =false;
     ShowMntDrive            =false;
     ShowFoldersFirst        =true;
-    CurrentFilter           =OBJECTTYPE_UNMANAGED;
-    CurrentMode             =DISPLAY_DATA;
+    CurrentFilter           =OBJECTTYPE_MANAGED;
+    CurrentMode             =DISPLAY_ICON100;
     DisplayFileName         =true;
     MinimumEXIFHeight       =100;
     Image_ThumbWidth        =300;

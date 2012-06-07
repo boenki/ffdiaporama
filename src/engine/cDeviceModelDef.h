@@ -73,7 +73,7 @@ extern "C" {
         UBUNTU 12.04        LIBAV_08    avconv  0.8.1-4     51.22.1     53.35.0     53.21.0         53.2.0          2.15.0          2.1.0
         UBUNTU 11.10        LIBAV_08    ffmpeg  0.7.3-4     51.7.0      53.6.0      53.3.0          53.0.0          2.4.0           2.0.0
 
-        OPENSUSE 12.1       LIBAV_08    ffmpeg  0.10.2      51.35.100   53.61.100   53.32.100       53.4.100        2.61.100        2.1.100
+        OPENSUSE 12.1       LIBAV_08    ffmpeg  0.11        51.54.100   54.23.100   54.6.100        54.0.100        2.77.100        2.1.100
         OPENSUSE 11.4       LIBAV_08    ffmpeg  0.10.2      51.35.100   53.61.100   53.32.100       53.4.100        2.61.100        2.1.100
 
         FEDORA 16           LIBAV_07    ffmpeg  0.8.10      51.9.1      53.8.0      53.5.0          53.1.1          2.23.0          2.0.0
@@ -94,7 +94,7 @@ extern "C" {
 
 // LIBAV 0.8 = LIBAVUTIL from 51.22 + LIBAVCODEC from 53.35 to 54.20 + LIBAVFORMAT from 53.21 to 54.20
 #elif ( ( (LIBAVUTIL_VERSION_MAJOR==51)&&(LIBAVUTIL_VERSION_MINOR>=22) ) && \
-        ( ((LIBAVCODEC_VERSION_MAJOR==53)&&(LIBAVCODEC_VERSION_MINOR>=35))   || ((LIBAVCODEC_VERSION_MAJOR==54)&&(LIBAVCODEC_VERSION_MINOR<20)) ) && \
+        ( ((LIBAVCODEC_VERSION_MAJOR==53)&&(LIBAVCODEC_VERSION_MINOR>=35))   || ((LIBAVCODEC_VERSION_MAJOR==54)&&(LIBAVCODEC_VERSION_MINOR<24)) ) && \
         ( ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=21)) || ((LIBAVFORMAT_VERSION_MAJOR==54)&&(LIBAVFORMAT_VERSION_MINOR<20)) ) )
 
     #define LIBAV_08                            // LIBAV 0.8
