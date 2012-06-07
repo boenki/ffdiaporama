@@ -62,11 +62,6 @@
 #define DISPLAY_WEBLONG                     2
 #define DISPLAY_ICON48                      3
 #define DISPLAY_ICON100                     4
-#define DISPLAY_ICONBIG                     5
-
-#define THUMBNAILCACHEFILE          ".ThumbnailsCache.xml"      // Name of thumbnails cached file
-#define THUMBCACHE_APPNAME          "FFD-ThumbnailsCache"
-#define THUMBCACHE_ROOTNAME         "ThumbnailsCache"           // Name of root node in thumbnails cached file
 
 //****************************************************************************************************************************************************************
 

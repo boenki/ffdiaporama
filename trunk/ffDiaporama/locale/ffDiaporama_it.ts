@@ -1325,6 +1325,67 @@ Vedere la guida per maggiori dettagli!</translation>
     </message>
 </context>
 <context>
+    <name>DlgManageFavorite</name>
+    <message>
+        <source>Manage favorite</source>
+        <comment>Dialog title</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Rinomina</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">Annulla (&amp;C)</translation>
+    </message>
+    <message>
+        <source>Open help page describing this dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>F1</source>
+        <translation type="unfinished">F1</translation>
+    </message>
+    <message>
+        <source>Rename favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New favorite name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A favorite with this name already exist.
+Please select another name!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DlgManageStyle</name>
     <message>
         <source>Rename style</source>
@@ -3908,6 +3969,343 @@ Vuoi aprirlo comunque?</translation>
         <source>ffDiaporama initialisation</source>
         <translation>Inizializzazione ffDiaporama</translation>
     </message>
+    <message>
+        <source>Adjust display mode and file filtering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change to upper folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change to previous folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Refresh folder table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use or manage favorite path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Switch display to file explorer mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add to favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add current path to favorite</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage favorites (rename or remove)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>folders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total size:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total duration:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Favorite name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A favorite with this name already exist.
+Do you want to overwrite-it ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A favorite with for this path already exist.
+Do you want to overwrite-it ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Details view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Summary view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Icon view</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Managed files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama project files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide hidden files and folders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show hidden files and folders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to remove file %1 - error %2:%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to remove folder %1 - error %2:%3</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Successfully remove folder (and all is content) %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open file with system associated application</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display information on file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove file (Warning: file will not be moved to trash!)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use as new playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define a new playlist for current slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add files to project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add project to current project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename</source>
+        <translation type="unfinished">Rinomina</translation>
+    </message>
+    <message>
+        <source>Rename file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to remove this folder ?
+(Warning: Content will not be moved to trash)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Folder:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to rename folder!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Work in progress</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sorry, not yet!</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>QCustomFolderTable</name>
+    <message>
+        <source>File</source>
+        <comment>Column header</comment>
+        <translation type="unfinished">File</translation>
+    </message>
+    <message>
+        <source>File Type</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File Size</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File Date</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <comment>Column header</comment>
+        <translation type="unfinished">Durata</translation>
+    </message>
+    <message>
+        <source>Image Size</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image Format</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image Geometry</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video Codec</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frame Rate</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video Bitrate</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio Language</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio Codec</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio Channels</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio Bitrate</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio Frequency</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Title</source>
+        <comment>Column header</comment>
+        <translation type="unfinished">Titolo</translation>
+    </message>
+    <message>
+        <source>Artist</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Album</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Track</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Genre</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Comment</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Composer</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Encoder</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapters</source>
+        <comment>Column header</comment>
+        <translation type="unfinished">Capitoli</translation>
+    </message>
+    <message>
+        <source>Author</source>
+        <comment>Column header</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reading directory content (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTree</name>
@@ -3930,6 +4328,54 @@ Vuoi aprirlo comunque?</translation>
         <source>Tb</source>
         <comment>Unit Tb</comment>
         <translation>Tb</translation>
+    </message>
+    <message>
+        <source>Refresh all</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Refresh from here</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create new subfolder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Folder:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error %1:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to create folder !</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>System files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Empty drive...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reading directory content (%1)</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4016,28 +4462,12 @@ Vuoi aprirlo comunque?</translation>
         <translation>Aggiungi files video</translation>
     </message>
     <message>
-        <source>Error overwritting %1</source>
-        <translation>Errore sovrascrittura %1</translation>
-    </message>
-    <message>
         <source>Impossible to open file %1</source>
         <translation>Impossibile aprire file %1</translation>
     </message>
     <message>
         <source>Image don&apos;t have EXIF metadata %1</source>
         <translation>Immagine non ha metadati EXIF %1</translation>
-    </message>
-    <message>
-        <source>Impossible to start exiv2 - no exif information will be decode for %1</source>
-        <translation>Impossibile avviare exiv2 - nessuan informazione exif sarà decodificata per %1</translation>
-    </message>
-    <message>
-        <source>Error during exiv2 process - no exif information will be decode for %1</source>
-        <translation>Errore durante il processo exiv2 - nessuna informazione exif sarà decodificata per %1</translation>
-    </message>
-    <message>
-        <source>exiv2 return error %1 - no exif information will be decode for %2</source>
-        <translation>exiv2 ritorna l&apos;errore %1 - nessuna informazione exif sarà decodificata per %2</translation>
     </message>
 </context>
 <context>
@@ -4121,6 +4551,13 @@ Vuoi aprirlo comunque?</translation>
         <source>Lossless</source>
         <comment>Device database type</comment>
         <translation>Senza perdita</translation>
+    </message>
+</context>
+<context>
+    <name>cDriveList</name>
+    <message>
+        <source>Personal folder</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

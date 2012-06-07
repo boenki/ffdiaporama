@@ -714,10 +714,13 @@ bool DlgRenderVideo::ComputeAudioPart(QString &aCodec) {
                 aCodec=QString("-acodec flac");
                 break;
 
+            case CODEC_ID_AC3:
+                aCodec=QString("-acodec %1 -sample_fmt:1 flt -ab %2").arg(AUDIOCODECDEF[AudioCodecIndex].ShortName).arg(AudioBitRate);
+                break;
+
             case CODEC_ID_MP2:
             case CODEC_ID_MP3:
             case CODEC_ID_AAC:
-            case CODEC_ID_AC3:
             case CODEC_ID_VORBIS:
             case CODEC_ID_AMR_WB:
             case CODEC_ID_AMR_NB:
@@ -826,6 +829,7 @@ void DlgRenderVideo::DoAccept() {
     cDiaporamaObjectInfo    *Frame          =NULL;
     QString                 vCodec="";
     QString                 aCodec="";
+    QString                 StreamFormat="";
     QString                 TAG="";
     QString                 ffmpegCommand;
     QProcess                Process;
@@ -1036,6 +1040,7 @@ void DlgRenderVideo::DoAccept() {
 
         Continue=Continue && ComputeVideoPart(vCodec);
         Continue=Continue && ComputeAudioPart(aCodec);
+        if (QString(FORMATDEF[OutputFileFormat].ShortName)=="mpeg") StreamFormat=" -f mpegts";
 
         #ifdef LIBAV_TAGCHAPTERS
         Continue=Continue && ComputeTAGPart(TAG);
@@ -1057,7 +1062,7 @@ void DlgRenderVideo::DoAccept() {
                 #ifdef LIBAV_07
                 " -timestamp now"+
                 #endif
-                QString(" -dframes %1 %2 -r %3 ").arg(NbrFrame).arg(vCodec).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
+                QString(" -dframes %1%2 %3 -r %4 ").arg(NbrFrame).arg(StreamFormat).arg(vCodec).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
                 //(UpdateWidth!=W?QString(" -s %1x%2").arg(UpdateWidth).arg(H+ExtendV):"")+
                 #ifdef LIBAV_08
                 " -sws_flags bicubic "+

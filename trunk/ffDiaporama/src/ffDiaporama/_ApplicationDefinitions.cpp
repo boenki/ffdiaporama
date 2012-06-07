@@ -110,6 +110,7 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgffDPjrPropertiesWSP;
     delete DlgInfoFileWSP;
     delete DlgRulerDef;
+    delete DlgManageFavoriteWSP;
 }
 
 //====================================================================================================================
@@ -118,10 +119,12 @@ void cApplicationConfig::InitValues() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::InitValues");
 
     // Initialise all variables and set them default value
+    WindowDisplayMode           = DISPLAYWINDOWMODE_PLAYER; // Mainwindow display mode
+    PartitionMode               = false;                    // If true, partition mode is on (timeline with multiple row)
+
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
     SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
-    PartitionMode               = false;                    // If true, partition mode is on
     DisplayUnit                 = 1;                        // Display coordinates unit
     DefaultFraming              = 2;                        // 0=Width, 1=Height, 2=Full
     TimelineHeight              = 120;                      // Initial height of the timeline
@@ -160,12 +163,15 @@ void cApplicationConfig::InitValues() {
         LastCaptureImage        = WINDOWS_PICTURES;             // Last folder use for captured image
         if (LastRenderVideoPath=="") LastRenderVideoPath=WINDOWS_DOCUMENTS;
         SDLAudioOldMode         = false;                        // If true SDL audio use old mode sample instead byte
+        QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
+        CurrentPath=Settings.value("Personal").toString();
     #endif
     #ifdef Q_WS_X11
         LastProjectPath         = QDir::home().absolutePath();  // Last folder use for project
         LastRenderVideoPath     = QDir::home().absolutePath();  // Last folder use for render video
         LastCaptureImage        = QDir::home().absolutePath();  // Last folder use for captured image
         SDLAudioOldMode         = true;                         // If true SDL audio use old mode sample instead byte
+        CurrentPath="~";   // User home folder
     #endif
 
     AddToSystemProperties(QString(OPERATINGSYSTEM_STR)+Plateforme+" - "+QString("%1").arg(getCpuCount())+" Core/CPU");
@@ -196,6 +202,7 @@ void cApplicationConfig::InitValues() {
     DlgffDPjrPropertiesWSP      =new cSaveWindowPosition("DlgffDPjrPropertiesWSP",RestoreWindow,false);     // Dialog box "Project properties" - Window size and position
     DlgInfoFileWSP              =new cSaveWindowPosition("DlgInfoFileWSP",RestoreWindow,false);             // Dialog box "File Information" - Window size and position
     DlgRulerDef                 =new cSaveWindowPosition("DlgRulerDef",RestoreWindow,false);                // Dialog box "Ruler properties" - Window size and position
+    DlgManageFavoriteWSP        =new cSaveWindowPosition("DlgManageFavoriteWSP",RestoreWindow,false);       // Dialog box "Manage favorite" - Window size and position
 
     // Default new text block options
     DefaultBlock_Text_TextST    ="###GLOBALSTYLE###:0";
@@ -254,6 +261,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
         Element.setAttribute("LastProjectPath",         LastProjectPath);
         Element.setAttribute("LastRenderVideoPath",     LastRenderVideoPath);
         Element.setAttribute("LastCaptureImage",        LastCaptureImage);
+        Element.setAttribute("CurrentBrowserPath",      CurrentPath);
     }
 
     Element=Document.createElement("EditorOptions");
@@ -261,6 +269,8 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("AppendObject",                AppendObject?"1":"0");
     Element.setAttribute("DisplayUnit",                 DisplayUnit);
     Element.setAttribute("PartitionMode",               PartitionMode?"1":"0");
+    Element.setAttribute("WindowDisplayMode",           WindowDisplayMode);
+    Element.setAttribute("BrowserWidgetSplitter",       BrowserWidgetSplitter);
     Element.setAttribute("SortFile",                    SortFile?"1":"0");
     Element.setAttribute("TimelineHeight",              TimelineHeight);
     Element.setAttribute("DefaultFraming",              DefaultFraming);
@@ -272,6 +282,11 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("AskUserToRemove",             AskUserToRemove?"1":"0");
     Element.setAttribute("DlgSlideRuler",               SlideRuler);
     Element.setAttribute("FramingRuler",                FramingRuler?"1":"0");
+    domDocument.appendChild(Element);
+
+    Element=Document.createElement("BrowserFavorites");
+    Element.setAttribute("FavoritesNumber",             BrowserFavorites.count());
+    for (int i=0;i<BrowserFavorites.count();i++) Element.setAttribute(QString("BrowserFavorites_%1").arg(i),BrowserFavorites[i]);
     domDocument.appendChild(Element);
 
     Element=Document.createElement("ProjectDefault");
@@ -366,6 +381,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     DlgffDPjrPropertiesWSP->SaveToXML(domDocument);
     DlgInfoFileWSP->SaveToXML(domDocument);
     DlgRulerDef->SaveToXML(domDocument);
+    DlgManageFavoriteWSP->SaveToXML(domDocument);
 }
 
 //====================================================================================================================
@@ -379,6 +395,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         if (Element.hasAttribute("LastProjectPath"))            LastProjectPath             =Element.attribute("LastProjectPath");
         if (Element.hasAttribute("LastRenderVideoPath"))        LastRenderVideoPath         =Element.attribute("LastRenderVideoPath");
         if (Element.hasAttribute("LastCaptureImage"))           LastCaptureImage            =Element.attribute("LastCaptureImage");
+        if (Element.hasAttribute("CurrentBrowserPath"))         CurrentPath                 =Element.attribute("CurrentBrowserPath");
     }
 
     if ((domDocument.elementsByTagName("EditorOptions").length()>0)&&(domDocument.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
@@ -390,6 +407,8 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         if (Element.hasAttribute("SDLAudioOldMode"))            SDLAudioOldMode             =Element.attribute("SDLAudioOldMode")=="1";
         if (Element.hasAttribute("AppendObject"))               AppendObject                =Element.attribute("AppendObject")=="1";
         if (Element.hasAttribute("PartitionMode"))              PartitionMode               =Element.attribute("PartitionMode")=="1";
+        if (Element.hasAttribute("WindowDisplayMode"))          WindowDisplayMode           =Element.attribute("WindowDisplayMode").toInt();
+        if (Element.hasAttribute("BrowserWidgetSplitter"))      BrowserWidgetSplitter       =Element.attribute("BrowserWidgetSplitter");
         if (Element.hasAttribute("DisplayUnit"))                DisplayUnit                 =Element.attribute("DisplayUnit").toInt();
         if (Element.hasAttribute("SortFile"))                   SortFile                    =Element.attribute("SortFile")=="1";
         if (Element.hasAttribute("TimelineHeight"))             TimelineHeight              =Element.attribute("TimelineHeight").toInt();
@@ -403,6 +422,14 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         if ((Element.hasAttribute("SlideRuler"))&&(Element.attribute("SlideRuler")!="0"))   SlideRuler=RULER_DEFAULT;
         if (Element.hasAttribute("DlgSlideRuler"))              SlideRuler                  =Element.attribute("DlgSlideRuler").toInt();
         if (Element.hasAttribute("FramingRuler"))               FramingRuler                =Element.attribute("FramingRuler")!="0";
+    }
+
+    if ((domDocument.elementsByTagName("BrowserFavorites").length()>0)&&(domDocument.elementsByTagName("BrowserFavorites").item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName("BrowserFavorites").item(0).toElement();
+        int FavToLoad=0;
+        if (Element.hasAttribute("FavoritesNumber")) FavToLoad=Element.attribute("FavoritesNumber").toInt();
+        BrowserFavorites.clear();
+        for (int i=0;i<FavToLoad;i++) if (Element.hasAttribute(QString("BrowserFavorites_%1").arg(i))) BrowserFavorites.append(Element.attribute(QString("BrowserFavorites_%1").arg(i)));
     }
 
     if ((domDocument.elementsByTagName("ProjectDefault").length()>0)&&(domDocument.elementsByTagName("ProjectDefault").item(0).isElement()==true)) {
@@ -507,6 +534,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     DlgffDPjrPropertiesWSP->LoadFromXML(domDocument);
     DlgInfoFileWSP->LoadFromXML(domDocument);
     DlgRulerDef->LoadFromXML(domDocument);
+    DlgManageFavoriteWSP->LoadFromXML(domDocument);
 
     return true;
 }

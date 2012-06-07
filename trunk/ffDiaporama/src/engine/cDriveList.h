@@ -64,4 +64,6 @@ private:
     bool                SearchDrive(QString Path);
 };
 
+extern QString PersonalFolder;
+
 #endif // cDriveList_H

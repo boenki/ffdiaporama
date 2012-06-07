@@ -86,7 +86,12 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../engine/QCustomFileInfoLabel.cpp \
             ../engine/cBrushDefinition.cpp \
             ../engine/cCustomIcon.cpp \
-            ../fmt_filters/fmt_filters.cpp 
+            ../fmt_filters/fmt_filters.cpp \ 
+    ../engine/QCustomHorizSplitter.cpp \
+    ../engine/QCustomFolderTree.cpp \
+    ../engine/QCustomFolderTable.cpp \
+    ../engine/cDriveList.cpp \
+    DlgManageFavorite/DlgManageFavorite.cpp
 
 HEADERS  += \
             _ImagesDefinitions.h \
@@ -132,7 +137,12 @@ HEADERS  += \
             ../engine/QCustomFileInfoLabel.h \
             ../engine/cBrushDefinition.h \
             ../engine/cCustomIcon.h \
-            ../fmt_filters/fmt_filters.h 
+            ../fmt_filters/fmt_filters.h \ 
+    ../engine/QCustomHorizSplitter.h \
+    ../engine/QCustomFolderTree.h \
+    ../engine/QCustomFolderTable.h \
+    ../engine/cDriveList.h \
+    DlgManageFavorite/DlgManageFavorite.h
 
 FORMS    += mainwindow.ui \
             wgt_QVideoPlayer.ui \
@@ -151,7 +161,8 @@ FORMS    += mainwindow.ui \
             DlgVideo/DlgVideoEdit.ui \
             DlgCheckConfig/DlgCheckConfig.ui \
             DlgInfoFile/DlgInfoFile.ui \
-            DlgffDPjrProperties/DlgffDPjrProperties.ui 
+            DlgffDPjrProperties/DlgffDPjrProperties.ui \ 
+    DlgManageFavorite/DlgManageFavorite.ui
 
 
 # Installation on linux systems

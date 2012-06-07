@@ -44,6 +44,7 @@ public:
     cDriveList              *DriveList;
     explicit                QCustomFolderTree(QWidget *parent=0);
     bool                    IsRemoveAllowed;
+    bool                    IsRenameAllowed;
 
     // Public utility functions
     virtual void        InitDrives(cDriveList *TheDriveList);
@@ -68,6 +69,7 @@ private:
 
 signals:
     void                ActionRemoveFolder();
+    void                ActionRenameFolder();
 
 };
 

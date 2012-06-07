@@ -38,6 +38,7 @@
 class QCustomFolderTable : public QTableWidget {
 Q_OBJECT
 public:
+    QStringList             BrowsePathList;
     QList<cBaseMediaFile*>  MediaList;
     cBaseApplicationConfig  *ApplicationConfig;
 
@@ -56,10 +57,7 @@ public:
     bool                    StopScanMediaList;
     bool                    StopAllEvent;
     bool                    ScanMediaListProgress;
-
-    // ThumbCache
-    cThumbCache             *ThumbCache;
-    bool                    IsThumbCacheReady;
+    bool                    InScanMediaFunction;
 
     QAbstractItemModel      *DefaultModel;
     QAbstractItemDelegate   *DefaultDelegate,*IconDelegate;
@@ -84,7 +82,15 @@ public:
     virtual int             GetAlignmentForColumn(int Col);
 
     virtual cBaseMediaFile          *GetCurrentMediaFile();
-    virtual QList<cBaseMediaFile*>  GetCurrentSelectedMediaFile();
+    virtual QList<cBaseMediaFile*>  GetCurrentSelectedMediaFile() const;
+
+    virtual bool            CanBrowseToPreviousPath();
+    virtual QString         BrowseToPreviousPath();
+    virtual bool            CanBrowseToUpperPath();
+    virtual QString         BrowseToUpperPath();
+
+protected:
+    virtual QMimeData       *mimeData(const QList <QTableWidgetItem *>) const;
 
 signals:
     void    DoubleClickEvent(QMouseEvent *ev);

@@ -33,11 +33,8 @@
         <file>img/db_status.png</file>
         <file>img/db_update.png</file>
         <file>img/DISPLAY_DATA.png</file>
-        <file>img/DISPLAY_DATA_S.png</file>
         <file>img/DISPLAY_JUKEBOX.png</file>
-        <file>img/DISPLAY_JUKEBOX_S.png</file>
         <file>img/DISPLAY_WEB.png</file>
-        <file>img/DISPLAY_WEB_S.png</file>
         <file>img/Distance.png</file>
         <file>img/edit.png</file>
         <file>img/editcopy.png</file>
@@ -55,7 +52,6 @@
         <file>img/filerecent.png</file>
         <file>img/filesave.png</file>
         <file>img/filesaveas.png</file>
-        <file>img/filter.png</file>
         <file>img/FolderOpen.png</file>
         <file>img/font.png</file>
         <file>img/Gamma.png</file>
@@ -238,11 +234,6 @@
         <file>img/Transitions/tr-10-01.png</file>
         <file>img/Transitions/tr-10-02.png</file>
         <file>img/Transitions/tr-10-03.png</file>
-        <file>img/FILTER_FFD_S.png</file>
-        <file>img/FILTER_FILE_S.png</file>
-        <file>img/FILTER_IMAGE_S.png</file>
-        <file>img/FILTER_MUSIC_S.png</file>
-        <file>img/FILTER_VIDEO_S.png</file>
         <file>img/VideoMask_120x180.png</file>
         <file>img/VideoMask_150x200.png</file>
         <file>img/VideoMask_162x216.png</file>
@@ -284,5 +275,10 @@
         <file>img/undo24.png</file>
         <file>img/Lock24.png</file>
         <file>img/Camera.png</file>
+        <file>img/favorite.png</file>
+        <file>img/favorite_add.png</file>
+        <file>img/favorite_manage.png</file>
+        <file>img/favorite_menu.png</file>
+        <file>img/action_edit.png</file>
     </qresource>
 </RCC>

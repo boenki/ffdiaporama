@@ -36,6 +36,12 @@
 #include <QMessageBox>
 #include <QFileDialog>
 
+#include <../engine/QCustomFolderTree.h>
+#include <../engine/QCustomFolderTable.h>
+#include <../engine/QCustomHorizSplitter.h>
+#include <../engine/QCustomFileInfoLabel.h>
+
+#include "DlgInfoFile/DlgInfoFile.h"
 #include "DlgCheckConfig/DlgCheckConfig.h"
 #include "DlgffDPjrProperties/DlgffDPjrProperties.h"
 #include "DlgRenderVideo/DlgRenderVideo.h"
@@ -45,6 +51,7 @@
 #include "DlgBackground/DlgBackgroundProperties.h"
 #include "DlgSlide/DlgSlideProperties.h"
 #include "DlgAppSettings/DlgApplicationSettings.h"
+#include "DlgManageFavorite/DlgManageFavorite.h"
 
 MainWindow  *GlobalMainWindow=NULL;
 
@@ -63,6 +70,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     DragItemDest            =-1;
     IsDragOn                =0;
     InPlayerUpdate          =false;
+    DriveList               =new cDriveList(ApplicationConfig);
     setAcceptDrops(true);
     ApplicationConfig->ParentWindow=this;
 }
@@ -160,7 +168,30 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->actionCopy->setIconVisibleInMenu(true);
     ui->actionPaste->setIconVisibleInMenu(true);
     ui->actionRemove->setIconVisibleInMenu(true);
+    ui->actionAddToFavorite->setIconVisibleInMenu(true);
+    ui->actionManageFavorite->setIconVisibleInMenu(true);
+    ui->actionBrowserOpen->setIconVisibleInMenu(true);
+    ui->actionBrowserProperties->setIconVisibleInMenu(true);
+    ui->actionBrowserRemoveFile->setIconVisibleInMenu(true);
+    ui->actionBrowserUseAsPlaylist->setIconVisibleInMenu(true);
+    ui->actionBrowserAddFiles->setIconVisibleInMenu(true);
+    ui->actionBrowserAddProject->setIconVisibleInMenu(true);
+    ui->actionBrowserRenameFile->setIconVisibleInMenu(true);
 
+    // Initialise integrated browser
+    ui->FileInfoLabel->DisplayMode=DISPLAY_WEBLONG;
+    ui->FileInfoLabel->setVisible((ApplicationConfig->CurrentMode!=DISPLAY_WEBSHORT)&&(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG));
+    ui->FolderTree->ApplicationConfig =ApplicationConfig;
+    ui->FolderTree->IsRemoveAllowed   =true;
+    ui->FolderTree->IsRenameAllowed   =true;
+    ui->FolderTable->ApplicationConfig=ApplicationConfig;
+    ui->FileInfoLabel->DisplayMode=DISPLAY_WEBLONG;
+    ui->FileInfoLabel->setVisible((ApplicationConfig->CurrentMode!=DISPLAY_WEBSHORT)&&(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG));
+    DriveList->UpdateDriveList();
+    ui->FolderTree->InitDrives(DriveList);
+    ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
+
+    // Initialise diaporama
     Diaporama=new cDiaporama(ApplicationConfig);
     ui->preview->InitDiaporamaPlay(Diaporama);
     ui->preview2->InitDiaporamaPlay(Diaporama);
@@ -236,8 +267,9 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->ZoomMinusBT,SIGNAL(released()),this,SLOT(s_Action_ZoomMinus()));
     connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_Event_TimelineSelectionChanged()));
     connect(ui->timeline,SIGNAL(DragMoveItem()),this,SLOT(s_Event_TimelineDragMoveItem()));
-    connect(ui->PartitionBT,SIGNAL(released()),this,SLOT(s_Action_ChPartitionMode()));
-    connect(ui->Partition2BT,SIGNAL(released()),this,SLOT(s_Action_ChPartitionMode()));
+    connect(ui->PartitionBT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToPlayerMode()));
+    connect(ui->Partition2BT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToPartitionMode()));
+    connect(ui->Partition3BT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToBrowserMode()));
 
     // Contextual menu
     connect(ui->timeline,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_Event_ContextualMenu(QMouseEvent *)));
@@ -251,6 +283,32 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     // Save image event
     connect(ui->preview,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
     connect(ui->preview2,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
+
+    // Browser event
+    connect(ui->FolderTree,SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),this,SLOT(s_Browser_FloderTreeItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
+    connect(ui->FolderTree,SIGNAL(ActionRemoveFolder()),this,SLOT(s_Browser_RemoveFolder()));
+    connect(ui->FolderTree,SIGNAL(ActionRenameFolder()),this,SLOT(s_Browser_RenameFolder()));
+    connect(ui->FolderTable,SIGNAL(itemSelectionChanged()),this,SLOT(DoBrowserRefreshSelectedFileInfo()));
+    connect(ui->FolderTable,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_Browser_DoubleClicked(QMouseEvent *)));
+    connect(ui->FolderTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_Browser_RightClicked(QMouseEvent *)));
+    connect(ui->FolderTable,SIGNAL(RefreshFolderInfo()),this,SLOT(DoBrowserRefreshFolderInfo()));
+    connect(ui->ActionModeBt,SIGNAL(pressed()),this,SLOT(s_Browser_ChangeDisplayMode()));
+    connect(ui->RefreshBt,SIGNAL(released()),this,SLOT(s_Browser_RefreshAll()));
+    connect(ui->PreviousFolderBt,SIGNAL(released()),this,SLOT(s_Browser_SetToPrevious()));
+    connect(ui->UpFolderBt,SIGNAL(released()),this,SLOT(s_Browser_SetToUpper()));
+    connect(ui->FavoriteBt,SIGNAL(pressed()),this,SLOT(s_Browser_Favorite()));
+    connect(ui->actionAddToFavorite,SIGNAL(triggered()),this,SLOT(s_Browser_AddToFavorite()));
+    connect(ui->actionManageFavorite,SIGNAL(triggered()),this,SLOT(s_Browser_ManageFavorite()));
+    connect(ui->actionBrowserOpen,SIGNAL(triggered()),this,SLOT(s_Browser_OpenFile()));
+    connect(ui->actionBrowserProperties,SIGNAL(triggered()),this,SLOT(s_Browser_Properties()));
+    connect(ui->actionBrowserRemoveFile,SIGNAL(triggered()),this,SLOT(s_Browser_RemoveFile()));
+    connect(ui->actionBrowserRenameFile,SIGNAL(triggered()),this,SLOT(s_Browser_RenameFile()));
+    connect(ui->actionBrowserUseAsPlaylist,SIGNAL(triggered()),this,SLOT(s_Browser_UseAsPlaylist()));
+    connect(ui->actionBrowserAddFiles,SIGNAL(triggered()),this,SLOT(s_Browser_AddFiles()));
+    connect(ui->actionBrowserAddProject,SIGNAL(triggered()),this,SLOT(s_Browser_AddFiles()));
+
+    ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(ApplicationConfig->CurrentPath));
+    if (ui->FolderTree->GetCurrentFolderPath()!=ApplicationConfig->CurrentPath) ui->FolderTree->SetSelectItemByPath(PersonalFolder);
 
     // Prepare title bar depending on running version
     TitleBar=QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
@@ -280,6 +338,7 @@ MainWindow::~MainWindow() {
     delete ApplicationConfig;
     SDLLastClose();
     delete ui;
+    delete DriveList;
 }
 
 //====================================================================================================================
@@ -368,33 +427,58 @@ void MainWindow::ToStatusBar(QString Text) {
 
 void MainWindow::SetTimelineHeight() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::SetTimelineHeight");
-
-    if (!ApplicationConfig->PartitionMode) {
-        ui->scrollArea->setVisible(true);
-        ui->ToolBoxPartition->setVisible(false);
-        ui->ToolBoxNormal->setVisible(true);
-        ui->preview->setVisible(true);
-        ui->preview2->setVisible(false);
-        ui->TABTooltip->setVisible(true);
-        ui->TABToolimg->setVisible(true);
-        ui->PartitionBT->setEnabled(false);
-        ui->PartitionBT->setDown(true);
-        ui->Partition2BT->setEnabled(true);
-        QApplication::processEvents();          // Give time to Qt to redefine position of each control and preview height !
-        ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-32));
-    } else {
-        ui->scrollArea->setVisible(false);
-        ui->ToolBoxPartition->setVisible(true);
-        ui->ToolBoxNormal->setVisible(false);
-        ui->preview->setVisible(false);
-        ui->preview2->setVisible(true);
-        ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-32));
-        ui->TABTooltip->setVisible(false);
-        ui->TABToolimg->setVisible(false);
-        ui->PartitionBT->setEnabled(true);
-        ui->Partition2BT->setEnabled(false);
-        ui->Partition2BT->setDown(true);
+    switch (ApplicationConfig->WindowDisplayMode) {
+        case DISPLAYWINDOWMODE_PLAYER:
+            ApplicationConfig->PartitionMode=false;
+            ui->BrowserWidget->setVisible(false);
+            ui->scrollArea->setVisible(true);
+            ui->ToolBoxPartition->setVisible(false);
+            ui->ToolBoxNormal->setVisible(true);
+            ui->preview->setVisible(true);
+            ui->preview2->setVisible(false);
+            ui->TABTooltip->setVisible(true);
+            ui->TABToolimg->setVisible(true);
+            ui->PartitionBT->setDown(true);
+            ui->PartitionBT->setEnabled(false);
+            ui->Partition2BT->setEnabled(true);
+            ui->Partition3BT->setEnabled(true);
+            QApplication::processEvents();          // Give time to Qt to redefine position of each control and preview height !
+            ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-32));
+            break;
+        case DISPLAYWINDOWMODE_PARTITION:
+            ApplicationConfig->PartitionMode=true;
+            ui->BrowserWidget->setVisible(false);
+            ui->scrollArea->setVisible(false);
+            ui->ToolBoxPartition->setVisible(true);
+            ui->ToolBoxNormal->setVisible(false);
+            ui->preview->setVisible(false);
+            ui->preview2->setVisible(true);
+            ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-32));
+            ui->TABTooltip->setVisible(false);
+            ui->TABToolimg->setVisible(false);
+            ui->Partition2BT->setDown(true);
+            ui->PartitionBT->setEnabled(true);
+            ui->Partition2BT->setEnabled(false);
+            ui->Partition3BT->setEnabled(true);
+            break;
+        case DISPLAYWINDOWMODE_BROWSER:
+            ApplicationConfig->PartitionMode=false;
+            ui->BrowserWidget->setVisible(true);
+            ui->scrollArea->setVisible(false);
+            ui->ToolBoxPartition->setVisible(true);
+            ui->ToolBoxNormal->setVisible(false);
+            ui->preview->setVisible(false);
+            ui->preview2->setVisible(true);
+            ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-32));
+            ui->TABTooltip->setVisible(false);
+            ui->TABToolimg->setVisible(false);
+            ui->Partition3BT->setDown(true);
+            ui->PartitionBT->setEnabled(true);
+            ui->Partition2BT->setEnabled(true);
+            ui->Partition3BT->setEnabled(false);
+            break;
     }
+
     QApplication::processEvents();          // Give time to Qt to redefine position of each control and redraw timeline
     ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
     QApplication::processEvents();          // Give time to Qt to redefine position of each control and redraw timeline
@@ -426,6 +510,7 @@ void MainWindow::closeEvent(QCloseEvent *Event) {
         QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
     }
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    ApplicationConfig->BrowserWidgetSplitter=QString(QByteArray(ui->BrowserWidget->saveState()).toHex());
     ApplicationConfig->MainWinWSP->SaveWindowState(this);
     ApplicationConfig->SaveConfigurationFile();
     QApplication::restoreOverrideCursor();
@@ -448,6 +533,7 @@ void MainWindow::showEvent(QShowEvent *) {
 
     if (!IsFirstInitDone) {
         IsFirstInitDone=true;                                   // do this only one time
+        ui->BrowserWidget->restoreState(QByteArray::fromHex(ApplicationConfig->BrowserWidgetSplitter.toUtf8()));
         ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
         if (ApplicationConfig->MainWinWSP->IsMaximized) QTimer::singleShot(500,this,SLOT(DoMaximized()));
         // Start a network process to give last ffdiaporama version from internet web site
@@ -546,6 +632,7 @@ void MainWindow::RefreshControls() {
     ui->ActionCut_BT_2->setEnabled(ui->timeline->CurrentSelected()>=0);
     ui->actionCut->setEnabled(ui->timeline->CurrentSelected()>=0);
 
+    // Render menu
     ui->ActionRender_BT->setEnabled(ui->timeline->NbrItem()>0);
     ui->ActionRender_BT_2->setEnabled(ui->timeline->NbrItem()>0);
     ui->ActionSmartphone_BT->setEnabled(ui->timeline->NbrItem()>0);
@@ -558,6 +645,11 @@ void MainWindow::RefreshControls() {
     ui->ActionLossLess_BT->setEnabled((ui->timeline->NbrItem()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
     ui->ActionLossLess_BT_2->setEnabled((ui->timeline->NbrItem()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
 
+    // Browser
+    ui->PreviousFolderBt->setEnabled(ui->FolderTable->CanBrowseToPreviousPath());
+    ui->UpFolderBt->setEnabled(ui->FolderTable->CanBrowseToUpperPath());
+
+    // StatusBar
     ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+QString("%1").arg(Diaporama->CurrentCol+1)+" / "+QString("%1").arg(Diaporama->List.count()));
 }
 
@@ -688,23 +780,43 @@ void MainWindow::s_Action_ZoomMinus() {
 
 //====================================================================================================================
 
-void MainWindow::s_Action_ChPartitionMode() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_ChPartitionMode");
+void MainWindow::s_Action_ChWindowDisplayMode_ToPlayerMode() {
+    s_Action_ChWindowDisplayMode(DISPLAYWINDOWMODE_PLAYER);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Action_ChWindowDisplayMode_ToPartitionMode() {
+    s_Action_ChWindowDisplayMode(DISPLAYWINDOWMODE_PARTITION);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Action_ChWindowDisplayMode_ToBrowserMode() {
+    s_Action_ChWindowDisplayMode(DISPLAYWINDOWMODE_BROWSER);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Action_ChWindowDisplayMode(int Mode) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_ChWindowDisplayMode");
 
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_ChPartitionMode()));
+        QTimer::singleShot(500,this,SLOT(s_Action_ChWindowDisplayMode(Mode)));
         return;
     }
 
     int Selected=ui->timeline->CurrentSelected(); // Save current seleted item
-    ApplicationConfig->PartitionMode=!ApplicationConfig->PartitionMode;
+
+    ApplicationConfig->WindowDisplayMode=Mode;
     SetTimelineHeight();
+
     // Re-select previous current seleted item
     if ((Selected>=0)&&(Selected<ui->timeline->NbrItem())) ui->timeline->SetCurrentCell(Selected);
-    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
-    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->Resize();
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->Resize();
 }
 
 //====================================================================================================================
@@ -735,7 +847,7 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
                 delete Diaporama->List[Diaporama->CurrentCol]->Thumbnail;
                 Diaporama->List[Diaporama->CurrentCol]->Thumbnail=NULL;
             }
-            (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol)-1);
+            (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol)-1);
             AdjustRuller();
         }
         if ((Ret==2)||(Ret==3)) {
@@ -744,14 +856,14 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
 
             // Update slider mark
             if (Diaporama->List.count()>0)
-                (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SetStartEndPos(
+                (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SetStartEndPos(
                         Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                               // Current slide
                         Diaporama->List[Diaporama->CurrentCol]->GetDuration(),
                         (Diaporama->CurrentCol>0)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol-1):((Diaporama->CurrentCol==0)?0:-1), // Previous slide
                         (Diaporama->CurrentCol>0)?Diaporama->List[Diaporama->CurrentCol-1]->GetDuration():((Diaporama->CurrentCol==0)?Diaporama->GetTransitionDuration(Diaporama->CurrentCol):0),
                         Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->GetObjectStartPosition(Diaporama->CurrentCol+1):-1,        // Next slide
                         Diaporama->CurrentCol<(Diaporama->List.count()-1)?Diaporama->List[Diaporama->CurrentCol+1]->GetDuration():0);
-            else (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SetStartEndPos(0,0,-1,0,-1,0);
+            else (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SetStartEndPos(0,0,-1,0,-1,0);
             // open dialog again
             DoneAgain=true;
         }
@@ -777,7 +889,7 @@ void MainWindow::s_Event_DoubleClickedOnTransition() {
     int Ret=Dlg.exec();
     if (Ret==0) {
         SetModifyFlag(true);
-        (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+        (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
     }
 }
@@ -811,7 +923,7 @@ void MainWindow::s_Event_DoubleClickedOnBackground() {
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_Event_RefreshDisplay()));
     if (Dlg.exec()==0) {
         SetModifyFlag(true);
-        (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+        (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
     }
 }
@@ -820,7 +932,7 @@ void MainWindow::s_Event_DoubleClickedOnBackground() {
 
 void MainWindow::s_Event_RefreshDisplay() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_RefreshDisplay");
-    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
 }
 
 //====================================================================================================================
@@ -842,7 +954,7 @@ void MainWindow::s_Event_DoubleClickedOnMusic() {
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     if (Dlg.exec()==0) {
         SetModifyFlag(true);
-        (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+        (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();
     }
 }
@@ -899,8 +1011,8 @@ void MainWindow::s_Event_TimelineSelectionChanged() {
                 if (Diaporama->List[Diaporama->CurrentCol]->GetTransitDuration()>0) Diaporama->CurrentPosition--;
                 AdjustRuller();
             } else {
-                (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(0);
-                (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SetStartEndPos(0,0,-1,0,-1,0);
+                (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(0);
+                (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SetStartEndPos(0,0,-1,0,-1,0);
             }
         }
         RefreshControls();
@@ -1262,8 +1374,8 @@ void MainWindow::DoOpenFile() {
     for (int i=0;i<Diaporama->List.count();i++) AddObjectToTimeLine(i);
     AdjustRuller();
     SetModifyFlag(Diaporama->IsModify);
-    if (Diaporama->List.count()>0) (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetTransitionDuration(0));
-        else (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(0);
+    if (Diaporama->List.count()>0) (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetTransitionDuration(0));
+        else (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(0);
 
     ApplicationConfig->RecentFile.append(ProjectFileName);
     while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
@@ -1881,7 +1993,7 @@ void MainWindow::s_Action_RemoveObject() {
     delete Diaporama->List.takeAt(Current);
     if (Current>=Diaporama->List.count()) Current=Diaporama->List.count()-1;
     ui->timeline->ResetDisplay(Current);    // FLAGSTOPITEMSELECTION is set to false by ResetDisplay
-    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->GetObjectStartPosition(Current)+Diaporama->GetTransitionDuration(Current));
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Current)+Diaporama->GetTransitionDuration(Current));
     SetModifyFlag(true);
     AdjustRuller();
     ui->timeline->setUpdatesEnabled(true);
@@ -2046,6 +2158,522 @@ void MainWindow::AdjustRuller() {
         ui->preview2->SetStartEndPos(0,0,-1,0,-1,0);
     }
     ui->timeline->repaint();
-    (ApplicationConfig->PartitionMode?ui->preview2:ui->preview)->SeekPlayer(Diaporama->CurrentPosition);
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->CurrentPosition);
     RefreshControls();
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_FloderTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FloderTreeItemChanged");
+
+    ApplicationConfig->CurrentPath=ui->FolderTree->GetFolderPath(current,false);
+    QList<cBaseMediaFile*> EmptyList;
+    ui->FileInfoLabel->SetupFileInfoLabel(EmptyList);
+
+    ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
+    DoBrowserRefreshFolderInfo();
+
+    ui->CurrentPathED->setText(ApplicationConfig->CurrentPath);
+    ui->FolderIcon->setPixmap(DriveList->GetFolderIcon(ApplicationConfig->CurrentPath).pixmap(16,16));
+
+    QString Path=ApplicationConfig->CurrentPath;
+    #ifdef Q_OS_WIN
+        Path.replace("%HOMEDRIVE%%HOMEPATH%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path.replace("%USERPROFILE%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path=AdjustDirForOS(Path);
+        if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
+    #endif
+    ui->FolderTable->FillListFolder(Path);
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void MainWindow::DoBrowserRefreshFolderInfo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FloderTreeItemChanged");
+    DriveList->UpdateDriveList();   // To update free space on drive
+    cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(ApplicationConfig->CurrentPath);
+    if (HDD) {
+        // If scan in progress
+        if (ui->FolderTable->ScanMediaListProgress) {
+            ui->HDDSizePgr->setMaximum(0);
+            ui->HDDSizePgr->setValue(0);
+            ui->HDDSizePgr->setFormat("%P%");
+            ui->HDDSizePgr->setAlignment(Qt::AlignHCenter);
+            ui->FolderInfoLabel->setText("");
+
+        // If scan is finished
+        } else {
+            // Ensure Used and Size fit in an _int32 value for QProgressBar
+            qlonglong Used=HDD->Used,Size=HDD->Size;
+            while (Used>1024*1024) { Used=Used/1024; Size=Size/1024; }
+            ui->HDDSizePgr->setMaximum(Size);
+            ui->HDDSizePgr->setValue(Used);
+            ui->HDDSizePgr->setFormat(GetTextSize(HDD->Used)+"/"+GetTextSize(HDD->Size));
+            ui->HDDSizePgr->setAlignment(Qt::AlignHCenter);
+        }
+        QString ToDisplay=QString("%1/%2").arg(ui->FolderTable->CurrentShowFilesNumber).arg(ui->FolderTable->CurrentTotalFilesNumber)+" "+QApplication::translate("MainWindow","files")+" - "+
+                          QString("%1").arg(ui->FolderTable->CurrentShowFolderNumber)+" "+QApplication::translate("MainWindow","folders")+" - "+
+                          QApplication::translate("MainWindow","Total size:")+QString("%1/%2").arg(GetTextSize(ui->FolderTable->CurrentShowFolderSize)).arg(GetTextSize(ui->FolderTable->CurrentTotalFolderSize));
+        if (ui->FolderTable->CurrentShowDuration!=QTime(0,0,0,0)) ToDisplay=ToDisplay+" - "+QApplication::translate("MainWindow","Total duration:")+ui->FolderTable->CurrentShowDuration.toString("HH:mm:ss");
+        ui->FolderInfoLabel->setText(ToDisplay);
+    } else {
+        ui->HDDSizePgr->setMaximum(0);
+        ui->HDDSizePgr->setValue(0);
+        ui->HDDSizePgr->setFormat("%P%");
+        ui->HDDSizePgr->setAlignment(Qt::AlignHCenter);
+        ui->FolderInfoLabel->setText("");
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::DoBrowserRefreshSelectedFileInfo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoBrowserRefreshSelectedFileInfo");
+
+    if (ui->FileInfoLabel->isVisible()) {
+        ui->FileInfoLabel->SetupFileInfoLabel(ui->FolderTable->GetCurrentSelectedMediaFile());
+        ui->FileInfoLabel->repaint();
+    }
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_RefreshAll() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshAll");
+
+    ui->FolderTree->RefreshDriveList();
+    s_Browser_FloderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_SetToPrevious() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_SetToPrevious");
+    QString Path=ui->FolderTable->BrowseToPreviousPath();
+    if (Path!="") ui->FolderTree->SetSelectItemByPath(Path);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_SetToUpper() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_SetToUpper");
+    QString Path=ui->FolderTable->BrowseToUpperPath();
+    if (Path!="") ui->FolderTree->SetSelectItemByPath(Path);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_Favorite() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_Favorite");
+    QMenu *ContextMenu=new QMenu(this);
+
+    ContextMenu->addAction(ui->actionAddToFavorite);
+    ContextMenu->addSeparator();
+    for (int i=0;i<ApplicationConfig->BrowserFavorites.count();i++) {
+        QStringList Texts=ApplicationConfig->BrowserFavorites[i].split("###");
+        QAction *Action=new QAction(QIcon(":/img/favorite.png"),QString("%1 [%2]").arg(Texts[0]).arg(Texts[1]),this);
+        Action->setIconVisibleInMenu(true);
+        ContextMenu->addAction(Action);
+    }
+    ContextMenu->addSeparator();
+    ContextMenu->addAction(ui->actionManageFavorite);
+    QAction *Ret=ContextMenu->exec(QCursor::pos());
+    if ((Ret!=NULL)&&(Ret!=ui->actionAddToFavorite)&&(Ret!=ui->actionManageFavorite)&&(Ret->text()!="")) {
+        QStringList Texts=Ret->text().split(" [");
+        ui->FolderTree->SetSelectItemByPath(Texts[1].left(Texts[1].length()-1));
+    }
+    delete ContextMenu;
+    ui->ActionEdit_BT->setDown(false);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_AddToFavorite() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_AddToFavorite");
+
+    bool    Ok,Continue=true;
+    QString Text=ApplicationConfig->CurrentPath;
+    while (Text.indexOf(QDir::separator())!=-1) Text=Text.mid(Text.indexOf(QDir::separator())+1);
+    while (Continue) {
+        Continue=false;
+        Text=CustomInputDialog(this,QApplication::translate("MainWindow","Add to favorite"),QApplication::translate("MainWindow","Favorite name:"),QLineEdit::Normal,Text,&Ok);
+        if (Ok && !Text.isEmpty()) {
+
+            int i=0;
+            while ((i<ApplicationConfig->BrowserFavorites.count())&&(!ApplicationConfig->BrowserFavorites[i].startsWith(Text+"###"))) i++;
+            if ((i<ApplicationConfig->BrowserFavorites.count())&&(ApplicationConfig->BrowserFavorites[i].startsWith(Text+"###"))) {
+                if (CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add to favorite"),
+                                          QApplication::translate("MainWindow","A favorite with this name already exist.\nDo you want to overwrite-it ?"),
+                                          QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)
+                    ApplicationConfig->BrowserFavorites[i]=Text+"###"+ApplicationConfig->CurrentPath;
+                else Continue=true;
+
+            } else {
+
+                int i=0;
+                while ((i<ApplicationConfig->BrowserFavorites.count())&&(!ApplicationConfig->BrowserFavorites[i].endsWith("###"+ApplicationConfig->CurrentPath))) i++;
+                if ((i<ApplicationConfig->BrowserFavorites.count())&&(ApplicationConfig->BrowserFavorites[i].endsWith("###"+ApplicationConfig->CurrentPath))) {
+                    if (CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add to favorite"),
+                                              QApplication::translate("MainWindow","A favorite with for this path already exist.\nDo you want to overwrite-it ?"),
+                                              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)
+                        ApplicationConfig->BrowserFavorites[i]=Text+"###"+ApplicationConfig->CurrentPath;
+                    else Continue=true;
+
+                } else {
+                    ApplicationConfig->BrowserFavorites.append(Text+"###"+ApplicationConfig->CurrentPath);
+                }
+            }
+        }
+    }
+    ApplicationConfig->BrowserFavorites.sort();
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_ManageFavorite() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_ManageFavorite");
+    DlgManageFavorite Dlg(&ApplicationConfig->BrowserFavorites,HELPFILE_DlgManageFavorite,ApplicationConfig,ApplicationConfig->DlgManageFavoriteWSP,this);
+    Dlg.InitDialog();
+    Dlg.exec();
+}
+
+//====================================================================================================================
+
+bool MainWindow::s_Browser_InRemoveFolder(QString FolderPath) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_InRemoveFolder");
+
+    QDir            Folder(FolderPath);
+    QFileInfoList   Dirs=Folder.entryInfoList(QDir::Dirs|QDir::AllDirs|QDir::Hidden);
+
+    foreach(QFileInfo Dir,Dirs)
+        if ((Dir.isDir())&&(Dir.absoluteFilePath()!=FolderPath)&&(Dir.fileName()!=".")&&(Dir.fileName()!=".."))
+            if (!s_Browser_InRemoveFolder(Dir.absoluteFilePath())) return false;
+
+    QFileInfoList  Files=Folder.entryInfoList(QDir::Dirs|QDir::AllEntries|QDir::Hidden);
+    foreach(QFileInfo File,Files) if (!File.isDir()) if (!QFile(File.absoluteFilePath()).remove()) {
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Impossible to remove file %1 - error %2:%3").arg(File.fileName()).arg(errno).arg(QString().fromLocal8Bit(strerror(errno))));
+        return false;
+    }
+
+    if (!QDir().rmdir(FolderPath)) {
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Impossible to remove folder %1 - error %2:%3").arg(FolderPath).arg(errno).arg(QString().fromLocal8Bit(strerror(errno))));
+        return false;
+    } else {
+        ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Successfully remove folder (and all is content) %1").arg(FolderPath));
+        return true;
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_RemoveFolder() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RemoveFolder");
+
+    QString FolderPath=ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),false);
+    #ifdef Q_OS_LINUX
+    if (FolderPath.startsWith("~")) FolderPath=QDir::homePath()+FolderPath.mid(1);
+    #endif
+
+    QString NewFolderPath=ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),true);
+    if (NewFolderPath.lastIndexOf(QDir::separator())!=-1) NewFolderPath=NewFolderPath.left(NewFolderPath.lastIndexOf(QDir::separator()));
+
+    if (CustomMessageBox(this,QMessageBox::Question,APPLICATION_NAME,QApplication::translate("MainWindow","Are you sure to remove this folder ?\n(Warning: Content will not be moved to trash)")+"\n"+FolderPath,QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes) {
+        s_Browser_InRemoveFolder(FolderPath);
+        ui->FolderTree->SetSelectItemByPath(NewFolderPath);
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_RenameFolder() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RenameFolder");
+    bool    Ok;
+
+    QString FolderPath=ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),false);
+    #ifdef Q_OS_LINUX
+    if (FolderPath.startsWith("~")) FolderPath=QDir::homePath()+FolderPath.mid(1);
+    #endif
+    QString SrcFolder    =FolderPath;
+    QString SubFolderName=FolderPath;
+    if (SubFolderName.endsWith(QDir::separator())) SubFolderName=SubFolderName.lastIndexOf(SubFolderName.length()-1);
+    if (SubFolderName.indexOf(QDir::separator())!=-1) {
+        FolderPath=FolderPath.left(FolderPath.lastIndexOf(QDir::separator()));
+        SubFolderName=SubFolderName.mid(SubFolderName.lastIndexOf(QDir::separator())+1);
+        SubFolderName=CustomInputDialog(this,QApplication::translate("MainWindow","Rename folder"),QApplication::translate("MainWindow","Folder:"),QLineEdit::Normal,SubFolderName,&Ok);
+        if (Ok && !SubFolderName.isEmpty()) {
+            if (!QDir().rename(SrcFolder,FolderPath+QDir::separator()+SubFolderName)) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Rename folder"),QApplication::translate("MainWindow","Impossible to rename folder!"),QMessageBox::Ok);
+            else {
+                ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem()->parent(),true),false);
+                ui->FolderTree->SetSelectItemByPath(FolderPath+QDir::separator()+SubFolderName);
+            }
+        }
+    }
+}
+
+//====================================================================================================================
+#define ACTIONTYPE_ACTIONTYPE   0x0f00
+#define ACTIONTYPE_DISPLAYMODE  0x0100
+#define ACTIONTYPE_FILTERMODE   0x0200
+#define ACTIONTYPE_ONOFFOPTIONS 0x0400
+#define ONOFFOPTIONS_SHOWHIDDEN 1
+#define ONOFFOPTIONS_HIDEHIDDEN 2
+
+void MainWindow::s_Browser_ChangeDisplayMode() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_ChangeDisplayMode");
+
+    // Create menu
+    QMenu *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_DATA.png"),                                 QApplication::translate("MainWindow","Details view"),              ACTIONTYPE_DISPLAYMODE|DISPLAY_DATA,       true,ApplicationConfig->CurrentMode==DISPLAY_DATA));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_WEB.png"),                                  QApplication::translate("MainWindow","Summary view"),              ACTIONTYPE_DISPLAYMODE|DISPLAY_WEBLONG,    true,ApplicationConfig->CurrentMode==DISPLAY_WEBLONG));
+    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_JUKEBOX.png"),                              QApplication::translate("MainWindow","Icon view"),                 ACTIONTYPE_DISPLAYMODE|DISPLAY_ICON100,    true,ApplicationConfig->CurrentMode==DISPLAY_ICON100));
+    ContextMenu->addSeparator();
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","All files"),                 ACTIONTYPE_FILTERMODE|OBJECTTYPE_UNMANAGED,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_UNMANAGED));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","Managed files"),             ACTIONTYPE_FILTERMODE|OBJECTTYPE_MANAGED,  true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MANAGED));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultIMAGEIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Image files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_IMAGEFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_IMAGEFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultVIDEOIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Video files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_VIDEOFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_VIDEOFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultMUSICIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Music files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_MUSICFILE,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_MUSICFILE));
+    ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFFDIcon.GetIcon(cCustomIcon::ICON16),  QApplication::translate("MainWindow","ffDiaporama project files"), ACTIONTYPE_FILTERMODE|OBJECTTYPE_FFDFILE,  true,ApplicationConfig->CurrentFilter==OBJECTTYPE_FFDFILE));
+    ContextMenu->addSeparator();
+    if (ApplicationConfig->ShowHiddenFilesAndDir) ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_KO.png"),  QApplication::translate("MainWindow","Hide hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_HIDEHIDDEN,  true,false));
+        else                                      ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWHIDDEN,  true,false));
+
+    // Exec menu
+    QAction *Action=ContextMenu->exec(QCursor::pos());
+    if (Action) {
+        int ActionType=Action->data().toInt() & ACTIONTYPE_ACTIONTYPE;
+        int SubAction =Action->data().toInt() & (~ACTIONTYPE_ACTIONTYPE);
+        if (ActionType==ACTIONTYPE_DISPLAYMODE) {
+            if (ApplicationConfig->CurrentMode!=SubAction) {
+                ApplicationConfig->CurrentMode=SubAction;
+                ui->FileInfoLabel->setVisible((ApplicationConfig->CurrentMode!=DISPLAY_WEBSHORT)&&(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG));
+                ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
+                s_Browser_FloderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
+            }
+        } else if (ActionType==ACTIONTYPE_FILTERMODE) {
+            if (ApplicationConfig->CurrentFilter!=SubAction) {
+                ApplicationConfig->CurrentFilter=SubAction;
+                ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
+                s_Browser_FloderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
+            }
+        } else if (ActionType==ACTIONTYPE_ONOFFOPTIONS) {
+            if ((SubAction==ONOFFOPTIONS_SHOWHIDDEN)||(SubAction==ONOFFOPTIONS_HIDEHIDDEN)) {
+                ApplicationConfig->ShowHiddenFilesAndDir=(SubAction==ONOFFOPTIONS_SHOWHIDDEN);
+                s_Browser_RefreshAll();
+            }
+        }
+    }
+
+    // delete menu
+    while (ContextMenu->actions().count()) delete ContextMenu->actions().takeLast();
+    delete ContextMenu;
+
+    // set up button
+    ui->ActionModeBt->setDown(false);
+}
+
+//====================================================================================================================
+
+QAction *MainWindow::CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::CreateMenuAction");
+    QAction *Action;
+    if (Icon) Action=new QAction(QIcon(QPixmap().fromImage(*Icon)),Text,this);
+        else Action=new QAction(Text,this);
+    Action->setIconVisibleInMenu(true);
+    Action->setCheckable(Checkable);
+    if (Checkable) Action->setChecked(IsCheck);
+    Action->setData(QVariant(Data));
+    return Action;
+}
+
+QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::CreateMenuAction");
+    QAction *Action;
+    Action=new QAction(Icon,Text,this);
+    Action->setIconVisibleInMenu(true);
+    Action->setCheckable(Checkable);
+    if (Checkable) Action->setChecked(IsCheck);
+    Action->setData(QVariant(Data));
+    return Action;
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_DoubleClicked(QMouseEvent *) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_DoubleClicked");
+    s_Browser_OpenFile();
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_OpenFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_OpenFile");
+
+    cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
+    if (Media) {
+        if ((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE))
+            QDesktopServices::openUrl(QUrl().fromLocalFile(Media->FileName));
+        else if (Media->ObjectType==OBJECTTYPE_FOLDER) {
+            QString Path=ui->FolderTree->GetCurrentFolderPath();
+            if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
+            Path=Path+Media->ShortName;
+            ui->FolderTree->SetSelectItemByPath(Path);
+        }
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_RightClicked(QMouseEvent *) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RightClicked");
+
+    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    if (MediaList.count()==0) return;
+
+    bool    Multiple=(MediaList.count()>1);
+    bool    IsFind;
+
+    // Do qualification of files
+    QStringList FileExtensions;
+    QList<int>  ObjectTypes;
+
+    for (int i=0;i<MediaList.count();i++) {
+        IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j])       IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
+        IsFind=false;   for (int j=0;j<FileExtensions.count();j++)  if (MediaList[i]->FileExtension==FileExtensions[j]) IsFind=true; if (!IsFind) FileExtensions.append(MediaList[i]->FileExtension);
+    }
+
+    QMenu *ContextMenu=new QMenu(this);
+    if (((ObjectTypes.count()==1)&&(ObjectTypes[0]!=OBJECTTYPE_UNMANAGED))||((ObjectTypes.count()==2)&&((ObjectTypes[0]==OBJECTTYPE_VIDEOFILE)||(ObjectTypes[0]==OBJECTTYPE_IMAGEFILE))&&((ObjectTypes[1]==OBJECTTYPE_VIDEOFILE)||(ObjectTypes[1]==OBJECTTYPE_IMAGEFILE)))) {
+        // Single object type
+        switch (ObjectTypes[0]) {
+            case OBJECTTYPE_MUSICFILE :
+                if (!Multiple)  ContextMenu->addAction(ui->actionBrowserOpen);
+                if (!Multiple)  ContextMenu->addAction(ui->actionBrowserProperties);
+                if (!Multiple)  ContextMenu->addAction(ui->actionBrowserRenameFile);
+                ContextMenu->addAction(ui->actionBrowserRemoveFile);
+                ContextMenu->addSeparator();
+                ContextMenu->addAction(ui->actionBrowserUseAsPlaylist);
+                break;
+            case OBJECTTYPE_VIDEOFILE :
+            case OBJECTTYPE_IMAGEFILE :
+                if (!Multiple)  ContextMenu->addAction(ui->actionBrowserOpen);
+                if (!Multiple)  ContextMenu->addAction(ui->actionBrowserProperties);
+                if (!Multiple)  ContextMenu->addAction(ui->actionBrowserRenameFile);
+                ContextMenu->addAction(ui->actionBrowserRemoveFile);
+                ContextMenu->addSeparator();
+                ContextMenu->addAction(ui->actionBrowserAddFiles);
+                break;
+            case OBJECTTYPE_FFDFILE   :
+                if (!Multiple)  ContextMenu->addAction(ui->actionBrowserOpen);
+                if (!Multiple)  ContextMenu->addAction(ui->actionBrowserProperties);
+                if (!Multiple)  ContextMenu->addAction(ui->actionBrowserRenameFile);
+                ContextMenu->addAction(ui->actionBrowserRemoveFile);
+                ContextMenu->addSeparator();
+                ContextMenu->addAction(ui->actionBrowserAddProject);
+                break;
+            case OBJECTTYPE_FOLDER    :
+                if (!Multiple)  ContextMenu->addAction(ui->actionBrowserOpen);
+                if (!Multiple)  ContextMenu->addAction(ui->actionBrowserRenameFile);
+                ContextMenu->addAction(ui->actionBrowserRemoveFile);
+                break;
+        }
+    } else {
+        // Multiple object type
+        ContextMenu->addAction(ui->actionBrowserRemoveFile);
+    }
+    ContextMenu->exec(QCursor::pos());
+    delete ContextMenu;
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_Properties() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_Properties");
+    cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
+    if (Media) {
+        DlgInfoFile Dlg(Media,HELPFILE_DlgInfoFile,ApplicationConfig,ApplicationConfig->DlgInfoFileWSP,this);
+        Dlg.InitDialog();
+        Dlg.exec();
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_RemoveFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RemoveFile");
+    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    if (MediaList.count()>0) {
+
+    }
+    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Work in progress"),QApplication::translate("MainWindow","Sorry, not yet!"),QMessageBox::Ok);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_RenameFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RenameFile");
+    cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
+    if (Media) {
+    }
+    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Work in progress"),QApplication::translate("MainWindow","Sorry, not yet!"),QMessageBox::Ok);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_UseAsPlaylist() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_UseAsPlaylist");
+    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    if (MediaList.count()>0) {
+
+    }
+    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Work in progress"),QApplication::translate("MainWindow","Sorry, not yet!"),QMessageBox::Ok);
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_AddFiles() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_AddFiles");
+    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    if (MediaList.count()>0) {
+
+        // Calc position of new object depending on ApplicationConfig->AppendObject
+        if (ApplicationConfig->AppendObject) {
+            SavedCurIndex   =Diaporama->List.count();
+            CurIndex        =Diaporama->List.count();
+        } else {
+            SavedCurIndex=Diaporama->CurrentCol;
+            CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
+            if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
+        }
+        FileList.clear();
+        for (int i=0;i<MediaList.count();i++) FileList.append(MediaList[i]->FileName);
+
+        // Sort files in the fileList
+        if (Diaporama->ApplicationConfig->SortFile) {
+            // Sort by last number
+            for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
+                QString NameA=QFileInfo(FileList[j]).completeBaseName();
+                int NumA=NameA.length()-1;
+                while ((NumA>0)&&(NameA[NumA]>='0')&&(NameA[NumA]<='9')) NumA--;
+                if (NumA>=0) NumA=NameA.mid(NumA+1).toInt();
+
+                QString NameB=QFileInfo(FileList[j+1]).completeBaseName();
+                int NumB=NameB.length()-1;
+                while ((NumB>0)&&(NameB[NumB]>='0')&&(NameB[NumB]<='9')) NumB--;
+                if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
+
+                if (NumA>NumB) FileList.swap(j,j+1);
+            }
+        } else {
+            // Sort by alphabetical order
+            for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
+                if (QFileInfo(FileList[j]).completeBaseName()>QFileInfo(FileList[j+1]).completeBaseName()) FileList.swap(j,j+1);
+            }
+        }
+
+        ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
+        QTimer::singleShot(500,this,SLOT(s_Action_DoAddFile()));
+    }
 }
