@@ -95,11 +95,11 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
 
         if ((FilterString!="")&&(QFileInfo(CachedFilteredImage()).exists())) {
 
-            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName());
-            CacheRenderImage=new QImage(CachedFilteredImage());
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading cached filtered file :")+AdjustDirForOS(QFileInfo(CachedFilteredImage()).fileName()));
+            CacheRenderImage=new QImage(AdjustDirForOS(CachedFilteredImage()));
 
             #ifdef Q_OS_WIN
-            // On Windows : reduce image size to 8 MPix max
+            // On Windows XP : reduce image size to 8 MPix max
             double  MaxValue=8000000;
             if ((IsWindowsXP)&&(CacheRenderImage!=NULL)&&(!CacheRenderImage->isNull())&&((CacheRenderImage->width()*CacheRenderImage->height())>MaxValue)) {
                 double  ActualValue =CacheRenderImage->width()*CacheRenderImage->height();
@@ -116,15 +116,15 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
             if (!CacheRenderImage)
                 ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error allocating memory for cached filtered file"));
             if ((CacheRenderImage)&&(CacheRenderImage->isNull()))
-                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName());
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading cached filtered file :")+AdjustDirForOS(QFileInfo(CachedFilteredImage()).fileName()));
 
         } else if (FilterString=="") {
 
             // Image object
             if (TypeObject==LULOOBJECT_IMAGE) {
                 // Load image from disk
-                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
-                CacheRenderImage=new QImage(FileName);
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+AdjustDirForOS(QFileInfo(FileName).fileName()));
+                CacheRenderImage=new QImage(AdjustDirForOS(FileName));
 
                 #ifdef Q_OS_WIN
                 // On Windows : reduce image size to 8 MPix max

@@ -171,16 +171,6 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
                 DrawFilename=ParentTable->ApplicationConfig->DisplayFileName;
                 break;
 
-            case DISPLAY_WEBSHORT:
-                if (!Icon && !ParentTable->MediaList[ItemIndex]->IsInformationValide) Icon=ParentTable->ApplicationConfig->DefaultDelayedIcon.GetIcon(cCustomIcon::ICON32);
-                if (!Icon) Icon=&ParentTable->MediaList[ItemIndex]->Icon32;
-                if ((!Icon)||(Icon->isNull())) Icon=ParentTable->MediaList[ItemIndex]->GetDefaultTypeIcon(cCustomIcon::ICON32);
-                IconHeight=32;
-                LinesToDisplay=2;
-                addX=(IconHeight-Icon->width())/2;
-                addY=(IconHeight-Icon->height())/2;
-                break;
-
             case DISPLAY_WEBLONG :
                 if (!Icon && !ParentTable->MediaList[ItemIndex]->IsInformationValide) Icon=ParentTable->ApplicationConfig->DefaultDelayedIcon.GetIcon(cCustomIcon::ICON48);
                 if (!Icon) Icon=&ParentTable->MediaList[ItemIndex]->Icon48;
@@ -336,7 +326,7 @@ QMimeData *QCustomFolderTable::mimeData(const QList <QTableWidgetItem *>) const 
     QMimeData   *mimeData=new QMimeData;
     QList<QUrl> UrlList;
     QList<cBaseMediaFile*> SelMediaList=GetCurrentSelectedMediaFile();
-    for (int i=0;i<SelMediaList.count();i++) UrlList.append(SelMediaList[i]->FileName);
+    for (int i=0;i<SelMediaList.count();i++) UrlList.append(QUrl().fromLocalFile(AdjustDirForOS(SelMediaList[i]->FileName)));
     mimeData->setUrls(UrlList);
     return mimeData;
 }
@@ -523,7 +513,7 @@ void QCustomFolderTable::resizeEvent(QResizeEvent *ev) {
                 }
             }
         }
-    } else if ((ApplicationConfig->CurrentMode==DISPLAY_WEBSHORT)||(ApplicationConfig->CurrentMode==DISPLAY_WEBLONG)) {
+    } else if (ApplicationConfig->CurrentMode==DISPLAY_WEBLONG) {
         setColumnWidth(0,viewport()->width());
     }
     QTableWidget::resizeEvent(ev);
@@ -536,7 +526,7 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
 
     // Ensure scan thread is stoped
     EnsureThreadIsStopped();
-
+    if (Mode>DISPLAY_ICON100) Mode=DISPLAY_ICON100;
     ApplicationConfig->CurrentMode  =Mode;
     ApplicationConfig->CurrentFilter=Filter;
 
@@ -696,7 +686,6 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
             for (int Col=0;Col<columnCount();Col++) horizontalHeaderItem(Col)->setTextAlignment(GetAlignmentForColumn(Col));  // Size to the right
             break;
 
-        case DISPLAY_WEBSHORT :
         case DISPLAY_WEBLONG :
             setItemDelegate(IconDelegate);
             setSelectionBehavior(QAbstractItemView::SelectRows);
@@ -741,7 +730,7 @@ void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *ev) {
 //====================================================================================================================
 
 void QCustomFolderTable::RefreshListFolder() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::FillListFolder");
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::RefreshListFolder");
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
@@ -767,7 +756,10 @@ void QCustomFolderTable::RefreshListFolder() {
     int                 i,j;
 
     // Scan folder entries to remove all file not corresponding to showhiden filter
-    i=0; while (i<Files.count()) if (ApplicationConfig->ShowHiddenFilesAndDir || !((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))) i++; else Files.removeAt(i);
+    i=0;
+    while (i<Files.count()) if ((Files[i].fileName()==".")||(Files[i].fileName()=="..")||
+        ((!ApplicationConfig->ShowHiddenFilesAndDir)&&((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))))
+        Files.removeAt(i); else i++;
 
     // Compute total number of files and total folder size
     foreach(QFileInfo File,Files) if (!File.isDir()) {
@@ -847,10 +839,9 @@ void QCustomFolderTable::RefreshListFolder() {
         for (int i=0;i<columnCount();i++) setColumnWidth(i,SizeColumn);
         for (int i=0;i<(CurrentDisplayItem/columnCount())+1;i++) setRowHeight(RHeight,SizeColumn);
     } else {
-        if ((ApplicationConfig->CurrentMode==DISPLAY_WEBSHORT)||(ApplicationConfig->CurrentMode==DISPLAY_WEBLONG)) setColumnWidth(0,viewport()->width());
+        if (ApplicationConfig->CurrentMode==DISPLAY_WEBLONG) setColumnWidth(0,viewport()->width());
         for (int Row=0;Row<rowCount();Row++) {
             if (ApplicationConfig->CurrentMode==DISPLAY_DATA)           setRowHeight(Row,16+2);
-            else if (ApplicationConfig->CurrentMode==DISPLAY_WEBSHORT)  setRowHeight(Row,32+2);
             else                                                        setRowHeight(Row,48+2);  // DISPLAY_WEBLONG
         }
     }
@@ -896,7 +887,7 @@ QString QCustomFolderTable::BrowseToPreviousPath() {
 bool QCustomFolderTable::CanBrowseToUpperPath() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::CanBrowseToUpperPath");
     if (BrowsePathList.count()>0) {
-        QString Path=BrowsePathList[BrowsePathList.count()-1];     // Actual folder
+        QString Path=AdjustDirForOS(BrowsePathList[BrowsePathList.count()-1]);     // Actual folder
         if (Path.endsWith(QDir::separator())) Path=Path.left(Path.length()-1);
         #ifdef Q_OS_WIN
         if ((Path.length()==2)&&(Path.at(1)==':')) return false;    // if it's a drive !
@@ -912,7 +903,7 @@ QString QCustomFolderTable::BrowseToUpperPath() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::BrowseToUpperPath");
     QString Path="";
     if (BrowsePathList.count()>0) {
-        Path=BrowsePathList[BrowsePathList.count()-1];     // Actual folder
+        Path=AdjustDirForOS(BrowsePathList[BrowsePathList.count()-1]);     // Actual folder
         if (Path.endsWith(QDir::separator())) Path=Path.left(Path.length()-1);
         #ifdef Q_OS_WIN
         if ((Path.length()==2)&&(Path.at(1)==':')) return false;    // if it's a drive !
@@ -981,7 +972,10 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     cBaseMediaFile      *MediaObject=NULL;
 
     // Scan folder entries to remove all file not corresponding to showhiden filter
-    i=0; while (i<Files.count()) if (ApplicationConfig->ShowHiddenFilesAndDir || !((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))) i++; else Files.removeAt(i);
+    i=0;
+    while (i<Files.count()) if ((Files[i].fileName()==".")||(Files[i].fileName()=="..")||
+        ((!ApplicationConfig->ShowHiddenFilesAndDir)&&((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))))
+        Files.removeAt(i); else i++;
 
     // Compute total number of files and total folder size
     foreach(QFileInfo File,Files) if (!File.isDir()) {
@@ -1164,12 +1158,11 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
         CurrentShowFolderSize+=MediaObject->FileSize;
     }
 
-    if ((ApplicationConfig->CurrentMode==DISPLAY_DATA)||(ApplicationConfig->CurrentMode==DISPLAY_WEBSHORT)||(ApplicationConfig->CurrentMode==DISPLAY_WEBLONG)) {
+    if ((ApplicationConfig->CurrentMode==DISPLAY_DATA)||(ApplicationConfig->CurrentMode==DISPLAY_WEBLONG)) {
 
         insertRow(Row);
         verticalHeader()->setResizeMode(Row,QHeaderView::Fixed);
         if (ApplicationConfig->CurrentMode==DISPLAY_DATA)           setRowHeight(Row,16+2);
-        else if (ApplicationConfig->CurrentMode==DISPLAY_WEBSHORT)  setRowHeight(Row,32+2);
         else                                                        setRowHeight(Row,48+2);  // DISPLAY_WEBLONG
 
     } else if ((ApplicationConfig->CurrentMode==DISPLAY_ICON48)||(ApplicationConfig->CurrentMode==DISPLAY_ICON100)) {

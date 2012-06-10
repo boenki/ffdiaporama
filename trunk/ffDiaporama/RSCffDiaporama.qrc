@@ -127,24 +127,9 @@
         <file>img/MediaIcons/16x16/hdd.png</file>
         <file>img/MediaIcons/16x16/hdd-lan.png</file>
         <file>img/MediaIcons/16x16/image.png</file>
-        <file>img/MediaIcons/16x16/MMFiler.png</file>
         <file>img/MediaIcons/16x16/Thumbnails.png</file>
         <file>img/MediaIcons/16x16/usb.png</file>
         <file>img/MediaIcons/16x16/video.png</file>
-        <file>img/MediaIcons/32x32/audio.png</file>
-        <file>img/MediaIcons/32x32/cdrom.png</file>
-        <file>img/MediaIcons/32x32/delayed.png</file>
-        <file>img/MediaIcons/32x32/directory.png</file>
-        <file>img/MediaIcons/32x32/ffDiaporama.png</file>
-        <file>img/MediaIcons/32x32/file.png</file>
-        <file>img/MediaIcons/32x32/folder_home.png</file>
-        <file>img/MediaIcons/32x32/hdd.png</file>
-        <file>img/MediaIcons/32x32/hdd-lan.png</file>
-        <file>img/MediaIcons/32x32/image.png</file>
-        <file>img/MediaIcons/32x32/MMFiler.png</file>
-        <file>img/MediaIcons/32x32/Thumbnails.png</file>
-        <file>img/MediaIcons/32x32/usb.png</file>
-        <file>img/MediaIcons/32x32/video.png</file>
         <file>img/MediaIcons/48x48/audio.png</file>
         <file>img/MediaIcons/48x48/cdrom.png</file>
         <file>img/MediaIcons/48x48/delayed.png</file>
@@ -155,7 +140,6 @@
         <file>img/MediaIcons/48x48/hdd.png</file>
         <file>img/MediaIcons/48x48/hdd-lan.png</file>
         <file>img/MediaIcons/48x48/image.png</file>
-        <file>img/MediaIcons/48x48/MMFiler.png</file>
         <file>img/MediaIcons/48x48/Thumbnails.png</file>
         <file>img/MediaIcons/48x48/usb.png</file>
         <file>img/MediaIcons/48x48/video.png</file>
@@ -169,12 +153,10 @@
         <file>img/MediaIcons/100x100/hdd.png</file>
         <file>img/MediaIcons/100x100/hdd-lan.png</file>
         <file>img/MediaIcons/100x100/image.png</file>
-        <file>img/MediaIcons/100x100/MMFiler.png</file>
         <file>img/MediaIcons/100x100/Thumbnails.png</file>
         <file>img/MediaIcons/100x100/usb.png</file>
         <file>img/MediaIcons/100x100/video.png</file>
         <file>application-ffDiaporama.png</file>
-        <file>application-ffDiaporamaMMFiler.png</file>
         <file>img/Transitions/tr-00-00.png</file>
         <file>img/Transitions/tr-00-01.png</file>
         <file>img/Transitions/tr-00-02.png</file>
@@ -280,5 +262,6 @@
         <file>img/favorite_manage.png</file>
         <file>img/favorite_menu.png</file>
         <file>img/action_edit.png</file>
+        <file>img/config_menu.png</file>
     </qresource>
 </RCC>

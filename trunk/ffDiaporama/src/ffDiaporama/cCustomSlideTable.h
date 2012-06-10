@@ -110,6 +110,7 @@ private slots:
 
 signals:
     void    DragMoveItem();
+    void    DoAddDragAndDropFile();
     void    RightClickEvent(QMouseEvent *ev);
 };
 

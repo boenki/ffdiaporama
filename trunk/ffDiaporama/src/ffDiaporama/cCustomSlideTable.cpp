@@ -596,6 +596,8 @@ void cCustomSlideTable::dragEnterEvent(QDragEnterEvent *event) {
     event->acceptProposedAction();
 }
 
+//====================================================================================================================
+
 void cCustomSlideTable::dropEvent(QDropEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dropEvent");
     GlobalMainWindow->IsDragOn=0;
@@ -605,45 +607,18 @@ void cCustomSlideTable::dropEvent(QDropEvent *event) {
     QFileInfo   info;
 
     if (event->mimeData()->hasUrls()) {
-        urlList = event->mimeData()->urls();            // returns list of QUrls
+        urlList = event->mimeData()->urls();                                // returns list of QUrls
         for (int i=0;i<urlList.count();i++) {
-            fName = urlList[i].toLocalFile();           // convert first QUrl to local path
-            info.setFile(fName);                        // information about file
-            if (info.isFile()) GlobalMainWindow->FileList.append(fName);     // append file
+            fName = urlList[i].toLocalFile();                               // convert first QUrl to local path
+            info.setFile(fName);                                            // information about file
+            if (info.isFile()) GlobalMainWindow->FileList.append(fName);    // append file
         }
-
-        // Sort files in the fileList
-        if (GlobalMainWindow->ApplicationConfig->SortFile) {
-            // Sort by last number
-            for (int i=0;i<GlobalMainWindow->FileList.count();i++) for (int j=0;j<GlobalMainWindow->FileList.count()-1;j++) {
-                QString NameA=QFileInfo(GlobalMainWindow->FileList[j]).completeBaseName();
-                int NumA=NameA.length()-1;
-                while ((NumA>0)&&(NameA[NumA]>='0')&&(NameA[NumA]<='9')) NumA--;
-                if (NumA>=0) NumA=NameA.mid(NumA+1).toInt();
-
-                QString NameB=QFileInfo(GlobalMainWindow->FileList[j+1]).completeBaseName();
-                int NumB=NameB.length()-1;
-                while ((NumB>0)&&(NameB[NumB]>='0')&&(NameB[NumB]<='9')) NumB--;
-                if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
-
-                if (NumA>NumB) GlobalMainWindow->FileList.swap(j,j+1);
-            }
-        } else {
-            // Sort by alphabetical order
-            for (int i=0;i<GlobalMainWindow->FileList.count();i++) for (int j=0;j<GlobalMainWindow->FileList.count()-1;j++) {
-                if (QFileInfo(GlobalMainWindow->FileList[j]).completeBaseName()>QFileInfo(GlobalMainWindow->FileList[j+1]).completeBaseName()) GlobalMainWindow->FileList.swap(j,j+1);
-            }
-        }
-
     }
     event->acceptProposedAction();
-    if (GlobalMainWindow->FileList.count()>0) {
-        GlobalMainWindow->SavedCurIndex =GlobalMainWindow->DragItemDest>0?GlobalMainWindow->DragItemDest-1:0;
-        GlobalMainWindow->CurIndex      =GlobalMainWindow->DragItemDest;
-        GlobalMainWindow->ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(GlobalMainWindow->FileList[0]).fileName());
-        GlobalMainWindow->DoAddDragAndDropFile();
-    }
+    if (GlobalMainWindow->FileList.count()>0) emit DoAddDragAndDropFile();
 }
+
+//====================================================================================================================
 
 void cCustomSlideTable::dragMoveEvent(QDragMoveEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dragMoveEvent");

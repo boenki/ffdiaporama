@@ -60,7 +60,6 @@ void QCustomFileInfoLabel::paintEvent(QPaintEvent *) {
 
     switch (DisplayMode) {
         case DISPLAY_DATA    :  LinesToDisplay=0;       IconHeight=16;       Icon=Icon16;   break;
-        case DISPLAY_WEBSHORT:  LinesToDisplay=2;       IconHeight=32;       Icon=Icon32;   break;
         case DISPLAY_WEBLONG :  LinesToDisplay=3;       IconHeight=48;       Icon=Icon48;   break;
     }
 
@@ -135,7 +134,6 @@ void QCustomFileInfoLabel::SetupFileInfoLabel(QList<cBaseMediaFile*> MediaList) 
 
         IconType    =MediaObject->GetDefaultTypeIcon(cCustomIcon::ICON16);
         Icon16      =&MediaObject->Icon16;
-        Icon32      =&MediaObject->Icon32;
         Icon48      =&MediaObject->Icon48;
         Icon100     =&MediaObject->Icon100;
         ShortName   =MediaObject->ShortName;

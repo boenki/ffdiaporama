@@ -430,8 +430,8 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,cBaseApplica
     bool    IsStyleFound =false;
     QMenu   *ContextMenu =new QMenu(ParentWindow);
     QMenu   *UpdateMenu  =new QMenu(ParentWindow);
-    QAction *ActionCreate=new QAction(QApplication::translate("DlgManageStyle","Create new style"),ParentWindow);
-    QAction *ActionManage=new QAction(QApplication::translate("DlgManageStyle","Manage existing style"),ParentWindow);
+    QAction *ActionCreate=new QAction(QApplication::translate("DlgManageStyle","Create new style"),ParentWindow);       ActionCreate->setFont(QFont("Sans Serif",9));
+    QAction *ActionManage=new QAction(QApplication::translate("DlgManageStyle","Manage existing style"),ParentWindow);  ActionManage->setFont(QFont("Sans Serif",9));
     UpdateMenu->setTitle(QApplication::translate("DlgManageStyle","Update existing style"));
 
     for (int i=0;i<Collection.count();i++)
@@ -442,6 +442,7 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,cBaseApplica
 
         QAction *NormalAction=new QAction(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item,ParentWindow);
         NormalAction->setIconVisibleInMenu(true);
+        NormalAction->setFont(QFont("Sans Serif",9));
         if (Collection[i].StyleDef==ActualStyleDef) {
             NormalAction->setText("*"+NormalAction->text());
             IsStyleFound=true;
@@ -449,6 +450,7 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,cBaseApplica
         ContextMenu->addAction(NormalAction);
         QAction *UpdateAction=new QAction(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item,ParentWindow);
         UpdateAction->setIconVisibleInMenu(true);
+        UpdateAction->setFont(QFont("Sans Serif",9));
         UpdateAction->setToolTip(QApplication::translate("DlgManageStyle","Update style"));
         UpdateMenu->addAction(UpdateAction);
     }

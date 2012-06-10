@@ -14,17 +14,27 @@ Changelog depuis le dernier SVN
 French version / Correction de bug :
 -Ajout d'un patch pour openSuse 12.1 : Prise en compte des libav 0.54
 -Utilise le muxer mpegts au lieu de mpeg lors de la génération de fichier .mpg
+-Met correctement à jour le flag de modification quand on déplace une diapo par drag & drop sur la barre de temps
+-Met le lecteur de la preview en pause quand des fichiers sont ajoutés par drag & drop sur la barre de temps
 
 English version / Bug fix :
 -Add a patch for openSuse 12.1 : Set usable libav 0.54
 -User mpegts muxer instead of mpeg muser when rendering .mpg file
+-Correclty set modify flag when a slide is move using drag & drop on timeline
+-Set preview player to pause when files was added using drag & drop on timeline
 
 French version / Nouvelles fonctionnalités :
 -Abandon du sous-projet MMFiler
 -Création d'un 3eme mode d'affichage : browser avec ce qui avait été développé pour MMFiler
 -Trie les fichiers selon l'ordre défini dans la boite de configuration lors des ajouts par drag & drop de fichiers multiple
+-Affiche une fenetre de progression lors des ajouts de fichiers dans la timeline
+-Force l'affichage de tous les menus contextuel en "Sans Serif 9"
+-Accélère l'ajout de diapositive image et video (réduction de la latence entre 2 chargements de fichier)
 
 English version / New features :
 -Cancel of MMFiler sub-project
 -Addition of a third display mode : file explorer (with what was done for MMFiler)
 -Sort files depending on sort order defined in option dialog when adding multiple files using drag & drop
+-Display a progress window when adding files in timeline
+-Force display of each contextual menu to use "Sans Serif 9"
+-Speed up addition of slide image and video (reduce latence between 2 loading of file)

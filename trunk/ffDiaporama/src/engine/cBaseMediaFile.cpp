@@ -798,8 +798,8 @@ cImageFile::cImageFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile
 
 bool cImageFile::IsFilteredFile(int RequireObjectType) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::IsFilteredFile");
-
-    if (ObjectType==OBJECTTYPE_IMAGEFILE) return (RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(RequireObjectType==OBJECTTYPE_IMAGEFILE);
+    if (FileName.endsWith("_ffd.jpg",Qt::CaseInsensitive)) return (RequireObjectType==OBJECTTYPE_UNMANAGED);
+        else if (ObjectType==OBJECTTYPE_IMAGEFILE) return (RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(RequireObjectType==OBJECTTYPE_IMAGEFILE);
         else return (RequireObjectType==OBJECTTYPE_UNMANAGED);
 }
 

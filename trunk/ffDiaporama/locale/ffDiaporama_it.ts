@@ -3213,6 +3213,13 @@ blocco</translation>
     </message>
 </context>
 <context>
+    <name>DlgWorkingTask</name>
+    <message>
+        <source>Cancel</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DlgffDPjrProperties</name>
     <message>
         <source>Project properties</source>
@@ -3473,10 +3480,6 @@ progetto</translation>
         <translation>Rimuovi</translation>
     </message>
     <message>
-        <source>Del</source>
-        <translation>Del</translation>
-    </message>
-    <message>
         <source>Render video</source>
         <translation>Genera video</translation>
     </message>
@@ -3569,20 +3572,12 @@ e aiuto</translation>
         <translation>Modifica l&apos;immagine di sfondo per la diapositiva</translation>
     </message>
     <message>
-        <source>F5</source>
-        <translation>F5</translation>
-    </message>
-    <message>
         <source>Edit slide</source>
         <translation>Modifica diapositiva</translation>
     </message>
     <message>
         <source>Edit the slide</source>
         <translation>Modifica la diapositiva</translation>
-    </message>
-    <message>
-        <source>F6</source>
-        <translation>F6</translation>
     </message>
     <message>
         <source>Edit music</source>
@@ -3593,20 +3588,12 @@ e aiuto</translation>
         <translation>Modifica playlist musicale della diapositiva</translation>
     </message>
     <message>
-        <source>F7</source>
-        <translation>F7</translation>
-    </message>
-    <message>
         <source>Edit object transition</source>
         <translation>Modifica oggetto transizione</translation>
     </message>
     <message>
         <source>Edit entering transition for the slide</source>
         <translation>Modifica le transizioni in entrata per la diapositiva</translation>
-    </message>
-    <message>
-        <source>F8</source>
-        <translation>F8</translation>
     </message>
     <message>
         <source>Search Raster mode in configuration file</source>
@@ -4162,6 +4149,18 @@ Do you want to overwrite-it ?</source>
     </message>
     <message>
         <source>Sorry, not yet!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add file to project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide files name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show files name</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
