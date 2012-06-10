@@ -896,9 +896,6 @@ project</string>
               <height>24</height>
              </size>
             </property>
-            <property name="shortcut">
-             <string>Del</string>
-            </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextUnderIcon</enum>
             </property>
@@ -2135,9 +2132,6 @@ project</string>
                <height>24</height>
               </size>
              </property>
-             <property name="shortcut">
-              <string>Del</string>
-             </property>
              <property name="toolButtonStyle">
               <enum>Qt::ToolButtonTextUnderIcon</enum>
              </property>
@@ -3060,7 +3054,7 @@ and help</string>
              </property>
              <property name="icon">
               <iconset resource="../../RSCffDiaporama.qrc">
-               <normaloff>:/img/config.png</normaloff>:/img/config.png</iconset>
+               <normaloff>:/img/config_menu.png</normaloff>:/img/config_menu.png</iconset>
              </property>
             </widget>
            </item>
@@ -3638,8 +3632,11 @@ and help</string>
    <property name="toolTip">
     <string>Edit the background image for the slide</string>
    </property>
-   <property name="shortcut">
-    <string>F5</string>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionEdit_object">
@@ -3653,8 +3650,11 @@ and help</string>
    <property name="toolTip">
     <string>Edit the slide</string>
    </property>
-   <property name="shortcut">
-    <string>F6</string>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionEdit_music">
@@ -3668,8 +3668,11 @@ and help</string>
    <property name="toolTip">
     <string>Edit the slide musical playlist</string>
    </property>
-   <property name="shortcut">
-    <string>F7</string>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionEdit_object_in_transition">
@@ -3683,8 +3686,11 @@ and help</string>
    <property name="toolTip">
     <string>Edit entering transition for the slide</string>
    </property>
-   <property name="shortcut">
-    <string>F8</string>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionRemove">
@@ -3698,8 +3704,11 @@ and help</string>
    <property name="toolTip">
     <string>Remove current slide (DEL)</string>
    </property>
-   <property name="shortcut">
-    <string>Del</string>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionCut">
@@ -3713,8 +3722,12 @@ and help</string>
    <property name="toolTip">
     <string>Copy current slide to clipboard and remove it (Ctrl+X)</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+X</string>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+     <italic>false</italic>
+    </font>
    </property>
   </action>
   <action name="actionCopy">
@@ -3728,8 +3741,11 @@ and help</string>
    <property name="toolTip">
     <string>Copy current slide to clipboard (Ctrl+C)</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+C</string>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionPaste">
@@ -3743,8 +3759,11 @@ and help</string>
    <property name="toolTip">
     <string>Paste current slide from clipboard (Ctrl+V)</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+V</string>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionAddTitle">
@@ -3758,6 +3777,12 @@ and help</string>
    <property name="toolTip">
     <string>Add an empty slide</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionAddFiles">
    <property name="icon">
@@ -3770,8 +3795,11 @@ and help</string>
    <property name="toolTip">
     <string>Add image or video as slide (INS)</string>
    </property>
-   <property name="shortcut">
-    <string>Ins</string>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionAddProject">
@@ -3785,6 +3813,12 @@ and help</string>
    <property name="toolTip">
     <string>Add a previously saved project at the end of this project</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionAddToFavorite">
    <property name="icon">
@@ -3796,6 +3830,12 @@ and help</string>
    </property>
    <property name="toolTip">
     <string>Add current path to favorite</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionManageFavorite">
@@ -3809,6 +3849,12 @@ and help</string>
    <property name="toolTip">
     <string>Manage favorites (rename or remove)</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionBrowserOpen">
    <property name="icon">
@@ -3820,6 +3866,12 @@ and help</string>
    </property>
    <property name="toolTip">
     <string>Open file with system associated application</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionBrowserProperties">
@@ -3833,6 +3885,12 @@ and help</string>
    <property name="toolTip">
     <string>Display information on file</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionBrowserRemoveFile">
    <property name="icon">
@@ -3844,6 +3902,12 @@ and help</string>
    </property>
    <property name="toolTip">
     <string>Remove file (Warning: file will not be moved to trash!)</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionBrowserUseAsPlaylist">
@@ -3857,6 +3921,12 @@ and help</string>
    <property name="toolTip">
     <string>Define a new playlist for current slide</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionBrowserAddFiles">
    <property name="icon">
@@ -3865,6 +3935,12 @@ and help</string>
    </property>
    <property name="text">
     <string>Add files to project</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
   <action name="actionBrowserAddProject">
@@ -3878,6 +3954,12 @@ and help</string>
    <property name="toolTip">
     <string>Add project to current project</string>
    </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
   </action>
   <action name="actionBrowserRenameFile">
    <property name="icon">
@@ -3889,6 +3971,12 @@ and help</string>
    </property>
    <property name="toolTip">
     <string>Rename file</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
    </property>
   </action>
  </widget>

@@ -27,6 +27,7 @@
 // Include some common various class
 #include "../engine/_SDL_Support.h"
 #include "../engine/cDriveList.h"
+#include "DlgWorkingTask/DlgWorkingTask.h"
 
 #include <QNetworkReply>
 #include <QTreeWidgetItem>
@@ -65,6 +66,9 @@ public:
     Qt::HANDLE              CurrentThreadId;
     bool                    InPlayerUpdate;
 
+    DlgWorkingTask          *DlgWorkingTaskDialog;
+    bool                    CancelAction;
+
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void    InitWindow(QString ForceLanguage,QApplication *App);
@@ -79,7 +83,6 @@ public:
     void    ToStatusBar(QString Text);
     void    SetTimelineCurrentCell(int Cell);
 
-    void    DoAddDragAndDropFile();                         // Must be in public part because it was called by cCustomSlideTable
     void    DoOpenFileParam();                              // Must be in public part because it was called by main
 
 protected:
@@ -103,6 +106,7 @@ private slots:
 
     // Timeline & player
     void    s_Event_TimelineDragMoveItem();                 // Drag & drop operation in timeline
+    void    s_Event_TimelineAddDragAndDropFile();           // Add files from drag & drop (event send from timeline)
     void    s_Event_TimelineSelectionChanged();             // Timeline current item changed
     void    s_Event_DoubleClickedOnObject();                // Double click on widget in the object track
     void    s_Event_DoubleClickedOnTransition();            // Double click on transition part of widget in the object track
@@ -184,7 +188,8 @@ private slots:
 
 private:
 
-    // Browser functions
+    // Utility functions
+    void    SortFileList();
     QAction *CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck);
     QAction *CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck);
     bool    s_Browser_InRemoveFolder(QString FolderPath);

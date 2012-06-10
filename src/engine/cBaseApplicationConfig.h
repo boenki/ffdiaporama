@@ -58,10 +58,9 @@
 
 // MMFiler allowed display mode
 #define DISPLAY_DATA                        0
-#define DISPLAY_WEBSHORT                    1
-#define DISPLAY_WEBLONG                     2
-#define DISPLAY_ICON48                      3
-#define DISPLAY_ICON100                     4
+#define DISPLAY_WEBLONG                     1
+#define DISPLAY_ICON48                      2
+#define DISPLAY_ICON100                     3
 
 //****************************************************************************************************************************************************************
 

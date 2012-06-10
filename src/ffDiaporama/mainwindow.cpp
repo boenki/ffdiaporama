@@ -55,6 +55,8 @@
 
 MainWindow  *GlobalMainWindow=NULL;
 
+#define LATENCY 50
+
 //====================================================================================================================
 
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
@@ -71,6 +73,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     IsDragOn                =0;
     InPlayerUpdate          =false;
     DriveList               =new cDriveList(ApplicationConfig);
+    DlgWorkingTaskDialog    =NULL;
     setAcceptDrops(true);
     ApplicationConfig->ParentWindow=this;
 }
@@ -180,13 +183,13 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Initialise integrated browser
     ui->FileInfoLabel->DisplayMode=DISPLAY_WEBLONG;
-    ui->FileInfoLabel->setVisible((ApplicationConfig->CurrentMode!=DISPLAY_WEBSHORT)&&(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG));
+    ui->FileInfoLabel->setVisible(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG);
     ui->FolderTree->ApplicationConfig =ApplicationConfig;
     ui->FolderTree->IsRemoveAllowed   =true;
     ui->FolderTree->IsRenameAllowed   =true;
     ui->FolderTable->ApplicationConfig=ApplicationConfig;
     ui->FileInfoLabel->DisplayMode=DISPLAY_WEBLONG;
-    ui->FileInfoLabel->setVisible((ApplicationConfig->CurrentMode!=DISPLAY_WEBSHORT)&&(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG));
+    ui->FileInfoLabel->setVisible(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG);
     DriveList->UpdateDriveList();
     ui->FolderTree->InitDrives(DriveList);
     ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
@@ -267,6 +270,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->ZoomMinusBT,SIGNAL(released()),this,SLOT(s_Action_ZoomMinus()));
     connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_Event_TimelineSelectionChanged()));
     connect(ui->timeline,SIGNAL(DragMoveItem()),this,SLOT(s_Event_TimelineDragMoveItem()));
+    connect(ui->timeline,SIGNAL(DoAddDragAndDropFile()),this,SLOT(s_Event_TimelineAddDragAndDropFile()));
     connect(ui->PartitionBT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToPlayerMode()));
     connect(ui->Partition2BT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToPartitionMode()));
     connect(ui->Partition3BT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToBrowserMode()));
@@ -323,9 +327,9 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     SetModifyFlag(false);           // Setup title window and do first RefreshControls();
     s_Event_ClipboardChanged();     // Setup clipboard button state
 
-    if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(500,this,SLOT(s_Action_DlgCheckConfig())); else {
+    if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(LATENCY,this,SLOT(s_Action_DlgCheckConfig())); else {
         QString Status;
-        if (!Checkffmpeg(Status,ApplicationConfig)) QTimer::singleShot(500,this,SLOT(s_Action_DlgCheckConfig()));
+        if (!Checkffmpeg(Status,ApplicationConfig)) QTimer::singleShot(LATENCY,this,SLOT(s_Action_DlgCheckConfig()));
     }
 }
 
@@ -535,7 +539,7 @@ void MainWindow::showEvent(QShowEvent *) {
         IsFirstInitDone=true;                                   // do this only one time
         ui->BrowserWidget->restoreState(QByteArray::fromHex(ApplicationConfig->BrowserWidgetSplitter.toUtf8()));
         ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
-        if (ApplicationConfig->MainWinWSP->IsMaximized) QTimer::singleShot(500,this,SLOT(DoMaximized()));
+        if (ApplicationConfig->MainWinWSP->IsMaximized) QTimer::singleShot(LATENCY,this,SLOT(DoMaximized()));
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
         connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(s_Event_NetworkReply(QNetworkReply*)));
@@ -733,7 +737,7 @@ void MainWindow::s_Action_Exit() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_Exit()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_Exit()));
         return;
     }
 
@@ -748,7 +752,7 @@ void MainWindow::s_Action_ZoomPlus() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_ZoomPlus()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ZoomPlus()));
         return;
     }
 
@@ -767,7 +771,7 @@ void MainWindow::s_Action_ZoomMinus() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_ZoomMinus()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ZoomMinus()));
         return;
     }
 
@@ -804,7 +808,7 @@ void MainWindow::s_Action_ChWindowDisplayMode(int Mode) {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_ChWindowDisplayMode(Mode)));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ChWindowDisplayMode(Mode)));
         return;
     }
 
@@ -829,7 +833,7 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnObject()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Event_DoubleClickedOnObject()));
         return;
     }
     if (Diaporama->List.count()==0) return;
@@ -880,7 +884,7 @@ void MainWindow::s_Event_DoubleClickedOnTransition() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnTransition()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Event_DoubleClickedOnTransition()));
         return;
     }
 
@@ -915,7 +919,7 @@ void MainWindow::s_Event_DoubleClickedOnBackground() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnBackground()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Event_DoubleClickedOnBackground()));
         return;
     }
     DlgBackgroundProperties Dlg(Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgBackgroundProperties,ApplicationConfig,ApplicationConfig->DlgBackgroundPropertiesWSP,this);
@@ -945,7 +949,7 @@ void MainWindow::s_Event_DoubleClickedOnMusic() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Event_DoubleClickedOnMusic()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Event_DoubleClickedOnMusic()));
         return;
     }
 
@@ -966,6 +970,7 @@ void MainWindow::s_Event_TimelineDragMoveItem() {
 
     if (DragItemSource<DragItemDest) DragItemDest--;
     Diaporama->List.move(DragItemSource,DragItemDest);
+    SetModifyFlag(true);
     ui->timeline->SetCurrentCell(DragItemDest);
 }
 
@@ -977,7 +982,7 @@ void MainWindow::s_Event_TimelineSelectionChanged() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_TimelineSelectionChanged");
 
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Event_TimelineSelectionChanged()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Event_TimelineSelectionChanged()));
         return;
     }
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
@@ -1065,7 +1070,7 @@ void MainWindow::s_Action_RenderVideo() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_RenderVideo()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderVideo()));
         return;
     }
     ui->ActionRender_BT->setDown(false);
@@ -1085,7 +1090,7 @@ void MainWindow::s_Action_RenderSmartphone() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_RenderSmartphone()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderSmartphone()));
         return;
     }
     ui->ActionSmartphone_BT->setDown(false);
@@ -1105,7 +1110,7 @@ void MainWindow::s_Action_RenderMultimedia() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_RenderMultimedia()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderMultimedia()));
         return;
     }
     ui->ActionMultimedia_BT->setDown(false);
@@ -1125,7 +1130,7 @@ void MainWindow::s_Action_RenderForTheWEB() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_RenderForTheWEB()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderForTheWEB()));
         return;
     }
     ui->ActionForTheWEB_BT->setDown(false);
@@ -1145,7 +1150,7 @@ void MainWindow::s_Action_RenderLossLess() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_RenderForTheWEB()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderForTheWEB()));
         return;
     }
     ui->ActionLossLess_BT->setDown(false);
@@ -1169,7 +1174,7 @@ void MainWindow::s_Action_ProjectProperties() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_ProjectProperties()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ProjectProperties()));
         return;
     }
     ui->Action_PrjProperties_BT->setDown(false);
@@ -1191,7 +1196,7 @@ void MainWindow::s_Action_ChangeApplicationSettings() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_ChangeApplicationSettings()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ChangeApplicationSettings()));
         return;
     }
     ui->ActionConfiguration_BT->setDown(false);
@@ -1201,7 +1206,7 @@ void MainWindow::s_Action_ChangeApplicationSettings() {
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         ToStatusBar(QApplication::translate("MainWindow","Saving configuration file and applying new configuration ..."));
-        QTimer::singleShot(500,this,SLOT(DoChangeApplicationSettings()));
+        QTimer::singleShot(LATENCY,this,SLOT(DoChangeApplicationSettings()));
         ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
     }
 }
@@ -1230,7 +1235,7 @@ void MainWindow::s_Action_New() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_New()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_New()));
         return;
     }
     ui->Action_New_BT->setDown(false);
@@ -1275,7 +1280,7 @@ void MainWindow::s_Action_OpenRecent() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_OpenRecent()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_OpenRecent()));
         return;
     }
     QMenu *ContextMenu=new QMenu(this);
@@ -1293,7 +1298,7 @@ void MainWindow::s_Action_OpenRecent() {
     if (Selected!="") {
         ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(Selected).fileName());
         FileForIO=Selected;
-        QTimer::singleShot(500,this,SLOT(DoOpenFile()));
+        QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
     }
 }
 
@@ -1303,7 +1308,7 @@ void MainWindow::s_Action_Open() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_Open()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_Open()));
         return;
     }
     ui->Action_Open_BT->setDown(false);
@@ -1316,7 +1321,7 @@ void MainWindow::s_Action_Open() {
     if (ProjectFileName!="") {
         ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(ProjectFileName).fileName());
         FileForIO=ProjectFileName;
-        QTimer::singleShot(500,this,SLOT(DoOpenFile()));
+        QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
     }
 }
 
@@ -1324,7 +1329,7 @@ void MainWindow::DoOpenFileParam() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoOpenFileParam");
 
     ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileForIO).fileName());
-    QTimer::singleShot(500,this,SLOT(DoOpenFile()));
+    QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
 }
 
 void MainWindow::DoOpenFile() {
@@ -1451,7 +1456,7 @@ void MainWindow::s_Action_AddTitle() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_AddTitle()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_AddTitle()));
         return;
     }
     ui->ActionAddtitle_BT->setDown(false);
@@ -1499,7 +1504,7 @@ void MainWindow::s_Action_AddFile() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_AddFile()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_AddFile()));
         return;
     }
     ui->ActionAdd_BT->setDown(false);
@@ -1522,40 +1527,38 @@ void MainWindow::s_Action_AddFile() {
             if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
         }
 
-        // Sort files in the fileList
-        if (Diaporama->ApplicationConfig->SortFile) {
-            // Sort by last number
-            for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
-                QString NameA=QFileInfo(FileList[j]).completeBaseName();
-                int NumA=NameA.length()-1;
-                while ((NumA>0)&&(NameA[NumA]>='0')&&(NameA[NumA]<='9')) NumA--;
-                if (NumA>=0) NumA=NameA.mid(NumA+1).toInt();
+        SortFileList();
 
-                QString NameB=QFileInfo(FileList[j+1]).completeBaseName();
-                int NumB=NameB.length()-1;
-                while ((NumB>0)&&(NameB[NumB]>='0')&&(NameB[NumB]<='9')) NumB--;
-                if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
-
-                if (NumA>NumB) FileList.swap(j,j+1);
-            }
-        } else {
-            // Sort by alphabetical order
-            for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
-                if (QFileInfo(FileList[j]).completeBaseName()>QFileInfo(FileList[j+1]).completeBaseName()) FileList.swap(j,j+1);
-            }
-        }
-
-        ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
-        QTimer::singleShot(500,this,SLOT(s_Action_DoAddFile()));
+        DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add file to project"),&CancelAction,ApplicationConfig,this);
+        DlgWorkingTaskDialog->InitDialog();
+        DlgWorkingTaskDialog->SetMaxValue(FileList.count());
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+        DlgWorkingTaskDialog->exec();
     }
 }
 
 //====================================================================================================================
 
-void MainWindow::DoAddDragAndDropFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_DoAddDragAndDropFile");
+void MainWindow::s_Event_TimelineAddDragAndDropFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_TimelineAddDragAndDropFile");
 
-    QTimer::singleShot(500,this,SLOT(s_Action_DoAddFile()));
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(LATENCY,this,SLOT(s_Event_TimelineAddDragAndDropFile()));
+        return;
+    }
+
+    SavedCurIndex =DragItemDest>0?DragItemDest-1:0;
+    CurIndex      =DragItemDest;
+
+    SortFileList();
+
+    DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add file to project"),&CancelAction,ApplicationConfig,this);
+    DlgWorkingTaskDialog->InitDialog();
+    DlgWorkingTaskDialog->SetMaxValue(FileList.count());
+    QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+    DlgWorkingTaskDialog->exec();
 }
 
 //====================================================================================================================
@@ -1563,7 +1566,18 @@ void MainWindow::DoAddDragAndDropFile() {
 void MainWindow::s_Action_DoAddFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_DoAddFile");
 
-    if (FileList.count()==0) return;
+    if ((FileList.count()==0)||(CancelAction)) {
+        if (DlgWorkingTaskDialog) DlgWorkingTaskDialog->close();
+        delete DlgWorkingTaskDialog;
+        DlgWorkingTaskDialog=NULL;
+        FileList.clear();
+        return;
+    }
+
+    if (DlgWorkingTaskDialog) {
+        DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
+        DlgWorkingTaskDialog->DisplayProgress(DlgWorkingTaskDialog->MaxValue-FileList.count());
+    }
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     QString NewFile      =FileList.takeFirst();
@@ -1825,9 +1839,13 @@ void MainWindow::s_Action_DoAddFile() {
 
     // If file list contains other file then send a newer signal message to proceed the next one
     if (FileList.count()>0) {
-        ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
-        QTimer::singleShot(500,this,SLOT(s_Action_DoAddFile()));
-    } else ToStatusBar("");
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+    } else {
+        ToStatusBar("");
+        if (DlgWorkingTaskDialog) DlgWorkingTaskDialog->close();
+        delete DlgWorkingTaskDialog;
+        DlgWorkingTaskDialog=NULL;
+    }
 }
 
 //====================================================================================================================
@@ -1840,7 +1858,7 @@ void MainWindow::s_Action_AddProject() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_AddProject()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_AddProject()));
         return;
     }
     ui->ActionAddProject_BT->setDown(false);
@@ -1858,7 +1876,7 @@ void MainWindow::s_Action_AddProject() {
             if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
         }
         ToStatusBar(QApplication::translate("MainWindow","Add project file :")+QFileInfo(FileList[0]).fileName());
-        QTimer::singleShot(500,this,SLOT(s_Action_DoAddFile()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
     }
 }
 
@@ -1869,7 +1887,7 @@ void MainWindow::s_Event_SaveImageEvent() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Event_SaveImageEvent()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Event_SaveImageEvent()));
         return;
     }
     QStringList Size;
@@ -1888,6 +1906,7 @@ void MainWindow::s_Event_SaveImageEvent() {
 
     for (int i=0;i<Size.count();i++) {
         QAction *UpdateAction=new QAction(QApplication::translate("MainWindow","Capture the image ")+Size[i],this);
+        UpdateAction->setFont(QFont("Sans Serif",9));
         ContextMenu->addAction(UpdateAction);
     }
     QAction *Ret=ContextMenu->exec(QCursor::pos());
@@ -1921,7 +1940,7 @@ void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Event_ContextualMenu()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Event_ContextualMenu()));
         return;
     }
 
@@ -1951,7 +1970,7 @@ void MainWindow::s_Action_EditObject() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_EditObject()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_EditObject()));
         return;
     }
 
@@ -1975,7 +1994,7 @@ void MainWindow::s_Action_RemoveObject() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_RemoveObject()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RemoveObject()));
         return;
     }
     ui->ActionRemove_BT->setDown(false);
@@ -2008,7 +2027,7 @@ void MainWindow::s_Action_CutToClipboard() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_CutToClipboard()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_CutToClipboard()));
         return;
     }
     ui->ActionCut_BT->setDown(false);
@@ -2042,7 +2061,7 @@ void MainWindow::s_Action_CopyToClipboard() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_CopyToClipboard()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_CopyToClipboard()));
         return;
     }
     ui->ActionCopy_BT->setDown(false);
@@ -2076,7 +2095,7 @@ void MainWindow::s_Action_PasteFromClipboard() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(500,this,SLOT(s_Action_PasteFromClipboard()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_PasteFromClipboard()));
         return;
     }
     ui->ActionPaste_BT->setDown(false);
@@ -2276,6 +2295,7 @@ void MainWindow::s_Browser_Favorite() {
         QStringList Texts=ApplicationConfig->BrowserFavorites[i].split("###");
         QAction *Action=new QAction(QIcon(":/img/favorite.png"),QString("%1 [%2]").arg(Texts[0]).arg(Texts[1]),this);
         Action->setIconVisibleInMenu(true);
+        Action->setFont(QFont("Sans Serif",9));
         ContextMenu->addAction(Action);
     }
     ContextMenu->addSeparator();
@@ -2374,7 +2394,11 @@ void MainWindow::s_Browser_RemoveFolder() {
 
     QString FolderPath=ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),false);
     #ifdef Q_OS_LINUX
-    if (FolderPath.startsWith("~")) FolderPath=QDir::homePath()+FolderPath.mid(1);
+        if (FolderPath.startsWith("~")) FolderPath=QDir::homePath()+FolderPath.mid(1);
+    #endif
+    #ifdef Q_OS_WIN
+        if (FolderPath.startsWith(PersonalFolder)) FolderPath=QDir::homePath()+FolderPath.mid(PersonalFolder.length());
+        FolderPath=AdjustDirForOS(FolderPath);
     #endif
 
     QString NewFolderPath=ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),true);
@@ -2391,10 +2415,21 @@ void MainWindow::s_Browser_RemoveFolder() {
 void MainWindow::s_Browser_RenameFolder() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RenameFolder");
     bool    Ok;
+    bool    PersoF=false;
 
     QString FolderPath=ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),false);
     #ifdef Q_OS_LINUX
-    if (FolderPath.startsWith("~")) FolderPath=QDir::homePath()+FolderPath.mid(1);
+        if (FolderPath.startsWith("~")) {
+            FolderPath=QDir::homePath()+FolderPath.mid(1);
+            PersoF=true;
+        }
+    #endif
+    #ifdef Q_OS_WIN
+        if (FolderPath.startsWith(PersonalFolder)) {
+            FolderPath=QDir::homePath()+FolderPath.mid(PersonalFolder.length());
+            FolderPath=AdjustDirForOS(FolderPath);
+            PersoF=true;
+        }
     #endif
     QString SrcFolder    =FolderPath;
     QString SubFolderName=FolderPath;
@@ -2406,6 +2441,14 @@ void MainWindow::s_Browser_RenameFolder() {
         if (Ok && !SubFolderName.isEmpty()) {
             if (!QDir().rename(SrcFolder,FolderPath+QDir::separator()+SubFolderName)) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Rename folder"),QApplication::translate("MainWindow","Impossible to rename folder!"),QMessageBox::Ok);
             else {
+                if (PersoF) {
+                    #ifdef Q_OS_LINUX
+                    FolderPath.replace(QDir::homePath(),"~");
+                    #endif
+                    #ifdef Q_OS_WIN
+                    FolderPath.replace(AdjustDirForOS(QDir::homePath()),PersonalFolder);
+                    #endif
+                }
                 ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem()->parent(),true),false);
                 ui->FolderTree->SetSelectItemByPath(FolderPath+QDir::separator()+SubFolderName);
             }
@@ -2414,12 +2457,14 @@ void MainWindow::s_Browser_RenameFolder() {
 }
 
 //====================================================================================================================
-#define ACTIONTYPE_ACTIONTYPE   0x0f00
-#define ACTIONTYPE_DISPLAYMODE  0x0100
-#define ACTIONTYPE_FILTERMODE   0x0200
-#define ACTIONTYPE_ONOFFOPTIONS 0x0400
-#define ONOFFOPTIONS_SHOWHIDDEN 1
-#define ONOFFOPTIONS_HIDEHIDDEN 2
+#define ACTIONTYPE_ACTIONTYPE       0x0f00
+#define ACTIONTYPE_DISPLAYMODE      0x0100
+#define ACTIONTYPE_FILTERMODE       0x0200
+#define ACTIONTYPE_ONOFFOPTIONS     0x0400
+#define ONOFFOPTIONS_SHOWHIDDEN     1
+#define ONOFFOPTIONS_HIDEHIDDEN     2
+#define ONOFFOPTIONS_HIDEFILENAME   3
+#define ONOFFOPTIONS_SHOWFILENAME   4
 
 void MainWindow::s_Browser_ChangeDisplayMode() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_ChangeDisplayMode");
@@ -2439,6 +2484,10 @@ void MainWindow::s_Browser_ChangeDisplayMode() {
     ContextMenu->addSeparator();
     if (ApplicationConfig->ShowHiddenFilesAndDir) ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_KO.png"),  QApplication::translate("MainWindow","Hide hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_HIDEHIDDEN,  true,false));
         else                                      ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWHIDDEN,  true,false));
+    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
+        if (ApplicationConfig->DisplayFileName)   ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_KO.png"),  QApplication::translate("MainWindow","Hide files name"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_HIDEFILENAME,  true,false));
+            else                                  ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show files name"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWFILENAME,  true,false));
+    }
 
     // Exec menu
     QAction *Action=ContextMenu->exec(QCursor::pos());
@@ -2448,7 +2497,7 @@ void MainWindow::s_Browser_ChangeDisplayMode() {
         if (ActionType==ACTIONTYPE_DISPLAYMODE) {
             if (ApplicationConfig->CurrentMode!=SubAction) {
                 ApplicationConfig->CurrentMode=SubAction;
-                ui->FileInfoLabel->setVisible((ApplicationConfig->CurrentMode!=DISPLAY_WEBSHORT)&&(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG));
+                ui->FileInfoLabel->setVisible(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG);
                 ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
                 s_Browser_FloderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
             }
@@ -2462,6 +2511,9 @@ void MainWindow::s_Browser_ChangeDisplayMode() {
             if ((SubAction==ONOFFOPTIONS_SHOWHIDDEN)||(SubAction==ONOFFOPTIONS_HIDEHIDDEN)) {
                 ApplicationConfig->ShowHiddenFilesAndDir=(SubAction==ONOFFOPTIONS_SHOWHIDDEN);
                 s_Browser_RefreshAll();
+            } else if ((SubAction==ONOFFOPTIONS_SHOWFILENAME)||(SubAction==ONOFFOPTIONS_HIDEFILENAME)) {
+                ApplicationConfig->DisplayFileName=(SubAction==ONOFFOPTIONS_SHOWFILENAME);
+                s_Browser_RefreshAll();
             }
         }
     }
@@ -2472,31 +2524,6 @@ void MainWindow::s_Browser_ChangeDisplayMode() {
 
     // set up button
     ui->ActionModeBt->setDown(false);
-}
-
-//====================================================================================================================
-
-QAction *MainWindow::CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::CreateMenuAction");
-    QAction *Action;
-    if (Icon) Action=new QAction(QIcon(QPixmap().fromImage(*Icon)),Text,this);
-        else Action=new QAction(Text,this);
-    Action->setIconVisibleInMenu(true);
-    Action->setCheckable(Checkable);
-    if (Checkable) Action->setChecked(IsCheck);
-    Action->setData(QVariant(Data));
-    return Action;
-}
-
-QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::CreateMenuAction");
-    QAction *Action;
-    Action=new QAction(Icon,Text,this);
-    Action->setIconVisibleInMenu(true);
-    Action->setCheckable(Checkable);
-    if (Checkable) Action->setChecked(IsCheck);
-    Action->setData(QVariant(Data));
-    return Action;
 }
 
 //====================================================================================================================
@@ -2513,13 +2540,26 @@ void MainWindow::s_Browser_OpenFile() {
 
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
     if (Media) {
-        if ((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL)||(Media->ObjectType==OBJECTTYPE_FFDFILE))
+        if ((Media->ObjectType==OBJECTTYPE_IMAGEFILE)||(Media->ObjectType==OBJECTTYPE_VIDEOFILE)||(Media->ObjectType==OBJECTTYPE_MUSICFILE)||(Media->ObjectType==OBJECTTYPE_THUMBNAIL))
             QDesktopServices::openUrl(QUrl().fromLocalFile(Media->FileName));
         else if (Media->ObjectType==OBJECTTYPE_FOLDER) {
             QString Path=ui->FolderTree->GetCurrentFolderPath();
             if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
             Path=Path+Media->ShortName;
             ui->FolderTree->SetSelectItemByPath(Path);
+        } else if (Media->ObjectType==OBJECTTYPE_FFDFILE) {
+                FileForIO=Media->FileName;
+                int Ret=QMessageBox::Yes;
+                if (Diaporama->IsModify) {
+                    Ret=CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project"),
+                        QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
+                        QMessageBox::Cancel|QMessageBox::Yes|QMessageBox::No,QMessageBox::Yes);
+                    if (Ret==QMessageBox::Yes) s_Action_Save();
+                }
+                if (Ret!=QMessageBox::Cancel) {
+                    ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileForIO).fileName());
+                    QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
+                }
         }
     }
 }
@@ -2601,6 +2641,32 @@ void MainWindow::s_Browser_Properties() {
 
 //====================================================================================================================
 
+void MainWindow::s_Browser_AddFiles() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_AddFiles");
+    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    if (MediaList.count()>0) {
+
+        // Calc position of new object depending on ApplicationConfig->AppendObject
+        if (ApplicationConfig->AppendObject) {
+            SavedCurIndex   =Diaporama->List.count();
+            CurIndex        =Diaporama->List.count();
+        } else {
+            SavedCurIndex=Diaporama->CurrentCol;
+            CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
+            if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
+        }
+        FileList.clear();
+        for (int i=0;i<MediaList.count();i++) FileList.append(MediaList[i]->FileName);
+
+        SortFileList();
+
+        ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+    }
+}
+
+//====================================================================================================================
+
 void MainWindow::s_Browser_RemoveFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RemoveFile");
     QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
@@ -2632,48 +2698,60 @@ void MainWindow::s_Browser_UseAsPlaylist() {
 }
 
 //====================================================================================================================
+// UTILITY FUNCTIONS
+//====================================================================================================================
 
-void MainWindow::s_Browser_AddFiles() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_AddFiles");
-    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
-    if (MediaList.count()>0) {
+QAction *MainWindow::CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::CreateMenuAction");
+    QAction *Action;
+    if (Icon) Action=new QAction(QIcon(QPixmap().fromImage(*Icon)),Text,this);
+        else Action=new QAction(Text,this);
+    Action->setIconVisibleInMenu(true);
+    Action->setCheckable(Checkable);
+    Action->setFont(QFont("Sans Serif",9));
+    if (Checkable) Action->setChecked(IsCheck);
+    Action->setData(QVariant(Data));
+    return Action;
+}
 
-        // Calc position of new object depending on ApplicationConfig->AppendObject
-        if (ApplicationConfig->AppendObject) {
-            SavedCurIndex   =Diaporama->List.count();
-            CurIndex        =Diaporama->List.count();
-        } else {
-            SavedCurIndex=Diaporama->CurrentCol;
-            CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
-            if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
+//====================================================================================================================
+
+QAction *MainWindow::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::CreateMenuAction");
+    QAction *Action;
+    Action=new QAction(Icon,Text,this);
+    Action->setIconVisibleInMenu(true);
+    Action->setCheckable(Checkable);
+    Action->setFont(QFont("Sans Serif",9));
+    if (Checkable) Action->setChecked(IsCheck);
+    Action->setData(QVariant(Data));
+    return Action;
+}
+
+//====================================================================================================================
+
+void MainWindow::SortFileList() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::SortFileList");
+    // Sort files in the fileList
+    if (Diaporama->ApplicationConfig->SortFile) {
+        // Sort by last number
+        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
+            QString NameA=QFileInfo(FileList[j]).completeBaseName();
+            int NumA=NameA.length()-1;
+            while ((NumA>0)&&(NameA[NumA]>='0')&&(NameA[NumA]<='9')) NumA--;
+            if (NumA>=0) NumA=NameA.mid(NumA+1).toInt();
+
+            QString NameB=QFileInfo(FileList[j+1]).completeBaseName();
+            int NumB=NameB.length()-1;
+            while ((NumB>0)&&(NameB[NumB]>='0')&&(NameB[NumB]<='9')) NumB--;
+            if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
+
+            if (NumA>NumB) FileList.swap(j,j+1);
         }
-        FileList.clear();
-        for (int i=0;i<MediaList.count();i++) FileList.append(MediaList[i]->FileName);
-
-        // Sort files in the fileList
-        if (Diaporama->ApplicationConfig->SortFile) {
-            // Sort by last number
-            for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
-                QString NameA=QFileInfo(FileList[j]).completeBaseName();
-                int NumA=NameA.length()-1;
-                while ((NumA>0)&&(NameA[NumA]>='0')&&(NameA[NumA]<='9')) NumA--;
-                if (NumA>=0) NumA=NameA.mid(NumA+1).toInt();
-
-                QString NameB=QFileInfo(FileList[j+1]).completeBaseName();
-                int NumB=NameB.length()-1;
-                while ((NumB>0)&&(NameB[NumB]>='0')&&(NameB[NumB]<='9')) NumB--;
-                if (NumB>=0) NumB=NameB.mid(NumB+1).toInt();
-
-                if (NumA>NumB) FileList.swap(j,j+1);
-            }
-        } else {
-            // Sort by alphabetical order
-            for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
-                if (QFileInfo(FileList[j]).completeBaseName()>QFileInfo(FileList[j+1]).completeBaseName()) FileList.swap(j,j+1);
-            }
+    } else {
+        // Sort by alphabetical order
+        for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
+            if (QFileInfo(FileList[j]).completeBaseName()>QFileInfo(FileList[j+1]).completeBaseName()) FileList.swap(j,j+1);
         }
-
-        ToStatusBar(QApplication::translate("MainWindow","Add file to project :")+QFileInfo(FileList[0]).fileName());
-        QTimer::singleShot(500,this,SLOT(s_Action_DoAddFile()));
     }
 }
