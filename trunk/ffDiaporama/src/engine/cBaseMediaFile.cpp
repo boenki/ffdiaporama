@@ -32,6 +32,11 @@
 
 #define FFD_APPLICATION_ROOTNAME    "Project"           // Name of root node in the project xml file
 
+//#ifdef _MSC_VER
+//    #undef AV_TIME_BASE_Q
+//    AVRational AV_TIME_BASE_Q={1, AV_TIME_BASE};
+//#endif
+
 //****************************************************************************************************************************************************************
 
 // from Google music manager (see:http://code.google.com/p/gogglesmm/source/browse/src/gmutils.cpp?spec=svn6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13&r=6c3dbecbad40ee49736b9ff7fe3f1bfa6ca18c13)
@@ -450,7 +455,7 @@ cFolder::cFolder(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(Appli
 
 //====================================================================================================================
 
-bool cFolder::GetInformationFromFile(QString GivenFileName,QStringList */*AliasList*/,bool */*ModifyFlag*/) {
+bool cFolder::GetInformationFromFile(QString GivenFileName,QStringList * /*AliasList*/,bool * /*ModifyFlag*/) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cFolder::GetInformationFromFile");
 
     FileName            =QFileInfo(GivenFileName).absoluteFilePath();
@@ -582,7 +587,7 @@ cffDProjectFile::cffDProjectFile(cBaseApplicationConfig *ApplicationConfig):cBas
 
 //====================================================================================================================
 
-bool cffDProjectFile::GetInformationFromFile(QString GivenFileName,QStringList */*AliasList*/,bool */*ModifyFlag*/) {
+bool cffDProjectFile::GetInformationFromFile(QString GivenFileName,QStringList * /*AliasList*/,bool * /*ModifyFlag*/) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::GetInformationFromFile");
 
     FileName            =QFileInfo(GivenFileName).absoluteFilePath();
@@ -833,7 +838,7 @@ void cImageFile::GetFullInformationFromFile() {
         #endif
         ExifOk=true;
     }
-    catch( Exiv2::Error& e ) {
+    catch( Exiv2::Error& /*e*/ ) {
         ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
     }
     if (ExifOk) {
@@ -880,56 +885,58 @@ void cImageFile::GetFullInformationFromFile() {
 
         // Read preview image
         #ifdef EXIV2WITHPREVIEW
-        Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
-        if (Manager) {
-            Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
-            if (!Properties.empty()) {
-                Exiv2::PreviewImage Image=Manager->getPreviewImage(Properties[Properties.size()-1]);      // Get the latest image (biggest)
-                QImage *Icon=new QImage();
-                if (Icon->loadFromData(QByteArray((const char*)Image.pData(),Image.size()))) {
-                    if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
-                        QMatrix matrix;
-                        matrix.rotate(-90);
-                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                        delete Icon;
-                        Icon=NewImage;
-                    } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
-                        QMatrix matrix;
-                        matrix.rotate(180);
-                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                        delete Icon;
-                        Icon=NewImage;
-                    } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
-                        QMatrix matrix;
-                        matrix.rotate(90);
-                        QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                        delete Icon;
-                        Icon=NewImage;
-                    }
-
-                    // Sometimes, Icon have black bar : try to remove them
-                    if ((double(Icon->width())/double(Icon->height()))!=(double(ImageWidth)/double(ImageHeight))) {
-                        if (ImageWidth>ImageHeight) {
-                            int RealHeight=int((double(Icon->width())*double(ImageHeight))/double(ImageWidth));
-                            int Delta     =Icon->height()-RealHeight;
-                            QImage *NewImage=new QImage(Icon->copy(0,Delta/2,Icon->width(),Icon->height()-Delta));
+        if (IsIconNeeded) {
+            Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
+            if (Manager) {
+                Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
+                if (!Properties.empty()) {
+                    Exiv2::PreviewImage Image=Manager->getPreviewImage(Properties[Properties.size()-1]);      // Get the latest image (biggest)
+                    QImage *Icon=new QImage();
+                    if (Icon->loadFromData(QByteArray((const char*)Image.pData(),Image.size()))) {
+                        if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+                            QMatrix matrix;
+                            matrix.rotate(-90);
+                            QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
                             delete Icon;
                             Icon=NewImage;
-                        } else {
-                            int RealWidth=int((double(Icon->height())*double(ImageWidth))/double(ImageHeight));
-                            int Delta     =Icon->width()-RealWidth;
-                            QImage *NewImage=new QImage(Icon->copy(Delta/2,0,Icon->width()-Delta,Icon->height()));
+                        } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+                            QMatrix matrix;
+                            matrix.rotate(180);
+                            QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                            delete Icon;
+                            Icon=NewImage;
+                        } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+                            QMatrix matrix;
+                            matrix.rotate(90);
+                            QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
                             delete Icon;
                             Icon=NewImage;
                         }
-                    }
 
-                    // if preview Icon have a really small size, then don't use it
-                    if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
+                        // Sometimes, Icon have black bar : try to remove them
+                        if ((double(Icon->width())/double(Icon->height()))!=(double(ImageWidth)/double(ImageHeight))) {
+                            if (ImageWidth>ImageHeight) {
+                                int RealHeight=int((double(Icon->width())*double(ImageHeight))/double(ImageWidth));
+                                int Delta     =Icon->height()-RealHeight;
+                                QImage *NewImage=new QImage(Icon->copy(0,Delta/2,Icon->width(),Icon->height()-Delta));
+                                delete Icon;
+                                Icon=NewImage;
+                            } else {
+                                int RealWidth=int((double(Icon->height())*double(ImageWidth))/double(ImageHeight));
+                                int Delta     =Icon->width()-RealWidth;
+                                QImage *NewImage=new QImage(Icon->copy(Delta/2,0,Icon->width()-Delta,Icon->height()));
+                                delete Icon;
+                                Icon=NewImage;
+                            }
+                        }
+
+                        // if preview Icon have a really small size, then don't use it
+                        if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
+                    }
+                    delete Icon;
                 }
-                delete Icon;
+                delete Manager;
             }
-            delete Manager;
         }
         #endif
     }
@@ -938,18 +945,15 @@ void cImageFile::GetFullInformationFromFile() {
     // If no exif preview image (of image too small) then load/create thumbnail
     //************************************************************************************
     if ((IsIconNeeded)&&(Icon16.isNull())) {
-
-        if (Icon16.isNull()) {
-            cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,NULL,ApplicationConfig->Smoothing,true);
-            if (ImageObject==NULL) {
-                ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for thumbnail creation !");
+        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,NULL,ApplicationConfig->Smoothing,true);
+        if (ImageObject==NULL) {
+            ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for thumbnail creation !");
+        } else {
+            QImage *LN_Image=ImageObject->ValidateCacheRenderImage();   // Get a link to render image in LuLoImageCache collection
+            if ((LN_Image==NULL)||(LN_Image->isNull())) {
+                ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : ValidateCacheRenderImage return NULL for thumbnail creation !");
             } else {
-                QImage *LN_Image=ImageObject->ValidateCacheRenderImage();   // Get a link to render image in LuLoImageCache collection
-                if ((LN_Image==NULL)||(LN_Image->isNull())) {
-                    ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : ValidateCacheRenderImage return NULL for thumbnail creation !");
-                } else {
-                    LoadIcons(LN_Image);
-                }
+                LoadIcons(LN_Image);
             }
         }
     }
@@ -995,7 +999,7 @@ void cImageFile::GetFullInformationFromFile() {
     else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
 
     // if Icon16 stil null then load default icon
-    if (Icon16.isNull()) LoadIcons(&ApplicationConfig->DefaultIMAGEIcon);
+    if ((IsIconNeeded)&&(Icon16.isNull())) LoadIcons(&ApplicationConfig->DefaultIMAGEIcon);
 
     IsInformationValide=true;
 }

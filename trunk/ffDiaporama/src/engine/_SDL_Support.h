@@ -26,13 +26,8 @@
 
 // SDL Library
 extern "C" {
-    #include <SDL/SDL.h>
+    #include <SDL.h>
 }
-// We don't want SDL to override our main()
-#ifdef __MINGW32__
-    #undef main
-#endif
-
 // Include some common various class
 #include "cSoundBlockList.h"
 
@@ -41,12 +36,6 @@ void SDLAudioCallback(void *,Uint8 *stream,int len);
 void SDLFirstInit(double WantedFPS,bool SDLAncMode);
 void SDLLastClose();
 void SDLSetFPS(double WantedFPS,bool SDLAncMode);
-
-/*
-#ifdef __MINGW32__
-    #undef main // We don't want SDL to override our main()   // No need of this : remove main directly from SDL.h for Windows
-#endif
-*/
 
 // SDL Version of the
 class cSDLSoundBlockList : public cSoundBlockList {

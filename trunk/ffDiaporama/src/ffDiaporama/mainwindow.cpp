@@ -39,7 +39,6 @@
 #include <../engine/QCustomFolderTree.h>
 #include <../engine/QCustomFolderTable.h>
 #include <../engine/QCustomHorizSplitter.h>
-#include <../engine/QCustomFileInfoLabel.h>
 
 #include "DlgInfoFile/DlgInfoFile.h"
 #include "DlgCheckConfig/DlgCheckConfig.h"
@@ -55,7 +54,7 @@
 
 MainWindow  *GlobalMainWindow=NULL;
 
-#define LATENCY 50
+#define LATENCY 5
 
 //====================================================================================================================
 
@@ -182,14 +181,10 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->actionBrowserRenameFile->setIconVisibleInMenu(true);
 
     // Initialise integrated browser
-    ui->FileInfoLabel->DisplayMode=DISPLAY_WEBLONG;
-    ui->FileInfoLabel->setVisible(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG);
     ui->FolderTree->ApplicationConfig =ApplicationConfig;
     ui->FolderTree->IsRemoveAllowed   =true;
     ui->FolderTree->IsRenameAllowed   =true;
     ui->FolderTable->ApplicationConfig=ApplicationConfig;
-    ui->FileInfoLabel->DisplayMode=DISPLAY_WEBLONG;
-    ui->FileInfoLabel->setVisible(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG);
     DriveList->UpdateDriveList();
     ui->FolderTree->InitDrives(DriveList);
     ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
@@ -290,6 +285,8 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Browser event
     connect(ui->FolderTree,SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),this,SLOT(s_Browser_FloderTreeItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
+    connect(ui->FolderTree,SIGNAL(ActionRefreshAll()),this,SLOT(s_Browser_RefreshAll()));
+    connect(ui->FolderTree,SIGNAL(ActionRefreshHere()),this,SLOT(s_Browser_RefreshHere()));
     connect(ui->FolderTree,SIGNAL(ActionRemoveFolder()),this,SLOT(s_Browser_RemoveFolder()));
     connect(ui->FolderTree,SIGNAL(ActionRenameFolder()),this,SLOT(s_Browser_RenameFolder()));
     connect(ui->FolderTable,SIGNAL(itemSelectionChanged()),this,SLOT(DoBrowserRefreshSelectedFileInfo()));
@@ -1347,7 +1344,7 @@ void MainWindow::DoOpenFile() {
     }
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    ApplicationConfig->ImagesCache.List.clear();
+    while (ApplicationConfig->ImagesCache.List.count()>0) delete ApplicationConfig->ImagesCache.List.takeLast();
 
     // Manage Recent files list
     for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (AdjustDirForOS(ApplicationConfig->RecentFile.at(i))==ProjectFileName) {
@@ -1567,9 +1564,11 @@ void MainWindow::s_Action_DoAddFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_DoAddFile");
 
     if ((FileList.count()==0)||(CancelAction)) {
-        if (DlgWorkingTaskDialog) DlgWorkingTaskDialog->close();
-        delete DlgWorkingTaskDialog;
-        DlgWorkingTaskDialog=NULL;
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
+        }
         FileList.clear();
         return;
     }
@@ -1842,9 +1841,11 @@ void MainWindow::s_Action_DoAddFile() {
         QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
     } else {
         ToStatusBar("");
-        if (DlgWorkingTaskDialog) DlgWorkingTaskDialog->close();
-        delete DlgWorkingTaskDialog;
-        DlgWorkingTaskDialog=NULL;
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
+        }
     }
 }
 
@@ -2188,7 +2189,6 @@ void MainWindow::s_Browser_FloderTreeItemChanged(QTreeWidgetItem *current,QTreeW
 
     ApplicationConfig->CurrentPath=ui->FolderTree->GetFolderPath(current,false);
     QList<cBaseMediaFile*> EmptyList;
-    ui->FileInfoLabel->SetupFileInfoLabel(EmptyList);
 
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
     DoBrowserRefreshFolderInfo();
@@ -2208,6 +2208,17 @@ void MainWindow::s_Browser_FloderTreeItemChanged(QTreeWidgetItem *current,QTreeW
 }
 
 //====================================================================================================================
+QString ito2a(int val) {
+    QString Ret=QString("%1").arg(val);
+    while (Ret.length()<2) Ret="0"+Ret;
+    return Ret;
+}
+
+QString ito3a(int val) {
+    QString Ret=QString("%1").arg(val);
+    while (Ret.length()<3) Ret="0"+Ret;
+    return Ret;
+}
 
 void MainWindow::DoBrowserRefreshFolderInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FloderTreeItemChanged");
@@ -2216,34 +2227,47 @@ void MainWindow::DoBrowserRefreshFolderInfo() {
     if (HDD) {
         // If scan in progress
         if (ui->FolderTable->ScanMediaListProgress) {
-            ui->HDDSizePgr->setMaximum(0);
-            ui->HDDSizePgr->setValue(0);
-            ui->HDDSizePgr->setFormat("%P%");
-            ui->HDDSizePgr->setAlignment(Qt::AlignHCenter);
-            ui->FolderInfoLabel->setText("");
+            ui->FolderPgr->setMaximum(0);
+            ui->FolderPgr->setValue(0);
+            ui->FolderPgr->setFormat("%P%");
+            ui->FolderPgr->setAlignment(Qt::AlignHCenter);
+            ui->FolderDuration->setText("--:--:--.---");
 
         // If scan is finished
         } else {
             // Ensure Used and Size fit in an _int32 value for QProgressBar
             qlonglong Used=HDD->Used,Size=HDD->Size;
             while (Used>1024*1024) { Used=Used/1024; Size=Size/1024; }
-            ui->HDDSizePgr->setMaximum(Size);
-            ui->HDDSizePgr->setValue(Used);
-            ui->HDDSizePgr->setFormat(GetTextSize(HDD->Used)+"/"+GetTextSize(HDD->Size));
-            ui->HDDSizePgr->setAlignment(Qt::AlignHCenter);
+            ui->FolderPgr->setMaximum(Size);
+            ui->FolderPgr->setValue(Used);
+            ui->FolderPgr->setFormat(GetTextSize(HDD->Used)+"/"+GetTextSize(HDD->Size));
+            ui->FolderPgr->setAlignment(Qt::AlignHCenter);
+
+            qlonglong   duration=ui->FolderTable->CurrentShowDuration;
+            int         msec =duration % 1000;          duration=duration/1000;
+            int         sec  =duration % 60;            duration=duration/60;
+            int         mn   =duration % 60;            duration=duration/60;
+            int         hours=duration % 24;
+            int         days =duration / 24;
+            if (days>0) ui->FolderDuration->setText(QString("%1.%2:%3:%4.%5").arg(ito2a(days)).arg(ito2a(hours)).arg(ito2a(mn)).arg(ito2a(sec)).arg(ito3a(msec)));
+                else    ui->FolderDuration->setText(QString("%1:%2:%3.%4").arg(ito2a(hours)).arg(ito2a(mn)).arg(ito2a(sec)).arg(ito3a(msec)));
         }
-        QString ToDisplay=QString("%1/%2").arg(ui->FolderTable->CurrentShowFilesNumber).arg(ui->FolderTable->CurrentTotalFilesNumber)+" "+QApplication::translate("MainWindow","files")+" - "+
-                          QString("%1").arg(ui->FolderTable->CurrentShowFolderNumber)+" "+QApplication::translate("MainWindow","folders")+" - "+
-                          QApplication::translate("MainWindow","Total size:")+QString("%1/%2").arg(GetTextSize(ui->FolderTable->CurrentShowFolderSize)).arg(GetTextSize(ui->FolderTable->CurrentTotalFolderSize));
-        if (ui->FolderTable->CurrentShowDuration!=QTime(0,0,0,0)) ToDisplay=ToDisplay+" - "+QApplication::translate("MainWindow","Total duration:")+ui->FolderTable->CurrentShowDuration.toString("HH:mm:ss");
-        ui->FolderInfoLabel->setText(ToDisplay);
+
+        ui->NbrFiles->setText(QString("%1").arg(ui->FolderTable->CurrentShowFilesNumber));
+        ui->NbrFolders->setText(QString("%1").arg(ui->FolderTable->CurrentShowFolderNumber));
+        ui->FolderSize->setText(QString("%1").arg(GetTextSize(ui->FolderTable->CurrentShowFolderSize)));
+
     } else {
-        ui->HDDSizePgr->setMaximum(0);
-        ui->HDDSizePgr->setValue(0);
-        ui->HDDSizePgr->setFormat("%P%");
-        ui->HDDSizePgr->setAlignment(Qt::AlignHCenter);
-        ui->FolderInfoLabel->setText("");
+        ui->FolderPgr->setMaximum(0);
+        ui->FolderPgr->setValue(0);
+        ui->FolderPgr->setFormat("%P%");
+        ui->FolderPgr->setAlignment(Qt::AlignHCenter);
+        ui->NbrFiles->setText("");
+        ui->NbrFolders->setText("");
+        ui->FolderSize->setText("");
+        ui->FolderDuration->setText("");
     }
+    DoBrowserRefreshSelectedFileInfo();
 }
 
 //====================================================================================================================
@@ -2251,10 +2275,98 @@ void MainWindow::DoBrowserRefreshFolderInfo() {
 void MainWindow::DoBrowserRefreshSelectedFileInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoBrowserRefreshSelectedFileInfo");
 
-    if (ui->FileInfoLabel->isVisible()) {
-        ui->FileInfoLabel->SetupFileInfoLabel(ui->FolderTable->GetCurrentSelectedMediaFile());
-        ui->FileInfoLabel->repaint();
+    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+
+    if (MediaList.count()==0) {
+        // No selection
+
+        ui->FileIcon->setPixmap(QPixmap());
+        ui->FileInfo1a->setText("");
+        ui->FileInfo2a->setText("");
+        ui->FileInfo3a->setText("");
+
+    } else if (MediaList.count()==1) {
+        // One file selection
+
+        cBaseMediaFile *MediaObject=MediaList[0];
+        ui->FileIcon->setPixmap(QPixmap().fromImage(MediaObject->Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+
+        QString FStr=MediaObject->GetFileSizeStr();
+        if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName).arg(FStr)); else ui->FileInfo1a->setText(MediaObject->ShortName);
+        FStr=MediaObject->GetInformationValue("Duration");
+        if (FStr!="") ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo()).arg(FStr)); else ui->FileInfo2a->setText(MediaObject->GetTechInfo());
+        ui->FileInfo3a->setText(MediaObject->GetTAGInfo());
+
+    } else if (MediaList.count()>1) {
+        // Multi file select
+
+
+        // Do qualification of files
+        bool    IsFind;
+        QStringList FileExtensions;
+        QList<int>  ObjectTypes;
+        qlonglong   TotalDuration=0;
+        qlonglong   TotalSize    =0;
+
+        for (int i=0;i<MediaList.count();i++) {
+            IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j])       IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
+            IsFind=false;   for (int j=0;j<FileExtensions.count();j++)  if (MediaList[i]->FileExtension==FileExtensions[j]) IsFind=true; if (!IsFind) FileExtensions.append(MediaList[i]->FileExtension);
+
+            if ((MediaList[i]->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[i]->ObjectType==OBJECTTYPE_VIDEOFILE)) TotalDuration=TotalDuration+QTime(0,0,0,0).msecsTo(((cVideoFile *)MediaList[i])->Duration);
+                else if (MediaList[i]->ObjectType==OBJECTTYPE_FFDFILE)                                              TotalDuration=TotalDuration+((cffDProjectFile *)MediaList[i])->Duration;
+            TotalSize=TotalSize+MediaList[i]->FileSize;
+        }
+
+        if (TotalDuration!=0) {
+            int         msec =TotalDuration % 1000;          TotalDuration=TotalDuration/1000;
+            int         sec  =TotalDuration % 60;            TotalDuration=TotalDuration/60;
+            int         mn   =TotalDuration % 60;            TotalDuration=TotalDuration/60;
+            int         hours=TotalDuration % 24;
+            int         days =TotalDuration / 24;
+            if (days>0) ui->FileInfo2a->setText(QApplication::translate("MainWindow","Total duration:")+QString("%1.%2:%3:%4.%5").arg(ito2a(days)).arg(ito2a(hours)).arg(ito2a(mn)).arg(ito2a(sec)).arg(ito3a(msec)));
+                else    ui->FileInfo2a->setText(QApplication::translate("MainWindow","Total duration:")+QString("%1:%2:%3.%4").arg(ito2a(hours)).arg(ito2a(mn)).arg(ito2a(sec)).arg(ito3a(msec)));
+        } else ui->FileInfo2a->setText("");
+
+        if (TotalSize!=0) ui->FileInfo3a->setText(QApplication::translate("MainWindow","Total size:%1").arg(GetTextSize(TotalSize)));
+            else          ui->FileInfo3a->setText("");
+
+        if (ObjectTypes.count()==1) {
+            switch (ObjectTypes[0]) {
+                case OBJECTTYPE_MUSICFILE :
+                    ui->FileIcon->setPixmap(QPixmap().fromImage(ApplicationConfig->DefaultMUSICIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+                    ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 audio files").arg(MediaList.count()));
+                    break;
+                case OBJECTTYPE_VIDEOFILE :
+                    ui->FileIcon->setPixmap(QPixmap().fromImage(ApplicationConfig->DefaultVIDEOIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+                    ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 video files").arg(MediaList.count()));
+                    break;
+                case OBJECTTYPE_IMAGEFILE :
+                    ui->FileIcon->setPixmap(QPixmap().fromImage(ApplicationConfig->DefaultIMAGEIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+                    ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 image files").arg(MediaList.count()));
+                    break;
+                case OBJECTTYPE_FFDFILE   :
+                    ui->FileIcon->setPixmap(QPixmap().fromImage(ApplicationConfig->DefaultFFDIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+                    ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 ffDiaporama project files").arg(MediaList.count()));
+                    break;
+                case OBJECTTYPE_FOLDER    :
+                    ui->FileIcon->setPixmap(QPixmap().fromImage(ApplicationConfig->DefaultFOLDERIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+                    ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 folders").arg(MediaList.count()));
+                    break;
+                default:
+                    ui->FileIcon->setPixmap(QPixmap());
+                    ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 files").arg(MediaList.count()));
+                    ui->FileInfo2a->setText(QApplication::translate("MainWindow","Multiple file types"));
+                    break;
+            }
+
+
+        } else {
+            ui->FileIcon->setPixmap(QPixmap());
+            ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 files").arg(MediaList.count()));
+            ui->FileInfo2a->setText(QApplication::translate("MainWindow","Multiple file types"));
+        }
     }
+
     RefreshControls();
 }
 
@@ -2262,9 +2374,55 @@ void MainWindow::DoBrowserRefreshSelectedFileInfo() {
 
 void MainWindow::s_Browser_RefreshAll() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshAll");
+    CurrentDriveCheck=0;
+    CancelAction     =false;
+    DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Refresh All"),&CancelAction,ApplicationConfig,this);
+    DlgWorkingTaskDialog->InitDialog();
+    DlgWorkingTaskDialog->SetMaxValue(DriveList->List.count()+2);
+    DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive list"));
+    QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDriveList()));
+    DlgWorkingTaskDialog->exec();
+}
 
+//====================================================================================================================
+
+void MainWindow::s_Browser_RefreshDriveList() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshDriveList");
+    // Refresh drive list
     ui->FolderTree->RefreshDriveList();
+    DlgWorkingTaskDialog->SetMaxValue(DriveList->List.count()+2);
+    DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(DriveList->List[CurrentDriveCheck].Label));
+    DlgWorkingTaskDialog->DisplayProgress(1+DriveList->List.count()-CurrentDriveCheck);
+    QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDrive()));
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_RefreshDrive() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshDrive");
+    if (CurrentDriveCheck<DriveList->List.count()) ui->FolderTree->RefreshItemByPath(ui->FolderTree->DriveList->List[CurrentDriveCheck].Label,true);
+    CurrentDriveCheck++;
+    if ((!CancelAction)&&(CurrentDriveCheck<DriveList->List.count())) {
+        DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(DriveList->List[CurrentDriveCheck].Label));
+        DlgWorkingTaskDialog->DisplayProgress(1+DriveList->List.count()-CurrentDriveCheck);
+        QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDrive()));
+    } else {
+        DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update current folder"));
+        DlgWorkingTaskDialog->DisplayProgress(DlgWorkingTaskDialog->MaxValue);
+        QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshHere()));
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_Browser_RefreshHere() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshHere");
     s_Browser_FloderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
+    if (DlgWorkingTaskDialog) {
+        DlgWorkingTaskDialog->close();
+        delete DlgWorkingTaskDialog;
+        DlgWorkingTaskDialog=NULL;
+    }
 }
 
 //====================================================================================================================
@@ -2472,7 +2630,6 @@ void MainWindow::s_Browser_ChangeDisplayMode() {
     // Create menu
     QMenu *ContextMenu=new QMenu(this);
     ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_DATA.png"),                                 QApplication::translate("MainWindow","Details view"),              ACTIONTYPE_DISPLAYMODE|DISPLAY_DATA,       true,ApplicationConfig->CurrentMode==DISPLAY_DATA));
-    ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_WEB.png"),                                  QApplication::translate("MainWindow","Summary view"),              ACTIONTYPE_DISPLAYMODE|DISPLAY_WEBLONG,    true,ApplicationConfig->CurrentMode==DISPLAY_WEBLONG));
     ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_JUKEBOX.png"),                              QApplication::translate("MainWindow","Icon view"),                 ACTIONTYPE_DISPLAYMODE|DISPLAY_ICON100,    true,ApplicationConfig->CurrentMode==DISPLAY_ICON100));
     ContextMenu->addSeparator();
     ContextMenu->addAction(CreateMenuAction(ApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","All files"),                 ACTIONTYPE_FILTERMODE|OBJECTTYPE_UNMANAGED,true,ApplicationConfig->CurrentFilter==OBJECTTYPE_UNMANAGED));
@@ -2497,7 +2654,6 @@ void MainWindow::s_Browser_ChangeDisplayMode() {
         if (ActionType==ACTIONTYPE_DISPLAYMODE) {
             if (ApplicationConfig->CurrentMode!=SubAction) {
                 ApplicationConfig->CurrentMode=SubAction;
-                ui->FileInfoLabel->setVisible(ApplicationConfig->CurrentMode!=DISPLAY_WEBLONG);
                 ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
                 s_Browser_FloderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
             }

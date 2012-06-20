@@ -182,7 +182,7 @@ void cImgInteractiveZone::RefreshDisplay() {
     if (width()<height()) dmax=width(); else dmax=height();
 
     QImage  *SourceImage=NULL;
-    double  Hyp         =sqrt(CachedImage->width()*CachedImage->width()+CachedImage->height()*CachedImage->height());   // Calc hypothenuse of the image to define full canvas
+    double  Hyp         =sqrt(double(CachedImage->width())*double(CachedImage->width())+double(CachedImage->height())*double(CachedImage->height()));   // Calc hypothenuse of the image to define full canvas
 
     // calc rectangle before rotation
     double  rx=double(CachedImage->width())*(dmax/Hyp)/2;

@@ -29,7 +29,7 @@
 #include "mainwindow.h"
 #include <QTranslator>
 
-int main(int argc, char *argv[]) {
+int main(int argc, char* argv[]) {
 
     #ifdef Q_OS_WIN
     // Check Windows version and :
@@ -47,7 +47,8 @@ int main(int argc, char *argv[]) {
         QApplication::setStyle("Cleanlooks");
     #endif
 
-    QApplication app(argc,argv);
+    int zero=0;
+    QApplication app(zero,NULL);
 
     QString AutoLoad="";
     QString ForceLanguage="";

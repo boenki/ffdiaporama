@@ -90,16 +90,17 @@ QString cLuLoImageCacheObject::CachedFilteredImage() {
 
 QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCacheObject::ValidateCacheRenderImage");
+    LuLoImageCache->FreeMemoryToMaxValue();
 
     if (CacheRenderImage==NULL) {
 
         if ((FilterString!="")&&(QFileInfo(CachedFilteredImage()).exists())) {
 
-            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading cached filtered file :")+AdjustDirForOS(QFileInfo(CachedFilteredImage()).fileName()));
-            CacheRenderImage=new QImage(AdjustDirForOS(CachedFilteredImage()));
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName());
+            CacheRenderImage=new QImage(CachedFilteredImage());
 
             #ifdef Q_OS_WIN
-            // On Windows XP : reduce image size to 8 MPix max
+            // On Windows : reduce image size to 8 MPix max
             double  MaxValue=8000000;
             if ((IsWindowsXP)&&(CacheRenderImage!=NULL)&&(!CacheRenderImage->isNull())&&((CacheRenderImage->width()*CacheRenderImage->height())>MaxValue)) {
                 double  ActualValue =CacheRenderImage->width()*CacheRenderImage->height();
@@ -116,15 +117,15 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
             if (!CacheRenderImage)
                 ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error allocating memory for cached filtered file"));
             if ((CacheRenderImage)&&(CacheRenderImage->isNull()))
-                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading cached filtered file :")+AdjustDirForOS(QFileInfo(CachedFilteredImage()).fileName()));
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName());
 
         } else if (FilterString=="") {
 
             // Image object
             if (TypeObject==LULOOBJECT_IMAGE) {
                 // Load image from disk
-                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+AdjustDirForOS(QFileInfo(FileName).fileName()));
-                CacheRenderImage=new QImage(AdjustDirForOS(FileName));
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
+                CacheRenderImage=new QImage(FileName);
 
                 #ifdef Q_OS_WIN
                 // On Windows : reduce image size to 8 MPix max
@@ -225,6 +226,7 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
 
 QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCacheObject::ValidateCachePreviewImage");
+    LuLoImageCache->FreeMemoryToMaxValue();
 
     if (CachePreviewImage==NULL) {
 
@@ -427,6 +429,7 @@ qlonglong cLuLoImageCache::MemoryUsed() {
 void cLuLoImageCache::FreeMemoryToMaxValue() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::FreeMemoryToMaxValue");
 
+    // 1st step : ensure used memory is less than max allowed
     qlonglong Memory    =MemoryUsed();
     qlonglong MaxMemory =MaxValue;
     #ifdef Q_OS_WIN
@@ -453,4 +456,21 @@ void cLuLoImageCache::FreeMemoryToMaxValue() {
         while ((List.count()>0)&&(List[List.count()-1]->CachePreviewImage==NULL)&&(List[List.count()-1]->CacheRenderImage==NULL)) delete List.takeLast();
         ToLog(LOGMSG_INFORMATION,DisplayLog+QString(" - After=%1 cached objects for %2 Mb").arg(List.count()).arg(Memory/(1024*1024)));
     }
+    // 2st step : ensure we are able to allocate a 128 Mb block
+    void *block=NULL;
+    while ((block==NULL)&&(List.count()>1)) {
+        block=malloc(128*1024*1024);
+        if ((block==NULL)&&(List.count()>1)) {
+            // Search if we can remove at least one CacheRenderImage
+            int i=List.count()-1;
+            while ((i>=1)&&(List[i]->CacheRenderImage==NULL)) i--;
+            if (i>=1) {
+                delete List[i]->CacheRenderImage;
+                List[i]->CacheRenderImage=NULL;
+            // if no CacheRenderImage was found, then delete latest cached image (render & preview)
+            } else delete List.takeLast();
+            ToLog(LOGMSG_INFORMATION,QString("Free memory to ensure enough space to work - After=%1 cached objects for %2 Mb").arg(List.count()).arg(Memory/(1024*1024)));
+        }
+    }
+    if (block) free(block);
 }

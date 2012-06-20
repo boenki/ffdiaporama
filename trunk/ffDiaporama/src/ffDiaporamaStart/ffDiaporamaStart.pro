@@ -7,6 +7,7 @@ win32 {
     SOURCES     += main.cpp
     TARGET      = ffDiaporamaStart
     CONFIG      -= app_bundle
+    LIBS        += -lShell32
 
     CONFIG(release, debug|release) {
         DESTDIR     += ..\\..\\..\\winbuild

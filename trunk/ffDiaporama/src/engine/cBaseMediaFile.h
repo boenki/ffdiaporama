@@ -42,17 +42,15 @@
 // Other third party library inclusions
 
 //****************************************************************************************************************************************************************
-// EXIV2 PART [Linux only - Windows use binary version]
+// EXIV2 PART
 //****************************************************************************************************************************************************************
-//#ifdef Q_OS_LINUX
-    #include <exiv2/exif.hpp>
-    #if (EXIV2_MAJOR_VERSION==0) && (EXIV2_MINOR_VERSION>20)
-        #include <exiv2/exiv2.hpp>
-        #define EXIV2WITHPREVIEW
-    #else
-        #include <exiv2/image.hpp>
-    #endif
-//#endif
+#include <exiv2/exif.hpp>
+#if (EXIV2_MAJOR_VERSION==0) && (EXIV2_MINOR_VERSION>20)
+    #include <exiv2/exiv2.hpp>
+    #define EXIV2WITHPREVIEW
+#else
+    #include <exiv2/image.hpp>
+#endif
 
 //****************************************************************************************************************************************************************
 // TAGLIB PART

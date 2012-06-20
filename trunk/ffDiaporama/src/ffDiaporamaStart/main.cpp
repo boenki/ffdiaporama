@@ -1,6 +1,7 @@
 #include <windows.h>
 #include <stdio.h>
 #include <tchar.h>
+#include <Shellapi.h>
 
 int main(int argc, char *argv[]) {
     WCHAR wFile[512],wParam[512],wFolder[512];
