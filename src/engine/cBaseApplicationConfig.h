@@ -25,7 +25,9 @@
 #include "_GlobalDefines.h"
 
 // Include some additional standard class
-#include <unistd.h>
+#ifndef Q_OS_WIN
+    #include <unistd.h>
+#endif
 #include <QString>
 #include <QStringList>
 #include <QWidget>
@@ -58,9 +60,7 @@
 
 // MMFiler allowed display mode
 #define DISPLAY_DATA                        0
-#define DISPLAY_WEBLONG                     1
-#define DISPLAY_ICON48                      2
-#define DISPLAY_ICON100                     3
+#define DISPLAY_ICON100                     1
 
 //****************************************************************************************************************************************************************
 
@@ -69,7 +69,7 @@ int     getCpuCount();                                                          
 QString AdjustDirForOS(QString Dir);                                                                                // Adjust separator in pathname depending on operating system
 QString GetTextSize(qlonglong Size);                                                                                // transform a size (_int64) in a string with apropriate unit (Gb/Tb...)
 bool    CheckFolder(QString FileToTest,QString PathToTest);                                                         // Check if FileToTest exist in PathToTest and if yes the change current folder to PathToTest
-bool    SetWorkingPath(char *argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt);    // Adjust current folder
+bool    SetWorkingPath(char * const argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt);    // Adjust current folder
 
 #ifdef Q_OS_LINUX
     bool SearchRasterMode(QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName);

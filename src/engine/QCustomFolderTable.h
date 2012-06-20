@@ -33,7 +33,6 @@
 // Include some common various class
 #include "cBaseApplicationConfig.h"
 #include "cBaseMediaFile.h"
-#include "QCustomFileInfoLabel.h"
 
 class QCustomFolderTable : public QTableWidget {
 Q_OBJECT
@@ -50,7 +49,7 @@ public:
     int                     CurrentDisplayItem;
     qlonglong               CurrentShowFolderSize;
     qlonglong               CurrentTotalFolderSize;
-    QTime                   CurrentShowDuration;
+    qlonglong               CurrentShowDuration;
 
     // Thread controls
     QFutureWatcher<void>    ScanMediaList;

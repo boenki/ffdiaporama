@@ -40,7 +40,7 @@ public:
     int                     CurrentShotNbr;
     int                     DragItemSource;
     int                     DragItemDest;
-    bool                    IsDragOn;
+    int                     IsDragOn;
 
     explicit                cCustomBlockTable(QWidget *parent = 0);
 

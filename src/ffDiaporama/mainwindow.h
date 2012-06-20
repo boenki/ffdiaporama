@@ -68,6 +68,7 @@ public:
 
     DlgWorkingTask          *DlgWorkingTaskDialog;
     bool                    CancelAction;
+    int                     CurrentDriveCheck;
 
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -167,6 +168,9 @@ private slots:
     // Browser event
     void    s_Browser_FloderTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *);
     void    s_Browser_RefreshAll();
+    void    s_Browser_RefreshDriveList();
+    void    s_Browser_RefreshDrive();
+    void    s_Browser_RefreshHere();
     void    s_Browser_ChangeDisplayMode();
     void    s_Browser_DoubleClicked(QMouseEvent *);
     void    s_Browser_OpenFile();

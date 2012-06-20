@@ -61,7 +61,7 @@ void QMovieLabel::SetImage(QImage *Image) {
     repaint();
 }
 
-void QMovieLabel::paintEvent(QPaintEvent */*event*/) {
+void QMovieLabel::paintEvent(QPaintEvent * /*event*/) {
     if (CurrentImage.isNull()) return;
     QPainter Painter(this);
     //Painter.save();

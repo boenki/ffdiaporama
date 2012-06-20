@@ -70,6 +70,8 @@ private:
 signals:
     void                ActionRemoveFolder();
     void                ActionRenameFolder();
+    void                ActionRefreshAll();
+    void                ActionRefreshHere();
 
 };
 

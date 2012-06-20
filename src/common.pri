@@ -27,6 +27,8 @@ unix {
     }
 
     INCLUDEPATH += /usr/include/ffmpeg/                                 # Specific for Fedora
+    INCLUDEPATH += /usr/include/SDL
+    LIBS        += -lexiv2                                              #------ Exiv2
 }
 
 win32 {
@@ -49,18 +51,19 @@ win32 {
         UI_SOURCES_DIR  += ..\\..\\..\\windebugbuild\\src\\$$TARGET
     }
 
-    INCLUDEPATH += C:\\Qt\\libav-win32\\usr\\include                    #------ libav library path
-    INCLUDEPATH += c:\\Qt\\SDL-1.2.14\\include                          #------ SDL library path
-    INCLUDEPATH += c:\\Qt\\ThirdLib\\include                            #------ Exiv2 and TAGlib library path
-    INCLUDEPATH += .                                                    #------ I don't know why, but windows need this !
+    INCLUDEPATH += C:\\Qt\\libav-win32\\usr\\include                        #------ libav library path
+    INCLUDEPATH += C:\\Qt\\SDL-1.2.15\\include\\SDL                         #------ SDL library path
+    INCLUDEPATH += C:\\Qt\\ThirdLib\\include                                #------ TAGlib and EXIV2 library path
+    INCLUDEPATH += .                                                        #------ I don't know why, but windows need this !
 
-    LIBS        += -L"C:\\Qt\\libav-win32\\usr\\lib"                    #------ libav library path
-    LIBS        += -L"c:\\Qt\\SDL-1.2.14\\lib"                          #------ SDL library path
-    LIBS        += -L"c:\\Qt\\ThirdLib\\lib"                            #------ Exiv2 and TAGlib library path
-    LIBS        += -lgdi32 -lkernel32                                   #------ Windows GDI lib link
+    LIBS        += -L"C:\\Qt\\libav-win32\\usr\\bin"                        #------ libav library path
+    LIBS        += -L"C:\\Qt\\SDL-1.2.15\\lib"                              #------ SDL library path
+    LIBS        += -L"C:\\Qt\\ThirdLib\\lib"                                #------ library path (dynamic version) of third party libs (exiv2lib and taglib)
+    LIBS        += -lgdi32 -lkernel32 -luser32 -lshell32 -ladvapi32         #------ Windows GDI libs link
+    LIBS        += -llibexiv2                                               #------ Exiv2 (dynamic version, so not -llibexpat -lxmpsdk -lzlib1)
 }
 
 #---- Libs for windows and linux
-LIBS        += -lavformat -lavcodec -lavutil -lswscale                  #------ libav lib link
-LIBS        += -lexiv2                                                  #------ Exiv2
-LIBS        += -ltag                                                    #------ TAGlib
+LIBS        += -ltag                                                        #------ TAGlib
+LIBS	    += -lSDL                                                        #------ SDL
+LIBS        += -lavformat -lavcodec -lavutil -lswscale                      #------ libav lib link

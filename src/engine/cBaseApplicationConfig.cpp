@@ -131,7 +131,7 @@ bool CheckFolder(QString FileToTest,QString PathToTest) {
 //      or in $$PREFIX/share/ApplicationName
 //**************************************************
 
-bool SetWorkingPath(char *argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt) {
+bool SetWorkingPath(char * const argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SetWorkingPath");
     QString StartupDir=QFileInfo(argv[0]).absolutePath();
     ToLog(LOGMSG_INFORMATION,"StartupDir "+StartupDir);

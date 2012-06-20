@@ -235,11 +235,9 @@ void cCustomIcon::LoadIcons(QString FileName) {
     if (Icon.isNull()) ToLog(LOGMSG_CRITICAL,QString("Loading %1 Error").arg(FileName)); else {
         if (Icon.width()>Icon.height()) {
             Icon16 =Icon.scaledToWidth(16,Qt::SmoothTransformation);
-            Icon48 =Icon.scaledToWidth(48,Qt::SmoothTransformation);
             Icon100=Icon.scaledToWidth(100,Qt::SmoothTransformation);
         } else {
             Icon16 =Icon.scaledToHeight(16,Qt::SmoothTransformation);
-            Icon48 =Icon.scaledToHeight(48,Qt::SmoothTransformation);
             Icon100=Icon.scaledToHeight(100,Qt::SmoothTransformation);
         }
     }
@@ -251,7 +249,6 @@ void cCustomIcon::LoadIcons(cCustomIcon *CustomIcon) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIcons as CustomIcon");
 
     Icon16 =CustomIcon->Icon16.copy();
-    Icon48 =CustomIcon->Icon48.copy();
     Icon100=CustomIcon->Icon100.copy();
 }
 
@@ -261,7 +258,6 @@ void cCustomIcon::LoadIconsFromIMG(QString FileName) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIconsFromIMG");
 
     Icon16.load (":/img/MediaIcons/16x16/"+FileName);     if (Icon16.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading img/MediaIcons/16x16/%1 Error").arg(FileName));
-    Icon48.load (":/img/MediaIcons/48x48/"+FileName);     if (Icon48.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading img/MediaIcons/48x48/%1 Error").arg(FileName));
     Icon100.load(":/img/MediaIcons/100x100/"+FileName);   if (Icon100.isNull()) ToLog(LOGMSG_CRITICAL,QString("Loading img/MediaIcons/100x100/%1 Error").arg(FileName));
 }
 
@@ -271,7 +267,6 @@ void cCustomIcon::LoadIconsFromLinux(QString LinuxPath,QString FileName) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIconsFromLinux");
 
     Icon16.load(LinuxPath+"16x16/"+FileName);           if (Icon16.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading %116x16/%2 Error").arg(LinuxPath).arg(FileName));
-    Icon48.load(LinuxPath+"48x48/"+FileName);           if (Icon48.isNull())  ToLog(LOGMSG_CRITICAL,QString("Loading %148x48/%2 Error").arg(LinuxPath).arg(FileName));
     Icon100=QImage(LinuxPath+"128x128/"+FileName);      if (Icon100.isNull()) ToLog(LOGMSG_CRITICAL,QString("Loading %1128x128/%2 Error").arg(LinuxPath).arg(FileName));
     if (!Icon100.isNull()) Icon100=Icon100.scaledToHeight(100,Qt::SmoothTransformation);
 }
@@ -283,11 +278,9 @@ void cCustomIcon::LoadIcons(QImage *Image) {
 
     if (Image->width()>Image->height()) {
         Icon16 =Image->scaledToWidth(16,Qt::SmoothTransformation);
-        Icon48 =Image->scaledToWidth(48,Qt::SmoothTransformation);
         Icon100=Image->scaledToWidth(100,Qt::SmoothTransformation);
     } else {
         Icon16 =Image->scaledToHeight(16,Qt::SmoothTransformation);
-        Icon48 =Image->scaledToHeight(48,Qt::SmoothTransformation);
         Icon100=Image->scaledToHeight(100,Qt::SmoothTransformation);
     }
 }
@@ -298,7 +291,6 @@ void cCustomIcon::LoadIcons(QIcon Icon) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::LoadIcons as QIcon");
 
     Icon16 =Icon.pixmap(16,16).toImage();
-    Icon48 =Icon.pixmap(48,48).toImage();
     Icon100=Icon.pixmap(100,100).toImage();
     if ((Icon100.height()<100)&&(Icon100.width()<100)) {
         if (Icon100.height()>Icon100.width()) Icon100=Icon100.scaledToHeight(100,Qt::SmoothTransformation);
@@ -312,7 +304,6 @@ QIcon cCustomIcon::GetIcon() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomIcon::GetIcon");
 
     QIcon Ret=QIcon(QPixmap().fromImage(Icon16));
-    Ret.addPixmap(QPixmap().fromImage(Icon48));
     Ret.addPixmap(QPixmap().fromImage(Icon100));
     return Ret;
 }
@@ -324,7 +315,6 @@ QImage  *cCustomIcon::GetIcon(IconSize Size) {
 
     switch (Size) {
         case ICON16:  return &Icon16;
-        case ICON48:  return &Icon48;
         case ICON100: return &Icon100;
         default:      return &Icon16;
     }

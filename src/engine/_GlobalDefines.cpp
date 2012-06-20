@@ -89,7 +89,7 @@ QObject     *EventReceiver=NULL;                // Windows wich receive event
                     #if _MSC_VER >= 1300
                     // no way to get the pointer to the CRT heap in VC 6.0 (_crtheap)
                     if(heapSetInfo((HANDLE)_get_heap_handle(), HeapCompatibilityInformation, &heapFlags, sizeof(ULONG))) {
-                        ToLog(LOGMSG_INFORMATION,"DLLMain's Request for Low Fragmentation for the CRT Heap Successful";
+                        ToLog(LOGMSG_INFORMATION,"DLLMain's Request for Low Fragmentation for the CRT Heap Successful");
                     } else {
                         ToLog(LOGMSG_WARNING,"DLLMain's Request for Low Fragmentation for the CRT Heap Unsuccessful.  Will Run with the Standard Heap Allocators");
                     }

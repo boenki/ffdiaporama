@@ -24,8 +24,6 @@ isEmpty(PREFIX) {
 include(../common.pri)
 #--------------------------------------------------------------
 
-LIBS		+=-lSDL                                                     # specific for SDL
-
 # Ressource files
 win32:RC_FILE    += ../../ffDiaporama.rc
 unix:OTHER_FILES += ../../ffDiaporama.rc
@@ -83,7 +81,6 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../engine/cBaseMediaFile.cpp \
             ../engine/_SDL_Support.cpp \
             ../engine/_QCustomDialog.cpp \
-            ../engine/QCustomFileInfoLabel.cpp \
             ../engine/cBrushDefinition.cpp \
             ../engine/cCustomIcon.cpp \
             ../fmt_filters/fmt_filters.cpp \ 
@@ -135,7 +132,6 @@ HEADERS  += \
             ../engine/cBaseMediaFile.h \
             ../engine/_SDL_Support.h \
             ../engine/_QCustomDialog.h \
-            ../engine/QCustomFileInfoLabel.h \
             ../engine/cBrushDefinition.h \
             ../engine/cCustomIcon.h \
             ../fmt_filters/fmt_filters.h \ 
