@@ -373,41 +373,25 @@ void MainWindow::s_CleanStatusBar() {
 void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::keyReleaseEvent");
 
-    bool Find=false;
-
-    if ((!ApplicationConfig->PartitionMode)&&(ui->ToolBoxNormal->currentIndex()!=0)) {
-        Find=true;
-        if (event->matches(QKeySequence::Quit))         s_Action_Exit();
-        else if (event->matches(QKeySequence::New))     s_Action_New();
-        else if (event->matches(QKeySequence::Open))    s_Action_Open();
-        else if (event->matches(QKeySequence::Save))    s_Action_Save();
-        else if (event->matches(QKeySequence::SaveAs))  s_Action_SaveAs();
-        else Find=false;
-    }
-    if ((!Find)&&(!ApplicationConfig->PartitionMode)&&(ui->ToolBoxNormal->currentIndex()!=1)) {
-        Find=true;
-        if (event->matches(QKeySequence::Copy))         s_Action_CopyToClipboard();
-        else if (event->matches(QKeySequence::Cut))     s_Action_CutToClipboard();
-        else if (event->matches(QKeySequence::Paste))   s_Action_PasteFromClipboard();
-        else if (event->matches(QKeySequence::Delete))  s_Action_RemoveObject();
-        //else if (event->matches(QKeySequence::ZoomIn))  s_Action_ZoomPlus();
-        //else if (event->matches(QKeySequence::ZoomOut)) s_Action_ZoomMinus();
-        else if (event->key()==Qt::Key_Insert)          s_Action_AddFile();
-        else Find=false;
-    }
-    if ((!Find)&&(!ApplicationConfig->PartitionMode)&&(ui->ToolBoxNormal->currentIndex()!=3)) {
-        Find=true;
-        if (event->key()==Qt::Key_F1)                   s_Action_Documentation();
-        else Find=false;
-    }
-    if (!Find) {
-        Find=true;
-        if (event->key()==Qt::Key_F5)                   s_Event_DoubleClickedOnBackground();
-        else if (event->key()==Qt::Key_F6)              s_Event_DoubleClickedOnObject();
-        else if (event->key()==Qt::Key_F7)              s_Event_DoubleClickedOnMusic();
-        else if (event->key()==Qt::Key_F8)              s_Event_DoubleClickedOnTransition();
-        else Find=false;
-    }
+    bool Find=true;
+    if (event->matches(QKeySequence::Quit))             s_Action_Exit();
+    else if (event->matches(QKeySequence::New))         s_Action_New();
+    else if (event->matches(QKeySequence::Open))        s_Action_Open();
+    else if (event->matches(QKeySequence::Save))        s_Action_Save();
+    else if (event->matches(QKeySequence::SaveAs))      s_Action_SaveAs();
+    else if (event->matches(QKeySequence::Copy))         s_Action_CopyToClipboard();
+    else if (event->matches(QKeySequence::Cut))         s_Action_CutToClipboard();
+    else if (event->matches(QKeySequence::Paste))       s_Action_PasteFromClipboard();
+    else if (event->matches(QKeySequence::Delete))      s_Action_RemoveObject();
+    //else if (event->matches(QKeySequence::ZoomIn))    s_Action_ZoomPlus();
+    //else if (event->matches(QKeySequence::ZoomOut))   s_Action_ZoomMinus();
+    else if (event->key()==Qt::Key_Insert)              s_Action_AddFile();
+    else if (event->key()==Qt::Key_F1)                  s_Action_Documentation();
+    else if (event->key()==Qt::Key_F5)                  s_Event_DoubleClickedOnBackground();
+    else if (event->key()==Qt::Key_F6)                  s_Event_DoubleClickedOnObject();
+    else if (event->key()==Qt::Key_F7)                  s_Event_DoubleClickedOnMusic();
+    else if (event->key()==Qt::Key_F8)                  s_Event_DoubleClickedOnTransition();
+    else Find=false;
 
     if (!Find) QMainWindow::keyReleaseEvent(event);
 }
@@ -1243,6 +1227,7 @@ void MainWindow::s_Action_New() {
 
     while (ApplicationConfig->ImagesCache.List.count()>0) delete ApplicationConfig->ImagesCache.List.takeLast();
     cDiaporama *NewDiaporama=new cDiaporama(ApplicationConfig);
+    AliasList.clear();
 
     // Clean actual timeline and diaporama
     FLAGSTOPITEMSELECTION=true;
@@ -1331,8 +1316,9 @@ void MainWindow::DoOpenFileParam() {
 
 void MainWindow::DoOpenFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoOpenFile");
-
-    QString ProjectFileName=AdjustDirForOS(FileForIO);
+    bool            Continue=true;
+    QDomDocument    domDocument;
+    QString         ProjectFileName=AdjustDirForOS(FileForIO);
 
     // Check if ffDRevision is not > current ffDRevision
     cffDProjectFile File(ApplicationConfig);
@@ -1344,48 +1330,162 @@ void MainWindow::DoOpenFile() {
     }
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    while (ApplicationConfig->ImagesCache.List.count()>0) delete ApplicationConfig->ImagesCache.List.takeLast();
 
     // Manage Recent files list
     for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (AdjustDirForOS(ApplicationConfig->RecentFile.at(i))==ProjectFileName) {
         ApplicationConfig->RecentFile.removeAt(i);
         break;
     }
+    ApplicationConfig->RecentFile.append(ProjectFileName);
+    while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
 
     ApplicationConfig->LastProjectPath=QFileInfo(ProjectFileName).dir().absolutePath();
     // Clean actual timeline and diaporama
     FLAGSTOPITEMSELECTION=true;
     ui->timeline->setUpdatesEnabled(false);
+
+    // Clean timeline
     ui->timeline->CleanAll();
+
+    // Clean diaporama
     delete Diaporama;
-    Diaporama=NULL;
-    ui->timeline->setUpdatesEnabled(true);
-    FLAGSTOPITEMSELECTION=false;
+
+    // Clean images cache
+    while (ApplicationConfig->ImagesCache.List.count()>0) delete ApplicationConfig->ImagesCache.List.takeLast();
 
     // Create new diaporama
     Diaporama=new cDiaporama(ApplicationConfig);
+    AliasList.clear();
+    ui->preview->InitDiaporamaPlay(Diaporama);      // Init GUI for this project
+    ui->preview2->InitDiaporamaPlay(Diaporama);     // Init GUI for this project
 
-    // Init GUI for this project
-    ui->preview->InitDiaporamaPlay(Diaporama);
-    ui->preview2->InitDiaporamaPlay(Diaporama);
-    SetTimelineHeight();
+    ui->timeline->setUpdatesEnabled(true);
+    FLAGSTOPITEMSELECTION=false;
 
     // Load file
     SetModifyFlag(false);
-    Diaporama->LoadFile(this,ProjectFileName);
-    for (int i=0;i<Diaporama->List.count();i++) AddObjectToTimeLine(i);
-    AdjustRuller();
-    SetModifyFlag(Diaporama->IsModify);
-    if (Diaporama->List.count()>0) (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetTransitionDuration(0));
-        else (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(0);
+    // Setup preview player position to project start
+    Diaporama->CurrentCol     =0;
+    Diaporama->CurrentPosition=0;
+    Diaporama->ProjectFileName=ProjectFileName;
 
-    ApplicationConfig->RecentFile.append(ProjectFileName);
-    while (ApplicationConfig->RecentFile.count()>10) ApplicationConfig->RecentFile.takeFirst();
-    ui->timeline->SetCurrentCell(0);
-    RefreshControls();
-    SetTimelineHeight();
-    QApplication::restoreOverrideCursor();
-    ToStatusBar("");
+    while ((Continue)&&(!QFileInfo(ProjectFileName).exists())) {
+        if (CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project file"),
+            QApplication::translate("MainWindow","Impossible to open file ")+ProjectFileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
+            QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
+
+            QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(ProjectFileName).fileName(),
+               ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",QString("ffDiaporama (*.ffd)"));
+            if (NewFileName!="") {
+                ProjectFileName=NewFileName;
+                if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastProjectPath=QFileInfo(ProjectFileName).absolutePath();     // Keep folder for next use
+            } else Continue=false;
+        }
+    }
+    if (!Continue) ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Impossible to open project file %1").arg(ProjectFileName)); else {
+
+        QFile    file(ProjectFileName);
+        QString  errorStr;
+        int      errorLine,errorColumn;
+
+        if (!file.open(QFile::ReadOnly | QFile::Text)) {
+            QString ErrorMsg=QApplication::translate("MainWindow","Error reading project file","Error message")+"\n"+ProjectFileName;
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),ErrorMsg,QMessageBox::Close);
+            Continue=false;
+        } else {
+            if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of project file","Error message"),QMessageBox::Close);
+                Continue=false;
+            }
+            file.close();
+        }
+    }
+
+    if (Continue) {
+        CurrentLoadingProjectDocument=domDocument.documentElement();
+        if (CurrentLoadingProjectDocument.tagName()!=APPLICATION_ROOTNAME) {
+
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","The file is not a valid project file","Error message"),QMessageBox::Close);
+
+        } else {
+
+            if ((CurrentLoadingProjectDocument.elementsByTagName("Project").length()>0)&&(CurrentLoadingProjectDocument.elementsByTagName("Project").item(0).isElement()==true)) {
+
+                // Load project properties
+                Diaporama->ProjectInfo->LoadFromXML(CurrentLoadingProjectDocument);
+
+                // Load project geometry and adjust timeline and preview geometry
+                QDomElement Element=CurrentLoadingProjectDocument.elementsByTagName("Project").item(0).toElement();
+                Diaporama->ImageGeometry   =Element.attribute("ImageGeometry").toInt();
+                Diaporama->DefineSizeAndGeometry(Diaporama->ImageGeometry);
+                SetTimelineHeight();
+
+                // Load object list
+                CurrentLoadingProjectNbrObject=Element.attribute("ObjectNumber").toInt();
+
+                CurrentLoadingProjectObject=0;
+
+                // Open progress window
+                if (DlgWorkingTaskDialog) {
+                    DlgWorkingTaskDialog->close();
+                    delete DlgWorkingTaskDialog;
+                    DlgWorkingTaskDialog=NULL;
+                }
+                DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Open project file"),&CancelAction,ApplicationConfig,this);
+                DlgWorkingTaskDialog->InitDialog();
+                DlgWorkingTaskDialog->SetMaxValue(CurrentLoadingProjectNbrObject);
+                QTimer::singleShot(LATENCY,this,SLOT(DoOpenFileObject()));
+                DlgWorkingTaskDialog->exec();
+
+            }
+        }
+    }
+}
+
+//====================================================================================================================
+// Load an object from a project file and add it to the timeline
+//====================================================================================================================
+void MainWindow::DoOpenFileObject() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoOpenFileObject");
+
+    if ((!CancelAction)&&(CurrentLoadingProjectObject<CurrentLoadingProjectNbrObject)&&
+        (CurrentLoadingProjectDocument.elementsByTagName("Object-"+QString("%1").arg(CurrentLoadingProjectObject)).length()>0)&&
+        (CurrentLoadingProjectDocument.elementsByTagName("Object-"+QString("%1").arg(CurrentLoadingProjectObject)).item(0).isElement()==true)) {
+
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","Loading slide %1/%2").arg(CurrentLoadingProjectObject+1).arg(CurrentLoadingProjectNbrObject));
+            DlgWorkingTaskDialog->DisplayProgress(CurrentLoadingProjectObject+1);
+        }
+
+        Diaporama->List.append(new cDiaporamaObject(Diaporama));
+
+        if (Diaporama->List[Diaporama->List.count()-1]->LoadFromXML(CurrentLoadingProjectDocument,"Object-"+QString("%1").arg(CurrentLoadingProjectObject).trimmed(),
+                                                                    QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList)) {
+
+            if (CurrentLoadingProjectObject==0) Diaporama->CurrentPosition=Diaporama->GetTransitionDuration(0);
+            AddObjectToTimeLine(CurrentLoadingProjectObject);
+
+        } else delete Diaporama->List.takeLast();
+
+        // switch to next object
+        CurrentLoadingProjectObject++;
+        QTimer::singleShot(LATENCY,this,SLOT(DoOpenFileObject()));
+
+    } else {
+
+        // stop loading object process
+
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
+        }
+
+        SetModifyFlag(Diaporama->IsModify);
+
+        QApplication::restoreOverrideCursor();
+        ToStatusBar("");
+    }
 }
 
 //====================================================================================================================
@@ -1526,6 +1626,11 @@ void MainWindow::s_Action_AddFile() {
 
         SortFileList();
 
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
+        }
         DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add file to project"),&CancelAction,ApplicationConfig,this);
         DlgWorkingTaskDialog->InitDialog();
         DlgWorkingTaskDialog->SetMaxValue(FileList.count());
@@ -1551,6 +1656,11 @@ void MainWindow::s_Event_TimelineAddDragAndDropFile() {
 
     SortFileList();
 
+    if (DlgWorkingTaskDialog) {
+        DlgWorkingTaskDialog->close();
+        delete DlgWorkingTaskDialog;
+        DlgWorkingTaskDialog=NULL;
+    }
     DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add file to project"),&CancelAction,ApplicationConfig,this);
     DlgWorkingTaskDialog->InitDialog();
     DlgWorkingTaskDialog->SetMaxValue(FileList.count());
@@ -1708,14 +1818,21 @@ void MainWindow::s_Action_DoAddFile() {
 
         if (!Image) {
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile,QMessageBox::Close);
-            delete MediaFile;
-            delete Diaporama->List.takeAt(CurIndex);
+            // remove slide from diaporama
+            Diaporama->List.takeAt(CurIndex);
+            delete DiaporamaObject;
+            //delete MediaFile; Not because deletion of DiaporamaObject will delete current MediaFile
             QApplication::restoreOverrideCursor();
+            // Switch to next file to add
+            QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
             return;
         }
 
         // No future need of this
-        delete Image;
+        if (Image) {
+            delete Image;
+            Image=NULL;
+        }
 
         //**********************************************
         // Apply default style to media file
@@ -2376,6 +2493,11 @@ void MainWindow::s_Browser_RefreshAll() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshAll");
     CurrentDriveCheck=0;
     CancelAction     =false;
+    if (DlgWorkingTaskDialog) {
+        DlgWorkingTaskDialog->close();
+        delete DlgWorkingTaskDialog;
+        DlgWorkingTaskDialog=NULL;
+    }
     DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Refresh All"),&CancelAction,ApplicationConfig,this);
     DlgWorkingTaskDialog->InitDialog();
     DlgWorkingTaskDialog->SetMaxValue(DriveList->List.count()+2);

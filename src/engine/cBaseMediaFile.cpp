@@ -226,17 +226,37 @@ cBaseMediaFile::~cBaseMediaFile() {
 bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::GetInformationFromFile");
 
-    FileName            =QFileInfo(GivenFileName).absoluteFilePath();
+    FileName=QFileInfo(GivenFileName).absoluteFilePath();
 
     if (ModifyFlag) *ModifyFlag=false;
 
     // Use aliaslist
-    if (AliasList) {
+    if ((AliasList)&&(!QFileInfo(FileName).exists())) {
+        // First test : seach for a new path+filename for this filename
         int i;
         for (i=0;(i<AliasList->count())&&(!AliasList->at(i).startsWith(FileName));i++);
         if ((i<AliasList->count())&&(AliasList->at(i).startsWith(FileName))) {
             FileName=AliasList->at(i);
             if (FileName.indexOf("####")>0) FileName=FileName.mid(FileName.indexOf("####")+QString("####").length());
+        } else {
+            // Second test : use each remplacement folder to try to find find
+            i=0;
+            QString NewFileName=QFileInfo(GivenFileName).absoluteFilePath();
+            while ((i<AliasList->count())&&(!QFileInfo(NewFileName).exists())) {
+                QString OldName=AliasList->at(i);
+                QString NewName=OldName.mid(OldName.indexOf("####")+QString("####").length());
+                OldName=OldName.left(OldName.indexOf("####"));
+                OldName=OldName.left(OldName.lastIndexOf(QDir::separator()));
+                NewName=NewName.left(NewName.lastIndexOf(QDir::separator()));
+                NewFileName=NewName+QDir::separator()+QFileInfo(GivenFileName).fileName();
+                i++;
+            }
+            if (QFileInfo(NewFileName).exists()) {
+                FileName=NewFileName;
+                if (AliasList) AliasList->append(FileName+"####"+NewFileName);
+                if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(FileName).absolutePath();     // Keep folder for next use
+                if (ModifyFlag) *ModifyFlag=true;
+            }
         }
     }
 

@@ -13,9 +13,19 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige le plantage quand ffDiaporama refuse de lire une image lors de l'ajout de fichier
 
 English version / Bug fix :
+-Fix crash when ffDiaporama can't read an image when adding files
 
 French version / Nouvelles fonctionnalités :
+-Ajoute une boite de progression lors des ouvertures de projet
+-Vide la table des alias à chaque nouveau projet
+-Mémorise aussi les répertoires dans la table des alias (test tous les répertoires déjà utilisé en remplacement)
+-Fait le ménage dans les raccourcis clavier pour éviter que certains raccourcis soient exécuter plusieurs fois de suite
 
 English version / New features :
+-Add a progress window when opening project file
+-Empty alias list at each new project load
+-Add replacement folder to alias list too (test each folder already use as replacement)
+-Clean hot keys to avoid that certain shortcuts are execute several times in succession
