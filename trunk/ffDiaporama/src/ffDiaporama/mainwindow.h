@@ -53,6 +53,7 @@ public:
     QString                 InternetBUILDVERSION;
     QString                 TitleBar;
     QTime                   LastLogMessageTime;
+    QStringList             AliasList;
 
     // Variables use for actions
     QString                 FileForIO;
@@ -69,6 +70,11 @@ public:
     DlgWorkingTask          *DlgWorkingTaskDialog;
     bool                    CancelAction;
     int                     CurrentDriveCheck;
+
+    // Loading operation
+    QDomElement             CurrentLoadingProjectDocument;
+    int                     CurrentLoadingProjectObject;
+    int                     CurrentLoadingProjectNbrObject;
 
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
@@ -163,6 +169,7 @@ private slots:
     // Do function (call by action or event function)
     void    DoChangeApplicationSettings();
     void    DoOpenFile();
+    void    DoOpenFileObject();
     void    DoSaveFile();
 
     // Browser event

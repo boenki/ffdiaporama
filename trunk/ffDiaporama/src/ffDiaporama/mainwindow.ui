@@ -107,7 +107,7 @@ QToolButton:pressed {
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="TabFile">
          <property name="font">
@@ -169,9 +169,6 @@ project</string>
               <height>24</height>
              </size>
             </property>
-            <property name="shortcut">
-             <string>Ctrl+N</string>
-            </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextUnderIcon</enum>
             </property>
@@ -219,9 +216,6 @@ project</string>
               <width>24</width>
               <height>24</height>
              </size>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+O</string>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -318,9 +312,6 @@ project</string>
               <width>24</width>
               <height>24</height>
              </size>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+S</string>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -495,9 +486,6 @@ properties</string>
               <height>24</height>
              </size>
             </property>
-            <property name="shortcut">
-             <string>Ctrl+W</string>
-            </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextUnderIcon</enum>
             </property>
@@ -620,9 +608,6 @@ files</string>
               <height>24</height>
              </size>
             </property>
-            <property name="shortcut">
-             <string>Ins</string>
-            </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextUnderIcon</enum>
             </property>
@@ -713,9 +698,6 @@ project</string>
               <height>24</height>
              </size>
             </property>
-            <property name="shortcut">
-             <string>Ctrl+X</string>
-            </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextUnderIcon</enum>
             </property>
@@ -757,9 +739,6 @@ project</string>
               <height>24</height>
              </size>
             </property>
-            <property name="shortcut">
-             <string>Ctrl+C</string>
-            </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextUnderIcon</enum>
             </property>
@@ -800,9 +779,6 @@ project</string>
               <width>24</width>
               <height>24</height>
              </size>
-            </property>
-            <property name="shortcut">
-             <string>Ctrl+V</string>
             </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -1257,9 +1233,6 @@ and help</string>
               <height>24</height>
              </size>
             </property>
-            <property name="shortcut">
-             <string>F1</string>
-            </property>
             <property name="toolButtonStyle">
              <enum>Qt::ToolButtonTextUnderIcon</enum>
             </property>
@@ -1407,9 +1380,6 @@ project</string>
                <height>24</height>
               </size>
              </property>
-             <property name="shortcut">
-              <string>Ctrl+N</string>
-             </property>
              <property name="toolButtonStyle">
               <enum>Qt::ToolButtonTextUnderIcon</enum>
              </property>
@@ -1457,9 +1427,6 @@ project</string>
                <width>24</width>
                <height>24</height>
               </size>
-             </property>
-             <property name="shortcut">
-              <string>Ctrl+O</string>
              </property>
              <property name="toolButtonStyle">
               <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -1556,9 +1523,6 @@ project</string>
                <width>24</width>
                <height>24</height>
               </size>
-             </property>
-             <property name="shortcut">
-              <string>Ctrl+S</string>
              </property>
              <property name="toolButtonStyle">
               <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -1733,9 +1697,6 @@ properties</string>
                <height>24</height>
               </size>
              </property>
-             <property name="shortcut">
-              <string>Ctrl+W</string>
-             </property>
              <property name="toolButtonStyle">
               <enum>Qt::ToolButtonTextUnderIcon</enum>
              </property>
@@ -1856,9 +1817,6 @@ files</string>
                <height>24</height>
               </size>
              </property>
-             <property name="shortcut">
-              <string>Ins</string>
-             </property>
              <property name="toolButtonStyle">
               <enum>Qt::ToolButtonTextUnderIcon</enum>
              </property>
@@ -1949,9 +1907,6 @@ project</string>
                <height>24</height>
               </size>
              </property>
-             <property name="shortcut">
-              <string>Ctrl+X</string>
-             </property>
              <property name="toolButtonStyle">
               <enum>Qt::ToolButtonTextUnderIcon</enum>
              </property>
@@ -1993,9 +1948,6 @@ project</string>
                <height>24</height>
               </size>
              </property>
-             <property name="shortcut">
-              <string>Ctrl+C</string>
-             </property>
              <property name="toolButtonStyle">
               <enum>Qt::ToolButtonTextUnderIcon</enum>
              </property>
@@ -2036,9 +1988,6 @@ project</string>
                <width>24</width>
                <height>24</height>
               </size>
-             </property>
-             <property name="shortcut">
-              <string>Ctrl+V</string>
              </property>
              <property name="toolButtonStyle">
               <enum>Qt::ToolButtonTextUnderIcon</enum>
@@ -2472,9 +2421,6 @@ and help</string>
                <height>24</height>
               </size>
              </property>
-             <property name="shortcut">
-              <string>F1</string>
-             </property>
              <property name="toolButtonStyle">
               <enum>Qt::ToolButtonTextUnderIcon</enum>
              </property>
@@ -2714,8 +2660,8 @@ and help</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>402</width>
-           <height>293</height>
+           <width>403</width>
+           <height>291</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
