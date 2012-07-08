@@ -381,7 +381,6 @@ public:
     cMusicObject            *GetMusicObject(int ObjectIndex,qlonglong &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
     void                    DefineSizeAndGeometry(int Geometry);                        // Init size and geometry
     bool                    SaveFile(QWidget *ParentWindow);
-    bool                    AppendFile(QWidget *ParentWindow,QString ProjectFileName,int CurIndex);
     void                    UpdateChapterInformation();
 
     // Thread functions

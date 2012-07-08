@@ -3312,10 +3312,6 @@ project</source>
 progetto</translation>
     </message>
     <message>
-        <source>Ctrl+N</source>
-        <translation>Ctrl+N</translation>
-    </message>
-    <message>
         <source>Open a previously saved project (Ctrl+O)</source>
         <translation>Apri un progetto salvato precedentemente (Ctrl+O)</translation>
     </message>
@@ -3324,10 +3320,6 @@ progetto</translation>
 project</source>
         <translation>Apri
 progetto</translation>
-    </message>
-    <message>
-        <source>Ctrl+O</source>
-        <translation>Ctrl+O</translation>
     </message>
     <message>
         <source>Open a recently used project file</source>
@@ -3348,10 +3340,6 @@ recenti</translation>
 project</source>
         <translation>Salva
 progetto</translation>
-    </message>
-    <message>
-        <source>Ctrl+S</source>
-        <translation>Ctrl+S</translation>
     </message>
     <message>
         <source>Save current project to a new project file</source>
@@ -3390,10 +3378,6 @@ progetto</translation>
         <translation>Esci</translation>
     </message>
     <message>
-        <source>Ctrl+W</source>
-        <translation>Ctrl+W</translation>
-    </message>
-    <message>
         <source>Project</source>
         <translation>Progetto</translation>
     </message>
@@ -3418,10 +3402,6 @@ files</source>
 files</translation>
     </message>
     <message>
-        <source>Ins</source>
-        <translation>Ins</translation>
-    </message>
-    <message>
         <source>Add a previously saved project at the end of this project</source>
         <translation>Aggiungere un progetto salvato in precedenza, alla fine di questo progetto</translation>
     </message>
@@ -3440,10 +3420,6 @@ progetto</translation>
         <translation>Taglia</translation>
     </message>
     <message>
-        <source>Ctrl+X</source>
-        <translation>Ctrl+X</translation>
-    </message>
-    <message>
         <source>Copy current slide to clipboard (Ctrl+C)</source>
         <translation>Copiare la diapositiva corrente negli appunti (Ctrl+C)</translation>
     </message>
@@ -3452,20 +3428,12 @@ progetto</translation>
         <translation>Copia</translation>
     </message>
     <message>
-        <source>Ctrl+C</source>
-        <translation>Ctrl+C</translation>
-    </message>
-    <message>
         <source>Paste current slide from clipboard (Ctrl+V)</source>
         <translation>Incolla la diapositiva dagli appunti (Ctrl+V)</translation>
     </message>
     <message>
         <source>Paste</source>
         <translation>Incolla</translation>
-    </message>
-    <message>
-        <source>Ctrl+V</source>
-        <translation>Ctrl+V</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -3526,10 +3494,6 @@ WEB</translation>
 and help</source>
         <translation>Supporto
 e aiuto</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
     </message>
     <message>
         <source>Display blog/news page from internet WEB site</source>
@@ -3997,18 +3961,6 @@ Vuoi aprirlo comunque?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>folders</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Total size:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Total duration:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4028,10 +3980,6 @@ Do you want to overwrite-it ?</source>
     </message>
     <message>
         <source>Details view</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Summary view</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4161,6 +4109,66 @@ Do you want to overwrite-it ?</source>
     </message>
     <message>
         <source>Show files name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading slide %1/%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total size:%1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 audio files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 video files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 image files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 ffDiaporama project files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 folders</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multiple file types</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Refresh All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>update drive list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>update drive (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>update current folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>New name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to rename file!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4370,10 +4378,6 @@ Do you want to overwrite-it ?</source>
     </message>
     <message>
         <source>Rename folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reading directory content (%1)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

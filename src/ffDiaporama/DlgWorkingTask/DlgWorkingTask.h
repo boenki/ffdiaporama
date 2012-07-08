@@ -33,7 +33,7 @@ class DlgWorkingTask : public QCustomDialog {
 Q_OBJECT
 public:
     bool    *CancelActionFlag;
-    int     MaxValue;
+    int     MaxValue,AddValue;
 
     explicit DlgWorkingTask(QString Title,bool *CancelAction,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgWorkingTask();
@@ -47,7 +47,7 @@ public:
 
     void    DisplayText(QString Text);
     void    DisplayProgress(int Value);
-    void    SetMaxValue(int Value);
+    void    SetMaxValue(int Value,int AddValue);
 
 private:
     Ui::DlgWorkingTask *ui;
