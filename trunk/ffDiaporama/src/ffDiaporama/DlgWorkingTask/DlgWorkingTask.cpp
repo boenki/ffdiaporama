@@ -28,7 +28,7 @@ DlgWorkingTask::DlgWorkingTask(QString Title,bool *CancelAction,cBaseApplication
     ui->setupUi(this);
     CancelBt        =ui->CancelBt;
     CancelActionFlag=CancelAction;
-
+    AddValue        =0;
     setWindowTitle(Title);
 }
 
@@ -67,8 +67,9 @@ void DlgWorkingTask::DisplayProgress(int Value) {
 
 //====================================================================================================================
 
-void DlgWorkingTask::SetMaxValue(int Value) {
+void DlgWorkingTask::SetMaxValue(int Value,int AddValue) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgWorkingTask::SetMaxValue");
     MaxValue=Value;
-    ui->ProgressBar->setMaximum(MaxValue);
+    this->AddValue=AddValue;
+    ui->ProgressBar->setMaximum(MaxValue+AddValue);
 }

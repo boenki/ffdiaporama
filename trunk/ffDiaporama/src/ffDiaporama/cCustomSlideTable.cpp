@@ -824,10 +824,8 @@ void cCustomSlideTable::AddObjectToTimeLine(int CurIndex) {
         setCellWidget(0,CurIndex,ObjectBackground);
     }
 
-    if ((GlobalMainWindow->Diaporama->CurrentCol<0)||(GlobalMainWindow->Diaporama->CurrentCol==CurIndex)) {
-        GlobalMainWindow->Diaporama->CurrentCol=CurIndex;
-        GlobalMainWindow->AdjustRuller();
-    }
+    if ((GlobalMainWindow->Diaporama->CurrentCol<0)||(GlobalMainWindow->Diaporama->CurrentCol==CurIndex)) GlobalMainWindow->Diaporama->CurrentCol=CurIndex;
+    GlobalMainWindow->AdjustRuller();
 }
 
 //====================================================================================================================

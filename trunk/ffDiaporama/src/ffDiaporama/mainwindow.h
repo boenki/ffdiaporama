@@ -76,6 +76,14 @@ public:
     int                     CurrentLoadingProjectObject;
     int                     CurrentLoadingProjectNbrObject;
 
+    // Appending a project operation
+    QString                 CurrentAppendingProjectName;
+    QDomDocument            CurrentAppendingProjectDocument;
+    QDomElement             CurrentAppendingRoot;
+    int                     CurrentAppendingProjectObject;
+    int                     CurrentAppendingProjectNbrObject;
+
+
     explicit MainWindow(QWidget *parent = 0);
     ~MainWindow();
     void    InitWindow(QString ForceLanguage,QApplication *App);
@@ -147,6 +155,8 @@ private slots:
     void    s_Action_AddTitle();
     void    s_Action_AddProject();
     void    s_Action_DoAddFile();
+    void    s_Action_DoAppendFile();
+    void    s_Action_DoUseAsPlayList(QStringList &MusicFileList,int Index);
     void    s_Action_RemoveObject();
     void    s_Action_EditObject();
     void    s_Action_CutToClipboard();

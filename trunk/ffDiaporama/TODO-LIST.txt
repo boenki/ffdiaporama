@@ -1,11 +1,10 @@
-Bugs/TODO (Dernier SVN le 06/07/2012) :
+Bugs/TODO (Dernier SVN le 25/06/2012) :
 ----------------------------------------
 TODO
 ----
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
 
 -Erreur aléatoire de détection des childs dans l'arbre des répertoires [Linux]
--Ajouter une boite de progression lors des chargements de projet
 -Vider (ou ne pas charger) la liste des caractéristiques lors des chargements d'images
 -Supprimer la librairie de fond de la mémoire
 
@@ -13,19 +12,21 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le plantage quand ffDiaporama refuse de lire une image lors de l'ajout de fichier
+-Corrige le bug de mise à jours de la durée totale du montage lors des chargements de projets et des ajouts de nouvelles diapositives
 
 English version / Bug fix :
--Fix crash when ffDiaporama can't read an image when adding files
+-Fix bug of update project duration when loading project or adding new slides
 
 French version / Nouvelles fonctionnalités :
--Ajoute une boite de progression lors des ouvertures de projet
--Vide la table des alias à chaque nouveau projet
--Mémorise aussi les répertoires dans la table des alias (test tous les répertoires déjà utilisé en remplacement)
--Fait le ménage dans les raccourcis clavier pour éviter que certains raccourcis soient exécuter plusieurs fois de suite
+-Modifie le nombre de diapo dans la boite de progression lors des insertions de projet dans le projet en cours (et affiche le pourcentage)
+-Affiche les barres de progression aussi quand les fichiers sont ajoutés par le menu contextuel de l'explorateur de fichiers intégrés
+-Implémente la fonction renommer fichier (menu contextuel de l'explorateur de fichiers intégrés)
+-Implémente la fonction utiliser comme playlist (menu contextuel de l'explorateur de fichiers intégrés)
+-Le drag & drop de fichier music modifie la playlist de la diapositive cible (au lieu d'échouer en voulant inserer une nouvelle diapo)
 
 English version / New features :
--Add a progress window when opening project file
--Empty alias list at each new project load
--Add replacement folder to alias list too (test each folder already use as replacement)
--Clean hot keys to avoid that certain shortcuts are execute several times in succession
+-Modify slide number in progress window when inserting project into current project (and display progression)
+-Display progress window also when files was added using contextual menu of integrated file browser
+-Implement renamme file function (contextual menu of integrated file browser)
+-Implement use as playlist function (contextual menu of integrated file browser)
+-Drag & drop of music file now modify silde's playlist (instead of doing an error by wanting to insert a new slide)
