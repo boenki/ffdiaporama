@@ -76,6 +76,14 @@ void QCustomFolderTree::InitDrives(cDriveList *TheDriveList) {
 
 //====================================================================================================================
 
+void QCustomFolderTree::keyReleaseEvent(QKeyEvent *event) {
+    if (event->matches(QKeySequence::Delete))   if (IsRemoveAllowed) emit ActionRemoveFolder();
+        else if (event->key()==Qt::Key_F5)      emit ActionRefreshAll();
+        else QTreeWidget::keyReleaseEvent(event);
+}
+
+//====================================================================================================================
+
 QAction *QCustomFolderTree::CreateMenuAction(QString RessourceNameIcon,QString Text,int Data,bool Checkable,bool IsCheck) {
     QAction *Action;
     if (RessourceNameIcon!="") Action=new QAction(QIcon(RessourceNameIcon),Text,this); else Action=new QAction(Text,this);

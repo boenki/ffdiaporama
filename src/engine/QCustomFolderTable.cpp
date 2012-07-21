@@ -106,6 +106,7 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
         QImage          *ImageToDisplay=ParentTable->GetImageForColumn(index.column(),ParentTable->MediaList[ItemIndex]);
         Qt::Alignment   Alignment      =((Qt::Alignment)(ParentTable->horizontalHeaderItem(index.column())?ParentTable->horizontalHeaderItem(index.column())->textAlignment():Qt::AlignHCenter))|Qt::AlignVCenter;
         int             DecalX         =(ImageToDisplay!=NULL?18:0);
+        int             addY           =(option.rect.height()-16)/2;
         QColor          Background     =((index.row() & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
         QFont           font;
         QTextOption     OptionText;
@@ -129,7 +130,7 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
 
         // Drawing
         Painter->fillRect(option.rect,Background);
-        if (ImageToDisplay) Painter->drawImage(QRectF(option.rect.x()+1,option.rect.y()+1,16,16),*ImageToDisplay);
+        if (ImageToDisplay) Painter->drawImage(QRectF(option.rect.x()+1,option.rect.y()+addY,16,16),*ImageToDisplay);
         Painter->drawText(QRectF(option.rect.x()+2+DecalX,option.rect.y()+1,option.rect.width()-4-DecalX,option.rect.height()-2),TextToDisplay,OptionText);
 
     } else {
@@ -162,13 +163,19 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
         Pen.setStyle(Qt::SolidLine);
         Painter->setPen(Pen);
 
-        // Setup default font
-        font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);
-        font.setUnderline(false);
-        Painter->setFont(font);
-
         // Draw file name if needed
         if (ParentTable->ApplicationConfig->DisplayFileName) {
+            // Setup default font
+            font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);
+            font.setUnderline(false);
+            Painter->setFont(font);
+            #ifdef Q_OS_WIN
+            font.setPointSizeF(double(120)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+            #else
+            font.setPointSizeF(double(100)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+            #endif
+            Painter->setFont(font);
+
             OptionText=QTextOption(Qt::AlignHCenter|Qt::AlignTop);                      // Setup alignement
             OptionText.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);          // Setup word wrap text option
             Painter->drawText(QRectF(option.rect.x()+1,option.rect.y()+option.rect.height()-1-DISPLAYFILENAMEHEIGHT,option.rect.width()-2,DISPLAYFILENAMEHEIGHT),
@@ -241,6 +248,18 @@ QMimeData *QCustomFolderTable::mimeData(const QList <QTableWidgetItem *>) const 
     for (int i=0;i<SelMediaList.count();i++) UrlList.append(QUrl().fromLocalFile(AdjustDirForOS(SelMediaList[i]->FileName)));
     mimeData->setUrls(UrlList);
     return mimeData;
+}
+
+
+//====================================================================================================================
+
+void QCustomFolderTable::keyReleaseEvent(QKeyEvent *event) {
+    if (event->matches(QKeySequence::Delete))   emit RemoveFiles();
+        else if (event->key()==Qt::Key_Insert)  emit InsertFiles();
+        else if (event->key()==Qt::Key_Enter)   emit OpenFiles();
+        else if (event->key()==Qt::Key_Return)  emit OpenFiles();
+        else if (event->key()==Qt::Key_F5)      emit Refresh();
+        else QTableWidget::keyReleaseEvent(event);
 }
 
 //====================================================================================================================
@@ -367,7 +386,9 @@ int QCustomFolderTable::GetWidthForIcon() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetWidthForIcon");
 
     int SizeColumn;
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100)  SizeColumn=100+CELLBORDER; else {
+    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
+        SizeColumn=100+CELLBORDER;
+    } else {
         if (ApplicationConfig->CurrentFilter==OBJECTTYPE_VIDEOFILE)          SizeColumn=ApplicationConfig->Video_ThumbWidth+CELLBORDER;
             else if (ApplicationConfig->CurrentFilter==OBJECTTYPE_IMAGEFILE) SizeColumn=ApplicationConfig->Image_ThumbWidth+CELLBORDER;
             else {
@@ -386,15 +407,15 @@ int QCustomFolderTable::GetHeightForIcon() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetHeightForIcon");
 
     int SizeColumn;
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100)   SizeColumn=100+CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0); else {
-        if (ApplicationConfig->CurrentFilter==OBJECTTYPE_VIDEOFILE)      SizeColumn=ApplicationConfig->Video_ThumbHeight+CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
-        else if (ApplicationConfig->CurrentFilter==OBJECTTYPE_IMAGEFILE) SizeColumn=ApplicationConfig->Image_ThumbHeight+CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
-        else {
-            SizeColumn=ApplicationConfig->Image_ThumbHeight;
-            if (SizeColumn<ApplicationConfig->Music_ThumbHeight) SizeColumn=ApplicationConfig->Music_ThumbHeight;
-            if (SizeColumn<ApplicationConfig->Video_ThumbHeight) SizeColumn=ApplicationConfig->Video_ThumbHeight;
-            SizeColumn+=CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
-        }
+    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100)   {
+
+        SizeColumn=100+CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
+
+    } else {
+
+        SizeColumn=QFontMetrics(QApplication::font()).boundingRect("0").height();
+        if (SizeColumn<16) SizeColumn=16; // Not less than Icon
+
     }
     return SizeColumn;
 }
@@ -441,8 +462,13 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
         Painter.begin(&Img);
         QFont font("Sans serif",8,QFont::Normal,QFont::StyleNormal);
         Painter.setFont(font);
-        QFontMetrics fm = Painter.fontMetrics();
-        DISPLAYFILENAMEHEIGHT=fm.height()*2;    // 2 lines for bigest mode
+        #ifdef Q_OS_WIN
+        font.setPointSizeF(double(120)/double(Painter.fontMetrics().boundingRect("0").height()));                  // Scale font
+        #else
+        font.setPointSizeF(double(100)/double(Painter.fontMetrics().boundingRect("0").height()));                  // Scale font
+        #endif
+        Painter.setFont(font);
+        DISPLAYFILENAMEHEIGHT=Painter.fontMetrics().boundingRect("0").height()*2;                                   // 2 lines for bigest mode
         Painter.end();
     }
 
@@ -726,7 +752,7 @@ void QCustomFolderTable::RefreshListFolder() {
         for (int i=0;i<(CurrentDisplayItem/columnCount())+1;i++) setRowHeight(RHeight,SizeColumn);
     } else {
         setRowCount(MediaList.count());
-        for (int Row=0;Row<rowCount();Row++) setRowHeight(Row,16+2);
+        for (int Row=0;Row<rowCount();Row++) setRowHeight(Row,GetHeightForIcon()+2);
     }
 
     // Fill empty cell with unselecable item if needed
@@ -1045,8 +1071,7 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
 
         insertRow(Row);
         verticalHeader()->setResizeMode(Row,QHeaderView::Fixed);
-        if (ApplicationConfig->CurrentMode==DISPLAY_DATA)           setRowHeight(Row,16+2);
-        else                                                        setRowHeight(Row,48+2);  // DISPLAY_WEBLONG
+        setRowHeight(Row,GetHeightForIcon()+2);
 
     } else {
 

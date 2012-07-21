@@ -59,22 +59,10 @@
       <item>
        <widget class="QTabWidget" name="ToolBoxNormal">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>90</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>90</height>
-         </size>
         </property>
         <property name="font">
          <font>
@@ -88,6 +76,7 @@
          <string notr="true">QToolButton {
 	background-color: transparent;
 	border: none; 
+    font-size: 9px;
 }
 QToolButton:hover{ 
     border: 2px solid #8f8f91;
@@ -107,7 +96,7 @@ QToolButton:pressed {
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="TabFile">
          <property name="font">
@@ -148,8 +137,7 @@ QToolButton:pressed {
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -196,8 +184,7 @@ project</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -244,8 +231,7 @@ project</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -292,8 +278,7 @@ recent</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -340,8 +325,7 @@ project</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -383,8 +367,7 @@ project as</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -425,8 +408,7 @@ properties</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -466,8 +448,7 @@ properties</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -539,8 +520,7 @@ properties</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -587,8 +567,7 @@ title</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -629,8 +608,7 @@ files</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -678,8 +656,7 @@ project</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -719,8 +696,7 @@ project</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -760,8 +736,7 @@ project</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -814,8 +789,7 @@ project</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="text">
@@ -852,8 +826,7 @@ project</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -925,8 +898,7 @@ project</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="text">
@@ -970,8 +942,7 @@ smartphone</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1009,8 +980,7 @@ system</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1048,8 +1018,7 @@ WEB</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="text">
@@ -1092,8 +1061,7 @@ WEB</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -1165,8 +1133,7 @@ WEB</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -1212,8 +1179,7 @@ WEB</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -1260,8 +1226,7 @@ and help</string>
             </property>
             <property name="font">
              <font>
-              <family>Sans Serif</family>
-              <pointsize>8</pointsize>
+              <pointsize>-1</pointsize>
              </font>
             </property>
             <property name="toolTip">
@@ -1307,6 +1272,7 @@ and help</string>
          <string notr="true">QToolButton {
 	background-color: transparent;
 	border: none; 
+    font-size: 9px;
 }
 QToolButton:hover{ 
     border: 2px solid #8f8f91;
@@ -1359,8 +1325,7 @@ QToolButton:pressed {
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1407,8 +1372,7 @@ project</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1455,8 +1419,7 @@ project</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1503,8 +1466,7 @@ recent</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1551,8 +1513,7 @@ project</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1594,8 +1555,7 @@ project as</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1636,8 +1596,7 @@ properties</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1677,8 +1636,7 @@ properties</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1748,8 +1706,7 @@ properties</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1796,8 +1753,7 @@ title</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1838,8 +1794,7 @@ files</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1887,8 +1842,7 @@ project</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1928,8 +1882,7 @@ project</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -1969,8 +1922,7 @@ project</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -2023,8 +1975,7 @@ project</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="text">
@@ -2061,8 +2012,7 @@ project</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -2132,8 +2082,7 @@ project</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="text">
@@ -2177,8 +2126,7 @@ smartphone</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="text">
@@ -2216,8 +2164,7 @@ system</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="text">
@@ -2255,8 +2202,7 @@ WEB</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="text">
@@ -2299,8 +2245,7 @@ WEB</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -2353,8 +2298,7 @@ WEB</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -2400,8 +2344,7 @@ WEB</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -2448,8 +2391,7 @@ and help</string>
              </property>
              <property name="font">
               <font>
-               <family>Sans Serif</family>
-               <pointsize>8</pointsize>
+               <pointsize>-1</pointsize>
               </font>
              </property>
              <property name="toolTip">
@@ -2956,6 +2898,12 @@ and help</string>
                   <height>16</height>
                  </size>
                 </property>
+                <property name="styleSheet">
+                 <string notr="true">QLabel {
+    font-size: 11px;
+}
+</string>
+                </property>
                 <property name="text">
                  <string notr="true">Path</string>
                 </property>
@@ -3211,6 +3159,18 @@ and help</string>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel {
+    font-size: 11px;
+}
+</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
@@ -3230,6 +3190,18 @@ and help</string>
               <verstretch>0</verstretch>
              </sizepolicy>
             </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel {
+    font-size: 11px;
+}
+</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
@@ -3248,6 +3220,18 @@ and help</string>
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>16</height>
+             </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel {
+    font-size: 11px;
+}
+</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
@@ -3304,6 +3288,12 @@ and help</string>
               <width>232</width>
               <height>16</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QProgressBar {
+font-size: 11px;
+}
+</string>
             </property>
             <property name="value">
              <number>24</number>
@@ -3364,6 +3354,12 @@ and help</string>
               <height>16</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel {
+    font-size: 11px;
+}
+</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
@@ -3394,6 +3390,12 @@ and help</string>
               <width>100</width>
               <height>16</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel {
+    font-size: 11px;
+}
+</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
@@ -3454,6 +3456,12 @@ and help</string>
               <height>16</height>
              </size>
             </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel {
+    font-size: 11px;
+}
+</string>
+            </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
             </property>
@@ -3484,6 +3492,12 @@ and help</string>
               <width>100</width>
               <height>16</height>
              </size>
+            </property>
+            <property name="styleSheet">
+             <string notr="true">QLabel {
+    font-size: 11px;
+}
+</string>
             </property>
             <property name="frameShape">
              <enum>QFrame::Panel</enum>
@@ -3586,6 +3600,12 @@ and help</string>
           <height>21</height>
          </size>
         </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+    font-size: 11px;
+}
+</string>
+        </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>
         </property>
@@ -3607,6 +3627,12 @@ and help</string>
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+    font-size: 11px;
+}
+</string>
         </property>
         <property name="frameShape">
          <enum>QFrame::StyledPanel</enum>

@@ -24,7 +24,6 @@
     Contains cefault configuration for ffDiaporama
 -->
 <Configuration>
-    <MMFiler CurrentMode="0" Music_ThumbWidth="200" Video_ThumbWidth="162" MinimumEXIFHeight="100" Music_ThumbHeight="200" CurrentFilter="0" Video_ThumbHeight="216" ShowHiddenFilesAndDir="0" DisplayFileName="1" Image_ThumbHeight="200" Image_ThumbWidth="300" ShowMntDrive="0" ShowFoldersFirst="1"/>
     <LastDirectories RememberLastDirectories="1"/>
     <CacheMemory AllowCachedTransfoImages="1" MemCacheMaxValue="512"/>
     <EditorOptions AskUserToRemove="1" FramingRuler="1" DisplayUnit="1" DefaultTransitionFamilly="0" TimelineHeight="80" RandomTransition="1" PartitionMode="0" DefaultTransitionDuration="1000" SlideRuler="1" AppendObject="0" DefaultFraming="2" DefaultTransitionSubType="1" SortFile="1" PreviewFPS="12.500000"/>

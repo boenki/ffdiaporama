@@ -13,7 +13,7 @@
   <property name="font">
    <font>
     <family>Sans Serif</family>
-    <pointsize>9</pointsize>
+    <pointsize>8</pointsize>
    </font>
   </property>
   <property name="windowTitle">
@@ -75,27 +75,10 @@
        <item>
         <widget class="QToolButton" name="VideoPlayerPlayPauseBT">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>30</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>9</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string extracomment="Tooltip in dialog box">Click to start play, click again to pause the movie</string>
@@ -123,7 +106,7 @@
           <string notr="true">...</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../RSCffDiaporama.qrc">
            <normaloff>:/img/player_play.png</normaloff>:/img/player_play.png</iconset>
          </property>
          <property name="iconSize">
@@ -136,17 +119,11 @@
        </item>
        <item>
         <widget class="QCustomRuller" name="CustomRuller">
-         <property name="minimumSize">
-          <size>
-           <width>0</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>16777215</width>
-           <height>32</height>
-          </size>
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
          </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
@@ -164,29 +141,14 @@
          <item>
           <widget class="QLabel" name="Position">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="minimumSize">
-            <size>
-             <width>60</width>
-             <height>14</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>60</width>
-             <height>14</height>
-            </size>
-           </property>
            <property name="font">
             <font>
-             <pointsize>8</pointsize>
-             <weight>50</weight>
-             <italic>false</italic>
-             <bold>false</bold>
+             <pointsize>-1</pointsize>
             </font>
            </property>
            <property name="styleSheet">
@@ -199,8 +161,8 @@ border-top: 1px solid #202020;
 border-bottom: 0px;
 border-left: 0px;
 border-right: 0px;
-font: 8pt;
 color: white;
+font-size: 10px;
 </string>
            </property>
            <property name="frameShape">
@@ -223,20 +185,20 @@ color: white;
          <item>
           <widget class="QProgressBar" name="BufferState">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="minimumSize">
             <size>
-             <width>60</width>
+             <width>0</width>
              <height>6</height>
             </size>
            </property>
            <property name="maximumSize">
             <size>
-             <width>60</width>
+             <width>16777215</width>
              <height>6</height>
             </size>
            </property>
@@ -277,29 +239,14 @@ background: red;
          <item>
           <widget class="QLabel" name="Duration">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
-           <property name="minimumSize">
-            <size>
-             <width>60</width>
-             <height>12</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>60</width>
-             <height>12</height>
-            </size>
-           </property>
            <property name="font">
             <font>
-             <pointsize>8</pointsize>
-             <weight>50</weight>
-             <italic>false</italic>
-             <bold>false</bold>
+             <pointsize>-1</pointsize>
             </font>
            </property>
            <property name="styleSheet">
@@ -312,8 +259,8 @@ border-top: 0px;
 border-bottom: 0px;
 border-left: 0px;
 border-right: 0px;
-font: 8pt;
 color: white;
+font-size: 10px;
 </string>
            </property>
            <property name="frameShadow">
@@ -335,27 +282,10 @@ color: white;
        <item>
         <widget class="QToolButton" name="VideoPlayerSaveImageBT">
          <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
            <horstretch>0</horstretch>
            <verstretch>0</verstretch>
           </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>30</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>30</width>
-           <height>32</height>
-          </size>
-         </property>
-         <property name="font">
-          <font>
-           <pointsize>9</pointsize>
-          </font>
          </property>
          <property name="toolTip">
           <string extracomment="Tooltip in dialog box">Save this image of the movie</string>
@@ -383,7 +313,7 @@ color: white;
           <string notr="true">...</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../RSCffDiaporama.qrc">
            <normaloff>:/img/Camera.png</normaloff>:/img/Camera.png</iconset>
          </property>
          <property name="iconSize">

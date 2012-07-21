@@ -53,7 +53,7 @@
      <item>
       <widget class="QScrollArea" name="scrollArea">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -62,12 +62,6 @@
         <size>
          <width>270</width>
          <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>270</width>
-         <height>16777215</height>
         </size>
        </property>
        <property name="frameShape">
@@ -83,14 +77,6 @@
         <bool>true</bool>
        </property>
        <widget class="QWidget" name="scrollAreaWidgetContents">
-        <property name="geometry">
-         <rect>
-          <x>0</x>
-          <y>0</y>
-          <width>254</width>
-          <height>600</height>
-         </rect>
-        </property>
         <layout class="QGridLayout" name="gridLayout">
          <property name="margin">
           <number>4</number>
@@ -123,7 +109,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/PosSize_X.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_X.png</pixmap>
            </property>
           </widget>
          </item>
@@ -193,7 +179,7 @@
               <string notr="true"/>
              </property>
              <property name="pixmap">
-              <pixmap>:/img/PosSize_Y.png</pixmap>
+              <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Y.png</pixmap>
              </property>
             </widget>
            </item>
@@ -250,7 +236,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/PosSize_Width.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Width.png</pixmap>
            </property>
           </widget>
          </item>
@@ -320,7 +306,7 @@
               <string notr="true"/>
              </property>
              <property name="pixmap">
-              <pixmap>:/img/PosSize_Height.png</pixmap>
+              <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Height.png</pixmap>
              </property>
             </widget>
            </item>
@@ -453,7 +439,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
              </property>
             </widget>
@@ -466,7 +452,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/Brightness.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Brightness.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -479,7 +465,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/Contrast.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Contrast.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -567,7 +553,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
              </property>
             </widget>
@@ -580,7 +566,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/Gamma.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Gamma.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -674,7 +660,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
              </property>
             </widget>
@@ -693,7 +679,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/Red.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Red.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -781,7 +767,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
              </property>
             </widget>
@@ -800,7 +786,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/Green.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Green.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -888,7 +874,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
              </property>
             </widget>
@@ -907,7 +893,7 @@
             <string/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/Blue.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Blue.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -995,7 +981,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
              </property>
             </widget>
@@ -1049,7 +1035,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/Transform.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Transform.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1068,7 +1054,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/Blur.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Blur.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1175,7 +1161,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
              </property>
             </widget>
@@ -1210,7 +1196,7 @@
               <string notr="true"/>
              </property>
              <property name="pixmap">
-              <pixmap>:/img/Radius.png</pixmap>
+              <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Radius.png</pixmap>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1311,7 +1297,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
              </property>
             </widget>
@@ -1426,7 +1412,7 @@
               <string notr="true">...</string>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/FolderOpen.png</normaloff>:/img/FolderOpen.png</iconset>
              </property>
             </widget>
@@ -1457,7 +1443,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/object_image.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/object_image.png</pixmap>
            </property>
            <property name="scaledContents">
             <bool>true</bool>
@@ -1529,7 +1515,7 @@
             <string notr="true"/>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="../../../RSCffDiaporama.qrc">
              <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
            </property>
            <property name="arrowType">
@@ -1574,7 +1560,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/RotateZ.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateZ.png</pixmap>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1607,7 +1593,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/rotationg.png</normaloff>:/img/rotationg.png</iconset>
              </property>
             </widget>
@@ -1675,7 +1661,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/rotationd.png</normaloff>:/img/rotationd.png</iconset>
              </property>
             </widget>
@@ -1723,7 +1709,7 @@
             <string notr="true"/>
            </property>
            <property name="pixmap">
-            <pixmap>:/img/Geometry.png</pixmap>
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Geometry.png</pixmap>
            </property>
           </widget>
          </item>
@@ -1741,7 +1727,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/AdjustW.png</normaloff>:/img/AdjustW.png</iconset>
              </property>
              <property name="iconSize">
@@ -1761,7 +1747,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/AdjustH.png</normaloff>:/img/AdjustH.png</iconset>
              </property>
              <property name="iconSize">
@@ -1793,7 +1779,7 @@
               <string notr="true"/>
              </property>
              <property name="icon">
-              <iconset>
+              <iconset resource="../../../RSCffDiaporama.qrc">
                <normaloff>:/img/AdjustWH.png</normaloff>:/img/AdjustWH.png</iconset>
              </property>
             </widget>
@@ -1846,7 +1832,7 @@
         <string>Rullers</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/ruler_ok.png</normaloff>:/img/ruler_ok.png</iconset>
        </property>
       </widget>
@@ -1873,7 +1859,7 @@
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
        <property name="default">
@@ -1915,7 +1901,7 @@
         <string>Undo</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/undo24.png</normaloff>:/img/undo24.png</iconset>
        </property>
        <property name="shortcut">
@@ -1932,7 +1918,7 @@
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -1946,7 +1932,7 @@
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">

@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>425</height>
+    <height>437</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -45,7 +45,7 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>467</width>
+        <width>468</width>
         <height>367</height>
        </rect>
       </property>
@@ -100,7 +100,7 @@
             <string notr="true"/>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="../../../RSCffDiaporama.qrc">
              <normaloff>:/img/FolderOpen.png</normaloff>:/img/FolderOpen.png</iconset>
            </property>
           </widget>
@@ -244,12 +244,6 @@
              <height>0</height>
             </size>
            </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>16777215</height>
-            </size>
-           </property>
            <property name="toolTip">
             <string>Select the bit rate to use for video during the rendering.</string>
            </property>
@@ -297,12 +291,6 @@
             <size>
              <width>80</width>
              <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>80</width>
-             <height>16777215</height>
             </size>
            </property>
            <property name="toolTip">
@@ -508,12 +496,6 @@
              <height>0</height>
             </size>
            </property>
-           <property name="maximumSize">
-            <size>
-             <width>50</width>
-             <height>16777215</height>
-            </size>
-           </property>
            <property name="text">
             <string>und</string>
            </property>
@@ -524,6 +506,12 @@
          </item>
          <item>
           <widget class="QLabel" name="label_5">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
            <property name="text">
             <string>(ISO 639 language code)</string>
            </property>
@@ -605,7 +593,7 @@
         <item row="0" column="1">
          <widget class="QLabel" name="InformationLabel1">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -624,7 +612,7 @@
         <item row="1" column="1">
          <widget class="QLabel" name="InformationLabel2">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -643,7 +631,7 @@
         <item row="2" column="1">
          <widget class="QLabel" name="InformationLabel3">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -662,7 +650,7 @@
         <item row="3" column="1">
          <widget class="QLabel" name="InformationLabel4">
           <property name="sizePolicy">
-           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
             <horstretch>0</horstretch>
             <verstretch>0</verstretch>
            </sizepolicy>
@@ -724,12 +712,6 @@
         </property>
         <item>
          <widget class="QLabel" name="label_8">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="text">
            <string>Video track - Current slide progression</string>
           </property>
@@ -785,12 +767,6 @@
         </property>
         <item>
          <widget class="QLabel" name="label_9">
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="text">
            <string>Video track - Total progression</string>
           </property>
@@ -937,7 +913,7 @@
         <string>&amp;Properties</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/PrjProperties.png</normaloff>:/img/PrjProperties.png</iconset>
        </property>
       </widget>
@@ -964,7 +940,7 @@
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -978,7 +954,7 @@
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -992,7 +968,7 @@
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">

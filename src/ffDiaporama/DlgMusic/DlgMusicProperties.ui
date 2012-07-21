@@ -41,7 +41,7 @@
       <string>Continue current playlist (defined in a previous slide)</string>
      </property>
      <attribute name="buttonGroup">
-      <string>buttonGroup</string>
+      <string notr="true">buttonGroup</string>
      </attribute>
     </widget>
    </item>
@@ -71,7 +71,7 @@
         <string>Change volume level to :</string>
        </property>
        <attribute name="buttonGroup">
-        <string>buttonGroup_2</string>
+        <string notr="true">buttonGroup_2</string>
        </attribute>
       </widget>
      </item>
@@ -82,18 +82,6 @@
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
-       </property>
-       <property name="minimumSize">
-        <size>
-         <width>50</width>
-         <height>0</height>
-        </size>
-       </property>
-       <property name="maximumSize">
-        <size>
-         <width>50</width>
-         <height>16777215</height>
-        </size>
        </property>
        <property name="toolTip">
         <string>Define the sound volume for this slide</string>
@@ -170,7 +158,7 @@
         <string>Set to pause</string>
        </property>
        <attribute name="buttonGroup">
-        <string>buttonGroup_2</string>
+        <string notr="true">buttonGroup_2</string>
        </attribute>
       </widget>
      </item>
@@ -183,7 +171,7 @@
         <string>Normal</string>
        </property>
        <attribute name="buttonGroup">
-        <string>buttonGroup_2</string>
+        <string notr="true">buttonGroup_2</string>
        </attribute>
       </widget>
      </item>
@@ -198,7 +186,7 @@
       <string>Start a new playlist from this slide</string>
      </property>
      <attribute name="buttonGroup">
-      <string>buttonGroup</string>
+      <string notr="true">buttonGroup</string>
      </attribute>
     </widget>
    </item>
@@ -219,7 +207,7 @@
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
        </property>
       </widget>
@@ -233,7 +221,7 @@
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
        </property>
       </widget>
@@ -248,7 +236,7 @@ Move the current selected file of a notch upward.</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
        </property>
       </widget>
@@ -263,7 +251,7 @@ Move the current selected file of a notch downward.</string>
         <string notr="true"/>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
        </property>
       </widget>
@@ -395,7 +383,7 @@ Move the current selected file of a notch downward.</string>
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -409,7 +397,7 @@ Move the current selected file of a notch downward.</string>
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -423,7 +411,7 @@ Move the current selected file of a notch downward.</string>
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">

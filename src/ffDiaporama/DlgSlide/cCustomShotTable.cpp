@@ -118,7 +118,12 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     // -------------------------- Draw shot duration
     QPen  Pen;
     QFont font= QApplication::font();
-    font.setPointSizeF(double(3500)/double(SCALINGTEXTFACTOR));                  // Scale font
+    Painter->setFont(font);
+    #ifdef Q_OS_WIN
+    font.setPointSizeF(double(110)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+    #else
+    font.setPointSizeF(double(140)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+    #endif
     Painter->setFont(font);
     Pen.setWidth(1);
     Pen.setStyle(Qt::SolidLine);

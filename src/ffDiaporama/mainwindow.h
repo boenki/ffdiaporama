@@ -201,6 +201,7 @@ private slots:
     void    s_Browser_ManageFavorite();
     void    s_Browser_RemoveFolder();
     void    s_Browser_RenameFile();
+    void    s_Action_DoRemoveFile();
     void    s_Browser_RenameFolder();
     void    s_Browser_Properties();
     void    s_Browser_RemoveFile();

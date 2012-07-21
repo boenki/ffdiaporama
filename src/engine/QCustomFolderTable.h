@@ -90,12 +90,17 @@ public:
 
 protected:
     virtual QMimeData       *mimeData(const QList <QTableWidgetItem *>) const;
+    virtual void            keyReleaseEvent(QKeyEvent *event);
 
 signals:
     void    DoubleClickEvent(QMouseEvent *ev);
     void    RightClickEvent(QMouseEvent *ev);
     void    RefreshFolderInfo();
     void    NeedResizeColumns();
+    void    RemoveFiles();
+    void    InsertFiles();
+    void    OpenFiles();
+    void    Refresh();
 
 public slots:
     void    DoResizeColumns();

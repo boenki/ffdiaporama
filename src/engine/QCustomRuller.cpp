@@ -42,8 +42,8 @@ QCustomRuller::QCustomRuller(QWidget *parent):QSlider(parent) {
 
     StartPos=0;
     EndPos  =0;
-    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
-    setFixedHeight(32);
+    //setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
+    //setFixedHeight(32);
 }
 
 //====================================================================================================================
@@ -81,21 +81,32 @@ void QCustomRuller::mousePressEvent(QMouseEvent *ev) {
 void QCustomRuller::paintEvent(QPaintEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomRuller::paintEvent");
 
-    QFont       Font("DejaVu Sans",6,QFont::Normal,QFont::StyleNormal);
     QPainter    Painter(this);
+    QFont       font= QApplication::font();
+    Painter.setFont(font);
+    #ifdef Q_OS_WIN
+    font.setPointSizeF(double(90)/double(Painter.fontMetrics().boundingRect("0").height()));                  // Scale font
+    #else
+    font.setPointSizeF(double(110)/double(Painter.fontMetrics().boundingRect("0").height()));                  // Scale font
+    #endif
+    Painter.setFont(font);
+
+    // Prepare QPainter and calc positions
+
     double      Width        = double(this->width());
     double      Height       = double(this->height());
-    int         TextHPosition= 28; //(Slider==NULL?9:28);
-    int         WidthTick    = QFontMetrics(Font).width("00:00");
+    int         WidthTick    = Painter.fontMetrics().width("00:00");
 
     //********************************************************
     // Draw slider background
     //********************************************************
 
-    // Prepare QPainter
-    Painter.setFont(Font);
-    Painter.setPen(Qt::white);
     Painter.fillRect(QRect(0,0,Width,Height),QColor(Qt::black));
+    Painter.setPen(QColor(0x20,0x20,0x20));
+    Painter.drawLine(0,0,Width,0);
+    Painter.setPen(Qt::white);
+    Painter.translate(0,(Height-32)/2);
+    Height=32;
 
     if ((TotalDuration!=0)&&(StartPos<EndPos)) {
         // Draw zone
@@ -159,7 +170,7 @@ void QCustomRuller::paintEvent(QPaintEvent *) {
             else Text=QString("%1:%2").arg(TimeMin,2,10,QChar('0')).arg(TimeSec,2,10,QChar('0'));
 
         if ((!((TimeSec==0)&&(TimeMin==0)&&(TimeHour==0)))&&((TAQUET_SIZE+Cur*SizeTick+(WidthTick/2))<Width))
-            Painter.drawText(TAQUET_SIZE+Cur*SizeTick-(WidthTick/2),TextHPosition,Text);
+            Painter.drawText(TAQUET_SIZE+Cur*SizeTick-(WidthTick/2),32-1,Text);
 
         // Draw intermediate tick and then increment time depending on echelle
         if (Ech=="S") {
@@ -187,7 +198,7 @@ void QCustomRuller::paintEvent(QPaintEvent *) {
             TimeHour+=1;
         }
         // Draw text if there is place !
-        if ((WidthTick<(SizeTick/3))&&(TAQUET_SIZE+(Cur+0.5)*SizeTick+(WidthTick/2)<Width)) Painter.drawText(TAQUET_SIZE+(Cur+0.5)*SizeTick-(WidthTick/2),TextHPosition,Text);
+        if ((WidthTick<(SizeTick/3))&&(TAQUET_SIZE+(Cur+0.5)*SizeTick+(WidthTick/2)<Width)) Painter.drawText(TAQUET_SIZE+(Cur+0.5)*SizeTick-(WidthTick/2),32-1,Text);
 
         // Adjust time
         if (TimeSec>59) {
@@ -202,8 +213,6 @@ void QCustomRuller::paintEvent(QPaintEvent *) {
         // Go to next tick
         Cur=Cur+1;
     }
-    Painter.setPen(QColor(0x20,0x20,0x20));
-    Painter.drawLine(0,0,Width,0);
 
     //********************************************************
     // Draw slider

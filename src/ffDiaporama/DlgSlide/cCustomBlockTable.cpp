@@ -138,6 +138,13 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
         // First line
         font=QFont("Sans serif",9,QFont::Bold,QFont::StyleNormal);          // First line use bold
         Painter->setFont(font);
+        #ifdef Q_OS_WIN
+        font.setPointSizeF(double(110)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        #else
+        font.setPointSizeF(double(120)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        #endif
+        Painter->setFont(font);
+
         OptionText=QTextOption(Qt::AlignLeft|Qt::AlignVCenter);                     // Setup alignement
         OptionText.setWrapMode(QTextOption::NoWrap);                                // Setup word wrap text option
         Painter->drawText(QRectF(option.rect.x()+IconWidth+2+2,option.rect.y()+1,option.rect.width()-IconWidth-3-2,14),SummaryText[0],OptionText);
@@ -145,6 +152,12 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
         // Second line
         font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);
         font.setUnderline(false);
+        Painter->setFont(font);
+        #ifdef Q_OS_WIN
+        font.setPointSizeF(double(100)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        #else
+        font.setPointSizeF(double(100)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        #endif
         Painter->setFont(font);
         Painter->drawText(QRectF(option.rect.x()+IconWidth+2+2,option.rect.y()+1+(14+2),option.rect.width()-IconWidth-3-2,14),SummaryText[1],OptionText);
 
@@ -154,6 +167,12 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     } else {
         font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);
         font.setUnderline(false);
+        Painter->setFont(font);
+        #ifdef Q_OS_WIN
+        font.setPointSizeF(double(100)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        #else
+        font.setPointSizeF(double(100)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        #endif
         Painter->setFont(font);
         OptionText=QTextOption(Qt::AlignLeft|Qt::AlignVCenter);                     // Setup alignement
         OptionText.setWrapMode(QTextOption::NoWrap);                                // Setup word wrap text option

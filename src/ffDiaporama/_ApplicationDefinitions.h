@@ -47,29 +47,29 @@
 
 // Dialogbox help file
 #define WIKI_CMS_PATH                       "http://ffdiaporama.tuxfamily.org/?page_id="
-#define HELPFILE_WIKIINDEX                  5239
-#define HELPFILE_PRINCIPLESINDEX            5254
-#define HELPFILE_RENDERINDEX                5278
-#define HELPFILE_INDEX                      "http://ffdiaporama.tuxfamily.org/?page_id=5239&lang=<local>"
-#define HELPFILE_PRINCIPLES                 "http://ffdiaporama.tuxfamily.org/?page_id=5254&lang=<local>"
-#define HELPFILE_DEVICES                    "http://ffdiaporama.tuxfamily.org/?page_id=5416&lang=<local>"
-#define HELPFILE_DlgTextEdit                "http://ffdiaporama.tuxfamily.org/?page_id=5316&lang=<local>"
-#define HELPFILE_DlgSlideProperties         "http://ffdiaporama.tuxfamily.org/?page_id=5287&lang=<local>"
-#define HELPFILE_DlgBackgroundProperties    "http://ffdiaporama.tuxfamily.org/?page_id=5303&lang=<local>"
-#define HELPFILE_DlgImageCorrection         "http://ffdiaporama.tuxfamily.org/?page_id=5300&lang=<local>"
-#define HELPFILE_DlgManageStyle             "http://ffdiaporama.tuxfamily.org/?page_id=5318&lang=<local>"
-#define HELPFILE_DlgMusicProperties         "http://ffdiaporama.tuxfamily.org/?page_id=5306&lang=<local>"
-#define HELPFILE_DlgRenderVideo             "http://ffdiaporama.tuxfamily.org/?page_id=5324&lang=<local>"
-#define HELPFILE_DlgTransitionProperties    "http://ffdiaporama.tuxfamily.org/?page_id=5309&lang=<local>"
-#define HELPFILE_DlgVideoEdit               "http://ffdiaporama.tuxfamily.org/?page_id=5312&lang=<local>"
-#define HELPFILE_DlgCheckConfig             "http://ffdiaporama.tuxfamily.org/?page_id=5293&lang=<local>"
-#define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=5284&lang=<local>"
-#define HELPFILE_DlgManageDevices           "http://ffdiaporama.tuxfamily.org/?page_id=5297&lang=<local>"
-#define HELPFILE_DlgffDPjrProperties        "http://ffdiaporama.tuxfamily.org/?page_id=5321&lang=<local>"
-#define HELPFILE_DlgInfoFile                "http://ffdiaporama.tuxfamily.org/?page_id=5576&lang=<local>"
+#define HELPFILE_WIKIINDEX                  6268
+#define HELPFILE_PRINCIPLESINDEX            6280
+#define HELPFILE_RENDERINDEX                6307
+#define HELPFILE_INDEX                      "http://ffdiaporama.tuxfamily.org/?page_id=6268&lang=<local>"
+#define HELPFILE_PRINCIPLES                 "http://ffdiaporama.tuxfamily.org/?page_id=6280&lang=<local>"
+#define HELPFILE_DEVICES                    "http://ffdiaporama.tuxfamily.org/?page_id=6309&lang=<local>"
+#define HELPFILE_DlgTextEdit                "http://ffdiaporama.tuxfamily.org/?page_id=6331&lang=<local>"
+#define HELPFILE_DlgSlideProperties         "http://ffdiaporama.tuxfamily.org/?page_id=6317&lang=<local>"
+#define HELPFILE_DlgBackgroundProperties    "http://ffdiaporama.tuxfamily.org/?page_id=6323&lang=<local>"
+#define HELPFILE_DlgImageCorrection         "http://ffdiaporama.tuxfamily.org/?page_id=6321&lang=<local>"
+#define HELPFILE_DlgManageStyle             "http://ffdiaporama.tuxfamily.org/?page_id=6333&lang=<local>"
+#define HELPFILE_DlgMusicProperties         "http://ffdiaporama.tuxfamily.org/?page_id=6325&lang=<local>"
+#define HELPFILE_DlgRenderVideo             "http://ffdiaporama.tuxfamily.org/?page_id=6337&lang=<local>"
+#define HELPFILE_DlgTransitionProperties    "http://ffdiaporama.tuxfamily.org/?page_id=6327&lang=<local>"
+#define HELPFILE_DlgVideoEdit               "http://ffdiaporama.tuxfamily.org/?page_id=6329&lang=<local>"
+#define HELPFILE_DlgCheckConfig             "http://ffdiaporama.tuxfamily.org/?page_id=6315&lang=<local>"
+#define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=6313&lang=<local>"
+#define HELPFILE_DlgManageDevices           "http://ffdiaporama.tuxfamily.org/?page_id=6319&lang=<local>"
+#define HELPFILE_DlgffDPjrProperties        "http://ffdiaporama.tuxfamily.org/?page_id=6335&lang=<local>"
+#define HELPFILE_DlgInfoFile                "http://ffdiaporama.tuxfamily.org/?page_id=6351&lang=<local>"
 #define HELPFILE_DlgRulerDef                ""                                                                  // No page for that !
 #define HELPFILE_DlgManageFavorite          ""                                                                  // No page for that !
-#define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/?page_id=5239&lang=<local>"
+#define HELPFILE_SUPPORT                    "http://ffdiaporama.tuxfamily.org/?page_id=6268&lang=<local>"
 #define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/?cat=5&lang=<local>"
 
 // Define styles name used in xml file
@@ -100,9 +100,9 @@
 #define DISPLAYUNIT_PIXELS                  1
 
 // Mainwindow display mode
-#define DISPLAYWINDOWMODE_PLAYER        0
-#define DISPLAYWINDOWMODE_PARTITION     1
-#define DISPLAYWINDOWMODE_BROWSER       2
+#define DISPLAYWINDOWMODE_PLAYER            0
+#define DISPLAYWINDOWMODE_PARTITION         1
+#define DISPLAYWINDOWMODE_BROWSER           2
 
 // Global values
 extern QString SystemProperties;                                // System properties log
