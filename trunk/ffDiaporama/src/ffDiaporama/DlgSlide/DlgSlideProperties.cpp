@@ -184,8 +184,8 @@ void DlgSlideProperties::DoInitDialog() {
     // Init combo box Background form
     for (int i=0;i<12;i++) ui->BackgroundFormCB->addItem("");
     MakeFormIcon(ui->BackgroundFormCB);
-    ui->FramingStyleCB->view()->setFixedWidth(300);
-    ui->ShadowEffectCB->view()->setFixedWidth(300);
+    ui->FramingStyleCB->view()->setFixedWidth(400);
+    ui->ShadowEffectCB->view()->setFixedWidth(400);
 
     // Init combo box Background shadow form
     ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","None"));
@@ -404,6 +404,8 @@ void DlgSlideProperties::showEvent(QShowEvent *ev) {
         }
         ui->ShotTable->setCurrentCell(0,0);
         ui->ShotTable->setUpdatesEnabled(true);
+
+        ui->ZoomED->setFixedWidth(ui->ScrollXED->width());
     }
 }
 

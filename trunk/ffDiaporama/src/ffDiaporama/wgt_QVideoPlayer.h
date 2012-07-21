@@ -123,6 +123,7 @@ public:
 
     void    SetBackgroundColor(QColor Background);
     void    Resize();
+    int     GetButtonBarHeight();
 
 protected:
     virtual void resizeEvent(QResizeEvent *);

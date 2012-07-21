@@ -151,9 +151,6 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     ActualDisplay           = NULL;
     ResetPositionWanted     = false;
 
-    ui->Position->setFixedWidth(DisplayMSec?80:60); ui->Position->setText(QTime(0,0,0,0).toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
-    ui->Duration->setFixedWidth(DisplayMSec?80:60); ui->Duration->setText(QTime(0,0,0,0).toString(DisplayMSec?"hh:mm:ss.zzz":"hh:mm:ss"));
-    ui->BufferState->setFixedWidth(DisplayMSec?80:60);
     this->FileInfo      = FileInfo;
     ui->CustomRuller->ActiveSlider(0);
     ui->CustomRuller->setSingleStep(25);
@@ -226,6 +223,12 @@ void wgt_QVideoPlayer::s_DoubleClick() {
 void wgt_QVideoPlayer::s_RightClickEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_RightClickEvent");
     emit RightClickEvent(event);
+}
+
+//============================================================================================
+
+int wgt_QVideoPlayer::GetButtonBarHeight() {
+    return ui->VideoPlayerPlayPauseBT->height();
 }
 
 //============================================================================================

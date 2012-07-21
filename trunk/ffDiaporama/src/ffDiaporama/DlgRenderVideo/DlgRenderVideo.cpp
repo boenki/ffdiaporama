@@ -813,11 +813,12 @@ bool DlgRenderVideo::ComputeTAGPart(QString &aTAG) {
         aTAG=" -i \""+TempMETAFileName+"\"  -map_metadata g:0 -map_chapters 0";
         #endif
         #ifdef LIBAV_08
-        if (isAVCONV) aTAG=" -i \""+TempMETAFileName+"\"  -map_metadata:g "+(ui->IncludeSoundCB->isChecked()?"2":"1")+" -map_chapters "+(ui->IncludeSoundCB->isChecked()?"2":"1");
-            aTAG=" -i \""+TempMETAFileName+"\"  -map_metadata:g 0 -map_chapters 0"; // For ffmpeg, mapping is to destination file (for avconv is to source !)
+        if (isAVCONV) aTAG=" -i \""+TempMETAFileName+"\"  -map_metadata:g "+(ui->IncludeSoundCB->isChecked()?"2":"1")+" -map_chapters "+(ui->IncludeSoundCB->isChecked()?"2":"1")+" 0";
+            aTAG=" -i \""+TempMETAFileName+"\"  -map_metadata:g 0 -map_chapters "+(ui->IncludeSoundCB->isChecked()?"2":"1"); // For ffmpeg, mapping is to destination file (for avconv is to source !)
         #endif
         return true;
     } else return false;
+
 }
 
 //====================================================================================================================

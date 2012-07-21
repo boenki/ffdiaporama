@@ -332,8 +332,14 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
 
         // Draw transition duration, slide duration and slide name
         QFont font= QApplication::font();
-        font.setPointSizeF(double(3500)/double(SCALINGTEXTFACTOR));                  // Scale font
         Painter.setFont(font);
+        #ifdef Q_OS_WIN
+        font.setPointSizeF(double(110)/double(Painter.fontMetrics().boundingRect("0").height()));                  // Scale font
+        #else
+        font.setPointSizeF(double(140)/double(Painter.fontMetrics().boundingRect("0").height()));                  // Scale font
+        #endif
+        Painter.setFont(font);
+
         Pen.setWidth(1);
         Pen.setStyle(Qt::SolidLine);
         QString SlideDuration=QTime(0,0,0,0).addMSecs(Object->GetDuration()).toString("hh:mm:ss.zzz");

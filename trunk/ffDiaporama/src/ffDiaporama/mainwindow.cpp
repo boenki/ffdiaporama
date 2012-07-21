@@ -289,10 +289,17 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->FolderTree,SIGNAL(ActionRefreshHere()),this,SLOT(s_Browser_RefreshHere()));
     connect(ui->FolderTree,SIGNAL(ActionRemoveFolder()),this,SLOT(s_Browser_RemoveFolder()));
     connect(ui->FolderTree,SIGNAL(ActionRenameFolder()),this,SLOT(s_Browser_RenameFolder()));
+
     connect(ui->FolderTable,SIGNAL(itemSelectionChanged()),this,SLOT(DoBrowserRefreshSelectedFileInfo()));
     connect(ui->FolderTable,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_Browser_DoubleClicked(QMouseEvent *)));
     connect(ui->FolderTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_Browser_RightClicked(QMouseEvent *)));
     connect(ui->FolderTable,SIGNAL(RefreshFolderInfo()),this,SLOT(DoBrowserRefreshFolderInfo()));
+    connect(ui->FolderTable,SIGNAL(RemoveFiles()),this,SLOT(s_Browser_RemoveFile()));
+    connect(ui->FolderTable,SIGNAL(InsertFiles()),this,SLOT(s_Browser_AddFiles()));
+    connect(ui->FolderTable,SIGNAL(InsertFiles()),this,SLOT(s_Browser_AddFiles()));
+    connect(ui->FolderTable,SIGNAL(OpenFiles()),this,SLOT(s_Browser_OpenFile()));
+    connect(ui->FolderTable,SIGNAL(Refresh()),this,SLOT(s_Browser_RefreshAll()));
+
     connect(ui->ActionModeBt,SIGNAL(pressed()),this,SLOT(s_Browser_ChangeDisplayMode()));
     connect(ui->RefreshBt,SIGNAL(released()),this,SLOT(s_Browser_RefreshAll()));
     connect(ui->PreviousFolderBt,SIGNAL(released()),this,SLOT(s_Browser_SetToPrevious()));
@@ -412,6 +419,7 @@ void MainWindow::ToStatusBar(QString Text) {
 
 void MainWindow::SetTimelineHeight() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::SetTimelineHeight");
+    int ButtonBarHeight=ui->preview->GetButtonBarHeight();
     switch (ApplicationConfig->WindowDisplayMode) {
         case DISPLAYWINDOWMODE_PLAYER:
             ApplicationConfig->PartitionMode=false;
@@ -428,7 +436,7 @@ void MainWindow::SetTimelineHeight() {
             ui->Partition2BT->setEnabled(true);
             ui->Partition3BT->setEnabled(true);
             QApplication::processEvents();          // Give time to Qt to redefine position of each control and preview height !
-            ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-32));
+            ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-ButtonBarHeight));
             break;
         case DISPLAYWINDOWMODE_PARTITION:
             ApplicationConfig->PartitionMode=true;
@@ -438,7 +446,7 @@ void MainWindow::SetTimelineHeight() {
             ui->ToolBoxNormal->setVisible(false);
             ui->preview->setVisible(false);
             ui->preview2->setVisible(true);
-            ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-32));
+            ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-ButtonBarHeight));
             ui->TABTooltip->setVisible(false);
             ui->TABToolimg->setVisible(false);
             ui->Partition2BT->setDown(true);
@@ -454,7 +462,7 @@ void MainWindow::SetTimelineHeight() {
             ui->ToolBoxNormal->setVisible(false);
             ui->preview->setVisible(false);
             ui->preview2->setVisible(true);
-            ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-32));
+            ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-ButtonBarHeight));
             ui->TABTooltip->setVisible(false);
             ui->TABToolimg->setVisible(false);
             ui->Partition3BT->setDown(true);
@@ -1659,8 +1667,13 @@ void MainWindow::s_Event_TimelineAddDragAndDropFile() {
     int i=0;
     while (i<FileList.count()) {
         if (ApplicationConfig->AllowMusicExtension.contains(QFileInfo(FileList.at(i)).suffix().toLower())) {
-            MusicFileList.append(FileList.at(i));
-            FileList.removeAt(i);
+            // check if file contains video track
+            cVideoFile  *MediaFile=new cVideoFile(OBJECTTYPE_VIDEOFILE,ApplicationConfig);
+            if (((MediaFile)&&(MediaFile->GetInformationFromFile(QFileInfo(FileList.at(i)).absoluteFilePath(),NULL,NULL)))&&
+                 (MediaFile->OpenCodecAndFile())&&(MediaFile->VideoStreamNumber<0)&&(MediaFile->AudioStreamNumber>=0)) {
+                MusicFileList.append(FileList.at(i));
+                FileList.removeAt(i);
+            } else i++;
         } else i++;
     }
     if (MusicFileList.count()>0) s_Action_DoUseAsPlayList(MusicFileList,DragItemDest);
@@ -3072,9 +3085,43 @@ void MainWindow::s_Browser_RemoveFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RemoveFile");
     QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
     if (MediaList.count()>0) {
-
+        while (FileList.count()>0) FileList.removeLast();
+        for (int i=0;i<MediaList.count();i++) FileList.append(MediaList[i]->FileName);
+        DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Remove files"),&CancelAction,ApplicationConfig,this);
+        DlgWorkingTaskDialog->InitDialog();
+        DlgWorkingTaskDialog->SetMaxValue(FileList.count(),0);
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoRemoveFile()));
+        DlgWorkingTaskDialog->exec();
     }
-    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Work in progress"),QApplication::translate("MainWindow","Sorry, not yet!"),QMessageBox::Ok);
+}
+
+void MainWindow::s_Action_DoRemoveFile() {
+    if ((FileList.count()==0)||(CancelAction)) {
+        if (DlgWorkingTaskDialog) {
+            ToStatusBar("");
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
+            s_Browser_RefreshHere();
+        }
+        FileList.clear();
+        return;
+    }
+
+    if (DlgWorkingTaskDialog) {
+        DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","Remove file :")+QFileInfo(FileList[0]).fileName());
+        DlgWorkingTaskDialog->DisplayProgress(DlgWorkingTaskDialog->MaxValue-FileList.count());
+    }
+
+    QString FileToRemove=FileList.takeFirst();
+
+    if (QFileInfo(FileToRemove).isDir()) {
+        if (!QDir().rmdir(FileToRemove)) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Remove folder"),QApplication::translate("MainWindow","Impossible to remove folder!\nAre you sure is empty?"),QMessageBox::Ok);
+    } else {
+        if (!QFile(FileToRemove).remove()) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Remove file"),QApplication::translate("MainWindow","Impossible to remove file!"),QMessageBox::Ok);
+    }
+
+    QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoRemoveFile()));
 }
 
 //====================================================================================================================

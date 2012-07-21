@@ -2358,10 +2358,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Ombra :</translation>
     </message>
     <message>
-        <source>Block shape :</source>
-        <translation>Forma blocco :</translation>
-    </message>
-    <message>
         <source>Enable or disable rulers corresponding to the margins of television sets.</source>
         <translation>Attivare o disattivare i righelli corrispondenti ai margini dei televisori.</translation>
     </message>
@@ -2463,10 +2459,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Ripristina a 0</translation>
     </message>
     <message>
-        <source>Text animation :</source>
-        <translation>Animazione testo :</translation>
-    </message>
-    <message>
         <source>Zoom :</source>
         <translation>Zoom :</translation>
     </message>
@@ -2485,10 +2477,6 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Scroll text from bottom to up</source>
         <translation>Scorrimento testo dal basso verso l&apos;alto</translation>
-    </message>
-    <message>
-        <source>Block animation :</source>
-        <translation>Blocco animazione :</translation>
     </message>
     <message>
         <source>Define the number of turn to be made around the Z axis during this shot</source>
@@ -2787,6 +2775,18 @@ blocco</translation>
     <message>
         <source>Start chapter from here</source>
         <translation>Avvia capitolo da qui</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block shape :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Text animation :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block animation :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

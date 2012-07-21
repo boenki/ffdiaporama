@@ -60,6 +60,9 @@ private slots:
     void                s_itemExpanded(QTreeWidgetItem *item);
     void                s_ContextMenu(const QPoint Point);
 
+protected:
+    void                keyReleaseEvent(QKeyEvent *event);
+
 private:
     QTreeWidgetItem     *CreateItem(QString Text,QString FilePath,QIcon Icon);
     bool                IsFolderHaveChild(QString Folder);

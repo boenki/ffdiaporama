@@ -25,6 +25,7 @@
 #include <QTextCharFormat>
 #include <QTextList>
 #include <QAbstractTextDocumentLayout>
+#include <QStringListModel>
 
 #define SIZERATIO                       0.5
 
@@ -121,8 +122,6 @@ void DlgTextEdit::DoInitDialog() {
     ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Shadow upper right"));
     ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Shadow bottom left"));
     ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Shadow bottom right"));
-    ui->fontEffectCB->view()->setFixedWidth(160+18);
-    ui->fontEffectCB->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
     MakeTextStyleIcon(ui->fontEffectCB);
 
     // Init combo box Background  type
@@ -293,7 +292,7 @@ void DlgTextEdit::RefreshControls() {
     if (CurrentTextItem->StyleText!=ui->fontEffectCB->currentIndex())   ui->fontEffectCB->setCurrentIndex(CurrentTextItem->StyleText);
     ui->StyleShadowColorCombo->SetCurrentColor(&CurrentTextItem->FontShadowColor);
     ui->StyleShadowColorCombo->setEnabled(CurrentTextItem->StyleText!=0);
-    ui->fontEffectCB->view()->setFixedWidth(250);
+    //ui->fontEffectCB->view()->setFixedWidth(250);
     //ui->TextStyleED->setText(StyleTextCollection->GetStyleName(CurrentTextItem->GetTextStyle()));
 
     // Brush TAB part

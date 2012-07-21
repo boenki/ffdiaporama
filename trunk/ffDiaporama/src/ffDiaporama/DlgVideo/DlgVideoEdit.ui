@@ -120,7 +120,7 @@
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="../../../RSCffDiaporama.qrc">
              <normaloff>:/img/player_rew.png</normaloff>:/img/player_rew.png</iconset>
            </property>
           </widget>
@@ -134,24 +134,18 @@
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="../../../RSCffDiaporama.qrc">
              <normaloff>:/img/PosStart.png</normaloff>:/img/PosStart.png</iconset>
            </property>
           </widget>
          </item>
          <item>
           <widget class="QDateTimeEdit" name="StartPosEd">
-           <property name="minimumSize">
-            <size>
-             <width>105</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>105</width>
-             <height>16777215</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="toolTip">
             <string extracomment="Tooltip in dialog box">Define the start position to use for</string>
@@ -185,17 +179,11 @@
          </item>
          <item>
           <widget class="QDateTimeEdit" name="EndPosEd">
-           <property name="minimumSize">
-            <size>
-             <width>105</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>105</width>
-             <height>16777215</height>
-            </size>
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="toolTip">
             <string extracomment="Tooltip in dialog box">Define the end position to use for</string>
@@ -223,7 +211,7 @@
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="../../../RSCffDiaporama.qrc">
              <normaloff>:/img/PosEnd.png</normaloff>:/img/PosEnd.png</iconset>
            </property>
           </widget>
@@ -237,7 +225,7 @@
             <string notr="true">...</string>
            </property>
            <property name="icon">
-            <iconset>
+            <iconset resource="../../../RSCffDiaporama.qrc">
              <normaloff>:/img/player_fwd.png</normaloff>:/img/player_fwd.png</iconset>
            </property>
           </widget>
@@ -260,12 +248,6 @@
          </item>
          <item>
           <widget class="QLabel" name="ActualDuration">
-           <property name="maximumSize">
-            <size>
-             <width>16777215</width>
-             <height>21</height>
-            </size>
-           </property>
            <property name="frameShape">
             <enum>QFrame::Box</enum>
            </property>
@@ -293,22 +275,10 @@
          <item>
           <widget class="QComboBox" name="VolumeReductionFactorCB">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>70</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>70</width>
-             <height>16777215</height>
-            </size>
            </property>
            <property name="toolTip">
             <string>Define the &quot; Master Volume &quot; for the movie</string>
@@ -358,7 +328,7 @@
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -397,7 +367,7 @@
         <string>Undo</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/undo24.png</normaloff>:/img/undo24.png</iconset>
        </property>
        <property name="shortcut">
@@ -414,7 +384,7 @@
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -428,7 +398,7 @@
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">

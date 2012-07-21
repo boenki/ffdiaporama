@@ -64,6 +64,7 @@
       <string notr="true">QToolButton {
 	background-color: transparent;
 	border: none; 
+    font-size: 9px;
 }
 QToolButton:hover{ 
     border: 2px solid #8f8f91;
@@ -108,8 +109,7 @@ QToolButton:pressed {
         </property>
         <property name="font">
          <font>
-          <family>Sans Serif</family>
-          <pointsize>8</pointsize>
+          <pointsize>-1</pointsize>
          </font>
         </property>
         <property name="toolTip">
@@ -120,7 +120,7 @@ QToolButton:pressed {
 shot</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../../../RSCffDiaporama.qrc">
           <normaloff>:/img/add_project.png</normaloff>:/img/add_project.png</iconset>
         </property>
         <property name="iconSize">
@@ -156,8 +156,7 @@ shot</string>
         </property>
         <property name="font">
          <font>
-          <family>Sans Serif</family>
-          <pointsize>8</pointsize>
+          <pointsize>-1</pointsize>
          </font>
         </property>
         <property name="toolTip">
@@ -168,7 +167,7 @@ shot</string>
 shot</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../../../RSCffDiaporama.qrc">
           <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
         </property>
         <property name="iconSize">
@@ -205,8 +204,7 @@ shot</string>
         </property>
         <property name="font">
          <font>
-          <family>Sans Serif</family>
-          <pointsize>8</pointsize>
+          <pointsize>-1</pointsize>
          </font>
         </property>
         <property name="toolTip">
@@ -217,7 +215,7 @@ shot</string>
 text</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../../../RSCffDiaporama.qrc">
           <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
         </property>
         <property name="iconSize">
@@ -250,8 +248,7 @@ text</string>
         </property>
         <property name="font">
          <font>
-          <family>Sans Serif</family>
-          <pointsize>8</pointsize>
+          <pointsize>-1</pointsize>
          </font>
         </property>
         <property name="toolTip">
@@ -262,7 +259,7 @@ text</string>
 file</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../../../RSCffDiaporama.qrc">
           <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
         </property>
         <property name="iconSize">
@@ -302,8 +299,7 @@ file</string>
         </property>
         <property name="font">
          <font>
-          <family>Sans Serif</family>
-          <pointsize>8</pointsize>
+          <pointsize>-1</pointsize>
          </font>
         </property>
         <property name="toolTip">
@@ -314,7 +310,7 @@ file</string>
 block</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../../../RSCffDiaporama.qrc">
           <normaloff>:/img/edit.png</normaloff>:/img/edit.png</iconset>
         </property>
         <property name="iconSize">
@@ -344,8 +340,7 @@ block</string>
         </property>
         <property name="font">
          <font>
-          <family>Sans Serif</family>
-          <pointsize>8</pointsize>
+          <pointsize>-1</pointsize>
          </font>
         </property>
         <property name="toolTip">
@@ -356,7 +351,7 @@ block</string>
 block</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../../../RSCffDiaporama.qrc">
           <normaloff>:/img/arrange.png</normaloff>:/img/arrange.png</iconset>
         </property>
         <property name="iconSize">
@@ -386,8 +381,7 @@ block</string>
         </property>
         <property name="font">
          <font>
-          <family>Sans Serif</family>
-          <pointsize>8</pointsize>
+          <pointsize>-1</pointsize>
          </font>
         </property>
         <property name="toolTip">
@@ -398,7 +392,7 @@ block</string>
 information</string>
         </property>
         <property name="icon">
-         <iconset>
+         <iconset resource="../../../RSCffDiaporama.qrc">
           <normaloff>:/img/Action_Info.png</normaloff>:/img/Action_Info.png</iconset>
         </property>
         <property name="iconSize">
@@ -446,22 +440,10 @@ information</string>
       <item>
        <widget class="QLabel" name="label_28">
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>
-        </property>
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>24</height>
-         </size>
         </property>
         <property name="font">
          <font>
@@ -479,17 +461,11 @@ information</string>
       </item>
       <item>
        <widget class="QLineEdit" name="SlideNameED">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>24</height>
-         </size>
-        </property>
-        <property name="maximumSize">
-         <size>
-          <width>16777215</width>
-          <height>24</height>
-         </size>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="font">
          <font>
@@ -504,6 +480,12 @@ information</string>
       </item>
       <item>
        <widget class="QCheckBox" name="NewChapterCB">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="toolTip">
          <string>Start a new chapter from this slide</string>
         </property>
@@ -521,12 +503,6 @@ information</string>
       </item>
       <item>
        <widget class="QLabel" name="label_29">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>24</height>
-         </size>
-        </property>
         <property name="text">
          <string>Total duration :</string>
         </property>
@@ -641,6 +617,12 @@ information</string>
        </item>
        <item>
         <widget class="QFrame" name="FrameShot">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
          <property name="frameShape">
           <enum>QFrame::Panel</enum>
          </property>
@@ -666,18 +648,6 @@ information</string>
           </item>
           <item>
            <widget class="QTimeEdit" name="ShotDurationED">
-            <property name="minimumSize">
-             <size>
-              <width>0</width>
-              <height>24</height>
-             </size>
-            </property>
-            <property name="maximumSize">
-             <size>
-              <width>16777215</width>
-              <height>24</height>
-             </size>
-            </property>
             <property name="font">
              <font>
               <pointsize>9</pointsize>
@@ -757,7 +727,7 @@ information</string>
      <item>
       <widget class="QWidget" name="RightLayout" native="true">
        <property name="sizePolicy">
-        <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
          <horstretch>0</horstretch>
          <verstretch>0</verstretch>
         </sizepolicy>
@@ -771,12 +741,18 @@ information</string>
         </property>
         <item>
          <widget class="QSplitter" name="SplitterTop">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <property name="orientation">
            <enum>Qt::Vertical</enum>
           </property>
           <widget class="QWidget" name="widget_2" native="true">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+            <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -791,16 +767,10 @@ information</string>
             <item>
              <widget class="cCustomBlockTable" name="BlockTable">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
-              </property>
-              <property name="minimumSize">
-               <size>
-                <width>300</width>
-                <height>0</height>
-               </size>
               </property>
               <property name="acceptDrops">
                <bool>true</bool>
@@ -882,6 +852,12 @@ information</string>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="font">
+            <font>
+             <family>Sans Serif</family>
+             <pointsize>8</pointsize>
+            </font>
+           </property>
            <property name="frameShape">
             <enum>QFrame::StyledPanel</enum>
            </property>
@@ -908,12 +884,12 @@ information</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>282</width>
-              <height>693</height>
+              <width>257</width>
+              <height>720</height>
              </rect>
             </property>
             <property name="sizePolicy">
-             <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <sizepolicy hsizetype="Ignored" vsizetype="Preferred">
               <horstretch>0</horstretch>
               <verstretch>0</verstretch>
              </sizepolicy>
@@ -943,37 +919,25 @@ information</string>
                 <number>0</number>
                </property>
                <item>
-                <spacer name="horizontalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string notr="true"/>
                  </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
+                </widget>
                </item>
                <item>
                 <widget class="QToolButton" name="CoordinateStyleBT">
-                 <property name="minimumSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="text">
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
                  </property>
                  <property name="arrowType">
@@ -985,23 +949,11 @@ information</string>
              </item>
              <item row="9" column="1">
               <widget class="QLabel" name="CoordinateStyleED">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>175</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>175</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true">StyleName</string>
@@ -1010,29 +962,17 @@ information</string>
              </item>
              <item row="10" column="0">
               <widget class="QLabel" name="FramingStyleLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/Geometry.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Geometry.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1041,45 +981,27 @@ information</string>
              </item>
              <item row="10" column="1">
               <widget class="QComboBox" name="FramingStyleCB">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
               </widget>
              </item>
              <item row="11" column="0">
               <widget class="QLabel" name="PosSize_X">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/PosSize_X.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_X.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1094,26 +1016,15 @@ information</string>
                <item>
                 <widget class="QDoubleSpinBox" name="PosXEd">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>75</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>75</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -1136,28 +1047,22 @@ information</string>
                <item>
                 <widget class="QLabel" name="PosSize_Y">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="text">
                   <string notr="true"/>
                  </property>
                  <property name="pixmap">
-                  <pixmap>:/img/PosSize_Y.png</pixmap>
+                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Y.png</pixmap>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1167,26 +1072,15 @@ information</string>
                <item>
                 <widget class="QDoubleSpinBox" name="PosYEd">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>75</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>75</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -1210,29 +1104,17 @@ information</string>
              </item>
              <item row="12" column="0">
               <widget class="QLabel" name="PosSize_Width">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/PosSize_Width.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Width.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1250,26 +1132,15 @@ information</string>
                <item>
                 <widget class="QDoubleSpinBox" name="WidthEd">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>75</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>75</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -1292,28 +1163,22 @@ information</string>
                <item>
                 <widget class="QLabel" name="PosSize_Height">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="text">
                   <string notr="true"/>
                  </property>
                  <property name="pixmap">
-                  <pixmap>:/img/PosSize_Height.png</pixmap>
+                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Height.png</pixmap>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1323,26 +1188,15 @@ information</string>
                <item>
                 <widget class="QDoubleSpinBox" name="HeightEd">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>75</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>75</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -1366,29 +1220,17 @@ information</string>
              </item>
              <item row="13" column="0">
               <widget class="QLabel" name="Rotate_X">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/RotateZ.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateZ.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1406,22 +1248,16 @@ information</string>
                <item>
                 <widget class="QSlider" name="RotateZSLD">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Define rotation according to the Z axis (defined in degree).</string>
@@ -1440,26 +1276,15 @@ information</string>
                <item>
                 <widget class="QSpinBox" name="RotateZED">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -1481,6 +1306,12 @@ information</string>
                </item>
                <item>
                 <widget class="QToolButton" name="ResetRotateZBT">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="toolTip">
                   <string>Reset to 0</string>
                  </property>
@@ -1488,7 +1319,7 @@ information</string>
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -1506,22 +1337,16 @@ information</string>
                <item>
                 <widget class="QSlider" name="RotateXSLD">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Define rotation according to the Y axis (defined in degree).</string>
@@ -1545,21 +1370,10 @@ information</string>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -1578,6 +1392,12 @@ information</string>
                </item>
                <item>
                 <widget class="QToolButton" name="ResetRotateXBT">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="toolTip">
                   <string>Reset to 0</string>
                  </property>
@@ -1585,7 +1405,7 @@ information</string>
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -1594,29 +1414,17 @@ information</string>
              </item>
              <item row="16" column="0">
               <widget class="QLabel" name="Rotate_Z">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/RotateX.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateX.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -1634,22 +1442,16 @@ information</string>
                <item>
                 <widget class="QSlider" name="RotateYSLD">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Define rotation according to the X axis (defined in degree).</string>
@@ -1673,21 +1475,10 @@ information</string>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -1706,6 +1497,12 @@ information</string>
                </item>
                <item>
                 <widget class="QToolButton" name="ResetRotateYBT">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="toolTip">
                   <string>Reset to 0</string>
                  </property>
@@ -1713,7 +1510,7 @@ information</string>
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -1722,14 +1519,10 @@ information</string>
              </item>
              <item row="17" column="0" colspan="2">
               <widget class="QLabel" name="label_9">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>32</height>
-                </size>
-               </property>
                <property name="font">
                 <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
                  <weight>50</weight>
                  <italic>true</italic>
                  <bold>false</bold>
@@ -1737,7 +1530,7 @@ information</string>
                 </font>
                </property>
                <property name="text">
-                <string>Block shape :</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block shape :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -1753,37 +1546,25 @@ information</string>
                 <number>0</number>
                </property>
                <item>
-                <spacer name="horizontalSpacer_3">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string notr="true"/>
                  </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>0</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
+                </widget>
                </item>
                <item>
                 <widget class="QToolButton" name="BlockShapeStyleBT">
-                 <property name="minimumSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>24</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="text">
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/db_menu.png</normaloff>:/img/db_menu.png</iconset>
                  </property>
                  <property name="arrowType">
@@ -1796,22 +1577,16 @@ information</string>
              <item row="19" column="1">
               <widget class="QLabel" name="BlockShapeStyleED">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="minimumSize">
-                <size>
-                 <width>175</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>175</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true">StyleName</string>
@@ -1820,11 +1595,11 @@ information</string>
              </item>
              <item row="22" column="0">
               <widget class="QLabel" name="label_20">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string>Shape :</string>
@@ -1837,22 +1612,16 @@ information</string>
              <item row="22" column="1">
               <widget class="QComboBox" name="BackgroundFormCB">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="minimumSize">
-                <size>
-                 <width>48</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>48</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="toolTip">
                 <string>Select a shape for current block</string>
@@ -1876,6 +1645,12 @@ color: #000000;
              </item>
              <item row="23" column="0">
               <widget class="QLabel" name="label_21">
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Opacity :</string>
                </property>
@@ -1887,22 +1662,16 @@ color: #000000;
              <item row="23" column="1">
               <widget class="QComboBox" name="OpacityCB">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="minimumSize">
-                <size>
-                 <width>64</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>64</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="toolTip">
                 <string>Defined the opaqueness of the block.</string>
@@ -1911,6 +1680,12 @@ color: #000000;
              </item>
              <item row="24" column="0">
               <widget class="QLabel" name="label_14">
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Border :</string>
                </property>
@@ -1929,21 +1704,16 @@ color: #000000;
                </property>
                <item>
                 <widget class="QSpinBox" name="PenSizeEd">
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>24</height>
-                  </size>
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
                  </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -1957,22 +1727,16 @@ color: #000000;
                <item>
                 <widget class="cCustomColorComboBox" name="PenColorCB">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>48</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>48</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Defined the color of the line to be used to draw the border</string>
@@ -1988,22 +1752,16 @@ color: #000000;
                <item>
                 <widget class="QComboBox" name="PenStyleCB">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>48</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>48</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Defined the type of line (solid, dotted line, etc.)</string>
@@ -2024,6 +1782,12 @@ color: #000000;
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
                   <string notr="true"/>
                  </property>
@@ -2033,29 +1797,10 @@ color: #000000;
              </item>
              <item row="25" column="0">
               <widget class="QLabel" name="label_13">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
-               </property>
                <property name="font">
                 <font>
-                 <weight>50</weight>
-                 <bold>false</bold>
-                 <underline>false</underline>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
                 </font>
                </property>
                <property name="text">
@@ -2068,17 +1813,17 @@ color: #000000;
              </item>
              <item row="25" column="1">
               <widget class="QComboBox" name="ShadowEffectCB">
-               <property name="minimumSize">
-                <size>
-                 <width>175</width>
-                 <height>24</height>
-                </size>
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
-               <property name="maximumSize">
-                <size>
-                 <width>175</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="toolTip">
                 <string>Defined in which corner the shadow will be positioned (or no shadow)</string>
@@ -2096,26 +1841,15 @@ color: #000000;
                <item>
                 <widget class="QSpinBox" name="ShadowEffectED">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -2129,22 +1863,16 @@ color: #000000;
                <item>
                 <widget class="cCustomColorComboBox" name="ShadowColorCB">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>48</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>48</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Defined the color of the shadow</string>
@@ -2159,6 +1887,12 @@ color: #000000;
                </item>
                <item>
                 <widget class="QLabel" name="label_5">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="text">
                   <string notr="true"/>
                  </property>
@@ -2168,6 +1902,12 @@ color: #000000;
              </item>
              <item row="41" column="1">
               <spacer name="verticalSpacer">
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
                <property name="orientation">
                 <enum>Qt::Vertical</enum>
                </property>
@@ -2181,14 +1921,10 @@ color: #000000;
              </item>
              <item row="28" column="0" colspan="2">
               <widget class="QLabel" name="label_12">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>32</height>
-                </size>
-               </property>
                <property name="font">
                 <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
                  <weight>50</weight>
                  <italic>true</italic>
                  <bold>false</bold>
@@ -2196,7 +1932,7 @@ color: #000000;
                 </font>
                </property>
                <property name="text">
-                <string>Text animation :</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Text animation :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -2205,6 +1941,12 @@ color: #000000;
              </item>
              <item row="29" column="0">
               <widget class="QLabel" name="ZoomLabel">
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Zoom :</string>
                </property>
@@ -2224,22 +1966,16 @@ color: #000000;
                <item>
                 <widget class="QSlider" name="ZoomSlider">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Define a zoom value for the text</string>
@@ -2266,21 +2002,10 @@ color: #000000;
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -2291,6 +2016,9 @@ color: #000000;
                  </property>
                  <property name="suffix">
                   <string notr="true">%</string>
+                 </property>
+                 <property name="prefix">
+                  <string/>
                  </property>
                  <property name="minimum">
                   <number>0</number>
@@ -2305,6 +2033,12 @@ color: #000000;
                </item>
                <item>
                 <widget class="QToolButton" name="ZoomResetBT">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="toolTip">
                   <string>Reset to 100%</string>
                  </property>
@@ -2312,7 +2046,7 @@ color: #000000;
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -2330,22 +2064,16 @@ color: #000000;
                <item>
                 <widget class="QSlider" name="ScrollXSlider">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Scroll text from left to right</string>
@@ -2372,21 +2100,10 @@ color: #000000;
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -2411,6 +2128,12 @@ color: #000000;
                </item>
                <item>
                 <widget class="QToolButton" name="ScrollXResetBT">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="toolTip">
                   <string>Reset to 0</string>
                  </property>
@@ -2418,7 +2141,7 @@ color: #000000;
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -2436,22 +2159,16 @@ color: #000000;
                <item>
                 <widget class="QSlider" name="ScrollYSlider">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Scroll text from bottom to up</string>
@@ -2478,21 +2195,10 @@ color: #000000;
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>60</width>
-                   <height>0</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>60</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -2517,6 +2223,12 @@ color: #000000;
                </item>
                <item>
                 <widget class="QToolButton" name="ScrollYResetBT">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="toolTip">
                   <string>Reset to 0</string>
                  </property>
@@ -2524,7 +2236,7 @@ color: #000000;
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -2533,14 +2245,10 @@ color: #000000;
              </item>
              <item row="35" column="0" colspan="2">
               <widget class="QLabel" name="label_16">
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>32</height>
-                </size>
-               </property>
                <property name="font">
                 <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
                  <weight>50</weight>
                  <italic>true</italic>
                  <bold>false</bold>
@@ -2548,7 +2256,7 @@ color: #000000;
                 </font>
                </property>
                <property name="text">
-                <string>Block animation :</string>
+                <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block animation :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -2566,22 +2274,16 @@ color: #000000;
                <item>
                 <widget class="QSlider" name="TurnZSlider">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Define the number of turn to be made around the Z axis during this shot</string>
@@ -2611,21 +2313,10 @@ color: #000000;
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -2647,6 +2338,12 @@ color: #000000;
                </item>
                <item>
                 <widget class="QToolButton" name="ResetTurnZBT">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="toolTip">
                   <string>Reset to 0</string>
                  </property>
@@ -2654,7 +2351,7 @@ color: #000000;
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -2672,22 +2369,16 @@ color: #000000;
                <item>
                 <widget class="QSlider" name="TurnXSlider">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Define the number of turn to be made around the X axis during this shot</string>
@@ -2717,21 +2408,10 @@ color: #000000;
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -2753,6 +2433,12 @@ color: #000000;
                </item>
                <item>
                 <widget class="QToolButton" name="ResetTurnXBT">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="toolTip">
                   <string>Reset to 0</string>
                  </property>
@@ -2760,7 +2446,7 @@ color: #000000;
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -2778,22 +2464,16 @@ color: #000000;
                <item>
                 <widget class="QSlider" name="TurnYSlider">
                  <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>16777215</width>
-                   <height>24</height>
-                  </size>
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
                  </property>
                  <property name="toolTip">
                   <string>Define the number of turn to be made around the Y axis during this shot</string>
@@ -2823,21 +2503,10 @@ color: #000000;
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="maximumSize">
-                  <size>
-                   <width>50</width>
-                   <height>24</height>
-                  </size>
-                 </property>
                  <property name="font">
                   <font>
-                   <pointsize>8</pointsize>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
                   </font>
                  </property>
                  <property name="toolTip">
@@ -2859,6 +2528,12 @@ color: #000000;
                </item>
                <item>
                 <widget class="QToolButton" name="ResetTurnYBT">
+                 <property name="font">
+                  <font>
+                   <family>Sans Serif</family>
+                   <pointsize>9</pointsize>
+                  </font>
+                 </property>
                  <property name="toolTip">
                   <string>Reset to 0</string>
                  </property>
@@ -2866,7 +2541,7 @@ color: #000000;
                   <string notr="true"/>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
                  </property>
                 </widget>
@@ -2875,29 +2550,17 @@ color: #000000;
              </item>
              <item row="15" column="0">
               <widget class="QLabel" name="Rotate_Y">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/RotateY.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateY.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2906,29 +2569,17 @@ color: #000000;
              </item>
              <item row="30" column="0">
               <widget class="QLabel" name="ScrollXLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/ScrollX.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/ScrollX.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2937,29 +2588,17 @@ color: #000000;
              </item>
              <item row="31" column="0">
               <widget class="QLabel" name="ScrollYLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/ScrollY.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/ScrollY.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2968,29 +2607,17 @@ color: #000000;
              </item>
              <item row="37" column="0">
               <widget class="QLabel" name="TurnZLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/RotateZ.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateZ.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -2999,29 +2626,17 @@ color: #000000;
              </item>
              <item row="39" column="0">
               <widget class="QLabel" name="TurnYLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/RotateX.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateX.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3030,29 +2645,17 @@ color: #000000;
              </item>
              <item row="38" column="0">
               <widget class="QLabel" name="TurnXLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="maximumSize">
-                <size>
-                 <width>16777215</width>
-                 <height>24</height>
-                </size>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
                </property>
                <property name="text">
                 <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap>:/img/RotateY.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateY.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -3061,6 +2664,12 @@ color: #000000;
              </item>
              <item row="36" column="0">
               <widget class="QLabel" name="BlockAnimLabel">
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Type :</string>
                </property>
@@ -3070,10 +2679,23 @@ color: #000000;
               </widget>
              </item>
              <item row="36" column="1">
-              <widget class="QComboBox" name="BlockAnimCB"/>
+              <widget class="QComboBox" name="BlockAnimCB">
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
              <item row="40" column="0">
               <widget class="QLabel" name="DissolveLabel">
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
                <property name="text">
                 <string>Dissolve :</string>
                </property>
@@ -3083,12 +2705,27 @@ color: #000000;
               </widget>
              </item>
              <item row="40" column="1">
-              <widget class="QComboBox" name="DissolveCB"/>
+              <widget class="QComboBox" name="DissolveCB">
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+              </widget>
              </item>
              <item row="7" column="0" colspan="2">
               <widget class="QLabel" name="label_17">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="font">
                 <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
                  <italic>true</italic>
                  <underline>true</underline>
                 </font>
@@ -3144,7 +2781,7 @@ color: #000000;
         <string>Rullers</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/ruler_ok.png</normaloff>:/img/ruler_ok.png</iconset>
        </property>
       </widget>
@@ -3171,7 +2808,7 @@ color: #000000;
         <string>Previous</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/arrow_left.png</normaloff>:/img/arrow_left.png</iconset>
        </property>
       </widget>
@@ -3185,7 +2822,7 @@ color: #000000;
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -3199,7 +2836,7 @@ color: #000000;
         <string>Next</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/arrow_right.png</normaloff>:/img/arrow_right.png</iconset>
        </property>
       </widget>
@@ -3238,7 +2875,7 @@ color: #000000;
         <string>Undo</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/undo24.png</normaloff>:/img/undo24.png</iconset>
        </property>
        <property name="shortcut">
@@ -3255,7 +2892,7 @@ color: #000000;
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -3269,7 +2906,7 @@ color: #000000;
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
@@ -3282,7 +2919,7 @@ color: #000000;
   </layout>
   <action name="actionEditText">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/EditText.png</normaloff>:/img/EditText.png</iconset>
    </property>
    <property name="text">
@@ -3300,7 +2937,7 @@ color: #000000;
   </action>
   <action name="actionEditImage">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/EditImage.png</normaloff>:/img/EditImage.png</iconset>
    </property>
    <property name="text">
@@ -3318,7 +2955,7 @@ color: #000000;
   </action>
   <action name="actionEditVideo">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/EditMovie.png</normaloff>:/img/EditMovie.png</iconset>
    </property>
    <property name="text">
@@ -3336,7 +2973,7 @@ color: #000000;
   </action>
   <action name="actionUpBlock">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/arrow_up.png</normaloff>:/img/arrow_up.png</iconset>
    </property>
    <property name="text">
@@ -3354,7 +2991,7 @@ color: #000000;
   </action>
   <action name="actionDownBlock">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/arrow_down.png</normaloff>:/img/arrow_down.png</iconset>
    </property>
    <property name="text">
@@ -3372,7 +3009,7 @@ color: #000000;
   </action>
   <action name="actionSetVisible">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/Visible_OK.png</normaloff>:/img/Visible_OK.png</iconset>
    </property>
    <property name="text">
@@ -3390,7 +3027,7 @@ color: #000000;
   </action>
   <action name="actionTakeSound">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
    </property>
    <property name="text">
@@ -3408,7 +3045,7 @@ color: #000000;
   </action>
   <action name="actionInfo">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/Action_Info.png</normaloff>:/img/Action_Info.png</iconset>
    </property>
    <property name="text">
@@ -3426,7 +3063,7 @@ color: #000000;
   </action>
   <action name="actionCopy">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/editcopy.png</normaloff>:/img/editcopy.png</iconset>
    </property>
    <property name="text">
@@ -3435,19 +3072,19 @@ color: #000000;
    <property name="toolTip">
     <string>Copy the current block to the ffDiaporama clipboard.</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+C</string>
-   </property>
    <property name="font">
     <font>
      <family>Sans Serif</family>
      <pointsize>9</pointsize>
     </font>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
   </action>
   <action name="actionCut">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/editcut.png</normaloff>:/img/editcut.png</iconset>
    </property>
    <property name="text">
@@ -3456,19 +3093,19 @@ color: #000000;
    <property name="toolTip">
     <string>Copy the current block to the ffDiaporama clipboard and remove it from the slide</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+X</string>
-   </property>
    <property name="font">
     <font>
      <family>Sans Serif</family>
      <pointsize>9</pointsize>
     </font>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
   </action>
   <action name="actionRemoveBlock">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
    </property>
    <property name="text">
@@ -3477,19 +3114,19 @@ color: #000000;
    <property name="toolTip">
     <string>Remove current block(s)</string>
    </property>
-   <property name="shortcut">
-    <string>Del</string>
-   </property>
    <property name="font">
     <font>
      <family>Sans Serif</family>
      <pointsize>9</pointsize>
     </font>
    </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
   </action>
   <action name="actionPaste">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/editpaste.png</normaloff>:/img/editpaste.png</iconset>
    </property>
    <property name="text">
@@ -3498,19 +3135,19 @@ color: #000000;
    <property name="toolTip">
     <string>Paste block from the ffDiaporama clipboard and insert it.</string>
    </property>
-   <property name="shortcut">
-    <string>Ctrl+V</string>
-   </property>
    <property name="font">
     <font>
      <family>Sans Serif</family>
      <pointsize>9</pointsize>
     </font>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
+   </property>
   </action>
   <action name="actionTop">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/aotop.png</normaloff>:/img/aotop.png</iconset>
    </property>
    <property name="text">
@@ -3528,7 +3165,7 @@ color: #000000;
   </action>
   <action name="actionMiddle">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/aocenterv.png</normaloff>:/img/aocenterv.png</iconset>
    </property>
    <property name="text">
@@ -3546,7 +3183,7 @@ color: #000000;
   </action>
   <action name="actionBottom">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/aobottom.png</normaloff>:/img/aobottom.png</iconset>
    </property>
    <property name="text">
@@ -3564,7 +3201,7 @@ color: #000000;
   </action>
   <action name="actionLeft">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/aoleft.png</normaloff>:/img/aoleft.png</iconset>
    </property>
    <property name="text">
@@ -3582,7 +3219,7 @@ color: #000000;
   </action>
   <action name="actionCenter">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/aocenterh.png</normaloff>:/img/aocenterh.png</iconset>
    </property>
    <property name="text">
@@ -3600,7 +3237,7 @@ color: #000000;
   </action>
   <action name="actionRight">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/aoright.png</normaloff>:/img/aoright.png</iconset>
    </property>
    <property name="text">
@@ -3618,7 +3255,7 @@ color: #000000;
   </action>
   <action name="actionAddTextBlock">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/add_text.png</normaloff>:/img/add_text.png</iconset>
    </property>
    <property name="text">
@@ -3636,7 +3273,7 @@ color: #000000;
   </action>
   <action name="actionAddFile">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/add_image.png</normaloff>:/img/add_image.png</iconset>
    </property>
    <property name="text">
@@ -3654,7 +3291,7 @@ color: #000000;
   </action>
   <action name="actionAddShot">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/add_project.png</normaloff>:/img/add_project.png</iconset>
    </property>
    <property name="text">
@@ -3672,7 +3309,7 @@ color: #000000;
   </action>
   <action name="actionRemoveShot">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/trash.png</normaloff>:/img/trash.png</iconset>
    </property>
    <property name="text">
@@ -3690,7 +3327,7 @@ color: #000000;
   </action>
   <action name="actionMoveLeft">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/arrow_left.png</normaloff>:/img/arrow_left.png</iconset>
    </property>
    <property name="text">
@@ -3708,7 +3345,7 @@ color: #000000;
   </action>
   <action name="actionMoveRight">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/arrow_right.png</normaloff>:/img/arrow_right.png</iconset>
    </property>
    <property name="text">
@@ -3726,7 +3363,7 @@ color: #000000;
   </action>
   <action name="actionSameAsPreviousShot">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/Geometry_Lock.png</normaloff>:/img/Geometry_Lock.png</iconset>
    </property>
    <property name="text">
@@ -3744,7 +3381,7 @@ color: #000000;
   </action>
   <action name="actionUnlockSameAsPreviousShot">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/Geometry_Unlock.png</normaloff>:/img/Geometry_Unlock.png</iconset>
    </property>
    <property name="text">
@@ -3762,7 +3399,7 @@ color: #000000;
   </action>
   <action name="actionSetHide">
    <property name="icon">
-    <iconset>
+    <iconset resource="../../../RSCffDiaporama.qrc">
      <normaloff>:/img/Visible_KO.png</normaloff>:/img/Visible_KO.png</iconset>
    </property>
    <property name="text">

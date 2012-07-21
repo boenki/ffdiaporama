@@ -1,4 +1,4 @@
-Bugs/TODO (Dernier SVN le 25/06/2012) :
+Bugs/TODO (Dernier SVN le 21/07/2012) :
 ----------------------------------------
 TODO
 ----
@@ -12,21 +12,9 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le bug de mise à jours de la durée totale du montage lors des chargements de projets et des ajouts de nouvelles diapositives
 
 English version / Bug fix :
--Fix bug of update project duration when loading project or adding new slides
 
 French version / Nouvelles fonctionnalités :
--Modifie le nombre de diapo dans la boite de progression lors des insertions de projet dans le projet en cours (et affiche le pourcentage)
--Affiche les barres de progression aussi quand les fichiers sont ajoutés par le menu contextuel de l'explorateur de fichiers intégrés
--Implémente la fonction renommer fichier (menu contextuel de l'explorateur de fichiers intégrés)
--Implémente la fonction utiliser comme playlist (menu contextuel de l'explorateur de fichiers intégrés)
--Le drag & drop de fichier music modifie la playlist de la diapositive cible (au lieu d'échouer en voulant inserer une nouvelle diapo)
 
 English version / New features :
--Modify slide number in progress window when inserting project into current project (and display progression)
--Display progress window also when files was added using contextual menu of integrated file browser
--Implement renamme file function (contextual menu of integrated file browser)
--Implement use as playlist function (contextual menu of integrated file browser)
--Drag & drop of music file now modify silde's playlist (instead of doing an error by wanting to insert a new slide)
