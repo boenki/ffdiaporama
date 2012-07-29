@@ -24,93 +24,68 @@
 // Basic inclusions (common to all files)
 #include "../engine/_GlobalDefines.h"
 
-#include <QTableWidget>
-
 // Specific inclusions
 #include "_Diaporama.h"
 
-#include <QLabel>
+#include <QTableWidget>
 #include <QMouseEvent>
 
 // Thumbnails definitions
 #define ADJUSTXCOLUMN                       10      // width to add to object image for display transition
-#define TIMELINEMINHEIGH                    80      // min heigh of montage track
-#define TIMELINEMAXHEIGH                    160     // max heigh of montage track
 #define TIMELINESOUNDHEIGHT                 18      // Height of sound & music track
 
-// Thumbnail type definition
-#define THUMBNAILTYPE_OBJECT                0
-#define THUMBNAILTYPE_NULL                  1
-
-//*****************************************************************************************************************************************
-
-class wgt_QCustomThumbnails : public QLabel {
-Q_OBJECT
-public:
-    int                 Type;
-    QTableWidget        *Timeline;
-    bool                HasBackGTransition;
-    QRect               BackGTransitionRect;
-    bool                HasTransition;
-    QRect               TransitionRect;
-    bool                HasSoundTrack;
-    QRect               SoundTrackRect;
-    QRect               BackgroundRect;
-    QRect               MediaObjectRect;
-    QRect               MusicTrackRect;
-
-    explicit wgt_QCustomThumbnails(QTableWidget *Timeline,int Type);
-    ~wgt_QCustomThumbnails();
-
-signals:
-    void        EditTransition();
-    void        EditSoundTrack();
-    void        EditMediaObject();
-    void        EditBackGTransition();
-    void        EditBackground();
-    void        EditMusicTrack();
-    void        RightClick();
-
-public slots:
-
-protected:
-    virtual void mouseDoubleClickEvent(QMouseEvent * e);
-    virtual void paintEvent (QPaintEvent *);
-
-private:
-    void    DrawThumbnailsBox(int Xa,int Ya,int Width,int Height,QPainter &Painter,QImage *Icon);
-};
+#define DRAGMODE_NOACTION                   0
+#define DRAGMODE_INTERNALMOVE_SLIDE         1
+#define DRAGMODE_INTERNALMOVE_MUSIC         2
+#define DRAGMODE_EXTERNALADD_SLIDE          3
+#define DRAGMODE_EXTERNALADD_MUSIC          4
 
 //*****************************************************************************************************************************************
 
 class cCustomSlideTable : public QTableWidget {
 Q_OBJECT
 public:
-    bool        PartitionMode;
+    bool                PartitionMode;
+    cDiaporama          *Diaporama;                 // Link to current diaporama
+    cApplicationConfig  *ApplicationConfig;         // Link to current application config
+
+    // Drag & drop operation
+    int                 DragItemSource;
+    int                 DragItemDest;
+    int                 IsDragOn;                   // DragOff=0, DragInternal=1 or DragExternal=0
 
     explicit    cCustomSlideTable(QWidget *parent = 0);
 
     void        AddObjectToTimeLine(int CurIndex);
     void        SetTimelineHeight(bool NewPartitionMode);
     int         CurrentSelected();
-    int         NbrItem();
+    void        CurrentSelectionList(QList<int> *List);
+    bool        IsMultipleSelection();
     void        SetCurrentCell(int Index);
     void        CleanAll();
     void        ResetDisplay(int Selected);
 
 protected:
     virtual void dragEnterEvent(QDragEnterEvent *event);
+    virtual void dragLeaveEvent(QDragLeaveEvent *event);
     virtual void dragMoveEvent(QDragMoveEvent *event);
     virtual void dropEvent(QDropEvent *event);
     virtual void mousePressEvent(QMouseEvent *event);
     virtual void mouseReleaseEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
+    virtual void mouseDoubleClickEvent(QMouseEvent *ev);
 
 private slots:
 
 signals:
     void    DragMoveItem();
     void    DoAddDragAndDropFile();
+    void    EditTransition();
+    void    EditSoundTrack();
+    void    EditMediaObject();
+    void    EditBackGTransition();
+    void    EditBackground();
+    void    EditMusicTrack();
     void    RightClickEvent(QMouseEvent *ev);
 };
 

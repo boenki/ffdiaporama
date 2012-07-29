@@ -270,6 +270,8 @@ void DlgSlideProperties::DoInitDialog() {
     ui->actionMoveLeft->setIconVisibleInMenu(true);
     ui->actionMoveRight->setIconVisibleInMenu(true);
 
+    ui->ShotTable->setRowCount(1);
+
     // Define handler
     connect(ui->OKPreviousBT,SIGNAL(clicked()),this,SLOT(OKPrevious()));
     connect(ui->OKNextBT,SIGNAL(clicked()),this,SLOT(OKNext()));
@@ -398,10 +400,12 @@ void DlgSlideProperties::showEvent(QShowEvent *ev) {
     if (CurrentShot==NULL) {
         // Init ShotTable
         ui->ShotTable->setUpdatesEnabled(false);
-        for (int i=0;i<CurrentSlide->List.count();i++) {
-            ui->ShotTable->insertColumn(i);
-            ui->ShotTable->setColumnWidth(i,CurrentSlide->Parent->GetWidthForHeight(ui->ShotTable->rowHeight(0)));
-        }
+
+        ui->ShotTable->setRowCount(1);
+        ui->ShotTable->setRowHeight(0,ui->ShotTable->viewport()->height());
+        ui->ShotTable->setColumnCount(CurrentSlide->List.count()/*-1*/);
+
+        for (int i=0;i<CurrentSlide->List.count();i++) ui->ShotTable->setColumnWidth(i,CurrentSlide->Parent->GetWidthForHeight(ui->ShotTable->rowHeight(0)));
         ui->ShotTable->setCurrentCell(0,0);
         ui->ShotTable->setUpdatesEnabled(true);
 

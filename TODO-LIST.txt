@@ -1,12 +1,17 @@
-Bugs/TODO (Dernier SVN le 21/07/2012) :
+Bugs/TODO (Dernier SVN le 29/07/2012) :
 ----------------------------------------
 TODO
 ----
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
 
--Erreur aléatoire de détection des childs dans l'arbre des répertoires [Linux]
 -Vider (ou ne pas charger) la liste des caractéristiques lors des chargements d'images
 -Supprimer la librairie de fond de la mémoire
+
+-Bug dans la génération des MKV si chapitres
+
+Changement de la taille des thumb : prévenir !
+-Bug de ligne parasite : à revoir
+-Incompréhension des utilisateurs sur les concepts de contraintes géométriques : à simplifier ou forcer
 
 --------------------------------
 Changelog depuis le dernier SVN
@@ -18,3 +23,4 @@ English version / Bug fix :
 French version / Nouvelles fonctionnalités :
 
 English version / New features :
+

@@ -35,6 +35,7 @@
 #include <QAction>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QScrollBar>
 
 #include <../engine/QCustomFolderTree.h>
 #include <../engine/QCustomFolderTable.h>
@@ -67,9 +68,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     GlobalMainWindow        =this;
     IsFirstInitDone         =false;        // true when first show window was done
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
-    DragItemSource          =-1;
-    DragItemDest            =-1;
-    IsDragOn                =0;
     InPlayerUpdate          =false;
     DriveList               =new cDriveList(ApplicationConfig);
     DlgWorkingTaskDialog    =NULL;
@@ -90,6 +88,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     screen.show();
 
     ui->setupUi(this);
+    ui->timeline->ApplicationConfig=ApplicationConfig;
     ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
     ui->preview2->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
     ui->ToolBoxNormal->setCurrentIndex(0);
@@ -191,6 +190,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Initialise diaporama
     Diaporama=new cDiaporama(ApplicationConfig);
+    ui->timeline->Diaporama=Diaporama;
     ui->preview->InitDiaporamaPlay(Diaporama);
     ui->preview2->InitDiaporamaPlay(Diaporama);
 
@@ -266,6 +266,10 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_Event_TimelineSelectionChanged()));
     connect(ui->timeline,SIGNAL(DragMoveItem()),this,SLOT(s_Event_TimelineDragMoveItem()));
     connect(ui->timeline,SIGNAL(DoAddDragAndDropFile()),this,SLOT(s_Event_TimelineAddDragAndDropFile()));
+    connect(ui->timeline,SIGNAL(EditBackground()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnBackground()));
+    connect(ui->timeline,SIGNAL(EditMediaObject()),     GlobalMainWindow,SLOT(s_Event_DoubleClickedOnObject()));
+    connect(ui->timeline,SIGNAL(EditTransition()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnTransition()));
+    connect(ui->timeline,SIGNAL(EditMusicTrack()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnMusic()));
     connect(ui->PartitionBT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToPlayerMode()));
     connect(ui->Partition2BT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToPartitionMode()));
     connect(ui->Partition3BT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToBrowserMode()));
@@ -471,10 +475,6 @@ void MainWindow::SetTimelineHeight() {
             ui->Partition3BT->setEnabled(false);
             break;
     }
-
-    QApplication::processEvents();          // Give time to Qt to redefine position of each control and redraw timeline
-    ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
-    QApplication::processEvents();          // Give time to Qt to redefine position of each control and redraw timeline
 }
 
 //====================================================================================================================
@@ -517,6 +517,7 @@ void MainWindow::resizeEvent(QResizeEvent *) {
     ui->preview->SetPlayerToPause();  // Ensure player is stop
     ui->preview2->SetPlayerToPause(); // Ensure player is stop
     SetTimelineHeight();
+    ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
 }
 
 //====================================================================================================================
@@ -593,15 +594,16 @@ void MainWindow::OpenHelp(QString HelpFile) {
 
 void MainWindow::RefreshControls() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::RefreshControls");
+    bool IsMultipleSelection=ui->timeline->IsMultipleSelection();
 
     // Timeline actions
-    ui->ActionRemove_BT->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionRemove_BT_2->setEnabled(ui->timeline->NbrItem()>0);
-    ui->actionRemove->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionEdit_BT->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionEdit_BT_2->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ZoomMinusBT->setEnabled((ui->timeline->NbrItem()>0)&&(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH));
-    ui->ZoomPlusBT->setEnabled((ui->timeline->NbrItem()>0)&&(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH));
+    ui->ActionRemove_BT->setEnabled(Diaporama->List.count()>0);
+    ui->ActionRemove_BT_2->setEnabled(Diaporama->List.count()>0);
+    ui->actionRemove->setEnabled(Diaporama->List.count()>0);
+    ui->ActionEdit_BT->setEnabled(!IsMultipleSelection && (Diaporama->List.count()>0));
+    ui->ActionEdit_BT_2->setEnabled(!IsMultipleSelection && (Diaporama->List.count()>0));
+    ui->ZoomMinusBT->setEnabled((Diaporama->List.count()>0)&&(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH));
+    ui->ZoomPlusBT->setEnabled((Diaporama->List.count()>0)&&(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH));
 
     // File menu
     ui->Action_Save_BT->setEnabled(Diaporama->IsModify);
@@ -612,10 +614,10 @@ void MainWindow::RefreshControls() {
     ui->Action_OpenRecent_BT_2->setEnabled(ApplicationConfig->RecentFile.count()>0);
 
     // Project menu
-    ui->actionEdit_background->setEnabled(ui->timeline->NbrItem()>0);
-    ui->actionEdit_object->setEnabled(ui->timeline->NbrItem()>0);
-    ui->actionEdit_object_in_transition->setEnabled(ui->timeline->NbrItem()>0);
-    ui->actionEdit_music->setEnabled(ui->timeline->NbrItem()>0);
+    ui->actionEdit_background->setEnabled(!IsMultipleSelection && (Diaporama->List.count()>0));
+    ui->actionEdit_object->setEnabled(!IsMultipleSelection && (Diaporama->List.count()>0));
+    ui->actionEdit_object_in_transition->setEnabled(!IsMultipleSelection && (Diaporama->List.count()>0));
+    ui->actionEdit_music->setEnabled(!IsMultipleSelection && (Diaporama->List.count()>0));
 
     // Clipboard_Object
     ui->ActionCopy_BT->setEnabled(ui->timeline->CurrentSelected()>=0);
@@ -626,17 +628,17 @@ void MainWindow::RefreshControls() {
     ui->actionCut->setEnabled(ui->timeline->CurrentSelected()>=0);
 
     // Render menu
-    ui->ActionRender_BT->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionRender_BT_2->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionSmartphone_BT->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionSmartphone_BT_2->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionMultimedia_BT->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionMultimedia_BT_2->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionForTheWEB_BT->setEnabled(ui->timeline->NbrItem()>0);
-    ui->ActionForTheWEB_BT_2->setEnabled(ui->timeline->NbrItem()>0);
+    ui->ActionRender_BT->setEnabled(Diaporama->List.count()>0);
+    ui->ActionRender_BT_2->setEnabled(Diaporama->List.count()>0);
+    ui->ActionSmartphone_BT->setEnabled(Diaporama->List.count()>0);
+    ui->ActionSmartphone_BT_2->setEnabled(Diaporama->List.count()>0);
+    ui->ActionMultimedia_BT->setEnabled(Diaporama->List.count()>0);
+    ui->ActionMultimedia_BT_2->setEnabled(Diaporama->List.count()>0);
+    ui->ActionForTheWEB_BT->setEnabled(Diaporama->List.count()>0);
+    ui->ActionForTheWEB_BT_2->setEnabled(Diaporama->List.count()>0);
 
-    ui->ActionLossLess_BT->setEnabled((ui->timeline->NbrItem()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
-    ui->ActionLossLess_BT_2->setEnabled((ui->timeline->NbrItem()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
+    ui->ActionLossLess_BT->setEnabled((Diaporama->List.count()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
+    ui->ActionLossLess_BT_2->setEnabled((Diaporama->List.count()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
 
     // Browser
     ui->PreviousFolderBt->setEnabled(ui->FolderTable->CanBrowseToPreviousPath());
@@ -745,9 +747,11 @@ void MainWindow::s_Action_ZoomPlus() {
         return;
     }
 
-    if ((ui->timeline->rowHeight(0)-ApplicationConfig->TimelineHeight/2-TIMELINESOUNDHEIGHT*2)<TIMELINEMAXHEIGH) {
+    if (ui->timeline->rowHeight(0)<TIMELINEMAXHEIGH) {
         ApplicationConfig->TimelineHeight+=20;
+        if (ApplicationConfig->TimelineHeight>TIMELINEMAXHEIGH) ApplicationConfig->TimelineHeight=TIMELINEMAXHEIGH;
         SetTimelineHeight();
+        ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
     }
     RefreshControls();
 }
@@ -764,9 +768,11 @@ void MainWindow::s_Action_ZoomMinus() {
         return;
     }
 
-    if ((ui->timeline->rowHeight(0)-ApplicationConfig->TimelineHeight/2-TIMELINESOUNDHEIGHT*2)>TIMELINEMINHEIGH) {
+    if (ui->timeline->rowHeight(0)>TIMELINEMINHEIGH) {
         ApplicationConfig->TimelineHeight-=20;
+        if (ApplicationConfig->TimelineHeight<TIMELINEMINHEIGH) ApplicationConfig->TimelineHeight=TIMELINEMINHEIGH;
         SetTimelineHeight();
+        ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
     }
     RefreshControls();
 }
@@ -805,9 +811,10 @@ void MainWindow::s_Action_ChWindowDisplayMode(int Mode) {
 
     ApplicationConfig->WindowDisplayMode=Mode;
     SetTimelineHeight();
+    ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
 
     // Re-select previous current seleted item
-    if ((Selected>=0)&&(Selected<ui->timeline->NbrItem())) ui->timeline->SetCurrentCell(Selected);
+    if ((Selected>=0)&&(Selected<Diaporama->List.count())) ui->timeline->SetCurrentCell(Selected);
     (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
     (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->Resize();
 }
@@ -888,16 +895,6 @@ void MainWindow::s_Event_DoubleClickedOnTransition() {
 }
 
 //====================================================================================================================
-// Double click on sound part of widget in the object track
-//====================================================================================================================
-
-void MainWindow::s_Event_DoubleClickedOnVideoSound() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_DoubleClickedOnVideoSound");
-
-    s_Event_DoubleClickedOnObject();  // No separated process at this time !
-}
-
-//====================================================================================================================
 // // Double click on widget in the background track
 //====================================================================================================================
 
@@ -957,10 +954,12 @@ void MainWindow::s_Event_DoubleClickedOnMusic() {
 void MainWindow::s_Event_TimelineDragMoveItem() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_TimelineDragMoveItem");
 
-    if (DragItemSource<DragItemDest) DragItemDest--;
-    Diaporama->List.move(DragItemSource,DragItemDest);
-    SetModifyFlag(true);
-    ui->timeline->SetCurrentCell(DragItemDest);
+    if (ui->timeline->DragItemSource<ui->timeline->DragItemDest) ui->timeline->DragItemDest--;
+    if (ui->timeline->DragItemSource!=ui->timeline->DragItemDest) {
+        Diaporama->List.move(ui->timeline->DragItemSource,ui->timeline->DragItemDest);
+        SetModifyFlag(true);
+        ui->timeline->SetCurrentCell(ui->timeline->DragItemDest);
+    }
 }
 
 //====================================================================================================================
@@ -969,15 +968,18 @@ void MainWindow::s_Event_TimelineDragMoveItem() {
 
 void MainWindow::s_Event_TimelineSelectionChanged() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_TimelineSelectionChanged");
-
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
         QTimer::singleShot(LATENCY,this,SLOT(s_Event_TimelineSelectionChanged()));
         return;
     }
+    DoTimelineSelectionChanged();
+}
+
+void MainWindow::DoTimelineSelectionChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_TimelineSelectionChanged");
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     if (!FLAGSTOPITEMSELECTION) {
         int Selected=ui->timeline->CurrentSelected();
-
         if (Selected>=Diaporama->List.count()) {
             Selected=Diaporama->List.count()-1;
             FLAGSTOPITEMSELECTION=true;
@@ -1240,7 +1242,7 @@ void MainWindow::s_Action_New() {
     // Clean actual timeline and diaporama
     FLAGSTOPITEMSELECTION=true;
     ui->timeline->setUpdatesEnabled(false);
-    ui->timeline->CleanAll();
+    for (int Row=0;Row<ui->timeline->rowCount();Row++) for (int Col=0;Col<ui->timeline->columnCount();Col++) if (ui->timeline->cellWidget(Row,Col)!=NULL) ui->timeline->removeCellWidget(Row,Col);
     delete Diaporama;
     Diaporama=NULL;
     ui->timeline->setUpdatesEnabled(true);
@@ -1249,13 +1251,14 @@ void MainWindow::s_Action_New() {
     // Create new diaporama
     Diaporama=NewDiaporama;
     BackgroundList.ScanDisk("background",Diaporama->ImageGeometry);
+    ui->timeline->Diaporama=Diaporama;
     ui->preview->InitDiaporamaPlay(Diaporama);
     ui->preview->SetActualDuration(Diaporama->GetDuration());
     ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
     ui->preview2->InitDiaporamaPlay(Diaporama);
     ui->preview2->SetActualDuration(Diaporama->GetDuration());
     ui->preview2->SetStartEndPos(0,0,-1,0,-1,0);
-    SetTimelineHeight();
+    ui->timeline->ResetDisplay(-1);
     RefreshControls();
     SetModifyFlag(false);
 }
@@ -1344,7 +1347,7 @@ void MainWindow::DoOpenFile() {
     ui->timeline->setUpdatesEnabled(false);
 
     // Clean timeline
-    ui->timeline->CleanAll();
+    for (int Row=0;Row<ui->timeline->rowCount();Row++) for (int Col=0;Col<ui->timeline->columnCount();Col++) if (ui->timeline->cellWidget(Row,Col)!=NULL) ui->timeline->removeCellWidget(Row,Col);
 
     // Clean diaporama
     delete Diaporama;
@@ -1355,6 +1358,7 @@ void MainWindow::DoOpenFile() {
     // Create new diaporama
     Diaporama=new cDiaporama(ApplicationConfig);
     AliasList.clear();
+    ui->timeline->Diaporama=Diaporama;
     ui->preview->InitDiaporamaPlay(Diaporama);      // Init GUI for this project
     ui->preview2->InitDiaporamaPlay(Diaporama);     // Init GUI for this project
 
@@ -1429,6 +1433,7 @@ void MainWindow::DoOpenFile() {
                 Diaporama->ImageGeometry   =Element.attribute("ImageGeometry").toInt();
                 Diaporama->DefineSizeAndGeometry(Diaporama->ImageGeometry);
                 SetTimelineHeight();
+                ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
 
                 // Load object list
                 CurrentLoadingProjectNbrObject=Element.attribute("ObjectNumber").toInt();
@@ -1491,6 +1496,7 @@ void MainWindow::DoOpenFileObject() {
         }
 
         SetModifyFlag(Diaporama->IsModify);
+        ui->timeline->SetCurrentCell(0);    // Set first slide as current
 
         QApplication::restoreOverrideCursor();
         ToStatusBar("");
@@ -1676,21 +1682,23 @@ void MainWindow::s_Event_TimelineAddDragAndDropFile() {
             } else i++;
         } else i++;
     }
-    if (MusicFileList.count()>0) s_Action_DoUseAsPlayList(MusicFileList,DragItemDest);
-
-    SavedCurIndex =DragItemDest>0?DragItemDest-1:0;
-    CurIndex      =DragItemDest;
-
-    if (DlgWorkingTaskDialog) {
-        DlgWorkingTaskDialog->close();
-        delete DlgWorkingTaskDialog;
-        DlgWorkingTaskDialog=NULL;
+    if (MusicFileList.count()>0) s_Action_DoUseAsPlayList(MusicFileList,ui->timeline->DragItemDest);
+    else {
+        SavedCurIndex =ui->timeline->DragItemDest-1;
+        CurIndex      =ui->timeline->DragItemDest;
+        if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
+        ui->timeline->SetCurrentCell(CurIndex);
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
+        }
+        DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add file to project"),&CancelAction,ApplicationConfig,this);
+        DlgWorkingTaskDialog->InitDialog();
+        DlgWorkingTaskDialog->SetMaxValue(FileList.count(),0);
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+        DlgWorkingTaskDialog->exec();
     }
-    DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add file to project"),&CancelAction,ApplicationConfig,this);
-    DlgWorkingTaskDialog->InitDialog();
-    DlgWorkingTaskDialog->SetMaxValue(FileList.count(),0);
-    QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
-    DlgWorkingTaskDialog->exec();
 }
 
 //====================================================================================================================
@@ -1733,6 +1741,8 @@ void MainWindow::s_Action_DoAddFile() {
             DlgWorkingTaskDialog=NULL;
         }
         FileList.clear();
+        // Set current selection to first new object
+        ui->timeline->SetCurrentCell(SavedCurIndex+1);
         return;
     }
 
@@ -2183,21 +2193,41 @@ void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
         return;
     }
 
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
+
     QMenu *ContextMenu=new QMenu(this);
-    ContextMenu->addAction(ui->actionAddTitle);
-    ContextMenu->addAction(ui->actionAddFiles);
-    ContextMenu->addAction(ui->actionAddProject);
-    ContextMenu->addSeparator();
-    ContextMenu->addAction(ui->actionEdit_background);
-    ContextMenu->addAction(ui->actionEdit_object);
-    ContextMenu->addAction(ui->actionEdit_music);
-    ContextMenu->addAction(ui->actionEdit_object_in_transition);
-    ContextMenu->addSeparator();
-    ContextMenu->addAction(ui->actionCut);
-    ContextMenu->addAction(ui->actionCopy);
-    ContextMenu->addAction(ui->actionPaste);
-    ContextMenu->addSeparator();
-    ContextMenu->addAction(ui->actionRemove);
+    if (SlideList.count()==1) {
+        // Single slide selection
+        ContextMenu->addAction(ui->actionAddTitle);
+        ContextMenu->addAction(ui->actionAddFiles);
+        ContextMenu->addAction(ui->actionAddProject);
+        ContextMenu->addSeparator();
+        ContextMenu->addAction(ui->actionEdit_background);
+        ContextMenu->addAction(ui->actionEdit_object);
+        ContextMenu->addAction(ui->actionEdit_music);
+        ContextMenu->addAction(ui->actionEdit_object_in_transition);
+        ContextMenu->addSeparator();
+        ContextMenu->addAction(ui->actionCut);
+        ContextMenu->addAction(ui->actionCopy);
+        ContextMenu->addAction(ui->actionPaste);
+        ContextMenu->addSeparator();
+        ContextMenu->addAction(ui->actionRemove);
+    } else if (SlideList.count()>1) {
+        // Multiple slide selection
+        ContextMenu->addAction(ui->actionAddTitle);
+        ContextMenu->addAction(ui->actionAddFiles);
+        ContextMenu->addAction(ui->actionAddProject);
+        ContextMenu->addSeparator();
+        ContextMenu->addAction(ui->actionCut);
+        ContextMenu->addAction(ui->actionCopy);
+        ContextMenu->addAction(ui->actionPaste);
+        ContextMenu->addSeparator();
+        ContextMenu->addAction(ui->actionRemove);
+    }
     ContextMenu->exec(QCursor::pos());
     delete ContextMenu;
 }
@@ -2239,16 +2269,29 @@ void MainWindow::s_Action_RemoveObject() {
     ui->ActionRemove_BT->setDown(false);
     ui->ActionRemove_BT_2->setDown(false);
 
-    int Current=ui->timeline->CurrentSelected();
-    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
 
-    if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Remove slide"),QApplication::translate("MainWindow","Are you sure to want to delete this slide?"),
-                              QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
+    if (SlideList.count()==1) {
+        if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Remove slide"),QApplication::translate("MainWindow","Are you sure to want to delete this slide?"),
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
+
+    } else {
+        if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Remove multiple slides"),QApplication::translate("MainWindow","Are you sure to want to delete this %1 slides?").arg(SlideList.count()),
+                                  QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
+    }
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->timeline->setUpdatesEnabled(false);
     FLAGSTOPITEMSELECTION=true;
-    delete Diaporama->List.takeAt(Current);
+    while (SlideList.count()>0) {
+        int ToRemove=SlideList.takeLast();
+        delete Diaporama->List.takeAt(ToRemove);
+        if (Current>=ToRemove) Current--;
+    }
+    if (Current<0) Current=0;
     if (Current>=Diaporama->List.count()) Current=Diaporama->List.count()-1;
     ui->timeline->ResetDisplay(Current);    // FLAGSTOPITEMSELECTION is set to false by ResetDisplay
     (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Current)+Diaporama->GetTransitionDuration(Current));
@@ -2272,15 +2315,23 @@ void MainWindow::s_Action_CutToClipboard() {
     ui->ActionCut_BT->setDown(false);
     ui->ActionCut_BT_2->setDown(false);
 
-    int Current=ui->timeline->CurrentSelected();
-    if ((Current<0)||(Current>Diaporama->List.count()-1)) return;
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Create xml document and root
     QDomDocument Object=QDomDocument(APPLICATION_NAME);
     QDomElement  root  =Object.createElement("CLIPBOARD");
-    Diaporama->List[Current]->SaveToXML(root,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true);
+    root.setAttribute("SlideNumber",SlideList.count());
+    for (int i=0;i<SlideList.count();i++) {
+        QDomElement  SlideClipboard=Object.createElement(QString("CLIPBOARD_%1").arg(i));
+        Diaporama->List[SlideList[i]]->SaveToXML(SlideClipboard,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true);
+        root.appendChild(SlideClipboard);
+    }
     Object.appendChild(root);
 
     // Transfert xml document to clipboard
@@ -2306,15 +2357,23 @@ void MainWindow::s_Action_CopyToClipboard() {
     ui->ActionCopy_BT->setDown(false);
     ui->ActionCopy_BT_2->setDown(false);
 
-    int Current=ui->timeline->CurrentSelected();
-    if ((Current<0)||(Current>Diaporama->List.count()-1)) return;
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Create xml document and root
     QDomDocument Object=QDomDocument(APPLICATION_NAME);
     QDomElement  root  =Object.createElement("CLIPBOARD");
-    Diaporama->List[Current]->SaveToXML(root,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true);
+    root.setAttribute("SlideNumber",SlideList.count());
+    for (int i=0;i<SlideList.count();i++) {
+        QDomElement  SlideClipboard=Object.createElement(QString("CLIPBOARD_%1").arg(i));
+        Diaporama->List[SlideList[i]]->SaveToXML(SlideClipboard,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true);
+        root.appendChild(SlideClipboard);
+    }
     Object.appendChild(root);
 
     // Transfert xml document to clipboard
@@ -2345,21 +2404,31 @@ void MainWindow::s_Action_PasteFromClipboard() {
     int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
     if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
 
-    Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
-
     const QMimeData *SlideData=QApplication::clipboard()->mimeData();
     if (SlideData->hasFormat("ffDiaporama/slide")) {
         QDomDocument Object=QDomDocument(APPLICATION_NAME);
         Object.setContent(SlideData->data("ffDiaporama/slide"));
+
         if ((Object.elementsByTagName("CLIPBOARD").length()>0)&&(Object.elementsByTagName("CLIPBOARD").item(0).isElement()==true)) {
             QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-            QDomElement root=Object.elementsByTagName("CLIPBOARD").item(0).toElement();
+            QDomElement root        =Object.elementsByTagName("CLIPBOARD").item(0).toElement();
+            int         SlideNumber =0;
+
             ui->timeline->setUpdatesEnabled(false);
-            Diaporama->List[CurIndex]->LoadFromXML(root,"CLIPBOARD-OBJECT","",NULL);
-            AddObjectToTimeLine(CurIndex);
+
+            if (root.hasAttribute("SlideNumber")) SlideNumber=root.attribute("SlideNumber").toInt();
+            for (int i=0;i<SlideNumber;i++) {
+                if ((root.elementsByTagName(QString("CLIPBOARD_%1").arg(i)).length()>0)&&(root.elementsByTagName(QString("CLIPBOARD_%1").arg(i)).item(0).isElement()==true)) {
+                    QDomElement SlideClipboard=root.elementsByTagName(QString("CLIPBOARD_%1").arg(i)).item(0).toElement();
+                    Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
+                    Diaporama->List[CurIndex]->LoadFromXML(SlideClipboard,"CLIPBOARD-OBJECT","",NULL);
+                    CurIndex++;
+                }
+            }
+
             SetModifyFlag(true);
             // Set current selection to first new object
-            ui->timeline->SetCurrentCell(SavedCurIndex+1);
+            ui->timeline->ResetDisplay(SavedCurIndex+1);
             AdjustRuller();
             ui->timeline->setUpdatesEnabled(true);
             QApplication::restoreOverrideCursor();
@@ -3114,13 +3183,13 @@ void MainWindow::s_Action_DoRemoveFile() {
     }
 
     QString FileToRemove=FileList.takeFirst();
-
-    if (QFileInfo(FileToRemove).isDir()) {
-        if (!QDir().rmdir(FileToRemove)) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Remove folder"),QApplication::translate("MainWindow","Impossible to remove folder!\nAre you sure is empty?"),QMessageBox::Ok);
-    } else {
-        if (!QFile(FileToRemove).remove()) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Remove file"),QApplication::translate("MainWindow","Impossible to remove file!"),QMessageBox::Ok);
+    if (CustomMessageBox(this,QMessageBox::Question,APPLICATION_NAME,QApplication::translate("MainWindow","Are you sure to remove this file or folder ?\n(Warning: Content will not be moved to trash)")+"\n"+FileToRemove,QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes) {
+        if (QFileInfo(FileToRemove).isDir()) {
+            if (!QDir().rmdir(FileToRemove)) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Remove folder"),QApplication::translate("MainWindow","Impossible to remove folder!\nAre you sure is empty?"),QMessageBox::Ok);
+        } else {
+            if (!QFile(FileToRemove).remove()) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Remove file"),QApplication::translate("MainWindow","Impossible to remove file!"),QMessageBox::Ok);
+        }
     }
-
     QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoRemoveFile()));
 }
 

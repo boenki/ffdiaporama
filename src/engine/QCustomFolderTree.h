@@ -61,7 +61,7 @@ private slots:
     void                s_ContextMenu(const QPoint Point);
 
 protected:
-    void                keyReleaseEvent(QKeyEvent *event);
+    virtual void        keyReleaseEvent(QKeyEvent *event);
 
 private:
     QTreeWidgetItem     *CreateItem(QString Text,QString FilePath,QIcon Icon);
