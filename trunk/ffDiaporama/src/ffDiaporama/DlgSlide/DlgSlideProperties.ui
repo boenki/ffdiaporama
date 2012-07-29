@@ -385,7 +385,7 @@ block</string>
          </font>
         </property>
         <property name="toolTip">
-         <string>Remove</string>
+         <string>Display information on image or video file</string>
         </property>
         <property name="text">
          <string>Block

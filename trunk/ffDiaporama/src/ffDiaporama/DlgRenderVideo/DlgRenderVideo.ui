@@ -907,7 +907,7 @@
      <item>
       <widget class="QPushButton" name="ProjectPropertiesBt">
        <property name="toolTip">
-        <string>Accept modification and start rendering process</string>
+        <string>Edit project properties</string>
        </property>
        <property name="text">
         <string>&amp;Properties</string>

@@ -104,6 +104,9 @@
 #define DISPLAYWINDOWMODE_PARTITION         1
 #define DISPLAYWINDOWMODE_BROWSER           2
 
+#define TIMELINEMINHEIGH                    144                 // min heigh of montage track =(32+4)*4
+#define TIMELINEMAXHEIGH                    224                 // max heigh of montage track (min height+4x20 pixels)
+
 // Global values
 extern QString SystemProperties;                                // System properties log
 extern QString CurrentAppVersion;                               // Application version read from BUILDVERSION.txt

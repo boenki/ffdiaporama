@@ -1652,16 +1652,8 @@ Per favore seleziona un&apos;altro nome!</translation>
         <translation>Continua la playlist corrente (definita in una diapositiva precedente)</translation>
     </message>
     <message>
-        <source>buttonGroup</source>
-        <translation>GruppoPulsanti</translation>
-    </message>
-    <message>
         <source>Change volume level to :</source>
         <translation>Cambia il livello del volume a :</translation>
-    </message>
-    <message>
-        <source>buttonGroup_2</source>
-        <translation>GruppoPulsanti_2</translation>
     </message>
     <message>
         <source>Define the sound volume for this slide</source>
@@ -2110,6 +2102,10 @@ Vuoi sovrascriverlo?</translation>
         <source>Error exiting avconv</source>
         <comment>Error message</comment>
         <translation>Errore all&apos;uscita di avconv</translation>
+    </message>
+    <message>
+        <source>Edit project properties</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2786,6 +2782,10 @@ blocco</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block animation :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display information on image or video file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4092,14 +4092,6 @@ Do you want to overwrite-it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Work in progress</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Sorry, not yet!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add file to project</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4169,6 +4161,44 @@ Do you want to overwrite-it ?</source>
     </message>
     <message>
         <source>Impossible to rename file!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove file :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to remove folder!
+Are you sure is empty?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to remove file!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove multiple slides</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to want to delete this %1 slides?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to remove this file or folder ?
+(Warning: Content will not be moved to trash)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

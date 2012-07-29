@@ -60,10 +60,6 @@ public:
     int                     SavedCurIndex,CurIndex;
     QStringList             FileList;
 
-    // Drag & drop operation
-    int                     DragItemSource;
-    int                     DragItemDest;
-    int                     IsDragOn;                       // DragOff=0, DragInternal=0 or DragExternal=0
     Qt::HANDLE              CurrentThreadId;
     bool                    InPlayerUpdate;
 
@@ -99,6 +95,7 @@ public:
     void    SetTimelineCurrentCell(int Cell);
 
     void    DoOpenFileParam();                              // Must be in public part because it was called by main
+    void    DoTimelineSelectionChanged();                   // Timeline current item changed
 
 protected:
     virtual void    resizeEvent(QResizeEvent *);
@@ -125,7 +122,6 @@ private slots:
     void    s_Event_TimelineSelectionChanged();             // Timeline current item changed
     void    s_Event_DoubleClickedOnObject();                // Double click on widget in the object track
     void    s_Event_DoubleClickedOnTransition();            // Double click on transition part of widget in the object track
-    void    s_Event_DoubleClickedOnVideoSound();            // Double click on video sound part of widget in the object track
     void    s_Event_DoubleClickedOnBackground();            // Double click on widget in the background track
     void    s_Event_DoubleClickedOnMusic();                 // Double click on widget in the music track
     void    s_Event_ContextualMenu(QMouseEvent *);          // Right click

@@ -77,7 +77,7 @@ void QCustomFolderTree::InitDrives(cDriveList *TheDriveList) {
 //====================================================================================================================
 
 void QCustomFolderTree::keyReleaseEvent(QKeyEvent *event) {
-    if (event->matches(QKeySequence::Delete))   if (IsRemoveAllowed) emit ActionRemoveFolder();
+    if (event->matches(QKeySequence::Delete)) {  if (IsRemoveAllowed) emit ActionRemoveFolder(); }
         else if (event->key()==Qt::Key_F5)      emit ActionRefreshAll();
         else QTreeWidget::keyReleaseEvent(event);
 }
@@ -255,7 +255,6 @@ QString QCustomFolderTree::GetCurrentFolderPath() {
 
 void QCustomFolderTree::s_itemExpanded(QTreeWidgetItem *item) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::expandItem");
-
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Expand node if necessary
@@ -267,6 +266,14 @@ void QCustomFolderTree::s_itemExpanded(QTreeWidgetItem *item) {
         QString             Folder=GetFolderPath(CurItem,false);
         QFileInfoList       Directorys;
         int                 i,k;
+
+        #ifdef Q_OS_LINUX
+            if (Folder.startsWith("~")) Folder=QDir::homePath()+Folder.mid(1);
+        #endif
+        #ifdef Q_OS_WIN
+            if (Folder.startsWith(PersonalFolder)) Folder=QDir::homePath()+Folder.mid(PersonalFolder.length());
+            Folder=AdjustDirForOS(Folder);
+        #endif
 
         // remove tag to sub item
         QTreeWidgetItem *SubItem=CurItem->child(0);
@@ -453,7 +460,6 @@ public:
 void QCustomFolderTree::RefreshItemByPath(QString Path,bool RefreshAll,int Level) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::SetSelectedItemByPath");
     Path=AdjustDirForOS(Path);
-    qDebug()<<"Scan folder:"<<Path;
 
     QString RealPath=Path;
     int     i,j;

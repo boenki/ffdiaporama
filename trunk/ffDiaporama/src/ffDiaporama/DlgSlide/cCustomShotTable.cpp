@@ -52,12 +52,19 @@ cShotTableItemDelegate::cShotTableItemDelegate(QObject *parent):QStyledItemDeleg
 
 void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cShotTableItemDelegate::paint");
+    int Height=ParentTable->rowHeight(0);
+    int Width =ParentTable->columnWidth(0);
 
     if (ParentTable->DiaporamaObject==NULL) return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     Painter->save();
     Painter->setClipRect(QRectF(option.rect.x(),option.rect.y(),option.rect.width(),option.rect.height()));
+    // Fill background
+    Painter->fillRect(option.rect,Transparent);
+
+    // Translate painter (if needed) so all coordinate are from 0,0
+    if ((option.rect.x()!=0)||(option.rect.y()!=0)) Painter->translate(option.rect.x(),option.rect.y());
 
     // Calc start position of this shot
     qlonglong Position=0; for (int i=1;i<=index.column();i++) Position=Position+ParentTable->DiaporamaObject->List[i-1]->StaticDuration;
@@ -69,11 +76,6 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     bool RedColor=((index.column()==ParentTable->DiaporamaObject->List.count()-1)&&(Position+Duration<ParentTable->DiaporamaObject->GetDuration()));
     if (RedColor) Duration=ParentTable->DiaporamaObject->GetDuration()-Position;
 
-    int Height=ParentTable->rowHeight(0);
-    int Width =ParentTable->columnWidth(0);
-
-    Painter->fillRect(option.rect.x(),option.rect.y(),Width,Height,Transparent);
-
     // draw shot
     for (int j=0;j<ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List.count();j++) {
         if (ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->BackgroundBrush->Video) {
@@ -83,8 +85,8 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
                 if (ParentTable->DiaporamaObject->List[k]->ShotComposition.List[l]->IsVisible) StartPosToAdd+=ParentTable->DiaporamaObject->List[k]->StaticDuration;
                 l=ParentTable->DiaporamaObject->List[k]->ShotComposition.List.count();    // Stop loop
             }
-            ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),option.rect.x(),option.rect.y(),Width,Height,true,0,StartPosToAdd,NULL,0,NULL,false,0,false);
-        } else ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),option.rect.x(),option.rect.y(),Width,Height,true,Position,0,NULL,0,NULL,false,0,false);
+            ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),0,0,Width,Height,true,0,StartPosToAdd,NULL,0,NULL,false,0,false);
+        } else ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),0,0,Width,Height,true,Position,0,NULL,0,NULL,false,0,false);
     }
 
     // Draw selected box (if needed)
@@ -95,7 +97,7 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
         Pen.setWidth(6);
         Painter->setPen(Pen);
         Painter->setBrush(Qt::NoBrush);
-        Painter->drawRect(option.rect.x()+3,option.rect.y()+3,Width-1-6,Height-1-6);
+        Painter->drawRect(3,3,Width-1-6,Height-1-6);
     }
 
     // Draw Drag & Drop inserting point (if needed)
@@ -109,8 +111,8 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
         Painter->setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
         Painter->setOpacity(0.5);
         Painter->setOpacity(0.5);
-        if (index.column()==ParentTable->DragItemDest)  Painter->drawLine(option.rect.x()+3,                    0,option.rect.x()+3,                    option.rect.y()+option.rect.height());
-            else                                        Painter->drawLine(option.rect.x()+option.rect.width()-3,0,option.rect.x()+option.rect.width()-3,option.rect.y()+option.rect.height());
+        if (index.column()==ParentTable->DragItemDest)  Painter->drawLine(3,      0,3,      Height);
+            else                                        Painter->drawLine(Width-3,0,Width-3,Height);
         Painter->setOpacity(1);
         Painter->restore();
     }
@@ -130,10 +132,10 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     QString ShotDuration=QTime(0,0,0,0).addMSecs(Duration).toString("hh:mm:ss.zzz");
     Pen.setColor(Qt::black);
     Painter->setPen(Pen);
-    Painter->drawText(QRectF(option.rect.x()+1,option.rect.y()+4+1,Width,Height),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+    Painter->drawText(QRectF(1,4+1,Width,Height),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
     Pen.setColor(RedColor?Qt::red:Qt::white);
     Painter->setPen(Pen);
-    Painter->drawText(QRectF(option.rect.x()+0,option.rect.y()+4,Width-1,Height-1),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+    Painter->drawText(QRectF(0,4,Width-1,Height-1),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
 
     Painter->restore();
     QApplication::restoreOverrideCursor();

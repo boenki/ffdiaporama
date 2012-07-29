@@ -21,13 +21,11 @@
 // Basic inclusions (common to all files)
 #include "_QCustomDialog.h"
 
-#include <QtCore>
-#include <QtDebug>
-#include <QtGui/QApplication>
 #include <QFileInfoList>
 #include <QFileInfo>
 #include <QDir>
 #include <QFile>
+
 #include <QHeaderView>
 #include <QTableWidgetItem>
 #include <QStyledItemDelegate>

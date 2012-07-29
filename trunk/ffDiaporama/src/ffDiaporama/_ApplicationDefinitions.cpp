@@ -127,7 +127,7 @@ void cApplicationConfig::InitValues() {
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
     DisplayUnit                 = 1;                        // Display coordinates unit
     DefaultFraming              = 2;                        // 0=Width, 1=Height, 2=Full
-    TimelineHeight              = 120;                      // Initial height of the timeline
+    TimelineHeight              = TIMELINEMINHEIGH;         // Initial height of the timeline
     PreviewFPS                  = 12.5;                     // Preview FrameRate
     NoShotDuration              = 6000;                     // Default duration for fixed image when is alone (no shot)
     FixedDuration               = 3000;                     // Default duration for fixed image (msec)
@@ -272,7 +272,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("WindowDisplayMode",           WindowDisplayMode);
     Element.setAttribute("BrowserWidgetSplitter",       BrowserWidgetSplitter);
     Element.setAttribute("SortFile",                    SortFile?"1":"0");
-    Element.setAttribute("TimelineHeight",              TimelineHeight);
+    Element.setAttribute("NewTimelineHeight",           TimelineHeight);
     Element.setAttribute("DefaultFraming",              DefaultFraming);
     Element.setAttribute("PreviewFPS",                  (QString("%1").arg(PreviewFPS,0,'f')));
     Element.setAttribute("RandomTransition",            RandomTransition?"1":"0");
@@ -411,7 +411,9 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         if (Element.hasAttribute("BrowserWidgetSplitter"))      BrowserWidgetSplitter       =Element.attribute("BrowserWidgetSplitter");
         if (Element.hasAttribute("DisplayUnit"))                DisplayUnit                 =Element.attribute("DisplayUnit").toInt();
         if (Element.hasAttribute("SortFile"))                   SortFile                    =Element.attribute("SortFile")=="1";
-        if (Element.hasAttribute("TimelineHeight"))             TimelineHeight              =Element.attribute("TimelineHeight").toInt();
+        if (Element.hasAttribute("NewTimelineHeight"))          TimelineHeight              =Element.attribute("NewTimelineHeight").toInt();
+        if (TimelineHeight<TIMELINEMINHEIGH) TimelineHeight=TIMELINEMINHEIGH;
+        if (TimelineHeight>TIMELINEMAXHEIGH) TimelineHeight=TIMELINEMAXHEIGH;
         if (Element.hasAttribute("DefaultFraming"))             DefaultFraming              =Element.attribute("DefaultFraming").toInt();
         if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS                  =Element.attribute("PreviewFPS").toDouble();
         if (Element.hasAttribute("RandomTransition"))           RandomTransition            =Element.attribute("RandomTransition")=="1";

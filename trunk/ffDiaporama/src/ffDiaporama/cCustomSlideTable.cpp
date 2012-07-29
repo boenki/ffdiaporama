@@ -18,14 +18,19 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "mainwindow.h"
 #include "cCustomSlideTable.h"
+
+#include <QStyledItemDelegate>
+#include <QStyleOptionViewItem>
+#include <QModelIndex>
 
 #include <QHeaderView>
 #include <QScrollBar>
 #include <QInputDialog>
 #include <QLineEdit>
 #include <QMessageBox>
+
+#include "mainwindow.h"
 
 //======================================
 // Specific defines for this dialog box
@@ -51,127 +56,115 @@
 // Composition parameters
 #define SCALINGTEXTFACTOR                   400
 
-//===========================================================================================================================
+//********************************************************************************************************
+// QCustomThumbItemDelegate
+//********************************************************************************************************
 
-wgt_QCustomThumbnails::wgt_QCustomThumbnails(QTableWidget *TheTimeline,int TheType) : QLabel(TheTimeline) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QCustomThumbnails::wgt_QCustomThumbnails");
-    Timeline            =TheTimeline;
-    Type                =TheType;
-    HasBackGTransition  =false;
-    BackGTransitionRect =QRect(0,0,0,0);
-    HasTransition       =false;
-    TransitionRect      =QRect(0,0,0,0);
-    HasSoundTrack       =false;
-    SoundTrackRect      =QRect(0,0,0,0);
-    BackgroundRect      =QRect(0,0,0,0);
-    MediaObjectRect     =QRect(0,0,0,0);
-    MusicTrackRect      =QRect(0,0,0,0);
+class QCustomThumbItemDelegate : public QStyledItemDelegate {
+//Q_OBJECT
+public:
+    cCustomSlideTable  *ParentTable;
 
-    setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
+    explicit QCustomThumbItemDelegate(QObject *parent);
+
+    virtual void    paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const;
+};
+
+//========================================================================================================================
+
+QCustomThumbItemDelegate::QCustomThumbItemDelegate(QObject *parent):QStyledItemDelegate(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomThumbItemDelegate::QCustomThumbItemDelegate");
+
+    ParentTable=(cCustomSlideTable *)parent;
 }
 
 //===========================================================================================================================
 
-wgt_QCustomThumbnails::~wgt_QCustomThumbnails() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QCustomThumbnails::wgt_QCustomThumbnails");
+void DrawThumbnailsBox(int Xa,int Ya,int Width,int Height,QPainter *Painter,QImage *Icon) {
+    QPen Pen;
+    Pen.setWidth(1);
+    Pen.setColor(Qt::darkGray);
+    Painter->setPen(Pen);
+    Painter->setBrush(Qt::NoBrush);
+    Painter->drawRect(Xa-1,Ya-1,Width+4-1,Height+4-1);
+    Pen.setColor(Qt::white);
+    Painter->setPen(Pen);
+    Painter->drawRect(Xa-1,Ya-1,Width+2-1,Height+2-1);
+    Pen.setColor(Qt::black);
+    Painter->setPen(Pen);
+    Painter->drawRect(Xa-2,Ya-2,Width+4-1,Height+4-1);
+
+    // -------------------------- if Transition Icon
+    if (Icon) {
+        Painter->drawImage(QRect(Xa,Ya,32,32),*Icon);
+        delete Icon;
+    }
 }
 
-//===========================================================================================================================
-// Double click handler : emit edit signal depending on mouse position
-//===========================================================================================================================
+//========================================================================================================================
 
-void wgt_QCustomThumbnails::mouseDoubleClickEvent(QMouseEvent *Event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QCustomThumbnails::mouseDoubleClickEvent");
-    int XPos=mapFromGlobal(QPoint(Event->globalX(),Event->globalY())).x();
-    int YPos=mapFromGlobal(QPoint(Event->globalX(),Event->globalY())).y();
-
-    if ((HasBackGTransition)&&(XPos>=BackGTransitionRect.left())&&(XPos<=BackGTransitionRect.right())&&(YPos>=BackGTransitionRect.top())&&(YPos<=BackGTransitionRect.bottom())) emit EditBackGTransition();
-    else if ((HasTransition)&&(XPos>=TransitionRect.left())&&(XPos<=TransitionRect.right())&&(YPos>=TransitionRect.top())&&(YPos<=TransitionRect.bottom()))                     emit EditTransition();
-    else if ((HasSoundTrack)&&(XPos>=SoundTrackRect.left())&&(XPos<=SoundTrackRect.right())&&(YPos>=SoundTrackRect.top())&&(YPos<=SoundTrackRect.bottom()))                     emit EditSoundTrack();
-    else if ((XPos>=BackgroundRect.left())&&(XPos<=BackgroundRect.right())&&(YPos>=BackgroundRect.top())&&(YPos<=BackgroundRect.bottom()))                                      emit EditBackground();
-    else if ((XPos>=MediaObjectRect.left())&&(XPos<=MediaObjectRect.right())&&(YPos>=MediaObjectRect.top())&&(YPos<=MediaObjectRect.bottom()))                                  emit EditMediaObject();
-    else if ((XPos>=MusicTrackRect.left())&&(XPos<=MusicTrackRect.right())&&(YPos>=MusicTrackRect.top())&&(YPos<=MusicTrackRect.bottom()))                                      emit EditMusicTrack();
-}
-
-//===========================================================================================================================
-
-void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QCustomThumbnails::paintEvent");
+void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomThumbItemDelegate::paint");
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    QPainter Painter(this);
-    Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+    Painter->save();
 
-    Painter.save();
-    cCustomSlideTable  *Timeline=(cCustomSlideTable *)this->Timeline;
+    int ItemIndex = index.row()*ParentTable->columnCount()+index.column();
 
-    // Calc diaporama object number
-    int Col=0;
-    if (GlobalMainWindow->ApplicationConfig->PartitionMode) {
-        int Max=Timeline->NbrItem();
-        int NbrCol=Timeline->columnCount();
-        while ((Col<Max)&&(Timeline->cellWidget((Col/NbrCol),Col-(Col/NbrCol)*NbrCol)!=this)) Col++;
-    } else while ((Col<Timeline->columnCount())&&(Timeline->cellWidget(0,Col)!=this)) Col++;
+    if (ItemIndex>=ParentTable->Diaporama->List.count()) {
 
-    cDiaporamaObject    *Object         = (Col<GlobalMainWindow->Diaporama->List.count())?GlobalMainWindow->Diaporama->List[Col]:NULL;
+        Painter->fillRect(option.rect,QColor(Qt::white));
 
-    int                 TimelineHeight  = GlobalMainWindow->ApplicationConfig->TimelineHeight;
-    bool                IsTransition    = (Object!=NULL)&&((Object->TransitionFamilly!=0)||(Object->TransitionSubType!=0));
-    double              Width           = double(this->width());
-    double              Height          = double(GlobalMainWindow->ApplicationConfig->TimelineHeight/2+    // Background
-                                                GlobalMainWindow->ApplicationConfig->TimelineHeight+      // Montage
-                                                TIMELINESOUNDHEIGHT*2); //this->height());
-    QPointF             Table[10];
+    } else {
 
-    // Draw background widget
-    QPen    Pen;
-    Pen.setWidth(1);
-    Pen.setStyle(Qt::SolidLine);
-    Pen.setColor(WidgetBorder_Color);
-    Painter.setPen(Pen);
-    Painter.setBrush(QBrush(QColor(WidgetBackground_Color)));
-    Painter.drawRect(-1,0,Width+2,Height-1);
+        cDiaporamaObject *Object     =ParentTable->Diaporama->List[ItemIndex];
+        int              ThumbWidth  =ParentTable->columnWidth(0);
+        int              ThumbHeight =ParentTable->rowHeight(0);
+        bool             IsTransition=((Object->TransitionFamilly!=0)||(Object->TransitionSubType!=0));
+        QPointF          Table[10];
 
-    if (Object) {
+        Painter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+        Painter->setClipRect(QRectF(option.rect.x(),option.rect.y(),option.rect.width(),option.rect.height()));
+        // Fill background
+        Painter->fillRect(option.rect,QColor(WidgetBackground_Color));
+        // Translate painter (if needed) so all coordinate are from 0,0
+        if ((option.rect.x()!=0)||(option.rect.y()!=0)) Painter->translate(option.rect.x(),option.rect.y());
+
+        // Draw slide separation line for Partition mode
+        QPen    Pen;
+        Pen.setWidth(1);
+        Pen.setStyle(Qt::SolidLine);
+        Pen.setColor(WidgetBorder_Color);
+        Painter->setPen(Pen);
+        Painter->drawLine(0,ThumbHeight-1,ThumbWidth-1,ThumbHeight-1);
 
         //==========================================================================================================================
-        // Track BACKGROUND
+        // Track BACKGROUND (first 1/4 height of the slide)
         //==========================================================================================================================
-        Pen.setColor(ObjectBackground_Ruller);
-        Painter.setPen(Pen);
-        Painter.setBrush(QBrush(QColor(ObjectBackground_Ruller)));
-        Painter.drawRect(-1,(TimelineHeight/2-16)/2,Width+2,16);
 
-        int BackThumbHeight = TimelineHeight/2-6;
-        int BackThumbWidth  = GlobalMainWindow->Diaporama->GetWidthForHeight(BackThumbHeight);
-        Object->Parent->PrepareBackground(Col,BackThumbWidth,BackThumbHeight,&Painter,TransitionSize+3,2);  // Draw Thumb
+        int BackThumbHeight = ThumbHeight/4-6;
+        int BackThumbWidth  = ParentTable->Diaporama->GetWidthForHeight(BackThumbHeight);
+
+        // Fill background track
+        Painter->fillRect(QRect(0,(ThumbHeight/4-16)/2,ThumbWidth,16),QColor(ObjectBackground_Ruller));
+
+        // Draw thumb
+        ParentTable->Diaporama->PrepareBackground(ItemIndex,BackThumbWidth,BackThumbHeight,Painter,TransitionSize+3,2);
+
+        // Draw frame arround thumb
         DrawThumbnailsBox(TransitionSize+3,2,BackThumbWidth,BackThumbHeight,Painter,NULL);
-        BackgroundRect=QRect(TransitionSize+3,2,BackThumbWidth,BackThumbHeight);
 
-        //==========================================================================================================================
-        // Draw background transition box & icon
-        //==========================================================================================================================
-        if (Object->BackgroundType) {
-            HasBackGTransition =true;
-            BackGTransitionRect=QRect(0,0,TransitionSize,TransitionSize);
-            DrawThumbnailsBox(2,(TimelineHeight/2-32)/2,32,32,Painter,IsTransition?IconList.GetIcon(0,1):IconList.GetIcon(0,0));
-        }
-
-        //==========================================================================================================================
-        // Draw object transition box & icon
-        //==========================================================================================================================
-        HasTransition =true;
-        TransitionRect=QRect(0,TimelineHeight/2,TransitionSize,TransitionSize);
-        DrawThumbnailsBox(2,TimelineHeight/2+2-1,32,32,Painter,IsTransition?IconList.GetIcon(GlobalMainWindow->Diaporama->List[Col]->TransitionFamilly,GlobalMainWindow->Diaporama->List[Col]->TransitionSubType):IconList.GetIcon(0,0));
+        // Draw background transition box & icon (if transition exist)
+        if (Object->BackgroundType) DrawThumbnailsBox(2,(ThumbHeight/4-32)/2-1,32,32,Painter,IsTransition?IconList.GetIcon(0,1):IconList.GetIcon(0,0));
 
 
         //==========================================================================================================================
-        // Track OBJECTSEQUENCE
+        // Track OBJECT (second and third 1/4 height of the slide)
         //==========================================================================================================================
-        int     ThumbHeight         = Height-TimelineHeight/2-TIMELINESOUNDHEIGHT*2-5;
-        int     ThumbWidth          = GlobalMainWindow->Diaporama->GetWidthForHeight(ThumbHeight);
-        int     NewThumbHeight      = ThumbHeight-TIMELINESOUNDHEIGHT-2;
-        int     NewThumbWidth       = GlobalMainWindow->Diaporama->GetWidthForHeight(NewThumbHeight);
+        DrawThumbnailsBox(2,ThumbHeight/4+2-1,32,32,Painter,IsTransition?IconList.GetIcon(Object->TransitionFamilly,Object->TransitionSubType):IconList.GetIcon(0,0));
+
+        int     NewThumbWidth       = ThumbWidth-TransitionSize-6;
+        int     NewThumbHeight      = ParentTable->Diaporama->GetHeightForWidth(NewThumbWidth);
         int     BarWidth            = (ThumbWidth-NewThumbWidth)/2;
         bool    HaveSound           = false;
         double  SoundVolume         = 0;
@@ -196,18 +189,18 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
         }
 
         // Parse previous object.ObjectComposition table to determine if previous slide have sound
-        if (Col>0) {
-            for (int i=0;i<GlobalMainWindow->Diaporama->List[Col-1]->ObjectComposition.List.count();i++)
-                    if ((GlobalMainWindow->Diaporama->List[Col-1]->ObjectComposition.List[i]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&
-                        (GlobalMainWindow->Diaporama->List[Col-1]->ObjectComposition.List[i]->BackgroundBrush->Video)&&
-                        (GlobalMainWindow->Diaporama->List[Col-1]->ObjectComposition.List[i]->BackgroundBrush->SoundVolume!=0)) {
+        if (ItemIndex>0) {
+            for (int i=0;i<ParentTable->Diaporama->List[ItemIndex-1]->ObjectComposition.List.count();i++)
+                    if ((ParentTable->Diaporama->List[ItemIndex-1]->ObjectComposition.List[i]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&
+                        (ParentTable->Diaporama->List[ItemIndex-1]->ObjectComposition.List[i]->BackgroundBrush->Video)&&
+                        (ParentTable->Diaporama->List[ItemIndex-1]->ObjectComposition.List[i]->BackgroundBrush->SoundVolume!=0)) {
 
                 PreviousHaveSound=true;
                 // Parse all object from all shot to determine max volume
-                for (int v=0;v<GlobalMainWindow->Diaporama->List[Col-1]->List.count();v++) for (int w=0;w<GlobalMainWindow->Diaporama->List[Col-1]->List[v]->ShotComposition.List.count();w++)
-                    if ((GlobalMainWindow->Diaporama->List[Col-1]->List[v]->ShotComposition.List[w]->IndexKey==GlobalMainWindow->Diaporama->List[Col-1]->ObjectComposition.List[i]->IndexKey)&&
-                        (GlobalMainWindow->Diaporama->List[Col-1]->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume>PreviousSoundVolume))
-                            PreviousSoundVolume=GlobalMainWindow->Diaporama->List[Col-1]->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume;
+                for (int v=0;v<ParentTable->Diaporama->List[ItemIndex-1]->List.count();v++) for (int w=0;w<ParentTable->Diaporama->List[ItemIndex-1]->List[v]->ShotComposition.List.count();w++)
+                    if ((ParentTable->Diaporama->List[ItemIndex-1]->List[v]->ShotComposition.List[w]->IndexKey==ParentTable->Diaporama->List[ItemIndex-1]->ObjectComposition.List[i]->IndexKey)&&
+                        (ParentTable->Diaporama->List[ItemIndex-1]->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume>PreviousSoundVolume))
+                            PreviousSoundVolume=ParentTable->Diaporama->List[ItemIndex-1]->List[v]->ShotComposition.List[w]->BackgroundBrush->SoundVolume;
             }
         }
 
@@ -216,179 +209,176 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             Pen.setColor(ObjectBackground_Ruller);
             Pen.setWidth(1);
             Pen.setStyle(Qt::SolidLine);
-            Painter.setPen(Pen);
-            Painter.setBrush(QBrush(QColor(ObjectBackground_Ruller)));
-            Table[0]=QPointF(0,Height-TIMELINESOUNDHEIGHT*2-TIMELINESOUNDHEIGHT-2);
-            Table[1]=QPointF(TransitionSize,Height-TIMELINESOUNDHEIGHT*2-2);
-            Table[2]=QPointF(0,Height-TIMELINESOUNDHEIGHT*2-2);
-            Painter.drawPolygon(Table,3);
+            Painter->setPen(Pen);
+            Painter->setBrush(QBrush(QColor(ObjectBackground_Ruller)));
+            Table[0]=QPointF(0,3*ThumbHeight/4-TIMELINESOUNDHEIGHT-2);
+            Table[1]=QPointF(TransitionSize,3*ThumbHeight/4-2);
+            Table[2]=QPointF(0,3*ThumbHeight/4-2);
+            Painter->drawPolygon(Table,3);
+
             // Draw transition out for this (previous) soundtrack
-            Pen.setColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color);
+            Pen.setColor(((ItemIndex&0x1)!=0x1)?FirstSound_Color:SecondSound_Color);
             Pen.setWidth(1);
             Pen.setStyle(Qt::SolidLine);
-            Painter.setPen(Pen);
-            Painter.setBrush(QBrush(QColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
+            Painter->setPen(Pen);
+            Painter->setBrush(QBrush(QColor(((ItemIndex&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
             int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(PreviousSoundVolume/1.5));
-            Table[0]=QPointF(0,Height-TIMELINESOUNDHEIGHT*2-RHeightPrevious-2);
-            Table[1]=QPointF(TransitionSize,Height-TIMELINESOUNDHEIGHT*2-2);
-            Table[2]=QPointF(0,Height-TIMELINESOUNDHEIGHT*2-2);
-            Painter.drawPolygon(Table,3);
+            Table[0]=QPointF(0,3*ThumbHeight/4-RHeightPrevious-2);
+            Table[1]=QPointF(TransitionSize,3*ThumbHeight/4-2);
+            Table[2]=QPointF(0,3*ThumbHeight/4-2);
+            Painter->drawPolygon(Table,3);
         }
 
         if (!HaveSound) {
             // Display a thumb with no sound
-            Painter.fillRect(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,ThumbHeight,Transparent);
-            Object->DrawThumbnail(ThumbWidth+2,ThumbHeight+2,&Painter,TransitionSize+3,TimelineHeight/2+2-1);   // Draw Thumb
-            if (Object->ObjectComposition.List.count()>1)   Painter.drawImage(TransitionSize+3+8,2-1+ThumbHeight-32,QImage(ICON_BLOCKPRESENCE));                // Add mark if multiple block
-            if (Object->List.count()>1)                     Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32,QImage(ICON_SHOTPRESENCE));     // Add mark if multiple shot
-            if (HaveFilter)                                 Painter.drawImage(TransitionSize+3+ThumbWidth-32,2-1+ThumbHeight-32+24,QImage(ICON_HAVEFILTER));    // Add mark if at least one block have filter
-            DrawThumbnailsBox(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,ThumbHeight,Painter,NULL);
-            MediaObjectRect=QRect(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,ThumbHeight);
+            Painter->fillRect(TransitionSize+3,ThumbHeight/4+2-1,NewThumbWidth,NewThumbHeight,Transparent);     // Fill background with transparent image
+            Object->DrawThumbnail(NewThumbWidth,NewThumbHeight,Painter,TransitionSize+3,ThumbHeight/4+1);       // Draw thumb
+            DrawThumbnailsBox(TransitionSize+3,ThumbHeight/4+2-1,NewThumbWidth,NewThumbHeight,Painter,NULL);    // Draw frame arround thumb
+            if (Object->ObjectComposition.List.count()>1)   Painter->drawImage(TransitionSize+3+8,                  2-1+ThumbHeight/4+8,    QImage(ICON_BLOCKPRESENCE));    // Add mark if multiple block
+            if (Object->List.count()>1)                     Painter->drawImage(TransitionSize+3+NewThumbWidth-32,   2-1+ThumbHeight/4+8,    QImage(ICON_SHOTPRESENCE));     // Add mark if multiple shot
+            if (HaveFilter)                                 Painter->drawImage(TransitionSize+3+NewThumbWidth-32,   2-1+ThumbHeight/4+32,   QImage(ICON_HAVEFILTER));       // Add mark if at least one block have filter
 
         } else {
             // Display a thumb with sound track
-
-            int     H3          =NewThumbHeight/5;
-            int     HH3         =(NewThumbHeight-H3*3)/4;
-            int     RHeight     =int(double(TIMELINESOUNDHEIGHT)*(SoundVolume/1.5));
+            int     VideoThumbWidth =NewThumbWidth-BarWidth*2;
+            int     VideoThumbHeight=ParentTable->Diaporama->GetHeightForWidth(VideoThumbWidth);
 
             // Draw thumb part
-            Painter.fillRect(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,NewThumbHeight,Transparent);
-            Object->DrawThumbnail(NewThumbWidth+2,NewThumbHeight+4,&Painter,TransitionSize+3+BarWidth-1,TimelineHeight/2-1);   // Draw Thumb
+            Painter->fillRect(TransitionSize+3+BarWidth,ThumbHeight/4+2-1,VideoThumbWidth,VideoThumbHeight,Transparent);     // Fill background with transparent image
+            Object->DrawThumbnail(VideoThumbWidth,VideoThumbHeight,Painter,TransitionSize+3+BarWidth,ThumbHeight/4+1);       // Draw thumb
+
+            // Draw black bar for cinema decoration at left & right
+            Painter->fillRect(TransitionSize+3,                         ThumbHeight/4+2-1, BarWidth,VideoThumbHeight,QBrush(Qt::black));
+            Painter->fillRect(TransitionSize+3+BarWidth+VideoThumbWidth,ThumbHeight/4+2-1, BarWidth,VideoThumbHeight,QBrush(Qt::black));
+
+            // Draw cinema decoration at left & right
+            for (int HH=0;HH<3;HH++) {
+                Painter->fillRect(TransitionSize+3+4,                         ThumbHeight/4+2-1+HH*(VideoThumbHeight/3)+4,BarWidth-9,(VideoThumbHeight/5),QBrush(Qt::lightGray));
+                Painter->fillRect(TransitionSize+3+5+BarWidth+VideoThumbWidth,ThumbHeight/4+2-1+HH*(VideoThumbHeight/3)+4,BarWidth-9,(VideoThumbHeight/5),QBrush(Qt::lightGray));
+            }
 
             QPen Pen;
             Pen.setWidth(1);
-            Painter.setBrush(Qt::NoBrush);
-            Pen.setColor(Qt::black);    Painter.setPen(Pen);    Painter.drawRect(TransitionSize+3-2,TimelineHeight/2+1-2,ThumbWidth+4,NewThumbHeight+4);
-            Pen.setColor(Qt::darkGray); Painter.setPen(Pen);    Painter.drawRect(TransitionSize+3-1,TimelineHeight/2+1-1,ThumbWidth+2,NewThumbHeight+2);
-            Pen.setColor(Qt::white);    Painter.setPen(Pen);    Painter.drawRect(TransitionSize+3,  TimelineHeight/2+1,  ThumbWidth,  NewThumbHeight);
-            Painter.drawRect(TransitionSize+3+BarWidth-1,TimelineHeight/2+1,NewThumbWidth+1,NewThumbHeight);
+            Painter->setBrush(Qt::NoBrush);
+            Pen.setColor(Qt::black);    Painter->setPen(Pen);    Painter->drawRect(TransitionSize+3-2,ThumbHeight/4+1-2,NewThumbWidth+4,VideoThumbHeight+4);
+            Pen.setColor(Qt::darkGray); Painter->setPen(Pen);
+            Painter->drawRect(TransitionSize+3-1,ThumbHeight/4+1-1,NewThumbWidth+2,VideoThumbHeight+2);
+            Painter->drawRect(TransitionSize+3+BarWidth-2,ThumbHeight/4,VideoThumbWidth+4,VideoThumbHeight);
 
-            MediaObjectRect=QRect(TransitionSize+3,         TimelineHeight/2+2-1,   ThumbWidth,     NewThumbHeight);
+            Pen.setColor(Qt::white);    Painter->setPen(Pen);
+            Painter->drawRect(TransitionSize+3,  ThumbHeight/4+1,  NewThumbWidth,  VideoThumbHeight+1);
+            Painter->drawRect(TransitionSize+3+BarWidth-1,ThumbHeight/4+1,VideoThumbWidth+2,VideoThumbHeight);
 
-            // Draw black bar for cinema decoration at left & right
-            Painter.fillRect(TransitionSize+3,                              TimelineHeight/2+2,   BarWidth-2,                             NewThumbHeight-1,QBrush(Qt::black));
-            Painter.fillRect(TransitionSize+3+BarWidth+NewThumbWidth+2-1,   TimelineHeight/2+2,   ThumbWidth-NewThumbWidth-BarWidth-2+1,  NewThumbHeight-1,QBrush(Qt::black));
+            if (Object->ObjectComposition.List.count()>1)   Painter->drawImage(TransitionSize+3+BarWidth+8,                  2-1+ThumbHeight/4+8,    QImage(ICON_BLOCKPRESENCE));    // Add mark if multiple block
+            if (Object->List.count()>1)                     Painter->drawImage(TransitionSize+3+BarWidth+VideoThumbWidth-32, 2-1+ThumbHeight/4+8,    QImage(ICON_SHOTPRESENCE));     // Add mark if multiple shot
+            if (HaveFilter)                                 Painter->drawImage(TransitionSize+3+BarWidth+VideoThumbWidth-32, 2-1+ThumbHeight/4+32,   QImage(ICON_HAVEFILTER));       // Add mark if at least one block have filter
 
-            // Draw cinema decoration at left & right
-            int YPos=Height-TimelineHeight/2-TIMELINESOUNDHEIGHT*2-(ThumbHeight-2)/2;
-            for (int HH=0;HH<3;HH++) {
-                Painter.fillRect(TransitionSize+3+4,                            YPos+HH3+(H3+HH3)*HH-1, BarWidth-2-8,   H3,QBrush(Qt::lightGray));
-                Painter.fillRect(TransitionSize+3+BarWidth+NewThumbWidth+2+4,   YPos+HH3+(H3+HH3)*HH-1, BarWidth-2-8,   H3,QBrush(Qt::lightGray));
-            }
-            if (Object->ObjectComposition.List.count()>1)   Painter.drawImage(TransitionSize+3,TimelineHeight/2+2-1+NewThumbHeight-48-4,QImage(ICON_BLOCKPRESENCE));                   // Add mark if multiple block
-            if (Object->List.count()>1)                     Painter.drawImage(TransitionSize+3+BarWidth*2+NewThumbWidth-24-2,TimelineHeight/2+2-1+NewThumbHeight-48-4,QImage(ICON_SHOTPRESENCE));     // Add mark if multiple shot
-            if (HaveFilter)                                 Painter.drawImage(TransitionSize+3+BarWidth*2+NewThumbWidth-24-2,TimelineHeight/2+2-1+NewThumbHeight-24-4,QImage(ICON_HAVEFILTER));    // Add mark if at least one block have filter
+            // Soundtrack part
+            int RHeight=int(double(TIMELINESOUNDHEIGHT)*(SoundVolume/1.5));
 
-            // Draw background for soundtrack
             Pen.setColor(ObjectBackground_Ruller);
             Pen.setWidth(1);
             Pen.setStyle(Qt::SolidLine);
-            Painter.setPen(Pen);
-            Painter.setBrush(QBrush(QColor(ObjectBackground_Ruller)));
-            Painter.drawRect(0,Height-2-TIMELINESOUNDHEIGHT*2-TIMELINESOUNDHEIGHT,Width,TIMELINESOUNDHEIGHT);
-            SoundTrackRect=QRect(0,Height-2-TIMELINESOUNDHEIGHT*2-TIMELINESOUNDHEIGHT,Width,TIMELINESOUNDHEIGHT);
-            HasSoundTrack =true;
+            Painter->setPen(Pen);
+            Painter->setBrush(QBrush(QColor(ObjectBackground_Ruller)));
+            Painter->drawRect(0,3*ThumbHeight/4-2-TIMELINESOUNDHEIGHT,ThumbWidth,TIMELINESOUNDHEIGHT);
 
             // Draw transitions
             if (IsTransition) {
                 // Draw transition out for previous soundtrack
-                if ((Col>0)&&(PreviousHaveSound)) {
-                    Pen.setColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color);
+                if ((ItemIndex>0)&&(PreviousHaveSound)) {
+                    Pen.setColor(((ItemIndex&0x1)!=0x1)?FirstSound_Color:SecondSound_Color);
                     Pen.setWidth(1);
                     Pen.setStyle(Qt::SolidLine);
-                    Painter.setPen(Pen);
-                    Painter.setBrush(QBrush(QColor(((Col&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
+                    Painter->setPen(Pen);
+                    Painter->setBrush(QBrush(QColor(((ItemIndex&0x1)!=0x1)?FirstSound_Color:SecondSound_Color)));
                     int RHeightPrevious=int(double(TIMELINESOUNDHEIGHT)*(PreviousSoundVolume/1.5));
-                    Table[0]=QPointF(0,Height-2-RHeightPrevious-TIMELINESOUNDHEIGHT*2);
-                    Table[1]=QPointF(TransitionSize,Height-2-TIMELINESOUNDHEIGHT*2);
-                    Table[2]=QPointF(0,Height-2-TIMELINESOUNDHEIGHT*2);
-                    Painter.drawPolygon(Table,3);
+                    Table[0]=QPointF(0,             3*ThumbHeight/4-2-RHeightPrevious);
+                    Table[1]=QPointF(TransitionSize,3*ThumbHeight/4-2);
+                    Table[2]=QPointF(0,             3*ThumbHeight/4-2);
+                    Painter->drawPolygon(Table,3);
                 }
                 // Draw in transition + soundtrack
-                Pen.setColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color);
+                Pen.setColor(((ItemIndex&0x1)==0x1)?FirstSound_Color:SecondSound_Color);
                 Pen.setWidth(1);
                 Pen.setStyle(Qt::SolidLine);
-                Painter.setPen(Pen);
-                Painter.setBrush(QBrush(QColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color)));
-                Table[0]=QPointF(0,Height-2-TIMELINESOUNDHEIGHT*2);
-                Table[1]=QPointF(TransitionSize,Height-2-RHeight-TIMELINESOUNDHEIGHT*2);
-                Table[2]=QPointF(Width,Height-2-RHeight-TIMELINESOUNDHEIGHT*2);                                            // Draw soundtrack without transition
-                Table[3]=QPointF(Width,Height-2-TIMELINESOUNDHEIGHT*2);
-                Painter.drawPolygon(Table,4);
+                Painter->setPen(Pen);
+                Painter->setBrush(QBrush(QColor(((ItemIndex&0x1)==0x1)?FirstSound_Color:SecondSound_Color)));
+                Table[0]=QPointF(0,             3*ThumbHeight/4-2);
+                Table[1]=QPointF(TransitionSize,3*ThumbHeight/4-2-RHeight);
+                Table[2]=QPointF(ThumbWidth,    3*ThumbHeight/4-2-RHeight);                          // Draw soundtrack without transition
+                Table[3]=QPointF(ThumbWidth,    3*ThumbHeight/4-2);
+                Painter->drawPolygon(Table,4);
             } else {
-                Pen.setColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color);
+                Pen.setColor(((ItemIndex&0x1)==0x1)?FirstSound_Color:SecondSound_Color);
                 Pen.setWidth(1);
                 Pen.setStyle(Qt::SolidLine);
-                Painter.setPen(Pen);
-                Painter.setBrush(QBrush(QColor(((Col&0x1)==0x1)?FirstSound_Color:SecondSound_Color)));
-                Table[0]=QPointF(0,Height-2-TIMELINESOUNDHEIGHT*2);
-                Table[1]=QPointF(0,Height-2-RHeight-TIMELINESOUNDHEIGHT*2);
-                Table[2]=QPointF(Width,Height-2-RHeight-TIMELINESOUNDHEIGHT*2);                                            // Draw soundtrack without transition
-                Table[3]=QPointF(Width,Height-2-TIMELINESOUNDHEIGHT*2);
-                Painter.drawPolygon(Table,4);
+                Painter->setPen(Pen);
+                Painter->setBrush(QBrush(QColor(((ItemIndex&0x1)==0x1)?FirstSound_Color:SecondSound_Color)));
+                Table[0]=QPointF(0,         3*ThumbHeight/4-2);
+                Table[1]=QPointF(0,         3*ThumbHeight/4-2-RHeight);
+                Table[2]=QPointF(ThumbWidth,3*ThumbHeight/4-2-RHeight);                          // Draw soundtrack without transition
+                Table[3]=QPointF(ThumbWidth,3*ThumbHeight/4-2);
+                Painter->drawPolygon(Table,4);
             }
         }
 
         // Draw transition duration, slide duration and slide name
         QFont font= QApplication::font();
-        Painter.setFont(font);
+        Painter->setFont(font);
         #ifdef Q_OS_WIN
-        font.setPointSizeF(double(110)/double(Painter.fontMetrics().boundingRect("0").height()));                  // Scale font
+        font.setPointSizeF(double(110)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
         #else
-        font.setPointSizeF(double(140)/double(Painter.fontMetrics().boundingRect("0").height()));                  // Scale font
+        font.setPointSizeF(double(140)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
         #endif
-        Painter.setFont(font);
+        Painter->setFont(font);
 
         Pen.setWidth(1);
         Pen.setStyle(Qt::SolidLine);
         QString SlideDuration=QTime(0,0,0,0).addMSecs(Object->GetDuration()).toString("hh:mm:ss.zzz");
         QString FileName=Object->SlideName;
         QString TransitionDuration=QTime(0,0,0,0).addMSecs(Object->GetTransitDuration()).toString("ss.z");
-        QString SlideNumber=QString("%1").arg(Col+1);
+        QString SlideNumber=QString("%1").arg(ItemIndex+1);
         // Chapter TAG
-        if (Col==0) Painter.drawImage(2,2,QImage(":/img/Chapter.png"));
-            else if (Object->StartNewChapter) Painter.drawImage(TransitionSize+3,2,QImage(":/img/Chapter.png"));
+        if (ItemIndex==0) Painter->drawImage(2,2,QImage(":/img/Chapter.png"));
+            else if (Object->StartNewChapter) Painter->drawImage(TransitionSize+3,2,QImage(":/img/Chapter.png"));
         if (TransitionDuration[0]=='0')             TransitionDuration=TransitionDuration.right(TransitionDuration.length()-1);   // Cut first 0
         while (TransitionDuration.endsWith("0"))    TransitionDuration=TransitionDuration.left(TransitionDuration.length()-1);
         while (TransitionDuration.endsWith("."))    TransitionDuration=TransitionDuration.left(TransitionDuration.length()-1);
 
         if (Object->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO) {
             Pen.setColor(Qt::black);
-            Painter.setPen(Pen);
-            Painter.drawText(QRectF(TransitionSize+3+BarWidth+1,TimelineHeight/2+2-1+1,NewThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(TransitionSize+3+BarWidth+1,TimelineHeight/2+2-1+1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(2+1,TimelineHeight/2+2-1+34+1,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(BackThumbWidth+2+1,(TimelineHeight/2-16)/2+1,Width-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->setPen(Pen);
+            Painter->drawText(QRectF(TransitionSize+3+BarWidth+1,ThumbHeight/4+2-1+1,                   NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(TransitionSize+3+BarWidth+1,ThumbHeight/4+2-1+1+NewThumbHeight-16, NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(2+1,                        ThumbHeight/4+2-1+34+1,                32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(BackThumbWidth+2+1,         (ThumbHeight/4-16)/2+1,                ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
 
             Pen.setColor(Qt::white);
-            Painter.setPen(Pen);
-            Painter.drawText(QRectF(TransitionSize+3+BarWidth,TimelineHeight/2+2-1,NewThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(TransitionSize+3+BarWidth,TimelineHeight/2+2-1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(2,TimelineHeight/2+2-1+34,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(BackThumbWidth+2,(TimelineHeight/2-16)/2,Width-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->setPen(Pen);
+            Painter->drawText(QRectF(TransitionSize+3+BarWidth, ThumbHeight/4+2-1,                      NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(TransitionSize+3+BarWidth, ThumbHeight/4+2-1+NewThumbHeight-16,    NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(2,                         ThumbHeight/4+2-1+34,                  32,                          16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(BackThumbWidth+2,          (ThumbHeight/4-16)/2,                  ThumbWidth-BackThumbWidth-4, 16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
         } else {
             Pen.setColor(Qt::black);
-            Painter.setPen(Pen);
-            Painter.drawText(QRectF(TransitionSize+3+1,TimelineHeight/2+2-1+1,ThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(TransitionSize+3+1,TimelineHeight/2+2-1+1+ThumbHeight-16,ThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(2+1,TimelineHeight/2+2-1+34+1,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(BackThumbWidth+2+1,(TimelineHeight/2-16)/2+1,Width-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->setPen(Pen);
+            Painter->drawText(QRectF(TransitionSize+3+1,        ThumbHeight/4+2-1+1,                    NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(TransitionSize+3+1,        ThumbHeight/4+2-1+1+NewThumbHeight-16,  NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(2+1,                       ThumbHeight/4+2-1+34+1,                 32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(BackThumbWidth+2+1,        (ThumbHeight/4-16)/2+1,                 ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
 
             Pen.setColor(Qt::white);
-            Painter.setPen(Pen);
-            Painter.drawText(QRectF(TransitionSize+3,TimelineHeight/2+2-1,ThumbWidth,16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(TransitionSize+3,TimelineHeight/2+2-1+ThumbHeight-16,ThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(2,TimelineHeight/2+2-1+34,32,16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter.drawText(QRectF(BackThumbWidth+2,(TimelineHeight/2-16)/2,Width-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->setPen(Pen);
+            Painter->drawText(QRectF(TransitionSize+3,          ThumbHeight/4+2-1,                      NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(TransitionSize+3,          ThumbHeight/4+2-1+NewThumbHeight-16,    NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(2,                         ThumbHeight/4+2-1+34,                   32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(BackThumbWidth+2,          (ThumbHeight/4-16)/2,                   ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
         }
 
         //==========================================================================================================================
-        // Track OBJECTMUSIC
+        // Track MUSIC (last 1/4 height of the slide)
         //==========================================================================================================================
-        Height       -=4;
-        MusicTrackRect=QRect(-1,Height-TIMELINESOUNDHEIGHT*2,Width+2,TIMELINESOUNDHEIGHT*2);
-        HasSoundTrack =true;
 
         int         CurrentCountObjet   =0;
         qlonglong   StartPosition       =0;
@@ -396,8 +386,8 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
         double      CurrentFactor       =Object->MusicPause?0:Object->MusicReduceVolume?Object->MusicReduceFactor:1;
         double      PreviousFactor      =0;
 
-        if ((Col>0)&&(Object->Parent->GetMusicObject(Col-1,StartPosition)!=NULL))
-            PreviousFactor=(Object->Parent->List[Col-1]->MusicPause)?0:(Object->Parent->List[Col-1]->MusicReduceVolume)?Object->Parent->List[Col-1]->MusicReduceFactor:1;
+        if ((ItemIndex>0)&&(Object->Parent->GetMusicObject(ItemIndex-1,StartPosition)!=NULL))
+            PreviousFactor=(Object->Parent->List[ItemIndex-1]->MusicPause)?0:(Object->Parent->List[ItemIndex-1]->MusicReduceVolume)?Object->Parent->List[ItemIndex-1]->MusicReduceFactor:1;
 
         bool        EndMusic            =true;
         bool        DrawVolumeTransition=(PreviousFactor!=CurrentFactor);
@@ -408,19 +398,19 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
         int         RHeight             =int(TIMELINESOUNDHEIGHT*2*(CurrentFactor/1.5));
         int         PHeight             =int(TIMELINESOUNDHEIGHT*2*(PreviousFactor/1.5));
 
-        if (Col>0) {
-            cMusicObject *PrevMusique=Object->Parent->GetMusicObject(Col-1,StartPosition);
-            if ((PrevMusique)&&((QTime(0,0,0,0).msecsTo(PrevMusique->Duration)-StartPosition)>Object->Parent->List[Col-1]->GetDuration())) DrawOutTransition=true;
+        if (ItemIndex>0) {
+            cMusicObject *PrevMusique=Object->Parent->GetMusicObject(ItemIndex-1,StartPosition);
+            if ((PrevMusique)&&((QTime(0,0,0,0).msecsTo(PrevMusique->Duration)-StartPosition)>Object->Parent->List[ItemIndex-1]->GetDuration())) DrawOutTransition=true;
         }
 
         // Calculate wich music will be use for this object and for the next object
         int             OwnerObjectMusic    =0;
         int             OwnerObjectNextMusic=0;
-        cMusicObject    *CurMusic           =Object->Parent->GetMusicObject(Col,StartPosition,&CurrentCountObjet,&OwnerObjectMusic);
+        cMusicObject    *CurMusic           =Object->Parent->GetMusicObject(ItemIndex,StartPosition,&CurrentCountObjet,&OwnerObjectMusic);
         cMusicObject    *NextMusic          =NULL;
 
-        if ((Col+1)<Timeline->columnCount()) {
-            NextMusic=Object->Parent->GetMusicObject(Col+1,NextStartPosition,NULL,&OwnerObjectNextMusic);
+        if ((ItemIndex+1)<ParentTable->columnCount()) {
+            NextMusic=Object->Parent->GetMusicObject(ItemIndex+1,NextStartPosition,NULL,&OwnerObjectNextMusic);
             //if (NextMusic==CurMusic) EndMusic=false;
             if ((OwnerObjectMusic==OwnerObjectNextMusic)&&(CurMusic!=NULL)&&(NextMusic!=NULL)) EndMusic=false;
                 else if ((CurMusic)&&((QTime(0,0,0,0).msecsTo(CurMusic->Duration))-StartPosition>=Object->GetDuration())) EndMusic=false;
@@ -434,7 +424,7 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
             if (Object->MusicType) {
                 if (Object->MusicList.count()>0) {
                     // Search if previous slide have music
-                    if (((Col>0)&&(Object->Parent->GetMusicObject(Col-1,StartPosition)!=NULL))&&(IsTransition)) DrawInTransition=true;
+                    if (((ItemIndex>0)&&(Object->Parent->GetMusicObject(ItemIndex-1,StartPosition)!=NULL))&&(IsTransition)) DrawInTransition=true;
                     DrawVolumeTransition=false;
                 }
             // continue Playlist from a previous object
@@ -443,135 +433,148 @@ void wgt_QCustomThumbnails::paintEvent(QPaintEvent *) {
                 // Draw out transition from a previous object
                 if (DrawOutTransition) {
                     if ((CurrentCountObjet & 1)!=1) {
-                        Painter.setBrush(QBrush(QColor(FirstMusic_Color)));
+                        Painter->setBrush(QBrush(QColor(FirstMusic_Color)));
                         Pen.setColor(FirstMusic_Color);
                     } else {
-                        Painter.setBrush(QBrush(QColor(SecondMusic_Color)));
+                        Painter->setBrush(QBrush(QColor(SecondMusic_Color)));
                         Pen.setColor(SecondMusic_Color);
                     }
                     Pen.setWidth(0);
-                    Painter.setPen(Pen);
-                    Table[0]=QPointF(-1,Height-PHeight+2);
-                    Table[1]=QPointF(34,Height+2);
-                    Table[2]=QPointF(-1,Height+2);
-                    Painter.drawPolygon(Table,3);
+                    Painter->setPen(Pen);
+                    Table[0]=QPointF(-1,ThumbHeight-5-PHeight+2);
+                    Table[1]=QPointF(34,ThumbHeight-5+2);
+                    Table[2]=QPointF(-1,ThumbHeight-5+2);
+                    Painter->drawPolygon(Table,3);
                 }
-                Table[0]=QPointF(-1,Height+2);
-                Table[1]=QPointF(34,Height-RHeight+2);
+                Table[0]=QPointF(-1,ThumbHeight-5+2);
+                Table[1]=QPointF(34,ThumbHeight-5-RHeight+2);
             } else if (DrawVolumeTransition && IsTransition) {
-                Table[0]=QPointF(-1,Height-PHeight+2);
-                Table[1]=QPointF(34,Height-RHeight+2);
+                Table[0]=QPointF(-1,ThumbHeight-5-PHeight+2);
+                Table[1]=QPointF(34,ThumbHeight-5-RHeight+2);
             } else {
-                Table[0]=QPointF(-1,Height+2);
-                Table[1]=QPointF(-1,Height-RHeight+2);
+                Table[0]=QPointF(-1,ThumbHeight-5+2);
+                Table[1]=QPointF(-1,ThumbHeight-5-RHeight+2);
             }
             if (DrawOutCut) {
-                Table[2]=QPointF(Width-34,Height-RHeight+2);
-                Table[3]=QPointF(Width-34,Height+2);
+                Table[2]=QPointF(ThumbWidth-34,ThumbHeight-5-RHeight+2);
+                Table[3]=QPointF(ThumbWidth-34,ThumbHeight-5+2);
             } else {
-                Table[2]=QPointF(Width+2,Height-RHeight+2);
-                Table[3]=QPointF(Width+2,Height+2);
+                Table[2]=QPointF(ThumbWidth+2,ThumbHeight-5-RHeight+2);
+                Table[3]=QPointF(ThumbWidth+2,ThumbHeight-5+2);
             }
-            Table[4]=QPointF(-1,Height+2);
+            Table[4]=QPointF(-1,ThumbHeight-5+2);
 
             if ((CurrentCountObjet & 1)==1) {
-                Painter.setBrush(QBrush(QColor(FirstMusic_Color)));
+                Painter->setBrush(QBrush(QColor(FirstMusic_Color)));
                 Pen.setColor(FirstMusic_Color);
             } else {
-                Painter.setBrush(QBrush(QColor(SecondMusic_Color)));
+                Painter->setBrush(QBrush(QColor(SecondMusic_Color)));
                 Pen.setColor(SecondMusic_Color);
             }
             Pen.setWidth(0);
-            Painter.setPen(Pen);
-            Painter.drawPolygon(Table,5);
+            Painter->setPen(Pen);
+            Painter->drawPolygon(Table,5);
 
-            if (DrawPause) Painter.drawImage((Width-24-TransitionSize)/2+TransitionSize,Height-24,QImage(ICON_PLAYERPAUSE));
+            if (DrawPause) Painter->drawImage((ThumbWidth-24-TransitionSize)/2+TransitionSize,ThumbHeight-5-24,QImage(ICON_PLAYERPAUSE));
         } else if (DrawOutTransition) {
             // Draw out transition from a previous object
             if ((CurrentCountObjet & 1)!=1) {
-                Painter.setBrush(QBrush(QColor(FirstMusic_Color)));
+                Painter->setBrush(QBrush(QColor(FirstMusic_Color)));
                 Pen.setColor(FirstMusic_Color);
             } else {
-                Painter.setBrush(QBrush(QColor(SecondMusic_Color)));
+                Painter->setBrush(QBrush(QColor(SecondMusic_Color)));
                 Pen.setColor(SecondMusic_Color);
             }
             Pen.setWidth(0);
-            Painter.setPen(Pen);
-            Table[0]=QPointF(-1,Height-PHeight+2);
-            Table[1]=QPointF(34,Height+2);
-            Table[2]=QPointF(-1,Height+2);
-            Painter.drawPolygon(Table,3);
+            Painter->setPen(Pen);
+            Table[0]=QPointF(-1,ThumbHeight-5-PHeight+2);
+            Table[1]=QPointF(34,ThumbHeight-5+2);
+            Table[2]=QPointF(-1,ThumbHeight-5+2);
+            Painter->drawPolygon(Table,3);
         }
 
         // Draw separated line
-        Height=double(GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2);
         Pen.setWidth(1);
         Pen.setStyle(Qt::DotLine);
         Pen.setColor(DotLine_Color);
-        Painter.setPen(Pen);
-        Painter.drawLine(QPointF(TransitionSize+1,this->height()-TIMELINESOUNDHEIGHT*2),QPointF(TransitionSize+1,Height-2));
-        Painter.drawLine(QPointF(this->width()-2, this->height()-TIMELINESOUNDHEIGHT*2),QPointF(this->width()-2,Height-2));
-    }
+        Painter->setPen(Pen);
+        Painter->drawLine(QPointF(TransitionSize+1,3*ThumbHeight/4),QPointF(TransitionSize+1,ThumbHeight-1));
+        Painter->drawLine(QPointF(ThumbWidth-1,    3*ThumbHeight/4),QPointF(ThumbWidth-1,    ThumbHeight-1));
 
-    // --------------------------
+        //==========================================================================================================================
+        // Draw current box (if needed)
+        //==========================================================================================================================
+        if (ItemIndex==ParentTable->Diaporama->CurrentCol) {
+            Pen.setColor(WidgetSelection_Color);
+            Pen.setStyle(Qt::SolidLine);
+            Pen.setWidth(10);
+            Painter->setPen(Pen);
+            Painter->setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
+            //Painter->setOpacity(0.5);
+            Painter->drawRect(0,0,ThumbWidth,ThumbHeight);
+            //Painter->setOpacity(1);
+        }
 
-    Painter.restore();
+        //==========================================================================================================================
+        // Draw Drag & Drop inserting point (if needed)
+        //==========================================================================================================================
+        bool    DrawDragBefore=false;
+        bool    DrawDragAfter =false;
+        bool    DrawMusicPart =false;
 
-    // Draw selected box (if needed)
-    if (Col==GlobalMainWindow->Diaporama->CurrentCol) {
-        Painter.save();
-        Pen.setColor(WidgetSelection_Color);
-        Pen.setStyle(Qt::SolidLine);
-        Pen.setWidth(10);
-        Painter.setPen(Pen);
-        Painter.setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
-        Painter.setOpacity(0.5);
-        Painter.drawRect(0,0,this->width(),Height);
-        Painter.setOpacity(1);
-        Painter.restore();
+        if (ParentTable->IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE) {             //  Drag source is timeline
+            if ((ItemIndex!=ParentTable->DragItemSource)&&(ItemIndex!=ParentTable->DragItemSource+1)) {
+                if (ItemIndex==ParentTable->DragItemDest)                                                           DrawDragBefore=true;
+                if ((ItemIndex==ParentTable->DragItemDest-1)&&(ItemIndex==ParentTable->Diaporama->List.count()-1))  DrawDragAfter =true;
+            }
+
+        } else if (ParentTable->IsDragOn==DRAGMODE_EXTERNALADD_SLIDE) {      //  Drag source is external to timeline
+            if (ItemIndex==ParentTable->DragItemDest)                                                               DrawDragBefore=true;
+            if ((ItemIndex==ParentTable->DragItemDest-1)&&(ItemIndex==ParentTable->Diaporama->List.count()-1))      DrawDragAfter =true;
+
+        } else if (ParentTable->IsDragOn==DRAGMODE_EXTERNALADD_MUSIC) {      //  Drag source is music only and external to timeline
+            if (ItemIndex==ParentTable->DragItemDest)                                                               DrawMusicPart=true;
+        }
+
+        if (DrawDragBefore || DrawDragAfter || DrawMusicPart) {
+            Pen.setColor(WidgetDrag_Color);
+            Pen.setStyle(Qt::SolidLine);
+            Pen.setWidth(6);
+            Painter->setPen(Pen);
+            Painter->setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
+            Painter->setOpacity(0.5);
+            if (DrawDragBefore) {
+                // Before slide
+                Painter->drawLine(3,3*(ThumbHeight/8),3,ThumbHeight-3*(ThumbHeight/8));
+                Painter->drawLine(3,ThumbHeight/2,32,3*(ThumbHeight/8));
+                Painter->drawLine(3,ThumbHeight/2,32,ThumbHeight-3*(ThumbHeight/8));
+                Painter->drawLine(3,ThumbHeight/2,64,ThumbHeight/2);
+            } else if (DrawDragAfter) {
+                // After slide
+                Painter->drawLine(ThumbWidth-3,3*(ThumbHeight/8),ThumbWidth-3,ThumbHeight-3*(ThumbHeight/8));
+                Painter->drawLine(ThumbWidth-3,ThumbHeight/2,ThumbWidth-3-32,3*(ThumbHeight/8));
+                Painter->drawLine(ThumbWidth-3,ThumbHeight/2,ThumbWidth-3-32,ThumbHeight-3*(ThumbHeight/8));
+                Painter->drawLine(ThumbWidth-3,ThumbHeight/2,ThumbWidth-3-64,ThumbHeight/2);
+            } else if (DrawMusicPart) {
+                // Music part
+                Painter->drawRect(3,ThumbHeight-ThumbHeight/4+3,ThumbWidth-3,ThumbHeight/4-6);
+            }
+            Painter->setOpacity(1);
+        }
+
+        //==========================================================================================================================
+        // Draw selection
+        //==========================================================================================================================
+        if (option.state & QStyle::State_Selected) {
+            Painter->setPen(QPen(Qt::NoPen));
+            Painter->setBrush(QBrush(Qt::blue));
+            Painter->setOpacity(0.25);
+            Painter->drawRect(0,0,ThumbWidth,ThumbHeight);
+            Painter->setOpacity(1);
+        }
     }
-    // Draw Drag & Drop inserting point (if needed)
-    if (((GlobalMainWindow->IsDragOn==1)&&(Col!=GlobalMainWindow->DragItemSource)&&((Col!=GlobalMainWindow->DragItemSource+1)||(GlobalMainWindow->DragItemSource!=GlobalMainWindow->Diaporama->List.count()-1))&&(Col<GlobalMainWindow->Diaporama->List.count())&&(
-         (Col==GlobalMainWindow->DragItemDest)||((Col==GlobalMainWindow->Diaporama->List.count()-1)&&(GlobalMainWindow->DragItemDest>=GlobalMainWindow->Diaporama->List.count()))))||
-         ((GlobalMainWindow->IsDragOn==2)&&((Col==GlobalMainWindow->DragItemDest)||((Col+1==GlobalMainWindow->DragItemDest)&&(Col=GlobalMainWindow->Diaporama->List.count()-1)))))
-        {
-        Painter.save();
-        Pen.setColor(WidgetDrag_Color);
-        Pen.setStyle(Qt::SolidLine);
-        Pen.setWidth(10);
-        Painter.setPen(Pen);
-        Painter.setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
-        Painter.setOpacity(0.5);
-        if ((Col==GlobalMainWindow->Diaporama->List.count()-1)&&(GlobalMainWindow->DragItemDest>=GlobalMainWindow->Diaporama->List.count()))
-            Painter.drawRect(width(),0,width(),Height); else Painter.drawRect(0,0,0,Height);
-        Painter.setOpacity(1);
-        Painter.restore();
-    }
+    Painter->restore();
     QApplication::restoreOverrideCursor();
-}
-
-//===========================================================================================================================
-
-void wgt_QCustomThumbnails::DrawThumbnailsBox(int Xa,int Ya,int Width,int Height,QPainter &Painter,QImage *Icon) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QCustomThumbnails::DrawThumbnailsBox");
-    QPen Pen;
-    Pen.setWidth(1);
-    Pen.setColor(Qt::darkGray);
-    Painter.setPen(Pen);
-    Painter.setBrush(Qt::NoBrush);
-    Painter.drawRect(Xa-1,Ya-1,Width+4-1,Height+4-1);
-    Pen.setColor(Qt::white);
-    Painter.setPen(Pen);
-    Painter.drawRect(Xa-1,Ya-1,Width+2-1,Height+2-1);
-    Pen.setColor(Qt::black);
-    Painter.setPen(Pen);
-    Painter.drawRect(Xa-2,Ya-2,Width+4-1,Height+4-1);
-
-    // -------------------------- if Transition Icon
-    if (Icon) {
-        Painter.drawImage(QRect(Xa,Ya,32,32),*Icon);
-        delete Icon;
-    }
 }
 
 //********************************************************************************************************************
@@ -580,12 +583,22 @@ void wgt_QCustomThumbnails::DrawThumbnailsBox(int Xa,int Ya,int Width,int Height
 
 cCustomSlideTable::cCustomSlideTable(QWidget *parent):QTableWidget(parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::cCustomSlideTable");
-    PartitionMode=false;
+
+    Diaporama        =NULL;             // Link to current diaporama
+    ApplicationConfig=NULL;             // Link to current application config
+    PartitionMode    =false;            // True if multiple line
+    DragItemSource   =-1;
+    DragItemDest     =-1;
+    IsDragOn         =DRAGMODE_NOACTION;
+
+    setItemDelegate(new QCustomThumbItemDelegate(this));
+
     horizontalHeader()->setResizeMode(QHeaderView::Fixed);
     verticalHeader()->setResizeMode(QHeaderView::Fixed);
     setSelectionBehavior(QAbstractItemView::SelectItems);
-    setSelectionMode(QAbstractItemView::SingleSelection);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
 
+    setDragDropMode(QAbstractItemView::DragDrop);
     setDragDropOverwriteMode(false);
     setAcceptDrops(true);
     setDropIndicatorShown(true);
@@ -595,18 +608,87 @@ cCustomSlideTable::cCustomSlideTable(QWidget *parent):QTableWidget(parent) {
 
 void cCustomSlideTable::dragEnterEvent(QDragEnterEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dragEnterEvent");
-    GlobalMainWindow->IsDragOn=2;
-    GlobalMainWindow->DragItemSource=-1;
-    GlobalMainWindow->DragItemDest  =-1;
-    setCursor(Qt::ClosedHandCursor);
-    event->acceptProposedAction();
+
+    // Construct file list
+    QList<QUrl> urlList;
+    QString     fName;
+    QFileInfo   info;
+    QStringList FileList;
+
+    if (event->mimeData()->hasUrls()) {
+        urlList = event->mimeData()->urls();                                // returns list of QUrls
+        for (int i=0;i<urlList.count();i++) {
+            fName = urlList[i].toLocalFile();                               // convert first QUrl to local path
+            info.setFile(fName);                                            // information about file
+            if (info.isFile()) FileList.append(fName);                      // append file
+        }
+        // Now, parse all files to find music files (and put them in MusicFileList)
+        QStringList MusicFileList;
+        int i=0;
+        while (i<FileList.count()) {
+            if (ApplicationConfig->AllowMusicExtension.contains(QFileInfo(FileList.at(i)).suffix().toLower())) {
+                // check if file contains video track
+                cVideoFile  *MediaFile=new cVideoFile(OBJECTTYPE_VIDEOFILE,ApplicationConfig);
+                if (((MediaFile)&&(MediaFile->GetInformationFromFile(QFileInfo(FileList.at(i)).absoluteFilePath(),NULL,NULL)))&&
+                     (MediaFile->OpenCodecAndFile())&&(MediaFile->VideoStreamNumber<0)&&(MediaFile->AudioStreamNumber>=0)) {
+                    MusicFileList.append(FileList.at(i));
+                    FileList.removeAt(i);
+                } else i++;
+            } else i++;
+        }
+        if ((MusicFileList.count()>0)&&(FileList.count()==0)&&(Diaporama->List.count()>0)) {
+            // Drag & drop with Music only
+            IsDragOn      =DRAGMODE_EXTERNALADD_MUSIC;
+            DragItemSource=-1;
+            DragItemDest  =-1;
+            setCursor(Qt::ClosedHandCursor);
+            event->acceptProposedAction();
+        } else if ((MusicFileList.count()==0)&&(FileList.count()>0)) {
+            // Drag & drop with no music file(s)
+            IsDragOn      =DRAGMODE_EXTERNALADD_SLIDE;
+            DragItemSource=-1;
+            DragItemDest  =-1;
+            setCursor(Qt::ClosedHandCursor);
+            event->acceptProposedAction();
+        } else {
+            // Reject action
+            DragItemSource   =-1;
+            DragItemDest     =-1;
+            IsDragOn         =DRAGMODE_NOACTION;
+        }
+    } else {
+        // Reject action
+        DragItemSource   =-1;
+        DragItemDest     =-1;
+        IsDragOn         =DRAGMODE_NOACTION;
+    }
+}
+
+//====================================================================================================================
+
+void cCustomSlideTable::dragLeaveEvent(QDragLeaveEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dragLeaveEvent");
+    if (IsDragOn==DRAGMODE_EXTERNALADD_SLIDE) {
+        // Clear previous selected slide
+        int NbrX=columnCount();
+        if ((NbrX>0)&&(DragItemDest>=0)) {
+            int ToUse   =DragItemDest;
+            DragItemDest=-1;
+            if (ToUse<Diaporama->List.count())  update(model()->index(ToUse/NbrX,ToUse-(ToUse/NbrX)*NbrX));
+                else                            update(model()->index((ToUse-1)/NbrX,(ToUse-1)-((ToUse-1)/NbrX)*NbrX));
+        }
+        IsDragOn=DRAGMODE_NOACTION;
+    }
+    event->accept();
+    setCursor(Qt::ArrowCursor);
 }
 
 //====================================================================================================================
 
 void cCustomSlideTable::dropEvent(QDropEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dropEvent");
-    GlobalMainWindow->IsDragOn=0;
+
+    IsDragOn=DRAGMODE_NOACTION;
 
     QList<QUrl> urlList;
     QString     fName;
@@ -628,163 +710,194 @@ void cCustomSlideTable::dropEvent(QDropEvent *event) {
 
 void cCustomSlideTable::dragMoveEvent(QDragMoveEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dragMoveEvent");
-    int ThumbWidth  =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
-    int ThumbHeight =GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
-    int NbrX        =width()/ThumbWidth;
-    int NbrY        =height()/ThumbHeight;  if (NbrY>rowCount()) NbrY=rowCount();
-    int ToUse       =GlobalMainWindow->DragItemDest; if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
-    int row         =PartitionMode?ToUse/NbrX:0;
-    int col         =PartitionMode?ToUse-(ToUse/NbrX)*NbrX:ToUse;
 
-    // Get item number under mouse
-    int newrow=(event->pos().y()+verticalOffset())/ThumbHeight;
-    int newcol=(event->pos().x()+horizontalOffset())/ThumbWidth;
-    int Selected=(PartitionMode?newrow*NbrX+newcol:newcol);
-    if (Selected>GlobalMainWindow->Diaporama->List.count()) Selected=GlobalMainWindow->Diaporama->List.count();
-    if (Selected<0) Selected=0;
+    if ((IsDragOn==DRAGMODE_EXTERNALADD_SLIDE)||(IsDragOn==DRAGMODE_EXTERNALADD_MUSIC)) {
 
-    if (Selected!=GlobalMainWindow->DragItemDest) {
-        GlobalMainWindow->DragItemDest=-1;
-        wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-        if (ItemToPaint) ItemToPaint->repaint();
+        int ThumbWidth  =columnWidth(0);
+        int ThumbHeight =rowHeight(0);
+        int NbrX        =columnCount();
 
-        GlobalMainWindow->DragItemDest=Selected;
-        int ToUse=GlobalMainWindow->DragItemDest;
-        if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
-        row=PartitionMode?ToUse/NbrX:0;
-        col=PartitionMode?ToUse-(ToUse/NbrX)*NbrX:ToUse;
-        ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-        if (ItemToPaint) ItemToPaint->repaint();
+        // Get item number under mouse
+        int newrow=ThumbHeight>0?(event->pos().y()+verticalOffset())/ThumbHeight:0;
+        int newcol=ThumbWidth>0?(event->pos().x()+horizontalOffset())/ThumbWidth:0;
+        int Selected=newrow*NbrX+newcol;
+
+        // Adjust selected
+        if (IsDragOn==DRAGMODE_EXTERNALADD_SLIDE) {
+            if (Selected>Diaporama->List.count()) Selected=Diaporama->List.count();
+            else if ((Selected==Diaporama->List.count()-1)&&(event->pos().x()>0)&&(event->pos().x()<width())) {
+                int NewX=event->pos().x()-(event->pos().x()/ThumbWidth)*ThumbWidth;
+                if (NewX>=3*ThumbWidth/4) Selected=Diaporama->List.count();
+            }
+        } else if (IsDragOn==DRAGMODE_EXTERNALADD_MUSIC) {
+            if (Selected>=Diaporama->List.count()) Selected=Diaporama->List.count()-1;
+        }
+        if (Selected<0) Selected=0;
+
+        if (Selected!=DragItemDest) {
+
+            // Clear previous selected slide
+            if ((NbrX>0)&&(DragItemDest>=0)) {
+                int ToUse   =DragItemDest;
+                DragItemDest=-1;
+                if (ToUse<Diaporama->List.count())  update(model()->index(ToUse/NbrX,ToUse-(ToUse/NbrX)*NbrX));
+                    else                            update(model()->index((ToUse-1)/NbrX,(ToUse-1)-((ToUse-1)/NbrX)*NbrX));
+            }
+
+            // Display new selected slide
+            DragItemDest=Selected;
+            if ((NbrX>0)&&(Selected>=0)) {
+                if (Selected<Diaporama->List.count())   update(model()->index(Selected/NbrX,Selected-(Selected/NbrX)*NbrX));
+                    else                                update(model()->index((Selected-1)/NbrX,(Selected-1)-((Selected-1)/NbrX)*NbrX));
+            }
+        }
+        event->acceptProposedAction();
+        setCursor(Qt::ClosedHandCursor);
     }
-    event->acceptProposedAction();
-    setCursor(Qt::ClosedHandCursor);
+}
+
+//====================================================================================================================
+
+void cCustomSlideTable::mouseMoveEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::mouseMoveEvent");
+
+    if (IsDragOn!=DRAGMODE_INTERNALMOVE_SLIDE) {
+        setCursor(Qt::ArrowCursor);
+        QTableWidget::mouseMoveEvent(event);
+    } else {
+        if      ((!PartitionMode)&&(event->pos().x()<0)&&(horizontalScrollBar()->value()>0))                                        horizontalScrollBar()->setValue(horizontalScrollBar()->value()-1);  // Try to scroll left if not partition mode
+        else if ((!PartitionMode)&&(event->pos().x()>width())&&(horizontalScrollBar()->value()<horizontalScrollBar()->maximum()))   horizontalScrollBar()->setValue(horizontalScrollBar()->value()+1);  // Try to scroll right if not partition mode
+        else if (( PartitionMode)&&(event->pos().y()<0)&&(verticalScrollBar()->value()>0))                                          verticalScrollBar()->setValue(verticalScrollBar()->value()-1);      // Try to scroll up if partition mode
+        else if (( PartitionMode)&&(event->pos().y()>height())&&(verticalScrollBar()->value()<verticalScrollBar()->maximum()))      verticalScrollBar()->setValue(verticalScrollBar()->value()+1);      // Try to scroll down if partition mode
+
+        int ThumbWidth  =columnWidth(0);
+        int ThumbHeight =rowHeight(0);
+        int NbrX        =columnCount();
+
+        int newrow=ThumbHeight>0?(event->pos().y()+verticalOffset())/ThumbHeight:0;
+        int newcol=ThumbWidth>0?(event->pos().x()+horizontalOffset())/ThumbWidth:0;
+        int Selected=newrow*NbrX+newcol;
+        if (Selected>Diaporama->List.count()) Selected=Diaporama->List.count();
+        if (Selected<0) Selected=0;
+
+        if (Selected!=DragItemDest) {
+
+            // Clear previous selected slide
+            if ((NbrX>0)&&(DragItemDest>=0)) {
+                int ToUse   =DragItemDest;
+                DragItemDest=-1;
+                if (ToUse<Diaporama->List.count())  update(model()->index(ToUse/NbrX,ToUse-(ToUse/NbrX)*NbrX));
+                    else                            update(model()->index((ToUse-1)/NbrX,(ToUse-1)-((ToUse-1)/NbrX)*NbrX));
+            }
+
+            // Display new selected slide
+            DragItemDest=Selected;
+            if ((NbrX>0)&&(Selected>=0)) {
+                if (Selected<Diaporama->List.count())   update(model()->index(Selected/NbrX,Selected-(Selected/NbrX)*NbrX));
+                    else                                update(model()->index((Selected-1)/NbrX,(Selected-1)-((Selected-1)/NbrX)*NbrX));
+            }
+        }
+        if ((DragItemDest!=-1)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
+            (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0))) {
+            if ((DragItemDest!=Diaporama->CurrentCol)&&(DragItemDest!=Diaporama->CurrentCol+1)) setCursor(Qt::ClosedHandCursor);
+                else setCursor(Qt::ForbiddenCursor);
+        } else setCursor(Qt::ForbiddenCursor);
+    }
 }
 
 //====================================================================================================================
 
 void cCustomSlideTable::mousePressEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::mousePressEvent");
-    QTableWidget::mousePressEvent(event);
-    if (GlobalMainWindow->IsDragOn==1) return;
-    setCursor(Qt::ArrowCursor);
-    GlobalMainWindow->IsDragOn=0;
 
-    // Get item number under mouse
-    int ThumbWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
-    int ThumbHeight=GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
-    int row=(event->pos().y()+verticalOffset())/ThumbHeight;
-    int col=(event->pos().x()+horizontalOffset())/ThumbWidth;
-    int NbrX       =width()/ThumbWidth;
+    if (event->button()!=Qt::LeftButton) {
+        QTableWidget::mousePressEvent(event);
+    } else {
+        if ((Diaporama->List.count()==0)||(IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE)) return;
+        setCursor(Qt::ArrowCursor);
 
-    int Selected=(PartitionMode?row*NbrX+col:col);
+        // Get item number under mouse
+        int ThumbWidth  =columnWidth(0);
+        int ThumbHeight =rowHeight(0);
 
-    if ((Selected>=0)&&(Selected<NbrItem())) {
-        // if item is correct, check if it was previously selected. Then if not select it
-        if (Selected!=CurrentSelected()) SetCurrentCell(Selected); else {
+        int row         =(event->pos().y()+verticalOffset())/ThumbHeight;
+        int col         =(event->pos().x()+horizontalOffset())/ThumbWidth;
+        int Current     =currentRow()*columnCount()+currentColumn();
+        int Selected    =row*columnCount()+col;
+
+        if (event->modifiers()==Qt::ShiftModifier) {
+            // Shift : Add all items from current to item
+            if (Current<Selected) for (int i=Current+1;i<=Selected;i++) selectionModel()->select(model()->index(i/columnCount(),i-(i/columnCount())*columnCount(),QModelIndex()),QItemSelectionModel::Select);
+                else              for (int i=Current-1;i>=Selected;i--) selectionModel()->select(model()->index(i/columnCount(),i-(i/columnCount())*columnCount(),QModelIndex()),QItemSelectionModel::Select);
+        } else if (event->modifiers()==Qt::ControlModifier) {
+            // Control : toggle selection for item (if is not current item)
+            if (Selected!=Diaporama->CurrentCol) selectionModel()->select(model()->index(row,col,QModelIndex()),QItemSelectionModel::Toggle);
+        } else {
+            // Other : clear selection, then add item to selection
+            selectionModel()->clear();
+            setCurrentCell(row,col,QItemSelectionModel::Select|QItemSelectionModel::Current);
+        }
+
+        IsDragOn=DRAGMODE_NOACTION;
+        DragItemSource=row*columnCount()+col;
+
+        if ((Selected>=0)&&(Selected<Diaporama->List.count())) {
             // if it was previously selected then start a drag & drop operation
-            GlobalMainWindow->IsDragOn=1;
-            GlobalMainWindow->DragItemSource=Selected;
-            GlobalMainWindow->DragItemDest  =Selected;
-            wgt_QCustomThumbnails *Previous=(wgt_QCustomThumbnails *)cellWidget(row,col); if (Previous) Previous->repaint();
+            IsDragOn=DRAGMODE_INTERNALMOVE_SLIDE;
+            DragItemSource=Selected;
+            DragItemDest  =Selected;
             setCursor(Qt::ClosedHandCursor);
         }
     }
 }
 
-void cCustomSlideTable::mouseMoveEvent(QMouseEvent *event) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::mouseMoveEvent");
-    if (GlobalMainWindow->IsDragOn!=1) {
-        QTableWidget::mouseMoveEvent(event);
-    } else {
-        int ThumbWidth  =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
-        int ThumbHeight =GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
-        int NbrX        =width()/ThumbWidth;
-        int NbrY        =height()/ThumbHeight;  if (NbrY>rowCount()) NbrY=rowCount();
-        int ToUse       =GlobalMainWindow->DragItemDest; if (GlobalMainWindow->DragItemDest==GlobalMainWindow->Diaporama->List.count()) ToUse--;
-        int row         =PartitionMode?ToUse/NbrX:0;
-        int col         =PartitionMode?ToUse-(ToUse/NbrX)*NbrX:ToUse;
-
-        if (event->pos().x()<0) {
-            if (GlobalMainWindow->DragItemDest!=-1) {
-                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-                GlobalMainWindow->DragItemDest=-1;
-                if (ItemToPaint) ItemToPaint->repaint();
-            }
-            setCursor(Qt::ForbiddenCursor);
-            // Try to scroll left if not partition mode
-            if ((!PartitionMode)&&(horizontalScrollBar()->value()>0)) horizontalScrollBar()->setValue(horizontalScrollBar()->value()-1);
-
-        } else if (event->pos().x()>=NbrX*ThumbWidth) {
-            if (GlobalMainWindow->DragItemDest!=-1) {
-                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-                GlobalMainWindow->DragItemDest=-1;
-                if (ItemToPaint) ItemToPaint->repaint();
-            }
-            setCursor(Qt::ForbiddenCursor);
-            // Try to scroll right if not partition mode
-            if ((!PartitionMode)&&(horizontalScrollBar()->value()<horizontalScrollBar()->maximum())) horizontalScrollBar()->setValue(horizontalScrollBar()->value()+1);
-
-        } else if (event->pos().y()<0) {
-            if (GlobalMainWindow->DragItemDest!=-1) {
-                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-                GlobalMainWindow->DragItemDest=-1;
-                if (ItemToPaint) ItemToPaint->repaint();
-                // Try to scroll up if partition mode
-                if ((PartitionMode)&&(verticalScrollBar()->value()>0)) verticalScrollBar()->setValue(verticalScrollBar()->value()-1);
-            }
-            setCursor(Qt::ForbiddenCursor);
-
-        } else if (event->pos().y()>=NbrY*ThumbHeight) {
-            if (GlobalMainWindow->DragItemDest!=-1) {
-                wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-                GlobalMainWindow->DragItemDest=-1;
-                if (ItemToPaint) ItemToPaint->repaint();
-            }
-            setCursor(Qt::ForbiddenCursor);
-            // Try to scroll down if partition mode
-            if ((PartitionMode)&&(verticalScrollBar()->value()<verticalScrollBar()->maximum())) verticalScrollBar()->setValue(verticalScrollBar()->value()+1);
-
-        } else {
-            // Get item number under mouse
-            int newrow  =(event->pos().y()+verticalOffset())/ThumbHeight;
-            int newcol  =(event->pos().x()+horizontalOffset())/ThumbWidth;
-            int Selected=(PartitionMode?newrow*NbrX+newcol:newcol);
-            if ((Selected>NbrItem())||(Selected==GlobalMainWindow->DragItemSource)||(Selected==GlobalMainWindow->DragItemSource+1)) {
-                if (GlobalMainWindow->DragItemDest!=-1) {
-                    wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-                    GlobalMainWindow->DragItemDest=-1;
-                    if (ItemToPaint) ItemToPaint->repaint();
-                }
-                setCursor(Qt::ForbiddenCursor);
-            } else {
-                setCursor(Qt::ClosedHandCursor);
-                if (Selected!=GlobalMainWindow->DragItemDest) {
-                    wgt_QCustomThumbnails *ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-                    GlobalMainWindow->DragItemDest=Selected;
-                    if (ItemToPaint) ItemToPaint->repaint();
-                    int ToUse=GlobalMainWindow->DragItemDest;
-                    if (GlobalMainWindow->DragItemDest>=GlobalMainWindow->Diaporama->List.count()) ToUse--;
-                    row=PartitionMode?ToUse/NbrX:0;
-                    col=PartitionMode?ToUse-(ToUse/NbrX)*NbrX:ToUse;
-                    ItemToPaint=(wgt_QCustomThumbnails *)cellWidget(row,col);
-                    if (ItemToPaint) ItemToPaint->repaint();
-                }
-            }
-        }
-    }
-}
+//====================================================================================================================
 
 void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::mouseReleaseEvent");
+
     setCursor(Qt::ArrowCursor);
     if (event->button()==Qt::RightButton) {
         emit RightClickEvent(event);
-    } else if (GlobalMainWindow->IsDragOn!=1) {
+    } else if (IsDragOn!=DRAGMODE_INTERNALMOVE_SLIDE) {
         QTableWidget::mouseReleaseEvent(event);
     } else {
         setCursor(Qt::ArrowCursor);
-        GlobalMainWindow->IsDragOn=false;
-        if (GlobalMainWindow->DragItemDest!=-1) emit DragMoveItem();
+        IsDragOn=DRAGMODE_NOACTION;
+        if ((DragItemDest!=-1)&&(event->pos().x()>=-columnWidth(0))&&(event->pos().x()<=width()+columnWidth(0))&&
+            (event->pos().y()>=0-(PartitionMode?rowHeight(0):0))&&(event->pos().y()<=height()+(PartitionMode?rowHeight(0):0)))
+            emit DragMoveItem(); else {setUpdatesEnabled(false); setUpdatesEnabled(true);}
+    }
+
+}
+
+//====================================================================================================================
+
+void cCustomSlideTable::mouseDoubleClickEvent(QMouseEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::mouseDoubleClickEvent");
+
+    int ThumbWidth =columnWidth(0);
+    int ThumbHeight=rowHeight(0);
+    int row=(event->pos().y()+verticalOffset())/ThumbHeight;
+    int col=(event->pos().x()+horizontalOffset())/ThumbWidth;
+    int NbrX       =width()/ThumbWidth;
+
+    int Selected=(PartitionMode?row*NbrX+col:col);
+    int x=event->pos().x()+horizontalOffset()-col*ThumbWidth;
+    int y=event->pos().y()+verticalOffset()-row*ThumbHeight;
+
+    if ((Selected>=0)&&(Selected<Diaporama->List.count())) {
+        if (x<=TransitionSize) {
+            // In transition column
+            if (y<ThumbHeight/4)                        ; //emit EditBackGTransition()
+            else if (y<ThumbHeight/4+TransitionSize)    emit EditTransition();
+            else if (y>=3*ThumbHeight/4)                emit EditSoundTrack();
+        } else {
+            // In object column
+            if (y<ThumbHeight/4)                        emit EditBackground();
+            else if (y<3*ThumbHeight/4)                 emit EditMediaObject();
+            else if (y>=3*ThumbHeight/4)                emit EditMusicTrack();
+        }
     }
 }
 
@@ -792,59 +905,77 @@ void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
 
 void cCustomSlideTable::AddObjectToTimeLine(int CurIndex) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::AddObjectToTimeLine");
-    int ThumbWidth =GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN;
-    int ThumbHeight=GlobalMainWindow->ApplicationConfig->TimelineHeight/2+GlobalMainWindow->ApplicationConfig->TimelineHeight+TIMELINESOUNDHEIGHT*2;
-    int NbrX       =viewport()->width()/ThumbWidth;
 
-    wgt_QCustomThumbnails *ObjectBackground=new wgt_QCustomThumbnails(this,THUMBNAILTYPE_OBJECT);
-    connect(ObjectBackground,SIGNAL(EditBackground()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnBackground()));
-    connect(ObjectBackground,SIGNAL(EditMediaObject()),     GlobalMainWindow,SLOT(s_Event_DoubleClickedOnObject()));
-    connect(ObjectBackground,SIGNAL(EditTransition()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnTransition()));
-    connect(ObjectBackground,SIGNAL(EditSoundTrack()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnVideoSound()));
-    connect(ObjectBackground,SIGNAL(EditMusicTrack()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnMusic()));
+    int ThumbWidth =Diaporama->GetWidthForHeight(ApplicationConfig->TimelineHeight/2-4)+36+5;
+    int ThumbHeight=ApplicationConfig->TimelineHeight;
+    int NbrX       =viewport()->width()/ThumbWidth;
+    int NbrY       =NbrX>0?Diaporama->List.count()/NbrX:0;
+
+    if (NbrX*NbrY<Diaporama->List.count()) NbrY++;
+
+    // Remove empty cell with unselecable item (if needed)
+    for (int Row=0;Row<rowCount();Row++) for (int Col=0;Col<columnCount();Col++) if (cellWidget(Row,Col)!=NULL) removeCellWidget(Row,Col);
 
     if (PartitionMode) {
         // Partition mode
-        CurIndex        =NbrItem();
-        int CurrentRow  =CurIndex/NbrX;
-        int CurrentCol  =CurIndex-CurrentRow*NbrX;
-        if (CurrentRow>=rowCount()) {
-            insertRow(CurrentRow);
-            setRowHeight(CurrentRow,ThumbHeight);
-            for (int i=0;i<columnCount();i++) setCellWidget(CurrentRow,i,new wgt_QCustomThumbnails(this,THUMBNAILTYPE_NULL));
-        }
-        if (CurrentCol>=columnCount()) {
-            insertColumn(CurrentCol);
-            setColumnWidth(CurrentCol,ThumbWidth);
-        }
-        setCellWidget(CurrentRow,CurrentCol,ObjectBackground);
-
+        setColumnCount(NbrX);   for (int Col=0;Col<columnCount();Col++) setColumnWidth(Col,ThumbWidth);
+        setRowCount(NbrY);      for (int Row=0;Row<rowCount();Row++)    setRowHeight(Row,ThumbHeight);
     } else {
-        // Preview mode
-        if (rowCount()==0) {
-            insertRow(0);
-            setRowHeight(0,ThumbHeight);
-        }
-        insertColumn(CurIndex);
-        setColumnWidth(CurIndex,ThumbWidth);
-        setCellWidget(0,CurIndex,ObjectBackground);
+        setRowCount(1);                             setRowHeight(0,ThumbHeight);
+        setColumnCount(Diaporama->List.count());    for (int i=0;i<columnCount();i++) setColumnWidth(i,ThumbWidth);
     }
 
-    if ((GlobalMainWindow->Diaporama->CurrentCol<0)||(GlobalMainWindow->Diaporama->CurrentCol==CurIndex)) GlobalMainWindow->Diaporama->CurrentCol=CurIndex;
+    // Adjust current sel
+    if ((Diaporama->CurrentCol<0)||(Diaporama->CurrentCol==CurIndex)) Diaporama->CurrentCol=CurIndex;
     GlobalMainWindow->AdjustRuller();
+}
+
+//====================================================================================================================
+
+void cCustomSlideTable::ResetDisplay(int Selected) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::ResetDisplay");
+    int ThumbWidth =Diaporama->GetWidthForHeight(ApplicationConfig->TimelineHeight/2-4)+36+5;
+    int ThumbHeight=ApplicationConfig->TimelineHeight;
+    int NbrX       =viewport()->width()/ThumbWidth;
+    int NbrY       =NbrX>0?Diaporama->List.count()/NbrX:0;
+
+    if (NbrX*NbrY<Diaporama->List.count()) NbrY++;
+
+    GlobalMainWindow->FLAGSTOPITEMSELECTION=true;
+    setUpdatesEnabled(false);
+
+    // Clear selection
+    selectionModel()->clear();
+
+    // Remove empty cell with unselecable item (if needed)
+    for (int Row=0;Row<rowCount();Row++) for (int Col=0;Col<columnCount();Col++) if (cellWidget(Row,Col)!=NULL) removeCellWidget(Row,Col);
+    // Set new col and row count
+    if (PartitionMode) {
+        // Partition mode
+        setColumnCount(NbrX);   for (int Col=0;Col<columnCount();Col++) setColumnWidth(Col,ThumbWidth);
+        setRowCount(NbrY);      for (int Row=0;Row<rowCount();Row++)    setRowHeight(Row,ThumbHeight);
+    } else {
+        setRowCount(1);                             setRowHeight(0,ThumbHeight);
+        setColumnCount(Diaporama->List.count());    for (int i=0;i<columnCount();i++) setColumnWidth(i,ThumbWidth);
+    }
+    GlobalMainWindow->FLAGSTOPITEMSELECTION=false;
+    if (Selected>=0) {
+        int row=columnCount()>0?Selected/columnCount():0;
+        int col=Selected-row*columnCount();
+        setCurrentCell(row,col,QItemSelectionModel::Select|QItemSelectionModel::Current);
+    }
+    setUpdatesEnabled(true);  // Reset timeline painting
 }
 
 //====================================================================================================================
 
 void cCustomSlideTable::SetTimelineHeight(bool NewPartitionMode) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::SetTimelineHeight");
+    PartitionMode=NewPartitionMode;
     int Selected=CurrentSelected();
-    if (!NewPartitionMode) {
+    if (!PartitionMode) {
         setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
-        int FixedHeight=15+                                                         // Horizontal slider and marges
-                        GlobalMainWindow->ApplicationConfig->TimelineHeight/2+      // Background
-                        GlobalMainWindow->ApplicationConfig->TimelineHeight+        // Montage
-                        TIMELINESOUNDHEIGHT*2+4;                                    // Music
+        int FixedHeight=15+ApplicationConfig->TimelineHeight; // Horizontal slider and marges
         setFixedHeight(FixedHeight);
         setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
@@ -853,58 +984,45 @@ void cCustomSlideTable::SetTimelineHeight(bool NewPartitionMode) {
         setMaximumHeight(QWIDGETSIZE_MAX);
         setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
         setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        updateGeometry();
     }
+    updateGeometry();
     QApplication::processEvents(); // Give time to Qt to redefine position of each control and timeline height !
-    PartitionMode=NewPartitionMode;
     ResetDisplay(Selected);
 }
 
 //====================================================================================================================
 
-void cCustomSlideTable::ResetDisplay(int Selected) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::ResetDisplay");
-    GlobalMainWindow->FLAGSTOPITEMSELECTION=true;
-    setUpdatesEnabled(false);
-    CleanAll();
-    for (int i=0;i<GlobalMainWindow->Diaporama->List.count();i++) AddObjectToTimeLine(i);
-    GlobalMainWindow->FLAGSTOPITEMSELECTION=false;
-    SetCurrentCell(Selected);
-    setUpdatesEnabled(true);  // Reset timeline painting
-}
-
-//====================================================================================================================
-
 int cCustomSlideTable::CurrentSelected() {
-    int NbrX=width()/(GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN);
-    int Selected=(PartitionMode?currentRow()*NbrX+currentColumn():currentColumn());
-    return Selected;
+    return currentRow()*columnCount()+currentColumn();
 }
 
-//====================================================================================================================
+bool cCustomSlideTable::IsMultipleSelection() {
+    QModelIndexList SelList=selectionModel()->selectedIndexes();
+    return (SelList.count()>1);
+}
 
-int cCustomSlideTable::NbrItem() {
-    if (PartitionMode) {
-        int NbrCol=width()/(GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN);
-        int NbrRow=rowCount();
-        if (NbrRow>0) {
-            NbrRow--;
-            int z=0;
-            while ((cellWidget(NbrRow,z)!=NULL)&&(((wgt_QCustomThumbnails *)cellWidget(NbrRow,z))->Type!=THUMBNAILTYPE_NULL)) z++;
-            return NbrRow*NbrCol+z;
-        } else return 0;
-    } else return columnCount();
+void cCustomSlideTable::CurrentSelectionList(QList<int> *List) {
+    QModelIndexList SelList=selectionModel()->selectedIndexes();
+    QList<bool>     IsSelected;
+    for (int i=0;i<rowCount()*columnCount();i++) IsSelected.append(false);
+    for (int i=0;i<SelList.count();i++) {
+        int Index=SelList.at(i).row()*columnCount()+SelList.at(i).column();
+        IsSelected[Index]=true;
+    }
+    List->clear();
+    for (int i=0;i<IsSelected.count();i++) if ((i<Diaporama->List.count())&&(IsSelected[i])) List->append(i);
 }
 
 //====================================================================================================================
 
 void cCustomSlideTable::SetCurrentCell(int Index) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::SetCurrentCell");
+    if (columnCount()==0) return;
     setUpdatesEnabled(false);
-    if (GlobalMainWindow->ApplicationConfig->PartitionMode) {
-        int NbrCol=width()/(GlobalMainWindow->Diaporama->GetWidthForHeight(GlobalMainWindow->ApplicationConfig->TimelineHeight-5)+32+ADJUSTXCOLUMN);
-        if (NbrCol) setCurrentCell(Index/NbrCol,Index-(Index/NbrCol)*NbrCol);
-     } else setCurrentCell(0,Index);
+    selectionModel()->clear();      // Clear selection
+    int row=Index/columnCount();
+    int col=Index-row*columnCount();
+    setCurrentCell(row,col,QItemSelectionModel::Select|QItemSelectionModel::Current);    
     setUpdatesEnabled(true);
 }
 
@@ -913,7 +1031,7 @@ void cCustomSlideTable::SetCurrentCell(int Index) {
 void cCustomSlideTable::CleanAll() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::CleanAll");
     setUpdatesEnabled(false);
-    for (int i=0;i<rowCount();i++) for (int j=0;j<columnCount();j++) if (cellWidget(i,j)!=NULL) removeCellWidget(i,j);
+    for (int Row=0;Row<rowCount();Row++) for (int Col=0;Col<columnCount();Col++) if (cellWidget(Row,Col)!=NULL) removeCellWidget(Row,Col);
     while (columnCount()>0) removeColumn(columnCount()-1);
     while (rowCount())      removeRow(rowCount()-1);
     setUpdatesEnabled(true);
