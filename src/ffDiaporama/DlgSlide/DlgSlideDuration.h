@@ -18,44 +18,36 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef QCUSTOMFILEINFOLABEL_H
-#define QCUSTOMFILEINFOLABEL_H
+#ifndef DLGSLIDEDURATION_H
+#define DLGSLIDEDURATION_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include "../../engine/_GlobalDefines.h"
+#include "../../engine/_QCustomDialog.h"
 
-// Include some additional standard class
-#include <QLabel>
-#include <QWidget>
-#include <QPaintEvent>
-#include <QString>
-#include <QIcon>
+namespace Ui {
+    class DlgSlideDuration;
+}
 
-#include "cBaseMediaFile.h"
-
-class QCustomFileInfoLabel : public QLabel {
+class DlgSlideDuration : public QCustomDialog {
 Q_OBJECT
 public:
-    int             DisplayMode;
-    QString         ShortName;
-    QString         Text[3][2];
-    QImage          *IconType;
-    QImage          *Icon16;
-    QImage          *Icon32;
-    QImage          *Icon48;
-    QImage          *Icon100;
+    qlonglong Duration;
 
-    explicit        QCustomFileInfoLabel(QWidget *parent = 0);
-    virtual void    paintEvent(QPaintEvent *event);
-    virtual void    mouseDoubleClickEvent(QMouseEvent *);
+    explicit DlgSlideDuration(qlonglong Duration,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    ~DlgSlideDuration();
 
-    virtual void    SetupFileInfoLabel(QList<cBaseMediaFile*> MediaList);
+    // function to be overloaded
+    virtual void    DoInitDialog();                             // Initialise dialog
+    virtual void    DoAccept();                                 // Call when user click on Ok button
+    virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
+    virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
+    virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
 
-signals:
-    void    DoubleClickEvent();
+private slots:
 
-public slots:
-
+private:
+    Ui::DlgSlideDuration *ui;
 };
 
-#endif // QCUSTOMFILEINFOLABEL_H
+#endif // DLGSLIDEDURATION_H

@@ -89,7 +89,9 @@ SOURCES +=  _ApplicationDefinitions.cpp \
     ../engine/QCustomFolderTable.cpp \
     ../engine/cDriveList.cpp \
     DlgManageFavorite/DlgManageFavorite.cpp \
-    DlgWorkingTask/DlgWorkingTask.cpp
+    DlgWorkingTask/DlgWorkingTask.cpp \
+    DlgTransition/DlgTransitionDuration.cpp \
+    DlgSlide/DlgSlideDuration.cpp
 
 HEADERS  += \
             _ImagesDefinitions.h \
@@ -140,7 +142,9 @@ HEADERS  += \
     ../engine/QCustomFolderTable.h \
     ../engine/cDriveList.h \
     DlgManageFavorite/DlgManageFavorite.h \
-    DlgWorkingTask/DlgWorkingTask.h
+    DlgWorkingTask/DlgWorkingTask.h \
+    DlgTransition/DlgTransitionDuration.h \
+    DlgSlide/DlgSlideDuration.h
 
 FORMS    += mainwindow.ui \
             wgt_QVideoPlayer.ui \
@@ -161,7 +165,9 @@ FORMS    += mainwindow.ui \
             DlgInfoFile/DlgInfoFile.ui \
             DlgffDPjrProperties/DlgffDPjrProperties.ui \ 
     DlgManageFavorite/DlgManageFavorite.ui \
-    DlgWorkingTask/DlgWorkingTask.ui
+    DlgWorkingTask/DlgWorkingTask.ui \
+    DlgTransition/DlgTransitionDuration.ui \
+    DlgSlide/DlgSlideDuration.ui
 
 
 # Installation on linux systems

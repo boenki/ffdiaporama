@@ -4210,6 +4210,111 @@ font-size: 11px;
     </font>
    </property>
   </action>
+  <action name="actionRemove_transition">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/Transitions/tr-00-00.png</normaloff>:/img/Transitions/tr-00-00.png</iconset>
+   </property>
+   <property name="text">
+    <string>Remove transition</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionSelect_a_transition">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/Transitions/tr-00-03.png</normaloff>:/img/Transitions/tr-00-03.png</iconset>
+   </property>
+   <property name="text">
+    <string>Select a transition</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionSet_transition_duration">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/TimelineShots.png</normaloff>:/img/TimelineShots.png</iconset>
+   </property>
+   <property name="text">
+    <string>Set transition duration</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionRandomize_transition">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/Transitions/tr-icon-error.png</normaloff>:/img/Transitions/tr-icon-error.png</iconset>
+   </property>
+   <property name="text">
+    <string>Randomize transition</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionSet_first_shot_duration">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/TimelineShots.png</normaloff>:/img/TimelineShots.png</iconset>
+   </property>
+   <property name="text">
+    <string>Set first shot duration</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionReset_background">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/fifteenpieces.png</normaloff>:/img/fifteenpieces.png</iconset>
+   </property>
+   <property name="text">
+    <string>Reset background to &quot;Same as previous&quot;</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionReset_musictrack">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
+   </property>
+   <property name="text">
+    <string>Reset music track to &quot;Same as previous&quot;</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
  </widget>
  <customwidgets>
   <customwidget>

@@ -159,6 +159,15 @@ private slots:
     void    s_Action_CopyToClipboard();
     void    s_Action_PasteFromClipboard();
 
+    // Actions contextual menu (on multiple selection)
+    void    s_ActionMultiple_SetFirstShotDuration();
+    void    s_ActionMultiple_ResetBackground();
+    void    s_ActionMultiple_ResetMusic();
+    void    s_ActionMultiple_RemoveTransition();
+    void    s_ActionMultiple_SelectTransition();
+    void    s_ActionMultiple_SetTransitionDuration();
+    void    s_ActionMultiple_Randomize();
+
     // Actions Render menu
     void    s_Action_RenderVideo();
     void    s_Action_RenderSmartphone();

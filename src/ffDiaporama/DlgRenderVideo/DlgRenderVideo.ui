@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>500</width>
-    <height>437</height>
+    <height>421</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -23,7 +23,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string notr="true">Render video</string>
+   <string>Render video</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -44,9 +44,9 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-250</y>
         <width>468</width>
-        <height>367</height>
+        <height>349</height>
        </rect>
       </property>
       <layout class="QGridLayout" name="gridLayout_2">
@@ -56,20 +56,67 @@
        <property name="spacing">
         <number>4</number>
        </property>
-       <item row="11" column="0">
-        <widget class="QLabel" name="ImageSizeLabel">
+       <item row="2" column="0">
+        <widget class="QLabel" name="FileFormatLabel">
          <property name="text">
-          <string>Image format :</string>
+          <string>File format :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="label">
+       <item row="13" column="0">
+        <widget class="QLabel" name="AudioFormatLabel">
          <property name="text">
-          <string>Destination file :</string>
+          <string>Audio codec :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="17" column="0" colspan="2">
+        <widget class="QLabel" name="RenderFormatText">
+         <property name="text">
+          <string notr="true"/>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="6" column="0">
+        <widget class="QLabel" name="DeviceModelLabel">
+         <property name="text">
+          <string>Device model :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QComboBox" name="DeviceTypeCB">
+         <property name="toolTip">
+          <string>Select the type of equipment.</string>
+         </property>
+        </widget>
+       </item>
+       <item row="12" column="0">
+        <widget class="QLabel" name="label_3">
+         <property name="text">
+          <string>Sound :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QLabel" name="DeviceTypeLabel">
+         <property name="text">
+          <string>Device type :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -106,289 +153,6 @@
           </widget>
          </item>
         </layout>
-       </item>
-       <item row="9" column="0">
-        <widget class="QLabel" name="StandardLabel">
-         <property name="text">
-          <string>Video standard :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="9" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_7">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <item>
-          <widget class="QComboBox" name="StandardCombo">
-           <property name="toolTip">
-            <string>Select the video standard to use, PAL or NTSC.</string>
-           </property>
-           <item>
-            <property name="text">
-             <string>PAL</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>NTSC</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="GeometryLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Geometry :</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="GeometryCombo">
-           <property name="currentIndex">
-            <number>0</number>
-           </property>
-           <item>
-            <property name="text">
-             <string>Old TV (4:3)</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>TV Wide (16:9)</string>
-            </property>
-           </item>
-           <item>
-            <property name="text">
-             <string>Cinema (2.35:1)</string>
-            </property>
-           </item>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="11" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <item>
-          <widget class="QComboBox" name="ImageSizeCombo">
-           <property name="toolTip">
-            <string>Select the image resolution to use for the rendering.</string>
-           </property>
-           <property name="currentIndex">
-            <number>-1</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="13" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_8">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <item>
-          <widget class="QComboBox" name="VideoFormatCB">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Select the video codec to use for the rendering.</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="VideoBitRateLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Bit rate :</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="VideoBitRateCB">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Select the bit rate to use for video during the rendering.</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="15" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_9">
-         <property name="spacing">
-          <number>2</number>
-         </property>
-         <item>
-          <widget class="QComboBox" name="AudioFormatCB">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>150</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Select the audio codec to use for the rendering.</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLabel" name="AudioBitRateLabel">
-           <property name="text">
-            <string>Bit rate :</string>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QComboBox" name="AudioBitRateCB">
-           <property name="minimumSize">
-            <size>
-             <width>80</width>
-             <height>0</height>
-            </size>
-           </property>
-           <property name="toolTip">
-            <string>Select the bit rate to use for audio during the rendering.</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="FileFormatLabel">
-         <property name="text">
-          <string>File format :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="2" column="1">
-        <widget class="QComboBox" name="FileFormatCB">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="toolTip">
-          <string>Select the file type to use for the rendering.</string>
-         </property>
-        </widget>
-       </item>
-       <item row="15" column="0">
-        <widget class="QLabel" name="AudioFormatLabel">
-         <property name="text">
-          <string>Audio codec :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="13" column="0">
-        <widget class="QLabel" name="VideoFormatLabel">
-         <property name="text">
-          <string>Video codec :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="1">
-        <widget class="QComboBox" name="DeviceModelCB">
-         <property name="toolTip">
-          <string>Select the model of equipment</string>
-         </property>
-        </widget>
-       </item>
-       <item row="6" column="0">
-        <widget class="QLabel" name="DeviceModelLabel">
-         <property name="text">
-          <string>Device model :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="DeviceTypeLabel">
-         <property name="text">
-          <string>Device type :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QComboBox" name="DeviceTypeCB">
-         <property name="toolTip">
-          <string>Select the type of equipment.</string>
-         </property>
-        </widget>
-       </item>
-       <item row="18" column="1">
-        <spacer name="verticalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Vertical</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>20</width>
-           <height>40</height>
-          </size>
-         </property>
-        </spacer>
        </item>
        <item row="7" column="1">
         <layout class="QGridLayout" name="gridLayout_4">
@@ -440,61 +204,210 @@
          </item>
         </layout>
        </item>
-       <item row="7" column="0">
-        <widget class="QLabel" name="label_2">
+       <item row="9" column="0">
+        <widget class="QLabel" name="StandardLabel">
          <property name="text">
-          <string>To render :</string>
-         </property>
-         <property name="alignment">
-          <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-         </property>
-        </widget>
-       </item>
-       <item row="14" column="0">
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>Sound :</string>
+          <string>Video standard :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="14" column="1">
-        <widget class="QCheckBox" name="IncludeSoundCB">
+       <item row="10" column="0">
+        <widget class="QLabel" name="ImageSizeLabel">
          <property name="text">
-          <string>Include sound in the video</string>
+          <string>Image format :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="17" column="0" colspan="2">
-        <widget class="QLabel" name="RenderFormatText">
+       <item row="14" column="0">
+        <widget class="QLabel" name="label_7">
          <property name="text">
-          <string notr="true"/>
+          <string>Language :</string>
          </property>
-         <property name="wordWrap">
-          <bool>true</bool>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
          </property>
         </widget>
        </item>
-       <item row="16" column="1">
-        <layout class="QHBoxLayout" name="horizontalLayout_10">
-         <property name="margin">
-          <number>0</number>
+       <item row="9" column="1" rowspan="6">
+        <layout class="QGridLayout" name="gridLayout_5">
+         <property name="spacing">
+          <number>2</number>
          </property>
-         <item>
-          <widget class="QLineEdit" name="LanguageED">
+         <item row="0" column="2" colspan="2">
+          <widget class="QComboBox" name="GeometryCombo">
+           <property name="currentIndex">
+            <number>0</number>
+           </property>
+           <item>
+            <property name="text">
+             <string>Old TV (4:3)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>TV Wide (16:9)</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Cinema (2.35:1)</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QLabel" name="VideoBitRateLabel">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Bit rate :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0" colspan="2">
+          <widget class="QComboBox" name="AudioFormatCB">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
            <property name="minimumSize">
             <size>
-             <width>50</width>
+             <width>150</width>
              <height>0</height>
             </size>
+           </property>
+           <property name="toolTip">
+            <string>Select the audio codec to use for the rendering.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLabel" name="GeometryLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Geometry :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="0">
+          <widget class="QComboBox" name="StandardCombo">
+           <property name="toolTip">
+            <string>Select the video standard to use, PAL or NTSC.</string>
+           </property>
+           <item>
+            <property name="text">
+             <string>PAL</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>NTSC</string>
+            </property>
+           </item>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QLabel" name="AudioBitRateLabel">
+           <property name="text">
+            <string>Bit rate :</string>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0" colspan="2">
+          <widget class="QComboBox" name="VideoFormatCB">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>150</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="toolTip">
+            <string>Select the video codec to use for the rendering.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="3">
+          <widget class="QComboBox" name="VideoBitRateCB">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>Select the bit rate to use for video during the rendering.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0" colspan="4">
+          <widget class="QComboBox" name="ImageSizeCombo">
+           <property name="toolTip">
+            <string>Select the image resolution to use for the rendering.</string>
+           </property>
+           <property name="currentIndex">
+            <number>-1</number>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="3">
+          <widget class="QComboBox" name="AudioBitRateCB">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>Select the bit rate to use for audio during the rendering.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0" colspan="4">
+          <widget class="QCheckBox" name="IncludeSoundCB">
+           <property name="text">
+            <string>Include sound in the video</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLineEdit" name="LanguageED">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
            </property>
            <property name="text">
             <string>und</string>
@@ -504,7 +417,7 @@
            </property>
           </widget>
          </item>
-         <item>
+         <item row="5" column="1" colspan="3">
           <widget class="QLabel" name="label_5">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -519,10 +432,63 @@
          </item>
         </layout>
        </item>
-       <item row="16" column="0">
-        <widget class="QLabel" name="label_7">
+       <item row="6" column="1">
+        <widget class="QComboBox" name="DeviceModelCB">
+         <property name="toolTip">
+          <string>Select the model of equipment</string>
+         </property>
+        </widget>
+       </item>
+       <item row="2" column="1">
+        <widget class="QComboBox" name="FileFormatCB">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="toolTip">
+          <string>Select the file type to use for the rendering.</string>
+         </property>
+        </widget>
+       </item>
+       <item row="18" column="1">
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>Language :</string>
+          <string>Destination file :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item row="7" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>To render :</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+         </property>
+        </widget>
+       </item>
+       <item row="11" column="0">
+        <widget class="QLabel" name="VideoFormatLabel">
+         <property name="text">
+          <string>Video codec :</string>
          </property>
          <property name="alignment">
           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -988,11 +954,6 @@
   <tabstop>DeviceModelCB</tabstop>
   <tabstop>StandardCombo</tabstop>
   <tabstop>GeometryCombo</tabstop>
-  <tabstop>ImageSizeCombo</tabstop>
-  <tabstop>VideoFormatCB</tabstop>
-  <tabstop>VideoBitRateCB</tabstop>
-  <tabstop>AudioFormatCB</tabstop>
-  <tabstop>AudioBitRateCB</tabstop>
   <tabstop>OkBt</tabstop>
   <tabstop>CancelBt</tabstop>
   <tabstop>HelpBT</tabstop>

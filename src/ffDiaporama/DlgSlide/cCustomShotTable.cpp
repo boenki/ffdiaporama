@@ -120,11 +120,12 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     // -------------------------- Draw shot duration
     QPen  Pen;
     QFont font= QApplication::font();
+    int   FontFactor=((ParentTable->DiaporamaObject->Parent->ApplicationConfig->TimelineHeight-TIMELINEMINHEIGH)/20)*10;
     Painter->setFont(font);
     #ifdef Q_OS_WIN
-    font.setPointSizeF(double(110)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+    font.setPointSizeF(double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
     #else
-    font.setPointSizeF(double(140)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+    font.setPointSizeF(double(140+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
     #endif
     Painter->setFont(font);
     Pen.setWidth(1);

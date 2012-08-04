@@ -752,7 +752,7 @@ information</string>
           </property>
           <widget class="QWidget" name="widget_2" native="true">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Expanding">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -767,7 +767,7 @@ information</string>
             <item>
              <widget class="cCustomBlockTable" name="BlockTable">
               <property name="sizePolicy">
-               <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+               <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
                 <horstretch>0</horstretch>
                 <verstretch>0</verstretch>
                </sizepolicy>
@@ -847,7 +847,7 @@ information</string>
           </widget>
           <widget class="QScrollArea" name="scrollArea">
            <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
              <horstretch>0</horstretch>
              <verstretch>0</verstretch>
             </sizepolicy>
@@ -883,7 +883,7 @@ information</string>
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>0</y>
+              <y>-508</y>
               <width>257</width>
               <height>720</height>
              </rect>
@@ -1349,7 +1349,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define rotation according to the Y axis (defined in degree).</string>
+                  <string>Define rotation according to the X axis (defined in degree).</string>
                  </property>
                  <property name="minimum">
                   <number>-180</number>
@@ -1377,7 +1377,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define rotation according to the Y axis (defined in degree).</string>
+                  <string>Define rotation according to the X axis (defined in degree).</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1454,7 +1454,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define rotation according to the X axis (defined in degree).</string>
+                  <string>Define rotation according to the Y axis (defined in degree).</string>
                  </property>
                  <property name="minimum">
                   <number>-180</number>
@@ -1482,7 +1482,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define rotation according to the X axis (defined in degree).</string>
+                  <string>Define rotation according to the Y axis (defined in degree).</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>

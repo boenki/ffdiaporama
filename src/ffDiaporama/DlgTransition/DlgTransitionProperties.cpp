@@ -46,7 +46,7 @@ public:
 
 //====================================================================================================================
 
-DlgTransitionProperties::DlgTransitionProperties(cDiaporamaObject *TheDiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+DlgTransitionProperties::DlgTransitionProperties(bool IsMultiple,cDiaporamaObject *TheDiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTransitionProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::DlgTransitionProperties");
     ui->setupUi(this);
@@ -54,6 +54,7 @@ DlgTransitionProperties::DlgTransitionProperties(cDiaporamaObject *TheDiaporamaO
     CancelBt        =ui->CancelBt;
     HelpBt          =ui->HelpBT;
     DiaporamaObject =TheDiaporamaObject;
+    this->IsMultiple=IsMultiple;
 }
 
 //====================================================================================================================
@@ -71,6 +72,8 @@ DlgTransitionProperties::~DlgTransitionProperties() {
 
 void DlgTransitionProperties::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::DoInitDialog");
+
+    if (IsMultiple) setWindowTitle(QApplication::translate("DlgTransitionProperties","Select a transition for a set of slide"));
 
     ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","None and basic"),  QVariant(TRANSITIONFAMILLY_BASE));
     ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Zoom"),            QVariant(TRANSITIONFAMILLY_ZOOMINOUT));
@@ -165,7 +168,7 @@ void DlgTransitionProperties::DoAccept() {
 
     DiaporamaObject->TransitionFamilly =ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
     DiaporamaObject->TransitionSubType =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
-    DiaporamaObject->TransitionDuration=int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
+    DiaporamaObject->TransitionDuration=qlonglong(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
 }
 
 //====================================================================================================================

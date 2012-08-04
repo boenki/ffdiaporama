@@ -47,9 +47,11 @@
 #include "DlgRenderVideo/DlgRenderVideo.h"
 #include "DlgAbout/DlgAbout.h"
 #include "DlgTransition/DlgTransitionProperties.h"
+#include "DlgTransition/DlgTransitionDuration.h"
 #include "DlgMusic/DlgMusicProperties.h"
 #include "DlgBackground/DlgBackgroundProperties.h"
 #include "DlgSlide/DlgSlideProperties.h"
+#include "DlgSlide/DlgSlideDuration.h"
 #include "DlgAppSettings/DlgApplicationSettings.h"
 #include "DlgManageFavorite/DlgManageFavorite.h"
 
@@ -69,7 +71,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     IsFirstInitDone         =false;        // true when first show window was done
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
     InPlayerUpdate          =false;
-    DriveList               =new cDriveList(ApplicationConfig);
+    DriveList               =NULL;
     DlgWorkingTaskDialog    =NULL;
     setAcceptDrops(true);
     ApplicationConfig->ParentWindow=this;
@@ -148,6 +150,9 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
         file.close();
     }
 
+    // Because now we have local installed, then we can translate drive name
+    DriveList=new cDriveList(ApplicationConfig);
+
     // Because now we have local installed, then we can translate collection style name
     ApplicationConfig->StyleTextCollection.DoTranslateCollection();
     ApplicationConfig->StyleTextBackgroundCollection.DoTranslateCollection();
@@ -178,6 +183,13 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->actionBrowserAddFiles->setIconVisibleInMenu(true);
     ui->actionBrowserAddProject->setIconVisibleInMenu(true);
     ui->actionBrowserRenameFile->setIconVisibleInMenu(true);
+    ui->actionSet_first_shot_duration->setIconVisibleInMenu(true);
+    ui->actionReset_background->setIconVisibleInMenu(true);
+    ui->actionReset_musictrack->setIconVisibleInMenu(true);
+    ui->actionRemove_transition->setIconVisibleInMenu(true);
+    ui->actionSelect_a_transition->setIconVisibleInMenu(true);
+    ui->actionSet_transition_duration->setIconVisibleInMenu(true);
+    ui->actionRandomize_transition->setIconVisibleInMenu(true);
 
     // Initialise integrated browser
     ui->FolderTree->ApplicationConfig =ApplicationConfig;
@@ -252,6 +264,14 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->actionEdit_object,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnObject()));
     connect(ui->actionEdit_object_in_transition,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnTransition()));
     connect(ui->actionEdit_music,SIGNAL(triggered()),this,SLOT(s_Event_DoubleClickedOnMusic()));
+
+    connect(ui->actionSet_first_shot_duration,SIGNAL(triggered()),this,SLOT(s_ActionMultiple_SetFirstShotDuration()));
+    connect(ui->actionReset_background,SIGNAL(triggered()),this,SLOT(s_ActionMultiple_ResetBackground()));
+    connect(ui->actionReset_musictrack,SIGNAL(triggered()),this,SLOT(s_ActionMultiple_ResetMusic()));
+    connect(ui->actionRemove_transition,SIGNAL(triggered()),this,SLOT(s_ActionMultiple_RemoveTransition()));
+    connect(ui->actionSelect_a_transition,SIGNAL(triggered()),this,SLOT(s_ActionMultiple_SelectTransition()));
+    connect(ui->actionSet_transition_duration,SIGNAL(triggered()),this,SLOT(s_ActionMultiple_SetTransitionDuration()));
+    connect(ui->actionRandomize_transition,SIGNAL(triggered()),this,SLOT(s_ActionMultiple_Randomize()));
 
     // Render menu
     connect(ui->ActionRender_BT,SIGNAL(released()),this,SLOT(s_Action_RenderVideo()));                          connect(ui->ActionRender_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderVideo()));
@@ -600,8 +620,8 @@ void MainWindow::RefreshControls() {
     ui->ActionRemove_BT->setEnabled(Diaporama->List.count()>0);
     ui->ActionRemove_BT_2->setEnabled(Diaporama->List.count()>0);
     ui->actionRemove->setEnabled(Diaporama->List.count()>0);
-    ui->ActionEdit_BT->setEnabled(!IsMultipleSelection && (Diaporama->List.count()>0));
-    ui->ActionEdit_BT_2->setEnabled(!IsMultipleSelection && (Diaporama->List.count()>0));
+    ui->ActionEdit_BT->setEnabled(Diaporama->List.count()>0);
+    ui->ActionEdit_BT_2->setEnabled(Diaporama->List.count()>0);
     ui->ZoomMinusBT->setEnabled((Diaporama->List.count()>0)&&(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH));
     ui->ZoomPlusBT->setEnabled((Diaporama->List.count()>0)&&(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH));
 
@@ -884,7 +904,7 @@ void MainWindow::s_Event_DoubleClickedOnTransition() {
         return;
     }
 
-    DlgTransitionProperties Dlg(Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgTransitionProperties,ApplicationConfig,ApplicationConfig->DlgTransitionPropertiesWSP,this);
+    DlgTransitionProperties Dlg(false,Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgTransitionProperties,ApplicationConfig,ApplicationConfig->DlgTransitionPropertiesWSP,this);
     Dlg.InitDialog();
     int Ret=Dlg.exec();
     if (Ret==0) {
@@ -2185,7 +2205,7 @@ void MainWindow::s_Event_SaveImageEvent() {
 //====================================================================================================================
 
 void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_EditObject");
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_ContextualMenu");
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -2226,6 +2246,15 @@ void MainWindow::s_Event_ContextualMenu(QMouseEvent *) {
         ContextMenu->addAction(ui->actionCopy);
         ContextMenu->addAction(ui->actionPaste);
         ContextMenu->addSeparator();
+        ContextMenu->addAction(ui->actionSet_first_shot_duration);
+        ContextMenu->addAction(ui->actionReset_background);
+        ContextMenu->addAction(ui->actionReset_musictrack);
+        ContextMenu->addSeparator();
+        ContextMenu->addAction(ui->actionRemove_transition);
+        ContextMenu->addAction(ui->actionSelect_a_transition);
+        ContextMenu->addAction(ui->actionSet_transition_duration);
+        ContextMenu->addAction(ui->actionRandomize_transition);
+        ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionRemove);
     }
     ContextMenu->exec(QCursor::pos());
@@ -2243,12 +2272,30 @@ void MainWindow::s_Action_EditObject() {
         return;
     }
 
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
+
     QMenu *ContextMenu=new QMenu(this);
-    ContextMenu->addAction(ui->actionEdit_background);
-    ContextMenu->addAction(ui->actionEdit_object);
-    ContextMenu->addAction(ui->actionEdit_music);
-    ContextMenu->addAction(ui->actionEdit_object_in_transition);
-    //ContextMenu->addAction(ui->actionEdit_background_transition);
+    if (SlideList.count()==1) {
+        // Single slide selection
+        ContextMenu->addAction(ui->actionEdit_background);
+        ContextMenu->addAction(ui->actionEdit_object);
+        ContextMenu->addAction(ui->actionEdit_music);
+        ContextMenu->addAction(ui->actionEdit_object_in_transition);
+    } else if (SlideList.count()>1) {
+        // Multiple slide selection
+        ContextMenu->addAction(ui->actionSet_first_shot_duration);
+        ContextMenu->addAction(ui->actionReset_background);
+        ContextMenu->addAction(ui->actionReset_musictrack);
+        ContextMenu->addSeparator();
+        ContextMenu->addAction(ui->actionRemove_transition);
+        ContextMenu->addAction(ui->actionSelect_a_transition);
+        ContextMenu->addAction(ui->actionSet_transition_duration);
+        ContextMenu->addAction(ui->actionRandomize_transition);
+    }
     ContextMenu->exec(QCursor::pos());
     delete ContextMenu;
     ui->ActionEdit_BT->setDown(false);
@@ -3220,6 +3267,174 @@ void MainWindow::s_Browser_UseAsPlaylist() {
         for (int i=0;i<MediaList.count();i++) MusicFileList.append(QFileInfo(MediaList[i]->FileName).absoluteFilePath());
         s_Action_DoUseAsPlayList(MusicFileList,Diaporama->CurrentCol);
     }
+}
+
+//====================================================================================================================
+// Actions contextual menu (on multiple selection)
+//====================================================================================================================
+
+void MainWindow::s_ActionMultiple_SetFirstShotDuration() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_SetFirstShotDuration");
+
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
+
+    DlgSlideDuration Dlg(Diaporama->List[Diaporama->CurrentCol]->List[0]->StaticDuration,HELPFILE_DlgSlideDuration,ApplicationConfig,ApplicationConfig->DlgSlideDurationWSP,this);
+    Dlg.InitDialog();
+    int Ret=Dlg.exec();
+    if (Ret==0) {
+        qlonglong Duration=Dlg.Duration;
+        for (int i=0;i<SlideList.count();i++) {
+            Diaporama->List[SlideList[i]]->List[0]->StaticDuration=Duration;
+        }
+        SetModifyFlag(true);
+        (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+        AdjustRuller();
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_ActionMultiple_ResetBackground() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_ResetBackground");
+
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
+
+    for (int i=0;i<SlideList.count();i++) {
+        Diaporama->List[SlideList[i]]->BackgroundType=false; // Background type : false=same as precedent - true=new background definition
+    }
+
+    SetModifyFlag(true);
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+    AdjustRuller();
+}
+
+//====================================================================================================================
+
+void MainWindow::s_ActionMultiple_ResetMusic() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_ResetMusic");
+
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
+
+    for (int i=0;i<SlideList.count();i++) {
+        Diaporama->List[SlideList[i]]->MusicType        = false;                        // Music type : false=same as precedent - true=new playlist definition
+        Diaporama->List[SlideList[i]]->MusicPause       = false;                        // true if music is pause during this object
+        Diaporama->List[SlideList[i]]->MusicReduceVolume= false;                        // true if volume if reduce by MusicReduceFactor
+        while (Diaporama->List[SlideList[i]]->MusicList.count()) Diaporama->List[SlideList[i]]->MusicList.removeAt(0);
+    }
+
+    SetModifyFlag(true);
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+    AdjustRuller();
+}
+
+//====================================================================================================================
+
+void MainWindow::s_ActionMultiple_RemoveTransition() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_RemoveTransition");
+
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
+
+    for (int i=0;i<SlideList.count();i++) {
+        Diaporama->List[SlideList[i]]->TransitionFamilly=0;
+        Diaporama->List[SlideList[i]]->TransitionSubType=0;
+    }
+
+    SetModifyFlag(true);
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+    AdjustRuller();
+}
+
+//====================================================================================================================
+
+void MainWindow::s_ActionMultiple_SelectTransition() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_SelectTransition");
+
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
+
+    DlgTransitionProperties Dlg(true,Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgTransitionProperties,ApplicationConfig,ApplicationConfig->DlgTransitionPropertiesWSP,this);
+    Dlg.InitDialog();
+    int Ret=Dlg.exec();
+    if (Ret==0) {
+        int         Familly =Diaporama->List[Diaporama->CurrentCol]->TransitionFamilly;
+        int         SubType =Diaporama->List[Diaporama->CurrentCol]->TransitionSubType;
+        qlonglong   Duration=Diaporama->List[Diaporama->CurrentCol]->TransitionDuration;
+        for (int i=0;i<SlideList.count();i++) {
+            Diaporama->List[SlideList[i]]->TransitionFamilly    =Familly;
+            Diaporama->List[SlideList[i]]->TransitionSubType    =SubType;
+            Diaporama->List[SlideList[i]]->TransitionDuration   =Duration;
+        }
+        SetModifyFlag(true);
+        (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+        AdjustRuller();
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_ActionMultiple_SetTransitionDuration() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_SetTransitionDuration");
+
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
+
+    DlgTransitionDuration Dlg(Diaporama->List[Diaporama->CurrentCol]->TransitionDuration,HELPFILE_DlgTransitionDuration,ApplicationConfig,ApplicationConfig->DlgTransitionDurationWSP,this);
+    Dlg.InitDialog();
+    int Ret=Dlg.exec();
+    if (Ret==0) {
+        qlonglong Duration=Dlg.Duration;
+        for (int i=0;i<SlideList.count();i++) {
+            Diaporama->List[SlideList[i]]->TransitionDuration=Duration;
+        }
+        SetModifyFlag(true);
+        (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+        AdjustRuller();
+    }
+}
+
+//====================================================================================================================
+
+void MainWindow::s_ActionMultiple_Randomize() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_ActionMultiple_Randomize");
+
+    int         Current=ui->timeline->CurrentSelected();
+    QList<int>  SlideList;
+    if ((Current<0)||(Current>=Diaporama->List.count())) return;
+    ui->timeline->CurrentSelectionList(&SlideList);
+
+    qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
+    for (int i=0;i<SlideList.count();i++) {
+        int Random=qrand();
+        Random=int(double(IconList.List.count())*(double(Random)/double(RAND_MAX)));
+        if (Random<IconList.List.count()) {
+            Diaporama->List[SlideList[i]]->TransitionFamilly=IconList.List[Random].TransitionFamilly;
+            Diaporama->List[SlideList[i]]->TransitionSubType=IconList.List[Random].TransitionSubType;
+        } else {
+            Diaporama->List[SlideList[i]]->TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
+            Diaporama->List[SlideList[i]]->TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
+        }
+        if (Diaporama->List[SlideList[i]]->TransitionDuration==0) Diaporama->List[SlideList[i]]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
+    }
+
+    SetModifyFlag(true);
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
+    AdjustRuller();
 }
 
 //====================================================================================================================

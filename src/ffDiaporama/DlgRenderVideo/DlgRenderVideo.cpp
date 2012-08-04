@@ -104,8 +104,8 @@ void DlgRenderVideo::DoInitDialog() {
         ui->DeviceModelCB->setVisible(false);
         ui->DeviceModelLabel->setVisible(false);
         ui->RenderFormatText->setVisible(false);
-        ui->VideoFormatCB->view()->setFixedWidth(400);
-        ui->AudioFormatCB->view()->setFixedWidth(400);
+        //ui->VideoFormatCB->view()->setFixedWidth(400);
+        //ui->AudioFormatCB->view()->setFixedWidth(400);
 
         // Init format container combo
         for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
@@ -996,6 +996,8 @@ void DlgRenderVideo::DoAccept() {
         ui->OkBt->setEnabled(false);
         ui->ProjectPropertiesBt->setEnabled(false);
         ui->HelpBT->setEnabled(false);
+
+        ui->CancelBt->setToolTip(QApplication::translate("DlgRenderVideo","Stop rendering process and exit dialog box"));
 
         //**********************************************************************************************************************************
         // 1st step encoding : produce WAV file with sound
