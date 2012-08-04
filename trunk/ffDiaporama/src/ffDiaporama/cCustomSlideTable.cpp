@@ -53,9 +53,6 @@
 #define ICON_HAVEFILTER                     ":/img/Transform.png"                   // FileName of icon representing block with filter in the timeline
 #define ICON_PLAYERPAUSE                    ":/img/player_pause.png"                // FileName of pause icon
 
-// Composition parameters
-#define SCALINGTEXTFACTOR                   400
-
 //********************************************************************************************************
 // QCustomThumbItemDelegate
 //********************************************************************************************************
@@ -324,12 +321,13 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         }
 
         // Draw transition duration, slide duration and slide name
+        int FontFactor=((ParentTable->ApplicationConfig->TimelineHeight-TIMELINEMINHEIGH)/20)*10;
         QFont font= QApplication::font();
         Painter->setFont(font);
         #ifdef Q_OS_WIN
-        font.setPointSizeF(double(110)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        font.setPointSizeF(double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
         #else
-        font.setPointSizeF(double(140)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        font.setPointSizeF(double(140+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
         #endif
         Painter->setFont(font);
 
@@ -975,10 +973,9 @@ void cCustomSlideTable::SetTimelineHeight(bool NewPartitionMode) {
     int Selected=CurrentSelected();
     if (!PartitionMode) {
         setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Fixed);
-        int FixedHeight=15+ApplicationConfig->TimelineHeight; // Horizontal slider and marges
-        setFixedHeight(FixedHeight);
         setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+        setFixedHeight(ApplicationConfig->TimelineHeight+(height()-viewport()->height()));
     } else {
         setSizePolicy(QSizePolicy::Expanding,QSizePolicy::Expanding);
         setMaximumHeight(QWIDGETSIZE_MAX);

@@ -18,54 +18,36 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef DLGTRANSITIONPROPERTIES_H
-#define DLGTRANSITIONPROPERTIES_H
+#ifndef DLGTRANSITIONDURATION_H
+#define DLGTRANSITIONDURATION_H
 
 // Basic inclusions (common to all files)
 #include "../../engine/_GlobalDefines.h"
 #include "../../engine/_QCustomDialog.h"
 
-// Specific inclusions
-#include "../_Diaporama.h"
-
 namespace Ui {
-    class DlgTransitionProperties;
+    class DlgTransitionDuration;
 }
 
-class DlgTransitionProperties : public QCustomDialog {
+class DlgTransitionDuration : public QCustomDialog {
 Q_OBJECT
 public:
-    cDiaporamaObject        *DiaporamaObject;
-    QTimer                  Timer;
-    int                     MaxItem;
-    cDiaporamaObjectInfo    *PreviousFrame;
-    int                     W,H;
-    int                     TimePosition;
-    int                     AnimationTime;
-    bool                    IsMultiple;
-    // Previous values
-    int                     TransitionFamilly;
-    int                     TransitionSubType;
-    int                     TransitionDuration;
+    qlonglong Duration;
 
-    explicit DlgTransitionProperties(bool IsMultiple,cDiaporamaObject *TheDiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
-    ~DlgTransitionProperties();
+    explicit DlgTransitionDuration(qlonglong Duration,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    ~DlgTransitionDuration();
 
     // function to be overloaded
     virtual void    DoInitDialog();                             // Initialise dialog
     virtual void    DoAccept();                                 // Call when user click on Ok button
     virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
-    virtual void    PrepareGlobalUndo();                        // Initiale Undo
-    virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
+    virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
+    virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
 
 private slots:
-    void            s_ChTransitionTypeCB(int);
-    void            s_TimerEvent();
-    void            s_TableCellChanged(int,int,int,int);
-    void            s_ChTransitionDurationCB(int);
 
 private:
-    Ui::DlgTransitionProperties *ui;
+    Ui::DlgTransitionDuration *ui;
 };
 
-#endif // DLGTRANSITIONPROPERTIES_H
+#endif // DLGTRANSITIONDURATION_H

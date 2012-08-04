@@ -96,8 +96,6 @@ void DlgImageCorrection::DoInitDialog() {
         ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.SetImageGeometryFilter(ffDPrjGeometry,CurrentBrush->Video->ObjectGeometry);
     }
 
-    ui->LockGeometryCB->view()->setFixedWidth(300);
-
     ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_UNLOCKED),QApplication::translate("DlgImageCorrection","Unlock"));
     ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_LOCKED),  QApplication::translate("DlgImageCorrection","Lock to this geometry"));
     ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_PROJECT), QApplication::translate("DlgImageCorrection","Lock to project geometry"));

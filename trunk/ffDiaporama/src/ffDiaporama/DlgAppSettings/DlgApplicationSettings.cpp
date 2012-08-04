@@ -177,26 +177,18 @@ void DlgApplicationSettings::DoInitDialog() {
         CB_SL_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_FULL),    QApplication::translate("DlgApplicationSettings","Lock to project geometry-to full image"));
         CB_SL_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_WIDTH),   QApplication::translate("DlgApplicationSettings","Lock to project geometry-to width"));
         CB_SL_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_HEIGHT),  QApplication::translate("DlgApplicationSettings","Lock to project geometry-to height"));
-        CB_SL_CLIPARTST[i]->view()->setFixedWidth(500);
         CB_SL_CLIPARTST[i]->setCurrentIndex(ApplicationConfig->DefaultBlockSL_CLIPARTLOCK[i]);
 
         CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_GEOMETRY_IMAGE),  QApplication::translate("DlgApplicationSettings","Lock to image geometry"));
         CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_FULL),    QApplication::translate("DlgApplicationSettings","Lock to project geometry-to full image"));
         CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_WIDTH),   QApplication::translate("DlgApplicationSettings","Lock to project geometry-to width"));
         CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_HEIGHT),  QApplication::translate("DlgApplicationSettings","Lock to project geometry-to height"));
-        CB_BA_CLIPARTST[i]->view()->setFixedWidth(500);
         CB_BA_CLIPARTST[i]->setCurrentIndex(ApplicationConfig->DefaultBlockBA_CLIPARTLOCK[i]);
     }
 
     //********************************
     // RenderDefault part
     //********************************
-    ui->SmartphoneTypeCB->view()->setFixedWidth(400);
-    ui->MMSystemTypeCB->view()->setFixedWidth(400);
-    ui->ForTheWTypeCB->view()->setFixedWidth(400);
-    ui->SmartphoneModelCB->view()->setFixedWidth(400);
-    ui->MMSystemModelCB->view()->setFixedWidth(400);
-    ui->ForTheWModelCB->view()->setFixedWidth(400);
 
     // Init format container combo
     ui->DefaultNameProjectNameCB->setCurrentIndex(ApplicationConfig->DefaultNameProjectName);

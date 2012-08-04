@@ -6,21 +6,35 @@ TODO
 
 -Vider (ou ne pas charger) la liste des caractéristiques lors des chargements d'images
 -Supprimer la librairie de fond de la mémoire
-
--Bug dans la génération des MKV si chapitres
-
-Changement de la taille des thumb : prévenir !
--Bug de ligne parasite : à revoir
 -Incompréhension des utilisateurs sur les concepts de contraintes géométriques : à simplifier ou forcer
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Résolution de plein de petits problèmes d'affichage avec un text scaling > 2 et adapte la taille des polices utilisées pour dessinées les vignettes des diapositives, des plans et des blocs dépendantes de la taille des vignettes
+-Résolution du bug de ligne parasite apparaissant parfois sur les contours des images
 
 English version / Bug fix :
+-Fix of a lot of small display issues when using text scaling > 2 and adapt the size of fonts used to draw thumbnails for slides, shots and blocks dependent on the thumbnails size
+-Bug fix of parasite lines sometimes appearing on the outlines of the images
 
 French version / Nouvelles fonctionnalités :
+-Ajoute plusieurs fonctions pour intéragir avec une sélection multiple de diapositive
+    -Définir la durée du 1er plan
+    -Mettre l'arrière plan sur "Comme le précédent"
+    -Mettre la musique sur "Comme le précédent"
+    -Retirer les transitions
+    -Définir une transition
+    -Définir la durée des transitions
+    -Choisir aléatoirement des transitions
 
 English version / New features :
-
+-Add a new set of function when multiple slide selection
+    -Define first shot duration
+    -Reset background to "Same as previous"
+    -Reset music to "Same as previous"
+    -Remove transition
+    -Define transition
+    -Set transition duration
+    -Randomize transition

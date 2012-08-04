@@ -62,6 +62,10 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     if ((ParentTable->CompositionList==NULL)||(index.row()>=ParentTable->rowCount())||(index.column()>=ParentTable->columnCount())||(index.row()>=ParentTable->CompositionList->List.count())) return;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
+    // Display adjustement
+    int     FontFactor=((((cApplicationConfig *)ParentTable->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20)*10;
+    int     RowHeight =48+((((cApplicationConfig *)ParentTable->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20)*3;
+
     if (!ParentTable->CompositionList->List[index.row()]->IsVisible) Painter->setOpacity(0.5);
 
 
@@ -78,19 +82,20 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
                             NULL;
 
         if (RenderImage!=NULL) {
-            Icon=(RenderImage->width()>RenderImage->height())?RenderImage->scaledToWidth(48):RenderImage->scaledToHeight(48);
+            Icon=(RenderImage->width()>RenderImage->height())?RenderImage->scaledToWidth(RowHeight):RenderImage->scaledToHeight(RowHeight);
             delete RenderImage;
         }
 
     } else Icon=ParentTable->TextIcon.copy();
 
-    int         IconHeight  =48;
-    int         IconWidth   =48+16;
+    int         IconHeight  =RowHeight;
+    int         IconWidth   =RowHeight+16;
     int         addX        =(IconHeight-(!Icon.isNull()?Icon.width():0))/2;
     int         addY        =(IconHeight-(!Icon.isNull()?Icon.height():0))/2;
     QFont       font;
     QTextOption OptionText;
     QPen        Pen;
+
 
     if ((ParentTable->CurrentShotNbr>0)&&(ParentTable->CompositionList->List[index.row()]->SameAsPrevShot))
         Painter->fillRect(QRect(option.rect.x(),option.rect.y(),option.rect.width(),option.rect.height()),QColor(Qt::lightGray));
@@ -99,19 +104,19 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     if (!Icon.isNull()) Painter->drawImage(QRectF(option.rect.x()+1+addX,option.rect.y()+1+addY,Icon.width(),Icon.height()),Icon);
 
     // Visible or not visible
-    Painter->drawImage(QRectF(option.rect.x()+1+48,option.rect.y()+1+32,16,16),QImage(ParentTable->CompositionList->List[index.row()]->IsVisible?ICON_VISIBLE_OK:ICON_VISIBLE_KO));
+    Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1+2*(RowHeight/3),16,16),QImage(ParentTable->CompositionList->List[index.row()]->IsVisible?ICON_VISIBLE_OK:ICON_VISIBLE_KO));
 
     // With same as previous shot ?
-    if (ParentTable->CurrentShotNbr>0) Painter->drawImage(QRectF(option.rect.x()+1+48,option.rect.y()+1,16,16),QImage(ParentTable->CompositionList->List[index.row()]->SameAsPrevShot?ICON_HAVELOCK:ICON_HAVENOLOCK));
+    if (ParentTable->CurrentShotNbr>0) Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1,16,16),QImage(ParentTable->CompositionList->List[index.row()]->SameAsPrevShot?ICON_HAVELOCK:ICON_HAVENOLOCK));
 
     // With sound ?
     if (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)
-        Painter->drawImage(QRectF(option.rect.x()+1+48,option.rect.y()+1+16,16,16),QImage((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->SoundVolume!=0)?ICON_SOUND_OK:ICON_SOUND_KO));
+        Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1+RowHeight/3,16,16),QImage((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->SoundVolume!=0)?ICON_SOUND_OK:ICON_SOUND_KO));
 
     // With filter ?
     if (((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image!=NULL)&&(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image->BrushFileTransform.HaveFilter()))||
        ((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)&&(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->BrushFileTransform.HaveFilter())))
-        Painter->drawImage(QRectF(option.rect.x()+1,option.rect.y()+24,24,24),QImage(ICON_HAVEFILTER));
+        Painter->drawImage(QRectF(option.rect.x()+1,option.rect.y()+RowHeight/2,24,24),QImage(ICON_HAVEFILTER));
 
     // Setup default brush
     Painter->setBrush(Qt::NoBrush);
@@ -139,9 +144,9 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
         font=QFont("Sans serif",9,QFont::Bold,QFont::StyleNormal);          // First line use bold
         Painter->setFont(font);
         #ifdef Q_OS_WIN
-        font.setPointSizeF(double(110)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        font.setPointSizeF(double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
         #else
-        font.setPointSizeF(double(120)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        font.setPointSizeF(double(120+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
         #endif
         Painter->setFont(font);
 
@@ -154,24 +159,24 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
         font.setUnderline(false);
         Painter->setFont(font);
         #ifdef Q_OS_WIN
-        font.setPointSizeF(double(100)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        font.setPointSizeF(double(100+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
         #else
-        font.setPointSizeF(double(100)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        font.setPointSizeF(double(100+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
         #endif
         Painter->setFont(font);
-        Painter->drawText(QRectF(option.rect.x()+IconWidth+2+2,option.rect.y()+1+(14+2),option.rect.width()-IconWidth-3-2,14),SummaryText[1],OptionText);
+        Painter->drawText(QRectF(option.rect.x()+IconWidth+2+2,option.rect.y()+1+(RowHeight/3),option.rect.width()-IconWidth-3-2,14),SummaryText[1],OptionText);
 
         // Third line
-        Painter->drawText(QRectF(option.rect.x()+IconWidth+2+2,option.rect.y()+1+(14+2)*2,option.rect.width()-IconWidth-3-2,14),SummaryText[2],OptionText);
+        Painter->drawText(QRectF(option.rect.x()+IconWidth+2+2,option.rect.y()+1+(RowHeight/3)*2,option.rect.width()-IconWidth-3-2,14),SummaryText[2],OptionText);
 
     } else {
         font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);
         font.setUnderline(false);
         Painter->setFont(font);
         #ifdef Q_OS_WIN
-        font.setPointSizeF(double(100)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        font.setPointSizeF(double(100+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
         #else
-        font.setPointSizeF(double(100)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        font.setPointSizeF(double(100+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
         #endif
         Painter->setFont(font);
         OptionText=QTextOption(Qt::AlignLeft|Qt::AlignVCenter);                     // Setup alignement

@@ -417,7 +417,7 @@ void cStyleCollection::FillCollectionCB(QComboBox *CB,QString ActualStyleName,bo
             if (CB->currentIndex()!=-1) CB->setCurrentIndex(-1);
         }
     }
-    if (CB->view()->width()!=500)  CB->view()->setFixedWidth(500);
+    if (CB->view()->width()<500)  CB->view()->setFixedWidth(500);
     if (!CB->updatesEnabled()) CB->setUpdatesEnabled(true);
 }
 

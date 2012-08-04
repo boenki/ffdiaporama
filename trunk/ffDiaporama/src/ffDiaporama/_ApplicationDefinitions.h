@@ -55,12 +55,14 @@
 #define HELPFILE_DEVICES                    "http://ffdiaporama.tuxfamily.org/?page_id=6309&lang=<local>"
 #define HELPFILE_DlgTextEdit                "http://ffdiaporama.tuxfamily.org/?page_id=6331&lang=<local>"
 #define HELPFILE_DlgSlideProperties         "http://ffdiaporama.tuxfamily.org/?page_id=6317&lang=<local>"
+#define HELPFILE_DlgSlideDuration           ""
 #define HELPFILE_DlgBackgroundProperties    "http://ffdiaporama.tuxfamily.org/?page_id=6323&lang=<local>"
 #define HELPFILE_DlgImageCorrection         "http://ffdiaporama.tuxfamily.org/?page_id=6321&lang=<local>"
 #define HELPFILE_DlgManageStyle             "http://ffdiaporama.tuxfamily.org/?page_id=6333&lang=<local>"
 #define HELPFILE_DlgMusicProperties         "http://ffdiaporama.tuxfamily.org/?page_id=6325&lang=<local>"
 #define HELPFILE_DlgRenderVideo             "http://ffdiaporama.tuxfamily.org/?page_id=6337&lang=<local>"
 #define HELPFILE_DlgTransitionProperties    "http://ffdiaporama.tuxfamily.org/?page_id=6327&lang=<local>"
+#define HELPFILE_DlgTransitionDuration      ""
 #define HELPFILE_DlgVideoEdit               "http://ffdiaporama.tuxfamily.org/?page_id=6329&lang=<local>"
 #define HELPFILE_DlgCheckConfig             "http://ffdiaporama.tuxfamily.org/?page_id=6315&lang=<local>"
 #define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=6313&lang=<local>"
@@ -229,7 +231,9 @@ public:
     cSaveWindowPosition     *DlgApplicationSettingsWSP;                 // Dialog box "Application settings" - Window size and position
     cSaveWindowPosition     *DlgRenderVideoWSP;                         // Dialog box "Render Video" - Window size and position
     cSaveWindowPosition     *DlgTransitionPropertiesWSP;                // Dialog box "Transition properties" - Window size and position
+    cSaveWindowPosition     *DlgTransitionDurationWSP;                  // Dialog box "Transition duration" - Window size and position
     cSaveDlgSlideProperties *DlgSlidePropertiesWSP;                     // Dialog box "Slide properties" - Window size and position
+    cSaveDlgSlideProperties *DlgSlideDurationWSP;                       // Dialog box "Slide duration" - Window size and position
     cSaveWindowPosition     *DlgImageTransformationWSP;                 // Dialog box "Image Transformation" - Window size and position
     cSaveWindowPosition     *DlgImageCorrectionWSP;                     // Dialog box "Image Correction" - Window size and position
     cSaveWindowPosition     *DlgVideoEditWSP;                           // Dialog box "Edit video" - Window size and position

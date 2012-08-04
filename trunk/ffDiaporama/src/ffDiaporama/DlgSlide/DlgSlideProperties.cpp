@@ -130,6 +130,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QString
     CurrentSlide                        =DiaporamaObject;
     ui->ShotTable->DiaporamaObject      =DiaporamaObject;
     ui->InteractiveZone->DiaporamaObject=DiaporamaObject;
+    ui->BlockTable->ApplicationConfig   =DiaporamaObject->Parent->ApplicationConfig;
     ui->InteractiveZone->BlockTable     =ui->BlockTable;
     ui->InteractiveZone->MagneticRuler  =CurrentSlide->Parent->ApplicationConfig->SlideRuler;
 }
@@ -184,8 +185,8 @@ void DlgSlideProperties::DoInitDialog() {
     // Init combo box Background form
     for (int i=0;i<12;i++) ui->BackgroundFormCB->addItem("");
     MakeFormIcon(ui->BackgroundFormCB);
-    ui->FramingStyleCB->view()->setFixedWidth(400);
-    ui->ShadowEffectCB->view()->setFixedWidth(400);
+    if (ui->FramingStyleCB->view()->width()<500)  ui->FramingStyleCB->view()->setFixedWidth(500);
+    if (ui->ShadowEffectCB->view()->width()<500)  ui->ShadowEffectCB->view()->setFixedWidth(500);
 
     // Init combo box Background shadow form
     ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","None"));
@@ -387,6 +388,7 @@ void DlgSlideProperties::DoInitDialog() {
 void DlgSlideProperties::resizeEvent(QResizeEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::resizeEvent");
 
+    ui->ShotTable->setFixedHeight(((cApplicationConfig *)BaseApplicationConfig)->TimelineHeight/2+(ui->ShotTable->height()-ui->ShotTable->viewport()->height()));
     ui->InteractiveZone->RefreshDisplay();
 }
 
@@ -1363,7 +1365,7 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
 
     ui->BlockTable->setUpdatesEnabled(false);
     ui->BlockTable->setRowCount(CompositionList->List.count());
-    for (int i=0;i<ui->BlockTable->rowCount();i++) ui->BlockTable->setRowHeight(i,50);
+    for (int i=0;i<ui->BlockTable->rowCount();i++) ui->BlockTable->setRowHeight(i,48+2+((((cApplicationConfig *)CurrentSlide->Parent->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20)*3);
     ui->BlockTable->setUpdatesEnabled(true);
     if (ui->BlockTable->currentRow()!=SetCurrentIndex) {
         ui->BlockTable->clearSelection();

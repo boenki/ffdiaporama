@@ -79,10 +79,6 @@
         <translation>Impostazioni applicazione</translation>
     </message>
     <message>
-        <source>Project options (default values)</source>
-        <translation>Opzioni progetto (valori predefiniti)</translation>
-    </message>
-    <message>
         <source>Project geometry:</source>
         <translation>Geometrica progetto:</translation>
     </message>
@@ -123,10 +119,6 @@
         <translation>Opzioni applicazione</translation>
     </message>
     <message>
-        <source>Preview options</source>
-        <translation>Opzioni anteprima</translation>
-    </message>
-    <message>
         <source>Frame rate :</source>
         <translation>Frequenza fotogrammi :</translation>
     </message>
@@ -149,10 +141,6 @@
     <message>
         <source>Apply to video during preview</source>
         <translation>Applica al video durante l&apos;anteprima</translation>
-    </message>
-    <message>
-        <source>Editor options (when adding objects)</source>
-        <translation>Modifica opzioni (quando aggiungi oggetti)</translation>
     </message>
     <message>
         <source>Object position :</source>
@@ -187,10 +175,6 @@
 Chosen randomly a transition in the library</source>
         <translation>Definisce la transizione da inserire tra le diapositive durante l&apos;inserimento:
 Sceglie casualmente una transizione nella libreria</translation>
-    </message>
-    <message>
-        <source>TransitionButtons</source>
-        <translation>BottoneTransizione</translation>
     </message>
     <message>
         <source>Defined the transition to be inserted between slides during the insertions:
@@ -341,20 +325,12 @@ Transizione dissolvenza incrociata</translation>
         <translation>Transizione predefinita:</translation>
     </message>
     <message>
-        <source>Default options for new text block</source>
-        <translation>Opzioni predefinite per nuovi blocchi testo</translation>
-    </message>
-    <message>
         <source>Text</source>
         <translation>Testo</translation>
     </message>
     <message>
         <source>Background</source>
         <translation>Sfondo</translation>
-    </message>
-    <message>
-        <source>Default options for new image or video block (when adding block in slide dialog)</source>
-        <translation>Opzioni predefinite per nuovo blocco immagine o video (quando si aggiunge il blocco nella finestra diapositiva)</translation>
     </message>
     <message>
         <source>For 4:3 project:</source>
@@ -716,6 +692,26 @@ Vedere la guida per maggiori dettagli!</translation>
         <source>Lossless :</source>
         <translation>Senza perdite :</translation>
     </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Preview options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Editor options (when adding objects)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for new text block&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for new image or video block (when adding block in slide dialog)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Project options (default values)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgBackgroundProperties</name>
@@ -926,10 +922,6 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>Definisce la posizione verticale dall&apos;alto dell&apos;immagine (Y).</translation>
     </message>
     <message>
-        <source>Properties for all shots</source>
-        <translation>Propietà per tutti gli scatti</translation>
-    </message>
-    <message>
         <source>Define automatically the framing to the width of the image.</source>
         <translation>Definisce automaticamente l&apos;inquadratura alla larghezza dell&apos;immagine.</translation>
     </message>
@@ -1010,10 +1002,6 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>Fotogrammi:</translation>
     </message>
     <message>
-        <source>Image correction :</source>
-        <translation>Correzione immagine :</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
@@ -1092,6 +1080,14 @@ Vedere la guida per maggiori dettagli!</translation>
     <message>
         <source>Select another file</source>
         <translation>Seleziona un&apos;altro file</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Properties for all shots&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Image correction :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2107,6 +2103,10 @@ Vuoi sovrascriverlo?</translation>
         <source>Edit project properties</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Stop rendering process and exit dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgRulerDef</name>
@@ -2165,6 +2165,53 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>F1</source>
         <translation>F1</translation>
+    </message>
+</context>
+<context>
+    <name>DlgSlideDuration</name>
+    <message>
+        <source>Set first shot duration for a set of slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>First shot duration :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Indicate the duration for the current selected shot.</source>
+        <translation type="unfinished">Indicare la durata della diapositiva correntemente selezionata.</translation>
+    </message>
+    <message>
+        <source>HH:mm:ss.zzz</source>
+        <translation type="unfinished">HH:mm:ss.zzz</translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">Annulla (&amp;C)</translation>
+    </message>
+    <message>
+        <source>Open help page describing this dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>F1</source>
+        <translation type="unfinished">F1</translation>
     </message>
 </context>
 <context>
@@ -3013,6 +3060,53 @@ blocco</translation>
     </message>
 </context>
 <context>
+    <name>DlgTransitionDuration</name>
+    <message>
+        <source>Select transition duration for a set of slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration :</source>
+        <translation type="unfinished">Durata :</translation>
+    </message>
+    <message>
+        <source>Define the animation duration</source>
+        <translation type="unfinished">Definisce la durata dell&apos;animazione</translation>
+    </message>
+    <message>
+        <source>seconde(s)</source>
+        <translation type="unfinished">secondi</translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">Annulla (&amp;C)</translation>
+    </message>
+    <message>
+        <source>Open help page describing this dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>F1</source>
+        <translation type="unfinished">F1</translation>
+    </message>
+</context>
+<context>
     <name>DlgTransitionProperties</name>
     <message>
         <source>Transition properties</source>
@@ -3109,6 +3203,10 @@ blocco</translation>
     <message>
         <source>F1</source>
         <translation>F1</translation>
+    </message>
+    <message>
+        <source>Select a transition for a set of slide</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4201,6 +4299,34 @@ Are you sure is empty?</source>
 (Warning: Content will not be moved to trash)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Remove transition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a transition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set transition duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Randomize transition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set first shot duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset background to &quot;Same as previous&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset music track to &quot;Same as previous&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -4410,6 +4536,10 @@ Are you sure is empty?</source>
         <source>Rename folder</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Personal folder</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>cBaseMediaFile</name>
@@ -4584,13 +4714,6 @@ Are you sure is empty?</source>
         <source>Lossless</source>
         <comment>Device database type</comment>
         <translation>Senza perdita</translation>
-    </message>
-</context>
-<context>
-    <name>cDriveList</name>
-    <message>
-        <source>Personal folder</source>
-        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

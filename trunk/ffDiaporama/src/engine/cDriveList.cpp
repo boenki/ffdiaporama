@@ -327,7 +327,7 @@ cDriveList::cDriveList(cBaseApplicationConfig *TheApplicationConfig) {
     GetUserName(winUserName,&winUserNameSize);
     PersonalFolder = QString::fromStdWString(winUserName);
     #else
-    PersonalFolder=QApplication::translate("cDriveList","Personal folder");
+    PersonalFolder=QApplication::translate("QCustomFolderTree","Personal folder");
     #endif
 }
 

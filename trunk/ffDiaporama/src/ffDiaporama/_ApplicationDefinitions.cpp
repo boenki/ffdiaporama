@@ -98,7 +98,9 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgApplicationSettingsWSP;
     delete DlgRenderVideoWSP;
     delete DlgTransitionPropertiesWSP;
+    delete DlgTransitionDurationWSP;
     delete DlgSlidePropertiesWSP;
+    delete DlgSlideDurationWSP;
     delete DlgImageTransformationWSP;
     delete DlgImageCorrectionWSP;
     delete DlgVideoEditWSP;
@@ -190,7 +192,9 @@ void cApplicationConfig::InitValues() {
     DlgApplicationSettingsWSP   =new cSaveWindowPosition("DlgApplicationSettings",RestoreWindow,false);     // Dialog box "Application settings" - Window size and position
     DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);          // Dialog box "Render Video" - Window size and position
     DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false); // Dialog box "Transition properties" - Window size and position
+    DlgTransitionDurationWSP    =new cSaveWindowPosition("DlgTransitionDurationWSP",RestoreWindow,false);   // Dialog box "Transition duration" - Window size and position
     DlgSlidePropertiesWSP       =new cSaveDlgSlideProperties("DlgSlidePropertiesWSP",RestoreWindow,false);  // Dialog box "Slide properties" - Window size and position
+    DlgSlideDurationWSP         =new cSaveDlgSlideProperties("DlgSlideDurationWSP",RestoreWindow,false);    // Dialog box "Slide duration" - Window size and position
     DlgImageTransformationWSP   =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);  // Dialog box "Image transformation" - Window size and position
     DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
     DlgVideoEditWSP             =new cSaveWindowPosition("DlgVideoEditWSP",RestoreWindow,false);            // Dialog box "Edit video" - Window size and position
@@ -369,7 +373,9 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     DlgApplicationSettingsWSP->SaveToXML(domDocument);
     DlgRenderVideoWSP->SaveToXML(domDocument);
     DlgTransitionPropertiesWSP->SaveToXML(domDocument);
+    DlgTransitionDurationWSP->SaveToXML(domDocument);
     DlgSlidePropertiesWSP->SaveToXML(domDocument);
+    DlgSlideDurationWSP->SaveToXML(domDocument);
     DlgImageTransformationWSP->SaveToXML(domDocument);
     DlgImageCorrectionWSP->SaveToXML(domDocument);
     DlgVideoEditWSP->SaveToXML(domDocument);
@@ -524,7 +530,9 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     DlgApplicationSettingsWSP->LoadFromXML(domDocument);
     DlgRenderVideoWSP->LoadFromXML(domDocument);
     DlgTransitionPropertiesWSP->LoadFromXML(domDocument);
+    DlgTransitionDurationWSP->LoadFromXML(domDocument);
     DlgSlidePropertiesWSP->LoadFromXML(domDocument);
+    DlgSlideDurationWSP->LoadFromXML(domDocument);
     DlgImageTransformationWSP->LoadFromXML(domDocument);
     DlgImageCorrectionWSP->LoadFromXML(domDocument);
     DlgVideoEditWSP->LoadFromXML(domDocument);

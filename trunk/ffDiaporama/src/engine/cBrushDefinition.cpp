@@ -432,18 +432,17 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 }
 
                 // Prepare values from sourceimage size
-                double   RealImageW=double(RenderImage->width());               // Get real image widht
-                double   RealImageH=double(RenderImage->height());              // Get real image height
-                double   Hyp=sqrt(RealImageW*RealImageW+RealImageH*RealImageH);     // Calc hypothenuse of the image to define full canvas
-                int      iHyp=int(Hyp);                     if (Hyp-iHyp>double(0.5)) iHyp++;              if (int(iHyp/2)*2<iHyp) iHyp--;     Hyp=iHyp;
-                int      HypPixel=int(Hyp*TheZoomFactor);   if (Hyp-HypPixel>double(0.5)) HypPixel++;
+                double   RealImageW=double(RenderImage->width());                       if ((int(RealImageW) & 0x01)==1) RealImageW=RealImageW+1;    // Get real image widht
+                double   RealImageH=double(RenderImage->height());                      if ((int(RealImageH) & 0x01)==1) RealImageH=RealImageH+1;    // Get real image height
+                double   Hyp       =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);  if ((int(Hyp)        & 0x01)==1) Hyp       =Hyp+1;           // Calc hypothenuse of the image to define full canvas
+                double   HypPixel  =Hyp*TheZoomFactor;
 
                 // Expand canvas
                 QImage   NewRenderImage(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
                 QPainter Painter;
                 Painter.begin(&NewRenderImage);
                 Painter.setCompositionMode(QPainter::CompositionMode_Source);
-                Painter.fillRect(QRect(0,0,Hyp+1,Hyp+1),Qt::transparent);
+                Painter.fillRect(QRect(0,0,Hyp,Hyp),Qt::transparent);
                 Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
                 Painter.drawImage(QPoint((Hyp-RealImageW)/2,(Hyp-RealImageH)/2),*RenderImage);
                 Painter.end();
@@ -458,12 +457,17 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                     NewRenderImage=NewRenderImage.transformed(matrix,ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
                     int ax=NewRenderImage.width()-W;
                     int ay=NewRenderImage.height()-H;
-                    NewRenderImage=NewRenderImage.copy(ax/2,ay/2,NewRenderImage.width()-ax+1,NewRenderImage.height()-ay+1);
+                    NewRenderImage=NewRenderImage.copy(ax/2,ay/2,NewRenderImage.width()-ax,NewRenderImage.height()-ay);
                 }
+
+                /*****************************************************************************
+                  Le problème de ligne parasite vient du calcul suivant
+                  pour le "résoudre", j'ai mis +2 et +2 mais ce n'est pas très mathématique !
+                ******************************************************************************/
 
                 // Get part we need and scaled it to destination size
                 NewRenderImage=NewRenderImage.copy(Hyp*TheXFactor,Hyp*TheYFactor,HypPixel,HypPixel*TheAspectRatio)
-                                    .scaled(Rect.width()+1,double(Rect.width()+1)*TheAspectRatio,Qt::IgnoreAspectRatio,
+                                    .scaled(Rect.width()+2,double(Rect.width())*TheAspectRatio+2,Qt::IgnoreAspectRatio,
                                     ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
 
                 // Apply correction filters to DestImage

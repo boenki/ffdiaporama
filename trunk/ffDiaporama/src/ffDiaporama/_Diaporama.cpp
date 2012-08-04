@@ -681,12 +681,13 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             }
         }
 
+        double  W  =int(TheW*double(width));    if ((int(W)   & 0x01)==1)   W=W+1;
+        double  H  =int(TheH*double(height));   if ((int(H)   & 0x01)==1)   H=H+1;
+        double  Hyp=int(sqrt(W*W+H*H));         if ((int(Hyp) & 0x01)==1)   Hyp=Hyp+1;
+        double  Wb =int(Hyp);
+        double  Hb =Wb;         // always square image
+
         double  FullMargin=0;
-        double  W=int(TheW*double(width));  if ((int(W) & 0x01)==1) W=W+1;
-        double  H=int(TheH*double(height)); if ((int(H) & 0x01)==1) H=H+1;
-        double  Hyp=sqrt(W*W+H*H)+double(PenSize)*ADJUST_RATIO*double(2);
-        double  Wb=int(Hyp); if ((int(Wb) & 0x01)==1) Wb=Wb+1;   if ((int((Wb-W)/2) & 0x01)==1) Wb=Wb+2;
-        double  Hb=Wb; // always square image
         AddX-=(Wb-W)/2;
         AddY-=(Hb-H)/2;
         double  DstX=AddX+TheX*double(width);
@@ -700,11 +701,11 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
 
         if ((W>0)&&(H>0)) {
             QPen     Pen;
-            QImage   Img(Wb,Hb,QImage::Format_ARGB32_Premultiplied);
+            QImage   Img(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
             QPainter Painter;
             Painter.begin(&Img);
             Painter.setCompositionMode(QPainter::CompositionMode_Source);
-            Painter.fillRect(QRect(0,0,Wb,Hb),Qt::transparent);
+            Painter.fillRect(QRect(0,0,Hyp,Hyp),Qt::transparent);
             Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
             if (!PreviewMode || GlobalMainWindow->ApplicationConfig->Smoothing)  Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
                 else Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
@@ -723,8 +724,8 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 Painter.setPen(Pen);
             }
             // All coordonates from center
-            double      CenterX=W/2+(Wb-W)/2;
-            double      CenterY=H/2+(Hb-H)/2;
+            double      CenterX=Hyp/2;
+            double      CenterY=Hyp/2;
             QTransform  Matrix;
             Matrix.translate(CenterX,CenterY);
             if (TheRotateZAxis!=0) Matrix.rotate(TheRotateZAxis,Qt::ZAxis);   // Standard axis
