@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>300</height>
+    <width>516</width>
+    <height>331</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -35,7 +35,7 @@
    <item>
     <widget class="QRadioButton" name="SameMusicRD">
      <property name="toolTip">
-      <string>Allows one to continue to play the play list define by a previous slide</string>
+      <string>You can continue the playlist defined in a previous slide</string>
      </property>
      <property name="text">
       <string>Continue current playlist (defined in a previous slide)</string>
@@ -65,7 +65,7 @@
      <item row="1" column="0">
       <widget class="QRadioButton" name="SameMusicReduceVolumeRD">
        <property name="toolTip">
-        <string>Allows one to indicate that from now on, the sound volume is reduced.</string>
+        <string>Set reduced volume level during this slide</string>
        </property>
        <property name="text">
         <string>Change volume level to :</string>
@@ -180,7 +180,7 @@
    <item>
     <widget class="QRadioButton" name="NewMusicRD">
      <property name="toolTip">
-      <string>Allows one to start a new playlist.</string>
+      <string>You can start a new playlist from this slide</string>
      </property>
      <property name="text">
       <string>Start a new playlist from this slide</string>
@@ -229,8 +229,8 @@
      <item>
       <widget class="QToolButton" name="UpMusicBt">
        <property name="toolTip">
-        <string>Change the order in which will be played the music files:
-Move the current selected file of a notch upward.</string>
+        <string>Change the order in which the music files will be played:
+Move the current selected file a notch up</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -244,8 +244,8 @@ Move the current selected file of a notch upward.</string>
      <item>
       <widget class="QToolButton" name="DownMusicBt">
        <property name="toolTip">
-        <string>Change the order in which will be played the music files:
-Move the current selected file of a notch downward.</string>
+        <string>Change the order in which the music files will be played:
+Move the current selected file a notch down</string>
        </property>
        <property name="text">
         <string notr="true"/>

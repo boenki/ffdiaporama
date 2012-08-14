@@ -32,6 +32,11 @@
 
 #define FFD_APPLICATION_ROOTNAME    "Project"           // Name of root node in the project xml file
 
+#ifndef INT64_MAX
+    #define 	INT64_MAX   0x7fffffffffffffffLL
+    #define 	INT64_MIN   (-INT64_MAX - 1LL)
+#endif
+
 //#ifdef _MSC_VER
 //    #undef AV_TIME_BASE_Q
 //    AVRational AV_TIME_BASE_Q={1, AV_TIME_BASE};
@@ -1852,7 +1857,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 
 #define MAXELEMENTSINOBJECTLIST 500
 
-QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
+QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadVideoFrame");
 
     int64_t AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
@@ -1890,7 +1895,7 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
     AVPacket        *StreamPacket       =NULL;
 
     if ((FrameBufferYUVReady)&&(FrameBufferYUVPosition==Position)) {
-        return ConvertYUVToRGB();
+        return ConvertYUVToRGB(PreviewMode);
     }
 
     // Cac difftime between asked position and previous end decoded position
@@ -1901,25 +1906,26 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
     // Calc if we need to seek to a position
     if ((Position==0)||(DiffTimePosition<0)||(DiffTimePosition>500)) { // Allow 0,1 sec diff
 
+        // Seek to nearest previous key frame
+        ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadVideoFrame => do a seek");
+
         // Flush all buffers
         for (unsigned int i=0;i<ffmpegVideoFile->nb_streams;i++)  {
             AVCodecContext *codec_context = ffmpegVideoFile->streams[i]->codec;
             if (codec_context && codec_context->codec) avcodec_flush_buffers(codec_context);
         }
+
         FrameBufferYUVReady    = false;
         FrameBufferYUVPosition = 0;
 
         // Seek to nearest previous key frame
-        ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadVideoFrame => do a seek");
-
-        // Seek to nearest previous key frame
-        int64_t seek_target=av_rescale_q(int64_t(Position*1000),AV_TIME_BASE_Q,ffmpegVideoFile->streams[VideoStreamNumber]->time_base);
-        if (av_seek_frame(ffmpegVideoFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
+        if (av_seek_frame(ffmpegVideoFile,-1,int64_t(Position*1000-1000000),DiffTimePosition<0?AVSEEK_FLAG_BACKWARD:0)<0) {
             // Try in AVSEEK_FLAG_ANY mode
-            if (av_seek_frame(ffmpegVideoFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
+            if (av_seek_frame(ffmpegVideoFile,-1,int64_t(Position*1000-1000000),AVSEEK_FLAG_ANY)<0) {
                 ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadVideoFrame : Seek error");
             }
         }
+
     } else {
         DataInBuffer=true;
     }
@@ -1940,26 +1946,29 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
         if (av_read_frame(ffmpegVideoFile,StreamPacket)==0) {
 
             if (StreamPacket->stream_index==VideoStreamNumber) {
-                if (!CodecUsePTS) FramePosition=double((StreamPacket->pts!=AVNOPTSVALUE)?StreamPacket->pts:0)*FrameTimeBase;   // pts instead of dts
-                    else          FramePosition=double((StreamPacket->dts!=AVNOPTSVALUE)?StreamPacket->dts:0)*FrameTimeBase;   // dts instead of pts
 
                 int FrameDecoded=0;
-                int err=avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket);
-                if (err<0) {
+                if (avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket)<0)
                     ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadVideoFrame : avcodec_decode_video2 return an error");
-                }
-                if (FrameDecoded>0) DataInBuffer=true;
 
-                // Create image
-                if ((DataInBuffer)&&((FramePosition>=dPosition)||(FramePosition>=dEndFile))) {
-                    FrameBufferYUVReady   =true;                        // Keep actual value for FrameBufferYUV
-                    FrameBufferYUVPosition=int(FramePosition*1000);     // Keep actual value for FrameBufferYUV
-                    RetImage              =ConvertYUVToRGB();           // Create RetImage from YUV Buffer
-                    IsVideoFind           =(RetImage!=NULL);
+                if (FrameDecoded>0) {
+                    DataInBuffer=true;
+                    int64_t pts=AV_NOPTS_VALUE;
+                    if ((FrameBufferYUV->pkt_dts==(int64_t)AV_NOPTS_VALUE)&&(FrameBufferYUV->pkt_pts!=(int64_t)AV_NOPTS_VALUE)) pts = FrameBufferYUV->pkt_pts; else pts = FrameBufferYUV->pkt_dts;
+                    if (pts==(int64_t)AV_NOPTS_VALUE) pts = 0;
+                    FramePosition=double(pts)*FrameTimeBase;
+
+                    // Create image
+                    if ((FramePosition>=dPosition)||(FramePosition>=dEndFile)) {
+                        FrameBufferYUVReady   =true;                            // Keep actual value for FrameBufferYUV
+                        FrameBufferYUVPosition=int(FramePosition*1000);         // Keep actual value for FrameBufferYUV
+                        RetImage              =ConvertYUVToRGB(PreviewMode);    // Create RetImage from YUV Buffer
+                        IsVideoFind           =(RetImage!=NULL);
+                    }
+
                 }
 
             }
-
             // Check if we need to continue loop
             Continue=(IsVideoFind==false)&&(FramePosition<dEndFile);
 
@@ -1970,9 +1979,9 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
             // Create image
             if (DataInBuffer) {
 
-                FrameBufferYUVReady   =true;                        // Keep actual value for FrameBufferYUV
-                FrameBufferYUVPosition=int(FramePosition*1000);     // Keep actual value for FrameBufferYUV
-                RetImage              =ConvertYUVToRGB();           // Create RetImage from YUV Buffer
+                FrameBufferYUVReady   =true;                            // Keep actual value for FrameBufferYUV
+                FrameBufferYUVPosition=int(FramePosition*1000);         // Keep actual value for FrameBufferYUV
+                RetImage              =ConvertYUVToRGB(PreviewMode);    // Create RetImage from YUV Buffer
                 IsVideoFind           =(RetImage!=NULL);
 
                 if (IsVideoFind) dEndFileCachePos=dEndFile;         // keep position for future use
@@ -2017,13 +2026,18 @@ QImage *cVideoFile::ReadVideoFrame(qlonglong Position,bool DontUseEndPos) {
 #define PIXFMT      PIX_FMT_RGB24
 #define QTPIXFMT    QImage::Format_RGB888
 
-QImage *cVideoFile::ConvertYUVToRGB() {
+QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ConvertYUVToRGB");
 
-    int     W               =ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
-    int     H               =ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
+    int W   =ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
+    int H   =ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
+    int NewW=W;
+    int NewH=H;
+    // Reduce image size for preview mode
+    if (PreviewMode && (H>540)) { if ((H==1088)&&(W=1920)) { NewH=542; NewW=960; } else { NewH=540; NewW=NewH*(double(W)/double(H)); } }    // H=540
+    //if (PreviewMode && (H>270)) { if ((H==1088)&&(W=1920)) { NewH=271; NewW=480; } else { NewH=270; NewW=NewH*(double(W)/double(H)); } }    // H=270
 
-    QImage   RetImage(W,H,QTPIXFMT);
+    QImage   RetImage(NewW,NewH,QTPIXFMT);
     AVFrame *FrameBufferRGB =avcodec_alloc_frame();  // Allocate structure for RGB image
 
     if (FrameBufferRGB!=NULL) {
@@ -2032,14 +2046,14 @@ QImage *cVideoFile::ConvertYUVToRGB() {
                 (AVPicture *)FrameBufferRGB,        // Buffer to prepare
                 RetImage.bits(),                    // Buffer which will contain the image data
                 PIXFMT,                             // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
-                W,                                  // The width of the image in pixels
-                H                                   // The height of the image in pixels
+                NewW,                               // The width of the image in pixels
+                NewH                                // The height of the image in pixels
         );
 
         // Get a converter from libswscale
         struct SwsContext *img_convert_ctx=sws_getContext(
             W,H,ffmpegVideoFile->streams[VideoStreamNumber]->codec->pix_fmt,        // Src Widht,Height,Format
-            W,H,PIXFMT,                                                             // Destination Width,Height,Format
+            NewW,NewH,PIXFMT,                                                             // Destination Width,Height,Format
             SWS_FAST_BILINEAR/*SWS_BICUBIC*/,                                       // flags
             NULL,NULL,NULL);                                                        // src Filter,dst Filter,param
 
@@ -2055,6 +2069,8 @@ QImage *cVideoFile::ConvertYUVToRGB() {
             );
             if (ret>0) {
                 if ((ApplicationConfig->Crop1088To1080)&&(RetImage.height()==1088)&&(RetImage.width()==1920)) RetImage=RetImage.copy(0,4,1920,1080);
+                else if ((ApplicationConfig->Crop1088To1080)&&(RetImage.height()==542)&&(RetImage.width()==960)) RetImage=RetImage.copy(0,2,960,540);
+                else if ((ApplicationConfig->Crop1088To1080)&&(RetImage.height()==271)&&(RetImage.width()==480)) RetImage=RetImage.copy(0,1,480,270);
                 //FinalImage=new QImage(RetImage.convertToFormat(QImage::Format_ARGB32_Premultiplied)); // Force to ARGB32
             }
             sws_freeContext(img_convert_ctx);
@@ -2086,7 +2102,7 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
 
 
     if ((!MusicOnly)&&(!ForceSoundOnly)) {
-        LoadedImage=ReadVideoFrame(Position+StartPosToAdd,DontUseEndPos);
+        LoadedImage=ReadVideoFrame(PreviewMode,Position+StartPosToAdd,DontUseEndPos);
         if (LoadedImage) {
 
             // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
@@ -2196,57 +2212,23 @@ bool cVideoFile::OpenCodecAndFile() {
         // Find the decoder for the video stream and open it
         VideoDecoderCodec=avcodec_find_decoder(ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_id);
 
-#ifdef LIBAV_AVCHD
+        // Setup decoder options
 
-        // Special case for AVCHD file : add CODEC_FLAG2_SHOW_ALL
-        if (InformationList.contains("Short Format##mpegts",Qt::CaseInsensitive)) {
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->flags2           |=CODEC_FLAG2_SHOW_ALL;
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->slice_flags      &= ~(SLICE_FLAG_CODED_ORDER|SLICE_FLAG_ALLOW_FIELD);
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->flags            |=CODEC_FLAG_EMU_EDGE;
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->err_recognition  |= AV_EF_EXPLODE | AV_EF_COMPLIANT | AV_EF_CAREFUL;
+        ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
+        ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
+        ffmpegVideoFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
+        ffmpegVideoFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
+        ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
+        ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
+        ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
+        ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
 
-            // Setup decoder options
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_NONE;
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_NONE;
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_NONE;
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_top         =AVDISCARD_NONE;
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_bottom      =AVDISCARD_NONE;
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
+        // h264 specific
+        ffmpegVideoFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
+        //ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_BIDIR;
 
-            // Hack to correct wrong frame rates that seem to be generated by some codecs
-            if (ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den==1) ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
-
-            CodecUsePTS=false;
-        } else {
-#endif
-            // Setup decoder options
-
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
-
-            // h264 specific
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
-            ffmpegVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_BIDIR;
-
-            // Hack to correct wrong frame rates that seem to be generated by some codecs
-            if (ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den==1) ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
-
-#ifdef LIBAV_AVCHD
-        }
-#endif
-
-        CodecUsePTS=ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_id==CODEC_ID_H264;
+        // Hack to correct wrong frame rates that seem to be generated by some codecs
+        if (ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den==1) ffmpegVideoFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
 
         if ((VideoDecoderCodec==NULL)||(avcodec_open2(ffmpegVideoFile->streams[VideoStreamNumber]->codec,VideoDecoderCodec,NULL)<0)) {
             CloseCodecAndFile();
@@ -2272,8 +2254,8 @@ bool cVideoFile::OpenCodecAndFile() {
         QImage *Img =ImageAt(true,Position,0,NULL,1,false,NULL,false);
         if (Img) {
             // Get information about size image
-            ImageWidth=Img->width();
-            ImageHeight=Img->height();
+            ImageWidth =ffmpegVideoFile->streams[VideoStreamNumber]->codec->coded_width;    //Img->width();
+            ImageHeight=ffmpegVideoFile->streams[VideoStreamNumber]->codec->coded_height;   //Img->height();
             // Compute image geometry
             ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
             double RatioHW=double(ImageWidth)/double(ImageHeight);

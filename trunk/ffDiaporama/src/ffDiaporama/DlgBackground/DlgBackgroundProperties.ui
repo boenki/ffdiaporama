@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>552</width>
-    <height>408</height>
+    <width>508</width>
+    <height>367</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -41,7 +41,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Same background as precedent object</string>
+      <string>Same background as preceding object</string>
      </property>
     </widget>
    </item>

@@ -35,3 +35,6 @@ Russian interface :
 
 Czech interface :
     Bagicz
+
+Dutch interface :
+    J.G. Visser <jgvnet@gmail.com>

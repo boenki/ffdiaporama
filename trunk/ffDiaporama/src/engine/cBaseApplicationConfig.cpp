@@ -28,6 +28,7 @@
 #include <QFileInfo>
 #include <QTextStream>
 #include <QTranslator>
+#include <QTextDocument>
 
 //*****************************************************************************************************************************************
 
@@ -199,10 +200,6 @@ QString AdjustDirForOS(QString Dir) {
     #endif
     return Dir;
 }
-
-//**********************************************************************************************************************
-// cBaseApplicationConfig
-//**********************************************************************************************************************
 
 //**********************************************************************************************************************
 // cBaseApplicationConfig
@@ -390,9 +387,9 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowVideoExtension.append("ogv");     AllowVideoExtension.append("OGV");
     AllowVideoExtension.append("webm");    AllowVideoExtension.append("WEBM");
     AllowVideoExtension.append("dv");      AllowVideoExtension.append("DV");
-#ifdef LIBAV_AVCHD
+    #ifdef LIBAV_AVCHD
     AllowVideoExtension.append("mts");     AllowVideoExtension.append("MTS");
-#endif
+    #endif
     // List of all file extension allowed for image
     AllowImageExtension.append("bmp");     AllowImageExtension.append("BMP");
     AllowImageExtension.append("gif");     AllowImageExtension.append("GIF");
@@ -421,7 +418,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowMusicExtension.append("flac");    AllowMusicExtension.append("FLAC");
 
     // set value of external tools path (depending on operating system)
-    PathEXIV2       = "exiv2";                       // FileName of exiv2 (with path) : Linux version
+    PathEXIV2                   = "exiv2";                       // FileName of exiv2 (with path) : Linux version
     RememberLastDirectories     = true;                         // If true, Remember all directories for future use
     #ifdef Q_OS_WIN
         LastMediaPath           = WINDOWS_PICTURES;             // Last folder use for image/video
@@ -446,6 +443,62 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     Music_ThumbHeight       =200;
     Video_ThumbWidth        =162;
     Video_ThumbHeight       =216;
+
+    // First thing to do is to load ForceLanguage from USERCONFIGFILE and install translator to fix text codec !
+    QFile           file(UserConfigFile);
+    QDomDocument    domDocument;
+    QDomElement     root;
+    QString         errorStr;
+    int             errorLine,errorColumn;
+
+    if (file.open(QFile::ReadOnly | QFile::Text)) {
+        QTextStream in(&file);
+        if (domDocument.setContent(in.readAll(),true,&errorStr,&errorLine,&errorColumn)) {
+            domDocument.setContent(domDocument.toString(4),true,&errorStr,&errorLine,&errorColumn);
+            if ((root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
+                QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
+                if ((Element.hasAttribute("ForceLanguage"))&&(ForceLanguage=="")) ForceLanguage=Element.attribute("ForceLanguage");
+            }
+        }
+    }
+    // Search system language
+    CurrentLanguage=QLocale::system().name().left(2);
+    if (ForceLanguage!="") CurrentLanguage=ForceLanguage;
+
+    // Validate if system locale is supported and if not force use of "en"
+    if ((CurrentLanguage!="en")&&(!QFileInfo(QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm")).exists())) {
+        ToLog(LOGMSG_INFORMATION,QString("Language \"%1\" not found : switch to english").arg(CurrentLanguage));
+        CurrentLanguage="en";
+    }
+
+    // Install translation (if needed)
+    if (CurrentLanguage!="en") {
+        // Load translation
+        if (!translator.load(QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm"))) {
+            ToLog(LOGMSG_WARNING,QString("Error loading application translation file ... locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm"));
+            exit(1);
+        } else ToLog(LOGMSG_INFORMATION,QString("Loading application translation file ... locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm"));
+
+        // Try to load QT system translation file in current project local folder
+        if (QFileInfo(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm")).exists()) {
+            if (!QTtranslator.load(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"))) {
+                ToLog(LOGMSG_WARNING,QString("Error loading QT system translation file ... locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm");
+            } else {
+                ToLog(LOGMSG_INFORMATION,QString("Loading QT system translation file ... locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm");
+            }
+        } else if (QFileInfo(QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm")).exists()) {
+            // If not then try to load QT system translation file in parrent project local folder
+            if (!QTtranslator.load(QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"))) {
+                ToLog(LOGMSG_WARNING,QString("Error loading QT system translation file ... ..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"));
+            } else {
+                ToLog(LOGMSG_INFORMATION,QString("Loading QT system translation file ... ..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"));
+            }
+        }
+        App->installTranslator(&translator);
+        App->installTranslator(&QTtranslator);
+    }
+
+    // Now translator are loaded, then we can load configuration files
 
     // Init all others values by call subclassing function
     InitValues();
@@ -474,9 +527,15 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
         IsOk=false;
     }
 
-    if (IsOk && (!domDocument.setContent(&file,true,&errorStr,&errorLine,&errorColumn))) {
-        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
-        IsOk=false;
+    if (IsOk) {
+        QTextStream in(&file);
+        in.setCodec("UTF-8");
+        if (!domDocument.setContent(in.readAll(),true,&errorStr,&errorLine,&errorColumn)) {
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
+            IsOk=false;
+        }
+
+        domDocument.setContent(domDocument.toString(4),true,&errorStr,&errorLine,&errorColumn);
     }
 
     if (IsOk) {
@@ -495,7 +554,6 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
             if (Element.hasAttribute("RasterMode"))                             RasterMode              =Element.attribute("RasterMode")=="1";
             #endif
             if (Element.hasAttribute("RestoreWindow"))                          RestoreWindow           =Element.attribute("RestoreWindow")=="1";
-            if ((Element.hasAttribute("ForceLanguage"))&&(ForceLanguage==""))   ForceLanguage           =Element.attribute("ForceLanguage");
             if (Element.hasAttribute("Crop1088To1080"))                         Crop1088To1080          =Element.attribute("Crop1088To1080")!="0";
             if (Element.hasAttribute("ApplyTransfoPreview"))                    ApplyTransfoPreview     =Element.attribute("ApplyTransfoPreview")=="1";
             if (Element.hasAttribute("QuickResamplingPreview"))                 QuickResamplingPreview  =Element.attribute("QuickResamplingPreview")=="1";
@@ -537,47 +595,6 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
         }
     }
 
-    if (TypeConfigFile==USERCONFIGFILE) {
-        // Search system language
-
-        CurrentLanguage=QLocale::system().name().left(2);
-        if (ForceLanguage!="") CurrentLanguage=ForceLanguage;
-
-        // Validate if system locale is supported and if not force use of "en"
-        if ((CurrentLanguage!="en")&&(!QFileInfo(QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm")).exists())) {
-            ToLog(LOGMSG_INFORMATION,QString("Language \"%1\" not found : switch to english").arg(CurrentLanguage));
-            CurrentLanguage="en";
-        }
-
-        // Install translation (if needed)
-        if (CurrentLanguage!="en") {
-            // Load translation
-            if (!translator.load(QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm"))) {
-                ToLog(LOGMSG_WARNING,QString("Error loading application translation file ... locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm"));
-                exit(1);
-            } else ToLog(LOGMSG_INFORMATION,QString("Loading application translation file ... locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm"));
-
-            // Try to load QT system translation file in current project local folder
-            if (QFileInfo(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm")).exists()) {
-                if (!QTtranslator.load(QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"))) {
-                    ToLog(LOGMSG_WARNING,QString("Error loading QT system translation file ... locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm");
-                } else {
-                    ToLog(LOGMSG_INFORMATION,QString("Loading QT system translation file ... locale")+QDir::separator()+QString("qt_")+CurrentLanguage+".qm");
-                }
-            } else if (QFileInfo(QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm")).exists()) {
-                // If not then try to load QT system translation file in parrent project local folder
-                if (!QTtranslator.load(QString("..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"))) {
-                    ToLog(LOGMSG_WARNING,QString("Error loading QT system translation file ... ..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"));
-                } else {
-                    ToLog(LOGMSG_INFORMATION,QString("Loading QT system translation file ... ..")+QDir::separator()+QString("..")+QDir::separator()+QString("locale")+QDir::separator()+QString("qt_")+CurrentLanguage+QString(".qm"));
-                }
-            }
-            App->installTranslator(&translator);
-            App->installTranslator(&QTtranslator);
-        }
-
-    }
-
     return IsOk && LoadValueFromXML(root,TypeConfigFile);
 }
 
@@ -588,7 +605,7 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
 
     // Save all option to the configuration file
     QFile           file(UserConfigFile);
-    QDomDocument    domDocument(ApplicationName);
+    QDomDocument    domDocument(ApplicationName);   domDocument.appendChild(domDocument.createProcessingInstruction("xml", "version=\"1.0\" encoding=\"UTF-8\""));
     QDomElement     root;
 
     // Ensure destination exist
@@ -653,6 +670,7 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
         return false;
     }
     QTextStream out(&file);
+    out.setCodec(QTextCodec::codecForName("UTF-8"));
     domDocument.save(out,4);
     file.close();
     return true;

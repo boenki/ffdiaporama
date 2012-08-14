@@ -30,7 +30,6 @@
 #include <QTranslator>
 
 int main(int argc, char* argv[]) {
-
     #ifdef Q_OS_WIN
     // Check Windows version and :
     //      If <Windows/XP then exit application

@@ -323,6 +323,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->FolderTable,SIGNAL(InsertFiles()),this,SLOT(s_Browser_AddFiles()));
     connect(ui->FolderTable,SIGNAL(OpenFiles()),this,SLOT(s_Browser_OpenFile()));
     connect(ui->FolderTable,SIGNAL(Refresh()),this,SLOT(s_Browser_RefreshAll()));
+    connect(ui->FolderTable,SIGNAL(RenameFiles()),this,SLOT(s_Browser_RenameFile()));
 
     connect(ui->ActionModeBt,SIGNAL(pressed()),this,SLOT(s_Browser_ChangeDisplayMode()));
     connect(ui->RefreshBt,SIGNAL(released()),this,SLOT(s_Browser_RefreshAll()));
@@ -400,7 +401,7 @@ void MainWindow::s_CleanStatusBar() {
 }
 
 //====================================================================================================================
-// A REVOIR !!
+
 void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::keyReleaseEvent");
 
@@ -410,7 +411,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     else if (event->matches(QKeySequence::Open))        s_Action_Open();
     else if (event->matches(QKeySequence::Save))        s_Action_Save();
     else if (event->matches(QKeySequence::SaveAs))      s_Action_SaveAs();
-    else if (event->matches(QKeySequence::Copy))         s_Action_CopyToClipboard();
+    else if (event->matches(QKeySequence::Copy))        s_Action_CopyToClipboard();
     else if (event->matches(QKeySequence::Cut))         s_Action_CutToClipboard();
     else if (event->matches(QKeySequence::Paste))       s_Action_PasteFromClipboard();
     else if (event->matches(QKeySequence::Delete))      s_Action_RemoveObject();
@@ -418,7 +419,7 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     //else if (event->matches(QKeySequence::ZoomOut))   s_Action_ZoomMinus();
     else if (event->key()==Qt::Key_Insert)              s_Action_AddFile();
     else if (event->key()==Qt::Key_F1)                  s_Action_Documentation();
-    else if (event->key()==Qt::Key_F5)                  s_Event_DoubleClickedOnBackground();
+    else if (event->key()==Qt::Key_F5)                  s_Browser_RefreshAll();
     else if (event->key()==Qt::Key_F6)                  s_Event_DoubleClickedOnObject();
     else if (event->key()==Qt::Key_F7)                  s_Event_DoubleClickedOnMusic();
     else if (event->key()==Qt::Key_F8)                  s_Event_DoubleClickedOnTransition();
@@ -1032,6 +1033,7 @@ void MainWindow::DoTimelineSelectionChanged() {
             }
         }
         RefreshControls();
+        ui->timeline->repaint();
     }
     QApplication::restoreOverrideCursor();
 }
@@ -2322,11 +2324,11 @@ void MainWindow::s_Action_RemoveObject() {
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
     ui->timeline->CurrentSelectionList(&SlideList);
     if (SlideList.count()==1) {
-        if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Remove slide"),QApplication::translate("MainWindow","Are you sure to want to delete this slide?"),
+        if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Remove slide"),QApplication::translate("MainWindow","Are you sure you want to remove this slide?"),
                                   QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
 
     } else {
-        if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Remove multiple slides"),QApplication::translate("MainWindow","Are you sure to want to delete this %1 slides?").arg(SlideList.count()),
+        if ((ApplicationConfig->AskUserToRemove)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Remove multiple slides"),QApplication::translate("MainWindow","Are you sure you want to remove these %1 slides?").arg(SlideList.count()),
                                   QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::No)) return;
     }
 
@@ -2843,7 +2845,7 @@ void MainWindow::s_Browser_AddToFavorite() {
             while ((i<ApplicationConfig->BrowserFavorites.count())&&(!ApplicationConfig->BrowserFavorites[i].startsWith(Text+"###"))) i++;
             if ((i<ApplicationConfig->BrowserFavorites.count())&&(ApplicationConfig->BrowserFavorites[i].startsWith(Text+"###"))) {
                 if (CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add to favorite"),
-                                          QApplication::translate("MainWindow","A favorite with this name already exist.\nDo you want to overwrite-it ?"),
+                                          QApplication::translate("MainWindow","A favorite with this name already exists.\nDo you want to overwrite it?"),
                                           QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)
                     ApplicationConfig->BrowserFavorites[i]=Text+"###"+ApplicationConfig->CurrentPath;
                 else Continue=true;
@@ -2854,7 +2856,7 @@ void MainWindow::s_Browser_AddToFavorite() {
                 while ((i<ApplicationConfig->BrowserFavorites.count())&&(!ApplicationConfig->BrowserFavorites[i].endsWith("###"+ApplicationConfig->CurrentPath))) i++;
                 if ((i<ApplicationConfig->BrowserFavorites.count())&&(ApplicationConfig->BrowserFavorites[i].endsWith("###"+ApplicationConfig->CurrentPath))) {
                     if (CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add to favorite"),
-                                              QApplication::translate("MainWindow","A favorite with for this path already exist.\nDo you want to overwrite-it ?"),
+                                              QApplication::translate("MainWindow","A favorite with for this path already exists.\nDo you want to overwrite it?"),
                                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)
                         ApplicationConfig->BrowserFavorites[i]=Text+"###"+ApplicationConfig->CurrentPath;
                     else Continue=true;
@@ -2899,7 +2901,7 @@ bool MainWindow::s_Browser_InRemoveFolder(QString FolderPath) {
         ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Impossible to remove folder %1 - error %2:%3").arg(FolderPath).arg(errno).arg(QString().fromLocal8Bit(strerror(errno))));
         return false;
     } else {
-        ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Successfully remove folder (and all is content) %1").arg(FolderPath));
+        ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Successfully deleted folder (and all its content) %1").arg(FolderPath));
         return true;
     }
 }
@@ -3230,11 +3232,11 @@ void MainWindow::s_Action_DoRemoveFile() {
     }
 
     QString FileToRemove=FileList.takeFirst();
-    if (CustomMessageBox(this,QMessageBox::Question,APPLICATION_NAME,QApplication::translate("MainWindow","Are you sure to remove this file or folder ?\n(Warning: Content will not be moved to trash)")+"\n"+FileToRemove,QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes) {
+    if (CustomMessageBox(this,QMessageBox::Question,APPLICATION_NAME,QApplication::translate("MainWindow","Are you sure to delete this file or folder ?\n(Warning: Content will not be moved to trash)")+"\n"+FileToRemove,QMessageBox::Yes|QMessageBox::No)==QMessageBox::Yes) {
         if (QFileInfo(FileToRemove).isDir()) {
-            if (!QDir().rmdir(FileToRemove)) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Remove folder"),QApplication::translate("MainWindow","Impossible to remove folder!\nAre you sure is empty?"),QMessageBox::Ok);
+            if (!QDir().rmdir(FileToRemove)) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Remove folder"),QApplication::translate("MainWindow","Impossible to delete folder!\nAre you sure it is empty?"),QMessageBox::Ok);
         } else {
-            if (!QFile(FileToRemove).remove()) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Remove file"),QApplication::translate("MainWindow","Impossible to remove file!"),QMessageBox::Ok);
+            if (!QFile(FileToRemove).remove()) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Remove file"),QApplication::translate("MainWindow","Impossible to delete file!"),QMessageBox::Ok);
         }
     }
     QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoRemoveFile()));

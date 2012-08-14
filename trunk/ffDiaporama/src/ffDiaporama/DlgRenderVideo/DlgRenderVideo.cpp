@@ -1068,7 +1068,12 @@ void DlgRenderVideo::DoAccept() {
                 QString(" -dframes %1%2 %3 -r %4 ").arg(NbrFrame).arg(StreamFormat).arg(vCodec).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
                 //(UpdateWidth!=W?QString(" -s %1x%2").arg(UpdateWidth).arg(H+ExtendV):"")+
                 #ifdef LIBAV_08
-                " -sws_flags bicubic "+
+                    #if (LIBAVCODEC_VERSION_MAJOR>=54)
+                        ((Diaporama->ApplicationConfig->BinaryEncoderPath=="avconv")?QString(" -filter:v scale=%1:%2:flags=bicubic ").arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height):
+                    #else
+                        (
+                    #endif
+                      " -sws_flags bicubic ")+
                 #endif
                 QString("%1 -aspect %2:%3").arg(aCodec).arg(GeoW).arg(GeoH);
 
@@ -1495,36 +1500,84 @@ void DlgRenderVideo::WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue
    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::WriteTempAudioFile");
 
     // Flush audio frame
-    AVPacket pkt;
     while (WriteWAV->RenderMusic.List.count()>0) {
         int16_t *PacketSound=WriteWAV->RenderMusic.DetachFirstPacket();
         if (PacketSound==NULL) {
             PacketSound=(int16_t *)av_malloc(WriteWAV->RenderMusic.SoundPacketSize+4);
             memset(PacketSound,0,WriteWAV->RenderMusic.SoundPacketSize);
         }
-        int out_size= avcodec_encode_audio(WriteWAV->AudioCodecContext,WriteWAV->audio_outbuf,WriteWAV->RenderMusic.SoundPacketSize,(short int *)PacketSound);
-        if (out_size>0) {
-            av_init_packet(&pkt);
 
-            if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->pts!=int64_t(INT64_C(0x8000000000000000))))
-                pkt.pts=av_rescale_q(WriteWAV->AudioCodecContext->coded_frame->pts,WriteWAV->AudioCodecContext->time_base,WriteWAV->AudioStream->time_base);
+        #if FF_API_OLD_ENCODE_AUDIO
 
-            if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->key_frame))
-                pkt.flags|=AV_PKT_FLAG_KEY;
+            // Init frame
+            AVFrame *frame=avcodec_alloc_frame();
+            if (frame->extended_data!=frame->data) av_freep(&frame->extended_data);
+            avcodec_get_frame_defaults(frame);
+            frame->nb_samples=WriteWAV->RenderMusic.SoundPacketSize/(WriteWAV->AudioCodecContext->channels*av_get_bytes_per_sample(WriteWAV->AudioCodecContext->sample_fmt));
 
-            pkt.stream_index=WriteWAV->AudioStream->index;
-            pkt.data        =WriteWAV->audio_outbuf;
-            pkt.size        =out_size;
+            // fill buffer
+            if (avcodec_fill_audio_frame(frame,WriteWAV->AudioCodecContext->channels,WriteWAV->AudioCodecContext->sample_fmt,(const uint8_t*)PacketSound,WriteWAV->RenderMusic.SoundPacketSize,1)>=0) {
 
-            // write the compressed frame in the media file
-            if (av_interleaved_write_frame(WriteWAV->OutputFormatContext,&pkt)!=0) {
-                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
+                // Init packet
+                AVPacket pkt;
+                av_init_packet(&pkt);
+                pkt.data = NULL;
+                pkt.size = 0;
+
+                int got_packet=0;
+                if (avcodec_encode_audio2(WriteWAV->AudioCodecContext,&pkt,frame,&got_packet)<0) {
+
+                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
+                    *Continue=false;
+
+                } else {
+
+                    if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->pts!=int64_t(INT64_C(0x8000000000000000))))
+                        pkt.pts=av_rescale_q(WriteWAV->AudioCodecContext->coded_frame->pts,WriteWAV->AudioCodecContext->time_base,WriteWAV->AudioStream->time_base);
+
+                    if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->key_frame))
+                        pkt.flags|=AV_PKT_FLAG_KEY;
+
+                    pkt.stream_index=WriteWAV->AudioStream->index;
+
+                    // write the compressed frame in the media file
+                    if (av_interleaved_write_frame(WriteWAV->OutputFormatContext,&pkt)!=0) {
+                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
+                        *Continue=false;
+                    }
+                }
+            } else {
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
                 *Continue=false;
             }
-        } else if (out_size<0) {
-            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
-            *Continue=false;
-        }
+            av_free(frame);
+
+        #else
+            int out_size= avcodec_encode_audio(WriteWAV->AudioCodecContext,WriteWAV->audio_outbuf,WriteWAV->RenderMusic.SoundPacketSize,(short int *)PacketSound);
+            if (out_size>0) {
+                AVPacket pkt;
+                av_init_packet(&pkt);
+
+                if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->pts!=int64_t(INT64_C(0x8000000000000000))))
+                    pkt.pts=av_rescale_q(WriteWAV->AudioCodecContext->coded_frame->pts,WriteWAV->AudioCodecContext->time_base,WriteWAV->AudioStream->time_base);
+
+                if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->key_frame))
+                    pkt.flags|=AV_PKT_FLAG_KEY;
+
+                pkt.stream_index=WriteWAV->AudioStream->index;
+                pkt.data        =WriteWAV->audio_outbuf;
+                pkt.size        =out_size;
+
+                // write the compressed frame in the media file
+                if (av_interleaved_write_frame(WriteWAV->OutputFormatContext,&pkt)!=0) {
+                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
+                    *Continue=false;
+                }
+            } else if (out_size<0) {
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
+                *Continue=false;
+            }
+        #endif
         av_free(PacketSound);
     }
 }

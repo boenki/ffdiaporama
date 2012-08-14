@@ -477,6 +477,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
     //***********************************************************************
     } else {
 
+        QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
         ActualDisplay=NULL;
 
         if (FileInfo) {
@@ -489,6 +490,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             }
 
         } else if (Diaporama) {
+
             // Create a frame from actual position
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Value,Diaporama,double(1000)/WantedFPS);
             PrepareImage(Frame,false,true);         // This will add frame to the ImageList
@@ -519,6 +521,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             // Free frame
             delete Frame;
         }
+        QApplication::restoreOverrideCursor();
     }
     GlobalMainWindow->InPlayerUpdate=false;
 }
@@ -676,8 +679,10 @@ void wgt_QVideoPlayer::SetStartEndPos(int StartPos,int Duration,int PreviousStar
 
 void wgt_QVideoPlayer::SeekPlayer(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::SeekPlayer");
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ActualPosition=-1;
     s_SliderMoved(Value);
+    QApplication::restoreOverrideCursor();
 }
 
 //============================================================================================
