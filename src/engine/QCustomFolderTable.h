@@ -100,6 +100,7 @@ signals:
     void    RemoveFiles();
     void    InsertFiles();
     void    OpenFiles();
+    void    RenameFiles();
     void    Refresh();
 
 public slots:

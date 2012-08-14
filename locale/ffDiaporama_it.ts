@@ -52,10 +52,6 @@
         <translation>Effetti dell&apos;immagine sono basati su ftm_filters</translation>
     </message>
     <message>
-        <source>TAG managment based on TAGLib</source>
-        <translation>Gestione TAG basata su TAGLib</translation>
-    </message>
-    <message>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
@@ -70,6 +66,10 @@
     <message>
         <source>Video decoding and encoding engines are based on libav</source>
         <translation>Motori di decodifica e codifica video sono basati su libav</translation>
+    </message>
+    <message>
+        <source>TAG management based on TAGLib</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -99,18 +99,6 @@
         <translation>Opzioni applicazione</translation>
     </message>
     <message>
-        <source>If this box is checked, the sizes and the positions of all the windows and dialogue box of ffDiaporama will be saved to be reused the next time which you will use ffDiaporama.</source>
-        <translation>Se questa casella e ceccata, le dimensioni e le posizioni di tutte le finestre di ffDiaporama saranno salvate per essere riutilizzate quando userai ffDiaporama.</translation>
-    </message>
-    <message>
-        <source>Remember Windows size and positions</source>
-        <translation>Ricorda dimensione e posizioni finestre</translation>
-    </message>
-    <message>
-        <source>If this box is checked, the directories that you use for the images, the videos, the projects, the musics and the generations of movie will be saved to be reused the next time which you will use ffDiaporama.</source>
-        <translation>Se questa casella e ceccata, le directory per le immagini, i video, i progetti, le musiche e i video generati saranno salvati per essere riutilizzati la prossima volta che utilizzarai ffDiaporama.</translation>
-    </message>
-    <message>
         <source>Remember last used folders</source>
         <translation>Ricorda le ultime cartelle usate</translation>
     </message>
@@ -123,10 +111,6 @@
         <translation>Frequenza fotogrammi :</translation>
     </message>
     <message>
-        <source>Defined the number of images by seconds which will be generated to show the preview.</source>
-        <translation>Definisce il numero di immagini per secondo che verranno generate per mostrare l&apos;anteprima.</translation>
-    </message>
-    <message>
         <source>fps (Reduce this value for slow computer)</source>
         <translation>fps (Ridurre questo valore per i computer lenti)</translation>
     </message>
@@ -135,20 +119,12 @@
         <translation>Trasformazione immagine :</translation>
     </message>
     <message>
-        <source>If this box is checked, The effects of transformations will be applied to the images of videos during the preview.</source>
-        <translation>Se questa casella è ceccata, L&apos;effetto di trasformazione sarà applicato all&apos;immagine del video durante l&apos;anteprima.</translation>
-    </message>
-    <message>
         <source>Apply to video during preview</source>
         <translation>Applica al video durante l&apos;anteprima</translation>
     </message>
     <message>
         <source>Object position :</source>
         <translation>Posizione oggetto :</translation>
-    </message>
-    <message>
-        <source>Define the position which occupy the new objects in the timeline during the insertions</source>
-        <translation>Definisce la posizione che occupa il nuovo oggetto nella linea temporale durante l&apos;inserimento</translation>
     </message>
     <message>
         <source>Insert after current object</source>
@@ -163,30 +139,8 @@
         <translation>Inserimento file multipli :</translation>
     </message>
     <message>
-        <source>Adjust the way will be sorted out files when you select several files in Add file.</source>
-        <translation>Regola il modo in cui saranno ordinati i file quando si seleziona più file da Aggiungi file.</translation>
-    </message>
-    <message>
         <source>Sort file by last number</source>
         <translation>Ordina file dall&apos;ultimo numero</translation>
-    </message>
-    <message>
-        <source>Defined the transition to be inserted between slides during the insertions:
-Chosen randomly a transition in the library</source>
-        <translation>Definisce la transizione da inserire tra le diapositive durante l&apos;inserimento:
-Sceglie casualmente una transizione nella libreria</translation>
-    </message>
-    <message>
-        <source>Defined the transition to be inserted between slides during the insertions:
-No transition</source>
-        <translation>Definisce la transizione da inserire tra le diapositive durante l&apos;inserimento:
-Nessuna transizione</translation>
-    </message>
-    <message>
-        <source>Defined the transition to be inserted between slides during the insertions:
-Crossfade transition</source>
-        <translation>Definisce la transizione da inserire tra le diapositive durante l&apos;inserimento:
-Transizione dissolvenza incrociata</translation>
     </message>
     <message>
         <source>Define the transition duration</source>
@@ -195,10 +149,6 @@ Transizione dissolvenza incrociata</translation>
     <message>
         <source>sec</source>
         <translation>sec</translation>
-    </message>
-    <message>
-        <source>If this box is checked, a confirmation will display every time you remove an object</source>
-        <translation>Se questa casella è ceccata, una conferma apparira a video ogni volta che si rimuoverà un oggetto</translation>
     </message>
     <message>
         <source>Ask user confirmation to remove slide, object or shot</source>
@@ -211,10 +161,6 @@ Transizione dissolvenza incrociata</translation>
     <message>
         <source>Coordinates unit :</source>
         <translation>Unità coordinate:</translation>
-    </message>
-    <message>
-        <source>Select the unit of the coordinates which will be used in properties dialog box</source>
-        <translation>Seleziona l&apos;unità delle coordinate che saranno usate nelle propietà della finestra di dialogo</translation>
     </message>
     <message>
         <source>Percent</source>
@@ -281,10 +227,6 @@ Transizione dissolvenza incrociata</translation>
         <translation>Opzioni progetto (valori predefiniti)</translation>
     </message>
     <message>
-        <source>Select the geometry of image to be used for the creation of the projects.</source>
-        <translation>Seleziona la geometria dell&apos;immagine che sarà usata per la creazione del progetto.</translation>
-    </message>
-    <message>
         <source>Old TV (4:3)</source>
         <translation>Vecchie TV (4:3)</translation>
     </message>
@@ -299,18 +241,6 @@ Transizione dissolvenza incrociata</translation>
     <message>
         <source>(Only for new project)</source>
         <translation>(Solo per nuovo progetto)</translation>
-    </message>
-    <message>
-        <source>Defined the default duration of the first shot of slides during their creation.</source>
-        <translation>Definisce la durata predefinita della prima inquadratura delle diapositive durante la loro crazione.</translation>
-    </message>
-    <message>
-        <source>Defined the default duration of next shots.</source>
-        <translation>Definisce la durata predefinita delle prossime diapositive.</translation>
-    </message>
-    <message>
-        <source>Defined the curve of speed to be used for the transitions and the animations.</source>
-        <translation>Definisce la velocita della curva da utilizzare per le transizioni e le animazioni.</translation>
     </message>
     <message>
         <source>Linear</source>
@@ -523,14 +453,6 @@ non predefinita</translation>
         <translation>Formato :</translation>
     </message>
     <message>
-        <source>Select the default image format to use for the rendering among the proposed list. </source>
-        <translation>Seleziona il formato immagine predefinito da usare per il rendering tra la lista proposta.</translation>
-    </message>
-    <message>
-        <source>Select the default video standard to use, PAL or NTSC.</source>
-        <translation>Seleziona lo standard video predefinito da usare, PAL o NTSC.</translation>
-    </message>
-    <message>
         <source>PAL</source>
         <translation>PAL</translation>
     </message>
@@ -543,24 +465,8 @@ non predefinita</translation>
         <translation>Bit rate :</translation>
     </message>
     <message>
-        <source>Select the default bit rate to use for video during the rendering among the proposed list. </source>
-        <translation>Seleziona il bit rate  predefinito da usare per il rendering tra la lista proposta.</translation>
-    </message>
-    <message>
-        <source>Select the default video codec to use for the rendering among the proposed list. </source>
-        <translation>Seleziona il codec video predefinito da usare per il rendering tra la lista proposta.</translation>
-    </message>
-    <message>
-        <source>Select the default audio codec to use for the rendering among the proposed list. </source>
-        <translation>Seleziona il codec audio predefinito da usare per il rendering tra la lista proposta.</translation>
-    </message>
-    <message>
         <source>Audio codec :</source>
         <translation>Codec audio :</translation>
-    </message>
-    <message>
-        <source>Select the default bit rate to use for audio during the rendering among the proposed list. </source>
-        <translation>Seleziona il bit rate  predefinito da usare per il rendering audio tra la lista proposta.</translation>
     </message>
     <message>
         <source>Default device mode rendering options</source>
@@ -577,34 +483,6 @@ non predefinita</translation>
     <message>
         <source>For the WEB :</source>
         <translation>Per il WEB :</translation>
-    </message>
-    <message>
-        <source>Select the type of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleziona il tipo di dispositivi che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;Player and Smartphone&quot; sul menu &quot;Render movie&quot;</translation>
-    </message>
-    <message>
-        <source>Select the type of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleziona il tipo di dispositivi che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;For the WEB&quot; sul menu &quot;Render movie&quot;</translation>
-    </message>
-    <message>
-        <source>Select the type of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleziona il tipo di dispositivi che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;Multimedia system&quot; sul menu &quot;Render movie&quot;</translation>
-    </message>
-    <message>
-        <source>Select the default file type to use for the rendering among the proposed list.</source>
-        <translation>Seleziona il tipo di file predefinito da usare per il rendering dalla lista proposta.</translation>
-    </message>
-    <message>
-        <source>Select the model of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleziona il modello dei dispositivi che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;Player and Smartphone&quot; sul menu &quot;Render movie&quot;</translation>
-    </message>
-    <message>
-        <source>Select the model of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleziona il modello dei dispositivi che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;Multimedia system&quot; sul menu &quot;Render movie&quot;</translation>
-    </message>
-    <message>
-        <source>Select the model of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</source>
-        <translation>Seleziona il modello di dispositivo che saranno proposti in modo predefinito quando cliccherai il pulsante &quot;For the WEB&quot; sul menu &quot;Render movie&quot;</translation>
     </message>
     <message>
         <source>Default video name :</source>
@@ -712,16 +590,140 @@ Vedere la guida per maggiori dettagli!</translation>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Project options (default values)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Remember size and position of windows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the size and position of all windows and dialogue boxes
+of ffDiaporama will be saved to be reused the next time you use ffDiaporama</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the number of frames per second which will be generated to show the preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the transformation effects will be applied to the video images during the preview</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the position where new objects are placed on the timeline during insertion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, a confirmation dialog is displayed every time you remove an object</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the unit of coordinates which will be used in the properties dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the folders that you use for images, videos, projects, music and the movie
+generations will be saved to be reused the next time you use ffDiaporama</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, files will be sorted by last number when you select multiple files in Add file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the image geometry to be used for the creation of new projects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the default duration of slides during their creation,
+this is by definition the first shot of each slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the default duration of following shots within a slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the playback profile to be used for transitions and animations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set the default type of transition to be inserted between slides to:
+Randomly from the transition library</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set the default type of transition to be inserted between slides to:
+No transition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set the default type of transition to be inserted between slides to:
+Crossfade transition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the default bit rate to use for video during the rendering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the default video codec to use for the rendering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the default audio codec to use for the rendering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the default bit rate to use for audio during the rendering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the type of equipment which will be proposed by default
+when you click the &quot;Player and Smartphone&quot; button in the &quot;Render movie&quot; menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the type of equipment which will be proposed by default
+when you click the &quot;For the WEB&quot; button in the &quot;Render movie&quot; menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the type of equipment which will be proposed by default
+when you click the &quot;Multimedia system&quot; button in the &quot;Render movie&quot; menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the model of equipment which will be proposed by default
+when you click the &quot;Player and Smartphone&quot; button in the &quot;Render movie&quot; menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the model of equipment which will be proposed by default
+when you click the &quot;Multimedia system&quot; button in the &quot;Render movie&quot; menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the model of equipment which will be proposed by default
+ when you click the &quot;For the WEB&quot; button in the &quot;Render movie&quot; menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the default file type to use for the rendering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the default image format to use for the rendering</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the default video standard to use, PAL or NTSC</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgBackgroundProperties</name>
     <message>
         <source>Background properties</source>
         <translation>Propietà sfondo</translation>
-    </message>
-    <message>
-        <source>Same background as precedent object</source>
-        <translation>Stesso sfondo dell&apos;oggetto precedente</translation>
     </message>
     <message>
         <source>Select a new background</source>
@@ -786,6 +788,10 @@ Vedere la guida per maggiori dettagli!</translation>
     <message>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
+    </message>
+    <message>
+        <source>Same background as preceding object</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -914,44 +920,12 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>Propietà per questo scatto</translation>
     </message>
     <message>
-        <source>Define the horizontal position from the left (X).</source>
-        <translation>Definisce la posizione orizzontale dalla sinistra (X).</translation>
-    </message>
-    <message>
-        <source>Define the vertical position from the top of the image ( Y ).</source>
-        <translation>Definisce la posizione verticale dall&apos;alto dell&apos;immagine (Y).</translation>
-    </message>
-    <message>
-        <source>Define automatically the framing to the width of the image.</source>
-        <translation>Definisce automaticamente l&apos;inquadratura alla larghezza dell&apos;immagine.</translation>
-    </message>
-    <message>
-        <source>Define automatically the framing to the height of the image.</source>
-        <translation>Definisce automaticamente l&apos;inquadratura all&apos; altezza dell&apos;immagine.</translation>
-    </message>
-    <message>
-        <source>Define automatically the framing to the diagonal of the image.</source>
-        <translation>Definisce automaticamente l&apos;inquadratura alla diagonale dell&apos;immagine.</translation>
-    </message>
-    <message>
         <source>Define the width</source>
         <translation>Definisce la larghezza</translation>
     </message>
     <message>
         <source>Define the height</source>
         <translation>Definisce l&apos;altezza</translation>
-    </message>
-    <message utf8="true">
-        <source>Turn the image to the left (on the multiple fellow man of 90°).</source>
-        <translation>Ruotare l&apos;immagine a sinistra (sul prossimo multiplo di 90 °).</translation>
-    </message>
-    <message>
-        <source>Define the rotation angle for z axis.</source>
-        <translation>Definire l&apos;angolo di rotazione per l&apos;asse z.</translation>
-    </message>
-    <message utf8="true">
-        <source>Turn the image to the right (on the multiple fellow man of 90°).</source>
-        <translation>Ruotare l&apos;immagine a destra (sul prossimo multiplo di 90 °).</translation>
     </message>
     <message>
         <source>Adjust luminosity</source>
@@ -966,28 +940,8 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>Regola gamma</translation>
     </message>
     <message>
-        <source>Adjust red chanel</source>
-        <translation>Regola canale rosso</translation>
-    </message>
-    <message>
-        <source>Adjust green chanel</source>
-        <translation>Regola canale verde</translation>
-    </message>
-    <message>
-        <source>Adjust blue chanel</source>
-        <translation>Regola canale blu</translation>
-    </message>
-    <message>
         <source>Reset to zero</source>
         <translation>Azzeramento</translation>
-    </message>
-    <message>
-        <source>Apply a filter to the photo or the images of the video</source>
-        <translation>Applica un filtro alla foto o alle immagini del video</translation>
-    </message>
-    <message>
-        <source>Define a blur/sharpen filter to the photo</source>
-        <translation>Definire una filtro di sfocatura/contrasto alla foto</translation>
     </message>
     <message>
         <source>Reset to 5</source>
@@ -1054,10 +1008,6 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>Attivare o disattivare i righelli corrispondenti ai margini dei televisori.</translation>
     </message>
     <message>
-        <source>Rullers</source>
-        <translation>Righelli</translation>
-    </message>
-    <message>
         <source>Undo</source>
         <translation>Annulla</translation>
     </message>
@@ -1087,6 +1037,70 @@ Vedere la guida per maggiori dettagli!</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Image correction :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to 1</source>
+        <translation type="unfinished">Ripristina a 100% {1?}</translation>
+    </message>
+    <message>
+        <source>Adjust red channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust green channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Turn the image to the left (on the next multiple of 90°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the rotation angle for the z axis</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Turn the image to the right (on the next multiple of 90°)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define automatically the framing to the width of the image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define automatically the framing to the height of the image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define automatically the framing to the diagonal of the image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply a filter to the photo or the video images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the vertical position from the top of the image ( Y )</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the horizontal position from the left (X)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust blue channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a blur/sharpen filter for the photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Apply a blur/sharpen filter to the photo</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rulers</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1684,18 +1698,6 @@ Per favore seleziona un&apos;altro nome!</translation>
         <translation>Rimuovi il file corrente selezionato</translation>
     </message>
     <message>
-        <source>Change the order in which will be played the music files:
-Move the current selected file of a notch upward.</source>
-        <translation>Modificare l&apos;ordine in cui verranno riprodotti i file musicali:
-Spostare il file corrente selezionato di una tacca verso l&apos;alto.</translation>
-    </message>
-    <message>
-        <source>Change the order in which will be played the music files:
-Move the current selected file of a notch downward.</source>
-        <translation>Modificare l&apos;ordine in cui verranno riprodotti i file musicali:
-Spostare il file corrente selezionato di una tacca verso il basso.</translation>
-    </message>
-    <message>
         <source>Total playlist duration : </source>
         <translation>Durata totale playlist :</translation>
     </message>
@@ -1758,16 +1760,26 @@ Spostare il file corrente selezionato di una tacca verso il basso.</translation>
         <translation>Formato non supportata</translation>
     </message>
     <message>
-        <source>Allows one to continue to play the play list define by a previous slide</source>
-        <translation>Permette di continuare a riprodurre la playlist definita da una diapositiva precedente</translation>
+        <source>You can continue the playlist defined in a previous slide</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allows one to indicate that from now on, the sound volume is reduced.</source>
-        <translation>Permette di indicare che d&apos;ora in poi, il volume è ridotto.</translation>
+        <source>Set reduced volume level during this slide</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allows one to start a new playlist.</source>
-        <translation>Permette di avviare una nuova playlist.</translation>
+        <source>You can start a new playlist from this slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the order in which the music files will be played:
+Move the current selected file a notch up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the order in which the music files will be played:
+Move the current selected file a notch down</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1849,10 +1861,6 @@ Spostare il file corrente selezionato di una tacca verso il basso.</translation>
         <translation>Formato file :</translation>
     </message>
     <message>
-        <source>Select the file type to use for the rendering.</source>
-        <translation>Seleziona il tipo di file da usare per il rendering.</translation>
-    </message>
-    <message>
         <source>Audio codec :</source>
         <translation>Codec audio :</translation>
     </message>
@@ -1871,10 +1879,6 @@ Spostare il file corrente selezionato di una tacca verso il basso.</translation>
     <message>
         <source>Device type :</source>
         <translation>Tipo dispositivo :</translation>
-    </message>
-    <message>
-        <source>Select the type of equipment.</source>
-        <translation>Seleziona il tipo di dispositivo.</translation>
     </message>
     <message>
         <source>All slides</source>
@@ -2107,6 +2111,14 @@ Vuoi sovrascriverlo?</translation>
         <source>Stop rendering process and exit dialog box</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Select the type of equipment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the file type to use for the rendering</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgRulerDef</name>
@@ -2170,16 +2182,8 @@ Vuoi sovrascriverlo?</translation>
 <context>
     <name>DlgSlideDuration</name>
     <message>
-        <source>Set first shot duration for a set of slide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>First shot duration :</source>
         <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Indicate the duration for the current selected shot.</source>
-        <translation type="unfinished">Indicare la durata della diapositiva correntemente selezionata.</translation>
     </message>
     <message>
         <source>HH:mm:ss.zzz</source>
@@ -2213,6 +2217,14 @@ Vuoi sovrascriverlo?</translation>
         <source>F1</source>
         <translation type="unfinished">F1</translation>
     </message>
+    <message>
+        <source>Define the duration for the current selected shots</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Set first shot duration for a set of slides</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgSlideProperties</name>
@@ -2237,24 +2249,12 @@ Vuoi sovrascriverlo?</translation>
         <translation>Rimuove</translation>
     </message>
     <message>
-        <source>Change the order of the shot by moving the current selected shot, of a notch towards the left</source>
-        <translation>Modificare l&apos;ordine delle diapositive spostando la diapositiva correntemente selezionata, di una tacca verso sinistra</translation>
-    </message>
-    <message>
         <source>Move left</source>
         <translation>Sposta a sinistra</translation>
     </message>
     <message>
-        <source>Change the order of the shot by moving the current selected shot, of a notch towards the right</source>
-        <translation>Modificare l&apos;ordine delle diapositive spostando la diapositiva correntemente selezionata, di una tacca verso destra</translation>
-    </message>
-    <message>
         <source>Move right</source>
         <translation>Sposta a destra</translation>
-    </message>
-    <message>
-        <source>Indicate the duration for the current selected shot.</source>
-        <translation>Indicare la durata della diapositiva correntemente selezionata.</translation>
     </message>
     <message>
         <source>HH:mm:ss.zzz</source>
@@ -2263,10 +2263,6 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Shot duration :</source>
         <translation>Durata diapositiva :</translation>
-    </message>
-    <message>
-        <source>Indicate a name for the slide. It is this name which will appear on the thumbnail in the main window timeline.</source>
-        <translation>Indicare un nome per lo scatto. E &apos;questo il nome che apparirà sulla miniatura nella linea temporale della finestra principale.</translation>
     </message>
     <message>
         <source>Ctrl+Ins</source>
@@ -2285,10 +2281,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Del</translation>
     </message>
     <message>
-        <source>Copy the current block to the ffDiaporama clipboard.</source>
-        <translation>Copiare il blocco corrente negli appunti ffDiaporama.</translation>
-    </message>
-    <message>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
@@ -2299,10 +2291,6 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
-    </message>
-    <message>
-        <source>Paste block from the ffDiaporama clipboard and insert it.</source>
-        <translation>Incolla il blocco degli appunti ffDiaporama e inseriscilo.</translation>
     </message>
     <message>
         <source>Ctrl+V</source>
@@ -2317,10 +2305,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Definire le propietà del blocco di testo</translation>
     </message>
     <message>
-        <source>Define framing and do correction of image or movie</source>
-        <translation>Definire l&apos;inquadratura e correzione di immagine o filmato</translation>
-    </message>
-    <message>
         <source>Cut the video</source>
         <translation>Taglia il video</translation>
     </message>
@@ -2333,48 +2317,8 @@ Vuoi sovrascriverlo?</translation>
         <translation>Forma :</translation>
     </message>
     <message>
-        <source>Select a shape for current block</source>
-        <translation>Seleziona una forma per il blocco corrente</translation>
-    </message>
-    <message>
         <source>Opacity :</source>
         <translation>Opacità :</translation>
-    </message>
-    <message>
-        <source>Defined the opaqueness of the block.</source>
-        <translation>Definisce l&apos;opacità del blocco.</translation>
-    </message>
-    <message>
-        <source>Defined the thickness of the border</source>
-        <translation>Definisce lo spessore del bordo</translation>
-    </message>
-    <message>
-        <source>Defined the color of the line to be used to draw the border</source>
-        <translation>Definisce il colore della linea da utilizzare per disegnare il bordo</translation>
-    </message>
-    <message>
-        <source>Defined the type of line (solid, dotted line, etc.)</source>
-        <translation>Definisce il tipo di linea (solida, tratteggiata, ecc.)</translation>
-    </message>
-    <message>
-        <source>Define rotation according to the X axis (defined in degree).</source>
-        <translation>Definisce la rotazione secondo l&apos;asse X (definita in gradi).</translation>
-    </message>
-    <message>
-        <source>Define rotation according to the Y axis (defined in degree).</source>
-        <translation>Definisce la rotazione secondo l&apos;asse Y (definita in gradi).</translation>
-    </message>
-    <message>
-        <source>Define rotation according to the Z axis (defined in degree).</source>
-        <translation>Definisce la rotazione secondo l&apos;asse Z (definita in gradi).</translation>
-    </message>
-    <message>
-        <source>Defined the distance between the block and its shadow</source>
-        <translation>Definisce la distanza tra il blocco e la sua ombra</translation>
-    </message>
-    <message>
-        <source>Defined the color of the shadow</source>
-        <translation>Definisce il colore dell&apos;ombra</translation>
     </message>
     <message>
         <source>Define width of current block</source>
@@ -2393,16 +2337,8 @@ Vuoi sovrascriverlo?</translation>
         <translation>Definire la posizione Y del blocco corrente</translation>
     </message>
     <message>
-        <source>Defined in which corner the shadow will be positioned (or no shadow)</source>
-        <translation>Definisce in quale angolo l&apos;ombra sarà posizionata (o nessuna ombra)</translation>
-    </message>
-    <message>
         <source>Shadow :</source>
         <translation>Ombra :</translation>
-    </message>
-    <message>
-        <source>Enable or disable rulers corresponding to the margins of television sets.</source>
-        <translation>Attivare o disattivare i righelli corrispondenti ai margini dei televisori.</translation>
     </message>
     <message>
         <source>Accept modification and go to previous slide</source>
@@ -2481,10 +2417,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Rimuovi diapositiva</translation>
     </message>
     <message>
-        <source>Are you sure to want to delete this shot?</source>
-        <translation>Sei sicuro di voler cancellare questa diapositiva?</translation>
-    </message>
-    <message>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Testo</translation>
@@ -2492,14 +2424,6 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Add files</source>
         <translation>Aggiungi files</translation>
-    </message>
-    <message>
-        <source>Display detailled information on current block</source>
-        <translation>Visualizzare informazioni dettagliate sul blocco corrente</translation>
-    </message>
-    <message>
-        <source>Reset to 0</source>
-        <translation>Ripristina a 0</translation>
     </message>
     <message>
         <source>Zoom :</source>
@@ -2522,18 +2446,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Scorrimento testo dal basso verso l&apos;alto</translation>
     </message>
     <message>
-        <source>Define the number of turn to be made around the Z axis during this shot</source>
-        <translation>Definire il numero di giri da fare intorno all&apos;asse Z durante questa inquadratura</translation>
-    </message>
-    <message>
-        <source>Define the number of turn to be made around the X axis during this shot</source>
-        <translation>Definire il numero di giri da fare intorno all&apos;asse X durante questa inquadratura</translation>
-    </message>
-    <message>
-        <source>Define the number of turn to be made around the Y axis during this shot</source>
-        <translation>Definire il numero di giri da fare intorno all&apos;asse Y durante questa inquadratura</translation>
-    </message>
-    <message>
         <source>Type :</source>
         <translation>Tipo :</translation>
     </message>
@@ -2544,14 +2456,6 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Edit text</source>
         <translation>Modifica testo</translation>
-    </message>
-    <message>
-        <source>Do image correct or reframming</source>
-        <translation>Correzione o riorganizzazione immagine</translation>
-    </message>
-    <message>
-        <source>Make visible the active block</source>
-        <translation>Rendi visibile il blocco attivo</translation>
     </message>
     <message>
         <source>Take the sound</source>
@@ -2600,14 +2504,6 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Duration:</source>
         <translation>Durata:</translation>
-    </message>
-    <message>
-        <source>Rullers</source>
-        <translation>Righelli</translation>
-    </message>
-    <message>
-        <source>Are you sure to want to delete this block?</source>
-        <translation>Sei sicuro di voler cancellare questo blocco?</translation>
     </message>
     <message>
         <source>Add a new text block</source>
@@ -2676,10 +2572,6 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Remove blocks</source>
         <translation>Rimuove blocchi</translation>
-    </message>
-    <message>
-        <source>Are you sure to want to delete these blocks?</source>
-        <translation>Sei sicuro di voler cancellare questi blocchi?</translation>
     </message>
     <message>
         <source>Undo last action (CTRL+Z)</source>
@@ -2788,24 +2680,8 @@ blocco</translation>
         <translation>Blocco propietà</translation>
     </message>
     <message>
-        <source>Lock properties to the same values as define for the previous shot</source>
-        <translation>Bloccare le proprietà agli stessi valori definire per l&apos;inquadratura precedente</translation>
-    </message>
-    <message>
-        <source>Unlock properties from this shot</source>
-        <translation>Sblocca le propietà da questa inquadratura</translation>
-    </message>
-    <message>
-        <source>Define properties from this shot</source>
-        <translation>Definire le propietà da questa inquadratura</translation>
-    </message>
-    <message>
         <source>Hide</source>
         <translation>Nascondi</translation>
-    </message>
-    <message>
-        <source>Make hide the active block</source>
-        <translation>Impostare come nascosto il blocco attivo</translation>
     </message>
     <message>
         <source>Move to foreground</source>
@@ -2833,6 +2709,154 @@ blocco</translation>
     </message>
     <message>
         <source>Display information on image or video file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define a name for the slide. It is this name which will appear on the thumbnail in the main window timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the duration for the current selected shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the angle of rotation about the z-axis (expressed in degrees)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to zero</source>
+        <translation type="unfinished">Azzeramento</translation>
+    </message>
+    <message>
+        <source>Define the angle of rotation about the x-axis (expressed in degrees)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the angle of rotation about the y-axis (expressed in degrees)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a shape for the current block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the opaqueness of the block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the thickness of the border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the color of the line to be used to draw the border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the type of line (solid, dotted line, etc.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select in which corner the shadow will be positioned (or no shadow)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the distance between the block and its shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the color of the shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scroll text from bottom to top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the number of rotations around the Z axis that is to be made during this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the number of rotations around the X axis that is to be made during this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the number of rotations around the Y axis that is to be made during this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable or disable rulers corresponding to the margins of television sets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rulers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Correct or reframe image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define framing and correction of image or movie</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make the active block visible</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display detailed information on current block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy the current block to the ffDiaporama clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste block from the ffDiaporama clipboard and insert it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new block of type image or video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Append a shot at the end of the timeline</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the order of the shots by moving the current selected shot a notch towards the left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the order of the shots by moving the current selected shot a notch towards the right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock properties to the same values as defined for the previous shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unlock properties of this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define properties of this shot</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hide the active block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this shot?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this block?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete these blocks?</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3062,20 +3086,12 @@ blocco</translation>
 <context>
     <name>DlgTransitionDuration</name>
     <message>
-        <source>Select transition duration for a set of slide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Duration :</source>
         <translation type="unfinished">Durata :</translation>
     </message>
     <message>
         <source>Define the animation duration</source>
         <translation type="unfinished">Definisce la durata dell&apos;animazione</translation>
-    </message>
-    <message>
-        <source>seconde(s)</source>
-        <translation type="unfinished">secondi</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
@@ -3104,6 +3120,14 @@ blocco</translation>
     <message>
         <source>F1</source>
         <translation type="unfinished">F1</translation>
+    </message>
+    <message>
+        <source>second(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select transition duration for a set of slides</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3173,10 +3197,6 @@ blocco</translation>
         <translation>Definisce la durata dell&apos;animazione</translation>
     </message>
     <message>
-        <source>seconde(s)</source>
-        <translation>secondi</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
@@ -3205,7 +3225,11 @@ blocco</translation>
         <translation>F1</translation>
     </message>
     <message>
-        <source>Select a transition for a set of slide</source>
+        <source>second(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a transition for a set of slides</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3234,18 +3258,8 @@ blocco</translation>
         <translation>Usa la posizione corrente come posizione iniziale</translation>
     </message>
     <message>
-        <source>Define the start position to use for</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Definire la posizione iniziale da usare per</translation>
-    </message>
-    <message>
         <source>End :</source>
         <translation>Fine :</translation>
-    </message>
-    <message>
-        <source>Define the end position to use for</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Definire la posizione finale da usare per</translation>
     </message>
     <message>
         <source>Use current position as end position</source>
@@ -3264,10 +3278,6 @@ blocco</translation>
     <message>
         <source>Volume :</source>
         <translation>Volume :</translation>
-    </message>
-    <message>
-        <source>Define the &quot; Master Volume &quot; for the movie</source>
-        <translation>Definire il &quot; Volume principale &quot; per il filmato</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
@@ -3308,6 +3318,20 @@ blocco</translation>
     <message>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
+    </message>
+    <message>
+        <source>Define the start position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the end position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the &quot; Master Volume &quot; for the movie</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3907,10 +3931,6 @@ Vuoi aprirlo comunque?</translation>
         <translation>Rimuovi diapositiva</translation>
     </message>
     <message>
-        <source>Are you sure to want to delete this slide?</source>
-        <translation>Sei sicuro di voler cancellare questa diapositiva?</translation>
-    </message>
-    <message>
         <source>Add file to project :</source>
         <translation>Aggiungi file al progetto :</translation>
     </message>
@@ -4067,16 +4087,6 @@ Vuoi aprirlo comunque?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>A favorite with this name already exist.
-Do you want to overwrite-it ?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>A favorite with for this path already exist.
-Do you want to overwrite-it ?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Details view</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4125,10 +4135,6 @@ Do you want to overwrite-it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Successfully remove folder (and all is content) %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Open</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4142,10 +4148,6 @@ Do you want to overwrite-it ?</source>
     </message>
     <message>
         <source>Display information on file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove file (Warning: file will not be moved to trash!)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4274,16 +4276,7 @@ Do you want to overwrite-it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Impossible to remove folder!
-Are you sure is empty?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remove file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Impossible to remove file!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4291,28 +4284,7 @@ Are you sure is empty?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Are you sure to want to delete this %1 slides?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Are you sure to remove this file or folder ?
-(Warning: Content will not be moved to trash)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove transition</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select a transition</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Set transition duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Randomize transition</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4324,7 +4296,59 @@ Are you sure is empty?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Reset music track to &quot;Same as previous&quot;</source>
+        <source>Delete file (Warning: file will not be moved to trash!)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove transitions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select transitions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Randomize transitions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset music to &quot;Same as previous&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove this slide?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to remove these %1 slides?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A favorite with this name already exists.
+Do you want to overwrite it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A favorite with for this path already exists.
+Do you want to overwrite it?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Successfully deleted folder (and all its content) %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure to delete this file or folder ?
+(Warning: Content will not be moved to trash)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to delete folder!
+Are you sure it is empty?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Impossible to delete file!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>537</width>
-    <height>84</height>
+    <width>362</width>
+    <height>119</height>
    </rect>
   </property>
   <property name="font">
@@ -17,7 +17,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Select transition duration for a set of slide</string>
+   <string>Select transition duration for a set of slides</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -106,7 +106,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>seconde(s)</string>
+        <string>second(s)</string>
        </property>
       </widget>
      </item>

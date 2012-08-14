@@ -474,7 +474,7 @@ information</string>
          </font>
         </property>
         <property name="toolTip">
-         <string>Indicate a name for the slide. It is this name which will appear on the thumbnail in the main window timeline.</string>
+         <string>Define a name for the slide. It is this name which will appear on the thumbnail in the main window timeline</string>
         </property>
        </widget>
       </item>
@@ -654,7 +654,7 @@ information</string>
              </font>
             </property>
             <property name="toolTip">
-             <string>Indicate the duration for the current selected shot.</string>
+             <string>Define the duration for the current selected shot</string>
             </property>
             <property name="maximumDateTime">
              <datetime>
@@ -883,7 +883,7 @@ information</string>
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-508</y>
+              <y>0</y>
               <width>257</width>
               <height>720</height>
              </rect>
@@ -1260,7 +1260,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define rotation according to the Z axis (defined in degree).</string>
+                  <string>Define the angle of rotation about the z-axis (expressed in degrees)</string>
                  </property>
                  <property name="minimum">
                   <number>-180</number>
@@ -1288,7 +1288,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define rotation according to the Z axis (defined in degree).</string>
+                  <string>Define the angle of rotation about the z-axis (expressed in degrees)</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1313,7 +1313,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Reset to 0</string>
+                  <string>Reset to zero</string>
                  </property>
                  <property name="text">
                   <string notr="true"/>
@@ -1349,7 +1349,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define rotation according to the X axis (defined in degree).</string>
+                  <string>Define the angle of rotation about the x-axis (expressed in degrees)</string>
                  </property>
                  <property name="minimum">
                   <number>-180</number>
@@ -1377,7 +1377,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define rotation according to the X axis (defined in degree).</string>
+                  <string>Define the angle of rotation about the x-axis (expressed in degrees)</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1399,7 +1399,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Reset to 0</string>
+                  <string>Reset to zero</string>
                  </property>
                  <property name="text">
                   <string notr="true"/>
@@ -1454,7 +1454,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define rotation according to the Y axis (defined in degree).</string>
+                  <string>Define the angle of rotation about the y-axis (expressed in degrees)</string>
                  </property>
                  <property name="minimum">
                   <number>-180</number>
@@ -1482,7 +1482,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define rotation according to the Y axis (defined in degree).</string>
+                  <string>Define the angle of rotation about the y-axis (expressed in degrees)</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1504,7 +1504,7 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Reset to 0</string>
+                  <string>Reset to zero</string>
                  </property>
                  <property name="text">
                   <string notr="true"/>
@@ -1624,7 +1624,7 @@ information</string>
                 </font>
                </property>
                <property name="toolTip">
-                <string>Select a shape for current block</string>
+                <string>Select a shape for the current block</string>
                </property>
                <property name="styleSheet">
                 <string notr="true">QComboBox QAbstractItemView {
@@ -1674,7 +1674,7 @@ color: #000000;
                 </font>
                </property>
                <property name="toolTip">
-                <string>Defined the opaqueness of the block.</string>
+                <string>Select the opaqueness of the block</string>
                </property>
               </widget>
              </item>
@@ -1717,7 +1717,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Defined the thickness of the border</string>
+                  <string>Define the thickness of the border</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1739,7 +1739,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Defined the color of the line to be used to draw the border</string>
+                  <string>Select the color of the line to be used to draw the border</string>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -1764,7 +1764,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Defined the type of line (solid, dotted line, etc.)</string>
+                  <string>Select the type of line (solid, dotted line, etc.)</string>
                  </property>
                  <property name="styleSheet">
                   <string notr="true">QComboBox QAbstractItemView {
@@ -1826,7 +1826,7 @@ color: #000000;
                 </font>
                </property>
                <property name="toolTip">
-                <string>Defined in which corner the shadow will be positioned (or no shadow)</string>
+                <string>Select in which corner the shadow will be positioned (or no shadow)</string>
                </property>
               </widget>
              </item>
@@ -1853,7 +1853,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Defined the distance between the block and its shadow</string>
+                  <string>Define the distance between the block and its shadow</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1875,7 +1875,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Defined the color of the shadow</string>
+                  <string>Select the color of the shadow</string>
                  </property>
                  <property name="iconSize">
                   <size>
@@ -2135,7 +2135,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Reset to 0</string>
+                  <string>Reset to zero</string>
                  </property>
                  <property name="text">
                   <string notr="true"/>
@@ -2171,7 +2171,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Scroll text from bottom to up</string>
+                  <string>Scroll text from bottom to top</string>
                  </property>
                  <property name="minimum">
                   <number>-100</number>
@@ -2230,7 +2230,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Reset to 0</string>
+                  <string>Reset to zero</string>
                  </property>
                  <property name="text">
                   <string notr="true"/>
@@ -2286,7 +2286,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of turn to be made around the Z axis during this shot</string>
+                  <string>Define the number of rotations around the Z axis that is to be made during this shot</string>
                  </property>
                  <property name="minimum">
                   <number>-20</number>
@@ -2320,7 +2320,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of turn to be made around the Z axis during this shot</string>
+                  <string>Define the number of rotations around the Z axis that is to be made during this shot</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -2345,7 +2345,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Reset to 0</string>
+                  <string>Reset to zero</string>
                  </property>
                  <property name="text">
                   <string notr="true"/>
@@ -2381,7 +2381,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of turn to be made around the X axis during this shot</string>
+                  <string>Define the number of rotations around the X axis that is to be made during this shot</string>
                  </property>
                  <property name="minimum">
                   <number>-20</number>
@@ -2415,7 +2415,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of turn to be made around the X axis during this shot</string>
+                  <string>Define the number of rotations around the X axis that is to be made during this shot</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -2440,7 +2440,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Reset to 0</string>
+                  <string>Reset to zero</string>
                  </property>
                  <property name="text">
                   <string notr="true"/>
@@ -2476,7 +2476,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of turn to be made around the Y axis during this shot</string>
+                  <string>Define the number of rotations around the Y axis that is to be made during this shot</string>
                  </property>
                  <property name="minimum">
                   <number>-20</number>
@@ -2510,7 +2510,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of turn to be made around the Y axis during this shot</string>
+                  <string>Define the number of rotations around the Y axis that is to be made during this shot</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -2535,7 +2535,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Reset to 0</string>
+                  <string>Reset to zero</string>
                  </property>
                  <property name="text">
                   <string notr="true"/>
@@ -2775,10 +2775,10 @@ color: #000000;
         </font>
        </property>
        <property name="toolTip">
-        <string>Enable or disable rulers corresponding to the margins of television sets.</string>
+        <string>Enable or disable rulers corresponding to the margins of television sets</string>
        </property>
        <property name="text">
-        <string>Rullers</string>
+        <string>Rulers</string>
        </property>
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
@@ -2941,10 +2941,10 @@ color: #000000;
      <normaloff>:/img/EditImage.png</normaloff>:/img/EditImage.png</iconset>
    </property>
    <property name="text">
-    <string>Do image correct or reframming</string>
+    <string>Correct or reframe image</string>
    </property>
    <property name="toolTip">
-    <string>Define framing and do correction of image or movie</string>
+    <string>Define framing and correction of image or movie</string>
    </property>
    <property name="font">
     <font>
@@ -3016,7 +3016,7 @@ color: #000000;
     <string>Visible</string>
    </property>
    <property name="toolTip">
-    <string>Make visible the active block</string>
+    <string>Make the active block visible</string>
    </property>
    <property name="font">
     <font>
@@ -3052,7 +3052,7 @@ color: #000000;
     <string>Display information</string>
    </property>
    <property name="toolTip">
-    <string>Display detailled information on current block</string>
+    <string>Display detailed information on current block</string>
    </property>
    <property name="font">
     <font>
@@ -3070,7 +3070,7 @@ color: #000000;
     <string>Copy block</string>
    </property>
    <property name="toolTip">
-    <string>Copy the current block to the ffDiaporama clipboard.</string>
+    <string>Copy the current block to the ffDiaporama clipboard</string>
    </property>
    <property name="font">
     <font>
@@ -3133,7 +3133,7 @@ color: #000000;
     <string>Paste block</string>
    </property>
    <property name="toolTip">
-    <string>Paste block from the ffDiaporama clipboard and insert it.</string>
+    <string>Paste block from the ffDiaporama clipboard and insert it</string>
    </property>
    <property name="font">
     <font>
@@ -3280,7 +3280,7 @@ color: #000000;
     <string>Add file</string>
    </property>
    <property name="toolTip">
-    <string>Add a new block of type image or video.</string>
+    <string>Add a new block of type image or video</string>
    </property>
    <property name="font">
     <font>
@@ -3298,7 +3298,7 @@ color: #000000;
     <string>Add shot</string>
    </property>
    <property name="toolTip">
-    <string>Append a shot to end of the timeline</string>
+    <string>Append a shot at the end of the timeline</string>
    </property>
    <property name="font">
     <font>
@@ -3334,7 +3334,7 @@ color: #000000;
     <string>Move left</string>
    </property>
    <property name="toolTip">
-    <string>Change the order of the shot by moving the current selected shot, of a notch towards the left</string>
+    <string>Change the order of the shots by moving the current selected shot a notch towards the left</string>
    </property>
    <property name="font">
     <font>
@@ -3352,7 +3352,7 @@ color: #000000;
     <string>Move right</string>
    </property>
    <property name="toolTip">
-    <string>Change the order of the shot by moving the current selected shot, of a notch towards the right</string>
+    <string>Change the order of the shots by moving the current selected shot a notch towards the right</string>
    </property>
    <property name="font">
     <font>
@@ -3370,7 +3370,7 @@ color: #000000;
     <string>Lock properties</string>
    </property>
    <property name="toolTip">
-    <string>Lock properties to the same values as define for the previous shot</string>
+    <string>Lock properties to the same values as defined for the previous shot</string>
    </property>
    <property name="font">
     <font>
@@ -3385,10 +3385,10 @@ color: #000000;
      <normaloff>:/img/Geometry_Unlock.png</normaloff>:/img/Geometry_Unlock.png</iconset>
    </property>
    <property name="text">
-    <string>Unlock properties from this shot</string>
+    <string>Unlock properties of this shot</string>
    </property>
    <property name="toolTip">
-    <string>Define properties from this shot</string>
+    <string>Define properties of this shot</string>
    </property>
    <property name="font">
     <font>
@@ -3406,7 +3406,7 @@ color: #000000;
     <string>Hide</string>
    </property>
    <property name="toolTip">
-    <string>Make hide the active block</string>
+    <string>Hide the active block</string>
    </property>
    <property name="font">
     <font>
@@ -3445,7 +3445,6 @@ color: #000000;
   <tabstop>PosYEd</tabstop>
   <tabstop>WidthEd</tabstop>
   <tabstop>HeightEd</tabstop>
-  <tabstop>RotateZSLD</tabstop>
   <tabstop>RotateZED</tabstop>
   <tabstop>RotateXSLD</tabstop>
   <tabstop>RotateXED</tabstop>

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>500</width>
-    <height>421</height>
+    <width>636</width>
+    <height>470</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -44,8 +44,8 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-250</y>
-        <width>468</width>
+        <y>0</y>
+        <width>604</width>
         <height>349</height>
        </rect>
       </property>
@@ -99,7 +99,7 @@
        <item row="5" column="1">
         <widget class="QComboBox" name="DeviceTypeCB">
          <property name="toolTip">
-          <string>Select the type of equipment.</string>
+          <string>Select the type of equipment</string>
          </property>
         </widget>
        </item>
@@ -448,7 +448,7 @@
           </sizepolicy>
          </property>
          <property name="toolTip">
-          <string>Select the file type to use for the rendering.</string>
+          <string>Select the file type to use for the rendering</string>
          </property>
         </widget>
        </item>

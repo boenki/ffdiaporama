@@ -375,6 +375,14 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
     #endif
     #ifdef Q_OS_WIN
         Path=AdjustDirForOS(Path);
+        // Remove labels
+        int StartLabel=Path.indexOf("[");
+        int EndLabel  =(StartLabel>0?Path.indexOf("]\\"):0);
+        if (EndLabel>0) EndLabel+=2;
+        if ((StartLabel>0)&&(EndLabel>StartLabel)) {
+            QString OldPath=Path;
+            Path=OldPath.left(StartLabel)+OldPath.right(OldPath.length()-EndLabel);
+        }
     #endif
 
     // Create a list with each part of the wanted Path
@@ -402,8 +410,8 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
         } else {
             j=0;
             // Search in current item child list
-            while ((j<Current->childCount())&&(Current->child(j)->text(0)!=Folders[i])&&(Current->child(j)->text(0)!=Folders[i]+QDir::separator())) j++;
-            if ((j<Current->childCount())&&((Current->child(j)->text(0)==Folders[i])||(Current->child(j)->text(0)==Folders[i]+QDir::separator()))) Current=Current->child(j);
+            while ((j<Current->childCount())&&(Current->child(j)->text(0).compare(Folders[i])!=0)&&(Current->child(j)->text(0)!=Folders[i]+QDir::separator())) j++;
+            if ((j<Current->childCount())&&((Current->child(j)->text(0)==Folders[i])||(Current->child(j)->text(0).compare(Folders[i]+QDir::separator())==0))) Current=Current->child(j);
                 else Current=NULL;
         }
         if (Current) {

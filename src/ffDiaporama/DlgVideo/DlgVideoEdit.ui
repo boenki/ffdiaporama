@@ -148,7 +148,7 @@
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string extracomment="Tooltip in dialog box">Define the start position to use for</string>
+            <string extracomment="Tooltip in dialog box">Define the start position to use</string>
            </property>
            <property name="buttonSymbols">
             <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -186,7 +186,7 @@
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string extracomment="Tooltip in dialog box">Define the end position to use for</string>
+            <string extracomment="Tooltip in dialog box">Define the end position to use</string>
            </property>
            <property name="buttonSymbols">
             <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -281,7 +281,7 @@
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>Define the &quot; Master Volume &quot; for the movie</string>
+            <string>Select the &quot; Master Volume &quot; for the movie</string>
            </property>
            <property name="currentIndex">
             <number>-1</number>

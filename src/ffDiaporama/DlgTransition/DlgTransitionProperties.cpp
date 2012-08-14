@@ -73,7 +73,7 @@ DlgTransitionProperties::~DlgTransitionProperties() {
 void DlgTransitionProperties::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::DoInitDialog");
 
-    if (IsMultiple) setWindowTitle(QApplication::translate("DlgTransitionProperties","Select a transition for a set of slide"));
+    if (IsMultiple) setWindowTitle(QApplication::translate("DlgTransitionProperties","Select a transition for a set of slides"));
 
     ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","None and basic"),  QVariant(TRANSITIONFAMILLY_BASE));
     ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Zoom"),            QVariant(TRANSITIONFAMILLY_ZOOMINOUT));

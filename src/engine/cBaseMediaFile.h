@@ -243,7 +243,6 @@ public:
     QString                 Container;                  // Container type (get from file extension)
     QTime                   Duration;                   // Duration of the video
     double                  dEndFileCachePos;           // Position of the cache image of last image of the video
-    bool                    CodecUsePTS;                // true if codec use PTS (h264) if if we use only DTS
     QString                 VideoCodecInfo;
     QString                 AudioCodecInfo;
 
@@ -280,9 +279,9 @@ public:
     virtual void            CloseCodecAndFile();
 
     virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos);
-    virtual QImage          *ReadVideoFrame(qlonglong Position,bool DontUseEndPos);
+    virtual QImage          *ReadVideoFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos);
     virtual void            ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
-    virtual QImage          *ConvertYUVToRGB();
+    virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
 };
 
 //*********************************************************************************************************************************************

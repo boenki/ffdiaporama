@@ -72,8 +72,8 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-61</y>
-            <width>664</width>
+            <y>0</y>
+            <width>518</width>
             <height>476</height>
            </rect>
           </property>
@@ -87,17 +87,19 @@
            <item row="1" column="0" colspan="2">
             <widget class="QCheckBox" name="RestoreWindowCH">
              <property name="toolTip">
-              <string>If this box is checked, the sizes and the positions of all the windows and dialogue box of ffDiaporama will be saved to be reused the next time which you will use ffDiaporama.</string>
+              <string>If this box is checked, the size and position of all windows and dialogue boxes
+of ffDiaporama will be saved to be reused the next time you use ffDiaporama</string>
              </property>
              <property name="text">
-              <string>Remember Windows size and positions</string>
+              <string>Remember size and position of windows</string>
              </property>
             </widget>
            </item>
            <item row="2" column="0" colspan="2">
             <widget class="QCheckBox" name="RememberLastDirectoriesCH">
              <property name="toolTip">
-              <string>If this box is checked, the directories that you use for the images, the videos, the projects, the musics and the generations of movie will be saved to be reused the next time which you will use ffDiaporama.</string>
+              <string>If this box is checked, the folders that you use for images, videos, projects, music and the movie
+generations will be saved to be reused the next time you use ffDiaporama</string>
              </property>
              <property name="text">
               <string>Remember last used folders</string>
@@ -156,7 +158,7 @@
              <item>
               <widget class="QComboBox" name="PreviewFrameRateCB">
                <property name="toolTip">
-                <string>Defined the number of images by seconds which will be generated to show the preview.</string>
+                <string>Define the number of frames per second which will be generated to show the preview</string>
                </property>
                <item>
                 <property name="text">
@@ -213,7 +215,7 @@
            <item row="10" column="1">
             <widget class="QCheckBox" name="ApplyTransfoDuringPreviewCB">
              <property name="toolTip">
-              <string>If this box is checked, The effects of transformations will be applied to the images of videos during the preview.</string>
+              <string>If this box is checked, the transformation effects will be applied to the video images during the preview</string>
              </property>
              <property name="text">
               <string>Apply to video during preview</string>
@@ -253,7 +255,7 @@
            <item row="17" column="1">
             <widget class="QComboBox" name="AppendObjectCB">
              <property name="toolTip">
-              <string>Define the position which occupy the new objects in the timeline during the insertions</string>
+              <string>Select the position where new objects are placed on the timeline during insertion</string>
              </property>
              <item>
               <property name="text">
@@ -280,7 +282,7 @@
            <item row="18" column="1">
             <widget class="QCheckBox" name="SortFileCB">
              <property name="toolTip">
-              <string>Adjust the way will be sorted out files when you select several files in Add file.</string>
+              <string>If this box is checked, files will be sorted by last number when you select multiple files in Add file</string>
              </property>
              <property name="text">
               <string>Sort file by last number</string>
@@ -303,7 +305,7 @@
            <item row="19" column="1">
             <widget class="QCheckBox" name="AskUserToRemove">
              <property name="toolTip">
-              <string>If this box is checked, a confirmation will display every time you remove an object</string>
+              <string>If this box is checked, a confirmation dialog is displayed every time you remove an object</string>
              </property>
              <property name="text">
               <string>Ask user confirmation to remove slide, object or shot</string>
@@ -333,7 +335,7 @@
            <item row="16" column="1">
             <widget class="QComboBox" name="UnitCB">
              <property name="toolTip">
-              <string>Select the unit of the coordinates which will be used in properties dialog box</string>
+              <string>Select the unit of coordinates which will be used in the properties dialog box</string>
              </property>
              <item>
               <property name="text">
@@ -509,9 +511,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-1648</y>
-            <width>664</width>
-            <height>2063</height>
+            <y>0</y>
+            <width>508</width>
+            <height>2059</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -565,7 +567,7 @@
              <item>
               <widget class="QComboBox" name="GeometryCombo">
                <property name="toolTip">
-                <string>Select the geometry of image to be used for the creation of the projects.</string>
+                <string>Select the image geometry to be used for the creation of new projects</string>
                </property>
                <property name="currentIndex">
                 <number>0</number>
@@ -630,7 +632,8 @@
              <item>
               <widget class="QDoubleSpinBox" name="NoShotED">
                <property name="toolTip">
-                <string>Defined the default duration of the first shot of slides during their creation.</string>
+                <string>Define the default duration of slides during their creation,
+this is by definition the first shot of each slide</string>
                </property>
                <property name="decimals">
                 <number>3</number>
@@ -683,7 +686,7 @@
              <item>
               <widget class="QDoubleSpinBox" name="StaticShotED">
                <property name="toolTip">
-                <string>Defined the default duration of next shots.</string>
+                <string>Define the default duration of following shots within a slide</string>
                </property>
                <property name="decimals">
                 <number>3</number>
@@ -736,7 +739,7 @@
              <item>
               <widget class="QComboBox" name="SpeedWaveCombo">
                <property name="toolTip">
-                <string>Defined the curve of speed to be used for the transitions and the animations.</string>
+                <string>Select the playback profile to be used for transitions and animations</string>
                </property>
                <property name="currentIndex">
                 <number>1</number>
@@ -795,8 +798,8 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Defined the transition to be inserted between slides during the insertions:
-Chosen randomly a transition in the library</string>
+                <string>Set the default type of transition to be inserted between slides to:
+Randomly from the transition library</string>
                </property>
                <property name="text">
                 <string notr="true"/>
@@ -819,7 +822,7 @@ Chosen randomly a transition in the library</string>
                 </size>
                </property>
                <property name="toolTip">
-                <string>Defined the transition to be inserted between slides during the insertions:
+                <string>Set the default type of transition to be inserted between slides to:
 No transition</string>
                </property>
                <property name="text">
@@ -843,7 +846,7 @@ No transition</string>
                 </size>
                </property>
                <property name="toolTip">
-                <string>Defined the transition to be inserted between slides during the insertions:
+                <string>Set the default type of transition to be inserted between slides to:
 Crossfade transition</string>
                </property>
                <property name="text">
@@ -3245,7 +3248,7 @@ image</string>
            <item row="31" column="1">
             <widget class="QComboBox" name="VideoBitRateCB">
              <property name="toolTip">
-              <string>Select the default bit rate to use for video during the rendering among the proposed list. </string>
+              <string>Select the default bit rate to use for video during the rendering</string>
              </property>
              <property name="sizeAdjustPolicy">
               <enum>QComboBox::AdjustToMinimumContentsLength</enum>
@@ -3261,14 +3264,14 @@ image</string>
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>Select the default video codec to use for the rendering among the proposed list. </string>
+              <string>Select the default video codec to use for the rendering</string>
              </property>
             </widget>
            </item>
            <item row="32" column="1" colspan="2">
             <widget class="QComboBox" name="AudioFormatCB">
              <property name="toolTip">
-              <string>Select the default audio codec to use for the rendering among the proposed list. </string>
+              <string>Select the default audio codec to use for the rendering</string>
              </property>
             </widget>
            </item>
@@ -3307,7 +3310,7 @@ image</string>
            <item row="34" column="1">
             <widget class="QComboBox" name="AudioBitRateCB">
              <property name="toolTip">
-              <string>Select the default bit rate to use for audio during the rendering among the proposed list. </string>
+              <string>Select the default bit rate to use for audio during the rendering</string>
              </property>
              <property name="sizeAdjustPolicy">
               <enum>QComboBox::AdjustToMinimumContentsLength</enum>
@@ -3347,42 +3350,48 @@ image</string>
            <item row="4" column="1">
             <widget class="QComboBox" name="SmartphoneTypeCB">
              <property name="toolTip">
-              <string>Select the type of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</string>
+              <string>Select the type of equipment which will be proposed by default
+when you click the &quot;Player and Smartphone&quot; button in the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
            <item row="6" column="1">
             <widget class="QComboBox" name="ForTheWTypeCB">
              <property name="toolTip">
-              <string>Select the type of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</string>
+              <string>Select the type of equipment which will be proposed by default
+when you click the &quot;For the WEB&quot; button in the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
            <item row="5" column="1">
             <widget class="QComboBox" name="MMSystemTypeCB">
              <property name="toolTip">
-              <string>Select the type of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</string>
+              <string>Select the type of equipment which will be proposed by default
+when you click the &quot;Multimedia system&quot; button in the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
            <item row="4" column="2">
             <widget class="QComboBox" name="SmartphoneModelCB">
              <property name="toolTip">
-              <string>Select the model of equipment which will be proposed by default when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</string>
+              <string>Select the model of equipment which will be proposed by default
+when you click the &quot;Player and Smartphone&quot; button in the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
            <item row="5" column="2">
             <widget class="QComboBox" name="MMSystemModelCB">
              <property name="toolTip">
-              <string>Select the model of equipment which will be proposed by default when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</string>
+              <string>Select the model of equipment which will be proposed by default
+when you click the &quot;Multimedia system&quot; button in the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
            <item row="6" column="2">
             <widget class="QComboBox" name="ForTheWModelCB">
              <property name="toolTip">
-              <string>Select the model of equipment which will be proposed by default when you will click the &quot;For the WEB&quot; button of the &quot;Render movie&quot; menu</string>
+              <string>Select the model of equipment which will be proposed by default
+ when you click the &quot;For the WEB&quot; button in the &quot;Render movie&quot; menu</string>
              </property>
             </widget>
            </item>
@@ -3395,7 +3404,7 @@ image</string>
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>Select the default file type to use for the rendering among the proposed list.</string>
+              <string>Select the default file type to use for the rendering</string>
              </property>
             </widget>
            </item>
@@ -3440,7 +3449,7 @@ image</string>
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>Select the default image format to use for the rendering among the proposed list. </string>
+              <string>Select the default image format to use for the rendering</string>
              </property>
              <property name="currentIndex">
               <number>-1</number>
@@ -3522,7 +3531,7 @@ image</string>
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>Select the default image format to use for the rendering among the proposed list. </string>
+              <string>Select the default image format to use for the rendering</string>
              </property>
              <property name="currentIndex">
               <number>-1</number>
@@ -3532,7 +3541,7 @@ image</string>
            <item row="26" column="1">
             <widget class="QComboBox" name="StandardCombo">
              <property name="toolTip">
-              <string>Select the default video standard to use, PAL or NTSC.</string>
+              <string>Select the default video standard to use, PAL or NTSC</string>
              </property>
              <property name="sizeAdjustPolicy">
               <enum>QComboBox::AdjustToMinimumContentsLength</enum>

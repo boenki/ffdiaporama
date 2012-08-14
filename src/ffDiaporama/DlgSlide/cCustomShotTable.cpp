@@ -133,10 +133,19 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     QString ShotDuration=QTime(0,0,0,0).addMSecs(Duration).toString("hh:mm:ss.zzz");
     Pen.setColor(Qt::black);
     Painter->setPen(Pen);
-    Painter->drawText(QRectF(1,4+1,Width,Height),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+    Painter->drawText(QRectF(6+1,6+1,Width-12,Height-12),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
     Pen.setColor(RedColor?Qt::red:Qt::white);
     Painter->setPen(Pen);
-    Painter->drawText(QRectF(0,4,Width-1,Height-1),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+    Painter->drawText(QRectF(6,6,Width-12,Height-12),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+
+    // -------------------------- Draw shot en position
+    ShotDuration=QTime(0,0,0,0).addMSecs(Position+Duration).toString("hh:mm:ss.zzz");
+    Pen.setColor(Qt::black);
+    Painter->setPen(Pen);
+    Painter->drawText(QRectF(6+1,6+1,Width-12,Height-12),ShotDuration,Qt::AlignRight|Qt::AlignBottom);
+    Pen.setColor(RedColor?Qt::red:Qt::white);
+    Painter->setPen(Pen);
+    Painter->drawText(QRectF(6,6,Width-12,Height-12),ShotDuration,Qt::AlignRight|Qt::AlignBottom);
 
     Painter->restore();
     QApplication::restoreOverrideCursor();

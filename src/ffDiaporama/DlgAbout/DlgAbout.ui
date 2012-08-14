@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>951</width>
-    <height>713</height>
+    <width>600</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -58,7 +58,7 @@
         <string notr="true"/>
        </property>
        <property name="pixmap">
-        <pixmap>:/img/logo_big.png</pixmap>
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/logo_big.png</pixmap>
        </property>
        <property name="scaledContents">
         <bool>true</bool>
@@ -236,8 +236,8 @@ This General Public License does not permit incorporating your program into prop
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>784</width>
-                <height>624</height>
+                <width>441</width>
+                <height>551</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_2">
@@ -499,7 +499,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://qt.nokia.com/products/</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -516,7 +516,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://libav.org/index.html</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -533,7 +533,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://www.libsdl.org/</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -550,7 +550,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://www.exiv2.org/</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -567,7 +567,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://ksquirrel.sourceforge.net/subprojects.php</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -584,7 +584,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://www.everaldo.com/crystal/</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -601,7 +601,7 @@ This General Public License does not permit incorporating your program into prop
                   <string notr="true">http://creativecommons.org/</string>
                  </property>
                  <property name="icon">
-                  <iconset>
+                  <iconset resource="../../../RSCffDiaporama.qrc">
                    <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
@@ -620,7 +620,7 @@ This General Public License does not permit incorporating your program into prop
                   </font>
                  </property>
                  <property name="text">
-                  <string>TAG managment based on TAGLib</string>
+                  <string>TAG management based on TAGLib</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -772,7 +772,7 @@ p, li { white-space: pre-wrap; }
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>

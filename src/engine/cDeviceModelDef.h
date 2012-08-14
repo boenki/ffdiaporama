@@ -92,10 +92,10 @@ extern "C" {
     #define LIBAV_FFMPEG                        // FFMPEG binary encoder support
     #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
 
-// LIBAV 0.8 = LIBAVUTIL from 51.22 + LIBAVCODEC from 53.35 to 54.20 + LIBAVFORMAT from 53.21 to 54.20
+// LIBAV 0.8 = LIBAVUTIL from 51.22 + LIBAVCODEC from 53.35 to 54.24 + LIBAVFORMAT from 53.21 to 54.20
 #elif ( ( (LIBAVUTIL_VERSION_MAJOR==51)&&(LIBAVUTIL_VERSION_MINOR>=22) ) && \
-        ( ((LIBAVCODEC_VERSION_MAJOR==53)&&(LIBAVCODEC_VERSION_MINOR>=35))   || ((LIBAVCODEC_VERSION_MAJOR==54)&&(LIBAVCODEC_VERSION_MINOR<24)) ) && \
-        ( ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=21)) || ((LIBAVFORMAT_VERSION_MAJOR==54)&&(LIBAVFORMAT_VERSION_MINOR<20)) ) )
+        ( ((LIBAVCODEC_VERSION_MAJOR==53)&&(LIBAVCODEC_VERSION_MINOR>=35))   || ((LIBAVCODEC_VERSION_MAJOR==54)&&(LIBAVCODEC_VERSION_MINOR<50)) ) && \
+        ( ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=21)) || ((LIBAVFORMAT_VERSION_MAJOR==54)&&(LIBAVFORMAT_VERSION_MINOR<23)) ) )
 
     #define LIBAV_08                            // LIBAV 0.8
 
@@ -103,9 +103,9 @@ extern "C" {
     #define LIBAV_AVCONV                        // AVCONV binary encoder support
     #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
 
-    #ifdef CODEC_FLAG2_SHOW_ALL
-//        #define LIBAV_AVCHD                         // Support for AVCHD format (.mts)
-    #endif
+//    #ifdef CODEC_FLAG2_SHOW_ALL
+        #define LIBAV_AVCHD                         // Support for AVCHD format (.mts)
+//    #endif
 
 #endif
 

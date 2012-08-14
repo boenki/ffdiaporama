@@ -87,111 +87,116 @@ QCustomStyledItemDelegate::QCustomStyledItemDelegate(QObject *parent):QStyledIte
 void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomStyledItemDelegate::paint");
 
-    if ((index.row()>=ParentTable->rowCount())||(index.column()>=ParentTable->columnCount())) return;
+    if (index.row()*ParentTable->columnCount()+index.column()>=ParentTable->MediaList.count()) {
 
-    int ItemIndex=(ParentTable->ApplicationConfig->CurrentMode==DISPLAY_DATA?index.row():index.row()*ParentTable->columnCount()+index.column());
-    if (ItemIndex>=ParentTable->MediaList.count()) return;
-
-    bool ThreadToPause=false;
-    if (ParentTable->ScanMediaList.isRunning()) {
-        ThreadToPause=true;
-        ParentTable->ScanMediaList.pause();
-    }
-
-    if (ParentTable->ApplicationConfig->CurrentMode==DISPLAY_DATA) {
-
-        QString         TextToDisplay  =ParentTable->GetTextForColumn(index.column(),ParentTable->MediaList[ItemIndex]);
-        QImage          *ImageToDisplay=ParentTable->GetImageForColumn(index.column(),ParentTable->MediaList[ItemIndex]);
-        Qt::Alignment   Alignment      =((Qt::Alignment)(ParentTable->horizontalHeaderItem(index.column())?ParentTable->horizontalHeaderItem(index.column())->textAlignment():Qt::AlignHCenter))|Qt::AlignVCenter;
-        int             DecalX         =(ImageToDisplay!=NULL?18:0);
-        int             addY           =(option.rect.height()-16)/2;
-        QColor          Background     =((index.row() & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
-        QFont           font;
-        QTextOption     OptionText;
-        QPen            Pen;
-
-        // Setup default brush
-        Painter->setBrush(Background);
-        // Setup default pen
-        Pen.setColor(Qt::black);
-        Pen.setWidth(1);
-        Pen.setStyle(Qt::SolidLine);
-        Painter->setPen(Pen);
-
-        // Setup font and text options
-        font=QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);
-        font.setBold(ParentTable->MediaList[ItemIndex]->ObjectType==OBJECTTYPE_FOLDER);
-        font.setUnderline(false);
-        Painter->setFont(font);
-        OptionText=QTextOption(Alignment);                    // Setup alignement
-        OptionText.setWrapMode(QTextOption::NoWrap);          // Setup word wrap text option
-
-        // Drawing
-        Painter->fillRect(option.rect,Background);
-        if (ImageToDisplay) Painter->drawImage(QRectF(option.rect.x()+1,option.rect.y()+addY,16,16),*ImageToDisplay);
-        Painter->drawText(QRectF(option.rect.x()+2+DecalX,option.rect.y()+1,option.rect.width()-4-DecalX,option.rect.height()-2),TextToDisplay,OptionText);
+        // index is out of range
+        Painter->fillRect(option.rect,Qt::white);
 
     } else {
+        int ItemIndex=(ParentTable->ApplicationConfig->CurrentMode==DISPLAY_DATA?index.row():index.row()*ParentTable->columnCount()+index.column());
+        if (ItemIndex>=ParentTable->MediaList.count()) return;
 
-        QImage      *Icon     =NULL;
-        int         addX      =0;
-        int         addY      =0;
-        QFont       font;
-        QTextOption OptionText;
-        QPen        Pen;
-
-        if (!ParentTable->MediaList[ItemIndex]->IsInformationValide) Icon=ParentTable->ApplicationConfig->DefaultDelayedIcon.GetIcon(cCustomIcon::ICON100);
-            else Icon=&ParentTable->MediaList[ItemIndex]->Icon100;
-
-        if (Icon->isNull()) Icon=ParentTable->MediaList[ItemIndex]->GetDefaultTypeIcon(cCustomIcon::ICON100);
-
-        addX=(option.rect.width()-Icon->width())/2;
-
-        if (ParentTable->ApplicationConfig->DisplayFileName) addY=(option.rect.height()-Icon->height()-DISPLAYFILENAMEHEIGHT)/3;
-            else addY=(option.rect.height()-Icon->height())/2;
-
-        // Draw Icon
-        Painter->drawImage(QRectF(option.rect.x()+1+addX,option.rect.y()+1+addY,Icon->width(),Icon->height()),*Icon);
-
-        // Setup default brush
-        Painter->setBrush(Qt::NoBrush);
-        // Setup default pen
-        Pen.setColor(Qt::black);
-        Pen.setWidth(1);
-        Pen.setStyle(Qt::SolidLine);
-        Painter->setPen(Pen);
-
-        // Draw file name if needed
-        if (ParentTable->ApplicationConfig->DisplayFileName) {
-            // Setup default font
-            font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);
-            font.setUnderline(false);
-            Painter->setFont(font);
-            #ifdef Q_OS_WIN
-            font.setPointSizeF(double(120)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
-            #else
-            font.setPointSizeF(double(100)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
-            #endif
-            Painter->setFont(font);
-
-            OptionText=QTextOption(Qt::AlignHCenter|Qt::AlignTop);                      // Setup alignement
-            OptionText.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);          // Setup word wrap text option
-            Painter->drawText(QRectF(option.rect.x()+1,option.rect.y()+option.rect.height()-1-DISPLAYFILENAMEHEIGHT,option.rect.width()-2,DISPLAYFILENAMEHEIGHT),
-                              ParentTable->MediaList[ItemIndex]->ShortName,OptionText);
+        bool ThreadToPause=false;
+        if (ParentTable->ScanMediaList.isRunning()) {
+            ThreadToPause=true;
+            ParentTable->ScanMediaList.pause();
         }
 
-    }
+        if (ParentTable->ApplicationConfig->CurrentMode==DISPLAY_DATA) {
 
-    // Selection mode (Note: MouseOver is removed because it works correctly only on KDE !)
-    if (option.state & QStyle::State_Selected) {
-        Painter->setPen(QPen(Qt::NoPen));
-        Painter->setBrush(QBrush(Qt::blue));
-        Painter->setOpacity(0.25);
-        Painter->drawRect(option.rect.x(),option.rect.y(),option.rect.width(),option.rect.height());
-        Painter->setOpacity(1);
-    }
+            QString         TextToDisplay  =ParentTable->GetTextForColumn(index.column(),ParentTable->MediaList[ItemIndex]);
+            QImage          *ImageToDisplay=ParentTable->GetImageForColumn(index.column(),ParentTable->MediaList[ItemIndex]);
+            Qt::Alignment   Alignment      =((Qt::Alignment)(ParentTable->horizontalHeaderItem(index.column())?ParentTable->horizontalHeaderItem(index.column())->textAlignment():Qt::AlignHCenter))|Qt::AlignVCenter;
+            int             DecalX         =(ImageToDisplay!=NULL?18:0);
+            int             addY           =(option.rect.height()-16)/2;
+            QColor          Background     =((index.row() & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
+            QFont           font;
+            QTextOption     OptionText;
+            QPen            Pen;
 
-    if (ThreadToPause) ParentTable->ScanMediaList.resume();
+            // Setup default brush
+            Painter->setBrush(Background);
+            // Setup default pen
+            Pen.setColor(Qt::black);
+            Pen.setWidth(1);
+            Pen.setStyle(Qt::SolidLine);
+            Painter->setPen(Pen);
+
+            // Setup font and text options
+            font=QFont("Sans serif",9,QFont::Normal,QFont::StyleNormal);
+            font.setBold(ParentTable->MediaList[ItemIndex]->ObjectType==OBJECTTYPE_FOLDER);
+            font.setUnderline(false);
+            Painter->setFont(font);
+            OptionText=QTextOption(Alignment);                    // Setup alignement
+            OptionText.setWrapMode(QTextOption::NoWrap);          // Setup word wrap text option
+
+            // Drawing
+            Painter->fillRect(option.rect,Background);
+            if (ImageToDisplay) Painter->drawImage(QRectF(option.rect.x()+1,option.rect.y()+addY,16,16),*ImageToDisplay);
+            Painter->drawText(QRectF(option.rect.x()+2+DecalX,option.rect.y()+1,option.rect.width()-4-DecalX,option.rect.height()-2),TextToDisplay,OptionText);
+
+        } else {
+
+            QImage      *Icon     =NULL;
+            int         addX      =0;
+            int         addY      =0;
+            QFont       font;
+            QTextOption OptionText;
+            QPen        Pen;
+
+            if (!ParentTable->MediaList[ItemIndex]->IsInformationValide) Icon=ParentTable->ApplicationConfig->DefaultDelayedIcon.GetIcon(cCustomIcon::ICON100);
+                else Icon=&ParentTable->MediaList[ItemIndex]->Icon100;
+
+            if (Icon->isNull()) Icon=ParentTable->MediaList[ItemIndex]->GetDefaultTypeIcon(cCustomIcon::ICON100);
+
+            addX=(option.rect.width()-Icon->width())/2;
+
+            if (ParentTable->ApplicationConfig->DisplayFileName) addY=(option.rect.height()-Icon->height()-DISPLAYFILENAMEHEIGHT)/3;
+                else addY=(option.rect.height()-Icon->height())/2;
+
+            // Draw Icon
+            Painter->drawImage(QRectF(option.rect.x()+1+addX,option.rect.y()+1+addY,Icon->width(),Icon->height()),*Icon);
+
+            // Setup default brush
+            Painter->setBrush(Qt::NoBrush);
+            // Setup default pen
+            Pen.setColor(Qt::black);
+            Pen.setWidth(1);
+            Pen.setStyle(Qt::SolidLine);
+            Painter->setPen(Pen);
+
+            // Draw file name if needed
+            if (ParentTable->ApplicationConfig->DisplayFileName) {
+                // Setup default font
+                font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);
+                font.setUnderline(false);
+                Painter->setFont(font);
+                #ifdef Q_OS_WIN
+                font.setPointSizeF(double(120)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+                #else
+                font.setPointSizeF(double(100)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+                #endif
+                Painter->setFont(font);
+
+                OptionText=QTextOption(Qt::AlignHCenter|Qt::AlignTop);                      // Setup alignement
+                OptionText.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);          // Setup word wrap text option
+                Painter->drawText(QRectF(option.rect.x()+1,option.rect.y()+option.rect.height()-1-DISPLAYFILENAMEHEIGHT,option.rect.width()-2,DISPLAYFILENAMEHEIGHT),
+                                  ParentTable->MediaList[ItemIndex]->ShortName,OptionText);
+            }
+
+        }
+
+        // Selection mode (Note: MouseOver is removed because it works correctly only on KDE !)
+        if (option.state & QStyle::State_Selected) {
+            Painter->setPen(QPen(Qt::NoPen));
+            Painter->setBrush(QBrush(Qt::blue));
+            Painter->setOpacity(0.25);
+            Painter->drawRect(option.rect.x(),option.rect.y(),option.rect.width(),option.rect.height());
+            Painter->setOpacity(1);
+        }
+
+        if (ThreadToPause) ParentTable->ScanMediaList.resume();
+    }
 }
 
 //********************************************************************************************************
@@ -252,12 +257,15 @@ QMimeData *QCustomFolderTable::mimeData(const QList <QTableWidgetItem *>) const 
 //====================================================================================================================
 
 void QCustomFolderTable::keyReleaseEvent(QKeyEvent *event) {
-    if (event->matches(QKeySequence::Delete))   emit RemoveFiles();
-        else if (event->key()==Qt::Key_Insert)  emit InsertFiles();
-        else if (event->key()==Qt::Key_Enter)   emit OpenFiles();
-        else if (event->key()==Qt::Key_Return)  emit OpenFiles();
-        else if (event->key()==Qt::Key_F5)      emit Refresh();
-        else QTableWidget::keyReleaseEvent(event);
+    if (selectionModel()->selectedIndexes().count()>0) {
+        if (event->matches(QKeySequence::Delete))   emit RemoveFiles();
+            else if (event->key()==Qt::Key_Insert)  emit InsertFiles();
+            else if (event->key()==Qt::Key_Enter)   emit OpenFiles();
+            else if (event->key()==Qt::Key_Return)  emit OpenFiles();
+            else if (event->key()==Qt::Key_F5)      emit Refresh();
+            else if (event->key()==Qt::Key_F2)      emit RenameFiles();
+            else QTableWidget::keyReleaseEvent(event);
+    } else QTableWidget::keyReleaseEvent(event);
 }
 
 //====================================================================================================================
@@ -423,20 +431,16 @@ int QCustomFolderTable::GetHeightForIcon() {
 void QCustomFolderTable::resizeEvent(QResizeEvent *ev) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::resizeEvent");
 
+    // Update view
     if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
-        int SizeColumn=GetWidthForIcon();
-        if (columnCount()!=(viewport()->width()/SizeColumn)) {
-            if (viewport()->width()/SizeColumn==0) setColumnCount(1); else setColumnCount(viewport()->width()/SizeColumn);
-            for (int i=0;i<columnCount();i++) setColumnWidth(i,SizeColumn);
-            setRowCount((CurrentDisplayItem/columnCount())+1);
-            int RHeight=GetHeightForIcon();
-            for (int i=0;i<(CurrentDisplayItem/columnCount())+1;i++) setRowHeight(RHeight,SizeColumn);
-            // Fill empty cell with unselecable item if needed
-            int toFill=CurrentDisplayItem-((rowCount()-1)*columnCount());
-            while (toFill<columnCount()) {
-                setItem(rowCount()-1,toFill,new QNullTableWidgetItem(""));
-                toFill++;
-            }
+        int ColumnWidth   =GetWidthForIcon();
+        int RowHeight     =GetHeightForIcon();
+        int NewColumnCount=(viewport()->width()/ColumnWidth);
+        int NewRowCount   =CurrentDisplayItem/NewColumnCount;   if (NewRowCount*NewColumnCount<CurrentDisplayItem) NewRowCount++;
+
+        if ((NewColumnCount!=columnCount())||(NewRowCount!=rowCount())) {
+            setColumnCount(NewColumnCount); for (int i=0;i<NewColumnCount;i++)  setColumnWidth(i,ColumnWidth);
+            setRowCount(NewRowCount);       for (int i=0;i<NewRowCount;i++)     setRowHeight(i,RowHeight);
         }
     }
     QTableWidget::resizeEvent(ev);
@@ -652,15 +656,6 @@ void QCustomFolderTable::RefreshListFolder() {
     // Ensure scan thread is stoped
     EnsureThreadIsStopped();
 
-    // Remove empty cell with unselecable item (if needed)
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
-        int toFill=CurrentDisplayItem-((rowCount()-1)*columnCount());
-        while (toFill<columnCount()) {
-            delete takeItem(rowCount()-1,toFill);
-            toFill++;
-        }
-    }
-
     // Clear selection
     selectionModel()->clear();
 
@@ -751,15 +746,6 @@ void QCustomFolderTable::RefreshListFolder() {
     } else {
         setRowCount(MediaList.count());
         for (int Row=0;Row<rowCount();Row++) setRowHeight(Row,GetHeightForIcon()+2);
-    }
-
-    // Fill empty cell with unselecable item if needed
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
-        int toFill=CurrentDisplayItem-((rowCount()-1)*columnCount());
-        while (toFill<columnCount()) {
-            setItem(rowCount()-1,toFill,new QNullTableWidgetItem(""));
-            toFill++;
-        }
     }
 
     // Update display
@@ -958,15 +944,6 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     // Append Media to table
     foreach(MediaObject,MediaList) AppendMediaToTable(MediaObject);
 
-    // Fill empty cell with unselecable item if needed
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
-        int toFill=CurrentDisplayItem-((rowCount()-1)*columnCount());
-        while (toFill<columnCount()) {
-            setItem(rowCount()-1,toFill,new QNullTableWidgetItem(""));
-            toFill++;
-        }
-    }
-
     // Update display
     DoResizeColumns();
 
@@ -987,12 +964,14 @@ QList<cBaseMediaFile*> QCustomFolderTable::GetCurrentSelectedMediaFile() const {
     for (int i=0;i<SelList.count();i++) {
         int Col=SelList[i].column();
         int Row=SelList[i].row();
-        if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
-            // One item per row but selList send 1 item per column !
-            bool isFind=false;
-            for (int j=0;j<SelMediaList.count();j++) if (SelMediaList[j]==MediaList[Row]) isFind=true;
-            if (!isFind) SelMediaList.append(MediaList[Row]);
-        } else SelMediaList.append(MediaList[Row*columnCount()+Col]); // Multiple items per row
+        if (Row*columnCount()+Col<MediaList.count()) {
+            if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
+                // One item per row but selList send 1 item per column !
+                bool isFind=false;
+                for (int j=0;j<SelMediaList.count();j++) if (SelMediaList[j]==MediaList[Row]) isFind=true;
+                if (!isFind) SelMediaList.append(MediaList[Row]);
+            } else SelMediaList.append(MediaList[Row*columnCount()+Col]); // Multiple items per row
+        }
     }
     return SelMediaList;
 }

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>547</width>
-    <height>83</height>
+    <width>534</width>
+    <height>92</height>
    </rect>
   </property>
   <property name="font">
@@ -17,7 +17,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Set first shot duration for a set of slide</string>
+   <string>Set first shot duration for a set of slides</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -55,7 +55,7 @@
         </font>
        </property>
        <property name="toolTip">
-        <string>Indicate the duration for the current selected shot.</string>
+        <string>Define the duration for the current selected shots</string>
        </property>
        <property name="maximumDateTime">
         <datetime>

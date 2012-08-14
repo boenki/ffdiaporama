@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>850</width>
-    <height>567</height>
+    <height>550</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -96,7 +96,7 @@ QToolButton:pressed {
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>1</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="TabFile">
          <property name="font">
@@ -4132,7 +4132,7 @@ font-size: 11px;
     <string>Remove</string>
    </property>
    <property name="toolTip">
-    <string>Remove file (Warning: file will not be moved to trash!)</string>
+    <string>Delete file (Warning: file will not be moved to trash!)</string>
    </property>
    <property name="font">
     <font>
@@ -4216,7 +4216,10 @@ font-size: 11px;
      <normaloff>:/img/Transitions/tr-00-00.png</normaloff>:/img/Transitions/tr-00-00.png</iconset>
    </property>
    <property name="text">
-    <string>Remove transition</string>
+    <string>Remove transitions</string>
+   </property>
+   <property name="toolTip">
+    <string>Remove transitions</string>
    </property>
    <property name="font">
     <font>
@@ -4231,7 +4234,10 @@ font-size: 11px;
      <normaloff>:/img/Transitions/tr-00-03.png</normaloff>:/img/Transitions/tr-00-03.png</iconset>
    </property>
    <property name="text">
-    <string>Select a transition</string>
+    <string>Select transitions</string>
+   </property>
+   <property name="toolTip">
+    <string>Select transitions</string>
    </property>
    <property name="font">
     <font>
@@ -4261,7 +4267,10 @@ font-size: 11px;
      <normaloff>:/img/Transitions/tr-icon-error.png</normaloff>:/img/Transitions/tr-icon-error.png</iconset>
    </property>
    <property name="text">
-    <string>Randomize transition</string>
+    <string>Randomize transitions</string>
+   </property>
+   <property name="toolTip">
+    <string>Randomize transitions</string>
    </property>
    <property name="font">
     <font>
@@ -4306,7 +4315,10 @@ font-size: 11px;
      <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
    </property>
    <property name="text">
-    <string>Reset music track to &quot;Same as previous&quot;</string>
+    <string>Reset music to &quot;Same as previous&quot;</string>
+   </property>
+   <property name="toolTip">
+    <string>Reset music to &quot;Same as previous&quot;</string>
    </property>
    <property name="font">
     <font>

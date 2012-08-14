@@ -274,7 +274,7 @@
            <item>
             <widget class="QToolButton" name="GammaResetBT">
              <property name="toolTip">
-              <string>Reset to zero</string>
+              <string>Reset to 1</string>
              </property>
              <property name="text">
               <string notr="true"/>
@@ -372,7 +372,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>Adjust red chanel</string>
+              <string>Adjust red channel</string>
              </property>
              <property name="minimum">
               <number>-250</number>
@@ -405,7 +405,7 @@
               </font>
              </property>
              <property name="toolTip">
-              <string>Adjust red chanel</string>
+              <string>Adjust red channel</string>
              </property>
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -581,7 +581,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>Adjust green chanel</string>
+              <string>Adjust green channel</string>
              </property>
              <property name="minimum">
               <number>-250</number>
@@ -614,7 +614,7 @@
               </font>
              </property>
              <property name="toolTip">
-              <string>Adjust green chanel</string>
+              <string>Adjust green channel</string>
              </property>
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -689,7 +689,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>Turn the image to the left (on the multiple fellow man of 90°).</string>
+              <string>Turn the image to the left (on the next multiple of 90°)</string>
              </property>
              <property name="text">
               <string notr="true"/>
@@ -714,7 +714,7 @@
               </font>
              </property>
              <property name="toolTip">
-              <string>Define the rotation angle for z axis.</string>
+              <string>Define the rotation angle for the z axis</string>
              </property>
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -745,7 +745,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>Turn the image to the right (on the multiple fellow man of 90°).</string>
+              <string>Turn the image to the right (on the next multiple of 90°)</string>
              </property>
              <property name="text">
               <string notr="true"/>
@@ -808,7 +808,7 @@
            <item>
             <widget class="QToolButton" name="AdjustWBT">
              <property name="toolTip">
-              <string>Define automatically the framing to the width of the image.</string>
+              <string>Define automatically the framing to the width of the image</string>
              </property>
              <property name="text">
               <string notr="true"/>
@@ -828,7 +828,7 @@
            <item>
             <widget class="QToolButton" name="AdjustHBT">
              <property name="toolTip">
-              <string>Define automatically the framing to the height of the image.</string>
+              <string>Define automatically the framing to the height of the image</string>
              </property>
              <property name="text">
               <string notr="true"/>
@@ -860,7 +860,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>Define automatically the framing to the diagonal of the image.</string>
+              <string>Define automatically the framing to the diagonal of the image</string>
              </property>
              <property name="text">
               <string notr="true"/>
@@ -1069,7 +1069,7 @@
             </font>
            </property>
            <property name="toolTip">
-            <string>Apply a filter to the photo or the images of the video</string>
+            <string>Apply a filter to the photo or the video images</string>
            </property>
           </widget>
          </item>
@@ -1152,7 +1152,7 @@
               </font>
              </property>
              <property name="toolTip">
-              <string>Define the vertical position from the top of the image ( Y ).</string>
+              <string>Define the vertical position from the top of the image ( Y )</string>
              </property>
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1211,7 +1211,7 @@
               </font>
              </property>
              <property name="toolTip">
-              <string>Define the horizontal position from the left (X).</string>
+              <string>Define the horizontal position from the left (X)</string>
              </property>
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1316,7 +1316,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>Adjust blue chanel</string>
+              <string>Adjust blue channel</string>
              </property>
              <property name="minimum">
               <number>-250</number>
@@ -1349,7 +1349,7 @@
               </font>
              </property>
              <property name="toolTip">
-              <string>Adjust blue chanel</string>
+              <string>Adjust blue channel</string>
              </property>
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1420,7 +1420,7 @@
               </size>
              </property>
              <property name="toolTip">
-              <string>Define a blur/sharpen filter to the photo</string>
+              <string>Select a blur/sharpen filter for the photo</string>
              </property>
              <property name="minimum">
               <number>-100</number>
@@ -1501,7 +1501,7 @@
               </font>
              </property>
              <property name="toolTip">
-              <string>Define a blur/sharpen filter to the photo</string>
+              <string>Apply a blur/sharpen filter to the photo</string>
              </property>
              <property name="buttonSymbols">
               <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1584,7 +1584,7 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Define a blur/sharpen filter to the photo</string>
+                <string>Apply a blur/sharpen filter to the photo</string>
                </property>
                <property name="minimum">
                 <number>1</number>
@@ -1643,7 +1643,7 @@
         <string>Enable or disable rulers corresponding to the margins of television sets.</string>
        </property>
        <property name="text">
-        <string>Rullers</string>
+        <string>Rulers</string>
        </property>
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
