@@ -68,4 +68,4 @@ win32 {
 #---- Libs for windows and linux
 LIBS        += -ltag                                                        #------ TAGlib
 LIBS	    += -lSDL                                                        #------ SDL
-LIBS        += -lavformat -lavcodec -lavutil -lswscale                      #------ libav lib link
+LIBS        += -lavformat -lavcodec -lavutil -lswscale -lavfilter           #------ libav lib link

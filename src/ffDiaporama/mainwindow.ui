@@ -2907,6 +2907,9 @@ and help</string>
                 <property name="text">
                  <string notr="true">Path</string>
                 </property>
+                <property name="textInteractionFlags">
+                 <set>Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+                </property>
                </widget>
               </item>
              </layout>

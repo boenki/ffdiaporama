@@ -74,6 +74,7 @@ Q_OBJECT
 public:
     bool                *FLAGSTOPITEMSELECTION; // Flag to stop Item Selection process in the timeline
 
+    bool                Deinterlace;            // Add a YADIF filter to deinterlace video (on/off)
     cVideoFile          *FileInfo;              // Link to the file wrapper object when DlgVideoDialogBox
     cDiaporama          *Diaporama;             // Link to the Diaporama hierarchy when preview
 

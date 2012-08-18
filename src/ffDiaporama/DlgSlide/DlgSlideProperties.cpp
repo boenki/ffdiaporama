@@ -1334,8 +1334,19 @@ void DlgSlideProperties::s_ShotTable_DisplayDuration() {
         for (int i=0;i<CurrentSlide->List.count();i++) Duration=Duration+CurrentSlide->List[i]->StaticDuration;
         if (Duration<TotalDuration) AddingDuration=TotalDuration-Duration;
     }
-    if (AddingDuration==0)  ui->MinShotDurationLabel->setText("");
-        else                ui->MinShotDurationLabel->setText(QString(QApplication::translate("DlgSlideProperties","Lengthened to %1 sec")).arg(double(CurrentShot->StaticDuration+AddingDuration)/1000));
+    if (AddingDuration==0)  ui->MinShotDurationLabel->setText(""); else {
+        int         qDuration=CurrentShot->StaticDuration+AddingDuration;
+        int         msec     =qDuration % 1000;          qDuration=qDuration/1000;
+        int         sec      =qDuration % 60;            qDuration=qDuration/60;
+        int         mn       =qDuration % 60;            qDuration=qDuration/60;
+        int         hours    =qDuration % 24;
+        int         days     =qDuration / 24;
+        QString     Duration;
+        if (days>0) Duration=QString("%1.%2:%3:%4.%5").arg(ito2a(days)).arg(ito2a(hours)).arg(ito2a(mn)).arg(ito2a(sec)).arg(ito3a(msec));
+            else    Duration=QString("%1:%2:%3.%4").arg(ito2a(hours)).arg(ito2a(mn)).arg(ito2a(sec)).arg(ito3a(msec));
+        ui->MinShotDurationLabel->setText(QString(QApplication::translate("DlgSlideProperties","Lengthened to %1")).arg(Duration));
+    }
+
     InDisplayDuration=false;
     for (int i=CurrentShotNbr;i<CurrentSlide->List.count();i++) ui->ShotTable->RepaintCell(i);
     if (CurrentShotNbr!=CurrentSlide->List.count()-1) ui->ShotTable->RepaintCell(CurrentSlide->List.count()-1);
@@ -1731,7 +1742,7 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
         if (IsValide) {
 
             QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,&CurrentBrush->Image->BrushFileTransform):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,1,false,&CurrentBrush->Video->BrushFileTransform,false):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,&CurrentBrush->Video->BrushFileTransform,false):
                            NULL);
             if (!Image) {
                 IsValide=false;

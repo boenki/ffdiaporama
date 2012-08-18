@@ -245,6 +245,7 @@ public:
     double                  dEndFileCachePos;           // Position of the cache image of last image of the video
     QString                 VideoCodecInfo;
     QString                 AudioCodecInfo;
+    int                     NbrChapters;                // Number of chapters in the file
 
     // Video part
     AVFormatContext         *ffmpegVideoFile;           // LibAVFormat context
@@ -262,10 +263,8 @@ public:
     int                     AudioTrackNbr;              // Number of audio stream in file
     int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
 
-    int                     NbrChapters;                // Number of chapters in the file
-
-    explicit    cVideoFile(int WantedObjectType,cBaseApplicationConfig *ApplicationConfig);
-    ~cVideoFile();
+    explicit                cVideoFile(int WantedObjectType,cBaseApplicationConfig *ApplicationConfig);
+                            ~cVideoFile();
 
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
@@ -278,10 +277,30 @@ public:
     virtual bool            OpenCodecAndFile();
     virtual void            CloseCodecAndFile();
 
-    virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,cSoundBlockList *SoundTrackMontage,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos);
-    virtual QImage          *ReadVideoFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos);
+    virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos);
+    virtual QImage          *ReadVideoFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace);
     virtual void            ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
     virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
+
+    // Filter part
+    AVFilterGraph           *m_pFilterGraph;
+    AVFilterContext         *m_pFilterIn;
+    AVFilterContext         *m_pFilterOut;
+    QString                 m_filters;
+    QString                 m_filters_next;
+
+    enum EFilterFlags {
+        FILTER_NONE                 = 0x0,
+        FILTER_DEINTERLACE_YADIF    = 0x1,
+        FILTER_DEINTERLACE_ANY      = 0xf,
+        FILTER_DEINTERLACE_FLAGGED  = 0x10,
+        FILTER_DEINTERLACE_HALFED   = 0x20
+    };
+
+    virtual unsigned int    SetFilters(unsigned int flags);
+    virtual int             FilterOpen(QString filters);
+    virtual void            FilterClose();
+    virtual int             FilterProcess();
 };
 
 //*********************************************************************************************************************************************

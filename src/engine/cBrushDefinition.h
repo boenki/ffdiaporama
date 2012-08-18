@@ -121,6 +121,7 @@ public:
     double                  Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
     QString                 BrushImage;             // Image name if image from library
     double                  SoundVolume;            // Volume of soundtrack
+    bool                    Deinterlace;            // Add a YADIF filter to deinterlace video (on/off)
     cImageFile              *Image;                 // Embeded Object for title and image type
     cVideoFile              *Video;                 // Embeded Object for video type
     QString                 DefaultFramingW;        // Default Framing when ADJUST_WITH

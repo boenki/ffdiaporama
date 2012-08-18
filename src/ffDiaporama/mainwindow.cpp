@@ -120,6 +120,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     AddToSystemProperties(QString(LIBAVCODECVERSION_STR)+QString("%1").arg(LIBAVCODEC_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MINOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MICRO)+"."+QString("%1").arg(avcodec_version())+"-Licence="+QString(avcodec_license()));
     AddToSystemProperties(QString(LIBAVFORMATVERSION_STR)+QString("%1").arg(LIBAVFORMAT_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MINOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MICRO)+"."+QString("%1").arg(avformat_version())+"-Licence="+QString(avformat_license()));
     AddToSystemProperties(QString(LIBSWSCALEVERSION_STR)+QString("%1").arg(LIBSWSCALE_VERSION_MAJOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MINOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MICRO)+"."+QString("%1").arg(swscale_version())+"-Licence="+QString(swscale_license()));
+    AddToSystemProperties(QString(LIBAVFILTERVERSION_STR)+QString("%1").arg(LIBAVFILTER_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVFILTER_VERSION_MINOR)+"."+QString("%1").arg(LIBAVFILTER_VERSION_MICRO)+"."+QString("%1").arg(avfilter_version())+"-Licence="+QString(avfilter_license()));
 
     AddSeparatorToSystemProperties();   AddToSystemProperties(QApplication::translate("MainWindow","Library :"));
     QString Path;
@@ -372,6 +373,12 @@ MainWindow::~MainWindow() {
     SDLLastClose();
     delete ui;
     delete DriveList;
+
+    // Close some libav additionnals
+    #ifdef LIBAV_08
+    avfilter_uninit();
+    avformat_network_deinit();
+    #endif
 }
 
 //====================================================================================================================
@@ -1031,6 +1038,7 @@ void MainWindow::DoTimelineSelectionChanged() {
                 (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(0);
                 (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SetStartEndPos(0,0,-1,0,-1,0);
             }
+            Diaporama->CloseUnusedLibAv(Diaporama->CurrentCol);
         }
         RefreshControls();
         ui->timeline->repaint();
@@ -1941,7 +1949,7 @@ void MainWindow::s_Action_DoAddFile() {
             // Try to load an image to ensure all is ok
             //*****************************************************
             QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,&CurrentBrush->Image->BrushFileTransform):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,NULL,1,false,&CurrentBrush->Video->BrushFileTransform,false):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,NULL,CurrentBrush->Deinterlace,1,false,&CurrentBrush->Video->BrushFileTransform,false):
                            NULL);
 
             if (!Image) {
@@ -2535,6 +2543,7 @@ void MainWindow::AdjustRuller() {
     }
     ui->timeline->repaint();
     (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->CurrentPosition);
+    Diaporama->CloseUnusedLibAv(Diaporama->CurrentCol);
     RefreshControls();
 }
 
@@ -2564,17 +2573,6 @@ void MainWindow::s_Browser_FloderTreeItemChanged(QTreeWidgetItem *current,QTreeW
 }
 
 //====================================================================================================================
-QString ito2a(int val) {
-    QString Ret=QString("%1").arg(val);
-    while (Ret.length()<2) Ret="0"+Ret;
-    return Ret;
-}
-
-QString ito3a(int val) {
-    QString Ret=QString("%1").arg(val);
-    while (Ret.length()<3) Ret="0"+Ret;
-    return Ret;
-}
 
 void MainWindow::DoBrowserRefreshFolderInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FloderTreeItemChanged");

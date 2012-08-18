@@ -46,7 +46,7 @@ extern "C" {
 
     #include <libavcodec/version.h>
     #include <libavdevice/avdevice.h>
-    #include <libavfilter/avfilter.h>
+    #include <libavfilter/version.h>
     #include <libavformat/version.h>
     #include <libavutil/avutil.h>
     #include <libswscale/swscale.h>
@@ -59,6 +59,16 @@ extern "C" {
 
     #include <libavformat/avformat.h>
     #include <libavformat/avio.h>
+
+    // include for libavfilter
+    #include "libavfilter/avfilter.h"
+    #include "libavfilter/avfiltergraph.h"
+    #include "libavfilter/buffersink.h"
+    #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)
+    #include "libavfilter/avcodec.h"
+    #else
+    #include "libavfilter/buffersrc.h"
+    #endif
 }
 
 /* ********************************************************************************
@@ -98,14 +108,10 @@ extern "C" {
         ( ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=21)) || ((LIBAVFORMAT_VERSION_MAJOR==54)&&(LIBAVFORMAT_VERSION_MINOR<23)) ) )
 
     #define LIBAV_08                            // LIBAV 0.8
-
     #define LIBAV_FFMPEG                        // FFMPEG binary encoder support
     #define LIBAV_AVCONV                        // AVCONV binary encoder support
     #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
-
-//    #ifdef CODEC_FLAG2_SHOW_ALL
-        #define LIBAV_AVCHD                         // Support for AVCHD format (.mts)
-//    #endif
+    #define LIBAV_AVCHD                         // Support for AVCHD format (.mts)
 
 #endif
 

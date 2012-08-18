@@ -2202,7 +2202,7 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Scroll text from bottom to up</string>
+                  <string>Scroll text from bottom to top</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>

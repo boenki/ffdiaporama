@@ -126,3 +126,17 @@ void ToLog(int MessageType,QString Message,QString Source) {
         case LOGMSG_CRITICAL:      std::cout << QString("["+DateTime+":ERROR]\t"      +Message+"\n").toLocal8Bit().constData() << std::flush;    break;
     }
 }
+
+//====================================================================================================================
+
+QString ito2a(int val) {
+    QString Ret=QString("%1").arg(val);
+    while (Ret.length()<2) Ret="0"+Ret;
+    return Ret;
+}
+
+QString ito3a(int val) {
+    QString Ret=QString("%1").arg(val);
+    while (Ret.length()<3) Ret="0"+Ret;
+    return Ret;
+}

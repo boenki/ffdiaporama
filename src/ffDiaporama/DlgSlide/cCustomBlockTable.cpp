@@ -78,7 +78,7 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     if (MediaFile!=NULL) {
 
         QImage *RenderImage=(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image->ImageAt(true,NULL):
-                            (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->ImageAt(true,0,0,NULL,1,false,NULL,false):
+                            (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->ImageAt(true,0,0,NULL,ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Deinterlace,1,false,NULL,false):
                             NULL;
 
         if (RenderImage!=NULL) {

@@ -203,6 +203,7 @@ cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,
     Image               =NULL;
     Video               =NULL;
     SoundVolume         =1;                             // Volume of soundtrack
+    Deinterlace         =false;                         // Add a YADIF filter to deinterlace video (on/off)
     ApplicationConfig   =TheApplicationConfig;
     BackgroundList      =TheBackgroundList;
 
@@ -386,12 +387,12 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 if (PreviewMode) LN_Image=ImageObject->CachePreviewImage;
                     else         LN_Image=ImageObject->CacheRenderImage;
                 if (LN_Image) RenderImage=new QImage(LN_Image->copy());
-                    else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
+                    else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
                 if (!LN_Image) {
                     if (PreviewMode)    ImageObject->CachePreviewImage=new QImage(RenderImage->copy());
                         else            ImageObject->CacheRenderImage=new QImage(RenderImage->copy());
                 }
-            } else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
+            } else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
         } else if (Image) RenderImage=Image->ImageAt(PreviewMode,&Image->BrushFileTransform);
 
         QBrush *Ret=NULL;
@@ -484,7 +485,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
     } else {
         // Force loading of sound of video
         if (Video) {
-            QImage *RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
+            QImage *RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
             if (RenderImage) delete RenderImage;
         }
         return new QBrush(Qt::NoBrush);
@@ -641,7 +642,10 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
                     Element.setAttribute("StartPos",Video->StartPos.toString("HH:mm:ss.zzz"));              // Start position (video only)
                     Element.setAttribute("EndPos",Video->EndPos.toString("HH:mm:ss.zzz"));                  // End position (video only)
                     Video->BrushFileTransform.SaveToXML(Element,"ImageTransformation");                     // Image transformation
-                } else Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));            // Volume of soundtrack (for video only)
+                } else {
+                    Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));               // Volume of soundtrack (for video only)
+                    Element.setAttribute("Deinterlace",Deinterlace?"1":0);                                  // Add a YADIF filter to deinterlace video (on/off) (for video only)
+                }
             } else if (Image!=NULL) {
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
                     Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
@@ -735,7 +739,10 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                         Video->StartPos =QTime().fromString(Element.attribute("StartPos"));                         // Start position (video only)
                         Video->EndPos   =QTime().fromString(Element.attribute("EndPos"));                           // End position (video only)
                         Video->BrushFileTransform.LoadFromXML(Element,"ImageTransformation");                       // Image transformation
-                    } else SoundVolume=Element.attribute("SoundVolume").toDouble();                                 // Volume of soundtrack (for video only)
+                    } else {
+                        SoundVolume=Element.attribute("SoundVolume").toDouble();                                    // Volume of soundtrack (for video only)
+                        Deinterlace=Element.attribute("Deinterlace")=="1";                                          // Add a YADIF filter to deinterlace video (on/off) (for video only)
+                    }
                 } else if (Image!=NULL) {
                     if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
                         Image->BrushFileTransform.LoadFromXML(Element,"ImageTransformation");                       // Image transformation
