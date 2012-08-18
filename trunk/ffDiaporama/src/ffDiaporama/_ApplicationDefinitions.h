@@ -94,6 +94,7 @@
 #define LIBAVCODECVERSION_STR               "LIBAVCODEC version\t: "
 #define LIBAVFORMATVERSION_STR              "LIBAVFORMAT version\t: "
 #define LIBSWSCALEVERSION_STR               "LIBSWSCALE version\t: "
+#define LIBAVFILTERVERSION_STR              "LIBAVFILTER version\t: "
 #define USERCONFIGFILE_STR                  "User config file\t: "
 #define GLOBALCONFIGFILE_STR                "Global config file\t: "
 

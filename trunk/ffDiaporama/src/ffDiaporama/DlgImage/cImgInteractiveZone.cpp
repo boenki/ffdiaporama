@@ -85,7 +85,7 @@ void cImgInteractiveZone::InitCachedImage(cCompositionObject *TheCompoObject,int
     if (CurrentBrush->Image) {
         CachedImage=CurrentBrush->Image->ImageAt(true,NULL);
      } else if (CurrentBrush->Video) {
-        CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,1,false,NULL,false);
+        CachedImage=CurrentBrush->Video->ImageAt(true,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,NULL,false);
         if (CachedImage->format()!=QImage::Format_ARGB32_Premultiplied) {
             QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
             delete CachedImage;

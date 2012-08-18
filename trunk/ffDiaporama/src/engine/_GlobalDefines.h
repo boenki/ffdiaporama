@@ -69,10 +69,12 @@ extern QStringList  EventList;                          // Internal event queue
 extern QObject      *EventReceiver;                     // Windows wich receive event
 
 #ifdef Q_OS_WIN
-void SetLFHeap();
+void    SetLFHeap();
 #endif
-void PostEvent(int EventType,QString EventParam="");
-void ToLog(int MessageType,QString Message,QString Source="internal");
+void    PostEvent(int EventType,QString EventParam="");
+void    ToLog(int MessageType,QString Message,QString Source="internal");
+QString ito2a(int val);
+QString ito3a(int val);
 
 //====================================================================
 // VARIOUS

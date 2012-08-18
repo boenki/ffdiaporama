@@ -1117,6 +1117,7 @@ void DlgRenderVideo::DoAccept() {
                         if (AdjustedDuration<33) AdjustedDuration=33;   // Not less than 1/30 sec
                         ColumnStart=Diaporama->GetObjectStartPosition(Column);
                         if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(AdjustedDuration)/(FPS/double(1000)))-1);
+                        Diaporama->CloseUnusedLibAv(Column);
                     }
                     RefreshDisplay =true;
                 } else RefreshDisplay =(LastCheckTime.msecsTo(QTime::currentTime())>=1000);    // Refresh display only one time per second

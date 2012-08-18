@@ -107,7 +107,7 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
                 double  Transfo     =sqrt(MaxValue/ActualValue);;
                 int     ImageWidth  =int(Transfo*double(CacheRenderImage->width()));
                 int     ImageHeight =int(Transfo*double(CacheRenderImage->height()));
-                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Rescal image to 8MPix"));
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Rescale image to 8MPix"));
                 QImage *NewCacheRenderImage=new QImage(CacheRenderImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
                 delete CacheRenderImage;
                 CacheRenderImage=NewCacheRenderImage;
@@ -135,7 +135,7 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
                     double  Transfo     =sqrt(MaxValue/ActualValue);;
                     int     ImageWidth  =int(Transfo*double(CacheRenderImage->width()));
                     int     ImageHeight =int(Transfo*double(CacheRenderImage->height()));
-                    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Rescal image to 8MPix"));
+                    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Rescale image to 8MPix"));
                     QImage *NewCacheRenderImage=new QImage(CacheRenderImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
                     delete CacheRenderImage;
                     CacheRenderImage=NewCacheRenderImage;

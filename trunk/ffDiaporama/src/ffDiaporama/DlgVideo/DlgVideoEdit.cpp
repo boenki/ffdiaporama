@@ -62,6 +62,7 @@ void DlgVideoEdit::DoInitDialog() {
     connect(ui->DefEndPosBT,SIGNAL(clicked()),this,SLOT(s_DefEndPos()));
     connect(ui->SeekLeftBt,SIGNAL(clicked()),this,SLOT(s_SeekLeft()));
     connect(ui->SeekRightBt,SIGNAL(clicked()),this,SLOT(s_SeekRight()));
+    connect(ui->DeinterlaceBt,SIGNAL(stateChanged(int)),this,SLOT(s_Deinterlace(int)));
     connect(ui->StartPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditStartPos(QTime)));
     connect(ui->EndPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditEndPos(QTime)));
     connect(ui->VideoPlayer,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
@@ -135,6 +136,7 @@ void DlgVideoEdit::RefreshControls() {
 
     StopMaj=true;
     QTime Duration=QTime(0,0,0,0).addMSecs(CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos));
+    ui->DeinterlaceBt->setChecked(CurrentBrush->Deinterlace);
     ui->ActualDuration->setText(Duration.toString("hh:mm:ss.zzz"));
     ui->StartPosEd->setMaximumTime(CurrentBrush->Video->EndPos);    ui->StartPosEd->setTime(CurrentBrush->Video->StartPos);
     ui->EndPosEd->setMinimumTime(CurrentBrush->Video->StartPos);    ui->EndPosEd->setTime(CurrentBrush->Video->EndPos);
@@ -142,7 +144,17 @@ void DlgVideoEdit::RefreshControls() {
     ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
                                     QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
                                     -1,0,-1,0);
+    ui->VideoPlayer->Deinterlace=CurrentBrush->Deinterlace;
     StopMaj=false;
+}
+
+//====================================================================================================================
+
+void DlgVideoEdit::s_Deinterlace(int) {
+    if (CurrentBrush->Deinterlace!=ui->DeinterlaceBt->isChecked()) {
+        CurrentBrush->Deinterlace=ui->DeinterlaceBt->isChecked();
+        RefreshControls();
+    }
 }
 
 //====================================================================================================================
@@ -160,7 +172,7 @@ void DlgVideoEdit::s_Event_SaveImageEvent() {
         if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
         if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
 
-        QImage *Image=CurrentBrush->Video->ImageAt(false,ui->VideoPlayer->ActualPosition,0,NULL,1,false,NULL,true);
+        QImage *Image=CurrentBrush->Video->ImageAt(false,ui->VideoPlayer->ActualPosition,0,NULL,CurrentBrush->Deinterlace,1,false,NULL,true);
         Image->save(OutputFileName,0,100);
         delete Image;
     }

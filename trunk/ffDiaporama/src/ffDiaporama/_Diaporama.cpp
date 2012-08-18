@@ -1666,7 +1666,7 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position
         }
 
         // Get more music bloc at correct position (volume is always 100% @ this point !)
-        CurMusic->ImageAt(PreviewMode,Position+StartPosition,0,MusicTrack,1,true,NULL,false);
+        CurMusic->ImageAt(PreviewMode,Position+StartPosition,0,MusicTrack,false,1,true,NULL,false);
 
         // Apply correct volume to block in queue
         if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
@@ -2535,6 +2535,16 @@ void cDiaporama::LoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMo
     PrepareImage(Info,W,H,false,PreviewMode,AddStartPos);
 }
 
+
+//============================================================================================
+void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
+    // Parse all unused slide to close unused libav buffer, codec, ...
+    for (int i=0;i<List.count();i++) if ((i<CurrentCell-1)||(i>CurrentCell+1)) {
+        for (int j=0;j<List[i]->ObjectComposition.List.count();j++)
+            if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->ffmpegVideoFile!=NULL))
+                List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CloseCodecAndFile();
+    }
+}
 //*********************************************************************************************************************************************
 // Class object for rendering
 //*********************************************************************************************************************************************

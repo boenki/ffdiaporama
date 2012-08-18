@@ -64,6 +64,7 @@ private slots:
     void            s_EditStartPos(QTime NewValue);
     void            s_EditEndPos(QTime NewValue);
     void            MusicReduceFactorChange(int);
+    void            s_Deinterlace(int);
 
 private:
     Ui::DlgVideoEdit *ui;

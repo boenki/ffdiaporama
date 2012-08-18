@@ -1,9 +1,8 @@
-Bugs/TODO (Dernier SVN le 04/08/2012) :
+Bugs/TODO (Dernier SVN le 14/08/2012) :
 ---------------------------------------
 TODO
 ----
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
-
 -Vider (ou ne pas charger) la liste des caractéristiques lors des chargements d'images
 -Supprimer la librairie de fond de la mémoire
 -Incompréhension des utilisateurs sur les concepts de contraintes géométriques : à simplifier ou forcer
@@ -12,27 +11,15 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le bug de mauvaise prise en compte du redimensionnement de la fenêtre du navigateur de fichier (certaines vignettes ne sont plus sélectionnable après redimensionnement)
--Correction de plus de 70 phrases anglaises incorrectes dans l'interface (orthographe ou grammaire) - Merci à J.G. Visser pour son aide
--Corrige les problèmes d'accent sous Windows pour les répertoires favoris et les répertoires sauvegardés (dernier utilisé pour le navigateur, la génération, etc...)
 
 English version / Bug fix :
--Bug fix when resize file browser window (some thumbnails was selectable after resize)
--Correction of more than 70 incorrect English sentences in the interface (spelling or grammar) - Thanks to J.G. Visser for his help
--Correct the problems of accent under Windows for the favourite directories and the saved directories (the last one used for the browser, the generation, etc.)
 
 French version / Nouvelles fonctionnalités :
--Ajoute le raccourcie clavier F2 pour le renomage des fichiers dans le navigateur de fichier
--Réduit la qualité des vidéos dans la prévisualisation pour accélérer l'affichage
--Prend en charge les vidéos au format AVCHD (.mts) - expérimental
--Affiche la position de fin des plans, sur les vignettes de plan, dans la boite de dialogue d'edition des diapositives
--Rend l'option "Afficher des informations sur les blocs" active même si le bloc est caché, dans la boite d'edition des diapositives
--Supprime le raccourcie clavier F5 vers l’édition du fond d'écran pour ne pas faire doublon avec le raccourcie de rafraîchissement du navigateur
+-Ajoute une case à cocher dans la boite d'édition des vidéos pour activer le filtre de désentrelacement
+-Change l'affichage de la durée ajoutée dans la boite d'édition des diapositives en heure:minute:seconde.millisecond
+-Modifie le système de gestion de la mémoire pour libérer plus de mémoire pour les projets contenant de nombreuses vidéos
 
 English version / New features :
--Add F2 shortcut to rename file in file browser window
--Reduce video quality during preview to speed up display
--Enable use of AVCHD video (.mts) - experimental
--Display shots end position on shot thumbnails in edit slide dialog
--Set "Display block properties" active even if block is hiden in slide edit dialog
--Remove shortcut F5 to edit background to not duplicate it with shortuc ot refresh browser
+-Add a checkbox in edit video dialog to enable deinterlace video filter
+-Change display of additionnal duration in slide edit dialog to hh:mm:ss.ms
+-Modify the system of memory management to release more memory for the projects containing numerous videos

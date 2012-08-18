@@ -31,7 +31,7 @@
      <item row="0" column="0">
       <widget class="QLabel" name="DeviceTypeLabel">
        <property name="text">
-        <string>Device type :</string>
+        <string>Device category :</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -41,7 +41,7 @@
      <item row="0" column="1">
       <widget class="QComboBox" name="DBDeviceTypeCB">
        <property name="toolTip">
-        <string>Select the type of equipment to be shown in the list.</string>
+        <string>Select the device category to be shown in the list</string>
        </property>
       </widget>
      </item>
@@ -104,7 +104,7 @@
        </column>
        <column>
         <property name="text">
-         <string>Subtype</string>
+         <string>Type</string>
         </property>
         <property name="font">
          <font>
@@ -137,13 +137,13 @@
        <item>
         <widget class="QPushButton" name="DBAddDevice">
          <property name="toolTip">
-          <string>Create a new equipment which comes to be added in the database.</string>
+          <string>Create a new equipment profile and add it to the database</string>
          </property>
          <property name="text">
           <string>Add Device</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../../../RSCffDiaporama.qrc">
            <normaloff>:/img/db_add.png</normaloff>:/img/db_add.png</iconset>
          </property>
         </widget>
@@ -151,13 +151,13 @@
        <item>
         <widget class="QPushButton" name="DBRemoveBT">
          <property name="toolTip">
-          <string>Delete current equipment.</string>
+          <string>Delete current equipment profile</string>
          </property>
          <property name="text">
           <string>Remove Device</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../../../RSCffDiaporama.qrc">
            <normaloff>:/img/db_remove.png</normaloff>:/img/db_remove.png</iconset>
          </property>
         </widget>
@@ -165,13 +165,13 @@
        <item>
         <widget class="QPushButton" name="DBResetBT">
          <property name="toolTip">
-          <string>Cancel the modifications that you made on an equipment defined in the default ffDiaporama database</string>
+          <string>Cancel the modifications that you made on a predefined equipment profile in the ffDiaporama database</string>
          </property>
          <property name="text">
           <string>Reset Device to Default</string>
          </property>
          <property name="icon">
-          <iconset>
+          <iconset resource="../../../../RSCffDiaporama.qrc">
            <normaloff>:/img/db_status.png</normaloff>:/img/db_status.png</iconset>
          </property>
         </widget>
@@ -181,7 +181,7 @@
      <item row="4" column="0">
       <widget class="QLabel" name="label_33">
        <property name="text">
-        <string>Device subtype :</string>
+        <string>Device type :</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -191,7 +191,7 @@
      <item row="4" column="1">
       <widget class="QComboBox" name="DBDeviceSubtypeCB">
        <property name="toolTip">
-        <string>Select the category in which is classified the equipment.</string>
+        <string>Select the type of equipment where this device profile is to be placed</string>
        </property>
       </widget>
      </item>
@@ -218,7 +218,7 @@
      <item row="5" column="1">
       <widget class="QLineEdit" name="DBDeviceModelED">
        <property name="toolTip">
-        <string>Enter here the name of the equipment (free text field).</string>
+        <string>Enter here a name for this device profile (free text field)</string>
        </property>
       </widget>
      </item>
@@ -231,7 +231,7 @@
         </sizepolicy>
        </property>
        <property name="toolTip">
-        <string>Select the file type to use for the rendering.</string>
+        <string>Select the file type to use for the rendering</string>
        </property>
       </widget>
      </item>
@@ -253,7 +253,7 @@
        <item>
         <widget class="QComboBox" name="DBStandardCB">
          <property name="toolTip">
-          <string>Select the video standard to use, PAL or NTSC.</string>
+          <string>Select the video standard to use, PAL or NTSC</string>
          </property>
          <item>
           <property name="text">
@@ -295,7 +295,7 @@
      <item row="8" column="1">
       <widget class="QComboBox" name="DBImageSizeCombo">
        <property name="toolTip">
-        <string>Select the image resolution to use for the rendering.</string>
+        <string>Select the image format to use for the rendering</string>
        </property>
        <property name="currentIndex">
         <number>-1</number>
@@ -332,7 +332,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>Select the video codec to use for the rendering.</string>
+          <string>Select the video codec to use for the rendering</string>
          </property>
         </widget>
        </item>
@@ -367,7 +367,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>Select the bit rate to use for video during the rendering.</string>
+          <string>Select the bit rate to use for video during the rendering</string>
          </property>
         </widget>
        </item>
@@ -403,7 +403,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>Select the audio codec to use for the rendering.</string>
+          <string>Select the audio codec to use for the rendering</string>
          </property>
         </widget>
        </item>
@@ -432,7 +432,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>Select the bit rate to use for audio during the rendering.</string>
+          <string>Select the bit rate to use for audio during the rendering</string>
          </property>
         </widget>
        </item>
@@ -484,7 +484,7 @@
         <string>Apply</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -498,7 +498,7 @@
         <string>&amp;Ok</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_ok.png</normaloff>:/img/action_ok.png</iconset>
        </property>
       </widget>
@@ -512,7 +512,7 @@
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
        </property>
       </widget>
@@ -526,7 +526,7 @@
         <string>&amp;Help</string>
        </property>
        <property name="icon">
-        <iconset>
+        <iconset resource="../../../../RSCffDiaporama.qrc">
          <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
        <property name="shortcut">
