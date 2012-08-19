@@ -104,6 +104,7 @@ void DlgApplicationSettings::DoInitDialog() {
 
     // Video options
     ui->Crop1088To1080CB->setChecked(ApplicationConfig->Crop1088To1080);
+    ui->DeinterlaceCB->setChecked(ApplicationConfig->Deinterlace);
 
     //********************************
     // Project TAB
@@ -314,6 +315,7 @@ void DlgApplicationSettings::DoAccept() {
     ApplicationConfig->AskUserToRemove          =ui->AskUserToRemove->isChecked();
     ApplicationConfig->DisplayUnit              =ui->UnitCB->currentIndex();
     ApplicationConfig->Crop1088To1080           =ui->Crop1088To1080CB->isChecked();
+    ApplicationConfig->Deinterlace              =ui->DeinterlaceCB->isChecked();
 
     ApplicationConfig->DefaultTransitionDuration=int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
     ApplicationConfig->RandomTransition         =ui->RandomTransitionRD->isChecked();

@@ -322,6 +322,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     #endif
     MemCacheMaxValue        = 512*1024*1024;                                                // 512 Mb for image cache
     Crop1088To1080          = true;                                                         // Automaticaly crop video from 1088 lines to 1080 (CANON)
+    Deinterlace             = false;
     ApplyTransfoPreview     = true;                                                         // True if image transformation are apply during preview
     QuickResamplingPreview  = false;                                                        // If true then use quick resampling during preview
     Smoothing               = true;                                                         // True do smoothing in preview
@@ -555,6 +556,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
             #endif
             if (Element.hasAttribute("RestoreWindow"))                          RestoreWindow           =Element.attribute("RestoreWindow")=="1";
             if (Element.hasAttribute("Crop1088To1080"))                         Crop1088To1080          =Element.attribute("Crop1088To1080")!="0";
+            if (Element.hasAttribute("Deinterlace"))                            Deinterlace             =Element.attribute("Deinterlace")!="0";
             if (Element.hasAttribute("ApplyTransfoPreview"))                    ApplyTransfoPreview     =Element.attribute("ApplyTransfoPreview")=="1";
             if (Element.hasAttribute("QuickResamplingPreview"))                 QuickResamplingPreview  =Element.attribute("QuickResamplingPreview")=="1";
             if (Element.hasAttribute("Smoothing"))                              Smoothing               =Element.attribute("Smoothing")=="1";
@@ -626,6 +628,7 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("RestoreWindow",           RestoreWindow?"1":"0");
     Element.setAttribute("ForceLanguage",           ForceLanguage);
     Element.setAttribute("Crop1088To1080",          Crop1088To1080?"1":"0");
+    Element.setAttribute("Deinterlace",             Deinterlace?"1":"0");
     Element.setAttribute("ApplyTransfoPreview",     ApplyTransfoPreview?"1":0);
     Element.setAttribute("QuickResamplingPreview",  QuickResamplingPreview?"1":0);
     Element.setAttribute("Smoothing",               Smoothing?"1":0);

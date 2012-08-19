@@ -283,6 +283,7 @@ public:
     virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
 
     // Filter part
+    #if LIBAVFILTER_VERSION_INT > AV_VERSION_INT(2,60,0)
     AVFilterGraph           *m_pFilterGraph;
     AVFilterContext         *m_pFilterIn;
     AVFilterContext         *m_pFilterOut;
@@ -301,6 +302,7 @@ public:
     virtual int             FilterOpen(QString filters);
     virtual void            FilterClose();
     virtual int             FilterProcess();
+    #endif
 };
 
 //*********************************************************************************************************************************************

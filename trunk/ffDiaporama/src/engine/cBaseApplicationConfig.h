@@ -102,6 +102,7 @@ public:
     // Other
     bool                    Smoothing;                                  // True do smoothing in preview
     bool                    Crop1088To1080;                             // Automaticaly crop video from 1088 lines to 1080 (CANON)
+    bool                    Deinterlace;                                // Automaticaly activate deinterlace filter when add new MTS videos
     bool                    QuickResamplingPreview;                     // If true then use quick resampling during preview
     bool                    ApplyTransfoPreview;                        // True if image transformation are apply during preview
     bool                    CheckConfigAtStartup;                       // If true, check config at startup

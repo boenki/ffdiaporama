@@ -1,4 +1,4 @@
-Bugs/TODO (Dernier SVN le 14/08/2012) :
+Bugs/TODO (Dernier SVN le 18/08/2012) :
 ---------------------------------------
 TODO
 ----
@@ -11,15 +11,13 @@ TODO
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige l'erreur de non affichage de l'image de la photo dans la boite d'information quand elle est ouverte depuis la boite d'édition des diapositives
 
 English version / Bug fix :
+-Fix bug of no display image in information dialog when this dialog is called from Slide edit dialog
 
 French version / Nouvelles fonctionnalités :
--Ajoute une case à cocher dans la boite d'édition des vidéos pour activer le filtre de désentrelacement
--Change l'affichage de la durée ajoutée dans la boite d'édition des diapositives en heure:minute:seconde.millisecond
--Modifie le système de gestion de la mémoire pour libérer plus de mémoire pour les projets contenant de nombreuses vidéos
+-Ajoute une option dans la boite de configuration pour activer "par défaut" le filtre de désentrelacement pour les vidéos MTS
 
 English version / New features :
--Add a checkbox in edit video dialog to enable deinterlace video filter
--Change display of additionnal duration in slide edit dialog to hh:mm:ss.ms
--Modify the system of memory management to release more memory for the projects containing numerous videos
+-Add an option in option dialog to activate "by default" deinterlace filter for MTS videos

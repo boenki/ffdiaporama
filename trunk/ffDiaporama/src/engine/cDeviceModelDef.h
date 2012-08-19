@@ -61,13 +61,15 @@ extern "C" {
     #include <libavformat/avio.h>
 
     // include for libavfilter
-    #include "libavfilter/avfilter.h"
-    #include "libavfilter/avfiltergraph.h"
-    #include "libavfilter/buffersink.h"
-    #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)
-    #include "libavfilter/avcodec.h"
-    #else
-    #include "libavfilter/buffersrc.h"
+    #if LIBAVFILTER_VERSION_INT > AV_VERSION_INT(2,60,0)
+        #include "libavfilter/avfilter.h"
+        #include "libavfilter/avfiltergraph.h"
+        #include "libavfilter/buffersink.h"
+        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)
+        #include "libavfilter/avcodec.h"
+        #else
+        #include "libavfilter/buffersrc.h"
+        #endif
     #endif
 }
 
