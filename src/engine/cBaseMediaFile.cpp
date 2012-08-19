@@ -1131,9 +1131,11 @@ cVideoFile::cVideoFile(int TheWantedObjectType,cBaseApplicationConfig *Applicati
     AudioStreamNumber       =-1;
 
     // Filter part
+    #if LIBAVFILTER_VERSION_INT > AV_VERSION_INT(2,60,0)
     m_pFilterGraph          =NULL;
     m_pFilterIn             =NULL;
     m_pFilterOut            =NULL;
+    #endif
 }
 
 //====================================================================================================================
@@ -1490,7 +1492,9 @@ void cVideoFile::CloseCodecAndFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::CloseCodecAndFile");
 
     // Close the filter context
+    #if LIBAVFILTER_VERSION_INT > AV_VERSION_INT(2,60,0)
     if (m_pFilterGraph) FilterClose();
+    #endif
 
     // Close the video codec
     if (VideoDecoderCodec!=NULL) {
@@ -1869,6 +1873,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 // FILTER PART : This code was adapt from xbmc sources files DVDVideoCodecFFmpeg.h/.cpp and AVPLAY.c
 //*********************************************************************************************************************
 
+#if LIBAVFILTER_VERSION_INT > AV_VERSION_INT(2,60,0)
 unsigned int cVideoFile::SetFilters(unsigned int flags) {
     m_filters_next.clear();
 
@@ -2032,7 +2037,7 @@ int cVideoFile::FilterProcess() {
     #endif
     return VC_BUFFER;
 }
-
+#endif
 //====================================================================================================================
 // Read a video frame from current stream
 //====================================================================================================================
@@ -2152,12 +2157,14 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
                         //*****************************************************************************************************************
                         // Video filter part
                         //*****************************************************************************************************************
+                        #if LIBAVFILTER_VERSION_INT > AV_VERSION_INT(2,60,0)
                         if ((m_pFilterGraph==NULL)&&(Deinterlace)) {
                             SetFilters(FILTER_DEINTERLACE_YADIF);
                             m_filters=m_filters_next;
                             FilterOpen(m_filters);
                         } else if ((m_pFilterGraph!=NULL)&&(!Deinterlace)) FilterClose();
                         if ((m_pFilterGraph)&&(Deinterlace)) FilterProcess();
+                        #endif
                         //*****************************************************************************************************************
                         FrameBufferYUVReady   =true;                            // Keep actual value for FrameBufferYUV
                         FrameBufferYUVPosition=int(FramePosition*1000);         // Keep actual value for FrameBufferYUV

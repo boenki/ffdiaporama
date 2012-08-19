@@ -580,6 +580,7 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
     Image               =BrushToCopy->Image;
     Video               =BrushToCopy->Video;
     SoundVolume         =BrushToCopy->SoundVolume;
+    Deinterlace         =BrushToCopy->Deinterlace;
     DefaultFramingW     =BrushToCopy->DefaultFramingW;
     DefaultFramingH     =BrushToCopy->DefaultFramingH;
     DefaultFramingF     =BrushToCopy->DefaultFramingF;

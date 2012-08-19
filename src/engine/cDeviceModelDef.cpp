@@ -567,7 +567,9 @@ bool cDeviceModelList::Initffmpeg(QString &BinaryEncoderPath) {
             // Next step : start libav
             ToLog(LOGMSG_INFORMATION,"Starting libav lib ...");
             #ifdef LIBAV_08
-                avfilter_register_all();
+                #if LIBAVFILTER_VERSION_INT > AV_VERSION_INT(2,60,0)
+                    avfilter_register_all();
+                #endif
                 avcodec_register_all();
                 av_register_all();
                 avformat_network_init();

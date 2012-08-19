@@ -54,7 +54,18 @@ void DlgInfoFile::DoInitDialog() {
 
     if (MediaFile) {
         // General file information
-        ui->FileIconLabel->setPixmap(QPixmap().fromImage(MediaFile->Icon100));
+        if (!MediaFile->Icon100.isNull()) {
+            ui->FileIconLabel->setPixmap(QPixmap().fromImage(MediaFile->Icon100));
+        } else if (MediaFile->ObjectType==OBJECTTYPE_IMAGEFILE) {
+            cLuLoImageCacheObject *ImageObject=BaseApplicationConfig->ImagesCache.FindObject(MediaFile->FileName,MediaFile->ModifDateTime,MediaFile->ImageOrientation,NULL,true,false);
+            if (ImageObject) {
+                QImage *Img=ImageObject->ValidateCachePreviewImage();
+                if ((Img)&&(!Img->isNull())) {
+                    QImage NewImg=(Img->width()>Img->height())?Img->scaledToWidth(100,Qt::SmoothTransformation):Img->scaledToHeight(100,Qt::SmoothTransformation);
+                    ui->FileIconLabel->setPixmap(QPixmap().fromImage(NewImg));
+                }
+            }
+        }
         ui->FileNameValue->setText(MediaFile->ShortName);
         ui->FileTypeValue->setText(MediaFile->GetFileTypeStr()+QString("(%1)").arg(MediaFile->GetInformationValue("Long Format")));
         ui->FileSizeValue->setText(MediaFile->GetFileSizeStr());
