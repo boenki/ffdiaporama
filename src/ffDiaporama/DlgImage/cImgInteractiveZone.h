@@ -40,9 +40,9 @@ public:
 
     QImage              *ForegroundImage;
     QImage              *CachedImage;
-    double              dmax;
-    double              DstX,DstY,DstW,DstH;
-    double              maxw,maxh;
+    qreal               dmax;
+    qreal               Hyp,DstX,DstY,DstW,DstH;
+    qreal               maxw,maxh;
 
     QRectF              SceneRect;
     QRectF              CurSelRect;
@@ -51,12 +51,12 @@ public:
 
     // Transformations
     TRANSFOTYPE         TransfoType;
-    double              Move_X,Move_Y;                  // Blocks move
-    double              Scale_X,Scale_Y;                // Blocks resize
+    qreal               Move_X,Move_Y;                  // Blocks move
+    qreal               Scale_X,Scale_Y;                // Blocks resize
 
     // Rulers
-    QList<double>   MagnetVert;
-    QList<double>   MagnetHoriz;
+    QList<qreal>        MagnetVert;
+    QList<qreal>        MagnetHoriz;
 
     explicit            cImgInteractiveZone(QWidget *parent = 0);
                         ~cImgInteractiveZone();
@@ -74,8 +74,8 @@ protected:
     virtual void	keyReleaseEvent(QKeyEvent *event);
 
 signals:
-    void    TransformBlock(double Move_X,double Move_Y,double Scale_X,double Scale_Y);
-    void    DisplayTransformBlock(double Move_X,double Move_Y,double Scale_X,double Scale_Y);
+    void    TransformBlock(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
+    void    DisplayTransformBlock(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
 
 private:
     bool    IsInRect(QPoint Pos,QRect Rect);

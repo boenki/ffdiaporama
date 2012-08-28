@@ -109,8 +109,8 @@ void DlgImageCorrection::DoInitDialog() {
     }
     ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
 
-    if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
-        else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
+    if (CurrentBrush->Image)            ImageGeometry=qreal(CurrentBrush->Image->ImageHeight)/qreal(CurrentBrush->Image->ImageWidth);
+        else if (CurrentBrush->Video)   ImageGeometry=qreal(CurrentBrush->Video->ImageHeight)/qreal(CurrentBrush->Video->ImageWidth);
     ImageGeometry=QString("%1").arg(ImageGeometry,0,'e').toDouble();  // Rounded to same number as style managment
     ui->RulersBT->setIcon(QIcon(((cApplicationConfig *)BaseApplicationConfig)->FramingRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
 
@@ -182,10 +182,11 @@ void DlgImageCorrection::DoInitDialog() {
     connect(ui->FramingStyleBT,SIGNAL(pressed()),this,SLOT(s_FramingStyleBT()));
 
     connect(ui->FileNameBT,SIGNAL(clicked()),this,SLOT(ChangeBrushDiskFile()));
-    connect(ui->InteractiveZone,SIGNAL(TransformBlock(double,double,double,double)),this,SLOT(s_IntZoneTransformBlocks(double,double,double,double)));
-    connect(ui->InteractiveZone,SIGNAL(DisplayTransformBlock(double,double,double,double)),this,SLOT(s_DisplayIntZoneTransformBlocks(double,double,double,double)));
+    connect(ui->InteractiveZone,SIGNAL(TransformBlock(qreal,qreal,qreal,qreal)),this,SLOT(s_IntZoneTransformBlocks(qreal,qreal,qreal,qreal)));
+    connect(ui->InteractiveZone,SIGNAL(DisplayTransformBlock(qreal,qreal,qreal,qreal)),this,SLOT(s_DisplayIntZoneTransformBlocks(qreal,qreal,qreal,qreal)));
 
     ui->InteractiveZone->setFocus();
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -312,7 +313,8 @@ void DlgImageCorrection::s_RadiusReset() {
 
 void DlgImageCorrection::resizeEvent(QResizeEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::resizeEvent");
-    ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
+    //ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
+    ui->InteractiveZone->RefreshDisplay();
 }
 
 //====================================================================================================================
@@ -320,8 +322,8 @@ void DlgImageCorrection::resizeEvent(QResizeEvent *) {
 void DlgImageCorrection::showEvent(QShowEvent *ev) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::showEvent");
     QCustomDialog::showEvent(ev);
-    ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
-    RefreshControls();
+    //ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
+    //RefreshControls();
  }
 
 //====================================================================================================================
@@ -388,9 +390,9 @@ void DlgImageCorrection::s_WValueEDChanged(double Value) {
     if (CurrentBrush->LockGeometry) {
         CurrentBrush->ZoomFactor=Value/100;
     } else {
-        double newH=CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio*ui->InteractiveZone->dmax;
+        qreal newH=CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio*ui->InteractiveZone->dmax;
         CurrentBrush->ZoomFactor=Value/100;
-        double newW=CurrentBrush->ZoomFactor*ui->InteractiveZone->dmax;
+        qreal newW=CurrentBrush->ZoomFactor*ui->InteractiveZone->dmax;
         CurrentBrush->AspectRatio=newH/newW;
     }
     ui->InteractiveZone->RefreshDisplay();
@@ -403,12 +405,12 @@ void DlgImageCorrection::s_HValueEDChanged(double Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_HValueEDChanged");
     if (FLAGSTOPED) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_HVALUE,ui->InteractiveZone,false);
-    double newH=(Value/100)*ui->InteractiveZone->dmax;
+    qreal newH=(Value/100)*ui->InteractiveZone->dmax;
     if (CurrentBrush->LockGeometry) {
-        double newW=newH/CurrentBrush->AspectRatio;
+        qreal newW=newH/CurrentBrush->AspectRatio;
         CurrentBrush->ZoomFactor=newW/ui->InteractiveZone->dmax;
     } else {
-        double newW=CurrentBrush->ZoomFactor*ui->InteractiveZone->dmax;
+        qreal newW=CurrentBrush->ZoomFactor*ui->InteractiveZone->dmax;
         CurrentBrush->AspectRatio=newH/newW;
     }
     ui->InteractiveZone->RefreshDisplay();
@@ -433,7 +435,7 @@ void DlgImageCorrection::s_RotationEDChanged(double Value) {
 void DlgImageCorrection::s_RotateLeft() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_RotateLeft");
     AppendPartialUndo(UNDOACTION_EDITZONE_ROTATEVALUE,ui->InteractiveZone,true);
-    double Value=(int((CurrentBrush->ImageRotation-90)/90)*90);
+    qreal Value=(int((CurrentBrush->ImageRotation-90)/90)*90);
     if (Value<=-180) Value=360-Value;
     ui->RotateED->setValue(Value);
 }
@@ -443,7 +445,7 @@ void DlgImageCorrection::s_RotateLeft() {
 void DlgImageCorrection::s_RotateRight() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_RotateRight");
     AppendPartialUndo(UNDOACTION_EDITZONE_ROTATEVALUE,ui->InteractiveZone,true);
-    double Value=(int((CurrentBrush->ImageRotation+90)/90)*90);
+    qreal Value=(int((CurrentBrush->ImageRotation+90)/90)*90);
     if (Value>180) Value=-360+Value;
     ui->RotateED->setValue(Value);
 }
@@ -454,8 +456,8 @@ void DlgImageCorrection::s_AdjustW() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_AdjustW");
     AppendPartialUndo(UNDOACTION_EDITZONE_FRAMING,ui->InteractiveZone,true);
 
-    double W=ui->InteractiveZone->maxw;
-    double H=W*CurrentBrush->AspectRatio;
+    qreal W=ui->InteractiveZone->maxw;
+    qreal H=W*CurrentBrush->AspectRatio;
     CurrentBrush->X=((ui->InteractiveZone->dmax-W)/2)/ui->InteractiveZone->dmax;
     CurrentBrush->Y=((ui->InteractiveZone->dmax-H)/2)/ui->InteractiveZone->dmax;
     CurrentBrush->ZoomFactor=W/ui->InteractiveZone->dmax;
@@ -469,8 +471,8 @@ void DlgImageCorrection::s_AdjustH() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_AdjustH");
     AppendPartialUndo(UNDOACTION_EDITZONE_FRAMING,ui->InteractiveZone,true);
 
-    double H=ui->InteractiveZone->maxh;
-    double W=H/CurrentBrush->AspectRatio;
+    qreal H=ui->InteractiveZone->maxh;
+    qreal W=H/CurrentBrush->AspectRatio;
     CurrentBrush->X=((ui->InteractiveZone->dmax-W)/2)/ui->InteractiveZone->dmax;
     CurrentBrush->Y=((ui->InteractiveZone->dmax-H)/2)/ui->InteractiveZone->dmax;
     CurrentBrush->ZoomFactor=W/ui->InteractiveZone->dmax;
@@ -486,16 +488,16 @@ void DlgImageCorrection::s_AdjustWH() {
     // Special case for custom geometry -> use all the image then change aspect ratio to image aspect ratio
     if (!CurrentBrush->LockGeometry) {
         AppendPartialUndo(UNDOACTION_EDITZONE_FRAMING,ui->InteractiveZone,true);
-        double W=ui->InteractiveZone->maxw;
-        double H=ui->InteractiveZone->maxh;
+        qreal W=ui->InteractiveZone->maxw;
+        qreal H=ui->InteractiveZone->maxh;
         CurrentBrush->AspectRatio=H/W;
         CurrentBrush->X=((ui->InteractiveZone->dmax-W)/2)/ui->InteractiveZone->dmax;
         CurrentBrush->Y=((ui->InteractiveZone->dmax-H)/2)/ui->InteractiveZone->dmax;
         CurrentBrush->ZoomFactor=W/ui->InteractiveZone->dmax;
         RefreshControls();
     } else {
-        double W=ui->InteractiveZone->maxw;
-        double H=W*CurrentBrush->AspectRatio;
+        qreal W=ui->InteractiveZone->maxw;
+        qreal H=W*CurrentBrush->AspectRatio;
         if (H<ui->InteractiveZone->maxh) s_AdjustH(); else s_AdjustW();
     }
 }
@@ -623,7 +625,7 @@ void DlgImageCorrection::s_BlurSigmaSliderMoved(int Value) {
     FLAGSTOPSPIN=true;
     AppendPartialUndo(UNDOACTION_EDITZONE_BLUR,ui->InteractiveZone,false);
     cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
-    Filter->BlurSigma=double(Value)/10;
+    Filter->BlurSigma=qreal(Value)/10;
     ui->BlurSigmaSlider->setValue(Filter->BlurSigma*10);
     ui->BlurSigmaSB->setValue(Filter->BlurSigma);
     ui->InteractiveZone->RefreshDisplay();
@@ -653,7 +655,7 @@ void DlgImageCorrection::s_BlurRadiusSliderMoved(int Value) {
     FLAGSTOPSPIN=true;
     AppendPartialUndo(UNDOACTION_EDITZONE_BLURRD,ui->InteractiveZone,false);
     cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
-    Filter->BlurRadius=double(Value);
+    Filter->BlurRadius=qreal(Value);
     ui->BlurRadiusSlider->setValue(int(Filter->BlurRadius));
     ui->BlurRadiusED->setValue(int(Filter->BlurRadius));
     ui->InteractiveZone->RefreshDisplay();
@@ -705,7 +707,7 @@ void DlgImageCorrection::s_GammaSliderMoved(int Value) {
     if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
     FLAGSTOPSPIN=true;
     AppendPartialUndo(UNDOACTION_EDITZONE_GAMMA,ui->InteractiveZone,false);
-    CurrentBrush->Gamma=double(Value)/100;
+    CurrentBrush->Gamma=qreal(Value)/100;
     ui->GammaSlider->setValue(CurrentBrush->Gamma*100);
     ui->GammaValue->setValue(CurrentBrush->Gamma);
     ui->InteractiveZone->RefreshDisplay();
@@ -816,14 +818,14 @@ void DlgImageCorrection::s_FramingStyleBT() {
 // Handler for interactive zone
 //====================================================================================================================
 
-void DlgImageCorrection::s_IntZoneTransformBlocks(double Move_X,double Move_Y,double Scale_X,double Scale_Y) {
+void DlgImageCorrection::s_IntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_IntZoneTransformBlocks");
     AppendPartialUndo(UNDOACTION_INTERACTIVEMOVERESIZE,ui->InteractiveZone,true);
 
     CurrentBrush->X=CurrentBrush->X+Move_X;
     CurrentBrush->Y=CurrentBrush->Y+Move_Y;
     if (!CurrentBrush->LockGeometry) {
-        double NewH=CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio+Scale_Y;
+        qreal NewH=CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio+Scale_Y;
         CurrentBrush->AspectRatio=NewH/(CurrentBrush->ZoomFactor+Scale_X);
     }
     CurrentBrush->ZoomFactor=CurrentBrush->ZoomFactor+Scale_X;
@@ -836,13 +838,13 @@ void DlgImageCorrection::s_IntZoneTransformBlocks(double Move_X,double Move_Y,do
     RefreshControls();
 }
 
-void DlgImageCorrection::s_DisplayIntZoneTransformBlocks(double Move_X,double Move_Y,double Scale_X,double Scale_Y) {
+void DlgImageCorrection::s_DisplayIntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_DisplayIntZoneTransformBlocks");
 
-    double NewX=CurrentBrush->X+Move_X;
-    double NewY=CurrentBrush->Y+Move_Y;
-    double NewW=CurrentBrush->ZoomFactor+Scale_X;
-    double NewH=(CurrentBrush->LockGeometry?(CurrentBrush->ZoomFactor+Scale_X)*CurrentBrush->AspectRatio:CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio+Scale_Y);
+    qreal NewX=CurrentBrush->X+Move_X;
+    qreal NewY=CurrentBrush->Y+Move_Y;
+    qreal NewW=CurrentBrush->ZoomFactor+Scale_X;
+    qreal NewH=(CurrentBrush->LockGeometry?(CurrentBrush->ZoomFactor+Scale_X)*CurrentBrush->AspectRatio:CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio+Scale_Y);
 
     FLAGSTOPED=true;
     ui->XValue->setValue(NewX*100);

@@ -66,6 +66,10 @@ void DlgVideoEdit::DoInitDialog() {
     connect(ui->StartPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditStartPos(QTime)));
     connect(ui->EndPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditEndPos(QTime)));
     connect(ui->VideoPlayer,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
+
+    #ifndef LIBAVFILTER
+    ui->DeinterlaceBt->setEnabled(false);
+    #endif
 }
 
 //====================================================================================================================

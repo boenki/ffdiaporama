@@ -407,6 +407,8 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         cMusicObject    *CurMusic           =Object->Parent->GetMusicObject(ItemIndex,StartPosition,&CurrentCountObjet,&OwnerObjectMusic);
         cMusicObject    *NextMusic          =NULL;
 
+        if ((CurMusic!=NULL)&&(StartPosition>=(QTime(0,0,0,0).msecsTo(CurMusic->Duration)-Object->TransitionDuration))) CurMusic=NULL;
+
         if ((ItemIndex+1)<ParentTable->columnCount()) {
             NextMusic=Object->Parent->GetMusicObject(ItemIndex+1,NextStartPosition,NULL,&OwnerObjectNextMusic);
             //if (NextMusic==CurMusic) EndMusic=false;

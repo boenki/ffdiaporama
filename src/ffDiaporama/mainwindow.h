@@ -134,6 +134,7 @@ private slots:
     void    s_Action_ChWindowDisplayMode_ToPartitionMode();
     void    s_Action_ChWindowDisplayMode_ToBrowserMode();
     void    s_Action_ChWindowDisplayMode(int Mode);
+    void    s_Action_ChWindowDisplayMode();
 
     // Actions File menu
     void    s_Action_New();

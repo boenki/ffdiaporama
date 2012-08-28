@@ -87,7 +87,8 @@ QCustomStyledItemDelegate::QCustomStyledItemDelegate(QObject *parent):QStyledIte
 void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomStyledItemDelegate::paint");
 
-    if (index.row()*ParentTable->columnCount()+index.column()>=ParentTable->MediaList.count()) {
+    if (((ParentTable->ApplicationConfig->CurrentMode==DISPLAY_DATA)&&(index.row()>=ParentTable->MediaList.count()))||
+        ((ParentTable->ApplicationConfig->CurrentMode!=DISPLAY_DATA)&&(index.row()*ParentTable->columnCount()+index.column()>=ParentTable->MediaList.count()))) {
 
         // index is out of range
         Painter->fillRect(option.rect,Qt::white);
@@ -961,16 +962,20 @@ QList<cBaseMediaFile*> QCustomFolderTable::GetCurrentSelectedMediaFile() const {
 
     QList<cBaseMediaFile*>  SelMediaList;
     QModelIndexList         SelList=selectionModel()->selectedIndexes();
-    for (int i=0;i<SelList.count();i++) {
-        int Col=SelList[i].column();
-        int Row=SelList[i].row();
-        if (Row*columnCount()+Col<MediaList.count()) {
-            if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
-                // One item per row but selList send 1 item per column !
-                bool isFind=false;
-                for (int j=0;j<SelMediaList.count();j++) if (SelMediaList[j]==MediaList[Row]) isFind=true;
-                if (!isFind) SelMediaList.append(MediaList[Row]);
-            } else SelMediaList.append(MediaList[Row*columnCount()+Col]); // Multiple items per row
+    if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
+        int CurrentRow=-1;
+        for (int i=0;i<SelList.count();i++) {
+            int Row   =SelList[i].row();
+            if ((Row<MediaList.count())&&(CurrentRow!=Row)) {
+                CurrentRow=Row;
+                SelMediaList.append(MediaList[Row]);
+            }
+        }
+    } else {
+        for (int i=0;i<SelList.count();i++) {
+            int Col   =SelList[i].column();
+            int Row   =SelList[i].row();
+            if (Row*columnCount()+Col<MediaList.count()) SelMediaList.append(MediaList[Row*columnCount()+Col]); // Multiple items per row
         }
     }
     return SelMediaList;

@@ -105,6 +105,9 @@ void DlgApplicationSettings::DoInitDialog() {
     // Video options
     ui->Crop1088To1080CB->setChecked(ApplicationConfig->Crop1088To1080);
     ui->DeinterlaceCB->setChecked(ApplicationConfig->Deinterlace);
+    #ifndef LIBAVFILTER
+    ui->DeinterlaceCB->setEnabled(false);
+    #endif
 
     //********************************
     // Project TAB

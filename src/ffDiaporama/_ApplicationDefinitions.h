@@ -114,7 +114,7 @@
 extern QString SystemProperties;                                // System properties log
 extern QString CurrentAppVersion;                               // Application version read from BUILDVERSION.txt
 
-#define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de"
+#define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de;nl"
 
 // Utility functions
 void    AddToSystemProperties(QString StringToAdd);             // Add a string to the system properties log
