@@ -883,7 +883,7 @@ information</string>
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>0</y>
+              <y>-212</y>
               <width>257</width>
               <height>720</height>
              </rect>
@@ -1637,8 +1637,8 @@ color: #000000;
                </property>
                <property name="iconSize">
                 <size>
-                 <width>12</width>
-                 <height>12</height>
+                 <width>16</width>
+                 <height>16</height>
                 </size>
                </property>
               </widget>

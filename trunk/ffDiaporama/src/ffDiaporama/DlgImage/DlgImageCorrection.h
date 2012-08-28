@@ -43,8 +43,8 @@ public:
     QString                 UndoBrushFileName;              // Name of previous file is undo
     bool                    FLAGSTOPED;                     // Flag to stop spin box during settings
     bool                    FLAGSTOPSPIN;                   // Flag to stop spin box during blur change
-    double                  ImageGeometry;
-    double                  ProjectGeometry;
+    qreal                   ImageGeometry;
+    qreal                   ProjectGeometry;
     QString                 InitialFilteredString;
     int                     OnOffFilter;
 
@@ -101,8 +101,8 @@ private slots:
     void            ChangeBrushDiskFile();
     void            s_LockGeometryCB(int value);
     void            s_FramingStyleBT();
-    void            s_IntZoneTransformBlocks(double Move_X,double Move_Y,double Scale_X,double Scale_Y);
-    void            s_DisplayIntZoneTransformBlocks(double Move_X,double Move_Y,double Scale_X,double Scale_Y);
+    void            s_IntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
+    void            s_DisplayIntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
 
 private:
     Ui::DlgImageCorrection *ui;

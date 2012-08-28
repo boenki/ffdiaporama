@@ -730,6 +730,10 @@ quando si clicca il pulsante &quot;Per il WEB&quot; nel menu &quot;Genera filmat
         <source>Select the default video standard to use, PAL or NTSC</source>
         <translation>Selezionare lo standard video predefinito da utilizzare, PAL o NTSC</translation>
     </message>
+    <message>
+        <source>Activate deinterlace filter when add new MTS videos</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgBackgroundProperties</name>

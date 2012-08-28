@@ -92,8 +92,6 @@ void cImgInteractiveZone::InitCachedImage(cCompositionObject *TheCompoObject,int
             CachedImage=NewCachedImage;
         }
     }
-
-    RefreshDisplay();
 }
 
 //====================================================================================================================
@@ -182,28 +180,28 @@ void cImgInteractiveZone::RefreshDisplay() {
     if (width()<height()) dmax=width(); else dmax=height();
 
     QImage  *SourceImage=NULL;
-    double  Hyp         =sqrt(double(CachedImage->width())*double(CachedImage->width())+double(CachedImage->height())*double(CachedImage->height()));   // Calc hypothenuse of the image to define full canvas
+    qreal  Hyp         =sqrt(qreal(CachedImage->width())*qreal(CachedImage->width())+qreal(CachedImage->height())*qreal(CachedImage->height()));   // Calc hypothenuse of the image to define full canvas
 
     // calc rectangle before rotation
-    double  rx=double(CachedImage->width())*(dmax/Hyp)/2;
-    double  ry=double(CachedImage->height())*(dmax/Hyp)/2;
+    qreal  rx=qreal(CachedImage->width())*(dmax/Hyp)/2;
+    qreal  ry=qreal(CachedImage->height())*(dmax/Hyp)/2;
 
     //RotatePoint.X = ((Pt.X - Centre.X) * Cos(AngCrad) - (Pt.Y - Centre.Y) * Sin(AngCrad) + Centre.X)
     //RotatePoint.Y = ((Pt.X - Centre.X) * Sin(AngCrad) + (Pt.Y - Centre.Y) * Cos(AngCrad) + Centre.Y)
 
-    double  x1=-rx*cos((CurrentBrush->ImageRotation)*PI/180)+ry*sin(CurrentBrush->ImageRotation*PI/180)+dmax/2;
-    double  x2=+rx*cos((CurrentBrush->ImageRotation)*PI/180)+ry*sin(CurrentBrush->ImageRotation*PI/180)+dmax/2;
-    double  x3=-rx*cos((CurrentBrush->ImageRotation)*PI/180)-ry*sin(CurrentBrush->ImageRotation*PI/180)+dmax/2;
-    double  x4=+rx*cos((CurrentBrush->ImageRotation)*PI/180)-ry*sin(CurrentBrush->ImageRotation*PI/180)+dmax/2;
-    double  y1=-rx*sin((CurrentBrush->ImageRotation)*PI/180)+ry*cos(CurrentBrush->ImageRotation*PI/180)+dmax/2;
-    double  y2=+rx*sin((CurrentBrush->ImageRotation)*PI/180)+ry*cos(CurrentBrush->ImageRotation*PI/180)+dmax/2;
-    double  y3=-rx*sin((CurrentBrush->ImageRotation)*PI/180)-ry*cos(CurrentBrush->ImageRotation*PI/180)+dmax/2;
-    double  y4=+rx*sin((CurrentBrush->ImageRotation)*PI/180)-ry*cos(CurrentBrush->ImageRotation*PI/180)+dmax/2;
+    qreal  x1=-rx*cos((CurrentBrush->ImageRotation)*PI/180)+ry*sin(CurrentBrush->ImageRotation*PI/180)+dmax/2;
+    qreal  x2=+rx*cos((CurrentBrush->ImageRotation)*PI/180)+ry*sin(CurrentBrush->ImageRotation*PI/180)+dmax/2;
+    qreal  x3=-rx*cos((CurrentBrush->ImageRotation)*PI/180)-ry*sin(CurrentBrush->ImageRotation*PI/180)+dmax/2;
+    qreal  x4=+rx*cos((CurrentBrush->ImageRotation)*PI/180)-ry*sin(CurrentBrush->ImageRotation*PI/180)+dmax/2;
+    qreal  y1=-rx*sin((CurrentBrush->ImageRotation)*PI/180)+ry*cos(CurrentBrush->ImageRotation*PI/180)+dmax/2;
+    qreal  y2=+rx*sin((CurrentBrush->ImageRotation)*PI/180)+ry*cos(CurrentBrush->ImageRotation*PI/180)+dmax/2;
+    qreal  y3=-rx*sin((CurrentBrush->ImageRotation)*PI/180)-ry*cos(CurrentBrush->ImageRotation*PI/180)+dmax/2;
+    qreal  y4=+rx*sin((CurrentBrush->ImageRotation)*PI/180)-ry*cos(CurrentBrush->ImageRotation*PI/180)+dmax/2;
 
-    double  minx=x1;    if (minx>x2) minx=x2;   if (minx>x3) minx=x3;   if (minx>x4) minx=x4;
-    double  maxx=x1;    if (maxx<x2) maxx=x2;   if (maxx<x3) maxx=x3;   if (maxx<x4) maxx=x4;
-    double  miny=y1;    if (miny>y2) miny=y2;   if (miny>y3) miny=y3;   if (miny>y4) miny=y4;
-    double  maxy=y1;    if (maxy<y2) maxy=y2;   if (maxy<y3) maxy=y3;   if (maxy<y4) maxy=y4;
+    qreal  minx=x1;    if (minx>x2) minx=x2;   if (minx>x3) minx=x3;   if (minx>x4) minx=x4;
+    qreal  maxx=x1;    if (maxx<x2) maxx=x2;   if (maxx<x3) maxx=x3;   if (maxx<x4) maxx=x4;
+    qreal  miny=y1;    if (miny>y2) miny=y2;   if (miny>y3) miny=y3;   if (miny>y4) miny=y4;
+    qreal  maxy=y1;    if (maxy<y2) maxy=y2;   if (maxy<y3) maxy=y3;   if (maxy<y4) maxy=y4;
 
     maxw=maxx-minx;
     maxh=maxy-miny;
@@ -218,8 +216,8 @@ void cImgInteractiveZone::RefreshDisplay() {
     } else SourceImage=CachedImage;
 
     // Calc coordinates of the part in the source image
-    double  RealImageW=double(SourceImage->width());                  // Get real image widht
-    double  RealImageH=double(SourceImage->height());                 // Get real image height
+    qreal  RealImageW=qreal(SourceImage->width());                  // Get real image widht
+    qreal  RealImageH=qreal(SourceImage->height());                 // Get real image height
 
     DstX=((Hyp-RealImageW)/2)*(dmax/Hyp);
     DstY=((Hyp-RealImageH)/2)*(dmax/Hyp);
@@ -325,8 +323,8 @@ void cImgInteractiveZone::keyPressEvent(QKeyEvent *event) {
     if (!CurrentBrush) return;
 
     ManageCursor(mapFromGlobal(QCursor::pos()),event->modifiers());
-    double StepX=double(1)/SceneRect.width();
-    double StepY=double(1)/SceneRect.height();
+    qreal StepX=qreal(1)/SceneRect.width();
+    qreal StepY=qreal(1)/SceneRect.height();
 
     Move_X =0;
     Scale_X=0;
@@ -387,9 +385,9 @@ void cImgInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         // Calc transformation
         // *************************************************************************
 
-        double DX=double(event->pos().x()-CapturePos.x())/SceneRect.width();
-        double DY=double(event->pos().y()-CapturePos.y())/SceneRect.height();
-        QRect  NewCurSelRect;
+        qreal DX=qreal(event->pos().x()-CapturePos.x())/SceneRect.width();
+        qreal DY=qreal(event->pos().y()-CapturePos.y())/SceneRect.height();
+        QRect NewCurSelRect;
 
         // Top left
         if  (TransfoType==RESIZEUPLEFT) {
@@ -599,26 +597,36 @@ void cImgInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
             Scale_Y=0;
 
             if (MagneticRuler!=0) {
-                QRect  NewCurSelRect=ComputeNewCurSelRect();
-                DX=0;
-                DY=0;
+
+                NewCurSelRect=ComputeNewCurSelRect();
 
                 // Apply magnetic rules vertical
                 for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) {
-                    if      ((NewCurSelRect.left()      >=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.left()      <=MagnetVert[Ruller]+HANDLEMAGNETX)) { DX=NewCurSelRect.left()      -MagnetVert[Ruller];  break; }
-                    else if ((NewCurSelRect.right()     >=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.right()     <=MagnetVert[Ruller]+HANDLEMAGNETX)) { DX=NewCurSelRect.right()+1   -MagnetVert[Ruller];  break; }
-                    else if ((NewCurSelRect.center().x()>=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.center().x()<=MagnetVert[Ruller]+HANDLEMAGNETX)) { DX=NewCurSelRect.center().x()-MagnetVert[Ruller];  break; }
+                    if ((NewCurSelRect.left()>=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.left()<=MagnetVert[Ruller]+HANDLEMAGNETX)) {
+                        Move_X=(MagnetVert[Ruller]-CurrentBrush->X*dmax)/dmax;
+                        break;
+                    } else if ((NewCurSelRect.right()>=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.right()<=MagnetVert[Ruller]+HANDLEMAGNETX)) {
+                        Move_X=(MagnetVert[Ruller]-(CurrentBrush->X+CurrentBrush->ZoomFactor)*dmax)/dmax;
+                        break;
+                    } else if ((NewCurSelRect.center().x()>=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.center().x()<=MagnetVert[Ruller]+HANDLEMAGNETX)) {
+                        Move_X=(MagnetVert[Ruller]-(CurrentBrush->X+CurrentBrush->ZoomFactor/2)*dmax)/dmax;
+                        break;
+                    }
                 }
 
                 // Apply magnetic rules horizontal
                 for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) {
-                    if      ((NewCurSelRect.top()       >=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.top()       <=MagnetHoriz[Ruller]+HANDLEMAGNETY)) { DY=NewCurSelRect.top()       -MagnetHoriz[Ruller];  break; }
-                    else if ((NewCurSelRect.bottom()    >=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.bottom()    <=MagnetHoriz[Ruller]+HANDLEMAGNETY)) { DY=NewCurSelRect.bottom()+1  -MagnetHoriz[Ruller];  break; }
-                    else if ((NewCurSelRect.center().y()>=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.center().y()<=MagnetHoriz[Ruller]+HANDLEMAGNETY)) { DY=NewCurSelRect.center().y()-MagnetHoriz[Ruller];  break; }
+                    if ((NewCurSelRect.top()>=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.top()<=MagnetHoriz[Ruller]+HANDLEMAGNETY)) {
+                        Move_Y=(MagnetHoriz[Ruller]-CurrentBrush->Y*dmax)/dmax;
+                        break;
+                    } else if ((NewCurSelRect.bottom()>=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.bottom()<=MagnetHoriz[Ruller]+HANDLEMAGNETY)) {
+                        Move_Y=(MagnetHoriz[Ruller]-(CurrentBrush->Y+CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio)*dmax)/dmax;
+                        break;
+                    } else if ((NewCurSelRect.center().y()>=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.center().y()<=MagnetHoriz[Ruller]+HANDLEMAGNETY)) {
+                        Move_Y=(MagnetHoriz[Ruller]-(CurrentBrush->Y+CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio/2)*dmax)/dmax;
+                        break;
+                    }
                 }
-
-                Move_X=double(event->pos().x()-DX-CapturePos.x())/SceneRect.width();
-                Move_Y=double(event->pos().y()-DY-CapturePos.y())/SceneRect.height();
             }
         }
         if ((Move_X!=0)||(Move_Y!=0)||(Scale_X!=0)||(Scale_Y!=0)) {

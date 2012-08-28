@@ -61,38 +61,25 @@ extern "C" {
     #include <libavformat/avio.h>
 
     // include for libavfilter
-    #if LIBAVFILTER_VERSION_INT > AV_VERSION_INT(2,60,0)
+    #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(2,60,0)       // For all
+        #define LIBAVFILTER
         #include "libavfilter/avfilter.h"
         #include "libavfilter/avfiltergraph.h"
-        #include "libavfilter/buffersink.h"
-        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)
-        #include "libavfilter/avcodec.h"
-        #else
-        #include "libavfilter/buffersrc.h"
+        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)    // From 2.13 to 2.60
+            #include "libavfilter/buffersrc.h"
+            #include "libavfilter/vsrc_buffer.h"
+        #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)   // From 2.6 to 3.0
+            #include "libavfilter/buffersink.h"
+            #include "libavfilter/avcodec.h"
+        #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)   // From 3.0 to 3.1
+            #include "libavfilter/buffersink.h"
+            #include "libavfilter/avcodec.h"
+        #else                                                   // From 3.1
+            #include "libavfilter/buffersink.h"
+            #include "libavfilter/buffersrc.h"
         #endif
     #endif
 }
-
-/* ********************************************************************************
-   Create define depending on libav version to control code creation
-   ********************************************************************************
-   VERSIONS:
-   ---------
-        OPERATING SYSTEM    DATE        BINARY  BIN.VERSION LIBAVUTIL   LIBAVCODEC  LIBAVFORMAT     LIBAVDEVICE     LIBAVFILTER     LIBSWSCALE
-        ----------------    ----------  ------  ----------- ----------  ----------  -----------     -----------     -----------     ----------
-        WINDOWS             LIBAV_08    avconv  0.8-1036    51.25.0     54.8.0      54.2.0          53.2.0          2.15.0          2.1.0
-
-        UBUNTU 12.04        LIBAV_08    avconv  0.8.1-4     51.22.1     53.35.0     53.21.0         53.2.0          2.15.0          2.1.0
-        UBUNTU 11.10        LIBAV_08    ffmpeg  0.7.3-4     51.7.0      53.6.0      53.3.0          53.0.0          2.4.0           2.0.0
-
-        OPENSUSE 12.1       LIBAV_08    ffmpeg  0.11        51.54.100   54.23.100   54.6.100        54.0.100        2.77.100        2.1.100
-        OPENSUSE 11.4       LIBAV_08    ffmpeg  0.10.2      51.35.100   53.61.100   53.32.100       53.4.100        2.61.100        2.1.100
-
-        FEDORA 16           LIBAV_07    ffmpeg  0.8.10      51.9.1      53.8.0      53.5.0          53.1.1          2.23.0          2.0.0
-
-        MAGEIA 2            LIBAV_08    ffmpeg  0.10.2      51.35.100   53.61.100   53.32.100       53.4.100        2.61.100        2.1.100
-
-*************************************************************************************************************************** */
 
 // LIBAV 0.7 = LIBAVUTIL from 51.7 to 51.21 + LIBAVCODEC from 53.6 to 53.34 + LIBAVFORMAT from 53.3 to 53.20
 #if (   ( (LIBAVUTIL_VERSION_MAJOR   ==51)&&(LIBAVUTIL_VERSION_MINOR  >=7)&&(LIBAVUTIL_VERSION_MINOR  <=21) ) && \

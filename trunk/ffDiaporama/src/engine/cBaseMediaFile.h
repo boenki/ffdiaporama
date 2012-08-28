@@ -282,8 +282,8 @@ public:
     virtual void            ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
     virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
 
+    #ifdef LIBAVFILTER
     // Filter part
-    #if LIBAVFILTER_VERSION_INT > AV_VERSION_INT(2,60,0)
     AVFilterGraph           *m_pFilterGraph;
     AVFilterContext         *m_pFilterIn;
     AVFilterContext         *m_pFilterOut;

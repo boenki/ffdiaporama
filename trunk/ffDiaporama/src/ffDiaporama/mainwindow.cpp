@@ -120,7 +120,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     AddToSystemProperties(QString(LIBAVCODECVERSION_STR)+QString("%1").arg(LIBAVCODEC_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MINOR)+"."+QString("%1").arg(LIBAVCODEC_VERSION_MICRO)+"."+QString("%1").arg(avcodec_version())+"-Licence="+QString(avcodec_license()));
     AddToSystemProperties(QString(LIBAVFORMATVERSION_STR)+QString("%1").arg(LIBAVFORMAT_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MINOR)+"."+QString("%1").arg(LIBAVFORMAT_VERSION_MICRO)+"."+QString("%1").arg(avformat_version())+"-Licence="+QString(avformat_license()));
     AddToSystemProperties(QString(LIBSWSCALEVERSION_STR)+QString("%1").arg(LIBSWSCALE_VERSION_MAJOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MINOR)+"."+QString("%1").arg(LIBSWSCALE_VERSION_MICRO)+"."+QString("%1").arg(swscale_version())+"-Licence="+QString(swscale_license()));
-    #if LIBAVFILTER_VERSION_INT > AV_VERSION_INT(2,60,0)
+    #ifdef LIBAVFILTER
     AddToSystemProperties(QString(LIBAVFILTERVERSION_STR)+QString("%1").arg(LIBAVFILTER_VERSION_MAJOR)+"."+QString("%1").arg(LIBAVFILTER_VERSION_MINOR)+"."+QString("%1").arg(LIBAVFILTER_VERSION_MICRO)+"."+QString("%1").arg(avfilter_version())+"-Licence="+QString(avfilter_license()));
     #endif
 
@@ -378,7 +378,7 @@ MainWindow::~MainWindow() {
 
     // Close some libav additionnals
     #ifdef LIBAV_08
-        #if LIBAVFILTER_VERSION_INT > AV_VERSION_INT(2,60,0)
+        #ifdef LIBAVFILTER
             avfilter_uninit();
         #endif
         avformat_network_deinit();
@@ -455,7 +455,6 @@ void MainWindow::ToStatusBar(QString Text) {
 
 void MainWindow::SetTimelineHeight() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::SetTimelineHeight");
-    int ButtonBarHeight=ui->preview->isVisible()?ui->preview->GetButtonBarHeight():ui->preview2->GetButtonBarHeight();
     switch (ApplicationConfig->WindowDisplayMode) {
         case DISPLAYWINDOWMODE_PLAYER:
             ApplicationConfig->PartitionMode=false;
@@ -466,14 +465,14 @@ void MainWindow::SetTimelineHeight() {
             ui->ToolBoxNormal->setVisible(true);
             ui->TABTooltip->setVisible(true);
             ui->TABToolimg->setVisible(true);
-            ui->preview->setVisible(true);
-            //QApplication::processEvents();          // Give time to Qt to redefine position of each control and preview height !
-            ButtonBarHeight=0;//ui->preview->isVisible()?ui->preview->GetButtonBarHeight():ui->preview2->GetButtonBarHeight();
-            ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-ButtonBarHeight));
             ui->PartitionBT->setDown(true);
             ui->PartitionBT->setEnabled(false);
             ui->Partition2BT->setEnabled(true);
             ui->Partition3BT->setEnabled(true);
+            ui->preview->setVisible(true);
+            ui->preview->setFixedHeight(this->geometry().height()-ui->ToolBoxNormal->height()-ui->timeline->height()-ui->StatusBar_General->height());
+            ui->preview->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
+            ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-ui->preview->GetButtonBarHeight()));
             break;
         case DISPLAYWINDOWMODE_PARTITION:
             ApplicationConfig->PartitionMode=true;
@@ -483,7 +482,7 @@ void MainWindow::SetTimelineHeight() {
             ui->ToolBoxNormal->setVisible(false);
             ui->preview->setVisible(false);
             ui->preview2->setVisible(true);
-            ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-ButtonBarHeight));
+            ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-ui->preview2->GetButtonBarHeight()));
             ui->TABTooltip->setVisible(false);
             ui->TABToolimg->setVisible(false);
             ui->Partition2BT->setDown(true);
@@ -499,7 +498,7 @@ void MainWindow::SetTimelineHeight() {
             ui->ToolBoxNormal->setVisible(false);
             ui->preview->setVisible(false);
             ui->preview2->setVisible(true);
-            ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-ButtonBarHeight));
+            ui->preview2->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview2->height()-ui->preview2->GetButtonBarHeight()));
             ui->TABTooltip->setVisible(false);
             ui->TABToolimg->setVisible(false);
             ui->Partition3BT->setDown(true);
@@ -569,6 +568,8 @@ void MainWindow::showEvent(QShowEvent *) {
         QUrl            url(BUILDVERSION_WEBURL);
         QNetworkReply   *reply  = mNetworkManager->get(QNetworkRequest(url));
         reply->deleteLater();
+        // Set player size and pos
+        SetTimelineHeight();
     }
 }
 
@@ -833,27 +834,30 @@ void MainWindow::s_Action_ChWindowDisplayMode_ToBrowserMode() {
 void MainWindow::s_Action_ChWindowDisplayMode(int Mode) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_ChWindowDisplayMode");
 
+    if (ApplicationConfig->WindowDisplayMode!=Mode) {
+        ApplicationConfig->WindowDisplayMode=Mode;
+        s_Action_ChWindowDisplayMode();
+    }
+}
+
+void MainWindow::s_Action_ChWindowDisplayMode() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_ChWindowDisplayMode");
+
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ChWindowDisplayMode(Mode)));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ChWindowDisplayMode()));
         return;
     }
 
     int Selected=ui->timeline->CurrentSelected(); // Save current seleted item
 
-    if (ApplicationConfig->WindowDisplayMode!=Mode) {
-        ApplicationConfig->WindowDisplayMode=Mode;
-        SetTimelineHeight();
-        ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_ChWindowDisplayMode(Mode)));
-        return;
-    }
+    SetTimelineHeight();
+    ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
 
     // Re-select previous current seleted item
     if ((Selected>=0)&&(Selected<Diaporama->List.count())) ui->timeline->SetCurrentCell(Selected);
     (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
-    //(ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->Resize();
 }
 
 //====================================================================================================================
@@ -2564,7 +2568,6 @@ void MainWindow::s_Browser_FloderTreeItemChanged(QTreeWidgetItem *current,QTreeW
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FloderTreeItemChanged");
 
     ApplicationConfig->CurrentPath=ui->FolderTree->GetFolderPath(current,false);
-    QList<cBaseMediaFile*> EmptyList;
 
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
     DoBrowserRefreshFolderInfo();

@@ -1,4 +1,4 @@
-Bugs/TODO (Dernier SVN le 18/08/2012) :
+Bugs/TODO (Dernier SVN le 19/08/2012) :
 ---------------------------------------
 TODO
 ----
@@ -7,17 +7,31 @@ TODO
 -Supprimer la librairie de fond de la mémoire
 -Incompréhension des utilisateurs sur les concepts de contraintes géométriques : à simplifier ou forcer
 
+-libavfilter 2.15 : pb
+
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige l'erreur de non affichage de l'image de la photo dans la boite d'information quand elle est ouverte depuis la boite d'édition des diapositives
+-Corrige le problème de suppression des propriétés gras/italique/souligné dans l'éditeur de texte
+-Corrige le problème de positionnement et de dimensionnement du lecteur de preview au démarrage et lors de retour du mode partition
+-Corrige l'erreur d'affichage de la fin des musiques sur la barre de temps (quand la musique se terminait pendant la transition, elle était réaffichée sur la diapo suivante)
+-Corrige l'erreur d'affichage dans l'explorateur de fichier intégré en mode detail : les fichiers ne sont pas tous affichés
+-Corrige l'erreur de calcul qui positionnait mal le rectangle de recadrage sur les guides dans la boite de recadrage
+-Corrige l'erreur de non inscription des TAG dans les vidéos générées avec avconv
 
 English version / Bug fix :
--Fix bug of no display image in information dialog when this dialog is called from Slide edit dialog
+-Fix the problem of removing properties bold/italic/underline in the text editor
+-Fix the problem of size and pos of preview player at startup and when changing from partition mode
+-Fix display error of end music on the timeline (when a music end during the transition, it was display again on next slide)
+-Fix display error in integrated file browser using details view : some files are not display
+-Fix computation error which badly positioned the rectangle of reframing on guides in reframing dialog
+-Fix error of TAG not set to generated video when using avconv
 
 French version / Nouvelles fonctionnalités :
--Ajoute une option dans la boite de configuration pour activer "par défaut" le filtre de désentrelacement pour les vidéos MTS
+-Active le WIKI en Néerlandais
+-Active le menu contextuel sur les fichiers de l'explorateur de fichier en mode details
 
 English version / New features :
--Add an option in option dialog to activate "by default" deinterlace filter for MTS videos
+-Enable WIKI in Dutch
+-Enable contextual menu on files in files browser even in details mode

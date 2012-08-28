@@ -411,9 +411,13 @@ void DlgTextEdit::s_SetBold() {
     AppendPartialUndo(UNDOACTION_CHARSTYLE,ui->TextEdit,true);
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
-    QTextCharFormat TCF;
+    QTextCharFormat TCF,CurrentFormat;
 
-    TCF.setFontWeight(TCF.fontWeight()==QFont::Normal?QFont::Bold:QFont::Normal);
+    if (Cursor.hasSelection())  CurrentFormat=Cursor.charFormat();                // Display option for current selection
+        else                    CurrentFormat=ui->TextEdit->currentCharFormat();  // Display current default option
+
+    TCF.setFontWeight(CurrentFormat.fontWeight()==QFont::Normal?QFont::Bold:QFont::Normal);
+
     if (Cursor.hasSelection())  Cursor.mergeCharFormat(TCF);
         else                    ui->TextEdit->mergeCurrentCharFormat(TCF);
 
@@ -430,9 +434,13 @@ void DlgTextEdit::s_SetItalic() {
     AppendPartialUndo(UNDOACTION_CHARSTYLE,ui->TextEdit,true);
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
-    QTextCharFormat TCF;
+    QTextCharFormat TCF,CurrentFormat;
 
-    TCF.setFontItalic(!TCF.fontItalic());
+    if (Cursor.hasSelection())  CurrentFormat=Cursor.charFormat();                // Display option for current selection
+        else                    CurrentFormat=ui->TextEdit->currentCharFormat();  // Display current default option
+
+    TCF.setFontItalic(!CurrentFormat.fontItalic());
+
     if (Cursor.hasSelection())  Cursor.mergeCharFormat(TCF);
         else                    ui->TextEdit->mergeCurrentCharFormat(TCF);
 
@@ -449,9 +457,12 @@ void DlgTextEdit::s_SetUnderline() {
     AppendPartialUndo(UNDOACTION_CHARSTYLE,ui->TextEdit,true);
 
     QTextCursor     Cursor(ui->TextEdit->textCursor());
-    QTextCharFormat TCF;
+    QTextCharFormat TCF,CurrentFormat;
 
-    TCF.setFontUnderline(!TCF.fontUnderline());
+    if (Cursor.hasSelection())  CurrentFormat=Cursor.charFormat();                // Display option for current selection
+        else                    CurrentFormat=ui->TextEdit->currentCharFormat();  // Display current default option
+
+    TCF.setFontUnderline(!CurrentFormat.fontUnderline());
     if (Cursor.hasSelection())  Cursor.mergeCharFormat(TCF);
         else                    ui->TextEdit->mergeCurrentCharFormat(TCF);
 
