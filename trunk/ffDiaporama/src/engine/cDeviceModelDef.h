@@ -61,7 +61,7 @@ extern "C" {
     #include <libavformat/avio.h>
 
     // include for libavfilter
-    #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(2,60,0)       // For all
+    #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(2,13,0)       // For all
         #define LIBAVFILTER
         #include "libavfilter/avfilter.h"
         #include "libavfilter/avfiltergraph.h"
