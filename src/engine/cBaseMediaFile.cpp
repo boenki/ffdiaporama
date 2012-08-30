@@ -1898,6 +1898,8 @@ int cVideoFile::FilterOpen(QString filters) {
         return -1;
     }
 
+    m_pFilterGraph->scale_sws_opts = av_strdup("flags=4");
+
     QString args=QString("%1:%2:%3:%4:%5:%6:%7")
         .arg(ffmpegVideoFile->streams[VideoStreamNumber]->codec->width)
         .arg(ffmpegVideoFile->streams[VideoStreamNumber]->codec->height)
@@ -1920,8 +1922,9 @@ int cVideoFile::FilterOpen(QString filters) {
             ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::FilterOpen : avfilter_graph_create_filter: out"));
             return result;
         }
-        AVFilterInOut *outputs=(AVFilterInOut *)av_malloc(sizeof(AVFilterInOut));
-        AVFilterInOut *inputs =(AVFilterInOut *)av_malloc(sizeof(AVFilterInOut));
+
+        AVFilterInOut *outputs = (AVFilterInOut *)av_malloc(sizeof(AVFilterInOut));
+        AVFilterInOut *inputs  = (AVFilterInOut *)av_malloc(sizeof(AVFilterInOut));
 
     #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)     // from 2.60 to 3.1
 
@@ -1989,8 +1992,8 @@ int cVideoFile::FilterOpen(QString filters) {
     }
 
     #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)
-    av_free(outputs);
-    av_free(inputs);
+    //av_free(outputs);
+    //av_free(inputs);
     #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0) // since 3.1, do not dispose them
     avfilter_inout_free(&outputs);
     avfilter_inout_free(&inputs);
@@ -2015,38 +2018,37 @@ void cVideoFile::FilterClose() {
 int cVideoFile::FilterProcess() {
 
     #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)             // from 2.13 to 2.60
-/*
-        AVFilterLink *m_pFilterLink = m_pFilterOut->inputs[0];
+
+        int Ret=av_vsrc_buffer_add_frame(m_pFilterIn,FrameBufferYUV,FrameBufferYUV->pts,ffmpegVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio);
+        if (Ret<0) {
+            ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::FilterProcess : av_vsrc_buffer_add_frame"));
+            return VC_ERROR;
+        }
         int NbrFrames;
-        av_vsrc_buffer_add_frame(m_pFilterIn,FrameBufferYUV,FrameBufferYUV->pts,ffmpegVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio);
-        while ((NbrFrames=avfilter_poll_frame(m_pFilterLink))>0) {
-            if (m_pFilterLink->cur_buf) {
-                avfilter_unref_buffer(m_pFilterLink->cur_buf);
-                m_pFilterLink->cur_buf = NULL;
+        while ((NbrFrames=avfilter_poll_frame(m_pFilterOut->inputs[0]))>0) {
+            if (m_pFilterOut->inputs[0]->cur_buf) {
+                avfilter_unref_buffer(m_pFilterOut->inputs[0]->cur_buf);
+                m_pFilterOut->inputs[0]->cur_buf = NULL;
             }
 
-            if ((avfilter_request_frame(m_pFilterLink))<0) {
+            if ((Ret=avfilter_request_frame(m_pFilterOut->inputs[0]))<0) {
                 ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::FilterProcess : avfilter_request_frame"));
                 return VC_ERROR;
             }
 
-            if (!m_pFilterLink->cur_buf) {
-                ToLog(LOGMSG_CRITICAL,QString("CError in cVideoFile::FilterProcess : cur_buf"));
+            if (!m_pFilterOut->inputs[0]->cur_buf) {
+                ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::FilterProcess : cur_buf"));
                 return VC_ERROR;
             }
 
             FrameBufferYUV->repeat_pict      = -(NbrFrames - 1);
-            FrameBufferYUV->interlaced_frame = m_pFilterLink->cur_buf->video->interlaced;
-            FrameBufferYUV->top_field_first  = m_pFilterLink->cur_buf->video->top_field_first;
+            FrameBufferYUV->interlaced_frame = m_pFilterOut->inputs[0]->cur_buf->video->interlaced;
+            FrameBufferYUV->top_field_first  = m_pFilterOut->inputs[0]->cur_buf->video->top_field_first;
 
-            memcpy(FrameBufferYUV->linesize, m_pFilterLink->cur_buf->linesize, 4*sizeof(int));
-            memcpy(FrameBufferYUV->data    , m_pFilterLink->cur_buf->data    , 4*sizeof(uint8_t*));
+            memcpy(FrameBufferYUV->linesize, m_pFilterOut->inputs[0]->cur_buf->linesize, 4*sizeof(int));
+            memcpy(FrameBufferYUV->data    , m_pFilterOut->inputs[0]->cur_buf->data    , 4*sizeof(uint8_t*));
         }
-        if ((m_pFilterLink)&&(m_pFilterLink->cur_buf)) {
-            avfilter_unref_buffer(m_pFilterLink->cur_buf);
-            m_pFilterLink->cur_buf = NULL;
-        }
-*/
+
     #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)             // from 2.60 to 3.0
 
         int Ret=av_vsrc_buffer_add_frame(m_pFilterIn,FrameBufferYUV,0);
