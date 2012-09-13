@@ -888,7 +888,7 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
                 delete Diaporama->List[Diaporama->CurrentCol]->Thumbnail;
                 Diaporama->List[Diaporama->CurrentCol]->Thumbnail=NULL;
             }
-            (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol)-1);
+            (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol)-(Diaporama->GetTransitionDuration(Diaporama->CurrentCol)>0?1:0));
             AdjustRuller();
         }
         if ((Ret==2)||(Ret==3)) {
@@ -1860,9 +1860,9 @@ void MainWindow::s_Action_DoAddFile() {
         }
 
         QString         BrushFileName=QFileInfo(NewFile).absoluteFilePath();
-        QString         Extension=QFileInfo(BrushFileName).suffix().toLower();
-        QString         ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
-        cBaseMediaFile  *MediaFile=NULL;
+        QString         Extension    =QFileInfo(BrushFileName).suffix().toLower();
+        QString         ErrorMessage =QApplication::translate("MainWindow","Format not supported","Error message");
+        cBaseMediaFile  *MediaFile   =NULL;
         bool            Continue=true;
 
         if (ApplicationConfig->AllowImageExtension.contains(Extension))          MediaFile=new cImageFile(ApplicationConfig);
@@ -1961,7 +1961,7 @@ void MainWindow::s_Action_DoAddFile() {
             //*****************************************************
             // Try to load an image to ensure all is ok
             //*****************************************************
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,&CurrentBrush->Image->BrushFileTransform):
+            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(/*true*/false,&CurrentBrush->Image->BrushFileTransform):
                            CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,NULL,CurrentBrush->Deinterlace,1,false,&CurrentBrush->Video->BrushFileTransform,false):
                            NULL);
 
@@ -1975,6 +1975,8 @@ void MainWindow::s_Action_DoAddFile() {
                 // Switch to next file to add
                 QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
                 return;
+            } else {
+                qDebug()<<Image->width()<<Image->height()<<"-"<<CurrentBrush->Image->ImageWidth<<CurrentBrush->Image->ImageHeight;
             }
 
             if ((ApplicationConfig->Deinterlace)&&(CurrentBrush->Video!=NULL)&&(CurrentBrush->Video->FileExtension.toLower()=="mts")) CurrentBrush->Deinterlace=true;

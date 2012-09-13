@@ -527,13 +527,86 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
         else if (List[i].startsWith("RotateYAxis:"))    RotateYAxis     =List[i].mid(QString("RotateYAxis:").length()).toDouble();
 
         else if ((List[i].startsWith("FramingStyleIndex:"))||(List[i].startsWith("FramingStyleName:"))||(List[i].startsWith("CustomFramingStyle:"))) {
-            QString CustomFramingStyle="";
+            QString CustomFramingStyle    ="";
+            QString CustomFramingStyleName="";
             if (List[i].startsWith("FramingStyleIndex:")) {
                 int FramingStyleIndex=List[i].mid(QString("FramingStyleIndex:").length()).toInt();
+
+                //*********************************************************************************************************************
+                // Idealement, il faudrait calculer les styles ici au lieu de les prendre dans la base de données !
+                //*********************************************************************************************************************
+
                 int k=0;
                 while ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleIndex!=FramingStyleIndex)) k++;
-                if ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleIndex==FramingStyleIndex))
-                    CustomFramingStyle=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleDef;
+                if ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleIndex==FramingStyleIndex)) {
+                    CustomFramingStyle    =GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleDef;
+                    CustomFramingStyleName=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].BckStyleName;
+                    /*
+                    qreal AR=CustomFramingStyleName.startsWith("16:9")?double(1080)/double(1920):
+                             CustomFramingStyleName.startsWith("4:3")?double(1440)/double(1920):
+                             CustomFramingStyleName.startsWith("2.35:1")?double(816)/double(1920):
+                             0;
+                    int IM  =CustomFramingStyleName.contains("Image geometry")?1:CustomFramingStyleName.contains("Project geometry")?2:0;
+                    int FM  =CustomFramingStyleName.contains("Full image")?1:CustomFramingStyleName.contains("Adjust on the width-Bottom")?2:CustomFramingStyleName.contains("Adjust on the width-Middle")?3:CustomFramingStyleName.contains("Adjust on the width-Top")?4:0;
+
+                    if ((AR!=0)&&(IM!=0)&&(FM!=0)) {
+                        CustomFramingStyle="";
+                        //*********************************************************************************************************************
+                        // calculer les styles ici
+                        //*********************************************************************************************************************
+                        // Calc coordinates of the part in the source image
+                        qreal  RealImageW  =qreal(BackgroundBrush->Image->ImageWidth);
+                        qreal  RealImageH  =qreal(BackgroundBrush->Image->ImageHeight);
+                        qreal  Hyp         =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);             // Calc hypothenuse of the image to define full canvas
+                        qreal  DstW        =RealImageW;
+                        qreal  DstH        =RealImageH;
+                        qreal  W;
+                        qreal  H;
+
+                        BackgroundBrush->AspectRatio=AR;    //RealImageH/RealImageW;
+                        BackgroundBrush->LockGeometry=true;
+                        RecalcAspectRatio=false;
+
+                        if (CustomFramingStyleName.contains("Full image")) {                        // Full image
+                            W=DstW;
+                            H=W*BackgroundBrush->AspectRatio;
+                            if (H<DstH) {
+                                H=DstH;
+                                W=H/BackgroundBrush->AspectRatio;
+                                BackgroundBrush->X=((Hyp-W)/2)/Hyp;
+                                BackgroundBrush->Y=((Hyp-H)/2)/Hyp;
+                                BackgroundBrush->ZoomFactor=W/Hyp;
+                            } else {
+                                W=DstW;
+                                H=W*BackgroundBrush->AspectRatio;
+                                BackgroundBrush->X=((Hyp-W)/2)/Hyp;
+                                BackgroundBrush->Y=((Hyp-H)/2)/Hyp;
+                                BackgroundBrush->ZoomFactor=W/Hyp;
+                            }
+                        } else if (CustomFramingStyleName.contains("Adjust on the width")) {
+                            W=DstW;
+                            H=W*BackgroundBrush->AspectRatio;
+                            BackgroundBrush->X=((Hyp-W)/2)/Hyp;
+                            BackgroundBrush->Y=((Hyp-H)/2)/Hyp;
+                            BackgroundBrush->ZoomFactor=W/Hyp;
+                            if (CustomFramingStyleName.contains("Bottom")) {                        // Width-Bottom
+
+                            } else if (CustomFramingStyleName.contains("Middle")) {                 // Width-Middle
+
+                            } else {                                                                // Width-Top
+
+                            }
+                        } else {                                                                    // Height
+                            H=DstH;
+                            W=H/BackgroundBrush->AspectRatio;
+                            BackgroundBrush->X=((Hyp-W)/2)/Hyp;
+                            BackgroundBrush->Y=((Hyp-H)/2)/Hyp;
+                            BackgroundBrush->ZoomFactor=W/Hyp;
+                        }
+                    }
+                    */
+                }
+
             } else if (List[i].startsWith("FramingStyleName:")) {
                 QString FramingStyleName=List[i].mid(QString("FramingStyleName:").length());
                 int k=0;

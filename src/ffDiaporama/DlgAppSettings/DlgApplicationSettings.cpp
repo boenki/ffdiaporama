@@ -463,7 +463,7 @@ void DlgApplicationSettings::InitImageSizeCombo(int) {
     ui->SizeCombo->clear();
     ui->LosslessSizeCombo->clear();
     QStringList List;
-    for (int i=0;i<NBR_SIZEDEF;i++) List.append(QString("%1:%2#####%3").arg(DefImageFormat[Standard][Geometry][i].Name).arg(ORDERIMAGENAME[i]).arg(i));
+    for (int i=0;i<NBR_SIZEDEF;i++) if (ORDERIMAGENAME[Standard][i]!=0) List.append(QString("%1:%2#####%3").arg(DefImageFormat[Standard][Geometry][i].Name).arg(ORDERIMAGENAME[Standard][i]).arg(i));
     // Sort List
     for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
         QString StrA=List[j].mid(List[j].lastIndexOf(":")+1);       StrA=StrA.left(StrA.indexOf("#"));
@@ -629,6 +629,7 @@ void DlgApplicationSettings::ChangeForTheWTypeCB(int) {
 void DlgApplicationSettings::InitVideoBitRateCB(int ChangeIndex) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::InitVideoBitRateCB");
     ui->VideoBitRateCB->clear();
+    int Standard    =ui->StandardCombo->currentIndex();
     int CurrentCodec=ui->VideoFormatCB->currentIndex();
     int CurrentSize =ui->SizeCombo->itemData(ui->SizeCombo->currentIndex()).toInt();
     if (CurrentCodec>=0) {
@@ -668,7 +669,7 @@ void DlgApplicationSettings::InitVideoBitRateCB(int ChangeIndex) {
                 IsFindBitRate=true;
             }
         }
-        if (!IsFindBitRate) ui->VideoBitRateCB->setCurrentIndex(ui->VideoBitRateCB->findText(VIDEOCODECDEF[CurrentCodec].DefaultBitrate[CurrentSize]));
+        if (!IsFindBitRate) ui->VideoBitRateCB->setCurrentIndex(ui->VideoBitRateCB->findText(VIDEOCODECDEF[CurrentCodec].DefaultBitrate[Standard][CurrentSize]));
         ui->VideoBitRateCB->setEnabled(ui->VideoBitRateCB->count()>1);
     } else ui->VideoBitRateCB->setEnabled(false);
 }
