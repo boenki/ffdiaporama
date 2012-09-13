@@ -563,10 +563,6 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>Creare file cache (con suffisso _ffd) per immagini trasformate</translation>
     </message>
     <message>
-        <source>Video :</source>
-        <translation>Video :</translation>
-    </message>
-    <message>
         <source>Lossless :</source>
         <translation>Senza perdite :</translation>
     </message>
@@ -732,6 +728,14 @@ quando si clicca il pulsante &quot;Per il WEB&quot; nel menu &quot;Genera filmat
     </message>
     <message>
         <source>Activate deinterlace filter when add new MTS videos</source>
+        <translation>Attiva filtro di deinterlacciamento quando si aggiungono nuovi video MTS</translation>
+    </message>
+    <message>
+        <source>Video cropping :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video deinterlacing :</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -926,11 +930,11 @@ quando si clicca il pulsante &quot;Per il WEB&quot; nel menu &quot;Genera filmat
     </message>
     <message>
         <source>LIBAV support for AVCHD video</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporto LIBAV per video AVCHD</translation>
     </message>
     <message>
         <source>LIBAVFILTER version:</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione LIBAVFILTER:</translation>
     </message>
 </context>
 <context>
@@ -1299,63 +1303,63 @@ quando si clicca il pulsante &quot;Per il WEB&quot; nel menu &quot;Genera filmat
     </message>
     <message>
         <source>Device category :</source>
-        <translation type="unfinished"></translation>
+        <translation>Categoria dispositivi :</translation>
     </message>
     <message>
         <source>Select the device category to be shown in the list</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona la categoria dispositivo da visualizzare nella lista</translation>
     </message>
     <message>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <source>Create a new equipment profile and add it to the database</source>
-        <translation type="unfinished"></translation>
+        <translation>Creare un nuovo profilo dispositivo e aggiungilo al database</translation>
     </message>
     <message>
         <source>Delete current equipment profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Cancella il profilo del dispositivo corrente</translation>
     </message>
     <message>
         <source>Cancel the modifications that you made on a predefined equipment profile in the ffDiaporama database</source>
-        <translation type="unfinished"></translation>
+        <translation>Annulla le modifiche fatte sul profilo dispositivo predefinito nel batabase ffDiaporama</translation>
     </message>
     <message>
         <source>Select the type of equipment where this device profile is to be placed</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare il tipo di attrezzatura in cui questo profilo dispositivo deve essere collocato</translation>
     </message>
     <message>
         <source>Enter here a name for this device profile (free text field)</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserire quì un nome per questo profilo dispositivo (campo di testo libero)</translation>
     </message>
     <message>
         <source>Select the file type to use for the rendering</source>
-        <translation type="unfinished">Selezionare il tipo di file utilizzato per il rendering</translation>
+        <translation>Selezionare il tipo di file utilizzato per il rendering</translation>
     </message>
     <message>
         <source>Select the video standard to use, PAL or NTSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare lo standard video da utilizzare, PAL o NTSC</translation>
     </message>
     <message>
         <source>Select the image format to use for the rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare il formato immagine da utilizzare per il rendering</translation>
     </message>
     <message>
         <source>Select the video codec to use for the rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare il codec video da utilizzare per il rendering</translation>
     </message>
     <message>
         <source>Select the bit rate to use for video during the rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare il bit rate da utilizzare durante il rendering</translation>
     </message>
     <message>
         <source>Select the audio codec to use for the rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare il codec audio da utilizzare per il rendering</translation>
     </message>
     <message>
         <source>Select the bit rate to use for audio during the rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare il bit rate da utilizzare per l&apos;audio durante il rendering</translation>
     </message>
 </context>
 <context>
@@ -1921,7 +1925,7 @@ Sposta il file corrente selezionato una tacca giù</translation>
     </message>
     <message>
         <source>To render :</source>
-        <translation type="unfinished">RenderT :</translation>
+        <translation>Da interpretare :</translation>
     </message>
     <message>
         <source>Sound :</source>
@@ -2880,7 +2884,7 @@ blocco</translation>
     </message>
     <message>
         <source>Lengthened to %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Allungato a %1</translation>
     </message>
 </context>
 <context>
@@ -3358,7 +3362,7 @@ blocco</translation>
     </message>
     <message>
         <source>Deinterlace video</source>
-        <translation type="unfinished"></translation>
+        <translation>Deinterlacciamento video</translation>
     </message>
 </context>
 <context>
@@ -4380,7 +4384,7 @@ Sei sicuro che è vuota?</translation>
     </message>
     <message>
         <source>Rescale image to 8MPix</source>
-        <translation type="unfinished"></translation>
+        <translation>Riscala immagine a 8MPix</translation>
     </message>
 </context>
 <context>

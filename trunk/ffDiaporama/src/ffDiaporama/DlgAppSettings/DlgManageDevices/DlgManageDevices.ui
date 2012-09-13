@@ -354,18 +354,6 @@
        </item>
        <item>
         <widget class="QComboBox" name="DBVideoBitRateCB">
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
-           <height>16777215</height>
-          </size>
-         </property>
          <property name="toolTip">
           <string>Select the bit rate to use for video during the rendering</string>
          </property>
@@ -419,18 +407,6 @@
        </item>
        <item>
         <widget class="QComboBox" name="DBAudioBitRateCB">
-         <property name="minimumSize">
-          <size>
-           <width>80</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
-           <height>16777215</height>
-          </size>
-         </property>
          <property name="toolTip">
           <string>Select the bit rate to use for audio during the rendering</string>
          </property>

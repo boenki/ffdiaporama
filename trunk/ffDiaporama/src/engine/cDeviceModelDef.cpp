@@ -28,66 +28,78 @@
 sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
     {   // STANDARD_PAL
         {   // GEOMETRY_4_3
-            {320,240,4,3,   25,             "25",        "QVGA - 320x240 - 25 FPS",             0},
-            {426,320,4,3,   25,             "25",        "HVGA - 426x320 - 25 FPS",             0},
-            {640,480,4,3,   25,             "25",        "VGA - 640x480 - 25 FPS",              0},
-            {720,576,4,3,   25,             "25",        "SD/DVD - 720x576 - 25 FPS",           0},     // SIZE_DVD - No extend ! special case
-            {640,480,4,3,   25,             "25",        "WVGA - 640x480 - 25 FPS",             0},
-            {1024,768,4,3,  25,             "25",        "XGA - 1024x768 - 25 FPS",             0},
-            {960,720,4,3,   25,             "25",        "720p - 960x720 - 25 FPS",             0},
-            {1440,1080,4,3, 25,             "25",        "1080p - 1440x1080 - 25 FPS",          0},
-            {240,180,4,3,   24,             "24",        "RIM 240 - 240x180 - 24 FPS",          0}
+            {320, 240, 4,3,   25,           "25",        "QVGA - 320x240 - 25 FPS",                  0},
+            {426, 320, 4,3,   25,           "25",        "HVGA - 426x320 - 25 FPS",                  0},
+            {640, 480, 4,3,   25,           "25",        "VGA - 640x480 - 25 FPS",                   0},
+            {720, 576, 4,3,   25,           "25",        "SD/DVD - 720x576 - 25 FPS",                0},     // SIZE_DVD - No extend ! special case
+            {640, 480, 4,3,   25,           "25",        "WVGA - 640x480 - 25 FPS",                  0},
+            {1024,768, 4,3,   25,           "25",        "XGA - 1024x768 - 25 FPS",                  0},
+            {960, 720, 4,3,   25,           "25",        "720p - 960x720 - 25 FPS",                  0},
+            {1440,1080,4,3,   25,           "25",        "1080p - 1440x1080 - 25 FPS",               0},
+            {240, 180, 4,3,   24,           "24",        "RIM 240 - 240x180 - 24 FPS",               0},
+            {720, 576, 4,3,   30000L/1001L, "30000/1001","SD/DVD - 720x576 - 29.97 FPS (PAL-M)",     0},     // SIZE_DVD - No extend ! special case for PAL-M
+            {0,   0,   4,3,   0,            "0",         "free",                                     0}      // free - not used
         },{ // GEOMETRY_16_9
-            {320,180,4,3,   25,             "25",        "QVGA - 320x180+PAD - 25 FPS",         30},
-            {480,270,16,9,  25,             "25",        "HVGA - 480x270 - 25 FPS",             0},
-            {640,360,16,9,  25,             "25",        "VGA - 640x360 - 25 FPS",              0},
-            {720,576,16,9,  25,             "25",        "SD/DVD - 720x576 WIDE - 25 FPS",      0},     // SIZE_DVD - No extend ! special case
-            {800,450,16,9,  25,             "25",        "WVGA - 800x450 - 25 FPS",             0},
-            {1024,576,16,9, 25,             "25",        "XGA - 1024x576 - 25 FPS",             0},
-            {1280,720,16,9, 25,             "25",        "720p - 1280x720 - 25 FPS",            0},
-            {1920,1080,16,9,25,             "25",        "1080p - 1920x1080 - 25 FPS",          0},
-            {240,136,4,3,   24,             "24",        "RIM 240 - 240x136 - 24 FPS",          22}
+            {320, 180, 4,3,   25,           "25",        "QVGA - 320x180+PAD - 25 FPS",              30},
+            {480, 270, 16,9,  25,           "25",        "HVGA - 480x270 - 25 FPS",                  0},
+            {640, 360, 16,9,  25,           "25",        "VGA - 640x360 - 25 FPS",                   0},
+            {720, 576, 16,9,  25,           "25",        "SD/DVD - 720x576 WIDE - 25 FPS",           0},     // SIZE_DVD - No extend ! special case
+            {800, 450, 16,9,  25,           "25",        "WVGA - 800x450 - 25 FPS",                  0},
+            {1024,576, 16,9,  25,           "25",        "XGA - 1024x576 - 25 FPS",                  0},
+            {1280,720, 16,9,  25,           "25",        "720p - 1280x720 - 25 FPS",                 0},
+            {1920,1080,16,9,  25,           "25",        "1080p - 1920x1080 - 25 FPS",               0},
+            {240, 136, 4,3,   24,           "24",        "RIM 240 - 240x136 - 24 FPS",               22},
+            {720, 576, 16,9,  30000L/1001L, "30000/1001","SD/DVD - 720x576 WIDE - 29.97 FPS (PAL-M)",0},     // SIZE_DVD - No extend ! special case for PAL-M
+            {0,   0,   19,9,  0,            "0",         "free",                                     0}      // free - not used
         },{ // GEOMETRY_40_17
-            {320,136,4,3,   25,             "25",        "QVGA - 320x136+PAD - 25 FPS",         52},
-            {480,204,40,17, 25,             "25",        "HVGA - 480x204 - 25 FPS",             0},
-            {640,272,40,17, 25,             "25",        "VGA - 640x272 - 25 FPS",              0},
-            {720,436,40,17, 25,             "25",        "SD/DVD - 720x436 WIDE - 25 FPS",      0},     // SIZE_DVD - No extend ! special case
-            {800,340,40,17, 25,             "25",        "WVGA - 800x340 - 25 FPS",             0},
-            {1024,436,40,17,25,             "25",        "XGA - 1024x436 - 25 FPS",             0},
-            {1280,544,40,17,25,             "25",        "720p - 1280x544 - 25 FPS",            0},
-            {1920,816,40,17,25,             "25",        "1080p - 1920x816 - 25 FPS",           0},
-            {240,102,4,3,   24,             "24",        "RIM 240 - 240x135+PAD - 24 FPS",      39}
+            {320, 136, 4,3,   25,           "25",        "QVGA - 320x136+PAD - 25 FPS",              52},
+            {480, 204, 40,17, 25,           "25",        "HVGA - 480x204 - 25 FPS",                  0},
+            {640, 272, 40,17, 25,           "25",        "VGA - 640x272 - 25 FPS",                   0},
+            {720, 436, 40,17, 25,           "25",        "SD/DVD - 720x436 WIDE - 25 FPS",           0},     // SIZE_DVD - No extend ! special case
+            {800, 340, 40,17, 25,           "25",        "WVGA - 800x340 - 25 FPS",                  0},
+            {1024,436, 40,17, 25,           "25",        "XGA - 1024x436 - 25 FPS",                  0},
+            {1280,544, 40,17, 25,           "25",        "720p - 1280x544 - 25 FPS",                 0},
+            {1920,816, 40,17, 25,           "25",        "1080p - 1920x816 - 25 FPS",                0},
+            {240, 102, 4,3,   24,           "24",        "RIM 240 - 240x135+PAD - 24 FPS",           39},
+            {720, 436, 40,17, 30000L/1001L, "30000/1001","SD/DVD - 720x436 WIDE - 29.97 FPS (PAL-M)",0},     // SIZE_DVD - No extend ! special case for PAL-M
+            {0,   0,   40,17, 0,            "0",         "free",                                     0}      // free - not used
     }},{// STANDARD_NTSC
         {   // GEOMETRY_4_3
-            {320,240,4,3,   30000L/1001L,   "30000/1001","QVGA - 320x240 - 29.97 FPS",          0},
-            {426,320,4,3,   30000L/1001L,   "30000/1001","HVGA - 426x320 - 29.97 FPS",          0},
-            {640,480,4,3,   30000L/1001L,   "30000/1001","VGA - 640x480 - 29.97 FPS",           0},
-            {720,480,4,3,   30000L/1001L,   "30000/1001","SD/DVD - 720x480 - 29.97 FPS",        0},     // SIZE_DVD - No extend ! special case
-            {640,480,4,3,   30000L/1001L,   "30000/1001","WVGA - 640x480 - 29.97 FPS",          0},
-            {1024,768,4,3,  30000L/1001L,   "30000/1001","XGA - 1024x768 - 29.97 FPS",          0},
-            {960,720,4,3,   24000L/1001L,   "24000/1001","720p - 960x720 - 23.976 FPS",         0},
-            {1440,1080,4,3, 24000L/1001L,   "24000/1001","1080p - 1440x1080 - 23.976 FPS",      0},
-            {240,180,4,3,   24,             "24",        "RIM 240 - 240x180 - 24 FPS",          0}
+            {320, 240, 4,3,    30000L/1001L,"30000/1001","QVGA - 320x240 - 29.97 FPS",               0},
+            {426, 320, 4,3,    30000L/1001L,"30000/1001","HVGA - 426x320 - 29.97 FPS",               0},
+            {640, 480, 4,3,    30000L/1001L,"30000/1001","VGA - 640x480 - 29.97 FPS",                0},
+            {720, 480, 4,3,    30000L/1001L,"30000/1001","SD/DVD - 720x480 - 29.97 FPS",             0},     // SIZE_DVD - No extend ! special case
+            {640, 480, 4,3,    30000L/1001L,"30000/1001","WVGA - 640x480 - 29.97 FPS",               0},
+            {1024,768, 4,3,    30000L/1001L,"30000/1001","XGA - 1024x768 - 29.97 FPS",               0},
+            {960, 720, 4,3,    24000L/1001L,"24000/1001","720p - 960x720 - 23.976 FPS",              0},
+            {1440,1080,4,3,    24000L/1001L,"24000/1001","1080p - 1440x1080 - 23.976 FPS",           0},
+            {240, 180, 4,3,    24,          "24",        "RIM 240 - 240x180 - 24 FPS",               0},
+            {960, 720, 4,3,    30000L/1001L,"30000/1001","720p - 960x720 - 29.97 FPS",               0},
+            {1440,1080,4,3,    30000L/1001L,"30000/1001","1080p - 1440x1080 - 29.97 FPS",            0}
         },{ // GEOMETRY_16_9
-            {320,180,4,3,   30000L/1001L,   "30000/1001","QVGA - 320x180+PAD - 29.97 FPS",      30},
-            {480,270,16,9,  30000L/1001L,   "30000/1001","HVGA - 480x270 - 29.97 FPS",          0},
-            {640,360,16,9,  30000L/1001L,   "30000/1001","VGA - 640x272 - 29.97 FPS",           0},
-            {720,480,16,9,  30000L/1001L,   "30000/1001","SD/DVD - 720x480 WIDE - 29.97 FPS",   0},     // SIZE_DVD - No extend ! special case
-            {800,450,16,9,  30000L/1001L,   "30000/1001","WVGA - 800x450 - 29.97 FPS",          0},
-            {1024,576,16,9, 30000L/1001L,   "30000/1001","XGA - 1024x576 - 29.97 FPS",          0},
-            {1280,720,16,9, 24000L/1001L,   "24000/1001","720p - 1280x720 - 23.976 FPS",        0},
-            {1920,1080,16,9,24000L/1001L,   "24000/1001","1080p - 1920x1080 - 23.976 FPS",      0},
-            {240,136,4,3,   24,             "24",        "RIM 240 - 240x135 - 24 FPS",          22}
+            {320, 180, 4,3,    30000L/1001L,"30000/1001","QVGA - 320x180+PAD - 29.97 FPS",           30},
+            {480, 270, 16,9,   30000L/1001L,"30000/1001","HVGA - 480x270 - 29.97 FPS",               0},
+            {640, 360, 16,9,   30000L/1001L,"30000/1001","VGA - 640x272 - 29.97 FPS",                0},
+            {720, 480, 16,9,   30000L/1001L,"30000/1001","SD/DVD - 720x480 WIDE - 29.97 FPS",        0},     // SIZE_DVD - No extend ! special case
+            {800, 450, 16,9,   30000L/1001L,"30000/1001","WVGA - 800x450 - 29.97 FPS",               0},
+            {1024,576, 16,9,   30000L/1001L,"30000/1001","XGA - 1024x576 - 29.97 FPS",               0},
+            {1280,720, 16,9,   24000L/1001L,"24000/1001","720p - 1280x720 - 23.976 FPS",             0},
+            {1920,1080,16,9,   24000L/1001L,"24000/1001","1080p - 1920x1080 - 23.976 FPS",           0},
+            {240, 136, 4,3,    24,          "24",        "RIM 240 - 240x135 - 24 FPS",               22},
+            {1280,720, 16,9,   30000L/1001L,"30000/1001","720p - 1280x720 - 29.97 FPS",              0},
+            {1920,1080,16,9,   30000L/1001L,"30000/1001","1080p - 1920x1080 - 29.97 FPS",            0}
         },{ // GEOMETRY_40_17
-            {320,136,4,3,   30000L/1001L,   "30000/1001","QVGA - 320x136+PAD - 29.97 FPS",      52},
-            {480,204,40,17, 30000L/1001L,   "30000/1001","HVGA - 480x204 - 29.97 FPS",          0},
-            {640,272,40,17, 30000L/1001L,   "30000/1001","VGA - 640x272 - 29.97 FPS",           0},
-            {720,362,40,17, 30000L/1001L,   "30000/1001","SD/DVD - 720x362 WIDE - 29.97 FPS",   0},     // SIZE_DVD - No extend ! special case
-            {800,340,40,17, 30000L/1001L,   "30000/1001","WVGA - 800x340 - 29.97 FPS",          0},
-            {1024,436,40,17,30000L/1001L,   "30000/1001","XGA - 1024x436 - 29.97 FPS",          0},
-            {1280,544,40,17,24000L/1001L,   "24000/1001","720p - 1280x544 - 23.976 FPS",        0},
-            {1920,816,40,17,24000L/1001L,   "24000/1001","1080p - 1920x816 - 23.976 FPS",       0},
-            {240,102,4,3,   24,             "24",        "RIM 240 - 240x135+PAD - 24 FPS",      39}
+            {320, 136,4,3,     30000L/1001L,"30000/1001","QVGA - 320x136+PAD - 29.97 FPS",           52},
+            {480, 204,40,17,   30000L/1001L,"30000/1001","HVGA - 480x204 - 29.97 FPS",               0},
+            {640, 272,40,17,   30000L/1001L,"30000/1001","VGA - 640x272 - 29.97 FPS",                0},
+            {720, 362,40,17,   30000L/1001L,"30000/1001","SD/DVD - 720x362 WIDE - 29.97 FPS",        0},     // SIZE_DVD - No extend ! special case
+            {800, 340,40,17,   30000L/1001L,"30000/1001","WVGA - 800x340 - 29.97 FPS",               0},
+            {1024,436,40,17,   30000L/1001L,"30000/1001","XGA - 1024x436 - 29.97 FPS",               0},
+            {1280,544,40,17,   24000L/1001L,"24000/1001","720p - 1280x544 - 23.976 FPS",             0},
+            {1920,816,40,17,   24000L/1001L,"24000/1001","1080p - 1920x816 - 23.976 FPS",            0},
+            {240, 102,4,3,     24,          "24",        "RIM 240 - 240x135+PAD - 24 FPS",           39},
+            {1280,544,40,17,   30000L/1001L,"30000/1001","720p - 1280x544 - 29.97 FPS",              0},
+            {1920,816,40,17,   30000L/1001L,"30000/1001","1080p - 1920x816 - 29.97 FPS",             0}
     }}
 };
 
@@ -101,7 +113,9 @@ QString IMAGEDEFGENNAME[2][NBR_SIZEDEF]={
         "XGA (25 FPS-4:3=1024x768-16:9=1024x576-40:17=1024x436)",                                               // SIZE_XGA
         "720p (25 FPS-4:3=960x720-16:9=1280x720-40:17=1280x544)",                                               // SIZE_720P
         "1080p (25 FPS-4:3=1440x1080-16:9=1920x1080-40:17=1920x816)",                                           // SIZE_1080p
-        "RIM 240 (24 FPS-4:3=240x180-16:9=240x135-40:17=240x135P)"                                              // SIZE_RIM240
+        "RIM 240 (24 FPS-4:3=240x180-16:9=240x135-40:17=240x135P)",                                             // SIZE_RIM240
+        "SD/DVD (29.97 FPS-4:3=720x576-16:9=720x576W-40:17=720x576WP)",                                         // SIZE_DVD (PAL-M)
+        "free-not used"                                                                                         // -
     },{ // NTSC
         "QVGA (29.97 FPS-4:3=320x240-16:9=320x180-40:17=320x136)",                                              // SIZE_QVGA
         "HVGA (29.97 FPS-4:3=426x320-16:9=480x270-40:17=480x204)",                                              // SIZE_HVGA
@@ -111,11 +125,16 @@ QString IMAGEDEFGENNAME[2][NBR_SIZEDEF]={
         "XGA (29.97 FPS-4:3=1024x768-16:9=1024x576-40:17=1024x436)",                                            // SIZE_XGA
         "720p (23.976 FPS-4:3=960x720-16:9=1280x720-40:17=1280x544)",                                           // SIZE_720P
         "1080p (23.976 FPS-4:3=1440x1080-16:9=1920x1080-40:17=1920x816)",                                       // SIZE_1080p
-        "RIM 240 (24 FPS-4:3=240x180-16:9=240x135-40:17=240x135P)"                                              // SIZE_RIM240
+        "RIM 240 (24 FPS-4:3=240x180-16:9=240x135-40:17=240x135P)",                                             // SIZE_RIM240
+        "720p (29.97 FPS-4:3=960x720-16:9=1280x720-40:17=1280x544)",                                            // SIZE_720P-29.97
+        "1080p (29.97 FPS-4:3=1440x1080-16:9=1920x1080-40:17=1920x816)"                                         // SIZE_1080p-29.97
     }
 };
 
-int ORDERIMAGENAME[NBR_SIZEDEF]={2,3,4,6,5,7,8,9,1};
+int ORDERIMAGENAME[2][NBR_SIZEDEF]={
+    {2,3,4,6,5,8,9,10,1,7,0},         // PAL
+    {2,3,4,6,5,7,8,10,1,9,11}         // NTSC
+};
 
 /****************************************************************************
  Definition of audio/video codec and file format supported by the application
@@ -123,15 +142,15 @@ int ORDERIMAGENAME[NBR_SIZEDEF]={2,3,4,6,5,7,8,9,1};
 
 struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
     {
-        false,CODEC_ID_MJPEG,VCODEC_MJPEG,VCODECST_MJPEG,                                   // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
-        "mjpeg","Motion JPEG",                                                              // ShortName[50], LongName[200]
-        "",                                                                                 // PossibleBitrate
-        {""}                                                                                // DefaultBitrate[NBR_SIZEDEF]
+        false,CODEC_ID_MJPEG,VCODEC_MJPEG,VCODECST_MJPEG,                                               // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "mjpeg","Motion JPEG",                                                                          // ShortName[50], LongName[200]
+        "",                                                                                             // PossibleBitrate
+        {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
     },{
-        false,CODEC_ID_MPEG2VIDEO,VCODEC_MPEG,VCODECST_MPEG,                                // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
-        "mpeg2video","MPEG-2 video",                                                        // ShortName[50], LongName[200]
-        "2000k#3000k#4000k#6000k#8000k#10000k#12000k#15000k#20000k#400k",                   // PossibleBitrate
-        {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
+        false,CODEC_ID_MPEG2VIDEO,VCODEC_MPEG,VCODECST_MPEG,                                            // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "mpeg2video","MPEG-2 video",                                                                    // ShortName[50], LongName[200]
+        "2000k#3000k#4000k#6000k#8000k#10000k#12000k#15000k#20000k#400k",                               // PossibleBitrate
+        {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
         "1000k",    // QVGA-320x240
         "2000k",    // HVGA-480x320
         "3000k",    // VGA-640x480
@@ -140,13 +159,27 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "10000k",   // XGA-1024x768
         "12000k",   // 720p
         "20000k",   // 1080p
-        "400k"      // RIM 240
-        }
+        "400k",     // RIM 240
+        "6000k",    // DVD-720x576 - PAL-M
+        "",         // free
+        },{                                                                                             // DefaultBitrate[2][NBR_SIZEDEF] - NTSC
+        "1000k",    // QVGA-320x240
+        "2000k",    // HVGA-480x320
+        "3000k",    // VGA-640x480
+        "6000k",    // DVD-720x576
+        "6000k",    // WVGA-800x480
+        "10000k",   // XGA-1024x768
+        "12000k",   // 720p-23.98
+        "20000k",   // 1080p-23.98
+        "400k",     // RIM 240
+        "12000k",   // 720p-29.97
+        "20000k"    // 1080p-29.97
+        }}
     },{
-        false,CODEC_ID_MPEG4,VCODEC_MPEG4,VCODECST_MPEG4,                                   // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
-        "mpeg4","DivX/XVid/MPEG-4",                                                         // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#4500k",      // PossibleBitrate
-        {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
+        false,CODEC_ID_MPEG4,VCODEC_MPEG4,VCODECST_MPEG4,                                               // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "mpeg4","DivX/XVid/MPEG-4",                                                                     // ShortName[50], LongName[200]
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#4500k",                  // PossibleBitrate
+        {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
         "2000k",    // VGA-640x480
@@ -155,13 +188,27 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "5000k",    // XGA-1024x768
         "6000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
-        }
+        "400k",      // RIM 240
+        "3000k",    // DVD-720x576 - PAL-M
+        "",         // free
+        },{                                                                                             // DefaultBitrate[2][NBR_SIZEDEF] - NTSC
+        "500k",     // QVGA-320x240
+        "1000k",    // HVGA-480x320
+        "2000k",    // VGA-640x480
+        "3000k",    // DVD-720x576
+        "4000k",    // WVGA-800x480
+        "5000k",    // XGA-1024x768
+        "6000k",    // 720p-23.98
+        "8000k",    // 1080p-23.98
+        "400k",     // RIM 240
+        "6000k",    // 720p-29.97
+        "8000k"     // 1080p-29.97
+        }}
     },{
-        false,CODEC_ID_H264,VCODEC_H264HQ,VCODECST_H264HQ,                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
-        "libx264","High Quality H.264 AVC/MPEG-4 AVC",                                      // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#12000k#400k#3500k",   // PossibleBitrate
-        {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
+        false,CODEC_ID_H264,VCODEC_H264HQ,VCODECST_H264HQ,                                              // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "libx264","High Quality H.264 AVC/MPEG-4 AVC",                                                  // ShortName[50], LongName[200]
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#12000k#400k#3500k",    // PossibleBitrate
+        {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
         "1500k",    // VGA-640x480
@@ -170,13 +217,27 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
-        }
+        "400k",     // RIM 240
+        "2500k",    // DVD-720x576-PAL-M
+        "",         // free
+        },{                                                                                             // DefaultBitrate[2][NBR_SIZEDEF] - NTSC
+        "500k",     // QVGA-320x240
+        "1000k",    // HVGA-480x320
+        "1500k",    // VGA-640x480
+        "2500k",    // DVD-720x576
+        "3000k",    // WVGA-800x480
+        "4000k",    // XGA-1024x768
+        "5000k",    // 720p-23.98
+        "8000k",    // 1080p-23.98
+        "400k",     // RIM 240
+        "5000k",    // 720p-29.97
+        "8000k",    // 1080p-29.97
+        }}
     },{
-        false,CODEC_ID_H264,VCODEC_H264PQ,VCODECST_H264PQ,                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
-        "libx264","Phone Quality H.264 AVC/MPEG-4 AVC",                                     // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#400k#3500k",          // PossibleBitrate
-        {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
+        false,CODEC_ID_H264,VCODEC_H264PQ,VCODECST_H264PQ,                                              // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "libx264","Phone Quality H.264 AVC/MPEG-4 AVC",                                                 // ShortName[50], LongName[200]
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#400k#3500k",           // PossibleBitrate
+        {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
         "500k",     // QVGA-320x240
         "1200k",    // HVGA-480x320
         "1500k",    // VGA-640x480
@@ -185,13 +246,27 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
-        }
+        "400k",     // RIM 240
+        "2500k",    // DVD-720x576-PAL-M
+        ""          // free
+        },{                                                                                             // DefaultBitrate[2][NBR_SIZEDEF] - NTSC
+        "500k",     // QVGA-320x240
+        "1200k",    // HVGA-480x320
+        "1500k",    // VGA-640x480
+        "2500k",    // DVD-720x576
+        "3000k",    // WVGA-800x480
+        "4000k",    // XGA-1024x768
+        "5000k",    // 720p-23.98
+        "8000k",    // 1080p-23.98
+        "400k",     // RIM 240
+        "5000k",    // 720p-29.97
+        "8000k"     // 1080p-29.97
+        }}
     },{
-        false,CODEC_ID_VP8,VCODEC_VP8,VCODECST_VP8,                                         // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
-        "libvpx","WebM-VP8",                                                                // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                 // PossibleBitrate
-        {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
+        false,CODEC_ID_VP8,VCODEC_VP8,VCODECST_VP8,                                                     // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "libvpx","WebM-VP8",                                                                            // ShortName[50], LongName[200]
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                  // PossibleBitrate
+        {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
         "1500k",    // VGA-640x480
@@ -200,13 +275,27 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
-        }
+        "400k",     // RIM 240
+        "2500k",    // DVD-720x576-PAL-M
+        ""          // free
+        },{                                                                                             // DefaultBitrate[2][NBR_SIZEDEF] - NTSC
+        "500k",     // QVGA-320x240
+        "1000k",    // HVGA-480x320
+        "1500k",    // VGA-640x480
+        "2500k",    // DVD-720x576
+        "3000k",    // WVGA-800x480
+        "4000k",    // XGA-1024x768
+        "5000k",    // 720p-23.98
+        "8000k",    // 1080p-23.98
+        "400k",     // RIM 240
+        "5000k",    // 720p-29.97
+        "8000k"     // 1080p-29.97
+        }}
     },{
-        false, 22,VCODEC_H263,VCODECST_H263,                                                // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
-        "flv","Flash Video / Sorenson H.263",                                               // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                 // PossibleBitrate
-        {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
+        false, 22,VCODEC_H263,VCODECST_H263,                                                            // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "flv","Flash Video / Sorenson H.263",                                                           // ShortName[50], LongName[200]
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                  // PossibleBitrate
+        {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
         "1500k",    // VGA-640x480
@@ -215,14 +304,27 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
-        }
+        "400k",     // RIM 240
+        "2500k",    // DVD-720x576-PAL-M
+        "",         // free
+        },{                                                                                             // DefaultBitrate[2][NBR_SIZEDEF] - NTSC
+        "500k",     // QVGA-320x240
+        "1000k",    // HVGA-480x320
+        "1500k",    // VGA-640x480
+        "2500k",    // DVD-720x576
+        "3000k",    // WVGA-800x480
+        "4000k",    // XGA-1024x768
+        "5000k",    // 720p-23.98
+        "8000k",    // 1080p-23.98
+        "400k",     // RIM 240
+        "5000k",    // 720p-29.97
+        "8000k"     // 1080p-29.97
+        }}
     },{
-        false, CODEC_ID_THEORA,VCODEC_THEORA,VCODECST_THEORA,                               // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
-        "libtheora","Theora VP3",                                                           // ShortName[50], LongName[200]
-        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                 // PossibleBitrate
-        // QVGA-320x240/HVGA-480x320/VGA-640x480/DVD-720x576/WVGA-800x480/XGA-1024x768/720p/1080p
-        {                                                                                   // DefaultBitrate[NBR_SIZEDEF]
+        false, CODEC_ID_THEORA,VCODEC_THEORA,VCODECST_THEORA,                                           // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "libtheora","Theora VP3",                                                                       // ShortName[50], LongName[200]
+        "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                  // PossibleBitrate
+        {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
         "500k",     // QVGA-320x240
         "1000k",    // HVGA-480x320
         "1500k",    // VGA-640x480
@@ -231,13 +333,27 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "4000k",    // XGA-1024x768
         "5000k",    // 720p
         "8000k",    // 1080p
-        "400k"      // RIM 240
-        }
+        "400k",     // RIM 240
+        "2500k",    // DVD-720x576-PAL-M
+        ""          // free
+        },{                                                                                             // DefaultBitrate[2][NBR_SIZEDEF] - NTSC
+        "500k",     // QVGA-320x240
+        "1000k",    // HVGA-480x320
+        "1500k",    // VGA-640x480
+        "2500k",    // DVD-720x576
+        "3000k",    // WVGA-800x480
+        "4000k",    // XGA-1024x768
+        "5000k",    // 720p-23.98
+        "8000k",    // 1080p-23.98
+        "400k",     // RIM 240
+        "5000k",    // 720p-29.97
+        "8000k"     // 1080p-29.97
+        }}
     },{
-        false,CODEC_ID_H264,VCODEC_X264LL,VCODECST_X264LL,                                      // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
-        "libx264","x264 lossless",                                                              // ShortName[50], LongName[200]
-        "",                                                                                     // PossibleBitrate
-        {""}                                                                                    // DefaultBitrate[NBR_SIZEDEF]
+        false,CODEC_ID_H264,VCODEC_X264LL,VCODECST_X264LL,                                              // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "libx264","x264 lossless",                                                                      // ShortName[50], LongName[200]
+        "",                                                                                             // PossibleBitrate
+        {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
     }
 };
 

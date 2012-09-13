@@ -899,14 +899,18 @@ void cImageFile::GetFullInformationFromFile() {
 
         // Append InformationList
         if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
-        if (GetInformationValue("Image.Model")!="")  InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
-
+        if (GetInformationValue("Image.Model")!="")  {
+            if (GetInformationValue("Image.Model").contains(GetInformationValue("Image.Make"),Qt::CaseInsensitive)) InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
+                else InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Make")+" "+GetInformationValue("Image.Model"));
+        }
         // Get size information
-        if (GetInformationValue("Photo.PixelXDimension")!="")       ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
+        ImageWidth =ImageFile->pixelWidth();
+        ImageHeight=ImageFile->pixelHeight();
+        /*if (GetInformationValue("Photo.PixelXDimension")!="")       ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
             else if (GetInformationValue("Image.ImageWidth")!="")   ImageWidth =GetInformationValue("Image.ImageWidth").toInt();            // TIFF Version
         if (GetInformationValue("Photo.PixelYDimension")!="")       ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
             else if (GetInformationValue("Image.ImageLength")!="")  ImageHeight=GetInformationValue("Image.ImageLength").toInt();           // TIFF Version
-
+        */
         // switch ImageWidth and ImageHeight if image was rotated
         if ((ImageOrientation==6)||(ImageOrientation==8)) {
             int IW=ImageWidth;
@@ -1160,7 +1164,8 @@ void cVideoFile::GetFullInformationFromFile() {
 
     int64_t AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
 
-    AVFormatContext *ffmpegFile=NULL;;
+    AVFormatContext *ffmpegFile=NULL;
+    bool            Continu=true;
 
     //*********************************************************************************************************
     // Open file and get a LibAVFormat context and an associated LibAVCodec decoder
@@ -1176,198 +1181,200 @@ void cVideoFile::GetFullInformationFromFile() {
     #ifdef LIBAV_07
     if (av_find_stream_info(ffmpegFile)<0) {
         av_close_input_file(ffmpegFile);// deprecated : use avformat_find_stream_info instead
-        return;
+        Continu=false;
     }
     #else
     if (avformat_find_stream_info(ffmpegFile,NULL)<0) {
         avformat_close_input(&ffmpegFile);
-        return;
+        Continu=false;
     }
     #endif
 
-    //*********************************************************************************************************
-    // Get metadata
-    //*********************************************************************************************************
-    AVDictionaryEntry *tag=NULL;
-    while ((tag=av_dict_get(ffmpegFile->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
-        QString Value=QString().fromUtf8(tag->value);
-        #ifdef Q_OS_WIN
-        Value.replace(char(13),"\n");
-        #endif
-        if (Value.endsWith("\n")) Value=Value.left(Value.lastIndexOf("\n"));
-        InformationList.append(QString().fromUtf8(tag->key).toLower()+QString("##")+Value);
-    }
-
-    //*********************************************************************************************************
-    // Get chapters
-    //*********************************************************************************************************
-    NbrChapters=ffmpegFile->nb_chapters;
-    for (uint i=0;i<ffmpegFile->nb_chapters;i++) {
-        AVChapter   *ch=ffmpegFile->chapters[i];
-        QString     ChapterNum=QString("%1").arg(i);
-        while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
-        qlonglong Start=double(ch->start)*(double(av_q2d(ch->time_base))*1000);    // Lib AV use 1/1 000 000 000 sec and we want msec !
-        qlonglong End  =double(ch->end)*(double(av_q2d(ch->time_base))*1000);    // Lib AV use 1/1 000 000 000 sec and we want msec !
-        InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
-        InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(End).toString("hh:mm:ss.zzz"));
-        InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(End-Start).toString("hh:mm:ss.zzz"));
-        // Chapter metadata
-        while ((tag=av_dict_get(ch->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
-            InformationList.append("Chapter_"+ChapterNum+":"+QString().fromUtf8(tag->key).toLower()+QString("##")+QString().fromUtf8(tag->value));
-    }
-
-    //*********************************************************************************************************
-    // Get information about duration
-    //*********************************************************************************************************
-    int         hh,mm,ss;
-    qlonglong   ms;
-
-    ms=ffmpegFile->duration;
-    if (ffmpegFile->start_time!=AVNOPTSVALUE)  ms-=ffmpegFile->start_time;
-    ms=ms/1000;
-
-    ss=ms/1000;
-    mm=ss/60;
-    hh=mm/60;
-    mm=mm-(hh*60);
-    ss=ss-(ss/60)*60;
-    ms=ms-(ms/1000)*1000;
-    Duration=QTime(hh,mm,ss,ms);
-
-    EndPos  =Duration;    // By default : EndPos is set to the end of file
-    InformationList.append(QString("Duration")+QString("##")+Duration.toString("HH:mm:ss.zzz"));
-
-    //*********************************************************************************************************
-    // Get information from track
-    //*********************************************************************************************************
-    for (int Track=0;Track<(int)ffmpegFile->nb_streams;Track++) {
-
-        // Find codec
-        AVCodec *Codec=avcodec_find_decoder(ffmpegFile->streams[Track]->codec->codec_id);
-
+    if (Continu) {
         //*********************************************************************************************************
-        // Audio track
+        // Get metadata
         //*********************************************************************************************************
-        if (ffmpegFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_AUDIO) {
-            // Keep this as default track
-            if (AudioStreamNumber==-1) AudioStreamNumber=Track;
-
-            // Compute TrackNum
-            QString TrackNum=QString("%1").arg(AudioTrackNbr);
-            while (TrackNum.length()<3) TrackNum="0"+TrackNum;
-            TrackNum="Audio_"+TrackNum+":";
-
-            // General
-            InformationList.append(TrackNum+QString("Track")+QString("##")+QString("%1").arg(Track));
-            if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
-
-            // Channels
-            QString SampleFMT="";
-            switch (ffmpegFile->streams[Track]->codec->sample_fmt) {
-                case AV_SAMPLE_FMT_U8 : SampleFMT="-U8";    break;
-                case AV_SAMPLE_FMT_S16: SampleFMT="-S16";    break;
-                case AV_SAMPLE_FMT_S32: SampleFMT="-S32";    break;
-                default               : SampleFMT="-?";      break;
-            }
-            if (ffmpegFile->streams[Track]->codec->channels==1)        InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Mono","Audio channels mode")+SampleFMT);
-            else if (ffmpegFile->streams[Track]->codec->channels==2)   InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Stereo","Audio channels mode")+SampleFMT);
-            else                                                       InformationList.append(TrackNum+QString("Channels")+QString("##")+QString("%1").arg(ffmpegFile->streams[Track]->codec->channels)+SampleFMT);
-
-            // Frequency
-            if (int(ffmpegFile->streams[Track]->codec->sample_rate/1000)*1000>0) {
-                if (int(ffmpegFile->streams[Track]->codec->sample_rate/1000)*1000==ffmpegFile->streams[Track]->codec->sample_rate)
-                     InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(int(ffmpegFile->streams[Track]->codec->sample_rate/1000))+"Khz");
-                else InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(double(ffmpegFile->streams[Track]->codec->sample_rate)/1000,8,'f',1).trimmed()+"Khz");
-            }
-
-            // Bitrate
-            if (int(ffmpegFile->streams[Track]->codec->bit_rate/1000)>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(ffmpegFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
-
-            // Sample format
-            switch (ffmpegFile->streams[Track]->codec->sample_fmt) {
-                case AV_SAMPLE_FMT_U8: 	 InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits"); break;
-                case AV_SAMPLE_FMT_S16:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits"); break;
-                case AV_SAMPLE_FMT_S32:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits"); break;
-                case AV_SAMPLE_FMT_FLT:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float"); break;
-                case AV_SAMPLE_FMT_DBL:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double"); break;
-                #ifdef AV_SAMPLE_FMT_U8P
-                case AV_SAMPLE_FMT_U8P:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits, planar"); break;
-                case AV_SAMPLE_FMT_S16P: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits, planar"); break;
-                case AV_SAMPLE_FMT_S32P: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits, planar"); break;
-                case AV_SAMPLE_FMT_FLTP: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float, planar"); break;
-                case AV_SAMPLE_FMT_DBLP: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double, planar"); break;
-                #endif
-                default:                 InformationList.append(TrackNum+QString("Sample format")+QString("##")+"Unknown"); break;
-            }
-
-            // Stream metadata
-            while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
-                // OGV container affect TAG to audio stream !
-                QString Key=QString().fromUtf8(tag->key).toLower();
-                if ((FileName.toLower().endsWith(".ogv"))&&((Key=="title")||(Key=="artist")||(Key=="album")||(Key=="comment")||(Key=="date")||(Key=="composer")||(Key=="encoder")))
-                         InformationList.append(Key+QString("##")+QString().fromUtf8(tag->value));
-                    else InformationList.append(TrackNum+Key+QString("##")+QString().fromUtf8(tag->value));
-            }
-
-            // Ensure language exist (Note : AVI and FLV container own language at container level instead of track level)
-            if (GetInformationValue(TrackNum+"language")=="") {
-                QString Lng=GetInformationValue("language");
-                InformationList.append(TrackNum+QString("language##")+(Lng==""?"und":Lng));
-            }
-
-            // Next
-            AudioTrackNbr++;
-
-        //*********************************************************************************************************
-        // Video track
-        //*********************************************************************************************************
-        } else if (!MusicOnly && (ffmpegFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_VIDEO)) {
-
-            // Keep this as default track
-            if (VideoStreamNumber==-1) VideoStreamNumber=Track;
-
-            // Compute TrackNum
-            QString TrackNum=QString("%1").arg(VideoTrackNbr);
-            while (TrackNum.length()<3) TrackNum="0"+TrackNum;
-            TrackNum="Video_"+TrackNum+":";
-
-            // General
-            InformationList.append(TrackNum+QString("Track")+QString("##")+QString("%1").arg(Track));
-            if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
-
-            // Bitrate
-            if (ffmpegFile->streams[Track]->codec->bit_rate>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(ffmpegFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
-
-            // Frame rate
-            if (int(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den))>0) {
-                if (int(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den))==double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den))
-                     InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(int(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den)))+" FPS");
-                else InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(double(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den)),8,'f',3).trimmed()+" FPS");
-            }
-
-            // Stream metadata
-            while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
-                InformationList.append(TrackNum+QString(tag->key)+QString("##")+QString().fromUtf8(tag->value));
-
-            // Ensure language exist (Note : AVI ‘AttachedPictureFrame’and FLV container own language at container level instead of track level)
-            if (GetInformationValue(TrackNum+"language")=="") {
-                QString Lng=GetInformationValue("language");
-                InformationList.append(TrackNum+QString("language##")+(Lng==""?"und":Lng));
-            }
-
-            // Next
-            VideoTrackNbr++;
+        AVDictionaryEntry *tag=NULL;
+        while ((tag=av_dict_get(ffmpegFile->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
+            QString Value=QString().fromUtf8(tag->value);
+            #ifdef Q_OS_WIN
+            Value.replace(char(13),"\n");
+            #endif
+            if (Value.endsWith("\n")) Value=Value.left(Value.lastIndexOf("\n"));
+            InformationList.append(QString().fromUtf8(tag->key).toLower()+QString("##")+Value);
         }
-    }
 
-    //*********************************************************************************************************
-    // Close file
-    //*********************************************************************************************************
-    #ifdef LIBAV_07
-    av_close_input_file(ffmpegFile);
-    #else
-    avformat_close_input(&ffmpegFile);
-    #endif
+        //*********************************************************************************************************
+        // Get chapters
+        //*********************************************************************************************************
+        NbrChapters=ffmpegFile->nb_chapters;
+        for (uint i=0;i<ffmpegFile->nb_chapters;i++) {
+            AVChapter   *ch=ffmpegFile->chapters[i];
+            QString     ChapterNum=QString("%1").arg(i);
+            while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
+            qlonglong Start=double(ch->start)*(double(av_q2d(ch->time_base))*1000);    // Lib AV use 1/1 000 000 000 sec and we want msec !
+            qlonglong End  =double(ch->end)*(double(av_q2d(ch->time_base))*1000);    // Lib AV use 1/1 000 000 000 sec and we want msec !
+            InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
+            InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(End).toString("hh:mm:ss.zzz"));
+            InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(End-Start).toString("hh:mm:ss.zzz"));
+            // Chapter metadata
+            while ((tag=av_dict_get(ch->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
+                InformationList.append("Chapter_"+ChapterNum+":"+QString().fromUtf8(tag->key).toLower()+QString("##")+QString().fromUtf8(tag->value));
+        }
+
+        //*********************************************************************************************************
+        // Get information about duration
+        //*********************************************************************************************************
+        int         hh,mm,ss;
+        qlonglong   ms;
+
+        ms=ffmpegFile->duration;
+        if (ffmpegFile->start_time!=AVNOPTSVALUE)  ms-=ffmpegFile->start_time;
+        ms=ms/1000;
+
+        ss=ms/1000;
+        mm=ss/60;
+        hh=mm/60;
+        mm=mm-(hh*60);
+        ss=ss-(ss/60)*60;
+        ms=ms-(ms/1000)*1000;
+        Duration=QTime(hh,mm,ss,ms);
+
+        EndPos  =Duration;    // By default : EndPos is set to the end of file
+        InformationList.append(QString("Duration")+QString("##")+Duration.toString("HH:mm:ss.zzz"));
+
+        //*********************************************************************************************************
+        // Get information from track
+        //*********************************************************************************************************
+        for (int Track=0;Track<(int)ffmpegFile->nb_streams;Track++) {
+
+            // Find codec
+            AVCodec *Codec=avcodec_find_decoder(ffmpegFile->streams[Track]->codec->codec_id);
+
+            //*********************************************************************************************************
+            // Audio track
+            //*********************************************************************************************************
+            if (ffmpegFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_AUDIO) {
+                // Keep this as default track
+                if (AudioStreamNumber==-1) AudioStreamNumber=Track;
+
+                // Compute TrackNum
+                QString TrackNum=QString("%1").arg(AudioTrackNbr);
+                while (TrackNum.length()<3) TrackNum="0"+TrackNum;
+                TrackNum="Audio_"+TrackNum+":";
+
+                // General
+                InformationList.append(TrackNum+QString("Track")+QString("##")+QString("%1").arg(Track));
+                if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
+
+                // Channels
+                QString SampleFMT="";
+                switch (ffmpegFile->streams[Track]->codec->sample_fmt) {
+                    case AV_SAMPLE_FMT_U8 : SampleFMT="-U8";    break;
+                    case AV_SAMPLE_FMT_S16: SampleFMT="-S16";    break;
+                    case AV_SAMPLE_FMT_S32: SampleFMT="-S32";    break;
+                    default               : SampleFMT="-?";      break;
+                }
+                if (ffmpegFile->streams[Track]->codec->channels==1)        InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Mono","Audio channels mode")+SampleFMT);
+                else if (ffmpegFile->streams[Track]->codec->channels==2)   InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Stereo","Audio channels mode")+SampleFMT);
+                else                                                       InformationList.append(TrackNum+QString("Channels")+QString("##")+QString("%1").arg(ffmpegFile->streams[Track]->codec->channels)+SampleFMT);
+
+                // Frequency
+                if (int(ffmpegFile->streams[Track]->codec->sample_rate/1000)*1000>0) {
+                    if (int(ffmpegFile->streams[Track]->codec->sample_rate/1000)*1000==ffmpegFile->streams[Track]->codec->sample_rate)
+                         InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(int(ffmpegFile->streams[Track]->codec->sample_rate/1000))+"Khz");
+                    else InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(double(ffmpegFile->streams[Track]->codec->sample_rate)/1000,8,'f',1).trimmed()+"Khz");
+                }
+
+                // Bitrate
+                if (int(ffmpegFile->streams[Track]->codec->bit_rate/1000)>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(ffmpegFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
+
+                // Sample format
+                switch (ffmpegFile->streams[Track]->codec->sample_fmt) {
+                    case AV_SAMPLE_FMT_U8: 	 InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits"); break;
+                    case AV_SAMPLE_FMT_S16:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits"); break;
+                    case AV_SAMPLE_FMT_S32:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits"); break;
+                    case AV_SAMPLE_FMT_FLT:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float"); break;
+                    case AV_SAMPLE_FMT_DBL:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double"); break;
+                    #ifdef AV_SAMPLE_FMT_U8P
+                    case AV_SAMPLE_FMT_U8P:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits, planar"); break;
+                    case AV_SAMPLE_FMT_S16P: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits, planar"); break;
+                    case AV_SAMPLE_FMT_S32P: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits, planar"); break;
+                    case AV_SAMPLE_FMT_FLTP: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float, planar"); break;
+                    case AV_SAMPLE_FMT_DBLP: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double, planar"); break;
+                    #endif
+                    default:                 InformationList.append(TrackNum+QString("Sample format")+QString("##")+"Unknown"); break;
+                }
+
+                // Stream metadata
+                while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
+                    // OGV container affect TAG to audio stream !
+                    QString Key=QString().fromUtf8(tag->key).toLower();
+                    if ((FileName.toLower().endsWith(".ogv"))&&((Key=="title")||(Key=="artist")||(Key=="album")||(Key=="comment")||(Key=="date")||(Key=="composer")||(Key=="encoder")))
+                             InformationList.append(Key+QString("##")+QString().fromUtf8(tag->value));
+                        else InformationList.append(TrackNum+Key+QString("##")+QString().fromUtf8(tag->value));
+                }
+
+                // Ensure language exist (Note : AVI and FLV container own language at container level instead of track level)
+                if (GetInformationValue(TrackNum+"language")=="") {
+                    QString Lng=GetInformationValue("language");
+                    InformationList.append(TrackNum+QString("language##")+(Lng==""?"und":Lng));
+                }
+
+                // Next
+                AudioTrackNbr++;
+
+            //*********************************************************************************************************
+            // Video track
+            //*********************************************************************************************************
+            } else if (!MusicOnly && (ffmpegFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_VIDEO)) {
+
+                // Keep this as default track
+                if (VideoStreamNumber==-1) VideoStreamNumber=Track;
+
+                // Compute TrackNum
+                QString TrackNum=QString("%1").arg(VideoTrackNbr);
+                while (TrackNum.length()<3) TrackNum="0"+TrackNum;
+                TrackNum="Video_"+TrackNum+":";
+
+                // General
+                InformationList.append(TrackNum+QString("Track")+QString("##")+QString("%1").arg(Track));
+                if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
+
+                // Bitrate
+                if (ffmpegFile->streams[Track]->codec->bit_rate>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(ffmpegFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
+
+                // Frame rate
+                if (int(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den))>0) {
+                    if (int(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den))==double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den))
+                         InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(int(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den)))+" FPS");
+                    else InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(double(double(ffmpegFile->streams[Track]->avg_frame_rate.num)/double(ffmpegFile->streams[Track]->avg_frame_rate.den)),8,'f',3).trimmed()+" FPS");
+                }
+
+                // Stream metadata
+                while ((tag=av_dict_get(ffmpegFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
+                    InformationList.append(TrackNum+QString(tag->key)+QString("##")+QString().fromUtf8(tag->value));
+
+                // Ensure language exist (Note : AVI ‘AttachedPictureFrame’and FLV container own language at container level instead of track level)
+                if (GetInformationValue(TrackNum+"language")=="") {
+                    QString Lng=GetInformationValue("language");
+                    InformationList.append(TrackNum+QString("language##")+(Lng==""?"und":Lng));
+                }
+
+                // Next
+                VideoTrackNbr++;
+            }
+        }
+
+        //*********************************************************************************************************
+        // Close file
+        //*********************************************************************************************************
+        #ifdef LIBAV_07
+        av_close_input_file(ffmpegFile);
+        #else
+        avformat_close_input(&ffmpegFile);
+        #endif
+    }
 
     //*********************************************************************************************************
     // Produce thumbnail

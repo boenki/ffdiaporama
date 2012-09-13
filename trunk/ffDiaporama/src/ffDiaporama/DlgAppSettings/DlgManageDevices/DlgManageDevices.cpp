@@ -219,7 +219,7 @@ void DlgManageDevices::DBImageSizeCombo(int) {
     int Standard=ui->DBStandardCB->currentIndex();
     if (Standard==-1) return;
     QStringList List;
-    for (int i=0;i<NBR_SIZEDEF;i++) List.append(QString("%1:%2#####%3").arg(IMAGEDEFGENNAME[Standard][i]).arg(ORDERIMAGENAME[i]).arg(i));
+    for (int i=0;i<NBR_SIZEDEF;i++) if (ORDERIMAGENAME[Standard][i]!=0) List.append(QString("%1:%2#####%3").arg(IMAGEDEFGENNAME[Standard][i]).arg(ORDERIMAGENAME[Standard][i]).arg(i));
     // Sort List
     for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
         QString StrA=List[j].mid(List[j].lastIndexOf(":")+1);       StrA=StrA.left(StrA.indexOf("#"));

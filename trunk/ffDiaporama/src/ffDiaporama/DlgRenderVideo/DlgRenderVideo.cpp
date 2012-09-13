@@ -282,7 +282,7 @@ void DlgRenderVideo::InitImageSizeCombo(int) {
     int ImageSize=ui->ImageSizeCombo->currentIndex();
     ui->ImageSizeCombo->clear();
     QStringList List;
-    for (int i=0;i<NBR_SIZEDEF;i++) List.append(QString("%1:%2#####%3").arg(DefImageFormat[Standard][Geometry][i].Name).arg(ORDERIMAGENAME[i]).arg(i));
+    for (int i=0;i<NBR_SIZEDEF;i++) if (ORDERIMAGENAME[Standard][i]!=0) List.append(QString("%1:%2#####%3").arg(DefImageFormat[Standard][Geometry][i].Name).arg(ORDERIMAGENAME[Standard][i]).arg(i));
     // Sort List
     for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
         QString StrA=List[j].mid(List[j].lastIndexOf(":")+1);       StrA=StrA.left(StrA.indexOf("#"));
@@ -430,6 +430,7 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
         AdjustDestinationFile();
     } else {
         ui->VideoBitRateCB->clear();
+        int Standard    =ui->StandardCombo->currentIndex();
         int CurrentCodec=ui->VideoFormatCB->currentIndex();
         int CurrentSize =ui->ImageSizeCombo->itemData(ui->ImageSizeCombo->currentIndex()).toInt();
         if (CurrentCodec>=0) {
@@ -469,7 +470,7 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
                     IsFindBitRate=true;
                 }
             }
-            if (!IsFindBitRate) ui->VideoBitRateCB->setCurrentIndex(ui->VideoBitRateCB->findText(VIDEOCODECDEF[CurrentCodec].DefaultBitrate[CurrentSize]));
+            if (!IsFindBitRate) ui->VideoBitRateCB->setCurrentIndex(ui->VideoBitRateCB->findText(VIDEOCODECDEF[CurrentCodec].DefaultBitrate[Standard][CurrentSize]));
             ui->VideoBitRateCB->setEnabled(ui->VideoBitRateCB->count()>1);
         } else ui->VideoBitRateCB->setEnabled(false);
     }
@@ -598,10 +599,16 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
         if (ExtendH>0) Text=Text+"+PADLEFT:"+QString("%1").arg(ExtendH/2)+"+PADRIGHT:"+QString("%1").arg(ExtendH-ExtendH/2);
         if (ExtendV>0) Text=Text+"+PADTOP:"+QString("%1").arg(ExtendV/2)+"+PADBOTTOM:"+QString("%1").arg(ExtendV-ExtendV/2);
 
+        QString FPS=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].dFPS==24?"24 FPS":
+                    DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].dFPS==25?"25 FPS":
+                    DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].dFPS==24000L/1001L?"23.98 FPS":
+                    DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].dFPS==30000L/1001L?"29.97 FPS":
+                    "";
+                                                                                          ;
         QString VideoBitRateStr=QString("%1").arg(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->VideoBitrate); if (VideoBitRateStr.endsWith("000")) VideoBitRateStr=VideoBitRateStr.left(VideoBitRateStr.length()-3)+"k";
         QString AudioBitRateStr=QString("%1").arg(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioBitrate); if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
 
-        Text=Text+"-"+VideoBitRateStr+"b/s";
+        Text=Text+"-"+FPS+"-"+VideoBitRateStr+"b/s";
         if (ui->IncludeSoundCB->isChecked()) Text=Text+"\nAudio=\t"+AUDIOCODECDEF[Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioCodec].LongName+"-"+AudioBitRateStr+"b/s";
         ui->RenderFormatText->setText(Text);
 
@@ -1082,6 +1089,12 @@ void DlgRenderVideo::DoAccept() {
                 ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount()-1);
 
             ffmpegCommand=ffmpegCommand+" \""+OutputFileName+"\"";
+
+            #ifdef Q_OS_WIN
+            ffmpegCommand=ffmpegCommand.replace("30000/1001","29.97");
+            ffmpegCommand=ffmpegCommand.replace("24000/1001","23.976");
+            #endif
+
             ToLog(LOGMSG_INFORMATION,ffmpegCommand);
 
             ffmpegCommand=AdjustDirForOS(ffmpegCommand);

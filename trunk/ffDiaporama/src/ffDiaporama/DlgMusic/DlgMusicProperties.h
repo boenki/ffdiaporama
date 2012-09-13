@@ -48,7 +48,7 @@ public:
     virtual void    PrepareGlobalUndo();                        // Initiale Undo
     virtual void    DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
 
-    virtual void    RefreshControl();
+    virtual void    RefreshControl(bool RefreshList=false);
 
 private slots:
     void    s_SameMusic();
@@ -60,6 +60,8 @@ private slots:
     void    s_RemoveMusic();
     void    s_PlayListTable_DoubleClick(QTableWidgetItem *);
     void    s_PlayListTable_SelectionChanged();
+    void    s_UpMusic();
+    void    s_DownMusic();
 
 signals:
     void    SetModifyFlag();

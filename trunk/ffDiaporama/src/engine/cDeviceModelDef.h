@@ -129,7 +129,7 @@ extern "C" {
 #define STANDARD_NTSC                       1
 
 // Image size definition
-#define NBR_SIZEDEF                         9
+#define NBR_SIZEDEF                         11
 #define SIZE_QVGA                           0
 #define SIZE_HVGA                           1
 #define SIZE_VGA                            2
@@ -154,8 +154,8 @@ struct sIMAGEDEF {
     int     Extend;                                             // Padding for cinema mode with DVD
 };
 extern sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF];            // Image format definition
-extern QString IMAGEDEFGENNAME[2][NBR_SIZEDEF];                 // Image format generic name
-extern int ORDERIMAGENAME[NBR_SIZEDEF];                         // Display order of image size
+extern QString   IMAGEDEFGENNAME[2][NBR_SIZEDEF];               // Image format generic name
+extern int       ORDERIMAGENAME[2][NBR_SIZEDEF];                // Display order of image size
 
 //============================================
 // Video codec definitions
@@ -187,7 +187,7 @@ struct sVideoCodecDef {
     char    ShortName[50];                                      // short name of the codec (copy of the libav value)
     char    LongName[200];                                      // long name of the codec (define by this application)
     char    PossibleBitrate[200];                               // list of possible compression bit rate (define by this application)
-    char    DefaultBitrate[NBR_SIZEDEF][10];                    // prefered compression bit rate for each possible size
+    char    DefaultBitrate[2][NBR_SIZEDEF][10];                 // prefered compression bit rate for each possible size
 };
 #define NBR_VIDEOCODECDEF   9
 extern struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF];
