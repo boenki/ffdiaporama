@@ -1,4 +1,4 @@
-Bugs/TODO (Dernier SVN le 30/08/2012) :
+Bugs/TODO (Dernier SVN le 14/09/2012) :
 ---------------------------------------
 TODO
 ----
@@ -7,27 +7,20 @@ TODO
 -Supprimer la librairie de fond de la mémoire
 -Incompréhension des utilisateurs sur les concepts de contraintes géométriques : à simplifier ou forcer
 
--Mauvaise prise en compte de l'orientation sur les images nikon coolpix [left, bottom] au lieu de [bottom, left]
-
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+Corrige un plantage introduit dans la beta 2 quand on ajoute des vidéos
+Fix a crash introduced in beta 2 when addin a video
+
 French version / Correction de bug :
--Correction de bug : Dans la boite de dialog d'édition de la musique, la liste de lecture ne pouvait pas être réordonnée
--Correction de bug : Dans la boite de dialog d'édition des profils de génération, les combox audio et video bit rate sont trop petites pour afficher les valeurs
--Correction de bug : Erreur de génération en mode NTSC avec avconv sous Windows
--Correction de bug : Corrige l'erreur de détermination de la taille des photo produites avec des appareils SONY ou PANASONIC
+-Ajoute la case à cocher Désentrelacer dans ce qui est pris en charge par l'UNDO dans la boite d'édition des vidéos
 
 English version / Bug fix :
--Bug fix: In the music properties window, the playlist cannot be rearranged
--Bug fix: In the device database window the audio and video bit rate comboboxes are just too short to display the whole value.
--Bug fix: Error when render to NTSC with avconv under Windows
--Bug fix: Error determining image size on image produced by SONY or PANASONIC camera
+-Add Deinterlace check box to UNDO in cut video dialog
 
 French version / Nouvelles fonctionnalités :
--Ajoute des options de génération pour le PAL-M (Amérique du sud) et pour les formats HD 720p-29.97 FPS et 1080p-29.97 FPS dans la boite de génération avancée
--Ajoute un nouveau profil de génération pour le PAL-M : Système multimédia / Lecteur DVD/DIVX PAL-M
+-Améliore la compatibilité avec Ubuntu 11.10 et Fedora 16
 
 English version / New features :
--Add rendering option for PAL-M (South America) and for HD formats 720p-29.97 FPS and 1080p-29.97 FPS
--Add a new render profil for PAL-M : Multimedia system / DVD/DIVX player PAL-M
+-Improve compatibility with Ubuntu 11.10 and Fedora 16

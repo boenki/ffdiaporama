@@ -26,6 +26,7 @@
 #define UNDOACTION_STARTPOS     1
 #define UNDOACTION_ENDPOS       2
 #define UNDOACTION_VOLUME       3
+#define UNDOACTION_DEINTERLACE  4
 
 DlgVideoEdit::DlgVideoEdit(cBrushDefinition *TheCurrentBrush,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgVideoEdit) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgVideoEdit::DlgVideoEdit");
@@ -108,6 +109,7 @@ void DlgVideoEdit::PreparePartialUndo(int /*ActionType*/,QDomElement root) {
     root.setAttribute("StartPos",CurrentBrush->Video->StartPos.toString("HH:mm:ss.zzz"));               // Start position (video only)
     root.setAttribute("EndPos",CurrentBrush->Video->EndPos.toString("HH:mm:ss.zzz"));                   // End position (video only)
     root.setAttribute("SoundVolume",QString("%1").arg(CurrentBrush->SoundVolume,0,'f'));                // Volume of soundtrack (for video only)
+    root.setAttribute("Deinterlace",CurrentBrush->Deinterlace?"1":"0");                                 // Deinterlace YADIF filter
 }
 
 //====================================================================================================================
@@ -118,6 +120,7 @@ void DlgVideoEdit::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
     CurrentBrush->Video->StartPos=QTime().fromString(root.attribute("StartPos"));
     CurrentBrush->Video->EndPos  =QTime().fromString(root.attribute("EndPos"));
     CurrentBrush->SoundVolume    =root.attribute("SoundVolume").toDouble();
+    CurrentBrush->Deinterlace    =root.attribute("Deinterlace")=="1";
     RefreshControls();
 }
 
@@ -156,6 +159,7 @@ void DlgVideoEdit::RefreshControls() {
 
 void DlgVideoEdit::s_Deinterlace(int) {
     if (CurrentBrush->Deinterlace!=ui->DeinterlaceBt->isChecked()) {
+        AppendPartialUndo(UNDOACTION_DEINTERLACE,ui->VolumeReductionFactorCB,true);
         CurrentBrush->Deinterlace=ui->DeinterlaceBt->isChecked();
         RefreshControls();
     }

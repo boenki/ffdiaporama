@@ -46,7 +46,11 @@ extern "C" {
 
     #include <libavcodec/version.h>
     #include <libavdevice/avdevice.h>
-    #include <libavfilter/version.h>
+    #if LIBAVCODEC_VERSION_INT <= AV_VERSION_INT(53,8,0)
+        #include "libavfilter/avfilter.h"
+    #else
+        #include <libavfilter/version.h>
+    #endif
     #include <libavformat/version.h>
     #include <libavutil/avutil.h>
     #include <libswscale/swscale.h>
@@ -63,10 +67,15 @@ extern "C" {
     // include for libavfilter
     #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(2,13,0)       // For all
         #define LIBAVFILTER
+        #if LIBAVCODEC_VERSION_INT > AV_VERSION_INT(53,8,0)
         #include "libavfilter/avfilter.h"
+        #endif
         #include "libavfilter/avfiltergraph.h"
-        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)    // From 2.13 to 2.60
+        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,23,0)    // From 2.13 to 2.23
             #include "libavfilter/buffersrc.h"
+            #include "libavfilter/vsrc_buffer.h"
+        #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)   // From 2.23 to 2.60
+            #include "libavfilter/avcodec.h"
             #include "libavfilter/vsrc_buffer.h"
         #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)   // From 2.6 to 3.0
             #include "libavfilter/buffersink.h"
