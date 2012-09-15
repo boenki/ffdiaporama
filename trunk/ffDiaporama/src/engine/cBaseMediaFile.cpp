@@ -1987,7 +1987,7 @@ int cVideoFile::FilterOpen(QString filters) {
     inputs->pad_idx = 0;
     inputs->next = NULL;
 
-    #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)
+    #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,23,0)
     if ((result=avfilter_graph_parse(m_pFilterGraph,m_filters.toLocal8Bit().constData(),inputs,outputs,NULL))<0) {
     #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)
     if ((result=avfilter_graph_parse(m_pFilterGraph,m_filters.toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
@@ -1998,7 +1998,7 @@ int cVideoFile::FilterOpen(QString filters) {
         return result;
     }
 
-    #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)
+    #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,23,0)
     //av_free(outputs);
     //av_free(inputs);
     #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0) // since 3.1, do not dispose them
@@ -2026,11 +2026,19 @@ int cVideoFile::FilterProcess() {
 
     #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)             // from 2.13 to 2.60
 
+        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,23,0)         // from 2.13 to 2.23
         int Ret=av_vsrc_buffer_add_frame(m_pFilterIn,FrameBufferYUV,FrameBufferYUV->pts,ffmpegVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio);
         if (Ret<0) {
             ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::FilterProcess : av_vsrc_buffer_add_frame"));
             return VC_ERROR;
         }
+        #else                                                       // from 2.23 to 2.60
+        int Ret=av_vsrc_buffer_add_frame(m_pFilterIn,FrameBufferYUV,0);
+        if (Ret<0) {
+            ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::FilterProcess : av_vsrc_buffer_add_frame"));
+            return VC_ERROR;
+        }
+        #endif
         int NbrFrames;
         while ((NbrFrames=avfilter_poll_frame(m_pFilterOut->inputs[0]))>0) {
             if (m_pFilterOut->inputs[0]->cur_buf) {

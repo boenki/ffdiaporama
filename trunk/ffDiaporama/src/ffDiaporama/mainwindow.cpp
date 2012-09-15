@@ -1975,8 +1975,6 @@ void MainWindow::s_Action_DoAddFile() {
                 // Switch to next file to add
                 QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
                 return;
-            } else {
-                qDebug()<<Image->width()<<Image->height()<<"-"<<CurrentBrush->Image->ImageWidth<<CurrentBrush->Image->ImageHeight;
             }
 
             if ((ApplicationConfig->Deinterlace)&&(CurrentBrush->Video!=NULL)&&(CurrentBrush->Video->FileExtension.toLower()=="mts")) CurrentBrush->Deinterlace=true;
