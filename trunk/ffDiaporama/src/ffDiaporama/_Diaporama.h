@@ -26,6 +26,7 @@
 
 // Include some additional standard class
 #include "../engine/cBaseMediaFile.h"
+#include "../engine/cBrushDefinition.h"
 
 // Specific inclusions
 class cDiaporama;
@@ -106,12 +107,6 @@ class cDiaporamaObject;
 #define DEFAULT_SHAPE_INTERNALBORDERCOLOR2  "#c0c0c0"
 #define DEFAULT_SHAPE_BRUSHCOLORD           "#808080"
 
-//============================================
-// Global static
-//============================================
-
-extern  QBrush  Transparent;    // Transparent brush
-
 //*********************************************************************************************************************************************
 // Base object for composition definition
 //*********************************************************************************************************************************************
@@ -177,11 +172,14 @@ public:
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition=true);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
 
+    QPolygonF   GetPolygon();
+
     // Style managment functions
+    int         GetAutoCompoSize(int ffDProjectGeometry);
+    void        ApplyAutoCompoSize(int AutoCompoStyle,int ffDProjectGeometry);
+
     QString     GetCoordinateStyle();
     void        ApplyCoordinateStyle(QString StyleDef);
-
-    QString     GetFramingStyle();
 
     QString     GetTextStyle();
     void        ApplyTextStyle(QString StyleDef);

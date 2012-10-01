@@ -27,6 +27,7 @@
 // Include some common various class
 #include "../engine/cBaseApplicationConfig.h"
 #include "../engine/cDeviceModelDef.h"
+#include "../engine/cBrushDefinition.h"
 
 // Specific inclusions
 #include "_StyleDefinitions.h"
@@ -36,8 +37,10 @@
 #include <QMainWindow>
 
 // Application definition
+// Note : Application version and revision are in BUILDVERSION.txt
+// Syntax for BUILDVERSION.txt is : <Version MAJOR.MINOR[.SUB|_beta_VERSION|_devel]>
+
 #define APPLICATION_NAME                    "ffDiaporama"
-#define APPLICATION_VERSION                 "1.4 beta 3"
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
@@ -79,7 +82,6 @@
 #define STYLENAME_BACKGROUNDSTYLE           "TextBackgroundStyleCollection"
 #define STYLENAME_COORDINATESTYLE           "StyleCoordinateCollection"
 #define STYLENAME_BLOCKSHAPESTYLE           "StyleBlockShapeCollection"
-#define STYLENAME_FRAMINGSTYLE              "StyleImageFramingCollection"
 
 // String to include in the system properties
 #define OPERATINGSYSTEM_STR                 "Operating system version\t: "
@@ -98,6 +100,11 @@
 #define USERCONFIGFILE_STR                  "User config file\t: "
 #define GLOBALCONFIGFILE_STR                "Global config file\t: "
 
+
+#define ICON_GEOMETRY_LOCKED                ":/img/Geometry_Lock.png"
+#define ICON_GEOMETRY_UNLOCKED              ":/img/Geometry_Unlock.png"
+#define ICON_GEOMETRY_PROJECT               ":/img/Geometry_ProjectLock.png"
+
 // Display coordinates unit
 #define DISPLAYUNIT_PERCENT                 0
 #define DISPLAYUNIT_PIXELS                  1
@@ -112,6 +119,7 @@
 
 // Global values
 extern QString SystemProperties;                                // System properties log
+extern QString CurrentAppName;                                  // Application name (including devel, beta, ...)
 extern QString CurrentAppVersion;                               // Application version read from BUILDVERSION.txt
 
 #define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de;nl"
@@ -128,6 +136,7 @@ public:
     QString SplitterTop;
 
     explicit        cSaveDlgSlideProperties(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
+    virtual         ~cSaveDlgSlideProperties() {}
     virtual void    ApplyToWindow(QWidget *Window,QSplitter *Top);
     virtual void    SaveWindowState(QWidget *Window,QSplitter *Top);
     virtual void    OverloadedSaveToXML(QDomElement &domDocument);
@@ -136,6 +145,11 @@ public:
 
 //====================================================================================================================
 
+struct sDefaultBlockCoord {
+    int     AutoCompo;
+    int     AutoFraming;
+};
+
 class cApplicationConfig : public cBaseApplicationConfig {
 public:
     // Device database
@@ -143,27 +157,24 @@ public:
 
     cStyleCollection        StyleTextCollection;                        // List of known text style
     cStyleCollection        StyleTextBackgroundCollection;              // List of known background text style
-    cStyleCollection        StyleCoordinateCollection;                  // List of known Coordinate style
     cStyleCollection        StyleBlockShapeCollection;                  // List of known BlockShapestyle
-    cStyleCollection        StyleImageFramingCollection;                // List of known Framing style
 
     // Default new text block options
     QString                 DefaultBlock_Text_TextST;
     QString                 DefaultBlock_Text_BackGST;
-    QString                 DefaultBlock_Text_CoordST[3];
     QString                 DefaultBlock_Text_ShapeST;
+    int                     DefaultBlock_AutoSizePos;
+    int                     DefaultBlock_AutoLocking;
 
     // Default new image block option (when slide creation)
     QString                 DefaultBlockSL_IMG_TextST;
     QString                 DefaultBlockSL_IMG_ShapeST;
-    QString                 DefaultBlockSL_IMG_CoordST[9][3];
-    int                     DefaultBlockSL_CLIPARTLOCK[3];
+    sDefaultBlockCoord      DefaultBlockSL[NBR_IMAGETYPE];
 
     // Default new image block option (when block add in slide dialog)
     QString                 DefaultBlockBA_IMG_TextST;
     QString                 DefaultBlockBA_IMG_ShapeST;
-    QString                 DefaultBlockBA_IMG_CoordST[9][3];
-    int                     DefaultBlockBA_CLIPARTLOCK[3];
+    sDefaultBlockCoord      DefaultBlockBA[NBR_IMAGETYPE];
 
     // Last directories
     QString                 LastProjectPath;                            // Last folder use for project
@@ -249,7 +260,7 @@ public:
     cSaveWindowPosition     *DlgManageFavoriteWSP;                      // Dialog box "Manage favorite" - Window size and position
 
     explicit                cApplicationConfig(QMainWindow *TheTopLevelWindow);
-                            ~cApplicationConfig();
+    virtual                 ~cApplicationConfig();
 
     // Abstract functions in cBaseApplicationConfig
     virtual bool            LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication *App);

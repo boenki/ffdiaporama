@@ -18,10 +18,142 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
+/* Shape form to add :
+    - PARALLÉLOGRAMME
+    - TRAPÈZE
+*/
+
 #include "cBrushDefinition.h"
 
 // Include some common various class
 #include "../fmt_filters/fmt_filters.h"
+
+//============================================
+// Global static
+//============================================
+
+QBrush  Transparent;        // Transparent brush
+
+#define PI              3.14159265
+#define COSSIN45        0.707106781
+#define OPTION_UP       0x01
+#define OPTION_DOWN     0x02
+#define OPTION_RIGHT    0x04
+#define OPTION_LEFT     0x08
+#define OPTION_ALL      0x0F
+
+QList<cShapeFormDefinition> ShapeFormDefinition;
+
+cShapeFormDefinition::cShapeFormDefinition(bool Enable,QString Name) {
+    this->Enable=Enable;
+    this->Name=Name;
+}
+
+// Utility function to init shape collection and translate shape names
+void ShapeFormDefinitionInit() {
+    ShapeFormDefinition.append(cShapeFormDefinition(false,QApplication::translate("Shape forms","No shape")));                       // SHAPEFORM_NOSHAPE
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Rectangle")));                      // SHAPEFORM_RECTANGLE
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Rounded rectangle")));              // SHAPEFORM_ROUNDRECT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Bubble")));                         // SHAPEFORM_BUBBLE
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Ellipse")));                        // SHAPEFORM_ELLIPSE
+    ShapeFormDefinition.append(cShapeFormDefinition(false,QApplication::translate("Shape forms","Old Triangle up version")));        // SHAPEFORM_TRIANGLEUP
+    ShapeFormDefinition.append(cShapeFormDefinition(false,QApplication::translate("Shape forms","Old Triangle right version")));     // SHAPEFORM_TRIANGLERIGHT
+    ShapeFormDefinition.append(cShapeFormDefinition(false,QApplication::translate("Shape forms","Old Triangle down version")));      // SHAPEFORM_TRIANGLEDOWN
+    ShapeFormDefinition.append(cShapeFormDefinition(false,QApplication::translate("Shape forms","Old Triangle left version")));      // SHAPEFORM_TRIANGLELEFT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Rhombus")));                        // SHAPEFORM_RHOMBUS (Losange)
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Pentagon")));                       // SHAPEFORM_PENTAGON
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Hexagon")));                        // SHAPEFORM_HEXAGON
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Octogon")));                        // SHAPEFORM_OCTOGON
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Simple arrow up")));                // SHAPEFORM_SIMPLEARROWUP
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Simple arrow right")));             // SHAPEFORM_SIMPLEARROWRIGHT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Simple arrow down")));              // SHAPEFORM_SIMPLEARROWDOWN
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Simple arrow left")));              // SHAPEFORM_SIMPLEARROWLEFT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Heart")));                          // SHAPEFORM_HEART
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Up-Left")));                 // SHAPEFORM_PUZZLEUL
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Up-Center")));               // SHAPEFORM_PUZZLEUC
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Up-Right")));                // SHAPEFORM_PUZZLEUR
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double vertical arrows")));         // SHAPEFORM_DOUBLEARROWVERT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double horizontal arrows")));       // SHAPEFORM_DOUBLEARROWHORIZ
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double diagonal arrows 1")));       // SHAPEFORM_DOUBLEARROWDIAG1
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double diagonal arrows 2")));       // SHAPEFORM_DOUBLEARROWDIAG2
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Spade")));                          // SHAPEFORM_SPADE
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Middle-Left")));             // SHAPEFORM_PUZZLEML
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Middle-Center")));           // SHAPEFORM_PUZZLEMC
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Middle-Right")));            // SHAPEFORM_PUZZLEMR
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Right triangle Up-Left")));         // SHAPEFORM_RIGHTTRIANGLEUL
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Right triangle Up-Right")));        // SHAPEFORM_RIGHTTRIANGLEUR
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Right triangle Down-Left")));       // SHAPEFORM_RIGHTTRIANGLEDL
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Right triangle Down-Right")));      // SHAPEFORM_RIGHTTRIANGLEDR
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Club")));                           // SHAPEFORM_CLUB
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Down-Left")));               // SHAPEFORM_PUZZLEDL
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Down-Center")));             // SHAPEFORM_PUZZLEDC
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Down-Right")));              // SHAPEFORM_PUZZLEDR
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single triangle up")));             // SHAPEFORM_STRIANGLEUP
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single triangle right")));          // SHAPEFORM_STRIANGLERIGHT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single triangle down")));           // SHAPEFORM_STRIANGLEDOWN
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single triangle left")));           // SHAPEFORM_STRIANGLELEFT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Pushed up")));                      // SHAPEFORM_PUSHEDUP
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Sharp down")));                     // SHAPEFORM_SHARPDOWN
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Four-pointed stars")));             // SHAPEFORM_STAR4
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Five-pointed stars")));             // SHAPEFORM_STAR5
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double triangle up")));             // SHAPEFORM_DTRIANGLEUP
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double triangle right")));          // SHAPEFORM_DTRIANGLERIGHT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double triangle down")));           // SHAPEFORM_DTRIANGLEDOWN
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double triangle left")));           // SHAPEFORM_DTRIANGLELEFT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double chevron up")));              // SHAPEFORM_DCHEVRONUP
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single chevron down")));            // SHAPEFORM_SCHEVRONDOWN
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Six-pointed stars")));              // SHAPEFORM_STAR6
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Height-pointed stars")));           // SHAPEFORM_STAR8
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Pushed left")));                    // SHAPEFORM_PUSHEDLEFT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double chevron left")));            // SHAPEFORM_DCHEVRONLEFT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single chevron left")));            // SHAPEFORM_SCHEVRONLEFT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Sharp left")));                     // SHAPEFORM_SHARPLEFT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single chevron up")));              // SHAPEFORM_SCHEVRONUP
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double chevron down")));            // SHAPEFORM_DCHEVRONDOWN
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Six tooth gear")));                 // SHAPEFORM_GEAR6
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Eight tooth gear")));               // SHAPEFORM_GEAR8
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Sharp right")));                    // SHAPEFORM_SHARPRIGHT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single chevron right")));           // SHAPEFORM_SCHEVRONRIGHT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double chevron right")));           // SHAPEFORM_DCHEVRONRIGHT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Pushed right")));                   // SHAPEFORM_PUSHEDRIGHT
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Sharp up")));                       // SHAPEFORM_SHARPUP
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Pushed down")));                    // SHAPEFORM_PUSHEDDOWN
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Ten tooth gear")));                 // SHAPEFORM_GEAR10
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Twelve tooth gear")));              // SHAPEFORM_GEAR12
+}
+
+//*********************************************************************************************************************************************
+
+cAutoFramingDef AUTOFRAMINGDEF[NBR_AUTOFRAMING];
+
+cAutoFramingDef::cAutoFramingDef(QString ToolTip,bool IsInternal,int GeometryType) {
+    this->ToolTip       =ToolTip;
+    this->GeometryType  =GeometryType;
+    this->IsInternal    =IsInternal;
+}
+
+void AutoFramingDefInit() {
+    for (int i=0;i<NBR_AUTOFRAMING;i++) switch(i) {
+        case AUTOFRAMING_CUSTOMUNLOCK   :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Custom geometry - unlocked"),false,                 AUTOFRAMING_GEOMETRY_CUSTOM);   break;
+        case AUTOFRAMING_CUSTOMLOCK     :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Custom geometry - locked"),false,                   AUTOFRAMING_GEOMETRY_CUSTOM);   break;
+        case AUTOFRAMING_CUSTOMIMGLOCK  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Custom size - Image geometry"),false,               AUTOFRAMING_GEOMETRY_IMAGE);    break;
+        case AUTOFRAMING_CUSTOMPRJLOCK  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Custom size - Project geometry"),false,             AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_FULLMAX        :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Full image"),false,                                 AUTOFRAMING_GEOMETRY_IMAGE);    break;
+        case AUTOFRAMING_FULLMIN        :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Full image - inside"),true,                         AUTOFRAMING_GEOMETRY_IMAGE);    break;
+        case AUTOFRAMING_HEIGHTLEFTMAX  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - to the left"),false,               AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_HEIGHTLEFTMIN  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - to the left - inside"),true,       AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_HEIGHTMIDLEMAX :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - in the center"),false,             AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_HEIGHTMIDLEMIN :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - in the center - inside"),true,     AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_HEIGHTRIGHTMAX :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - to the right"),false,              AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_HEIGHTRIGHTMIN :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - to the right - inside"),true,      AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_WIDTHTOPMAX    :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - at the top"),false,                 AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_WIDTHTOPMIN    :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - at the top - inside"),true,         AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_WIDTHMIDLEMAX  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - in the middle"),false,              AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_WIDTHMIDLEMIN  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - in the middle - inside"),true,      AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_WIDTHBOTTOMMAX :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - at the bottom"),false,              AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_WIDTHBOTTOMMIN :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - at the bottom - inside"),true,      AUTOFRAMING_GEOMETRY_PROJECT);  break;
+    }
+}
 
 //*********************************************************************************************************************************************
 // Utility function to create a gradient brush
@@ -49,57 +181,764 @@ QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QStri
 }
 
 //====================================================================================================================
-// Utility function to draw a shape
+// Utilities functions to compute shape
 //====================================================================================================================
 
-void DrawShape(QPainter &Painter,int BackgroundForm,double left,double top,double width,double height,double CenterX,double CenterY) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DrawShape");
-
-    double RayX=0,RayY=0;
-
-    switch (BackgroundForm) {
-        //0 = no shape
-        case 1 : Painter.drawRect(QRectF(left,top,width/*-1*/,height/*-1*/)); break;  // Rectangle
-        case 2 : // Round rect
-            RayX=width/10;     if (RayX>16) RayX=16; else if (RayX<2)  RayX=2;
-            RayY=height/10;    if (RayY>16) RayY=16; else if (RayY<2)  RayY=2;
-            Painter.drawRoundedRect(QRectF(left,top,width/*-1*/,height/*-1*/),RayX,RayY,Qt::AbsoluteSize);
-            break;
-        case 3 : // Buble
-            RayX=2*width/10;   if (RayX<4)  RayX=4;
-            RayY=2*height/10;  if (RayY<4)  RayY=4;
-            Painter.drawRoundedRect(QRectF(left,top,width/*-1*/,height/*-1*/),RayX,RayY,Qt::AbsoluteSize);
-            break;
-        case 4 : Painter.drawEllipse(QRectF(left,top,width/*-1*/,height/*-1*/));                        break;  // Ellipse
-        case 5 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,90);                               break;  // Triangle UP
-        case 6 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,0);                                break;  // Triangle Right
-        case 7 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-90);                              break;  // Triangle Down
-        case 8 : DrawPolygonR(Painter,width,height,CenterX,CenterY,3,-180);                             break;  // Triangle left
-        case 9 : DrawPolygonR(Painter,width,height,CenterX,CenterY,4,0);                                break;  // Losange
-        case 10: DrawPolygonR(Painter,width,height,CenterX,CenterY,5,90-(double(360)/5));               break;  // pentagone
-        case 11: DrawPolygonR(Painter,width,height,CenterX,CenterY,6,-(double(360)/6));                 break;  // hexagone
-        case 12: DrawPolygonR(Painter,width,height,CenterX,CenterY,8,-(double(360)/8));                 break;  // Octogone
-    }
+QList<QPolygonF> ComputePolygonRect(QRectF Rect) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    Path.moveTo(Rect.left(),Rect.top());
+    Path.lineTo(Rect.right(),Rect.top());
+    Path.lineTo(Rect.right(),Rect.bottom());
+    Path.lineTo(Rect.left(),Rect.bottom());
+    Path.lineTo(Rect.left(),Rect.top());
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
 }
 
-//====================================================================================================================
-// Utility function to draw a regular polygon shape
-//====================================================================================================================
+QList<QPolygonF> ComputePolygonRoundRect(QRectF Rect,qreal RayX,qreal RayY) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    //Path.addRoundedRect(Rect.left(),Rect.top(),Rect.width(),Rect.height(),RayX,RayY);
+    Path.moveTo(Rect.left()+RayX,Rect.top());
+    Path.lineTo(Rect.right()-RayX,Rect.top());
+    Path.cubicTo(QPointF(Rect.right()-RayX,Rect.top()),QPointF(Rect.right(),Rect.top()),QPointF(Rect.right(),Rect.top()+RayX));
+    Path.lineTo(Rect.right(),Rect.bottom()-RayY);
+    Path.cubicTo(QPointF(Rect.right(),Rect.bottom()),QPointF(Rect.right()-RayX,Rect.bottom()),QPointF(Rect.right()-RayX,Rect.bottom()));
+    Path.lineTo(Rect.left()+RayX,Rect.bottom());
+    Path.cubicTo(QPointF(Rect.left(),Rect.bottom()),QPointF(Rect.left(),Rect.bottom()-RayY),QPointF(Rect.left(),Rect.bottom()-RayY));
+    Path.lineTo(Rect.left(),Rect.top()+RayY);
+    Path.cubicTo(QPointF(Rect.left(),Rect.top()),QPointF(Rect.left()+RayX,Rect.top()),QPointF(Rect.left()+RayX,Rect.top()));
+    //Path.arcTo(QRectF(Rect.left(),Rect.top(),RayX*2,RayY*2),180,-90);
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
 
-void DrawPolygonR(QPainter &Painter,double width,double height,double CenterX,double CenterY,int MaxPoint,double StartAngle) {
-    QPointF Table[10];
-    double  vcos,vsin,Angle;
-    int     i;
+QList<QPolygonF> ComputePolygonEllipse(QRectF Rect) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    Path.moveTo(Rect.right(),Rect.center().y());
+    Path.arcTo(Rect,0,  90);
+    Path.arcTo(Rect,90, 90);
+    Path.arcTo(Rect,180,90);
+    Path.arcTo(Rect,270,90);
+    //Path.addEllipse(Rect);
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputeHeart(QRectF Rect) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    qreal               WRect=(Rect.width()/2)*(2/(1+COSSIN45)),HRect=2*Rect.height()/3;
+    qreal               WRectH=WRect/2,HRectH=HRect/2;
+    QRectF              SubRect1=QRectF(Rect.left(),                    Rect.top(), WRect,HRect);
+    QRectF              SubRect2=QRectF(Rect.right()-SubRect1.width(),  Rect.top(), WRect,HRect);
+
+    Path.moveTo(SubRect1.left()+WRectH+COSSIN45*WRectH,SubRect1.top()+HRectH-COSSIN45*HRectH);
+    Path.arcTo(SubRect1,45,180);
+    Path.lineTo(QPointF(Rect.center().x(),Rect.bottom()));
+    Path.lineTo(SubRect2.left()+WRectH+COSSIN45*WRectH,SubRect2.top()+HRectH+COSSIN45*HRectH);
+    Path.arcTo(SubRect2,-45,180);
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputeSpade(QRectF Rect) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    qreal               WRect=(Rect.width()/2)*(2/(1+COSSIN45)),HRect=(2*Rect.height()/3)-(Rect.height()*0.1);
+    qreal               WRectH=WRect/2,HRectH=HRect/2;
+    QRectF              SubRect1=QRectF(Rect.left(),                    Rect.bottom()-HRect-(Rect.height()*0.1), WRect,HRect);
+    QRectF              SubRect2=QRectF(Rect.right()-SubRect1.width(),  SubRect1.top(),                          WRect,HRect);
+    QRectF              SubRect3=QRectF(Rect.left(),                    Rect.bottom()-(Rect.height()*0.4),       Rect.width()/2,Rect.height()*0.4);
+    QRectF              SubRect4=QRectF(SubRect3.right(),               SubRect3.top(),                          SubRect3.width(),SubRect3.height());
+
+    Path.moveTo(SubRect1.left()+WRectH+COSSIN45*WRectH,SubRect1.top()+HRectH+COSSIN45*HRectH);
+    Path.arcTo(SubRect1,-45,-180);
+    Path.lineTo(QPointF(Rect.center().x(),Rect.top()));
+    Path.lineTo(SubRect2.left()+WRectH+COSSIN45*WRectH,SubRect2.top()+HRectH-COSSIN45*HRectH);
+    Path.arcTo(SubRect2,45,-180);
+    Path.arcTo(SubRect3,0,-90);
+    Path.lineTo(SubRect4.center().x(),SubRect4.bottom());
+    Path.arcTo(SubRect4,-90,-90);
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputeClub(QRectF Rect) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    qreal               WRect=Rect.width()/2;
+    qreal               HRect=Rect.height()/2;
+    qreal               HRectH=HRect/2;
+    QRectF              SubRect0=QRectF(Rect.center().x()-WRect/2,      Rect.top(),                                             WRect,HRect);
+    QRectF              SubRect1=QRectF(Rect.left(),                    SubRect0.bottom()-(SubRect0.height()/2)*(1-COSSIN45),   WRect,HRect);
+    QRectF              SubRect2=QRectF(Rect.right()-SubRect1.width(),  SubRect1.top(),                                         WRect,HRect);
+    QRectF              SubRect3=QRectF(Rect.left(),                    SubRect1.top(),                                         Rect.width()/2,Rect.bottom()-SubRect1.top());
+    QRectF              SubRect4=QRectF(SubRect3.right(),               SubRect3.top(),                                         SubRect3.width(),SubRect3.height());
+
+    Path.moveTo(SubRect1.right(),SubRect1.top()+HRectH);
+    Path.arcTo(SubRect1,0,-270);
+    Path.arcTo(SubRect0,225,-270);
+    Path.arcTo(SubRect2,90,-270);
+    Path.arcTo(SubRect3,0,-90);
+    Path.lineTo(SubRect4.center().x(),SubRect4.bottom());
+    Path.arcTo(SubRect4,-90,-90);
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputePolygonR(double width,double height,double CenterX,double CenterY,int MaxPoint,double StartAngle) {
+    QList<QPolygonF>    List;
+    QPolygonF           Polygon;
+    qreal               vcos,vsin,Angle;
+    int                 i;
 
     Angle=StartAngle;
     for (i=0;i<MaxPoint;i++) {
         vcos=cos(Angle*3.14159265/180)*(width/2);
         vsin=sin(Angle*3.14159265/180)*(height/2);
-        Table[i]=QPointF(CenterX+vcos,CenterY-vsin);
+        Polygon<<QPointF(CenterX+vcos,CenterY-vsin);
         Angle=Angle+(double(360)/MaxPoint);
         if (Angle>=360) Angle=-Angle+360;
     }
-    Painter.drawPolygon(Table,MaxPoint);
+    List.append(Polygon);
+    return List;
+}
+
+QList<QPolygonF> ComputeSingleChevron(QRectF Rect,int Angle,int Options) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+
+    switch (Angle) {
+        case 0 :
+            if ((Options&OPTION_UP)==OPTION_UP) {
+                Path.moveTo(QPointF(0,Rect.height()*0.2)+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(Rect.width()/2,0)+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(Rect.width(),Rect.height()*0.2)+QPointF(Rect.left(),Rect.top()));
+            } else {
+                Path.moveTo(QPointF(0,0)+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(Rect.width(),0)+QPointF(Rect.left(),Rect.top()));
+            }
+            Path.lineTo(QPointF(Rect.width(),Rect.height())+QPointF(Rect.left(),Rect.top()));
+            if ((Options&OPTION_DOWN)==OPTION_DOWN) Path.lineTo(QPointF(Rect.width()/2,Rect.height()*0.8)+QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,Rect.height())+QPointF(Rect.left(),Rect.top()));
+            if ((Options&OPTION_UP)==OPTION_UP) Path.lineTo(QPointF(0,Rect.height()*0.2)+QPointF(Rect.left(),Rect.top()));
+                else Path.lineTo(QPointF(0,Rect.height())+QPointF(Rect.left(),Rect.top()));
+            break;
+        case 180 :
+            if ((Options&OPTION_DOWN)==OPTION_DOWN) {
+                Path.moveTo(QPointF(0,Rect.height()*0.8)+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(Rect.width()/2,Rect.height())+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(Rect.width(),Rect.height()*0.8)+QPointF(Rect.left(),Rect.top()));
+            } else {
+                Path.moveTo(QPointF(0,Rect.height())+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(Rect.width(),Rect.height())+QPointF(Rect.left(),Rect.top()));
+            }
+            Path.lineTo(QPointF(Rect.width(),0)+QPointF(Rect.left(),Rect.top()));
+            if ((Options&OPTION_UP)==OPTION_UP)     Path.lineTo(QPointF(Rect.width()/2,Rect.height()*0.2)+QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,0)+QPointF(Rect.left(),Rect.top()));
+            if ((Options&OPTION_DOWN)==OPTION_DOWN) Path.lineTo(QPointF(0,Rect.height()*0.8)+QPointF(Rect.left(),Rect.top()));
+                else Path.lineTo(QPointF(0,Rect.height())+QPointF(Rect.left(),Rect.top()));
+            break;
+        case 90 :
+            if ((Options&OPTION_LEFT)==OPTION_LEFT) {
+                Path.moveTo(QPointF(Rect.width()*0.2,0)+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(0,Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(Rect.width()*0.2,Rect.height())+QPointF(Rect.left(),Rect.top()));
+            } else {
+                Path.moveTo(QPointF(0,0)+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(0,Rect.height())+QPointF(Rect.left(),Rect.top()));
+            }
+            Path.lineTo(QPointF(Rect.width(),Rect.height())+QPointF(Rect.left(),Rect.top()));
+            if ((Options&OPTION_RIGHT)==OPTION_RIGHT) Path.lineTo(QPointF(Rect.width()*0.8,Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.width(),0)+QPointF(Rect.left(),Rect.top()));
+            if ((Options&OPTION_LEFT)==OPTION_LEFT) Path.lineTo(QPointF(Rect.width()*0.2,0)+QPointF(Rect.left(),Rect.top()));
+                else Path.lineTo(QPointF(0,0)+QPointF(Rect.left(),Rect.top()));
+            break;
+        case -90 :
+            if ((Options&OPTION_RIGHT)==OPTION_RIGHT) {
+                Path.moveTo(QPointF(Rect.width()*0.8,0)+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(Rect.width(),Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(Rect.width()*0.8,Rect.height())+QPointF(Rect.left(),Rect.top()));
+            } else {
+                Path.moveTo(QPointF(Rect.width(),0)+QPointF(Rect.left(),Rect.top()));
+                Path.lineTo(QPointF(Rect.width(),Rect.height())+QPointF(Rect.left(),Rect.top()));
+            }
+            Path.lineTo(QPointF(0,Rect.height())+QPointF(Rect.left(),Rect.top()));
+            if ((Options&OPTION_LEFT)==OPTION_LEFT) Path.lineTo(QPointF(Rect.width()*0.2,Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,0)+QPointF(Rect.left(),Rect.top()));
+            if ((Options&OPTION_RIGHT)==OPTION_RIGHT) Path.lineTo(QPointF(Rect.width()*0.8,0)+QPointF(Rect.left(),Rect.top()));
+                else    Path.lineTo(QPointF(Rect.width(),0)+QPointF(Rect.left(),Rect.top()));
+            break;
+    }
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputeDoubleChevron(QRectF Rect,int Angle) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path1,Path2;
+    switch (Angle) {
+        case 0 :
+            Path1.moveTo(QPointF(Rect.width()/2,0)                   +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width(),  Rect.height()*0.2)   +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width(),  Rect.height()*0.55)  +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()/2,Rect.height()*0.35)  +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,             Rect.height()*0.55)  +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,             Rect.height()*0.2)   +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()/2,0)                   +QPointF(Rect.left(),Rect.top()));
+
+            Path2.moveTo(QPointF(Rect.width()/2,Rect.height()*0.45)  +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width(),  Rect.height()*0.65)  +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width(),  Rect.height())       +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()/2,Rect.height()*0.8)   +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(0,             Rect.height())       +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(0,             Rect.height()*0.65)  +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()/2,Rect.height()*0.45)  +QPointF(Rect.left(),Rect.top()));
+            break;
+        case 180 :
+            Path2.moveTo(QPointF(Rect.width()/2,Rect.height())       +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width(),  Rect.height()*0.8)   +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width(),  Rect.height()*0.45)  +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()/2,Rect.height()*0.65)  +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(0,             Rect.height()*0.45)  +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(0,             Rect.height()*0.8)   +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()/2,Rect.height())       +QPointF(Rect.left(),Rect.top()));
+
+            Path1.moveTo(QPointF(Rect.width()/2,Rect.height()*0.55)  +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width(),  Rect.height()*0.35)  +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width(),  0)                   +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()/2,Rect.height()*0.2)   +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,             0)                   +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,             Rect.height()*0.35)  +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()/2,Rect.height()*0.55)  +QPointF(Rect.left(),Rect.top()));
+            break;
+        case 90 :
+            Path1.moveTo(QPointF(0,                 Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()*0.2,  Rect.height())  +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()*0.55, Rect.height())  +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()*0.35, Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()*0.55, 0)              +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()*0.2,  0)              +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,                 Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+
+            Path2.moveTo(QPointF(Rect.width()*0.45, Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()*0.65, Rect.height())  +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width(),      Rect.height())  +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()*0.8,  Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width(),      0)              +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()*0.65, 0)              +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()*0.45, Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            break;
+        case -90 :
+            Path1.moveTo(QPointF(Rect.width()*0.55, Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()*0.35, Rect.height())  +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,                 Rect.height())  +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()*0.2,  Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,                 0)              +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()*0.35, 0)              +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width()*0.55, Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+
+            Path2.moveTo(QPointF(Rect.width(),      Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()*0.8,  Rect.height())  +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()*0.45, Rect.height())  +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()*0.65, Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()*0.45, 0)              +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width()*0.8,  0)              +QPointF(Rect.left(),Rect.top()));
+            Path2.lineTo(QPointF(Rect.width(),      Rect.height()/2)+QPointF(Rect.left(),Rect.top()));
+            break;
+    }
+    List.append(Path1.toFillPolygon(QTransform()));
+    List.append(Path2.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputeSingleTriangle(QRectF Rect,int Angle) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    qreal               RWA=Rect.width()/2;
+    qreal               RHA=Rect.height()/2;
+
+    switch (Angle) {
+        case 0 :
+            Path.moveTo(QPointF(RWA, 0)         +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.width(),   Rect.height())      +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,              Rect.height())      +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(RWA,            0)                  +QPointF(Rect.left(),Rect.top()));
+            break;
+        case 180 :
+            Path.moveTo(QPointF(RWA,            Rect.height())      +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.width(),   0)                  +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,              0)                  +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(RWA,            Rect.height())      +QPointF(Rect.left(),Rect.top()));
+            break;
+        case 90 :
+            Path.moveTo(QPointF(0,              RHA)                +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.width(),   Rect.height())      +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.width(),   0)                  +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,              RHA)                +QPointF(Rect.left(),Rect.top()));
+            break;
+        case -90 :
+            Path.moveTo(QPointF(Rect.width(),   RHA)                +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,              Rect.height())      +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,              0)                  +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.width(),   RHA)                +QPointF(Rect.left(),Rect.top()));
+            break;
+    }
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputeDoubleTriangle(QRectF Rect,int Angle) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path1,Path2;
+    qreal               RWA=Rect.width()/2;
+    qreal               RHA=Rect.height()/2;
+
+    switch (Angle) {
+        case 0 :
+            Path1.moveTo(QPointF(RWA, 0)                            +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width(),   RHA)               +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,              RHA)               +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(RWA,            0)                 +QPointF(Rect.left(),Rect.top()));
+            Path2.moveTo(QPointF(RWA, 0)                            +QPointF(Rect.left(),Rect.top()+RHA));
+            Path2.lineTo(QPointF(Rect.width(),   RHA)               +QPointF(Rect.left(),Rect.top()+RHA));
+            Path2.lineTo(QPointF(0,              RHA)               +QPointF(Rect.left(),Rect.top()+RHA));
+            Path2.lineTo(QPointF(RWA,            0)                 +QPointF(Rect.left(),Rect.top()+RHA));
+            break;
+        case 180 :
+            Path1.moveTo(QPointF(RWA,            RHA)               +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(Rect.width(),   0)                 +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,              0)                 +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(RWA,            RHA)               +QPointF(Rect.left(),Rect.top()));
+            Path2.moveTo(QPointF(RWA,            RHA)               +QPointF(Rect.left(),Rect.top()+RHA));
+            Path2.lineTo(QPointF(Rect.width(),   0)                 +QPointF(Rect.left(),Rect.top()+RHA));
+            Path2.lineTo(QPointF(0,              0)                 +QPointF(Rect.left(),Rect.top()+RHA));
+            Path2.lineTo(QPointF(RWA,            RHA)               +QPointF(Rect.left(),Rect.top()+RHA));
+            break;
+        case 90 :
+            Path1.moveTo(QPointF(0,              RHA)               +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(RWA,            Rect.height())     +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(RWA,            0)                 +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,              RHA)               +QPointF(Rect.left(),Rect.top()));
+            Path2.moveTo(QPointF(0,              RHA)               +QPointF(Rect.left()+RWA,Rect.top()));
+            Path2.lineTo(QPointF(RWA,            Rect.height())     +QPointF(Rect.left()+RWA,Rect.top()));
+            Path2.lineTo(QPointF(RWA,            0)                 +QPointF(Rect.left()+RWA,Rect.top()));
+            Path2.lineTo(QPointF(0,              RHA)               +QPointF(Rect.left()+RWA,Rect.top()));
+            break;
+        case -90 :
+            Path1.moveTo(QPointF(RWA,            RHA)               +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,              Rect.height())     +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(0,              0)                 +QPointF(Rect.left(),Rect.top()));
+            Path1.lineTo(QPointF(RWA,            RHA)               +QPointF(Rect.left(),Rect.top()));
+            Path2.moveTo(QPointF(RWA,            RHA)               +QPointF(Rect.left()+RWA,Rect.top()));
+            Path2.lineTo(QPointF(0,              Rect.height())     +QPointF(Rect.left()+RWA,Rect.top()));
+            Path2.lineTo(QPointF(0,              0)                 +QPointF(Rect.left()+RWA,Rect.top()));
+            Path2.lineTo(QPointF(RWA,            RHA)               +QPointF(Rect.left()+RWA,Rect.top()));
+            break;
+    }
+    List.append(Path1.toFillPolygon(QTransform()));
+    List.append(Path2.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputeSimpleArrow(QRectF Rect,int Angle) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    qreal               RWA=Rect.width()/2 ,RWB=Rect.width()/3;
+    qreal               RHA=Rect.height()/2,RHB=Rect.height()/3;
+
+    switch (Angle) {
+        case 0 :
+            Path.moveTo(QPointF(RWA,                0)              +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.width(),       RHB)            +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(2*RWB,              RHB)            +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(2*RWB,              Rect.height())  +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(RWB,                Rect.height())  +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(RWB,                RHB)            +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,                  RHB)            +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(RWA,                0)              +QPointF(Rect.left(),Rect.top()));
+            break;
+        case 180 :
+            Path.moveTo(QPointF(RWA,                RHB)            +QPointF(Rect.left(),Rect.bottom()-RHB));
+            Path.lineTo(QPointF(Rect.width(),       0)              +QPointF(Rect.left(),Rect.bottom()-RHB));
+            Path.lineTo(QPointF(Rect.width()-RWB,   0)              +QPointF(Rect.left(),Rect.bottom()-RHB));
+            Path.lineTo(QPointF(Rect.width()-RWB,   0)              +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(RWB,                0)              +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(RWB,                0)              +QPointF(Rect.left(),Rect.bottom()-RHB));
+            Path.lineTo(QPointF(0,                  0)              +QPointF(Rect.left(),Rect.bottom()-RHB));
+            Path.lineTo(QPointF(RWA,                RHB)            +QPointF(Rect.left(),Rect.bottom()-RHB));
+            break;
+        case 90 :
+            Path.moveTo(QPointF(0,                  RHA)            +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(RWB,                Rect.height())  +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(RWB,                2*RHB)          +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.width(),       2*RHB)          +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.width(),       RHB)            +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(RWB,                RHB)            +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(RWB,                0)              +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,                  RHA)            +QPointF(Rect.left(),Rect.top()));
+            break;
+        case -90 :
+            Path.moveTo(QPointF(RWB,                RHA)            +QPointF(Rect.right()-RWB,Rect.top()));
+            Path.lineTo(QPointF(0,                  Rect.height())  +QPointF(Rect.right()-RWB,Rect.top()));
+            Path.lineTo(QPointF(0,                  2*RHB)          +QPointF(Rect.right()-RWB,Rect.top()));
+            Path.lineTo(QPointF(0,                  2*RHB)          +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,                  RHB)            +QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(0,                  RHB)            +QPointF(Rect.right()-RWB,Rect.top()));
+            Path.lineTo(QPointF(0,                  0)              +QPointF(Rect.right()-RWB,Rect.top()));
+            Path.lineTo(QPointF(RWB,                RHA)            +QPointF(Rect.right()-RWB,Rect.top()));
+            break;
+    }
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputeDoubleArrow(QRectF Rect,int Angle) {
+    QList<QPolygonF>    List;
+    QPointF             Table[10];
+    QPainterPath        Path;
+    qreal               Ray=(sqrt(qreal(Rect.width())*qreal(Rect.width())+qreal(Rect.height())*qreal(Rect.height())))/2;
+    qreal               RB=2*Ray/3;
+
+    switch (Angle) {
+        case 0:
+            Table[0] =QPointF(Ray,      0);
+            Table[1] =QPointF(2*Ray,    RB);
+            Table[2] =QPointF(2*RB,     RB);
+            Table[3] =QPointF(2*RB,     2*RB);
+            Table[4] =QPointF(2*Ray,    2*RB);
+            Table[5] =QPointF(Ray,      2*Ray);
+            Table[6] =QPointF(0,        2*RB);
+            Table[7] =QPointF(RB,       2*RB);
+            Table[8] =QPointF(RB,       RB);
+            Table[9] =QPointF(0,        RB);
+            Table[10]=QPointF(Ray,      0);
+            break;
+        case 90:
+            Table[0] =QPointF(0,        Ray);
+            Table[1] =QPointF(RB,       2*Ray);
+            Table[2] =QPointF(RB,       2*RB);
+            Table[3] =QPointF(2*RB,     2*RB);
+            Table[4] =QPointF(2*RB,     2*Ray);
+            Table[5] =QPointF(2*Ray,    Ray);
+            Table[6] =QPointF(2*RB,     0);
+            Table[7] =QPointF(2*RB,     RB);
+            Table[8] =QPointF(RB,       RB);
+            Table[9] =QPointF(RB,       0);
+            Table[10]=QPointF(0,        Ray);
+            break;
+        case 45:
+            Table[0] =QPointF(2*Ray,    0);
+            Table[1] =QPointF(2*Ray,    Ray);
+            Table[2] =QPointF(Ray+RB,   RB);
+            Table[3] =QPointF(RB,       Ray+RB);
+            Table[4] =QPointF(Ray,      2*Ray);
+            Table[5] =QPointF(0,        2*Ray);
+            Table[6] =QPointF(0,        Ray);
+            Table[7] =QPointF(RB/2,     Ray+RB/2);
+            Table[8] =QPointF(Ray+RB/2, RB/2);
+            Table[9] =QPointF(Ray,      0);
+            Table[10]=QPointF(2*Ray,    0);
+            break;
+        case -45:
+            Table[0] =QPointF(0,        0);
+            Table[1] =QPointF(Ray,      0);
+            Table[2] =QPointF(RB,       RB/2);
+            Table[3] =QPointF(Ray+RB,   Ray+RB/2);
+            Table[4] =QPointF(2*Ray,    Ray);
+            Table[5] =QPointF(2*Ray,    2*Ray);
+            Table[6] =QPointF(Ray,      2*Ray);
+            Table[7] =QPointF(Ray+RB/2, Ray+RB);
+            Table[8] =QPointF(RB/2,     RB);
+            Table[9] =QPointF(0,        Ray);
+            Table[10]=QPointF(0,        0);
+            break;
+    }
+    //Scale
+    qreal x1=Table[0].x();
+    qreal y1=Table[0].y();
+    qreal x2=Table[0].x();
+    qreal y2=Table[0].y();
+    for (int i=1;i<11;i++) {
+        if (Table[i].x()<x1) x1=Table[i].x();
+        if (Table[i].y()<y1) y1=Table[i].y();
+        if (Table[i].x()>x2) x2=Table[i].x();
+        if (Table[i].y()>y2) y2=Table[i].y();
+    }
+    qreal ScaleX=Rect.width()/(x2-x1);
+    qreal ScaleY=Rect.height()/(y2-y1);
+    Path.moveTo(QPointF(Table[0].x()*ScaleX,Table[0].y()*ScaleY)+QPointF(Rect.left(),Rect.top()));
+    for (int i=1;i<11;i++) Path.lineTo(QPointF(Table[i].x()*ScaleX,Table[i].y()*ScaleY)+QPointF(Rect.left(),Rect.top()));
+
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputeStar(QRectF Rect,int Pointed) {
+    QList<QPolygonF>    List;
+    QPointF             Table[100];
+    QPainterPath        Path;
+    qreal               Segment=(180/Pointed),CurAngle=-90;
+    qreal               Ray1=(sqrt(qreal(Rect.width())*qreal(Rect.width())+qreal(Rect.height())*qreal(Rect.height())))/2;
+    qreal               Ray2=Ray1/2;
+
+    //Compute star
+    for (int i=0;i<=Pointed;i++) {
+        Table[i*2]=QPointF(cos(CurAngle*PI/180)*Ray1+Ray1,sin(CurAngle*PI/180)*Ray1+Ray1);
+        CurAngle=CurAngle+Segment;
+        Table[i*2+1]=QPointF(cos(CurAngle*PI/180)*Ray2+Ray1,sin(CurAngle*PI/180)*Ray2+Ray1);
+        CurAngle=CurAngle+Segment;
+    }
+
+    //Scale
+    qreal x1=Table[0].x();
+    qreal y1=Table[0].y();
+    qreal x2=Table[0].x();
+    qreal y2=Table[0].y();
+    for (int i=1;i<=Pointed*2;i++) {
+        if (Table[i].x()<x1) x1=Table[i].x();
+        if (Table[i].y()<y1) y1=Table[i].y();
+        if (Table[i].x()>x2) x2=Table[i].x();
+        if (Table[i].y()>y2) y2=Table[i].y();
+    }
+    qreal ScaleX=Rect.width()/(x2-x1);
+    qreal ScaleY=Rect.height()/(y2-y1);
+    Path.moveTo(QPointF(Table[0].x()*ScaleX,Table[0].y()*ScaleY)+QPointF(Rect.left(),Rect.top()));
+    for (int i=1;i<Pointed*2;i++) Path.lineTo(QPointF(Table[i].x()*ScaleX,Table[i].y()*ScaleY)+QPointF(Rect.left(),Rect.top()));
+
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputeGear(QRectF Rect,int tooth) {
+    QList<QPolygonF>    List;
+    QPointF             Table[100];
+    QPainterPath        Path;
+    qreal               Segment=(180/tooth),CurAngle=90;
+    qreal               PartSegment=Segment/10;
+    qreal               Ray1=(sqrt(qreal(Rect.width())*qreal(Rect.width())+qreal(Rect.height())*qreal(Rect.height())))/2;
+    qreal               Ray2=Ray1*0.8;
+
+    //Compute gear
+    for (int i=0;i<=tooth;i++) {
+        Table[i*4]=QPointF(cos(CurAngle*PI/180)*Ray1+Ray1,sin(CurAngle*PI/180)*Ray1+Ray1);
+        CurAngle=CurAngle+PartSegment;
+        Table[i*4+1]=QPointF(cos(CurAngle*PI/180)*Ray1+Ray1,sin(CurAngle*PI/180)*Ray1+Ray1);
+        CurAngle=CurAngle+Segment-PartSegment;
+        Table[i*4+2]=QPointF(cos(CurAngle*PI/180)*Ray2+Ray1,sin(CurAngle*PI/180)*Ray2+Ray1);
+        CurAngle=CurAngle+PartSegment;
+        Table[i*4+3]=QPointF(cos(CurAngle*PI/180)*Ray2+Ray1,sin(CurAngle*PI/180)*Ray2+Ray1);
+        CurAngle=CurAngle+Segment-PartSegment;
+    }
+
+    //Scale
+    qreal x1=Table[0].x();
+    qreal y1=Table[0].y();
+    qreal x2=Table[0].x();
+    qreal y2=Table[0].y();
+    for (int i=1;i<=tooth*4;i++) {
+        if (Table[i].x()<x1) x1=Table[i].x();
+        if (Table[i].y()<y1) y1=Table[i].y();
+        if (Table[i].x()>x2) x2=Table[i].x();
+        if (Table[i].y()>y2) y2=Table[i].y();
+    }
+    qreal ScaleX=Rect.width()/(x2-x1);
+    qreal ScaleY=Rect.height()/(y2-y1);
+    Path.moveTo(QPointF(Table[0].x()*ScaleX,Table[0].y()*ScaleY)+QPointF(Rect.left(),Rect.top()));
+    for (int i=1;i<tooth*4;i++) Path.lineTo(QPointF(Table[i].x()*ScaleX,Table[i].y()*ScaleY)+QPointF(Rect.left(),Rect.top()));
+
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputeRightTriangle(QRectF Rect,int Angle) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    switch (Angle) {
+        case 0:
+            Path.moveTo(QPointF(Rect.left(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.right(),Rect.top()));
+            Path.lineTo(QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.left(),Rect.bottom()));
+            break;
+        case 1:
+            Path.moveTo(QPointF(Rect.right(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.right(),Rect.top()));
+            Path.lineTo(QPointF(Rect.right(),Rect.bottom()));
+            break;
+        case 2 :
+            Path.moveTo(QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.right(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.left(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.left(),Rect.top()));
+            break;
+        case 3 :
+            Path.moveTo(QPointF(Rect.right(),Rect.top()));
+            Path.lineTo(QPointF(Rect.left(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.right(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.right(),Rect.top()));
+            break;
+    }
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+QList<QPolygonF> ComputePuzzle(QRectF Rect,int Forme) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    qreal               QuarterW=Rect.width()/4, COSSINW=COSSIN45*(QuarterW/2),COSSINiW=(1-COSSIN45)*(QuarterW/2);
+    qreal               QuarterH=Rect.height()/4,COSSINH=COSSIN45*(QuarterH/2),COSSINiH=(1-COSSIN45)*(QuarterH/2);
+    qreal               RullerX =Rect.left()+(Rect.width()-(QuarterW/2)-COSSINW)/2;
+    qreal               RullerY =Rect.top()+(Rect.height()-(QuarterH/2)-COSSINH)/2;
+    /*QRectF              NewRect=QRectF(Rect.left(),Rect.top(),
+                                       (Forme&OPTION_RIGHT)==OPTION_RIGHT?Rect.width()-QuarterW+COSSINiW:Rect.width(),
+                                       (Forme&OPTION_DOWN) ==OPTION_DOWN?Rect.height()-(QuarterH/2)-COSSINH:Rect.height());*/
+    QRectF              NewRect=QRectF(Rect.left(),Rect.top(),Rect.width()-QuarterW+COSSINiW,Rect.height()-(QuarterH/2)-COSSINH);
+    QRectF              RectUp   =QRectF(RullerX-QuarterW/2,        NewRect.top()-COSSINiH,     QuarterW,QuarterH);
+    QRectF              RectDown =QRectF(RullerX-QuarterW/2,        NewRect.bottom()-COSSINiH,  QuarterW,QuarterH);
+    QRectF              RectLeft =QRectF(NewRect.left()-COSSINiW,   RullerY-QuarterH/2,         QuarterW,QuarterH);
+    QRectF              RectRight=QRectF(NewRect.right()-COSSINiW,  RullerY-QuarterH/2,         QuarterW,QuarterH);
+
+    // Up
+    Path.moveTo(QPointF(NewRect.left(),NewRect.top()));
+    if ((Forme&OPTION_UP)==OPTION_UP) {
+        Path.lineTo(QPointF(RectUp.left()-COSSINiW,NewRect.top()));
+        Path.arcTo(RectUp,90+45,90+90+90);
+    }
+    Path.lineTo(QPointF(NewRect.right(),NewRect.top()));
+
+    // Right
+    if ((Forme&OPTION_RIGHT)==OPTION_RIGHT) {
+        Path.lineTo(QPointF(RectRight.left()+COSSINiW,RullerY-COSSINH));
+        Path.arcTo(RectRight,90+45,-90-90-90);
+    }
+    Path.lineTo(QPointF(NewRect.right(),NewRect.bottom()));
+
+    // Down
+    if ((Forme&OPTION_DOWN)==OPTION_DOWN) {
+        Path.lineTo(QPointF(RectDown.right()-COSSINiW,NewRect.bottom()));
+        Path.arcTo(RectDown,45,-90-90-90);
+    }
+    Path.lineTo(QPointF(NewRect.left(),NewRect.bottom()));
+
+    // Left
+    if ((Forme&OPTION_LEFT)==OPTION_LEFT) {
+        Path.lineTo(QPointF(NewRect.left(),RectLeft.bottom()-COSSINiH));
+        Path.arcTo(RectLeft,90+90+45,90+90+90);
+    }
+    Path.lineTo(QPointF(NewRect.left(),NewRect.top()));
+
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+// Utilities functions to compute a polygon for a given form
+
+QList<QPolygonF> ComputePolygon(int BackgroundForm,qreal left,qreal top,qreal width,qreal height,qreal CenterX,qreal CenterY) {
+    qreal RayX=0,RayY=0;
+    switch (BackgroundForm) {
+        case SHAPEFORM_ROUNDRECT : // Round rect
+            RayX=width/10;     if (RayX>16) RayX=16; else if (RayX<2)  RayX=2;
+            RayY=height/10;    if (RayY>16) RayY=16; else if (RayY<2)  RayY=2;
+            return ComputePolygonRoundRect(QRectF(left,top,width,height),RayX,RayY);
+            break;
+        case SHAPEFORM_BUBBLE : // Bubble
+            RayX=2*width/10;   if (RayX<4)  RayX=4;
+            RayY=2*height/10;  if (RayY<4)  RayY=4;
+            return ComputePolygonRoundRect(QRectF(left,top,width,height),RayX,RayY);
+            break;
+        case SHAPEFORM_ELLIPSE          : return ComputePolygonEllipse(QRectF(left,top,width,height));                                          break;  // Ellipse
+        case SHAPEFORM_TRIANGLEUP       : return ComputePolygonR(width,height,CenterX,CenterY,3,90);                                            break;  // Triangle Up
+        case SHAPEFORM_TRIANGLERIGHT    : return ComputePolygonR(width,height,CenterX,CenterY,3,0);                                             break;  // Triangle Right
+        case SHAPEFORM_TRIANGLEDOWN     : return ComputePolygonR(width,height,CenterX,CenterY,3,-90);                                           break;  // Triangle Down
+        case SHAPEFORM_TRIANGLELEFT     : return ComputePolygonR(width,height,CenterX,CenterY,3,-180);                                          break;  // Triangle left
+        case SHAPEFORM_RIGHTTRIANGLEUL  : return ComputeRightTriangle(QRectF(left,top,width,height),0);                                         break;  // Right triangle Up-Left
+        case SHAPEFORM_RIGHTTRIANGLEUR  : return ComputeRightTriangle(QRectF(left,top,width,height),1);                                         break;  // Right triangle Up-Right
+        case SHAPEFORM_RIGHTTRIANGLEDL  : return ComputeRightTriangle(QRectF(left,top,width,height),2);                                         break;  // Right triangle Down-Left
+        case SHAPEFORM_RIGHTTRIANGLEDR  : return ComputeRightTriangle(QRectF(left,top,width,height),3);                                         break;  // Right triangle Down-Right
+        case SHAPEFORM_RHOMBUS          : return ComputePolygonR(width,height,CenterX,CenterY,4,0);                                             break;  // Losange
+        case SHAPEFORM_PENTAGON         : return ComputePolygonR(width,height,CenterX,CenterY,5,90-(double(360)/5));                            break;  // Pentagone
+        case SHAPEFORM_HEXAGON          : return ComputePolygonR(width,height,CenterX,CenterY,6,-(double(360)/6));                              break;  // Hexagone
+        case SHAPEFORM_OCTOGON          : return ComputePolygonR(width,height,CenterX,CenterY,8,-(double(360)/8));                              break;  // Octogone
+        case SHAPEFORM_SIMPLEARROWUP    : return ComputeSimpleArrow(QRectF(left,top,width,height),0);                                           break;  // Simple arrow top
+        case SHAPEFORM_SIMPLEARROWRIGHT : return ComputeSimpleArrow(QRectF(left,top,width,height),-90);                                         break;  // Simple arrow right
+        case SHAPEFORM_SIMPLEARROWDOWN  : return ComputeSimpleArrow(QRectF(left,top,width,height),180);                                         break;  // Simple arrow down
+        case SHAPEFORM_SIMPLEARROWLEFT  : return ComputeSimpleArrow(QRectF(left,top,width,height),90);                                          break;  // Simple arrow left
+        case SHAPEFORM_DOUBLEARROWVERT  : return ComputeDoubleArrow(QRectF(left,top,width,height),0);                                           break;  // Double vert arrows
+        case SHAPEFORM_DOUBLEARROWHORIZ : return ComputeDoubleArrow(QRectF(left,top,width,height),90);                                          break;  // Double horiz arrows
+        case SHAPEFORM_DOUBLEARROWDIAG1 : return ComputeDoubleArrow(QRectF(left,top,width,height),-45);                                         break;  // Double diag arrows 1
+        case SHAPEFORM_DOUBLEARROWDIAG2 : return ComputeDoubleArrow(QRectF(left,top,width,height),45);                                          break;  // Double diag arrows 2
+        case SHAPEFORM_STRIANGLEUP      : return ComputeSingleTriangle(QRectF(left,top,width,height),0);                                        break;  // Single triangle top
+        case SHAPEFORM_STRIANGLERIGHT   : return ComputeSingleTriangle(QRectF(left,top,width,height),-90);                                      break;  // Single triangle right
+        case SHAPEFORM_STRIANGLEDOWN    : return ComputeSingleTriangle(QRectF(left,top,width,height),180);                                      break;  // Single triangle down
+        case SHAPEFORM_STRIANGLELEFT    : return ComputeSingleTriangle(QRectF(left,top,width,height),90);                                       break;  // Single triangle left
+        case SHAPEFORM_DTRIANGLEUP      : return ComputeDoubleTriangle(QRectF(left,top,width,height),0);                                        break;  // Double chevron top
+        case SHAPEFORM_DTRIANGLERIGHT   : return ComputeDoubleTriangle(QRectF(left,top,width,height),-90);                                      break;  // Double chevron right
+        case SHAPEFORM_DTRIANGLEDOWN    : return ComputeDoubleTriangle(QRectF(left,top,width,height),180);                                      break;  // Double chevron down
+        case SHAPEFORM_DTRIANGLELEFT    : return ComputeDoubleTriangle(QRectF(left,top,width,height),90);                                       break;  // Double chevron left
+        case SHAPEFORM_SCHEVRONUP       : return ComputeSingleChevron(QRectF(left,top,width,height),0,OPTION_UP|OPTION_DOWN);                   break;  // Single chevron up
+        case SHAPEFORM_SCHEVRONRIGHT    : return ComputeSingleChevron(QRectF(left,top,width,height),-90,OPTION_LEFT|OPTION_RIGHT);              break;  // Single chevron right
+        case SHAPEFORM_SCHEVRONDOWN     : return ComputeSingleChevron(QRectF(left,top,width,height),180,OPTION_UP|OPTION_DOWN);                 break;  // Single chevron down
+        case SHAPEFORM_SCHEVRONLEFT     : return ComputeSingleChevron(QRectF(left,top,width,height),90,OPTION_LEFT|OPTION_RIGHT);               break;  // Single chevron left
+        case SHAPEFORM_PUSHEDUP         : return ComputeSingleChevron(QRectF(left,top,width,height),0,OPTION_DOWN);                             break;  // Pushed up
+        case SHAPEFORM_PUSHEDRIGHT      : return ComputeSingleChevron(QRectF(left,top,width,height),-90,OPTION_LEFT);                           break;  // Pushed right
+        case SHAPEFORM_PUSHEDDOWN       : return ComputeSingleChevron(QRectF(left,top,width,height),180,OPTION_UP);                             break;  // Pushed down
+        case SHAPEFORM_PUSHEDLEFT       : return ComputeSingleChevron(QRectF(left,top,width,height),90,OPTION_RIGHT);                           break;  // Pushed left
+        case SHAPEFORM_SHARPUP          : return ComputeSingleChevron(QRectF(left,top,width,height),0,OPTION_UP);                               break;  // Sharp up
+        case SHAPEFORM_SHARPRIGHT       : return ComputeSingleChevron(QRectF(left,top,width,height),-90,OPTION_RIGHT);                          break;  // Sharp right
+        case SHAPEFORM_SHARPDOWN        : return ComputeSingleChevron(QRectF(left,top,width,height),180,OPTION_DOWN);                           break;  // Sharp down
+        case SHAPEFORM_SHARPLEFT        : return ComputeSingleChevron(QRectF(left,top,width,height),90,OPTION_LEFT);                            break;  // Sharp left
+        case SHAPEFORM_DCHEVRONUP       : return ComputeDoubleChevron(QRectF(left,top,width,height),0);                                         break;  // Double chevron up
+        case SHAPEFORM_DCHEVRONRIGHT    : return ComputeDoubleChevron(QRectF(left,top,width,height),-90);                                       break;  // Double chevron right
+        case SHAPEFORM_DCHEVRONDOWN     : return ComputeDoubleChevron(QRectF(left,top,width,height),180);                                       break;  // Double chevron down
+        case SHAPEFORM_DCHEVRONLEFT     : return ComputeDoubleChevron(QRectF(left,top,width,height),90);                                        break;  // Double chevron left
+        case SHAPEFORM_STAR4            : return ComputeStar(QRectF(left,top,width,height),4);                                                  break;  // Star 4
+        case SHAPEFORM_STAR5            : return ComputeStar(QRectF(left,top,width,height),5);                                                  break;  // Star 5
+        case SHAPEFORM_STAR6            : return ComputeStar(QRectF(left,top,width,height),6);                                                  break;  // Star 6
+        case SHAPEFORM_STAR8            : return ComputeStar(QRectF(left,top,width,height),8);                                                  break;  // Star 8
+        case SHAPEFORM_GEAR6            : return ComputeGear(QRectF(left,top,width,height),6);                                                  break;  // Gear 6
+        case SHAPEFORM_GEAR8            : return ComputeGear(QRectF(left,top,width,height),8);                                                  break;  // Gear 8
+        case SHAPEFORM_GEAR10           : return ComputeGear(QRectF(left,top,width,height),10);                                                 break;  // Gear 10
+        case SHAPEFORM_GEAR12           : return ComputeGear(QRectF(left,top,width,height),12);                                                 break;  // Gear 12
+        case SHAPEFORM_HEART            : return ComputeHeart(QRectF(left,top,width,height));                                                   break;  // Heart
+        case SHAPEFORM_SPADE            : return ComputeSpade(QRectF(left,top,width,height));                                                   break;  // Spade
+        case SHAPEFORM_CLUB             : return ComputeClub(QRectF(left,top,width,height));                                                    break;  // Club
+        case SHAPEFORM_PUZZLEUL         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_RIGHT|OPTION_DOWN);                         break;  // Puzzle Up-Left
+        case SHAPEFORM_PUZZLEUC         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_LEFT|OPTION_RIGHT|OPTION_DOWN);             break;  // Puzzle Up-Center
+        case SHAPEFORM_PUZZLEUR         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_LEFT|OPTION_DOWN);                          break;  // Puzzle Up-Right
+        case SHAPEFORM_PUZZLEML         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_RIGHT|OPTION_DOWN);               break;  // Puzzle Middle-Left
+        case SHAPEFORM_PUZZLEMC         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_LEFT|OPTION_RIGHT|OPTION_DOWN);   break;  // Puzzle Middle-Center
+        case SHAPEFORM_PUZZLEMR         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_LEFT|OPTION_DOWN);                break;  // Puzzle Middle-Right
+        case SHAPEFORM_PUZZLEDL         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_RIGHT);                           break;  // Puzzle Down-Left
+        case SHAPEFORM_PUZZLEDC         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_LEFT|OPTION_RIGHT);               break;  // Puzzle Down-Center
+        case SHAPEFORM_PUZZLEDR         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_LEFT);                            break;  // Puzzle Down-Right
+        default                         : return ComputePolygonRect(QRectF(left,top,width,height));                                             break;  // No shape or rectangle or unknown shape
+    }
+}
+
+QRectF PolygonToRectF(QList<QPolygonF> Polygon) {
+    qreal x1,x2,y1,y2;
+    if ((Polygon.count()==0)||(Polygon.at(0).toList().count()==0)) return QRectF();
+    for (int j=0;j<Polygon.count();j++) {
+        QList<QPointF> List=Polygon.at(j).toList();
+        if (j==0) {
+            x1=List[0].x();
+            x2=List[0].x();
+            y1=List[0].y();
+            y2=List[0].y();
+        }
+        for (int i=0;i<List.count();i++) {
+            if (List[i].x()<x1) x1=List[i].x();
+            if (List[i].x()>x2)  x2=List[i].x();
+            if (List[i].y()<y1)  y1=List[i].y();
+            if (List[i].y()>y2)  y2=List[i].y();
+        }
+    }
+    return QRectF(x1,y1,x2-x1,y2-y1);
 }
 
 //*********************************************************************************************************************************************
@@ -256,118 +1095,6 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int
 
 //====================================================================================================================
 
-void cBrushDefinition::GetDefaultFraming(FramingType TheFramingType,bool LockGeometry,double &X,double &Y,double &ZoomFactor,double &AspectRatio) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetDefaultFraming");
-
-    if ((Image==NULL)&&(Video==NULL)) return;
-
-    // Calc coordinates of the part in the source image
-    double  RealImageW  =double(Image!=NULL?Image->ImageWidth:Video->ImageWidth);
-    double  RealImageH  =double(Image!=NULL?Image->ImageHeight:Video->ImageHeight);
-    double  Hyp         =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);             // Calc hypothenuse of the image to define full canvas
-    double  DstX        =((Hyp-RealImageW)/2);
-    double  DstY        =((Hyp-RealImageH)/2);
-    double  DstW        =RealImageW;
-    double  DstH        =RealImageH;
-    double  W;
-    double  H;
-
-    switch (TheFramingType) {
-        case ADJUST_WITH : // Adjust to With
-            W=DstX+DstW-DstX;
-            H=W*AspectRatio;
-            X=((Hyp-W)/2)/Hyp;
-            Y=((Hyp-H)/2)/Hyp;
-            ZoomFactor=W/Hyp;
-            break;
-        case ADJUST_HEIGHT : // Adjust to Height
-            H=DstY+DstH-DstY;
-            W=H/AspectRatio;
-            X=((Hyp-W)/2)/Hyp;
-            Y=((Hyp-H)/2)/Hyp;
-            ZoomFactor=W/Hyp;
-            break;
-        case ADJUST_FULL : // Adjust to FullImage
-            if (!LockGeometry) {
-                W=DstX+DstW-DstX;
-                H=DstY+DstH-DstY;
-                AspectRatio=H/W;
-                X=((Hyp-W)/2)/Hyp;
-                Y=((Hyp-H)/2)/Hyp;
-                ZoomFactor=W/Hyp;
-            } else {
-                W=DstX+DstW-DstX;
-                H=W*AspectRatio;
-                if (H<DstY+DstH-DstY) {
-                    H=DstY+DstH-DstY;
-                    W=H/AspectRatio;
-                    X=((Hyp-W)/2)/Hyp;
-                    Y=((Hyp-H)/2)/Hyp;
-                    ZoomFactor=W/Hyp;
-                } else {
-                    W=DstX+DstW-DstX;
-                    H=W*AspectRatio;
-                    X=((Hyp-W)/2)/Hyp;
-                    Y=((Hyp-H)/2)/Hyp;
-                    ZoomFactor=W/Hyp;
-                }
-            }
-            break;
-    }
-}
-
-//====================================================================================================================
-
-QString cBrushDefinition::GetFramingStyle(double X,double Y,double ZoomFactor,double AspectRatio,double ImageRotation) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetFramingStyle");
-
-    return  QString("###X:%1").arg(X,0,'e',4)+
-            QString("###Y:%1").arg(Y,0,'e',4)+
-            QString("###ZoomFactor:%1").arg(ZoomFactor,0,'e')+
-            QString("###ImageRotation:%1").arg(ImageRotation,0,'e')+
-            QString("###AspectRatio:%1").arg(AspectRatio,0,'e');
-}
-
-//====================================================================================================================
-
-void cBrushDefinition::InitDefaultFramingStyle(bool LockGeometry,double AspectRatio) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::InitDefaultFramingStyle");
-
-    double X,Y,ZoomFactor;
-
-    GetDefaultFraming(ADJUST_WITH,LockGeometry,X,Y,ZoomFactor,AspectRatio);     DefaultFramingW=GetFramingStyle(X,Y,ZoomFactor,AspectRatio,0);
-    GetDefaultFraming(ADJUST_HEIGHT,LockGeometry,X,Y,ZoomFactor,AspectRatio);   DefaultFramingH=GetFramingStyle(X,Y,ZoomFactor,AspectRatio,0);
-    GetDefaultFraming(ADJUST_FULL,LockGeometry,X,Y,ZoomFactor,AspectRatio);     DefaultFramingF=GetFramingStyle(X,Y,ZoomFactor,AspectRatio,0);
-}
-
-//====================================================================================================================
-
-void cBrushDefinition::ApplyStyle(bool LockGeometry,QString Style) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::ApplyStyle");
-
-    QStringList List;
-
-    // String to StringList
-    while (Style.contains("###")) {
-        List.append(Style.left(Style.indexOf("###")));
-        Style=Style.mid(Style.indexOf("###")+QString("###").length());
-    }
-    if (!Style.isEmpty()) List.append(Style);
-
-    // Apply
-    LockGeometry=LockGeometry;
-    for (int i=0;i<List.count();i++) {
-        if      (List[i].startsWith("X:"))              X             =List[i].mid(QString("X:").length()).toDouble();
-        else if (List[i].startsWith("Y:"))              Y             =List[i].mid(QString("Y:").length()).toDouble();
-        else if (List[i].startsWith("ZoomFactor:"))     ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
-        else if (List[i].startsWith("ImageRotation:"))  ImageRotation =List[i].mid(QString("ImageRotation:").length()).toDouble();
-        else if (List[i].startsWith("AspectRatio:"))    AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
-
-    }
-}
-
-//====================================================================================================================
-
 QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetImageDiskBrush");
 
@@ -493,7 +1220,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
 }
 
 //====================================================================================================================
-// Note:This function is use only by DlgImageCorrection !
+// Note:This function is use only by cBrushDefinition !
 void cBrushDefinition::ApplyFilter(QImage *Image) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::ApplyFilter");
 
@@ -551,18 +1278,6 @@ int cBrushDefinition::GetWidthForHeight(int WantedHeight,QRectF Rect) {
 }
 
 //====================================================================================================================
-
-QString cBrushDefinition::GetFramingStyle() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetFramingStyle");
-
-    return  QString("###X:%1").arg(X,0,'e')+
-            QString("###Y:%1").arg(Y,0,'e')+
-            QString("###ZoomFactor:%1").arg(ZoomFactor,0,'e')+
-            QString("###LockGeometry:%1").arg(LockGeometry?1:0)+
-            QString("###AspectRatio:%1").arg(AspectRatio,0,'e');
-}
-
-//====================================================================================================================
 // create a COMPOSITIONTYPE_SHOT brush as a copy of a given brush
 
 void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
@@ -581,9 +1296,6 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
     Video               =BrushToCopy->Video;
     SoundVolume         =BrushToCopy->SoundVolume;
     Deinterlace         =BrushToCopy->Deinterlace;
-    DefaultFramingW     =BrushToCopy->DefaultFramingW;
-    DefaultFramingH     =BrushToCopy->DefaultFramingH;
-    DefaultFramingF     =BrushToCopy->DefaultFramingF;
 
     // Image correction part
     ImageRotation       =BrushToCopy->ImageRotation;
@@ -778,4 +1490,471 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         return (BrushType==BRUSHTYPE_IMAGEDISK)?(Image!=NULL)||(Video!=NULL):true;
     }
     return false;
+}
+
+//====================================================================================================================
+
+int cBrushDefinition::GetImageType() {
+    int ImageType=IMAGETYPE_UNKNOWN;
+    if (Image!=NULL) {
+        if ((Image->ImageWidth>1080)&&(Image->ImageHeight>1080)) ImageType=IMAGETYPE_PHOTOLANDSCAPE; else ImageType=IMAGETYPE_CLIPARTLANDSCAPE;
+        if ((qreal(Image->ImageWidth)/qreal(Image->ImageHeight))<1) ImageType++;
+    } else if (Video!=NULL) {
+        ImageType=IMAGETYPE_VIDEOLANDSCAPE;
+        if ((qreal(Video->ImageWidth)/qreal(Video->ImageHeight))<1) ImageType++;
+    }
+    return ImageType;
+}
+
+//====================================================================================================================
+
+void cBrushDefinition::ApplyMaskToImageToWorkspace(QImage *SrcImage,QRectF CurSelRect,int BackgroundForm,int AutoFramingStyle) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::ApplyMaskToImageToWorkspace");
+    // Create shape mask
+    int RowHeight=SrcImage->width();
+    QImage Image(RowHeight,RowHeight,QImage::Format_ARGB32_Premultiplied);
+    QPainter PainterImg;
+    PainterImg.begin(&Image);
+    PainterImg.setPen(Qt::NoPen);
+    PainterImg.fillRect(QRect(0,0,RowHeight,RowHeight),QBrush(0x555555));
+    PainterImg.setBrush(Qt::transparent);
+    PainterImg.setCompositionMode(QPainter::CompositionMode_Source);
+    QList<QPolygonF> List=ComputePolygon(BackgroundForm,CurSelRect.left(),CurSelRect.top(),CurSelRect.width(),CurSelRect.height(),CurSelRect.width()/2+CurSelRect.left(),CurSelRect.height()/2+CurSelRect.top());
+    for (int i=0;i<List.count();i++) PainterImg.drawPolygon(List.at(i));
+    PainterImg.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    PainterImg.end();
+
+    // Apply mask to workspace image
+    PainterImg.begin(SrcImage);
+    PainterImg.setOpacity(0.75);
+    PainterImg.drawImage(0,0,Image);
+    PainterImg.setOpacity(1);
+    PainterImg.end();
+
+    // Add Icon (if wanted)
+    if ((AutoFramingStyle>=0)&&(AutoFramingStyle<NBR_AUTOFRAMING)) {
+        QImage IconGeoImage;
+        switch (AUTOFRAMINGDEF[AutoFramingStyle].GeometryType) {
+            case AUTOFRAMING_GEOMETRY_CUSTOM :  IconGeoImage=AutoFramingStyle==AUTOFRAMING_CUSTOMUNLOCK?QImage(AUTOFRAMING_ICON_GEOMETRY_UNLOCKED):
+                                                                                                        QImage(AUTOFRAMING_ICON_GEOMETRY_LOCKED);       break;
+            case AUTOFRAMING_GEOMETRY_PROJECT : IconGeoImage=QImage(AUTOFRAMING_ICON_GEOMETRY_PROJECT);                                                 break;
+            case AUTOFRAMING_GEOMETRY_IMAGE :   IconGeoImage=QImage(AUTOFRAMING_ICON_GEOMETRY_IMAGE);                                                   break;
+        }
+        QPainter P;
+        P.begin(SrcImage);
+        P.drawImage(SrcImage->width()-IconGeoImage.width()-2,SrcImage->height()-IconGeoImage.height()-2,IconGeoImage);
+        P.end();
+    }
+}
+
+void cBrushDefinition::ApplyMaskToImageToWorkspace(QImage *SrcImage,int AutoFramingStyle,int BackgroundForm,int WantedSize,qreal maxw,qreal maxh,qreal minw,qreal minh,qreal X,qreal Y,qreal ZoomFactor,qreal AspectRatio,qreal ProjectGeometry) {
+    QRectF CurSelRect;
+    switch (AutoFramingStyle) {
+        case AUTOFRAMING_CUSTOMUNLOCK   :   CurSelRect=QRectF(WantedSize*X,WantedSize*Y,WantedSize*ZoomFactor-1,WantedSize*ZoomFactor*AspectRatio-1);                   break;
+        case AUTOFRAMING_CUSTOMLOCK     :   CurSelRect=QRectF(WantedSize*X,WantedSize*Y,WantedSize*ZoomFactor-1,WantedSize*ZoomFactor*AspectRatio-1);                   break;
+        case AUTOFRAMING_CUSTOMIMGLOCK  :   CurSelRect=QRectF(WantedSize*X,WantedSize*Y,WantedSize*ZoomFactor-1,WantedSize*ZoomFactor*(maxh/maxw)-1);                   break;
+        case AUTOFRAMING_CUSTOMPRJLOCK  :   CurSelRect=QRectF(WantedSize*X,WantedSize*Y,WantedSize*ZoomFactor-1,WantedSize*ZoomFactor*ProjectGeometry-1);               break;
+        case AUTOFRAMING_FULLMAX        :   CurSelRect=QRectF((WantedSize-maxw)/2,(WantedSize-maxh)/2,maxw-1,maxh-1);                                                   break;
+        case AUTOFRAMING_FULLMIN        :   CurSelRect=QRectF((WantedSize-minw)/2,(WantedSize-minh)/2,minw-1,minh-1);                                                   break;
+        case AUTOFRAMING_HEIGHTLEFTMAX  :   CurSelRect=QRectF((WantedSize-maxw)/2,(WantedSize-maxh)/2,maxh/ProjectGeometry-1,maxh-1);                                   break;
+        case AUTOFRAMING_HEIGHTLEFTMIN  :   CurSelRect=QRectF((WantedSize-minw)/2,(WantedSize-minh)/2,minh/ProjectGeometry-1,minh-1);                                   break;
+        case AUTOFRAMING_HEIGHTMIDLEMAX :   CurSelRect=QRectF((WantedSize-(maxh/ProjectGeometry))/2,(WantedSize-maxh)/2,maxh/ProjectGeometry-1,maxh-1);                 break;
+        case AUTOFRAMING_HEIGHTMIDLEMIN :   CurSelRect=QRectF((WantedSize-(minh/ProjectGeometry))/2,(WantedSize-minh)/2,minh/ProjectGeometry-1,minh-1);                 break;
+        case AUTOFRAMING_HEIGHTRIGHTMAX :   CurSelRect=QRectF(WantedSize-(maxh/ProjectGeometry)-(WantedSize-maxw)/2,(WantedSize-maxh)/2,maxh/ProjectGeometry-1,maxh-1); break;
+        case AUTOFRAMING_HEIGHTRIGHTMIN :   CurSelRect=QRectF(WantedSize-(minh/ProjectGeometry)-(WantedSize-minw)/2,(WantedSize-minh)/2,minh/ProjectGeometry-1,minh-1); break;
+        case AUTOFRAMING_WIDTHTOPMAX    :   CurSelRect=QRectF((WantedSize-maxw)/2,(WantedSize-maxh)/2,maxw-1,maxw*ProjectGeometry-1);                                   break;
+        case AUTOFRAMING_WIDTHTOPMIN    :   CurSelRect=QRectF((WantedSize-minw)/2,(WantedSize-minh)/2,minw-1,minw*ProjectGeometry-1);                                   break;
+        case AUTOFRAMING_WIDTHMIDLEMAX  :   CurSelRect=QRectF((WantedSize-maxw)/2,(WantedSize-(maxw*ProjectGeometry))/2,maxw-1,maxw*ProjectGeometry-1);                 break;
+        case AUTOFRAMING_WIDTHMIDLEMIN  :   CurSelRect=QRectF((WantedSize-minw)/2,(WantedSize-(minw*ProjectGeometry))/2,minw-1,minw*ProjectGeometry-1);                 break;
+        case AUTOFRAMING_WIDTHBOTTOMMAX :   CurSelRect=QRectF((WantedSize-maxw)/2,WantedSize-(maxw*ProjectGeometry)-(WantedSize-maxh)/2,maxw-1,maxw*ProjectGeometry-1); break;
+        case AUTOFRAMING_WIDTHBOTTOMMIN :   CurSelRect=QRectF((WantedSize-minw)/2,WantedSize-(minw*ProjectGeometry)-(WantedSize-minh)/2,minw-1,minw*ProjectGeometry-1); break;
+        default : return;
+    }
+    ApplyMaskToImageToWorkspace(SrcImage,CurSelRect,BackgroundForm,AutoFramingStyle);
+}
+
+int cBrushDefinition::GetCurrentFramingStyle(qreal ProjectGeometry) {
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return -1;
+
+    int aX=X*dmax;
+    int aY=Y*dmax;
+    int aW=dmax*ZoomFactor;
+    int aH=dmax*ZoomFactor*AspectRatio;
+
+    if (!LockGeometry)                                                                                                                                                      return AUTOFRAMING_CUSTOMUNLOCK;
+    if      ((aX==int((dmax-maxw)/2))                            &&(aY==int((dmax-maxh)/2))                               &&(aW==int(maxw))                &&(aH==int(maxh)))                   return AUTOFRAMING_FULLMAX;
+    else if ((aX==int((dmax-minw)/2))                            &&(aY==int((dmax-minh)/2))                               &&(aW==int(minw))                &&(aH==int(minh)))                   return AUTOFRAMING_FULLMIN;
+    else if ((aX==int((dmax-maxw)/2))                            &&(aY==int((dmax-maxh)/2))                               &&(aW==int(maxh/ProjectGeometry))&&(aH==int(maxh)))                   return AUTOFRAMING_HEIGHTLEFTMAX;
+    else if ((aX==int((dmax-minw)/2))                            &&(aY==int((dmax-minh)/2))                               &&(aW==int(minh/ProjectGeometry))&&(aH==int(minh)))                   return AUTOFRAMING_HEIGHTLEFTMIN;
+    else if ((aX==int((dmax-(maxh/ProjectGeometry))/2))          &&(aY==int((dmax-maxh)/2))                               &&(aW==int(maxh/ProjectGeometry))&&(aH==int(maxh)))                   return AUTOFRAMING_HEIGHTMIDLEMAX;
+    else if ((aX==int((dmax-(minh/ProjectGeometry))/2))          &&(aY==int((dmax-minh)/2))                               &&(aW==int(minh/ProjectGeometry))&&(aH==int(minh)))                   return AUTOFRAMING_HEIGHTMIDLEMIN;
+    else if ((aX==int(dmax-(maxh/ProjectGeometry)-(dmax-maxw)/2))&&(aY==int((dmax-maxh)/2))                               &&(aW==int(maxh/ProjectGeometry))&&(aH==int(maxh)))                   return AUTOFRAMING_HEIGHTRIGHTMAX;
+    else if ((aX==int(dmax-(minh/ProjectGeometry)-(dmax-minw)/2))&&(aY==int((dmax-minh)/2))                               &&(aW==int(minh/ProjectGeometry))&&(aH==int(minh)))                   return AUTOFRAMING_HEIGHTRIGHTMIN;
+    else if ((aX==int((dmax-maxw)/2))                            &&(aY==int((dmax-maxh)/2))                               &&(aW==int(maxw))                &&(aH==int(maxw*ProjectGeometry)))   return AUTOFRAMING_WIDTHTOPMAX;
+    else if ((aX==int((dmax-minw)/2))                            &&(aY==int((dmax-minh)/2))                               &&(aW==int(minw))                &&(aH==int(minw*ProjectGeometry)))   return AUTOFRAMING_WIDTHTOPMIN;
+    else if ((aX==int((dmax-maxw)/2))                            &&(aY==int((dmax-(maxw*ProjectGeometry))/2))             &&(aW==int(maxw))                &&(aH==int(maxw*ProjectGeometry)))   return AUTOFRAMING_WIDTHMIDLEMAX;
+    else if ((aX==int((dmax-minw)/2))                            &&(aY==int((dmax-(minw*ProjectGeometry))/2))             &&(aW==int(minw))                &&(aH==int(minw*ProjectGeometry)))   return AUTOFRAMING_WIDTHMIDLEMIN;
+    else if ((aX==int((dmax-maxw)/2))                            &&(aY==int(dmax-(maxw*ProjectGeometry)-(dmax-maxh)/2))   &&(aW==int(maxw))                &&(aH==int(maxw*ProjectGeometry)))   return AUTOFRAMING_WIDTHBOTTOMMAX;
+    else if ((aX==int((dmax-minw)/2))                            &&(aY==int(dmax-(minw*ProjectGeometry)-(dmax-minh)/2))   &&(aW==int(minw))                &&(aH==int(minw*ProjectGeometry)))   return AUTOFRAMING_WIDTHBOTTOMMIN;
+    else if (AspectRatio==(maxh/maxw))                                                                                                                                                          return AUTOFRAMING_CUSTOMIMGLOCK;
+    else if (AspectRatio==ProjectGeometry)                                                                                                                                                      return AUTOFRAMING_CUSTOMPRJLOCK;
+    else                                                                                                                                                                                        return AUTOFRAMING_CUSTOMLOCK;
+}
+
+//====================================================================================================================
+
+QImage *cBrushDefinition::ImageToWorkspace(QImage *SrcImage,int WantedSize,qreal &maxw,qreal &maxh,qreal &minw,qreal &minh,qreal &x1,qreal &x2,qreal &x3,qreal &x4,qreal &y1,qreal &y2,qreal &y3,qreal &y4) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::ImageToWorkspace");
+    QImage  *RetImage   =NULL;
+    QImage  *SourceImage=NULL;
+    qreal   Hyp         =sqrt(qreal(SrcImage->width())*qreal(SrcImage->width())+qreal(SrcImage->height())*qreal(SrcImage->height()));   // Calc hypothenuse of the image to define full canvas
+    qreal   DstX,DstY,DstW,DstH;
+
+    // calc rectangle before rotation
+    qreal  rx=qreal(SrcImage->width())*(WantedSize/Hyp)/2;
+    qreal  ry=qreal(SrcImage->height())*(WantedSize/Hyp)/2;
+
+    //RotatePoint.X = ((Pt.X - Centre.X) * Cos(AngCrad) - (Pt.Y - Centre.Y) * Sin(AngCrad) + Centre.X)
+    //RotatePoint.Y = ((Pt.X - Centre.X) * Sin(AngCrad) + (Pt.Y - Centre.Y) * Cos(AngCrad) + Centre.Y)
+
+    qreal  xtab[4],ytab[4];
+    xtab[0]=-rx*cos((ImageRotation)*PI/180)+ry*sin(ImageRotation*PI/180)+WantedSize/2;
+    xtab[1]=+rx*cos((ImageRotation)*PI/180)+ry*sin(ImageRotation*PI/180)+WantedSize/2;
+    xtab[2]=-rx*cos((ImageRotation)*PI/180)-ry*sin(ImageRotation*PI/180)+WantedSize/2;
+    xtab[3]=+rx*cos((ImageRotation)*PI/180)-ry*sin(ImageRotation*PI/180)+WantedSize/2;
+    ytab[0]=-rx*sin((ImageRotation)*PI/180)+ry*cos(ImageRotation*PI/180)+WantedSize/2;
+    ytab[1]=+rx*sin((ImageRotation)*PI/180)+ry*cos(ImageRotation*PI/180)+WantedSize/2;
+    ytab[2]=-rx*sin((ImageRotation)*PI/180)-ry*cos(ImageRotation*PI/180)+WantedSize/2;
+    ytab[3]=+rx*sin((ImageRotation)*PI/180)-ry*cos(ImageRotation*PI/180)+WantedSize/2;
+
+    // Sort xtab and ytab
+    for (int i=0;i<4;i++) for (int j=0;j<3;j++) {
+        if (xtab[j]>xtab[j+1]) {    qreal a=xtab[j+1];  xtab[j+1]=xtab[j];  xtab[j]=a;  }
+        if (ytab[j]>ytab[j+1]) {    qreal a=ytab[j+1];  ytab[j+1]=ytab[j];  ytab[j]=a;  }
+    }
+    maxw=xtab[3]-xtab[0];   minw=xtab[2]-xtab[1];
+    maxh=ytab[3]-ytab[0];   minh=ytab[2]-ytab[1];
+
+    // Rotate image if needed and create a SourceImage
+    if (ImageRotation!=0) {
+        QTransform matrix;
+        matrix.rotate(ImageRotation,Qt::ZAxis);
+        SourceImage=new QImage(SrcImage->transformed(matrix,Qt::SmoothTransformation));
+
+    // If no rotation then SourceImage=SrcImage
+    } else SourceImage=SrcImage;
+
+    // Calc coordinates of the part in the source image
+    qreal  RealImageW=qreal(SourceImage->width());                  // Get real image widht
+    qreal  RealImageH=qreal(SourceImage->height());                 // Get real image height
+
+    DstX=((Hyp-RealImageW)/2)*(WantedSize/Hyp);
+    DstY=((Hyp-RealImageH)/2)*(WantedSize/Hyp);
+    DstW=RealImageW*(WantedSize/Hyp);
+    DstH=RealImageH*(WantedSize/Hyp);
+
+    QImage  ToUseImage=SourceImage->scaled(DstW,DstH);
+    if (SourceImage!=SrcImage) delete SourceImage;
+
+    if (ToUseImage.format()!=QImage::Format_ARGB32_Premultiplied) ToUseImage=ToUseImage.convertToFormat(QImage::Format_ARGB32_Premultiplied);
+
+    // On/Off filters and blur/sharpen
+    if (Image) Image->BrushFileTransform.ApplyFilter(&ToUseImage);
+        else if (Video) Video->BrushFileTransform.ApplyFilter(&ToUseImage);
+
+    // Brightness, contrast, gamma and colors adjustments
+    ApplyFilter(&ToUseImage);
+
+    RetImage=new QImage(WantedSize,WantedSize,QImage::Format_ARGB32_Premultiplied);
+    QPainter P;
+    P.begin(RetImage);
+    P.fillRect(QRectF(0,0,WantedSize,WantedSize),Transparent);
+    P.drawImage(QRectF(DstX,DstY,DstW,DstH),ToUseImage,QRectF(0,0,DstW,DstH));
+    P.end();
+
+    x1=xtab[0]; y1=ytab[0];
+    x2=xtab[1]; y2=ytab[1];
+    x3=xtab[2]; y3=ytab[2];
+    x4=xtab[3]; y4=ytab[3];
+
+    return RetImage;
+}
+
+//====================================================================================================================
+
+bool cBrushDefinition::CalcWorkspace(qreal &dmax,qreal &maxw,qreal &maxh,qreal &minw,qreal &minh,qreal &x1,qreal &x2,qreal &x3,qreal &x4,qreal &y1,qreal &y2,qreal &y3,qreal &y4) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::CalcWorkspace");
+
+    int     ImgWidth =Image?Image->ImageWidth:Video?Video->ImageWidth:0;
+    int     ImgHeight=Image?Image->ImageHeight:Video?Video->ImageHeight:0;
+
+    if ((Video!=NULL)&&(ImgWidth==1920)&&(ImgHeight=1088)&&(Video->ApplicationConfig->Crop1088To1080)) ImgHeight=1080;
+
+    if ((ImgWidth==0)||(ImgHeight==0)) return false;
+
+    dmax=sqrt(qreal(ImgWidth)*qreal(ImgWidth)+qreal(ImgHeight)*qreal(ImgHeight));   // Calc hypothenuse of the image to define full canvas
+
+    // calc rectangle before rotation
+    qreal  rx=qreal(ImgWidth)/2;
+    qreal  ry=qreal(ImgHeight)/2;
+
+    qreal  xtab[4],ytab[4];
+    xtab[0]=-rx*cos((ImageRotation)*PI/180)+ry*sin(ImageRotation*PI/180)+dmax/2;
+    xtab[1]=+rx*cos((ImageRotation)*PI/180)+ry*sin(ImageRotation*PI/180)+dmax/2;
+    xtab[2]=-rx*cos((ImageRotation)*PI/180)-ry*sin(ImageRotation*PI/180)+dmax/2;
+    xtab[3]=+rx*cos((ImageRotation)*PI/180)-ry*sin(ImageRotation*PI/180)+dmax/2;
+    ytab[0]=-rx*sin((ImageRotation)*PI/180)+ry*cos(ImageRotation*PI/180)+dmax/2;
+    ytab[1]=+rx*sin((ImageRotation)*PI/180)+ry*cos(ImageRotation*PI/180)+dmax/2;
+    ytab[2]=-rx*sin((ImageRotation)*PI/180)-ry*cos(ImageRotation*PI/180)+dmax/2;
+    ytab[3]=+rx*sin((ImageRotation)*PI/180)-ry*cos(ImageRotation*PI/180)+dmax/2;
+
+    // Sort xtab and ytab
+    for (int i=0;i<4;i++) for (int j=0;j<3;j++) {
+        if (xtab[j]>xtab[j+1]) {    qreal a=xtab[j+1];  xtab[j+1]=xtab[j];  xtab[j]=a;  }
+        if (ytab[j]>ytab[j+1]) {    qreal a=ytab[j+1];  ytab[j+1]=ytab[j];  ytab[j]=a;  }
+    }
+    maxw=xtab[3]-xtab[0];   minw=xtab[2]-xtab[1];
+    maxh=ytab[3]-ytab[0];   minh=ytab[2]-ytab[1];
+    x1=xtab[0];             y1=ytab[0];
+    x2=xtab[1];             y2=ytab[1];
+    x3=xtab[2];             y3=ytab[2];
+    x4=xtab[3];             y4=ytab[3];
+
+    return true;
+}
+
+//====================================================================================================================
+
+void cBrushDefinition::ApplyAutoFraming(int AutoAdjust,qreal ProjectGeometry) {
+    switch (AutoAdjust) {
+        case AUTOFRAMING_FULLMAX        :   s_AdjustWH();                           break;
+        case AUTOFRAMING_FULLMIN        :   s_AdjustMinWH();                        break;
+        case AUTOFRAMING_HEIGHTLEFTMAX  :   s_AdjustHLeft(ProjectGeometry);         break;
+        case AUTOFRAMING_HEIGHTLEFTMIN  :   s_AdjustMinHLeft(ProjectGeometry);      break;
+        case AUTOFRAMING_HEIGHTMIDLEMAX :   s_AdjustHMidle(ProjectGeometry);        break;
+        case AUTOFRAMING_HEIGHTMIDLEMIN :   s_AdjustMinHMidle(ProjectGeometry);     break;
+        case AUTOFRAMING_HEIGHTRIGHTMAX :   s_AdjustHRight(ProjectGeometry);        break;
+        case AUTOFRAMING_HEIGHTRIGHTMIN :   s_AdjustMinHRight(ProjectGeometry);     break;
+        case AUTOFRAMING_WIDTHTOPMAX    :   s_AdjustWTop(ProjectGeometry);          break;
+        case AUTOFRAMING_WIDTHTOPMIN    :   s_AdjustMinWTop(ProjectGeometry);       break;
+        case AUTOFRAMING_WIDTHMIDLEMAX  :   s_AdjustWMidle(ProjectGeometry);        break;
+        case AUTOFRAMING_WIDTHMIDLEMIN  :   s_AdjustMinWMidle(ProjectGeometry);     break;
+        case AUTOFRAMING_WIDTHBOTTOMMAX :   s_AdjustWBottom(ProjectGeometry);       break;
+        case AUTOFRAMING_WIDTHBOTTOMMIN :   s_AdjustMinWBottom(ProjectGeometry);    break;
+    }
+}
+
+void cBrushDefinition::s_AdjustWTop(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustWTop");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal W=maxw;
+    //qreal H=W*AspectRatio;
+    X=((dmax-W)/2)/dmax;
+    Y=((dmax-maxh)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+void cBrushDefinition::s_AdjustMinWTop(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinWTop");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal W=minw;
+    //qreal H=W*AspectRatio;
+    X=((dmax-W)/2)/dmax;
+    Y=((dmax-minh)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+void cBrushDefinition::s_AdjustWMidle(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustWMidle");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal W=maxw;
+    qreal H=W*AspectRatio;
+    X=((dmax-W)/2)/dmax;
+    Y=((dmax-H)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+void cBrushDefinition::s_AdjustMinWMidle(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinWMidle");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal W=minw;
+    qreal H=W*AspectRatio;
+    X=((dmax-W)/2)/dmax;
+    Y=((dmax-H)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+void cBrushDefinition::s_AdjustWBottom(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustWBottom");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal W=maxw;
+    qreal H=W*AspectRatio;
+    X=((dmax-W)/2)/dmax;
+    Y=(dmax-H-(dmax-maxh)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+void cBrushDefinition::s_AdjustMinWBottom(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinWBottom");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal W=minw;
+    qreal H=W*AspectRatio;
+    X=((dmax-W)/2)/dmax;
+    Y=(dmax-H-(dmax-minh)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+//====================================================================================================================
+
+void cBrushDefinition::s_AdjustHLeft(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustHLeft");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal H=maxh;
+    qreal W=H/AspectRatio;
+    X=((dmax-maxw)/2)/dmax;
+    Y=((dmax-H)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+void cBrushDefinition::s_AdjustMinHLeft(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinHLeft");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal H=minh;
+    qreal W=H/AspectRatio;
+    X=((dmax-minw)/2)/dmax;
+    Y=((dmax-H)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+void cBrushDefinition::s_AdjustHMidle(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustHMidle");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal H=maxh;
+    qreal W=H/AspectRatio;
+    X=((dmax-W)/2)/dmax;
+    Y=((dmax-H)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+void cBrushDefinition::s_AdjustMinHMidle(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinHMidle");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal H=minh;
+    qreal W=H/AspectRatio;
+    X=((dmax-W)/2)/dmax;
+    Y=((dmax-H)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+void cBrushDefinition::s_AdjustHRight(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustHRight");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal H=maxh;
+    qreal W=H/AspectRatio;
+    X=(dmax-W-(dmax-maxw)/2)/dmax;
+    Y=((dmax-H)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+void cBrushDefinition::s_AdjustMinHRight(qreal ProjectGeometry) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinHRight");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =ProjectGeometry;
+    qreal H=minh;
+    qreal W=H/AspectRatio;
+    X=(dmax-W-(dmax-minw)/2)/dmax;
+    Y=((dmax-H)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+//====================================================================================================================
+
+void cBrushDefinition::s_AdjustWH() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustWH");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =maxh/maxw;
+    qreal W=maxw;
+    qreal H=W*AspectRatio;
+    X=((dmax-W)/2)/dmax;
+    Y=((dmax-H)/2)/dmax;
+    ZoomFactor=W/dmax;
+}
+
+void cBrushDefinition::s_AdjustMinWH() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::s_AdjustMinWH");
+
+    qreal dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    if (!CalcWorkspace(dmax,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4)) return;
+
+    LockGeometry=true;
+    AspectRatio =minh/minw;
+    qreal W=minw;
+    qreal H=W*AspectRatio;
+    X=((dmax-W)/2)/dmax;
+    Y=((dmax-H)/2)/dmax;
+    ZoomFactor=W/dmax;
 }

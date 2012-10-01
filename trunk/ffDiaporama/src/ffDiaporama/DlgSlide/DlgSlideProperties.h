@@ -52,8 +52,11 @@ public:
     int                     CurrentCompoObjectNbr;      // Number of Current block object (if selection mode = SELECTMODE_ONE)
 
     double                  ProjectGeometry;
-
     QString                 FramingStyleLabelPixmap;
+
+    // Framing CB control
+    cBrushDefinition        *FramingCB_CurrentBrush;
+    int                     FramingCB_CurrentShot;
 
     // Re-entrence flags
     bool                    InRefreshStyleControls;
@@ -64,12 +67,12 @@ public:
     bool                    NoPrepUndo;
 
     explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
-    ~DlgSlideProperties();
+    virtual                 ~DlgSlideProperties();
 
     // function to be overloaded
     virtual void            DoInitDialog();                             // Initialise dialog
-    virtual void            DoAccept() {/*Nothing to do*/}              // Call when user click on Ok button
-    virtual void            DoRejet()  {/*Nothing to do*/}              // Call when user click on Cancel button
+    virtual void            DoAccept();                                 // Call when user click on Ok button
+    virtual void            DoRejet();                                  // Call when user click on Cancel button
     virtual void            PrepareGlobalUndo();                        // Initiale Undo
     virtual void            DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
     virtual void            SaveWindowState();
@@ -154,6 +157,7 @@ private slots:
     void            s_BlockSettings_GetSound();
 
     // Block settings : Coordinates
+    void            s_BlockSettings_ShapeSizePos(int);
     void            s_BlockSettings_PosXValue(double);
     void            s_BlockSettings_PosYValue(double);
     void            s_BlockSettings_PosWidthValue(double);
@@ -168,7 +172,7 @@ private slots:
     void            s_BlockSettings_ResetRotateYValue();
 
     // Block settings : Shape
-    void            s_BlockSettings_ShapeBackgroundForm(int);
+    void            s_BlockSettings_ShapeBackgroundForm();
     void            s_BlockSettings_ShapeOpacity(int);
     void            s_BlockSettings_ShapeShadowFormValue(int);
     void            s_BlockSettings_ShapeShadowDistanceValue(int);
@@ -178,8 +182,8 @@ private slots:
     void            s_BlockSettings_ShapeShadowColor(int);
 
     // Block settings : Style
-    void            s_ChangeFramingStyle(int);
-    void            s_CoordinateStyleBT();
+    void            s_ChangeFramingStyle();
+    void            s_ChangeTextFramingStyle(int Value);
     void            s_BlockShapeStyleBT();
 
     // Block settings : Alignment
@@ -213,10 +217,11 @@ private slots:
     void            s_BlockSettings_BlockAnimDissolveType(int);
 
     // Block settings/Interactive zone messages
-    void            s_BlockSettings_IntZoneTransformBlocks(double DeltaX,double DeltaY,double ScaleX,double ScaleY,double Sel_X,double Sel_Y,double Sel_W,double Sel_H);
-    void            s_BlockSettings_IntZoneDisplayTransformBlocks(double DeltaX,double DeltaY,double ScaleX,double ScaleY,double Sel_X,double Sel_Y,double Sel_W,double Sel_H);
+    void            s_BlockSettings_IntZoneTransformBlocks(qreal DeltaX,qreal DeltaY,qreal ScaleX,qreal ScaleY,qreal Sel_X,qreal Sel_Y,qreal Sel_W,qreal Sel_H);
+    void            s_BlockSettings_IntZoneDisplayTransformBlocks(qreal DeltaX,qreal DeltaY,qreal ScaleX,qreal ScaleY,qreal Sel_X,qreal Sel_Y,qreal Sel_W,qreal Sel_H);
 
 private:
+    void            ComputeBlockRatio(cCompositionObject *Block,qreal &Ratio_X,qreal &Ratio_Y);
     void            MakeFormIcon(QComboBox *UICB);
     void            MakeBorderStyleIcon(QComboBox *UICB);
 

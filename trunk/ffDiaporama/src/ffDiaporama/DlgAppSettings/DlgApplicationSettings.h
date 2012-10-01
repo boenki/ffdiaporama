@@ -40,10 +40,8 @@ public:
     bool                IsDeviceChanged;
     int                 CurrentDevice;
     int                 CurrentDeviceIndex;
-    QComboBox           *CB_SL[9][3];
-    QComboBox           *CB_BA[9][3];
-    QComboBox           *CB_SL_CLIPARTST[3];
-    QComboBox           *CB_BA_CLIPARTST[3];
+    QComboBox           *CB_SL[NBR_IMAGETYPE][2];
+    QComboBox           *CB_BA[NBR_IMAGETYPE][2];
 
     explicit DlgApplicationSettings(QString HelpURL,cApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgApplicationSettings();
@@ -70,6 +68,8 @@ private slots:
     void            ChangeForTheWTypeCB(int);
 
 private:
+    void            AddItemToFramingCB(QComboBox *CB,int FraminStyle);     // Utility function use to add item in framing combobox
+
     Ui::DlgApplicationSettings *ui;
 };
 

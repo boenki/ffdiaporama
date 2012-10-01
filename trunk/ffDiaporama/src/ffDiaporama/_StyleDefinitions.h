@@ -80,8 +80,8 @@ public:
     void    SortList();
     QString GetStyleName(QString StyleDef);
     QString GetStyleDef(QString StyleName);
+    void    FillCollectionCB(QComboBox *CB,QString ActualStyleName);
     QString PopupCollectionMenu(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig,QString ActualStyleDef);
-    void    FillCollectionCB(QComboBox *CB,QString ActualStyleName,bool AdditionnalFramingStyle);
     void    UpdateExistingStyle(QString StyleName,QString ActualStyleDef);
     void    CreateNewStyle(QWidget *ParentWindow,QString ActualStyleDef);
     void    ManageExistingStyle(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig);

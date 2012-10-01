@@ -64,6 +64,22 @@ MainWindow  *GlobalMainWindow=NULL;
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWindow) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::MainWindow");
 
+    // Load application version version
+    QFile file("BUILDVERSION.txt");
+    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
+        CurrentAppName=QString(file.readLine());
+        CurrentAppName.replace("Version ","");
+        if (CurrentAppName.endsWith("\n"))   CurrentAppName=CurrentAppName.left(CurrentAppName.length()-QString("\n").length());
+        while (CurrentAppName.endsWith(" ")) CurrentAppName=CurrentAppName.left(CurrentAppName.length()-1);
+        if (CurrentAppName.lastIndexOf(" ")) {
+            CurrentAppVersion=CurrentAppName.mid(CurrentAppName.lastIndexOf(" ")+1);
+            CurrentAppName   =CurrentAppName.left(CurrentAppName.lastIndexOf(" "));
+            CurrentAppName.replace("_"," ");
+            CurrentAppName.replace("-"," ");
+        }
+        file.close();
+    }
+
     ApplicationConfig       =new cApplicationConfig(this);
     CurrentThreadId         =this->thread()->currentThreadId();
     InternetBUILDVERSION    ="";
@@ -90,6 +106,32 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     screen.show();
 
     ui->setupUi(this);
+
+    // Prepare title bar depending on running version
+    TitleBar=QString(APPLICATION_NAME)+" "+CurrentAppName;
+    if ((TitleBar.toLower().indexOf("devel")!=-1)||(TitleBar.toLower().indexOf("beta")!=-1)) TitleBar=TitleBar+QString(" - ")+CurrentAppVersion;
+
+    // Update logo image
+    QPixmap     LogoImg(":/img/logo_big.png");
+    QPainter    P;
+    QTextOption QTO;
+    QFont       Font("Serif",20,QFont::Normal,QFont::StyleItalic);          // First line use bold
+    QPen        Pen;
+
+    P.begin(&LogoImg);
+    QTO.setAlignment(Qt::AlignRight|Qt::AlignTop);
+    QTO.setWrapMode(QTextOption::NoWrap);
+    QTO.setTextDirection(Qt::LeftToRight);
+
+    Pen.setColor(Qt::yellow);
+    Pen.setWidth(1);
+    Pen.setStyle(Qt::SolidLine);
+    P.setPen(Pen);
+    P.setFont(Font);
+    P.drawText(QRect(0,38,LogoImg.width()-10,LogoImg.height()-38),CurrentAppName,QTO);
+    P.end();
+    ui->TABToolimg->setPixmap(LogoImg);
+
     ui->timeline->ApplicationConfig=ApplicationConfig;
     ui->preview->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
     ui->preview2->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
@@ -144,24 +186,16 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     Path="luma/Snake";      LumaList_Snake.ScanDisk(Path,TRANSITIONFAMILLY_LUMA_SNAKE);     AddToSystemProperties(QString("  %1").arg(LumaList_Snake.List.count())+QApplication::translate("MainWindow"," luma transitions loaded into the transition-library from ")+QDir(Path).absolutePath());
     AddToSystemProperties(QApplication::translate("MainWindow","  Total:")+QString("%1").arg(IconList.List.count())+QApplication::translate("MainWindow"," transitions loaded into the transition-library"));
 
-    QFile file("BUILDVERSION.txt");
-    if (file.open(QIODevice::ReadOnly | QIODevice::Text)) {
-        CurrentAppVersion=QString(file.readLine());
-        if (CurrentAppVersion.endsWith("\n"))   CurrentAppVersion=CurrentAppVersion.left(CurrentAppVersion.length()-QString("\n").length());
-        while (CurrentAppVersion.endsWith(" ")) CurrentAppVersion=CurrentAppVersion.left(CurrentAppVersion.length()-1);
-        if (CurrentAppVersion.lastIndexOf(" ")) CurrentAppVersion=CurrentAppVersion.mid(CurrentAppVersion.lastIndexOf(" ")+1);
-        file.close();
-    }
-
     // Because now we have local installed, then we can translate drive name
     DriveList=new cDriveList(ApplicationConfig);
 
     // Because now we have local installed, then we can translate collection style name
     ApplicationConfig->StyleTextCollection.DoTranslateCollection();
     ApplicationConfig->StyleTextBackgroundCollection.DoTranslateCollection();
-    ApplicationConfig->StyleCoordinateCollection.DoTranslateCollection();
     ApplicationConfig->StyleBlockShapeCollection.DoTranslateCollection();
-    ApplicationConfig->StyleImageFramingCollection.DoTranslateCollection();
+
+    AutoFramingDefInit();
+    ShapeFormDefinitionInit();
 
     ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
 
@@ -345,10 +379,6 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(ApplicationConfig->CurrentPath));
     if (ui->FolderTree->GetCurrentFolderPath()!=ApplicationConfig->CurrentPath) ui->FolderTree->SetSelectItemByPath(PersonalFolder);
-
-    // Prepare title bar depending on running version
-    TitleBar=QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
-    if ((TitleBar.indexOf("devel")!=-1)||(TitleBar.indexOf("beta")!=-1)) TitleBar=TitleBar+QString(" - ")+CurrentAppVersion;
 
     // Some other init
     LastLogMessageTime=QTime::currentTime();
@@ -1304,6 +1334,7 @@ void MainWindow::s_Action_New() {
     ui->timeline->ResetDisplay(-1);
     RefreshControls();
     SetModifyFlag(false);
+    resizeEvent(NULL);
 }
 
 //====================================================================================================================
@@ -1996,61 +2027,9 @@ void MainWindow::s_Action_DoAddFile() {
             CompositionObject->ApplyBlockShapeStyle(ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST)));
 
             // Apply styles for coordinates
-            // Force filtering for CoordinateStyle
-            ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(Diaporama->ImageGeometry,CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry);
-            CompositionObject->ApplyCoordinateStyle(ApplicationConfig->StyleCoordinateCollection.GetStyleDef(ApplicationConfig->StyleCoordinateCollection.DecodeString(
-                ApplicationConfig->DefaultBlockSL_IMG_CoordST[CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry][Diaporama->ImageGeometry])));
-
-            // Special case for nonstandard image => force to image geometry constraint and adapt frame coordinates
-            if ((CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry)==IMAGE_GEOMETRY_UNKNOWN) {
-                double ImageGeometry=1;
-                double ProjectGeometry=1;
-                double NewW,NewH;
-
-                switch (Diaporama->ImageGeometry) {
-                    case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
-                    case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
-                    case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
-
-                }
-                ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
-                switch (DiaporamaObject->Parent->ApplicationConfig->DefaultBlockSL_CLIPARTLOCK[DiaporamaObject->Parent->ImageGeometry]) {
-                    case 0 :    // Adjust to Full in lock to image geometry mode
-                        ImageGeometry=1;
-                        if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
-                            else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
-                        CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                        CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
-                        NewW=CompositionObject->w*Diaporama->InternalWidth;
-                        NewH=NewW*CurrentBrush->AspectRatio;
-                        NewW=NewW/Diaporama->InternalWidth;
-                        NewH=NewH/Diaporama->InternalHeight;
-                        if (NewH>1) {
-                            NewH=CompositionObject->h*Diaporama->InternalHeight;
-                            NewW=NewH/CurrentBrush->AspectRatio;
-                            NewW=NewW/Diaporama->InternalWidth;
-                            NewH=NewH/Diaporama->InternalHeight;
-                        }
-                        CompositionObject->w=NewW;
-                        CompositionObject->h=NewH;
-                        break;
-                    case 1 :    // Lock to project geometry - To full
-                        ImageGeometry=ProjectGeometry;
-                        CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                        CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
-                        break;
-                    case 2 :    // Lock to project geometry - To width
-                        ImageGeometry=ProjectGeometry;
-                        CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                        CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingW);
-                        break;
-                    case 3 :    // Lock to project geometry - To height
-                        ImageGeometry=ProjectGeometry;
-                        CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                        CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingH);
-                        break;
-                }
-            }
+            qreal ProjectGeometry=qreal(Diaporama->ImageGeometry==GEOMETRY_4_3?1440:Diaporama->ImageGeometry==GEOMETRY_16_9?1080:Diaporama->ImageGeometry==GEOMETRY_40_17?816:1920)/qreal(1920);
+            CompositionObject->BackgroundBrush->ApplyAutoFraming(ApplicationConfig->DefaultBlockSL[CompositionObject->BackgroundBrush->GetImageType()].AutoFraming,ProjectGeometry);
+            CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockSL[CompositionObject->BackgroundBrush->GetImageType()].AutoCompo,Diaporama->ImageGeometry);
 
             //*************************************************************
             // Now create and append a shot composition block to all shot
@@ -2135,6 +2114,7 @@ void MainWindow::s_Action_AddProject() {
     ui->ActionAddProject_BT_2->setDown(false);
 
     FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
+    CancelAction=false;
     if (FileList.count()>0) {
         // Calc position of new object depending on ApplicationConfig->AppendObject
         if (ApplicationConfig->AppendObject) {

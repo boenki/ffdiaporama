@@ -816,3 +816,455 @@ void cCustomLabel::DisplayCustomText(QString Text) {
     Painter.drawText(QRect(3,2,this->width()-5,this->height()-5),Text,QTextOption(Qt::AlignVCenter));
     Painter.restore();
 }
+
+//******************************************************************************************************************
+// Custom QAbstractItemDelegate for AutoFraming ComboBox
+//******************************************************************************************************************
+#define AutoFramingComboBoxIMAGEWIDTH   128
+#define AutoFramingComboBoxNBRCOLUMN    3
+
+cFramingComboBoxItem::cFramingComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFramingComboBoxItem::cFramingComboBoxItem");
+}
+
+//========================================================================================================================
+void cFramingComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFramingComboBoxItem::paint");
+    int CurIndex=index.row()*AutoFramingComboBoxNBRCOLUMN+index.column();
+    int CurrentFramingStyle=0;
+    while ((CurrentFramingStyle<ComboBox->FramingStyleTable.count())&&(ComboBox->CurrentFramingStyle!=ComboBox->FramingStyleTable.at(CurrentFramingStyle).FrameStyle)) CurrentFramingStyle++;
+
+    if ((CurIndex>=0)&&(CurIndex<ComboBox->FramingStyleTable.count())) {
+        painter->drawPixmap(option.rect.left(),option.rect.top(),QPixmap().fromImage(((cFramingStyleTableItem)ComboBox->FramingStyleTable.at(CurIndex)).Image));
+    } else {
+        painter->fillRect(option.rect,Qt::white);
+    }
+    if (index.row()*((QTableWidget *)ComboBox->view())->columnCount()+index.column()==CurrentFramingStyle) {
+        painter->setPen(QPen(Qt::red));
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(option.rect.x()+3,option.rect.y()+3,option.rect.width()-6-1,option.rect.height()-6-1);
+    }
+    if (option.state & QStyle::State_Selected) {
+        painter->setPen(QPen(Qt::blue));
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(option.rect.x(),option.rect.y(),option.rect.width()-1,option.rect.height()-1);
+        painter->drawRect(option.rect.x()+1,option.rect.y()+1,option.rect.width()-1-2,option.rect.height()-1-2);
+        painter->setPen(QPen(Qt::black));
+        painter->drawRect(option.rect.x()+2,option.rect.y()+2,option.rect.width()-1-4,option.rect.height()-1-4);
+    }
+}
+
+//========================================================================================================================
+
+QSize cFramingComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBoxItem::sizeHint");
+    return QSize(AutoFramingComboBoxIMAGEWIDTH,AutoFramingComboBoxIMAGEWIDTH);
+}
+
+//========================================================================================================================
+
+cFramingStyleTableItem::cFramingStyleTableItem(QImage *Image,int FrameStyle) {
+    this->Image=*Image;
+    this->FrameStyle=FrameStyle;
+}
+
+//******************************************************************************************************************
+// Custom Brush ComboBox
+//******************************************************************************************************************
+
+cFramingComboBox::cFramingComboBox(QWidget *parent):QComboBox(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFramingComboBox::cFramingComboBox");
+    CurrentFilter       =-1;
+    CurrentFramingStyle =-1;
+    CurrentNbrITem      =-1;
+    STOPMAJ             =false;
+
+    QTableWidget    *Table=new QTableWidget();
+    Table->horizontalHeader()->hide();
+    Table->verticalHeader()->hide();
+    for (int i=0;i<AutoFramingComboBoxNBRCOLUMN;i++) {
+        Table->insertColumn(0);
+        Table->setColumnWidth(0,AutoFramingComboBoxIMAGEWIDTH);
+    }
+    setModel(Table->model());
+    setView(Table);
+    ItemDelegate.ComboBox=this;
+    setItemDelegate(&ItemDelegate);
+    this->view()->setFixedWidth(AutoFramingComboBoxIMAGEWIDTH*AutoFramingComboBoxNBRCOLUMN+18);
+    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
+}
+
+//========================================================================================================================
+
+void cFramingComboBox::hidePopup() {
+    QComboBox::hidePopup();
+    emit itemSelectionHaveChanged();
+    MakeIcons();
+    CurrentFramingStyle=GetCurrentFraming();
+}
+
+//========================================================================================================================
+
+void cFramingComboBox::keyReleaseEvent(QKeyEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFramingComboBox::keyReleaseEvent");
+    int CurIndex=((QTableWidget *)view())->currentRow()*AutoFramingComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
+    int aCurIndex=CurIndex;
+    if ((event->key()==Qt::Key_Right)||(event->key()==Qt::Key_Down)) {
+        if (CurIndex<FramingStyleTable.count()-1) CurIndex++;
+    } else if ((event->key()==Qt::Key_Left)||(event->key()==Qt::Key_Up)) {
+        if (CurIndex>0) CurIndex--;
+    } else QComboBox::keyReleaseEvent(event);
+    if (aCurIndex!=CurIndex) {
+        STOPMAJ=true;
+        ((QTableWidget *)view())->setCurrentCell(CurIndex/AutoFramingComboBoxNBRCOLUMN,CurIndex-(CurIndex/AutoFramingComboBoxNBRCOLUMN)*AutoFramingComboBoxNBRCOLUMN);
+        setCurrentIndex(CurIndex/AutoFramingComboBoxNBRCOLUMN);
+        MakeIcons();
+        STOPMAJ=false;
+        emit itemSelectionHaveChanged();
+    }
+}
+
+//========================================================================================================================
+
+void cFramingComboBox::PrepareFramingStyleTable(bool ResetContent,int Filter,cBrushDefinition *Brush,QImage *SourceImage,int BackgroundForm,qreal ProjectGeometry) {
+    qreal   maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+    QImage  *Image=Brush->ImageToWorkspace(SourceImage,AutoFramingComboBoxIMAGEWIDTH,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4);
+
+    int  AutoFraming  =Brush->GetCurrentFramingStyle(ProjectGeometry);
+    bool AllowInternal=(int(Brush->ImageRotation/90)!=(Brush->ImageRotation/90));
+    if (AllowInternal) Filter|=FILTERFRAMING_INTERNAL;
+    qreal ImageGeometry=(qreal(SourceImage->height())/qreal(SourceImage->width()));
+    if (ProjectGeometry==ImageGeometry) Filter=Filter & (~FILTERFRAMING_PROJECT);
+    FramingStyleTable.clear();
+    for (int i=0;i<NBR_AUTOFRAMING;i++) {
+        bool ToAdd=(AutoFraming==i);
+        if (!ToAdd) switch (i) {
+            case AUTOFRAMING_CUSTOMUNLOCK   :   if ((Filter & FILTERFRAMING_CUSTOM)>0)                                                                      ToAdd=true;     break;
+            case AUTOFRAMING_CUSTOMLOCK     :   if ((Filter & FILTERFRAMING_CUSTOM)>0)                                                                      ToAdd=true;     break;
+            case AUTOFRAMING_CUSTOMIMGLOCK  :   if (((Filter & (FILTERFRAMING_IMAGE|FILTERFRAMING_CUSTOM))==(FILTERFRAMING_IMAGE|FILTERFRAMING_CUSTOM)))    ToAdd=true;     break;
+            case AUTOFRAMING_CUSTOMPRJLOCK  :   if ((Filter & (FILTERFRAMING_PROJECT|FILTERFRAMING_CUSTOM))==(FILTERFRAMING_PROJECT|FILTERFRAMING_CUSTOM))  ToAdd=true;     break;
+            case AUTOFRAMING_FULLMAX        :   if (((Filter & FILTERFRAMING_IMAGE)>0))                                                                     ToAdd=true;     break;
+            case AUTOFRAMING_FULLMIN        :   if (((Filter & FILTERFRAMING_IMAGE)>0)&&(AllowInternal))                                                    ToAdd=true;     break;
+            case AUTOFRAMING_HEIGHTLEFTMAX  :   if (((Filter & FILTERFRAMING_PROJECT)>0)&&(ProjectGeometry>ImageGeometry))                                  ToAdd=true;     break;
+            case AUTOFRAMING_HEIGHTLEFTMIN  :   if (((Filter & FILTERFRAMING_PROJECT)>0)&&(ProjectGeometry>ImageGeometry)&&(AllowInternal))                 ToAdd=true;     break;
+            case AUTOFRAMING_HEIGHTMIDLEMAX :   if (((Filter & FILTERFRAMING_PROJECT)>0))                                                                   ToAdd=true;     break;
+            case AUTOFRAMING_HEIGHTMIDLEMIN :   if (((Filter & FILTERFRAMING_PROJECT)>0)&&(AllowInternal))                                                  ToAdd=true;     break;
+            case AUTOFRAMING_HEIGHTRIGHTMAX :   if (((Filter & FILTERFRAMING_PROJECT)>0)&&(ProjectGeometry>ImageGeometry))                                  ToAdd=true;     break;
+            case AUTOFRAMING_HEIGHTRIGHTMIN :   if (((Filter & FILTERFRAMING_PROJECT)>0)&&(ProjectGeometry>ImageGeometry)&&(AllowInternal))                 ToAdd=true;     break;
+            case AUTOFRAMING_WIDTHTOPMAX    :   if (((Filter & FILTERFRAMING_PROJECT)>0)&&(ProjectGeometry<ImageGeometry))                                  ToAdd=true;     break;
+            case AUTOFRAMING_WIDTHTOPMIN    :   if (((Filter & FILTERFRAMING_PROJECT)>0)&&(ProjectGeometry<ImageGeometry)&&(AllowInternal))                 ToAdd=true;     break;
+            case AUTOFRAMING_WIDTHMIDLEMAX  :   if (((Filter & FILTERFRAMING_PROJECT)>0))                                                                   ToAdd=true;     break;
+            case AUTOFRAMING_WIDTHMIDLEMIN  :   if (((Filter & FILTERFRAMING_PROJECT)>0)&&(AllowInternal))                                                  ToAdd=true;     break;
+            case AUTOFRAMING_WIDTHBOTTOMMAX :   if (((Filter & FILTERFRAMING_PROJECT)>0)&&(ProjectGeometry<ImageGeometry))                                  ToAdd=true;     break;
+            case AUTOFRAMING_WIDTHBOTTOMMIN :   if (((Filter & FILTERFRAMING_PROJECT)>0)&&(ProjectGeometry<ImageGeometry)&&(AllowInternal))                 ToAdd=true;     break;
+        }
+        if (ToAdd) {
+            QImage CurImage=Image->copy();
+            Brush->ApplyMaskToImageToWorkspace(&CurImage,i,BackgroundForm,AutoFramingComboBoxIMAGEWIDTH,maxw,maxh,minw,minh,X,Y,ZoomFactor,AspectRatio,ProjectGeometry);
+            FramingStyleTable.append(cFramingStyleTableItem(&CurImage,i));
+        }
+    }
+
+    if (ResetContent || (CurrentFilter!=Filter) || (CurrentNbrITem!=FramingStyleTable.count())) {
+        CurrentFilter =Filter;
+        CurrentNbrITem=FramingStyleTable.count();
+        int CurIndex  =((QTableWidget *)view())->currentRow()*AutoFramingComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
+        while (count()>0) removeItem(count()-1);
+        int NbrItem=FramingStyleTable.count();
+        int NbrRow=NbrItem/AutoFramingComboBoxNBRCOLUMN;
+        if (NbrRow*AutoFramingComboBoxNBRCOLUMN<NbrItem) NbrRow++;
+        for (int i=0;i<NbrRow;i++) {
+            addItem(QIcon(AUTOFRAMING_ICON_GEOMETRY_IMAGE),"");    //automaticaly do a Table->insertRow(Table->rowCount());
+            ((QTableWidget *)view())->setRowHeight(((QTableWidget *)view())->rowCount()-1,AutoFramingComboBoxIMAGEWIDTH);
+        }
+        ((QTableWidget *)view())->setCurrentCell(CurIndex/AutoFramingComboBoxNBRCOLUMN,CurIndex-(CurIndex/AutoFramingComboBoxNBRCOLUMN)*AutoFramingComboBoxNBRCOLUMN);
+        setCurrentIndex(CurIndex/AutoFramingComboBoxNBRCOLUMN);
+    }
+    delete Image;
+}
+
+//========================================================================================================================
+
+void cFramingComboBox::SetCurrentFraming(int AutoFraming) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFramingComboBox::SetCurrentFraming");
+    if (STOPMAJ) return;
+    CurrentFramingStyle=AutoFraming;
+    int Index=0;
+    while ((Index<FramingStyleTable.count())&&(AutoFraming!=FramingStyleTable.at(Index).FrameStyle)) Index++;
+    if (Index<FramingStyleTable.count()) {
+        STOPMAJ=true;
+        ((QTableWidget *)view())->setCurrentCell(Index/AutoFramingComboBoxNBRCOLUMN,Index-(Index/AutoFramingComboBoxNBRCOLUMN)*AutoFramingComboBoxNBRCOLUMN);
+        setCurrentIndex(Index/AutoFramingComboBoxNBRCOLUMN);
+        MakeIcons();
+        STOPMAJ=false;
+    }
+}
+
+//========================================================================================================================
+
+int cFramingComboBox::GetCurrentFraming() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFramingComboBox::GetCurrentFraming");
+    int CurIndex=((QTableWidget *)view())->currentRow()*AutoFramingComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
+    if ((CurIndex>=0)&&(CurIndex<FramingStyleTable.count())) return FramingStyleTable.at(CurIndex).FrameStyle;
+    return -1;
+}
+
+//========================================================================================================================
+
+void cFramingComboBox::MakeIcons() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFramingComboBox::MakeIcons");
+    int CurIndex=((QTableWidget *)view())->currentRow()*AutoFramingComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
+    if ((CurIndex>=0)&&(CurIndex<FramingStyleTable.count())) {
+        QIcon IconGeoImage;
+        switch (AUTOFRAMINGDEF[FramingStyleTable.at(CurIndex).FrameStyle].GeometryType) {
+            case AUTOFRAMING_GEOMETRY_CUSTOM :  IconGeoImage=FramingStyleTable.at(CurIndex).FrameStyle==AUTOFRAMING_CUSTOMUNLOCK?QIcon(AUTOFRAMING_ICON_GEOMETRY_UNLOCKED):
+                                                                                                        QIcon(AUTOFRAMING_ICON_GEOMETRY_LOCKED);       break;
+            case AUTOFRAMING_GEOMETRY_PROJECT : IconGeoImage=QIcon(AUTOFRAMING_ICON_GEOMETRY_PROJECT);                                                 break;
+            case AUTOFRAMING_GEOMETRY_IMAGE :   IconGeoImage=QIcon(AUTOFRAMING_ICON_GEOMETRY_IMAGE);                                                   break;
+        }
+        setItemIcon(((QTableWidget *)view())->currentRow(),IconGeoImage);
+        setItemText(((QTableWidget *)view())->currentRow(),AUTOFRAMINGDEF[FramingStyleTable.at(CurIndex).FrameStyle].ToolTip);
+    }
+}
+
+//========================================================================================================================
+
+void cFramingComboBox::s_ItemSelectionChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFramingComboBox::s_ItemSelectionChanged");
+    int CurIndex=((QTableWidget *)view())->currentRow()*AutoFramingComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
+    if ((CurIndex>=0)&&(CurIndex<FramingStyleTable.count())) {
+        STOPMAJ=true;
+        setCurrentIndex(((QTableWidget *)view())->currentRow());
+        emit currentIndexChanged(((QTableWidget *)view())->currentRow());
+        ((QTableWidget *)view())->setToolTip(AUTOFRAMINGDEF[FramingStyleTable.at(CurIndex).FrameStyle].ToolTip);
+        STOPMAJ=false;
+    }
+}
+
+//******************************************************************************************************************
+// Custom QAbstractItemDelegate for AutoFraming ComboBox
+//******************************************************************************************************************
+#define AutoFrameShapeComboBoxIMAGEWIDTH   48
+#define AutoFrameShapeComboBoxNBRCOLUMN    8
+
+cFrameShapeBoxItem::cFrameShapeBoxItem(QObject *parent):QStyledItemDelegate(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFrameShapeBoxItem::cFrameShapeBoxItem");
+}
+
+//========================================================================================================================
+void cFrameShapeBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFrameShapeBoxItem::paint");
+    int CurIndex=index.row()*AutoFrameShapeComboBoxNBRCOLUMN+index.column();
+    int CurrentFramingStyle=0;
+    while ((CurrentFramingStyle<ComboBox->FrameShapeTable.count())&&(ComboBox->CurrentFramingStyle!=ComboBox->FrameShapeTable.at(CurrentFramingStyle).FrameStyle)) CurrentFramingStyle++;
+
+    if ((CurIndex>=0)&&(CurIndex<ComboBox->FrameShapeTable.count())) {
+        painter->drawPixmap(option.rect.left(),option.rect.top(),QPixmap().fromImage(((cFrameShapeTableItem)ComboBox->FrameShapeTable.at(CurIndex)).Image));
+    } else {
+        painter->fillRect(option.rect,Qt::white);
+    }
+    if (index.row()*((QTableWidget *)ComboBox->view())->columnCount()+index.column()==CurrentFramingStyle) {
+        painter->setPen(QPen(Qt::red));
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(option.rect.x()+3,option.rect.y()+3,option.rect.width()-6-1,option.rect.height()-6-1);
+    }
+    if (option.state & QStyle::State_Selected) {
+        painter->setPen(QPen(Qt::blue));
+        painter->setBrush(QBrush(Qt::NoBrush));
+        painter->drawRect(option.rect.x(),option.rect.y(),option.rect.width()-1,option.rect.height()-1);
+        painter->drawRect(option.rect.x()+1,option.rect.y()+1,option.rect.width()-1-2,option.rect.height()-1-2);
+        painter->setPen(QPen(Qt::black));
+        painter->drawRect(option.rect.x()+2,option.rect.y()+2,option.rect.width()-1-4,option.rect.height()-1-4);
+    }
+}
+
+//========================================================================================================================
+
+QSize cFrameShapeBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFrameShapeBoxItem::sizeHint");
+    return QSize(AutoFrameShapeComboBoxIMAGEWIDTH,AutoFrameShapeComboBoxIMAGEWIDTH);
+}
+
+//========================================================================================================================
+
+cFrameShapeTableItem::cFrameShapeTableItem(QImage *Image,int FrameStyle) {
+    this->Image     =*Image;
+    this->FrameStyle=FrameStyle;
+}
+
+//******************************************************************************************************************
+// Custom Brush ComboBox
+//******************************************************************************************************************
+
+ccFrameShapeBox::ccFrameShapeBox(QWidget *parent):QComboBox(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:ccFrameShapeBox::ccFrameShapeBox");
+    CurrentFilter       =-1;
+    CurrentFramingStyle =-1;
+    CurrentNbrITem      =-1;
+    STOPMAJ             =false;
+
+    QTableWidget    *Table=new QTableWidget();
+    Table->horizontalHeader()->hide();
+    Table->verticalHeader()->hide();
+    for (int i=0;i<AutoFrameShapeComboBoxNBRCOLUMN;i++) {
+        Table->insertColumn(0);
+        Table->setColumnWidth(0,AutoFrameShapeComboBoxIMAGEWIDTH);
+    }
+    setModel(Table->model());
+    setView(Table);
+    ItemDelegate.ComboBox=this;
+    setItemDelegate(&ItemDelegate);
+    this->view()->setFixedWidth(AutoFrameShapeComboBoxIMAGEWIDTH*AutoFrameShapeComboBoxNBRCOLUMN+18);
+    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
+}
+
+//========================================================================================================================
+
+void ccFrameShapeBox::hidePopup() {
+    QComboBox::hidePopup();
+    emit itemSelectionHaveChanged();
+    MakeIcons();
+    CurrentFramingStyle=GetCurrentFrameShape();
+}
+
+//========================================================================================================================
+
+void ccFrameShapeBox::keyReleaseEvent(QKeyEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cFramingComboBox::keyReleaseEvent");
+    int CurIndex=((QTableWidget *)view())->currentRow()*AutoFrameShapeComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
+    int aCurIndex=CurIndex;
+    if ((event->key()==Qt::Key_Right)||(event->key()==Qt::Key_Down)) {
+        if (CurIndex<FrameShapeTable.count()-1) CurIndex++;
+    } else if ((event->key()==Qt::Key_Left)||(event->key()==Qt::Key_Up)) {
+        if (CurIndex>0) CurIndex--;
+    } else QComboBox::keyReleaseEvent(event);
+    if (aCurIndex!=CurIndex) {
+        STOPMAJ=true;
+        ((QTableWidget *)view())->setCurrentCell(CurIndex/AutoFrameShapeComboBoxNBRCOLUMN,CurIndex-(CurIndex/AutoFrameShapeComboBoxNBRCOLUMN)*AutoFrameShapeComboBoxNBRCOLUMN);
+        setCurrentIndex(CurIndex/AutoFrameShapeComboBoxNBRCOLUMN);
+        MakeIcons();
+        STOPMAJ=false;
+        emit itemSelectionHaveChanged();
+    }
+}
+
+//========================================================================================================================
+
+void ccFrameShapeBox::PrepareFrameShapeTable(bool ResetContent,int Filter,int CurrentBackgroundForm,cApplicationConfig *ApplicationConfig) {
+    this->ApplicationConfig=ApplicationConfig;
+    if ((CurrentBackgroundForm>=SHAPEFORM_TRIANGLEUP)&&(CurrentBackgroundForm<=SHAPEFORM_TRIANGLELEFT)) Filter=Filter|FILTERFRAMESHAPE_OLDTRIANGLE;
+    FrameShapeTable.clear();
+    for (int i=0;i<NBR_SHAPEFORM;i++) {
+        bool ToAdd=ShapeFormDefinition.at(i).Enable;
+        if ((i>=SHAPEFORM_TRIANGLEUP)&&(i<=SHAPEFORM_TRIANGLELEFT)) ToAdd=((Filter & FILTERFRAMESHAPE_OLDTRIANGLE)>0);
+        if (ToAdd) {
+            cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,ApplicationConfig);
+            Object.x                        =0.1;
+            Object.y                        =0.1;
+            Object.w                        =0.8;
+            Object.h                        =0.8;
+            Object.BackgroundForm           =i;
+            Object.Opacity                  =4;
+            Object.PenSize                  =1;
+            Object.PenStyle                 =Qt::SolidLine;
+            Object.PenColor                 ="#000000";
+            Object.BackgroundBrush->ColorD  ="#FFFFFF";
+            Object.BackgroundBrush->BrushType=BRUSHTYPE_SOLID;
+            QImage   Image(QSize(AutoFrameShapeComboBoxIMAGEWIDTH,AutoFrameShapeComboBoxIMAGEWIDTH),QImage::Format_ARGB32);
+            QPainter Painter;
+            Painter.begin(&Image);
+            Painter.fillRect(QRect(0,0,AutoFrameShapeComboBoxIMAGEWIDTH,AutoFrameShapeComboBoxIMAGEWIDTH),"#ffffff");
+            Object.DrawCompositionObject(&Painter,1,0,0,AutoFrameShapeComboBoxIMAGEWIDTH,AutoFrameShapeComboBoxIMAGEWIDTH,true,0,0,NULL,1,NULL,false,0,false);
+            Painter.end();
+            FrameShapeTable.append(cFrameShapeTableItem(&Image,i));
+        }
+    }
+
+    if (ResetContent || (CurrentFilter!=Filter) || (CurrentNbrITem!=FrameShapeTable.count())) {
+        CurrentFilter =Filter;
+        CurrentNbrITem=FrameShapeTable.count();
+        int CurIndex  =((QTableWidget *)view())->currentRow()*AutoFrameShapeComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
+        while (count()>0) removeItem(count()-1);
+        int NbrItem=FrameShapeTable.count();
+        int NbrRow=NbrItem/AutoFrameShapeComboBoxNBRCOLUMN;
+        if (NbrRow*AutoFrameShapeComboBoxNBRCOLUMN<NbrItem) NbrRow++;
+        for (int i=0;i<NbrRow;i++) {
+            addItem(QIcon(QPixmap().fromImage(FrameShapeTable.at(i).Image.scaled(this->iconSize().width(),this->iconSize().height()))),ShapeFormDefinition.at(FrameShapeTable.at(i).FrameStyle).Name);
+            ((QTableWidget *)view())->setRowHeight(((QTableWidget *)view())->rowCount()-1,AutoFrameShapeComboBoxIMAGEWIDTH);
+        }
+        ((QTableWidget *)view())->setCurrentCell(CurIndex/AutoFrameShapeComboBoxNBRCOLUMN,CurIndex-(CurIndex/AutoFrameShapeComboBoxNBRCOLUMN)*AutoFrameShapeComboBoxNBRCOLUMN);
+        setCurrentIndex(CurIndex/AutoFrameShapeComboBoxNBRCOLUMN);
+    }
+}
+
+//========================================================================================================================
+
+void ccFrameShapeBox::SetCurrentFrameShape(int FrameShape) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:ccFrameShapeBox::SetCurrentFraming");
+    if (STOPMAJ) return;
+    CurrentFramingStyle=FrameShape;
+    int Index=0;
+    while ((Index<FrameShapeTable.count())&&(FrameShape!=FrameShapeTable.at(Index).FrameStyle)) Index++;
+    if (Index<FrameShapeTable.count()) {
+        STOPMAJ=true;
+        ((QTableWidget *)view())->setCurrentCell(Index/AutoFrameShapeComboBoxNBRCOLUMN,Index-(Index/AutoFrameShapeComboBoxNBRCOLUMN)*AutoFrameShapeComboBoxNBRCOLUMN);
+        setCurrentIndex(Index/AutoFrameShapeComboBoxNBRCOLUMN);
+        MakeIcons();
+        STOPMAJ=false;
+    }
+}
+
+//========================================================================================================================
+
+int ccFrameShapeBox::GetCurrentFrameShape() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:ccFrameShapeBox::GetCurrentFrameShape");
+    int CurIndex=((QTableWidget *)view())->currentRow()*AutoFrameShapeComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
+    if ((CurIndex>=0)&&(CurIndex<FrameShapeTable.count())) return FrameShapeTable.at(CurIndex).FrameStyle;
+    return -1;
+}
+
+//========================================================================================================================
+
+void ccFrameShapeBox::MakeIcons() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:ccFrameShapeBox::MakeIcons");
+    int CurIndex=((QTableWidget *)view())->currentRow()*AutoFrameShapeComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
+    if ((CurIndex>=0)&&(CurIndex<FrameShapeTable.count())) {
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,ApplicationConfig);
+        Object.x                        =0.05;
+        Object.y                        =0.05;
+        Object.w                        =0.9;
+        Object.h                        =0.9;
+        Object.BackgroundForm           =FrameShapeTable.at(CurIndex).FrameStyle;
+        Object.Opacity                  =4;
+        Object.PenSize                  =1;
+        Object.PenStyle                 =Qt::SolidLine;
+        Object.PenColor                 ="#000000";
+        Object.BackgroundBrush->ColorD  ="#FFFFFF";
+        Object.BackgroundBrush->BrushType=BRUSHTYPE_SOLID;
+        QPixmap  Image(this->iconSize());
+        QPainter Painter;
+        Painter.begin(&Image);
+        Painter.fillRect(QRect(0,0,this->iconSize().width(),this->iconSize().height()),"#ffffff");
+        Object.DrawCompositionObject(&Painter,1,0,0,this->iconSize().width(),this->iconSize().height(),true,0,0,NULL,1,NULL,false,0,false);
+        Painter.end();
+        setItemIcon(((QTableWidget *)view())->currentRow(),QIcon(Image));
+        setItemText(((QTableWidget *)view())->currentRow(),ShapeFormDefinition.at(FrameShapeTable.at(CurIndex).FrameStyle).Name);
+    }
+}
+
+//========================================================================================================================
+
+void ccFrameShapeBox::s_ItemSelectionChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:ccFrameShapeBox::s_ItemSelectionChanged");
+    if (STOPMAJ) return;
+    int CurIndex=((QTableWidget *)view())->currentRow()*AutoFrameShapeComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
+    if ((CurIndex>=0)&&(CurIndex<FrameShapeTable.count())) {
+        STOPMAJ=true;
+        setCurrentIndex(((QTableWidget *)view())->currentRow());
+        emit currentIndexChanged(((QTableWidget *)view())->currentRow());
+        ((QTableWidget *)view())->setToolTip(ShapeFormDefinition.at(FrameShapeTable.at(CurIndex).FrameStyle).Name);
+        STOPMAJ=false;
+    }
+}

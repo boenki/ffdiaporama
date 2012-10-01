@@ -215,6 +215,8 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
     ApplicationVersion      =TheApplicationVersion;        // Application version
     ConfigFileExt           =TheConfigFileExt;             // File extension of configuration files
     ConfigFileRootName      =TheConfigFileRootName;        // Name of root node in the config xml file
+
+    if (ApplicationVersion.startsWith(ApplicationName)) ApplicationVersion.mid(ApplicationVersion.indexOf(ApplicationName)+ApplicationName.length()+1);
     if (ApplicationGroupName!=ApplicationName) ToLog(LOGMSG_INFORMATION,QString("Starting %1 %2 %3").arg(ApplicationGroupName).arg(ApplicationName).arg(ApplicationVersion));
         else ToLog(LOGMSG_INFORMATION,QString("Starting %1 %2").arg(ApplicationGroupName).arg(ApplicationVersion));
 }
@@ -388,6 +390,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowVideoExtension.append("ogv");     AllowVideoExtension.append("OGV");
     AllowVideoExtension.append("webm");    AllowVideoExtension.append("WEBM");
     AllowVideoExtension.append("dv");      AllowVideoExtension.append("DV");
+    AllowVideoExtension.append("wmv");     AllowVideoExtension.append("WMV");
     #ifdef LIBAV_AVCHD
     AllowVideoExtension.append("mts");     AllowVideoExtension.append("MTS");
     #endif

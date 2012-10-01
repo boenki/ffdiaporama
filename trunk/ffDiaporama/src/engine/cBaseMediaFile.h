@@ -92,19 +92,6 @@
 
 //****************************************************************************************************************************************************************
 
-// Define possible values for images geometry
-#define IMAGE_GEOMETRY_UNKNOWN              0   // undefined image geometry
-#define IMAGE_GEOMETRY_3_2                  1   // Standard 3:2 landscape image
-#define IMAGE_GEOMETRY_2_3                  2   // Standard 3:2 portrait image
-#define IMAGE_GEOMETRY_4_3                  3   // Standard 4:3 landscape image
-#define IMAGE_GEOMETRY_3_4                  4   // Standard 4:3 portrait image
-#define IMAGE_GEOMETRY_16_9                 5   // Standard 16:9 landscape image
-#define IMAGE_GEOMETRY_9_16                 6   // Standard 16:9 portrait image
-#define IMAGE_GEOMETRY_40_17                7   // Standard cinema landscape image
-#define IMAGE_GEOMETRY_17_40                8   // Standard cinema portrait image
-
-//****************************************************************************************************************************************************************
-
 class cBaseMediaFile : public cCustomIcon {
 public:
     int                     ObjectType;
@@ -122,12 +109,13 @@ public:
     int                     ImageHeight;                    // Height of normal image
     int                     ImageOrientation;               // EXIF ImageOrientation (or -1)
     double                  AspectRatio;                    // Aspect ratio
+    int                     ImageType;                      // Type of image (depending on type object and size)
     cFilterTransformObject  BrushFileTransform;             // Image transformation if image from disk
     cBaseApplicationConfig *ApplicationConfig;
     QStringList             InformationList;
 
     cBaseMediaFile(cBaseApplicationConfig *ApplicationConfig);
-    ~cBaseMediaFile();
+    virtual                 ~cBaseMediaFile();
 
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual bool            IsFilteredFile(int RequireObjectType)=0;
@@ -232,6 +220,14 @@ public:
 //*********************************************************************************************************************************************
 // Video file
 //*********************************************************************************************************************************************
+extern int MAXCACHEIMAGE;
+
+class cImageInCache {
+public:
+    qlonglong   Position;
+    QImage      Image;
+    cImageInCache(qlonglong Position,QImage *Image);
+};
 
 class cVideoFile : public cBaseMediaFile {
 public:
@@ -255,6 +251,7 @@ public:
     AVFrame                 *FrameBufferYUV;
     bool                    FrameBufferYUVReady;        // true if FrameBufferYUV is ready to convert
     int64_t                 FrameBufferYUVPosition;     // If FrameBufferYUV is ready to convert then keep FrameBufferYUV position
+    qlonglong               start_time;                 // At first seek 0, keep the AVFormatContext value
 
     // Audio part
     AVFormatContext         *ffmpegAudioFile;           // LibAVFormat context
@@ -262,6 +259,8 @@ public:
     int                     AudioStreamNumber;          // Number of the audio stream
     int                     AudioTrackNbr;              // Number of audio stream in file
     int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
+
+    QList<cImageInCache>    CacheImage;
 
     explicit                cVideoFile(int WantedObjectType,cBaseApplicationConfig *ApplicationConfig);
                             ~cVideoFile();

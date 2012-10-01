@@ -263,18 +263,6 @@
         <translation>Sfondo</translation>
     </message>
     <message>
-        <source>For 4:3 project:</source>
-        <translation>Per progetto 4:3:</translation>
-    </message>
-    <message>
-        <source>For 16:9 project:</source>
-        <translation>Per progetto 16:9:</translation>
-    </message>
-    <message>
-        <source>For cinema project:</source>
-        <translation>Per progetto cinema:</translation>
-    </message>
-    <message>
         <source>Coordinates</source>
         <translation>Coordinate</translation>
     </message>
@@ -289,104 +277,6 @@
     <message>
         <source>Shape</source>
         <translation>Forma</translation>
-    </message>
-    <message>
-        <source>Coordinates
-for 3:2
-image in 
-landscape
-mode</source>
-        <translation>Coordinate
-per immagine 
-3:2 nella modalità
-paesaggio</translation>
-    </message>
-    <message>
-        <source>Coordinates
-for 3:2
-image in 
-portrait
-mode</source>
-        <translation>Coordinate per
-immagine 3:2 
-in modalità 
-ritratto</translation>
-    </message>
-    <message>
-        <source>Coordinates
-for 4:3
-image in 
-landscape
-mode</source>
-        <translation>Coordinate
-per immagine
-4:3 in modalità
-paesaggio</translation>
-    </message>
-    <message>
-        <source>Coordinates
-for 4:3
-image in 
-portrait
-mode</source>
-        <translation>Coordinate per
-immagine 4:3 
-in modalità 
-ritratto</translation>
-    </message>
-    <message>
-        <source>Coordinates
-for 16:9
-image in 
-landscape
-mode</source>
-        <translation>Coordinate
-per immagine
-16:9 in modalità
-paesaggio</translation>
-    </message>
-    <message>
-        <source>Coordinates
-for 16:9
-image in 
-portrait
-mode</source>
-        <translation>Coordinate per
-immagine 16:9 
-in modalità 
-ritratto</translation>
-    </message>
-    <message>
-        <source>Coordinates
-for cinema
-image in 
-landscape
-mode</source>
-        <translation>Coordinate
-per immagine
-cinema in modalità
-paesaggio</translation>
-    </message>
-    <message>
-        <source>Coordinates
-for cinema
-image in 
-portrait
-mode</source>
-        <translation>Coordinate per
-immagine cinema 
-in modalità 
-ritratto</translation>
-    </message>
-    <message>
-        <source>Coordinates
-for 
-nonstandard
-image</source>
-        <translation>Coordinate
-per 
-immagine
-non predefinita</translation>
     </message>
     <message>
         <source>Title :</source>
@@ -527,22 +417,6 @@ non predefinita</translation>
     <message>
         <source>F1</source>
         <translation>F1</translation>
-    </message>
-    <message>
-        <source>Lock to image geometry</source>
-        <translation>Blocca alla geometria immagine</translation>
-    </message>
-    <message>
-        <source>Lock to project geometry-to full image</source>
-        <translation>Blocca la geometria progetto a tutta immagine</translation>
-    </message>
-    <message>
-        <source>Lock to project geometry-to width</source>
-        <translation>Blocca la geometria progetto alla larghezza</translation>
-    </message>
-    <message>
-        <source>Lock to project geometry-to height</source>
-        <translation>Blocca la geometria progetto all&apos;altezza</translation>
     </message>
     <message>
         <source>Language selection</source>
@@ -736,6 +610,44 @@ quando si clicca il pulsante &quot;Per il WEB&quot; nel menu &quot;Genera filmat
     </message>
     <message>
         <source>Video deinterlacing :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Locking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photo landscape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image landscape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Coordinates:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video landscape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Photo portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Framing:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video portrait</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>image portrait</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1024,10 +936,6 @@ quando si clicca il pulsante &quot;Per il WEB&quot; nel menu &quot;Genera filmat
         <translation>Blocca alla geometrica progetto</translation>
     </message>
     <message>
-        <source>Lock to image geometry</source>
-        <translation>Blocca alla geometrica immagine</translation>
-    </message>
-    <message>
         <source>Creating cached filtered file ...</source>
         <translation>Creazione file cache filtrata ...</translation>
     </message>
@@ -1042,10 +950,6 @@ quando si clicca il pulsante &quot;Per il WEB&quot; nel menu &quot;Genera filmat
     <message>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
-    </message>
-    <message>
-        <source>No style for nonstandard geometry image</source>
-        <translation>Nessuno stile per geometria immagine non predefinita</translation>
     </message>
     <message>
         <source>Select a file</source>
@@ -1092,18 +996,6 @@ quando si clicca il pulsante &quot;Per il WEB&quot; nel menu &quot;Genera filmat
         <translation>Gira l&apos;immagine verso destra (sul prossimo multiplo di 90°)</translation>
     </message>
     <message>
-        <source>Define automatically the framing to the width of the image</source>
-        <translation>Definire automaticamente l&apos;inquadratura alla larghezza dell&apos;immagine</translation>
-    </message>
-    <message>
-        <source>Define automatically the framing to the height of the image</source>
-        <translation>Definire automaticamente l&apos;inquadratura all&apos;altezza dell&apos;immagine</translation>
-    </message>
-    <message>
-        <source>Define automatically the framing to the diagonal of the image</source>
-        <translation>Definire automaticamente l&apos;inquadratura alla diagonale dell&apos;immagine</translation>
-    </message>
-    <message>
         <source>Apply a filter to the photo or the video images</source>
         <translation>Applicare un filtro alla foto o alle immagini del video</translation>
     </message>
@@ -1130,6 +1022,38 @@ quando si clicca il pulsante &quot;Per il WEB&quot; nel menu &quot;Genera filmat
     <message>
         <source>Rulers</source>
         <translation>Righelli</translation>
+    </message>
+    <message>
+        <source>Full screen size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>TV margins</source>
+        <translation type="unfinished">Margini TV</translation>
+    </message>
+    <message>
+        <source>Two thirds of screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Half of screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Third of screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Quarter of screen</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Real image size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom size</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1544,90 +1468,6 @@ Per favore seleziona un altro nome!</translation>
         <translation>Rettangolo senza effetti</translation>
     </message>
     <message>
-        <source>Image geometry-Full image</source>
-        <translation>Geometrica immagine-Immagine completa</translation>
-    </message>
-    <message>
-        <source>Project geometry-Adjust on the width-Bottom</source>
-        <translation>Geometria progetto-Regola sulla larghezza inferiore</translation>
-    </message>
-    <message>
-        <source>Project geometry-Adjust on the width-Middle</source>
-        <translation>Geometria progetto-Regola sulla larghezza media</translation>
-    </message>
-    <message>
-        <source>Project geometry-Adjust on the width-Top</source>
-        <translation>Geometria progetto-Regolata sulla larghezza superiore</translation>
-    </message>
-    <message>
-        <source>Project geometry-Adjust on the height-Left</source>
-        <translation>Geometria progetto-Regolata sull&apos;altezza sinistra</translation>
-    </message>
-    <message>
-        <source>Project geometry-Adjust on the height-Center</source>
-        <translation>Geometria progetto-Regolata sull&apos;altezza centrale</translation>
-    </message>
-    <message>
-        <source>Project geometry-Adjust on the height-Right</source>
-        <translation>Geometria progetto-Regolata sull&apos;altezza destra</translation>
-    </message>
-    <message>
-        <source>Full screen</source>
-        <translation>Schermo pieno</translation>
-    </message>
-    <message>
-        <source>TV margins size</source>
-        <translation>Dimensione margini TV</translation>
-    </message>
-    <message>
-        <source>Maximum size for image geometry mode</source>
-        <translation>Dimensione massima per la modalità geometria immagine</translation>
-    </message>
-    <message>
-        <source>TV margins maximum size for image geometry mode</source>
-        <translation>Dimensione massima dei margini TV per la modalità geometria immagine</translation>
-    </message>
-    <message>
-        <source>High half of the screen</source>
-        <translation>Metà altezza dello schermo</translation>
-    </message>
-    <message>
-        <source>Left half of the screen</source>
-        <translation>Metà sinistra dello schermo</translation>
-    </message>
-    <message>
-        <source>Left high quarter of the screen</source>
-        <translation>Quarto alto sinistro dello schermo</translation>
-    </message>
-    <message>
-        <source>Left low quarter of the screen</source>
-        <translation>Quarto basso sinistro dello schermo</translation>
-    </message>
-    <message>
-        <source>Low half of the screen</source>
-        <translation>Metà bassa dello schermo</translation>
-    </message>
-    <message>
-        <source>Right half of the screen</source>
-        <translation>Metà destra dello schermo</translation>
-    </message>
-    <message>
-        <source>Right high quarter of the screen</source>
-        <translation>Quarto alto destro dello schermo</translation>
-    </message>
-    <message>
-        <source>Right low quarter of the screen</source>
-        <translation>Quarto basso destro dello schermo</translation>
-    </message>
-    <message>
-        <source>TV margins</source>
-        <translation>Margini TV</translation>
-    </message>
-    <message>
-        <source>50% screen size-Centered</source>
-        <translation>50% dimensione schermo-Centrato</translation>
-    </message>
-    <message>
         <source>Create new style</source>
         <translation>Crea nuovo stile</translation>
     </message>
@@ -1662,22 +1502,6 @@ Vuoi sovrascriverlo?</translation>
 Please select another name!</source>
         <translation>Uno stile con questo nome già esiste.
 Per favore seleziona un&apos;altro nome!</translation>
-    </message>
-    <message>
-        <source>Adjust to image width</source>
-        <translation>Agiusta alla larghezza immagine</translation>
-    </message>
-    <message>
-        <source>Adjust to image height</source>
-        <translation>Agiusta all&apos;altezza immagine</translation>
-    </message>
-    <message>
-        <source>Adjust to full image</source>
-        <translation>Agiusta a immagine piena</translation>
-    </message>
-    <message>
-        <source>Custom</source>
-        <translation>Personalizzata</translation>
     </message>
 </context>
 <context>
@@ -3449,6 +3273,81 @@ blocco</translation>
     </message>
 </context>
 <context>
+    <name>Framing styles</name>
+    <message>
+        <source>Custom geometry - unlocked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom geometry - locked</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom size - Image geometry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom size - Project geometry</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full image - inside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project height - to the left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project height - to the left - inside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project height - in the center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project height - in the center - inside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project height - to the right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project height - to the right - inside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project width - at the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project width - at the top - inside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project width - in the middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project width - in the middle - inside</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project width - at the bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project width - at the bottom - inside</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>File</source>
@@ -4598,6 +4497,285 @@ Sei sicuro che è vuota?</translation>
     <message>
         <source>Personal folder</source>
         <translation>Cartella personale</translation>
+    </message>
+</context>
+<context>
+    <name>Shape forms</name>
+    <message>
+        <source>No shape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rectangle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rounded rectangle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Bubble</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ellipse</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Old Triangle up version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Old Triangle right version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Old Triangle down version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Old Triangle left version</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rhombus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pentagon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hexagon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Octogon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simple arrow up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simple arrow right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simple arrow down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simple arrow left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Heart</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Puzzle Up-Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Puzzle Up-Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Puzzle Up-Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double vertical arrows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double horizontal arrows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double diagonal arrows 1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double diagonal arrows 2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Spade</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Puzzle Middle-Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Puzzle Middle-Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Puzzle Middle-Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right triangle Up-Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right triangle Up-Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right triangle Down-Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right triangle Down-Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Club</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Puzzle Down-Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Puzzle Down-Center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Puzzle Down-Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single triangle up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single triangle right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single triangle down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single triangle left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pushed up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sharp down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Four-pointed stars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Five-pointed stars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double triangle up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double triangle right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double triangle down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double triangle left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double chevron up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single chevron down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Six-pointed stars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Height-pointed stars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pushed left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double chevron left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single chevron left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sharp left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single chevron up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double chevron down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Six tooth gear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Eight tooth gear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sharp right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Single chevron right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double chevron right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pushed right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sharp up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Pushed down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ten tooth gear</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Twelve tooth gear</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

@@ -47,6 +47,19 @@ cInteractiveZone::cInteractiveZone(QWidget *parent):QWidget(parent) {
     IsCapture       =false;
     TransfoType     =NOTYETDEFINED;
     setMouseTracking(true);
+    AspectRatio     =1;
+    Sel_X           =0;
+    Sel_Y           =0;
+    Sel_W           =0;
+    Sel_H           =0;
+    RSel_X          =0;
+    RSel_Y          =0;
+    RSel_W          =0;
+    RSel_H          =0;
+    Move_X          =0;
+    Move_Y          =0;
+    Scale_X         =0;
+    Scale_Y         =0;
 }
 
 //====================================================================================================================
@@ -88,197 +101,58 @@ void cInteractiveZone::DifferedEmitDoubleClickEvent() {
 
 //====================================================================================================================
 
-void cInteractiveZone::paintEvent(QPaintEvent *) {
-    if (!ForegroundImage) return;
-    QPainter Painter(this);
-    Painter.save();
-    Painter.translate(SceneRect.left(),SceneRect.top());
-    Painter.drawImage(-1,-1,*ForegroundImage);
+QRectF cInteractiveZone::ApplyModifAndScaleFactors(int Block,QRectF Ref,bool ApplyShape) {
+    qreal  NewX         =BlockTable->CompositionList->List[Block]->x;
+    qreal  NewY         =BlockTable->CompositionList->List[Block]->y;
+    qreal  NewW         =BlockTable->CompositionList->List[Block]->w;
+    qreal  NewH         =BlockTable->CompositionList->List[Block]->h;
+    qreal  RatioScale_X =(RSel_W+Scale_X)/RSel_W;
+    qreal  RatioScale_Y =(RSel_H+Scale_Y)/RSel_H;
+    QList<QPolygonF> Pol=ComputePolygon(BlockTable->CompositionList->List[Block]->BackgroundForm,NewX*Ref.width(),NewY*Ref.height(),
+                                        NewW*Ref.width(),NewH*Ref.height(),NewX*Ref.width()+(NewW*Ref.width()/2),NewY*Ref.height()+(NewH*Ref.height()/2));
+    QPolygonF PolU(Pol.at(0));
+    for (int i=1;i<Pol.count();i++) PolU=PolU.united(Pol.at(i));
+    QRectF tmpRect=PolU.boundingRect();
+    /*if ((BlockTable->CompositionList->List[Block]->RotateXAxis!=0)||(BlockTable->CompositionList->List[Block]->RotateYAxis!=0)||(BlockTable->CompositionList->List[Block]->RotateZAxis!=0)) {
+        QPointF      Center=tmpRect.center();
+        QPainterPath Path;
+        QTransform   Matrix;
+        PolU.translate(-Center.x(),-Center.y());
+        Matrix.rotate(BlockTable->CompositionList->List[Block]->RotateXAxis,Qt::XAxis);
+        Matrix.rotate(BlockTable->CompositionList->List[Block]->RotateYAxis,Qt::YAxis);
+        Matrix.rotate(BlockTable->CompositionList->List[Block]->RotateZAxis,Qt::ZAxis);
+        Path.addPolygon(PolU);
+        tmpRect=Path.toFillPolygon(Matrix).boundingRect();
+        tmpRect.translate(Center);
+    }*/
 
-    //Painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
-    Painter.setBrush(Qt::NoBrush);
+    qreal  Decal_X      =(tmpRect.left()-NewX*Ref.width())/Ref.width();
+    qreal  Decal_Y      =(tmpRect.top()-NewY*Ref.height())/Ref.height();
+    qreal  Ratio_X      =(NewW*Ref.width())/tmpRect.width();
+    qreal  Ratio_Y      =(NewH*Ref.height())/tmpRect.height();
 
-    UpdateIsSelected();
-
-    int CurSelect=0;
-
-
-    // Draw blue frame borders when multi-select
-    for (int i=0;i<BlockTable->CompositionList->List.count();i++) if ((BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i])) {
-
-        QRect  NewRect;
-        double NewX=BlockTable->CompositionList->List[i]->x;
-        double NewY=BlockTable->CompositionList->List[i]->y;
-        double NewW=BlockTable->CompositionList->List[i]->w;
-        double NewH=BlockTable->CompositionList->List[i]->h;
-
-        // Apply transformation
-        if ((IsCapture)&&(TransfoType!=NOTYETDEFINED)) {
-            NewX=NewX+Move_X-(NewX-Sel_X)+(Sel_W!=0?((NewX-Sel_X)/Sel_W)*(Sel_W+Scale_X):0);
-            NewY=NewY+Move_Y-(NewY-Sel_Y)+(Sel_H!=0?((NewY-Sel_Y)/Sel_H)*(Sel_H+Scale_Y):0);
-            NewW=(Sel_W!=0?(NewW/Sel_W)*(Sel_W+Scale_X):Scale_X);
-            NewH=(Sel_H!=0?(NewH/Sel_H)*(Sel_H+Scale_Y):Scale_Y);
+    if ((IsCapture)&&(TransfoType!=NOTYETDEFINED)&&(BlockTable->CompositionList->List[Block]->IsVisible)&&(IsSelected[Block])) {
+        NewX=RSel_X+Move_X+(NewX-RSel_X)*RatioScale_X;
+        NewY=RSel_Y+Move_Y+(NewY-RSel_Y)*RatioScale_Y;
+        NewW=NewW*RatioScale_X;
+        if (NewW<0.002) NewW=0.002;
+        if (BlockTable->CompositionList->List[Block]->BackgroundBrush->LockGeometry) NewH=((NewW*Ref.width())*BlockTable->CompositionList->List[Block]->BackgroundBrush->AspectRatio)/Ref.height();
+            else NewH=NewH*RatioScale_Y;
+        if (NewH<0.002) NewH=0.002;
+        if (ApplyShape) {
+            NewX=NewX+Decal_X*RatioScale_X;
+            NewY=NewY+Decal_Y*RatioScale_Y;
         }
-
-        NewRect=QRect(NewX*SceneRect.width(),NewY*SceneRect.height(),NewW*SceneRect.width(),NewH*SceneRect.height());
-        if (NbrSelected>1) {
-            QPen pen(Qt::white);
-            pen.setJoinStyle(Qt::RoundJoin);
-            pen.setWidth(1);
-            pen.setStyle(Qt::DashLine);
-            Painter.setPen(pen);
-            DrawSelect(Painter,QRectF(NewRect.left()+1,NewRect.top()+1,NewRect.width(),NewRect.height()),false);
-            pen.setColor(Qt::blue);
-            Painter.setPen(pen);
-            DrawSelect(Painter,NewRect,false);
-        }
-
-        if (CurSelect==0) {
-            CurSelRect=NewRect;
-            if (!IsCapture) {
-                Sel_X=BlockTable->CompositionList->List[i]->x;
-                Sel_Y=BlockTable->CompositionList->List[i]->y;
-                Sel_W=BlockTable->CompositionList->List[i]->w;
-                Sel_H=BlockTable->CompositionList->List[i]->h;
-            }
-        } else {
-            if (NewRect.left()  <CurSelRect.left())   {
-                CurSelRect.setLeft(NewRect.left());
-                if (!IsCapture) {
-                    Sel_W=Sel_X+Sel_W-BlockTable->CompositionList->List[i]->x;
-                    Sel_X=BlockTable->CompositionList->List[i]->x;
-                }
-            }
-            if (NewRect.top()   <CurSelRect.top())    {
-                CurSelRect.setTop(NewRect.top());
-                if (!IsCapture) {
-                    Sel_H=Sel_Y+Sel_H-BlockTable->CompositionList->List[i]->y;
-                    Sel_Y=BlockTable->CompositionList->List[i]->y;
-                }
-            }
-            if (NewRect.right() >CurSelRect.right())  {
-                CurSelRect.setRight(NewRect.right());
-                if (!IsCapture) Sel_W=BlockTable->CompositionList->List[i]->x+BlockTable->CompositionList->List[i]->w-Sel_X;
-            }
-            if (NewRect.bottom()>CurSelRect.bottom()) {
-                CurSelRect.setBottom(NewRect.bottom());
-                if (!IsCapture) Sel_H=BlockTable->CompositionList->List[i]->y+BlockTable->CompositionList->List[i]->h-Sel_Y;
-            }
-        }
-        CurSelect++;
-
+    } else if (IsSelected[Block]) {
+        NewX=NewX+Decal_X;
+        NewY=NewY+Decal_Y;
     }
 
-    if ((!IsCapture)&&(NbrSelected>0)) {
-        if ((CurSelRect.width()==0)||(CurSelRect.height()==0)) {
-            Sel_W=0.02;
-            Sel_H=0.02;
-            CurSelRect.setWidth(2);
-            CurSelRect.setHeight(2);
-        }
-        AspectRatio=double(CurSelRect.height())/double(CurSelRect.width());
+    if (ApplyShape) {
+        NewW=NewW/Ratio_X;
+        NewH=NewH/Ratio_Y;
     }
-
-    // Draw rullers if they was enabled
-    if (MagneticRuler!=0) {
-        QList<double>   MagnetVert;
-        QList<double>   MagnetHoriz;
-
-        //if ((MagneticRuler&RULER_VERT_SCREENBORDER)!=0)    MagnetVert.append(0);                                                  // Left screen
-        //if ((MagneticRuler&RULER_VERT_SCREENBORDER)!=0)    MagnetVert.append(SceneRect.width());                                  // Right screen
-        if ((MagneticRuler&RULER_VERT_TVMARGIN)!=0)          MagnetVert.append(SceneRect.width()*0.05);                             // 5% Left TV Margins
-        if ((MagneticRuler&RULER_VERT_TVMARGIN)!=0)          MagnetVert.append(SceneRect.width()-SceneRect.width()*0.05);           // 5% Right TV Margins
-        if ((MagneticRuler&RULER_VERT_SCREENCENTER)!=0)      MagnetVert.append(SceneRect.width()*0.5);                              // Center or screen
-        //if ((MagneticRuler&RULER_HORIZ_SCREENBORDER)!=0)   MagnetHoriz.append(0);                                                 // Top screen
-        //if ((MagneticRuler&RULER_HORIZ_SCREENBORDER)!=0)   MagnetHoriz.append(SceneRect.height());                                // Bottom screen
-        if ((MagneticRuler&RULER_HORIZ_TVMARGIN)!=0)         MagnetHoriz.append(SceneRect.height()*0.05);                           // 5% Up TV Margins
-        if ((MagneticRuler&RULER_HORIZ_TVMARGIN)!=0)         MagnetHoriz.append(SceneRect.height()-SceneRect.height()*0.05);        // 5% Bottom TV Margins
-        if ((MagneticRuler&RULER_HORIZ_SCREENCENTER)!=0)     MagnetHoriz.append(SceneRect.height()*0.5);                            // Center or screen
-        // Display base rulers
-
-        // Clean collections
-        for (int i=MagnetHoriz.count()-1;i>=0;i--) for (int j=0;j<i;j++) if (int(MagnetHoriz[j])==int(MagnetHoriz[i])) { MagnetHoriz.removeAt(i); break; }
-        for (int i=MagnetVert.count()-1;i>=0;i--)  for (int j=0;j<i;j++) if (int(MagnetVert[j]) ==int(MagnetVert[i]))  { MagnetVert.removeAt(i);  break; }
-
-        Painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
-
-        QPen pen=QPen(QColor(0,255,0));
-        pen.setWidth(1);
-        pen.setStyle(Qt::DotLine);
-        Painter.setPen(pen);
-        for (int i=0;i<MagnetVert.count();i++)  Painter.drawLine(MagnetVert[i],0,MagnetVert[i],SceneRect.height());
-        for (int i=0;i<MagnetHoriz.count();i++) Painter.drawLine(0,MagnetHoriz[i],SceneRect.width(),MagnetHoriz[i]);
-
-        if (IsCapture) {
-            pen.setWidth(1);
-            pen.setStyle(Qt::DashDotDotLine);
-            MagnetVert.clear();
-            MagnetHoriz.clear();
-            double Ecart=0.005;
-            // Unselected object
-            if ((MagneticRuler&RULER_VERT_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if ((!IsSelected[i])&&(BlockTable->CompositionList->List[i]->IsVisible)) {
-                double a1=double(CurSelRect.left())/SceneRect.width();
-                double a2=(double(CurSelRect.left())+double(CurSelRect.width())/2)/SceneRect.width();
-                double a3=double(CurSelRect.right())/SceneRect.width();
-                double x1=BlockTable->CompositionList->List[i]->x;
-                double x2=BlockTable->CompositionList->List[i]->x+BlockTable->CompositionList->List[i]->w/2;
-                double x3=BlockTable->CompositionList->List[i]->x+BlockTable->CompositionList->List[i]->w;
-                if (((x1>(a1-Ecart))&&(x1<(a1+Ecart)))||((x1>(a2-Ecart))&&(x1<(a2+Ecart)))||((x1>(a3-Ecart))&&(x1<(a3+Ecart)))) MagnetVert.append(x1*SceneRect.width());
-                if (((x2>(a1-Ecart))&&(x2<(a1+Ecart)))||((x2>(a2-Ecart))&&(x2<(a2+Ecart)))||((x2>(a3-Ecart))&&(x2<(a3+Ecart)))) MagnetVert.append(x2*SceneRect.width());
-                if (((x3>(a1-Ecart))&&(x3<(a1+Ecart)))||((x3>(a2-Ecart))&&(x3<(a2+Ecart)))||((x3>(a3-Ecart))&&(x3<(a3+Ecart)))) MagnetVert.append(x3*SceneRect.width());
-            }
-            if ((MagneticRuler&RULER_HORIZ_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if ((!IsSelected[i])&&(BlockTable->CompositionList->List[i]->IsVisible)) {
-                double a1=double(CurSelRect.top())/SceneRect.height();
-                double a2=(double(CurSelRect.top())+double(CurSelRect.height())/2)/SceneRect.height();
-                double a3=double(CurSelRect.bottom())/SceneRect.height();
-                double y1=BlockTable->CompositionList->List[i]->y;
-                double y2=BlockTable->CompositionList->List[i]->y+BlockTable->CompositionList->List[i]->h/2;
-                double y3=BlockTable->CompositionList->List[i]->y+BlockTable->CompositionList->List[i]->h;
-                if (((y1>(a1-Ecart))&&(y1<(a1+Ecart)))||((y1>(a2-Ecart))&&(y1<(a2+Ecart)))||((y1>(a3-Ecart))&&(y1<(a3+Ecart)))) MagnetHoriz.append(y1*SceneRect.height());
-                if (((y2>(a1-Ecart))&&(y2<(a1+Ecart)))||((y2>(a2-Ecart))&&(y2<(a2+Ecart)))||((y2>(a3-Ecart))&&(y2<(a3+Ecart)))) MagnetHoriz.append(y2*SceneRect.height());
-                if (((y3>(a1-Ecart))&&(y3<(a1+Ecart)))||((y3>(a2-Ecart))&&(y3<(a2+Ecart)))||((y3>(a3-Ecart))&&(y3<(a3+Ecart)))) MagnetHoriz.append(y3*SceneRect.height());
-            }
-            // Clean collections
-            for (int i=MagnetHoriz.count()-1;i>=0;i--) for (int j=0;j<i;j++) if (int(MagnetHoriz[j])==int(MagnetHoriz[i])) { MagnetHoriz.removeAt(i); break; }
-            for (int i=MagnetVert.count()-1;i>=0;i--)  for (int j=0;j<i;j++) if (int(MagnetVert[j]) ==int(MagnetVert[i]))  { MagnetVert.removeAt(i);  break; }
-            // Display small rulers
-            pen.setColor(QColor(0,255,0));
-            Painter.setPen(pen);
-            for (int i=0;i<MagnetVert.count();i++)  Painter.drawLine(MagnetVert[i],0,MagnetVert[i],SceneRect.height());
-            for (int i=0;i<MagnetHoriz.count();i++) Painter.drawLine(0,MagnetHoriz[i],SceneRect.width(),MagnetHoriz[i]);
-        }
-    }
-
-    // Draw select frame border
-    if (NbrSelected>0) {
-        QPen pen(Qt::white);
-        pen.setWidth(2);
-        pen.setStyle(Qt::DashLine);
-        pen.setColor(Qt::red);
-        Painter.setPen(pen);
-        DrawSelect(Painter,CurSelRect,true);
-    }
-
-    Painter.restore();
-}
-
-void cInteractiveZone::DrawSelect(QPainter &Painter,QRectF Rect,bool WithHandles) {
-    Painter.drawRect(Rect);
-    if (WithHandles) {
-        QPen OldPen=Painter.pen();
-        QPen pen=OldPen;
-        pen.setStyle(Qt::SolidLine);
-        Painter.setPen(pen);
-        Painter.drawRect(QRectF(Rect.left()-HANDLESIZEX/2, Rect.top()-HANDLESIZEY/2,                 HANDLESIZEX,HANDLESIZEY));    // Top left
-        Painter.drawRect(QRectF(Rect.left()-HANDLESIZEX/2, Rect.top()+Rect.height()/2-HANDLESIZEY/2, HANDLESIZEX,HANDLESIZEY));    // Left
-        Painter.drawRect(QRectF(Rect.left()-HANDLESIZEX/2, Rect.bottom()-HANDLESIZEY/2,              HANDLESIZEX,HANDLESIZEY));    // Bottom left
-        Painter.drawRect(QRectF(Rect.right()-HANDLESIZEX/2,Rect.top()-HANDLESIZEY/2,                 HANDLESIZEX,HANDLESIZEY));    // Top right
-        Painter.drawRect(QRectF(Rect.right()-HANDLESIZEX/2,Rect.top()+Rect.height()/2-HANDLESIZEY/2, HANDLESIZEX,HANDLESIZEY));    // right
-        Painter.drawRect(QRectF(Rect.right()-HANDLESIZEX/2,Rect.bottom()-HANDLESIZEY/2,              HANDLESIZEX,HANDLESIZEY));    // Bottom right
-        Painter.drawRect(QRectF(Rect.left()+Rect.width()/2-HANDLESIZEX/2,Rect.top()-HANDLESIZEY/2,   HANDLESIZEX,HANDLESIZEY));    // Top
-        Painter.drawRect(QRectF(Rect.left()+Rect.width()/2-HANDLESIZEX/2,Rect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY));    // Bottom
-        Painter.setPen(OldPen);
-    }
+    return QRectF(NewX*Ref.width(),NewY*Ref.height(),NewW*Ref.width(),NewH*Ref.height());
 }
 
 //====================================================================================================================
@@ -286,6 +160,10 @@ void cInteractiveZone::DrawSelect(QPainter &Painter,QRectF Rect,bool WithHandles
 void cInteractiveZone::RefreshDisplay() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cInteractiveZone::RefreshDisplay");
     if ((!BlockTable)||(!BlockTable->CompositionList)) return;
+
+    double SW,SH;
+    GetForDisplayUnit(SW,SH);
+    ScreenRect=QRectF(0,0,SW,SH);
 
     if (BlockTable->updatesEnabled()) {
         // Prepare BackgroundImage if not exist
@@ -330,26 +208,13 @@ void cInteractiveZone::RefreshDisplay() {
                 }
             } else StartVideoPos=0;
 
-            // Draw composition block
-            double NewX=BlockTable->CompositionList->List[i]->x;
-            double NewY=BlockTable->CompositionList->List[i]->y;
-            double NewW=BlockTable->CompositionList->List[i]->w;
-            double NewH=BlockTable->CompositionList->List[i]->h;
-
-            // Apply transformation
-            if ((IsSelected[i])&&(IsCapture)&&(TransfoType!=NOTYETDEFINED)) {
-                NewX=NewX+Move_X-(NewX-Sel_X)+(Sel_W!=0?((NewX-Sel_X)/Sel_W)*(Sel_W+Scale_X):0);
-                NewY=NewY+Move_Y-(NewY-Sel_Y)+(Sel_H!=0?((NewY-Sel_Y)/Sel_H)*(Sel_H+Scale_Y):0);
-                NewW=(Sel_W!=0?(NewW/Sel_W)*(Sel_W+Scale_X):Scale_X);
-                NewH=(Sel_H!=0?(NewH/Sel_H)*(Sel_H+Scale_Y):Scale_Y);
-            }
-
+            QRectF NewRect=ApplyModifAndScaleFactors(i,SceneRect,false);
             BlockTable->CompositionList->List[i]->DrawCompositionObject(&P,double(ForegroundImage->height())/double(1080),0,0,ForegroundImage->width(),ForegroundImage->height(),true,0,StartVideoPos,
                                                                         NULL,1,NULL,true,DiaporamaObject->List[CurrentShotNbr]->StaticDuration,false,
-                                                                        (IsCapture)&&(TransfoType!=NOTYETDEFINED),NewX,NewY,NewW,NewH);
+                                                                        (IsCapture)&&(TransfoType!=NOTYETDEFINED),NewRect.left()/SceneRect.width(),NewRect.top()/SceneRect.height(),NewRect.width()/SceneRect.width(),NewRect.height()/SceneRect.height());
 
             if ((CurrentShotNbr>0)&&(BlockTable->CompositionList->List[i]->SameAsPrevShot))
-                P.drawImage((NewX+NewW/2)*double(ForegroundImage->width())-12,(NewY+NewH/2)*double(ForegroundImage->height())-12,QImage(":/img/Lock24.png"));
+                P.drawImage((NewRect.left()/SW+(NewRect.width()/SW)/2)*double(ForegroundImage->width())-12,(NewRect.top()/SceneRect.height()+(NewRect.height()/SceneRect.height())/2)*double(ForegroundImage->height())-12,QImage(":/img/Lock24.png"));
         }
 
         P.restore();
@@ -357,6 +222,205 @@ void cInteractiveZone::RefreshDisplay() {
     }
 
     repaint();
+}
+
+//====================================================================================================================
+
+void cInteractiveZone::paintEvent(QPaintEvent *) {
+    if (!ForegroundImage) return;
+    QPainter Painter(this);
+    Painter.save();
+    Painter.translate(SceneRect.left(),SceneRect.top());
+    Painter.drawImage(-1,-1,*ForegroundImage);
+
+    //Painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
+    Painter.setBrush(Qt::NoBrush);
+
+    UpdateIsSelected();
+
+    int CurSelect=0;
+
+
+    // Draw blue frame borders when multi-select
+    for (int i=0;i<BlockTable->CompositionList->List.count();i++) if ((BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i])) {
+
+        QRectF FullRect     =QRectF(BlockTable->CompositionList->List[i]->x*ScreenRect.width(),BlockTable->CompositionList->List[i]->y*ScreenRect.height(),
+                                    BlockTable->CompositionList->List[i]->w*ScreenRect.width(),BlockTable->CompositionList->List[i]->h*ScreenRect.height());
+
+        /*if ((BlockTable->CompositionList->List[i]->RotateXAxis!=0)||(BlockTable->CompositionList->List[i]->RotateYAxis!=0)||(BlockTable->CompositionList->List[i]->RotateZAxis!=0)) {
+            QPointF      Center=FullRect.center();
+            QPainterPath Path;
+            QTransform   Matrix;
+            FullRect.translate(-Center.x(),-Center.y());
+            Matrix.rotate(BlockTable->CompositionList->List[i]->RotateXAxis,Qt::XAxis);
+            Matrix.rotate(BlockTable->CompositionList->List[i]->RotateYAxis,Qt::YAxis);
+            Matrix.rotate(BlockTable->CompositionList->List[i]->RotateZAxis,Qt::ZAxis);
+            Path.addRect(FullRect);
+            FullRect=Path.toFillPolygon(Matrix).boundingRect();
+            FullRect.translate(Center);
+        }*/
+
+        QRectF NewRect      =ApplyModifAndScaleFactors(i,SceneRect,true);
+        QRectF NewRectScreen=ApplyModifAndScaleFactors(i,ScreenRect,true);
+        if (NbrSelected>1) {
+            QPen pen(Qt::white);
+            pen.setJoinStyle(Qt::RoundJoin);
+            pen.setWidth(1);
+            pen.setStyle(Qt::DashLine);
+            Painter.setPen(pen);
+            DrawSelect(Painter,QRectF(NewRect.left()+1,NewRect.top()+1,NewRect.width(),NewRect.height()),false);
+            pen.setColor(Qt::blue);
+            Painter.setPen(pen);
+            DrawSelect(Painter,NewRect,false);
+        }
+
+        if (CurSelect==0) {
+            FullSelRect     =FullRect;
+            CurSelRect      =NewRect;
+            CurSelScreenRect=NewRectScreen;
+            if (!IsCapture) {
+                Sel_X=NewRectScreen.left()/ScreenRect.width();      RSel_X=BlockTable->CompositionList->List[i]->x;
+                Sel_Y=NewRectScreen.top()/ScreenRect.height();      RSel_Y=BlockTable->CompositionList->List[i]->y;
+                Sel_W=NewRectScreen.width()/ScreenRect.width();     RSel_W=BlockTable->CompositionList->List[i]->w;
+                Sel_H=NewRectScreen.height()/ScreenRect.height();   RSel_H=BlockTable->CompositionList->List[i]->h;
+            }
+        } else {
+            if (NewRect.left()  <CurSelRect.left())   {
+                CurSelRect.setLeft(NewRect.left());
+                CurSelScreenRect.setLeft(NewRectScreen.left());
+                if (!IsCapture) {
+                    Sel_W=Sel_X+Sel_W-NewRectScreen.left()/ScreenRect.width();
+                    Sel_X=NewRectScreen.left()/ScreenRect.width();
+                }
+            }
+            if (NewRect.top()   <CurSelRect.top())    {
+                CurSelRect.setTop(NewRect.top());
+                CurSelScreenRect.setTop(NewRectScreen.top());
+                if (!IsCapture) {
+                    Sel_H=Sel_Y+Sel_H-NewRectScreen.top()/ScreenRect.height();
+                    Sel_Y=NewRectScreen.top()/ScreenRect.height();
+                }
+            }
+            if (NewRect.right() >CurSelRect.right())  {
+                CurSelRect.setRight(NewRect.right());
+                CurSelScreenRect.setRight(NewRectScreen.right());
+                if (!IsCapture) Sel_W=NewRectScreen.left()/ScreenRect.width()+NewRectScreen.width()/ScreenRect.width()-Sel_X;
+            }
+            if (NewRect.bottom()>CurSelRect.bottom()) {
+                CurSelRect.setBottom(NewRect.bottom());
+                CurSelScreenRect.setBottom(NewRectScreen.bottom());
+                if (!IsCapture) Sel_H=NewRectScreen.top()/ScreenRect.height()+NewRectScreen.height()/ScreenRect.height()-Sel_Y;
+            }
+            //************
+            if (FullRect.left()  <FullSelRect.left())   {
+                FullSelRect.setLeft(FullRect.left());
+                if (!IsCapture) {
+                    RSel_W=RSel_X+RSel_W-FullRect.left()/ScreenRect.width();
+                    RSel_X=FullRect.left()/ScreenRect.width();
+                }
+            }
+            if (FullRect.top()   <FullSelRect.top())    {
+                FullSelRect.setTop(FullRect.top());
+                if (!IsCapture) {
+                    RSel_H=RSel_Y+RSel_H-FullRect.top()/ScreenRect.height();
+                    RSel_Y=FullRect.top()/ScreenRect.height();
+                }
+            }
+            if (FullRect.right() >FullSelRect.right())  {
+                FullSelRect.setRight(FullRect.right());
+                if (!IsCapture) RSel_W=FullRect.left()/ScreenRect.width()+FullRect.width()/ScreenRect.width()-RSel_X;
+            }
+            if (FullRect.bottom()>FullSelRect.bottom()) {
+                FullSelRect.setBottom(FullRect.bottom());
+                if (!IsCapture) RSel_H=FullRect.top()/ScreenRect.height()+FullRect.height()/ScreenRect.height()-RSel_Y;
+            }
+
+        }
+        CurSelect++;
+
+    }
+
+    if ((!IsCapture)&&(NbrSelected>0)) {
+        if ((CurSelRect.width()==0)||(CurSelRect.height()==0)) {
+            Sel_W=0.02;
+            Sel_H=0.02;
+            CurSelRect.setWidth(2);     CurSelScreenRect.setWidth(2);
+            CurSelRect.setHeight(2);    CurSelScreenRect.setHeight(2);
+        }
+        if ((FullSelRect.width()==0)||(FullSelRect.height()==0)) {
+            RSel_W=0.02;
+            RSel_H=0.02;
+            FullSelRect.setWidth(2);
+            FullSelRect.setHeight(2);
+        }
+        AspectRatio=double(FullSelRect.height())/double(FullSelRect.width());
+    }
+
+    // Draw rullers if they was enabled
+    if (MagneticRuler!=0) {
+        QList<sDualQReal>   MagnetVert;
+        QList<sDualQReal>   MagnetHoriz;
+        ComputeRulers(MagnetVert,MagnetHoriz);
+
+        // Draw rulers
+        Painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
+        QPen Pen1=QPen(QColor(0,255,0)),Pen2=QPen(QColor(0,255,0));
+        Pen1.setWidth(1);
+        Pen1.setStyle(Qt::DotLine);
+        Pen2.setWidth(1);
+        Pen2.setStyle(Qt::DashDotDotLine);
+        for (int i=0;i<MagnetVert.count();i++)  {
+            if ((MagnetVert[i].Block==0)||(MagnetVert[i].Block==SceneRect.width())||                                                    // borders of the screen
+                (MagnetVert[i].Block==SceneRect.width()*0.5-1)||(MagnetVert[i].Block==SceneRect.width()*0.5)||                          // center of the screen
+                (MagnetVert[i].Block==SceneRect.width()*0.05)||(MagnetVert[i].Block==SceneRect.width()-SceneRect.width()*0.05))         // TV Margins
+                    Painter.setPen(Pen1); else Painter.setPen(Pen2);
+            if ((MagnetVert[i].Block!=0)&&(MagnetVert[i].Block!=SceneRect.width())) {                                                   // don't draw screen borders
+                    Painter.drawLine(MagnetVert[i].Block,0,MagnetVert[i].Block,SceneRect.height());
+            }
+        }
+        for (int i=0;i<MagnetHoriz.count();i++) {
+            if ((MagnetHoriz[i].Block==0)||(MagnetHoriz[i].Block==SceneRect.height())||                                                 // borders of the screen
+                (MagnetHoriz[i].Block==SceneRect.height()*0.5-1)||(MagnetHoriz[i].Block==SceneRect.height()*0.5)||                      // centers of the screen
+                (MagnetHoriz[i].Block==SceneRect.height()*0.05)||(MagnetHoriz[i].Block==SceneRect.height()-SceneRect.height()*0.05))    // TV Margins
+                    Painter.setPen(Pen1); else Painter.setPen(Pen2);
+            if ((MagnetHoriz[i].Block!=0)&&(MagnetHoriz[i].Block!=SceneRect.height())) {                                                // don't draw screen borders
+                    Painter.drawLine(0,MagnetHoriz[i].Block,SceneRect.width(),MagnetHoriz[i].Block);
+            }
+        }
+    }
+
+    // Draw select frame border
+    if (NbrSelected>0) {
+        QPen pen(Qt::white);
+        pen.setWidth(2);
+        pen.setStyle(Qt::DashLine);
+        pen.setColor(Qt::red);
+        Painter.setPen(pen);
+        DrawSelect(Painter,CurSelRect,true);
+    }
+
+    Painter.restore();
+}
+
+//====================================================================================================================
+
+void cInteractiveZone::DrawSelect(QPainter &Painter,QRectF Rect,bool WithHandles) {
+    Painter.drawRect(Rect);
+    if (WithHandles) {
+        QPen OldPen=Painter.pen();
+        QPen pen=OldPen;
+        pen.setStyle(Qt::SolidLine);
+        Painter.setPen(pen);
+        Painter.drawRect(QRectF(Rect.left()-HANDLESIZEX/2, Rect.top()-HANDLESIZEY/2,                 HANDLESIZEX,HANDLESIZEY));    // Top left
+        Painter.drawRect(QRectF(Rect.left()-HANDLESIZEX/2, Rect.top()+Rect.height()/2-HANDLESIZEY/2, HANDLESIZEX,HANDLESIZEY));    // Left
+        Painter.drawRect(QRectF(Rect.left()-HANDLESIZEX/2, Rect.bottom()-HANDLESIZEY/2,              HANDLESIZEX,HANDLESIZEY));    // Bottom left
+        Painter.drawRect(QRectF(Rect.right()-HANDLESIZEX/2,Rect.top()-HANDLESIZEY/2,                 HANDLESIZEX,HANDLESIZEY));    // Top right
+        Painter.drawRect(QRectF(Rect.right()-HANDLESIZEX/2,Rect.top()+Rect.height()/2-HANDLESIZEY/2, HANDLESIZEX,HANDLESIZEY));    // right
+        Painter.drawRect(QRectF(Rect.right()-HANDLESIZEX/2,Rect.bottom()-HANDLESIZEY/2,              HANDLESIZEX,HANDLESIZEY));    // Bottom right
+        Painter.drawRect(QRectF(Rect.left()+Rect.width()/2-HANDLESIZEX/2,Rect.top()-HANDLESIZEY/2,   HANDLESIZEX,HANDLESIZEY));    // Top
+        Painter.drawRect(QRectF(Rect.left()+Rect.width()/2-HANDLESIZEX/2,Rect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY));    // Bottom
+        Painter.setPen(OldPen);
+    }
 }
 
 //====================================================================================================================
@@ -382,16 +446,15 @@ void cInteractiveZone::UpdateIsSelected() {
 
 //====================================================================================================================
 
-bool cInteractiveZone::IsInRect(QPoint Pos,QRect Rect) {
+bool cInteractiveZone::IsInRect(QPointF Pos,QRectF Rect) {
     return ((Pos.x()-SceneRect.left()>=Rect.left())&&(Pos.x()-SceneRect.left()<=Rect.right())&&(Pos.y()-SceneRect.top()>=Rect.top())&&(Pos.y()-SceneRect.top()<=Rect.bottom()));
 }
 
 //====================================================================================================================
 
-bool cInteractiveZone::IsInSelectedRect(QPoint Pos) {
+bool cInteractiveZone::IsInSelectedRect(QPointF Pos) {
     for (int i=0;i<BlockTable->CompositionList->List.count();i++) if ((BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i])) {
-        QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
-                            BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
+        QRectF ObjRect=ApplyModifAndScaleFactors(i,SceneRect,true);
         if ((Pos.x()-SceneRect.left()>=ObjRect.left())&&(Pos.x()-SceneRect.left()<=ObjRect.right())&&(Pos.y()-SceneRect.top()>=ObjRect.top())&&(Pos.y()-SceneRect.top()<=ObjRect.bottom())) return true;
     }
     return false;
@@ -399,7 +462,7 @@ bool cInteractiveZone::IsInSelectedRect(QPoint Pos) {
 
 //====================================================================================================================
 
-void cInteractiveZone::ManageCursor(QPoint Pos,Qt::KeyboardModifiers Modifiers) {
+void cInteractiveZone::ManageCursor(QPointF Pos,Qt::KeyboardModifiers Modifiers) {
     if      (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.bottom()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                      setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeBDiagCursor);  // Bottom left
     else if (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2,CurSelRect.top()-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))                          setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeFDiagCursor);  // Top left
     else if (IsInRect(Pos,QRect(CurSelRect.left()-HANDLESIZEX/2, CurSelRect.top()+CurSelRect.height()/2-HANDLESIZEY/2,HANDLESIZEX,HANDLESIZEY)))   setCursor(SelectionHaveLockBlock?Qt::ForbiddenCursor:Qt::SizeHorCursor);    // Left
@@ -418,21 +481,27 @@ void cInteractiveZone::ManageCursor(QPoint Pos,Qt::KeyboardModifiers Modifiers) 
 
 //====================================================================================================================
 
-QRect cInteractiveZone::ComputeNewCurSelRect() {
-    QRect NewCurSelRect;
+QRectF cInteractiveZone::ComputeNewCurSelRect() {
+    QRectF NewCurSelRect;
     int CurSelect=0;
     for (int i=0;i<BlockTable->CompositionList->List.count();i++) if ((BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i])) {
-        double NewX=BlockTable->CompositionList->List[i]->x;
-        double NewY=BlockTable->CompositionList->List[i]->y;
-        double NewW=BlockTable->CompositionList->List[i]->w;
-        double NewH=BlockTable->CompositionList->List[i]->h;
+        QRectF NewRect=ApplyModifAndScaleFactors(i,SceneRect,true);
+        if (CurSelect==0) NewCurSelRect=NewRect; else {
+            if (NewRect.left()  <NewCurSelRect.left())   NewCurSelRect.setLeft(NewRect.left());
+            if (NewRect.top()   <NewCurSelRect.top())    NewCurSelRect.setTop(NewRect.top());
+            if (NewRect.right() >NewCurSelRect.right())  NewCurSelRect.setRight(NewRect.right());
+            if (NewRect.bottom()>NewCurSelRect.bottom()) NewCurSelRect.setBottom(NewRect.bottom());
+        }
+        CurSelect++;
+    }
+    return NewCurSelRect;
+}
 
-        NewX=NewX+Move_X-(NewX-Sel_X)+(Sel_W!=0?((NewX-Sel_X)/Sel_W)*(Sel_W+Scale_X):0);
-        NewY=NewY+Move_Y-(NewY-Sel_Y)+(Sel_H!=0?((NewY-Sel_Y)/Sel_H)*(Sel_H+Scale_Y):0);
-        NewW=(Sel_W!=0?(NewW/Sel_W)*(Sel_W+Scale_X):Scale_X);
-        NewH=(Sel_H!=0?(NewH/Sel_H)*(Sel_H+Scale_Y):Scale_Y);
-
-        QRect NewRect=QRect(NewX*SceneRect.width(),NewY*SceneRect.height(),NewW*SceneRect.width(),NewH*SceneRect.height());
+QRectF cInteractiveZone::ComputeNewCurSelScreenRect() {
+    QRectF NewCurSelRect;
+    int CurSelect=0;
+    for (int i=0;i<BlockTable->CompositionList->List.count();i++) if ((BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i])) {
+        QRectF NewRect=ApplyModifAndScaleFactors(i,ScreenRect,true);
         if (CurSelect==0) NewCurSelRect=NewRect; else {
             if (NewRect.left()  <NewCurSelRect.left())   NewCurSelRect.setLeft(NewRect.left());
             if (NewRect.top()   <NewCurSelRect.top())    NewCurSelRect.setTop(NewRect.top());
@@ -485,7 +554,7 @@ void cInteractiveZone::keyPressEvent(QKeyEvent *event) {
                 QWidget::keyPressEvent(event);
                 break;
         }
-        if ((Move_X!=0)||(Move_Y!=0)||(Scale_X!=0)||(Scale_Y!=0)) emit TransformBlock(Move_X,Move_Y,Scale_X,Scale_Y,Sel_X,Sel_Y,Sel_W,Sel_H);
+        if ((Move_X!=0)||(Move_Y!=0)||(Scale_X!=0)||(Scale_Y!=0)) emit TransformBlock(Move_X,Move_Y,Scale_X,Scale_Y,RSel_X,RSel_Y,RSel_W,RSel_H);
     } else QWidget::keyPressEvent(event);
 }
 
@@ -497,6 +566,100 @@ void cInteractiveZone::keyReleaseEvent(QKeyEvent *event) {
 
     ManageCursor(mapFromGlobal(QCursor::pos()),event->modifiers());
     QWidget::keyReleaseEvent(event);
+}
+
+//====================================================================================================================
+
+cInteractiveZone::sDualQReal cInteractiveZone::PrepDualQReal(qreal Screen,qreal Block) {
+    sDualQReal Prep;
+    Prep.Screen=Screen;
+    Prep.Block =Block;
+    return Prep;
+}
+
+//====================================================================================================================
+
+void cInteractiveZone::ComputeRulers(QList<sDualQReal> &MagnetVert,QList<sDualQReal> &MagnetHoriz) {
+    qreal hEcart=0.005*ScreenRect.width(),                          vEcart=0.005*ScreenRect.height();
+    qreal h1=CurSelScreenRect.left(),                               v1=CurSelScreenRect.top();
+    qreal h2=CurSelScreenRect.left()+(CurSelScreenRect.width()/2),  v2=CurSelScreenRect.top()+(CurSelScreenRect.height()/2);
+    qreal h3=CurSelScreenRect.right(),                              v3=CurSelScreenRect.bottom();
+
+    if ((MagneticRuler&RULER_VERT_SCREENBORDER)!=0)     MagnetVert.append(PrepDualQReal(0,                                              0));                                            // Left screen
+    if ((MagneticRuler&RULER_VERT_SCREENBORDER)!=0)     MagnetVert.append(PrepDualQReal(ScreenRect.width(),                             SceneRect.width()));                            // Right screen
+    if ((MagneticRuler&RULER_VERT_TVMARGIN)!=0)         MagnetVert.append(PrepDualQReal(ScreenRect.width()*0.05,                        SceneRect.width()*0.05));                       // 5% Left TV Margins
+    if ((MagneticRuler&RULER_VERT_TVMARGIN)!=0)         MagnetVert.append(PrepDualQReal(ScreenRect.width()-ScreenRect.width()*0.05,     SceneRect.width()-SceneRect.width()*0.05));     // 5% Right TV Margins
+    if ((MagneticRuler&RULER_VERT_SCREENCENTER)!=0)     MagnetVert.append(PrepDualQReal(ScreenRect.width()*0.5,     SceneRect.width()*0.5));
+    if ((MagneticRuler&RULER_HORIZ_SCREENBORDER)!=0)    MagnetHoriz.append(PrepDualQReal(0,                                             0));                                            // Top screen
+    if ((MagneticRuler&RULER_HORIZ_SCREENBORDER)!=0)    MagnetHoriz.append(PrepDualQReal(ScreenRect.height(),                           SceneRect.height()));                           // Bottom screen
+    if ((MagneticRuler&RULER_HORIZ_TVMARGIN)!=0)        MagnetHoriz.append(PrepDualQReal(ScreenRect.height()*0.05,                      SceneRect.height()*0.05));                      // 5% Up TV Margins
+    if ((MagneticRuler&RULER_HORIZ_TVMARGIN)!=0)        MagnetHoriz.append(PrepDualQReal(ScreenRect.height()-ScreenRect.height()*0.05,  SceneRect.height()-SceneRect.height()*0.05));   // 5% Bottom TV Margins
+    if ((MagneticRuler&RULER_HORIZ_SCREENCENTER)!=0)    MagnetHoriz.append(PrepDualQReal(ScreenRect.height()*0.5,   SceneRect.height()*0.5));
+
+    // Unselected object
+    if (IsCapture) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if ((!IsSelected[i])&&(BlockTable->CompositionList->List[i]->IsVisible)) {
+        QList<QPolygonF> PolScene=ComputePolygon( BlockTable->CompositionList->List[i]->BackgroundForm,
+                                                  BlockTable->CompositionList->List[i]->x*SceneRect.width(),  BlockTable->CompositionList->List[i]->y*SceneRect.height(),
+                                                  BlockTable->CompositionList->List[i]->w*SceneRect.width(),  BlockTable->CompositionList->List[i]->h*SceneRect.height(),
+                                                  BlockTable->CompositionList->List[i]->x*SceneRect.width() +(BlockTable->CompositionList->List[i]->w*SceneRect.width()/2),
+                                                  BlockTable->CompositionList->List[i]->y*SceneRect.height()+(BlockTable->CompositionList->List[i]->h*SceneRect.height()/2));
+
+        QList<QPolygonF> PolScreen=ComputePolygon( BlockTable->CompositionList->List[i]->BackgroundForm,
+                                                  BlockTable->CompositionList->List[i]->x*ScreenRect.width(),  BlockTable->CompositionList->List[i]->y*ScreenRect.height(),
+                                                  BlockTable->CompositionList->List[i]->w*ScreenRect.width(),  BlockTable->CompositionList->List[i]->h*ScreenRect.height(),
+                                                  BlockTable->CompositionList->List[i]->x*ScreenRect.width() +(BlockTable->CompositionList->List[i]->w*ScreenRect.width()/2),
+                                                  BlockTable->CompositionList->List[i]->y*ScreenRect.height()+(BlockTable->CompositionList->List[i]->h*ScreenRect.height()/2));
+
+        QPolygonF PolSceneU(PolScene.at(0));
+        for (int j=1;j<PolScene.count();j++) PolSceneU=PolSceneU.united(PolScene.at(j));
+        QRectF tmpSceneRect=PolSceneU.boundingRect();
+
+        QPolygonF PolScreenU(PolScreen.at(0));
+        for (int j=1;j<PolScreen.count();j++) PolScreenU=PolScreenU.united(PolScreen.at(j));
+        QRectF tmpScreenRect=PolScreenU.boundingRect();
+
+        /*
+        if ((BlockTable->CompositionList->List[i]->RotateXAxis!=0)||(BlockTable->CompositionList->List[i]->RotateYAxis!=0)||(BlockTable->CompositionList->List[i]->RotateZAxis!=0)) {
+            QTransform   Matrix;
+            Matrix.rotate(BlockTable->CompositionList->List[i]->RotateXAxis,Qt::XAxis);
+            Matrix.rotate(BlockTable->CompositionList->List[i]->RotateYAxis,Qt::YAxis);
+            Matrix.rotate(BlockTable->CompositionList->List[i]->RotateZAxis,Qt::ZAxis);
+
+            QPointF      Center=tmpSceneRect.center();
+            QPainterPath Path;
+            PolSceneU.translate(-Center.x(),-Center.y());
+            Path.addPolygon(PolSceneU);
+            tmpSceneRect=Path.toFillPolygon(Matrix).boundingRect();
+            tmpSceneRect.translate(Center);
+
+            Center=tmpScreenRect.center();
+            Path  =QPainterPath();
+            PolScreenU.translate(-Center.x(),-Center.y());
+            Path.addPolygon(PolScreenU);
+            tmpScreenRect=Path.toFillPolygon(Matrix).boundingRect();
+            tmpScreenRect.translate(Center);
+        }
+        */
+        qreal x1=tmpScreenRect.left(),      y1=tmpScreenRect.top();
+        qreal x2=tmpScreenRect.center().x(),y2=tmpScreenRect.center().y();
+        qreal x3=tmpScreenRect.right(),     y3=tmpScreenRect.bottom();
+
+        if ((MagneticRuler&RULER_VERT_UNSELECTED)!=0) {
+            if (((x1>(h1-hEcart))&&(x1<(h1+hEcart)))||((x1>(h2-hEcart))&&(x1<(h2+hEcart)))||((x1>(h3-hEcart))&&(x1<(h3+hEcart)))) MagnetVert.append(PrepDualQReal(x1,tmpSceneRect.left()));
+            if (((x2>(h1-hEcart))&&(x2<(h1+hEcart)))||((x2>(h2-hEcart))&&(x2<(h2+hEcart)))||((x2>(h3-hEcart))&&(x2<(h3+hEcart)))) MagnetVert.append(PrepDualQReal(x2,tmpSceneRect.center().x()));
+            if (((x3>(h1-hEcart))&&(x3<(h1+hEcart)))||((x3>(h2-hEcart))&&(x3<(h2+hEcart)))||((x3>(h3-hEcart))&&(x3<(h3+hEcart)))) MagnetVert.append(PrepDualQReal(x3,tmpSceneRect.right()));
+        }
+
+        if ((MagneticRuler&RULER_HORIZ_UNSELECTED)!=0) {
+            if (((y1>(v1-vEcart))&&(y1<(v1+vEcart)))||((y1>(v2-vEcart))&&(y1<(v2+vEcart)))||((y1>(v3-vEcart))&&(y1<(v3+vEcart)))) MagnetHoriz.append(PrepDualQReal(y1,tmpSceneRect.top()));
+            if (((y2>(v1-vEcart))&&(y2<(v1+vEcart)))||((y2>(v2-vEcart))&&(y2<(v2+vEcart)))||((y2>(v3-vEcart))&&(y2<(v3+vEcart)))) MagnetHoriz.append(PrepDualQReal(y2,tmpSceneRect.center().y()));
+            if (((y3>(v1-vEcart))&&(y3<(v1+vEcart)))||((y3>(v2-vEcart))&&(y3<(v2+vEcart)))||((y3>(v3-vEcart))&&(y3<(v3+vEcart)))) MagnetHoriz.append(PrepDualQReal(y3,tmpSceneRect.bottom()));
+        }
+    }
+
+    // Clean collections
+    for (int i=MagnetHoriz.count()-1;i>=0;i--) for (int j=0;j<i;j++) if (int(MagnetHoriz[j].Block)==int(MagnetHoriz[i].Block)) { MagnetHoriz.removeAt(i); break; }
+    for (int i=MagnetVert.count()-1;i>=0;i--)  for (int j=0;j<i;j++) if (int(MagnetVert[j].Block) ==int(MagnetVert[i].Block))  { MagnetVert.removeAt(i);  break; }
 }
 
 //====================================================================================================================
@@ -515,67 +678,53 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         // Create rulers
         // *************************************************************************
 
-        QList<double>   MagnetVert;
-        QList<double>   MagnetHoriz;
-        if ((MagneticRuler&RULER_VERT_SCREENBORDER)!=0)    MagnetVert.append(0);                                                  // Left screen
-        if ((MagneticRuler&RULER_VERT_SCREENBORDER)!=0)    MagnetVert.append(SceneRect.width());                                  // Right screen
-        if ((MagneticRuler&RULER_VERT_TVMARGIN)!=0)        MagnetVert.append(SceneRect.width()*0.05);                             // 5% Left TV Margins
-        if ((MagneticRuler&RULER_VERT_TVMARGIN)!=0)        MagnetVert.append(SceneRect.width()-SceneRect.width()*0.05);           // 5% Right TV Margins
-        if ((MagneticRuler&RULER_VERT_SCREENCENTER)!=0)    MagnetVert.append(SceneRect.width()*0.5);                              // Center or screen
-        // Unselected object
-        if ((MagneticRuler&RULER_VERT_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if ((!IsSelected[i])&&(BlockTable->CompositionList->List[i]->IsVisible)) {
-            MagnetVert.append(BlockTable->CompositionList->List[i]->x*SceneRect.width());
-            MagnetVert.append(BlockTable->CompositionList->List[i]->x*SceneRect.width()+BlockTable->CompositionList->List[i]->w*SceneRect.width()/2);
-            MagnetVert.append(BlockTable->CompositionList->List[i]->x*SceneRect.width()+BlockTable->CompositionList->List[i]->w*SceneRect.width());
-        }
-
-        if ((MagneticRuler&RULER_HORIZ_SCREENBORDER)!=0)     MagnetHoriz.append(0);                                                  // Top screen
-        if ((MagneticRuler&RULER_HORIZ_SCREENBORDER)!=0)     MagnetHoriz.append(SceneRect.height());                                 // Bottom screen
-        if ((MagneticRuler&RULER_HORIZ_TVMARGIN)!=0)         MagnetHoriz.append(SceneRect.height()*0.05);                            // 5% Up TV Margins
-        if ((MagneticRuler&RULER_HORIZ_TVMARGIN)!=0)         MagnetHoriz.append(SceneRect.height()-SceneRect.height()*0.05);         // 5% Bottom TV Margins
-        if ((MagneticRuler&RULER_HORIZ_SCREENCENTER)!=0)     MagnetHoriz.append(SceneRect.height()*0.5);                             // Center or screen
-        // Unselected object
-        if ((MagneticRuler&RULER_HORIZ_UNSELECTED)!=0) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if ((!IsSelected[i])&&(BlockTable->CompositionList->List[i]->IsVisible)) {
-            MagnetHoriz.append(BlockTable->CompositionList->List[i]->y*SceneRect.height());
-            MagnetHoriz.append(BlockTable->CompositionList->List[i]->y*SceneRect.height()+BlockTable->CompositionList->List[i]->h*SceneRect.height()/2);
-            MagnetHoriz.append(BlockTable->CompositionList->List[i]->y*SceneRect.height()+BlockTable->CompositionList->List[i]->h*SceneRect.height());
-        }
-        // Clean collections
-        for (int i=MagnetHoriz.count()-1;i>=0;i--) for (int j=0;j<i;j++) if (int(MagnetHoriz[j])==int(MagnetHoriz[i])) { MagnetHoriz.removeAt(i); break; }
-        for (int i=MagnetVert.count()-1;i>=0;i--)  for (int j=0;j<i;j++) if (int(MagnetVert[j]) ==int(MagnetVert[i]))  { MagnetVert.removeAt(i);  break; }
+        QList<sDualQReal>   MagnetVert;
+        QList<sDualQReal>   MagnetHoriz;
+        ComputeRulers(MagnetVert,MagnetHoriz);
 
         // *************************************************************************
         // Calc transformation
         // *************************************************************************
 
-        double DX=double(event->pos().x()-CapturePos.x())/SceneRect.width();
-        double DY=double(event->pos().y()-CapturePos.y())/SceneRect.height();
-        QRect  NewCurSelRect;
+        QRectF  NewCurSelRect;
+        qreal   DX      =qreal(event->pos().x()-CapturePos.x())/SceneRect.width();
+        qreal   DY      =qreal(event->pos().y()-CapturePos.y())/SceneRect.height();
+        Move_X          =0;
+        Move_Y          =0;
+        Scale_X         =0;
+        Scale_Y         =0;
+        CurSelScreenRect=ComputeNewCurSelScreenRect();
 
         // Top left
         if  (TransfoType==RESIZEUPLEFT) {
             // Adjust DX and DY for resize not less than 0
             if (DX>=Sel_W-MINVALUE)  DX=Sel_W-MINVALUE;
             if (DY>=Sel_H-MINVALUE)  DY=Sel_H-MINVALUE;
-            Move_X       =DX;
-            Move_Y       =LockGeometry?(AspectRatio*Move_X*SceneRect.width())/SceneRect.height():DY;
-            Scale_X      =-Move_X;
-            Scale_Y      =-Move_Y;
-            NewCurSelRect=ComputeNewCurSelRect();
+            Move_X          =DX;
+            Move_Y          =LockGeometry?(AspectRatio*Move_X*ScreenRect.width())/ScreenRect.height():DY;
+            Scale_X         =-Move_X;
+            Scale_Y         =-Move_Y;
+            NewCurSelRect   =ComputeNewCurSelRect();
 
             // Apply magnetic rules vertical
-            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller]<NewCurSelRect.right())&&(NewCurSelRect.left()>=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.left()<=MagnetVert[Ruller]+HANDLEMAGNETX)) {
-                Move_X =(MagnetVert[Ruller]-Sel_X*SceneRect.width())/SceneRect.width();
-                if (LockGeometry) Move_Y=(AspectRatio*Move_X*SceneRect.width())/SceneRect.height();
+            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller].Block<NewCurSelRect.right())&&(NewCurSelRect.left()>=MagnetVert[Ruller].Block-HANDLEMAGNETX)&&(NewCurSelRect.left()<=MagnetVert[Ruller].Block+HANDLEMAGNETX)) {
+                qreal NewW  =CurSelScreenRect.right()-MagnetVert[Ruller].Screen;
+                qreal OldW  =CurSelScreenRect.width();
+                qreal Trans =NewW/OldW;
+                Move_X =-(NewW-OldW+(CurSelScreenRect.left()-FullSelRect.left())*Trans-(CurSelScreenRect.left()-FullSelRect.left()))/ScreenRect.width();
+                if (LockGeometry) Move_Y=(AspectRatio*Move_X*ScreenRect.width())/ScreenRect.height();
                 Scale_Y=-Move_Y;
                 Scale_X=-Move_X;
                 break;
             }
 
             // Apply magnetic rules horizontal
-            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller]<NewCurSelRect.bottom())&&(NewCurSelRect.top()>=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.top()<=MagnetHoriz[Ruller]+HANDLEMAGNETY)) {
-                Move_Y =(MagnetHoriz[Ruller]-Sel_Y*SceneRect.height())/SceneRect.height();
-                if (LockGeometry) Move_X=(Move_Y*SceneRect.height()/AspectRatio)/SceneRect.width();
+            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller].Block<NewCurSelRect.bottom())&&(NewCurSelRect.top()>=MagnetHoriz[Ruller].Block-HANDLEMAGNETY)&&(NewCurSelRect.top()<=MagnetHoriz[Ruller].Block+HANDLEMAGNETY)) {
+                qreal NewH  =CurSelScreenRect.bottom()-MagnetHoriz[Ruller].Screen;
+                qreal OldH  =CurSelScreenRect.height();
+                qreal Trans =NewH/OldH;
+                Move_Y =-(NewH-OldH+(CurSelScreenRect.top()-FullSelRect.top())*Trans-(CurSelScreenRect.top()-FullSelRect.top()))/ScreenRect.height();
+                if (LockGeometry) Move_X=(Move_Y*ScreenRect.height()/AspectRatio)/ScreenRect.width();
                 Scale_Y=-Move_Y;
                 Scale_X=-Move_X;
                 break;
@@ -589,17 +738,20 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
             Move_X =DX;
             Scale_X=-Move_X;
             if (LockGeometry) {
-                Scale_Y=(AspectRatio*Scale_X*SceneRect.width())/SceneRect.height();
+                Scale_Y=(AspectRatio*Scale_X*ScreenRect.width())/ScreenRect.height();
                 Move_Y =-Scale_Y/2;
             }
             NewCurSelRect=ComputeNewCurSelRect();
 
             // Apply magnetic rules vertical
-            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller]<NewCurSelRect.right())&&(NewCurSelRect.left()>=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.left()<=MagnetVert[Ruller]+HANDLEMAGNETX)) {
-                Move_X =(MagnetVert[Ruller]-Sel_X*SceneRect.width())/SceneRect.width();
+            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller].Block<NewCurSelRect.right())&&(NewCurSelRect.left()>=MagnetVert[Ruller].Block-HANDLEMAGNETX)&&(NewCurSelRect.left()<=MagnetVert[Ruller].Block+HANDLEMAGNETX)) {
+                qreal NewW  =CurSelScreenRect.right()-MagnetVert[Ruller].Screen;
+                qreal OldW  =CurSelScreenRect.width();
+                qreal Trans =NewW/OldW;
+                Move_X =-(NewW-OldW+(CurSelScreenRect.left()-FullSelRect.left())*Trans-(CurSelScreenRect.left()-FullSelRect.left()))/ScreenRect.width();
                 Scale_X=-Move_X;
                 if (LockGeometry) {
-                    Scale_Y=(AspectRatio*Scale_X*SceneRect.width())/SceneRect.height();
+                    Scale_Y=(AspectRatio*Scale_X*ScreenRect.width())/ScreenRect.height();
                     Move_Y =-Scale_Y/2;
                 }
                 break;
@@ -615,23 +767,30 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
             Move_X       =DX;
             Scale_X      =-Move_X;
             Move_Y       =0;
-            Scale_Y      =LockGeometry?(AspectRatio*Scale_X*SceneRect.width())/SceneRect.height():DY;
+            Scale_Y      =LockGeometry?(AspectRatio*Scale_X*ScreenRect.width())/ScreenRect.height():DY;
 
             NewCurSelRect=ComputeNewCurSelRect();
 
             // Apply magnetic rules vertical
-            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller]<NewCurSelRect.right())&&(NewCurSelRect.left()>=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.left()<=MagnetVert[Ruller]+HANDLEMAGNETX)) {
-                Move_X =(MagnetVert[Ruller]-Sel_X*SceneRect.width())/SceneRect.width();
-                Scale_X=-Move_X;
-                if (LockGeometry) Scale_Y=-(AspectRatio*Move_X*SceneRect.width())/SceneRect.height();
+            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller].Block<NewCurSelRect.right())&&(NewCurSelRect.left()>=MagnetVert[Ruller].Block-HANDLEMAGNETX)&&(NewCurSelRect.left()<=MagnetVert[Ruller].Block+HANDLEMAGNETX)) {
+                qreal NewW  =CurSelScreenRect.right()-MagnetVert[Ruller].Screen;
+                qreal OldW  =CurSelScreenRect.width();
+                qreal Trans =NewW/OldW;
+                Move_X      =-(NewW-OldW+(CurSelScreenRect.left()-FullSelRect.left())*Trans-(CurSelScreenRect.left()-FullSelRect.left()))/ScreenRect.width();
+                Scale_X     =-Move_X;
+                if (LockGeometry) Scale_Y=-(AspectRatio*Move_X*ScreenRect.width())/ScreenRect.height();
                 break;
             }
 
             // Apply magnetic rules horizontal
-            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller]>NewCurSelRect.top())&&(NewCurSelRect.bottom()>=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.bottom()<=MagnetHoriz[Ruller]+HANDLEMAGNETY)) {
-                Scale_Y =(MagnetHoriz[Ruller]-(Sel_Y+Sel_H)*SceneRect.height())/SceneRect.height();
+            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller].Block>NewCurSelRect.top())&&(NewCurSelRect.bottom()>=MagnetHoriz[Ruller].Block-HANDLEMAGNETY)&&(NewCurSelRect.bottom()<=MagnetHoriz[Ruller].Block+HANDLEMAGNETY)) {
+                qreal NewH  =MagnetHoriz[Ruller].Screen-CurSelScreenRect.top();
+                qreal OldH  =CurSelScreenRect.height();
+                qreal Trans =NewH/OldH;
+                Scale_Y     =(NewH-OldH+(FullSelRect.bottom()-CurSelScreenRect.bottom())*Trans-(FullSelRect.bottom()-CurSelScreenRect.bottom()))/ScreenRect.height();
+
                 if (LockGeometry) {
-                    Move_X =-(Scale_Y*SceneRect.height()/AspectRatio)/SceneRect.width();
+                    Move_X =-(Scale_Y*ScreenRect.height()/AspectRatio)/ScreenRect.width();
                     Scale_X=-Move_X;
                 }
                 break;
@@ -644,22 +803,28 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
             if (DY>=Sel_H-MINVALUE)     DY=Sel_H-MINVALUE;
             Move_X       =0;
             Scale_X      =DX;
-            Move_Y       =LockGeometry?(-AspectRatio*Scale_X*SceneRect.width())/SceneRect.height():DY;
+            Move_Y       =LockGeometry?(-AspectRatio*Scale_X*ScreenRect.width())/ScreenRect.height():DY;
             Scale_Y      =-Move_Y;
             NewCurSelRect=ComputeNewCurSelRect();
 
             // Apply magnetic rules vertical
-            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller]>NewCurSelRect.left())&&(NewCurSelRect.right()>=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.right()<=MagnetVert[Ruller]+HANDLEMAGNETX)) {
-                Scale_X=(MagnetVert[Ruller]-(Sel_X+Sel_W)*SceneRect.width())/SceneRect.width();
-                if (LockGeometry) Move_Y=-(AspectRatio*Scale_X*SceneRect.width())/SceneRect.height();
+            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller].Block>NewCurSelRect.left())&&(NewCurSelRect.right()>=MagnetVert[Ruller].Block-HANDLEMAGNETX)&&(NewCurSelRect.right()<=MagnetVert[Ruller].Block+HANDLEMAGNETX)) {
+                qreal NewW  =MagnetVert[Ruller].Screen-CurSelScreenRect.left();
+                qreal OldW  =CurSelScreenRect.width();
+                qreal Trans =NewW/OldW;
+                Scale_X     =(NewW-OldW+(FullSelRect.right()-CurSelScreenRect.right())*Trans-(FullSelRect.right()-CurSelScreenRect.right()))/ScreenRect.width();
+                if (LockGeometry) Move_Y=-(AspectRatio*Scale_X*ScreenRect.width())/ScreenRect.height();
                 Scale_Y=-Move_Y;
                 break;
             }
 
             // Apply magnetic rules horizontal
-            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller]<NewCurSelRect.bottom())&&(NewCurSelRect.top()>=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.top()<=MagnetHoriz[Ruller]+HANDLEMAGNETY)) {
-                Move_Y =(MagnetHoriz[Ruller]-Sel_Y*SceneRect.height())/SceneRect.height();
-                if (LockGeometry) Scale_X=-(Move_Y*SceneRect.height()/AspectRatio)/SceneRect.width();
+            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller].Block<NewCurSelRect.bottom())&&(NewCurSelRect.top()>=MagnetHoriz[Ruller].Block-HANDLEMAGNETY)&&(NewCurSelRect.top()<=MagnetHoriz[Ruller].Block+HANDLEMAGNETY)) {
+                qreal NewH  =CurSelScreenRect.bottom()-MagnetHoriz[Ruller].Screen;
+                qreal OldH  =CurSelScreenRect.height();
+                qreal Trans =NewH/OldH;
+                Move_Y =-(NewH-OldH+(CurSelScreenRect.top()-FullSelRect.top())*Trans-(CurSelScreenRect.top()-FullSelRect.top()))/ScreenRect.height();
+                if (LockGeometry) Scale_X=-(Move_Y*ScreenRect.height()/AspectRatio)/ScreenRect.width();
                 Scale_Y=-Move_Y;
                 break;
             }
@@ -671,16 +836,19 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
             Move_X =0;
             Scale_X=DX;
             if (LockGeometry) {
-                Scale_Y=(AspectRatio*Scale_X*SceneRect.width())/SceneRect.height();
+                Scale_Y=(AspectRatio*Scale_X*ScreenRect.width())/ScreenRect.height();
                 Move_Y =-Scale_Y/2;
             }
             NewCurSelRect=ComputeNewCurSelRect();
 
             // Apply magnetic rules vertical
-            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller]>NewCurSelRect.left())&&(NewCurSelRect.right()>=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.right()<=MagnetVert[Ruller]+HANDLEMAGNETX)) {
-                Scale_X=(MagnetVert[Ruller]-(Sel_X+Sel_W)*SceneRect.width())/SceneRect.width();
+            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller].Block>NewCurSelRect.left())&&(NewCurSelRect.right()>=MagnetVert[Ruller].Block-HANDLEMAGNETX)&&(NewCurSelRect.right()<=MagnetVert[Ruller].Block+HANDLEMAGNETX)) {
+                qreal NewW  =MagnetVert[Ruller].Screen-CurSelScreenRect.left();
+                qreal OldW  =CurSelScreenRect.width();
+                qreal Trans =NewW/OldW;
+                Scale_X     =(NewW-OldW+(FullSelRect.right()-CurSelScreenRect.right())*Trans-(FullSelRect.right()-CurSelScreenRect.right()))/ScreenRect.width();
                 if (LockGeometry) {
-                    Scale_Y=(AspectRatio*Scale_X*SceneRect.width())/SceneRect.height();
+                    Scale_Y=(AspectRatio*Scale_X*ScreenRect.width())/ScreenRect.height();
                     Move_Y =-Scale_Y/2;
                 }
                 break;
@@ -693,20 +861,26 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
             Move_X       =0;
             Scale_X      =DX;
             Move_Y       =0;
-            Scale_Y      =LockGeometry?(AspectRatio*Scale_X*SceneRect.width())/SceneRect.height():DY;
+            Scale_Y      =LockGeometry?(AspectRatio*Scale_X*ScreenRect.width())/ScreenRect.height():DY;
             NewCurSelRect=ComputeNewCurSelRect();
 
             // Apply magnetic rules vertical
-            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller]>NewCurSelRect.left())&&(NewCurSelRect.right()>=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.right()<=MagnetVert[Ruller]+HANDLEMAGNETX)) {
-                Scale_X=(MagnetVert[Ruller]-(Sel_X+Sel_W)*SceneRect.width())/SceneRect.width();
-                if (LockGeometry) Scale_Y=(AspectRatio*Scale_X*SceneRect.width())/SceneRect.height();
+            for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) if ((MagnetVert[Ruller].Block>NewCurSelRect.left())&&(NewCurSelRect.right()>=MagnetVert[Ruller].Block-HANDLEMAGNETX)&&(NewCurSelRect.right()<=MagnetVert[Ruller].Block+HANDLEMAGNETX)) {
+                qreal NewW  =MagnetVert[Ruller].Screen-CurSelScreenRect.left();
+                qreal OldW  =CurSelScreenRect.width();
+                qreal Trans =NewW/OldW;
+                Scale_X     =(NewW-OldW+(FullSelRect.right()-CurSelScreenRect.right())*Trans-(FullSelRect.right()-CurSelScreenRect.right()))/ScreenRect.width();
+                if (LockGeometry) Scale_Y=(AspectRatio*Scale_X*ScreenRect.width())/ScreenRect.height();
                 break;
             }
 
             // Apply magnetic rules horizontal
-            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller]>NewCurSelRect.top())&&(NewCurSelRect.bottom()>=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.bottom()<=MagnetHoriz[Ruller]+HANDLEMAGNETY)) {
-                Scale_Y =(MagnetHoriz[Ruller]-(Sel_Y+Sel_H)*SceneRect.height())/SceneRect.height();
-                if (LockGeometry) Scale_X=(Scale_Y*SceneRect.height()/AspectRatio)/SceneRect.width();
+            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller].Block>NewCurSelRect.top())&&(NewCurSelRect.bottom()>=MagnetHoriz[Ruller].Block-HANDLEMAGNETY)&&(NewCurSelRect.bottom()<=MagnetHoriz[Ruller].Block+HANDLEMAGNETY)) {
+                qreal NewH  =MagnetHoriz[Ruller].Screen-CurSelScreenRect.top();
+                qreal OldH  =CurSelScreenRect.height();
+                qreal Trans =NewH/OldH;
+                Scale_Y =(NewH-OldH+(FullSelRect.bottom()-CurSelScreenRect.bottom())*Trans-(FullSelRect.bottom()-CurSelScreenRect.bottom()))/ScreenRect.height();
+                if (LockGeometry) Scale_X=(Scale_Y*ScreenRect.height()/AspectRatio)/ScreenRect.width();
                 break;
             }
         // Top
@@ -716,17 +890,20 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
             Move_Y =DY;
             Scale_Y=-Move_Y;
             if (LockGeometry) {
-                Scale_X=(Scale_Y*SceneRect.height()/AspectRatio)/SceneRect.width();
+                Scale_X=(Scale_Y*ScreenRect.height()/AspectRatio)/ScreenRect.width();
                 Move_X =-Scale_X/2;
             }
             NewCurSelRect=ComputeNewCurSelRect();
 
             // Apply magnetic rules horizontal
-            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller]<NewCurSelRect.bottom())&&(NewCurSelRect.top()>=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.top()<=MagnetHoriz[Ruller]+HANDLEMAGNETY)) {
-                Move_Y =(MagnetHoriz[Ruller]-Sel_Y*SceneRect.height())/SceneRect.height();
+            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller].Block<NewCurSelRect.bottom())&&(NewCurSelRect.top()>=MagnetHoriz[Ruller].Block-HANDLEMAGNETY)&&(NewCurSelRect.top()<=MagnetHoriz[Ruller].Block+HANDLEMAGNETY)) {
+                qreal NewH  =CurSelScreenRect.bottom()-MagnetHoriz[Ruller].Screen;
+                qreal OldH  =CurSelScreenRect.height();
+                qreal Trans =NewH/OldH;
+                Move_Y =-(NewH-OldH+(CurSelScreenRect.top()-FullSelRect.top())*Trans-(CurSelScreenRect.top()-FullSelRect.top()))/ScreenRect.height();
                 Scale_Y=-Move_Y;
                 if (LockGeometry) {
-                    Scale_X=(Scale_Y*SceneRect.height()/AspectRatio)/SceneRect.width();
+                    Scale_X=(Scale_Y*ScreenRect.height()/AspectRatio)/ScreenRect.width();
                     Move_X =-Scale_X/2;
                 }
                 break;
@@ -738,16 +915,19 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
             Move_Y =0;
             Scale_Y=DY;
             if (LockGeometry) {
-                Scale_X=(Scale_Y*SceneRect.height()/AspectRatio)/SceneRect.width();
+                Scale_X=(Scale_Y*ScreenRect.height()/AspectRatio)/ScreenRect.width();
                 Move_X =-Scale_X/2;
             }
             NewCurSelRect=ComputeNewCurSelRect();
 
             // Apply magnetic rules horizontal
-            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller]>NewCurSelRect.top())&&(NewCurSelRect.bottom()>=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.bottom()<=MagnetHoriz[Ruller]+HANDLEMAGNETY)) {
-                Scale_Y =(MagnetHoriz[Ruller]-(Sel_Y+Sel_H)*SceneRect.height())/SceneRect.height();
+            for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller].Block>NewCurSelRect.top())&&(NewCurSelRect.bottom()>=MagnetHoriz[Ruller].Block-HANDLEMAGNETY)&&(NewCurSelRect.bottom()<=MagnetHoriz[Ruller].Block+HANDLEMAGNETY)) {
+                qreal NewH  =MagnetHoriz[Ruller].Screen-CurSelScreenRect.top();
+                qreal OldH  =CurSelScreenRect.height();
+                qreal Trans =NewH/OldH;
+                Scale_Y =(NewH-OldH+(FullSelRect.bottom()-CurSelScreenRect.bottom())*Trans-(FullSelRect.bottom()-CurSelScreenRect.bottom()))/ScreenRect.height();
                 if (LockGeometry) {
-                    Scale_X=(Scale_Y*SceneRect.height()/AspectRatio)/SceneRect.width();
+                    Scale_X=(Scale_Y*ScreenRect.height()/AspectRatio)/ScreenRect.width();
                     Move_X =-Scale_X/2;
                 }
                 break;
@@ -756,36 +936,27 @@ void cInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
         } else if (TransfoType==MOVEBLOCK) {
             Move_X =DX;
             Move_Y =DY;
-            Scale_X=0;
-            Scale_Y=0;
 
             if (MagneticRuler!=0) {
-                QRect  NewCurSelRect=ComputeNewCurSelRect();
-                DX=0;
-                DY=0;
+                QRectF NewCurSelRect=ComputeNewCurSelRect();
 
                 // Apply magnetic rules vertical
                 for (int Ruller=0;Ruller<MagnetVert.count();Ruller++) {
-                    if      ((NewCurSelRect.left()      >=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.left()      <=MagnetVert[Ruller]+HANDLEMAGNETX)) { DX=NewCurSelRect.left()      -MagnetVert[Ruller];  break; }
-                    else if ((NewCurSelRect.right()     >=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.right()     <=MagnetVert[Ruller]+HANDLEMAGNETX)) { DX=NewCurSelRect.right()     -MagnetVert[Ruller];  break; }
-                    else if ((NewCurSelRect.center().x()>=MagnetVert[Ruller]-HANDLEMAGNETX)&&(NewCurSelRect.center().x()<=MagnetVert[Ruller]+HANDLEMAGNETX)) { DX=NewCurSelRect.center().x()-MagnetVert[Ruller];  break; }
+                    if      ((NewCurSelRect.left()      >=MagnetVert[Ruller].Block-HANDLEMAGNETX)&&(NewCurSelRect.left()       <=MagnetVert[Ruller].Block+HANDLEMAGNETX))  { Move_X=qreal(MagnetVert[Ruller].Screen-CurSelScreenRect.left()      )/ScreenRect.width();   break; }
+                    else if ((NewCurSelRect.right()     >=MagnetVert[Ruller].Block-HANDLEMAGNETX)&&(NewCurSelRect.right()      <=MagnetVert[Ruller].Block+HANDLEMAGNETX))  { Move_X=qreal(MagnetVert[Ruller].Screen-CurSelScreenRect.right()     )/ScreenRect.width();   break; }
+                    else if ((NewCurSelRect.center().x()>=MagnetVert[Ruller].Block-HANDLEMAGNETX)&&(NewCurSelRect.center().x() <=MagnetVert[Ruller].Block+HANDLEMAGNETX))  { Move_X=qreal(MagnetVert[Ruller].Screen-CurSelScreenRect.center().x())/ScreenRect.width();   break; }
                 }
 
                 // Apply magnetic rules horizontal
                 for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) {
-                    if      ((NewCurSelRect.top()       >=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.top()       <=MagnetHoriz[Ruller]+HANDLEMAGNETY)) { DY=NewCurSelRect.top()       -MagnetHoriz[Ruller];  break; }
-                    else if ((NewCurSelRect.bottom()    >=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.bottom()    <=MagnetHoriz[Ruller]+HANDLEMAGNETY)) { DY=NewCurSelRect.bottom()    -MagnetHoriz[Ruller];  break; }
-                    else if ((NewCurSelRect.center().y()>=MagnetHoriz[Ruller]-HANDLEMAGNETY)&&(NewCurSelRect.center().y()<=MagnetHoriz[Ruller]+HANDLEMAGNETY)) { DY=NewCurSelRect.center().y()-MagnetHoriz[Ruller];  break; }
+                    if      ((NewCurSelRect.top()       >=MagnetHoriz[Ruller].Block-HANDLEMAGNETY)&&(NewCurSelRect.top()       <=MagnetHoriz[Ruller].Block+HANDLEMAGNETY)) { Move_Y=qreal(MagnetHoriz[Ruller].Screen-CurSelScreenRect.top()       )/ScreenRect.height();  break; }
+                    else if ((NewCurSelRect.bottom()    >=MagnetHoriz[Ruller].Block-HANDLEMAGNETY)&&(NewCurSelRect.bottom()    <=MagnetHoriz[Ruller].Block+HANDLEMAGNETY)) { Move_Y=qreal(MagnetHoriz[Ruller].Screen-CurSelScreenRect.bottom()    )/ScreenRect.height();  break; }
+                    else if ((NewCurSelRect.center().y()>=MagnetHoriz[Ruller].Block-HANDLEMAGNETY)&&(NewCurSelRect.center().y()<=MagnetHoriz[Ruller].Block+HANDLEMAGNETY)) { Move_Y=qreal(MagnetHoriz[Ruller].Screen-CurSelScreenRect.center().y())/ScreenRect.height();  break; }
                 }
-
-                Move_X=double(event->pos().x()-DX-CapturePos.x())/SceneRect.width();
-                Move_Y=double(event->pos().y()-DY-CapturePos.y())/SceneRect.height();
             }
         }
-        if ((Move_X!=0)||(Move_Y!=0)||(Scale_X!=0)||(Scale_Y!=0)) {
-            RefreshDisplay();
-            if (NbrSelected==1) emit DisplayTransformBlock(Move_X,Move_Y,Scale_X,Scale_Y,Sel_X,Sel_Y,Sel_W,Sel_H);
-        }
+        RefreshDisplay();
+        if (NbrSelected==1) emit DisplayTransformBlock(Move_X,Move_Y,Scale_X,Scale_Y,RSel_X,RSel_Y,RSel_W,RSel_H);
     }
 }
 
@@ -836,8 +1007,7 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
             int i=BlockTable->CompositionList->List.count()-1;
             while (i>=0) {
                 if (BlockTable->CompositionList->List[i]->IsVisible) {
-                    QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
-                                        BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
+                    QRectF ObjRect=ApplyModifAndScaleFactors(i,SceneRect,true);
                     if (IsInRect(event->pos(),ObjRect)) {
                         BlockTable->clearSelection();
                         BlockTable->setCurrentCell(i,0,QItemSelectionModel::Current|QItemSelectionModel::Select);
@@ -860,8 +1030,7 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
             int i=BlockTable->CompositionList->List.count()-1;
             while (i>=0) {
                 if (BlockTable->CompositionList->List[i]->IsVisible) {
-                    QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
-                                        BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
+                    QRectF ObjRect=ApplyModifAndScaleFactors(i,SceneRect,true);
                     if (IsInRect(event->pos(),ObjRect)) {
                         IsSelected[i]=!IsSelected[i];
                         break;
@@ -890,8 +1059,7 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
                 int i=IsSelected.count()-1;
                 while ((i>=0)&&(!IsSelected[i])) i--;   // Find current selected block
                 for (int j=i-1;j>=0;j--) if (BlockTable->CompositionList->List[j]->IsVisible) {
-                    QRect ObjRect=QRect(BlockTable->CompositionList->List[j]->x*SceneRect.width(),BlockTable->CompositionList->List[j]->y*SceneRect.height(),
-                                        BlockTable->CompositionList->List[j]->w*SceneRect.width(),BlockTable->CompositionList->List[j]->h*SceneRect.height());
+                    QRectF ObjRect=ApplyModifAndScaleFactors(i,SceneRect,true);
                     if (IsInRect(event->pos(),ObjRect)) {
                         BlockTable->clearSelection();
                         BlockTable->setCurrentCell(j,0,QItemSelectionModel::Current|QItemSelectionModel::Select);
@@ -919,8 +1087,7 @@ void cInteractiveZone::mousePressEvent(QMouseEvent *event) {
                     int i=BlockTable->CompositionList->List.count()-1;
                     while (i>=0) {
                         if (BlockTable->CompositionList->List[i]->IsVisible) {
-                            QRect ObjRect=QRect(BlockTable->CompositionList->List[i]->x*SceneRect.width(),BlockTable->CompositionList->List[i]->y*SceneRect.height(),
-                                                BlockTable->CompositionList->List[i]->w*SceneRect.width(),BlockTable->CompositionList->List[i]->h*SceneRect.height());
+                            QRectF ObjRect=ApplyModifAndScaleFactors(i,SceneRect,true);
                             if (IsInRect(event->pos(),ObjRect)) {
                                 BlockTable->clearSelection();
                                 BlockTable->setCurrentCell(i,0,QItemSelectionModel::Current|QItemSelectionModel::Select);
@@ -957,6 +1124,6 @@ void cInteractiveZone::mouseReleaseEvent(QMouseEvent *event) {
     IsCapture=false;
 
     // Block move
-    if ((!SelectionHaveLockBlock)&&((Move_X!=0)||(Move_Y!=0)||(Scale_X!=0)||(Scale_Y!=0))) emit TransformBlock(Move_X,Move_Y,Scale_X,Scale_Y,Sel_X,Sel_Y,Sel_W,Sel_H);
+    if ((!SelectionHaveLockBlock)&&((Move_X!=0)||(Move_Y!=0)||(Scale_X!=0)||(Scale_Y!=0))) emit TransformBlock(Move_X,Move_Y,Scale_X,Scale_Y,RSel_X,RSel_Y,RSel_W,RSel_H);
     ManageCursor(event->pos(),event->modifiers());
 }

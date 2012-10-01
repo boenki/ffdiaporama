@@ -48,9 +48,6 @@
 #define ICON_GLOBALCONF                     ":/img/db.png"
 #define ICON_USERCONF                       ":/img/db_update.png"
 
-#define ICON_GEOMETRY_LOCKED                ":/img/Geometry_Lock.png"
-#define ICON_GEOMETRY_UNLOCKED              ":/img/Geometry_Unlock.png"
-#define ICON_GEOMETRY_PROJECT               ":/img/Geometry_ProjectLock.png"
 #define ICON_VISIBLE_OK                     ":/img/Visible_OK.png"
 #define ICON_VISIBLE_KO                     ":/img/Visible_KO.png"
 #define ICON_SOUND_OK                       ":/img/object_sound.png"
@@ -127,12 +124,18 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QString
     UndoBt      =ui->UndoBT;
     CurrentShot =NULL;
 
+    FramingCB_CurrentBrush  =NULL;
+    FramingCB_CurrentShot   =-1;
+
     CurrentSlide                        =DiaporamaObject;
     ui->ShotTable->DiaporamaObject      =DiaporamaObject;
     ui->InteractiveZone->DiaporamaObject=DiaporamaObject;
     ui->BlockTable->ApplicationConfig   =DiaporamaObject->Parent->ApplicationConfig;
+    ui->BlockTable->CurrentSlide        =DiaporamaObject;
     ui->InteractiveZone->BlockTable     =ui->BlockTable;
-    ui->InteractiveZone->MagneticRuler  =CurrentSlide->Parent->ApplicationConfig->SlideRuler;
+    ui->InteractiveZone->MagneticRuler  =((cApplicationConfig *)BaseApplicationConfig)->SlideRuler;
+
+    MAXCACHEIMAGE=30;   // We hope that there is not more than 30 shots !
 }
 
 //====================================================================================================================
@@ -141,6 +144,8 @@ DlgSlideProperties::~DlgSlideProperties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::~DlgSlideProperties");
     InRefreshControls=true; // To ensure no controls will change during delete
     delete ui;
+    MAXCACHEIMAGE=1;
+    CurrentSlide->Parent->CloseUnusedLibAv(CurrentSlide->Parent->CurrentCol);
 }
 
 //====================================================================================================================
@@ -167,6 +172,7 @@ void DlgSlideProperties::DoInitDialog() {
     }
     ProjectGeometry=DisplayH/DisplayW;
     ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+    ui->BlockTable->ProjectGeometry=ProjectGeometry;
 
     //******************************
 
@@ -183,10 +189,10 @@ void DlgSlideProperties::DoInitDialog() {
     ui->SlideNameED->setText(CurrentSlide->SlideName);
 
     // Init combo box Background form
-    for (int i=0;i<12;i++) ui->BackgroundFormCB->addItem("");
+    for (int i=0;i<ShapeFormDefinition.count();i++) if (ShapeFormDefinition.at(i).Enable) ui->BackgroundFormCB->addItem(ShapeFormDefinition.at(i).Name,QVariant(i));
     MakeFormIcon(ui->BackgroundFormCB);
-    if (ui->FramingStyleCB->view()->width()<500)  ui->FramingStyleCB->view()->setFixedWidth(500);
-    if (ui->ShadowEffectCB->view()->width()<500)  ui->ShadowEffectCB->view()->setFixedWidth(500);
+    if (ui->TextFramingStyleCB->view()->width()<500)    ui->TextFramingStyleCB->view()->setFixedWidth(500);
+    if (ui->ShadowEffectCB->view()->width()<500)        ui->ShadowEffectCB->view()->setFixedWidth(500);
 
     // Init combo box Background shadow form
     ui->ShadowEffectCB->addItem(QApplication::translate("DlgSlideProperties","None"));
@@ -217,7 +223,7 @@ void DlgSlideProperties::DoInitDialog() {
     ui->RotateZED->setRange(-180,180);      ui->RotateZSLD->setRange(-180,180);
 
     // Init Spinbox
-    if (CurrentSlide->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
+    if (((cApplicationConfig *)BaseApplicationConfig)->DisplayUnit==DISPLAYUNIT_PERCENT) {
         ui->PosXEd->setDecimals(2);             ui->PosXEd->setSingleStep(1);       ui->PosXEd->setSuffix("%");
         ui->PosYEd->setDecimals(2);             ui->PosYEd->setSingleStep(1);       ui->PosYEd->setSuffix("%");
         ui->WidthEd->setDecimals(2);            ui->WidthEd->setSingleStep(1);      ui->WidthEd->setSuffix("%");
@@ -320,11 +326,12 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->actionMoveLeft,SIGNAL(triggered()),this,SLOT(s_ShotTable_MoveLeft()));
     connect(ui->actionMoveRight,SIGNAL(triggered()),this,SLOT(s_ShotTable_MoveRight()));
 
+    connect(ui->ShapeSizePosCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeSizePos(int)));
     connect(ui->PosXEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosXValue(double)));
     connect(ui->PosYEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosYValue(double)));
     connect(ui->WidthEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosWidthValue(double)));
     connect(ui->HeightEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosHeightValue(double)));
-    connect(ui->BackgroundFormCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeBackgroundForm(int)));
+    connect(ui->BackgroundFormCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_BlockSettings_ShapeBackgroundForm()));
     connect(ui->OpacityCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeOpacity(int)));
     connect(ui->PenStyleCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapePenStyle(int)));
     connect(ui->ShadowEffectCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeShadowFormValue(int)));
@@ -356,8 +363,8 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->actionRemoveBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_RemoveBlock()));
 
     // Style buttons
-    connect(ui->FramingStyleCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeFramingStyle(int)));
-    connect(ui->CoordinateStyleBT,SIGNAL(pressed()),this,SLOT(s_CoordinateStyleBT()));
+    connect(ui->FramingStyleCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_ChangeFramingStyle()));
+    connect(ui->TextFramingStyleCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChangeTextFramingStyle(int)));
     connect(ui->BlockShapeStyleBT,SIGNAL(pressed()),this,SLOT(s_BlockShapeStyleBT()));
 
     // Text annimation
@@ -376,8 +383,8 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->InteractiveZone,SIGNAL(EndSelectionChange()),this,SLOT(s_BlockTable_EndSelectionChange()));
     connect(ui->InteractiveZone,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemRightClicked(QMouseEvent *)));
     connect(ui->InteractiveZone,SIGNAL(DoubleClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemDoubleClicked(QMouseEvent *)));
-    connect(ui->InteractiveZone,SIGNAL(TransformBlock(double,double,double,double,double,double,double,double)),this,SLOT(s_BlockSettings_IntZoneTransformBlocks(double,double,double,double,double,double,double,double)));
-    connect(ui->InteractiveZone,SIGNAL(DisplayTransformBlock(double,double,double,double,double,double,double,double)),this,SLOT(s_BlockSettings_IntZoneDisplayTransformBlocks(double,double,double,double,double,double,double,double)));
+    connect(ui->InteractiveZone,SIGNAL(TransformBlock(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)),this,SLOT(s_BlockSettings_IntZoneTransformBlocks(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)));
+    connect(ui->InteractiveZone,SIGNAL(DisplayTransformBlock(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)),this,SLOT(s_BlockSettings_IntZoneDisplayTransformBlocks(qreal,qreal,qreal,qreal,qreal,qreal,qreal,qreal)));
 
     s_Event_ClipboardChanged();           // Setup clipboard button state
     connect(QApplication::clipboard(),SIGNAL(dataChanged()),this,SLOT(s_Event_ClipboardChanged()));
@@ -440,22 +447,34 @@ void DlgSlideProperties::DoGlobalUndo() {
 
 //====================================================================================================================
 
+void DlgSlideProperties::ComputeBlockRatio(cCompositionObject *Block,qreal &Ratio_X,qreal &Ratio_Y) {
+    QRectF tmpRect=PolygonToRectF(ComputePolygon(Block->BackgroundForm,
+                                                 Block->x*DisplayW,Block->y*DisplayH,
+                                                 Block->w*DisplayW,Block->h*DisplayH,
+                                                 Block->x*DisplayW+(Block->w*DisplayW/2),
+                                                 Block->y*DisplayH+(Block->h*DisplayH/2)));
+    Ratio_X=(Block->w*DisplayW)/tmpRect.width();
+    Ratio_Y=(Block->h*DisplayH)/tmpRect.height();
+}
+
+//====================================================================================================================
+
 void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::MakeFormIcon");
 
     for (int i=0;i<UICB->count();i++) {
         cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,((cApplicationConfig *)BaseApplicationConfig));
-        Object.Text                     ="";
         Object.x                        =0;
         Object.y                        =0;
         Object.w                        =1;
         Object.h                        =1;
-        Object.BackgroundForm           =i+1;
+        Object.BackgroundForm           =UICB->itemData(i).toInt();
         Object.Opacity                  =4;
         Object.PenSize                  =1;
         Object.PenStyle                 =Qt::SolidLine;
         Object.PenColor                 ="#000000";
-        Object.BackgroundBrush->BrushType=BRUSHTYPE_NOBRUSH;
+        Object.BackgroundBrush->ColorD  ="#FFFFFF";
+        Object.BackgroundBrush->BrushType=BRUSHTYPE_SOLID;
         QPixmap  Image(UICB->iconSize());
         QPainter Painter;
         Painter.begin(&Image);
@@ -533,9 +552,15 @@ void DlgSlideProperties::keyReleaseEvent(QKeyEvent *event) {
 //====================================================================================================================
 // Call when user click on Ok button
 
+void DlgSlideProperties::DoAccept() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DoAccept");
+    InRefreshControls=true;
+}
+
 void DlgSlideProperties::OKPrevious() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::OKPrevious");
 
+    InRefreshControls=true;
     SaveWindowState();  // Save Window size and position
     done(2);            // Close the box
 }
@@ -543,8 +568,14 @@ void DlgSlideProperties::OKPrevious() {
 void DlgSlideProperties::OKNext() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::OKNext");
 
+    InRefreshControls=true;
     SaveWindowState();  // Save Window size and position
     done(3);            // Close the box
+}
+
+void DlgSlideProperties::DoRejet() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DoRejet");
+    InRefreshControls=true;
 }
 
 //====================================================================================================================
@@ -734,65 +765,113 @@ void DlgSlideProperties::RefreshStyleControls() {
     InRefreshStyleControls=true;
 
     bool IsVisible=(BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible);
-    ui->CoordinateStyleBT->setEnabled(IsVisible && !SelectionHaveLockBlock);
-    ui->CoordinateStyleED->setEnabled(IsVisible && !SelectionHaveLockBlock);
-    ui->BlockShapeStyleBT->setEnabled(IsVisible && !SelectionHaveLockBlock);
-    ui->BlockShapeStyleED->setEnabled(IsVisible && !SelectionHaveLockBlock);
-    ui->FramingStyleCB   ->setEnabled(IsVisible && !SelectionHaveLockBlock);
-    ui->FramingStyleLabel->setEnabled(IsVisible && !SelectionHaveLockBlock);
+    ui->BlockShapeStyleBT ->setEnabled(IsVisible && !SelectionHaveLockBlock);
+    ui->BlockShapeStyleED ->setEnabled(IsVisible && !SelectionHaveLockBlock);
+    ui->FramingStyleCB    ->setEnabled(IsVisible && !SelectionHaveLockBlock);
+    ui->TextFramingStyleCB->setEnabled(IsVisible && !SelectionHaveLockBlock);
+    ui->ShapeSizePosCB    ->setEnabled(IsVisible && !SelectionHaveLockBlock);
 
     if (IsVisible) {
         ui->BlockShapeStyleED->setText(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.GetStyleName(CurrentCompoObject->GetBlockShapeStyle()));
-        ui->CoordinateStyleED->setText(((cApplicationConfig *)BaseApplicationConfig)->StyleCoordinateCollection.GetStyleName(CurrentCompoObject->GetCoordinateStyle()));
 
+        ui->ShapeSizePosCB->setUpdatesEnabled(false);
+        ui->ShapeSizePosCB->clear();
+        int ImageType=CurrentCompoObject->BackgroundBrush->GetImageType();
+        int AutoCompo=CurrentCompoObject->GetAutoCompoSize(CurrentSlide->Parent->ImageGeometry);
+
+        if (AutoCompo==AUTOCOMPOSIZE_CUSTOM) {                                                                                  // AUTOCOMPOSIZE_CUSTOM
+            ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Custom size"),QVariant(AUTOCOMPOSIZE_CUSTOM));
+            ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
+        }
+        if ((ImageType!=AUTOCOMPOSIZE_CUSTOM)&&(ImageType!=IMAGETYPE_PHOTOLANDSCAPE)&&(ImageType!=IMAGETYPE_PHOTOPORTRAIT)) {   // AUTOCOMPOSIZE_REALSIZE
+            ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Real image size"),QVariant(AUTOCOMPOSIZE_REALSIZE));
+            if (AutoCompo==AUTOCOMPOSIZE_REALSIZE) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
+        }
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),QVariant(AUTOCOMPOSIZE_FULLSCREEN));                                     // AUTOCOMPOSIZE_FULLSCREEN
+        if (AutoCompo==AUTOCOMPOSIZE_FULLSCREEN) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","TV margins"),QVariant(AUTOCOMPOSIZE_TVMARGINS));                                            // AUTOCOMPOSIZE_TVMARGINS
+        if (AutoCompo==AUTOCOMPOSIZE_TVMARGINS) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Two thirds of screen"),QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));                            // AUTOCOMPOSIZE_TWOTHIRDSSCREEN
+        if (AutoCompo==AUTOCOMPOSIZE_TWOTHIRDSSCREEN) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Half of screen"),QVariant(AUTOCOMPOSIZE_HALFSCREEN));                                       // AUTOCOMPOSIZE_HALFSCREEN
+        if (AutoCompo==AUTOCOMPOSIZE_HALFSCREEN) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Third of screen"),QVariant(AUTOCOMPOSIZE_THIRDSCREEN));                                     // AUTOCOMPOSIZE_THIRDSCREEN
+        if (AutoCompo==AUTOCOMPOSIZE_THIRDSCREEN) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Quarter of screen"),QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));                                 // AUTOCOMPOSIZE_QUARTERSCREEN
+        if (AutoCompo==AUTOCOMPOSIZE_QUARTERSCREEN) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
+        ui->ShapeSizePosCB->setUpdatesEnabled(true);
+
+        StopMajFramingStyle=true;
         if ((CurrentCompoObject->BackgroundBrush->Video==NULL)&&(CurrentCompoObject->BackgroundBrush->Image==NULL)) {
-
             // It's a text block
-            StopMajFramingStyle=true;
-            ui->FramingStyleLabel->setPixmap(QPixmap(":/img/Geometry.png"));
-            if (ui->FramingStyleCB->itemText(0)!=QApplication::translate("DlgImageCorrection","Unlock")) {
-                ui->FramingStyleCB->setUpdatesEnabled(false);
-                ui->FramingStyleCB->clear();
-                ui->FramingStyleCB->addItem(QIcon(ICON_GEOMETRY_UNLOCKED),QApplication::translate("DlgImageCorrection","Unlock"));
-                ui->FramingStyleCB->addItem(QIcon(ICON_GEOMETRY_LOCKED),  QApplication::translate("DlgImageCorrection","Lock to this geometry"));
-                ui->FramingStyleCB->addItem(QIcon(ICON_GEOMETRY_PROJECT), QApplication::translate("DlgImageCorrection","Lock to project geometry"));
+
+            if (ui->FramingStyleCB->isVisible())        ui->FramingStyleCB->setVisible(false);
+            if (!ui->TextFramingStyleCB->isVisible())   ui->TextFramingStyleCB->setVisible(true);
+
+            if (ui->TextFramingStyleCB->itemText(0)!=QApplication::translate("DlgImageCorrection","Unlock")) {
+                ui->TextFramingStyleCB->setUpdatesEnabled(false);
+                ui->TextFramingStyleCB->clear();
+                ui->TextFramingStyleCB->addItem(QIcon(ICON_GEOMETRY_UNLOCKED),QApplication::translate("DlgImageCorrection","Unlock"),QVariant(AUTOFRAMING_CUSTOMLOCK));
+                ui->TextFramingStyleCB->addItem(QIcon(ICON_GEOMETRY_LOCKED),  QApplication::translate("DlgImageCorrection","Lock to this geometry"),QVariant(AUTOFRAMING_CUSTOMUNLOCK));
+                ui->TextFramingStyleCB->addItem(QIcon(ICON_GEOMETRY_PROJECT), QApplication::translate("DlgImageCorrection","Lock to project geometry"),QVariant(AUTOFRAMING_CUSTOMPRJLOCK));
             }
             int Index=1;
             if (!CurrentCompoObject->BackgroundBrush->LockGeometry) Index=0; else if (CurrentCompoObject->BackgroundBrush->AspectRatio==ProjectGeometry) Index=2;
-            if (ui->FramingStyleCB->currentIndex()!=Index) ui->FramingStyleCB->setCurrentIndex(Index);
-            if (!ui->FramingStyleCB->updatesEnabled()) ui->FramingStyleCB->setUpdatesEnabled(true);
-            StopMajFramingStyle=false;
+            if (ui->TextFramingStyleCB->currentIndex()!=Index) ui->TextFramingStyleCB->setCurrentIndex(Index);
+            if (!ui->TextFramingStyleCB->updatesEnabled()) ui->TextFramingStyleCB->setUpdatesEnabled(true);
 
         } else {
+            // It's Image or video
 
-            // Image or video
-            ui->FramingStyleLabel->setPixmap(QPixmap(":/img/EditImage.png"));
-            CurrentCompoObject->BackgroundBrush->InitDefaultFramingStyle(CurrentCompoObject->BackgroundBrush->LockGeometry,CurrentCompoObject->BackgroundBrush->AspectRatio);
-            if (CurrentCompoObject->BackgroundBrush->Image!=NULL)       ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.SetImageGeometryFilter(CurrentSlide->Parent->ImageGeometry,CurrentCompoObject->BackgroundBrush->Image->ObjectGeometry);
-            else if (CurrentCompoObject->BackgroundBrush->Video!=NULL)  ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.SetImageGeometryFilter(CurrentSlide->Parent->ImageGeometry,CurrentCompoObject->BackgroundBrush->Video->ObjectGeometry);
+            if (!ui->FramingStyleCB->isVisible())       ui->FramingStyleCB->setVisible(true);
+            if (ui->TextFramingStyleCB->isVisible())    ui->TextFramingStyleCB->setVisible(false);
 
-            QString StyleDef =CurrentCompoObject->GetFramingStyle();
-            QString StyleName=((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.GetStyleName(StyleDef);
-            if (StyleName=="") {
-                if (StyleDef==CurrentCompoObject->BackgroundBrush->DefaultFramingW)      StyleName=QApplication::translate("DlgManageStyle","Adjust to image width");
-                else if (StyleDef==CurrentCompoObject->BackgroundBrush->DefaultFramingH) StyleName=QApplication::translate("DlgManageStyle","Adjust to image height");
-                else if (StyleDef==CurrentCompoObject->BackgroundBrush->DefaultFramingF) StyleName=QApplication::translate("DlgManageStyle","Adjust to full image");
-                else StyleName=QApplication::translate("DlgManageStyle","Custom");
+            if ((FramingCB_CurrentBrush!=CurrentCompoObject->BackgroundBrush)||(FramingCB_CurrentShot!=CurrentShotNbr)) {
+
+                int Position=0;
+                // Compute position of video
+                if (CurrentCompoObject->BackgroundBrush->Video) for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
+                    if (CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==CurrentCompoObject->IndexKey) {
+                        if (CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible) Position+=CurrentSlide->List[i]->StaticDuration;
+                }
+
+                QImage *CachedImage=NULL;
+                if (CurrentCompoObject->BackgroundBrush->Image) {
+                    CachedImage=CurrentCompoObject->BackgroundBrush->Image->ImageAt(true,NULL);
+                 } else if (CurrentCompoObject->BackgroundBrush->Video) {
+                    CachedImage=CurrentCompoObject->BackgroundBrush->Video->ImageAt(true,Position,QTime(0,0,0,0).msecsTo(CurrentCompoObject->BackgroundBrush->Video->StartPos),NULL,CurrentCompoObject->BackgroundBrush->Deinterlace,1,false,NULL,false);
+                    if (CachedImage->format()!=QImage::Format_ARGB32_Premultiplied) {
+                        QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
+                        delete CachedImage;
+                        CachedImage=NewCachedImage;
+                    }
+                }
+
+                ui->FramingStyleCB->X=CurrentCompoObject->BackgroundBrush->X;
+                ui->FramingStyleCB->Y=CurrentCompoObject->BackgroundBrush->Y;
+                ui->FramingStyleCB->ZoomFactor=CurrentCompoObject->BackgroundBrush->ZoomFactor;
+                ui->FramingStyleCB->AspectRatio=CurrentCompoObject->BackgroundBrush->AspectRatio;
+                ui->FramingStyleCB->PrepareFramingStyleTable(true,FILTERFRAMING_IMAGE|FILTERFRAMING_PROJECT,CurrentCompoObject->BackgroundBrush,CachedImage,CurrentCompoObject->BackgroundForm,ProjectGeometry);
+                delete CachedImage;
             }
-            StopMajFramingStyle=true;
-            ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.FillCollectionCB(ui->FramingStyleCB,StyleName,true);
-            StopMajFramingStyle=false;
+            ui->FramingStyleCB->SetCurrentFraming(CurrentCompoObject->BackgroundBrush->GetCurrentFramingStyle(ProjectGeometry));
         }
+        ui->BackgroundFormCB->PrepareFrameShapeTable(true,0,CurrentCompoObject->BackgroundForm,(cApplicationConfig *)BaseApplicationConfig);
+        ui->BackgroundFormCB->SetCurrentFrameShape(CurrentCompoObject->BackgroundForm);
+        StopMajFramingStyle=false;
+
+        FramingCB_CurrentBrush=CurrentCompoObject->BackgroundBrush;
+        FramingCB_CurrentShot =CurrentShotNbr;
 
     } else {
+        FramingCB_CurrentBrush=NULL;
+        FramingCB_CurrentShot =CurrentShotNbr;
+        ui->ShapeSizePosCB->clear();
+        if (!ui->FramingStyleCB->isVisible())       ui->FramingStyleCB->setVisible(true);
+        if (ui->TextFramingStyleCB->isVisible())    ui->TextFramingStyleCB->setVisible(false);
         ui->BlockShapeStyleED->setText("");
-        ui->CoordinateStyleED->setText("");
-        ui->FramingStyleLabel->setPixmap(QPixmap(":/img/EditImage.png"));
-        if ((ui->FramingStyleCB->count()!=1)||(ui->FramingStyleCB->currentIndex()!=0)||(ui->FramingStyleCB->itemText(0)!=QApplication::translate("DlgManageStyle","Custom"))) {
-            ui->FramingStyleCB->clear();
-            ui->FramingStyleCB->addItem(QIcon(ICON_FRAMING_CUSTOM),QApplication::translate("DlgManageStyle","Custom"));
-            ui->FramingStyleCB->setCurrentIndex(0);
-        }
+        ui->FramingStyleCB->clear();
+        ui->BackgroundFormCB->clear();
     }
 
     InRefreshStyleControls=false;
@@ -847,16 +926,19 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
         ui->PosSize_Width-> setEnabled(true);               ui->WidthEd->   setEnabled(!SelectionHaveLockBlock);
         ui->PosSize_Height->setEnabled(true);               ui->HeightEd->  setEnabled(!SelectionHaveLockBlock);
 
-        if (CurrentSlide->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
-            ui->PosXEd->setRange(-200,200);                 ui->PosXEd->    setValue(CurrentCompoObject->x*100);
-            ui->PosYEd->setRange(-200,200);                 ui->PosYEd->    setValue(CurrentCompoObject->y*100);
-            ui->WidthEd->setRange(1,200);                   ui->WidthEd->   setValue(CurrentCompoObject->w*100);
-            ui->HeightEd->setRange(1,200);                  ui->HeightEd->  setValue(CurrentCompoObject->h*100);
+        qreal Ratio_X,Ratio_Y;
+        ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
+
+        if (((cApplicationConfig *)BaseApplicationConfig)->DisplayUnit==DISPLAYUNIT_PERCENT) {
+            ui->PosXEd->setRange(-200,200);                 ui->PosXEd->    setValue(CurrentCompoObject->x*100/Ratio_X);
+            ui->PosYEd->setRange(-200,200);                 ui->PosYEd->    setValue(CurrentCompoObject->y*100/Ratio_Y);
+            ui->WidthEd->setRange(1,200);                   ui->WidthEd->   setValue(CurrentCompoObject->w*100/Ratio_X);
+            ui->HeightEd->setRange(1,200);                  ui->HeightEd->  setValue(CurrentCompoObject->h*100/Ratio_Y);
         } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-            ui->PosXEd->setRange(-2*DisplayW,2*DisplayW);   ui->PosXEd->    setValue(CurrentCompoObject->x*DisplayW);
-            ui->PosYEd->setRange(-2*DisplayH,2*DisplayH);   ui->PosYEd->    setValue(CurrentCompoObject->y*DisplayH);
-            ui->WidthEd->setRange(3,2*DisplayW);            ui->WidthEd->   setValue(CurrentCompoObject->w*DisplayW);
-            ui->HeightEd->setRange(3,2*DisplayH);           ui->HeightEd->  setValue(CurrentCompoObject->h*DisplayH);
+            ui->PosXEd->setRange(-2*DisplayW,2*DisplayW);   ui->PosXEd->    setValue(CurrentCompoObject->x*DisplayW/Ratio_X);
+            ui->PosYEd->setRange(-2*DisplayH,2*DisplayH);   ui->PosYEd->    setValue(CurrentCompoObject->y*DisplayH/Ratio_Y);
+            ui->WidthEd->setRange(3,2*DisplayW);            ui->WidthEd->   setValue(CurrentCompoObject->w*DisplayW/Ratio_X);
+            ui->HeightEd->setRange(3,2*DisplayH);           ui->HeightEd->  setValue(CurrentCompoObject->h*DisplayH/Ratio_Y);
         }
     } else {
         ui->PosSize_X->     setEnabled(false);              ui->PosXEd->    setEnabled(false);                                                  ui->PosXEd->  setValue(0);
@@ -900,7 +982,7 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
         ui->ShadowEffectED->    setEnabled(!SelectionHaveLockBlock && (CurrentCompoObject->FormShadow!=0));
         ui->ShadowColorCB->     setEnabled(!SelectionHaveLockBlock && (CurrentCompoObject->FormShadow!=0));
 
-        ui->BackgroundFormCB->  setCurrentIndex(CurrentCompoObject->BackgroundForm-1);
+        SetCBIndex(ui->BackgroundFormCB,CurrentCompoObject->BackgroundForm);
         ui->PenSizeEd->         setValue(int(CurrentCompoObject->PenSize));
         ui->OpacityCB->         setCurrentIndex(CurrentCompoObject->Opacity);
         ui->ShadowEffectCB->    setCurrentIndex(CurrentCompoObject->FormShadow);
@@ -1020,7 +1102,7 @@ void DlgSlideProperties::s_TVMarginsBt() {
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
-        CurrentSlide->Parent->ApplicationConfig->SlideRuler=ui->InteractiveZone->MagneticRuler;
+        ((cApplicationConfig *)BaseApplicationConfig)->SlideRuler=ui->InteractiveZone->MagneticRuler;
         ui->TVMarginsBT->setIcon(QIcon(QString(ui->InteractiveZone->MagneticRuler!=0?ICON_RULER_ON:ICON_RULER_OFF)));
     }
     ui->InteractiveZone->RefreshDisplay();
@@ -1376,7 +1458,7 @@ void DlgSlideProperties::RefreshBlockTable(int SetCurrentIndex) {
 
     ui->BlockTable->setUpdatesEnabled(false);
     ui->BlockTable->setRowCount(CompositionList->List.count());
-    for (int i=0;i<ui->BlockTable->rowCount();i++) ui->BlockTable->setRowHeight(i,48+2+((((cApplicationConfig *)CurrentSlide->Parent->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20)*3);
+    for (int i=0;i<ui->BlockTable->rowCount();i++) ui->BlockTable->setRowHeight(i,48+2+((((cApplicationConfig *)((cApplicationConfig *)BaseApplicationConfig))->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3);
     ui->BlockTable->setUpdatesEnabled(true);
     if (ui->BlockTable->currentRow()!=SetCurrentIndex) {
         ui->BlockTable->clearSelection();
@@ -1566,16 +1648,15 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
     // Create and append a composition block to the object list
     CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,((cApplicationConfig *)BaseApplicationConfig)));
     cCompositionObject *CompositionObject=CurrentSlide->ObjectComposition.List[CurrentSlide->ObjectComposition.List.count()-1];
-    CompositionObject->BackgroundBrush->LockGeometry=false;
-    CompositionObject->BackgroundBrush->AspectRatio=1;
 
     // Apply Styles
-    CompositionObject->ApplyTextStyle(CurrentSlide->Parent->ApplicationConfig->StyleTextCollection.GetStyleDef(CurrentSlide->Parent->ApplicationConfig->StyleTextCollection.DecodeString(CurrentSlide->Parent->ApplicationConfig->DefaultBlock_Text_TextST)));
-    CompositionObject->ApplyBackgroundStyle(CurrentSlide->Parent->ApplicationConfig->StyleTextBackgroundCollection.GetStyleDef(CurrentSlide->Parent->ApplicationConfig->StyleTextBackgroundCollection.DecodeString(CurrentSlide->Parent->ApplicationConfig->DefaultBlock_Text_BackGST)));
-    CompositionObject->ApplyBlockShapeStyle(CurrentSlide->Parent->ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(CurrentSlide->Parent->ApplicationConfig->StyleBlockShapeCollection.DecodeString(CurrentSlide->Parent->ApplicationConfig->DefaultBlock_Text_ShapeST)));
-    // Force filtering for CoordinateStyle
-    CurrentSlide->Parent->ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(CurrentSlide->Parent->ImageGeometry);
-    CompositionObject->ApplyCoordinateStyle(CurrentSlide->Parent->ApplicationConfig->StyleCoordinateCollection.GetStyleDef(CurrentSlide->Parent->ApplicationConfig->StyleCoordinateCollection.DecodeString(CurrentSlide->Parent->ApplicationConfig->DefaultBlock_Text_CoordST[CurrentSlide->Parent->ImageGeometry])));
+    CompositionObject->ApplyTextStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleTextCollection.GetStyleDef(((cApplicationConfig *)BaseApplicationConfig)->StyleTextCollection.DecodeString(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_Text_TextST)));
+    CompositionObject->ApplyBackgroundStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleTextBackgroundCollection.GetStyleDef(((cApplicationConfig *)BaseApplicationConfig)->StyleTextBackgroundCollection.DecodeString(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_Text_BackGST)));
+    CompositionObject->ApplyBlockShapeStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.GetStyleDef(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.DecodeString(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_Text_ShapeST)));
+    CompositionObject->BackgroundBrush->LockGeometry=false; // For ApplyAutoCompoSize don't use it
+    CompositionObject->ApplyAutoCompoSize(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_AutoSizePos,CurrentSlide->Parent->ImageGeometry);
+    CompositionObject->BackgroundBrush->LockGeometry=(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_AutoLocking==AUTOFRAMING_CUSTOMPRJLOCK);
+    CompositionObject->BackgroundBrush->AspectRatio=(CompositionObject->h*(CurrentSlide->Parent->ImageGeometry==GEOMETRY_4_3?1440:CurrentSlide->Parent->ImageGeometry==GEOMETRY_16_9?1080:CurrentSlide->Parent->ImageGeometry==GEOMETRY_40_17?816:1920))/(CompositionObject->w*1920);
 
     // Create default text
     QTextDocument       TextDoc(QApplication::translate("DlgSlideProperties","Text","Default text value"));
@@ -1638,12 +1719,12 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewFileBlock");
 
     QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("DlgSlideProperties","Add files"),
-                                                       CurrentSlide->Parent->ApplicationConfig->RememberLastDirectories?CurrentSlide->Parent->ApplicationConfig->LastMediaPath:"",
-                                                       CurrentSlide->Parent->ApplicationConfig->GetFilterForMediaFile(cBaseApplicationConfig::ALLFILE));
+                                                       ((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories?((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath:"",
+                                                       ((cApplicationConfig *)BaseApplicationConfig)->GetFilterForMediaFile(cBaseApplicationConfig::ALLFILE));
     if (FileList.count()==0) return;
 
     // Sort files in the fileList
-    if (CurrentSlide->Parent->ApplicationConfig->SortFile) {
+    if (((cApplicationConfig *)BaseApplicationConfig)->SortFile) {
         // Sort by last number
         for (int i=0;i<FileList.count();i++) for (int j=0;j<FileList.count()-1;j++) {
             QString NameA=QFileInfo(FileList[j]).completeBaseName();
@@ -1756,62 +1837,12 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
             } else {
 
                 // Apply Styles
-                CompositionObject->ApplyTextStyle(CurrentSlide->Parent->ApplicationConfig->StyleTextCollection.GetStyleDef(CurrentSlide->Parent->ApplicationConfig->StyleTextCollection.DecodeString(CurrentSlide->Parent->ApplicationConfig->DefaultBlockBA_IMG_TextST)));
-                CompositionObject->ApplyBlockShapeStyle(CurrentSlide->Parent->ApplicationConfig->StyleBlockShapeCollection.GetStyleDef(CurrentSlide->Parent->ApplicationConfig->StyleBlockShapeCollection.DecodeString(CurrentSlide->Parent->ApplicationConfig->DefaultBlockBA_IMG_ShapeST)));
-                // Force filtering for CoordinateStyle
-                CurrentSlide->Parent->ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(CurrentSlide->Parent->ImageGeometry,CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry);
-                CompositionObject->ApplyCoordinateStyle(CurrentSlide->Parent->ApplicationConfig->StyleCoordinateCollection.GetStyleDef(CurrentSlide->Parent->ApplicationConfig->StyleCoordinateCollection.DecodeString(
-                    CurrentSlide->Parent->ApplicationConfig->DefaultBlockBA_IMG_CoordST[CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry][CurrentSlide->Parent->ImageGeometry])));
-
-                // Special case for nonstandard image => force to image geometry constraint and adapt frame coordinates
-                if ((CurrentBrush->Image?CurrentBrush->Image->ObjectGeometry:CurrentBrush->Video->ObjectGeometry)==IMAGE_GEOMETRY_UNKNOWN) {
-                    double ImageGeometry=1;
-                    double ProjectGeometry=1;
-                    double NewW,NewH;
-
-                    switch (CurrentSlide->Parent->ImageGeometry) {
-                        case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
-                        case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
-                        case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
-
-                    }
-                    ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
-                    switch (CurrentSlide->Parent->ApplicationConfig->DefaultBlockBA_CLIPARTLOCK[CurrentSlide->Parent->ImageGeometry]) {
-                        case 0 :    // Adjust to Full in lock to image geometry mode
-                            if (CurrentBrush->Image)            ImageGeometry=double(CurrentBrush->Image->ImageHeight)/double(CurrentBrush->Image->ImageWidth);
-                                else if (CurrentBrush->Video)   ImageGeometry=double(CurrentBrush->Video->ImageHeight)/double(CurrentBrush->Video->ImageWidth);
-                            CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                            CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
-                            NewW=CompositionObject->w*CurrentSlide->Parent->InternalWidth;
-                            NewH=NewW*CurrentBrush->AspectRatio;
-                            NewW=NewW/CurrentSlide->Parent->InternalWidth;
-                            NewH=NewH/CurrentSlide->Parent->InternalHeight;
-                            if (NewH>1) {
-                                NewH=CompositionObject->h*CurrentSlide->Parent->InternalHeight;
-                                NewW=NewH/CurrentBrush->AspectRatio;
-                                NewW=NewW/CurrentSlide->Parent->InternalWidth;
-                                NewH=NewH/CurrentSlide->Parent->InternalHeight;
-                            }
-                            CompositionObject->w=NewW;
-                            CompositionObject->h=NewH;
-                            break;
-                        case 1 :    // Lock to project geometry - To full
-                            ImageGeometry=ProjectGeometry;
-                            CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                            CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingF);
-                            break;
-                        case 2 :    // Lock to project geometry - To width
-                            ImageGeometry=ProjectGeometry;
-                            CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                            CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingW);
-                            break;
-                        case 3 :    // Lock to project geometry - To height
-                            ImageGeometry=ProjectGeometry;
-                            CurrentBrush->InitDefaultFramingStyle(true,ImageGeometry);
-                            CurrentBrush->ApplyStyle(true,CurrentBrush->DefaultFramingH);
-                            break;
-                    }
-                }
+                CompositionObject->ApplyTextStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleTextCollection.GetStyleDef(((cApplicationConfig *)BaseApplicationConfig)->StyleTextCollection.DecodeString(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlockBA_IMG_TextST)));
+                CompositionObject->ApplyBlockShapeStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.GetStyleDef(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.DecodeString(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlockBA_IMG_ShapeST)));
+                // Apply styles for coordinates
+                qreal ProjectGeometry=qreal(CurrentSlide->Parent->ImageGeometry==GEOMETRY_4_3?1440:CurrentSlide->Parent->ImageGeometry==GEOMETRY_16_9?1080:CurrentSlide->Parent->ImageGeometry==GEOMETRY_40_17?816:1920)/qreal(1920);
+                CompositionObject->BackgroundBrush->ApplyAutoFraming(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlockBA[CompositionObject->BackgroundBrush->GetImageType()].AutoFraming,ProjectGeometry);
+                CompositionObject->ApplyAutoCompoSize(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlockBA[CompositionObject->BackgroundBrush->GetImageType()].AutoCompo,CurrentSlide->Parent->ImageGeometry);
                 delete Image;
             }
         }
@@ -2184,9 +2215,9 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
                            HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
-
+        FramingCB_CurrentBrush   =NULL; // To force a refresh of ui->FramingCB !
         CurrentBrush->AspectRatio=CurrentBrush->AspectRatio;
-        CurrentCompoObject->h =(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
+        CurrentCompoObject->h    =(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
 
         // Adjust height and width to image stay in screen
         if (((CurrentCompoObject->y+CurrentCompoObject->h)*DisplayH)>DisplayH) {
@@ -2201,8 +2232,8 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
         }
 
         // Lulo object for image and video must be remove
-        if (CurrentCompoObject->BackgroundBrush->Video) CurrentSlide->Parent->ApplicationConfig->ImagesCache.RemoveVideoObject(CurrentCompoObject->BackgroundBrush->Video->FileName);
-            else if (CurrentCompoObject->BackgroundBrush->Image) CurrentSlide->Parent->ApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileName);
+        if (CurrentCompoObject->BackgroundBrush->Video) ((cApplicationConfig *)BaseApplicationConfig)->ImagesCache.RemoveVideoObject(CurrentCompoObject->BackgroundBrush->Video->FileName);
+            else if (CurrentCompoObject->BackgroundBrush->Image) ((cApplicationConfig *)BaseApplicationConfig)->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileName);
 
         ApplyToContexte(true);
         RefreshBlockTable(CurrentCompoObjectNbr);
@@ -2289,13 +2320,23 @@ void DlgSlideProperties::s_BlockSettings_GetSound() {
 // Handler for position, size & rotation controls
 //====================================================================================================================
 
+//========= ShapeSizePos combo
+void DlgSlideProperties::s_BlockSettings_ShapeSizePos(int Index) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapeSizePos");
+    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    if ((Index<0)||(Index>=ui->ShapeSizePosCB->count())) return;
+    AppendPartialUndo(UNDOACTION_STYLE_COORDINATES,ui->ShapeSizePosCB,true);
+    CurrentCompoObject->ApplyAutoCompoSize(ui->ShapeSizePosCB->itemData(Index).toInt(),CurrentSlide->Parent->ImageGeometry);
+    ApplyToContexte(false);
+}
+
 //========= X position
 void DlgSlideProperties::s_BlockSettings_PosXValue(double Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_PosXValue");
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_POSX,ui->PosXEd,false);
 
-    if (CurrentSlide->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->x=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
+    if (((cApplicationConfig *)BaseApplicationConfig)->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->x=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
         else                                                                       CurrentCompoObject->x=(Value/DisplayW);    // DisplayUnit==DISPLAYUNIT_PIXELS
     ApplyToContexte(false);
 }
@@ -2306,7 +2347,7 @@ void DlgSlideProperties::s_BlockSettings_PosYValue(double Value) {
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_POSY,ui->PosYEd,false);
 
-    if (CurrentSlide->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->y=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
+    if (((cApplicationConfig *)BaseApplicationConfig)->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->y=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
         else                                                                       CurrentCompoObject->y=(Value/DisplayH);    // DisplayUnit==DISPLAYUNIT_PIXELS
     ApplyToContexte(false);
 }
@@ -2317,8 +2358,11 @@ void DlgSlideProperties::s_BlockSettings_PosWidthValue(double Value) {
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_WIDTH,ui->WidthEd,false);
 
-    if (CurrentSlide->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->w=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
-        else CurrentCompoObject->w=(Value/DisplayW);                                                                          // DisplayUnit==DISPLAYUNIT_PIXELS
+    qreal Ratio_X,Ratio_Y;
+    ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
+
+    if (((cApplicationConfig *)BaseApplicationConfig)->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->w=(Value/100)*Ratio_X;
+        else CurrentCompoObject->w=(Value/DisplayW)*Ratio_X;
     if ((CurrentCompoObject->BackgroundBrush->LockGeometry)||(CurrentCompoObject->BackgroundBrush->Image!=NULL)||(CurrentCompoObject->BackgroundBrush->Video!=NULL))
             CurrentCompoObject->h=((CurrentCompoObject->w*DisplayW)*CurrentCompoObject->BackgroundBrush->AspectRatio)/DisplayH;
         else CurrentCompoObject->BackgroundBrush->AspectRatio=(CurrentCompoObject->h*DisplayH)/(CurrentCompoObject->w*DisplayW);
@@ -2331,8 +2375,11 @@ void DlgSlideProperties::s_BlockSettings_PosHeightValue(double Value) {
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_HEIGHT,ui->HeightEd,false);
 
-    if (CurrentSlide->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->h=Value/100;           // DisplayUnit==DISPLAYUNIT_PERCENT
-        else CurrentCompoObject->h=(Value/DisplayH);                                                                          // DisplayUnit==DISPLAYUNIT_PIXELS
+    qreal Ratio_X,Ratio_Y;
+    ComputeBlockRatio(CurrentCompoObject,Ratio_X,Ratio_Y);
+
+    if (((cApplicationConfig *)BaseApplicationConfig)->DisplayUnit==DISPLAYUNIT_PERCENT) CurrentCompoObject->h=(Value/100)*Ratio_Y;
+        else CurrentCompoObject->h=(Value/DisplayH)*Ratio_Y;
     if ((CurrentCompoObject->BackgroundBrush->LockGeometry)||(CurrentCompoObject->BackgroundBrush->Image!=NULL)||(CurrentCompoObject->BackgroundBrush->Video!=NULL))
         CurrentCompoObject->w=((CurrentCompoObject->h*DisplayH)/CurrentCompoObject->BackgroundBrush->AspectRatio)/DisplayW;
         else CurrentCompoObject->BackgroundBrush->AspectRatio=(CurrentCompoObject->h*DisplayH)/(CurrentCompoObject->w*DisplayW);
@@ -2380,12 +2427,13 @@ void DlgSlideProperties::s_BlockSettings_ResetRotateZValue() {
 //====================================================================================================================
 
 //========= Background forme
-void DlgSlideProperties::s_BlockSettings_ShapeBackgroundForm(int Style) {
+void DlgSlideProperties::s_BlockSettings_ShapeBackgroundForm() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapeBackgroundForm");
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEFORM,ui->BackgroundFormCB,false);
-    CurrentCompoObject->BackgroundForm=Style+1;
+    CurrentCompoObject->BackgroundForm=ui->BackgroundFormCB->GetCurrentFrameShape();
     ApplyToContexte(true);
+    RefreshBlockTable(CurrentCompoObjectNbr);
 }
 
 //========= Opacity
@@ -2572,76 +2620,60 @@ void DlgSlideProperties::s_BlockSettings_BlockAnimDissolveType(int Value) {
 // Handler for interactive zone
 //====================================================================================================================
 
-void DlgSlideProperties::s_BlockSettings_IntZoneTransformBlocks(double Move_X,double Move_Y,double Scale_X,double Scale_Y,double Sel_X,double Sel_Y,double Sel_W,double Sel_H) {
+void DlgSlideProperties::s_BlockSettings_IntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y,qreal RSel_X,qreal RSel_Y,qreal RSel_W,qreal RSel_H) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_IntZoneTransformBlocks");
     AppendPartialUndo(UNDOACTION_INTERACTIVEMOVERESIZE,ui->InteractiveZone,true);
 
     for (int i=0;i<IsSelected.count();i++) if ((IsSelected[i])&&(CompositionList->List[i]->IsVisible)) {
-        CompositionList->List[i]->x=CompositionList->List[i]->x+Move_X-(CompositionList->List[i]->x-Sel_X)+(Sel_W!=0?((CompositionList->List[i]->x-Sel_X)/Sel_W)*(Sel_W+Scale_X):0);
-        CompositionList->List[i]->y=CompositionList->List[i]->y+Move_Y-(CompositionList->List[i]->y-Sel_Y)+(Sel_H!=0?((CompositionList->List[i]->y-Sel_Y)/Sel_H)*(Sel_H+Scale_Y):0);
-        CompositionList->List[i]->w=Sel_W!=0?(CompositionList->List[i]->w/Sel_W)*(Sel_W+Scale_X):0; if (CompositionList->List[i]->w<0.002) CompositionList->List[i]->w=0.002;
+        qreal   RatioScale_X=(RSel_W+Scale_X)/RSel_W;
+        qreal   RatioScale_Y=(RSel_H+Scale_Y)/RSel_H;
+
+        CompositionList->List[i]->x=RSel_X+Move_X+(CompositionList->List[i]->x-RSel_X)*RatioScale_X;
+        CompositionList->List[i]->y=RSel_Y+Move_Y+(CompositionList->List[i]->y-RSel_Y)*RatioScale_Y;
+        CompositionList->List[i]->w=CompositionList->List[i]->w*RatioScale_X;                           if (CompositionList->List[i]->w<0.002) CompositionList->List[i]->w=0.002;
         if (CompositionList->List[i]->BackgroundBrush->LockGeometry) CompositionList->List[i]->h=((CompositionList->List[i]->w*DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/DisplayH;
-            else CompositionList->List[i]->h=Sel_H!=0?(CompositionList->List[i]->h/Sel_H)*(Sel_H+Scale_Y):0; if (CompositionList->List[i]->h<0.002) CompositionList->List[i]->h=0.002;
+            else CompositionList->List[i]->h=CompositionList->List[i]->h*RatioScale_Y;
+        if (CompositionList->List[i]->h<0.002) CompositionList->List[i]->h=0.002;
     }
     ApplyToContexte(false);
 }
 
-void DlgSlideProperties::s_BlockSettings_IntZoneDisplayTransformBlocks(double Move_X,double Move_Y,double Scale_X,double Scale_Y,double Sel_X,double Sel_Y,double Sel_W,double Sel_H) {
+void DlgSlideProperties::s_BlockSettings_IntZoneDisplayTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y,qreal RSel_X,qreal RSel_Y,qreal RSel_W,qreal RSel_H) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_IntZoneDisplayTransformBlocks");
 
     InRefreshControls=true;
-    int i=CurrentCompoObjectNbr;
-    double x=CompositionList->List[i]->x+Move_X-(CompositionList->List[i]->x-Sel_X)+(Sel_W!=0?((CompositionList->List[i]->x-Sel_X)/Sel_W)*(Sel_W+Scale_X):0);
-    double y=CompositionList->List[i]->y+Move_Y-(CompositionList->List[i]->y-Sel_Y)+(Sel_H!=0?((CompositionList->List[i]->y-Sel_Y)/Sel_H)*(Sel_H+Scale_Y):0);
-    double w=(Sel_W!=0?(CompositionList->List[i]->w/Sel_W)*(Sel_W+Scale_X):Scale_X);    if (w<0.002) w=0.002;
-    double h;
-    if (CompositionList->List[i]->BackgroundBrush->LockGeometry) h=((w*DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/DisplayH; else {
-        h=(Sel_H!=0?(CompositionList->List[i]->h/Sel_H)*(Sel_H+Scale_Y):Scale_Y);
-        if (h<0.002) h=0.002;
-    }
-    if (CurrentSlide->Parent->ApplicationConfig->DisplayUnit==DISPLAYUNIT_PERCENT) {
-        ui->PosXEd->  setValue(x*100);
-        ui->PosYEd->  setValue(y*100);
-        ui->WidthEd-> setValue(w*100);
-        ui->HeightEd->setValue(h*100);
+
+    int     i           =CurrentCompoObjectNbr;
+    qreal   RatioScale_X=(RSel_W+Scale_X)/RSel_W;
+    qreal   RatioScale_Y=(RSel_H+Scale_Y)/RSel_H;
+    QRectF  tmpRect     =PolygonToRectF(ComputePolygon(CompositionList->List[i]->BackgroundForm,
+                                                       CompositionList->List[i]->x*DisplayW,CompositionList->List[i]->y*DisplayH,
+                                                       CompositionList->List[i]->w*DisplayW,CompositionList->List[i]->h*DisplayH,
+                                                       CompositionList->List[i]->x*DisplayW+(CompositionList->List[i]->w*DisplayW/2),
+                                                       CompositionList->List[i]->y*DisplayH+(CompositionList->List[i]->h*DisplayH/2)));
+    qreal   Ratio_X     =(CompositionList->List[i]->x*DisplayW*DisplayW)/tmpRect.width();
+    qreal   Ratio_Y     =(CompositionList->List[i]->h*DisplayH)/tmpRect.height();
+    qreal   x           =RSel_X+Move_X+(CompositionList->List[i]->x-RSel_X)*RatioScale_X;
+    qreal   y           =RSel_Y+Move_Y+(CompositionList->List[i]->y-RSel_Y)*RatioScale_Y;
+    qreal   w           =CompositionList->List[i]->w*RatioScale_X; if (w<0.002) w=0.002;
+    qreal   h           =(CompositionList->List[i]->BackgroundBrush->LockGeometry?((w*DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/DisplayH:CompositionList->List[i]->h*RatioScale_Y); if (h<0.002) h=0.002;
+
+    if (((cApplicationConfig *)BaseApplicationConfig)->DisplayUnit==DISPLAYUNIT_PERCENT) {
+        ui->PosXEd->  setValue(x*100/Ratio_X);
+        ui->PosYEd->  setValue(y*100/Ratio_Y);
+        ui->WidthEd-> setValue(w*100/Ratio_X);
+        ui->HeightEd->setValue(h*100/Ratio_Y);
     } else { // DisplayUnit==DISPLAYUNIT_PIXELS
-        ui->PosXEd->  setValue(x*DisplayW);
-        ui->PosYEd->  setValue(y*DisplayH);
-        ui->WidthEd-> setValue(w*DisplayW);
-        ui->HeightEd->setValue(h*DisplayH);
+        ui->PosXEd->  setValue(x*DisplayW/Ratio_X);
+        ui->PosYEd->  setValue(y*DisplayH/Ratio_Y);
+        ui->WidthEd-> setValue(w*DisplayW/Ratio_X);
+        ui->HeightEd->setValue(h*DisplayH/Ratio_Y);
     }
     InRefreshControls=false;
 }
 
 //====================================================================================================================
 // Handler for style sheet management
-//====================================================================================================================
-
-void DlgSlideProperties::s_CoordinateStyleBT() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_CoordinateStyleBT");
-
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
-    AppendPartialUndo(UNDOACTION_STYLE_COORDINATES,ui->InteractiveZone,false);
-
-    // Define StyleCoordinateCollection filter
-    if (CurrentCompoObject->BackgroundBrush->Image!=NULL)       ((cApplicationConfig *)BaseApplicationConfig)->StyleCoordinateCollection.SetImageGeometryFilter(CurrentSlide->Parent->ImageGeometry,CurrentCompoObject->BackgroundBrush->Image->ObjectGeometry);
-    else if (CurrentCompoObject->BackgroundBrush->Video!=NULL)  ((cApplicationConfig *)BaseApplicationConfig)->StyleCoordinateCollection.SetImageGeometryFilter(CurrentSlide->Parent->ImageGeometry,CurrentCompoObject->BackgroundBrush->Video->ObjectGeometry);
-    else                                                        ((cApplicationConfig *)BaseApplicationConfig)->StyleCoordinateCollection.SetProjectGeometryFilter(CurrentSlide->Parent->ImageGeometry);
-
-    // Get Actual style definition
-    QString ActualStyle=CurrentCompoObject->GetCoordinateStyle();
-
-    // Open popup menu
-    QString Item=((cApplicationConfig *)BaseApplicationConfig)->StyleCoordinateCollection.PopupCollectionMenu(this,BaseApplicationConfig,ActualStyle);
-    ui->CoordinateStyleBT->setDown(false);
-    if (Item!="") {
-        CurrentCompoObject->ApplyCoordinateStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleCoordinateCollection.GetStyleDef(Item));
-        // Refresh block table
-        RefreshBlockTable(CurrentCompoObjectNbr);
-    }
-    RefreshStyleControls();
-}
-
 //====================================================================================================================
 
 void DlgSlideProperties::s_BlockShapeStyleBT() {
@@ -2660,7 +2692,7 @@ void DlgSlideProperties::s_BlockShapeStyleBT() {
 
 //====================================================================================================================
 
-void DlgSlideProperties::s_ChangeFramingStyle(int Value) {
+void DlgSlideProperties::s_ChangeFramingStyle() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChangeFramingStyle");
 
     if (StopMajFramingStyle) return;
@@ -2668,61 +2700,48 @@ void DlgSlideProperties::s_ChangeFramingStyle(int Value) {
     AppendPartialUndo(UNDOACTION_STYLE_FRAMING,ui->InteractiveZone,false);
 
     cBrushDefinition *CurrentBrush=CurrentCompoObject->BackgroundBrush;
+    int AutoCompo=CurrentCompoObject->GetAutoCompoSize(CurrentSlide->Parent->ImageGeometry);
 
-    if ((CurrentBrush->Image==NULL)&&(CurrentBrush->Video==NULL)) {
-        // It's a text block
-        switch (Value) {
-            case 0: // Unlock
-                CurrentBrush->LockGeometry=false;
-                break;
-            case 1: // Lock to this geometry
-                CurrentBrush->LockGeometry=true;
-                CurrentBrush->AspectRatio=(CurrentCompoObject->h*DisplayH)/(CurrentCompoObject->w*DisplayW);
-                break;
-            case 2: // Lock to project geometry
-                CurrentBrush->LockGeometry=true;
-                CurrentBrush->AspectRatio=ProjectGeometry;
-                break;
-            default:
-                return;
-        }
-        if (CurrentCompoObject->h>(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH) CurrentCompoObject->h=(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
-            else CurrentCompoObject->w=(CurrentCompoObject->h*DisplayH/CurrentBrush->AspectRatio)/DisplayW;
-    } else {
-        // It's an image or video block
-        int         i;
-        QStringList List;
+    CurrentBrush->ApplyAutoFraming(ui->FramingStyleCB->GetCurrentFraming(),ProjectGeometry);
+    CurrentCompoObject->ApplyAutoCompoSize(AutoCompo,CurrentSlide->Parent->ImageGeometry);
+    //if (CurrentCompoObject->h>(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH) CurrentCompoObject->h=(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
+    //    else CurrentCompoObject->w=(CurrentCompoObject->h*DisplayH/CurrentBrush->AspectRatio)/DisplayW;
 
-        switch (Value) {
-            case 0: // Adjust to width
-                ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingW,List);
-                break;
-            case 1: // Adjust to heigth
-                ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingH,List);
-                break;
-            case 2: // Adjust to full
-                ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.StringDefToStringList(CurrentBrush->DefaultFramingF,List);
-                break;
-            case 3: // None
-                break;
-            default:
-                ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.StringToStringList(ui->FramingStyleCB->itemText(Value),List);
-                break;
-        }
-        if (List.count()>0) {
-            for (i=0;i<List.count();i++) {
-                if      (List[i].startsWith("X:"))              CurrentBrush->X             =List[i].mid(QString("X:").length()).toDouble();
-                else if (List[i].startsWith("Y:"))              CurrentBrush->Y             =List[i].mid(QString("Y:").length()).toDouble();
-                else if (List[i].startsWith("ZoomFactor:"))     CurrentBrush->ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
-                else if (List[i].startsWith("LockGeometry:"))   CurrentBrush->LockGeometry  =List[i].mid(QString("LockGeometry:").length()).toInt()==1;
-                else if (List[i].startsWith("AspectRatio:"))    CurrentBrush->AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
-            }
-            CurrentBrush->AspectRatio=CurrentBrush->AspectRatio;
-            if (CurrentCompoObject->h>(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH) CurrentCompoObject->h=(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
-                else CurrentCompoObject->w=(CurrentCompoObject->h*DisplayH/CurrentBrush->AspectRatio)/DisplayW;
-        }
 
+    int CurrentRow=ui->BlockTable->currentRow();
+    FramingCB_CurrentBrush=NULL;
+    RefreshBlockTable(CurrentRow>0?CurrentRow:0);
+}
+//====================================================================================================================
+
+void DlgSlideProperties::s_ChangeTextFramingStyle(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_ChangeTextFramingStyle");
+
+    if (StopMajFramingStyle) return;
+    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    AppendPartialUndo(UNDOACTION_STYLE_FRAMING,ui->InteractiveZone,false);
+
+    cBrushDefinition *CurrentBrush=CurrentCompoObject->BackgroundBrush;
+
+    // It's a text block
+    switch (Value) {
+        case 0: // Unlock
+            CurrentBrush->LockGeometry=false;
+            break;
+        case 1: // Lock to this geometry
+            CurrentBrush->LockGeometry=true;
+            CurrentBrush->AspectRatio=(CurrentCompoObject->h*DisplayH)/(CurrentCompoObject->w*DisplayW);
+            break;
+        case 2: // Lock to project geometry
+            CurrentBrush->LockGeometry=true;
+            CurrentBrush->AspectRatio=ProjectGeometry;
+            break;
+        default:
+            return;
     }
+    if (CurrentCompoObject->h>(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH) CurrentCompoObject->h=(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
+        else CurrentCompoObject->w=(CurrentCompoObject->h*DisplayH/CurrentBrush->AspectRatio)/DisplayW;
+
     int CurrentRow=ui->BlockTable->currentRow();
     RefreshBlockTable(CurrentRow>0?CurrentRow:0);
 }

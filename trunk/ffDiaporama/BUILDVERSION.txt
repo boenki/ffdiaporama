@@ -1,1 +1,1 @@
-Version 1.4_beta_3 20120914
+Version 1.4_beta_4 20120930

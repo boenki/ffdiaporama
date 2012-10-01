@@ -35,7 +35,8 @@
 /****************************************************************************
   Other
 ****************************************************************************/
-QString SystemProperties="";                                    // System properties log
+QString SystemProperties ="";                                   // System properties log
+QString CurrentAppName   ="";                                   // Application name (including devel, beta, ...)
 QString CurrentAppVersion="";                                   // Application version read from BUILDVERSION.txt
 
 void AddToSystemProperties(QString StringToAdd) {
@@ -85,7 +86,7 @@ void cSaveDlgSlideProperties::OverloadedLoadFromXML(QDomElement Element) {
 
 //====================================================================================================================
 
-cApplicationConfig::cApplicationConfig(QMainWindow *TheTopLevelWindow):cBaseApplicationConfig(TheTopLevelWindow,ALLOWEDWEBLANGUAGE,APPLICATION_NAME,APPLICATION_NAME,APPLICATION_VERSION,CONFIGFILEEXT,CONFIGFILE_ROOTNAME) {
+cApplicationConfig::cApplicationConfig(QMainWindow *TheTopLevelWindow):cBaseApplicationConfig(TheTopLevelWindow,ALLOWEDWEBLANGUAGE,APPLICATION_NAME,APPLICATION_NAME,CurrentAppName,CONFIGFILEEXT,CONFIGFILE_ROOTNAME) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cApplicationConfig::cApplicationConfig");
 }
 
@@ -183,9 +184,7 @@ void cApplicationConfig::InitValues() {
     // Init collections
     StyleTextCollection.CollectionName          =QString(STYLENAME_TEXTSTYLE);
     StyleTextBackgroundCollection.CollectionName=QString(STYLENAME_BACKGROUNDSTYLE);
-    StyleCoordinateCollection.CollectionName    =QString(STYLENAME_COORDINATESTYLE);
     StyleBlockShapeCollection.CollectionName    =QString(STYLENAME_BLOCKSHAPESTYLE);
-    StyleImageFramingCollection.CollectionName  =QString(STYLENAME_FRAMINGSTYLE);
 
     DlgBackgroundPropertiesWSP  =new cSaveWindowPosition("DlgBackgroundProperties",RestoreWindow,false);    // Dialog box "Background properties" - Window size and position
     DlgMusicPropertiesWSP       =new cSaveWindowPosition("DlgMusicProperties",RestoreWindow,false);         // Dialog box "Music properties" - Window size and position
@@ -212,21 +211,30 @@ void cApplicationConfig::InitValues() {
     DefaultBlock_Text_TextST    ="###GLOBALSTYLE###:0";
     DefaultBlock_Text_BackGST   ="###GLOBALSTYLE###:0";
     DefaultBlock_Text_ShapeST   ="###GLOBALSTYLE###:0";
-    for (int i=0;i<3;i++) DefaultBlock_Text_CoordST[i]="###GLOBALSTYLE###:0";
+    DefaultBlock_AutoSizePos    =AUTOCOMPOSIZE_HALFSCREEN;
+    DefaultBlock_AutoLocking    =AUTOFRAMING_CUSTOMUNLOCK;
 
     // Default new image block option (when slide creation)
     DefaultBlockSL_IMG_TextST   ="###GLOBALSTYLE###:0";
     DefaultBlockSL_IMG_ShapeST  ="###GLOBALSTYLE###:0";
-    for (int i=0;i<9;i++) for (int j=0;j<3;j++) DefaultBlockSL_IMG_CoordST[i][j]="###GLOBALSTYLE###:0";
+    DefaultBlockSL[IMAGETYPE_UNKNOWN         ].AutoCompo=DefaultBlock_AutoSizePos;      DefaultBlockSL[IMAGETYPE_UNKNOWN         ].AutoFraming=DefaultBlock_AutoLocking;
+    DefaultBlockSL[IMAGETYPE_PHOTOLANDSCAPE  ].AutoCompo=AUTOCOMPOSIZE_FULLSCREEN;      DefaultBlockSL[IMAGETYPE_PHOTOLANDSCAPE  ].AutoFraming=AUTOFRAMING_WIDTHMIDLEMAX;
+    DefaultBlockSL[IMAGETYPE_PHOTOPORTRAIT   ].AutoCompo=AUTOCOMPOSIZE_FULLSCREEN;      DefaultBlockSL[IMAGETYPE_PHOTOPORTRAIT   ].AutoFraming=AUTOFRAMING_HEIGHTMIDLEMAX;
+    DefaultBlockSL[IMAGETYPE_CLIPARTLANDSCAPE].AutoCompo=AUTOCOMPOSIZE_REALSIZE;        DefaultBlockSL[IMAGETYPE_CLIPARTLANDSCAPE].AutoFraming=AUTOFRAMING_FULLMAX;
+    DefaultBlockSL[IMAGETYPE_CLIPARTPORTRAIT ].AutoCompo=AUTOCOMPOSIZE_REALSIZE;        DefaultBlockSL[IMAGETYPE_CLIPARTPORTRAIT ].AutoFraming=AUTOFRAMING_FULLMAX;
+    DefaultBlockSL[IMAGETYPE_VIDEOLANDSCAPE  ].AutoCompo=AUTOCOMPOSIZE_REALSIZE;        DefaultBlockSL[IMAGETYPE_VIDEOLANDSCAPE  ].AutoFraming=AUTOFRAMING_FULLMAX;
+    DefaultBlockSL[IMAGETYPE_VIDEOPORTRAIT   ].AutoCompo=AUTOCOMPOSIZE_REALSIZE;        DefaultBlockSL[IMAGETYPE_VIDEOPORTRAIT   ].AutoFraming=AUTOFRAMING_FULLMAX;
 
     // Default new image block option (when block add in slide dialog)
     DefaultBlockBA_IMG_TextST   ="###GLOBALSTYLE###:0";
     DefaultBlockBA_IMG_ShapeST  ="###GLOBALSTYLE###:0";
-    for (int i=0;i<9;i++) for (int j=0;j<3;j++) DefaultBlockBA_IMG_CoordST[i][j]="###GLOBALSTYLE###:0";
-    for (int i=0;i<3;i++) {
-        DefaultBlockSL_CLIPARTLOCK[i]=0;
-        DefaultBlockBA_CLIPARTLOCK[i]=0;
-    }
+    DefaultBlockBA[IMAGETYPE_UNKNOWN         ].AutoCompo=DefaultBlock_AutoSizePos;      DefaultBlockBA[IMAGETYPE_UNKNOWN         ].AutoFraming=DefaultBlock_AutoLocking;
+    DefaultBlockBA[IMAGETYPE_PHOTOLANDSCAPE  ].AutoCompo=AUTOCOMPOSIZE_HALFSCREEN;      DefaultBlockBA[IMAGETYPE_PHOTOLANDSCAPE  ].AutoFraming=AUTOFRAMING_WIDTHMIDLEMAX;
+    DefaultBlockBA[IMAGETYPE_PHOTOPORTRAIT   ].AutoCompo=AUTOCOMPOSIZE_HALFSCREEN;      DefaultBlockBA[IMAGETYPE_PHOTOPORTRAIT   ].AutoFraming=AUTOFRAMING_HEIGHTMIDLEMAX;
+    DefaultBlockBA[IMAGETYPE_CLIPARTLANDSCAPE].AutoCompo=AUTOCOMPOSIZE_REALSIZE;        DefaultBlockBA[IMAGETYPE_CLIPARTLANDSCAPE].AutoFraming=AUTOFRAMING_FULLMAX;
+    DefaultBlockBA[IMAGETYPE_CLIPARTPORTRAIT ].AutoCompo=AUTOCOMPOSIZE_REALSIZE;        DefaultBlockBA[IMAGETYPE_CLIPARTPORTRAIT ].AutoFraming=AUTOFRAMING_FULLMAX;
+    DefaultBlockBA[IMAGETYPE_VIDEOLANDSCAPE  ].AutoCompo=AUTOCOMPOSIZE_REALSIZE;        DefaultBlockBA[IMAGETYPE_VIDEOLANDSCAPE  ].AutoFraming=AUTOFRAMING_FULLMAX;
+    DefaultBlockBA[IMAGETYPE_VIDEOPORTRAIT   ].AutoCompo=AUTOCOMPOSIZE_REALSIZE;        DefaultBlockBA[IMAGETYPE_VIDEOPORTRAIT   ].AutoFraming=AUTOFRAMING_FULLMAX;
 }
 
 //====================================================================================================================
@@ -302,34 +310,31 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultTitleFilling",         DefaultTitleFilling);
 
     SubElement=Document.createElement("DefaultBlock_Text");
-    SubElement.setAttribute("TextST",    DefaultBlock_Text_TextST);
-    SubElement.setAttribute("BackGST",   DefaultBlock_Text_BackGST);
-    SubElement.setAttribute("Coord0ST",  DefaultBlock_Text_CoordST[0]);
-    SubElement.setAttribute("Coord1ST",  DefaultBlock_Text_CoordST[1]);
-    SubElement.setAttribute("Coord2ST",  DefaultBlock_Text_CoordST[2]);
-    SubElement.setAttribute("ShapeST",   DefaultBlock_Text_ShapeST);
+    SubElement.setAttribute("TextST",                   DefaultBlock_Text_TextST);
+    SubElement.setAttribute("BackGST",                  DefaultBlock_Text_BackGST);
+    SubElement.setAttribute("ShapeST",                  DefaultBlock_Text_ShapeST);
+    SubElement.setAttribute("AutoSizePos",              DefaultBlock_AutoSizePos);
+    SubElement.setAttribute("AutoLocking",              DefaultBlock_AutoLocking);
     Element.appendChild(SubElement);
 
     SubElement=Document.createElement("DefaultBlockSL_IMG");
-    SubElement.setAttribute("TextST",    DefaultBlockSL_IMG_TextST);
-    SubElement.setAttribute("ShapeST",   DefaultBlockSL_IMG_ShapeST);
-    for (int i=0;i<9;i++) {
+    SubElement.setAttribute("TextST",                   DefaultBlockSL_IMG_TextST);
+    SubElement.setAttribute("ShapeST",                  DefaultBlockSL_IMG_ShapeST);
+    for (int i=1;i<NBR_IMAGETYPE;i++) if ((SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).length()>0)&&(SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).isElement()==true)) {
         SubSubElement=Document.createElement(QString("IMG_GEO_%1").arg(i));
-        for (int j=0;j<3;j++) SubSubElement.setAttribute(QString("CoordST_%1").arg(j),DefaultBlockSL_IMG_CoordST[i][j]);
-        SubElement.appendChild(SubSubElement);
-        for (int j=0;j<3;j++) SubElement.setAttribute(QString("LockLS_%1").arg(j),DefaultBlockSL_CLIPARTLOCK[j]);
+        SubSubElement.setAttribute("AutoCompo",         DefaultBlockSL[i].AutoCompo);
+        SubSubElement.setAttribute("AutoFraming",       DefaultBlockSL[i].AutoFraming);
     }
     Element.appendChild(SubElement);
 
     SubElement=Document.createElement("DefaultBlockBA_IMG");
-    SubElement.setAttribute("TextST",    DefaultBlockBA_IMG_TextST);
-    SubElement.setAttribute("ShapeST",   DefaultBlockBA_IMG_ShapeST);
-    for (int i=0;i<9;i++) {
+    SubElement.setAttribute("TextST",                   DefaultBlockBA_IMG_TextST);
+    SubElement.setAttribute("ShapeST",                  DefaultBlockBA_IMG_ShapeST);
+    for (int i=1;i<NBR_IMAGETYPE;i++) if ((SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).length()>0)&&(SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).isElement()==true)) {
         SubSubElement=Document.createElement(QString("IMG_GEO_%1").arg(i));
-        for (int j=0;j<3;j++) SubSubElement.setAttribute(QString("CoordST_%1").arg(j),DefaultBlockBA_IMG_CoordST[i][j]);
-        SubElement.appendChild(SubSubElement);
+        SubSubElement.setAttribute("AutoCompo",         DefaultBlockBA[i].AutoCompo);
+        SubSubElement.setAttribute("AutoFraming",       DefaultBlockBA[i].AutoFraming);
     }
-    for (int j=0;j<3;j++) SubElement.setAttribute(QString("LockBA_%1").arg(j),DefaultBlockBA_CLIPARTLOCK[j]);
     Element.appendChild(SubElement);
     domDocument.appendChild(Element);
 
@@ -363,9 +368,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     // Save other collections
     StyleTextCollection.SaveToXML(domDocument);
     StyleTextBackgroundCollection.SaveToXML(domDocument);
-    StyleCoordinateCollection.SaveToXML(domDocument);
     StyleBlockShapeCollection.SaveToXML(domDocument);
-    StyleImageFramingCollection.SaveToXML(domDocument);
 
     // Save windows size and position
     DlgBackgroundPropertiesWSP->SaveToXML(domDocument);
@@ -408,7 +411,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         QDomElement Element=domDocument.elementsByTagName("EditorOptions").item(0).toElement();
         if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue            =Element.attribute("MemCacheMaxValue").toLongLong();
         #ifdef Q_OS_WIN
-        if ((!IsWindowsXP)&&(MemCacheMaxValue>qlonglong(512*1024*1024))) MemCacheMaxValue=qlonglong(512*1024*1024);
+        if ((!IsWindowsXP)&&(MemCacheMaxValue>qlonglong(1024*1024*1024))) MemCacheMaxValue=qlonglong(1024*1024*1024);
         #endif
         if (Element.hasAttribute("SDLAudioOldMode"))            SDLAudioOldMode             =Element.attribute("SDLAudioOldMode")=="1";
         if (Element.hasAttribute("AppendObject"))               AppendObject                =Element.attribute("AppendObject")=="1";
@@ -451,33 +454,32 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
 
         if ((Element.elementsByTagName("DefaultBlock_Text").length()>0)&&(Element.elementsByTagName("DefaultBlock_Text").item(0).isElement()==true)) {
             QDomElement SubElement=Element.elementsByTagName("DefaultBlock_Text").item(0).toElement();
-            if (SubElement.hasAttribute("TextST"))   DefaultBlock_Text_TextST    =SubElement.attribute("TextST");
-            if (SubElement.hasAttribute("BackGST"))  DefaultBlock_Text_BackGST   =SubElement.attribute("BackGST");
-            if (SubElement.hasAttribute("Coord0ST")) DefaultBlock_Text_CoordST[0]=SubElement.attribute("Coord0ST");
-            if (SubElement.hasAttribute("Coord1ST")) DefaultBlock_Text_CoordST[1]=SubElement.attribute("Coord1ST");
-            if (SubElement.hasAttribute("Coord2ST")) DefaultBlock_Text_CoordST[2]=SubElement.attribute("Coord2ST");
-            if (SubElement.hasAttribute("ShapeST"))  DefaultBlock_Text_ShapeST   =SubElement.attribute("ShapeST");
+            if (SubElement.hasAttribute("TextST"))              DefaultBlock_Text_TextST    =SubElement.attribute("TextST");
+            if (SubElement.hasAttribute("BackGST"))             DefaultBlock_Text_BackGST   =SubElement.attribute("BackGST");
+            if (SubElement.hasAttribute("ShapeST"))             DefaultBlock_Text_ShapeST   =SubElement.attribute("ShapeST");
+            if (SubElement.hasAttribute("AutoSizePos"))         DefaultBlock_AutoSizePos    =SubElement.attribute("AutoSizePos").toInt();
+            if (SubElement.hasAttribute("AutoLocking"))         DefaultBlock_AutoLocking    =SubElement.attribute("AutoLocking").toInt();
         }
         if ((Element.elementsByTagName("DefaultBlockSL_IMG").length()>0)&&(Element.elementsByTagName("DefaultBlockSL_IMG").item(0).isElement()==true)) {
             QDomElement SubElement=Element.elementsByTagName("DefaultBlockSL_IMG").item(0).toElement();
             if (SubElement.hasAttribute("TextST"))   DefaultBlockSL_IMG_TextST    =SubElement.attribute("TextST");
             if (SubElement.hasAttribute("ShapeST"))  DefaultBlockSL_IMG_ShapeST   =SubElement.attribute("ShapeST");
-            for (int i=0;i<9;i++) if ((SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).length()>0)&&(SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).isElement()==true)) {
+            for (int i=1;i<NBR_IMAGETYPE;i++) if ((SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).length()>0)&&(SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).isElement()==true)) {
                 QDomElement SubSubElement=SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).toElement();
-                for (int j=0;j<3;j++) if (SubSubElement.hasAttribute(QString("CoordST_%1").arg(j))) DefaultBlockSL_IMG_CoordST[i][j]=SubSubElement.attribute(QString("CoordST_%1").arg(j));
+                if (SubSubElement.hasAttribute("AutoCompo"))   DefaultBlockSL[i].AutoCompo  =SubSubElement.attribute("AutoCompo").toInt();
+                if (SubSubElement.hasAttribute("AutoFraming")) DefaultBlockSL[i].AutoFraming=SubSubElement.attribute("AutoFraming").toInt();
             }
-            for (int j=0;j<3;j++) if (SubElement.hasAttribute(QString("LockLS_%1").arg(j))) DefaultBlockSL_CLIPARTLOCK[j]=SubElement.attribute(QString("LockLS_%1").arg(j)).toInt();
         }
 
         if ((Element.elementsByTagName("DefaultBlockBA_IMG").length()>0)&&(Element.elementsByTagName("DefaultBlockBA_IMG").item(0).isElement()==true)) {
             QDomElement SubElement=Element.elementsByTagName("DefaultBlockBA_IMG").item(0).toElement();
             if (SubElement.hasAttribute("TextST"))   DefaultBlockBA_IMG_TextST    =SubElement.attribute("TextST");
             if (SubElement.hasAttribute("ShapeST"))  DefaultBlockBA_IMG_ShapeST   =SubElement.attribute("ShapeST");
-            for (int i=0;i<9;i++) if ((SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).length()>0)&&(SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).isElement()==true)) {
+            for (int i=1;i<NBR_IMAGETYPE;i++) if ((SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).length()>0)&&(SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).isElement()==true)) {
                 QDomElement SubSubElement=SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).toElement();
-                for (int j=0;j<3;j++) if (SubSubElement.hasAttribute(QString("CoordST_%1").arg(j))) DefaultBlockBA_IMG_CoordST[i][j]=SubSubElement.attribute(QString("CoordST_%1").arg(j));
+                if (SubSubElement.hasAttribute("AutoCompo"))   DefaultBlockBA[i].AutoCompo  =SubSubElement.attribute("AutoCompo").toInt();
+                if (SubSubElement.hasAttribute("AutoFraming")) DefaultBlockBA[i].AutoFraming=SubSubElement.attribute("AutoFraming").toInt();
             }
-            for (int j=0;j<3;j++) if (SubElement.hasAttribute(QString("LockBA_%1").arg(j))) DefaultBlockBA_CLIPARTLOCK[j]=SubElement.attribute(QString("LockBA_%1").arg(j)).toInt();
         }
     }
     if ((domDocument.elementsByTagName("RenderDefault").length()>0)&&(domDocument.elementsByTagName("RenderDefault").item(0).isElement()==true)) {
@@ -520,9 +522,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     // Load other collections
     StyleTextCollection.LoadFromXML(domDocument,TypeConfigFile);
     StyleTextBackgroundCollection.LoadFromXML(domDocument,TypeConfigFile);
-    StyleCoordinateCollection.LoadFromXML(domDocument,TypeConfigFile);
     StyleBlockShapeCollection.LoadFromXML(domDocument,TypeConfigFile);
-    StyleImageFramingCollection.LoadFromXML(domDocument,TypeConfigFile);
 
     // Load windows size and position
     DlgBackgroundPropertiesWSP->LoadFromXML(domDocument);

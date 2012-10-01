@@ -278,3 +278,14 @@ void QCustomDialog::DoPartialUndo() {
     }
     if (UndoBt) UndoBt->setEnabled(UndoDataList.count()>0);
 }
+
+//====================================================================================================================
+// Utility function use to set current index in a combobox base on an itemdata
+
+void QCustomDialog::SetCBIndex(QComboBox *CB,int ItemData) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::SetCBIndex");
+    for (int i=0;i<CB->count();i++) if (CB->itemData(i).toInt()==ItemData) {
+        CB->setCurrentIndex(i);
+        break;
+    }
+}

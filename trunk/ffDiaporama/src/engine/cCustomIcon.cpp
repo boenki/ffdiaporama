@@ -78,8 +78,10 @@
 
         ICONINFO iconinfo;
         bool result = GetIconInfo(icon, &iconinfo); //x and y Hotspot describes the icon center
-        if (!result)
+        if (!result) {
             ToLog(LOGMSG_CRITICAL,"convertHIconToPixmap(), failed to GetIconInfo()");
+            return QPixmap();
+        }
 
         int w = iconinfo.xHotspot * 2;
         int h = iconinfo.yHotspot * 2;
@@ -143,27 +145,29 @@
     QIcon GetIconForFileOrDir(QString FileName,int IconIndex) {
         ToLog(LOGMSG_DEBUGTRACE,"IN:GetIconForFileOrDir");
 
-        QIcon RetIcon;
-        WCHAR WinFileName[256+1];
+        QIcon       RetIcon;
+        WCHAR       WinFileName[256+1];
+        QPixmap     pixmap;
 
         MultiByteToWideChar(CP_ACP,0,FileName.toLocal8Bit(),-1,WinFileName,256+1);
 
         if (IconIndex!=0) {
             HICON Icon;
             if (ExtractIconEx(WinFileName,IconIndex,&Icon,NULL,1)>0) {
-                RetIcon=convertHIconToPixmap(Icon);
+                pixmap=convertHIconToPixmap(Icon);
                 DeleteObject(Icon);
+                if (!pixmap.isNull()) RetIcon.addPixmap(pixmap);
                 return RetIcon;
             } else if (ExtractIconEx(WinFileName,IconIndex,NULL,&Icon,1)>0) {
-                RetIcon=convertHIconToPixmap(Icon);
+                pixmap=convertHIconToPixmap(Icon);
                 DeleteObject(Icon);
+                if (!pixmap.isNull()) RetIcon.addPixmap(pixmap);
                 return RetIcon;
             }
         }
 
         SHFILEINFO  info;
         QString     key;
-        QPixmap     pixmap;
         QString     fileExtension=QFileInfo(FileName).suffix().toUpper();
         fileExtension.prepend(QLatin1String("."));
 

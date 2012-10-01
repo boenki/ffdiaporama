@@ -44,6 +44,7 @@ public:
     bool        IsMaximized;    // True if window is mainwindow and was maximized
 
     cSaveWindowPosition(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
+    virtual         ~cSaveWindowPosition() {}
     virtual void    ApplyToWindow(QWidget *Window);
     virtual void    SaveWindowState(QWidget *Window);
     virtual void    SaveToXML(QDomElement &domDocument);
