@@ -46,7 +46,7 @@ public:
     double              FPS;
 
     cSoundBlockList();
-    ~cSoundBlockList();
+    virtual         ~cSoundBlockList();
 
     virtual void    ClearList();                                                    // Clear the list (make av_free of each packet)
     virtual int16_t *DetachFirstPacket();                                           // Detach the first packet of the list (do not make av_free)

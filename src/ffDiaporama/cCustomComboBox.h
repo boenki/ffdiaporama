@@ -241,6 +241,116 @@ public slots:
 };
 
 //******************************************************************************************************************
+// Custom QAbstractItemDelegate for AutoFraming ComboBox
+//******************************************************************************************************************
+
+class cFramingComboBox;
+class cFramingComboBoxItem : public QStyledItemDelegate {
+Q_OBJECT
+public:
+    cFramingComboBox    *ComboBox;
+
+    explicit cFramingComboBoxItem(QObject *parent=0);
+
+    virtual void    paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const;
+    virtual QSize   sizeHint(const QStyleOptionViewItem &option,const QModelIndex &index) const;
+};
+
+//******************************************************************************************************************
+// Custom AutoFraming ComboBox
+//******************************************************************************************************************
+
+#define FILTERFRAMING_CUSTOM    0x01
+#define FILTERFRAMING_IMAGE     0x02
+#define FILTERFRAMING_PROJECT   0x04
+#define FILTERFRAMING_ALL       0x07
+#define FILTERFRAMING_INTERNAL  0x08
+
+class cFramingStyleTableItem {
+public:
+    QImage  Image;
+    int     FrameStyle;
+    cFramingStyleTableItem(QImage *Image,int FrameStyle);
+};
+
+class cFramingComboBox : public QComboBox {
+Q_OBJECT
+public:
+    QList<cFramingStyleTableItem>   FramingStyleTable;
+    bool                            STOPMAJ;
+    cFramingComboBoxItem            ItemDelegate;
+    qreal                           X,Y,ZoomFactor,AspectRatio;
+    int                             CurrentFilter,CurrentFramingStyle,CurrentNbrITem;
+
+    explicit            cFramingComboBox(QWidget *parent = 0);
+    void                PrepareFramingStyleTable(bool ResetContent,int Filter,cBrushDefinition *Brush,QImage *SourceImage,int BackgroundForm,qreal ProjectGeometry);
+    void                MakeIcons();
+    void                SetCurrentFraming(int AutoFraming);
+    int                 GetCurrentFraming();
+
+protected:
+    virtual void        hidePopup();
+    virtual void        keyReleaseEvent(QKeyEvent *event);
+
+signals:
+    void itemSelectionHaveChanged();
+
+public slots:
+    void s_ItemSelectionChanged();
+};
+
+//******************************************************************************************************************
+// Custom Frame shape ComboBox
+//******************************************************************************************************************
+
+#define FILTERFRAMESHAPE_OLDTRIANGLE        0x01
+
+class ccFrameShapeBox;
+class cFrameShapeBoxItem : public QStyledItemDelegate {
+Q_OBJECT
+public:
+    ccFrameShapeBox    *ComboBox;
+
+    explicit cFrameShapeBoxItem(QObject *parent=0);
+
+    virtual void    paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const;
+    virtual QSize   sizeHint(const QStyleOptionViewItem &option,const QModelIndex &index) const;
+};
+
+class cFrameShapeTableItem {
+public:
+    QImage  Image;
+    int     FrameStyle;
+    cFrameShapeTableItem(QImage *Image,int FrameStyle);
+};
+
+class ccFrameShapeBox : public QComboBox {
+Q_OBJECT
+public:
+    QList<cFrameShapeTableItem>     FrameShapeTable;
+    bool                            STOPMAJ;
+    cFrameShapeBoxItem              ItemDelegate;
+    int                             CurrentFilter,CurrentFramingStyle,CurrentNbrITem;
+    cApplicationConfig              *ApplicationConfig;
+
+    explicit            ccFrameShapeBox(QWidget *parent = 0);
+    void                PrepareFrameShapeTable(bool ResetContent,int Filter,int CurrentBackgroundForm,cApplicationConfig *ApplicationConfig);
+    void                MakeIcons();
+    void                SetCurrentFrameShape(int FrameShape);
+    int                 GetCurrentFrameShape();
+
+protected:
+    virtual void        hidePopup();
+    virtual void        keyReleaseEvent(QKeyEvent *event);
+
+signals:
+    void itemSelectionHaveChanged();
+
+public slots:
+    void s_ItemSelectionChanged();
+};
+
+//******************************************************************************************************************
 // Custom QLabel
 //******************************************************************************************************************
 

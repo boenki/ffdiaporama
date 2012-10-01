@@ -1,26 +1,46 @@
-Bugs/TODO (Dernier SVN le 14/09/2012) :
+Bugs/TODO (Dernier SVN le 15/09/2012) :
 ---------------------------------------
 TODO
 ----
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
--Vider (ou ne pas charger) la liste des caractéristiques lors des chargements d'images
 -Supprimer la librairie de fond de la mémoire
--Incompréhension des utilisateurs sur les concepts de contraintes géométriques : à simplifier ou forcer
+-Bug sur vidéo U8
+-Vidéo ULAW à faire
+-Bug d'arrondi dans la boite slide (zone interactive)
+-Etudier la transposition des cadres de sélection quand rotation dans la boite slide
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-Corrige un plantage introduit dans la beta 2 quand on ajoute des vidéos
-Fix a crash introduced in beta 2 when addin a video
-
 French version / Correction de bug :
--Ajoute la case à cocher Désentrelacer dans ce qui est pris en charge par l'UNDO dans la boite d'édition des vidéos
+-Correction du bug sur le bouton "ajouter projet" qui ne chargeait plus rien
 
-English version / Bug fix :
--Add Deinterlace check box to UNDO in cut video dialog
+English version / Bug fixes :
+-Bug fixed of "Add project" button which did nothing
 
-French version / Nouvelles fonctionnalités :
--Améliore la compatibilité avec Ubuntu 11.10 et Fedora 16
+French version / Nouveautés :
+-Ajoute 1 Go comme profil mémoire possible pour Windows Vista/7
+-Transforme les icones des images et vidéos dans la boite d'édition des diapositives : affiche les zones de travail et zone d'effet et agrandie les icones d'un cran
+-Supprime la gestion de style de recadrage dans la boite d'édition d'image et remplace la combo de vérouillage de géométrie et les 3 boutons de cadrage par défaut par une nouvelle combo contenant de nombreux styles prédéfinis
+-Fait en sorte à ce que le cadrage suivent les rotations dans la boite d'édition d'image quand un style prédéfini non personalisé est choisi
+-Remplace l'ancienne combo de style de cadrage par la nouvelle combo dans la boite d'édition des slides quand le block est image ou vidéo
+-Remplace le couple bouton de style/nom du style de coordonnées dans la boite d'édition des slides par une combo contenant des styles par défaut (supprime la possibilité de créer des styles de coordonnées personnalisés)
+-Revoit la boite de configuration pour tenir compte des nouveaux styles de cadrage et de coordonnées
+-Améliore la précision des guides des zones interactives des boites Edit Image et Edit Slide
+-Ajoute la prise en charge des vidéos .wmv
+-Ajoute de nombreuses nouvelles formes de forme et transforme la combo de sélection des formes de la boite Edit Slide en Custom Combo
 
 English version / New features :
--Improve compatibility with Ubuntu 11.10 and Fedora 16
+-Added 1 Gb memory profile for Windows Vista/7
+-Changed image and video icons in Slide edit dialog: display workspace zone and effect zone and enlarged the icons a notch
+-Deleted framing style management in Image edit dialog and replaced geometry locking combo and the 3 default framing buttons with a new combo containing a lot of predefined styles
+-Did what was needed for framing always apply when rotation is changing in Image edit dialog when a predefined non custom style is selected
+-Replaced old combo for framing style with the new one in Slide edit dialog when a block is of type image or video
+-Replaced the couple button of style/name of the coordinate styles in the Edit slide dialog by one combo containing styles by default (deleted the possibility of creating personalized
+coordinate styles)
+-Reviewed option dialog to use new framing and new coordinates styles
+-Improve the precision of the rulers of the interactive zones of Edit Image and Edit Slide dialogs
+-Added the possibility to use .wmv video
+-Added a lot of new shape forms and modfied combo of selection of shape forme in Edit Slide dialog to a Custom Combo
+
+

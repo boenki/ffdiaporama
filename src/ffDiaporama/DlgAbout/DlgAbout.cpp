@@ -51,7 +51,7 @@ void DlgAbout::DoInitDialog() {
 
     ui->ApplicationReleaseLabel->setText(CurrentAppVersion);
     ui->SystemInfoED->setText(SystemProperties);
-    ui->ApplicationNameLabel->setText(QString(APPLICATION_VERSION));
+    ui->ApplicationNameLabel->setText(BaseApplicationConfig->ApplicationVersion);
     ui->tabWidget->setCurrentIndex(0);
     connect(ui->QtWebSiteBT,SIGNAL(clicked()),this,SLOT(WQtWebSite()));
     connect(ui->ffMPEGWebSiteBT,SIGNAL(clicked()),this,SLOT(ffMPEGWebSite()));

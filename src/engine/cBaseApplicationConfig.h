@@ -48,6 +48,17 @@
 #define GEOMETRY_40_17                      2
 #define NBR_GEOMETRY_DEF                    3
 
+// Define possible values for images geometry
+#define IMAGE_GEOMETRY_UNKNOWN              0   // undefined image geometry
+#define IMAGE_GEOMETRY_3_2                  1   // Standard 3:2 landscape image
+#define IMAGE_GEOMETRY_2_3                  2   // Standard 3:2 portrait image
+#define IMAGE_GEOMETRY_4_3                  3   // Standard 4:3 landscape image
+#define IMAGE_GEOMETRY_3_4                  4   // Standard 4:3 portrait image
+#define IMAGE_GEOMETRY_16_9                 5   // Standard 16:9 landscape image
+#define IMAGE_GEOMETRY_9_16                 6   // Standard 16:9 portrait image
+#define IMAGE_GEOMETRY_40_17                7   // Standard cinema landscape image
+#define IMAGE_GEOMETRY_17_40                8   // Standard cinema portrait image
+
 // Media object types
 #define OBJECTTYPE_UNMANAGED                0
 #define OBJECTTYPE_MANAGED                  1

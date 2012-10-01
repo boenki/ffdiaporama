@@ -21,11 +21,11 @@
 #include "DlgImageCorrection.h"
 #include "ui_DlgImageCorrection.h"
 
-#include "cImgInteractiveZone.h"
-
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QSplashScreen>
+
+#include "cImgInteractiveZone.h"
 
 #define ICON_RULER_ON                       ":/img/ruler_ok.png"
 #define ICON_RULER_OFF                      ":/img/ruler_ko.png"
@@ -88,19 +88,6 @@ DlgImageCorrection::~DlgImageCorrection() {
 void DlgImageCorrection::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DoInitDialog");
 
-    if (CurrentBrush->Image) {
-        InitialFilteredString=CurrentBrush->Image->BrushFileTransform.FilterToString();
-        ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.SetImageGeometryFilter(ffDPrjGeometry,CurrentBrush->Image->ObjectGeometry);
-     } else if (CurrentBrush->Video) {
-        InitialFilteredString=CurrentBrush->Video->BrushFileTransform.FilterToString();
-        ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.SetImageGeometryFilter(ffDPrjGeometry,CurrentBrush->Video->ObjectGeometry);
-    }
-
-    ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_UNLOCKED),QApplication::translate("DlgImageCorrection","Unlock"));
-    ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_LOCKED),  QApplication::translate("DlgImageCorrection","Lock to this geometry"));
-    ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_PROJECT), QApplication::translate("DlgImageCorrection","Lock to project geometry"));
-    ui->LockGeometryCB->addItem(QIcon(ICON_GEOMETRY_IMAGE),   QApplication::translate("DlgImageCorrection","Lock to image geometry"));
-
     switch (ffDPrjGeometry) {
         case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
         case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
@@ -146,11 +133,8 @@ void DlgImageCorrection::DoInitDialog() {
     connect(ui->HValue,SIGNAL(valueChanged(double)),this,SLOT(s_HValueEDChanged(double)));
     connect(ui->RotateLeftBT,SIGNAL(clicked()),this,SLOT(s_RotateLeft()));
     connect(ui->RotateRightBT,SIGNAL(clicked()),this,SLOT(s_RotateRight()));
-    connect(ui->AdjustHBT,SIGNAL(clicked()),this,SLOT(s_AdjustH()));
-    connect(ui->AdjustWBT,SIGNAL(clicked()),this,SLOT(s_AdjustW()));
-    connect(ui->AdjustWHBT,SIGNAL(clicked()),this,SLOT(s_AdjustWH()));
+    connect(ui->FramingStyleCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_ItemSelectionHaveChanged()));
     connect(ui->RulersBT,SIGNAL(clicked()),this,SLOT(s_RulersBT()));
-
     connect(ui->BrightnessSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BrightnessSliderMoved(int)));
     connect(ui->BrightnessValue,SIGNAL(valueChanged(int)),this,SLOT(s_BrightnessSliderMoved(int)));
     connect(ui->BrightnessResetBT,SIGNAL(clicked()),this,SLOT(s_BrightnessReset()));
@@ -178,14 +162,13 @@ void DlgImageCorrection::DoInitDialog() {
     connect(ui->BlurSharpenResetBT,SIGNAL(clicked()),this,SLOT(s_BlurSharpenReset()));
     connect(ui->RadiusResetBT,SIGNAL(clicked()),this,SLOT(s_RadiusReset()));
 
-    connect(ui->LockGeometryCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_LockGeometryCB(int)));
-    connect(ui->FramingStyleBT,SIGNAL(pressed()),this,SLOT(s_FramingStyleBT()));
-
     connect(ui->FileNameBT,SIGNAL(clicked()),this,SLOT(ChangeBrushDiskFile()));
     connect(ui->InteractiveZone,SIGNAL(TransformBlock(qreal,qreal,qreal,qreal)),this,SLOT(s_IntZoneTransformBlocks(qreal,qreal,qreal,qreal)));
     connect(ui->InteractiveZone,SIGNAL(DisplayTransformBlock(qreal,qreal,qreal,qreal)),this,SLOT(s_DisplayIntZoneTransformBlocks(qreal,qreal,qreal,qreal)));
 
     ui->InteractiveZone->setFocus();
+    CurrentFramingStyle=-100;
+    UpdateFramingStyleCB();
     RefreshControls();
 }
 
@@ -368,6 +351,7 @@ void DlgImageCorrection::s_XValueEDChanged(double Value) {
     CurrentBrush->X=Value/100;
     ui->InteractiveZone->RefreshDisplay();
     RefreshControls();
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -379,6 +363,7 @@ void DlgImageCorrection::s_YValueEDChanged(double Value) {
     CurrentBrush->Y=Value/100;
     ui->InteractiveZone->RefreshDisplay();
     RefreshControls();
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -390,13 +375,14 @@ void DlgImageCorrection::s_WValueEDChanged(double Value) {
     if (CurrentBrush->LockGeometry) {
         CurrentBrush->ZoomFactor=Value/100;
     } else {
-        qreal newH=CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio*ui->InteractiveZone->dmax;
+        qreal newH=CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio*ui->InteractiveZone->Hyp.Image;
         CurrentBrush->ZoomFactor=Value/100;
-        qreal newW=CurrentBrush->ZoomFactor*ui->InteractiveZone->dmax;
+        qreal newW=CurrentBrush->ZoomFactor*ui->InteractiveZone->Hyp.Image;
         CurrentBrush->AspectRatio=newH/newW;
     }
     ui->InteractiveZone->RefreshDisplay();
     RefreshControls();
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -405,16 +391,17 @@ void DlgImageCorrection::s_HValueEDChanged(double Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_HValueEDChanged");
     if (FLAGSTOPED) return;
     AppendPartialUndo(UNDOACTION_EDITZONE_HVALUE,ui->InteractiveZone,false);
-    qreal newH=(Value/100)*ui->InteractiveZone->dmax;
+    qreal newH=(Value/100)*ui->InteractiveZone->Hyp.Image;
     if (CurrentBrush->LockGeometry) {
         qreal newW=newH/CurrentBrush->AspectRatio;
-        CurrentBrush->ZoomFactor=newW/ui->InteractiveZone->dmax;
+        CurrentBrush->ZoomFactor=newW/ui->InteractiveZone->Hyp.Image;
     } else {
-        qreal newW=CurrentBrush->ZoomFactor*ui->InteractiveZone->dmax;
+        qreal newW=CurrentBrush->ZoomFactor*ui->InteractiveZone->Hyp.Image;
         CurrentBrush->AspectRatio=newH/newW;
     }
     ui->InteractiveZone->RefreshDisplay();
     RefreshControls();
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -426,8 +413,12 @@ void DlgImageCorrection::s_RotationEDChanged(double Value) {
     if (Value<-180) Value=360-Value;
     if (Value>180)  Value=-360-Value;
     CurrentBrush->ImageRotation=Value;
+    CurrentFramingStyle=ui->FramingStyleCB->GetCurrentFraming();
+    CurrentBrush->ApplyAutoFraming(CurrentFramingStyle,ProjectGeometry);
     ui->InteractiveZone->RefreshDisplay();
     RefreshControls();
+    UpdateFramingStyleCB();
+    ui->FramingStyleCB->SetCurrentFraming(CurrentFramingStyle);
 }
 
 //====================================================================================================================
@@ -452,53 +443,18 @@ void DlgImageCorrection::s_RotateRight() {
 
 //====================================================================================================================
 
-void DlgImageCorrection::s_AdjustW() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_AdjustW");
-    AppendPartialUndo(UNDOACTION_EDITZONE_FRAMING,ui->InteractiveZone,true);
-
-    qreal W=ui->InteractiveZone->maxw;
-    qreal H=W*CurrentBrush->AspectRatio;
-    CurrentBrush->X=((ui->InteractiveZone->dmax-W)/2)/ui->InteractiveZone->dmax;
-    CurrentBrush->Y=((ui->InteractiveZone->dmax-H)/2)/ui->InteractiveZone->dmax;
-    CurrentBrush->ZoomFactor=W/ui->InteractiveZone->dmax;
-    RefreshControls();
-
-}
-
-//====================================================================================================================
-
-void DlgImageCorrection::s_AdjustH() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_AdjustH");
-    AppendPartialUndo(UNDOACTION_EDITZONE_FRAMING,ui->InteractiveZone,true);
-
-    qreal H=ui->InteractiveZone->maxh;
-    qreal W=H/CurrentBrush->AspectRatio;
-    CurrentBrush->X=((ui->InteractiveZone->dmax-W)/2)/ui->InteractiveZone->dmax;
-    CurrentBrush->Y=((ui->InteractiveZone->dmax-H)/2)/ui->InteractiveZone->dmax;
-    CurrentBrush->ZoomFactor=W/ui->InteractiveZone->dmax;
-    RefreshControls();
-
-}
-
-//====================================================================================================================
-
-void DlgImageCorrection::s_AdjustWH() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_AdjustWH");
-
-    // Special case for custom geometry -> use all the image then change aspect ratio to image aspect ratio
-    if (!CurrentBrush->LockGeometry) {
-        AppendPartialUndo(UNDOACTION_EDITZONE_FRAMING,ui->InteractiveZone,true);
-        qreal W=ui->InteractiveZone->maxw;
-        qreal H=ui->InteractiveZone->maxh;
-        CurrentBrush->AspectRatio=H/W;
-        CurrentBrush->X=((ui->InteractiveZone->dmax-W)/2)/ui->InteractiveZone->dmax;
-        CurrentBrush->Y=((ui->InteractiveZone->dmax-H)/2)/ui->InteractiveZone->dmax;
-        CurrentBrush->ZoomFactor=W/ui->InteractiveZone->dmax;
-        RefreshControls();
-    } else {
-        qreal W=ui->InteractiveZone->maxw;
-        qreal H=W*CurrentBrush->AspectRatio;
-        if (H<ui->InteractiveZone->maxh) s_AdjustH(); else s_AdjustW();
+void DlgImageCorrection::UpdateFramingStyleCB() {
+    if (ui->InteractiveZone->CachedImage) {
+        ui->FramingStyleCB->X=CurrentBrush->X;
+        ui->FramingStyleCB->Y=CurrentBrush->Y;
+        ui->FramingStyleCB->ZoomFactor=CurrentBrush->ZoomFactor;
+        ui->FramingStyleCB->AspectRatio=CurrentBrush->AspectRatio;
+        ui->FramingStyleCB->PrepareFramingStyleTable(false,FILTERFRAMING_ALL,CurrentBrush,ui->InteractiveZone->CachedImage,ui->InteractiveZone->BackgroundForm,ProjectGeometry);
+    }
+    int NewFramingStyle=CurrentBrush->GetCurrentFramingStyle(ProjectGeometry);
+    if (CurrentFramingStyle!=NewFramingStyle) {
+        CurrentFramingStyle=NewFramingStyle;
+        ui->FramingStyleCB->SetCurrentFraming(CurrentFramingStyle);
     }
 }
 
@@ -509,25 +465,12 @@ void DlgImageCorrection::RefreshControls() {
     if (FLAGSTOPED) return;
     FLAGSTOPED=true;
 
-    if (((CurrentBrush->Image==NULL)&&(CurrentBrush->Video==NULL))||
-        ((CurrentBrush->Image!=NULL)&&(CurrentBrush->Image->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))||
-        ((CurrentBrush->Video!=NULL)&&(CurrentBrush->Video->ObjectGeometry==IMAGE_GEOMETRY_UNKNOWN))) {
-        ui->FramingStyleED->setText(QApplication::translate("DlgImageCorrection","No style for nonstandard geometry image"));
-        ui->FramingStyleBT->setEnabled(false);
-    } else {
-        ui->FramingStyleED->setText(((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.GetStyleName(CurrentBrush->GetFramingStyle()));
-        ui->FramingStyleBT->setEnabled(true);
-    }
+    //***********************************************
 
     ui->XValue->setValue(CurrentBrush->X*100);
     ui->YValue->setValue(CurrentBrush->Y*100);
     ui->WValue->setValue(CurrentBrush->ZoomFactor*100);
     ui->HValue->setValue(CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio*100);
-
-    if (!CurrentBrush->LockGeometry)                        ui->LockGeometryCB->setCurrentIndex(0);
-    else if (CurrentBrush->AspectRatio==ProjectGeometry)    ui->LockGeometryCB->setCurrentIndex(2);
-    else if (CurrentBrush->AspectRatio==ImageGeometry)      ui->LockGeometryCB->setCurrentIndex(3);
-    else                                                        ui->LockGeometryCB->setCurrentIndex(1);
 
     ui->RotateED->setValue(CurrentBrush->ImageRotation);
 
@@ -602,6 +545,7 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
         }
     }
     RefreshControls();
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -630,6 +574,7 @@ void DlgImageCorrection::s_BlurSigmaSliderMoved(int Value) {
     ui->BlurSigmaSB->setValue(Filter->BlurSigma);
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -645,6 +590,7 @@ void DlgImageCorrection::s_BlurSigmaValueED(double Value) {
     ui->BlurSigmaSB->setValue(Filter->BlurSigma);
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -660,6 +606,7 @@ void DlgImageCorrection::s_BlurRadiusSliderMoved(int Value) {
     ui->BlurRadiusED->setValue(int(Filter->BlurRadius));
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -684,6 +631,7 @@ void DlgImageCorrection::s_BrightnessSliderMoved(int Value) {
     ui->BrightnessValue->setValue(CurrentBrush->Brightness);
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -698,6 +646,7 @@ void DlgImageCorrection::s_ContrastSliderMoved(int Value) {
     ui->ContrastValue->setValue(CurrentBrush->Contrast);
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -712,6 +661,7 @@ void DlgImageCorrection::s_GammaSliderMoved(int Value) {
     ui->GammaValue->setValue(CurrentBrush->Gamma);
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -726,6 +676,7 @@ void DlgImageCorrection::s_GammaValueED(double Value) {
     ui->GammaValue->setValue(CurrentBrush->Gamma);
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -738,6 +689,7 @@ void DlgImageCorrection::s_RedSliderMoved(int Value) {
     ui->RedSlider->setValue(CurrentBrush->Red);
     ui->RedValue->setValue(CurrentBrush->Red);
     ui->InteractiveZone->RefreshDisplay();
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -750,6 +702,7 @@ void DlgImageCorrection::s_GreenSliderMoved(int Value) {
     ui->GreenSlider->setValue(CurrentBrush->Green);
     ui->GreenValue->setValue(CurrentBrush->Green);
     ui->InteractiveZone->RefreshDisplay();
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
@@ -762,56 +715,58 @@ void DlgImageCorrection::s_BlueSliderMoved(int Value) {
     ui->BlueSlider->setValue(CurrentBrush->Blue);
     ui->BlueValue->setValue(CurrentBrush->Blue);
     ui->InteractiveZone->RefreshDisplay();
+    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
 
-void DlgImageCorrection::s_LockGeometryCB(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_LockGeometryCB");
-    if (FLAGSTOPED) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_GEOMETRY,ui->InteractiveZone,true);
-    switch (Value) {
-        case 0 :
-            CurrentBrush->LockGeometry=false;
-            break;
-        case 1 :
-            CurrentBrush->LockGeometry=true;
-            break;
-        case 2 :
-            CurrentBrush->LockGeometry=true;
-            CurrentBrush->AspectRatio =ProjectGeometry;
-            break;
-        case 3 :
-            CurrentBrush->LockGeometry=true;
-            CurrentBrush->AspectRatio =ImageGeometry;
-            break;
-    }
-    RefreshControls();
-}
-
-//====================================================================================================================
-// Handler for style sheet management
-//====================================================================================================================
-
-void DlgImageCorrection::s_FramingStyleBT() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_FramingStyleBT");
-    if (!CompoObject) return;
+void DlgImageCorrection::s_ItemSelectionHaveChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ItemSelectionHaveChanged");
+    if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
+    if (CurrentFramingStyle==ui->FramingStyleCB->GetCurrentFraming()) return;
+    FLAGSTOPSPIN=true;
     AppendPartialUndo(UNDOACTION_EDITZONE_FRAMING,ui->InteractiveZone,true);
-    QString ActualStyle=CompoObject->GetFramingStyle();
-    QString Item=((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.PopupCollectionMenu(this,BaseApplicationConfig,ActualStyle);
-    ui->FramingStyleBT->setDown(false);
-    if (Item!="") {
-        QStringList List;
-        ((cApplicationConfig *)BaseApplicationConfig)->StyleImageFramingCollection.StringToStringList(Item,List);
-        for (int i=0;i<List.count();i++) {
-            if      (List[i].startsWith("X:"))              CurrentBrush->X             =List[i].mid(QString("X:").length()).toDouble();
-            else if (List[i].startsWith("Y:"))              CurrentBrush->Y             =List[i].mid(QString("Y:").length()).toDouble();
-            else if (List[i].startsWith("ZoomFactor:"))     CurrentBrush->ZoomFactor    =List[i].mid(QString("ZoomFactor:").length()).toDouble();
-            else if (List[i].startsWith("LockGeometry:"))   CurrentBrush->LockGeometry  =List[i].mid(QString("LockGeometry:").length()).toInt()==1;
-            else if (List[i].startsWith("AspectRatio:"))    CurrentBrush->AspectRatio   =List[i].mid(QString("AspectRatio:").length()).toDouble();
-        }
+    CurrentFramingStyle=ui->FramingStyleCB->GetCurrentFraming();
+    switch (ui->FramingStyleCB->GetCurrentFraming()) {
+        case -1 :
+            CurrentFramingStyle=CurrentBrush->GetCurrentFramingStyle(ProjectGeometry);
+            ui->FramingStyleCB->SetCurrentFraming(CurrentFramingStyle);
+            break;
+        case AUTOFRAMING_CUSTOMUNLOCK   :
+            CurrentBrush->LockGeometry=false;
+            CurrentBrush->X           =ui->FramingStyleCB->X;
+            CurrentBrush->Y           =ui->FramingStyleCB->Y;
+            CurrentBrush->AspectRatio =ui->FramingStyleCB->AspectRatio;
+            CurrentBrush->ZoomFactor  =ui->FramingStyleCB->ZoomFactor;
+            break;
+        case AUTOFRAMING_CUSTOMLOCK     :
+            CurrentBrush->LockGeometry=true;
+            CurrentBrush->X           =ui->FramingStyleCB->X;
+            CurrentBrush->Y           =ui->FramingStyleCB->Y;
+            CurrentBrush->AspectRatio =ui->FramingStyleCB->AspectRatio;
+            CurrentBrush->ZoomFactor  =ui->FramingStyleCB->ZoomFactor;
+            break;
+        case AUTOFRAMING_CUSTOMIMGLOCK  :
+            CurrentBrush->LockGeometry=true;
+            CurrentBrush->X           =ui->FramingStyleCB->X;
+            CurrentBrush->Y           =ui->FramingStyleCB->Y;
+            CurrentBrush->AspectRatio =ImageGeometry;
+            CurrentBrush->ZoomFactor  =ui->FramingStyleCB->ZoomFactor;
+            break;
+        case AUTOFRAMING_CUSTOMPRJLOCK  :
+            CurrentBrush->LockGeometry=true;
+            CurrentBrush->X           =ui->FramingStyleCB->X;
+            CurrentBrush->Y           =ui->FramingStyleCB->Y;
+            CurrentBrush->AspectRatio =ProjectGeometry;
+            CurrentBrush->ZoomFactor  =ui->FramingStyleCB->ZoomFactor;
+            break;
+
+        default : CurrentBrush->ApplyAutoFraming(ui->FramingStyleCB->GetCurrentFraming(),ProjectGeometry); break;
     }
+    CurrentFramingStyle=CurrentBrush->GetCurrentFramingStyle(ProjectGeometry);
     RefreshControls();
+    UpdateFramingStyleCB();
+    FLAGSTOPSPIN=false;
 }
 
 //====================================================================================================================
@@ -836,6 +791,7 @@ void DlgImageCorrection::s_IntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qrea
     ui->InteractiveZone->Scale_Y=0;
 
     RefreshControls();
+    UpdateFramingStyleCB();
 }
 
 void DlgImageCorrection::s_DisplayIntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y) {
@@ -852,5 +808,4 @@ void DlgImageCorrection::s_DisplayIntZoneTransformBlocks(qreal Move_X,qreal Move
     ui->WValue->setValue(NewW*100);
     ui->HValue->setValue(NewH*100);
     FLAGSTOPED=false;
-
 }

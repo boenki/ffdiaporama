@@ -47,6 +47,7 @@ public:
     qreal                   ProjectGeometry;
     QString                 InitialFilteredString;
     int                     OnOffFilter;
+    int                     CurrentFramingStyle;
 
     explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,int ImageGeometry,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgImageCorrection();
@@ -76,9 +77,7 @@ private slots:
     void            s_HValueEDChanged(double Value);
     void            s_RotateLeft();
     void            s_RotateRight();
-    void            s_AdjustW();
-    void            s_AdjustH();
-    void            s_AdjustWH();
+    void            s_ItemSelectionHaveChanged();
     void            s_BrightnessSliderMoved(int Value);
     void            s_ContrastSliderMoved(int Value);
     void            s_GammaSliderMoved(int Value);
@@ -99,12 +98,12 @@ private slots:
     void            s_BlurSharpenReset();
     void            s_RadiusReset();
     void            ChangeBrushDiskFile();
-    void            s_LockGeometryCB(int value);
-    void            s_FramingStyleBT();
     void            s_IntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
     void            s_DisplayIntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
 
 private:
+    void            UpdateFramingStyleCB();
+
     Ui::DlgImageCorrection *ui;
 };
 

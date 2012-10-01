@@ -36,6 +36,7 @@
 #include <QIcon>
 #include <QLineEdit>
 #include <QMessageBox>
+#include <QComboBox>
 
 // Include some common various class
 #include "cBaseApplicationConfig.h"
@@ -90,6 +91,7 @@ protected:
     virtual void                DoInitTableWidget(QTableWidget *Table,QString TableColumns);
     virtual QTableWidgetItem    *CreateItem(QString ItemText,int Alignment,QBrush Background);
     virtual void                DoResizeColumnsTableWidget(QTableWidget *Table);
+    virtual void                SetCBIndex(QComboBox *CB,int ItemData);                             // Utility function use to set current index in a combobox base on an itemdata
 
 private slots:
     void            doHelp();

@@ -308,21 +308,6 @@ void cStyleCollection::DoTranslateCollection() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::DoTranslateCollection");
 
     for (int i=0;i<Collection.count();i++) {
-        // Style name translation (Standard style only) - do it 2 times
-        QString UnfilteredStyleName=Collection[i].StyleName;
-
-        for (int k=0;k<2;k++) {
-            if (UnfilteredStyleName.startsWith("3:2-")) UnfilteredStyleName=UnfilteredStyleName.mid(QString("3:2-").length());
-            else if (UnfilteredStyleName.startsWith("2:3-")) UnfilteredStyleName=UnfilteredStyleName.mid(QString("2:3-").length());
-            else if (UnfilteredStyleName.startsWith("4:3-")) UnfilteredStyleName=UnfilteredStyleName.mid(QString("4:3-").length());
-            else if (UnfilteredStyleName.startsWith("3:4-")) UnfilteredStyleName=UnfilteredStyleName.mid(QString("3:4-").length());
-            else if (UnfilteredStyleName.startsWith("16:9-")) UnfilteredStyleName=UnfilteredStyleName.mid(QString("16:9-").length());
-            else if (UnfilteredStyleName.startsWith("9:16-")) UnfilteredStyleName=UnfilteredStyleName.mid(QString("9:16-").length());
-            else if (UnfilteredStyleName.startsWith("40:17-")) UnfilteredStyleName=UnfilteredStyleName.mid(QString("40:17-").length());
-            else if (UnfilteredStyleName.startsWith("2.35:1-")) UnfilteredStyleName=UnfilteredStyleName.mid(QString("2.35:1-").length());
-            else if (UnfilteredStyleName.startsWith("17:40-")) UnfilteredStyleName=UnfilteredStyleName.mid(QString("17:40-").length());
-        }
-
         // work on full StyleName
         if (Collection[i].StyleName=="Big black text with white outlines")                      Collection[i].StyleName=QApplication::translate("DlgManageStyle","Big black text with white outlines");
         else if (Collection[i].StyleName=="Big light yellow text with dark brown shadow")       Collection[i].StyleName=QApplication::translate("DlgManageStyle","Big light yellow text with dark brown shadow");
@@ -338,86 +323,22 @@ void cStyleCollection::DoTranslateCollection() {
         else if (Collection[i].StyleName=="Transparent block (no brush)")                       Collection[i].StyleName=QApplication::translate("DlgManageStyle","Transparent block (no brush)");
         else if (Collection[i].StyleName=="Rounded rectangle with small brown border")          Collection[i].StyleName=QApplication::translate("DlgManageStyle","Rounded rectangle with small brown border");
         else if (Collection[i].StyleName=="Rectangle with no effect")                           Collection[i].StyleName=QApplication::translate("DlgManageStyle","Rectangle with no effect");
-
-        // work on Unfiltered StyleName part
-        else if (UnfilteredStyleName=="Image geometry-Full image")                              Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Image geometry-Full image"));
-        else if (UnfilteredStyleName=="Project geometry-Adjust on the width-Bottom")            Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Project geometry-Adjust on the width-Bottom"));
-        else if (UnfilteredStyleName=="Project geometry-Adjust on the width-Middle")            Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Project geometry-Adjust on the width-Middle"));
-        else if (UnfilteredStyleName=="Project geometry-Adjust on the width-Top")               Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Project geometry-Adjust on the width-Top"));
-        else if (UnfilteredStyleName=="Project geometry-Adjust on the height-Left")             Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Project geometry-Adjust on the height-Left"));
-        else if (UnfilteredStyleName=="Project geometry-Adjust on the height-Center")           Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Project geometry-Adjust on the height-Center"));
-        else if (UnfilteredStyleName=="Project geometry-Adjust on the height-Right")            Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Project geometry-Adjust on the height-Right"));
-        else if (UnfilteredStyleName=="Full screen")                                            Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Full screen"));
-        else if (UnfilteredStyleName=="TV margins size")                                        Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","TV margins size"));
-        else if (UnfilteredStyleName=="Maximum size for image geometry mode")                   Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Maximum size for image geometry mode"));
-        else if (UnfilteredStyleName=="TV margins maximum size for image geometry mode")        Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","TV margins maximum size for image geometry mode"));
-        else if (UnfilteredStyleName=="High half of the screen")                                Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","High half of the screen"));
-        else if (UnfilteredStyleName=="Left half of the screen")                                Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Left half of the screen"));
-        else if (UnfilteredStyleName=="Left high quarter of the screen")                        Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Left high quarter of the screen"));
-        else if (UnfilteredStyleName=="Left low quarter of the screen")                         Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Left low quarter of the screen"));
-        else if (UnfilteredStyleName=="Low half of the screen")                                 Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Low half of the screen"));
-        else if (UnfilteredStyleName=="Right half of the screen")                               Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Right half of the screen"));
-        else if (UnfilteredStyleName=="Right high quarter of the screen")                       Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Right high quarter of the screen"));
-        else if (UnfilteredStyleName=="Right low quarter of the screen")                        Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","Right low quarter of the screen"));
-        else if (UnfilteredStyleName=="TV margins")                                             Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","TV margins"));
-        else if (UnfilteredStyleName=="50% screen size-Centered")                               Collection[i].StyleName.replace(UnfilteredStyleName,QApplication::translate("DlgManageStyle","50% screen size-Centered"));
     }
     SortList();
 }
 
 //************************************************
-void cStyleCollection::FillCollectionCB(QComboBox *CB,QString ActualStyleName,bool AdditionnalFramingStyle) {
+
+void cStyleCollection::FillCollectionCB(QComboBox *CB,QString ActualStyleName) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::FillCollectionCB");
-
-    if ((ActiveFilter!="")&&(ActualStyleName.startsWith(ActiveFilter))) ActualStyleName=ActualStyleName.mid(ActiveFilter.length());
-
-    // Compute if update is needed !
-    bool NeedUpdate=false;
-
-    if (CB->itemText(0)!=QApplication::translate("DlgManageStyle","Adjust to image width"))  NeedUpdate=true;
-    if (CB->itemText(1)!=QApplication::translate("DlgManageStyle","Adjust to image height")) NeedUpdate=true;
-    if (CB->itemText(2)!=QApplication::translate("DlgManageStyle","Adjust to full image"))   NeedUpdate=true;
-    if (CB->itemText(3)!=QApplication::translate("DlgManageStyle","Custom"))                 NeedUpdate=true;
-
-    QString Item="";
-    int     i;
-    bool    IsFind=false;
-    int     CurCB=4;
-    for (i=0;i<Collection.count();i++) if (((!GeometryFilter)&&(Collection[i].GetFilteredPart()==""))||((GeometryFilter&&(Collection[i].GetFilteredPart()==ActiveFilter)))) {
-        Item=Collection[i].StyleName.mid(Collection[i].GetFilteredPart().length());
-        QString Compare=CB->itemText(CurCB);
-        if (Compare!=Item) NeedUpdate=true;
-        CurCB++;
+    CB->setUpdatesEnabled(false);
+    CB->clear();
+    for (int i=0;i<Collection.count();i++) {
+        CB->addItem(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Collection[i].StyleName);
+        if (ActualStyleName==Collection[i].StyleName) CB->setCurrentIndex(i);
     }
 
-    // Only if update is needed then do update
-    if (NeedUpdate) {
-        CB->setUpdatesEnabled(false);
-        CB->clear();
-        if (AdditionnalFramingStyle) {
-            CB->addItem(QIcon(ICON_FRAMING_WIDTH),QApplication::translate("DlgManageStyle","Adjust to image width"));
-            CB->addItem(QIcon(ICON_FRAMING_HEIGHT),QApplication::translate("DlgManageStyle","Adjust to image height"));
-            CB->addItem(QIcon(ICON_FRAMING_FULL),QApplication::translate("DlgManageStyle","Adjust to full image"));
-            CB->addItem(QIcon(ICON_FRAMING_CUSTOM),QApplication::translate("DlgManageStyle","Custom"));
-        }
-        Item="";
-        for (i=0;i<Collection.count();i++) if (((!GeometryFilter)&&(Collection[i].GetFilteredPart()==""))||((GeometryFilter&&(Collection[i].GetFilteredPart()==ActiveFilter)))) {
-            Item=Collection[i].StyleName.mid(Collection[i].GetFilteredPart().length());
-            CB->addItem(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item);
-        }
-    }
-    for (i=0;i<CB->count();i++) if (ActualStyleName==CB->itemText(i)) {
-        if (CB->currentIndex()!=i) CB->setCurrentIndex(i);
-        IsFind=true;
-    }
-    if (!IsFind) {
-        if (AdditionnalFramingStyle) {
-            if (CB->currentIndex()!=3) CB->setCurrentIndex(3);
-        } else {
-            if (CB->currentIndex()!=-1) CB->setCurrentIndex(-1);
-        }
-    }
-    if (CB->view()->width()<500)  CB->view()->setFixedWidth(500);
+    //if (CB->view()->width()!=500)  CB->view()->setFixedWidth(500);
     if (!CB->updatesEnabled()) CB->setUpdatesEnabled(true);
 }
 
@@ -432,7 +353,9 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,cBaseApplica
     QMenu   *UpdateMenu  =new QMenu(ParentWindow);
     QAction *ActionCreate=new QAction(QApplication::translate("DlgManageStyle","Create new style"),ParentWindow);       ActionCreate->setFont(QFont("Sans Serif",9));
     QAction *ActionManage=new QAction(QApplication::translate("DlgManageStyle","Manage existing style"),ParentWindow);  ActionManage->setFont(QFont("Sans Serif",9));
+
     UpdateMenu->setTitle(QApplication::translate("DlgManageStyle","Update existing style"));
+    UpdateMenu->setFont(QFont("Sans Serif",9));
 
     for (int i=0;i<Collection.count();i++)
       if (((!GeometryFilter)&&(Collection[i].GetFilteredPart()==""))||

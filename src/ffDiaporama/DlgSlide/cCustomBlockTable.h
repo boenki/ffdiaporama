@@ -36,6 +36,8 @@ Q_OBJECT
 public:
     cBaseApplicationConfig  *ApplicationConfig;
     cCompositionList        *CompositionList;           // Link to Composition List
+    cDiaporamaObject        *CurrentSlide;
+    qreal                   ProjectGeometry;
     QImage                  TextIcon;
     int                     CurrentShotNbr;
     int                     DragItemSource;

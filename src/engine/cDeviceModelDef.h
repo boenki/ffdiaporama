@@ -84,32 +84,30 @@ extern "C" {
             #include "libavfilter/buffersink.h"
             #include "libavfilter/avcodec.h"
         #else                                                   // From 3.1
+            #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(3,17,0)   // From 3.17
+                #include "libavfilter/avcodec.h"
+            #endif
             #include "libavfilter/buffersink.h"
             #include "libavfilter/buffersrc.h"
         #endif
     #endif
 }
 
-// LIBAV 0.7 = LIBAVUTIL from 51.7 to 51.21 + LIBAVCODEC from 53.6 to 53.34 + LIBAVFORMAT from 53.3 to 53.20
-#if (   ( (LIBAVUTIL_VERSION_MAJOR   ==51)&&(LIBAVUTIL_VERSION_MINOR  >=7)&&(LIBAVUTIL_VERSION_MINOR  <=21) ) && \
-        ( (LIBAVCODEC_VERSION_MAJOR  ==53)&&(LIBAVCODEC_VERSION_MINOR >=6)&&(LIBAVCODEC_VERSION_MINOR <=34) ) && \
-        ( (LIBAVFORMAT_VERSION_MAJOR ==53)&&(LIBAVFORMAT_VERSION_MINOR>=3)&&(LIBAVFORMAT_VERSION_MINOR<=20) ) )
-
-    #define LIBAV_07                            // LIBAV 0.7
-
-    #define LIBAV_FFMPEG                        // FFMPEG binary encoder support
-    #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
-
 // LIBAV 0.8 = LIBAVUTIL from 51.22 + LIBAVCODEC from 53.35 to 54.24 + LIBAVFORMAT from 53.21 to 54.20
-#elif ( ( (LIBAVUTIL_VERSION_MAJOR==51)&&(LIBAVUTIL_VERSION_MINOR>=22) ) && \
-        ( ((LIBAVCODEC_VERSION_MAJOR==53)&&(LIBAVCODEC_VERSION_MINOR>=35))   || ((LIBAVCODEC_VERSION_MAJOR==54)&&(LIBAVCODEC_VERSION_MINOR<50)) ) && \
-        ( ((LIBAVFORMAT_VERSION_MAJOR==53)&&(LIBAVFORMAT_VERSION_MINOR>=21)) || ((LIBAVFORMAT_VERSION_MAJOR==54)&&(LIBAVFORMAT_VERSION_MINOR<23)) ) )
+#if ( LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(51,22,0) && LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(53,35,0) && LIBAVFORMAT_VERSION_INT >= AV_VERSION_INT(53,21,0) )
 
     #define LIBAV_08                            // LIBAV 0.8
     #define LIBAV_FFMPEG                        // FFMPEG binary encoder support
     #define LIBAV_AVCONV                        // AVCONV binary encoder support
     #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
     #define LIBAV_AVCHD                         // Support for AVCHD format (.mts)
+
+// LIBAV 0.7 = LIBAVUTIL from 51.7 to 51.21 + LIBAVCODEC from 53.6 to 53.34 + LIBAVFORMAT from 53.3 to 53.20
+#elif ( LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(51,7,0) && LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(53,6,0) && LIBAVFORMAT_VERSION_INT >= AV_VERSION_INT(53,3,0) )
+
+    #define LIBAV_07                            // LIBAV 0.7
+    #define LIBAV_FFMPEG                        // FFMPEG binary encoder support
+    #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
 
 #endif
 
@@ -187,9 +185,15 @@ extern int       ORDERIMAGENAME[2][NBR_SIZEDEF];                // Display order
 #define     VCODECST_THEORA     "THEORA"                        // String Theora
 #define     VCODEC_X264LL       8                               // x264 lossless + VPRE libx264-lossless.ffpreset ********
 #define     VCODECST_X264LL     "X264LL"                        // String x264 lossless ********
+#define     VCODEC_WMV1         9                               // Windows Media Video 7
+#define     VCODECST_WMV1       "WMV1"                          // String Windows Media Video 7
+#define     VCODEC_WMV2         10                              // Windows Media Video 8
+#define     VCODECST_WMV2       "WMV2"                          // String Windows Media Video 8
+#define     VCODEC_WMV3         11                              // Windows Media Video 9
+#define     VCODECST_WMV3       "WMV3"                          // String Windows Media Video 9
 
 struct sVideoCodecDef {
-    bool    IsFind;                                             // true if codec is supported by installed version of libav
+    bool    IsFind,IsRead;                                      // true if codec is supported for write,read by installed version of libav
     int     Codec_id;                                           // libav codec id
     int     FFD_VCODEC;                                         // ffDiaporama video codec id
     char    FFD_VCODECST[10];                                   // ffDiaporama video codec id string
@@ -198,14 +202,14 @@ struct sVideoCodecDef {
     char    PossibleBitrate[200];                               // list of possible compression bit rate (define by this application)
     char    DefaultBitrate[2][NBR_SIZEDEF][10];                 // prefered compression bit rate for each possible size
 };
-#define NBR_VIDEOCODECDEF   9
+#define NBR_VIDEOCODECDEF   12
 extern struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF];
 
 //============================================
 // Audio codec definitions
 //============================================
 struct sAudioCodecDef {
-    bool    IsFind;                                             // true if codec is supported by installed version of libav
+    bool    IsFind,IsRead;                                      // true if codec is supported for write,read by installed version of libav
     int     Codec_id;                                           // libav codec id
     char    ShortName[50];                                      // short name of the codec (copy of the libav value)
     char    LongName[200];                                      // long name of the codec (define by this application)
@@ -214,21 +218,21 @@ struct sAudioCodecDef {
     char    PossibleBitrate6CH[200];                            // list of possible compression bit rate in 5.1/6 chanels mode (define by this application)
     char    Default[10];                                        // prefered compression bit rate
 };
-#define NBR_AUDIOCODECDEF   9
+#define NBR_AUDIOCODECDEF   11
 extern struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF];
 
 //============================================
 // Format container definitions
 //============================================
 struct sFormatDef {
-    bool    IsFind;                                             // true if format container is supported by installed version of libav
+    bool    IsFind,IsRead;                                      // true if format container is supported for write,read by installed version of libav
     char    ShortName[50];                                      // short name of the format container (copy of the libav value)
     char    FileExtension[10];                                  // prefered file extension for the format container (define by this application)
     char    LongName[200];                                      // long name of the codec (define by this application)
     char    PossibleVideoCodec[200];                            // list of possible video codec for this format container (using VCODECST String define)
     char    PossibleAudioCodec[200];                            // list of possible audio codec for this format container (define by this application)
 };
-#define NBR_FORMATDEF   10
+#define NBR_FORMATDEF   11
 extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];
 
 #define NBR_AUDIOFORMATDEF   5
@@ -268,7 +272,7 @@ public:
     int     BckAudioBitrate;                                    // Bitrate number in sAudioCodecDef
 
     cDeviceModelDef(bool IsGlobalConf,int IndexKey);
-    ~cDeviceModelDef();
+    virtual         ~cDeviceModelDef();
 
     virtual void    SaveToXML(QDomElement &domDocument,QString ElementName);
     virtual bool    LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile);
@@ -285,7 +289,7 @@ public:
     QStringList                 TranslatedRenderSubtype[4];                 // Translated render device subtype
 
     cDeviceModelList();
-    ~cDeviceModelList();
+    virtual         ~cDeviceModelList();
 
     virtual bool    LoadConfigurationFile(QString ConfigFileName,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile);
     virtual bool    SaveConfigurationFile(QString ConfigFileName);

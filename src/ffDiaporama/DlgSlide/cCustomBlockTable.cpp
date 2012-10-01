@@ -63,8 +63,8 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Display adjustement
-    int     FontFactor=((((cApplicationConfig *)ParentTable->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20)*10;
-    int     RowHeight =48+((((cApplicationConfig *)ParentTable->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20)*3;
+    int     FontFactor=((((cApplicationConfig *)ParentTable->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*10;
+    int     RowHeight =48+((((cApplicationConfig *)ParentTable->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3;
 
     if (!ParentTable->CompositionList->List[index.row()]->IsVisible) Painter->setOpacity(0.5);
 
@@ -77,13 +77,36 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
 
     if (MediaFile!=NULL) {
 
+        int Position=0;
+        // Compute position of video
+        if (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video)
+            for (int i=0;i<ParentTable->CurrentShotNbr;i++)
+                for (int j=0;j<ParentTable->CurrentSlide->List[i]->ShotComposition.List.count();j++)
+            if (ParentTable->CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==ParentTable->CompositionList->List[index.row()]->IndexKey) {
+                if (ParentTable->CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible) Position+=ParentTable->CurrentSlide->List[i]->StaticDuration;
+        }
+
+
         QImage *RenderImage=(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image->ImageAt(true,NULL):
-                            (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->ImageAt(true,0,0,NULL,ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Deinterlace,1,false,NULL,false):
+                            (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->ImageAt(true,Position,QTime(0,0,0,0).msecsTo(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->StartPos),NULL,ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Deinterlace,1,false,NULL,false):
                             NULL;
 
         if (RenderImage!=NULL) {
-            Icon=(RenderImage->width()>RenderImage->height())?RenderImage->scaledToWidth(RowHeight):RenderImage->scaledToHeight(RowHeight);
+            // Create square workspace image
+            qreal   maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4;
+            QImage  *NewRenderImage=ParentTable->CompositionList->List[index.row()]->BackgroundBrush->ImageToWorkspace(RenderImage,RowHeight,maxw,maxh,minw,minh,x1,x2,x3,x4,y1,y2,y3,y4);
+            QRectF  CurSelRect     =QRectF(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->X*RowHeight,
+                                           ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Y*RowHeight,
+                                           ParentTable->CompositionList->List[index.row()]->BackgroundBrush->ZoomFactor*RowHeight,
+                                           ParentTable->CompositionList->List[index.row()]->BackgroundBrush->ZoomFactor*ParentTable->CompositionList->List[index.row()]->BackgroundBrush->AspectRatio*RowHeight);
+            ParentTable->CompositionList->List[index.row()]->BackgroundBrush->ApplyMaskToImageToWorkspace(NewRenderImage,CurSelRect,ParentTable->CompositionList->List[index.row()]->BackgroundForm,
+                                                                                                          ParentTable->CompositionList->List[index.row()]->BackgroundBrush->GetCurrentFramingStyle(ParentTable->ProjectGeometry));
+
+            // Create icon
+            //Icon=(NewRenderImage->width()>NewRenderImage->height())?NewRenderImage->scaledToWidth(RowHeight):NewRenderImage->scaledToHeight(RowHeight);
+            Icon=NewRenderImage->copy();
             delete RenderImage;
+            delete NewRenderImage;
         }
 
     } else Icon=ParentTable->TextIcon.copy();
@@ -222,6 +245,7 @@ cCustomBlockTable::cCustomBlockTable(QWidget *parent):QTableWidget(parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBlockTable::cCustomBlockTable");
 
     CompositionList =NULL;
+    CurrentSlide    =NULL;
     IsDragOn        =false;
     TextIcon        =QImage(":/img/MediaIcons/48x48/Text.png");
 

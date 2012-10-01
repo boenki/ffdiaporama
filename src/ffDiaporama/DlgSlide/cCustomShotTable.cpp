@@ -86,6 +86,7 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
                 l=ParentTable->DiaporamaObject->List[k]->ShotComposition.List.count();    // Stop loop
             }
             ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),0,0,Width,Height,true,0,StartPosToAdd,NULL,0,NULL,false,0,false);
+qDebug()<<"Shot:"<<index.column()<<"Position"<<StartPosToAdd;
         } else ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),0,0,Width,Height,true,Position,0,NULL,0,NULL,false,0,false);
     }
 

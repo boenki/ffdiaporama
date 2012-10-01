@@ -54,7 +54,7 @@
 bool gm_decode_base64(uchar *buffer,uint &len) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:gm_decode_base64");
 
-    static const char base64[256]={
+    static const unsigned char base64[256]={
     0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
     0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,
     0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x80,0x3e,0x80,0x80,0x80,0x3f,
@@ -1103,6 +1103,11 @@ QImage *cImageFile::ImageAt(bool PreviewMode,cFilterTransformObject *Filter) {
     CLASS cVideoFile
 *************************************************************************************************************************************/
 
+cImageInCache::cImageInCache(qlonglong Position,QImage *Image) {
+    this->Position=Position;
+    this->Image   =Image->copy();
+}
+
 cVideoFile::cVideoFile(int TheWantedObjectType,cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::cVideoFile");
 
@@ -1229,7 +1234,19 @@ void cVideoFile::GetFullInformationFromFile() {
         qlonglong   ms;
 
         ms=ffmpegFile->duration;
-        if (ffmpegFile->start_time!=AVNOPTSVALUE)  ms-=ffmpegFile->start_time;
+        /*if ((ms==AVNOPTSVALUE)&&(!MusicOnly)) {
+            // Try to compute duration from video track
+            for (int Track=0;Track<(int)ffmpegFile->nb_streams;Track++) {
+                if (ffmpegFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_VIDEO) {
+                    AVStream *VideoStream=ffmpegFile->streams[Track];
+                    ms=0;
+                }
+            }
+        }*/
+        if (ffmpegFile->start_time!=AVNOPTSVALUE)  {
+            ms-=ffmpegFile->start_time;
+            start_time=ffmpegFile->start_time;
+        } else start_time=0;
         ms=ms/1000;
 
         ss=ms/1000;
@@ -1497,6 +1514,8 @@ QString cVideoFile::GetTAGInfo() {
 
 void cVideoFile::CloseCodecAndFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::CloseCodecAndFile");
+
+    while (CacheImage.count()>0) CacheImage.removeLast();
 
     // Close the filter context
     #ifdef LIBAVFILTER
@@ -1991,8 +2010,10 @@ int cVideoFile::FilterOpen(QString filters) {
     if ((result=avfilter_graph_parse(m_pFilterGraph,m_filters.toLocal8Bit().constData(),inputs,outputs,NULL))<0) {
     #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)
     if ((result=avfilter_graph_parse(m_pFilterGraph,m_filters.toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
-    #else
+    #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,17,0)
     if ((result=avfilter_graph_parse(m_pFilterGraph,m_filters.toLocal8Bit().constData(),inputs,outputs,NULL))<0) {
+    #else
+    if ((result=avfilter_graph_parse(m_pFilterGraph,m_filters.toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
     #endif
         ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::FilterOpen : avfilter_graph_parse"));
         return result;
@@ -2150,11 +2171,10 @@ int cVideoFile::FilterProcess() {
 //====================================================================================================================
 
 #define MAXELEMENTSINOBJECTLIST 500
+int MAXCACHEIMAGE=1;
 
 QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadVideoFrame");
-
-    int64_t AVNOPTSVALUE=INT64_C(0x8000000000000000); // to solve type error with Qt
 
     // Ensure file was previously open
     if (((ffmpegVideoFile==NULL)||(VideoDecoderCodec==NULL))&&(!OpenCodecAndFile())) return NULL;
@@ -2167,16 +2187,20 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
         return NULL;
     }
 
+    // Adjust position if input file have a start_time value
+    if (start_time)  {
+        dPosition+=double(start_time)/double(AV_TIME_BASE);
+        Position  =int(dPosition*1000);
+    }
+
     // Ensure Position is not > EndPosition, in that case, change Position to lastposition
     if ((dPosition>0)&&(dPosition>=dEndFile)) {
         Position=QTime(0,0,0,0).msecsTo(EndPos);
         dPosition=double(Position)/1000;
     }
 
-    // Adjust position if input file have a start_time value
-    if (ffmpegVideoFile->start_time!=AVNOPTSVALUE)  {
-        dPosition+=double(ffmpegVideoFile->start_time)/double(AV_TIME_BASE);
-        Position  =int(dPosition*1000);
+    for (int i=0;i<CacheImage.count();i++) if (CacheImage.at(i).Position==Position) {
+        return new QImage(CacheImage.at(i).Image.copy());
     }
 
     // Allocate structure for YUV image
@@ -2188,9 +2212,9 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
     AVStream        *VideoStream        =ffmpegVideoFile->streams[VideoStreamNumber];
     AVPacket        *StreamPacket       =NULL;
 
-    if ((FrameBufferYUVReady)&&(FrameBufferYUVPosition==Position)) {
+    /*if ((FrameBufferYUVReady)&&(FrameBufferYUVPosition==Position)) {
         return ConvertYUVToRGB(PreviewMode);
-    }
+    }*/
 
     // Cac difftime between asked position and previous end decoded position
     qlonglong DiffTimePosition=-1;
@@ -2198,7 +2222,7 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
 
 
     // Calc if we need to seek to a position
-    if ((Position==0)||(DiffTimePosition<0)||(DiffTimePosition>500)) { // Allow 0,1 sec diff
+    if ((Position==0)||(DiffTimePosition<0)||(DiffTimePosition>1500)) { // Allow 1,5 sec diff
 
         // Seek to nearest previous key frame
         ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadVideoFrame => do a seek");
@@ -2213,13 +2237,12 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
         FrameBufferYUVPosition = 0;
 
         // Seek to nearest previous key frame
-        if (av_seek_frame(ffmpegVideoFile,-1,int64_t(Position*1000-1000000),DiffTimePosition<0?AVSEEK_FLAG_BACKWARD:0)<0) {
+        if (av_seek_frame(ffmpegVideoFile,-1,int64_t(Position*1000-1000000),0)<0) {
             // Try in AVSEEK_FLAG_ANY mode
             if (av_seek_frame(ffmpegVideoFile,-1,int64_t(Position*1000-1000000),AVSEEK_FLAG_ANY)<0) {
                 ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadVideoFrame : Seek error");
             }
         }
-
     } else {
         DataInBuffer=true;
     }
@@ -2326,6 +2349,11 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
         ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return black frame").arg(Position));
         RetImage =new QImage(ffmpegVideoFile->streams[VideoStreamNumber]->codec->width,ffmpegVideoFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
         RetImage->fill(0);
+    } else {
+        if (PreviewMode) {
+            while (CacheImage.count()>=MAXCACHEIMAGE) CacheImage.removeFirst();
+            CacheImage.append(cImageInCache(Position,RetImage));
+        }
     }
 
     dEndFileCachePos=dEndFile;  // keep position for future use

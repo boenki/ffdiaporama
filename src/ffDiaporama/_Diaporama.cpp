@@ -34,12 +34,6 @@
 // Composition parameters
 #define SCALINGTEXTFACTOR                   700     // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
 
-//============================================
-// Global static
-//============================================
-
-QBrush  Transparent;        // Transparent brush
-
 //*********************************************************************************************************************************************
 // Base object for composition definition
 //*********************************************************************************************************************************************
@@ -310,6 +304,114 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 
 //====================================================================================================================
 
+int cCompositionObject::GetAutoCompoSize(int ffDProjectGeometry) {
+    int   ImageType         =BackgroundBrush->GetImageType();
+    int   AutoCompoStyle    =AUTOCOMPOSIZE_CUSTOM;
+
+    // Calc screen size
+    qreal ScreenWidth       =qreal(1920);
+    qreal ScreenHeight      =qreal(ffDProjectGeometry==GEOMETRY_4_3?1440:ffDProjectGeometry==GEOMETRY_16_9?1080:ffDProjectGeometry==GEOMETRY_40_17?816:1920);
+    qreal ScreenGeometry    =ScreenHeight/ScreenWidth;
+
+    // Calc real image size (if it's and image)
+    qreal RealImageWidth    =qreal(BackgroundBrush->Image?BackgroundBrush->Image->ImageWidth:BackgroundBrush->Video?BackgroundBrush->Video->ImageWidth:ScreenWidth);
+    qreal RealImageHeight   =qreal(BackgroundBrush->Image?BackgroundBrush->Image->ImageHeight:BackgroundBrush->Video?BackgroundBrush->Video->ImageHeight:ScreenHeight); if ((BackgroundBrush->Video!=NULL)&&(RealImageWidth==1920)&&(RealImageHeight=1088)&&(BackgroundBrush->Video->ApplicationConfig->Crop1088To1080)) RealImageHeight=1080;
+    //qreal RealImageGeometry =RealImageHeight/RealImageWidth;
+
+    // Calc brush size
+    qreal CanvasSize        =sqrt(RealImageWidth*RealImageWidth+RealImageHeight*RealImageHeight);   // Calc hypothenuse of the image to define full canvas
+    qreal ImageWidth        =CanvasSize*BackgroundBrush->ZoomFactor;
+    qreal ImageHeight       =CanvasSize*BackgroundBrush->ZoomFactor*BackgroundBrush->AspectRatio;
+    qreal ImageGeometry     =ImageHeight/ImageWidth;
+
+    // Calc destination size
+    qreal DestWidth         =ScreenWidth*w;
+    qreal DestHeight        =ScreenHeight*h;
+    //qreal DestGeometry      =DestHeight/DestWidth;
+
+    if ((DestWidth==ImageWidth)&&(DestHeight==ImageHeight)) AutoCompoStyle=AUTOCOMPOSIZE_REALSIZE; else {
+
+        // Make adjustement if it's not an image and geometry is locked
+        if ((ImageType==IMAGETYPE_UNKNOWN)&&(BackgroundBrush->LockGeometry)) {
+            if ((ImageHeight*(h/w))<ScreenHeight)                       ScreenHeight=ScreenHeight*(h/w);
+                else                                                    ScreenWidth =ScreenWidth/(h/w);
+        }
+
+        // Make adjustement if it's an image and ImageGeometry!=DestGeometry
+        if ((ImageType!=IMAGETYPE_UNKNOWN)&&(ImageGeometry!=ScreenGeometry)) {
+            if ((ImageHeight*(ScreenWidth/ImageWidth))<ScreenHeight)    ScreenHeight=ImageHeight*(ScreenWidth/ImageWidth);
+                else                                                    ScreenWidth =ImageWidth*(ScreenHeight/ImageHeight);
+        }
+
+        if ((int(DestWidth)==int(ScreenWidth))&&    (int(DestHeight)==int(ScreenHeight)))       AutoCompoStyle=AUTOCOMPOSIZE_FULLSCREEN;
+        if ((int(DestWidth)==int(ScreenWidth*0.9))&&(int(DestHeight)==int(ScreenHeight*0.9)))   AutoCompoStyle=AUTOCOMPOSIZE_TVMARGINS;
+        if ((int(DestWidth)==int(2*ScreenWidth/3))&&(int(DestHeight)==int(2*ScreenHeight/3)))   AutoCompoStyle=AUTOCOMPOSIZE_TWOTHIRDSSCREEN;
+        if ((int(DestWidth)==int(ScreenWidth/2))&&  (int(DestHeight)==int(ScreenHeight/2)))     AutoCompoStyle=AUTOCOMPOSIZE_HALFSCREEN;
+        if ((int(DestWidth)==int(ScreenWidth/3))&&  (int(DestHeight)==int(ScreenHeight/3)))     AutoCompoStyle=AUTOCOMPOSIZE_THIRDSCREEN;
+        if ((int(DestWidth)==int(ScreenWidth/4))&&  (int(DestHeight)==int(ScreenHeight/4)))     AutoCompoStyle=AUTOCOMPOSIZE_QUARTERSCREEN;
+    }
+    return AutoCompoStyle;
+}
+
+//====================================================================================================================
+
+void cCompositionObject::ApplyAutoCompoSize(int AutoCompoStyle,int ffDProjectGeometry) {
+    int   ImageType         =BackgroundBrush->GetImageType();
+
+    // Calc screen size
+    qreal ScreenWidth       =qreal(1920);
+    qreal ScreenHeight      =qreal(ffDProjectGeometry==GEOMETRY_4_3?1440:ffDProjectGeometry==GEOMETRY_16_9?1080:ffDProjectGeometry==GEOMETRY_40_17?816:1920);
+    //qreal ScreenGeometry    =ScreenHeight/ScreenWidth;
+
+    // Calc real image size (if it's and image)
+    qreal RealImageWidth    =qreal(BackgroundBrush->Image?BackgroundBrush->Image->ImageWidth:BackgroundBrush->Video?BackgroundBrush->Video->ImageWidth:ScreenWidth);
+    qreal RealImageHeight   =qreal(BackgroundBrush->Image?BackgroundBrush->Image->ImageHeight:BackgroundBrush->Video?BackgroundBrush->Video->ImageHeight:ScreenHeight); if ((BackgroundBrush->Video!=NULL)&&(RealImageWidth==1920)&&(RealImageHeight=1088)&&(BackgroundBrush->Video->ApplicationConfig->Crop1088To1080)) RealImageHeight=1080;
+    //qreal RealImageGeometry =RealImageHeight/RealImageWidth;
+
+    // Calc brush size
+    qreal CanvasSize        =sqrt(RealImageWidth*RealImageWidth+RealImageHeight*RealImageHeight);   // Calc hypothenuse of the image to define full canvas
+    qreal ImageWidth        =CanvasSize*BackgroundBrush->ZoomFactor;
+    qreal ImageHeight       =CanvasSize*BackgroundBrush->ZoomFactor*BackgroundBrush->AspectRatio;
+    qreal ImageGeometry     =ImageHeight/ImageWidth;
+
+    // Calc destination size
+    qreal DestWidth =ScreenWidth;
+    qreal DestHeight=ScreenHeight;
+    switch (AutoCompoStyle) {
+        case AUTOCOMPOSIZE_CUSTOM           :  DestWidth=ScreenWidth*w;    DestHeight=ScreenHeight*h;      break;      // Keep current value
+        case AUTOCOMPOSIZE_REALSIZE         :  DestWidth=ImageWidth;       DestHeight=ImageHeight;         break;
+        case AUTOCOMPOSIZE_FULLSCREEN       :  DestWidth=ScreenWidth;      DestHeight=ScreenHeight;        break;
+        case AUTOCOMPOSIZE_TVMARGINS        :  DestWidth=ScreenWidth*0.9;  DestHeight=ScreenHeight*0.9;    break;      // TV Margins is 5% each
+        case AUTOCOMPOSIZE_TWOTHIRDSSCREEN  :  DestWidth=2*ScreenWidth/3;  DestHeight=2*ScreenHeight/3;    break;
+        case AUTOCOMPOSIZE_HALFSCREEN       :  DestWidth=ScreenWidth/2;    DestHeight=ScreenHeight/2;      break;
+        case AUTOCOMPOSIZE_THIRDSCREEN      :  DestWidth=ScreenWidth/3;    DestHeight=ScreenHeight/3;      break;
+        case AUTOCOMPOSIZE_QUARTERSCREEN    :  DestWidth=ScreenWidth/4;    DestHeight=ScreenHeight/4;      break;
+    }
+    qreal DestGeometry=DestHeight/DestWidth;
+
+    // Make adjustement if it's not an image and geometry is locked
+    if ((ImageType==IMAGETYPE_UNKNOWN)&&(BackgroundBrush->LockGeometry)) {
+        if ((ImageHeight*(h/w))<DestHeight)                     DestHeight=DestHeight*(h/w);
+            else                                                DestWidth =DestWidth/(h/w);
+    }
+    // Make adjustement if it's an image and ImageGeometry!=DestGeometry
+    if ((ImageType!=IMAGETYPE_UNKNOWN)&&(ImageGeometry!=DestGeometry)) {
+        if ((ImageHeight*(DestWidth/ImageWidth))<DestHeight)    DestHeight=ImageHeight*(DestWidth/ImageWidth);
+            else                                                DestWidth =ImageWidth*(DestHeight/ImageHeight);
+    }
+
+    // Apply destination size to Composition object
+    w           =DestWidth/ScreenWidth;
+    h           =DestHeight/ScreenHeight;
+    x           =((ScreenWidth-DestWidth)/2)/ScreenWidth;
+    y           =((ScreenHeight-DestHeight)/2)/ScreenHeight;
+    RotateZAxis =0;
+    RotateXAxis =0;
+    RotateYAxis =0;
+}
+
+//====================================================================================================================
+
 QString cCompositionObject::GetBlockShapeStyle() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:GetBlockShapeStyle");
 
@@ -468,38 +570,6 @@ QString cCompositionObject::GetCoordinateStyle() {
             QString("###RotateXAxis:%1").arg(RotateXAxis,0,'e')+
             QString("###RotateYAxis:%1").arg(RotateYAxis,0,'e');
 
-    // If block is image or video
-    if ((BackgroundBrush->Image!=NULL)||(BackgroundBrush->Video!=NULL)) {
-        // Get Framing style definition
-        QString             StyleDef=GetFramingStyle();
-        cStyleCollection    *FS     =&GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection;
-
-        // Prepare collection
-        BackgroundBrush->InitDefaultFramingStyle(BackgroundBrush->LockGeometry,BackgroundBrush->AspectRatio);
-        if (BackgroundBrush->Image!=NULL)            FS->SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,BackgroundBrush->Image->ObjectGeometry);
-            else if (BackgroundBrush->Video!=NULL)   FS->SetImageGeometryFilter(GlobalMainWindow->Diaporama->ImageGeometry,BackgroundBrush->Video->ObjectGeometry);
-
-        // Search if Framing style is custom or defined
-        int i=0;
-        if (FS->GeometryFilter) while ((i<FS->Collection.count())&&((FS->Collection[i].StyleDef!=StyleDef)||(!FS->Collection[i].StyleName.startsWith(FS->ActiveFilter)))) i++;
-            else                while ((i<FS->Collection.count())&&(FS->Collection[i].StyleDef!=StyleDef)) i++;
-
-        if ((i<FS->Collection.count())&&(FS->Collection[i].StyleDef==StyleDef)) {
-            // Defined style
-            if (FS->Collection[i].FromGlobalConf) {
-                // Standard style (defined in global conf)
-                Style=Style+QString("###FramingStyleIndex:%1").arg(FS->Collection[i].StyleIndex);
-            } else {
-                // User style (defined in global conf)
-                Style=Style+QString("###FramingStyleName:%1").arg(FS->Collection[i].StyleName);
-            }
-
-        } else {
-            // Custom style
-            Style=Style+QString("###CustomFramingStyle:")+StyleDef.replace("###","&&&");
-        }
-
-    }
     return Style;
 }
 
@@ -525,117 +595,6 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
         else if (List[i].startsWith("RotateZAxis:"))    RotateZAxis     =List[i].mid(QString("RotateZAxis:").length()).toDouble();
         else if (List[i].startsWith("RotateXAxis:"))    RotateXAxis     =List[i].mid(QString("RotateXAxis:").length()).toDouble();
         else if (List[i].startsWith("RotateYAxis:"))    RotateYAxis     =List[i].mid(QString("RotateYAxis:").length()).toDouble();
-
-        else if ((List[i].startsWith("FramingStyleIndex:"))||(List[i].startsWith("FramingStyleName:"))||(List[i].startsWith("CustomFramingStyle:"))) {
-            QString CustomFramingStyle    ="";
-            QString CustomFramingStyleName="";
-            if (List[i].startsWith("FramingStyleIndex:")) {
-                int FramingStyleIndex=List[i].mid(QString("FramingStyleIndex:").length()).toInt();
-
-                //*********************************************************************************************************************
-                // Idealement, il faudrait calculer les styles ici au lieu de les prendre dans la base de données !
-                //*********************************************************************************************************************
-
-                int k=0;
-                while ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleIndex!=FramingStyleIndex)) k++;
-                if ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleIndex==FramingStyleIndex)) {
-                    CustomFramingStyle    =GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleDef;
-                    CustomFramingStyleName=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].BckStyleName;
-                    /*
-                    qreal AR=CustomFramingStyleName.startsWith("16:9")?double(1080)/double(1920):
-                             CustomFramingStyleName.startsWith("4:3")?double(1440)/double(1920):
-                             CustomFramingStyleName.startsWith("2.35:1")?double(816)/double(1920):
-                             0;
-                    int IM  =CustomFramingStyleName.contains("Image geometry")?1:CustomFramingStyleName.contains("Project geometry")?2:0;
-                    int FM  =CustomFramingStyleName.contains("Full image")?1:CustomFramingStyleName.contains("Adjust on the width-Bottom")?2:CustomFramingStyleName.contains("Adjust on the width-Middle")?3:CustomFramingStyleName.contains("Adjust on the width-Top")?4:0;
-
-                    if ((AR!=0)&&(IM!=0)&&(FM!=0)) {
-                        CustomFramingStyle="";
-                        //*********************************************************************************************************************
-                        // calculer les styles ici
-                        //*********************************************************************************************************************
-                        // Calc coordinates of the part in the source image
-                        qreal  RealImageW  =qreal(BackgroundBrush->Image->ImageWidth);
-                        qreal  RealImageH  =qreal(BackgroundBrush->Image->ImageHeight);
-                        qreal  Hyp         =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);             // Calc hypothenuse of the image to define full canvas
-                        qreal  DstW        =RealImageW;
-                        qreal  DstH        =RealImageH;
-                        qreal  W;
-                        qreal  H;
-
-                        BackgroundBrush->AspectRatio=AR;    //RealImageH/RealImageW;
-                        BackgroundBrush->LockGeometry=true;
-                        RecalcAspectRatio=false;
-
-                        if (CustomFramingStyleName.contains("Full image")) {                        // Full image
-                            W=DstW;
-                            H=W*BackgroundBrush->AspectRatio;
-                            if (H<DstH) {
-                                H=DstH;
-                                W=H/BackgroundBrush->AspectRatio;
-                                BackgroundBrush->X=((Hyp-W)/2)/Hyp;
-                                BackgroundBrush->Y=((Hyp-H)/2)/Hyp;
-                                BackgroundBrush->ZoomFactor=W/Hyp;
-                            } else {
-                                W=DstW;
-                                H=W*BackgroundBrush->AspectRatio;
-                                BackgroundBrush->X=((Hyp-W)/2)/Hyp;
-                                BackgroundBrush->Y=((Hyp-H)/2)/Hyp;
-                                BackgroundBrush->ZoomFactor=W/Hyp;
-                            }
-                        } else if (CustomFramingStyleName.contains("Adjust on the width")) {
-                            W=DstW;
-                            H=W*BackgroundBrush->AspectRatio;
-                            BackgroundBrush->X=((Hyp-W)/2)/Hyp;
-                            BackgroundBrush->Y=((Hyp-H)/2)/Hyp;
-                            BackgroundBrush->ZoomFactor=W/Hyp;
-                            if (CustomFramingStyleName.contains("Bottom")) {                        // Width-Bottom
-
-                            } else if (CustomFramingStyleName.contains("Middle")) {                 // Width-Middle
-
-                            } else {                                                                // Width-Top
-
-                            }
-                        } else {                                                                    // Height
-                            H=DstH;
-                            W=H/BackgroundBrush->AspectRatio;
-                            BackgroundBrush->X=((Hyp-W)/2)/Hyp;
-                            BackgroundBrush->Y=((Hyp-H)/2)/Hyp;
-                            BackgroundBrush->ZoomFactor=W/Hyp;
-                        }
-                    }
-                    */
-                }
-
-            } else if (List[i].startsWith("FramingStyleName:")) {
-                QString FramingStyleName=List[i].mid(QString("FramingStyleName:").length());
-                int k=0;
-                while ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleName!=FramingStyleName)) k++;
-                if ((k<GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection.count())&&(GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleName==FramingStyleName))
-                    CustomFramingStyle=GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.Collection[k].StyleDef;
-            } else if (List[i].startsWith("CustomFramingStyle:")) {
-                CustomFramingStyle=List[i].mid(QString("CustomFramingStyle:").length());
-                CustomFramingStyle.replace("&&&","###");
-            }
-            if (CustomFramingStyle!="") {
-                QStringList List;
-                GlobalMainWindow->ApplicationConfig->StyleImageFramingCollection.StringDefToStringList(CustomFramingStyle,List);
-                if (List.count()>0) {
-                    for (int k=0;k<List.count();k++) {
-                        if      (List[k].startsWith("X:"))              BackgroundBrush->X             =List[k].mid(QString("X:").length()).toDouble();
-                        else if (List[k].startsWith("Y:"))              BackgroundBrush->Y             =List[k].mid(QString("Y:").length()).toDouble();
-                        else if (List[k].startsWith("ZoomFactor:"))     BackgroundBrush->ZoomFactor    =List[k].mid(QString("ZoomFactor:").length()).toDouble();
-                        else if (List[k].startsWith("LockGeometry:"))   BackgroundBrush->LockGeometry  =List[k].mid(QString("LockGeometry:").length()).toInt()==1;
-                        else if (List[k].startsWith("AspectRatio:"))    {
-                            BackgroundBrush->AspectRatio   =List[k].mid(QString("AspectRatio:").length()).toDouble();
-                            RecalcAspectRatio=false;
-                        }
-                    }
-                }
-            }
-
-        }
-
     }
     // if not set by style then compute Aspect Ratio
     if (RecalcAspectRatio) {
@@ -645,14 +604,6 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
         else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
         BackgroundBrush->AspectRatio =(h*DisplayH)/(w*DisplayW);
     }
-}
-
-//====================================================================================================================
-
-QString cCompositionObject::GetFramingStyle() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:GetFramingStyle");
-
-    return BackgroundBrush->GetFramingStyle();
 }
 
 //====================================================================================================================
@@ -827,7 +778,8 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 }
             }
             if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-            DrawShape(Painter,BackgroundForm,-W/2,-H/2,W,H,0,0);
+            QList<QPolygonF> List=ComputePolygon(BackgroundForm,-W/2,-H/2,W,H,0,0);
+            for (int i=0;i<List.count();i++) Painter.drawPolygon(List.at(i));
             if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
             //**********************************************************************************
@@ -1401,7 +1353,7 @@ cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
     CurrentPosition             = -1;                                                               // Current position (msec)
     IsModify                    = false;                                                            // true if project was modify
     ProjectFileName             = "";                                                               // Path and name of current file project
-    ProjectInfo->Composer       = QString(APPLICATION_NAME)+QString(" ")+QString(APPLICATION_VERSION);
+    ProjectInfo->Composer       = ApplicationConfig->ApplicationName+QString(" ")+ApplicationConfig->ApplicationVersion;
     ProjectInfo->Author         = ApplicationConfig->DefaultAuthor;
     ProjectInfo->DefaultLanguage= ApplicationConfig->DefaultLanguage;
     // Set default value
@@ -1466,7 +1418,6 @@ void cDiaporama::DefineSizeAndGeometry(int Geometry) {
     LumaList_Clock.SetGeometry(ImageGeometry);
     LumaList_Box.SetGeometry(ImageGeometry);
     LumaList_Snake.SetGeometry(ImageGeometry);
-    ApplicationConfig->StyleCoordinateCollection.SetProjectGeometryFilter(ImageGeometry);
     switch (Geometry) {
         case GEOMETRY_16_9:  ProjectInfo->ObjectGeometry=IMAGE_GEOMETRY_16_9;   break;
         case GEOMETRY_40_17: ProjectInfo->ObjectGeometry=IMAGE_GEOMETRY_40_17;  break;
@@ -2612,10 +2563,15 @@ void cDiaporama::LoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMo
 //============================================================================================
 void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
     // Parse all unused slide to close unused libav buffer, codec, ...
-    for (int i=0;i<List.count();i++) if ((i<CurrentCell-1)||(i>CurrentCell+1)) {
-        for (int j=0;j<List[i]->ObjectComposition.List.count();j++)
-            if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->ffmpegVideoFile!=NULL))
-                List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CloseCodecAndFile();
+    for (int i=0;i<List.count();i++) {
+        for (int j=0;j<List[i]->ObjectComposition.List.count();j++) if (List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL) {
+            while (List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CacheImage.count()>MAXCACHEIMAGE) List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CacheImage.removeFirst();
+        }
+        if ((i<CurrentCell-1)||(i>CurrentCell+1)) {
+            for (int j=0;j<List[i]->ObjectComposition.List.count();j++)
+                if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->ffmpegVideoFile!=NULL))
+                    List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CloseCodecAndFile();
+        }
     }
 }
 //*********************************************************************************************************************************************

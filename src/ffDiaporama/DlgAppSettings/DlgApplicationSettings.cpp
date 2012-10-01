@@ -20,6 +20,7 @@
 
 #include "../DlgCheckConfig/DlgCheckConfig.h"
 #include "DlgManageDevices/DlgManageDevices.h"
+#include "_Diaporama.h"
 
 #include "DlgApplicationSettings.h"
 #include "ui_DlgApplicationSettings.h"
@@ -74,9 +75,11 @@ void DlgApplicationSettings::DoInitDialog() {
         ui->MemCacheProfilLabel->setVisible(false);
         ui->MemCacheProfilSpacer->setVisible(false);
     } else {
-        if (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024)) ui->MemCacheProfilCB->setCurrentIndex(0); else ui->MemCacheProfilCB->setCurrentIndex(1);
+        if      (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
+        else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(512*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(1);
+        else ui->MemCacheProfilCB->setCurrentIndex(2);
         ui->MemCacheProfilCB->removeItem(3);
-        ui->MemCacheProfilCB->removeItem(2);
+        //ui->MemCacheProfilCB->removeItem(2);
     }
     #else
     if      (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
@@ -129,65 +132,82 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->DefaultAuthorED->setText(ApplicationConfig->DefaultAuthor);
 
     // New text block options
-    ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->ST_Text_TextCB,        ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_TextST),false);
-    ApplicationConfig->StyleTextBackgroundCollection.   FillCollectionCB(ui->ST_Text_BackgroundCB,  ApplicationConfig->StyleTextBackgroundCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_BackGST),false);
-    ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->ST_Text_ShapeCB,       ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_ShapeST),false);
-    ApplicationConfig->StyleCoordinateCollection.       SetProjectGeometryFilter(0);
-    ApplicationConfig->StyleCoordinateCollection.       FillCollectionCB(ui->ST_Text_Coord43CB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[0]),false);
-    ApplicationConfig->StyleCoordinateCollection.       SetProjectGeometryFilter(1);
-    ApplicationConfig->StyleCoordinateCollection.       FillCollectionCB(ui->ST_Text_Coord169CB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[1]),false);
-    ApplicationConfig->StyleCoordinateCollection.       SetProjectGeometryFilter(2);
-    ApplicationConfig->StyleCoordinateCollection.       FillCollectionCB(ui->ST_Text_CoordCineCB,ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_CoordST[2]),false);
+    ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->ST_Text_TextCB,        ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_TextST));
+    ApplicationConfig->StyleTextBackgroundCollection.   FillCollectionCB(ui->ST_Text_BackgroundCB,  ApplicationConfig->StyleTextBackgroundCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_BackGST));
+    ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->ST_Text_ShapeCB,       ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_ShapeST));
 
-    // Get link to combobox
-    CB_SL[0][0]=ui->STBlockSL_IMG0_Coord43CB;    CB_SL[0][1]=ui->STBlockSL_IMG0_Coord169CB;    CB_SL[0][2]=ui->STBlockSL_IMG0_CoordCineCB;
-    CB_SL[1][0]=ui->STBlockSL_IMG1_Coord43CB;    CB_SL[1][1]=ui->STBlockSL_IMG1_Coord169CB;    CB_SL[1][2]=ui->STBlockSL_IMG1_CoordCineCB;
-    CB_SL[2][0]=ui->STBlockSL_IMG2_Coord43CB;    CB_SL[2][1]=ui->STBlockSL_IMG2_Coord169CB;    CB_SL[2][2]=ui->STBlockSL_IMG2_CoordCineCB;
-    CB_SL[3][0]=ui->STBlockSL_IMG3_Coord43CB;    CB_SL[3][1]=ui->STBlockSL_IMG3_Coord169CB;    CB_SL[3][2]=ui->STBlockSL_IMG3_CoordCineCB;
-    CB_SL[4][0]=ui->STBlockSL_IMG4_Coord43CB;    CB_SL[4][1]=ui->STBlockSL_IMG4_Coord169CB;    CB_SL[4][2]=ui->STBlockSL_IMG4_CoordCineCB;
-    CB_SL[5][0]=ui->STBlockSL_IMG5_Coord43CB;    CB_SL[5][1]=ui->STBlockSL_IMG5_Coord169CB;    CB_SL[5][2]=ui->STBlockSL_IMG5_CoordCineCB;
-    CB_SL[6][0]=ui->STBlockSL_IMG6_Coord43CB;    CB_SL[6][1]=ui->STBlockSL_IMG6_Coord169CB;    CB_SL[6][2]=ui->STBlockSL_IMG6_CoordCineCB;
-    CB_SL[7][0]=ui->STBlockSL_IMG7_Coord43CB;    CB_SL[7][1]=ui->STBlockSL_IMG7_Coord169CB;    CB_SL[7][2]=ui->STBlockSL_IMG7_CoordCineCB;
-    CB_SL[8][0]=ui->STBlockSL_IMG8_Coord43CB;    CB_SL[8][1]=ui->STBlockSL_IMG8_Coord169CB;    CB_SL[8][2]=ui->STBlockSL_IMG8_CoordCineCB;
-    CB_BA[0][0]=ui->STBlockBA_IMG0_Coord43CB;    CB_BA[0][1]=ui->STBlockBA_IMG0_Coord169CB;    CB_BA[0][2]=ui->STBlockBA_IMG0_CoordCineCB;
-    CB_BA[1][0]=ui->STBlockBA_IMG1_Coord43CB;    CB_BA[1][1]=ui->STBlockBA_IMG1_Coord169CB;    CB_BA[1][2]=ui->STBlockBA_IMG1_CoordCineCB;
-    CB_BA[2][0]=ui->STBlockBA_IMG2_Coord43CB;    CB_BA[2][1]=ui->STBlockBA_IMG2_Coord169CB;    CB_BA[2][2]=ui->STBlockBA_IMG2_CoordCineCB;
-    CB_BA[3][0]=ui->STBlockBA_IMG3_Coord43CB;    CB_BA[3][1]=ui->STBlockBA_IMG3_Coord169CB;    CB_BA[3][2]=ui->STBlockBA_IMG3_CoordCineCB;
-    CB_BA[4][0]=ui->STBlockBA_IMG4_Coord43CB;    CB_BA[4][1]=ui->STBlockBA_IMG4_Coord169CB;    CB_BA[4][2]=ui->STBlockBA_IMG4_CoordCineCB;
-    CB_BA[5][0]=ui->STBlockBA_IMG5_Coord43CB;    CB_BA[5][1]=ui->STBlockBA_IMG5_Coord169CB;    CB_BA[5][2]=ui->STBlockBA_IMG5_CoordCineCB;
-    CB_BA[6][0]=ui->STBlockBA_IMG6_Coord43CB;    CB_BA[6][1]=ui->STBlockBA_IMG6_Coord169CB;    CB_BA[6][2]=ui->STBlockBA_IMG6_CoordCineCB;
-    CB_BA[7][0]=ui->STBlockBA_IMG7_Coord43CB;    CB_BA[7][1]=ui->STBlockBA_IMG7_Coord169CB;    CB_BA[7][2]=ui->STBlockBA_IMG7_CoordCineCB;
-    CB_BA[8][0]=ui->STBlockBA_IMG8_Coord43CB;    CB_BA[8][1]=ui->STBlockBA_IMG8_Coord169CB;    CB_BA[8][2]=ui->STBlockBA_IMG8_CoordCineCB;
-
-    CB_SL_CLIPARTST[0]=ui->STBlockSL_IMG0_Coord43CB2;   CB_SL_CLIPARTST[1]=ui->STBlockSL_IMG0_Coord169CB2;  CB_SL_CLIPARTST[2]=ui->STBlockSL_IMG0_CoordCineCB2;
-    CB_BA_CLIPARTST[0]=ui->STBlockBA_IMG0_Coord43CB2;   CB_BA_CLIPARTST[1]=ui->STBlockBA_IMG0_Coord169CB2;  CB_BA_CLIPARTST[2]=ui->STBlockBA_IMG0_CoordCineCB2;
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),QVariant(AUTOCOMPOSIZE_FULLSCREEN));
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","TV margins"),QVariant(AUTOCOMPOSIZE_TVMARGINS));
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Two thirds of screen"),QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Half of screen"),QVariant(AUTOCOMPOSIZE_HALFSCREEN));
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Third of screen"),QVariant(AUTOCOMPOSIZE_THIRDSCREEN));
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Quarter of screen"),QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));
+    SetCBIndex(ui->ST_Text_CoordCB,ApplicationConfig->DefaultBlock_AutoSizePos);
+    ui->ST_Text_LockingCB->addItem(QIcon(ICON_GEOMETRY_UNLOCKED),QApplication::translate("DlgImageCorrection","Unlock"),QVariant(AUTOFRAMING_CUSTOMUNLOCK));
+    //ui->ST_Text_LockingCB->addItem(QIcon(ICON_GEOMETRY_LOCKED),  QApplication::translate("DlgImageCorrection","Lock to this geometry"),QVariant(AUTOFRAMING_CUSTOMLOCK));
+    ui->ST_Text_LockingCB->addItem(QIcon(ICON_GEOMETRY_PROJECT), QApplication::translate("DlgImageCorrection","Lock to project geometry"),QVariant(AUTOFRAMING_CUSTOMPRJLOCK));
+    SetCBIndex(ui->ST_Text_LockingCB,ApplicationConfig->DefaultBlock_AutoLocking);
 
     // New image block options (when slide creation)
-    ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->STBlockSL_IMG_TextCB,  ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST),false);
-    ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->STBlockSL_IMG_ShapeCB, ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST),false);
+    ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->STBlockSL_IMG_TextCB,  ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_TextST));
+    ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->STBlockSL_IMG_ShapeCB, ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_ShapeST));
 
     // New image block options (when block add in slide dialog)
-    ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->STBlockBA_IMG_TextCB,  ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_TextST),false);
-    ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->STBlockBA_IMG_ShapeCB, ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_ShapeST),false);
+    ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->STBlockBA_IMG_TextCB,  ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_TextST));
+    ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->STBlockBA_IMG_ShapeCB, ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_ShapeST));
 
-    for (int i=0;i<9;i++) for (int j=0;j<3;j++) {
-        ApplicationConfig->StyleCoordinateCollection.SetImageGeometryFilter(j,i);
-        ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(CB_SL[i][j],ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlockSL_IMG_CoordST[i][j]),false);
-        ApplicationConfig->StyleCoordinateCollection.FillCollectionCB(CB_BA[i][j],ApplicationConfig->StyleCoordinateCollection.DecodeString(ApplicationConfig->DefaultBlockBA_IMG_CoordST[i][j]),false);
-    }
+    // Get link to combobox
+    CB_SL[1][0]=ui->STBlockSL_1_FramingCB;    CB_SL[1][1]=ui->STBlockSL_1_CoordCB;
+    CB_SL[2][0]=ui->STBlockSL_2_FramingCB;    CB_SL[2][1]=ui->STBlockSL_2_CoordCB;
+    CB_SL[3][0]=ui->STBlockSL_3_FramingCB;    CB_SL[3][1]=ui->STBlockSL_3_CoordCB;
+    CB_SL[4][0]=ui->STBlockSL_4_FramingCB;    CB_SL[4][1]=ui->STBlockSL_4_CoordCB;
+    CB_SL[5][0]=ui->STBlockSL_5_FramingCB;    CB_SL[5][1]=ui->STBlockSL_5_CoordCB;
+    CB_SL[6][0]=ui->STBlockSL_6_FramingCB;    CB_SL[6][1]=ui->STBlockSL_6_CoordCB;
 
-    for (int i=0;i<3;i++) {
-        CB_SL_CLIPARTST[i]->addItem(QIcon(ICON_GEOMETRY_IMAGE),  QApplication::translate("DlgApplicationSettings","Lock to image geometry"));
-        CB_SL_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_FULL),    QApplication::translate("DlgApplicationSettings","Lock to project geometry-to full image"));
-        CB_SL_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_WIDTH),   QApplication::translate("DlgApplicationSettings","Lock to project geometry-to width"));
-        CB_SL_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_HEIGHT),  QApplication::translate("DlgApplicationSettings","Lock to project geometry-to height"));
-        CB_SL_CLIPARTST[i]->setCurrentIndex(ApplicationConfig->DefaultBlockSL_CLIPARTLOCK[i]);
+    CB_BA[1][0]=ui->STBlockBA_1_FramingCB;    CB_BA[1][1]=ui->STBlockBA_1_CoordCB;
+    CB_BA[2][0]=ui->STBlockBA_2_FramingCB;    CB_BA[2][1]=ui->STBlockBA_2_CoordCB;
+    CB_BA[3][0]=ui->STBlockBA_3_FramingCB;    CB_BA[3][1]=ui->STBlockBA_3_CoordCB;
+    CB_BA[4][0]=ui->STBlockBA_4_FramingCB;    CB_BA[4][1]=ui->STBlockBA_4_CoordCB;
+    CB_BA[5][0]=ui->STBlockBA_5_FramingCB;    CB_BA[5][1]=ui->STBlockBA_5_CoordCB;
+    CB_BA[6][0]=ui->STBlockBA_6_FramingCB;    CB_BA[6][1]=ui->STBlockBA_6_CoordCB;
 
-        CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_GEOMETRY_IMAGE),  QApplication::translate("DlgApplicationSettings","Lock to image geometry"));
-        CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_FULL),    QApplication::translate("DlgApplicationSettings","Lock to project geometry-to full image"));
-        CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_WIDTH),   QApplication::translate("DlgApplicationSettings","Lock to project geometry-to width"));
-        CB_BA_CLIPARTST[i]->addItem(QIcon(ICON_FRAMING_HEIGHT),  QApplication::translate("DlgApplicationSettings","Lock to project geometry-to height"));
-        CB_BA_CLIPARTST[i]->setCurrentIndex(ApplicationConfig->DefaultBlockBA_CLIPARTLOCK[i]);
+    // New image block options (when slide creation)
+    for (int i=1;i<NBR_IMAGETYPE;i++) {
+        AddItemToFramingCB(CB_SL[i][0],AUTOFRAMING_FULLMAX);
+        AddItemToFramingCB(CB_SL[i][0],AUTOFRAMING_HEIGHTLEFTMAX);
+        AddItemToFramingCB(CB_SL[i][0],AUTOFRAMING_HEIGHTMIDLEMAX);
+        AddItemToFramingCB(CB_SL[i][0],AUTOFRAMING_HEIGHTRIGHTMAX);
+        AddItemToFramingCB(CB_SL[i][0],AUTOFRAMING_WIDTHTOPMAX);
+        AddItemToFramingCB(CB_SL[i][0],AUTOFRAMING_WIDTHMIDLEMAX);
+        AddItemToFramingCB(CB_SL[i][0],AUTOFRAMING_WIDTHBOTTOMMAX);
+        SetCBIndex(CB_SL[i][0],ApplicationConfig->DefaultBlockSL[i].AutoFraming);
+
+        if (i>=3) CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Real image size"),QVariant(AUTOCOMPOSIZE_REALSIZE));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),QVariant(AUTOCOMPOSIZE_FULLSCREEN));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","TV margins"),QVariant(AUTOCOMPOSIZE_TVMARGINS));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Two thirds of screen"),QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Half of screen"),QVariant(AUTOCOMPOSIZE_HALFSCREEN));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Third of screen"),QVariant(AUTOCOMPOSIZE_THIRDSCREEN));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Quarter of screen"),QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));
+        SetCBIndex(CB_SL[i][1],ApplicationConfig->DefaultBlockSL[i].AutoCompo);
+
+        AddItemToFramingCB(CB_BA[i][0],AUTOFRAMING_FULLMAX);
+        AddItemToFramingCB(CB_BA[i][0],AUTOFRAMING_HEIGHTLEFTMAX);
+        AddItemToFramingCB(CB_BA[i][0],AUTOFRAMING_HEIGHTMIDLEMAX);
+        AddItemToFramingCB(CB_BA[i][0],AUTOFRAMING_HEIGHTRIGHTMAX);
+        AddItemToFramingCB(CB_BA[i][0],AUTOFRAMING_WIDTHTOPMAX);
+        AddItemToFramingCB(CB_BA[i][0],AUTOFRAMING_WIDTHMIDLEMAX);
+        AddItemToFramingCB(CB_BA[i][0],AUTOFRAMING_WIDTHBOTTOMMAX);
+        SetCBIndex(CB_BA[i][0],ApplicationConfig->DefaultBlockBA[i].AutoFraming);
+
+        if (i>=3) CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Real image size"),QVariant(AUTOCOMPOSIZE_REALSIZE));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),QVariant(AUTOCOMPOSIZE_FULLSCREEN));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","TV margins"),QVariant(AUTOCOMPOSIZE_TVMARGINS));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Two thirds of screen"),QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Half of screen"),QVariant(AUTOCOMPOSIZE_HALFSCREEN));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Third of screen"),QVariant(AUTOCOMPOSIZE_THIRDSCREEN));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Quarter of screen"),QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));
+        SetCBIndex(CB_BA[i][1],ApplicationConfig->DefaultBlockBA[i].AutoCompo);
     }
 
     //********************************
@@ -285,6 +305,19 @@ DlgApplicationSettings::~DlgApplicationSettings() {
 }
 
 //====================================================================================================================
+
+void DlgApplicationSettings::AddItemToFramingCB(QComboBox *CB,int FraminStyle) {
+    QIcon IconGeoImage;
+    switch (AUTOFRAMINGDEF[FraminStyle].GeometryType) {
+        case AUTOFRAMING_GEOMETRY_CUSTOM :  IconGeoImage=FraminStyle==AUTOFRAMING_CUSTOMUNLOCK?QIcon(AUTOFRAMING_ICON_GEOMETRY_UNLOCKED):
+                                                                                               QIcon(AUTOFRAMING_ICON_GEOMETRY_LOCKED);       break;
+        case AUTOFRAMING_GEOMETRY_PROJECT : IconGeoImage=QIcon(AUTOFRAMING_ICON_GEOMETRY_PROJECT);                                                 break;
+        case AUTOFRAMING_GEOMETRY_IMAGE :   IconGeoImage=QIcon(AUTOFRAMING_ICON_GEOMETRY_IMAGE);                                                   break;
+    }
+    CB->addItem(IconGeoImage,AUTOFRAMINGDEF[FraminStyle].ToolTip,QVariant(FraminStyle));
+}
+
+//====================================================================================================================
 // Call when user click on Ok button
 
 void DlgApplicationSettings::DoAccept() {
@@ -335,23 +368,20 @@ void DlgApplicationSettings::DoAccept() {
 
     ApplicationConfig->DefaultBlock_Text_TextST     =ApplicationConfig->StyleTextCollection.EncodeString(ui->ST_Text_TextCB,-1,-1);
     ApplicationConfig->DefaultBlock_Text_BackGST    =ApplicationConfig->StyleTextBackgroundCollection.EncodeString(ui->ST_Text_BackgroundCB,-1,-1);
-    ApplicationConfig->DefaultBlock_Text_CoordST[0] =ApplicationConfig->StyleCoordinateCollection.EncodeString(ui->ST_Text_Coord43CB,0,-1);
-    ApplicationConfig->DefaultBlock_Text_CoordST[1] =ApplicationConfig->StyleCoordinateCollection.EncodeString(ui->ST_Text_Coord169CB,1,-1);
-    ApplicationConfig->DefaultBlock_Text_CoordST[2] =ApplicationConfig->StyleCoordinateCollection.EncodeString(ui->ST_Text_CoordCineCB,2,-1);
+    ApplicationConfig->DefaultBlock_AutoSizePos     =ui->ST_Text_CoordCB->itemData(ui->ST_Text_CoordCB->currentIndex()).toInt();
+    ApplicationConfig->DefaultBlock_AutoLocking     =ui->ST_Text_LockingCB->itemData(ui->ST_Text_LockingCB->currentIndex()).toInt();
+
     ApplicationConfig->DefaultBlock_Text_ShapeST    =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->ST_Text_ShapeCB,-1,-1);
     ApplicationConfig->DefaultBlockSL_IMG_TextST    =ApplicationConfig->StyleTextCollection.EncodeString(ui->STBlockSL_IMG_TextCB,-1,-1);
     ApplicationConfig->DefaultBlockSL_IMG_ShapeST   =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->STBlockSL_IMG_ShapeCB,-1,-1);
     ApplicationConfig->DefaultBlockBA_IMG_TextST    =ApplicationConfig->StyleTextCollection.EncodeString(ui->STBlockBA_IMG_TextCB,-1,-1);
     ApplicationConfig->DefaultBlockBA_IMG_ShapeST   =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->STBlockBA_IMG_ShapeCB,-1,-1);
 
-    for (int i=0;i<9;i++) for (int j=0;j<3;j++) {
-        ApplicationConfig->DefaultBlockSL_IMG_CoordST[i][j]=ApplicationConfig->StyleCoordinateCollection.EncodeString(CB_SL[i][j],j,i);
-        ApplicationConfig->DefaultBlockBA_IMG_CoordST[i][j]=ApplicationConfig->StyleCoordinateCollection.EncodeString(CB_BA[i][j],j,i);
-    }
-
-    for (int i=0;i<3;i++) {
-        ApplicationConfig->DefaultBlockBA_CLIPARTLOCK[i]=CB_BA_CLIPARTST[i]->currentIndex();
-        ApplicationConfig->DefaultBlockSL_CLIPARTLOCK[i]=CB_SL_CLIPARTST[i]->currentIndex();
+    for (int i=1;i<NBR_IMAGETYPE;i++) for (int j=0;j<1;j++) {
+        ApplicationConfig->DefaultBlockSL[i].AutoFraming=CB_SL[i][0]->itemData(CB_SL[i][0]->currentIndex()).toInt();
+        ApplicationConfig->DefaultBlockSL[i].AutoCompo  =CB_SL[i][1]->itemData(CB_SL[i][1]->currentIndex()).toInt();
+        ApplicationConfig->DefaultBlockBA[i].AutoFraming=CB_BA[i][0]->itemData(CB_BA[i][0]->currentIndex()).toInt();
+        ApplicationConfig->DefaultBlockBA[i].AutoCompo  =CB_BA[i][1]->itemData(CB_BA[i][1]->currentIndex()).toInt();
     }
 
     // RenderDefault part

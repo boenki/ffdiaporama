@@ -142,12 +142,12 @@ int ORDERIMAGENAME[2][NBR_SIZEDEF]={
 
 struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
     {
-        false,CODEC_ID_MJPEG,VCODEC_MJPEG,VCODECST_MJPEG,                                               // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_MJPEG,VCODEC_MJPEG,VCODECST_MJPEG,                                               // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "mjpeg","Motion JPEG",                                                                          // ShortName[50], LongName[200]
         "",                                                                                             // PossibleBitrate
         {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
     },{
-        false,CODEC_ID_MPEG2VIDEO,VCODEC_MPEG,VCODECST_MPEG,                                            // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_MPEG2VIDEO,VCODEC_MPEG,VCODECST_MPEG,                                            // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "mpeg2video","MPEG-2 video",                                                                    // ShortName[50], LongName[200]
         "2000k#3000k#4000k#6000k#8000k#10000k#12000k#15000k#20000k#400k",                               // PossibleBitrate
         {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
@@ -176,7 +176,7 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "20000k"    // 1080p-29.97
         }}
     },{
-        false,CODEC_ID_MPEG4,VCODEC_MPEG4,VCODECST_MPEG4,                                               // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_MPEG4,VCODEC_MPEG4,VCODECST_MPEG4,                                               // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "mpeg4","DivX/XVid/MPEG-4",                                                                     // ShortName[50], LongName[200]
         "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#4500k",                  // PossibleBitrate
         {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
@@ -205,7 +205,7 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "8000k"     // 1080p-29.97
         }}
     },{
-        false,CODEC_ID_H264,VCODEC_H264HQ,VCODECST_H264HQ,                                              // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_H264,VCODEC_H264HQ,VCODECST_H264HQ,                                              // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libx264","High Quality H.264 AVC/MPEG-4 AVC",                                                  // ShortName[50], LongName[200]
         "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#12000k#400k#3500k",    // PossibleBitrate
         {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
@@ -234,7 +234,7 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "8000k",    // 1080p-29.97
         }}
     },{
-        false,CODEC_ID_H264,VCODEC_H264PQ,VCODECST_H264PQ,                                              // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_H264,VCODEC_H264PQ,VCODECST_H264PQ,                                              // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libx264","Phone Quality H.264 AVC/MPEG-4 AVC",                                                 // ShortName[50], LongName[200]
         "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#10000k#400k#3500k",           // PossibleBitrate
         {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
@@ -263,7 +263,7 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "8000k"     // 1080p-29.97
         }}
     },{
-        false,CODEC_ID_VP8,VCODEC_VP8,VCODECST_VP8,                                                     // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_VP8,VCODEC_VP8,VCODECST_VP8,                                                     // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libvpx","WebM-VP8",                                                                            // ShortName[50], LongName[200]
         "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                  // PossibleBitrate
         {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
@@ -292,7 +292,7 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "8000k"     // 1080p-29.97
         }}
     },{
-        false, 22,VCODEC_H263,VCODECST_H263,                                                            // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,22,VCODEC_H263,VCODECST_H263,                                                            // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "flv","Flash Video / Sorenson H.263",                                                           // ShortName[50], LongName[200]
         "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                  // PossibleBitrate
         {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
@@ -321,7 +321,7 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "8000k"     // 1080p-29.97
         }}
     },{
-        false, CODEC_ID_THEORA,VCODEC_THEORA,VCODECST_THEORA,                                           // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_THEORA,VCODEC_THEORA,VCODECST_THEORA,                                           // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libtheora","Theora VP3",                                                                       // ShortName[50], LongName[200]
         "500k#1000k#1200k#1500k#2000k#2500k#3000k#4000k#5000k#6000k#8000k#400k#3500k",                  // PossibleBitrate
         {{                                                                                              // DefaultBitrate[2][NBR_SIZEDEF] - PAL
@@ -350,46 +350,62 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "8000k"     // 1080p-29.97
         }}
     },{
-        false,CODEC_ID_H264,VCODEC_X264LL,VCODECST_X264LL,                                              // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_H264,VCODEC_X264LL,VCODECST_X264LL,                                              // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libx264","x264 lossless",                                                                      // ShortName[50], LongName[200]
+        "",                                                                                             // PossibleBitrate
+        {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
+    },{
+        false,false,CODEC_ID_WMV1,VCODEC_WMV1,VCODECST_WMV1,                                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "wmv1","Windows Media Video 7",                                                                 // ShortName[50], LongName[200]
+        "",                                                                                             // PossibleBitrate
+        {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
+    },{
+        false,false,CODEC_ID_WMV2,VCODEC_WMV2,VCODECST_WMV2,                                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "wmv2","Windows Media Video 8",                                                                 // ShortName[50], LongName[200]
+        "",                                                                                             // PossibleBitrate
+        {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
+    },{
+        false,false,CODEC_ID_WMV3,VCODEC_WMV3,VCODECST_WMV3,                                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        "wmv3","Windows Media Video 9",                                                                 // ShortName[50], LongName[200]
         "",                                                                                             // PossibleBitrate
         {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
     }
 };
 
 struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
-    {false, CODEC_ID_PCM_S16LE,"pcm_s16le",         "WAV (PCM signed 16-bit little-endian)","",     false,"",""},
-    {false, CODEC_ID_MP3,      "libmp3lame",        "MP3 (MPEG-1/2 Audio Layer III)",       "8k#16k#24k#32k#40k#48k#56k#64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k",     false,"","160k"},
-    {false, CODEC_ID_AAC,      "aac",               "AAC-LC (Advanced Audio Codec)",        "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
-    {false, CODEC_ID_AC3,      "ac3",               "AC3 (Doly Digital)",                   "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
-    {false, CODEC_ID_VORBIS,   "vorbis",            "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",     false,"","128k"},
-    {false, CODEC_ID_MP2,      "mp2",               "MP2 (MPEG-1 Audio Layer II)",          "64k#96k#128k#192k#256k#500k",     false,"","128k"},
-    {false, CODEC_ID_AMR_WB,   "libvo_amrwbenc",    "Adaptive Multi-Rate (AMR) Wide-Band",  "6.6k#8.85k#12.65k#14.25k#15.85k#18.25k#19.85k#23.05k#23.85k",     false,"","6.6k"},
-    {false, CODEC_ID_FLAC,     "flac",              "FLAC (Free Lossless Audio Codec)",     "",     false,"",""},
-    {false, CODEC_ID_AMR_NB,   "libopencore_amrnb", "Adaptive Multi-Rate (AMR) NB",         "4750#5150#5900#6700#7400#7950#10200#12200",     false,"","6700"}
+    {false,false, CODEC_ID_PCM_S16LE,"pcm_s16le",         "WAV (PCM signed 16-bit little-endian)","",     false,"",""},
+    {false,false, CODEC_ID_MP3,      "libmp3lame",        "MP3 (MPEG-1/2 Audio Layer III)",       "8k#16k#24k#32k#40k#48k#56k#64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k",     false,"","160k"},
+    {false,false, CODEC_ID_AAC,      "aac",               "AAC-LC (Advanced Audio Codec)",        "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
+    {false,false, CODEC_ID_AC3,      "ac3",               "AC3 (Doly Digital)",                   "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
+    {false,false, CODEC_ID_VORBIS,   "vorbis",            "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",     false,"","128k"},
+    {false,false, CODEC_ID_MP2,      "mp2",               "MP2 (MPEG-1 Audio Layer II)",          "64k#96k#128k#192k#256k#500k",     false,"","128k"},
+    {false,false, CODEC_ID_AMR_WB,   "libvo_amrwbenc",    "Adaptive Multi-Rate (AMR) Wide-Band",  "6.6k#8.85k#12.65k#14.25k#15.85k#18.25k#19.85k#23.05k#23.85k",     false,"","6.6k"},
+    {false,false, CODEC_ID_FLAC,     "flac",              "FLAC (Free Lossless Audio Codec)",     "",     false,"",""},
+    {false,false, CODEC_ID_AMR_NB,   "libopencore_amrnb", "Adaptive Multi-Rate (AMR) NB",         "",     false,"",""},
+    {false,false, CODEC_ID_WMAV1,    "wmav1",             "Windows Media Audio 1",                "",     false,"",""},
+    {false,false, CODEC_ID_WMAV2,    "wmav2",             "Windows Media Audio 2",                "",     false,"",""}
 };
 
 struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
-    {false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libvo_amrwbenc#libopencore_amrnb"},
-    {false, "avi",      "avi",  "AVI file format",              "MJPEG#MPEG#MPEG4#H264HQ#H264PQ",   "pcm_s16le#mp2#libmp3lame#ac3"},
-    {false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA#X264LL","pcm_s16le#libmp3lame#libfaac#aac#libvo_aacenc#ac3#libvorbis#vorbis#flac"},
-    {false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                            "pcm_s16le"},
-    {false, "mp4",      "mp4",  "MP4 file format",              "MPEG4#H264HQ#H264PQ",              "libmp3lame#libfaac#aac#libvo_aacenc"},
-    {false, "mpeg",     "mpg",  "MPEG file format",             "MPEG",                             "mp2#ac3"},
-    {false, "webm",     "webm", "WEBM file format",             "VP8",                              "libvorbis#vorbis"},
-    {false, "flv",      "flv",  "FLV Flash file format 2005",   "H263",                             "libmp3lame"},
-    {false, "flv",      "flv",  "FLV Flash file format 2008",   "H264HQ#H264PQ",                    "libfaac#aac#libvo_aacenc"},
-    {false, "ogg",      "ogv",  "OGV Ogg/Theroa file format",   "THEORA",                           "libvorbis#vorbis"}
+    {false,false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libvo_amrwbenc#libopencore_amrnb"},
+    {false,false, "avi",      "avi",  "AVI file format",              "MJPEG#MPEG#MPEG4#H264HQ#H264PQ",   "pcm_s16le#mp2#libmp3lame#ac3"},
+    {false,false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA#X264LL","pcm_s16le#libmp3lame#libfaac#aac#libvo_aacenc#ac3#libvorbis#vorbis#flac"},
+    {false,false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                            "pcm_s16le"},
+    {false,false, "mp4",      "mp4",  "MP4 file format",              "MPEG4#H264HQ#H264PQ",              "libmp3lame#libfaac#aac#libvo_aacenc"},
+    {false,false, "mpeg",     "mpg",  "MPEG file format",             "MPEG",                             "mp2#ac3"},
+    {false,false, "webm",     "webm", "WEBM file format",             "VP8",                              "libvorbis#vorbis"},
+    {false,false, "flv",      "flv",  "FLV Flash file format 2005",   "H263",                             "libmp3lame"},
+    {false,false, "flv",      "flv",  "FLV Flash file format 2008",   "H264HQ#H264PQ",                    "libfaac#aac#libvo_aacenc"},
+    {false,false, "ogg",      "ogv",  "OGV Ogg/Theroa file format",   "THEORA",                           "libvorbis#vorbis"},
+    {false,false, "asf",      "wmv",  "ASF/Window Media Video format","",                                 ""}
 };
-// Note : depending on ffmpeg version :
-//       => aac codec is libfaac or aac
 
 struct sFormatDef AUDIOFORMATDEF[NBR_AUDIOFORMATDEF]={
-    {false, "flac", "flac", "FLAC (Free Lossless Audio Codec)",         "",         "flac"},
-    {false, "mp4",  "m4a",  "M4A file format",                          "",         "libfaac#aac#libvo_aacenc"},
-    {false, "mp3",  "mp3",  "MP3 (MPEG-1/2 Audio Layer III)",           "",         "libmp3lame"},
-    {false, "ogg",  "ogg",  "OGG (Vorbis)",                             "",         "libvorbis#vorbis"},
-    {false, "wav",  "wav",  "WAV (PCM signed 16-bit little-endian)",    "",         "pcm_s16le"}
+    {false,false, "flac", "flac", "FLAC (Free Lossless Audio Codec)",         "",         "flac"},
+    {false,false, "mp4",  "m4a",  "M4A file format",                          "",         "libfaac#aac#libvo_aacenc"},
+    {false,false, "mp3",  "mp3",  "MP3 (MPEG-1/2 Audio Layer III)",           "",         "libmp3lame"},
+    {false,false, "ogg",  "ogg",  "OGG (Vorbis)",                             "",         "libvorbis#vorbis"},
+    {false,false, "wav",  "wav",  "WAV (PCM signed 16-bit little-endian)",    "",         "pcm_s16le"}
 };
 
 //====================================================================================================================
@@ -698,9 +714,13 @@ bool cDeviceModelList::Initffmpeg(QString &BinaryEncoderPath) {
             // Check codec to know if they was finded
             AVCodec *p=NULL;
             while ((p=av_codec_next(p))) {
-                if ((p->encode!=NULL)
-                        #ifdef LIBAV_08
-                        ||(p->encode2!=NULL)
+                if (
+                        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(53,35,0)
+                        (p->encode!=NULL)
+                        #elif LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,59,0)
+                        (p->encode!=NULL)||(p->encode2!=NULL)
+                        #else
+                        (p->encode2!=NULL)
                         #endif
                    ) {
                     if (p->type==AVMEDIA_TYPE_AUDIO) {
@@ -718,6 +738,28 @@ bool cDeviceModelList::Initffmpeg(QString &BinaryEncoderPath) {
                     if (p->type==AVMEDIA_TYPE_VIDEO) {
                         for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(!VIDEOCODECDEF[i].IsFind)) {
                             VIDEOCODECDEF[i].IsFind=true;
+                            strcpy(VIDEOCODECDEF[i].ShortName,p->name);
+                        }
+                        // special case for mpeg4 codec : if libxvid is found, prefer it to default mpeg4 internal encoder
+                        if (QString(p->name)==QString("libxvid")) strcpy(VIDEOCODECDEF[2].ShortName,p->name);
+                    }
+                }
+                if (p->decode!=NULL) {
+                    if (p->type==AVMEDIA_TYPE_AUDIO) {
+                        for (int i=0;i<NBR_AUDIOCODECDEF;i++) if ((p->id==AUDIOCODECDEF[i].Codec_id)&&(!AUDIOCODECDEF[i].IsRead)) {
+                            AUDIOCODECDEF[i].IsRead=true;
+                            //strcpy(AUDIOCODECDEF[i].ShortName,p->name);
+                        }
+                        // special case for vorbis codec : if libvorbis is found, prefer it to default internal vorbis encoder
+                        if (QString(p->name)==QString("libvorbis")) strcpy(AUDIOCODECDEF[4].ShortName,p->name);
+                        // special case for aac codec : if libfaac is found, prefer it to default internal aac encoder
+                        if (QString(p->name)==QString("libfaac")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
+                        // special case for aac codec : if libvo_aacenc is found, prefer it to default internal aac encoder (ffmpeg 0.7)
+                        if (QString(p->name)==QString("libvo_aacenc")) strcpy(AUDIOCODECDEF[2].ShortName,p->name);
+                    }
+                    if (p->type==AVMEDIA_TYPE_VIDEO) {
+                        for (int i=0;i<NBR_VIDEOCODECDEF;i++) if ((p->id==VIDEOCODECDEF[i].Codec_id)&&(!VIDEOCODECDEF[i].IsRead)) {
+                            VIDEOCODECDEF[i].IsRead=true;
                             strcpy(VIDEOCODECDEF[i].ShortName,p->name);
                         }
                         // special case for mpeg4 codec : if libxvid is found, prefer it to default mpeg4 internal encoder
@@ -768,6 +810,8 @@ bool cDeviceModelList::Initffmpeg(QString &BinaryEncoderPath) {
                         if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) IsFindAudioCodec=true;
                     }
                     FORMATDEF[i].IsFind=IsFindAudioCodec && IsFindVideoCodec;
+                    if (i==10) FORMATDEF[i].IsRead=(AUDIOCODECDEF[9].IsFind || AUDIOCODECDEF[9].IsRead || AUDIOCODECDEF[10].IsFind || AUDIOCODECDEF[10].IsRead)&&
+                                                   (VIDEOCODECDEF[9].IsFind || VIDEOCODECDEF[9].IsRead || VIDEOCODECDEF[10].IsFind || VIDEOCODECDEF[10].IsRead || VIDEOCODECDEF[11].IsFind || VIDEOCODECDEF[11].IsRead);
                 }
             }
 

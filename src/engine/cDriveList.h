@@ -56,6 +56,7 @@ public:
     cBaseApplicationConfig  *ApplicationConfig;
 
     cDriveList(cBaseApplicationConfig *ApplicationConfig);
+    virtual             ~cDriveList() {}
 
     virtual void        UpdateDriveList();
     virtual QIcon       GetFolderIcon(QString FilePath);

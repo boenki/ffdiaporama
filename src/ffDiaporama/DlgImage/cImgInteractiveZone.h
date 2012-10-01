@@ -31,6 +31,11 @@ enum TRANSFOTYPE {NOTYETDEFINED,MOVEBLOCK,RESIZEUPLEFT,RESIZEDOWNLEFT,RESIZEUPRI
 class cImgInteractiveZone : public QWidget {
 Q_OBJECT
 public:
+    struct sDualQReal {
+        qreal   Screen;
+        qreal   Image;
+    };
+
     int                 MagneticRuler;
 
     cCompositionObject  *CompoObject;
@@ -40,12 +45,10 @@ public:
 
     QImage              *ForegroundImage;
     QImage              *CachedImage;
-    qreal               dmax;
-    qreal               Hyp,DstX,DstY,DstW,DstH;
-    qreal               maxw,maxh;
+    sDualQReal          maxw,maxh,Hyp;
 
     QRectF              SceneRect;
-    QRectF              CurSelRect;
+    QRectF              CurScrSelRect,CurImgSelRect;
     bool                IsCapture;                      // True if there is an active capture
     QPoint              CapturePos;
 
@@ -53,10 +56,11 @@ public:
     TRANSFOTYPE         TransfoType;
     qreal               Move_X,Move_Y;                  // Blocks move
     qreal               Scale_X,Scale_Y;                // Blocks resize
+    qreal               Ratio_X,Ratio_Y;
 
     // Rulers
-    QList<qreal>        MagnetVert;
-    QList<qreal>        MagnetHoriz;
+    QList<sDualQReal>   MagnetVert;
+    QList<sDualQReal>   MagnetHoriz;
 
     explicit            cImgInteractiveZone(QWidget *parent = 0);
                         ~cImgInteractiveZone();
@@ -67,22 +71,22 @@ public:
 protected:
     virtual void        paintEvent(QPaintEvent *event);
 
-    virtual void	mouseMoveEvent(QMouseEvent *event);
-    virtual void	mousePressEvent(QMouseEvent *event);
-    virtual void	mouseReleaseEvent(QMouseEvent *event);
-    virtual void	keyPressEvent(QKeyEvent *event);
-    virtual void	keyReleaseEvent(QKeyEvent *event);
+    virtual void        mouseMoveEvent(QMouseEvent *event);
+    virtual void        mousePressEvent(QMouseEvent *event);
+    virtual void        mouseReleaseEvent(QMouseEvent *event);
+    virtual void        keyPressEvent(QKeyEvent *event);
+    virtual void        keyReleaseEvent(QKeyEvent *event);
 
 signals:
-    void    TransformBlock(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
-    void    DisplayTransformBlock(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
+    void                TransformBlock(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
+    void                DisplayTransformBlock(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
 
 private:
-    bool    IsInRect(QPoint Pos,QRect Rect);
-    bool    IsInSelectedRect(QPoint Pos);
-    void    ManageCursor(QPoint Pos,Qt::KeyboardModifiers Modifiers);
-    QRect   ComputeNewCurSelRect();
-    void    DrawSelect(QPainter &Painter,QRectF Rect,bool WithHandles);
+    bool                IsInRect(QPointF Pos,QRectF Rect);
+    bool                IsInSelectedRect(QPointF Pos);
+    void                ManageCursor(QPoint Pos,Qt::KeyboardModifiers Modifiers);
+    void                ComputeNewCurSelRect(QRectF &ScrRect,QRectF &ImgRect);
+    void                DrawSelect(QPainter &Painter,QRectF Rect,bool WithHandles);
 };
 
 #endif // CIMGINTERACTIVEZONE_H

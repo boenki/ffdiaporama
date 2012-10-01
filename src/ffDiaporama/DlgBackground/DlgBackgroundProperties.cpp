@@ -327,8 +327,7 @@ void DlgBackgroundProperties::s_SelectFile() {
     } else {
         QImage *Image=DiaporamaObject->BackgroundBrush->Image->ImageAt(true,&DiaporamaObject->BackgroundBrush->Image->BrushFileTransform);
         if (Image) {
-            DiaporamaObject->BackgroundBrush->InitDefaultFramingStyle(true,double(DiaporamaObject->Parent->InternalHeight)/double(DiaporamaObject->Parent->InternalWidth));
-            DiaporamaObject->BackgroundBrush->ApplyStyle(true,DiaporamaObject->BackgroundBrush->DefaultFramingF); // Adjust to Full
+            DiaporamaObject->BackgroundBrush->ApplyAutoFraming(AUTOFRAMING_FULLMAX,1);
             delete Image;
         } else {
             delete DiaporamaObject->BackgroundBrush->Image;

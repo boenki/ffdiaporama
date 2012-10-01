@@ -33,14 +33,19 @@ enum TRANSFOTYPE {NOTYETDEFINED,MOVEBLOCK,RESIZEUPLEFT,RESIZEDOWNLEFT,RESIZEUPRI
 class cInteractiveZone : public QWidget {
 Q_OBJECT
 public:
+    struct sDualQReal {
+        qreal   Screen;
+        qreal   Block;
+    };
+
     int                 MagneticRuler;
     cCustomBlockTable   *BlockTable;
     cDiaporamaObject    *DiaporamaObject;
     int                 CurrentShotNbr;                // Current shot number
     QImage              *BackgroundImage;
     QImage              *ForegroundImage;
-    QRectF              SceneRect;
-    QRectF              CurSelRect;
+    QRectF              SceneRect,ScreenRect;
+    QRectF              FullSelRect,CurSelRect,CurSelScreenRect;
     bool                IsCapture;                      // True if there is an active capture
     QPoint              CapturePos;
     QList<bool>         IsSelected;
@@ -49,13 +54,14 @@ public:
     bool                SelectionHaveLockBlock;         // True if selection contains block with SameAsPreviousShot propertie
 
     // Selection rectangle properties
-    double              AspectRatio;                    // Aspect ratio of the (multi)selection rectangle
-    double              Sel_X,Sel_Y,Sel_W,Sel_H;        // Position and size of the current (multi)selection rectangle
+    qreal               AspectRatio;                    // Aspect ratio of the (multi)selection rectangle
+    qreal               Sel_X,Sel_Y,Sel_W,Sel_H;        // Position and size of the current (multi)selection rectangle
+    qreal               RSel_X,RSel_Y,RSel_W,RSel_H;    // Real position and size of the current (multi)selection rectangle - without shape adjustement
 
     // Transformations
     TRANSFOTYPE         TransfoType;
-    double              Move_X,Move_Y;                  // Blocks move
-    double              Scale_X,Scale_Y;                // Blocks resize
+    qreal               Move_X,Move_Y;                  // Blocks move
+    qreal               Scale_X,Scale_Y;                // Blocks resize
 
     explicit cInteractiveZone(QWidget *parent = 0);
     ~cInteractiveZone();
@@ -73,25 +79,29 @@ protected:
     virtual void	keyReleaseEvent(QKeyEvent *event);
 
 signals:
-    void    StartSelectionChange();
-    void    EndSelectionChange();
-    void    RightClickEvent(QMouseEvent *ev);
-    void    DoubleClickEvent(QMouseEvent *ev);
-    void    TransformBlock(double Move_X,double Move_Y,double Scale_X,double Scale_Y,double Sel_X,double Sel_Y,double Sel_W,double Sel_H);
-    void    DisplayTransformBlock(double Move_X,double Move_Y,double Scale_X,double Scale_Y,double Sel_X,double Sel_Y,double Sel_W,double Sel_H);
+    void            StartSelectionChange();
+    void            EndSelectionChange();
+    void            RightClickEvent(QMouseEvent *ev);
+    void            DoubleClickEvent(QMouseEvent *ev);
+    void            TransformBlock(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y,qreal Sel_X,qreal Sel_Y,qreal Sel_W,qreal Sel_H);
+    void            DisplayTransformBlock(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y,qreal Sel_X,qreal Sel_Y,qreal Sel_W,qreal Sel_H);
 
 public slots:
-    void    DifferedEmitRightClickEvent();
-    void    DifferedEmitDoubleClickEvent();
+    void            DifferedEmitRightClickEvent();
+    void            DifferedEmitDoubleClickEvent();
 
 private:
-    bool    IsInRect(QPoint Pos,QRect Rect);
-    bool    IsInSelectedRect(QPoint Pos);
-    void    GetForDisplayUnit(double &DisplayW,double &DisplayH);
-    void    UpdateIsSelected();
-    void    ManageCursor(QPoint Pos,Qt::KeyboardModifiers Modifiers);
-    QRect   ComputeNewCurSelRect();
-    void    DrawSelect(QPainter &Painter,QRectF Rect,bool WithHandles);
+    sDualQReal      PrepDualQReal(qreal Screen,qreal Block);
+    bool            IsInRect(QPointF Pos,QRectF Rect);
+    bool            IsInSelectedRect(QPointF Pos);
+    void            GetForDisplayUnit(double &DisplayW,double &DisplayH);
+    void            UpdateIsSelected();
+    void            ManageCursor(QPointF Pos,Qt::KeyboardModifiers Modifiers);
+    void            ComputeRulers(QList<sDualQReal> &MagnetVert,QList<sDualQReal> &MagnetHoriz);
+    QRectF          ComputeNewCurSelRect();
+    QRectF          ComputeNewCurSelScreenRect();
+    QRectF          ApplyModifAndScaleFactors(int Block,QRectF Ref,bool ApplyShape);
+    void            DrawSelect(QPainter &Painter,QRectF Rect,bool WithHandles);
 };
 
 #endif // CINTERACTIVEZONE_H

@@ -181,15 +181,15 @@ void DlgCheckConfig::DoInitDialog() {
 
     // libav
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","libav Audio Codecs")));
-    for (int i=0;i<NBR_AUDIOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(AUDIOCODECDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(AUDIOCODECDEF[i].LongName)+" "+(AUDIOCODECDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available")+QString(" - Codec=%1").arg(QString(AUDIOCODECDEF[i].ShortName)):QApplication::translate("DlgCheckConfig","not available"))));
+    for (int i=0;i<NBR_AUDIOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(AUDIOCODECDEF[i].IsFind?QIcon(ICON_GREEN):AUDIOCODECDEF[i].IsRead?QIcon(ICON_YELLOW):QIcon(ICON_RED),QString(AUDIOCODECDEF[i].LongName)+" "+(AUDIOCODECDEF[i].IsFind||AUDIOCODECDEF[i].IsRead?QApplication::translate("DlgCheckConfig","available")+QString(" - Codec=%1").arg(QString(AUDIOCODECDEF[i].ShortName)):QApplication::translate("DlgCheckConfig","not available"))));
 
     ui->ListWidget->addItem(new QListWidgetItem(""));
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","libav Video Codecs")));
-    for (int i=0;i<NBR_VIDEOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(VIDEOCODECDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(VIDEOCODECDEF[i].LongName)+" "+(VIDEOCODECDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available")+QString(" - Codec=%1").arg(QString(VIDEOCODECDEF[i].ShortName)):QApplication::translate("DlgCheckConfig","not available"))));
+    for (int i=0;i<NBR_VIDEOCODECDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(VIDEOCODECDEF[i].IsFind?QIcon(ICON_GREEN):VIDEOCODECDEF[i].IsRead?QIcon(ICON_YELLOW):QIcon(ICON_RED),QString(VIDEOCODECDEF[i].LongName)+" "+(VIDEOCODECDEF[i].IsFind||VIDEOCODECDEF[i].IsRead?QApplication::translate("DlgCheckConfig","available")+QString(" - Codec=%1").arg(QString(VIDEOCODECDEF[i].ShortName)):QApplication::translate("DlgCheckConfig","not available"))));
 
     ui->ListWidget->addItem(new QListWidgetItem(""));
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","libav Container Formats")));
-    for (int i=0;i<NBR_FORMATDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(FORMATDEF[i].IsFind?QIcon(ICON_GREEN):QIcon(ICON_RED),QString(FORMATDEF[i].LongName)+" "+(FORMATDEF[i].IsFind?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
+    for (int i=0;i<NBR_FORMATDEF;i++) ui->ListWidget->addItem(new QListWidgetItem(FORMATDEF[i].IsFind?QIcon(ICON_GREEN):FORMATDEF[i].IsRead?QIcon(ICON_YELLOW):QIcon(ICON_RED),QString(FORMATDEF[i].LongName)+" "+(FORMATDEF[i].IsFind||FORMATDEF[i].IsRead?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
 
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
