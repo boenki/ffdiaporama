@@ -181,8 +181,8 @@ void cImgInteractiveZone::DrawSelect(QPainter &Painter,QRectF Rect,bool WithHand
 void cImgInteractiveZone::RefreshDisplay() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cImgInteractiveZone::RefreshDisplay");
     if (!CurrentBrush) return;
-    int         ImgWidth =CurrentBrush->Image?CurrentBrush->Image->ImageWidth :CurrentBrush->Video?CurrentBrush->Video->ImageWidth:0;
-    int         ImgHeight=CurrentBrush->Image?CurrentBrush->Image->ImageHeight:CurrentBrush->Video?CurrentBrush->Video->ImageHeight:0;
+    int         ImgWidth =CachedImage->width();     //CurrentBrush->Image?CurrentBrush->Image->ImageWidth :CurrentBrush->Video?CurrentBrush->Video->ImageWidth:0;
+    int         ImgHeight=CachedImage->height();    //CurrentBrush->Image?CurrentBrush->Image->ImageHeight:CurrentBrush->Video?CurrentBrush->Video->ImageHeight:0;
     sDualQReal  x1,x2,x3,x4,y1,y2,y3,y4,Center;
     QImage      *SourceImage=NULL;
     sDualQReal  rx,ry,xtab[4],ytab[4];
