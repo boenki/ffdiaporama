@@ -592,12 +592,14 @@ void MainWindow::showEvent(QShowEvent *) {
         ui->BrowserWidget->restoreState(QByteArray::fromHex(ApplicationConfig->BrowserWidgetSplitter.toUtf8()));
         ApplicationConfig->MainWinWSP->ApplyToWindow(this);     // Restore window position
         if (ApplicationConfig->MainWinWSP->IsMaximized) QTimer::singleShot(LATENCY,this,SLOT(DoMaximized()));
+        #ifndef DEBUG_MODE // Check it only if release mode
         // Start a network process to give last ffdiaporama version from internet web site
         QNetworkAccessManager *mNetworkManager=new QNetworkAccessManager(this);
         connect(mNetworkManager,SIGNAL(finished(QNetworkReply*)),this,SLOT(s_Event_NetworkReply(QNetworkReply*)));
         QUrl            url(BUILDVERSION_WEBURL);
         QNetworkReply   *reply  = mNetworkManager->get(QNetworkRequest(url));
         reply->deleteLater();
+        #endif
         // Set player size and pos
         SetTimelineHeight();
     }

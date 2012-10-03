@@ -24,6 +24,7 @@ unix {
         UI_HEADERS_DIR  += ../../../debugbuild/src/$$TARGET
         UI_SOURCES_DIR  += ../../../debugbuild/src/$$TARGET
         INCLUDEPATH     += ../../../debugbuild/src/$$TARGET
+        DEFINES         += DEBUG_MODE
     }
 
     INCLUDEPATH += /usr/include/ffmpeg/                                 # Specific for Fedora
@@ -49,6 +50,7 @@ win32 {
         UI_DIR          += ..\\..\\..\\windebugbuild\\src\\$$TARGET
         UI_HEADERS_DIR  += ..\\..\\..\\windebugbuild\\src\\$$TARGET
         UI_SOURCES_DIR  += ..\\..\\..\\windebugbuild\\src\\$$TARGET
+        DEFINES         += DEBUG_MODE
     }
 
     INCLUDEPATH += C:\\Qt\\libav-win32\\usr\\include                        #------ libav library path
