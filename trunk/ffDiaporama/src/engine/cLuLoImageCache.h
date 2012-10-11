@@ -30,7 +30,6 @@
 #include <QList>
 
 // Include some common various class
-#include "cFilterTransformObject.h"
 #include "cCustomIcon.h"
 
 #define PREVIEWMAXHEIGHT    1080         // Max height for preview image
@@ -83,7 +82,7 @@ public:
     qlonglong               MemoryUsed();
 
     // Find image object corresponding to FileName and filter
-    cLuLoImageCacheObject   *FindObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop);
+    cLuLoImageCacheObject   *FindObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop);
 
     // Find video image object corresponding to FileName and position
     cLuLoImageCacheObject   *FindObject(cCustomIcon *Video,int Position,bool Smoothing,bool SetAtTop);

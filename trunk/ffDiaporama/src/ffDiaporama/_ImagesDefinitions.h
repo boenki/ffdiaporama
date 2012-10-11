@@ -25,7 +25,6 @@
 #include "../engine/_GlobalDefines.h"
 
 // Include some common various class
-#include "../engine/cFilterTransformObject.h"
 #include "../engine/cLuLoImageCache.h"
 #include "../engine/cBaseMediaFile.h"
 #include "../engine/cSoundBlockList.h"

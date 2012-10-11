@@ -139,19 +139,19 @@ void AutoFramingDefInit() {
         case AUTOFRAMING_CUSTOMIMGLOCK  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Custom size - Image geometry"),false,               AUTOFRAMING_GEOMETRY_IMAGE);    break;
         case AUTOFRAMING_CUSTOMPRJLOCK  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Custom size - Project geometry"),false,             AUTOFRAMING_GEOMETRY_PROJECT);  break;
         case AUTOFRAMING_FULLMAX        :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Full image"),false,                                 AUTOFRAMING_GEOMETRY_IMAGE);    break;
-        case AUTOFRAMING_FULLMIN        :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Full image - inside"),true,                         AUTOFRAMING_GEOMETRY_IMAGE);    break;
+        case AUTOFRAMING_FULLMIN        :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Full inner image"),true,                            AUTOFRAMING_GEOMETRY_IMAGE);    break;
         case AUTOFRAMING_HEIGHTLEFTMAX  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - to the left"),false,               AUTOFRAMING_GEOMETRY_PROJECT);  break;
-        case AUTOFRAMING_HEIGHTLEFTMIN  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - to the left - inside"),true,       AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_HEIGHTLEFTMIN  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project inner height - to the left"),true,          AUTOFRAMING_GEOMETRY_PROJECT);  break;
         case AUTOFRAMING_HEIGHTMIDLEMAX :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - in the center"),false,             AUTOFRAMING_GEOMETRY_PROJECT);  break;
-        case AUTOFRAMING_HEIGHTMIDLEMIN :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - in the center - inside"),true,     AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_HEIGHTMIDLEMIN :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project inner height - in the center"),true,        AUTOFRAMING_GEOMETRY_PROJECT);  break;
         case AUTOFRAMING_HEIGHTRIGHTMAX :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - to the right"),false,              AUTOFRAMING_GEOMETRY_PROJECT);  break;
-        case AUTOFRAMING_HEIGHTRIGHTMIN :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project height - to the right - inside"),true,      AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_HEIGHTRIGHTMIN :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project inner height - to the right"),true,         AUTOFRAMING_GEOMETRY_PROJECT);  break;
         case AUTOFRAMING_WIDTHTOPMAX    :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - at the top"),false,                 AUTOFRAMING_GEOMETRY_PROJECT);  break;
-        case AUTOFRAMING_WIDTHTOPMIN    :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - at the top - inside"),true,         AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_WIDTHTOPMIN    :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project inner width - at the top"),true,            AUTOFRAMING_GEOMETRY_PROJECT);  break;
         case AUTOFRAMING_WIDTHMIDLEMAX  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - in the middle"),false,              AUTOFRAMING_GEOMETRY_PROJECT);  break;
-        case AUTOFRAMING_WIDTHMIDLEMIN  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - in the middle - inside"),true,      AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_WIDTHMIDLEMIN  :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project inner width - in the middle"),true,         AUTOFRAMING_GEOMETRY_PROJECT);  break;
         case AUTOFRAMING_WIDTHBOTTOMMAX :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - at the bottom"),false,              AUTOFRAMING_GEOMETRY_PROJECT);  break;
-        case AUTOFRAMING_WIDTHBOTTOMMIN :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project width - at the bottom - inside"),true,      AUTOFRAMING_GEOMETRY_PROJECT);  break;
+        case AUTOFRAMING_WIDTHBOTTOMMIN :   AUTOFRAMINGDEF[i]=cAutoFramingDef(QApplication::translate("Framing styles","Project inner width - at the bottom"),true,         AUTOFRAMING_GEOMETRY_PROJECT);  break;
     }
 }
 
@@ -921,7 +921,7 @@ QList<QPolygonF> ComputePolygon(int BackgroundForm,qreal left,qreal top,qreal wi
 }
 
 QRectF PolygonToRectF(QList<QPolygonF> Polygon) {
-    qreal x1,x2,y1,y2;
+    qreal x1=0,x2=0,y1=0,y2=0;
     if ((Polygon.count()==0)||(Polygon.at(0).toList().count()==0)) return QRectF();
     for (int j=0;j<Polygon.count();j++) {
         QList<QPointF> List=Polygon.at(j).toList();
@@ -1060,6 +1060,9 @@ cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,
     LockGeometry        =false;
     AspectRatio         =1;
     FullFilling         =false;
+    BlurSigma           =0;
+    BlurRadius          =5;
+    OnOffFilter         =0;
 }
 
 //====================================================================================================================
@@ -1114,13 +1117,13 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 if (PreviewMode) LN_Image=ImageObject->CachePreviewImage;
                     else         LN_Image=ImageObject->CacheRenderImage;
                 if (LN_Image) RenderImage=new QImage(LN_Image->copy());
-                    else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
+                    else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
                 if (!LN_Image) {
                     if (PreviewMode)    ImageObject->CachePreviewImage=new QImage(RenderImage->copy());
                         else            ImageObject->CacheRenderImage=new QImage(RenderImage->copy());
                 }
-            } else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
-        } else if (Image) RenderImage=Image->ImageAt(PreviewMode,&Image->BrushFileTransform);
+            } else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
+        } else if (Image) RenderImage=Image->ImageAt(PreviewMode);
 
         QBrush *Ret=NULL;
 
@@ -1143,20 +1146,28 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 double  TheGreen        =Green;
                 double  TheBlue         =Blue;
                 double  TheAspectRatio  =AspectRatio;
+                double  TheBlurSigma    =BlurSigma;
+                double  TheBlurRadius   =BlurRadius;
+
+                int     TheOnOffFilter  =OnOffFilter;
+                bool    ProgressifOnOffFilter=false;
 
                 // Adjust values depending on PctDone and previous Filter (if exist)
                 if (PreviousBrush) {
-                    if (PreviousBrush->X!=TheXFactor)                  TheXFactor      =PreviousBrush->X+(TheXFactor-PreviousBrush->X)*PctDone;
-                    if (PreviousBrush->Y!=TheYFactor)                  TheYFactor      =PreviousBrush->Y+(TheYFactor-PreviousBrush->Y)*PctDone;
-                    if (PreviousBrush->ZoomFactor!=TheZoomFactor)      TheZoomFactor   =PreviousBrush->ZoomFactor+(TheZoomFactor-PreviousBrush->ZoomFactor)*PctDone;
-                    if (PreviousBrush->ImageRotation!=TheRotateFactor) TheRotateFactor =PreviousBrush->ImageRotation+(TheRotateFactor-PreviousBrush->ImageRotation)*PctDone;
-                    if (PreviousBrush->Brightness!=TheBrightness)      TheBrightness   =PreviousBrush->Brightness+(TheBrightness-PreviousBrush->Brightness)*PctDone;
-                    if (PreviousBrush->Contrast!=TheContrast)          TheContrast     =PreviousBrush->Contrast+(TheContrast-PreviousBrush->Contrast)*PctDone;
-                    if (PreviousBrush->Gamma!=TheGamma)                TheGamma        =PreviousBrush->Gamma+(TheGamma-PreviousBrush->Gamma)*PctDone;
-                    if (PreviousBrush->Red!=TheRed)                    TheRed          =PreviousBrush->Red+(TheRed-PreviousBrush->Red)*PctDone;
-                    if (PreviousBrush->Green!=TheGreen)                TheGreen        =PreviousBrush->Green+(TheGreen-PreviousBrush->Green)*PctDone;
-                    if (PreviousBrush->Blue!=TheBlue)                  TheBlue         =PreviousBrush->Blue+(TheBlue-PreviousBrush->Blue)*PctDone;
-                    if (PreviousBrush->AspectRatio!=TheAspectRatio)    TheAspectRatio  =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
+                    if (PreviousBrush->X!=TheXFactor)                   TheXFactor      =PreviousBrush->X+(TheXFactor-PreviousBrush->X)*PctDone;
+                    if (PreviousBrush->Y!=TheYFactor)                   TheYFactor      =PreviousBrush->Y+(TheYFactor-PreviousBrush->Y)*PctDone;
+                    if (PreviousBrush->ZoomFactor!=TheZoomFactor)       TheZoomFactor   =PreviousBrush->ZoomFactor+(TheZoomFactor-PreviousBrush->ZoomFactor)*PctDone;
+                    if (PreviousBrush->ImageRotation!=TheRotateFactor)  TheRotateFactor =PreviousBrush->ImageRotation+(TheRotateFactor-PreviousBrush->ImageRotation)*PctDone;
+                    if (PreviousBrush->Brightness!=TheBrightness)       TheBrightness   =PreviousBrush->Brightness+(TheBrightness-PreviousBrush->Brightness)*PctDone;
+                    if (PreviousBrush->Contrast!=TheContrast)           TheContrast     =PreviousBrush->Contrast+(TheContrast-PreviousBrush->Contrast)*PctDone;
+                    if (PreviousBrush->Gamma!=TheGamma)                 TheGamma        =PreviousBrush->Gamma+(TheGamma-PreviousBrush->Gamma)*PctDone;
+                    if (PreviousBrush->Red!=TheRed)                     TheRed          =PreviousBrush->Red+(TheRed-PreviousBrush->Red)*PctDone;
+                    if (PreviousBrush->Green!=TheGreen)                 TheGreen        =PreviousBrush->Green+(TheGreen-PreviousBrush->Green)*PctDone;
+                    if (PreviousBrush->Blue!=TheBlue)                   TheBlue         =PreviousBrush->Blue+(TheBlue-PreviousBrush->Blue)*PctDone;
+                    if (PreviousBrush->AspectRatio!=TheAspectRatio)     TheAspectRatio  =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
+                    if (PreviousBrush->BlurSigma!=TheBlurSigma)         TheBlurSigma    =PreviousBrush->BlurSigma+(TheBlurSigma-PreviousBrush->BlurSigma)*PctDone;
+                    if (PreviousBrush->BlurRadius!=TheBlurRadius)       TheBlurRadius   =PreviousBrush->BlurRadius+(TheBlurRadius-PreviousBrush->BlurRadius)*PctDone;;
+                    if (PreviousBrush->OnOffFilter!=TheOnOffFilter)     ProgressifOnOffFilter=true;
                 }
 
                 // Prepare values from sourceimage size
@@ -1200,19 +1211,49 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
 
                 // Apply correction filters to DestImage
                 fmt_filters::image img(NewRenderImage.bits(),NewRenderImage.width(),NewRenderImage.height());
-                if (TheBrightness!=0)                           fmt_filters::brightness(img,TheBrightness);
-                if (TheContrast!=0)                             fmt_filters::contrast(img,TheContrast);
-                if (TheGamma!=1)                                fmt_filters::gamma(img,TheGamma);
-                if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))   fmt_filters::colorize(img,TheRed,TheGreen,TheBlue);
+                if (TheBrightness!=0)                                           fmt_filters::brightness(img,TheBrightness);
+                if (TheContrast!=0)                                             fmt_filters::contrast(img,TheContrast);
+                if (TheGamma!=1)                                                fmt_filters::gamma(img,TheGamma);
+                if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))                   fmt_filters::colorize(img,TheRed,TheGreen,TheBlue);
+                if (TheBlurSigma<0)                                             fmt_filters::blur(img,TheBlurRadius,-TheBlurSigma);
+                if (TheBlurSigma>0)                                             fmt_filters::sharpen(img,TheBlurRadius,TheBlurSigma);
 
-                if (!NewRenderImage.isNull()) Ret=new QBrush(NewRenderImage);
+                if ((OnOffFilter!=0)||((PreviousBrush!=NULL)&&(PreviousBrush->OnOffFilter!=0))) {
+                    QImage PreviousImage=NewRenderImage.copy();
+                    if (OnOffFilter!=0) {
+                        // Apply previous filter to image
+                        if ((OnOffFilter & FilterDespeckle)!=0)                 fmt_filters::despeckle(img);
+                        if ((OnOffFilter & FilterEqualize)!=0)                  fmt_filters::equalize(img);
+                        if ((OnOffFilter & FilterGray)!=0)                      fmt_filters::gray(img);
+                        if ((OnOffFilter & FilterNegative)!=0)                  fmt_filters::negative(img);
+                        if ((OnOffFilter & FilterEmboss)!=0)                    fmt_filters::emboss(img,10,1);
+                    }
+                    if (ProgressifOnOffFilter) {
+                        // Apply previous filter to copied image
+                        fmt_filters::image PreviousImg(PreviousImage.bits(),PreviousImage.width(),PreviousImage.height());
+                        if ((PreviousBrush->OnOffFilter & FilterDespeckle)!=0)  fmt_filters::despeckle(PreviousImg);
+                        if ((PreviousBrush->OnOffFilter & FilterEqualize)!=0)   fmt_filters::equalize(PreviousImg);
+                        if ((PreviousBrush->OnOffFilter & FilterGray)!=0)       fmt_filters::gray(PreviousImg);
+                        if ((PreviousBrush->OnOffFilter & FilterNegative)!=0)   fmt_filters::negative(PreviousImg);
+                        if ((PreviousBrush->OnOffFilter & FilterEmboss)!=0)     fmt_filters::emboss(PreviousImg,10,1);
+
+                        // Mix images
+                        QPainter P;
+                        P.begin(&PreviousImage);
+                        P.setOpacity(PctDone);
+                        P.drawImage(0,0,NewRenderImage);
+                        P.setOpacity(1);
+                        P.end();
+                        if (!PreviousImage.isNull()) Ret=new QBrush(PreviousImage);
+                    } else if (!NewRenderImage.isNull()) Ret=new QBrush(NewRenderImage);
+                } else if (!NewRenderImage.isNull()) Ret=new QBrush(NewRenderImage);
             }
         }
         return Ret;
     } else {
         // Force loading of sound of video
         if (Video) {
-            QImage *RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,&Video->BrushFileTransform,false);
+            QImage *RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
             if (RenderImage) delete RenderImage;
         }
         return new QBrush(Qt::NoBrush);
@@ -1226,10 +1267,17 @@ void cBrushDefinition::ApplyFilter(QImage *Image) {
 
     if (Image==NULL) return;
     fmt_filters::image img(Image->bits(),Image->width(),Image->height());
-    if (Brightness!=0)                      fmt_filters::brightness(img,Brightness);
-    if (Contrast!=0)                        fmt_filters::contrast(img,Contrast);
-    if (Gamma!=1)                           fmt_filters::gamma(img,Gamma);
-    if ((Red!=0)||(Green!=0)||(Blue!=0))    fmt_filters::colorize(img,Red,Green,Blue);
+    if (Brightness!=0)                          fmt_filters::brightness(img,Brightness);
+    if (Contrast!=0)                            fmt_filters::contrast(img,Contrast);
+    if (Gamma!=1)                               fmt_filters::gamma(img,Gamma);
+    if ((Red!=0)||(Green!=0)||(Blue!=0))        fmt_filters::colorize(img,Red,Green,Blue);
+    if ((OnOffFilter & FilterDespeckle)!=0)     fmt_filters::despeckle(img);
+    if ((OnOffFilter & FilterEqualize)!=0)      fmt_filters::equalize(img);
+    if ((OnOffFilter & FilterGray)!=0)          fmt_filters::gray(img);
+    if ((OnOffFilter & FilterNegative)!=0)      fmt_filters::negative(img);
+    if ((OnOffFilter & FilterEmboss)!=0)        fmt_filters::emboss(img,10,1);
+    if (BlurSigma<0)                            fmt_filters::blur(img,BlurRadius,-BlurSigma);
+    if (BlurSigma>0)                            fmt_filters::sharpen(img,BlurRadius,BlurSigma);
 }
 
 //====================================================================================================================
@@ -1311,6 +1359,9 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
     LockGeometry        =BrushToCopy->LockGeometry;
     FullFilling         =BrushToCopy->FullFilling;
     AspectRatio         =BrushToCopy->AspectRatio;
+    BlurSigma           =BrushToCopy->BlurSigma;
+    BlurRadius          =BrushToCopy->BlurRadius;
+    OnOffFilter         =BrushToCopy->OnOffFilter;
 }
 
 //====================================================================================================================
@@ -1354,7 +1405,6 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
                     Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
                     Element.setAttribute("StartPos",Video->StartPos.toString("HH:mm:ss.zzz"));              // Start position (video only)
                     Element.setAttribute("EndPos",Video->EndPos.toString("HH:mm:ss.zzz"));                  // End position (video only)
-                    Video->BrushFileTransform.SaveToXML(Element,"ImageTransformation");                     // Image transformation
                 } else {
                     Element.setAttribute("SoundVolume",QString("%1").arg(SoundVolume,0,'f'));               // Volume of soundtrack (for video only)
                     Element.setAttribute("Deinterlace",Deinterlace?"1":0);                                  // Add a YADIF filter to deinterlace video (on/off) (for video only)
@@ -1362,7 +1412,6 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
             } else if (Image!=NULL) {
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
                     Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
-                    Image->BrushFileTransform.SaveToXML(Element,"ImageTransformation");                     // Image transformation
                     Element.setAttribute("ImageOrientation",Image->ImageOrientation);
                 }
             }
@@ -1384,6 +1433,9 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     CorrectElement.setAttribute("LockGeometry",    LockGeometry?1:0);
     CorrectElement.setAttribute("AspectRatio",     AspectRatio);
     CorrectElement.setAttribute("FullFilling",     FullFilling?1:0);
+    CorrectElement.setAttribute("BlurSigma",       BlurSigma);
+    CorrectElement.setAttribute("BlurRadius",      BlurRadius);
+    CorrectElement.setAttribute("OnOffFilter",     OnOffFilter);
     Element.appendChild(CorrectElement);
 
     domDocument.appendChild(Element);
@@ -1451,14 +1503,19 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
                         Video->StartPos =QTime().fromString(Element.attribute("StartPos"));                         // Start position (video only)
                         Video->EndPos   =QTime().fromString(Element.attribute("EndPos"));                           // End position (video only)
-                        Video->BrushFileTransform.LoadFromXML(Element,"ImageTransformation");                       // Image transformation
                     } else {
                         SoundVolume=Element.attribute("SoundVolume").toDouble();                                    // Volume of soundtrack (for video only)
                         Deinterlace=Element.attribute("Deinterlace")=="1";                                          // Add a YADIF filter to deinterlace video (on/off) (for video only)
                     }
                 } else if (Image!=NULL) {
                     if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                    // Global definition only !
-                        Image->BrushFileTransform.LoadFromXML(Element,"ImageTransformation");                       // Image transformation
+                        // Old Image transformation (for compatibility with version prio to 1.5)
+                        if ((Element.elementsByTagName("ImageTransformation").length()>0)&&(Element.elementsByTagName("ImageTransformation").item(0).isElement()==true)) {
+                            QDomElement SubElement=Element.elementsByTagName("ImageTransformation").item(0).toElement();
+                            if (SubElement.hasAttribute("BlurSigma"))      BlurSigma=  SubElement.attribute("BlurSigma").toDouble();
+                            if (SubElement.hasAttribute("BlurRadius"))     BlurRadius= SubElement.attribute("BlurRadius").toDouble();
+                            if (SubElement.hasAttribute("OnOffFilter"))    OnOffFilter=SubElement.attribute("OnOffFilter").toInt();
+                        }
                     }
                 }
                 break;
@@ -1480,6 +1537,9 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             if (CorrectElement.hasAttribute("Blue"))           Blue            =CorrectElement.attribute("Blue").toInt();
             if (CorrectElement.hasAttribute("AspectRatio"))    AspectRatio     =CorrectElement.attribute("AspectRatio").toDouble();
             if (CorrectElement.hasAttribute("FullFilling"))    FullFilling     =CorrectElement.attribute("FullFilling").toInt()==1;
+            if (CorrectElement.hasAttribute("BlurSigma"))      BlurSigma       =CorrectElement.attribute("BlurSigma").toDouble();
+            if (CorrectElement.hasAttribute("BlurRadius"))     BlurRadius      =CorrectElement.attribute("BlurRadius").toDouble();
+            if (CorrectElement.hasAttribute("OnOffFilter"))    OnOffFilter     =CorrectElement.attribute("OnOffFilter").toInt();
 
             // If old ImageGeometry value in project file then compute LockGeometry
             if (CorrectElement.hasAttribute("ImageGeometry"))           LockGeometry=(CorrectElement.attribute("ImageGeometry").toInt()!=2);
@@ -1660,8 +1720,8 @@ QImage *cBrushDefinition::ImageToWorkspace(QImage *SrcImage,int WantedSize,qreal
     if (ToUseImage.format()!=QImage::Format_ARGB32_Premultiplied) ToUseImage=ToUseImage.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
     // On/Off filters and blur/sharpen
-    if (Image) Image->BrushFileTransform.ApplyFilter(&ToUseImage);
-        else if (Video) Video->BrushFileTransform.ApplyFilter(&ToUseImage);
+//REMOVE_FILTER    if (Image) Image->BrushFileTransform.ApplyFilter(&ToUseImage);
+//REMOVE_FILTER        else if (Video) Video->BrushFileTransform.ApplyFilter(&ToUseImage);
 
     // Brightness, contrast, gamma and colors adjustments
     ApplyFilter(&ToUseImage);

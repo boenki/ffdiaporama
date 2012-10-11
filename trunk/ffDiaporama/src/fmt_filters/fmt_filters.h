@@ -188,83 +188,82 @@ namespace fmt_filters
         // for more.
         //
 
-	// blend
-        // opacity = [0.0; 1.0]
+    // opacity = [0.0; 1.0]
 	void blend(const image &im, const rgb &rgb, float opacity);
 
-        // val = [0.0; 1.0]
-        void fade(const image &im, const rgb &rgb, float val);
+    // val = [0.0; 1.0]
+    void fade(const image &im, const rgb &rgb, float val);
 
-        void gray(const image &im);
+    void gray(const image &im);
 
-        // desat = [0.0; 1.0]
-        void desaturate(const image &im, float desat);
+    // desat = [0.0; 1.0]
+    void desaturate(const image &im, float desat);
 
-        // threshold = [0; 255]
-        void threshold(const image &im, unsigned int threshold);
+    // threshold = [0; 255]
+    void threshold(const image &im, unsigned int threshold);
 
-        // factor = [0.0; 50.0]
-        void solarize(const image &im, double factor);
+    // factor = [0.0; 50.0]
+    void solarize(const image &im, double factor);
 
-        // amount = [1; 10]
-        void spread(const image &im, unsigned int amount);
+    // amount = [1; 10]
+    void spread(const image &im, unsigned int amount);
 
-        // degrees = [-720.0; 720.0]
-        void swirl(const image &im, double degrees, const rgba &background);
+    // degrees = [-720.0; 720.0]
+    void swirl(const image &im, double degrees, const rgba &background);
 
-        void noise(const image &im, NoiseType noise_type);
+    void noise(const image &im, NoiseType noise_type);
 
-        void flatten(const image &im, const rgb &ca, const rgb &cb);
+    void flatten(const image &im, const rgb &ca, const rgb &cb);
 
-        // azimuth = [0.0; 90.0], elevation = [0.0; 90.0]
-        void shade(const image &im, bool color, double azimuth, double elevation);
+    // azimuth = [0.0; 90.0], elevation = [0.0; 90.0]
+    void shade(const image &im, bool color, double azimuth, double elevation);
 
-        void equalize(const image &im);
+    void equalize(const image &im);
 
-        // radius = [0.01; 90.0], sigma = [0.01; 50.0]
-        void blur(const image &im, double radius, double sigma);
+    // radius = [0.01; 90.0], sigma = [0.01; 50.0]
+    void blur(const image &im, double radius, double sigma);
 
-        void despeckle(const image &im);
+    void despeckle(const image &im);
 
-        // factor = [0; 100]
-        void implode(const image &im, double factor, const rgba &background);
+    // factor = [0; 100]
+    void implode(const image &im, double factor, const rgba &background);
 
-        // radius = [0.01; 30.0]
-        void edge(image &im, double radius);
+    // radius = [0.01; 30.0]
+    void edge(image &im, double radius);
 
-        // radius = [0.01; 99.9], sigma = [0.01; 99.9]
-        void emboss(image &im, double radius, double sigma);
+    // radius = [0.01; 99.9], sigma = [0.01; 99.9]
+    void emboss(image &im, double radius, double sigma);
 
-        // radius = [0.01; 99.9], sigma = [0.01; 30.0]
-        void sharpen(image &im, double radius, double sigma);
+    // radius = [0.01; 99.9], sigma = [0.01; 30.0]
+    void sharpen(image &im, double radius, double sigma);
 
-        // radius = [1.0; 5.0]
-        void oil(const image &im, double radius);
+    // radius = [1.0; 5.0]
+    void oil(const image &im, double radius);
 
-        // red-eye removal.
-        // th = [0; 255]
-        void redeye(const image &im, const int w, const int h,
-                            const int x, const int y,
-                            int th);
+    // red-eye removal.
+    // th = [0; 255]
+    void redeye(const image &im, const int w, const int h,
+                        const int x, const int y,
+                        int th);
 
-        // Do we need some color definitions ?
-        static const rgba white       = rgba(255, 255, 255, 255);
-        static const rgba black       = rgba(0,   0,   0,   255);
-        static const rgba red         = rgba(255, 0,   0,   255);
-        static const rgba green       = rgba(0,   255, 0,   255);
-        static const rgba blue        = rgba(0,   0,   255, 255);
-        static const rgba cyan        = rgba(0,   255, 255, 255);
-        static const rgba magenta     = rgba(255, 0,   255, 255);
-        static const rgba yellow      = rgba(255, 255, 0,   255);
-        static const rgba mediumgray  = rgba(128, 128, 128, 255);
-        static const rgba lightgray   = rgba(160, 160, 164, 255);
-        static const rgba normalgray  = rgba(192, 192, 192, 255);
-        static const rgba darkred     = rgba(128, 0,   0,   255);
-        static const rgba darkgreen   = rgba(0,   128, 0,   255);
-        static const rgba darkblue    = rgba(0,   0,   128, 255);
-        static const rgba darkcyan    = rgba(0,   128, 128, 255);
-        static const rgba darkmagenta = rgba(128, 0,   128, 255);
-        static const rgba darkyellow  = rgba(128, 128, 0,   255);
+    // Do we need some color definitions ?
+    static const rgba white       = rgba(255, 255, 255, 255);
+    static const rgba black       = rgba(0,   0,   0,   255);
+    static const rgba red         = rgba(255, 0,   0,   255);
+    static const rgba green       = rgba(0,   255, 0,   255);
+    static const rgba blue        = rgba(0,   0,   255, 255);
+    static const rgba cyan        = rgba(0,   255, 255, 255);
+    static const rgba magenta     = rgba(255, 0,   255, 255);
+    static const rgba yellow      = rgba(255, 255, 0,   255);
+    static const rgba mediumgray  = rgba(128, 128, 128, 255);
+    static const rgba lightgray   = rgba(160, 160, 164, 255);
+    static const rgba normalgray  = rgba(192, 192, 192, 255);
+    static const rgba darkred     = rgba(128, 0,   0,   255);
+    static const rgba darkgreen   = rgba(0,   128, 0,   255);
+    static const rgba darkblue    = rgba(0,   0,   128, 255);
+    static const rgba darkcyan    = rgba(0,   128, 128, 255);
+    static const rgba darkmagenta = rgba(128, 0,   128, 255);
+    static const rgba darkyellow  = rgba(128, 128, 0,   255);
 }
 
 #endif

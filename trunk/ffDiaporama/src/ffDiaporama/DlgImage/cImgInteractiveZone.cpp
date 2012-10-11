@@ -84,9 +84,9 @@ void cImgInteractiveZone::InitCachedImage(cCompositionObject *TheCompoObject,int
     }
 
     if (CurrentBrush->Image) {
-        CachedImage=CurrentBrush->Image->ImageAt(false,NULL);
+        CachedImage=CurrentBrush->Image->ImageAt(false);
      } else if (CurrentBrush->Video) {
-        CachedImage=CurrentBrush->Video->ImageAt(false,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,NULL,false);
+        CachedImage=CurrentBrush->Video->ImageAt(false,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,false);
         if (CachedImage->format()!=QImage::Format_ARGB32_Premultiplied) {
             QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
             delete CachedImage;
@@ -252,11 +252,6 @@ void cImgInteractiveZone::RefreshDisplay() {
 
     if (ToUseImage.format()!=QImage::Format_ARGB32_Premultiplied) ToUseImage=ToUseImage.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-    // On/Off filters and blur/sharpen
-    if (CurrentBrush->Image)            CurrentBrush->Image->BrushFileTransform.ApplyFilter(&ToUseImage);
-        else if (CurrentBrush->Video)   CurrentBrush->Video->BrushFileTransform.ApplyFilter(&ToUseImage);
-
-    // Brightness, contrast, gamma and colors adjustments
     CurrentBrush->ApplyFilter(&ToUseImage);
 
     ForegroundImage=new QImage(Hyp.Screen,Hyp.Screen,QImage::Format_ARGB32_Premultiplied);

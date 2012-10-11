@@ -1,22 +1,58 @@
-Bugs/TODO (Dernier SVN le 01/10/2012) :
----------------------------------------
-TODO
-----
+**************************************************
+* FFDIAPORAMA 1.5 - Trunk
+*
+* Dernier commit le : 03/10/2012
+**************************************************
+
+TODO :
+------
 -Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
 -Supprimer la librairie de fond de la mémoire
--Bug sur vidéo U8
 -Vidéo ULAW à faire
 -Etudier la transposition des cadres de sélection quand rotation dans la boite slide
+
+A faire : remplacer fmt_filters par QImageblitz :
+    http://qimageblitz.sourceforge.net/
+    http://lfs.traduc.org/view/blfs-svn/kde/qimageblitz.html
+
+    libqimageblitz4
+    libqimageblitz-dev
+
+Textures :
+        http://www.texturemate.com/
+        http://free-clipart.net/
+
+Clip art :
+        http://openclipart.org
+        http://www.iconarchive.com
+        http://www.pngfactory.net
+
+
+Bugs ouverts :
+--------------
+-Bug sur vidéo U8
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le bug des images des vidéos qui sont réduites dans la boite de recadrage
 
 English version / Bug fixes :
--Fix bug of video's image that was reduced in the image framing dialog
 
 French version / Nouveautés :
+-Fusion des boites Edit Image et Edit Video
+-Ajoute la combo box de sélection de la forme dans la boite Edit Image
+-Supprime l'option de mise en cache des images transformées dans la boite d'option
+-Supprime l'option de désactivation des transformations durant la prévisualitation dans la boite d'option
+-Rend tous les filtres de transformation progressifs
+-Autorise le filtre blur/sharpen aussi pour les vidéos
+-Ajoute les filtres Negatif et Emboss(Estamper)
 
 English version / New features :
+-Merge of the 2 dialogs Edit Image and Edit Video
+-Add shape form combo box in Edit Image dialog
+-Remove the "Image transformation / Apply to video during preview" option in Application options dialog
+-Remove the "Transformed image / Create cache file (with _ffd suffix) for transformed images" option in Application options dialog
+-Transform all transformation filters as progressive filters
+-Enable the use of blur/sharpen filter also for video
+-Add Negatif and Emboss filter

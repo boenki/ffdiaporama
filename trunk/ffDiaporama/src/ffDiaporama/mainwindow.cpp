@@ -1994,8 +1994,8 @@ void MainWindow::s_Action_DoAddFile() {
             //*****************************************************
             // Try to load an image to ensure all is ok
             //*****************************************************
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(/*true*/false,&CurrentBrush->Image->BrushFileTransform):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,NULL,CurrentBrush->Deinterlace,1,false,&CurrentBrush->Video->BrushFileTransform,false):
+            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(/*true*/false):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,NULL,CurrentBrush->Deinterlace,1,false,false):
                            NULL);
 
             if (!Image) {

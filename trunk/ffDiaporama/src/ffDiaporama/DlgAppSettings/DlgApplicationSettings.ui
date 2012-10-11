@@ -47,7 +47,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -202,27 +202,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </item>
             </layout>
            </item>
-           <item row="10" column="0">
-            <widget class="QLabel" name="label_16">
-             <property name="text">
-              <string>Image transformation :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="1">
-            <widget class="QCheckBox" name="ApplyTransfoDuringPreviewCB">
-             <property name="toolTip">
-              <string>If this box is checked, the transformation effects will be applied to the video images during the preview</string>
-             </property>
-             <property name="text">
-              <string>Apply to video during preview</string>
-             </property>
-            </widget>
-           </item>
-           <item row="15" column="0" colspan="2">
+           <item row="14" column="0" colspan="2">
             <widget class="QLabel" name="label">
              <property name="font">
               <font>
@@ -239,7 +219,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="17" column="0">
+           <item row="16" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
               <string>Object position :</string>
@@ -252,7 +232,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="17" column="1">
+           <item row="16" column="1">
             <widget class="QComboBox" name="AppendObjectCB">
              <property name="toolTip">
               <string>Select the position where new objects are placed on the timeline during insertion</string>
@@ -269,7 +249,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </item>
             </widget>
            </item>
-           <item row="18" column="0">
+           <item row="17" column="0">
             <widget class="QLabel" name="label_26">
              <property name="text">
               <string>Multiple file insertion :</string>
@@ -279,7 +259,14 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="18" column="1">
+           <item row="20" column="1">
+            <widget class="QCheckBox" name="DeinterlaceCB">
+             <property name="text">
+              <string>Activate deinterlace filter when add new MTS videos</string>
+             </property>
+            </widget>
+           </item>
+           <item row="17" column="1">
             <widget class="QCheckBox" name="SortFileCB">
              <property name="toolTip">
               <string>If this box is checked, files will be sorted by last number when you select multiple files in Add file</string>
@@ -289,7 +276,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="26" column="0">
+           <item row="24" column="0">
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -302,7 +289,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </spacer>
            </item>
-           <item row="19" column="1">
+           <item row="18" column="1">
             <widget class="QCheckBox" name="AskUserToRemove">
              <property name="toolTip">
               <string>If this box is checked, a confirmation dialog is displayed every time you remove an object</string>
@@ -312,7 +299,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="19" column="0">
+           <item row="18" column="0">
             <widget class="QLabel" name="label_33">
              <property name="text">
               <string>Object deletion :</string>
@@ -322,7 +309,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="16" column="0">
+           <item row="15" column="0">
             <widget class="QLabel" name="label_34">
              <property name="text">
               <string>Coordinates unit :</string>
@@ -332,7 +319,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="16" column="1">
+           <item row="15" column="1">
             <widget class="QComboBox" name="UnitCB">
              <property name="toolTip">
               <string>Select the unit of coordinates which will be used in the properties dialog box</string>
@@ -356,7 +343,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="11" column="0">
+           <item row="10" column="0">
             <widget class="QLabel" name="label_42">
              <property name="text">
               <string>Image smoothing :</string>
@@ -366,21 +353,21 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="11" column="1">
+           <item row="10" column="1">
             <widget class="QCheckBox" name="SmoothImageDuringPreviewCB">
              <property name="text">
               <string>Smooth image during preview</string>
              </property>
             </widget>
            </item>
-           <item row="12" column="1">
+           <item row="11" column="1">
             <widget class="QCheckBox" name="QuickResamplingPreviewCB">
              <property name="text">
               <string>Use quick resampler during preview</string>
              </property>
             </widget>
            </item>
-           <item row="12" column="0">
+           <item row="11" column="0">
             <widget class="QLabel" name="label_90">
              <property name="text">
               <string>Audio resampling :</string>
@@ -448,24 +435,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </item>
             </layout>
            </item>
-           <item row="20" column="0">
-            <widget class="QLabel" name="label_97">
-             <property name="text">
-              <string>Transformed image :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="20" column="1">
-            <widget class="QCheckBox" name="CacheTransformedImagesCB">
-             <property name="text">
-              <string>Create cache file (with _ffd suffix) for transformed images</string>
-             </property>
-            </widget>
-           </item>
-           <item row="21" column="0">
+           <item row="19" column="0">
             <widget class="QLabel" name="label_99">
              <property name="text">
               <string>Video cropping :</string>
@@ -475,21 +445,14 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="21" column="1">
+           <item row="19" column="1">
             <widget class="QCheckBox" name="Crop1088To1080CB">
              <property name="text">
               <string>Automatically crop 1920x1088 video to 1920x1080</string>
              </property>
             </widget>
            </item>
-           <item row="22" column="1">
-            <widget class="QCheckBox" name="DeinterlaceCB">
-             <property name="text">
-              <string>Activate deinterlace filter when add new MTS videos</string>
-             </property>
-            </widget>
-           </item>
-           <item row="22" column="0">
+           <item row="20" column="0">
             <widget class="QLabel" name="label_100">
              <property name="text">
               <string>Video deinterlacing :</string>
@@ -528,7 +491,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-270</y>
+            <y>0</y>
             <width>911</width>
             <height>969</height>
            </rect>

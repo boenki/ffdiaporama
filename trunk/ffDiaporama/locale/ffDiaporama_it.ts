@@ -2,6 +2,53 @@
 <!DOCTYPE TS>
 <TS version="2.0" language="it_IT" sourcelanguage="en">
 <context>
+    <name>CommonErrorMsg</name>
+    <message>
+        <source>Format not supported</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
+        <translation type="unfinished">Questa applicazione supporta solo traccie audio con o senza segno a 8 bit e con segno a 16 bit in formato campione</translation>
+    </message>
+    <message>
+        <source>This application support only mono or stereo audio track</source>
+        <translation type="unfinished">Questa applicazione supporta solo le traccie audio mono o stereo</translation>
+    </message>
+</context>
+<context>
+    <name>CommonInfoMsg</name>
+    <message>
+        <source>Select a file</source>
+        <translation type="unfinished">Seleziona un file</translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <comment>Title of dialog box displaying an error</comment>
+        <translation type="unfinished">Errore</translation>
+    </message>
+    <message>
+        <source>Applying Despeckle filter</source>
+        <translation type="unfinished">Applicazione filtro Smacchia</translation>
+    </message>
+    <message>
+        <source>Applying Equalize filter</source>
+        <translation type="unfinished">Applicazione filtro Equalizza</translation>
+    </message>
+    <message>
+        <source>Applying Gray filter</source>
+        <translation type="unfinished">Applicazione filtro Grigio</translation>
+    </message>
+    <message>
+        <source>Applying blur filter</source>
+        <translation type="unfinished">Applicazione filtro sfocatura</translation>
+    </message>
+    <message>
+        <source>Applying sharpen filter</source>
+        <translation type="unfinished">Applicazione filtro Nitidezza</translation>
+    </message>
+</context>
+<context>
     <name>DlgAbout</name>
     <message>
         <source>About</source>
@@ -606,49 +653,51 @@ quando si clicca il pulsante &quot;Per il WEB&quot; nel menu &quot;Genera filmat
     </message>
     <message>
         <source>Video cropping :</source>
-        <translation type="unfinished"></translation>
+        <translation>Ritaglio video :</translation>
     </message>
     <message>
         <source>Video deinterlacing :</source>
-        <translation type="unfinished"></translation>
+        <translation>Deinterlacciamento video :</translation>
     </message>
     <message>
         <source>Locking</source>
-        <translation type="unfinished"></translation>
+        <translation>Bloccaggio</translation>
     </message>
     <message>
         <source>Photo landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Foto paesaggio</translation>
     </message>
     <message>
         <source>Image landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Immagine paesaggio</translation>
     </message>
     <message>
         <source>
 Coordinates:</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Coordinate:</translation>
     </message>
     <message>
         <source>Video landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Video paesaggio</translation>
     </message>
     <message>
         <source>Photo portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Foto ritratto</translation>
     </message>
     <message>
         <source>
 Framing:</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Inquadratura:</translation>
     </message>
     <message>
         <source>Video portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Video ritratto</translation>
     </message>
     <message>
         <source>image portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>immagine ritratto</translation>
     </message>
 </context>
 <context>
@@ -892,10 +941,6 @@ Framing:</source>
         <translation>Nome del file immagine/video</translation>
     </message>
     <message>
-        <source>Framing :</source>
-        <translation>Fotogrammi:</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
@@ -936,10 +981,6 @@ Framing:</source>
         <translation>Blocca alla geometrica progetto</translation>
     </message>
     <message>
-        <source>Creating cached filtered file ...</source>
-        <translation>Creazione file cache filtrata ...</translation>
-    </message>
-    <message>
         <source>Enable or disable rulers corresponding to the margins of television sets.</source>
         <translation>Attivare o disattivare i righelli corrispondenti ai margini dei televisori.</translation>
     </message>
@@ -952,10 +993,6 @@ Framing:</source>
         <translation>Ctrl+Z</translation>
     </message>
     <message>
-        <source>Select a file</source>
-        <translation>Seleziona un file</translation>
-    </message>
-    <message>
         <source>Undo last action (CTRL+Z)</source>
         <translation>Annulla l&apos;ultima azione (CTRL+Z)</translation>
     </message>
@@ -966,10 +1003,6 @@ Framing:</source>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Properties for all shots&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Propietà per tutti gli scatti&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Image correction :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Correzione immagine :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Reset to 1</source>
@@ -1025,34 +1058,100 @@ Framing:</source>
     </message>
     <message>
         <source>Full screen size</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensione intero schermo</translation>
     </message>
     <message>
         <source>TV margins</source>
-        <translation type="unfinished">Margini TV</translation>
-    </message>
-    <message>
-        <source>Two thirds of screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Half of screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Third of screen</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Quarter of screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Margini TV</translation>
     </message>
     <message>
         <source>Real image size</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensioni reale immagine</translation>
     </message>
     <message>
         <source>Custom size</source>
+        <translation>Dimensione personalizzata</translation>
+    </message>
+    <message>
+        <source>Two thirds screen</source>
+        <translation>Due terzi dello schermo</translation>
+    </message>
+    <message>
+        <source>Half screen</source>
+        <translation>Metà schermo</translation>
+    </message>
+    <message>
+        <source>Third screen</source>
+        <translation>Un terzo dello schermo</translation>
+    </message>
+    <message>
+        <source>Quarter screen</source>
+        <translation>Un quarto dello schermo</translation>
+    </message>
+    <message>
+        <source>Shape :</source>
+        <translation>Forma :</translation>
+    </message>
+    <message>
+        <source>Select a shape for the current block</source>
+        <translation>Selezionare una forma per il blocco corrente</translation>
+    </message>
+    <message>
+        <source>Start :</source>
+        <translation>Partenza :</translation>
+    </message>
+    <message>
+        <source>Move to start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation>Sposta alla posizione iniziale</translation>
+    </message>
+    <message>
+        <source>Use current position as start position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation>Usa la posizione corrente come posizione iniziale</translation>
+    </message>
+    <message>
+        <source>Define the start position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation>Definire la posizione iniziale da utilizzare</translation>
+    </message>
+    <message>
+        <source>End :</source>
+        <translation>Fine :</translation>
+    </message>
+    <message>
+        <source>Define the end position to use</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation>Definire la posizione finale da utilizzare</translation>
+    </message>
+    <message>
+        <source>Use current position as end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation>Usa la posizione corrente come posizione finale</translation>
+    </message>
+    <message>
+        <source>Move to end position</source>
+        <extracomment>Tooltip in dialog box</extracomment>
+        <translation>Sposta alla posizione finale</translation>
+    </message>
+    <message>
+        <source>Duration :</source>
+        <translation>Durata :</translation>
+    </message>
+    <message>
+        <source>Volume :</source>
+        <translation>Volume :</translation>
+    </message>
+    <message>
+        <source>Select the &quot; Master Volume &quot; for the movie</source>
+        <translation>Selezionare il &quot; Volume Master &quot; per il filmato</translation>
+    </message>
+    <message>
+        <source>Deinterlace video</source>
+        <translation>Deinterlacciamento video</translation>
+    </message>
+    <message>
+        <source>Video position :</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2160,10 +2259,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Definire le propietà del blocco di testo</translation>
     </message>
     <message>
-        <source>Cut the video</source>
-        <translation>Taglia il video</translation>
-    </message>
-    <message>
         <source>Border :</source>
         <translation>Bordo :</translation>
     </message>
@@ -2710,6 +2805,26 @@ blocco</translation>
         <source>Lengthened to %1</source>
         <translation>Allungato a %1</translation>
     </message>
+    <message>
+        <source>Correct or reframe image</source>
+        <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
+        <translation type="unfinished">Correzione o inquadratura immagine</translation>
+    </message>
+    <message>
+        <source>Correct, reframe or cut video</source>
+        <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define framing and correction of image</source>
+        <comment>Tooltip</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define framing and correction of image or cut video</source>
+        <comment>Tooltip</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgTextEdit</name>
@@ -3085,111 +3200,6 @@ blocco</translation>
     </message>
 </context>
 <context>
-    <name>DlgVideoEdit</name>
-    <message>
-        <source>Cut video</source>
-        <translation>Taglia il video</translation>
-    </message>
-    <message>
-        <source>Properties for all shots</source>
-        <translation>Propietà per tutti gli scatti</translation>
-    </message>
-    <message>
-        <source>Start :</source>
-        <translation>Partenza :</translation>
-    </message>
-    <message>
-        <source>Move to start position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Sposta alla posizione iniziale</translation>
-    </message>
-    <message>
-        <source>Use current position as start position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Usa la posizione corrente come posizione iniziale</translation>
-    </message>
-    <message>
-        <source>End :</source>
-        <translation>Fine :</translation>
-    </message>
-    <message>
-        <source>Use current position as end position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Usa la posizione corrente come posizione finale</translation>
-    </message>
-    <message>
-        <source>Move to end position</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Sposta alla posizione finale</translation>
-    </message>
-    <message>
-        <source>Duration :</source>
-        <translation>Durata :</translation>
-    </message>
-    <message>
-        <source>Volume :</source>
-        <translation>Volume :</translation>
-    </message>
-    <message>
-        <source>Accept modification and exit dialog box</source>
-        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
-    </message>
-    <message>
-        <source>&amp;Ok</source>
-        <translation>&amp;Ok</translation>
-    </message>
-    <message>
-        <source>Cancel modification and exit dialog box</source>
-        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
-    </message>
-    <message>
-        <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
-    </message>
-    <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>Apri la pagina di aiuto di questa finestra di dialogo</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
-    </message>
-    <message>
-        <source>Undo last action (CTRL+Z)</source>
-        <translation>Annulla l&apos;ultima azione (CTRL+Z)</translation>
-    </message>
-    <message>
-        <source>Undo</source>
-        <translation>Annulla</translation>
-    </message>
-    <message>
-        <source>Ctrl+Z</source>
-        <translation>Ctrl+Z</translation>
-    </message>
-    <message>
-        <source>Define the start position to use</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Definire la posizione iniziale da utilizzare</translation>
-    </message>
-    <message>
-        <source>Define the end position to use</source>
-        <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Definire la posizione finale da utilizzare</translation>
-    </message>
-    <message>
-        <source>Select the &quot; Master Volume &quot; for the movie</source>
-        <translation>Selezionare il &quot; Volume Master &quot; per il filmato</translation>
-    </message>
-    <message>
-        <source>Deinterlace video</source>
-        <translation>Deinterlacciamento video</translation>
-    </message>
-</context>
-<context>
     <name>DlgWorkingTask</name>
     <message>
         <source>Cancel</source>
@@ -3276,75 +3286,75 @@ blocco</translation>
     <name>Framing styles</name>
     <message>
         <source>Custom geometry - unlocked</source>
-        <translation type="unfinished"></translation>
+        <translation>Geometria personalizzata - sbloccata</translation>
     </message>
     <message>
         <source>Custom geometry - locked</source>
-        <translation type="unfinished"></translation>
+        <translation>Geometria personalizzata - bloccata</translation>
     </message>
     <message>
         <source>Custom size - Image geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensione personalizzata - Geometria immagine</translation>
     </message>
     <message>
         <source>Custom size - Project geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Dimensione personalizzata - Geometria progetto</translation>
     </message>
     <message>
         <source>Full image</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Full image - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Immagine intera</translation>
     </message>
     <message>
         <source>Project height - to the left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Project height - to the left - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Altezza progetto - alla sinistra</translation>
     </message>
     <message>
         <source>Project height - in the center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Project height - in the center - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Altezza progetto - nel centro</translation>
     </message>
     <message>
         <source>Project height - to the right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Project height - to the right - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Altezza progetto - alla destra</translation>
     </message>
     <message>
         <source>Project width - at the top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Project width - at the top - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Larghezza progetto - in alto</translation>
     </message>
     <message>
         <source>Project width - in the middle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Project width - in the middle - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Larghezza progetto - nel mezzo</translation>
     </message>
     <message>
         <source>Project width - at the bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Larghezza progetto - in basso</translation>
     </message>
     <message>
-        <source>Project width - at the bottom - inside</source>
-        <translation type="unfinished"></translation>
+        <source>Full inner image</source>
+        <translation>Intara immagine interna</translation>
+    </message>
+    <message>
+        <source>Project inner height - to the left</source>
+        <translation>Altezza interna progetto - alla sinistra</translation>
+    </message>
+    <message>
+        <source>Project inner height - in the center</source>
+        <translation>Altezza interna progetto - nel centro</translation>
+    </message>
+    <message>
+        <source>Project inner height - to the right</source>
+        <translation>Altezza interna progetto - alla destra</translation>
+    </message>
+    <message>
+        <source>Project inner width - at the top</source>
+        <translation>Larghezza interna progetto - in alto</translation>
+    </message>
+    <message>
+        <source>Project inner width - in the middle</source>
+        <translation>Larghezza interna progetto - nel mezzo</translation>
+    </message>
+    <message>
+        <source>Project inner width - at the bottom</source>
+        <translation>Larghezza interna progetto - in basso</translation>
     </message>
 </context>
 <context>
@@ -3887,18 +3897,6 @@ Vuoi aprirlo comunque?</translation>
     <message>
         <source>Applying sharpen filter</source>
         <translation>Applicazione filtro Nitidezza</translation>
-    </message>
-    <message>
-        <source>Loading cached filtered file :</source>
-        <translation>Caricamento file cache filtrato :</translation>
-    </message>
-    <message>
-        <source>Error allocating memory for cached filtered file</source>
-        <translation>Errore allocazione momoria per file cache filtrato</translation>
-    </message>
-    <message>
-        <source>Error loading cached filtered file :</source>
-        <translation>Errore caricamento file cache filtrato :</translation>
     </message>
     <message>
         <source>Error allocating memory for render image</source>
@@ -4503,279 +4501,279 @@ Sei sicuro che è vuota?</translation>
     <name>Shape forms</name>
     <message>
         <source>No shape</source>
-        <translation type="unfinished"></translation>
+        <translation>Nessuna forma</translation>
     </message>
     <message>
         <source>Rectangle</source>
-        <translation type="unfinished"></translation>
+        <translation>Rettangolo</translation>
     </message>
     <message>
         <source>Rounded rectangle</source>
-        <translation type="unfinished"></translation>
+        <translation>Rettangolo arrotondato</translation>
     </message>
     <message>
         <source>Bubble</source>
-        <translation type="unfinished"></translation>
+        <translation>Bolla</translation>
     </message>
     <message>
         <source>Ellipse</source>
-        <translation type="unfinished"></translation>
+        <translation>Ellisse</translation>
     </message>
     <message>
         <source>Old Triangle up version</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo alto vecchia versione</translation>
     </message>
     <message>
         <source>Old Triangle right version</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo destra vecchia versione</translation>
     </message>
     <message>
         <source>Old Triangle down version</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo basso vecchia versione</translation>
     </message>
     <message>
         <source>Old Triangle left version</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo sinistra vecchia versione</translation>
     </message>
     <message>
         <source>Rhombus</source>
-        <translation type="unfinished"></translation>
+        <translation>Rombo</translation>
     </message>
     <message>
         <source>Pentagon</source>
-        <translation type="unfinished"></translation>
+        <translation>Pentagono</translation>
     </message>
     <message>
         <source>Hexagon</source>
-        <translation type="unfinished"></translation>
+        <translation>Esagono</translation>
     </message>
     <message>
         <source>Octogon</source>
-        <translation type="unfinished"></translation>
+        <translation>Ottagono</translation>
     </message>
     <message>
         <source>Simple arrow up</source>
-        <translation type="unfinished"></translation>
+        <translation>Semplice freccia su</translation>
     </message>
     <message>
         <source>Simple arrow right</source>
-        <translation type="unfinished"></translation>
+        <translation>Semplice freccia destra</translation>
     </message>
     <message>
         <source>Simple arrow down</source>
-        <translation type="unfinished"></translation>
+        <translation>Semplice freccia bassa</translation>
     </message>
     <message>
         <source>Simple arrow left</source>
-        <translation type="unfinished"></translation>
+        <translation>Semplice freccia sinistra</translation>
     </message>
     <message>
         <source>Heart</source>
-        <translation type="unfinished"></translation>
+        <translation>Quore</translation>
     </message>
     <message>
         <source>Puzzle Up-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Alto-Sinistro</translation>
     </message>
     <message>
         <source>Puzzle Up-Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Alto-Centro</translation>
     </message>
     <message>
         <source>Puzzle Up-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Alto-Destro</translation>
     </message>
     <message>
         <source>Double vertical arrows</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppie freccie verticali</translation>
     </message>
     <message>
         <source>Double horizontal arrows</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppie freccie orizzontali</translation>
     </message>
     <message>
         <source>Double diagonal arrows 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppie freccie diagonali 1</translation>
     </message>
     <message>
         <source>Double diagonal arrows 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppie freccie diagonali 2</translation>
     </message>
     <message>
         <source>Spade</source>
-        <translation type="unfinished"></translation>
+        <translation>Picche</translation>
     </message>
     <message>
         <source>Puzzle Middle-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Medio-Sinistro</translation>
     </message>
     <message>
         <source>Puzzle Middle-Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Medio-Centrale</translation>
     </message>
     <message>
         <source>Puzzle Middle-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Medio-Destro</translation>
     </message>
     <message>
         <source>Right triangle Up-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo destro Alto-Sinistro</translation>
     </message>
     <message>
         <source>Right triangle Up-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo destro Alto-destro</translation>
     </message>
     <message>
         <source>Right triangle Down-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo destro Basso-Sinistro</translation>
     </message>
     <message>
         <source>Right triangle Down-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo destro Basso-Destro</translation>
     </message>
     <message>
         <source>Club</source>
-        <translation type="unfinished"></translation>
+        <translation>Fiore</translation>
     </message>
     <message>
         <source>Puzzle Down-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Basso-Sinistro</translation>
     </message>
     <message>
         <source>Puzzle Down-Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Basso-Centrale</translation>
     </message>
     <message>
         <source>Puzzle Down-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Basso-Destro</translation>
     </message>
     <message>
         <source>Single triangle up</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo singolo alto</translation>
     </message>
     <message>
         <source>Single triangle right</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo singolo destro</translation>
     </message>
     <message>
         <source>Single triangle down</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo singolo basso</translation>
     </message>
     <message>
         <source>Single triangle left</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo singolo sinistro</translation>
     </message>
     <message>
         <source>Pushed up</source>
-        <translation type="unfinished"></translation>
+        <translation>Spinta alta</translation>
     </message>
     <message>
         <source>Sharp down</source>
-        <translation type="unfinished"></translation>
+        <translation>Pungente basso</translation>
     </message>
     <message>
         <source>Four-pointed stars</source>
-        <translation type="unfinished"></translation>
+        <translation>Stella a quattro punte</translation>
     </message>
     <message>
         <source>Five-pointed stars</source>
-        <translation type="unfinished"></translation>
+        <translation>Stella a cinque punte</translation>
     </message>
     <message>
         <source>Double triangle up</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo doppio alto</translation>
     </message>
     <message>
         <source>Double triangle right</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo doppio destro</translation>
     </message>
     <message>
         <source>Double triangle down</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo doppio basso</translation>
     </message>
     <message>
         <source>Double triangle left</source>
-        <translation type="unfinished"></translation>
+        <translation>Triangolo doppio sinistro</translation>
     </message>
     <message>
         <source>Double chevron up</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppio gallone su</translation>
     </message>
     <message>
         <source>Single chevron down</source>
-        <translation type="unfinished"></translation>
+        <translation>Gallone singolo giù</translation>
     </message>
     <message>
         <source>Six-pointed stars</source>
-        <translation type="unfinished"></translation>
+        <translation>Stella a sei punte</translation>
     </message>
     <message>
         <source>Height-pointed stars</source>
-        <translation type="unfinished"></translation>
+        <translation>Stella a otto punte</translation>
     </message>
     <message>
         <source>Pushed left</source>
-        <translation type="unfinished"></translation>
+        <translation>Spinta sinistra</translation>
     </message>
     <message>
         <source>Double chevron left</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppio gallone sinistro</translation>
     </message>
     <message>
         <source>Single chevron left</source>
-        <translation type="unfinished"></translation>
+        <translation>Gallone singolo sinistro</translation>
     </message>
     <message>
         <source>Sharp left</source>
-        <translation type="unfinished"></translation>
+        <translation>Pungente sinistro</translation>
     </message>
     <message>
         <source>Single chevron up</source>
-        <translation type="unfinished"></translation>
+        <translation>Gallone singolo su</translation>
     </message>
     <message>
         <source>Double chevron down</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppio gallone giù</translation>
     </message>
     <message>
         <source>Six tooth gear</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingranaggio a sei denti</translation>
     </message>
     <message>
         <source>Eight tooth gear</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingranaggio a otto denti</translation>
     </message>
     <message>
         <source>Sharp right</source>
-        <translation type="unfinished"></translation>
+        <translation>Pungente destro</translation>
     </message>
     <message>
         <source>Single chevron right</source>
-        <translation type="unfinished"></translation>
+        <translation>Gallone singolo destro</translation>
     </message>
     <message>
         <source>Double chevron right</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppio gallone destra</translation>
     </message>
     <message>
         <source>Pushed right</source>
-        <translation type="unfinished"></translation>
+        <translation>Spinta destra</translation>
     </message>
     <message>
         <source>Sharp up</source>
-        <translation type="unfinished"></translation>
+        <translation>Pungente alto</translation>
     </message>
     <message>
         <source>Pushed down</source>
-        <translation type="unfinished"></translation>
+        <translation>Spinta basso</translation>
     </message>
     <message>
         <source>Ten tooth gear</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingranaggio a dieci denti</translation>
     </message>
     <message>
         <source>Twelve tooth gear</source>
-        <translation type="unfinished"></translation>
+        <translation>Ingranaggio a dodici denti</translation>
     </message>
 </context>
 <context>

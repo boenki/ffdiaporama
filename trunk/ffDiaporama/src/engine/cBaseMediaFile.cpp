@@ -208,6 +208,11 @@ QImage *GetEmbededImage(QString FileName) {
 cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig):cCustomIcon() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseMediaFile::cBaseMediaFile");
 
+    ApplicationConfig   = TheApplicationConfig;
+    Reset();
+}
+
+void cBaseMediaFile::Reset() {
     ObjectType          = OBJECTTYPE_UNMANAGED;
     IsValide            = false;                                    // if true then object if initialise
     IsInformationValide = false;                                    // if true then information list if fuly initialise
@@ -221,7 +226,6 @@ cBaseMediaFile::cBaseMediaFile(cBaseApplicationConfig *TheApplicationConfig):cCu
     ImageHeight         = 0;                                        // Height of normal image
     CreatDateTime       = QDateTime(QDate(0,0,0),QTime(0,0,0));     // Original date/time
     ModifDateTime       = QDateTime(QDate(0,0,0),QTime(0,0,0));     // Last modified date/time
-    ApplicationConfig   = TheApplicationConfig;
     AspectRatio         = 1;
     ImageOrientation    = -1;
 }
@@ -980,7 +984,7 @@ void cImageFile::GetFullInformationFromFile() {
     // If no exif preview image (of image too small) then load/create thumbnail
     //************************************************************************************
     if ((IsIconNeeded)&&(Icon16.isNull())) {
-        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,NULL,ApplicationConfig->Smoothing,true);
+        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
         if (ImageObject==NULL) {
             ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for thumbnail creation !");
         } else {
@@ -997,7 +1001,7 @@ void cImageFile::GetFullInformationFromFile() {
     // if no information about size then load image
     //************************************************************************************
     if ((ImageWidth==0)||(ImageHeight==0)) {
-        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,NULL,ApplicationConfig->Smoothing,true);
+        cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
         if (ImageObject==NULL) {
             ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for size computation !");
         } else {
@@ -1069,7 +1073,7 @@ QString cImageFile::GetTAGInfo() {
 
 //====================================================================================================================
 
-QImage *cImageFile::ImageAt(bool PreviewMode,cFilterTransformObject *Filter) {
+QImage *cImageFile::ImageAt(bool PreviewMode) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::ImageAt");
 
     if (!IsValide)            return NULL;
@@ -1077,7 +1081,7 @@ QImage *cImageFile::ImageAt(bool PreviewMode,cFilterTransformObject *Filter) {
 
     QImage                *LN_Image   =NULL;
     QImage                *RetImage   =NULL;
-    cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,Filter,(!PreviewMode || ApplicationConfig->Smoothing),true);
+    cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,(!PreviewMode || ApplicationConfig->Smoothing),true);
 
     if (!ImageObject) {
         ToLog(LOGMSG_CRITICAL,"Error in cImageFile::ImageAt : FindObject return NULL !");
@@ -1110,6 +1114,11 @@ cImageInCache::cImageInCache(qlonglong Position,QImage *Image) {
 
 cVideoFile::cVideoFile(int TheWantedObjectType,cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::cVideoFile");
+    Reset(TheWantedObjectType);
+}
+
+void cVideoFile::Reset(int TheWantedObjectType) {
+    cBaseMediaFile::Reset();
 
     MusicOnly               = (TheWantedObjectType==OBJECTTYPE_MUSICFILE);
     ObjectType              = TheWantedObjectType;
@@ -2044,7 +2053,6 @@ void cVideoFile::FilterClose() {
 }
 
 int cVideoFile::FilterProcess() {
-
     #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)             // from 2.13 to 2.60
 
         #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,23,0)         // from 2.13 to 2.23
@@ -2428,7 +2436,7 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
 //====================================================================================================================
 //DontUseEndPos default=false
 QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,cSoundBlockList *SoundTrackBloc,bool Deinterlace,
-                            double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos) {
+                            double Volume,bool ForceSoundOnly,bool DontUseEndPos) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ImageAt");
 
@@ -2460,15 +2468,6 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
                 QImage *NewLoadedImage=new QImage(LoadedImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
                 delete LoadedImage;
                 LoadedImage=NewLoadedImage;
-            }
-
-            if (Filter && ((!PreviewMode)||(PreviewMode && ApplicationConfig->ApplyTransfoPreview))) {
-                if (LoadedImage->format()!=QImage::Format_ARGB32_Premultiplied) {
-                    QImage *NewLoadedImage=new QImage(LoadedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
-                    delete LoadedImage;
-                    LoadedImage=NewLoadedImage;
-                }
-                Filter->ApplyFilter(LoadedImage);
             }
         }
 
@@ -2594,7 +2593,7 @@ bool cVideoFile::OpenCodecAndFile() {
 
         qlonglong Position=0;
         if (QTime(0,0,0,0).msecsTo(Duration)>1000) Position=1000;   // If video is > 1 sec then get image at 1 sec
-        QImage *Img =ImageAt(true,Position,0,NULL,false,1,false,NULL,false);
+        QImage *Img =ImageAt(true,Position,0,NULL,false,1,false,false);
         if (Img) {
             // Get information about size image
             ImageWidth =ffmpegVideoFile->streams[VideoStreamNumber]->codec->coded_width;    //Img->width();

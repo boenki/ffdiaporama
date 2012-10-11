@@ -33,7 +33,6 @@
 #include <QtXml/QDomElement>
 
 // Include some common various class
-#include "cFilterTransformObject.h"
 #include "cLuLoImageCache.h"
 #include "cBaseMediaFile.h"
 #include "cSoundBlockList.h"
@@ -113,6 +112,15 @@
 #define AUTOCOMPOSIZE_HALFSCREEN            5
 #define AUTOCOMPOSIZE_THIRDSCREEN           6
 #define AUTOCOMPOSIZE_QUARTERSCREEN         7
+
+//============================================
+// OnOffFilter mask definition
+
+#define FilterEqualize                      0x01
+#define FilterDespeckle                     0x02
+#define FilterGray                          0x04
+#define FilterNegative                      0x08
+#define FilterEmboss                        0x10
 
 //============================================
 // Shape definitions
@@ -232,34 +240,37 @@ public:
 
 class cBrushDefinition {
 public:
-    int                     TypeComposition;        // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
-    int                     BrushType;              // 0=no brush, 1=Solid, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
-    int                     PatternType;            // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    int                     GradientOrientation;    // 0=Radial, 1->4=Linear from a corner, 5->9=Linear from a border
-    QString                 ColorD;                 // First Color
-    QString                 ColorF;                 // Last Color
-    QString                 ColorIntermed;          // Intermediate Color
-    double                  Intermediate;           // Intermediate position of 2nd color (in %) for gradient 3 colors
-    QString                 BrushImage;             // Image name if image from library
-    double                  SoundVolume;            // Volume of soundtrack
-    bool                    Deinterlace;            // Add a YADIF filter to deinterlace video (on/off)
-    cImageFile              *Image;                 // Embeded Object for title and image type
-    cVideoFile              *Video;                 // Embeded Object for video type
+    int                     TypeComposition;            // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
+    int                     BrushType;                  // 0=no brush, 1=Solid, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors
+    int                     PatternType;                // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
+    int                     GradientOrientation;        // 0=Radial, 1->4=Linear from a corner, 5->9=Linear from a border
+    QString                 ColorD;                     // First Color
+    QString                 ColorF;                     // Last Color
+    QString                 ColorIntermed;              // Intermediate Color
+    double                  Intermediate;               // Intermediate position of 2nd color (in %) for gradient 3 colors
+    QString                 BrushImage;                 // Image name if image from library
+    double                  SoundVolume;                // Volume of soundtrack
+    bool                    Deinterlace;                // Add a YADIF filter to deinterlace video (on/off)
+    cImageFile              *Image;                     // Embeded Object for title and image type
+    cVideoFile              *Video;                     // Embeded Object for video type
 
     // Image correction part
-    double                  X;                      // X position (in %) relative to up/left corner
-    double                  Y;                      // Y position (in %) relative to up/left corner
-    double                  ZoomFactor;             // Zoom factor (in %)
-    double                  ImageRotation;          // Image rotation (in °)
-    int                     Brightness;             // Brightness adjustment
-    int                     Contrast;               // Contrast adjustment
-    double                  Gamma;                  // Gamma adjustment
-    int                     Red;                    // Red adjustment
-    int                     Green;                  // Green adjustment
-    int                     Blue;                   // Blue adjustment
-    bool                    LockGeometry;           // True if geometry is locked
-    double                  AspectRatio;            // Aspect Ratio of image
-    bool                    FullFilling;            // Background image disk only : If true aspect ratio is not keep and image is deformed to fill the frame
+    double                  X;                          // X position (in %) relative to up/left corner
+    double                  Y;                          // Y position (in %) relative to up/left corner
+    double                  ZoomFactor;                 // Zoom factor (in %)
+    double                  ImageRotation;              // Image rotation (in °)
+    int                     Brightness;                 // Brightness adjustment
+    int                     Contrast;                   // Contrast adjustment
+    double                  Gamma;                      // Gamma adjustment
+    int                     Red;                        // Red adjustment
+    int                     Green;                      // Green adjustment
+    int                     Blue;                       // Blue adjustment
+    bool                    LockGeometry;               // True if geometry is locked
+    double                  AspectRatio;                // Aspect Ratio of image
+    bool                    FullFilling;                // Background image disk only : If true aspect ratio is not keep and image is deformed to fill the frame
+
+    double                  BlurSigma,BlurRadius;
+    int                     OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
 
     // Link to global objects
     cBaseApplicationConfig  *ApplicationConfig;

@@ -87,8 +87,8 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
         }
 
 
-        QImage *RenderImage=(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image->ImageAt(true,NULL):
-                            (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->ImageAt(true,Position,QTime(0,0,0,0).msecsTo(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->StartPos),NULL,ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Deinterlace,1,false,NULL,false):
+        QImage *RenderImage=(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image->ImageAt(true):
+                            (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->ImageAt(true,Position,QTime(0,0,0,0).msecsTo(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->StartPos),NULL,ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Deinterlace,1,false,false):
                             NULL;
 
         if (RenderImage!=NULL) {
@@ -137,8 +137,7 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
         Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1+RowHeight/3,16,16),QImage((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->SoundVolume!=0)?ICON_SOUND_OK:ICON_SOUND_KO));
 
     // With filter ?
-    if (((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image!=NULL)&&(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image->BrushFileTransform.HaveFilter()))||
-       ((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)&&(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->BrushFileTransform.HaveFilter())))
+    if ((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->BlurSigma!=0)||(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->OnOffFilter!=0))
         Painter->drawImage(QRectF(option.rect.x()+1,option.rect.y()+RowHeight/2,24,24),QImage(ICON_HAVEFILTER));
 
     // Setup default brush

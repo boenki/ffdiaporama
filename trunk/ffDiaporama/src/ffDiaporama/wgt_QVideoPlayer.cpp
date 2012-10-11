@@ -483,7 +483,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 
         if (FileInfo) {
 
-            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,0,NULL,Deinterlace,1,false,NULL,false);
+            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,0,NULL,Deinterlace,1,false,false);
             if (VideoImage) {
                 // Display frame
                 ui->MovieFrame->SetImage(VideoImage->scaledToHeight(ui->MovieFrame->height()));
@@ -650,7 +650,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
 
 void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::PrepareVideoFrame");
-    QImage *Temp=FileInfo->ImageAt(true,Position,0,&MixedMusic,Deinterlace,1,false,NULL,true);
+    QImage *Temp=FileInfo->ImageAt(true,Position,0,&MixedMusic,Deinterlace,1,false,true);
     if (Temp) {
         QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
         NewFrame->RenderedImage=Temp2;

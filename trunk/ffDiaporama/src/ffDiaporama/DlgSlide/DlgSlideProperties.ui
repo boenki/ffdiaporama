@@ -883,7 +883,7 @@ information</string>
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-212</y>
+              <y>0</y>
               <width>257</width>
               <height>720</height>
              </rect>
@@ -2946,24 +2946,6 @@ color: #000000;
     </font>
    </property>
   </action>
-  <action name="actionEditVideo">
-   <property name="icon">
-    <iconset resource="../../../RSCffDiaporama.qrc">
-     <normaloff>:/img/EditMovie.png</normaloff>:/img/EditMovie.png</iconset>
-   </property>
-   <property name="text">
-    <string>Cut the video</string>
-   </property>
-   <property name="toolTip">
-    <string>Cut the video</string>
-   </property>
-   <property name="font">
-    <font>
-     <family>Sans Serif</family>
-     <pointsize>9</pointsize>
-    </font>
-   </property>
-  </action>
   <action name="actionUpBlock">
    <property name="icon">
     <iconset resource="../../../RSCffDiaporama.qrc">
@@ -3411,6 +3393,16 @@ color: #000000;
  </widget>
  <customwidgets>
   <customwidget>
+   <class>cFramingComboBox</class>
+   <extends>QComboBox</extends>
+   <header>cCustomComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ccFrameShapeBox</class>
+   <extends>QComboBox</extends>
+   <header>cCustomComboBox.h</header>
+  </customwidget>
+  <customwidget>
    <class>cCustomColorComboBox</class>
    <extends>QComboBox</extends>
    <header>cCustomComboBox.h</header>
@@ -3430,16 +3422,6 @@ color: #000000;
    <class>cCustomShotTable</class>
    <extends>QTableWidget</extends>
    <header>DlgSlide/cCustomShotTable.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cFramingComboBox</class>
-   <extends>QComboBox</extends>
-   <header>cCustomComboBox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>ccFrameShapeBox</class>
-   <extends>QComboBox</extends>
-   <header>cCustomComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

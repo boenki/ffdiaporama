@@ -436,7 +436,7 @@ void QCustomFolderTable::resizeEvent(QResizeEvent *ev) {
     if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
         int ColumnWidth   =GetWidthForIcon();
         int RowHeight     =GetHeightForIcon();
-        int NewColumnCount=(viewport()->width()/ColumnWidth);
+        int NewColumnCount=(viewport()->width()/ColumnWidth);	if (NewColumnCount<=0) NewColumnCount=1;
         int NewRowCount   =CurrentDisplayItem/NewColumnCount;   if (NewRowCount*NewColumnCount<CurrentDisplayItem) NewRowCount++;
 
         if ((NewColumnCount!=columnCount())||(NewRowCount!=rowCount())) {

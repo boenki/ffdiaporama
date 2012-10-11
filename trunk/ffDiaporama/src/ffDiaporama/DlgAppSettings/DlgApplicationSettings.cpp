@@ -88,14 +88,12 @@ void DlgApplicationSettings::DoInitDialog() {
     else ui->MemCacheProfilCB->setCurrentIndex(3);
     #endif
     ui->SDLAudioModeCB->setChecked(ApplicationConfig->SDLAudioOldMode);
-    ui->CacheTransformedImagesCB->setChecked(ApplicationConfig->AllowCachedTransfoImages);
 
     // Preview Options
     QString FPS=(QString("%1").arg(ApplicationConfig->PreviewFPS,0,'f')).trimmed();
     while (FPS.endsWith('0')) FPS=FPS.left(FPS.length()-1);
     if (FPS.endsWith('.')) FPS=FPS.left(FPS.length()-1);
     ui->PreviewFrameRateCB->setCurrentIndex(ui->PreviewFrameRateCB->findText(FPS));
-    ui->ApplyTransfoDuringPreviewCB->setChecked(ApplicationConfig->ApplyTransfoPreview);
     ui->SmoothImageDuringPreviewCB->setChecked(ApplicationConfig->Smoothing);
     ui->QuickResamplingPreviewCB->setChecked(ApplicationConfig->QuickResamplingPreview);
 
@@ -136,12 +134,12 @@ void DlgApplicationSettings::DoInitDialog() {
     ApplicationConfig->StyleTextBackgroundCollection.   FillCollectionCB(ui->ST_Text_BackgroundCB,  ApplicationConfig->StyleTextBackgroundCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_BackGST));
     ApplicationConfig->StyleBlockShapeCollection.       FillCollectionCB(ui->ST_Text_ShapeCB,       ApplicationConfig->StyleBlockShapeCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_ShapeST));
 
-    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),QVariant(AUTOCOMPOSIZE_FULLSCREEN));
-    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","TV margins"),QVariant(AUTOCOMPOSIZE_TVMARGINS));
-    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Two thirds of screen"),QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));
-    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Half of screen"),QVariant(AUTOCOMPOSIZE_HALFSCREEN));
-    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Third of screen"),QVariant(AUTOCOMPOSIZE_THIRDSCREEN));
-    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Quarter of screen"),QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),  QVariant(AUTOCOMPOSIZE_FULLSCREEN));
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","TV margins"),        QVariant(AUTOCOMPOSIZE_TVMARGINS));
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Two thirds screen"), QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Half screen"),       QVariant(AUTOCOMPOSIZE_HALFSCREEN));
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Third screen"),      QVariant(AUTOCOMPOSIZE_THIRDSCREEN));
+    ui->ST_Text_CoordCB->addItem(QApplication::translate("DlgImageCorrection","Quarter screen"),    QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));
     SetCBIndex(ui->ST_Text_CoordCB,ApplicationConfig->DefaultBlock_AutoSizePos);
     ui->ST_Text_LockingCB->addItem(QIcon(ICON_GEOMETRY_UNLOCKED),QApplication::translate("DlgImageCorrection","Unlock"),QVariant(AUTOFRAMING_CUSTOMUNLOCK));
     //ui->ST_Text_LockingCB->addItem(QIcon(ICON_GEOMETRY_LOCKED),  QApplication::translate("DlgImageCorrection","Lock to this geometry"),QVariant(AUTOFRAMING_CUSTOMLOCK));
@@ -182,13 +180,13 @@ void DlgApplicationSettings::DoInitDialog() {
         AddItemToFramingCB(CB_SL[i][0],AUTOFRAMING_WIDTHBOTTOMMAX);
         SetCBIndex(CB_SL[i][0],ApplicationConfig->DefaultBlockSL[i].AutoFraming);
 
-        if (i>=3) CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Real image size"),QVariant(AUTOCOMPOSIZE_REALSIZE));
-        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),QVariant(AUTOCOMPOSIZE_FULLSCREEN));
-        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","TV margins"),QVariant(AUTOCOMPOSIZE_TVMARGINS));
-        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Two thirds of screen"),QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));
-        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Half of screen"),QVariant(AUTOCOMPOSIZE_HALFSCREEN));
-        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Third of screen"),QVariant(AUTOCOMPOSIZE_THIRDSCREEN));
-        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Quarter of screen"),QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));
+        if (i>=3) CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Real image size"), QVariant(AUTOCOMPOSIZE_REALSIZE));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),          QVariant(AUTOCOMPOSIZE_FULLSCREEN));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","TV margins"),                QVariant(AUTOCOMPOSIZE_TVMARGINS));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Two thirds screen"),         QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Half screen"),               QVariant(AUTOCOMPOSIZE_HALFSCREEN));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Third screen"),              QVariant(AUTOCOMPOSIZE_THIRDSCREEN));
+        CB_SL[i][1]->addItem(QApplication::translate("DlgImageCorrection","Quarter screen"),            QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));
         SetCBIndex(CB_SL[i][1],ApplicationConfig->DefaultBlockSL[i].AutoCompo);
 
         AddItemToFramingCB(CB_BA[i][0],AUTOFRAMING_FULLMAX);
@@ -200,13 +198,13 @@ void DlgApplicationSettings::DoInitDialog() {
         AddItemToFramingCB(CB_BA[i][0],AUTOFRAMING_WIDTHBOTTOMMAX);
         SetCBIndex(CB_BA[i][0],ApplicationConfig->DefaultBlockBA[i].AutoFraming);
 
-        if (i>=3) CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Real image size"),QVariant(AUTOCOMPOSIZE_REALSIZE));
-        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),QVariant(AUTOCOMPOSIZE_FULLSCREEN));
-        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","TV margins"),QVariant(AUTOCOMPOSIZE_TVMARGINS));
-        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Two thirds of screen"),QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));
-        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Half of screen"),QVariant(AUTOCOMPOSIZE_HALFSCREEN));
-        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Third of screen"),QVariant(AUTOCOMPOSIZE_THIRDSCREEN));
-        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Quarter of screen"),QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));
+        if (i>=3) CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Real image size"), QVariant(AUTOCOMPOSIZE_REALSIZE));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),          QVariant(AUTOCOMPOSIZE_FULLSCREEN));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","TV margins"),                QVariant(AUTOCOMPOSIZE_TVMARGINS));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Two thirds screen"),         QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Half screen"),               QVariant(AUTOCOMPOSIZE_HALFSCREEN));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Third screen"),              QVariant(AUTOCOMPOSIZE_THIRDSCREEN));
+        CB_BA[i][1]->addItem(QApplication::translate("DlgImageCorrection","Quarter screen"),            QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));
         SetCBIndex(CB_BA[i][1],ApplicationConfig->DefaultBlockBA[i].AutoCompo);
     }
 
@@ -332,7 +330,6 @@ void DlgApplicationSettings::DoAccept() {
     #endif
 
     // Preview Options part
-    ApplicationConfig->ApplyTransfoPreview      =ui->ApplyTransfoDuringPreviewCB->isChecked();
     ApplicationConfig->Smoothing                =ui->SmoothImageDuringPreviewCB->isChecked();
     ApplicationConfig->QuickResamplingPreview   =ui->QuickResamplingPreviewCB->isChecked();
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
@@ -343,7 +340,6 @@ void DlgApplicationSettings::DoAccept() {
         case 1  : ApplicationConfig->MemCacheMaxValue=qlonglong(512*qlonglong(1024*1024));     break;
         default : ApplicationConfig->MemCacheMaxValue=qlonglong(256*qlonglong(1024*1024));     break;
     }
-    ApplicationConfig->AllowCachedTransfoImages=ui->CacheTransformedImagesCB->isChecked();
 
     // Editor Options part
     ApplicationConfig->AppendObject             =ui->AppendObjectCB->currentIndex()==1;

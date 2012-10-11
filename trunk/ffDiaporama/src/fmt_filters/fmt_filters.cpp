@@ -303,6 +303,8 @@ void negative(const image &im)
     if(!checkImage(im))
 	return;
 
+    ToLog(LOGMSG_INFORMATION,ffDText(ffDSection_CommonInfoMsg,7));
+
     rgba *bits;
     u8 R, G, B;
 
@@ -473,6 +475,8 @@ void gray(const image &im)
 {
     if(!checkImage(im))
         return;
+
+    ToLog(LOGMSG_INFORMATION,ffDText(ffDSection_CommonInfoMsg,4));
 
     rgba *bits;
     s32 g;
@@ -802,6 +806,8 @@ void despeckle(const image &im)
     if(!checkImage(im))
         return;
 
+    ToLog(LOGMSG_INFORMATION,ffDText(ffDSection_CommonInfoMsg,2));
+
     s32 i, j, x, y;
     u8 *blue_channel, *red_channel, *green_channel, *buffer, *alpha_channel;
     s32 packets;
@@ -928,6 +934,8 @@ void blur(const image &im, double radius, double sigma)
     if(!checkImage(im))
         return;
 
+    ToLog(LOGMSG_INFORMATION,ffDText(ffDSection_CommonInfoMsg,5));
+
     double *kernel;
     rgba *dest;
     s32 width;
@@ -1028,6 +1036,8 @@ void equalize(const image &im)
 {
     if(!checkImage(im))
         return;
+
+    ToLog(LOGMSG_INFORMATION,ffDText(ffDSection_CommonInfoMsg,3));
 
     double_packet high, low, intensity, *map, *histogram;
     short_packet *equalize_map;
@@ -1294,6 +1304,8 @@ void emboss(image &im, double radius, double sigma)
     if(!checkImage(im))
         return;
 
+    ToLog(LOGMSG_INFORMATION,ffDText(ffDSection_CommonInfoMsg,8));
+
     double alpha, *kernel;
     int j, width;
     register long i, u, v;
@@ -1355,6 +1367,8 @@ void sharpen(image &im, double radius, double sigma)
 {
     if(!checkImage(im))
         return;
+
+    ToLog(LOGMSG_INFORMATION,ffDText(ffDSection_CommonInfoMsg,6));
 
     double alpha, normalize, *kernel;
     int width;

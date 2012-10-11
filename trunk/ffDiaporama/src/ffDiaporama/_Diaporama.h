@@ -236,7 +236,6 @@ public:
     int                     TypeObject;                 // Type of object
     QString                 SlideName;                  // Display name of the slide
     QList<cDiaporamaShot *> List;                       // list of scene definition
-    cFilterTransformObject  FilterTransform;            // Filters tranformation value for source image
 
     // Background definition
     bool                    BackgroundType;             // Background type : false=same as precedent - true=new background definition

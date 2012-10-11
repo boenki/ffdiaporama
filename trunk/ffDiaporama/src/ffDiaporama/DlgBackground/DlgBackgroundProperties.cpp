@@ -325,7 +325,7 @@ void DlgBackgroundProperties::s_SelectFile() {
         delete DiaporamaObject->BackgroundBrush->Image;
         DiaporamaObject->BackgroundBrush->Image=NULL;
     } else {
-        QImage *Image=DiaporamaObject->BackgroundBrush->Image->ImageAt(true,&DiaporamaObject->BackgroundBrush->Image->BrushFileTransform);
+        QImage *Image=DiaporamaObject->BackgroundBrush->Image->ImageAt(true);
         if (Image) {
             DiaporamaObject->BackgroundBrush->ApplyAutoFraming(AUTOFRAMING_FULLMAX,1);
             delete Image;
@@ -422,7 +422,7 @@ void DlgBackgroundProperties::s_ImageEditCorrect() {
         AppendPartialUndo(UNDOACTION_EDITIMG,ui->ImageEditCorrectBT,false);
 
         //DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
-        DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,
+        DlgImageCorrection Dlg(NULL,NULL,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,
                                HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {

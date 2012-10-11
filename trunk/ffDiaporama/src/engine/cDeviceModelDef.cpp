@@ -389,14 +389,14 @@ struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
 struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
     {false,false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libvo_amrwbenc#libopencore_amrnb"},
     {false,false, "avi",      "avi",  "AVI file format",              "MJPEG#MPEG#MPEG4#H264HQ#H264PQ",   "pcm_s16le#mp2#libmp3lame#ac3"},
-    {false,false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA#X264LL","pcm_s16le#libmp3lame#libfaac#aac#libvo_aacenc#ac3#libvorbis#vorbis#flac"},
+    {false,false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA#LIBTHEORA#X264LL","pcm_s16le#libmp3lame#libfaac#aac#libvo_aacenc#ac3#libvorbis#vorbis#flac"},
     {false,false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                            "pcm_s16le"},
     {false,false, "mp4",      "mp4",  "MP4 file format",              "MPEG4#H264HQ#H264PQ",              "libmp3lame#libfaac#aac#libvo_aacenc"},
     {false,false, "mpeg",     "mpg",  "MPEG file format",             "MPEG",                             "mp2#ac3"},
     {false,false, "webm",     "webm", "WEBM file format",             "VP8",                              "libvorbis#vorbis"},
     {false,false, "flv",      "flv",  "FLV Flash file format 2005",   "H263",                             "libmp3lame"},
     {false,false, "flv",      "flv",  "FLV Flash file format 2008",   "H264HQ#H264PQ",                    "libfaac#aac#libvo_aacenc"},
-    {false,false, "ogg",      "ogv",  "OGV Ogg/Theroa file format",   "THEORA",                           "libvorbis#vorbis"},
+    {false,false, "ogg",      "ogv",  "OGV Ogg/Theroa file format",   "THEORA#LIBTHEORA",                 "libvorbis#vorbis"},
     {false,false, "asf",      "wmv",  "ASF/Window Media Video format","",                                 ""}
 };
 

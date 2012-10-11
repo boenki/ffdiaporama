@@ -179,7 +179,7 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
-        bool IsOk=true;
+        bool    IsOk=true;
 
         if (Element.hasAttribute("TypeComposition"))            TypeComposition =Element.attribute("TypeComposition").toInt();
         if (Element.hasAttribute("IndexKey"))                   IndexKey        =Element.attribute("IndexKey").toInt();
@@ -999,14 +999,15 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
-        bool IsOk=true;
+        bool    IsOk=true;
+
         // Load composition list
         List.clear();
         TypeComposition=Element.attribute("TypeComposition").toInt();
         int CompositionNumber=Element.attribute("CompositionNumber").toInt();
         for (int i=0;i<CompositionNumber;i++) {
             cCompositionObject *CompositionObject=new cCompositionObject(TypeComposition,0,GlobalMainWindow->ApplicationConfig);    // IndexKey will be load from XML
-            if (!CompositionObject->LoadFromXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ObjectComposition,AliasList)) {
+            if (!CompositionObject->LoadFromXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ObjectComposition,AliasList,true)) {
                 //IsOk=false;
                 delete CompositionObject;
             } else List.append(CompositionObject);
@@ -1284,7 +1285,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             }
             QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
             BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
-            bool ModifyFlag;
+            bool    ModifyFlag;
             if (!BackgroundBrush->LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
             if (IsOk && ModifyFlag) GlobalMainWindow->SetModifyFlag(true);
             // Background brush
@@ -1332,6 +1333,20 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             QByteArray  Compressed   =QByteArray::fromHex(Element.attribute("Thumbnail").toUtf8());
             QByteArray  Decompressed =qUncompress(Compressed);
             Thumbnail->loadFromData(Decompressed);
+        }
+
+        //**** Compatibility with version prior to 1.5
+        for (int i=0;i<ObjectComposition.List.count();i++) {
+            if ((ObjectComposition.List.at(i)->BackgroundBrush->OnOffFilter!=0)||(ObjectComposition.List.at(i)->BackgroundBrush->BlurSigma!=0)) {
+                for (int j=0;j<List.count();j++) for (int k=0;k<List.at(j)->ShotComposition.List.count();k++) if (List.at(j)->ShotComposition.List.at(k)->IndexKey==ObjectComposition.List.at(i)->IndexKey) {
+                    List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->OnOffFilter=ObjectComposition.List.at(i)->BackgroundBrush->OnOffFilter;
+                    List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->BlurSigma  =ObjectComposition.List.at(i)->BackgroundBrush->BlurSigma;
+                    List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->BlurRadius =ObjectComposition.List.at(i)->BackgroundBrush->BlurRadius;
+                }
+                ObjectComposition.List.at(i)->BackgroundBrush->OnOffFilter=0;
+                ObjectComposition.List.at(i)->BackgroundBrush->BlurSigma  =0;
+                ObjectComposition.List.at(i)->BackgroundBrush->BlurRadius =5;
+            }
         }
 
         return IsOk;
@@ -1690,7 +1705,7 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position
         }
 
         // Get more music bloc at correct position (volume is always 100% @ this point !)
-        CurMusic->ImageAt(PreviewMode,Position+StartPosition,0,MusicTrack,false,1,true,NULL,false);
+        CurMusic->ImageAt(PreviewMode,Position+StartPosition,0,MusicTrack,false,1,true,false);
 
         // Apply correct volume to block in queue
         if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
@@ -2978,7 +2993,10 @@ bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber)
                 (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Green         !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Green)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Brightness    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Brightness)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Contrast      !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Contrast)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Gamma         !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Gamma))
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Gamma         !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Gamma)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BlurRadius    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BlurRadius)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BlurSigma     !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BlurSigma)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->OnOffFilter   !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->OnOffFilter))
                 IsStatic=false;
         }
     }

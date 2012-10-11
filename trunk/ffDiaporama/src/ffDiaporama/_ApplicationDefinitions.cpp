@@ -104,7 +104,6 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgSlideDurationWSP;
     delete DlgImageTransformationWSP;
     delete DlgImageCorrectionWSP;
-    delete DlgVideoEditWSP;
     delete DlgTextEditWSP;
     delete DlgManageStyleWSP;
     delete DlgCheckConfigWSP;
@@ -196,7 +195,6 @@ void cApplicationConfig::InitValues() {
     DlgSlideDurationWSP         =new cSaveDlgSlideProperties("DlgSlideDurationWSP",RestoreWindow,false);    // Dialog box "Slide duration" - Window size and position
     DlgImageTransformationWSP   =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);  // Dialog box "Image transformation" - Window size and position
     DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
-    DlgVideoEditWSP             =new cSaveWindowPosition("DlgVideoEditWSP",RestoreWindow,false);            // Dialog box "Edit video" - Window size and position
     DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
     DlgManageStyleWSP           =new cSaveWindowPosition("DlgManageStyleWSP",RestoreWindow,false);          // Dialog box "Manage style" - Window size and position
     DlgCheckConfigWSP           =new cSaveWindowPosition("DlgCheckConfigWSP",RestoreWindow,false);          // Dialog box "Check configuration" - Window size and position
@@ -381,7 +379,6 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     DlgSlideDurationWSP->SaveToXML(domDocument);
     DlgImageTransformationWSP->SaveToXML(domDocument);
     DlgImageCorrectionWSP->SaveToXML(domDocument);
-    DlgVideoEditWSP->SaveToXML(domDocument);
     DlgTextEditWSP->SaveToXML(domDocument);
     DlgManageStyleWSP->SaveToXML(domDocument);
     DlgCheckConfigWSP->SaveToXML(domDocument);
@@ -535,7 +532,6 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     DlgSlideDurationWSP->LoadFromXML(domDocument);
     DlgImageTransformationWSP->LoadFromXML(domDocument);
     DlgImageCorrectionWSP->LoadFromXML(domDocument);
-    DlgVideoEditWSP->LoadFromXML(domDocument);
     DlgTextEditWSP->LoadFromXML(domDocument);
     DlgManageStyleWSP->LoadFromXML(domDocument);
     DlgCheckConfigWSP->LoadFromXML(domDocument);
