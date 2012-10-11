@@ -66,7 +66,6 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             DlgSlide/DlgRuler/DlgRulerDef.cpp \
     	    DlgText/cCustomTextEdit.cpp \
             DlgText/DlgTextEdit.cpp \
-            DlgVideo/DlgVideoEdit.cpp \
             DlgCheckConfig/DlgCheckConfig.cpp \
             DlgInfoFile/DlgInfoFile.cpp \
             DlgffDPjrProperties/DlgffDPjrProperties.cpp \
@@ -119,7 +118,6 @@ HEADERS  += \
             DlgSlide/DlgRuler/DlgRulerDef.h \
             DlgText/cCustomTextEdit.h \
             DlgText/DlgTextEdit.h \
-            DlgVideo/DlgVideoEdit.h \
             DlgCheckConfig/DlgCheckConfig.h \
             DlgInfoFile/DlgInfoFile.h \
             DlgffDPjrProperties/DlgffDPjrProperties.h \
@@ -160,7 +158,6 @@ FORMS    += mainwindow.ui \
             DlgSlide/DlgSlideProperties.ui \
             DlgSlide/DlgRuler/DlgRulerDef.ui \
             DlgText/DlgTextEdit.ui \
-            DlgVideo/DlgVideoEdit.ui \
             DlgCheckConfig/DlgCheckConfig.ui \
             DlgInfoFile/DlgInfoFile.ui \
             DlgffDPjrProperties/DlgffDPjrProperties.ui \ 

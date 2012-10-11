@@ -327,7 +327,7 @@ erstellungen gespeichert und beim nächsten Programmstart von fFDiaporama wieder
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="495"/>
         <source>Video deinterlacing :</source>
-        <translation type="unfinished"></translation>
+        <translation>Video-Deinterlacing:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="510"/>
@@ -477,57 +477,59 @@ Crossfade transition</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1244"/>
         <source>Locking</source>
-        <translation type="unfinished"></translation>
+        <translation>Sperre</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1288"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1835"/>
         <source>Photo landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Foto Querformat</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1359"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1873"/>
         <source>Image landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Bild Querformat</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1398"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1807"/>
         <source>
 Coordinates:</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Koordinaten:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1412"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1911"/>
         <source>Video landscape</source>
-        <translation type="unfinished"></translation>
+        <translation>Video Querformat</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1431"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1854"/>
         <source>Photo portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Foto Hochformat</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1444"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1799"/>
         <source>
 Framing:</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Umrahmung:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1458"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1930"/>
         <source>Video portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Video Hochformat</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1477"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1892"/>
         <source>image portrait</source>
-        <translation type="unfinished"></translation>
+        <translation>Bild Hochformat</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1950"/>
@@ -728,7 +730,7 @@ und beim nächsten Programmstart von ffDiaporama wiederverwendet</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="471"/>
         <source>Video cropping :</source>
-        <translation type="unfinished"></translation>
+        <translation>Video Bescheindung:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="668"/>
@@ -1304,7 +1306,7 @@ See help for more details!</source>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="204"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="790"/>
         <source>Full screen size</source>
-        <translation type="unfinished"></translation>
+        <translation>Vollbildgröße</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="140"/>
@@ -1312,39 +1314,39 @@ See help for more details!</source>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="205"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="792"/>
         <source>TV margins</source>
-        <translation type="unfinished">TV Seitenränder</translation>
+        <translation>TV Seitenränder</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="141"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="188"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="206"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="794"/>
-        <source>Two thirds of screen</source>
-        <translation type="unfinished"></translation>
+        <source>Two thirds screen</source>
+        <translation>Zwei Drittel Schirm</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="142"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="189"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="207"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="796"/>
-        <source>Half of screen</source>
-        <translation type="unfinished"></translation>
+        <source>Half screen</source>
+        <translation>Halber Schirm</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="143"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="190"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="208"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="798"/>
-        <source>Third of screen</source>
-        <translation type="unfinished"></translation>
+        <source>Third screen</source>
+        <translation>Drittel Schirm</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="144"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="191"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="209"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="800"/>
-        <source>Quarter of screen</source>
-        <translation type="unfinished"></translation>
+        <source>Quarter screen</source>
+        <translation>Viertel Schirm</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="146"/>
@@ -1358,12 +1360,12 @@ See help for more details!</source>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="203"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="787"/>
         <source>Real image size</source>
-        <translation type="unfinished"></translation>
+        <translation>Tatsächliche Bildgröße</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="783"/>
         <source>Custom size</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefinierte Größe</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="815"/>
@@ -1377,12 +1379,12 @@ See help for more details!</source>
         <translation>Festlegen auf Basis der Projektgeometrie</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="326"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="343"/>
         <source>Creating cached filtered file ...</source>
         <translation>Erzeuge Puffer für gefilterte Datei ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="507"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="524"/>
         <source>Select a file</source>
         <translation>Datei auswählen</translation>
     </message>
@@ -4198,92 +4200,92 @@ entfernen</translation>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="137"/>
         <source>Custom geometry - unlocked</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefinierte Geometry - ungesperrt</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="138"/>
         <source>Custom geometry - locked</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefinierte Geometry - gesperrt</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="139"/>
         <source>Custom size - Image geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefinierte Größe - Bildgeometry</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="140"/>
         <source>Custom size - Project geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefinierte Größe - Projektgeometry</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="141"/>
         <source>Full image</source>
-        <translation type="unfinished"></translation>
+        <translation>Volle Bildgröße</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="142"/>
-        <source>Full image - inside</source>
-        <translation type="unfinished"></translation>
+        <source>Full inner image</source>
+        <translation>Volles Innenbild</translation>
+    </message>
+    <message>
+        <location filename="../src/engine/cBrushDefinition.cpp" line="144"/>
+        <source>Project inner height - to the left</source>
+        <translation>Projekt innere Höhe - links ausgerichtet</translation>
+    </message>
+    <message>
+        <location filename="../src/engine/cBrushDefinition.cpp" line="146"/>
+        <source>Project inner height - in the center</source>
+        <translation>Projekt innere Höhe - mittig ausgerichtet</translation>
+    </message>
+    <message>
+        <location filename="../src/engine/cBrushDefinition.cpp" line="148"/>
+        <source>Project inner height - to the right</source>
+        <translation>Projekt innere Höhe - rechts ausgerichtet</translation>
+    </message>
+    <message>
+        <location filename="../src/engine/cBrushDefinition.cpp" line="150"/>
+        <source>Project inner width - at the top</source>
+        <translation>Projekt innere Weite - nach oben ausgerichtet</translation>
+    </message>
+    <message>
+        <location filename="../src/engine/cBrushDefinition.cpp" line="152"/>
+        <source>Project inner width - in the middle</source>
+        <translation>Projekt innere Weite - mittig ausgerichtet</translation>
+    </message>
+    <message>
+        <location filename="../src/engine/cBrushDefinition.cpp" line="154"/>
+        <source>Project inner width - at the bottom</source>
+        <translation>Projekt innere Weite - unten ausgerichtet</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="143"/>
         <source>Project height - to the left</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="144"/>
-        <source>Project height - to the left - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekthöhe - links ausgerichtet</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="145"/>
         <source>Project height - in the center</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="146"/>
-        <source>Project height - in the center - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekthöhe - mittig ausgerichtet</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="147"/>
         <source>Project height - to the right</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="148"/>
-        <source>Project height - to the right - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekthöhe - rechts ausgerichtet</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="149"/>
         <source>Project width - at the top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="150"/>
-        <source>Project width - at the top - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektweite - oben ausgerichtet</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="151"/>
         <source>Project width - in the middle</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="152"/>
-        <source>Project width - in the middle - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektweite - mittig ausgerichtet</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="153"/>
         <source>Project width - at the bottom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/engine/cBrushDefinition.cpp" line="154"/>
-        <source>Project width - at the bottom - inside</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektweite - nach unten ausgerichtet</translation>
     </message>
 </context>
 <context>
@@ -4870,7 +4872,7 @@ und Hilfe</translation>
         <translation>Lesen der Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="531"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="552"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1805"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1917"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
@@ -4878,7 +4880,7 @@ und Hilfe</translation>
         <translation>Diese Anwendung unterstützt nur Audiospuren mit unsigniertem 8-Bit oder signiertem 16-Bit Sample Format</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="535"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="556"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1809"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1923"/>
         <source>This application support only mono or stereo audio track</source>
@@ -4886,7 +4888,7 @@ und Hilfe</translation>
         <translation>Dieses Programm unterstützt nur Mono und Stereo Audiospuren</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="541"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="561"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1880"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1626"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1472"/>
@@ -5482,7 +5484,7 @@ Do you want to open it nevertheless?</source>
         <translation>Dateien hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="523"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="544"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1763"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1897"/>
         <source>Format not supported</source>
@@ -5943,452 +5945,452 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="54"/>
         <source>No shape</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Form</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="55"/>
         <source>Rectangle</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechteckig</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="56"/>
         <source>Rounded rectangle</source>
-        <translation type="unfinished"></translation>
+        <translation>abgerundetes Rechteck</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="57"/>
         <source>Bubble</source>
-        <translation type="unfinished"></translation>
+        <translation>Blasen</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="58"/>
         <source>Ellipse</source>
-        <translation type="unfinished"></translation>
+        <translation>Ellipse</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="59"/>
         <source>Old Triangle up version</source>
-        <translation type="unfinished"></translation>
+        <translation>Altes Dreieck nach oben </translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="60"/>
         <source>Old Triangle right version</source>
-        <translation type="unfinished"></translation>
+        <translation>Altes Dreieck nach rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="61"/>
         <source>Old Triangle down version</source>
-        <translation type="unfinished"></translation>
+        <translation>Altes Dreieck nach unten</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="62"/>
         <source>Old Triangle left version</source>
-        <translation type="unfinished"></translation>
+        <translation>Altes Dreieck nach links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="63"/>
         <source>Rhombus</source>
-        <translation type="unfinished"></translation>
+        <translation>Rombus</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="64"/>
         <source>Pentagon</source>
-        <translation type="unfinished"></translation>
+        <translation>Pentagon</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="65"/>
         <source>Hexagon</source>
-        <translation type="unfinished"></translation>
+        <translation>Hexagon</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="66"/>
         <source>Octogon</source>
-        <translation type="unfinished"></translation>
+        <translation>Oktogon</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="67"/>
         <source>Simple arrow up</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfacher Pfeil nach oben</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="68"/>
         <source>Simple arrow right</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfacher Pfeil nach rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="69"/>
         <source>Simple arrow down</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfacher Pfeil nach unten</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="70"/>
         <source>Simple arrow left</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfacher Pfeil nach Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="71"/>
         <source>Heart</source>
-        <translation type="unfinished"></translation>
+        <translation>Herz</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="72"/>
         <source>Puzzle Up-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Oben-Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="73"/>
         <source>Puzzle Up-Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Oben-Mittig</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="74"/>
         <source>Puzzle Up-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Oben-Rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="75"/>
         <source>Double vertical arrows</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppelpfeil vertikal</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="76"/>
         <source>Double horizontal arrows</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppelpfeil Horizontal</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="77"/>
         <source>Double diagonal arrows 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppelpfeil Diagonal 1</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="78"/>
         <source>Double diagonal arrows 2</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppelpfeil Diagonal 2</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="79"/>
         <source>Spade</source>
-        <translation type="unfinished"></translation>
+        <translation>Pik</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="80"/>
         <source>Puzzle Middle-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Mitte-Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="81"/>
         <source>Puzzle Middle-Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Mitte-Mittig</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="82"/>
         <source>Puzzle Middle-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Mitte-Rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="83"/>
         <source>Right triangle Up-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechtwinkeliges Dreieck Oben-Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="84"/>
         <source>Right triangle Up-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechtwinkeliges Dreieck Oben-Rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="85"/>
         <source>Right triangle Down-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechtwinkeliges Dreieck Unten-Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="86"/>
         <source>Right triangle Down-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Rechtwinkeliges Dreieck Unten-Rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="87"/>
         <source>Club</source>
-        <translation type="unfinished"></translation>
+        <translation>Kreuz</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="88"/>
         <source>Puzzle Down-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Unten-Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="89"/>
         <source>Puzzle Down-Center</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Unten-Mittig</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="90"/>
         <source>Puzzle Down-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Puzzle Unten-Rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="91"/>
         <source>Single triangle up</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfaches Dreieck Oben</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="92"/>
         <source>Single triangle right</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfaches Dreieck Rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="93"/>
         <source>Single triangle down</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfaches Dreieck Unten</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="94"/>
         <source>Single triangle left</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfaches Dreieck Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="95"/>
         <source>Pushed up</source>
-        <translation type="unfinished"></translation>
+        <translation>Angehoben</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="96"/>
         <source>Sharp down</source>
-        <translation type="unfinished"></translation>
+        <translation>Absenken</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="97"/>
         <source>Four-pointed stars</source>
-        <translation type="unfinished"></translation>
+        <translation>Vierzackiger Stern</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="98"/>
         <source>Five-pointed stars</source>
-        <translation type="unfinished"></translation>
+        <translation>Fünfzackiger Stern</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="99"/>
         <source>Double triangle up</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppeltes Dreieck Oben</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="100"/>
         <source>Double triangle right</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppeltes Dreieck Rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="101"/>
         <source>Double triangle down</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppeltes Dreieck unten</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="102"/>
         <source>Double triangle left</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppeltes Dreieck Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="103"/>
         <source>Double chevron up</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppelter Chevron Oben</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="104"/>
         <source>Single chevron down</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfacher Chevron unten</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="105"/>
         <source>Six-pointed stars</source>
-        <translation type="unfinished"></translation>
+        <translation>Sechszackiger Stern</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="106"/>
         <source>Height-pointed stars</source>
-        <translation type="unfinished"></translation>
+        <translation>Länglicher Stern</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="107"/>
         <source>Pushed left</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertierter Pfeil Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="108"/>
         <source>Double chevron left</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppelter Chevron Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="109"/>
         <source>Single chevron left</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfacher Chevron Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="110"/>
         <source>Sharp left</source>
-        <translation type="unfinished"></translation>
+        <translation>Spitze Links</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="111"/>
         <source>Single chevron up</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfacher Chevron Oben</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="112"/>
         <source>Double chevron down</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppelter Chevron unten</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="113"/>
         <source>Six tooth gear</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahnread (6 Zähne)</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="114"/>
         <source>Eight tooth gear</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahnrad (8 Zähne)</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="115"/>
         <source>Sharp right</source>
-        <translation type="unfinished"></translation>
+        <translation>Spitze rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="116"/>
         <source>Single chevron right</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfacher Chevron rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="117"/>
         <source>Double chevron right</source>
-        <translation type="unfinished"></translation>
+        <translation>Doppelter Chevron Rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="118"/>
         <source>Pushed right</source>
-        <translation type="unfinished"></translation>
+        <translation>Invertierter Pfeil Rechts</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="119"/>
         <source>Sharp up</source>
-        <translation type="unfinished"></translation>
+        <translation>Spitze Oben</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="120"/>
         <source>Pushed down</source>
-        <translation type="unfinished"></translation>
+        <translation>Angehoben unten</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="121"/>
         <source>Ten tooth gear</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahnrad (10 Zähne)</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="122"/>
         <source>Twelve tooth gear</source>
-        <translation type="unfinished"></translation>
+        <translation>Zahnrad (12 Zähne)</translation>
     </message>
 </context>
 <context>
     <name>cBaseMediaFile</name>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="278"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="282"/>
         <source>Impossible to open file </source>
         <translation>Öffnen der Datei nicht möglich </translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="278"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="282"/>
         <source>Do you want to select another file ?</source>
         <translation>Möchten Sie eine andere Datei auswählen ?</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="282"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="286"/>
         <source>Select another file for </source>
         <translation>Andere Datei wählen für</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="295"/>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="447"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="299"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="451"/>
         <source>Impossible to open file %1</source>
         <translation>Datei %1 konnte nicht geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="382"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="386"/>
         <source>MPix</source>
         <translation>MPix</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="466"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="470"/>
         <source>Unmanaged</source>
         <comment>File type</comment>
         <translation>Unverwaltet</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="790"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="794"/>
         <source>Slides</source>
         <translation>Dias</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="791"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="795"/>
         <source>Chapters</source>
         <translation>Kapitel</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="847"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="851"/>
         <source>Image</source>
         <comment>File type</comment>
         <translation>Bild</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="848"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="852"/>
         <source>Thumbnail</source>
         <comment>File type</comment>
         <translation>Vorschaubild</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="873"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="877"/>
         <source>Image don&apos;t have EXIF metadata %1</source>
         <translation>Bild hat keine EXIF Metadaten %1</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1444"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1453"/>
         <source>Video</source>
         <comment>File type</comment>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1443"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1452"/>
         <source>Music</source>
         <comment>File type</comment>
         <translation>Musik</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1295"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1304"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
         <translation>Mono</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="277"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="281"/>
         <source>Open file</source>
         <translation>Datei öffnen</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="755"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="759"/>
         <source>Slide number</source>
         <translation>Dianummer</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="820"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="824"/>
         <source>ffDiaporama</source>
         <comment>File type</comment>
         <translation>ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1296"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1305"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
         <translation>Stereo</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="594"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="598"/>
         <source>Folder</source>
         <comment>File type</comment>
         <translation>Ordner</translation>

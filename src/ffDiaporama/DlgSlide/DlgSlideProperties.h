@@ -148,7 +148,6 @@ private slots:
     void            s_BlockSettings_Edit();
     void            s_BlockSettings_TextEditor();
     void            s_BlockSettings_ImageEditCorrect();
-    void            s_BlockSettings_VideoEdit();
     void            s_BlockSettings_Information();
 
     // Block settings : Basic values

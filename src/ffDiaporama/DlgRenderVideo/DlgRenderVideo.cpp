@@ -765,9 +765,7 @@ bool DlgRenderVideo::ComputeAudioPart(QString &aCodec) {
 
 // Audio codec part
 bool DlgRenderVideo::ComputeTAGPart(QString &aTAG) {
-    #ifdef LIBAV_08
     bool    isAVCONV=(Diaporama->ApplicationConfig->BinaryEncoderPath=="avconv");
-    #endif
 
     // Create metadata temp file
     TempMETAFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
@@ -807,11 +805,12 @@ bool DlgRenderVideo::ComputeTAGPart(QString &aTAG) {
                 NextChapter++;
                 if (NextChapter<ToSlide) Duration=Duration-Diaporama->List[NextChapter]->GetTransitDuration();
             }
-            out<<"[CHAPTER]\n";                                         // Write Chapter header
-            out<<"TIMEBASE=1/1000\n";                                   // Timebase
-            out<<"START="+QString("%1").arg(Start)+"\n";                // Start position in ms
-            out<<"END="+QString("%1").arg(Start+Duration)+"\n";         // End position in ms
-            out<<"TITLE="+Diaporama->List[i]->SlideName+"\n";           // Title
+            out<<"[CHAPTER]\n";                                                         // Write Chapter header
+            out<<"TIMEBASE=1/1000000\n";                                                // Timebase
+            out<<"START="+QString("%1").arg(Start*1000)+"\n";                           // Start position in ms
+            out<<"END="+QString("%1").arg((Start+Duration)*1000)+"\n";                  // End position in ms
+            if (isAVCONV)   out<<"TITLE="+Diaporama->List[i]->SlideName+"\n";           // Title
+                else        out<<"title="+Diaporama->List[i]->SlideName+"\n";           // Title
         }
 
         File.close();
@@ -821,7 +820,7 @@ bool DlgRenderVideo::ComputeTAGPart(QString &aTAG) {
         #endif
         #ifdef LIBAV_08
         if (isAVCONV) aTAG=" -i \""+TempMETAFileName+"\" -map_metadata "+(ui->IncludeSoundCB->isChecked()?"2":"1")+":g -map_chapters "+(ui->IncludeSoundCB->isChecked()?"2":"1");
-            else      aTAG=" -i \""+TempMETAFileName+"\" -map_metadata:g 0 -map_chapters "+(ui->IncludeSoundCB->isChecked()?"2":"1"); // For ffmpeg, mapping is to destination file (for avconv is to source !)
+            else      aTAG=" -i \""+TempMETAFileName+"\" -map_metadata:g 0:g -map_chapters "+(ui->IncludeSoundCB->isChecked()?"2":"1"); // For ffmpeg, mapping is to destination file (for avconv is to source !)
         #endif
         return true;
     } else return false;

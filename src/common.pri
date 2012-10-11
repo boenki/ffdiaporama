@@ -53,16 +53,14 @@ win32 {
         DEFINES         += DEBUG_MODE
     }
 
-    INCLUDEPATH += C:\\Qt\\libav-win32\\usr\\include                        #------ libav library path
-    #INCLUDEPATH += C:\\Qt\\ffmpeg-win32-dev\\include                        #------ libav library path
-    INCLUDEPATH += C:\\Qt\\SDL-1.2.15\\include\\SDL                         #------ SDL library path
-    INCLUDEPATH += C:\\Qt\\ThirdLib\\include                                #------ TAGlib and EXIV2 library path
+    INCLUDEPATH += C:\\ffDiaporama-trunk-Qt\\libav-win32\\usr\\include      #------ libav library path
+    INCLUDEPATH += C:\\ffDiaporama-trunk-Qt\\SDL-1.2.15\\include\\SDL       #------ SDL library path
+    INCLUDEPATH += C:\\ffDiaporama-trunk-Qt\\ThirdLib\\include              #------ TAGlib and EXIV2 library path
     INCLUDEPATH += .                                                        #------ I don't know why, but windows need this !
 
-    LIBS        += -L"C:\\Qt\\libav-win32\\usr\\bin"                        #------ libav library path
-    #LIBS        += -L"C:\\Qt\\ffmpeg-win32-dev\\lib"                        #------ libav library path
-    LIBS        += -L"C:\\Qt\\SDL-1.2.15\\lib"                              #------ SDL library path
-    LIBS        += -L"C:\\Qt\\ThirdLib\\lib"                                #------ library path (dynamic version) of third party libs (exiv2lib and taglib)
+    LIBS        += -L"C:\\ffDiaporama-trunk-Qt\\libav-win32\\usr\\bin"      #------ libav library path
+    LIBS        += -L"C:\\ffDiaporama-trunk-Qt\\SDL-1.2.15\\lib"            #------ SDL library path
+    LIBS        += -L"C:\\ffDiaporama-trunk-Qt\\ThirdLib\\lib"              #------ library path (dynamic version) of third party libs (exiv2lib and taglib)
     LIBS        += -lgdi32 -lkernel32 -luser32 -lshell32 -ladvapi32         #------ Windows GDI libs link
     LIBS        += -llibexiv2                                               #------ Exiv2 (dynamic version, so not -llibexpat -lxmpsdk -lzlib1)
 }

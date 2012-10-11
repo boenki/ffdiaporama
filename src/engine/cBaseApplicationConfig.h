@@ -39,7 +39,6 @@
 // Include some common various class
 #include "cSaveWindowPosition.h"
 #include "cCustomIcon.h"
-#include "cFilterTransformObject.h"
 #include "cLuLoImageCache.h"
 
 // Standard geometry definition
@@ -103,7 +102,6 @@ public:
     // Image cache
     cLuLoImageCache         ImagesCache;                                // cLuLoImageCache List Object
     qlonglong               MemCacheMaxValue;                           // Maximum value for image cache
-    bool                    AllowCachedTransfoImages;                   // If true allow use of cached transformed images
 
     // Last directories
     bool                    RememberLastDirectories;                    // If true, Remember all directories for future use
@@ -115,7 +113,6 @@ public:
     bool                    Crop1088To1080;                             // Automaticaly crop video from 1088 lines to 1080 (CANON)
     bool                    Deinterlace;                                // Automaticaly activate deinterlace filter when add new MTS videos
     bool                    QuickResamplingPreview;                     // If true then use quick resampling during preview
-    bool                    ApplyTransfoPreview;                        // True if image transformation are apply during preview
     bool                    CheckConfigAtStartup;                       // If true, check config at startup
 
     #ifdef Q_OS_WIN

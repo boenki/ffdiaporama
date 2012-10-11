@@ -27,7 +27,6 @@
 
 #include "../DlgInfoFile/DlgInfoFile.h"
 #include "../DlgImage/DlgImageCorrection.h"
-#include "../DlgVideo/DlgVideoEdit.h"
 #include "../DlgText/DlgTextEdit.h"
 #include "DlgRuler/DlgRulerDef.h"
 
@@ -62,52 +61,57 @@
 #define ICON_RULER_ON                       ":/img/ruler_ok.png"
 #define ICON_RULER_OFF                      ":/img/ruler_ko.png"
 
+#define ICON_EDIT_IMAGE                     ":/img/EditImage.png"
+#define ICON_EDIT_MOVIE                     ":/img/EditMovie.png"
+
 // Undo actions
-#define UNDOACTION_INTERACTIVEMOVERESIZE            1
-#define UNDOACTION_EDITZONE_POSX                    2
-#define UNDOACTION_EDITZONE_POSY                    3
-#define UNDOACTION_EDITZONE_WIDTH                   4
-#define UNDOACTION_EDITZONE_HEIGHT                  5
-#define UNDOACTION_EDITZONE_ROTATEX                 6
-#define UNDOACTION_EDITZONE_ROTATEY                 7
-#define UNDOACTION_EDITZONE_ROTATEZ                 8
-#define UNDOACTION_EDITZONE_SHAPEFORM               9
-#define UNDOACTION_EDITZONE_SHAPEOPACITY            10
-#define UNDOACTION_EDITZONE_SHAPEPENSIZE            11
-#define UNDOACTION_EDITZONE_SHAPEPENSTYLE           12
-#define UNDOACTION_EDITZONE_SHAPEPENCOLOR           13
-#define UNDOACTION_EDITZONE_SHAPESHADOWFORM         14
-#define UNDOACTION_EDITZONE_SHAPESHADOWDIST         15
-#define UNDOACTION_EDITZONE_SHAPESHADOWCOLOR        16
-#define UNDOACTION_EDITZONE_TEXTANIMZOOM            17
-#define UNDOACTION_EDITZONE_TEXTANIMSCROLLX         18
-#define UNDOACTION_EDITZONE_TEXTANIMSCROLLY         19
-#define UNDOACTION_EDITZONE_BLOCKANIMTYPE           20
-#define UNDOACTION_EDITZONE_BLOCKANIMTURNX          21
-#define UNDOACTION_EDITZONE_BLOCKANIMTURNZ          22
-#define UNDOACTION_EDITZONE_BLOCKANIMTURNY          23
-#define UNDOACTION_EDITZONE_BLOCKANIMDISSOLVE       24
-#define UNDOACTION_STYLE_COORDINATES                25
-#define UNDOACTION_STYLE_SHAPE                      26
-#define UNDOACTION_STYLE_FRAMING                    27
-#define UNDOACTION_EDITZONE_NEWCHAPTER              28
-#define UNDOACTION_EDITZONE_SLIDENAME               29
-#define UNDOACTION_EDITZONE_SHOTDURATION            30
-#define UNDOACTION_SHOTTABLE_ADDSHOT                31
-#define UNDOACTION_SHOTTABLE_REMOVESHOT             32
-#define UNDOACTION_SHOTTABLE_CHORDER                33
-#define UNDOACTION_BLOCKTABLE_ADDTEXTBLOCK          34
-#define UNDOACTION_BLOCKTABLE_ADDFILEBLOCK          35
-#define UNDOACTION_BLOCKTABLE_REMOVEBLOCK           36
-#define UNDOACTION_BLOCKTABLE_PASTEBLOCK            37
-#define UNDOACTION_BLOCKTABLE_CHBLOCKORDER          38
-#define UNDOACTION_BLOCKTABLE_ARRANGEBLOCK          39
-#define UNDOACTION_BLOCKTABLE_EDITTEXT              40
-#define UNDOACTION_BLOCKTABLE_EDITVIDEO             41
-#define UNDOACTION_BLOCKTABLE_EDITIMAGE             42
-#define UNDOACTION_BLOCKTABLE_VISIBLESTATE          43
-#define UNDOACTION_BLOCKTABLE_SOUNDSTATE            44
-#define UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE   45
+enum UNDOACTION_ID {
+    UNDOACTION_INTERACTIVEMOVERESIZE,
+    UNDOACTION_EDITZONE_POSX,
+    UNDOACTION_EDITZONE_POSY,
+    UNDOACTION_EDITZONE_WIDTH,
+    UNDOACTION_EDITZONE_HEIGHT,
+    UNDOACTION_EDITZONE_ROTATEX,
+    UNDOACTION_EDITZONE_ROTATEY,
+    UNDOACTION_EDITZONE_ROTATEZ,
+    UNDOACTION_EDITZONE_SHAPEFORM,
+    UNDOACTION_EDITZONE_SHAPEOPACITY,
+    UNDOACTION_EDITZONE_SHAPEPENSIZE,
+    UNDOACTION_EDITZONE_SHAPEPENSTYLE,
+    UNDOACTION_EDITZONE_SHAPEPENCOLOR,
+    UNDOACTION_EDITZONE_SHAPESHADOWFORM,
+    UNDOACTION_EDITZONE_SHAPESHADOWDIST,
+    UNDOACTION_EDITZONE_SHAPESHADOWCOLOR,
+    UNDOACTION_EDITZONE_TEXTANIMZOOM,
+    UNDOACTION_EDITZONE_TEXTANIMSCROLLX,
+    UNDOACTION_EDITZONE_TEXTANIMSCROLLY,
+    UNDOACTION_EDITZONE_BLOCKANIMTYPE,
+    UNDOACTION_EDITZONE_BLOCKANIMTURNX,
+    UNDOACTION_EDITZONE_BLOCKANIMTURNZ,
+    UNDOACTION_EDITZONE_BLOCKANIMTURNY,
+    UNDOACTION_EDITZONE_BLOCKANIMDISSOLVE,
+    UNDOACTION_STYLE_COORDINATES,
+    UNDOACTION_STYLE_SHAPE,
+    UNDOACTION_STYLE_FRAMING,
+    UNDOACTION_EDITZONE_NEWCHAPTER,
+    UNDOACTION_EDITZONE_SLIDENAME,
+    UNDOACTION_EDITZONE_SHOTDURATION,
+    UNDOACTION_SHOTTABLE_ADDSHOT,
+    UNDOACTION_SHOTTABLE_REMOVESHOT,
+    UNDOACTION_SHOTTABLE_CHORDER,
+    UNDOACTION_BLOCKTABLE_ADDTEXTBLOCK,
+    UNDOACTION_BLOCKTABLE_ADDFILEBLOCK,
+    UNDOACTION_BLOCKTABLE_REMOVEBLOCK,
+    UNDOACTION_BLOCKTABLE_PASTEBLOCK,
+    UNDOACTION_BLOCKTABLE_CHBLOCKORDER,
+    UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,
+    UNDOACTION_BLOCKTABLE_EDITTEXT,
+    UNDOACTION_BLOCKTABLE_EDITVIDEO,
+    UNDOACTION_BLOCKTABLE_EDITIMAGE,
+    UNDOACTION_BLOCKTABLE_VISIBLESTATE,
+    UNDOACTION_BLOCKTABLE_SOUNDSTATE,
+    UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE
+};
 
 //********************************************************************************************************************************
 // DlgSlideProperties : Slide Dialog
@@ -253,7 +257,6 @@ void DlgSlideProperties::DoInitDialog() {
     ui->actionAddFile->setIconVisibleInMenu(true);
     ui->actionEditText->setIconVisibleInMenu(true);
     ui->actionEditImage->setIconVisibleInMenu(true);
-    ui->actionEditVideo->setIconVisibleInMenu(true);
     ui->actionUpBlock->setIconVisibleInMenu(true);
     ui->actionDownBlock->setIconVisibleInMenu(true);
     ui->actionSetVisible->setIconVisibleInMenu(true);
@@ -312,7 +315,6 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->EditBT,SIGNAL(pressed()),this,SLOT(s_BlockSettings_Edit()));
     connect(ui->actionEditText,SIGNAL(triggered()),this,SLOT(s_BlockSettings_TextEditor()));
     connect(ui->actionEditImage,SIGNAL(triggered()),this,SLOT(s_BlockSettings_ImageEditCorrect()));
-    connect(ui->actionEditVideo,SIGNAL(triggered()),this,SLOT(s_BlockSettings_VideoEdit()));
     connect(ui->InfoBlock,SIGNAL(clicked()),this,SLOT(s_BlockSettings_Information()));
     connect(ui->actionInfo,SIGNAL(triggered()),this,SLOT(s_BlockSettings_Information()));
 
@@ -787,17 +789,17 @@ void DlgSlideProperties::RefreshStyleControls() {
             ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Real image size"),QVariant(AUTOCOMPOSIZE_REALSIZE));
             if (AutoCompo==AUTOCOMPOSIZE_REALSIZE) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
         }
-        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),QVariant(AUTOCOMPOSIZE_FULLSCREEN));                                     // AUTOCOMPOSIZE_FULLSCREEN
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Full screen size"),QVariant(AUTOCOMPOSIZE_FULLSCREEN));           // AUTOCOMPOSIZE_FULLSCREEN
         if (AutoCompo==AUTOCOMPOSIZE_FULLSCREEN) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
-        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","TV margins"),QVariant(AUTOCOMPOSIZE_TVMARGINS));                                            // AUTOCOMPOSIZE_TVMARGINS
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","TV margins"),QVariant(AUTOCOMPOSIZE_TVMARGINS));                  // AUTOCOMPOSIZE_TVMARGINS
         if (AutoCompo==AUTOCOMPOSIZE_TVMARGINS) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
-        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Two thirds of screen"),QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));                            // AUTOCOMPOSIZE_TWOTHIRDSSCREEN
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Two thirds screen"),QVariant(AUTOCOMPOSIZE_TWOTHIRDSSCREEN));     // AUTOCOMPOSIZE_TWOTHIRDSSCREEN
         if (AutoCompo==AUTOCOMPOSIZE_TWOTHIRDSSCREEN) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
-        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Half of screen"),QVariant(AUTOCOMPOSIZE_HALFSCREEN));                                       // AUTOCOMPOSIZE_HALFSCREEN
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Half screen"),QVariant(AUTOCOMPOSIZE_HALFSCREEN));                // AUTOCOMPOSIZE_HALFSCREEN
         if (AutoCompo==AUTOCOMPOSIZE_HALFSCREEN) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
-        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Third of screen"),QVariant(AUTOCOMPOSIZE_THIRDSCREEN));                                     // AUTOCOMPOSIZE_THIRDSCREEN
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Third screen"),QVariant(AUTOCOMPOSIZE_THIRDSCREEN));              // AUTOCOMPOSIZE_THIRDSCREEN
         if (AutoCompo==AUTOCOMPOSIZE_THIRDSCREEN) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
-        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Quarter of screen"),QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));                                 // AUTOCOMPOSIZE_QUARTERSCREEN
+        ui->ShapeSizePosCB->addItem(QApplication::translate("DlgImageCorrection","Quarter screen"),QVariant(AUTOCOMPOSIZE_QUARTERSCREEN));          // AUTOCOMPOSIZE_QUARTERSCREEN
         if (AutoCompo==AUTOCOMPOSIZE_QUARTERSCREEN) ui->ShapeSizePosCB->setCurrentIndex(ui->ShapeSizePosCB->count()-1);
         ui->ShapeSizePosCB->setUpdatesEnabled(true);
 
@@ -837,9 +839,9 @@ void DlgSlideProperties::RefreshStyleControls() {
 
                 QImage *CachedImage=NULL;
                 if (CurrentCompoObject->BackgroundBrush->Image) {
-                    CachedImage=CurrentCompoObject->BackgroundBrush->Image->ImageAt(true,NULL);
+                    CachedImage=CurrentCompoObject->BackgroundBrush->Image->ImageAt(true);
                  } else if (CurrentCompoObject->BackgroundBrush->Video) {
-                    CachedImage=CurrentCompoObject->BackgroundBrush->Video->ImageAt(true,Position,QTime(0,0,0,0).msecsTo(CurrentCompoObject->BackgroundBrush->Video->StartPos),NULL,CurrentCompoObject->BackgroundBrush->Deinterlace,1,false,NULL,false);
+                    CachedImage=CurrentCompoObject->BackgroundBrush->Video->ImageAt(true,Position,QTime(0,0,0,0).msecsTo(CurrentCompoObject->BackgroundBrush->Video->StartPos),NULL,CurrentCompoObject->BackgroundBrush->Deinterlace,1,false,false);
                     if (CachedImage->format()!=QImage::Format_ARGB32_Premultiplied) {
                         QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
                         delete CachedImage;
@@ -904,7 +906,6 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     ui->actionSetHide->     setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock));
     ui->actionTakeSound->   setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->Video!=NULL)&&(CurrentCompoObject->BackgroundBrush->SoundVolume==0));
     ui->actionEditImage->   setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
-    ui->actionEditVideo->   setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->Video!=NULL));
     ui->actionEditText->    setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible));
     ui->actionInfo->        setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
     ui->actionRemoveBlock-> setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
@@ -912,6 +913,12 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     ui->actionDownBlock->   setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObjectNbr<ui->BlockTable->rowCount()-1));
     ui->actionCopy->        setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
     ui->actionCut->         setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
+
+    if (ui->actionEditImage->isEnabled()) {
+        ui->actionEditImage->setIcon(QIcon(CurrentCompoObject->BackgroundBrush->Image!=NULL?ICON_EDIT_IMAGE:ICON_EDIT_MOVIE));
+        ui->actionEditImage->setText(CurrentCompoObject->BackgroundBrush->Image!=NULL?ffDText(ffDSection_DlgImageCorrection,0):ffDText(ffDSection_DlgImageCorrection,1));
+        ui->actionEditImage->setToolTip(CurrentCompoObject->BackgroundBrush->Image!=NULL?ffDText(ffDSection_DlgImageCorrection,2):ffDText(ffDSection_DlgImageCorrection,3));
+    }
 
     // Change icons for visible and getsound buttons/actions
     if (BlockSelectMode==SELECTMODE_ONE) ui->actionTakeSound->setIcon(QIcon(QString((CurrentCompoObject==NULL)||(CurrentCompoObject->BackgroundBrush->Video==NULL)||(CurrentCompoObject->BackgroundBrush->SoundVolume==0)?ICON_SOUND_OK:ICON_SOUND_KO)));
@@ -1518,9 +1525,8 @@ void DlgSlideProperties::s_BlockTable_ItemDoubleClicked(QMouseEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_ItemDoubleClicked");
 
     if ((BlockSelectMode!=SELECTMODE_ONE)||(SelectionHaveLockBlock)) return;
-    if (CurrentCompoObject->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK)    s_BlockSettings_TextEditor();
-    else if (CurrentCompoObject->BackgroundBrush->Image!=NULL)                  s_BlockSettings_ImageEditCorrect();
-    else if (CurrentCompoObject->BackgroundBrush->Video!=NULL)                  s_BlockSettings_VideoEdit();
+    if (CurrentCompoObject->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK)                                            s_BlockSettings_TextEditor();
+    else if ((CurrentCompoObject->BackgroundBrush->Image!=NULL)||(CurrentCompoObject->BackgroundBrush->Video!=NULL))    s_BlockSettings_ImageEditCorrect();
 }
 
 
@@ -1557,7 +1563,6 @@ void DlgSlideProperties::s_BlockSettings_Edit() {
     ContextMenu->addSeparator();
     ContextMenu->addAction(ui->actionEditText);
     ContextMenu->addAction(ui->actionEditImage);
-    ContextMenu->addAction(ui->actionEditVideo);
     ContextMenu->addSeparator();
     ContextMenu->addAction(ui->actionRemoveBlock);
     if (NbrSelected==1) {
@@ -1599,7 +1604,6 @@ void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionEditText);
         ContextMenu->addAction(ui->actionEditImage);
-        ContextMenu->addAction(ui->actionEditVideo);
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionRemoveBlock);
         ContextMenu->addSeparator();
@@ -1822,8 +1826,8 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
         }
         if (IsValide) {
 
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true,&CurrentBrush->Image->BrushFileTransform):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,&CurrentBrush->Video->BrushFileTransform,false):
+            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,false):
                            NULL);
             if (!Image) {
                 IsValide=false;
@@ -2176,22 +2180,7 @@ void DlgSlideProperties::s_BlockSettings_Information() {
     }
 }
 
-//========= Open video editor
-void DlgSlideProperties::s_BlockSettings_VideoEdit() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_VideoEdit");
-
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)||(!CurrentCompoObject->BackgroundBrush->Video)) return;
-
-    AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITVIDEO,ui->InteractiveZone,true);
-    DlgVideoEdit Dlg(CurrentCompoObject->BackgroundBrush,HELPFILE_DlgVideoEdit,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgVideoEditWSP,this);
-    Dlg.InitDialog();
-    if (Dlg.exec()==0) {
-        ApplyToContexte(true);
-        s_ShotTable_DisplayDuration();
-    } else RemoveLastPartialUndo();
-}
-
-//========= Open image correction editor
+//========= Open image/video correction editor
 void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ImageEditCorrect");
 
@@ -2211,7 +2200,7 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
     QString FileName    =QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).fileName();
     bool UpdateSlideName=(CurrentSlide->SlideName==FileName);
 
-    DlgImageCorrection Dlg(CurrentCompoObject,CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,CurrentSlide->Parent->ImageGeometry,
+    DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,CurrentSlide->Parent->ImageGeometry,
                            HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
@@ -2236,6 +2225,7 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
             else if (CurrentCompoObject->BackgroundBrush->Image) ((cApplicationConfig *)BaseApplicationConfig)->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileName);
 
         ApplyToContexte(true);
+        s_ShotTable_DisplayDuration();
         RefreshBlockTable(CurrentCompoObjectNbr);
     } else {
         RemoveLastPartialUndo();

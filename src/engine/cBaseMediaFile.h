@@ -35,7 +35,6 @@
 
 // Include some common various class
 #include "cDeviceModelDef.h"                // Contains ffmpeg include
-#include "cFilterTransformObject.h"
 #include "cSoundBlockList.h"
 #include "cCustomIcon.h"
 
@@ -110,13 +109,13 @@ public:
     int                     ImageOrientation;               // EXIF ImageOrientation (or -1)
     double                  AspectRatio;                    // Aspect ratio
     int                     ImageType;                      // Type of image (depending on type object and size)
-    cFilterTransformObject  BrushFileTransform;             // Image transformation if image from disk
     cBaseApplicationConfig *ApplicationConfig;
     QStringList             InformationList;
 
     cBaseMediaFile(cBaseApplicationConfig *ApplicationConfig);
     virtual                 ~cBaseMediaFile();
 
+    virtual void            Reset();
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual bool            IsFilteredFile(int RequireObjectType)=0;
     virtual void            GetFullInformationFromFile()=0;
@@ -208,7 +207,7 @@ class cImageFile : public cBaseMediaFile {
 public:
     explicit cImageFile(cBaseApplicationConfig *ApplicationConfig);
 
-    virtual QImage          *ImageAt(bool PreviewMode,cFilterTransformObject *Filter);
+    virtual QImage          *ImageAt(bool PreviewMode);
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();
@@ -264,6 +263,7 @@ public:
 
     explicit                cVideoFile(int WantedObjectType,cBaseApplicationConfig *ApplicationConfig);
                             ~cVideoFile();
+    virtual void            Reset(int TheWantedObjectType);
 
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
@@ -276,7 +276,7 @@ public:
     virtual bool            OpenCodecAndFile();
     virtual void            CloseCodecAndFile();
 
-    virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,cFilterTransformObject *Filter,bool DontUseEndPos);
+    virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,bool DontUseEndPos);
     virtual QImage          *ReadVideoFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace);
     virtual void            ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
     virtual QImage          *ConvertYUVToRGB(bool PreviewMode);

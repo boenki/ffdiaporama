@@ -170,9 +170,10 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         bool    HaveFilter          =false;
 
         // Search it at least one block have filter
-        for (int obj=0;obj<Object->ObjectComposition.List.count();obj++)
-            if (((Object->ObjectComposition.List[obj]->BackgroundBrush->Image)&&((Object->ObjectComposition.List[obj]->BackgroundBrush->Image->BrushFileTransform.HaveFilter())))||
-                ((Object->ObjectComposition.List[obj]->BackgroundBrush->Video)&&((Object->ObjectComposition.List[obj]->BackgroundBrush->Video->BrushFileTransform.HaveFilter())))) HaveFilter=true;
+        for (int shot=0;shot<Object->List.count();shot++) for (int obj=0;obj<Object->List.at(shot)->ShotComposition.List.count();obj++)
+            if ((Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->OnOffFilter!=0)||
+                (Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->BlurSigma!=0)
+               ) HaveFilter=true;
 
         // Parse current ObjectComposition table to determine if slide have sound
         for (int i=0;i<Object->ObjectComposition.List.count();i++) if ((Object->ObjectComposition.List[i]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&

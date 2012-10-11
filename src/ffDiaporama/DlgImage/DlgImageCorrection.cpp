@@ -33,28 +33,39 @@
 #define ICON_GEOMETRY_UNLOCKED              ":/img/Geometry_Unlock.png"
 #define ICON_GEOMETRY_PROJECT               ":/img/Geometry_ProjectLock.png"
 #define ICON_GEOMETRY_IMAGE                 ":/img/Geometry_ImageLock.png"
-#define ICON_OBJECT_MOVIE                   ":/img/object_movie.png"
 
-#define UNDOACTION_INTERACTIVEMOVERESIZE    1
-#define UNDOACTION_EDITZONE_XVALUE          2
-#define UNDOACTION_EDITZONE_YVALUE          3
-#define UNDOACTION_EDITZONE_WVALUE          4
-#define UNDOACTION_EDITZONE_HVALUE          5
-#define UNDOACTION_EDITZONE_ROTATEVALUE     6
-#define UNDOACTION_EDITZONE_FRAMING         7
-#define UNDOACTION_EDITZONE_FILE            8
-#define UNDOACTION_EDITZONE_TRANSFO         9
-#define UNDOACTION_EDITZONE_BLUR            10
-#define UNDOACTION_EDITZONE_BLURRD          11
-#define UNDOACTION_EDITZONE_BRIGHTNESS      12
-#define UNDOACTION_EDITZONE_CONTRAST        13
-#define UNDOACTION_EDITZONE_GAMMA           14
-#define UNDOACTION_EDITZONE_RED             15
-#define UNDOACTION_EDITZONE_GREEN           16
-#define UNDOACTION_EDITZONE_BLUE            17
-#define UNDOACTION_EDITZONE_GEOMETRY        18
+#define ICON_IMAGE_FILE                     ":/img/Image_File.png"
+#define ICON_MOVIE_FILE                     ":/img/Video_File.png"
 
-DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition,int TheImageGeometry,
+enum UNDOACTION_ID {
+    UNDOACTION_INTERACTIVEMOVERESIZE,
+    UNDOACTION_EDITZONE_XVALUE,
+    UNDOACTION_EDITZONE_YVALUE,
+    UNDOACTION_EDITZONE_WVALUE,
+    UNDOACTION_EDITZONE_HVALUE,
+    UNDOACTION_EDITZONE_ROTATEVALUE,
+    UNDOACTION_EDITZONE_FRAMING,
+    UNDOACTION_EDITZONE_FILE,
+    UNDOACTION_EDITZONE_TRANSFO,
+    UNDOACTION_EDITZONE_BLURSHARPENSIGMA,
+    UNDOACTION_EDITZONE_BLURSHARPENRADIUS,
+    UNDOACTION_EDITZONE_EMBOSSSIGMA,
+    UNDOACTION_EDITZONE_EMBOSSRADIUS,
+    UNDOACTION_EDITZONE_BRIGHTNESS,
+    UNDOACTION_EDITZONE_CONTRAST,
+    UNDOACTION_EDITZONE_GAMMA,
+    UNDOACTION_EDITZONE_RED,
+    UNDOACTION_EDITZONE_GREEN,
+    UNDOACTION_EDITZONE_BLUE,
+    UNDOACTION_EDITZONE_GEOMETRY,
+    UNDOACTION_EDITZONE_SHAPEFORM,
+    UNDOACTION_VIDEOPART_STARTPOS,
+    UNDOACTION_VIDEOPART_ENDPOS,
+    UNDOACTION_VIDEOPART_VOLUME,
+    UNDOACTION_VIDEOPART_DEINTERLACE
+};
+
+DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition,int TheImageGeometry,
     QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgImageCorrection) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DlgImageCorrection");
@@ -68,11 +79,14 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int Th
     UndoReloadImage =false;
     FLAGSTOPED      =false;
     FLAGSTOPSPIN    =false;
+    StopMaj         =false;
     ffDPrjGeometry  =TheImageGeometry;
     CurrentBrush    =TheCurrentBrush;
     CompoObject     =TheCompoObject;
+    BackgroundForm  =TheBackgroundForm;
+    IsVideo         =(CurrentBrush->Video!=NULL);
     ui->InteractiveZone->MagneticRuler=((cApplicationConfig *)BaseApplicationConfig)->FramingRuler;
-    ui->InteractiveZone->InitCachedImage(TheCompoObject,TheBackgroundForm,TheCurrentBrush,TheVideoPosition);
+    ui->InteractiveZone->InitCachedImage(TheCompoObject,(BackgroundForm!=NULL)?(*TheBackgroundForm):1,TheCurrentBrush,TheVideoPosition);
 }
 
 //====================================================================================================================
@@ -88,6 +102,9 @@ DlgImageCorrection::~DlgImageCorrection() {
 void DlgImageCorrection::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DoInitDialog");
 
+    // Set title of dialog
+    setWindowTitle(!IsVideo?ffDText(ffDSection_DlgImageCorrection,0):ffDText(ffDSection_DlgImageCorrection,1));
+
     switch (ffDPrjGeometry) {
         case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
         case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
@@ -96,8 +113,7 @@ void DlgImageCorrection::DoInitDialog() {
     }
     ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
 
-    if (CurrentBrush->Image)            ImageGeometry=qreal(CurrentBrush->Image->ImageHeight)/qreal(CurrentBrush->Image->ImageWidth);
-        else if (CurrentBrush->Video)   ImageGeometry=qreal(CurrentBrush->Video->ImageHeight)/qreal(CurrentBrush->Video->ImageWidth);
+    ImageGeometry=IsVideo?qreal(CurrentBrush->Video->ImageHeight)/qreal(CurrentBrush->Video->ImageWidth):qreal(CurrentBrush->Image->ImageHeight)/qreal(CurrentBrush->Image->ImageWidth);
     ImageGeometry=QString("%1").arg(ImageGeometry,0,'e').toDouble();  // Rounded to same number as style managment
     ui->RulersBT->setIcon(QIcon(((cApplicationConfig *)BaseApplicationConfig)->FramingRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
 
@@ -109,23 +125,47 @@ void DlgImageCorrection::DoInitDialog() {
     ui->WValue->setSingleStep(1);  ui->WValue->setRange(1,200);
     ui->HValue->setSingleStep(1);  ui->HValue->setRange(1,200);
 
-    OnOffFilter=CurrentBrush->Video?CurrentBrush->Video->BrushFileTransform.OnOffFilter:CurrentBrush->Image->BrushFileTransform.OnOffFilter;
-    ui->TransformationCB->SetCurrentFilter(ui->InteractiveZone->CachedImage,&OnOffFilter);
+    if (!IsVideo) {
+        // If it's an image
+        ui->TabWidget->setCurrentIndex(0);
+        ui->InteractiveZone->setFocus();
+        ui->TabWidget->removeTab(1);    // remove VideoTab
+        ui->VideoPositionLabel->setVisible(false);
 
-    // If it's not an image then disable blur/sharpen
-    if (CurrentBrush->Image==NULL) {
-        ui->BlurLabel->setVisible(false);
-        ui->BlurSigmaSlider->setVisible(false);
-        ui->BlurSigmaSB->setVisible(false);
-        ui->BlurSharpenResetBT->setVisible(false);
-        ui->BlurRadiusLabel->setVisible(false);
-        ui->BlurRadiusSlider->setVisible(false);
-        ui->BlurRadiusED->setVisible(false);
-        ui->RadiusResetBT->setVisible(false);
-        ui->FileLabel->setPixmap(QPixmap(ICON_OBJECT_MOVIE));
+    } else {
+
+        // If it's a video
+        ui->TabWidget->setCurrentIndex(1);
+        ui->FileLabel->setPixmap(QPixmap(ICON_MOVIE_FILE));
+
+        // Init embeded widgets
+        for (int Factor=150;Factor>=0;Factor-=10) ui->VolumeReductionFactorCB->addItem(QString("%1%").arg(Factor));
+        RefreshControls();
+
+        // Define specifique handler for video
+        connect(ui->VolumeReductionFactorCB,SIGNAL(currentIndexChanged(int)),this,SLOT(MusicReduceFactorChange(int)));
+        connect(ui->DefStartPosBT,SIGNAL(clicked()),this,SLOT(s_DefStartPos()));
+        connect(ui->DefEndPosBT,SIGNAL(clicked()),this,SLOT(s_DefEndPos()));
+        connect(ui->SeekLeftBt,SIGNAL(clicked()),this,SLOT(s_SeekLeft()));
+        connect(ui->SeekRightBt,SIGNAL(clicked()),this,SLOT(s_SeekRight()));
+        connect(ui->DeinterlaceBt,SIGNAL(stateChanged(int)),this,SLOT(s_Deinterlace(int)));
+        connect(ui->StartPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditStartPos(QTime)));
+        connect(ui->EndPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditEndPos(QTime)));
+        connect(ui->VideoPlayer,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
+
+        #ifndef LIBAVFILTER
+        ui->DeinterlaceBt->setEnabled(false);
+        #endif
+    }
+
+    // Init combo box Background form
+    if (BackgroundForm==NULL) ui->BackgroundFormCB->setEnabled(false); else {
+        for (int i=0;i<ShapeFormDefinition.count();i++) if (ShapeFormDefinition.at(i).Enable) ui->BackgroundFormCB->addItem(ShapeFormDefinition.at(i).Name,QVariant(i));
+        MakeFormIcon(ui->BackgroundFormCB);
     }
 
     // Define handler
+    connect(ui->TabWidget,SIGNAL(currentChanged(int)),this,SLOT(s_TabWidgetChanged(int)));
     connect(ui->RotateED,SIGNAL(valueChanged(double)),this,SLOT(s_RotationEDChanged(double)));
     connect(ui->XValue,SIGNAL(valueChanged(double)),this,SLOT(s_XValueEDChanged(double)));
     connect(ui->YValue,SIGNAL(valueChanged(double)),this,SLOT(s_YValueEDChanged(double)));
@@ -153,23 +193,56 @@ void DlgImageCorrection::DoInitDialog() {
     connect(ui->BlueSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlueSliderMoved(int)));
     connect(ui->BlueValue,SIGNAL(valueChanged(int)),this,SLOT(s_BlueSliderMoved(int)));
     connect(ui->BlueResetBT,SIGNAL(clicked()),this,SLOT(s_BlueReset()));
+    connect(ui->BackgroundFormCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_ShapeBackgroundForm()));
 
-    connect(ui->TransformationCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChTransformationCB(int)));
-    connect(ui->BlurRadiusSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlurRadiusSliderMoved(int)));
-    connect(ui->BlurRadiusED,SIGNAL(valueChanged(int)),this,SLOT(s_BlurRadiusSliderMoved(int)));
-    connect(ui->BlurSigmaSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlurSigmaSliderMoved(int)));
-    connect(ui->BlurSigmaSB,SIGNAL(valueChanged(double)),this,SLOT(s_BlurSigmaValueED(double)));
-    connect(ui->BlurSharpenResetBT,SIGNAL(clicked()),this,SLOT(s_BlurSharpenReset()));
-    connect(ui->RadiusResetBT,SIGNAL(clicked()),this,SLOT(s_RadiusReset()));
+    connect(ui->FilterOnOff_GrayCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Gray_Changed(int)));
+    connect(ui->FilterOnOff_EqualizeCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Equalize_Changed(int)));
+    connect(ui->FilterOnOff_DespeckleCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Despeckle_Changed(int)));
+    connect(ui->FilterOnOff_NegativeCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Negative_Changed(int)));
+    connect(ui->FilterOnOff_EmbossCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Emboss_Changed(int)));
 
-    connect(ui->FileNameBT,SIGNAL(clicked()),this,SLOT(ChangeBrushDiskFile()));
+    connect(ui->BlurSharpenRadiusSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlurSharpenRadiusSliderMoved(int)));
+    connect(ui->BlurSharpenRadiusED,SIGNAL(valueChanged(int)),this,SLOT(s_BlurSharpenRadiusSliderMoved(int)));
+    connect(ui->BlurSharpenSigmaSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlurSharpenSigmaSliderMoved(int)));
+    connect(ui->BlurSharpenSigmaSB,SIGNAL(valueChanged(double)),this,SLOT(s_BlurSharpenSigmaValueED(double)));
+    connect(ui->BlurSharpenSigmaResetBT,SIGNAL(clicked()),this,SLOT(s_BlurSharpenSigmaReset()));
+    connect(ui->BlurSharpenRadiusResetBT,SIGNAL(clicked()),this,SLOT(s_BlurSharpenRadiusReset()));
+
+    connect(ui->FileNameBT,SIGNAL(clicked()),this,SLOT(s_ChangeFile()));
     connect(ui->InteractiveZone,SIGNAL(TransformBlock(qreal,qreal,qreal,qreal)),this,SLOT(s_IntZoneTransformBlocks(qreal,qreal,qreal,qreal)));
     connect(ui->InteractiveZone,SIGNAL(DisplayTransformBlock(qreal,qreal,qreal,qreal)),this,SLOT(s_DisplayIntZoneTransformBlocks(qreal,qreal,qreal,qreal)));
 
-    ui->InteractiveZone->setFocus();
     CurrentFramingStyle=-100;
     UpdateFramingStyleCB();
     RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::MakeFormIcon(QComboBox *UICB) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::MakeFormIcon");
+
+    for (int i=0;i<UICB->count();i++) {
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,((cApplicationConfig *)BaseApplicationConfig));
+        Object.x                        =0;
+        Object.y                        =0;
+        Object.w                        =1;
+        Object.h                        =1;
+        Object.BackgroundForm           =UICB->itemData(i).toInt();
+        Object.Opacity                  =4;
+        Object.PenSize                  =1;
+        Object.PenStyle                 =Qt::SolidLine;
+        Object.PenColor                 ="#000000";
+        Object.BackgroundBrush->ColorD  ="#FFFFFF";
+        Object.BackgroundBrush->BrushType=BRUSHTYPE_SOLID;
+        QPixmap  Image(UICB->iconSize());
+        QPainter Painter;
+        Painter.begin(&Image);
+        Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
+        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,NULL,false,0,false);
+        Painter.end();
+        UICB->setItemIcon(i,QIcon(Image));
+    }
 }
 
 //====================================================================================================================
@@ -184,8 +257,12 @@ void DlgImageCorrection::PrepareGlobalUndo() {
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");           // Create xml document and root
     CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","",true);    // Save object
-    if (CurrentBrush->Video) CurrentBrush->Video->BrushFileTransform.SaveToXML(root,"ImageTransformation");
-        else                 CurrentBrush->Image->BrushFileTransform.SaveToXML(root,"ImageTransformation");
+    if (IsVideo) {
+        root.setAttribute("StartPos",CurrentBrush->Video->StartPos.toString("HH:mm:ss.zzz"));
+        root.setAttribute("EndPos",CurrentBrush->Video->EndPos.toString("HH:mm:ss.zzz"));
+        root.setAttribute("SoundVolume",QString("%1").arg(CurrentBrush->SoundVolume,0,'f'));
+        root.setAttribute("Deinterlace",CurrentBrush->Deinterlace?"1":"0");                                 // Deinterlace YADIF filter
+    }
     Undo->appendChild(root);                                    // Add object to xml document
 }
 
@@ -197,8 +274,12 @@ void DlgImageCorrection::DoGlobalUndo() {
 
     QDomElement root=Undo->documentElement();
     if (root.tagName()=="UNDO-DLG") CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL);
-    if (CurrentBrush->Video) CurrentBrush->Video->BrushFileTransform.LoadFromXML(root,"ImageTransformation");
-        else                 CurrentBrush->Image->BrushFileTransform.LoadFromXML(root,"ImageTransformation");
+    if (IsVideo) {
+        CurrentBrush->Video->StartPos=QTime().fromString(root.attribute("StartPos"));
+        CurrentBrush->Video->EndPos  =QTime().fromString(root.attribute("EndPos"));
+        CurrentBrush->SoundVolume    =root.attribute("SoundVolume").toDouble();
+        CurrentBrush->Deinterlace    =root.attribute("Deinterlace")=="1";
+    }
     if (UndoReloadImage) {
         if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(UndoBrushFileName,NULL,NULL);
             else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(UndoBrushFileName,NULL,NULL);
@@ -213,8 +294,12 @@ void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root)
     QString BrushFileName=(CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
     root.setAttribute("BrushFileName",BrushFileName);
     CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","",true);    // Save object
-    if (CurrentBrush->Video) CurrentBrush->Video->BrushFileTransform.SaveToXML(root,"ImageTransformation");
-        else                 CurrentBrush->Image->BrushFileTransform.SaveToXML(root,"ImageTransformation");
+    if (IsVideo) {
+        root.setAttribute("StartPos",CurrentBrush->Video->StartPos.toString("HH:mm:ss.zzz"));               // Start position (video only)
+        root.setAttribute("EndPos",CurrentBrush->Video->EndPos.toString("HH:mm:ss.zzz"));                   // End position (video only)
+        root.setAttribute("SoundVolume",QString("%1").arg(CurrentBrush->SoundVolume,0,'f'));                // Volume of soundtrack (for video only)
+        root.setAttribute("Deinterlace",CurrentBrush->Deinterlace?"1":"0");                                 // Deinterlace YADIF filter
+    }
 }
 
 //====================================================================================================================
@@ -225,14 +310,59 @@ void DlgImageCorrection::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
 
     QString BrushFileName=root.attribute("BrushFileName");
     CurrentBrush->LoadFromXML(root,"UNDO-DLG-OBJECT","",NULL,NULL);
-    if (CurrentBrush->Video) CurrentBrush->Video->BrushFileTransform.LoadFromXML(root,"ImageTransformation");
-        else                 CurrentBrush->Image->BrushFileTransform.LoadFromXML(root,"ImageTransformation");
+    if (IsVideo) {
+        CurrentBrush->Video->StartPos=QTime().fromString(root.attribute("StartPos"));
+        CurrentBrush->Video->EndPos  =QTime().fromString(root.attribute("EndPos"));
+        CurrentBrush->SoundVolume    =root.attribute("SoundVolume").toDouble();
+        CurrentBrush->Deinterlace    =root.attribute("Deinterlace")=="1";
+    }
     if (BrushFileName!=((CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName)) {
-        if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL);
-            else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(BrushFileName,NULL,NULL);
+        ((cApplicationConfig *)BaseApplicationConfig)->ImagesCache.RemoveVideoObject(BrushFileName);
+        if (CurrentBrush->Image) {
+            CurrentBrush->Image->Reset();
+            CurrentBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL);
+        } else if (CurrentBrush->Video) {
+            CurrentBrush->Video->Reset(OBJECTTYPE_VIDEOFILE);
+            CurrentBrush->Video->GetInformationFromFile(BrushFileName,NULL,NULL);
+        }
+        // Redo initialisation of controls
+        ImageGeometry=CurrentBrush->Video!=NULL?qreal(CurrentBrush->Video->ImageHeight)/qreal(CurrentBrush->Video->ImageWidth):qreal(CurrentBrush->Image->ImageHeight)/qreal(CurrentBrush->Image->ImageWidth);
+        ImageGeometry=QString("%1").arg(ImageGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+        ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
+        ui->InteractiveZone->RefreshDisplay();
+        int OldFramingStyle=CurrentFramingStyle;
+        CurrentFramingStyle=-100;
+        UpdateFramingStyleCB(true);
+        CurrentBrush->ApplyAutoFraming(OldFramingStyle,ProjectGeometry);
+        ui->FramingStyleCB->SetCurrentFraming(OldFramingStyle);
     }
     RefreshControls();
     ui->InteractiveZone->RefreshDisplay();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::RestoreWindowState() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::RestoreWindowState");
+    QCustomDialog::RestoreWindowState();
+    if ((IsVideo)&&(!ui->VideoPlayer->IsValide)) {
+        ui->VideoPlayer->StartPlay(CurrentBrush->Video,((cApplicationConfig *)BaseApplicationConfig)->PreviewFPS);
+        ui->EndPosEd->setMaximumTime(CurrentBrush->Video->Duration);
+        RefreshControls();
+    }
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_TabWidgetChanged(int NewTab) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_TabWidgetChanged");
+    if (NewTab==0) {
+        // Switch to image tab
+        ui->VideoPlayer->SetPlayerToPause();
+        if (IsVideo) ui->InteractiveZone->InitCachedImage(CompoObject,ui->InteractiveZone->BackgroundForm,CurrentBrush,ui->InteractiveZone->VideoPosition);
+        ui->InteractiveZone->RefreshDisplay();
+    }
+    RefreshControls();
 }
 
 //====================================================================================================================
@@ -279,21 +409,6 @@ void DlgImageCorrection::s_BlueReset() {
 
 //====================================================================================================================
 
-void DlgImageCorrection::s_BlurSharpenReset() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSharpenReset");
-    s_BlurSigmaSliderMoved(0);
-}
-
-//====================================================================================================================
-
-void DlgImageCorrection::s_RadiusReset() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_RadiusReset");
-    s_BlurRadiusSliderMoved(5);
-}
-
-
-//====================================================================================================================
-
 void DlgImageCorrection::resizeEvent(QResizeEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::resizeEvent");
     //ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
@@ -305,6 +420,7 @@ void DlgImageCorrection::resizeEvent(QResizeEvent *) {
 void DlgImageCorrection::showEvent(QShowEvent *ev) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::showEvent");
     QCustomDialog::showEvent(ev);
+    ui->InteractiveZone->RefreshDisplay();
     //ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
     //RefreshControls();
  }
@@ -314,32 +430,7 @@ void DlgImageCorrection::showEvent(QShowEvent *ev) {
 void DlgImageCorrection::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DoAccept");
 
-    // Check if cached filtered file exist
-    QString CachedFile=CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
-    CachedFile=CachedFile.replace("."+QFileInfo(CachedFile).suffix(),"_ffd.jpg");
-    QString NewFilter=CurrentBrush->Image?CurrentBrush->Image->BrushFileTransform.FilterToString():CurrentBrush->Video->BrushFileTransform.FilterToString();
-    if ((NewFilter!="")&&(CurrentBrush->Image)&&((InitialFilteredString!=NewFilter)||((((cApplicationConfig *)BaseApplicationConfig)->AllowCachedTransfoImages)&&(!QFileInfo(CachedFile).exists())))) {
-        if (QFileInfo(CachedFile).exists()) QFile::remove(CachedFile);
-        if (((cApplicationConfig *)BaseApplicationConfig)->AllowCachedTransfoImages) {
-            QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-            QSplashScreen screen(this,QPixmap(":/img/splash.png"));
-            screen.showMessage(QApplication::translate("DlgImageCorrection","Creating cached filtered file ..."),Qt::AlignHCenter|Qt::AlignBottom);
-            screen.show();
-            QApplication::processEvents();
-            cLuLoImageCacheObject *ImageObject=((cApplicationConfig *)BaseApplicationConfig)->ImagesCache.FindObject(CurrentBrush->Image->FileName,CurrentBrush->Image->ModifDateTime,CurrentBrush->Image->ImageOrientation,NULL,true,true);
-            QImage *UnfilteredImage=new QImage(ImageObject->ValidateCacheRenderImage()->copy());
-            if (UnfilteredImage->format()!=QImage::Format_ARGB32_Premultiplied) {
-                QImage *NewUnfiltered=new QImage(UnfilteredImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
-                delete UnfilteredImage;
-                UnfilteredImage=NewUnfiltered;
-            }
-            CurrentBrush->Image->BrushFileTransform.ApplyFilter(UnfilteredImage);
-            UnfilteredImage->save(CachedFile,"jpg",100);
-            delete UnfilteredImage;
-            screen.hide();
-            QApplication::restoreOverrideCursor();
-        }
-    }
+    if (BackgroundForm) *BackgroundForm=ui->InteractiveZone->BackgroundForm;    // not do this for background
 }
 
 //====================================================================================================================
@@ -443,13 +534,13 @@ void DlgImageCorrection::s_RotateRight() {
 
 //====================================================================================================================
 
-void DlgImageCorrection::UpdateFramingStyleCB() {
+void DlgImageCorrection::UpdateFramingStyleCB(bool Reset) {
     if (ui->InteractiveZone->CachedImage) {
         ui->FramingStyleCB->X=CurrentBrush->X;
         ui->FramingStyleCB->Y=CurrentBrush->Y;
         ui->FramingStyleCB->ZoomFactor=CurrentBrush->ZoomFactor;
         ui->FramingStyleCB->AspectRatio=CurrentBrush->AspectRatio;
-        ui->FramingStyleCB->PrepareFramingStyleTable(false,FILTERFRAMING_ALL,CurrentBrush,ui->InteractiveZone->CachedImage,ui->InteractiveZone->BackgroundForm,ProjectGeometry);
+        ui->FramingStyleCB->PrepareFramingStyleTable(Reset,FILTERFRAMING_ALL,CurrentBrush,ui->InteractiveZone->CachedImage,ui->InteractiveZone->BackgroundForm,ProjectGeometry);
     }
     int NewFramingStyle=CurrentBrush->GetCurrentFramingStyle(ProjectGeometry);
     if (CurrentFramingStyle!=NewFramingStyle) {
@@ -467,6 +558,9 @@ void DlgImageCorrection::RefreshControls() {
 
     //***********************************************
 
+    ui->BackgroundFormCB->PrepareFrameShapeTable(true,0,ui->InteractiveZone->BackgroundForm,(cApplicationConfig *)BaseApplicationConfig);
+    ui->BackgroundFormCB->SetCurrentFrameShape(ui->InteractiveZone->BackgroundForm);
+
     ui->XValue->setValue(CurrentBrush->X*100);
     ui->YValue->setValue(CurrentBrush->Y*100);
     ui->WValue->setValue(CurrentBrush->ZoomFactor*100);
@@ -482,15 +576,37 @@ void DlgImageCorrection::RefreshControls() {
     ui->GreenSlider->setValue(CurrentBrush->Green);               ui->GreenValue->setValue(CurrentBrush->Green);
     ui->BlueSlider->setValue(CurrentBrush->Blue);                 ui->BlueValue->setValue(CurrentBrush->Blue);
 
-    ui->BlurSigmaSlider->setValue((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurSigma*10);
-    ui->BlurSigmaSB->setValue((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurSigma);
-    ui->BlurRadiusSlider->setValue(int((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurRadius));
-    ui->BlurRadiusED->setValue(int((CurrentBrush->Video?&CurrentBrush->Video->BrushFileTransform:&CurrentBrush->Image->BrushFileTransform)->BlurRadius));
+    ui->BlurSharpenSigmaSlider->setValue(CurrentBrush->BlurSigma*10);
+    ui->BlurSharpenSigmaSB->setValue(CurrentBrush->BlurSigma);
+    ui->BlurSharpenRadiusSlider->setValue(int(CurrentBrush->BlurRadius));
+    ui->BlurSharpenRadiusED->setValue(int(CurrentBrush->BlurRadius));
+
+    ui->FilterOnOff_GrayCB->setChecked(     (CurrentBrush->OnOffFilter & FilterGray)!=0);
+    ui->FilterOnOff_EqualizeCB->setChecked( (CurrentBrush->OnOffFilter & FilterEqualize)!=0);
+    ui->FilterOnOff_DespeckleCB->setChecked((CurrentBrush->OnOffFilter & FilterDespeckle)!=0);
+    ui->FilterOnOff_NegativeCB->setChecked( (CurrentBrush->OnOffFilter & FilterNegative)!=0);
 
     ui->FileNameED->setText(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video?CurrentBrush->Video->FileName:"");
 
-    OnOffFilter=CurrentBrush->Video?CurrentBrush->Video->BrushFileTransform.OnOffFilter:CurrentBrush->Image->BrushFileTransform.OnOffFilter;
-    ui->TransformationCB->SetCurrentFilter(ui->InteractiveZone->CachedImage,&OnOffFilter);
+    if ((IsVideo)&&(ui->TabWidget->currentIndex()==1)) {
+        StopMaj=true;
+        QTime Duration=QTime(0,0,0,0).addMSecs(CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos));
+        ui->DeinterlaceBt->setChecked(CurrentBrush->Deinterlace);
+        ui->ActualDuration->setText(Duration.toString("hh:mm:ss.zzz"));
+        ui->StartPosEd->setMaximumTime(CurrentBrush->Video->EndPos);    ui->StartPosEd->setTime(CurrentBrush->Video->StartPos);
+        ui->EndPosEd->setMinimumTime(CurrentBrush->Video->StartPos);    ui->EndPosEd->setTime(CurrentBrush->Video->EndPos);
+        ui->VolumeReductionFactorCB->setCurrentIndex(ui->VolumeReductionFactorCB->findText(QString("%1%").arg(int(CurrentBrush->SoundVolume*100))));
+        ui->VideoPlayer->SetStartEndPos(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                        QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos)-QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),
+                                        -1,0,-1,0);
+        ui->VideoPlayer->Deinterlace=CurrentBrush->Deinterlace;
+        StopMaj=false;
+    }
+
+    if (IsVideo) {
+        QString VideoPosition=QApplication::translate("DlgImageCorrection","Video position :")+CurrentBrush->Video->StartPos.addMSecs(ui->InteractiveZone->VideoPosition).toString("hh:mm:ss.zzz");
+        ui->VideoPositionLabel->setText(VideoPosition);
+    }
 
     ui->InteractiveZone->repaint();
 
@@ -499,12 +615,13 @@ void DlgImageCorrection::RefreshControls() {
 
 //====================================================================================================================
 
-void DlgImageCorrection::ChangeBrushDiskFile() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::ChangeBrushDiskFile");
-    QString ActualFilePath=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).absolutePath();
+void DlgImageCorrection::s_ChangeFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ChangeFile");
+    ui->VideoPlayer->SetPlayerToPause();
 
-    QString NewFile=QFileDialog::getOpenFileName(this,
-                                                 QApplication::translate("DlgImageCorrection","Select a file"),
+    bool    IsValide=true;
+    QString ActualFilePath=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).absolutePath();
+    QString NewFile=QFileDialog::getOpenFileName(this,ffDText(ffDSection_CommonInfoMsg,0),
                                                  ActualFilePath,//((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories?((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath:"",
                                                  ((cApplicationConfig *)BaseApplicationConfig)->GetFilterForMediaFile(CurrentBrush->Image?cBaseApplicationConfig::IMAGEFILE:cBaseApplicationConfig::VIDEOFILE));
     QApplication::processEvents();
@@ -515,98 +632,176 @@ void DlgImageCorrection::ChangeBrushDiskFile() {
     QString NewBrushFileName=QFileInfo(NewFile).absoluteFilePath();
     QString OldBrushFileName=CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
 
-    if (CurrentBrush->Image) {
+    ((cApplicationConfig *)BaseApplicationConfig)->ImagesCache.RemoveVideoObject(OldBrushFileName);
+    if (!IsVideo) {
+        // Image
+        CurrentBrush->Image->Reset();
         CurrentBrush->Image->GetInformationFromFile(NewBrushFileName,NULL,NULL);
-        if (CurrentBrush->Image->IsValide) ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
-        UndoReloadImage=true;
-    } else if (CurrentBrush->Video) {
-        QString ErrorMessage=QApplication::translate("MainWindow","Format not supported","Error message");
-        bool    IsValide=true;
+        IsValide=CurrentBrush->Image->IsValide;
+        if (IsValide) CurrentBrush->Image->GetFullInformationFromFile();
+
+    } else {
+        // Video
+        QString ErrorMessage=ffDText(ffDSection_CommonErrorMsg,0);
+        CurrentBrush->Video->Reset(OBJECTTYPE_VIDEOFILE);
         if (CurrentBrush->Video->GetInformationFromFile(NewBrushFileName,NULL,NULL)&&(CurrentBrush->Video->OpenCodecAndFile())) {
             // Check if file have at least one sound track compatible
             if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(!(
                 (CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
                 (CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
             ))) {
-                ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
+                ErrorMessage=ErrorMessage+"\n"+ffDText(ffDSection_CommonErrorMsg,1);
                 IsValide=false;
             }
             if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
-                ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
+                ErrorMessage=ErrorMessage+"\n"+ffDText(ffDSection_CommonErrorMsg,2);
                 IsValide=false;
             }
-            if (IsValide) ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
-
             if (!IsValide) {
-                CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
+                CustomMessageBox(NULL,QMessageBox::Critical,ffDText(ffDSection_CommonInfoMsg,1),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
                 CurrentBrush->Video->GetInformationFromFile(OldBrushFileName,NULL,NULL);
-                CurrentBrush->Video->OpenCodecAndFile();
-            } else UndoReloadImage=true;
+            } else CurrentBrush->Video->OpenCodecAndFile();
+        }
+    }
+    if (IsValide) {
+        // Redo initialisation of controls
+        ImageGeometry=IsVideo?qreal(CurrentBrush->Video->ImageHeight)/qreal(CurrentBrush->Video->ImageWidth):qreal(CurrentBrush->Image->ImageHeight)/qreal(CurrentBrush->Image->ImageWidth);
+        ImageGeometry=QString("%1").arg(ImageGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+        ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
+        ui->InteractiveZone->RefreshDisplay();
+        int OldFramingStyle=CurrentFramingStyle;
+        CurrentFramingStyle=-100;
+        UpdateFramingStyleCB(true);
+        CurrentBrush->ApplyAutoFraming(OldFramingStyle,ProjectGeometry);
+        ui->FramingStyleCB->SetCurrentFraming(OldFramingStyle);
+        UndoReloadImage=true;
+        if (IsVideo) {
+            ui->TabWidget->setCurrentIndex(1);
+            ui->VideoPlayer->SeekPlayer(0);
+            ui->VideoPlayer->StartPlay(CurrentBrush->Video,((cApplicationConfig *)BaseApplicationConfig)->PreviewFPS);
+            ui->EndPosEd->setMaximumTime(CurrentBrush->Video->Duration);
         }
     }
     RefreshControls();
-    UpdateFramingStyleCB();
 }
 
 //====================================================================================================================
 
-void DlgImageCorrection::s_ChTransformationCB(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ChTransformationCB");
+void DlgImageCorrection::s_OnOffFilter_Gray_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_OnOffFilter_Gray_Changed");
     if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
+    if (((CurrentBrush->OnOffFilter & FilterGray)!=0)==ui->FilterOnOff_GrayCB->isChecked()) return;
     FLAGSTOPSPIN=true;
     AppendPartialUndo(UNDOACTION_EDITZONE_TRANSFO,ui->InteractiveZone,true);
-    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
-    Filter->OnOffFilter=ui->TransformationCB->GetCurrentFilter();
+    if (ui->FilterOnOff_GrayCB->isChecked())    CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter | FilterGray;
+        else                                    CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter & ~FilterGray;
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
 }
 
 //====================================================================================================================
 
-void DlgImageCorrection::s_BlurSigmaSliderMoved(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSigmaSliderMoved");
+void DlgImageCorrection::s_OnOffFilter_Equalize_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_OnOffFilter_Equalize_Changed");
+    if (((CurrentBrush->OnOffFilter & FilterEqualize)!=0)==ui->FilterOnOff_EqualizeCB->isChecked()) return;
+    FLAGSTOPSPIN=true;
+    AppendPartialUndo(UNDOACTION_EDITZONE_TRANSFO,ui->InteractiveZone,true);
+    if (ui->FilterOnOff_EqualizeCB->isChecked())    CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter | FilterEqualize;
+        else                                        CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter & ~FilterEqualize;
+    ui->InteractiveZone->RefreshDisplay();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_OnOffFilter_Despeckle_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_OnOffFilter_Despeckle_Changed");
+    if (((CurrentBrush->OnOffFilter & FilterDespeckle)!=0)==ui->FilterOnOff_DespeckleCB->isChecked()) return;
+    FLAGSTOPSPIN=true;
+    AppendPartialUndo(UNDOACTION_EDITZONE_TRANSFO,ui->InteractiveZone,true);
+    if (ui->FilterOnOff_DespeckleCB->isChecked())   CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter | FilterDespeckle;
+        else                                        CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter & ~FilterDespeckle;
+    ui->InteractiveZone->RefreshDisplay();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_OnOffFilter_Negative_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_OnOffFilter_Negative_Changed");
+    if (((CurrentBrush->OnOffFilter & FilterNegative)!=0)==ui->FilterOnOff_NegativeCB->isChecked()) return;
+    FLAGSTOPSPIN=true;
+    AppendPartialUndo(UNDOACTION_EDITZONE_TRANSFO,ui->InteractiveZone,true);
+    if (ui->FilterOnOff_NegativeCB->isChecked())    CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter | FilterNegative;
+        else                                        CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter & ~FilterNegative;
+    ui->InteractiveZone->RefreshDisplay();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_OnOffFilter_Emboss_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_OnOffFilter_Emboss_Changed");
+    if (((CurrentBrush->OnOffFilter & FilterEmboss)!=0)==ui->FilterOnOff_EmbossCB->isChecked()) return;
+    FLAGSTOPSPIN=true;
+    AppendPartialUndo(UNDOACTION_EDITZONE_TRANSFO,ui->InteractiveZone,true);
+    if (ui->FilterOnOff_EmbossCB->isChecked())      CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter | FilterEmboss;
+        else                                        CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter & ~FilterEmboss;
+    ui->InteractiveZone->RefreshDisplay();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
+// Blur/Sharpen
+//====================================================================================================================
+
+void DlgImageCorrection::s_BlurSharpenSigmaSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSharpenSigmaSliderMoved");
     if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
     FLAGSTOPSPIN=true;
-    AppendPartialUndo(UNDOACTION_EDITZONE_BLUR,ui->InteractiveZone,false);
-    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
-    Filter->BlurSigma=qreal(Value)/10;
-    ui->BlurSigmaSlider->setValue(Filter->BlurSigma*10);
-    ui->BlurSigmaSB->setValue(Filter->BlurSigma);
+    AppendPartialUndo(UNDOACTION_EDITZONE_BLURSHARPENSIGMA,ui->InteractiveZone,false);
+    CurrentBrush->BlurSigma=qreal(Value)/10;
+    ui->BlurSharpenSigmaSlider->setValue(CurrentBrush->BlurSigma*10);
+    ui->BlurSharpenSigmaSB->setValue(CurrentBrush->BlurSigma);
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
     UpdateFramingStyleCB();
 }
 
-//====================================================================================================================
-
-void DlgImageCorrection::s_BlurSigmaValueED(double Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSigmaValueED");
+void DlgImageCorrection::s_BlurSharpenSigmaValueED(double Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSharpenSigmaValueED");
     if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
     FLAGSTOPSPIN=true;
-    AppendPartialUndo(UNDOACTION_EDITZONE_BLUR,ui->InteractiveZone,false);
-    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
-    Filter->BlurSigma=Value;
-    ui->BlurSigmaSlider->setValue(Filter->BlurSigma*10);
-    ui->BlurSigmaSB->setValue(Filter->BlurSigma);
+    AppendPartialUndo(UNDOACTION_EDITZONE_BLURSHARPENSIGMA,ui->InteractiveZone,false);
+    CurrentBrush->BlurSigma=Value;
+    ui->BlurSharpenSigmaSlider->setValue(CurrentBrush->BlurSigma*10);
+    ui->BlurSharpenSigmaSB->setValue(CurrentBrush->BlurSigma);
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
     UpdateFramingStyleCB();
 }
 
-//====================================================================================================================
-
-void DlgImageCorrection::s_BlurRadiusSliderMoved(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurRadiusSliderMoved");
+void DlgImageCorrection::s_BlurSharpenRadiusSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSharpenRadiusSliderMoved");
     if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
     FLAGSTOPSPIN=true;
-    AppendPartialUndo(UNDOACTION_EDITZONE_BLURRD,ui->InteractiveZone,false);
-    cFilterTransformObject *Filter=CurrentBrush->Image?&CurrentBrush->Image->BrushFileTransform:&CurrentBrush->Video->BrushFileTransform;
-    Filter->BlurRadius=qreal(Value);
-    ui->BlurRadiusSlider->setValue(int(Filter->BlurRadius));
-    ui->BlurRadiusED->setValue(int(Filter->BlurRadius));
+    AppendPartialUndo(UNDOACTION_EDITZONE_BLURSHARPENRADIUS,ui->InteractiveZone,false);
+    CurrentBrush->BlurRadius=qreal(Value);
+    ui->BlurSharpenRadiusSlider->setValue(int(CurrentBrush->BlurRadius));
+    ui->BlurSharpenRadiusED->setValue(int(CurrentBrush->BlurRadius));
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
     UpdateFramingStyleCB();
+}
+
+void DlgImageCorrection::s_BlurSharpenSigmaReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSharpenSigmaReset");
+    s_BlurSharpenSigmaSliderMoved(0);
+}
+
+void DlgImageCorrection::s_BlurSharpenRadiusReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSharpenRadiusReset");
+    s_BlurSharpenRadiusSliderMoved(5);
 }
 
 //====================================================================================================================
@@ -720,6 +915,17 @@ void DlgImageCorrection::s_BlueSliderMoved(int Value) {
 
 //====================================================================================================================
 
+void DlgImageCorrection::s_ShapeBackgroundForm() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ShapeBackgroundForm");
+    AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEFORM,ui->BackgroundFormCB,false);
+    ui->InteractiveZone->BackgroundForm=ui->BackgroundFormCB->GetCurrentFrameShape();
+    ui->InteractiveZone->RefreshDisplay();
+    UpdateFramingStyleCB(true);
+    RefreshControls();
+}
+
+//====================================================================================================================
+
 void DlgImageCorrection::s_ItemSelectionHaveChanged() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ItemSelectionHaveChanged");
     if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
@@ -808,4 +1014,110 @@ void DlgImageCorrection::s_DisplayIntZoneTransformBlocks(qreal Move_X,qreal Move
     ui->WValue->setValue(NewW*100);
     ui->HValue->setValue(NewH*100);
     FLAGSTOPED=false;
+}
+
+//====================================================================================================================
+// Handler for video controls
+//====================================================================================================================
+
+void DlgImageCorrection::s_Deinterlace(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_Deinterlace");
+    if (!IsVideo) return;
+    if (CurrentBrush->Deinterlace!=ui->DeinterlaceBt->isChecked()) {
+        AppendPartialUndo(UNDOACTION_VIDEOPART_DEINTERLACE,ui->VolumeReductionFactorCB,true);
+        CurrentBrush->Deinterlace=ui->DeinterlaceBt->isChecked();
+        RefreshControls();
+    }
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_Event_SaveImageEvent() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_Event_SaveImageEvent");
+    if (!IsVideo) return;
+    ui->VideoPlayer->SetPlayerToPause();
+    QString OutputFileName=((cApplicationConfig *)BaseApplicationConfig)->LastCaptureImage;
+    QString Filter="JPG (*.jpg)";
+    if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
+    OutputFileName=OutputFileName+QApplication::translate("MainWindow","Capture image");
+    OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"PNG (*.png);;JPG (*.jpg)",&Filter);
+    if (OutputFileName!="") {
+        if (((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories) ((cApplicationConfig *)BaseApplicationConfig)->LastCaptureImage=QFileInfo(OutputFileName).absolutePath();     // Keep folder for next use
+        if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
+        if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
+
+        QImage *Image=CurrentBrush->Video->ImageAt(false,ui->VideoPlayer->ActualPosition,0,NULL,CurrentBrush->Deinterlace,1,false,true);
+        Image->save(OutputFileName,0,100);
+        delete Image;
+    }
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::MusicReduceFactorChange(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::MusicReduceFactorChange");
+    if ((!IsVideo)||(StopMaj)) return;
+    AppendPartialUndo(UNDOACTION_VIDEOPART_VOLUME,ui->VolumeReductionFactorCB,true);
+    QString Volume=ui->VolumeReductionFactorCB->currentText();
+    if (Volume!="") Volume=Volume.left(Volume.length()-1);  // Remove %
+    CurrentBrush->SoundVolume=double(Volume.toInt())/100;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_DefStartPos() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_DefStartPos");
+    if ((!IsVideo)||(StopMaj)) return;
+    AppendPartialUndo(UNDOACTION_VIDEOPART_STARTPOS,ui->StartPosEd,true);
+    CurrentBrush->Video->StartPos=ui->VideoPlayer->GetCurrentPos();
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_EditStartPos(QTime NewValue) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_EditStartPos");
+    if ((!IsVideo)||(StopMaj)) return;
+    AppendPartialUndo(UNDOACTION_VIDEOPART_STARTPOS,ui->StartPosEd,false);
+    CurrentBrush->Video->StartPos=NewValue;
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_DefEndPos() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_DefEndPos");
+    if ((!IsVideo)||(StopMaj)) return;
+    AppendPartialUndo(UNDOACTION_VIDEOPART_ENDPOS,ui->EndPosEd,true);
+    CurrentBrush->Video->EndPos=ui->VideoPlayer->GetCurrentPos();
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_EditEndPos(QTime NewValue) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_EditEndPos");
+    if ((!IsVideo)||(StopMaj)) return;
+    AppendPartialUndo(UNDOACTION_VIDEOPART_ENDPOS,ui->EndPosEd,false);
+    CurrentBrush->Video->EndPos=NewValue;
+    ui->EndPosEd->setTime(CurrentBrush->Video->EndPos);
+    RefreshControls();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_SeekLeft() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_SeekLeft");
+    if (!IsVideo) return;
+    ui->VideoPlayer->SeekPlayer(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos));
+    ui->VideoPlayer->SetPlayerToPause();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_SeekRight() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_SeekRight");
+    if (!IsVideo) return;
+    ui->VideoPlayer->SeekPlayer(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos));
+    ui->VideoPlayer->SetPlayerToPause();
 }

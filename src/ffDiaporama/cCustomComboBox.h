@@ -161,46 +161,6 @@ public slots:
 };
 
 //******************************************************************************************************************
-// Custom QAbstractItemDelegate for OnOffFilter ComboBox
-//******************************************************************************************************************
-
-class cOnOffFilterComboBox;
-class cOnOffFilterComboBoxItem : public QStyledItemDelegate {
-Q_OBJECT
-public:
-    cOnOffFilterComboBox    *ComboBox;
-
-    explicit cOnOffFilterComboBoxItem(QObject *parent=0);
-
-    virtual void    paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const;
-    virtual QSize   sizeHint(const QStyleOptionViewItem &option,const QModelIndex &index) const;
-};
-
-//******************************************************************************************************************
-// Custom OnOff-filter ComboBox
-//******************************************************************************************************************
-
-class cOnOffFilterComboBox : public QComboBox {
-Q_OBJECT
-public:
-    bool                        STOPMAJ;
-    int                         *CurrentFilter;
-    cOnOffFilterComboBoxItem    ItemDelegate;
-    QImage                      SourceImage;
-
-    explicit    cOnOffFilterComboBox(QWidget *parent = 0);
-    void        SetCurrentFilter(QImage *TheSourceImage,int *OnOffFilter);
-    int         GetCurrentFilter();
-
-protected:
-
-signals:
-
-public slots:
-    void s_ItemSelectionChanged();
-};
-
-//******************************************************************************************************************
 // Custom QAbstractItemDelegate for Background ComboBox
 //******************************************************************************************************************
 

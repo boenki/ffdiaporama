@@ -57,7 +57,7 @@ void DlgInfoFile::DoInitDialog() {
         if (!MediaFile->Icon100.isNull()) {
             ui->FileIconLabel->setPixmap(QPixmap().fromImage(MediaFile->Icon100));
         } else if (MediaFile->ObjectType==OBJECTTYPE_IMAGEFILE) {
-            cLuLoImageCacheObject *ImageObject=BaseApplicationConfig->ImagesCache.FindObject(MediaFile->FileName,MediaFile->ModifDateTime,MediaFile->ImageOrientation,NULL,true,false);
+            cLuLoImageCacheObject *ImageObject=BaseApplicationConfig->ImagesCache.FindObject(MediaFile->FileName,MediaFile->ModifDateTime,MediaFile->ImageOrientation,true,false);
             if (ImageObject) {
                 QImage *Img=ImageObject->ValidateCachePreviewImage();
                 if ((Img)&&(!Img->isNull())) {

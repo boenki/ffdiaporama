@@ -46,10 +46,12 @@ public:
     qreal                   ImageGeometry;
     qreal                   ProjectGeometry;
     QString                 InitialFilteredString;
-    int                     OnOffFilter;
     int                     CurrentFramingStyle;
+    int                     *BackgroundForm;
+    bool                    IsVideo;
+    bool                    StopMaj;
 
-    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,int ImageGeometry,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int *BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,int ImageGeometry,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgImageCorrection();
 
     // function to be overloaded
@@ -61,14 +63,16 @@ public:
 
     virtual void            PreparePartialUndo(int ActionType,QDomElement root);
     virtual void            ApplyPartialUndo(int ActionType,QDomElement root);
+    virtual void            RestoreWindowState();
 
-    void            RefreshControls();
+    virtual void            RefreshControls();
 
 protected:
-    virtual void    resizeEvent(QResizeEvent *);
-    virtual void    showEvent(QShowEvent *);
+    virtual void            resizeEvent(QResizeEvent *);
+    virtual void            showEvent(QShowEvent *);
 
 private slots:
+    void            s_TabWidgetChanged(int);
     void            s_RulersBT();
     void            s_RotationEDChanged(double Value);
     void            s_XValueEDChanged(double Value);
@@ -91,18 +95,37 @@ private slots:
     void            s_RedReset();
     void            s_GreenReset();
     void            s_BlueReset();
-    void            s_ChTransformationCB(int);
-    void            s_BlurSigmaSliderMoved(int Value);
-    void            s_BlurSigmaValueED(double Value);
-    void            s_BlurRadiusSliderMoved(int Value);
-    void            s_BlurSharpenReset();
-    void            s_RadiusReset();
-    void            ChangeBrushDiskFile();
+    void            s_OnOffFilter_Gray_Changed(int);
+    void            s_OnOffFilter_Equalize_Changed(int);
+    void            s_OnOffFilter_Despeckle_Changed(int);
+    void            s_OnOffFilter_Negative_Changed(int);
+    void            s_OnOffFilter_Emboss_Changed(int);
+
+    // BlurSharpen
+    void            s_BlurSharpenSigmaSliderMoved(int Value);
+    void            s_BlurSharpenSigmaValueED(double Value);
+    void            s_BlurSharpenSigmaReset();
+    void            s_BlurSharpenRadiusSliderMoved(int Value);
+    void            s_BlurSharpenRadiusReset();
+
+    void            s_ChangeFile();
     void            s_IntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
     void            s_DisplayIntZoneTransformBlocks(qreal Move_X,qreal Move_Y,qreal Scale_X,qreal Scale_Y);
+    void            s_ShapeBackgroundForm();
+
+    void            s_Event_SaveImageEvent();
+    void            s_DefStartPos();
+    void            s_DefEndPos();
+    void            s_SeekLeft();
+    void            s_SeekRight();
+    void            s_EditStartPos(QTime NewValue);
+    void            s_EditEndPos(QTime NewValue);
+    void            MusicReduceFactorChange(int);
+    void            s_Deinterlace(int);
 
 private:
-    void            UpdateFramingStyleCB();
+    void            UpdateFramingStyleCB(bool Reset=false);
+    void            MakeFormIcon(QComboBox *UICB);
 
     Ui::DlgImageCorrection *ui;
 };

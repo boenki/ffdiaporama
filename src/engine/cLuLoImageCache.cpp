@@ -94,10 +94,11 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
 
     if (CacheRenderImage==NULL) {
 
-        if ((FilterString!="")&&(QFileInfo(CachedFilteredImage()).exists())) {
-
-            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName());
-            CacheRenderImage=new QImage(CachedFilteredImage());
+        // Image object
+        if (TypeObject==LULOOBJECT_IMAGE) {
+            // Load image from disk
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
+            CacheRenderImage=new QImage(FileName);
 
             #ifdef Q_OS_WIN
             // On Windows : reduce image size to 8 MPix max
@@ -115,76 +116,37 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
             #endif
 
             if (!CacheRenderImage)
-                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error allocating memory for cached filtered file"));
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error allocating memory for render image"));
             if ((CacheRenderImage)&&(CacheRenderImage->isNull()))
-                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading cached filtered file :")+QFileInfo(CachedFilteredImage()).fileName());
+                ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading file :")+FileName);
 
-        } else if (FilterString=="") {
-
-            // Image object
-            if (TypeObject==LULOOBJECT_IMAGE) {
-                // Load image from disk
-                ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
-                CacheRenderImage=new QImage(FileName);
-
-                #ifdef Q_OS_WIN
-                // On Windows : reduce image size to 8 MPix max
-                double  MaxValue=8000000;
-                if ((IsWindowsXP)&&(CacheRenderImage!=NULL)&&(!CacheRenderImage->isNull())&&((CacheRenderImage->width()*CacheRenderImage->height())>MaxValue)) {
-                    double  ActualValue =CacheRenderImage->width()*CacheRenderImage->height();
-                    double  Transfo     =sqrt(MaxValue/ActualValue);;
-                    int     ImageWidth  =int(Transfo*double(CacheRenderImage->width()));
-                    int     ImageHeight =int(Transfo*double(CacheRenderImage->height()));
-                    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Rescale image to 8MPix"));
-                    QImage *NewCacheRenderImage=new QImage(CacheRenderImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+            // If image is ok then apply exif orientation (if needed)
+            if ((CacheRenderImage)&&(!CacheRenderImage->isNull())) {
+                if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+                    QMatrix matrix;
+                    matrix.rotate(-90);
+                    QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
                     delete CacheRenderImage;
-                    CacheRenderImage=NewCacheRenderImage;
+                    CacheRenderImage=NewImage;
+                } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+                    QMatrix matrix;
+                    matrix.rotate(180);
+                    QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                    delete CacheRenderImage;
+                    CacheRenderImage=NewImage;
+                } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+                    QMatrix matrix;
+                    matrix.rotate(90);
+                    QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                    delete CacheRenderImage;
+                    CacheRenderImage=NewImage;
                 }
-                #endif
-
-                if (!CacheRenderImage)
-                    ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error allocating memory for render image"));
-                if ((CacheRenderImage)&&(CacheRenderImage->isNull()))
-                    ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error loading file :")+FileName);
-
-                // If image is ok then apply exif orientation (if needed)
-                if ((CacheRenderImage)&&(!CacheRenderImage->isNull())) {
-                    if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
-                        QMatrix matrix;
-                        matrix.rotate(-90);
-                        QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                        delete CacheRenderImage;
-                        CacheRenderImage=NewImage;
-                    } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
-                        QMatrix matrix;
-                        matrix.rotate(180);
-                        QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                        delete CacheRenderImage;
-                        CacheRenderImage=NewImage;
-                    } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
-                        QMatrix matrix;
-                        matrix.rotate(90);
-                        QImage *NewImage=new QImage(CacheRenderImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                        delete CacheRenderImage;
-                        CacheRenderImage=NewImage;
-                    }
-                }
-
-            // Video object
-            } else {
-
-            }
-
-            // If image is ok then apply filter if exist
-            if ((FilterString!="")&&(CacheRenderImage)&&(!CacheRenderImage->isNull())) {
-                cFilterTransformObject Filter(FilterString);
-                Filter.ApplyFilter(CacheRenderImage);
             }
 
         } else {
 
             // Search LuLoImageCache collection to find image without filter
-            cLuLoImageCacheObject *UnfilteredObject=LuLoImageCache->FindObject(FileName,ModifDateTime,ImageOrientation,NULL,Smoothing,true);
+            cLuLoImageCacheObject *UnfilteredObject=LuLoImageCache->FindObject(FileName,ModifDateTime,ImageOrientation,Smoothing,true);
 
             if (UnfilteredObject) {
 
@@ -196,17 +158,6 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
 
             } else {
                 ToLog(LOGMSG_CRITICAL,"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : LuLoImageCache->FindObject return NULL");
-            }
-
-            // If image is ok then apply filter if exist
-             if ((FilterString!="")&&(CacheRenderImage)&&(!CacheRenderImage->isNull())) {
-                cFilterTransformObject Filter(FilterString);
-                if (CacheRenderImage->format()!=QImage::Format_ARGB32_Premultiplied) {
-                    QImage *NewImage=new QImage(CacheRenderImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
-                    delete CacheRenderImage;
-                    CacheRenderImage=NewImage;
-                }
-                Filter.ApplyFilter(CacheRenderImage);
             }
         }
 
@@ -250,7 +201,7 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
         } else {
 
             // Search LuLoImageCache collection to find image without filter
-            cLuLoImageCacheObject *UnfilteredObject=LuLoImageCache->FindObject(FileName,ModifDateTime,ImageOrientation,NULL,Smoothing,true);
+            cLuLoImageCacheObject *UnfilteredObject=LuLoImageCache->FindObject(FileName,ModifDateTime,ImageOrientation,Smoothing,true);
 
             if (UnfilteredObject) {
 
@@ -274,17 +225,6 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
                         CachePreviewImage=NewImage;
                     }
 
-                }
-
-                // If image is ok then apply then apply filter if exist
-                if ((FilterString!="")&&(CachePreviewImage)&&(!CachePreviewImage->isNull())) {
-                    cFilterTransformObject Filter(FilterString);
-                    if (CachePreviewImage->format()!=QImage::Format_ARGB32_Premultiplied) {
-                        QImage *NewImage=new QImage(CachePreviewImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
-                        delete CachePreviewImage;
-                        CachePreviewImage=NewImage;
-                    }
-                    Filter.ApplyFilter(CachePreviewImage);
                 }
 
             } else {
@@ -328,15 +268,14 @@ cLuLoImageCache::~cLuLoImageCache() {
 //===============================================================================
 
 // Image version
-cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,cFilterTransformObject *Filter,bool Smoothing,bool SetAtTop) {
+cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::FindObject");
 
 
-    QString FilterString=(Filter!=NULL)?Filter->FilterToString():"";
     int i=0;
-    while ((i<List.count())&&((List[i]->TypeObject!=LULOOBJECT_IMAGE)||(List[i]->FileName!=FileName)||(List[i]->FilterString!=FilterString)||(List[i]->Smoothing!=Smoothing))) i++;
+    while ((i<List.count())&&((List[i]->TypeObject!=LULOOBJECT_IMAGE)||(List[i]->FileName!=FileName)||(List[i]->Smoothing!=Smoothing))) i++;
 
-    if ((i<List.count())&&(List[i]->TypeObject==LULOOBJECT_IMAGE)&&(List[i]->FileName==FileName)&&(List[i]->ModifDateTime==ModifDateTime)&&(List[i]->FilterString==FilterString)&&(List[i]->Smoothing==Smoothing)) {
+    if ((i<List.count())&&(List[i]->TypeObject==LULOOBJECT_IMAGE)&&(List[i]->FileName==FileName)&&(List[i]->ModifDateTime==ModifDateTime)&&(List[i]->Smoothing==Smoothing)) {
         // if wanted and image found then set it to the top of the list
         if ((SetAtTop)&&(i>0)) { // If item is not the first
             cLuLoImageCacheObject *Object=List.takeAt(i);   // Detach item from the list
@@ -345,7 +284,7 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,QDateTime Mo
         }
     } else {
         // Image not found then create it at top of the list
-        List.prepend(new cLuLoImageCacheObject(FileName,ModifDateTime,ImageOrientation,FilterString,Smoothing,this));     // Append a new object at first position
+        List.prepend(new cLuLoImageCacheObject(FileName,ModifDateTime,ImageOrientation,"",Smoothing,this));     // Append a new object at first position
         i=0;
     }
     return List[i]; // return first object
