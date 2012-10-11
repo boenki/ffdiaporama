@@ -40,19 +40,5 @@ French version / Correction de bug :
 English version / Bug fixes :
 
 French version / Nouveautés :
--Fusion des boites Edit Image et Edit Video
--Ajoute la combo box de sélection de la forme dans la boite Edit Image
--Supprime l'option de mise en cache des images transformées dans la boite d'option
--Supprime l'option de désactivation des transformations durant la prévisualitation dans la boite d'option
--Rend tous les filtres de transformation progressifs
--Autorise le filtre blur/sharpen aussi pour les vidéos
--Ajoute les filtres Negatif et Emboss(Estamper)
 
 English version / New features :
--Merge of the 2 dialogs Edit Image and Edit Video
--Add shape form combo box in Edit Image dialog
--Remove the "Image transformation / Apply to video during preview" option in Application options dialog
--Remove the "Transformed image / Create cache file (with _ffd suffix) for transformed images" option in Application options dialog
--Transform all transformation filters as progressive filters
--Enable the use of blur/sharpen filter also for video
--Add Negatif and Emboss filter
