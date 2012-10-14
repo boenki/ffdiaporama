@@ -1337,15 +1337,15 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 
         //**** Compatibility with version prior to 1.5
         for (int i=0;i<ObjectComposition.List.count();i++) {
-            if ((ObjectComposition.List.at(i)->BackgroundBrush->OnOffFilter!=0)||(ObjectComposition.List.at(i)->BackgroundBrush->BlurSigma!=0)) {
+            if ((ObjectComposition.List.at(i)->BackgroundBrush->OnOffFilter!=0)||(ObjectComposition.List.at(i)->BackgroundBrush->GaussBlurSharpenSigma!=0)) {
                 for (int j=0;j<List.count();j++) for (int k=0;k<List.at(j)->ShotComposition.List.count();k++) if (List.at(j)->ShotComposition.List.at(k)->IndexKey==ObjectComposition.List.at(i)->IndexKey) {
                     List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->OnOffFilter=ObjectComposition.List.at(i)->BackgroundBrush->OnOffFilter;
-                    List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->BlurSigma  =ObjectComposition.List.at(i)->BackgroundBrush->BlurSigma;
-                    List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->BlurRadius =ObjectComposition.List.at(i)->BackgroundBrush->BlurRadius;
+                    List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->GaussBlurSharpenSigma  =ObjectComposition.List.at(i)->BackgroundBrush->GaussBlurSharpenSigma;
+                    List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->BlurSharpenRadius =ObjectComposition.List.at(i)->BackgroundBrush->BlurSharpenRadius;
                 }
                 ObjectComposition.List.at(i)->BackgroundBrush->OnOffFilter=0;
-                ObjectComposition.List.at(i)->BackgroundBrush->BlurSigma  =0;
-                ObjectComposition.List.at(i)->BackgroundBrush->BlurRadius =5;
+                ObjectComposition.List.at(i)->BackgroundBrush->GaussBlurSharpenSigma  =0;
+                ObjectComposition.List.at(i)->BackgroundBrush->BlurSharpenRadius =5;
             }
         }
 
@@ -2972,31 +2972,37 @@ bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber)
                 IsStatic=false;
     } else for (int i=0;i<Object->List[ShotNumber]->ShotComposition.List.count();i++) if (Object->List[ShotNumber]->ShotComposition.List[i]->IsVisible) {
         if (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Video!=NULL) IsStatic=false; else {
-            if ((Object->List[ShotNumber]->ShotComposition.List[i]->x                              !=Object->List[ShotNumber-1]->ShotComposition.List[i]->x)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->y                              !=Object->List[ShotNumber-1]->ShotComposition.List[i]->y)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->w                              !=Object->List[ShotNumber-1]->ShotComposition.List[i]->w)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->h                              !=Object->List[ShotNumber-1]->ShotComposition.List[i]->h)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateXAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateXAxis)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateYAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateYAxis)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateZAxis                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateZAxis)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BlockAnimType                  !=0)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->TxtZoomLevel                   !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtZoomLevel)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->TxtScrollX                     !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtScrollX)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->TxtScrollY                     !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtScrollY)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->X             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->X)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Y             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Y)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->ZoomFactor    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->ZoomFactor)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->AspectRatio   !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->AspectRatio)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->ImageRotation !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->ImageRotation)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Blue          !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Blue)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Red           !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Red)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Green         !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Green)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Brightness    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Brightness)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Contrast      !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Contrast)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Gamma         !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Gamma)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BlurRadius    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BlurRadius)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BlurSigma     !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BlurSigma)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->OnOffFilter   !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->OnOffFilter))
+            if ((Object->List[ShotNumber]->ShotComposition.List[i]->x                                       !=Object->List[ShotNumber-1]->ShotComposition.List[i]->x)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->y                                       !=Object->List[ShotNumber-1]->ShotComposition.List[i]->y)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->w                                       !=Object->List[ShotNumber-1]->ShotComposition.List[i]->w)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->h                                       !=Object->List[ShotNumber-1]->ShotComposition.List[i]->h)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateXAxis                             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateXAxis)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateYAxis                             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateYAxis)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->RotateZAxis                             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->RotateZAxis)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BlockAnimType                           !=0)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->TxtZoomLevel                            !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtZoomLevel)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->TxtScrollX                              !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtScrollX)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->TxtScrollY                              !=Object->List[ShotNumber-1]->ShotComposition.List[i]->TxtScrollY)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->X                      !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->X)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Y                      !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Y)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->ZoomFactor             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->ZoomFactor)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->AspectRatio            !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->AspectRatio)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->ImageRotation          !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->ImageRotation)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Blue                   !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Blue)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Red                    !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Red)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Green                  !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Green)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Brightness             !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Brightness)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Contrast               !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Contrast)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Gamma                  !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Gamma)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->BlurSharpenRadius      !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->BlurSharpenRadius)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->GaussBlurSharpenSigma  !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->GaussBlurSharpenSigma)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->QuickBlurSharpenSigma  !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->QuickBlurSharpenSigma)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Desat                  !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Desat)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Swirl                  !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Swirl)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Implode                !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Implode)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->WaveAmp                !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->WaveAmp)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->WaveFreq               !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->WaveFreq)||
+                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->OnOffFilter            !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->OnOffFilter))
                 IsStatic=false;
         }
     }

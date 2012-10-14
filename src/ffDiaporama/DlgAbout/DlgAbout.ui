@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>600</width>
-    <height>400</height>
+    <width>697</width>
+    <height>676</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -236,8 +236,8 @@ This General Public License does not permit incorporating your program into prop
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>441</width>
-                <height>551</height>
+                <width>530</width>
+                <height>587</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_2">
@@ -285,6 +285,23 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                  <property name="text">
                   <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="2">
+                <widget class="QPushButton" name="EXIV2WebSiteBT">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true">http://www.exiv2.org/</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../../../RSCffDiaporama.qrc">
+                   <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
                </item>
@@ -381,7 +398,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="16" column="0" colspan="3">
+               <item row="17" column="0" colspan="3">
                 <widget class="QLabel" name="label_12">
                  <property name="minimumSize">
                   <size>
@@ -405,21 +422,21 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="18" column="1">
+               <item row="19" column="1">
                 <widget class="QLabel" name="label_13">
                  <property name="text">
                   <string>C.C. WEB site :</string>
                  </property>
                 </widget>
                </item>
-               <item row="14" column="1">
+               <item row="15" column="1">
                 <widget class="QLabel" name="label_15">
                  <property name="text">
                   <string>WEB site &amp; licence :</string>
                  </property>
                 </widget>
                </item>
-               <item row="13" column="0" colspan="3">
+               <item row="14" column="0" colspan="3">
                 <widget class="QLabel" name="label_14">
                  <property name="minimumSize">
                   <size>
@@ -457,7 +474,7 @@ This General Public License does not permit incorporating your program into prop
                   </font>
                  </property>
                  <property name="text">
-                  <string>Image effects are based on fmt_filters</string>
+                  <string>Image effects are based on fmt_filters and QImageBlitz</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -474,7 +491,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="19" column="2">
+               <item row="20" column="2">
                 <spacer name="verticalSpacer_2">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
@@ -496,7 +513,7 @@ This General Public License does not permit incorporating your program into prop
                   </sizepolicy>
                  </property>
                  <property name="text">
-                  <string notr="true">http://qt.nokia.com/products/</string>
+                  <string notr="true">http://qt.digia.com/product/</string>
                  </property>
                  <property name="icon">
                   <iconset resource="../../../RSCffDiaporama.qrc">
@@ -538,23 +555,6 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="7" column="2">
-                <widget class="QPushButton" name="EXIV2WebSiteBT">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string notr="true">http://www.exiv2.org/</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
-                   <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
-                 </property>
-                </widget>
-               </item>
                <item row="12" column="2">
                 <widget class="QPushButton" name="FMTFWebSiteBT">
                  <property name="sizePolicy">
@@ -572,7 +572,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="14" column="2">
+               <item row="15" column="2">
                 <widget class="QPushButton" name="CrystalWebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -589,7 +589,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="18" column="2">
+               <item row="19" column="2">
                 <widget class="QPushButton" name="CC2WebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -651,6 +651,30 @@ This General Public License does not permit incorporating your program into prop
                  <property name="icon">
                   <iconset>
                    <normaloff>SubProjects/ffDiaporamaMMFiler/:/img/Internet.png</normaloff>SubProjects/ffDiaporamaMMFiler/:/img/Internet.png</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="13" column="1">
+                <widget class="QLabel" name="label_22">
+                 <property name="text">
+                  <string>WEB site &amp; licence :</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="13" column="2">
+                <widget class="QPushButton" name="QIBWebSiteBT">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true">http://qimageblitz.sourceforge.net/</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../../../RSCffDiaporama.qrc">
+                   <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
                  </property>
                 </widget>
                </item>

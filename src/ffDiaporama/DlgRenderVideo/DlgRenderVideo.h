@@ -112,7 +112,7 @@ private:
 
     bool            ComputeVideoPart(QString &vCodec);
     bool            ComputeAudioPart(QString &aCodec);
-    bool            ComputeTAGPart(  QString &aTAG);
+    bool            ComputeTAGPart(  QString &aTAG,bool WithChapters);
 
 };
 

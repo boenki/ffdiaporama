@@ -17,15 +17,12 @@
         <file>img/arrow_right.png</file>
         <file>img/arrow_up.png</file>
         <file>img/Blue.png</file>
-        <file>img/Blur.png</file>
-        <file>img/Brightness.png</file>
         <file>img/Chapter.png</file>
         <file>img/color.png</file>
         <file>img/color_fill.png</file>
         <file>img/colorize.png</file>
         <file>img/config.png</file>
         <file>img/contents.png</file>
-        <file>img/Contrast.png</file>
         <file>img/db.png</file>
         <file>img/db_add.png</file>
         <file>img/db_menu.png</file>
@@ -54,7 +51,6 @@
         <file>img/filesaveas.png</file>
         <file>img/FolderOpen.png</file>
         <file>img/font.png</file>
-        <file>img/Gamma.png</file>
         <file>img/Geometry.png</file>
         <file>img/Geometry_ImageLock.png</file>
         <file>img/Geometry_Lock.png</file>
@@ -265,5 +261,22 @@
         <file>img/config_menu.png</file>
         <file>img/Image_File.png</file>
         <file>img/Video_File.png</file>
+        <file>img/Filter/Blur.png</file>
+        <file>img/Filter/Brightness.png</file>
+        <file>img/Filter/Contrast.png</file>
+        <file>img/Filter/Gamma.png</file>
+        <file>img/Filter/Antialias.png</file>
+        <file>img/Filter/Charcoal.png</file>
+        <file>img/Filter/Despeckle.png</file>
+        <file>img/Filter/Edge.png</file>
+        <file>img/Filter/Emboss.png</file>
+        <file>img/Filter/Equalize.png</file>
+        <file>img/Filter/Grayscale.png</file>
+        <file>img/Filter/Negative.png</file>
+        <file>img/Filter/Oilpaint.png</file>
+        <file>img/Filter/Desaturate.png</file>
+        <file>img/Filter/Implode.png</file>
+        <file>img/Filter/Swirl.png</file>
+        <file>img/Filter/Wave.png</file>
     </qresource>
 </RCC>

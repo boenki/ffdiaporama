@@ -21,11 +21,20 @@
 /* Shape form to add :
     - PARALLÉLOGRAMME
     - TRAPÈZE
+    - JUMELLE
 */
 
 #include "cBrushDefinition.h"
 
-// Include some common various class
+// Include qimageblitz lib
+#ifdef Q_OS_WIN
+    #include <qimageblitz.h>
+    #include <blitzcpu.h>
+#else
+    #include <qimageblitz/qimageblitz.h>
+    #include <qimageblitz/blitzcpu.h>
+#endif
+
 #include "../fmt_filters/fmt_filters.h"
 
 //============================================
@@ -598,7 +607,7 @@ QList<QPolygonF> ComputeSimpleArrow(QRectF Rect,int Angle) {
 
 QList<QPolygonF> ComputeDoubleArrow(QRectF Rect,int Angle) {
     QList<QPolygonF>    List;
-    QPointF             Table[10];
+    QPointF             Table[11];
     QPainterPath        Path;
     qreal               Ray=(sqrt(qreal(Rect.width())*qreal(Rect.width())+qreal(Rect.height())*qreal(Rect.height())))/2;
     qreal               RB=2*Ray/3;
@@ -1047,22 +1056,29 @@ cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,
     BackgroundList      =TheBackgroundList;
 
     // Image correction part
-    ImageRotation       =0;                             // Image rotation
-    X                   =0;                             // X position (in %) relative to up/left corner
-    Y                   =0;                             // Y position (in %) relative to up/left corner
-    ZoomFactor          =1;                             // Zoom factor (in %)
-    Brightness          =0;
-    Contrast            =0;
-    Gamma               =1;
-    Red                 =0;
-    Green               =0;
-    Blue                =0;
-    LockGeometry        =false;
-    AspectRatio         =1;
-    FullFilling         =false;
-    BlurSigma           =0;
-    BlurRadius          =5;
-    OnOffFilter         =0;
+    ImageRotation           =0;                             // Image rotation
+    X                       =0;                             // X position (in %) relative to up/left corner
+    Y                       =0;                             // Y position (in %) relative to up/left corner
+    ZoomFactor              =1;                             // Zoom factor (in %)
+    Brightness              =0;
+    Contrast                =0;
+    Gamma                   =1;
+    Red                     =0;
+    Green                   =0;
+    Blue                    =0;
+    LockGeometry            =false;
+    AspectRatio             =1;
+    FullFilling             =false;
+    GaussBlurSharpenSigma   =0;
+    BlurSharpenRadius       =5;
+    QuickBlurSharpenSigma   =0;
+    TypeBlurSharpen         =0; // 0=Quick, 1=Gaussian
+    Desat                   =0;
+    Swirl                   =0;
+    Implode                 =0;
+    WaveAmp                 =0;
+    WaveFreq                =15;
+    OnOffFilter             =0;
 }
 
 //====================================================================================================================
@@ -1140,34 +1156,45 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 double  TheZoomFactor   =ZoomFactor;
                 double  TheRotateFactor =ImageRotation;
                 double  TheBrightness   =Brightness;
-                double  TheContrast     =Contrast;
+                double  TheContrast     =((OnOffFilter & FilterNormalize)==0)?Contrast:0;
                 double  TheGamma        =Gamma;
                 double  TheRed          =Red;
                 double  TheGreen        =Green;
                 double  TheBlue         =Blue;
+                double  TheDesat        =Desat;
+                double  TheSwirl        =Swirl;
+                double  TheImplode      =Implode;
+                double  TheWaveAmp      =WaveAmp;
+                double  TheWaveFreq     =WaveFreq;
                 double  TheAspectRatio  =AspectRatio;
-                double  TheBlurSigma    =BlurSigma;
-                double  TheBlurRadius   =BlurRadius;
-
                 int     TheOnOffFilter  =OnOffFilter;
                 bool    ProgressifOnOffFilter=false;
 
                 // Adjust values depending on PctDone and previous Filter (if exist)
                 if (PreviousBrush) {
-                    if (PreviousBrush->X!=TheXFactor)                   TheXFactor      =PreviousBrush->X+(TheXFactor-PreviousBrush->X)*PctDone;
-                    if (PreviousBrush->Y!=TheYFactor)                   TheYFactor      =PreviousBrush->Y+(TheYFactor-PreviousBrush->Y)*PctDone;
-                    if (PreviousBrush->ZoomFactor!=TheZoomFactor)       TheZoomFactor   =PreviousBrush->ZoomFactor+(TheZoomFactor-PreviousBrush->ZoomFactor)*PctDone;
-                    if (PreviousBrush->ImageRotation!=TheRotateFactor)  TheRotateFactor =PreviousBrush->ImageRotation+(TheRotateFactor-PreviousBrush->ImageRotation)*PctDone;
-                    if (PreviousBrush->Brightness!=TheBrightness)       TheBrightness   =PreviousBrush->Brightness+(TheBrightness-PreviousBrush->Brightness)*PctDone;
-                    if (PreviousBrush->Contrast!=TheContrast)           TheContrast     =PreviousBrush->Contrast+(TheContrast-PreviousBrush->Contrast)*PctDone;
-                    if (PreviousBrush->Gamma!=TheGamma)                 TheGamma        =PreviousBrush->Gamma+(TheGamma-PreviousBrush->Gamma)*PctDone;
-                    if (PreviousBrush->Red!=TheRed)                     TheRed          =PreviousBrush->Red+(TheRed-PreviousBrush->Red)*PctDone;
-                    if (PreviousBrush->Green!=TheGreen)                 TheGreen        =PreviousBrush->Green+(TheGreen-PreviousBrush->Green)*PctDone;
-                    if (PreviousBrush->Blue!=TheBlue)                   TheBlue         =PreviousBrush->Blue+(TheBlue-PreviousBrush->Blue)*PctDone;
-                    if (PreviousBrush->AspectRatio!=TheAspectRatio)     TheAspectRatio  =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
-                    if (PreviousBrush->BlurSigma!=TheBlurSigma)         TheBlurSigma    =PreviousBrush->BlurSigma+(TheBlurSigma-PreviousBrush->BlurSigma)*PctDone;
-                    if (PreviousBrush->BlurRadius!=TheBlurRadius)       TheBlurRadius   =PreviousBrush->BlurRadius+(TheBlurRadius-PreviousBrush->BlurRadius)*PctDone;;
-                    if (PreviousBrush->OnOffFilter!=TheOnOffFilter)     ProgressifOnOffFilter=true;
+                    if (((PreviousBrush->OnOffFilter & FilterNormalize)==0)&&(PreviousBrush->Contrast!=TheContrast)) TheContrast=PreviousBrush->Contrast+(TheContrast-PreviousBrush->Contrast)*PctDone;
+                    if (PreviousBrush->AspectRatio!=TheAspectRatio)                     TheAspectRatio          =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
+                    if (PreviousBrush->X!=TheXFactor)                                   TheXFactor              =PreviousBrush->X+(TheXFactor-PreviousBrush->X)*PctDone;
+                    if (PreviousBrush->Y!=TheYFactor)                                   TheYFactor              =PreviousBrush->Y+(TheYFactor-PreviousBrush->Y)*PctDone;
+                    if (PreviousBrush->ZoomFactor!=TheZoomFactor)                       TheZoomFactor           =PreviousBrush->ZoomFactor+(TheZoomFactor-PreviousBrush->ZoomFactor)*PctDone;
+                    if (PreviousBrush->ImageRotation!=TheRotateFactor)                  TheRotateFactor         =PreviousBrush->ImageRotation+(TheRotateFactor-PreviousBrush->ImageRotation)*PctDone;
+                    if (PreviousBrush->Brightness!=TheBrightness)                       TheBrightness           =PreviousBrush->Brightness+(TheBrightness-PreviousBrush->Brightness)*PctDone;
+                    if (PreviousBrush->Gamma!=TheGamma)                                 TheGamma                =PreviousBrush->Gamma+(TheGamma-PreviousBrush->Gamma)*PctDone;
+                    if (PreviousBrush->Red!=TheRed)                                     TheRed                  =PreviousBrush->Red+(TheRed-PreviousBrush->Red)*PctDone;
+                    if (PreviousBrush->Green!=TheGreen)                                 TheGreen                =PreviousBrush->Green+(TheGreen-PreviousBrush->Green)*PctDone;
+                    if (PreviousBrush->Blue!=TheBlue)                                   TheBlue                 =PreviousBrush->Blue+(TheBlue-PreviousBrush->Blue)*PctDone;
+                    if (PreviousBrush->Desat!=TheDesat)                                 TheDesat                =PreviousBrush->Desat+(TheDesat-PreviousBrush->Desat)*PctDone;
+                    if (PreviousBrush->Swirl!=TheSwirl)                                 TheSwirl                =PreviousBrush->Swirl+(TheSwirl-PreviousBrush->Swirl)*PctDone;
+                    if (PreviousBrush->Implode!=TheImplode)                             TheImplode              =PreviousBrush->Implode+(TheImplode-PreviousBrush->Implode)*PctDone;
+                    if (PreviousBrush->WaveAmp!=TheWaveAmp)                             TheWaveAmp              =PreviousBrush->WaveAmp+(TheWaveAmp-PreviousBrush->WaveAmp)*PctDone;
+                    if (PreviousBrush->WaveFreq!=TheWaveFreq)                           TheWaveFreq             =PreviousBrush->WaveFreq+(TheWaveFreq-PreviousBrush->WaveFreq)*PctDone;
+
+                    if ((PreviousBrush->OnOffFilter!=TheOnOffFilter)||
+                        (PreviousBrush->GaussBlurSharpenSigma!=GaussBlurSharpenSigma)||
+                        (PreviousBrush->QuickBlurSharpenSigma!=QuickBlurSharpenSigma)||
+                        (PreviousBrush->BlurSharpenRadius!=BlurSharpenRadius)||
+                        (PreviousBrush->TypeBlurSharpen!=TypeBlurSharpen)
+                       )ProgressifOnOffFilter=true;
                 }
 
                 // Prepare values from sourceimage size
@@ -1215,27 +1242,45 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 if (TheContrast!=0)                                             fmt_filters::contrast(img,TheContrast);
                 if (TheGamma!=1)                                                fmt_filters::gamma(img,TheGamma);
                 if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))                   fmt_filters::colorize(img,TheRed,TheGreen,TheBlue);
-                if (TheBlurSigma<0)                                             fmt_filters::blur(img,TheBlurRadius,-TheBlurSigma);
-                if (TheBlurSigma>0)                                             fmt_filters::sharpen(img,TheBlurRadius,TheBlurSigma);
+                if (TheDesat!=0)                                                Blitz::desaturate(NewRenderImage,TheDesat);
+                if (TheSwirl!=0)                                                NewRenderImage=Blitz::swirl(NewRenderImage,-TheSwirl);
+                if (TheImplode!=0)                                              NewRenderImage=Blitz::implode(NewRenderImage,TheImplode);
+                if ((TheWaveAmp!=0)&&(TheWaveFreq!=0))                          NewRenderImage=Blitz::wave(NewRenderImage,NewRenderImage.height()*(TheWaveAmp/100),NewRenderImage.width()/(TheWaveFreq/10));
 
-                if ((OnOffFilter!=0)||((PreviousBrush!=NULL)&&(PreviousBrush->OnOffFilter!=0))) {
+                if ((ProgressifOnOffFilter)||(GaussBlurSharpenSigma!=0)||(QuickBlurSharpenSigma!=0)||(OnOffFilter!=0)) {
                     QImage PreviousImage=NewRenderImage.copy();
-                    if (OnOffFilter!=0) {
-                        // Apply previous filter to image
-                        if ((OnOffFilter & FilterDespeckle)!=0)                 fmt_filters::despeckle(img);
-                        if ((OnOffFilter & FilterEqualize)!=0)                  fmt_filters::equalize(img);
-                        if ((OnOffFilter & FilterGray)!=0)                      fmt_filters::gray(img);
-                        if ((OnOffFilter & FilterNegative)!=0)                  fmt_filters::negative(img);
-                        if ((OnOffFilter & FilterEmboss)!=0)                    fmt_filters::emboss(img,10,1);
-                    }
+                    // Apply previous filter to image
+                    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma<0))        NewRenderImage=Blitz::gaussianBlur(NewRenderImage,BlurSharpenRadius,-GaussBlurSharpenSigma);
+                    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma>0))        NewRenderImage=Blitz::gaussianSharpen(NewRenderImage,BlurSharpenRadius,GaussBlurSharpenSigma);
+                    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma<0))        NewRenderImage=Blitz::blur(NewRenderImage,-QuickBlurSharpenSigma);
+                    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma>0))        NewRenderImage=Blitz::sharpen(NewRenderImage,QuickBlurSharpenSigma);
+                    if ((OnOffFilter & FilterDespeckle)!=0)                     Blitz::despeckle(NewRenderImage);
+                    if ((OnOffFilter & FilterEqualize)!=0)                      Blitz::equalize(NewRenderImage);
+                    if ((OnOffFilter & FilterGray)!=0)                          Blitz::grayscale(NewRenderImage,false);
+                    if ((OnOffFilter & FilterNegative)!=0)                      Blitz::invert(NewRenderImage,QImage::InvertRgb);
+                    if ((OnOffFilter & FilterEmboss)!=0)                        NewRenderImage=Blitz::emboss(NewRenderImage,0,1,Blitz::High);
+                    if ((OnOffFilter & FilterEdge)!=0)                          NewRenderImage=Blitz::edge(NewRenderImage);
+                    if ((OnOffFilter & FilterAntialias)!=0)                     NewRenderImage=Blitz::antialias(NewRenderImage);
+                    if ((OnOffFilter & FilterNormalize)!=0)                     Blitz::normalize(NewRenderImage);
+                    if ((OnOffFilter & FilterCharcoal)!=0)                      NewRenderImage=Blitz::charcoal(NewRenderImage);
+                    if ((OnOffFilter & FilterOil)!=0)                           NewRenderImage=Blitz::oilPaint(NewRenderImage);
+
                     if (ProgressifOnOffFilter) {
                         // Apply previous filter to copied image
-                        fmt_filters::image PreviousImg(PreviousImage.bits(),PreviousImage.width(),PreviousImage.height());
-                        if ((PreviousBrush->OnOffFilter & FilterDespeckle)!=0)  fmt_filters::despeckle(PreviousImg);
-                        if ((PreviousBrush->OnOffFilter & FilterEqualize)!=0)   fmt_filters::equalize(PreviousImg);
-                        if ((PreviousBrush->OnOffFilter & FilterGray)!=0)       fmt_filters::gray(PreviousImg);
-                        if ((PreviousBrush->OnOffFilter & FilterNegative)!=0)   fmt_filters::negative(PreviousImg);
-                        if ((PreviousBrush->OnOffFilter & FilterEmboss)!=0)     fmt_filters::emboss(PreviousImg,10,1);
+                        if ((PreviousBrush->TypeBlurSharpen==1)&&(PreviousBrush->GaussBlurSharpenSigma<0))    PreviousImage=Blitz::gaussianBlur(PreviousImage,PreviousBrush->BlurSharpenRadius,-PreviousBrush->GaussBlurSharpenSigma);
+                        if ((PreviousBrush->TypeBlurSharpen==1)&&(PreviousBrush->GaussBlurSharpenSigma>0))    PreviousImage=Blitz::gaussianSharpen(PreviousImage,PreviousBrush->BlurSharpenRadius,PreviousBrush->GaussBlurSharpenSigma);
+                        if ((PreviousBrush->TypeBlurSharpen==0)&&(PreviousBrush->QuickBlurSharpenSigma<0))    PreviousImage=Blitz::blur(PreviousImage,-PreviousBrush->QuickBlurSharpenSigma);
+                        if ((PreviousBrush->TypeBlurSharpen==0)&&(PreviousBrush->QuickBlurSharpenSigma>0))    PreviousImage=Blitz::sharpen(PreviousImage,PreviousBrush->QuickBlurSharpenSigma);
+                        if ((PreviousBrush->OnOffFilter & FilterDespeckle)!=0)  Blitz::despeckle(PreviousImage);
+                        if ((PreviousBrush->OnOffFilter & FilterEqualize)!=0)   Blitz::equalize(PreviousImage);
+                        if ((PreviousBrush->OnOffFilter & FilterGray)!=0)       Blitz::grayscale(PreviousImage,false);
+                        if ((PreviousBrush->OnOffFilter & FilterNegative)!=0)   Blitz::invert(PreviousImage,QImage::InvertRgb);
+                        if ((PreviousBrush->OnOffFilter & FilterEmboss)!=0)     PreviousImage=Blitz::emboss(PreviousImage,0,1,Blitz::High);
+                        if ((PreviousBrush->OnOffFilter & FilterEdge)!=0)       PreviousImage=Blitz::edge(PreviousImage);
+                        if ((PreviousBrush->OnOffFilter & FilterAntialias)!=0)  PreviousImage=Blitz::antialias(PreviousImage);
+                        if ((PreviousBrush->OnOffFilter & FilterNormalize)!=0)  Blitz::normalize(PreviousImage);
+                        if ((OnOffFilter & FilterCharcoal)!=0)                  PreviousImage=Blitz::charcoal(PreviousImage);
+                        if ((OnOffFilter & FilterOil)!=0)                       PreviousImage=Blitz::oilPaint(PreviousImage);
 
                         // Mix images
                         QPainter P;
@@ -1267,18 +1312,38 @@ void cBrushDefinition::ApplyFilter(QImage *Image) {
 
     if (Image==NULL) return;
     fmt_filters::image img(Image->bits(),Image->width(),Image->height());
-    if (Brightness!=0)                          fmt_filters::brightness(img,Brightness);
-    if (Contrast!=0)                            fmt_filters::contrast(img,Contrast);
-    if (Gamma!=1)                               fmt_filters::gamma(img,Gamma);
-    if ((Red!=0)||(Green!=0)||(Blue!=0))        fmt_filters::colorize(img,Red,Green,Blue);
-    if ((OnOffFilter & FilterDespeckle)!=0)     fmt_filters::despeckle(img);
-    if ((OnOffFilter & FilterEqualize)!=0)      fmt_filters::equalize(img);
-    if ((OnOffFilter & FilterGray)!=0)          fmt_filters::gray(img);
-    if ((OnOffFilter & FilterNegative)!=0)      fmt_filters::negative(img);
-    if ((OnOffFilter & FilterEmboss)!=0)        fmt_filters::emboss(img,10,1);
-    if (BlurSigma<0)                            fmt_filters::blur(img,BlurRadius,-BlurSigma);
-    if (BlurSigma>0)                            fmt_filters::sharpen(img,BlurRadius,BlurSigma);
+    if (Brightness!=0)                                          fmt_filters::brightness(img,Brightness);
+    if ((Contrast!=0)&&((OnOffFilter & FilterNormalize)==0))    fmt_filters::contrast(img,Contrast);
+    if (Gamma!=1)                                               fmt_filters::gamma(img,Gamma);
+    if ((Red!=0)||(Green!=0)||(Blue!=0))                        fmt_filters::colorize(img,Red,Green,Blue);
+    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma<0))        *Image=Blitz::blur(*Image,-QuickBlurSharpenSigma);
+    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma>0))        *Image=Blitz::sharpen(*Image,QuickBlurSharpenSigma);
+    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma<0))        *Image=Blitz::gaussianBlur(*Image,BlurSharpenRadius,-GaussBlurSharpenSigma);
+    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma>0))        *Image=Blitz::gaussianSharpen(*Image,BlurSharpenRadius,GaussBlurSharpenSigma);
+    if ((OnOffFilter & FilterDespeckle)!=0)                     Blitz::despeckle(*Image);
+    if ((OnOffFilter & FilterEqualize)!=0)                      Blitz::equalize(*Image);
+    if ((OnOffFilter & FilterGray)!=0)                          Blitz::grayscale(*Image,false);
+    if ((OnOffFilter & FilterNegative)!=0)                      Blitz::invert(*Image,QImage::InvertRgb);
+    if ((OnOffFilter & FilterEmboss)!=0)                        *Image=Blitz::emboss(*Image,0,1,Blitz::High);
+    if ((OnOffFilter & FilterEdge)!=0)                          *Image=Blitz::edge(*Image);
+    if ((OnOffFilter & FilterAntialias)!=0)                     *Image=Blitz::antialias(*Image);
+    if ((OnOffFilter & FilterNormalize)!=0)                     Blitz::normalize(*Image);
+    if ((OnOffFilter & FilterCharcoal)!=0)                      *Image=Blitz::charcoal(*Image);
+    if ((OnOffFilter & FilterOil)!=0)                           *Image=Blitz::oilPaint(*Image);
+    if (Desat!=0)                                               Blitz::desaturate(*Image,Desat);
+    if (Swirl!=0)                                               *Image=Blitz::swirl(*Image,-Swirl);
+    if (Implode!=0)                                             *Image=Blitz::implode(*Image,Implode);
+    if ((WaveAmp!=0)&&(WaveFreq!=0))                            *Image=Blitz::wave(*Image,Image->height()*(WaveAmp/100),Image->width()/(WaveFreq/10));
 }
+
+/*
+    static QImage& contrast(QImage &img, bool sharpen, int weight=3);
+    static QImage& intensity(QImage &img, float percent);
+    static QImage& channelIntensity(QImage &img, float percent,RGBChannel channel);
+    static QImage& flatten(QImage &img, const QColor &ca, const QColor &cb);
+    static QImage threshold(QImage &img, unsigned char thresholdValue=127,RGBChannel channel=Grayscale,unsigned int aboveColor=qRgb(255, 255, 255),unsigned int belowColor=qRgb(0, 0, 0));
+    static QImage& modulate(QImage &img, QImage &modImg, bool reverse,ModulationType type, int factor,RGBChannel channel);
+*/
 
 //====================================================================================================================
 
@@ -1331,37 +1396,44 @@ int cBrushDefinition::GetWidthForHeight(int WantedHeight,QRectF Rect) {
 void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::CopyFromBrushDefinition");
 
-    TypeComposition     =COMPOSITIONTYPE_SHOT;
-    BrushType           =BrushToCopy->BrushType;
-    PatternType         =BrushToCopy->PatternType;
-    GradientOrientation =BrushToCopy->GradientOrientation;
-    ColorD              =BrushToCopy->ColorD;
-    ColorF              =BrushToCopy->ColorF;
-    ColorIntermed       =BrushToCopy->ColorIntermed;
-    Intermediate        =BrushToCopy->Intermediate;
-    BrushImage          =BrushToCopy->BrushImage;
-    Image               =BrushToCopy->Image;
-    Video               =BrushToCopy->Video;
-    SoundVolume         =BrushToCopy->SoundVolume;
-    Deinterlace         =BrushToCopy->Deinterlace;
+    TypeComposition         =COMPOSITIONTYPE_SHOT;
+    BrushType               =BrushToCopy->BrushType;
+    PatternType             =BrushToCopy->PatternType;
+    GradientOrientation     =BrushToCopy->GradientOrientation;
+    ColorD                  =BrushToCopy->ColorD;
+    ColorF                  =BrushToCopy->ColorF;
+    ColorIntermed           =BrushToCopy->ColorIntermed;
+    Intermediate            =BrushToCopy->Intermediate;
+    BrushImage              =BrushToCopy->BrushImage;
+    Image                   =BrushToCopy->Image;
+    Video                   =BrushToCopy->Video;
+    SoundVolume             =BrushToCopy->SoundVolume;
+    Deinterlace             =BrushToCopy->Deinterlace;
 
     // Image correction part
-    ImageRotation       =BrushToCopy->ImageRotation;
-    X                   =BrushToCopy->X;
-    Y                   =BrushToCopy->Y;
-    ZoomFactor          =BrushToCopy->ZoomFactor;
-    Brightness          =BrushToCopy->Brightness;
-    Contrast            =BrushToCopy->Contrast;
-    Gamma               =BrushToCopy->Gamma;
-    Red                 =BrushToCopy->Red;
-    Green               =BrushToCopy->Green;
-    Blue                =BrushToCopy->Blue;
-    LockGeometry        =BrushToCopy->LockGeometry;
-    FullFilling         =BrushToCopy->FullFilling;
-    AspectRatio         =BrushToCopy->AspectRatio;
-    BlurSigma           =BrushToCopy->BlurSigma;
-    BlurRadius          =BrushToCopy->BlurRadius;
-    OnOffFilter         =BrushToCopy->OnOffFilter;
+    ImageRotation           =BrushToCopy->ImageRotation;
+    X                       =BrushToCopy->X;
+    Y                       =BrushToCopy->Y;
+    ZoomFactor              =BrushToCopy->ZoomFactor;
+    Brightness              =BrushToCopy->Brightness;
+    Contrast                =BrushToCopy->Contrast;
+    Gamma                   =BrushToCopy->Gamma;
+    Red                     =BrushToCopy->Red;
+    Green                   =BrushToCopy->Green;
+    Blue                    =BrushToCopy->Blue;
+    LockGeometry            =BrushToCopy->LockGeometry;
+    FullFilling             =BrushToCopy->FullFilling;
+    AspectRatio             =BrushToCopy->AspectRatio;
+    GaussBlurSharpenSigma   =BrushToCopy->GaussBlurSharpenSigma;
+    BlurSharpenRadius       =BrushToCopy->BlurSharpenRadius;
+    QuickBlurSharpenSigma   =BrushToCopy->QuickBlurSharpenSigma;
+    TypeBlurSharpen         =BrushToCopy->TypeBlurSharpen;
+    Desat                   =BrushToCopy->Desat;
+    Swirl                   =BrushToCopy->Swirl;
+    Implode                 =BrushToCopy->Implode;
+    WaveAmp                 =BrushToCopy->WaveAmp;
+    WaveFreq                =BrushToCopy->WaveFreq;
+    OnOffFilter             =BrushToCopy->OnOffFilter;
 }
 
 //====================================================================================================================
@@ -1420,22 +1492,29 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
     // Image correction part
     QDomElement CorrectElement=DomDocument.createElement("ImageCorrection");
-    CorrectElement.setAttribute("X",               X);                 // X position (in %) relative to up/left corner
-    CorrectElement.setAttribute("Y",               Y);                 // Y position (in %) relative to up/left corner
-    CorrectElement.setAttribute("ZoomFactor",      ZoomFactor);        // Zoom factor (in %)
-    CorrectElement.setAttribute("ImageRotation",   ImageRotation);     // Image rotation (in °)
-    CorrectElement.setAttribute("Brightness",      Brightness);
-    CorrectElement.setAttribute("Contrast",        Contrast);
-    CorrectElement.setAttribute("Gamma",           Gamma);
-    CorrectElement.setAttribute("Red",             Red);
-    CorrectElement.setAttribute("Green",           Green);
-    CorrectElement.setAttribute("Blue",            Blue);
-    CorrectElement.setAttribute("LockGeometry",    LockGeometry?1:0);
-    CorrectElement.setAttribute("AspectRatio",     AspectRatio);
-    CorrectElement.setAttribute("FullFilling",     FullFilling?1:0);
-    CorrectElement.setAttribute("BlurSigma",       BlurSigma);
-    CorrectElement.setAttribute("BlurRadius",      BlurRadius);
-    CorrectElement.setAttribute("OnOffFilter",     OnOffFilter);
+    CorrectElement.setAttribute("X",                    X);                 // X position (in %) relative to up/left corner
+    CorrectElement.setAttribute("Y",                    Y);                 // Y position (in %) relative to up/left corner
+    CorrectElement.setAttribute("ZoomFactor",           ZoomFactor);        // Zoom factor (in %)
+    CorrectElement.setAttribute("ImageRotation",        ImageRotation);     // Image rotation (in °)
+    CorrectElement.setAttribute("Brightness",           Brightness);
+    CorrectElement.setAttribute("Contrast",             Contrast);
+    CorrectElement.setAttribute("Gamma",                Gamma);
+    CorrectElement.setAttribute("Red",                  Red);
+    CorrectElement.setAttribute("Green",                Green);
+    CorrectElement.setAttribute("Blue",                 Blue);
+    CorrectElement.setAttribute("LockGeometry",         LockGeometry?1:0);
+    CorrectElement.setAttribute("AspectRatio",          AspectRatio);
+    CorrectElement.setAttribute("FullFilling",          FullFilling?1:0);
+    CorrectElement.setAttribute("TypeBlurSharpen",      TypeBlurSharpen);
+    CorrectElement.setAttribute("GaussBlurSharpenSigma",GaussBlurSharpenSigma);
+    CorrectElement.setAttribute("BlurSharpenRadius",    BlurSharpenRadius);
+    CorrectElement.setAttribute("QuickBlurSharpenSigma",QuickBlurSharpenSigma);
+    CorrectElement.setAttribute("Desat",                Desat);
+    CorrectElement.setAttribute("Swirl",                Swirl);
+    CorrectElement.setAttribute("Implode",              Implode);
+    CorrectElement.setAttribute("WaveAmp",              WaveAmp);
+    CorrectElement.setAttribute("WaveFreq",             WaveFreq);
+    CorrectElement.setAttribute("OnOffFilter",          OnOffFilter);
     Element.appendChild(CorrectElement);
 
     domDocument.appendChild(Element);
@@ -1512,8 +1591,8 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                         // Old Image transformation (for compatibility with version prio to 1.5)
                         if ((Element.elementsByTagName("ImageTransformation").length()>0)&&(Element.elementsByTagName("ImageTransformation").item(0).isElement()==true)) {
                             QDomElement SubElement=Element.elementsByTagName("ImageTransformation").item(0).toElement();
-                            if (SubElement.hasAttribute("BlurSigma"))      BlurSigma=  SubElement.attribute("BlurSigma").toDouble();
-                            if (SubElement.hasAttribute("BlurRadius"))     BlurRadius= SubElement.attribute("BlurRadius").toDouble();
+                            if (SubElement.hasAttribute("BlurSigma"))      GaussBlurSharpenSigma=  SubElement.attribute("GaussBlurSharpenSigma").toDouble();
+                            if (SubElement.hasAttribute("BlurRadius"))     BlurSharpenRadius= SubElement.attribute("BlurSharpenRadius").toDouble();
                             if (SubElement.hasAttribute("OnOffFilter"))    OnOffFilter=SubElement.attribute("OnOffFilter").toInt();
                         }
                     }
@@ -1525,21 +1604,28 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         if ((Element.elementsByTagName("ImageCorrection").length()>0)&&(Element.elementsByTagName("ImageCorrection").item(0).isElement()==true)) {
             QDomElement CorrectElement=Element.elementsByTagName("ImageCorrection").item(0).toElement();
 
-            if (CorrectElement.hasAttribute("X"))              X               =CorrectElement.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
-            if (CorrectElement.hasAttribute("Y"))              Y               =CorrectElement.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
-            if (CorrectElement.hasAttribute("ZoomFactor"))     ZoomFactor      =CorrectElement.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
-            if (CorrectElement.hasAttribute("ImageRotation"))  ImageRotation   =CorrectElement.attribute("ImageRotation").toDouble();          // Image rotation (in °)
-            if (CorrectElement.hasAttribute("Brightness"))     Brightness      =CorrectElement.attribute("Brightness").toInt();
-            if (CorrectElement.hasAttribute("Contrast"))       Contrast        =CorrectElement.attribute("Contrast").toInt();
-            if (CorrectElement.hasAttribute("Gamma"))          Gamma           =CorrectElement.attribute("Gamma").toDouble();
-            if (CorrectElement.hasAttribute("Red"))            Red             =CorrectElement.attribute("Red").toInt();
-            if (CorrectElement.hasAttribute("Green"))          Green           =CorrectElement.attribute("Green").toInt();
-            if (CorrectElement.hasAttribute("Blue"))           Blue            =CorrectElement.attribute("Blue").toInt();
-            if (CorrectElement.hasAttribute("AspectRatio"))    AspectRatio     =CorrectElement.attribute("AspectRatio").toDouble();
-            if (CorrectElement.hasAttribute("FullFilling"))    FullFilling     =CorrectElement.attribute("FullFilling").toInt()==1;
-            if (CorrectElement.hasAttribute("BlurSigma"))      BlurSigma       =CorrectElement.attribute("BlurSigma").toDouble();
-            if (CorrectElement.hasAttribute("BlurRadius"))     BlurRadius      =CorrectElement.attribute("BlurRadius").toDouble();
-            if (CorrectElement.hasAttribute("OnOffFilter"))    OnOffFilter     =CorrectElement.attribute("OnOffFilter").toInt();
+            if (CorrectElement.hasAttribute("X"))                       X                       =CorrectElement.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
+            if (CorrectElement.hasAttribute("Y"))                       Y                       =CorrectElement.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
+            if (CorrectElement.hasAttribute("ZoomFactor"))              ZoomFactor              =CorrectElement.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
+            if (CorrectElement.hasAttribute("ImageRotation"))           ImageRotation           =CorrectElement.attribute("ImageRotation").toDouble();          // Image rotation (in °)
+            if (CorrectElement.hasAttribute("Brightness"))              Brightness              =CorrectElement.attribute("Brightness").toInt();
+            if (CorrectElement.hasAttribute("Contrast"))                Contrast                =CorrectElement.attribute("Contrast").toInt();
+            if (CorrectElement.hasAttribute("Gamma"))                   Gamma                   =CorrectElement.attribute("Gamma").toDouble();
+            if (CorrectElement.hasAttribute("Red"))                     Red                     =CorrectElement.attribute("Red").toInt();
+            if (CorrectElement.hasAttribute("Green"))                   Green                   =CorrectElement.attribute("Green").toInt();
+            if (CorrectElement.hasAttribute("Blue"))                    Blue                    =CorrectElement.attribute("Blue").toInt();
+            if (CorrectElement.hasAttribute("AspectRatio"))             AspectRatio             =CorrectElement.attribute("AspectRatio").toDouble();
+            if (CorrectElement.hasAttribute("FullFilling"))             FullFilling             =CorrectElement.attribute("FullFilling").toInt()==1;
+            if (CorrectElement.hasAttribute("TypeBlurSharpen"))         TypeBlurSharpen         =CorrectElement.attribute("TypeBlurSharpen").toDouble();
+            if (CorrectElement.hasAttribute("GaussBlurSharpenSigma"))   GaussBlurSharpenSigma   =CorrectElement.attribute("GaussBlurSharpenSigma").toDouble();
+            if (CorrectElement.hasAttribute("BlurSharpenRadius"))       BlurSharpenRadius       =CorrectElement.attribute("BlurSharpenRadius").toDouble();
+            if (CorrectElement.hasAttribute("QuickBlurSharpenSigma"))   QuickBlurSharpenSigma   =CorrectElement.attribute("QuickBlurSharpenSigma").toInt();
+            if (CorrectElement.hasAttribute("Desat"))                   Desat                   =CorrectElement.attribute("Desat").toDouble();
+            if (CorrectElement.hasAttribute("Swirl"))                   Swirl                   =CorrectElement.attribute("Swirl").toDouble();
+            if (CorrectElement.hasAttribute("Implode"))                 Implode                 =CorrectElement.attribute("Implode").toDouble();
+            if (CorrectElement.hasAttribute("WaveAmp"))                 WaveAmp                 =CorrectElement.attribute("WaveAmp").toDouble();
+            if (CorrectElement.hasAttribute("WaveFreq"))                WaveFreq                =CorrectElement.attribute("WaveFreq").toDouble();
+            if (CorrectElement.hasAttribute("OnOffFilter"))             OnOffFilter             =CorrectElement.attribute("OnOffFilter").toInt();
 
             // If old ImageGeometry value in project file then compute LockGeometry
             if (CorrectElement.hasAttribute("ImageGeometry"))           LockGeometry=(CorrectElement.attribute("ImageGeometry").toInt()!=2);
@@ -1719,11 +1805,6 @@ QImage *cBrushDefinition::ImageToWorkspace(QImage *SrcImage,int WantedSize,qreal
 
     if (ToUseImage.format()!=QImage::Format_ARGB32_Premultiplied) ToUseImage=ToUseImage.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-    // On/Off filters and blur/sharpen
-//REMOVE_FILTER    if (Image) Image->BrushFileTransform.ApplyFilter(&ToUseImage);
-//REMOVE_FILTER        else if (Video) Video->BrushFileTransform.ApplyFilter(&ToUseImage);
-
-    // Brightness, contrast, gamma and colors adjustments
     ApplyFilter(&ToUseImage);
 
     RetImage=new QImage(WantedSize,WantedSize,QImage::Format_ARGB32_Premultiplied);

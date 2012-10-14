@@ -764,7 +764,7 @@ bool DlgRenderVideo::ComputeAudioPart(QString &aCodec) {
 //====================================================================================================================
 
 // Audio codec part
-bool DlgRenderVideo::ComputeTAGPart(QString &aTAG) {
+bool DlgRenderVideo::ComputeTAGPart(QString &aTAG,bool WithChapters) {
     bool    isAVCONV=(Diaporama->ApplicationConfig->BinaryEncoderPath=="avconv");
 
     // Create metadata temp file
@@ -796,7 +796,7 @@ bool DlgRenderVideo::ComputeTAGPart(QString &aTAG) {
         out<<QString("language="+Language+"\n");
         out<<QString("creation_time="+QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")+"\n");   // ISO 8601 format
 
-        for (int i=FromSlide;i<=ToSlide;i++) if ((i==FromSlide)||(Diaporama->List[i]->StartNewChapter)) {
+        if (WithChapters) for (int i=FromSlide;i<=ToSlide;i++) if ((i==FromSlide)||(Diaporama->List[i]->StartNewChapter)) {
             int NextChapter=i+1;
             qlonglong Start   =Diaporama->GetObjectStartPosition(i)+(i>FromSlide?Diaporama->List[i]->GetTransitDuration():0)-Diaporama->GetObjectStartPosition(FromSlide);
             qlonglong Duration=Diaporama->List[i]->GetDuration()-(i>FromSlide?Diaporama->List[i]->GetTransitDuration():0);
@@ -1052,7 +1052,7 @@ void DlgRenderVideo::DoAccept() {
         if (QString(FORMATDEF[OutputFileFormat].ShortName)=="mpeg") StreamFormat=" -f mpegts";
 
         #ifdef LIBAV_TAGCHAPTERS
-        Continue=Continue && ComputeTAGPart(TAG);
+        Continue=Continue && ComputeTAGPart(TAG,(OutputFileFormat!=2)||(ExportMode==MODE_LOSSLESS));
         #endif
 
         // Construct ffmpeg command line

@@ -73,7 +73,6 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../engine/QCustomRuller.cpp \
             ../engine/cSaveWindowPosition.cpp \
             ../engine/cBaseApplicationConfig.cpp \
-            ../engine/cFilterTransformObject.cpp \
             ../engine/cLuLoImageCache.cpp \
             ../engine/cDeviceModelDef.cpp \
             ../engine/cSoundBlockList.cpp \
@@ -124,7 +123,6 @@ HEADERS  += \
             ../engine/QCustomRuller.h \
             ../engine/cSaveWindowPosition.h \
             ../engine/cBaseApplicationConfig.h \
-            ../engine/cFilterTransformObject.h \
             ../engine/cLuLoImageCache.h \
             ../engine/cDeviceModelDef.h \
             ../engine/_GlobalDefines.h \

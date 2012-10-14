@@ -9,43 +9,23 @@
     </message>
     <message>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
-        <translation type="unfinished">Questa applicazione supporta solo traccie audio con o senza segno a 8 bit e con segno a 16 bit in formato campione</translation>
+        <translation>Questa applicazione supporta solo traccie audio con o senza segno a 8 bit e con segno a 16 bit in formato campione</translation>
     </message>
     <message>
         <source>This application support only mono or stereo audio track</source>
-        <translation type="unfinished">Questa applicazione supporta solo le traccie audio mono o stereo</translation>
+        <translation>Questa applicazione supporta solo le traccie audio mono o stereo</translation>
     </message>
 </context>
 <context>
     <name>CommonInfoMsg</name>
     <message>
         <source>Select a file</source>
-        <translation type="unfinished">Seleziona un file</translation>
+        <translation>Seleziona un file</translation>
     </message>
     <message>
         <source>Error</source>
         <comment>Title of dialog box displaying an error</comment>
-        <translation type="unfinished">Errore</translation>
-    </message>
-    <message>
-        <source>Applying Despeckle filter</source>
-        <translation type="unfinished">Applicazione filtro Smacchia</translation>
-    </message>
-    <message>
-        <source>Applying Equalize filter</source>
-        <translation type="unfinished">Applicazione filtro Equalizza</translation>
-    </message>
-    <message>
-        <source>Applying Gray filter</source>
-        <translation type="unfinished">Applicazione filtro Grigio</translation>
-    </message>
-    <message>
-        <source>Applying blur filter</source>
-        <translation type="unfinished">Applicazione filtro sfocatura</translation>
-    </message>
-    <message>
-        <source>Applying sharpen filter</source>
-        <translation type="unfinished">Applicazione filtro Nitidezza</translation>
+        <translation>Errore</translation>
     </message>
 </context>
 <context>
@@ -95,10 +75,6 @@
         <translation>Molte icone sono del progetto Crystal</translation>
     </message>
     <message>
-        <source>Image effects are based on fmt_filters</source>
-        <translation>Effetti dell&apos;immagine sono basati su ftm_filters</translation>
-    </message>
-    <message>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
     </message>
@@ -117,6 +93,10 @@
     <message>
         <source>TAG management based on TAGLib</source>
         <translation>Gestione TAG basata su TAGLib</translation>
+    </message>
+    <message>
+        <source>Image effects are based on fmt_filters and QImageBlitz</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -160,14 +140,6 @@
     <message>
         <source>fps (Reduce this value for slow computer)</source>
         <translation>fps (Ridurre questo valore per i computer lenti)</translation>
-    </message>
-    <message>
-        <source>Image transformation :</source>
-        <translation>Trasformazione immagine :</translation>
-    </message>
-    <message>
-        <source>Apply to video during preview</source>
-        <translation>Applica al video durante l&apos;anteprima</translation>
     </message>
     <message>
         <source>Object position :</source>
@@ -476,14 +448,6 @@ See help for more details!</source>
 Vedere la guida per maggiori dettagli!</translation>
     </message>
     <message>
-        <source>Transformed image :</source>
-        <translation>Immagine trasformata :</translation>
-    </message>
-    <message>
-        <source>Create cache file (with _ffd suffix) for transformed images</source>
-        <translation>Creare file cache (con suffisso _ffd) per immagini trasformate</translation>
-    </message>
-    <message>
         <source>Lossless :</source>
         <translation>Senza perdite :</translation>
     </message>
@@ -520,10 +484,6 @@ di ffDiaporama saranno salvate per essere riutilizzate la prossima volta che si 
     <message>
         <source>Define the number of frames per second which will be generated to show the preview</source>
         <translation>Definisce il numero dei frames per secondo che verrà denerato per mostrare l&apos;anteprima</translation>
-    </message>
-    <message>
-        <source>If this box is checked, the transformation effects will be applied to the video images during the preview</source>
-        <translation>Se questa casella è selezionata, gli effetti di trasformazione saranno applicati all&apos;immagine video durante l&apos;anteprima</translation>
     </message>
     <message>
         <source>Select the position where new objects are placed on the timeline during insertion</source>
@@ -905,10 +865,6 @@ Inquadratura:</translation>
         <translation>Inquadratura immagine e correzione</translation>
     </message>
     <message>
-        <source>Properties for this shot</source>
-        <translation>Propietà per questo scatto</translation>
-    </message>
-    <message>
         <source>Define the width</source>
         <translation>Definisce la larghezza</translation>
     </message>
@@ -1001,10 +957,6 @@ Inquadratura:</translation>
         <translation>Seleziona un&apos;altro file</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Properties for all shots&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Propietà per tutti gli scatti&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>Reset to 1</source>
         <translation>Ripristina a 1</translation>
     </message>
@@ -1029,10 +981,6 @@ Inquadratura:</translation>
         <translation>Gira l&apos;immagine verso destra (sul prossimo multiplo di 90°)</translation>
     </message>
     <message>
-        <source>Apply a filter to the photo or the video images</source>
-        <translation>Applicare un filtro alla foto o alle immagini del video</translation>
-    </message>
-    <message>
         <source>Define the vertical position from the top of the image ( Y )</source>
         <translation>Definire la posizione verticale dalla parte superiore dell&apos;immagine ( Y )</translation>
     </message>
@@ -1043,14 +991,6 @@ Inquadratura:</translation>
     <message>
         <source>Adjust blue channel</source>
         <translation>Agiusta il canale blu</translation>
-    </message>
-    <message>
-        <source>Select a blur/sharpen filter for the photo</source>
-        <translation>Selezionare un filtro blur/sharpen per la foto</translation>
-    </message>
-    <message>
-        <source>Apply a blur/sharpen filter to the photo</source>
-        <translation>Applicare un filtro blur/sharpen per la foto</translation>
     </message>
     <message>
         <source>Rulers</source>
@@ -1152,6 +1092,110 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>Video position :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image filters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Artistic effects:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Antialias</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Emboss</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Equalize</source>
+        <translation>Equiparare</translation>
+    </message>
+    <message>
+        <source>Negative</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Oilpaint</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edge</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Gaussian</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust blur/sharpen radius</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust blur/sharpen sigma</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Grayscale</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Color enhancement:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Framing and form:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Automatic contrast (normalize)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Despeckle</source>
+        <translation>Eliminazione disturbi</translation>
+    </message>
+    <message>
+        <source>Image distortion:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image enhancement:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Luminosity, contrast and gamma:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Charcoal</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust desaturat level</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image rotation:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Amplitude:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequency:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2808,7 +2852,7 @@ blocco</translation>
     <message>
         <source>Correct or reframe image</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
-        <translation type="unfinished">Correzione o inquadratura immagine</translation>
+        <translation>Correzione o inquadratura immagine</translation>
     </message>
     <message>
         <source>Correct, reframe or cut video</source>
@@ -3879,26 +3923,6 @@ Vuoi aprirlo comunque?</translation>
         <translation>Impossibile aprire file progetto %1</translation>
     </message>
     <message>
-        <source>Applying Despeckle filter</source>
-        <translation>Applicazione filtro Smacchia</translation>
-    </message>
-    <message>
-        <source>Applying Equalize filter</source>
-        <translation>Applicazione filtro Equalizza</translation>
-    </message>
-    <message>
-        <source>Applying Gray filter</source>
-        <translation>Applicazione filtro Grigio</translation>
-    </message>
-    <message>
-        <source>Applying blur filter</source>
-        <translation>Applicazione filtro sfocatura</translation>
-    </message>
-    <message>
-        <source>Applying sharpen filter</source>
-        <translation>Applicazione filtro Nitidezza</translation>
-    </message>
-    <message>
         <source>Error allocating memory for render image</source>
         <translation>Errore allocazione memoria per generazione immagine</translation>
     </message>
@@ -4949,25 +4973,6 @@ Sei sicuro che è vuota?</translation>
         <source>Lossless</source>
         <comment>Device database type</comment>
         <translation>Senza perdita</translation>
-    </message>
-</context>
-<context>
-    <name>wgt_QImageFilterTransform</name>
-    <message>
-        <source>Gray</source>
-        <translation>Grigio</translation>
-    </message>
-    <message>
-        <source>Equalize</source>
-        <translation>Equiparare</translation>
-    </message>
-    <message>
-        <source>Despeckle</source>
-        <translation>Eliminazione disturbi</translation>
-    </message>
-    <message>
-        <source>No transformation</source>
-        <translation>Nessuna trasformazione</translation>
     </message>
 </context>
 <context>

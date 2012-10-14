@@ -19,7 +19,6 @@
    ====================================================================== */
 
 #include "cCustomComboBox.h"
-#include "../fmt_filters/fmt_filters.h"
 
 #include <QHeaderView>
 #include <QColorDialog>
@@ -30,7 +29,6 @@
 #define MAXCOLORREF             99
 #define MAXBRUSHPATTERN         12
 #define MAXGRADIENTORIENTATION  9
-#define MAXONOFFFILTER          8
 #define ICONWIDTH               64
 #define ICONHEIGHT              16
 

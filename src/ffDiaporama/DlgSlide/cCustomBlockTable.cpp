@@ -137,8 +137,14 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
         Painter->drawImage(QRectF(option.rect.x()+1+RowHeight,option.rect.y()+1+RowHeight/3,16,16),QImage((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->SoundVolume!=0)?ICON_SOUND_OK:ICON_SOUND_KO));
 
     // With filter ?
-    if ((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->BlurSigma!=0)||(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->OnOffFilter!=0))
-        Painter->drawImage(QRectF(option.rect.x()+1,option.rect.y()+RowHeight/2,24,24),QImage(ICON_HAVEFILTER));
+    if ((ParentTable->CompositionList->List[index.row()]->BackgroundBrush->GaussBlurSharpenSigma!=0)||
+        (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->QuickBlurSharpenSigma!=0)||
+        (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Desat!=0)||
+        (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Swirl!=0)||
+        (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Implode!=0)||
+        (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->WaveAmp!=0)||
+        (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->OnOffFilter!=0)
+       ) Painter->drawImage(QRectF(option.rect.x()+1,option.rect.y()+RowHeight/2,24,24),QImage(ICON_HAVEFILTER));
 
     // Setup default brush
     Painter->setBrush(Qt::NoBrush);

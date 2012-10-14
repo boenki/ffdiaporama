@@ -48,6 +48,7 @@ enum UNDOACTION_ID {
     UNDOACTION_EDITZONE_FILE,
     UNDOACTION_EDITZONE_TRANSFO,
     UNDOACTION_EDITZONE_BLURSHARPENSIGMA,
+    UNDOACTION_EDITZONE_BLURSHARPENQUICK,
     UNDOACTION_EDITZONE_BLURSHARPENRADIUS,
     UNDOACTION_EDITZONE_EMBOSSSIGMA,
     UNDOACTION_EDITZONE_EMBOSSRADIUS,
@@ -166,6 +167,7 @@ void DlgImageCorrection::DoInitDialog() {
 
     // Define handler
     connect(ui->TabWidget,SIGNAL(currentChanged(int)),this,SLOT(s_TabWidgetChanged(int)));
+    connect(ui->BackgroundFormCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_ShapeBackgroundForm()));
     connect(ui->RotateED,SIGNAL(valueChanged(double)),this,SLOT(s_RotationEDChanged(double)));
     connect(ui->XValue,SIGNAL(valueChanged(double)),this,SLOT(s_XValueEDChanged(double)));
     connect(ui->YValue,SIGNAL(valueChanged(double)),this,SLOT(s_YValueEDChanged(double)));
@@ -193,18 +195,42 @@ void DlgImageCorrection::DoInitDialog() {
     connect(ui->BlueSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlueSliderMoved(int)));
     connect(ui->BlueValue,SIGNAL(valueChanged(int)),this,SLOT(s_BlueSliderMoved(int)));
     connect(ui->BlueResetBT,SIGNAL(clicked()),this,SLOT(s_BlueReset()));
-    connect(ui->BackgroundFormCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_ShapeBackgroundForm()));
+    connect(ui->DesatSlider,SIGNAL(valueChanged(int)),this,SLOT(s_DesatSliderMoved(int)));
+    connect(ui->DesatValue,SIGNAL(valueChanged(int)),this,SLOT(s_DesatSliderMoved(int)));
+    connect(ui->DesatResetBT,SIGNAL(clicked()),this,SLOT(s_DesatReset()));
+
+    connect(ui->SwirlSlider,SIGNAL(valueChanged(int)),this,SLOT(s_SwirlSliderMoved(int)));
+    connect(ui->SwirlValue,SIGNAL(valueChanged(int)),this,SLOT(s_SwirlSliderMoved(int)));
+    connect(ui->SwirlResetBT,SIGNAL(clicked()),this,SLOT(s_SwirlReset()));
+    connect(ui->ImplodeSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ImplodeSliderMoved(int)));
+    connect(ui->ImplodeValue,SIGNAL(valueChanged(int)),this,SLOT(s_ImplodeSliderMoved(int)));
+    connect(ui->ImplodeResetBT,SIGNAL(clicked()),this,SLOT(s_ImplodeReset()));
+    connect(ui->WaveAmpSlider,SIGNAL(valueChanged(int)),this,SLOT(s_WaveAmpSliderMoved(int)));
+    connect(ui->WaveAmpValue,SIGNAL(valueChanged(int)),this,SLOT(s_WaveAmpSliderMoved(int)));
+    connect(ui->WaveAmpResetBT,SIGNAL(clicked()),this,SLOT(s_WaveAmpReset()));
+    connect(ui->WaveFreqSlider,SIGNAL(valueChanged(int)),this,SLOT(s_WaveFreqSliderMoved(int)));
+    connect(ui->WaveFreqValue,SIGNAL(valueChanged(int)),this,SLOT(s_WaveFreqSliderMoved(int)));
+    connect(ui->WaveFreqResetBT,SIGNAL(clicked()),this,SLOT(s_WaveFreqReset()));
 
     connect(ui->FilterOnOff_GrayCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Gray_Changed(int)));
     connect(ui->FilterOnOff_EqualizeCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Equalize_Changed(int)));
     connect(ui->FilterOnOff_DespeckleCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Despeckle_Changed(int)));
     connect(ui->FilterOnOff_NegativeCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Negative_Changed(int)));
     connect(ui->FilterOnOff_EmbossCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Emboss_Changed(int)));
+    connect(ui->FilterOnOff_EdgeCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Edge_Changed(int)));
+    connect(ui->FilterOnOff_AntialiasCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Antialias_Changed(int)));
+    connect(ui->FilterOnOff_NormalizeCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Normalize_Changed(int)));
+    connect(ui->FilterOnOff_CharcoalCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Charcoal_Changed(int)));
+    connect(ui->FilterOnOff_OilCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Oil_Changed(int)));
 
+    connect(ui->BlurSharpenTypeCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlurSharpenTypeChanged(int)));
     connect(ui->BlurSharpenRadiusSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlurSharpenRadiusSliderMoved(int)));
     connect(ui->BlurSharpenRadiusED,SIGNAL(valueChanged(int)),this,SLOT(s_BlurSharpenRadiusSliderMoved(int)));
     connect(ui->BlurSharpenSigmaSlider,SIGNAL(valueChanged(int)),this,SLOT(s_BlurSharpenSigmaSliderMoved(int)));
     connect(ui->BlurSharpenSigmaSB,SIGNAL(valueChanged(double)),this,SLOT(s_BlurSharpenSigmaValueED(double)));
+    connect(ui->QuickBlurSharpenSigmaSlider,SIGNAL(valueChanged(int)),this,SLOT(s_QuickBlurSharpenSigmaSliderMoved(int)));
+    connect(ui->QuickBlurSharpenSigmaSB,SIGNAL(valueChanged(int)),this,SLOT(s_QuickBlurSharpenSigmaSliderMoved(int)));
+    connect(ui->QuickBlurSharpenSigmaResetBT,SIGNAL(clicked()),this,SLOT(s_QuickBlurSharpenSigmaReset()));
     connect(ui->BlurSharpenSigmaResetBT,SIGNAL(clicked()),this,SLOT(s_BlurSharpenSigmaReset()));
     connect(ui->BlurSharpenRadiusResetBT,SIGNAL(clicked()),this,SLOT(s_BlurSharpenRadiusReset()));
 
@@ -409,6 +435,41 @@ void DlgImageCorrection::s_BlueReset() {
 
 //====================================================================================================================
 
+void DlgImageCorrection::s_DesatReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_DesatReset");
+    s_DesatSliderMoved(0);
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_SwirlReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_SwirlReset");
+    s_SwirlSliderMoved(0);
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_ImplodeReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ImplodeReset");
+    s_ImplodeSliderMoved(0);
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_WaveAmpReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_WaveAmpReset");
+    s_WaveAmpSliderMoved(0);
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_WaveFreqReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_WaveFreqReset");
+    s_WaveFreqSliderMoved(15);
+}
+
+//====================================================================================================================
+
 void DlgImageCorrection::resizeEvent(QResizeEvent *) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::resizeEvent");
     //ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
@@ -558,36 +619,68 @@ void DlgImageCorrection::RefreshControls() {
 
     //***********************************************
 
+    // Framing and form
     ui->BackgroundFormCB->PrepareFrameShapeTable(true,0,ui->InteractiveZone->BackgroundForm,(cApplicationConfig *)BaseApplicationConfig);
     ui->BackgroundFormCB->SetCurrentFrameShape(ui->InteractiveZone->BackgroundForm);
-
     ui->XValue->setValue(CurrentBrush->X*100);
     ui->YValue->setValue(CurrentBrush->Y*100);
     ui->WValue->setValue(CurrentBrush->ZoomFactor*100);
     ui->HValue->setValue(CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio*100);
 
+    // Image rotation
     ui->RotateED->setValue(CurrentBrush->ImageRotation);
 
-    // FilterCorrection
+    // Luminosity, contrast and gamma
     ui->BrightnessSlider->setValue(CurrentBrush->Brightness);     ui->BrightnessValue->setValue(CurrentBrush->Brightness);
-    ui->ContrastSlider->setValue(CurrentBrush->Contrast);         ui->ContrastValue->setValue(CurrentBrush->Contrast);
     ui->GammaSlider->setValue(CurrentBrush->Gamma*100);           ui->GammaValue->setValue(CurrentBrush->Gamma);
+    ui->FilterOnOff_NormalizeCB->setChecked((CurrentBrush->OnOffFilter & FilterNormalize)!=0);
+    ui->ContrastSlider->setValue(CurrentBrush->Contrast);
+    ui->ContrastValue->setValue(CurrentBrush->Contrast);
+    ui->ContrastSlider->setVisible(!ui->FilterOnOff_NormalizeCB->isChecked());
+    ui->ContrastValue->setVisible(!ui->FilterOnOff_NormalizeCB->isChecked());
+    ui->ContrastResetBT->setVisible(!ui->FilterOnOff_NormalizeCB->isChecked());
+    ui->ContrastLabel->setVisible(!ui->FilterOnOff_NormalizeCB->isChecked());
+
+    // Image enhancement
+    ui->BlurSharpenTypeCB->setCurrentIndex(CurrentBrush->TypeBlurSharpen);
+    ui->BlurSharpenSigmaSlider->setValue(CurrentBrush->GaussBlurSharpenSigma*10);
+    ui->BlurSharpenSigmaSB->setValue(CurrentBrush->GaussBlurSharpenSigma);
+    ui->QuickBlurSharpenSigmaSlider->setValue(CurrentBrush->QuickBlurSharpenSigma); ui->BlurSharpenSigmaSlider->setVisible(ui->BlurSharpenTypeCB->currentIndex()==1);
+    ui->QuickBlurSharpenSigmaSB->setValue(CurrentBrush->QuickBlurSharpenSigma);     ui->BlurSharpenSigmaSB->setVisible(ui->BlurSharpenTypeCB->currentIndex()==1);
+    ui->QuickBlurSharpenSigmaSlider->setValue(CurrentBrush->QuickBlurSharpenSigma); ui->QuickBlurSharpenSigmaSlider->setVisible(ui->BlurSharpenTypeCB->currentIndex()==0);
+    ui->QuickBlurSharpenSigmaSB->setValue(CurrentBrush->QuickBlurSharpenSigma);     ui->QuickBlurSharpenSigmaSB->setVisible(ui->BlurSharpenTypeCB->currentIndex()==0);
+    ui->BlurSharpenSigmaResetBT->setVisible(ui->BlurSharpenTypeCB->currentIndex()==1);
+    ui->QuickBlurSharpenSigmaResetBT->setVisible(ui->BlurSharpenTypeCB->currentIndex()==0);
+    ui->BlurSharpenRadiusSlider->setValue(int(CurrentBrush->BlurSharpenRadius));
+    ui->BlurSharpenRadiusED->setValue(int(CurrentBrush->BlurSharpenRadius));
+    ui->FilterOnOff_DespeckleCB->setChecked((CurrentBrush->OnOffFilter & FilterDespeckle)!=0);
+    ui->FilterOnOff_AntialiasCB->setChecked((CurrentBrush->OnOffFilter & FilterAntialias)!=0);
+
+    // Color enhancement
+    ui->FilterOnOff_GrayCB->setChecked(     (CurrentBrush->OnOffFilter & FilterGray)!=0);
+    ui->FilterOnOff_EqualizeCB->setChecked( (CurrentBrush->OnOffFilter & FilterEqualize)!=0);
     ui->RedSlider->setValue(CurrentBrush->Red);                   ui->RedValue->setValue(CurrentBrush->Red);
     ui->GreenSlider->setValue(CurrentBrush->Green);               ui->GreenValue->setValue(CurrentBrush->Green);
     ui->BlueSlider->setValue(CurrentBrush->Blue);                 ui->BlueValue->setValue(CurrentBrush->Blue);
+    ui->DesatSlider->setValue(int(CurrentBrush->Desat*100));      ui->DesatValue->setValue(int(CurrentBrush->Desat*100));
 
-    ui->BlurSharpenSigmaSlider->setValue(CurrentBrush->BlurSigma*10);
-    ui->BlurSharpenSigmaSB->setValue(CurrentBrush->BlurSigma);
-    ui->BlurSharpenRadiusSlider->setValue(int(CurrentBrush->BlurRadius));
-    ui->BlurSharpenRadiusED->setValue(int(CurrentBrush->BlurRadius));
-
-    ui->FilterOnOff_GrayCB->setChecked(     (CurrentBrush->OnOffFilter & FilterGray)!=0);
-    ui->FilterOnOff_EqualizeCB->setChecked( (CurrentBrush->OnOffFilter & FilterEqualize)!=0);
-    ui->FilterOnOff_DespeckleCB->setChecked((CurrentBrush->OnOffFilter & FilterDespeckle)!=0);
+    // Artistic effects
     ui->FilterOnOff_NegativeCB->setChecked( (CurrentBrush->OnOffFilter & FilterNegative)!=0);
+    ui->FilterOnOff_EmbossCB->setChecked(   (CurrentBrush->OnOffFilter & FilterEmboss)!=0);
+    ui->FilterOnOff_EdgeCB->setChecked(     (CurrentBrush->OnOffFilter & FilterEdge)!=0);
+    ui->FilterOnOff_CharcoalCB->setChecked( (CurrentBrush->OnOffFilter & FilterCharcoal)!=0);
+    ui->FilterOnOff_OilCB->setChecked(      (CurrentBrush->OnOffFilter & FilterOil)!=0);
 
+    // Image distorsion
+    ui->SwirlSlider->setValue(int(CurrentBrush->Swirl));            ui->SwirlValue->setValue(int(CurrentBrush->Swirl));
+    ui->ImplodeSlider->setValue(int(CurrentBrush->Implode*100));    ui->ImplodeValue->setValue(int(CurrentBrush->Implode*100));
+    ui->WaveAmpSlider->setValue(int(CurrentBrush->WaveAmp));        ui->WaveAmpValue->setValue(int(CurrentBrush->WaveAmp));
+    ui->WaveFreqSlider->setValue(int(CurrentBrush->WaveFreq));      ui->WaveFreqValue->setValue(int(CurrentBrush->WaveFreq));
+
+    // File
     ui->FileNameED->setText(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video?CurrentBrush->Video->FileName:"");
 
+    // Video TAB
     if ((IsVideo)&&(ui->TabWidget->currentIndex()==1)) {
         StopMaj=true;
         QTime Duration=QTime(0,0,0,0).addMSecs(CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos));
@@ -752,17 +845,98 @@ void DlgImageCorrection::s_OnOffFilter_Emboss_Changed(int) {
 }
 
 //====================================================================================================================
+
+void DlgImageCorrection::s_OnOffFilter_Edge_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_OnOffFilter_Edge_Changed");
+    if (((CurrentBrush->OnOffFilter & FilterEdge)!=0)==ui->FilterOnOff_EdgeCB->isChecked()) return;
+    FLAGSTOPSPIN=true;
+    AppendPartialUndo(UNDOACTION_EDITZONE_TRANSFO,ui->InteractiveZone,true);
+    if (ui->FilterOnOff_EdgeCB->isChecked())        CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter | FilterEdge;
+        else                                        CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter & ~FilterEdge;
+    ui->InteractiveZone->RefreshDisplay();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_OnOffFilter_Antialias_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_OnOffFilter_Antialias_Changed");
+    if (((CurrentBrush->OnOffFilter & FilterAntialias)!=0)==ui->FilterOnOff_AntialiasCB->isChecked()) return;
+    FLAGSTOPSPIN=true;
+    AppendPartialUndo(UNDOACTION_EDITZONE_TRANSFO,ui->InteractiveZone,true);
+    if (ui->FilterOnOff_AntialiasCB->isChecked())   CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter | FilterAntialias;
+        else                                        CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter & ~FilterAntialias;
+    ui->InteractiveZone->RefreshDisplay();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_OnOffFilter_Normalize_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_OnOffFilter_Normalize_Changed");
+    if (((CurrentBrush->OnOffFilter & FilterNormalize)!=0)==ui->FilterOnOff_NormalizeCB->isChecked()) return;
+    FLAGSTOPSPIN=true;
+    AppendPartialUndo(UNDOACTION_EDITZONE_TRANSFO,ui->InteractiveZone,true);
+    if (ui->FilterOnOff_NormalizeCB->isChecked())   CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter | FilterNormalize;
+        else                                        CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter & ~FilterNormalize;
+    ui->InteractiveZone->RefreshDisplay();
+    RefreshControls();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_OnOffFilter_Charcoal_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_OnOffFilter_Charcoal_Changed");
+    if (((CurrentBrush->OnOffFilter & FilterCharcoal)!=0)==ui->FilterOnOff_CharcoalCB->isChecked()) return;
+    FLAGSTOPSPIN=true;
+    AppendPartialUndo(UNDOACTION_EDITZONE_TRANSFO,ui->InteractiveZone,true);
+    if (ui->FilterOnOff_CharcoalCB->isChecked())   CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter | FilterCharcoal;
+        else                                        CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter & ~FilterCharcoal;
+    ui->InteractiveZone->RefreshDisplay();
+    RefreshControls();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_OnOffFilter_Oil_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_OnOffFilter_Oil_Changed");
+    if (((CurrentBrush->OnOffFilter & FilterOil)!=0)==ui->FilterOnOff_OilCB->isChecked()) return;
+    FLAGSTOPSPIN=true;
+    AppendPartialUndo(UNDOACTION_EDITZONE_TRANSFO,ui->InteractiveZone,true);
+    if (ui->FilterOnOff_OilCB->isChecked())   CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter | FilterOil;
+        else                                  CurrentBrush->OnOffFilter=CurrentBrush->OnOffFilter & ~FilterOil;
+    ui->InteractiveZone->RefreshDisplay();
+    RefreshControls();
+    FLAGSTOPSPIN=false;
+}
+
+//====================================================================================================================
 // Blur/Sharpen
 //====================================================================================================================
+
+
+void DlgImageCorrection::s_BlurSharpenTypeChanged(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSharpenTypeChanged");
+    if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
+    FLAGSTOPSPIN=true;
+    AppendPartialUndo(UNDOACTION_EDITZONE_BLURSHARPENSIGMA,ui->InteractiveZone,false);
+    CurrentBrush->TypeBlurSharpen=Value;
+    ui->InteractiveZone->RefreshDisplay();
+    FLAGSTOPSPIN=false;
+    UpdateFramingStyleCB();
+    RefreshControls();
+}
 
 void DlgImageCorrection::s_BlurSharpenSigmaSliderMoved(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSharpenSigmaSliderMoved");
     if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
     FLAGSTOPSPIN=true;
     AppendPartialUndo(UNDOACTION_EDITZONE_BLURSHARPENSIGMA,ui->InteractiveZone,false);
-    CurrentBrush->BlurSigma=qreal(Value)/10;
-    ui->BlurSharpenSigmaSlider->setValue(CurrentBrush->BlurSigma*10);
-    ui->BlurSharpenSigmaSB->setValue(CurrentBrush->BlurSigma);
+    CurrentBrush->GaussBlurSharpenSigma=qreal(Value)/10;
+    ui->BlurSharpenSigmaSlider->setValue(CurrentBrush->GaussBlurSharpenSigma*10);
+    ui->BlurSharpenSigmaSB->setValue(CurrentBrush->GaussBlurSharpenSigma);
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
     UpdateFramingStyleCB();
@@ -773,9 +947,22 @@ void DlgImageCorrection::s_BlurSharpenSigmaValueED(double Value) {
     if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
     FLAGSTOPSPIN=true;
     AppendPartialUndo(UNDOACTION_EDITZONE_BLURSHARPENSIGMA,ui->InteractiveZone,false);
-    CurrentBrush->BlurSigma=Value;
-    ui->BlurSharpenSigmaSlider->setValue(CurrentBrush->BlurSigma*10);
-    ui->BlurSharpenSigmaSB->setValue(CurrentBrush->BlurSigma);
+    CurrentBrush->GaussBlurSharpenSigma=Value;
+    ui->BlurSharpenSigmaSlider->setValue(CurrentBrush->GaussBlurSharpenSigma*10);
+    ui->BlurSharpenSigmaSB->setValue(CurrentBrush->GaussBlurSharpenSigma);
+    ui->InteractiveZone->RefreshDisplay();
+    FLAGSTOPSPIN=false;
+    UpdateFramingStyleCB();
+}
+
+void DlgImageCorrection::s_QuickBlurSharpenSigmaSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_QuickBlurSharpenSigmaSliderMoved");
+    if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
+    FLAGSTOPSPIN=true;
+    AppendPartialUndo(UNDOACTION_EDITZONE_BLURSHARPENQUICK,ui->InteractiveZone,false);
+    CurrentBrush->QuickBlurSharpenSigma=qreal(Value);
+    ui->QuickBlurSharpenSigmaSlider->setValue(int(CurrentBrush->QuickBlurSharpenSigma));
+    ui->QuickBlurSharpenSigmaSB->setValue(int(CurrentBrush->QuickBlurSharpenSigma));
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
     UpdateFramingStyleCB();
@@ -786,9 +973,9 @@ void DlgImageCorrection::s_BlurSharpenRadiusSliderMoved(int Value) {
     if ((FLAGSTOPSPIN)||(FLAGSTOPED)) return;
     FLAGSTOPSPIN=true;
     AppendPartialUndo(UNDOACTION_EDITZONE_BLURSHARPENRADIUS,ui->InteractiveZone,false);
-    CurrentBrush->BlurRadius=qreal(Value);
-    ui->BlurSharpenRadiusSlider->setValue(int(CurrentBrush->BlurRadius));
-    ui->BlurSharpenRadiusED->setValue(int(CurrentBrush->BlurRadius));
+    CurrentBrush->BlurSharpenRadius=qreal(Value);
+    ui->BlurSharpenRadiusSlider->setValue(int(CurrentBrush->BlurSharpenRadius));
+    ui->BlurSharpenRadiusED->setValue(int(CurrentBrush->BlurSharpenRadius));
     ui->InteractiveZone->RefreshDisplay();
     FLAGSTOPSPIN=false;
     UpdateFramingStyleCB();
@@ -797,6 +984,12 @@ void DlgImageCorrection::s_BlurSharpenRadiusSliderMoved(int Value) {
 void DlgImageCorrection::s_BlurSharpenSigmaReset() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_BlurSharpenSigmaReset");
     s_BlurSharpenSigmaSliderMoved(0);
+}
+
+
+void DlgImageCorrection::s_QuickBlurSharpenSigmaReset() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_QuickBlurSharpenSigmaReset");
+    s_QuickBlurSharpenSigmaSliderMoved(0);
 }
 
 void DlgImageCorrection::s_BlurSharpenRadiusReset() {
@@ -909,6 +1102,71 @@ void DlgImageCorrection::s_BlueSliderMoved(int Value) {
     CurrentBrush->Blue=Value;
     ui->BlueSlider->setValue(CurrentBrush->Blue);
     ui->BlueValue->setValue(CurrentBrush->Blue);
+    ui->InteractiveZone->RefreshDisplay();
+    UpdateFramingStyleCB();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_DesatSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_DesatSliderMoved");
+    if (FLAGSTOPED) return;
+    AppendPartialUndo(UNDOACTION_EDITZONE_BLUE,ui->InteractiveZone,false);
+    CurrentBrush->Desat=double(Value)/100;
+    ui->DesatSlider->setValue(int(CurrentBrush->Desat*100));
+    ui->DesatValue->setValue(int(CurrentBrush->Desat*100));
+    ui->InteractiveZone->RefreshDisplay();
+    UpdateFramingStyleCB();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_SwirlSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_SwirlSliderMoved");
+    if (FLAGSTOPED) return;
+    AppendPartialUndo(UNDOACTION_EDITZONE_BLUE,ui->InteractiveZone,false);
+    CurrentBrush->Swirl=double(Value);
+    ui->SwirlSlider->setValue(int(CurrentBrush->Swirl));
+    ui->SwirlValue->setValue(int(CurrentBrush->Swirl));
+    ui->InteractiveZone->RefreshDisplay();
+    UpdateFramingStyleCB();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_ImplodeSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ImplodeSliderMoved");
+    if (FLAGSTOPED) return;
+    AppendPartialUndo(UNDOACTION_EDITZONE_BLUE,ui->InteractiveZone,false);
+    CurrentBrush->Implode=double(Value)/100;
+    ui->ImplodeSlider->setValue(int(CurrentBrush->Implode*100));
+    ui->ImplodeValue->setValue(int(CurrentBrush->Implode*100));
+    ui->InteractiveZone->RefreshDisplay();
+    UpdateFramingStyleCB();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_WaveAmpSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_WaveAmpSliderMoved");
+    if (FLAGSTOPED) return;
+    AppendPartialUndo(UNDOACTION_EDITZONE_BLUE,ui->InteractiveZone,false);
+    CurrentBrush->WaveAmp=double(Value);
+    ui->WaveAmpSlider->setValue(int(CurrentBrush->WaveAmp));
+    ui->WaveAmpValue->setValue(int(CurrentBrush->WaveAmp));
+    ui->InteractiveZone->RefreshDisplay();
+    UpdateFramingStyleCB();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_WaveFreqSliderMoved(int Value) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_WaveFreqSliderMoved");
+    if (FLAGSTOPED) return;
+    AppendPartialUndo(UNDOACTION_EDITZONE_BLUE,ui->InteractiveZone,false);
+    CurrentBrush->WaveFreq=double(Value);
+    ui->WaveFreqSlider->setValue(int(CurrentBrush->WaveFreq));
+    ui->WaveFreqValue->setValue(int(CurrentBrush->WaveFreq));
     ui->InteractiveZone->RefreshDisplay();
     UpdateFramingStyleCB();
 }
