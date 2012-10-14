@@ -11,12 +11,7 @@ TODO :
 -Vidéo ULAW à faire
 -Etudier la transposition des cadres de sélection quand rotation dans la boite slide
 
-A faire : remplacer fmt_filters par QImageblitz :
-    http://qimageblitz.sourceforge.net/
-    http://lfs.traduc.org/view/blfs-svn/kde/qimageblitz.html
-
-    libqimageblitz4
-    libqimageblitz-dev
+Paquets libqimageblitz dans Ubuntu : libqimageblitz4 libqimageblitz-dev
 
 Textures :
         http://www.texturemate.com/
@@ -40,5 +35,17 @@ French version / Correction de bug :
 English version / Bug fixes :
 
 French version / Nouveautés :
+-Désactive les chapitres pour les vidéos générées en mkv (à l'exception des lossless qui conservent les chapitres)
+-Ajoute la librairie QImageBlitz et bascule une partie des filtres sur cette nouvelle librairie
+-Ajoute les filtres Edge, Antialias, Oil, Charcoat, Desaturation, Swirl, Implode et Wave
+-Ajoute le filtre Normalize (Contraste automatique) et le met en bascule du réglage de contraste
+-Ajoute les versions rapide (Fast) des filtres Blur/Sharpen et les met en bascule des versions Gaussian
+-Restreint l'application des filtres à la zone sélectionnée dans la zone interactive de la boite d'édition des images
 
 English version / New features :
+-Disable chapters in rendered mkv videos (except for lossless for which chapters are kept)
+-Add QImageBlitz library and swap some filters to this new library
+-Add Edge, Antialias, Oil, Charcoat, Desat, Swirl, Implode and Wave filters
+-Add Normalize filter (automatique contrast) and set it as a switch for contrast setting
+-Add Fast versions of Blur/Sharpen filter and set it as a switch with Gaussian version
+-Restricts the application of filters to the selected area in the interactive area of the edit images dialog

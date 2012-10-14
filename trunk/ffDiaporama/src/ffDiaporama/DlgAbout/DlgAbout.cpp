@@ -58,6 +58,7 @@ void DlgAbout::DoInitDialog() {
     connect(ui->SDLWebSiteBT,SIGNAL(clicked()),this,SLOT(SDLWebSite()));
     connect(ui->EXIV2WebSiteBT,SIGNAL(clicked()),this,SLOT(EXIV2WebSite()));
     connect(ui->FMTFWebSiteBT,SIGNAL(clicked()),this,SLOT(FMTFWebSite()));
+    connect(ui->QIBWebSiteBT,SIGNAL(clicked()),this,SLOT(QIBWebSite()));
     connect(ui->CrystalWebSiteBT,SIGNAL(clicked()),this,SLOT(CrystalWebSite()));
     connect(ui->CC2WebSiteBT,SIGNAL(clicked()),this,SLOT(CC2WebSite()));
     connect(ui->TAGLibWebSiteBT,SIGNAL(clicked()),this,SLOT(TAGLibWebSite()));
@@ -68,7 +69,7 @@ void DlgAbout::DoInitDialog() {
 void DlgAbout::WQtWebSite() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::WQtWebSite");
 
-    QDesktopServices::openUrl(QUrl("http://qt.nokia.com/products/"));
+    QDesktopServices::openUrl(QUrl("http://qt.digia.com/product/"));
 }
 
 //====================================================================================================================
@@ -93,6 +94,14 @@ void DlgAbout::FMTFWebSite() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::FMTFWebSite");
 
     QDesktopServices::openUrl(QUrl("http://ksquirrel.sourceforge.net/subprojects.php"));
+}
+
+//====================================================================================================================
+
+void DlgAbout::QIBWebSite() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::QIBWebSite");
+
+    QDesktopServices::openUrl(QUrl("http://qimageblitz.sourceforge.net/"));
 }
 
 //====================================================================================================================

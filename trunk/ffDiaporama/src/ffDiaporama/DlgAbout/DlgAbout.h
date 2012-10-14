@@ -48,6 +48,7 @@ private slots:
     void    SDLWebSite();
     void    EXIV2WebSite();
     void    FMTFWebSite();
+    void    QIBWebSite();
     void    CrystalWebSite();
     void    CC2WebSite();
     void    TAGLibWebSite();

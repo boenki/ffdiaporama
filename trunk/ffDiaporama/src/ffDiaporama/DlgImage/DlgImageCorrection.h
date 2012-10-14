@@ -89,22 +89,40 @@ private slots:
     void            s_RedSliderMoved(int Value);
     void            s_GreenSliderMoved(int Value);
     void            s_BlueSliderMoved(int Value);
+    void            s_DesatSliderMoved(int Value);
     void            s_BrightnessReset();
     void            s_ContrastReset();
     void            s_GammaReset();
     void            s_RedReset();
     void            s_GreenReset();
     void            s_BlueReset();
+    void            s_DesatReset();
     void            s_OnOffFilter_Gray_Changed(int);
     void            s_OnOffFilter_Equalize_Changed(int);
     void            s_OnOffFilter_Despeckle_Changed(int);
     void            s_OnOffFilter_Negative_Changed(int);
     void            s_OnOffFilter_Emboss_Changed(int);
+    void            s_OnOffFilter_Edge_Changed(int);
+    void            s_OnOffFilter_Antialias_Changed(int);
+    void            s_OnOffFilter_Normalize_Changed(int);
+    void            s_OnOffFilter_Charcoal_Changed(int);
+    void            s_OnOffFilter_Oil_Changed(int);
+    void            s_SwirlSliderMoved(int Value);
+    void            s_SwirlReset();
+    void            s_ImplodeSliderMoved(int Value);
+    void            s_ImplodeReset();
+    void            s_WaveAmpSliderMoved(int Value);
+    void            s_WaveAmpReset();
+    void            s_WaveFreqSliderMoved(int Value);
+    void            s_WaveFreqReset();
 
     // BlurSharpen
+    void            s_BlurSharpenTypeChanged(int);
     void            s_BlurSharpenSigmaSliderMoved(int Value);
     void            s_BlurSharpenSigmaValueED(double Value);
     void            s_BlurSharpenSigmaReset();
+    void            s_QuickBlurSharpenSigmaSliderMoved(int Value);
+    void            s_QuickBlurSharpenSigmaReset();
     void            s_BlurSharpenRadiusSliderMoved(int Value);
     void            s_BlurSharpenRadiusReset();
 

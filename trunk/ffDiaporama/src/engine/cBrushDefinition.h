@@ -116,11 +116,16 @@
 //============================================
 // OnOffFilter mask definition
 
-#define FilterEqualize                      0x01
-#define FilterDespeckle                     0x02
-#define FilterGray                          0x04
-#define FilterNegative                      0x08
-#define FilterEmboss                        0x10
+#define FilterEqualize                      0x0001
+#define FilterDespeckle                     0x0002
+#define FilterGray                          0x0004
+#define FilterNegative                      0x0008
+#define FilterEmboss                        0x0010
+#define FilterEdge                          0x0020
+#define FilterAntialias                     0x0040
+#define FilterNormalize                     0x0080
+#define FilterCharcoal                      0x0100
+#define FilterOil                           0x0200
 
 //============================================
 // Shape definitions
@@ -269,7 +274,11 @@ public:
     double                  AspectRatio;                // Aspect Ratio of image
     bool                    FullFilling;                // Background image disk only : If true aspect ratio is not keep and image is deformed to fill the frame
 
-    double                  BlurSigma,BlurRadius;
+    double                  GaussBlurSharpenSigma,BlurSharpenRadius;       // Blur/Sharpen parameters
+    int                     TypeBlurSharpen,QuickBlurSharpenSigma;
+    double                  Desat,Swirl,Implode;        // Filter parameters
+    double                  WaveAmp,WaveFreq;           // Filter parameters
+
     int                     OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
 
     // Link to global objects

@@ -100,19 +100,16 @@ void cImgInteractiveZone::InitCachedImage(cCompositionObject *TheCompoObject,int
 void cImgInteractiveZone::paintEvent(QPaintEvent *) {
     if ((!ForegroundImage)||(Hyp.Screen==0)||(Hyp.Screen==0)) return;
 
+    QImage   ShapeMask(ForegroundImage->width(),ForegroundImage->height(),QImage::Format_ARGB32_Premultiplied);
     QPainter Painter(this);
+
     Painter.save();
     Painter.translate(SceneRect.left(),SceneRect.top());
     Painter.drawImage(0,0,*ForegroundImage);
 
-    QImage Image(ForegroundImage->width(),ForegroundImage->height(),QImage::Format_ARGB32_Premultiplied);
-
-    QPainter PainterImg;
-    PainterImg.begin(&Image);
-    PainterImg.setPen(Qt::NoPen);
-    PainterImg.fillRect(QRect(0,0,Image.width(),Image.height()),QBrush(0x555555));
-    PainterImg.setBrush(Qt::transparent);
-    PainterImg.setCompositionMode(QPainter::CompositionMode_Source);
+    //***********************
+    // Compute shape polygon
+    //***********************
 
     // Refresh CurImgSelRect and CurScrSelRect
     QRectF TmpImgSelRect=QRectF(CurrentBrush->X*Hyp.Image, CurrentBrush->Y*Hyp.Image, CurrentBrush->ZoomFactor*Hyp.Image, CurrentBrush->ZoomFactor*CurrentBrush->AspectRatio*Hyp.Image);
@@ -127,18 +124,41 @@ void cImgInteractiveZone::paintEvent(QPaintEvent *) {
     QList<QPolygonF> List=ComputePolygon(BackgroundForm,TmpScrSelRect.left(),TmpScrSelRect.top(),TmpScrSelRect.width(),TmpScrSelRect.height(),TmpScrSelRect.width()/2+TmpScrSelRect.left(),TmpScrSelRect.height()/2+TmpScrSelRect.top());
     QRectF  ScrSelRect   =PolygonToRectF(List);
 
-    for (int i=0;i<List.count();i++) PainterImg.drawPolygon(List.at(i));
-    PainterImg.setCompositionMode(QPainter::CompositionMode_SourceOver);
-    PainterImg.end();
-
+    //**************************
+    // Draw external shape mask
+    //**************************
+    QPainter ShapePainter;
+    ShapePainter.begin(&ShapeMask);
+    ShapePainter.setPen(Qt::NoPen);
+    ShapePainter.fillRect(QRect(0,0,ShapeMask.width(),ShapeMask.height()),QBrush(0x555555));
+    ShapePainter.setBrush(Qt::transparent);
+    ShapePainter.setCompositionMode(QPainter::CompositionMode_Source);
+    for (int i=0;i<List.count();i++) ShapePainter.drawPolygon(List.at(i));
+    ShapePainter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    ShapePainter.end();
+    // Apply External Shape Mask
     Painter.setOpacity(0.75);
-    Painter.drawImage(0,0,Image);
+    Painter.drawImage(0,0,ShapeMask);
     Painter.setOpacity(1);
 
+    //************************************************
+    // Draw internal shape image with filters applyed
+    //************************************************
+    Painter.setPen(Qt::NoPen);
+    Painter.setCompositionMode(QPainter::CompositionMode_SourceAtop);
+    QImage PartImage=ForegroundImage->copy(ScrSelRect.left(),ScrSelRect.top(),ScrSelRect.width(),ScrSelRect.height());
+    CurrentBrush->ApplyFilter(&PartImage);
+    QBrush PartBrush(PartImage);
+    PartBrush.setTransform(QTransform().translate(ScrSelRect.left(),ScrSelRect.top()));
+    Painter.setBrush(PartBrush);
+    for (int i=0;i<List.count();i++) Painter.drawPolygon(List.at(i));
+    ShapePainter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+    //**********************************
+    // Draw rulers if they was enabled
+    //**********************************
     Painter.setBrush(Qt::NoBrush);
     Painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
-
-    // Draw rulers if they was enabled
     if (MagneticRuler) {
         QPen pen=QPen(QColor(0,255,0));
         pen.setWidth(1);
@@ -252,7 +272,7 @@ void cImgInteractiveZone::RefreshDisplay() {
 
     if (ToUseImage.format()!=QImage::Format_ARGB32_Premultiplied) ToUseImage=ToUseImage.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-    CurrentBrush->ApplyFilter(&ToUseImage);
+    //CurrentBrush->ApplyFilter(&ToUseImage);
 
     ForegroundImage=new QImage(Hyp.Screen,Hyp.Screen,QImage::Format_ARGB32_Premultiplied);
     QPainter P;

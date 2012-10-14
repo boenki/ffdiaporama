@@ -153,13 +153,6 @@ QString ffDText(ffDSection_ID SectionId,int TextId) {
         // Section Common information Messages
         case TEXTID(ffDSection_CommonInfoMsg,0):            return QApplication::translate("CommonInfoMsg","Select a file");
         case TEXTID(ffDSection_CommonInfoMsg,1):            return QApplication::translate("CommonInfoMsg","Error","Title of dialog box displaying an error");
-        case TEXTID(ffDSection_CommonInfoMsg,2):            return QApplication::translate("CommonInfoMsg","Applying Despeckle filter");
-        case TEXTID(ffDSection_CommonInfoMsg,3):            return QApplication::translate("CommonInfoMsg","Applying Equalize filter");
-        case TEXTID(ffDSection_CommonInfoMsg,4):            return QApplication::translate("CommonInfoMsg","Applying Gray filter");
-        case TEXTID(ffDSection_CommonInfoMsg,5):            return QApplication::translate("CommonInfoMsg","Applying blur filter");
-        case TEXTID(ffDSection_CommonInfoMsg,6):            return QApplication::translate("CommonInfoMsg","Applying sharpen filter");
-        case TEXTID(ffDSection_CommonInfoMsg,7):            return QApplication::translate("CommonInfoMsg","Applying negative filter");
-        case TEXTID(ffDSection_CommonInfoMsg,8):            return QApplication::translate("CommonInfoMsg","Applying emboss filter");
 
         // Section DlgImageCorrection
         case TEXTID(ffDSection_DlgImageCorrection,0):       return QApplication::translate("DlgSlideProperties","Correct or reframe image","Action title in slide edit dialog + dialog title of image edit dialog");
