@@ -30,28 +30,31 @@
 #define SIZERATIO                       0.5
 
 // Undo actions
-#define UNDOACTION_MODIFTEXT            1
-#define UNDOACTION_BRUSHTYPE            2
-#define UNDOACTION_BRUSHPATTERNBRUSH    3
-#define UNDOACTION_BRUSHORIENTATION     4
-#define UNDOACTION_BRUSHFIRSTCOLOR      5
-#define UNDOACTION_BRUSHFINALCOLOR      6
-#define UNDOACTION_BRUSHINTERMCOLOR     7
-#define UNDOACTION_BRUSHINTERMPOS       8
-#define UNDOACTION_BRUSHLIBBRUSH        9
-#define UNDOACTION_FONTCOLOR            10
-#define UNDOACTION_FONTSHADOWCOLOR      11
-#define UNDOACTION_FONTSTYLE            12
-#define UNDOACTION_FONTSIZE             13
-#define UNDOACTION_FONTEFFECT           14
-#define UNDOACTION_CHARSTYLE            15
-#define UNDOACTION_ALIGNH               16
-#define UNDOACTION_ALIGNV               17
-#define UNDOACTION_INDENT               18
-#define UNDOACTION_LIST                 19
-#define UNDOSTYLE_TEXT                  20
-#define UNDOSTYLE_BACKGROUND            21
-
+enum {
+    UNDOACTION_,
+    UNDOACTION_MODIFTEXT,
+    UNDOACTION_BRUSHTYPE,
+    UNDOACTION_BRUSHPATTERNBRUSH,
+    UNDOACTION_BRUSHORIENTATION,
+    UNDOACTION_BRUSHFIRSTCOLOR,
+    UNDOACTION_BRUSHFINALCOLOR,
+    UNDOACTION_BRUSHINTERMCOLOR,
+    UNDOACTION_BRUSHINTERMPOS,
+    UNDOACTION_BRUSHLIBBRUSH,
+    UNDOACTION_FONTCOLOR,
+    UNDOACTION_FONTSHADOWCOLOR,
+    UNDOACTION_FONTSTYLE,
+    UNDOACTION_FONTSIZE,
+    UNDOACTION_FONTEFFECT,
+    UNDOACTION_CHARSTYLE,
+    UNDOACTION_ALIGNH,
+    UNDOACTION_ALIGNV,
+    UNDOACTION_INDENT,
+    UNDOACTION_LIST,
+    UNDOSTYLE_TEXT,
+    UNDOSTYLE_BACKGROUND,
+    UNDOSTYLE_MARGINS
+};
 
 //====================================================================================================================
 
@@ -180,6 +183,15 @@ void DlgTextEdit::DoInitDialog() {
     connect(ui->TextStyleBT,SIGNAL(pressed()),this,SLOT(s_TextStyleBT()));
     connect(ui->BackgroundStyleBT,SIGNAL(pressed()),this,SLOT(s_BackgroundStyleBT()));
 
+    // Margins
+    connect(ui->ShapeDefaultBT,SIGNAL(pressed()),this,SLOT(s_ShapeDefault_Changed()));
+    connect(ui->FullShapeBT,SIGNAL(pressed()),this,SLOT(s_FullShape_Changed()));
+    connect(ui->CustomBT,SIGNAL(pressed()),this,SLOT(s_Custom_Changed()));
+    connect(ui->PosXEd,SIGNAL(valueChanged(int)),this,SLOT(s_PosXEd_Changed(int)));
+    connect(ui->PosYEd,SIGNAL(valueChanged(int)),this,SLOT(s_PosYEd_Changed(int)));
+    connect(ui->WidthEd,SIGNAL(valueChanged(int)),this,SLOT(s_WidthEd_Changed(int)));
+    connect(ui->HeightEd,SIGNAL(valueChanged(int)),this,SLOT(s_HeightEd_Changed(int)));
+
     RefreshControls();
 }
 
@@ -285,6 +297,23 @@ void DlgTextEdit::RefreshControls() {
     s_cursorPositionChanged();
 
     StopMAJSpinbox=true;
+
+    // Margins
+    ui->ShapeDefaultBT->setChecked( CurrentTextItem->TMType==TEXTMARGINS_SHAPEDEFAULT);
+    ui->FullShapeBT->setChecked(    CurrentTextItem->TMType==TEXTMARGINS_FULLSHAPE);
+    ui->CustomBT->setChecked(       CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
+    ui->PosSize_X->setEnabled(      CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
+    ui->PosXEd->setEnabled(         CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
+    ui->PosSize_Y->setEnabled(      CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
+    ui->PosYEd->setEnabled(         CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
+    ui->PosSize_Width->setEnabled(  CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
+    ui->WidthEd->setEnabled(        CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
+    ui->PosSize_Height->setEnabled( CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
+    ui->HeightEd->setEnabled(       CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
+    ui->PosXEd->setValue(     round(CurrentTextItem->TMx*100));
+    ui->PosYEd->setValue(     round(CurrentTextItem->TMy*100));
+    ui->WidthEd->setValue(    round(CurrentTextItem->TMw*100));
+    ui->HeightEd->setValue(   round(CurrentTextItem->TMh*100));
 
     ui->textUp->setChecked(CurrentTextItem->VAlign==0);                 ui->textUp->setDown(CurrentTextItem->VAlign==0);
     ui->textVCenter->setChecked(CurrentTextItem->VAlign==1);            ui->textVCenter->setDown(CurrentTextItem->VAlign==1);
@@ -933,5 +962,62 @@ void DlgTextEdit::s_BackgroundStyleBT() {
         AppendPartialUndo(UNDOSTYLE_BACKGROUND,ui->TextEdit,true);
         CurrentTextItem->ApplyBackgroundStyle(StyleTextBackgroundCollection->GetStyleDef(Item));
     }
+    RefreshControls();
+}
+
+//====================================================================================================================
+// Handler for margins part
+//====================================================================================================================
+
+void DlgTextEdit::s_ShapeDefault_Changed() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ShapeDefault_Changed");
+    AppendPartialUndo(UNDOSTYLE_MARGINS,ui->ShapeDefaultBT,true);
+    CurrentTextItem->ApplyTextMargin(TEXTMARGINS_SHAPEDEFAULT);
+    RefreshControls();
+}
+
+void DlgTextEdit::s_FullShape_Changed() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_FullShape_Changed");
+    AppendPartialUndo(UNDOSTYLE_MARGINS,ui->FullShapeBT,true);
+    CurrentTextItem->ApplyTextMargin(TEXTMARGINS_FULLSHAPE);
+    RefreshControls();
+}
+
+void DlgTextEdit::s_Custom_Changed() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_Custom_Changed");
+    AppendPartialUndo(UNDOSTYLE_MARGINS,ui->CustomBT,true);
+    CurrentTextItem->ApplyTextMargin(TEXTMARGINS_CUSTOM);
+    RefreshControls();
+}
+
+void DlgTextEdit::s_PosXEd_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_PosXEd_Changed");
+    AppendPartialUndo(UNDOSTYLE_MARGINS,ui->CustomBT,false);
+    CurrentTextItem->TMx=double(ui->PosXEd->value())/double(100);
+    if (CurrentTextItem->TMx+CurrentTextItem->TMw>1) CurrentTextItem->TMx=1-CurrentTextItem->TMw;
+    RefreshControls();
+}
+
+void DlgTextEdit::s_PosYEd_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_PosYEd_Changed");
+    AppendPartialUndo(UNDOSTYLE_MARGINS,ui->CustomBT,false);
+    CurrentTextItem->TMy=double(ui->PosYEd->value())/100;
+    if (CurrentTextItem->TMy+CurrentTextItem->TMh>1) CurrentTextItem->TMy=1-CurrentTextItem->TMh;
+    RefreshControls();
+}
+
+void DlgTextEdit::s_WidthEd_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_WidthEd_Changed");
+    AppendPartialUndo(UNDOSTYLE_MARGINS,ui->CustomBT,false);
+    CurrentTextItem->TMw=double(ui->WidthEd->value())/100;
+    if (CurrentTextItem->TMx+CurrentTextItem->TMw>1) CurrentTextItem->TMw=1-CurrentTextItem->TMx;
+    RefreshControls();
+}
+
+void DlgTextEdit::s_HeightEd_Changed(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_HeightEd_Changed");
+    AppendPartialUndo(UNDOSTYLE_MARGINS,ui->CustomBT,false);
+    CurrentTextItem->TMh=double(ui->HeightEd->value())/100;
+    if (CurrentTextItem->TMy+CurrentTextItem->TMh>1) CurrentTextItem->TMh=1-CurrentTextItem->TMy;
     RefreshControls();
 }

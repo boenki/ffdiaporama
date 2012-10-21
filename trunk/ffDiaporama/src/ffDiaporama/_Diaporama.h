@@ -85,8 +85,17 @@ class cDiaporamaObject;
 #define BLOCKANIMVALUE_BLINK_VERYFAST       5
 
 //============================================
+// Text margins
+//============================================
+
+#define TEXTMARGINS_FULLSHAPE               0
+#define TEXTMARGINS_SHAPEDEFAULT            1
+#define TEXTMARGINS_CUSTOM                  2
+
+//============================================
 // Default values
 //============================================
+
 #define DEFAULT_FONT_FAMILLY                "Arial"
 #define DEFAULT_FONT_SIZE                   12
 #define DEFAULT_FONT_COLOR                  "#ffffaa"
@@ -147,6 +156,8 @@ public:
     int                 TxtZoomLevel;           // Zoom Level for text
     int                 TxtScrollX;             // Scrolling X for text
     int                 TxtScrollY;             // Scrolling Y for text
+    int                 TMType;                 // Text margins type (0=full shape, 1=shape default, 2=custom)
+    double              TMx,TMy,TMw,TMh;        // Text margins
 
     // Attribut of the shap part (Global values)
     int                 BackgroundForm;         // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
@@ -172,7 +183,8 @@ public:
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition=true);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
 
-    QPolygonF   GetPolygon();
+    QRectF      GetTextMargin(QRectF Workspace,double  ADJUST_RATIO);
+    void        ApplyTextMargin(int TMType);
 
     // Style managment functions
     int         GetAutoCompoSize(int ffDProjectGeometry);
@@ -192,6 +204,7 @@ public:
 
 private:
     QImage      AddShadow(QImage SourceImage,double &DstX,double &DstY,double &DstW,double &DstH,double Distance);
+    QRectF      GetPrivateTextMargin();
 };
 
 //*********************************************************************************************************************************************

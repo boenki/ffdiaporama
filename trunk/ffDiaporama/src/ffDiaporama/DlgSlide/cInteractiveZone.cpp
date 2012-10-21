@@ -60,6 +60,7 @@ cInteractiveZone::cInteractiveZone(QWidget *parent):QWidget(parent) {
     Move_Y          =0;
     Scale_X         =0;
     Scale_Y         =0;
+    DisplayMode     =DisplayMode_BlockShape;
 }
 
 //====================================================================================================================
@@ -240,163 +241,187 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
 
     int CurSelect=0;
 
+    if (DisplayMode==DisplayMode_BlockShape) {
 
-    // Draw blue frame borders when multi-select
-    for (int i=0;i<BlockTable->CompositionList->List.count();i++) if ((BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i])) {
+        // Draw blue frame borders when multi-select
+        for (int i=0;i<BlockTable->CompositionList->List.count();i++) if ((BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i])) {
 
-        QRectF FullRect     =QRectF(BlockTable->CompositionList->List[i]->x*ScreenRect.width(),BlockTable->CompositionList->List[i]->y*ScreenRect.height(),
-                                    BlockTable->CompositionList->List[i]->w*ScreenRect.width(),BlockTable->CompositionList->List[i]->h*ScreenRect.height());
+            QRectF FullRect     =QRectF(BlockTable->CompositionList->List[i]->x*ScreenRect.width(),BlockTable->CompositionList->List[i]->y*ScreenRect.height(),
+                                        BlockTable->CompositionList->List[i]->w*ScreenRect.width(),BlockTable->CompositionList->List[i]->h*ScreenRect.height());
 
-        /*if ((BlockTable->CompositionList->List[i]->RotateXAxis!=0)||(BlockTable->CompositionList->List[i]->RotateYAxis!=0)||(BlockTable->CompositionList->List[i]->RotateZAxis!=0)) {
-            QPointF      Center=FullRect.center();
+            /*if ((BlockTable->CompositionList->List[i]->RotateXAxis!=0)||(BlockTable->CompositionList->List[i]->RotateYAxis!=0)||(BlockTable->CompositionList->List[i]->RotateZAxis!=0)) {
+                QPointF      Center=FullRect.center();
+                QPainterPath Path;
+                QTransform   Matrix;
+                FullRect.translate(-Center.x(),-Center.y());
+                Matrix.rotate(BlockTable->CompositionList->List[i]->RotateXAxis,Qt::XAxis);
+                Matrix.rotate(BlockTable->CompositionList->List[i]->RotateYAxis,Qt::YAxis);
+                Matrix.rotate(BlockTable->CompositionList->List[i]->RotateZAxis,Qt::ZAxis);
+                Path.addRect(FullRect);
+                FullRect=Path.toFillPolygon(Matrix).boundingRect();
+                FullRect.translate(Center);
+            }*/
+
+            QRectF NewRect      =ApplyModifAndScaleFactors(i,SceneRect,true);
+            QRectF NewRectScreen=ApplyModifAndScaleFactors(i,ScreenRect,true);
+            if (NbrSelected>1) {
+                QPen pen(Qt::white);
+                pen.setJoinStyle(Qt::RoundJoin);
+                pen.setWidth(1);
+                pen.setStyle(Qt::DashLine);
+                Painter.setPen(pen);
+                DrawSelect(Painter,QRectF(NewRect.left()+1,NewRect.top()+1,NewRect.width(),NewRect.height()),false);
+                pen.setColor(Qt::blue);
+                Painter.setPen(pen);
+                DrawSelect(Painter,NewRect,false);
+            }
+
+            if (CurSelect==0) {
+                FullSelRect     =FullRect;
+                CurSelRect      =NewRect;
+                CurSelScreenRect=NewRectScreen;
+                if (!IsCapture) {
+                    Sel_X=NewRectScreen.left()/ScreenRect.width();      RSel_X=BlockTable->CompositionList->List[i]->x;
+                    Sel_Y=NewRectScreen.top()/ScreenRect.height();      RSel_Y=BlockTable->CompositionList->List[i]->y;
+                    Sel_W=NewRectScreen.width()/ScreenRect.width();     RSel_W=BlockTable->CompositionList->List[i]->w;
+                    Sel_H=NewRectScreen.height()/ScreenRect.height();   RSel_H=BlockTable->CompositionList->List[i]->h;
+                }
+            } else {
+                if (NewRect.left()  <CurSelRect.left())   {
+                    CurSelRect.setLeft(NewRect.left());
+                    CurSelScreenRect.setLeft(NewRectScreen.left());
+                    if (!IsCapture) {
+                        Sel_W=Sel_X+Sel_W-NewRectScreen.left()/ScreenRect.width();
+                        Sel_X=NewRectScreen.left()/ScreenRect.width();
+                    }
+                }
+                if (NewRect.top()   <CurSelRect.top())    {
+                    CurSelRect.setTop(NewRect.top());
+                    CurSelScreenRect.setTop(NewRectScreen.top());
+                    if (!IsCapture) {
+                        Sel_H=Sel_Y+Sel_H-NewRectScreen.top()/ScreenRect.height();
+                        Sel_Y=NewRectScreen.top()/ScreenRect.height();
+                    }
+                }
+                if (NewRect.right() >CurSelRect.right())  {
+                    CurSelRect.setRight(NewRect.right());
+                    CurSelScreenRect.setRight(NewRectScreen.right());
+                    if (!IsCapture) Sel_W=NewRectScreen.left()/ScreenRect.width()+NewRectScreen.width()/ScreenRect.width()-Sel_X;
+                }
+                if (NewRect.bottom()>CurSelRect.bottom()) {
+                    CurSelRect.setBottom(NewRect.bottom());
+                    CurSelScreenRect.setBottom(NewRectScreen.bottom());
+                    if (!IsCapture) Sel_H=NewRectScreen.top()/ScreenRect.height()+NewRectScreen.height()/ScreenRect.height()-Sel_Y;
+                }
+                //************
+                if (FullRect.left()  <FullSelRect.left())   {
+                    FullSelRect.setLeft(FullRect.left());
+                    if (!IsCapture) {
+                        RSel_W=RSel_X+RSel_W-FullRect.left()/ScreenRect.width();
+                        RSel_X=FullRect.left()/ScreenRect.width();
+                    }
+                }
+                if (FullRect.top()   <FullSelRect.top())    {
+                    FullSelRect.setTop(FullRect.top());
+                    if (!IsCapture) {
+                        RSel_H=RSel_Y+RSel_H-FullRect.top()/ScreenRect.height();
+                        RSel_Y=FullRect.top()/ScreenRect.height();
+                    }
+                }
+                if (FullRect.right() >FullSelRect.right())  {
+                    FullSelRect.setRight(FullRect.right());
+                    if (!IsCapture) RSel_W=FullRect.left()/ScreenRect.width()+FullRect.width()/ScreenRect.width()-RSel_X;
+                }
+                if (FullRect.bottom()>FullSelRect.bottom()) {
+                    FullSelRect.setBottom(FullRect.bottom());
+                    if (!IsCapture) RSel_H=FullRect.top()/ScreenRect.height()+FullRect.height()/ScreenRect.height()-RSel_Y;
+                }
+
+            }
+            CurSelect++;
+
+        }
+
+        if ((!IsCapture)&&(NbrSelected>0)) {
+            if ((CurSelRect.width()==0)||(CurSelRect.height()==0)) {
+                Sel_W=0.02;
+                Sel_H=0.02;
+                CurSelRect.setWidth(2);     CurSelScreenRect.setWidth(2);
+                CurSelRect.setHeight(2);    CurSelScreenRect.setHeight(2);
+            }
+            if ((FullSelRect.width()==0)||(FullSelRect.height()==0)) {
+                RSel_W=0.02;
+                RSel_H=0.02;
+                FullSelRect.setWidth(2);
+                FullSelRect.setHeight(2);
+            }
+            AspectRatio=double(FullSelRect.height())/double(FullSelRect.width());
+        }
+
+        // Draw rullers if they was enabled
+        if (MagneticRuler!=0) {
+            QList<sDualQReal>   MagnetVert;
+            QList<sDualQReal>   MagnetHoriz;
+            ComputeRulers(MagnetVert,MagnetHoriz);
+
+            // Draw rulers
+            Painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
+            QPen Pen1=QPen(QColor(0,255,0)),Pen2=QPen(QColor(0,255,0));
+            Pen1.setWidth(1);
+            Pen1.setStyle(Qt::DotLine);
+            Pen2.setWidth(1);
+            Pen2.setStyle(Qt::DashDotDotLine);
+            for (int i=0;i<MagnetVert.count();i++)  {
+                if ((MagnetVert[i].Block==0)||(MagnetVert[i].Block==SceneRect.width())||                                                    // borders of the screen
+                    (MagnetVert[i].Block==SceneRect.width()*0.5-1)||(MagnetVert[i].Block==SceneRect.width()*0.5)||                          // center of the screen
+                    (MagnetVert[i].Block==SceneRect.width()*0.05)||(MagnetVert[i].Block==SceneRect.width()-SceneRect.width()*0.05))         // TV Margins
+                        Painter.setPen(Pen1); else Painter.setPen(Pen2);
+                if ((MagnetVert[i].Block!=0)&&(MagnetVert[i].Block!=SceneRect.width())) {                                                   // don't draw screen borders
+                        Painter.drawLine(MagnetVert[i].Block,0,MagnetVert[i].Block,SceneRect.height());
+                }
+            }
+            for (int i=0;i<MagnetHoriz.count();i++) {
+                if ((MagnetHoriz[i].Block==0)||(MagnetHoriz[i].Block==SceneRect.height())||                                                 // borders of the screen
+                    (MagnetHoriz[i].Block==SceneRect.height()*0.5-1)||(MagnetHoriz[i].Block==SceneRect.height()*0.5)||                      // centers of the screen
+                    (MagnetHoriz[i].Block==SceneRect.height()*0.05)||(MagnetHoriz[i].Block==SceneRect.height()-SceneRect.height()*0.05))    // TV Margins
+                        Painter.setPen(Pen1); else Painter.setPen(Pen2);
+                if ((MagnetHoriz[i].Block!=0)&&(MagnetHoriz[i].Block!=SceneRect.height())) {                                                // don't draw screen borders
+                        Painter.drawLine(0,MagnetHoriz[i].Block,SceneRect.width(),MagnetHoriz[i].Block);
+                }
+            }
+        }
+
+        // Draw select frame border
+        if (NbrSelected>0) {
+            QPen pen(Qt::red);
+            pen.setWidth(2);
+            pen.setStyle(Qt::DashLine);
+            Painter.setPen(pen);
+            DrawSelect(Painter,CurSelRect,true);
+        }
+
+    } else if (DisplayMode==DisplayMode_TextMargin) {
+
+        for (int i=0;i<BlockTable->CompositionList->List.count();i++) if ((BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i])) {
+            QPen pen(Qt::blue);
+            pen.setWidth(1);
+            pen.setStyle(Qt::DashLine);
+            Painter.setPen(pen);
+
+            QRectF       FullRect=BlockTable->CompositionList->List.at(i)->GetTextMargin(SceneRect,SceneRect.height()/qreal(1080));
+            QPointF      Center  =FullRect.center();
             QPainterPath Path;
             QTransform   Matrix;
-            FullRect.translate(-Center.x(),-Center.y());
+            FullRect.translate(-Center.x()+BlockTable->CompositionList->List.at(i)->x*SceneRect.width(),-Center.y()+BlockTable->CompositionList->List.at(i)->y*SceneRect.height());
             Matrix.rotate(BlockTable->CompositionList->List[i]->RotateXAxis,Qt::XAxis);
             Matrix.rotate(BlockTable->CompositionList->List[i]->RotateYAxis,Qt::YAxis);
             Matrix.rotate(BlockTable->CompositionList->List[i]->RotateZAxis,Qt::ZAxis);
             Path.addRect(FullRect);
-            FullRect=Path.toFillPolygon(Matrix).boundingRect();
-            FullRect.translate(Center);
-        }*/
-
-        QRectF NewRect      =ApplyModifAndScaleFactors(i,SceneRect,true);
-        QRectF NewRectScreen=ApplyModifAndScaleFactors(i,ScreenRect,true);
-        if (NbrSelected>1) {
-            QPen pen(Qt::white);
-            pen.setJoinStyle(Qt::RoundJoin);
-            pen.setWidth(1);
-            pen.setStyle(Qt::DashLine);
-            Painter.setPen(pen);
-            DrawSelect(Painter,QRectF(NewRect.left()+1,NewRect.top()+1,NewRect.width(),NewRect.height()),false);
-            pen.setColor(Qt::blue);
-            Painter.setPen(pen);
-            DrawSelect(Painter,NewRect,false);
-        }
-
-        if (CurSelect==0) {
-            FullSelRect     =FullRect;
-            CurSelRect      =NewRect;
-            CurSelScreenRect=NewRectScreen;
-            if (!IsCapture) {
-                Sel_X=NewRectScreen.left()/ScreenRect.width();      RSel_X=BlockTable->CompositionList->List[i]->x;
-                Sel_Y=NewRectScreen.top()/ScreenRect.height();      RSel_Y=BlockTable->CompositionList->List[i]->y;
-                Sel_W=NewRectScreen.width()/ScreenRect.width();     RSel_W=BlockTable->CompositionList->List[i]->w;
-                Sel_H=NewRectScreen.height()/ScreenRect.height();   RSel_H=BlockTable->CompositionList->List[i]->h;
-            }
-        } else {
-            if (NewRect.left()  <CurSelRect.left())   {
-                CurSelRect.setLeft(NewRect.left());
-                CurSelScreenRect.setLeft(NewRectScreen.left());
-                if (!IsCapture) {
-                    Sel_W=Sel_X+Sel_W-NewRectScreen.left()/ScreenRect.width();
-                    Sel_X=NewRectScreen.left()/ScreenRect.width();
-                }
-            }
-            if (NewRect.top()   <CurSelRect.top())    {
-                CurSelRect.setTop(NewRect.top());
-                CurSelScreenRect.setTop(NewRectScreen.top());
-                if (!IsCapture) {
-                    Sel_H=Sel_Y+Sel_H-NewRectScreen.top()/ScreenRect.height();
-                    Sel_Y=NewRectScreen.top()/ScreenRect.height();
-                }
-            }
-            if (NewRect.right() >CurSelRect.right())  {
-                CurSelRect.setRight(NewRect.right());
-                CurSelScreenRect.setRight(NewRectScreen.right());
-                if (!IsCapture) Sel_W=NewRectScreen.left()/ScreenRect.width()+NewRectScreen.width()/ScreenRect.width()-Sel_X;
-            }
-            if (NewRect.bottom()>CurSelRect.bottom()) {
-                CurSelRect.setBottom(NewRect.bottom());
-                CurSelScreenRect.setBottom(NewRectScreen.bottom());
-                if (!IsCapture) Sel_H=NewRectScreen.top()/ScreenRect.height()+NewRectScreen.height()/ScreenRect.height()-Sel_Y;
-            }
-            //************
-            if (FullRect.left()  <FullSelRect.left())   {
-                FullSelRect.setLeft(FullRect.left());
-                if (!IsCapture) {
-                    RSel_W=RSel_X+RSel_W-FullRect.left()/ScreenRect.width();
-                    RSel_X=FullRect.left()/ScreenRect.width();
-                }
-            }
-            if (FullRect.top()   <FullSelRect.top())    {
-                FullSelRect.setTop(FullRect.top());
-                if (!IsCapture) {
-                    RSel_H=RSel_Y+RSel_H-FullRect.top()/ScreenRect.height();
-                    RSel_Y=FullRect.top()/ScreenRect.height();
-                }
-            }
-            if (FullRect.right() >FullSelRect.right())  {
-                FullSelRect.setRight(FullRect.right());
-                if (!IsCapture) RSel_W=FullRect.left()/ScreenRect.width()+FullRect.width()/ScreenRect.width()-RSel_X;
-            }
-            if (FullRect.bottom()>FullSelRect.bottom()) {
-                FullSelRect.setBottom(FullRect.bottom());
-                if (!IsCapture) RSel_H=FullRect.top()/ScreenRect.height()+FullRect.height()/ScreenRect.height()-RSel_Y;
-            }
+            QPolygonF Shape=Path.toFillPolygon(Matrix);
+            Shape.translate(Center);
+            Painter.drawPolygon(Shape);
 
         }
-        CurSelect++;
-
-    }
-
-    if ((!IsCapture)&&(NbrSelected>0)) {
-        if ((CurSelRect.width()==0)||(CurSelRect.height()==0)) {
-            Sel_W=0.02;
-            Sel_H=0.02;
-            CurSelRect.setWidth(2);     CurSelScreenRect.setWidth(2);
-            CurSelRect.setHeight(2);    CurSelScreenRect.setHeight(2);
-        }
-        if ((FullSelRect.width()==0)||(FullSelRect.height()==0)) {
-            RSel_W=0.02;
-            RSel_H=0.02;
-            FullSelRect.setWidth(2);
-            FullSelRect.setHeight(2);
-        }
-        AspectRatio=double(FullSelRect.height())/double(FullSelRect.width());
-    }
-
-    // Draw rullers if they was enabled
-    if (MagneticRuler!=0) {
-        QList<sDualQReal>   MagnetVert;
-        QList<sDualQReal>   MagnetHoriz;
-        ComputeRulers(MagnetVert,MagnetHoriz);
-
-        // Draw rulers
-        Painter.setCompositionMode(QPainter::RasterOp_SourceXorDestination);
-        QPen Pen1=QPen(QColor(0,255,0)),Pen2=QPen(QColor(0,255,0));
-        Pen1.setWidth(1);
-        Pen1.setStyle(Qt::DotLine);
-        Pen2.setWidth(1);
-        Pen2.setStyle(Qt::DashDotDotLine);
-        for (int i=0;i<MagnetVert.count();i++)  {
-            if ((MagnetVert[i].Block==0)||(MagnetVert[i].Block==SceneRect.width())||                                                    // borders of the screen
-                (MagnetVert[i].Block==SceneRect.width()*0.5-1)||(MagnetVert[i].Block==SceneRect.width()*0.5)||                          // center of the screen
-                (MagnetVert[i].Block==SceneRect.width()*0.05)||(MagnetVert[i].Block==SceneRect.width()-SceneRect.width()*0.05))         // TV Margins
-                    Painter.setPen(Pen1); else Painter.setPen(Pen2);
-            if ((MagnetVert[i].Block!=0)&&(MagnetVert[i].Block!=SceneRect.width())) {                                                   // don't draw screen borders
-                    Painter.drawLine(MagnetVert[i].Block,0,MagnetVert[i].Block,SceneRect.height());
-            }
-        }
-        for (int i=0;i<MagnetHoriz.count();i++) {
-            if ((MagnetHoriz[i].Block==0)||(MagnetHoriz[i].Block==SceneRect.height())||                                                 // borders of the screen
-                (MagnetHoriz[i].Block==SceneRect.height()*0.5-1)||(MagnetHoriz[i].Block==SceneRect.height()*0.5)||                      // centers of the screen
-                (MagnetHoriz[i].Block==SceneRect.height()*0.05)||(MagnetHoriz[i].Block==SceneRect.height()-SceneRect.height()*0.05))    // TV Margins
-                    Painter.setPen(Pen1); else Painter.setPen(Pen2);
-            if ((MagnetHoriz[i].Block!=0)&&(MagnetHoriz[i].Block!=SceneRect.height())) {                                                // don't draw screen borders
-                    Painter.drawLine(0,MagnetHoriz[i].Block,SceneRect.width(),MagnetHoriz[i].Block);
-            }
-        }
-    }
-
-    // Draw select frame border
-    if (NbrSelected>0) {
-        QPen pen(Qt::white);
-        pen.setWidth(2);
-        pen.setStyle(Qt::DashLine);
-        pen.setColor(Qt::red);
-        Painter.setPen(pen);
-        DrawSelect(Painter,CurSelRect,true);
     }
 
     Painter.restore();
@@ -604,7 +629,7 @@ void cInteractiveZone::ComputeRulers(QList<sDualQReal> &MagnetVert,QList<sDualQR
                                                   BlockTable->CompositionList->List[i]->x*SceneRect.width() +(BlockTable->CompositionList->List[i]->w*SceneRect.width()/2),
                                                   BlockTable->CompositionList->List[i]->y*SceneRect.height()+(BlockTable->CompositionList->List[i]->h*SceneRect.height()/2));
 
-        QList<QPolygonF> PolScreen=ComputePolygon( BlockTable->CompositionList->List[i]->BackgroundForm,
+        QList<QPolygonF> PolScreen=ComputePolygon(BlockTable->CompositionList->List[i]->BackgroundForm,
                                                   BlockTable->CompositionList->List[i]->x*ScreenRect.width(),  BlockTable->CompositionList->List[i]->y*ScreenRect.height(),
                                                   BlockTable->CompositionList->List[i]->w*ScreenRect.width(),  BlockTable->CompositionList->List[i]->h*ScreenRect.height(),
                                                   BlockTable->CompositionList->List[i]->x*ScreenRect.width() +(BlockTable->CompositionList->List[i]->w*ScreenRect.width()/2),
@@ -648,12 +673,28 @@ void cInteractiveZone::ComputeRulers(QList<sDualQReal> &MagnetVert,QList<sDualQR
             if (((x1>(h1-hEcart))&&(x1<(h1+hEcart)))||((x1>(h2-hEcart))&&(x1<(h2+hEcart)))||((x1>(h3-hEcart))&&(x1<(h3+hEcart)))) MagnetVert.append(PrepDualQReal(x1,tmpSceneRect.left()));
             if (((x2>(h1-hEcart))&&(x2<(h1+hEcart)))||((x2>(h2-hEcart))&&(x2<(h2+hEcart)))||((x2>(h3-hEcart))&&(x2<(h3+hEcart)))) MagnetVert.append(PrepDualQReal(x2,tmpSceneRect.center().x()));
             if (((x3>(h1-hEcart))&&(x3<(h1+hEcart)))||((x3>(h2-hEcart))&&(x3<(h2+hEcart)))||((x3>(h3-hEcart))&&(x3<(h3+hEcart)))) MagnetVert.append(PrepDualQReal(x3,tmpSceneRect.right()));
+            // Add intermediate rulers if exist and block don't rotated
+            if ((ShapeFormDefinition.at(BlockTable->CompositionList->List[i]->BackgroundForm).AdditonnalRulerX.count()>0)&&
+                (BlockTable->CompositionList->List[i]->RotateXAxis==0)&&(BlockTable->CompositionList->List[i]->RotateYAxis==0)&&(BlockTable->CompositionList->List[i]->RotateZAxis==0))
+                for (int AddR=0;AddR<ShapeFormDefinition.at(BlockTable->CompositionList->List[i]->BackgroundForm).AdditonnalRulerX.count();AddR++) {
+                    double PosXScreen=tmpScreenRect.left()+tmpScreenRect.width()*ShapeFormDefinition.at(BlockTable->CompositionList->List[i]->BackgroundForm).AdditonnalRulerX.at(AddR);
+                    double PosXScene =tmpSceneRect.left() +tmpSceneRect.width()* ShapeFormDefinition.at(BlockTable->CompositionList->List[i]->BackgroundForm).AdditonnalRulerX.at(AddR);
+                    if (((PosXScreen>(h1-hEcart))&&(PosXScreen<(h1+hEcart)))||((PosXScreen>(h2-hEcart))&&(PosXScreen<(h2+hEcart)))||((PosXScreen>(h3-hEcart))&&(PosXScreen<(h3+hEcart)))) MagnetVert.append(PrepDualQReal(PosXScreen,PosXScene));
+            }
         }
 
         if ((MagneticRuler&RULER_HORIZ_UNSELECTED)!=0) {
             if (((y1>(v1-vEcart))&&(y1<(v1+vEcart)))||((y1>(v2-vEcart))&&(y1<(v2+vEcart)))||((y1>(v3-vEcart))&&(y1<(v3+vEcart)))) MagnetHoriz.append(PrepDualQReal(y1,tmpSceneRect.top()));
             if (((y2>(v1-vEcart))&&(y2<(v1+vEcart)))||((y2>(v2-vEcart))&&(y2<(v2+vEcart)))||((y2>(v3-vEcart))&&(y2<(v3+vEcart)))) MagnetHoriz.append(PrepDualQReal(y2,tmpSceneRect.center().y()));
             if (((y3>(v1-vEcart))&&(y3<(v1+vEcart)))||((y3>(v2-vEcart))&&(y3<(v2+vEcart)))||((y3>(v3-vEcart))&&(y3<(v3+vEcart)))) MagnetHoriz.append(PrepDualQReal(y3,tmpSceneRect.bottom()));
+            // Add intermediate rulers if exist and block don't rotated
+            if ((ShapeFormDefinition.at(BlockTable->CompositionList->List[i]->BackgroundForm).AdditonnalRulerY.count()>0)&&
+                (BlockTable->CompositionList->List[i]->RotateXAxis==0)&&(BlockTable->CompositionList->List[i]->RotateYAxis==0)&&(BlockTable->CompositionList->List[i]->RotateZAxis==0))
+                for (int AddR=0;AddR<ShapeFormDefinition.at(BlockTable->CompositionList->List[i]->BackgroundForm).AdditonnalRulerY.count();AddR++) {
+                    double PosYScreen=tmpScreenRect.top()+tmpScreenRect.height()*ShapeFormDefinition.at(BlockTable->CompositionList->List[i]->BackgroundForm).AdditonnalRulerY.at(AddR);
+                    double PosYScene =tmpSceneRect.top() +tmpSceneRect.height()* ShapeFormDefinition.at(BlockTable->CompositionList->List[i]->BackgroundForm).AdditonnalRulerY.at(AddR);
+                    if (((PosYScreen>(v1-vEcart))&&(PosYScreen<(v1+vEcart)))||((PosYScreen>(v2-vEcart))&&(PosYScreen<(v2+vEcart)))||((PosYScreen>(v3-vEcart))&&(PosYScreen<(v3+vEcart)))) MagnetHoriz.append(PrepDualQReal(PosYScreen,PosYScene));
+            }
         }
     }
 

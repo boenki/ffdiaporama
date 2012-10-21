@@ -1127,6 +1127,7 @@ void cVideoFile::Reset(int TheWantedObjectType) {
     EndPos                  = QTime(0,0,0,0);   // End position
 
     // Video part
+    IsMTS                   = false;
     ffmpegVideoFile         = NULL;
     VideoDecoderCodec       = NULL;
     VideoStreamNumber       = 0;
@@ -2244,11 +2245,21 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
         FrameBufferYUVReady    = false;
         FrameBufferYUVPosition = 0;
 
-        // Seek to nearest previous key frame
-        if (av_seek_frame(ffmpegVideoFile,-1,int64_t(Position*1000-1000000),0)<0) {
-            // Try in AVSEEK_FLAG_ANY mode
-            if (av_seek_frame(ffmpegVideoFile,-1,int64_t(Position*1000-1000000),AVSEEK_FLAG_ANY)<0) {
-                ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadVideoFrame : Seek error");
+        if (!IsMTS) {
+            int64_t seek_target=av_rescale_q(int64_t(Position*1000),AV_TIME_BASE_Q,ffmpegVideoFile->streams[VideoStreamNumber]->time_base);
+            if (av_seek_frame(ffmpegVideoFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
+                // Try in AVSEEK_FLAG_ANY mode
+                if (av_seek_frame(ffmpegVideoFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
+                    ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadVideoFrame : Seek error");
+                }
+            }
+        } else {
+            // Seek to nearest previous key frame
+            if (av_seek_frame(ffmpegVideoFile,-1,int64_t(Position*1000-1000000),0)<0) {
+                // Try in AVSEEK_FLAG_ANY mode
+                if (av_seek_frame(ffmpegVideoFile,-1,int64_t(Position*1000-1000000),AVSEEK_FLAG_ANY)<0) {
+                    ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadVideoFrame : Seek error");
+                }
             }
         }
     } else {
@@ -2530,6 +2541,7 @@ bool cVideoFile::OpenCodecAndFile() {
 
     // Open video stream
     if ((VideoStreamNumber!=-1)&&(!MusicOnly)) {
+        IsMTS=FileName.endsWith(".mts",Qt::CaseInsensitive);
 
         // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
         if (avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;

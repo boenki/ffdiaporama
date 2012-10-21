@@ -1029,10 +1029,6 @@ Inquadratura:</translation>
         <translation>Un quarto dello schermo</translation>
     </message>
     <message>
-        <source>Shape :</source>
-        <translation>Forma :</translation>
-    </message>
-    <message>
         <source>Select a shape for the current block</source>
         <translation>Selezionare una forma per il blocco corrente</translation>
     </message>
@@ -1092,10 +1088,6 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>Video position :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image filters</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1188,14 +1180,6 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>Image rotation:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Amplitude:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Frequency:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3091,6 +3075,22 @@ blocco</translation>
     <message>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
+    </message>
+    <message>
+        <source>Margins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default magins</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Full Shape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

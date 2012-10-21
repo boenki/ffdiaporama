@@ -147,10 +147,13 @@ enum SHAPEFORM_ID {
 
 class cShapeFormDefinition {
 public:
-    bool    Enable;
-    QString Name;
+    bool            Enable;
+    QString         Name;
+    QList<double>   AdditonnalRulerX;       // Additionnal rulers
+    QList<double>   AdditonnalRulerY;       // Additionnal rulers
+    double          TMx,TMy,TMw,TMh;        // Default shape text margins
     cShapeFormDefinition() {}
-    cShapeFormDefinition(bool Enable,QString Name);
+    cShapeFormDefinition(bool Enable,QList<double> AdditonnalRulerX,QList<double> AdditonnalRulerY,double TMx,double TMy,double TMw,double TMh,QString Name);
 };
 
 extern QList<cShapeFormDefinition> ShapeFormDefinition;

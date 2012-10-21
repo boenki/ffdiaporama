@@ -233,6 +233,7 @@ public:
     bool                    IsOpen;                     // True if ffmpeg open on this file
     bool                    MusicOnly;                  // True if object is a music only file
     bool                    IsVorbis;                   // True if vorbis version must be use instead of MP3/WAV version
+    bool                    IsMTS;                      // True if file is a MTS file
     QTime                   StartPos;                   // Start position
     QTime                   EndPos;                     // End position
     QString                 Container;                  // Container type (get from file extension)

@@ -73,6 +73,7 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
     TxtZoomLevel            = 100;                                              // Zoom Level for text
     TxtScrollX              = 0;                                                // Scrolling X for text
     TxtScrollY              = 0;                                                // Scrolling Y for text
+    TMType                  = TEXTMARGINS_SHAPEDEFAULT;
 
     // Shap part
     BackgroundForm          = 1;                                                // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
@@ -86,13 +87,15 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
 
     // Block animation part
     BlockAnimType           = BLOCKANIMTYPE_NONE;
-    TurnZAxis               = 0;                    // Number of turn from Z axis
-    TurnXAxis               = 0;                    // Number of turn from X axis
-    TurnYAxis               = 0;                    // Number of turn from Y axis
+    TurnZAxis               = 0;                                                // Number of turn from Z axis
+    TurnXAxis               = 0;                                                // Number of turn from X axis
+    TurnYAxis               = 0;                                                // Number of turn from Y axis
     Dissolve                = BLOCKANIMVALUE_APPEAR;
 
     // BackgroundBrush is initilise by object constructor except TypeComposition and key
     BackgroundBrush->TypeComposition = TypeComposition;
+
+    ApplyTextMargin(TEXTMARGINS_SHAPEDEFAULT);                                  // Init TMx,TMy,TMw,TMh (Text margins)
 }
 
 //====================================================================================================================
@@ -103,6 +106,45 @@ cCompositionObject::~cCompositionObject() {
     if (BackgroundBrush) {
         delete BackgroundBrush;
         BackgroundBrush=NULL;
+    }
+}
+
+//====================================================================================================================
+
+void cCompositionObject::ApplyTextMargin(int TMType) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::ApplyTextMargin");
+    if ((this->TMType==TEXTMARGINS_CUSTOM)&&(TMType==TEXTMARGINS_CUSTOM)) return;   // Don't overwrite custom settings
+    this->TMType=TMType;
+    QRectF Rect=GetPrivateTextMargin();
+    this->TMx   =Rect.left();
+    this->TMy   =Rect.top();
+    this->TMw   =Rect.width();
+    this->TMh   =Rect.height();
+}
+
+//====================================================================================================================
+
+QRectF cCompositionObject::GetPrivateTextMargin() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::GetPrivateTextMargin");
+
+    if (TMType==TEXTMARGINS_FULLSHAPE)              return PolygonToRectF(ComputePolygon(BackgroundForm,0,0,1,1,0,0));
+        else if (TMType==TEXTMARGINS_SHAPEDEFAULT)  return QRectF(ShapeFormDefinition[BackgroundForm].TMx,ShapeFormDefinition[BackgroundForm].TMy,
+                                                                  ShapeFormDefinition[BackgroundForm].TMw,ShapeFormDefinition[BackgroundForm].TMh);
+    return QRectF(TMx,TMy,TMw,TMh);
+}
+
+//====================================================================================================================
+
+QRectF cCompositionObject::GetTextMargin(QRectF Workspace,double  ADJUST_RATIO) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::GetTextMargin");
+    // if type is ShapeDefault, then adjust with border size
+    if ((TMType==TEXTMARGINS_FULLSHAPE)||(TMType==TEXTMARGINS_CUSTOM)) {
+        return QRectF(TMx*w*Workspace.width(),TMy*h*Workspace.height(),
+                      TMw*w*Workspace.width(),TMh*h*Workspace.height());
+    } else {
+        double FullMargin=double(PenSize)*ADJUST_RATIO/double(2);
+        return QRectF(ShapeFormDefinition[BackgroundForm].TMx*w*Workspace.width()+FullMargin,ShapeFormDefinition[BackgroundForm].TMy*h*Workspace.height()+FullMargin,
+                      ShapeFormDefinition[BackgroundForm].TMw*w*Workspace.width()-FullMargin*2,ShapeFormDefinition[BackgroundForm].TMh*h*Workspace.height()-FullMargin*2);
     }
 }
 
@@ -157,7 +199,11 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("TxtZoomLevel",TxtZoomLevel);                      // Zoom Level for text
     Element.setAttribute("TxtScrollX",TxtScrollX);                          // Scrolling X for text
     Element.setAttribute("TxtScrollY",TxtScrollY);                          // Scrolling Y for text
-
+    Element.setAttribute("TMType",TMType);                                  // Text margins type
+    Element.setAttribute("TMx",TMx);                                        // Text margins
+    Element.setAttribute("TMy",TMy);                                        // Text margins
+    Element.setAttribute("TMw",TMw);                                        // Text margins
+    Element.setAttribute("TMh",TMh);                                        // Text margins
 
     // Shap part
     Element.setAttribute("BackgroundForm",BackgroundForm);                  // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
@@ -248,9 +294,15 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         }
 
         // Shot part of text part
+        TMType=TEXTMARGINS_FULLSHAPE;   // For compatibility with version prior to 1.5 => force magins type to fullshape
         if (Element.hasAttribute("TxtZoomLevel"))               TxtZoomLevel        =Element.attribute("TxtZoomLevel").toInt();             // Zoom Level for text
         if (Element.hasAttribute("TxtScrollX"))                 TxtScrollX          =Element.attribute("TxtScrollX").toInt();               // Scrolling X for text
         if (Element.hasAttribute("TxtScrollY"))                 TxtScrollY          =Element.attribute("TxtScrollY").toInt();               // Scrolling Y for text
+        if (Element.hasAttribute("TMType"))                     TMType              =Element.attribute("TMType").toInt();                   // Text margins type
+        if (Element.hasAttribute("TMx"))                        TMx                 =Element.attribute("TMx").toDouble();                   // Text margins
+        if (Element.hasAttribute("TMy"))                        TMy                 =Element.attribute("TMy").toDouble();                   // Text margins
+        if (Element.hasAttribute("TMw"))                        TMw                 =Element.attribute("TMw").toDouble();                   // Text margins
+        if (Element.hasAttribute("TMh"))                        TMh                 =Element.attribute("TMh").toDouble();                   // Text margins
 
         // Shap part
         if (Element.hasAttribute("BackgroundForm"))             BackgroundForm      =Element.attribute("BackgroundForm").toInt();           // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
@@ -646,6 +698,11 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
     TxtZoomLevel         =CompositionObjectToCopy->TxtZoomLevel;
     TxtScrollX           =CompositionObjectToCopy->TxtScrollX;
     TxtScrollY           =CompositionObjectToCopy->TxtScrollY;
+    TMType               =CompositionObjectToCopy->TMType;
+    TMx                  =CompositionObjectToCopy->TMx;
+    TMy                  =CompositionObjectToCopy->TMy;
+    TMw                  =CompositionObjectToCopy->TMw;
+    TMh                  =CompositionObjectToCopy->TMh;
 
     BackgroundBrush->CopyFromBrushDefinition(CompositionObjectToCopy->BackgroundBrush);
 }
@@ -711,7 +768,6 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         double  Wb =int(Hyp);
         double  Hb =Wb;         // always square image
 
-        double  FullMargin=0;
         AddX-=(Wb-W)/2;
         AddY-=(Hb-H)/2;
         double  DstX=AddX+TheX*double(width);
@@ -742,7 +798,6 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             // Draw ExternalBorder border
             if (PenSize==0) Painter.setPen(Qt::NoPen); else {
                 Pen.setColor(PenColor);
-                FullMargin=double(PenSize)*ADJUST_RATIO/double(2);
                 Pen.setWidthF(double(PenSize)*ADJUST_RATIO);
                 Pen.setStyle((Qt::PenStyle)PenStyle);
                 Painter.setPen(Pen);
@@ -787,40 +842,51 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             //**********************************************************************************
 
             if (TheTxtZoomLevel>0) {
-                FullMargin=FullMargin*2;
 
-                double  MarginX=FullMargin;
-                double  MarginY=FullMargin;
+                QRectF          ShapeRect =PolygonToRectF(List);
+                double          FullMargin=((TMType==TEXTMARGINS_FULLSHAPE)||(TMType==TEXTMARGINS_CUSTOM))?0:double(PenSize)*ADJUST_RATIO/double(2);
+                QRectF          TextMargin;
+                double          PointSize =((double(width)/double(SCALINGTEXTFACTOR)));
+                QTextDocument   TextDocument;
 
-                if (BackgroundForm==3) {                        // 3=Buble
-                    MarginX=MarginX+W/250;
-                    MarginY=MarginY+H/250;
-                } else if (BackgroundForm==4) {                 // 2=Ellipse
-                    MarginX=MarginX+(0.29*(W/2));               // 0.29=1-cos(radians(45°))
-                    MarginY=MarginY+(0.29*(H/2));               // 0.29=1-sin(radians(45°))
+                // if type is ShapeDefault, then adjust with border size
+                if ((TMType==TEXTMARGINS_FULLSHAPE)||(TMType==TEXTMARGINS_CUSTOM)) {
+                    TextMargin=QRectF(TMx*TheW*width,TMy*TheH*height,TMw*TheW*width,TMh*TheH*height);
+                } else {
+                    TextMargin=QRectF(ShapeFormDefinition[BackgroundForm].TMx*TheW*width+FullMargin,ShapeFormDefinition[BackgroundForm].TMy*TheH*height+FullMargin,
+                                  ShapeFormDefinition[BackgroundForm].TMw*TheW*width-FullMargin*2,ShapeFormDefinition[BackgroundForm].TMh*TheH*height-FullMargin*2);
                 }
-                Painter.setClipRect(MarginX-W/2,MarginY-H/2,W-2*MarginX,H-2*MarginY);
+
+                //****************
+                /*
+                Painter.save();
+                QPen PP(Qt::white);
+                PP.setStyle(Qt::DotLine);
+                PP.setWidth(1);
+                Painter.setPen(PP);
+                Painter.setBrush(Qt::NoBrush);
+                Painter.drawRect(QRectF(ShapeRect.left()+TextMargin.left(),ShapeRect.top()+TextMargin.top(),TextMargin.width(),TextMargin.height()));
+                Painter.restore();
+                */
+                //****************
+
+                Painter.setClipRect(QRectF(ShapeRect.left()+TextMargin.left(),ShapeRect.top()+TextMargin.top(),TextMargin.width(),TextMargin.height()));
                 Painter.setClipping(true);
 
-                QRectF  BoundingRect(0,0,(W-2*MarginX),H-2*MarginY);
-                double  PointSize=((double(width)/double(SCALINGTEXTFACTOR)));
-
-                QTextDocument TextDocument;
-
                 TextDocument.setHtml(Text);
-                TextDocument.setTextWidth(BoundingRect.width()/PointSize);
+                TextDocument.setTextWidth(TextMargin.width()/PointSize);
 
                 QRectF  FmtBdRect(0,0,
                                   double(TextDocument.documentLayout()->documentSize().width())*(TheTxtZoomLevel/100)*PointSize,
                                   double(TextDocument.documentLayout()->documentSize().height())*(TheTxtZoomLevel/100)*PointSize);
 
-                int     MaxH  =H>FmtBdRect.height()?H:FmtBdRect.height();
-                double  DecalX=(TheTxtScrollX/100)*(BoundingRect.width()+MarginX*2)-FmtBdRect.width()/2;    // Always horizontaly center
-                double  DecalY=(MarginY-H/2+(-TheTxtScrollY/100)*(MaxH+MarginY*2));
+                double  DecalX=ShapeRect.left()+TextMargin.left()+(TheTxtScrollX/100)*TextMargin.width();
+                int     MaxH  =TextMargin.height()>FmtBdRect.height()?TextMargin.height():FmtBdRect.height();
+                double  DecalY=ShapeRect.top()+TextMargin.top()+(-TheTxtScrollY/100)*MaxH;
 
-                if (VAlign==0)      /*Nothing to do*/;                                              //Qt::AlignTop
-                else if (VAlign==1) DecalY=DecalY+(BoundingRect.height()-FmtBdRect.height())/2;     //Qt::AlignVCenter
-                else                DecalY=DecalY+(BoundingRect.height()-FmtBdRect.height());       //Qt::AlignBottom)
+                if (VAlign==0)      /*Nothing to do*/;                                            //Qt::AlignTop
+                else if (VAlign==1) DecalY=DecalY+(TextMargin.height()-FmtBdRect.height())/2;     //Qt::AlignVCenter
+                else                DecalY=DecalY+(TextMargin.height()-FmtBdRect.height());       //Qt::AlignBottom)
 
                 QAbstractTextDocumentLayout::PaintContext Context;
 
@@ -1341,7 +1407,8 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 for (int j=0;j<List.count();j++) for (int k=0;k<List.at(j)->ShotComposition.List.count();k++) if (List.at(j)->ShotComposition.List.at(k)->IndexKey==ObjectComposition.List.at(i)->IndexKey) {
                     List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->OnOffFilter=ObjectComposition.List.at(i)->BackgroundBrush->OnOffFilter;
                     List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->GaussBlurSharpenSigma  =ObjectComposition.List.at(i)->BackgroundBrush->GaussBlurSharpenSigma;
-                    List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->BlurSharpenRadius =ObjectComposition.List.at(i)->BackgroundBrush->BlurSharpenRadius;
+                    List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->BlurSharpenRadius      =ObjectComposition.List.at(i)->BackgroundBrush->BlurSharpenRadius;
+                    List.at(j)->ShotComposition.List.at(k)->BackgroundBrush->TypeBlurSharpen        =ObjectComposition.List.at(i)->BackgroundBrush->TypeBlurSharpen;
                 }
                 ObjectComposition.List.at(i)->BackgroundBrush->OnOffFilter=0;
                 ObjectComposition.List.at(i)->BackgroundBrush->GaussBlurSharpenSigma  =0;
