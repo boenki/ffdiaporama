@@ -114,6 +114,15 @@ private slots:
     void            s_TextStyleBT();
     void            s_BackgroundStyleBT();
 
+    // Margins
+    void            s_ShapeDefault_Changed();
+    void            s_FullShape_Changed();
+    void            s_Custom_Changed();
+    void            s_PosXEd_Changed(int);
+    void            s_PosYEd_Changed(int);
+    void            s_WidthEd_Changed(int);
+    void            s_HeightEd_Changed(int);
+
 signals:
     void            RefreshDisplay();
 

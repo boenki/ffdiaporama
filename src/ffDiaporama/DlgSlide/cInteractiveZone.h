@@ -38,6 +38,8 @@ public:
         qreal   Block;
     };
 
+    enum DISPLAYMODE {DisplayMode_BlockShape,DisplayMode_TextMargin} DisplayMode;
+
     int                 MagneticRuler;
     cCustomBlockTable   *BlockTable;
     cDiaporamaObject    *DiaporamaObject;

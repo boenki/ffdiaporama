@@ -241,6 +241,8 @@ void DlgImageCorrection::DoInitDialog() {
     CurrentFramingStyle=-100;
     UpdateFramingStyleCB();
     RefreshControls();
+    //ui->scrollArea->setMinimumWidth(ui->scrollArea->viewport()->width()+20);
+    //ui->scrollArea->setFixedWidth(ui->scrollArea->viewport()->width()+20);
 }
 
 //====================================================================================================================

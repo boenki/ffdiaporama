@@ -53,82 +53,92 @@ QBrush  Transparent;        // Transparent brush
 
 QList<cShapeFormDefinition> ShapeFormDefinition;
 
-cShapeFormDefinition::cShapeFormDefinition(bool Enable,QString Name) {
+cShapeFormDefinition::cShapeFormDefinition(bool Enable,QList<double> AdditonnalRulerX,QList<double> AdditonnalRulerY,double TMx,double TMy,double TMw,double TMh,QString Name) {
     this->Enable=Enable;
-    this->Name=Name;
+    this->Name  =Name;
+    this->TMx   =TMx;
+    this->TMy   =TMy;
+    this->TMw   =TMw;
+    this->TMh   =TMh;
+    for (int i=0;i<AdditonnalRulerX.count();i++) this->AdditonnalRulerX.append(AdditonnalRulerX.at(i));
+    for (int i=0;i<AdditonnalRulerY.count();i++) this->AdditonnalRulerY.append(AdditonnalRulerY.at(i));
 }
 
 // Utility function to init shape collection and translate shape names
 void ShapeFormDefinitionInit() {
-    ShapeFormDefinition.append(cShapeFormDefinition(false,QApplication::translate("Shape forms","No shape")));                       // SHAPEFORM_NOSHAPE
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Rectangle")));                      // SHAPEFORM_RECTANGLE
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Rounded rectangle")));              // SHAPEFORM_ROUNDRECT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Bubble")));                         // SHAPEFORM_BUBBLE
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Ellipse")));                        // SHAPEFORM_ELLIPSE
-    ShapeFormDefinition.append(cShapeFormDefinition(false,QApplication::translate("Shape forms","Old Triangle up version")));        // SHAPEFORM_TRIANGLEUP
-    ShapeFormDefinition.append(cShapeFormDefinition(false,QApplication::translate("Shape forms","Old Triangle right version")));     // SHAPEFORM_TRIANGLERIGHT
-    ShapeFormDefinition.append(cShapeFormDefinition(false,QApplication::translate("Shape forms","Old Triangle down version")));      // SHAPEFORM_TRIANGLEDOWN
-    ShapeFormDefinition.append(cShapeFormDefinition(false,QApplication::translate("Shape forms","Old Triangle left version")));      // SHAPEFORM_TRIANGLELEFT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Rhombus")));                        // SHAPEFORM_RHOMBUS (Losange)
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Pentagon")));                       // SHAPEFORM_PENTAGON
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Hexagon")));                        // SHAPEFORM_HEXAGON
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Octogon")));                        // SHAPEFORM_OCTOGON
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Simple arrow up")));                // SHAPEFORM_SIMPLEARROWUP
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Simple arrow right")));             // SHAPEFORM_SIMPLEARROWRIGHT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Simple arrow down")));              // SHAPEFORM_SIMPLEARROWDOWN
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Simple arrow left")));              // SHAPEFORM_SIMPLEARROWLEFT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Heart")));                          // SHAPEFORM_HEART
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Up-Left")));                 // SHAPEFORM_PUZZLEUL
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Up-Center")));               // SHAPEFORM_PUZZLEUC
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Up-Right")));                // SHAPEFORM_PUZZLEUR
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double vertical arrows")));         // SHAPEFORM_DOUBLEARROWVERT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double horizontal arrows")));       // SHAPEFORM_DOUBLEARROWHORIZ
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double diagonal arrows 1")));       // SHAPEFORM_DOUBLEARROWDIAG1
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double diagonal arrows 2")));       // SHAPEFORM_DOUBLEARROWDIAG2
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Spade")));                          // SHAPEFORM_SPADE
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Middle-Left")));             // SHAPEFORM_PUZZLEML
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Middle-Center")));           // SHAPEFORM_PUZZLEMC
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Middle-Right")));            // SHAPEFORM_PUZZLEMR
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Right triangle Up-Left")));         // SHAPEFORM_RIGHTTRIANGLEUL
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Right triangle Up-Right")));        // SHAPEFORM_RIGHTTRIANGLEUR
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Right triangle Down-Left")));       // SHAPEFORM_RIGHTTRIANGLEDL
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Right triangle Down-Right")));      // SHAPEFORM_RIGHTTRIANGLEDR
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Club")));                           // SHAPEFORM_CLUB
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Down-Left")));               // SHAPEFORM_PUZZLEDL
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Down-Center")));             // SHAPEFORM_PUZZLEDC
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Puzzle Down-Right")));              // SHAPEFORM_PUZZLEDR
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single triangle up")));             // SHAPEFORM_STRIANGLEUP
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single triangle right")));          // SHAPEFORM_STRIANGLERIGHT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single triangle down")));           // SHAPEFORM_STRIANGLEDOWN
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single triangle left")));           // SHAPEFORM_STRIANGLELEFT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Pushed up")));                      // SHAPEFORM_PUSHEDUP
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Sharp down")));                     // SHAPEFORM_SHARPDOWN
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Four-pointed stars")));             // SHAPEFORM_STAR4
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Five-pointed stars")));             // SHAPEFORM_STAR5
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double triangle up")));             // SHAPEFORM_DTRIANGLEUP
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double triangle right")));          // SHAPEFORM_DTRIANGLERIGHT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double triangle down")));           // SHAPEFORM_DTRIANGLEDOWN
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double triangle left")));           // SHAPEFORM_DTRIANGLELEFT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double chevron up")));              // SHAPEFORM_DCHEVRONUP
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single chevron down")));            // SHAPEFORM_SCHEVRONDOWN
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Six-pointed stars")));              // SHAPEFORM_STAR6
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Height-pointed stars")));           // SHAPEFORM_STAR8
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Pushed left")));                    // SHAPEFORM_PUSHEDLEFT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double chevron left")));            // SHAPEFORM_DCHEVRONLEFT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single chevron left")));            // SHAPEFORM_SCHEVRONLEFT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Sharp left")));                     // SHAPEFORM_SHARPLEFT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single chevron up")));              // SHAPEFORM_SCHEVRONUP
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double chevron down")));            // SHAPEFORM_DCHEVRONDOWN
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Six tooth gear")));                 // SHAPEFORM_GEAR6
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Eight tooth gear")));               // SHAPEFORM_GEAR8
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Sharp right")));                    // SHAPEFORM_SHARPRIGHT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Single chevron right")));           // SHAPEFORM_SCHEVRONRIGHT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Double chevron right")));           // SHAPEFORM_DCHEVRONRIGHT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Pushed right")));                   // SHAPEFORM_PUSHEDRIGHT
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Sharp up")));                       // SHAPEFORM_SHARPUP
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Pushed down")));                    // SHAPEFORM_PUSHEDDOWN
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Ten tooth gear")));                 // SHAPEFORM_GEAR10
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QApplication::translate("Shape forms","Twelve tooth gear")));              // SHAPEFORM_GEAR12
+    double d25CosSin45=0.25*(1+COSSIN45)/2;
+    double d75CosSin45=1-d25CosSin45;
+    double d50CosSin45=1-d25CosSin45-d25CosSin45;
+    double dhCosSin45 =(1-COSSIN45)/2;
+    ShapeFormDefinition.append(cShapeFormDefinition(false,QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","No shape")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Rectangle")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.025,      0.025,      0.95,           0.95,           QApplication::translate("Shape forms","Rounded rectangle")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.05,       0.05,       0.9,            0.9,            QApplication::translate("Shape forms","Bubble")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            dhCosSin45, dhCosSin45, 1-2*dhCosSin45, 1-2*dhCosSin45, QApplication::translate("Shape forms","Ellipse")));
+    ShapeFormDefinition.append(cShapeFormDefinition(false,QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Old Triangle up version")));
+    ShapeFormDefinition.append(cShapeFormDefinition(false,QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Old Triangle right version")));
+    ShapeFormDefinition.append(cShapeFormDefinition(false,QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Old Triangle down version")));
+    ShapeFormDefinition.append(cShapeFormDefinition(false,QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Old Triangle left version")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.25,       0.25,       0.5,            0.5,            QApplication::translate("Shape forms","Rhombus")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.2,        0.2,        0.55,           0.7,            QApplication::translate("Shape forms","Pentagon")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.25,       0,          0.5,            0.85,           QApplication::translate("Shape forms","Hexagon")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.15,       0.15,       0.7,            0.7,            QApplication::translate("Shape forms","Octogon")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.34,       0.125,      0.32,           0.875,          QApplication::translate("Shape forms","Simple arrow up")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0.34,       0.875,          0.32,           QApplication::translate("Shape forms","Simple arrow right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.34,       0,          0.32,           0.875,          QApplication::translate("Shape forms","Simple arrow down")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.125,      0.34,       0.875,          0.32,           QApplication::translate("Shape forms","Simple arrow left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.1,        0.1,        0.8,            0.5,            QApplication::translate("Shape forms","Heart")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<d75CosSin45,             QList<double>()<<d75CosSin45,               0,          0,          d75CosSin45,    d75CosSin45,    QApplication::translate("Shape forms","Puzzle Up-Left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<d25CosSin45<<d75CosSin45,QList<double>()<<d75CosSin45 ,              d25CosSin45,0,          d50CosSin45,    d75CosSin45,    QApplication::translate("Shape forms","Puzzle Up-Center")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<d25CosSin45,             QList<double>()<<d75CosSin45,               d25CosSin45,0,          d50CosSin45,    d75CosSin45,    QApplication::translate("Shape forms","Puzzle Up-Right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.34,       0.125,      0.32,           0.75,           QApplication::translate("Shape forms","Double vertical arrows")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.125,      0.34,       0.75,           0.32,           QApplication::translate("Shape forms","Double horizontal arrows")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Double diagonal arrows 1")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Double diagonal arrows 2")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.15,       0.325,      0.675,          0.5,            QApplication::translate("Shape forms","Spade")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<d75CosSin45,             QList<double>()<<d25CosSin45<<d75CosSin45,  0,          d25CosSin45,d75CosSin45,    d50CosSin45,    QApplication::translate("Shape forms","Puzzle Middle-Left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<d25CosSin45<<d75CosSin45,QList<double>()<<d25CosSin45<<d75CosSin45,  d25CosSin45,d25CosSin45,d50CosSin45,    d50CosSin45,    QApplication::translate("Shape forms","Puzzle Middle-Center")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<d25CosSin45,             QList<double>()<<d25CosSin45<<d75CosSin45,  d25CosSin45,d25CosSin45,d50CosSin45,    d50CosSin45,    QApplication::translate("Shape forms","Puzzle Middle-Right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0,          0.5,            0.5,            QApplication::translate("Shape forms","Right triangle Up-Left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.5,        0,          0.5,            0.5,            QApplication::translate("Shape forms","Right triangle Up-Right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0.5,        0.5,            0.5,            QApplication::translate("Shape forms","Right triangle Down-Left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.5,        0.5,        0.5,            0.5,            QApplication::translate("Shape forms","Right triangle Down-Right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.25,       0.25,       0.5,            0.5,            QApplication::translate("Shape forms","Club")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<d75CosSin45,             QList<double>()<<d25CosSin45,               0,          d25CosSin45,d75CosSin45,    d50CosSin45,    QApplication::translate("Shape forms","Puzzle Down-Left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<d25CosSin45<<d75CosSin45,QList<double>()<<d25CosSin45,               d25CosSin45,d25CosSin45,d50CosSin45,    d50CosSin45,    QApplication::translate("Shape forms","Puzzle Down-Center")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<d25CosSin45,             QList<double>()<<d25CosSin45,               d25CosSin45,d25CosSin45,d50CosSin45,    d50CosSin45,    QApplication::translate("Shape forms","Puzzle Down-Right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.25,       0.5,        0.5,            0.5,            QApplication::translate("Shape forms","Single triangle up")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0.25,       0.5,            0.5,            QApplication::translate("Shape forms","Single triangle right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.25,       0,          0.5,            0.5,            QApplication::translate("Shape forms","Single triangle down")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.5,        0.25,       0.5,            0.5,            QApplication::translate("Shape forms","Single triangle left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.8,                       0,          0,          1,              0.8,            QApplication::translate("Shape forms","Pushed up")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.8,                       0,          0,          1,              0.8,            QApplication::translate("Shape forms","Sharp down")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.3,        0.3,        0.4,            0.4,            QApplication::translate("Shape forms","Four-pointed stars")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.25,       0.35,       0.5,            0.5,            QApplication::translate("Shape forms","Five-pointed stars")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Double triangle up")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Double triangle right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Double triangle down")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Double triangle left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.2<<0.8,                  0,          0.2,        1,              0.6,            QApplication::translate("Shape forms","Double chevron up")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.2<<0.8,                  0,          0.2,        1,              0.6,            QApplication::translate("Shape forms","Single chevron down")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.2,        0.3,        0.6,            0.4,            QApplication::translate("Shape forms","Six-pointed stars")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.25,       0.25,       0.5,            0.5,            QApplication::translate("Shape forms","Height-pointed stars")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.8,                     QList<double>(),                            0,          0,          0.8,            1,              QApplication::translate("Shape forms","Pushed left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.2<<0.8,                QList<double>(),                            0.2,        0,          0.6,            1,              QApplication::translate("Shape forms","Double chevron left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.2<<0.8,                QList<double>(),                            0.2,        0,          0.6,            1,              QApplication::translate("Shape forms","Single chevron left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.2,                     QList<double>(),                            0.2,        0,          0.8,            1,              QApplication::translate("Shape forms","Sharp left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.2<<0.8,                  0,          0.2,        1,              0.6,            QApplication::translate("Shape forms","Single chevron up")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.2<<0.8,                  0,          0.2,        1,              0.6,            QApplication::translate("Shape forms","Double chevron down")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.1,        0.2,        0.8,            0.6,            QApplication::translate("Shape forms","Six tooth gear")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.15,       0.15,       0.7,            0.7,            QApplication::translate("Shape forms","Eight tooth gear")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.8,                     QList<double>(),                            0,          0,          0.8,            1,              QApplication::translate("Shape forms","Sharp right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.2<<0.8,                QList<double>(),                            0.2,        0,          0.6,            1,              QApplication::translate("Shape forms","Single chevron right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.2<<0.8,                QList<double>(),                            0.2,        0,          0.6,            1,              QApplication::translate("Shape forms","Double chevron right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.2,                     QList<double>(),                            0.2,        0,          0.8,            1,              QApplication::translate("Shape forms","Pushed right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.2,                       0,          0.2,        1,              0.8,            QApplication::translate("Shape forms","Sharp up")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.2,                       0,          0.2,        1,              0.8,            QApplication::translate("Shape forms","Pushed down")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.175,      0.125,      0.65,           0.75,           QApplication::translate("Shape forms","Ten tooth gear")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.1,        0.225,      0.8,            0.55,           QApplication::translate("Shape forms","Twelve tooth gear")));
 }
 
 //*********************************************************************************************************************************************
@@ -1591,9 +1601,10 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                         // Old Image transformation (for compatibility with version prio to 1.5)
                         if ((Element.elementsByTagName("ImageTransformation").length()>0)&&(Element.elementsByTagName("ImageTransformation").item(0).isElement()==true)) {
                             QDomElement SubElement=Element.elementsByTagName("ImageTransformation").item(0).toElement();
-                            if (SubElement.hasAttribute("BlurSigma"))      GaussBlurSharpenSigma=  SubElement.attribute("GaussBlurSharpenSigma").toDouble();
-                            if (SubElement.hasAttribute("BlurRadius"))     BlurSharpenRadius= SubElement.attribute("BlurSharpenRadius").toDouble();
+                            if (SubElement.hasAttribute("BlurSigma"))      GaussBlurSharpenSigma=  SubElement.attribute("BlurSigma").toDouble();
+                            if (SubElement.hasAttribute("BlurRadius"))     BlurSharpenRadius= SubElement.attribute("BlurRadius").toDouble();
                             if (SubElement.hasAttribute("OnOffFilter"))    OnOffFilter=SubElement.attribute("OnOffFilter").toInt();
+                            if (GaussBlurSharpenSigma!=0) TypeBlurSharpen=1;
                         }
                     }
                 }

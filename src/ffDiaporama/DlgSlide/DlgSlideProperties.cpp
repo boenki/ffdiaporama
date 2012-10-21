@@ -640,9 +640,9 @@ void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
             case UNDOACTION_BLOCKTABLE_VISIBLESTATE:        SubElement.setAttribute("IsVisible",CompositionList->List[i]->IsVisible?"1":"0");               break;
             case UNDOACTION_BLOCKTABLE_SOUNDSTATE:          SubElement.setAttribute("SoundVolume",CompositionList->List[i]->BackgroundBrush->SoundVolume);
 
-            case UNDOACTION_BLOCKTABLE_EDITTEXT:
             case UNDOACTION_BLOCKTABLE_EDITVIDEO:           CompositionList->List[i]->BackgroundBrush->SaveToXML(SubElement,"BRUSH","",false);             break;
 
+            case UNDOACTION_BLOCKTABLE_EDITTEXT:
             case UNDOACTION_BLOCKTABLE_EDITIMAGE:
             case UNDOACTION_STYLE_SHAPE:
             case UNDOACTION_STYLE_FRAMING:
@@ -715,9 +715,10 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                 case UNDOACTION_EDITZONE_SHOTDURATION:      if (SubElement.hasAttribute("StaticDuration"))          CurrentShot->StaticDuration=                            SubElement.attribute("StaticDuration").toLongLong();    s_ShotTable_DisplayDuration();                                  break;
                 case UNDOACTION_BLOCKTABLE_VISIBLESTATE:    if (SubElement.hasAttribute("IsVisible"))               CompositionList->List[i]->IsVisible=                    SubElement.attribute("IsVisible")=="1";                 break;
                 case UNDOACTION_BLOCKTABLE_SOUNDSTATE:      if (SubElement.hasAttribute("SoundVolume"))             CompositionList->List[i]->BackgroundBrush->SoundVolume= SubElement.attribute("SoundVolume").toDouble();         break;
-                case UNDOACTION_BLOCKTABLE_EDITTEXT:
+
                 case UNDOACTION_BLOCKTABLE_EDITVIDEO:       CompositionList->List[i]->BackgroundBrush->LoadFromXML(SubElement,"BRUSH","",NULL,NULL);   break;
 
+                case UNDOACTION_BLOCKTABLE_EDITTEXT:
                 case UNDOACTION_BLOCKTABLE_EDITIMAGE:
                 case UNDOACTION_STYLE_SHAPE:
                 case UNDOACTION_STYLE_FRAMING:
@@ -1191,6 +1192,11 @@ void DlgSlideProperties::CopyBlockProperties(cCompositionObject *SourceBlock,cCo
     DestBlock->HAlign               =SourceBlock->HAlign;                   // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
     DestBlock->VAlign               =SourceBlock->VAlign;                   // Vertical alignement : 0=up, 1=center, 2=bottom
     DestBlock->StyleText            =SourceBlock->StyleText;                // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+    DestBlock->TMType               =SourceBlock->TMType;                   // Text margins type (0=full shape, 1=shape default, 2=custom)
+    DestBlock->TMx                  =SourceBlock->TMx;                      // Text margins
+    DestBlock->TMy                  =SourceBlock->TMy;                      // Text margins
+    DestBlock->TMw                  =SourceBlock->TMw;                      // Text margins
+    DestBlock->TMh                  =SourceBlock->TMh;                      // Text margins
 
     // Attribut of the shap part
     DestBlock->BackgroundForm       =SourceBlock->BackgroundForm;           // Type of the form : 0=None, 1=Rectangle, 2=RoundRect, 3=Buble, 4=Ellipse, 5=Triangle UP (Polygon)
@@ -2148,15 +2154,18 @@ void DlgSlideProperties::s_BlockSettings_TextEditor() {
     if (!NoPrepUndo) AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITTEXT,ui->InteractiveZone,true);
     NoPrepUndo=false;
 
+    ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
     DlgTextEdit Dlg(CurrentCompoObject,HELPFILE_DlgTextEdit,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgTextEditWSP,
                     &((cApplicationConfig *)BaseApplicationConfig)->StyleTextCollection,&((cApplicationConfig *)BaseApplicationConfig)->StyleTextBackgroundCollection,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
+        ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
         ApplyToContexte(true);
         int CurrentRow=ui->BlockTable->currentRow();
         RefreshBlockTable(CurrentRow>0?CurrentRow:0);
     } else {
+        ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_BlockShape;
         RemoveLastPartialUndo();
         RefreshControls();
     }

@@ -1,18 +1,11 @@
 **************************************************
 * FFDIAPORAMA 1.5 - Trunk
 *
-* Dernier commit le : 03/10/2012
+* Dernier commit le : 14/10/2012
 **************************************************
 
 TODO :
 ------
--Utiliser le même système dans la gestion des modèles de device dans la gestion des styles pour réindexer les devices custom en cas d'ajout de device standard dans le fichier de conf global !
--Supprimer la librairie de fond de la mémoire
--Vidéo ULAW à faire
--Etudier la transposition des cadres de sélection quand rotation dans la boite slide
-
-Paquets libqimageblitz dans Ubuntu : libqimageblitz4 libqimageblitz-dev
-
 Textures :
         http://www.texturemate.com/
         http://free-clipart.net/
@@ -23,29 +16,63 @@ Clip art :
         http://www.pngfactory.net
 
 
-Bugs ouverts :
---------------
--Bug sur vidéo U8
+Criticité   Etat    Enoncé
+----------- ------- -------------------------------------------------------------------------------------------------------
+Critique    -       Neutraliser le text scalling pour les blocs de texte des projets !
+
+Critique    WIP     Tester l'encodage h264 avec une 12.04 sans Medibuntu !
+                    =>  Pour ubuntu, il faut forcer l'utilisation de la version extra du paquet libavcodec
+                        Il faut modifier le packaging Ubuntu
+
+Critique    WIP     Absence de certains codecs dans la version Windows
+                    =>  Bug ouvert chez LibAV : en attente de réponse
+                        Si pas de réponse d'ici au 27/10 => retour à ffmpeg
+
+Normal      -       Bug de SESTAY sur un plantage lors de la relecture d'un ancien fichier de configuration
+
+Normal      -       Bug de Pepe sur les tailles des bordures en VGA
+
+Normal      -       Bug sur le text scalling en render DVD
+
+Normal      -       Bug sur l'encodage MP3 : 1 seconde de trop par minute d'encodage (http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=449)
+
+Normal      WIP     Les vidéos avec chapitre exportées en .mkv font planter VLC
+                    =>  Pour le moment, j'ai supprimé les chapitres dans les mkv pour tous les codecs sauf lossless
+                        C'est une solution provisoire - à revoir
+
+Basse       NF      Etudier la transposition des cadres de sélection quand rotation dans la boite slide
+
+Basse       NF      Support des vidéo ULAW à faire
+
+Basse       NF      Supprimer la librairie de fond de la mémoire
+
+----------- ------- -------------------------------------------------------------------------------------------------------
+-   : Pas encore traité
+NF  : New Feature
+WIP : Work in progress
+
 
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige le bug de lecture de certaines vidéos (introduit suite à la prise en charge des vidéos .mts)
+-Relit correctement les réglages de filtre de flou/netteté des fichiers .ffd produit avec des versions antérieurs à 1.5
+-Corrige le bug sur l'UNDO pour les modifications de texte dans la boite de dialog d'edition des slides
 
 English version / Bug fixes :
+-Fix bug of reading some video (this bug was introduce by the .mts video support)
+-Fix reading of settings of blur/sharpen filter of .ffd project created with previous 1.5 versions
+-Fix bug of UNDO of text modifications in edit slide dialog
 
 French version / Nouveautés :
--Désactive les chapitres pour les vidéos générées en mkv (à l'exception des lossless qui conservent les chapitres)
--Ajoute la librairie QImageBlitz et bascule une partie des filtres sur cette nouvelle librairie
--Ajoute les filtres Edge, Antialias, Oil, Charcoat, Desaturation, Swirl, Implode et Wave
--Ajoute le filtre Normalize (Contraste automatique) et le met en bascule du réglage de contraste
--Ajoute les versions rapide (Fast) des filtres Blur/Sharpen et les met en bascule des versions Gaussian
--Restreint l'application des filtres à la zone sélectionnée dans la zone interactive de la boite d'édition des images
+-Ajoute des guides intermédiaires pour les formes de types Chevron et Puzzle (Ne fonctionne que pour les blocs non tournés)
+-Affiche les marges de texte dans la zone interactive de la boite slide quand on ouvre la boite texte
+-Prédéfini des marges de texte adaptées pour chaque forme de bloc
+-Ajoute un onglet dans la boite d'edition des textes pour modifier les marges de textes
 
 English version / New features :
--Disable chapters in rendered mkv videos (except for lossless for which chapters are kept)
--Add QImageBlitz library and swap some filters to this new library
--Add Edge, Antialias, Oil, Charcoat, Desat, Swirl, Implode and Wave filters
--Add Normalize filter (automatique contrast) and set it as a switch for contrast setting
--Add Fast versions of Blur/Sharpen filter and set it as a switch with Gaussian version
--Restricts the application of filters to the selected area in the interactive area of the edit images dialog
+-Add intermediate rulers for shape of type Chevron and Puzzle (Work only for unrotated blocks)
+-Display text margins in interactive zone of slide dialog when text dialog is open
+-Défine default text margins for each block shape
+-Add a tab in edit text dialog to define settings of text margins
