@@ -86,6 +86,7 @@ enum UNDOACTION_ID {
     UNDOACTION_EDITZONE_TEXTANIMSCROLLX,
     UNDOACTION_EDITZONE_TEXTANIMSCROLLY,
     UNDOACTION_EDITZONE_BLOCKANIMTYPE,
+    UNDOACTION_EDITZONE_BLOCKSPEEDWAVE,
     UNDOACTION_EDITZONE_BLOCKANIMTURNX,
     UNDOACTION_EDITZONE_BLOCKANIMTURNZ,
     UNDOACTION_EDITZONE_BLOCKANIMTURNY,
@@ -239,6 +240,9 @@ void DlgSlideProperties::DoInitDialog() {
         ui->HeightEd->setDecimals(0);           ui->HeightEd->setSingleStep(1);     ui->HeightEd->setSuffix("");
     }
 
+    // Speed wave
+    ui->SpeedWaveCB->AddProjectDefault(CurrentSlide->Parent->BlockAnimSpeedWave);
+
     // Init block animation type
     ui->BlockAnimCB->addItem(QApplication::translate("DlgSlideProperties","None"));
     ui->BlockAnimCB->addItem(QApplication::translate("DlgSlideProperties","Multiple block turn"));
@@ -293,8 +297,8 @@ void DlgSlideProperties::DoInitDialog() {
 
     connect(ui->actionSetVisible,SIGNAL(triggered()),this,SLOT(s_BlockSettings_ToggleVisibleState()));
     connect(ui->actionSetHide,SIGNAL(triggered()),this,SLOT(s_BlockSettings_ToggleVisibleState()));
-    connect(ui->actionSameAsPreviousShot,SIGNAL(triggered()),this,SLOT(s_BlockSettings_ToggleSameAsPreviousShot()));
-    connect(ui->actionUnlockSameAsPreviousShot,SIGNAL(triggered()),this,SLOT(s_BlockSettings_ToggleSameAsPreviousShot()));
+    connect(ui->actionSameAsPreviousShot,SIGNAL(triggered()),this,SLOT(s_BlockSettings_SetSameAsPreviousShot()));
+    connect(ui->actionUnlockSameAsPreviousShot,SIGNAL(triggered()),this,SLOT(s_BlockSettings_UnsetSameAsPreviousShot()));
     connect(ui->actionTakeSound,SIGNAL(triggered()),this,SLOT(s_BlockSettings_GetSound()));
 
     connect(ui->actionUpBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_MoveBlockUp()));
@@ -346,6 +350,8 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->RotateXED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateXValue(int)));     connect(ui->RotateXSLD,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateXValue(int)));        connect(ui->ResetRotateXBT,SIGNAL(released()),this,SLOT(s_BlockSettings_ResetRotateXValue()));
     connect(ui->RotateYED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateYValue(int)));     connect(ui->RotateYSLD,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateYValue(int)));        connect(ui->ResetRotateYBT,SIGNAL(released()),this,SLOT(s_BlockSettings_ResetRotateYValue()));
     connect(ui->RotateZED,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateZValue(int)));     connect(ui->RotateZSLD,SIGNAL(valueChanged(int)),this,SLOT(s_BlockSettings_RotateZValue(int)));        connect(ui->ResetRotateZBT,SIGNAL(released()),this,SLOT(s_BlockSettings_ResetRotateZValue()));
+
+    connect(ui->SpeedWaveCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_SpeedWave(int)));
 
     // Block animation
     connect(ui->BlockAnimCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_BlockAnimType(int)));
@@ -481,7 +487,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,NULL,false,0,false);
+        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,1,NULL,false,0,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -630,6 +636,7 @@ void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
             case UNDOACTION_EDITZONE_TEXTANIMSCROLLX:       SubElement.setAttribute("TxtScrollX",CompositionList->List[i]->TxtScrollX);                     break;
             case UNDOACTION_EDITZONE_TEXTANIMSCROLLY:       SubElement.setAttribute("TxtScrollY",CompositionList->List[i]->TxtScrollY);                     break;
             case UNDOACTION_EDITZONE_BLOCKANIMTYPE:         SubElement.setAttribute("BlockAnimType",CompositionList->List[i]->BlockAnimType);               break;
+            case UNDOACTION_EDITZONE_BLOCKSPEEDWAVE:        SubElement.setAttribute("BlockSpeedWave",CompositionList->List[i]->BlockSpeedWave);             break;
             case UNDOACTION_EDITZONE_BLOCKANIMTURNX:        SubElement.setAttribute("TurnXAxis",CompositionList->List[i]->TurnXAxis);                       break;
             case UNDOACTION_EDITZONE_BLOCKANIMTURNZ:        SubElement.setAttribute("TurnZAxis",CompositionList->List[i]->TurnZAxis);                       break;
             case UNDOACTION_EDITZONE_BLOCKANIMTURNY:        SubElement.setAttribute("TurnYAxis",CompositionList->List[i]->TurnYAxis);                       break;
@@ -640,7 +647,7 @@ void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
             case UNDOACTION_BLOCKTABLE_VISIBLESTATE:        SubElement.setAttribute("IsVisible",CompositionList->List[i]->IsVisible?"1":"0");               break;
             case UNDOACTION_BLOCKTABLE_SOUNDSTATE:          SubElement.setAttribute("SoundVolume",CompositionList->List[i]->BackgroundBrush->SoundVolume);
 
-            case UNDOACTION_BLOCKTABLE_EDITVIDEO:           CompositionList->List[i]->BackgroundBrush->SaveToXML(SubElement,"BRUSH","",false);             break;
+            case UNDOACTION_BLOCKTABLE_EDITVIDEO:           CompositionList->List[i]->BackgroundBrush->SaveToXML(SubElement,"BRUSH","",false);              break;
 
             case UNDOACTION_BLOCKTABLE_EDITTEXT:
             case UNDOACTION_BLOCKTABLE_EDITIMAGE:
@@ -706,6 +713,7 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                 case UNDOACTION_EDITZONE_TEXTANIMSCROLLX:   if (SubElement.hasAttribute("TxtScrollX"))              CompositionList->List[i]->TxtScrollX=                   SubElement.attribute("TxtScrollX").toInt();             break;
                 case UNDOACTION_EDITZONE_TEXTANIMSCROLLY:   if (SubElement.hasAttribute("TxtScrollY"))              CompositionList->List[i]->TxtScrollY=                   SubElement.attribute("TxtScrollY").toInt();             break;
                 case UNDOACTION_EDITZONE_BLOCKANIMTYPE:     if (SubElement.hasAttribute("BlockAnimType"))           CompositionList->List[i]->BlockAnimType=                SubElement.attribute("BlockAnimType").toInt();          break;
+                case UNDOACTION_EDITZONE_BLOCKSPEEDWAVE:    if (SubElement.hasAttribute("BlockSpeedWave"))          CompositionList->List[i]->BlockSpeedWave=               SubElement.attribute("BlockSpeedWave").toInt();         break;
                 case UNDOACTION_EDITZONE_BLOCKANIMTURNX:    if (SubElement.hasAttribute("TurnXAxis"))               CompositionList->List[i]->TurnXAxis=                    SubElement.attribute("TurnXAxis").toInt();              break;
                 case UNDOACTION_EDITZONE_BLOCKANIMTURNZ:    if (SubElement.hasAttribute("TurnZAxis"))               CompositionList->List[i]->TurnZAxis=                    SubElement.attribute("TurnZAxis").toInt();              break;
                 case UNDOACTION_EDITZONE_BLOCKANIMTURNY:    if (SubElement.hasAttribute("TurnYAxis"))               CompositionList->List[i]->TurnYAxis=                    SubElement.attribute("TurnYAxis").toInt();              break;
@@ -859,7 +867,7 @@ void DlgSlideProperties::RefreshStyleControls() {
             }
             ui->FramingStyleCB->SetCurrentFraming(CurrentCompoObject->BackgroundBrush->GetCurrentFramingStyle(ProjectGeometry));
         }
-        ui->BackgroundFormCB->PrepareFrameShapeTable(true,0,CurrentCompoObject->BackgroundForm,(cApplicationConfig *)BaseApplicationConfig);
+        ui->BackgroundFormCB->PrepareFrameShapeTable(true,0,CurrentCompoObject->BackgroundForm);
         ui->BackgroundFormCB->SetCurrentFrameShape(CurrentCompoObject->BackgroundForm);
         StopMajFramingStyle=false;
 
@@ -1021,6 +1029,18 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
         ui->ShadowColorCB->     SetCurrentColor(NULL);
     }
 
+
+    //**************************
+    // Speed wave
+    //**************************
+    if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible)) {
+        ui->SpeedWaveCB->setEnabled(true);
+        ui->SpeedWaveCB->SetCurrentValue(CurrentCompoObject->BlockSpeedWave);
+    } else {
+        ui->SpeedWaveCB->setEnabled(false);
+        ui->SpeedWaveCB->SetCurrentValue(SPEEDWAVE_PROJECTDEFAULT);
+    }
+
     //**************************
     // Text animation controls
     //**************************
@@ -1151,17 +1171,14 @@ void DlgSlideProperties::ApplyToContexte(bool ApplyGlobal) {
 
     if (ApplyGlobal) ApplyGlobalPropertiesToAllShots(CurrentCompoObject);
 
-    // Apply values of previous shot to all shot
-    int ShotNum=CurrentShotNbr+1;
-    while (ShotNum<CurrentSlide->List.count())  {
+    // Apply values of previous shot to all shot for all objects
+    for (int ShotNum=CurrentShotNbr+1;ShotNum<CurrentSlide->List.count();ShotNum++) for (int Block=0;Block<CurrentSlide->List[CurrentShotNbr]->ShotComposition.List.count();Block++) {
         cCompositionObject *ShotObject=NULL;
-        for (int i=0;i<CurrentSlide->List[ShotNum]->ShotComposition.List.count();i++) if (CurrentSlide->List[ShotNum]->ShotComposition.List[i]->IndexKey==CurrentCompoObject->IndexKey) ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[i];
-        if ((ShotObject!=NULL)&&(ShotObject->SameAsPrevShot)) {
-            ShotObject->CopyFromCompositionObject(CurrentCompoObject);
-            ShotNum++;
-        } else ShotNum=CurrentSlide->List.count(); // Stop loop
+        for (int i=0;i<CurrentSlide->List[ShotNum]->ShotComposition.List.count();i++)
+            if (CurrentSlide->List[ShotNum]->ShotComposition.List[i]->IndexKey==CurrentSlide->List[CurrentShotNbr]->ShotComposition.List[Block]->IndexKey)
+                ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[i];
+        if ((ShotObject!=NULL)&&(ShotObject->SameAsPrevShot)) ShotObject->CopyFromCompositionObject(CurrentSlide->List[CurrentShotNbr]->ShotComposition.List[Block]);
     }
-
     for (int i=CurrentShotNbr;i<CurrentSlide->List.count();i++) ui->ShotTable->RepaintCell(i);
     RefreshControls();
 }
@@ -1571,7 +1588,7 @@ void DlgSlideProperties::s_BlockSettings_Edit() {
     ContextMenu->addAction(ui->actionEditImage);
     ContextMenu->addSeparator();
     ContextMenu->addAction(ui->actionRemoveBlock);
-    if (NbrSelected==1) {
+    if (NbrSelected==1) {   // Single selection
         ContextMenu->addSeparator();
         if (CurrentCompoObject->IsVisible) ContextMenu->addAction(ui->actionSetHide);
             else ContextMenu->addAction(ui->actionSetVisible);
@@ -1642,6 +1659,11 @@ void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
         ContextMenu->addAction(ui->actionPaste);
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionRemoveBlock);
+        if (CurrentShotNbr>0) {
+            ContextMenu->addSeparator();
+            ContextMenu->addAction(ui->actionSameAsPreviousShot);
+            ContextMenu->addAction(ui->actionUnlockSameAsPreviousShot);
+        }
         ContextMenu->exec(QCursor::pos());
         delete ContextMenu;
     }
@@ -2209,7 +2231,7 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
     QString FileName    =QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).fileName();
     bool UpdateSlideName=(CurrentSlide->SlideName==FileName);
 
-    DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,CurrentSlide->Parent->ImageGeometry,
+    DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,CurrentSlide->Parent->ImageGeometry,CurrentSlide->Parent->ImageAnimSpeedWave,
                            HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
@@ -2268,24 +2290,25 @@ void DlgSlideProperties::s_BlockSettings_ToggleVisibleState() {
     ui->InteractiveZone->repaint();
 }
 
-//========= Toggle "Same As Previous Shot" state
+//========= Set "Same As Previous Shot" state
 
-void DlgSlideProperties::s_BlockSettings_ToggleSameAsPreviousShot() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ToggleSameAsPreviousShot");
+void DlgSlideProperties::s_BlockSettings_SetSameAsPreviousShot() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_SetSameAsPreviousShot");
 
-    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(CurrentShotNbr==0)) return;
+    if ((InRefreshControls)||(CurrentShotNbr==0)) return;
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE,ui->InteractiveZone,true);
-    CurrentCompoObject->SameAsPrevShot=!CurrentCompoObject->SameAsPrevShot;
-    // Apply values of previous shot to all shot
-    if ((CurrentShotNbr>0)&&(CurrentCompoObject->SameAsPrevShot)) {
+
+    for (int Block=0;Block<IsSelected.count();Block++) if (IsSelected[Block] && (CompositionList->List[Block]->SameAsPrevShot==false)) {
+        CompositionList->List[Block]->SameAsPrevShot=true;
+        // Apply values of previous shot to all shot
         cCompositionObject *PreviousObject=NULL;
         for (int i=0;i<CurrentSlide->List[CurrentShotNbr-1]->ShotComposition.List.count();i++)
-            if (CurrentSlide->List[CurrentShotNbr-1]->ShotComposition.List[i]->IndexKey==CurrentCompoObject->IndexKey) PreviousObject=CurrentSlide->List[CurrentShotNbr-1]->ShotComposition.List[i];
+            if (CurrentSlide->List[CurrentShotNbr-1]->ShotComposition.List[i]->IndexKey==CompositionList->List[Block]->IndexKey) PreviousObject=CurrentSlide->List[CurrentShotNbr-1]->ShotComposition.List[i];
 
         int ShotNum=CurrentShotNbr;
         while (ShotNum<CurrentSlide->List.count())  {
             cCompositionObject *ShotObject=NULL;
-            for (int i=0;i<CurrentSlide->List[ShotNum]->ShotComposition.List.count();i++) if (CurrentSlide->List[ShotNum]->ShotComposition.List[i]->IndexKey==CurrentCompoObject->IndexKey) ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[i];
+            for (int i=0;i<CurrentSlide->List[ShotNum]->ShotComposition.List.count();i++) if (CurrentSlide->List[ShotNum]->ShotComposition.List[i]->IndexKey==CompositionList->List[Block]->IndexKey) ShotObject=CurrentSlide->List[ShotNum]->ShotComposition.List[i];
             if ((ShotObject!=NULL)&&(ShotObject->SameAsPrevShot)) {
                 ShotObject->CopyFromCompositionObject(PreviousObject);
                 ui->ShotTable->RepaintCell(ShotNum);
@@ -2293,6 +2316,20 @@ void DlgSlideProperties::s_BlockSettings_ToggleSameAsPreviousShot() {
             } else ShotNum=CurrentSlide->List.count(); // Stop loop
         }
     }
+    RefreshBlockTable(CurrentCompoObjectNbr);
+    ui->InteractiveZone->repaint();
+}
+
+//========= Unset "Same As Previous Shot" state
+
+void DlgSlideProperties::s_BlockSettings_UnsetSameAsPreviousShot() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_UnsetSameAsPreviousShot");
+
+    if ((InRefreshControls)||(CurrentShotNbr==0)) return;
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE,ui->InteractiveZone,true);
+
+    for (int Block=0;Block<IsSelected.count();Block++) if (IsSelected[Block] && (CompositionList->List[Block]->SameAsPrevShot==true))
+        CompositionList->List[Block]->SameAsPrevShot=false;
 
     RefreshBlockTable(CurrentCompoObjectNbr);
     ui->InteractiveZone->repaint();
@@ -2552,6 +2589,18 @@ void DlgSlideProperties::s_BlockSettings_TextAnimScrollY(int Value) {
 
 void DlgSlideProperties::s_BlockSettings_TextAnimScrollYReset() {
     s_BlockSettings_TextAnimScrollY(0);
+}
+
+//====================================================================================================================
+// Handler for speed wave
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlockSettings_SpeedWave(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_SpeedWave");
+    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)) return;
+    AppendPartialUndo(UNDOACTION_EDITZONE_BLOCKSPEEDWAVE,ui->BlockAnimCB,false);
+    CurrentCompoObject->BlockSpeedWave=ui->SpeedWaveCB->GetCurrentValue();
+    ApplyToContexte(false);
 }
 
 //====================================================================================================================

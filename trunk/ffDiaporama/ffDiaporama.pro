@@ -19,7 +19,4 @@ OTHER_FILES += TODO-LIST.txt \          # Developpement file
     licences.rtf \                      # Licence file
     authors.txt \                       # Authoring file for ffDiaporama
     ffDiaporama.url \                   # URL file to be install on windows system
-    ffDiaporama.desktop \               # Desktop (menu icon) entry for ffDiaporama installed in /usr
-    ffDiaporamaopt.desktop \            # Desktop (menu icon) entry for ffDiaporama installed in /opt
-    ffDiaporamalocal.desktop            # Desktop (menu icon) entry for ffDiaporama installed in /usr/local
-
+    ffDiaporama.desktop                 # Desktop (menu icon) entry for ffDiaporama installed in /usr

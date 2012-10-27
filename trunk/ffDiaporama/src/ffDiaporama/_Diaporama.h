@@ -55,10 +55,6 @@ class cDiaporamaObject;
 #define TRANSITIONMAXSUBTYPE_PUSH           16
 #define TRANSITIONMAXSUBTYPE_DEFORM         4
 
-// Speed wave forme definition
-#define SPEEDWAVE_LINEAR                    0
-#define SPEEDWAVE_SINQUARTER                1
-
 // Object type definition
 #define DIAPORAMAOBJECTTYPE_EMPTY           0
 #define DIAPORAMAOBJECTTYPE_IMAGE           1
@@ -135,6 +131,7 @@ public:
     double              RotateYAxis;            // Rotation from Y axis
 
     // Block Annimation
+    int                 BlockSpeedWave;         // Speed wave for block animation
     int                 BlockAnimType;          // Type of block animation (#define BLOCKANIMTYPE_)
     int                 TurnZAxis;              // BLOCKANIMTYPE_MULTIPLETURN : Number of turn from Z axis
     int                 TurnXAxis;              // BLOCKANIMTYPE_MULTIPLETURN : Number of turn from X axis
@@ -177,7 +174,7 @@ public:
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
     void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
-                                      cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache,qlonglong ShotDuration,bool EnableAnimation,
+                                      cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache,qlonglong ShotDuration,bool EnableAnimation,
                                       bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0);
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition=true);
@@ -269,6 +266,7 @@ public:
     int                     TransitionFamilly;          // Transition familly
     int                     TransitionSubType;          // Transition type in the familly
     qlonglong               TransitionDuration;         // Transition duration (in msec)
+    int                     TransitionSpeedWave;        // Transition SpeedWave
 
     QImage                  *Thumbnail;                 // Thumbnail cached image
     QList<cMusicObject>     MusicList;                  // List of music definition
@@ -283,6 +281,7 @@ public:
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList);
     qlonglong               GetTransitDuration();
+    int                     GetSpeedWave();
 };
 
 //*********************************************************************************************************************************************
@@ -323,7 +322,6 @@ public:
     //=====> Transitionnal object
     bool                IsTransition;                           // True if transition in progress
     double              TransitionPCTDone;                      // PCT achevement for transition
-    double              TransitionPCTEnd;                       // PCT achevement @ end of this frame for fade in/out
     int                 TransitionFamilly;                      // Transition familly
     int                 TransitionSubType;                      // Transition type in the familly
     qlonglong           TransitionDuration;                     // Transition duration (in msec)
@@ -375,6 +373,11 @@ public:
     int                     InternalWidth;          // Real width for image rendering
     int                     InternalHeight;         // Real height for image rendering
 
+    // Speed wave
+    int                     TransitionSpeedWave;    // Speed wave for transition
+    int                     BlockAnimSpeedWave;     // Speed wave for block animation
+    int                     ImageAnimSpeedWave;     // Speed wave for image framing and correction animation
+
     // slides objects
     QList<cDiaporamaObject *> List;                   // list of all media object
 
@@ -396,15 +399,15 @@ public:
     // Thread functions
     void                    PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack);
     void                    LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos);
-    void                    DoAssembly(cDiaporamaObjectInfo *Info,int W,int H);
+    void                    DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H);
 
     // Transition
-    void                    DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                    DoZoom(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                    DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                    DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                    DoDeform(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                    DoLuma(cLumaList *List,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    void                    DoBasic(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    void                    DoZoom(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    void                    DoSlide(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    void                    DoPush(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    void                    DoDeform(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
+    void                    DoLuma(double PCT,cLumaList *List,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
     QImage                  RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg);
 
     // Memory

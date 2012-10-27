@@ -87,15 +87,15 @@
         <translation>Quest&apos;applicazione è stata sviluppata utilizzando la versione Open Source di Qt 4.8 SDK</translation>
     </message>
     <message>
-        <source>Video decoding and encoding engines are based on libav</source>
-        <translation>Motori di decodifica e codifica video sono basati su libav</translation>
-    </message>
-    <message>
         <source>TAG management based on TAGLib</source>
         <translation>Gestione TAG basata su TAGLib</translation>
     </message>
     <message>
         <source>Image effects are based on fmt_filters and QImageBlitz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video decoding and encoding engines are based on libav or ffmpeg</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -116,10 +116,6 @@
     <message>
         <source>Next shot duration:</source>
         <translation>Durata prossimo scatto:</translation>
-    </message>
-    <message>
-        <source>Speed wave:</source>
-        <translation>Velocità onda:</translation>
     </message>
     <message>
         <source>Application Options</source>
@@ -260,14 +256,6 @@
     <message>
         <source>(Only for new project)</source>
         <translation>(Solo per nuovo progetto)</translation>
-    </message>
-    <message>
-        <source>Linear</source>
-        <translation>Lineare</translation>
-    </message>
-    <message>
-        <source>Quarter sine</source>
-        <translation>Quarto sinusoidale</translation>
     </message>
     <message>
         <source>Default transition:</source>
@@ -658,6 +646,22 @@ Inquadratura:</translation>
     <message>
         <source>image portrait</source>
         <translation>immagine ritratto</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for speed wave&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Block animation:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transition:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image animation:</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1181,6 +1185,14 @@ Inquadratura:</translation>
     <message>
         <source>Image rotation:</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Annimation settings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Speed wave:</source>
+        <translation type="unfinished">Velocità onda:</translation>
     </message>
 </context>
 <context>
@@ -2806,10 +2818,6 @@ blocco</translation>
         <translation>Blocca le propietà allo stesso valore definito per l&apos;inquadratura precedente</translation>
     </message>
     <message>
-        <source>Unlock properties of this shot</source>
-        <translation>Sblocca le propietà di questo scatto</translation>
-    </message>
-    <message>
         <source>Define properties of this shot</source>
         <translation>Definire le propietà di questo scatto</translation>
     </message>
@@ -2851,6 +2859,18 @@ blocco</translation>
     <message>
         <source>Define framing and correction of image or cut video</source>
         <comment>Tooltip</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Animation settings:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Speed wave :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Unlock properties</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3081,15 +3101,15 @@ blocco</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Default magins</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Full Shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Custom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default margins</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3147,10 +3167,6 @@ blocco</translation>
         <translation>Propietà transizioni</translation>
     </message>
     <message>
-        <source>Transition type :</source>
-        <translation>Tipo transizione :</translation>
-    </message>
-    <message>
         <source>Select a transition family</source>
         <translation>Seleziona un tipo di transizione</translation>
     </message>
@@ -3199,10 +3215,6 @@ blocco</translation>
         <translation>Luma-Snake</translation>
     </message>
     <message>
-        <source>Duration :</source>
-        <translation>Durata :</translation>
-    </message>
-    <message>
         <source>Define the animation duration</source>
         <translation>Definisce la durata dell&apos;animazione</translation>
     </message>
@@ -3241,6 +3253,18 @@ blocco</translation>
     <message>
         <source>Select a transition for a set of slides</source>
         <translation>Selezionare una transizione per un gruppo di inquadrature</translation>
+    </message>
+    <message>
+        <source>Transition type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Speed wave:</source>
+        <translation type="unfinished">Velocità onda:</translation>
+    </message>
+    <message>
+        <source>Duration:</source>
+        <translation type="unfinished">Durata:</translation>
     </message>
 </context>
 <context>
@@ -3324,6 +3348,62 @@ blocco</translation>
         <source>#;Slide;Title;Start;End;Duration</source>
         <comment>Column headers</comment>
         <translation>#;Diapositiva;Titolo;Inizio;Fine;Durata</translation>
+    </message>
+    <message>
+        <source>Project</source>
+        <translation type="unfinished">Progetto</translation>
+    </message>
+    <message>
+        <source>Project geometry:</source>
+        <translation type="unfinished">Geometrica progetto:</translation>
+    </message>
+    <message>
+        <source>Select the image geometry to be used for the creation of new projects</source>
+        <translation type="unfinished">Selezionare la geometria immagine che sarà usata per la creazione di un nuovo progetto</translation>
+    </message>
+    <message>
+        <source>Old TV (4:3)</source>
+        <translation type="unfinished">Vecchie TV (4:3)</translation>
+    </message>
+    <message>
+        <source>TV Wide (16:9)</source>
+        <translation type="unfinished">TV larga (16:9)</translation>
+    </message>
+    <message>
+        <source>Cinema (2.35:1)</source>
+        <translation type="unfinished">Cinema (2.35:1)</translation>
+    </message>
+    <message>
+        <source>Default options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Options for speed wave&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Block animation:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Transition:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Image animation:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the playback profile to be used for transitions and animations</source>
+        <translation type="unfinished">Selezionare il profilo di riproduzione da utilizzare per le transizioni e animazioni</translation>
+    </message>
+    <message>
+        <source>New project</source>
+        <translation type="unfinished">Nuovo progetto</translation>
+    </message>
+    <message>
+        <source>Create project</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3868,10 +3948,6 @@ Vuoi creare una diapositiva per ogni capitolo ?</translation>
     <message>
         <source>Loading system icons...</source>
         <translation>Caricamento icone di sistema...</translation>
-    </message>
-    <message>
-        <source>New project</source>
-        <translation>Nuovo progetto</translation>
     </message>
     <message>
         <source>Open project</source>
@@ -4798,6 +4874,33 @@ Sei sicuro che è vuota?</translation>
     <message>
         <source>Twelve tooth gear</source>
         <translation>Ingranaggio a dodici denti</translation>
+    </message>
+</context>
+<context>
+    <name>Speed wave</name>
+    <message>
+        <source>Project default (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Constant speed</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fast then slow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slow then fast</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Faster and faster</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slower and slower</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

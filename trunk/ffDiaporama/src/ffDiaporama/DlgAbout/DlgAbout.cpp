@@ -54,6 +54,7 @@ void DlgAbout::DoInitDialog() {
     ui->ApplicationNameLabel->setText(BaseApplicationConfig->ApplicationVersion);
     ui->tabWidget->setCurrentIndex(0);
     connect(ui->QtWebSiteBT,SIGNAL(clicked()),this,SLOT(WQtWebSite()));
+    connect(ui->LibAVWebSiteBT,SIGNAL(clicked()),this,SLOT(LibAVWebSite()));
     connect(ui->ffMPEGWebSiteBT,SIGNAL(clicked()),this,SLOT(ffMPEGWebSite()));
     connect(ui->SDLWebSiteBT,SIGNAL(clicked()),this,SLOT(SDLWebSite()));
     connect(ui->EXIV2WebSiteBT,SIGNAL(clicked()),this,SLOT(EXIV2WebSite()));
@@ -75,6 +76,13 @@ void DlgAbout::WQtWebSite() {
 //====================================================================================================================
 
 void DlgAbout::ffMPEGWebSite() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::ffMPEGWebSite");
+
+    QDesktopServices::openUrl(QUrl("http://ffmpeg.org/index.html"));
+}
+//====================================================================================================================
+
+void DlgAbout::LibAVWebSite() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::ffMPEGWebSite");
 
     QDesktopServices::openUrl(QUrl("http://libav.org/index.html"));

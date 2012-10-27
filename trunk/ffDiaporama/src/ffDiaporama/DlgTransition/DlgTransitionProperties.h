@@ -62,7 +62,7 @@ private slots:
     void            s_ChTransitionTypeCB(int);
     void            s_TimerEvent();
     void            s_TableCellChanged(int,int,int,int);
-    void            s_ChTransitionDurationCB(int);
+    void            s_ChTransitionCB(int);
 
 private:
     Ui::DlgTransitionProperties *ui;

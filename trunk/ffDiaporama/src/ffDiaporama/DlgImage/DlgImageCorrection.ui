@@ -190,6 +190,14 @@
             <bool>true</bool>
            </property>
            <widget class="QWidget" name="scrollAreaWidgetContents">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>332</width>
+              <height>1009</height>
+             </rect>
+            </property>
             <property name="sizePolicy">
              <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
               <horstretch>0</horstretch>
@@ -204,7 +212,7 @@
               <number>2</number>
              </property>
              <item row="30" column="1">
-              <widget class="QLabel" name="label_3">
+              <widget class="QLabel" name="label_28">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -221,14 +229,816 @@
                 <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Green.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Equalize.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>
-             <item row="41" column="2">
+             <item row="72" column="3">
+              <widget class="QSpinBox" name="WaveFreqValue">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Adjust blur/sharpen radius</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
+               </property>
+               <property name="minimum">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="singleStep">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>100</number>
+               </property>
+              </widget>
+             </item>
+             <item row="36" column="4">
+              <widget class="QToolButton" name="BlueResetBT">
+               <property name="toolTip">
+                <string>Reset to zero</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="46" column="4">
+              <widget class="QToolButton" name="BlurSharpenRadiusResetBT">
+               <property name="toolTip">
+                <string>Reset to 5</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="63" column="2" colspan="3">
+              <widget class="QCheckBox" name="FilterOnOff_CharcoalCB">
+               <property name="text">
+                <string>Charcoal</string>
+               </property>
+              </widget>
+             </item>
+             <item row="44" column="4">
+              <widget class="QToolButton" name="BlurSharpenSigmaResetBT">
+               <property name="toolTip">
+                <string>Reset to zero</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="34" column="2">
+              <widget class="QSlider" name="GreenSlider">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Adjust green channel</string>
+               </property>
+               <property name="minimum">
+                <number>-250</number>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+               <property name="tickInterval">
+                <number>50</number>
+               </property>
+              </widget>
+             </item>
+             <item row="17" column="1">
+              <widget class="QLabel" name="SpacerVert_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="29" column="2" colspan="3">
+              <widget class="QCheckBox" name="FilterOnOff_GrayCB">
+               <property name="text">
+                <string>Grayscale</string>
+               </property>
+              </widget>
+             </item>
+             <item row="72" column="4">
+              <widget class="QToolButton" name="WaveFreqResetBT">
+               <property name="toolTip">
+                <string>Reset to zero</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="70" column="2">
+              <widget class="QSlider" name="ImplodeSlider">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Adjust blue channel</string>
+               </property>
+               <property name="minimum">
+                <number>-100</number>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+               <property name="tickInterval">
+                <number>50</number>
+               </property>
+              </widget>
+             </item>
+             <item row="64" column="2" colspan="3">
+              <widget class="QCheckBox" name="FilterOnOff_OilCB">
+               <property name="text">
+                <string>Oilpaint</string>
+               </property>
+              </widget>
+             </item>
+             <item row="15" column="0" colspan="5">
+              <widget class="QLabel" name="label_16">
+               <property name="font">
+                <font>
+                 <italic>true</italic>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>Image rotation:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="1">
+              <widget class="QLabel" name="label_15">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_X.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="28" column="0" colspan="5">
+              <widget class="QLabel" name="label_24">
+               <property name="font">
+                <font>
+                 <italic>true</italic>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>Color enhancement:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="33" column="1">
+              <widget class="QLabel" name="label_2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Red.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="19" column="3">
+              <widget class="QSpinBox" name="BrightnessValue">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Adjust luminosity</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
+               </property>
+               <property name="minimum">
+                <number>-254</number>
+               </property>
+               <property name="maximum">
+                <number>254</number>
+               </property>
+               <property name="value">
+                <number>-250</number>
+               </property>
+              </widget>
+             </item>
+             <item row="36" column="2">
+              <widget class="QSlider" name="BlueSlider">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Adjust blue channel</string>
+               </property>
+               <property name="minimum">
+                <number>-250</number>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+               <property name="tickInterval">
+                <number>50</number>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="2" colspan="3">
+              <widget class="cCShapeComboBox" name="BackgroundFormCB">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="toolTip">
+                <string>Select a shape for the current block</string>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QComboBox QAbstractItemView {
+background: #ffffff;
+color: #000000;
+}</string>
+               </property>
+               <property name="editable">
+                <bool>false</bool>
+               </property>
+               <property name="iconSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
+               </property>
+              </widget>
+             </item>
+             <item row="19" column="2">
+              <widget class="QSlider" name="BrightnessSlider">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Adjust luminosity</string>
+               </property>
+               <property name="minimum">
+                <number>-250</number>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+               <property name="tickInterval">
+                <number>50</number>
+               </property>
+              </widget>
+             </item>
+             <item row="33" column="2">
+              <widget class="QSlider" name="RedSlider">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Adjust red channel</string>
+               </property>
+               <property name="minimum">
+                <number>-250</number>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+               <property name="tickInterval">
+                <number>50</number>
+               </property>
+              </widget>
+             </item>
+             <item row="36" column="1">
+              <widget class="QLabel" name="label_4">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Blue.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="1">
+              <widget class="QLabel" name="label_20">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="font">
+                <font>
+                 <family>Sans Serif</family>
+                 <pointsize>9</pointsize>
+                </font>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/TimelineBlocks.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="19" column="4">
+              <widget class="QToolButton" name="BrightnessResetBT">
+               <property name="toolTip">
+                <string>Reset to zero</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="26" column="4">
+              <widget class="QToolButton" name="GammaResetBT">
+               <property name="toolTip">
+                <string>Reset to 1</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="67" column="0" colspan="5">
+              <widget class="QLabel" name="label_36">
+               <property name="font">
+                <font>
+                 <italic>true</italic>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>Image distortion:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="33" column="4">
+              <widget class="QToolButton" name="RedResetBT">
+               <property name="toolTip">
+                <string>Reset to zero</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="60" column="1">
+              <widget class="QLabel" name="label_33">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Edge.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="21" column="1">
+              <widget class="QLabel" name="label_27">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Contrast.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="18" column="0" colspan="5">
+              <widget class="QLabel" name="label_23">
+               <property name="font">
+                <font>
+                 <italic>true</italic>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>Luminosity, contrast and gamma:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="45" column="3">
+              <widget class="QSpinBox" name="QuickBlurSharpenSigmaSB">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Adjust blur/sharpen radius</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
+               </property>
+               <property name="minimum">
+                <number>-10</number>
+               </property>
+               <property name="maximum">
+                <number>10</number>
+               </property>
+               <property name="singleStep">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>-10</number>
+               </property>
+              </widget>
+             </item>
+             <item row="70" column="4">
+              <widget class="QToolButton" name="ImplodeResetBT">
+               <property name="toolTip">
+                <string>Reset to zero</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="68" column="4">
+              <widget class="QToolButton" name="SwirlResetBT">
+               <property name="toolTip">
+                <string>Reset to zero</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="47" column="2" colspan="3">
+              <widget class="QCheckBox" name="FilterOnOff_DespeckleCB">
+               <property name="text">
+                <string>Despeckle</string>
+               </property>
+              </widget>
+             </item>
+             <item row="38" column="1">
+              <widget class="QLabel" name="SpacerVert_4">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="37" column="2">
+              <widget class="QSlider" name="DesatSlider">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Adjust desaturat level</string>
+               </property>
+               <property name="minimum">
+                <number>0</number>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+               <property name="tickInterval">
+                <number>50</number>
+               </property>
+              </widget>
+             </item>
+             <item row="72" column="2">
+              <layout class="QHBoxLayout" name="horizontalLayout_9">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label_42">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true"/>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Width.png</pixmap>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="WaveFreqSlider">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Adjust blur/sharpen sigma</string>
+                 </property>
+                 <property name="minimum">
+                  <number>0</number>
+                 </property>
+                 <property name="maximum">
+                  <number>100</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>1</number>
+                 </property>
+                 <property name="pageStep">
+                  <number>10</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="tickPosition">
+                  <enum>QSlider::TicksBelow</enum>
+                 </property>
+                 <property name="tickInterval">
+                  <number>10</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="40" column="0" colspan="5">
+              <widget class="QLabel" name="label_25">
+               <property name="font">
+                <font>
+                 <italic>true</italic>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>Image enhancement:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="37" column="1">
+              <widget class="QLabel" name="label_37">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Desaturate.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="45" column="2">
               <widget class="QSlider" name="QuickBlurSharpenSigmaSlider">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
@@ -268,10 +1078,29 @@
                </property>
               </widget>
              </item>
-             <item row="22" column="4">
-              <widget class="QToolButton" name="GammaResetBT">
+             <item row="19" column="1">
+              <widget class="QLabel" name="label">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Brightness.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="45" column="4">
+              <widget class="QToolButton" name="QuickBlurSharpenSigmaResetBT">
                <property name="toolTip">
-                <string>Reset to 1</string>
+                <string>Reset to zero</string>
                </property>
                <property name="text">
                 <string notr="true"/>
@@ -282,7 +1111,543 @@
                </property>
               </widget>
              </item>
-             <item row="39" column="2" colspan="3">
+             <item row="0" column="0" colspan="5">
+              <widget class="QLabel" name="label_14">
+               <property name="font">
+                <font>
+                 <italic>true</italic>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>Framing and form:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="54" column="0" colspan="5">
+              <widget class="QLabel" name="label_26">
+               <property name="font">
+                <font>
+                 <italic>true</italic>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>Artistic effects:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="71" column="3">
+              <widget class="QSpinBox" name="WaveAmpValue">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Adjust blur/sharpen radius</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
+               </property>
+               <property name="minimum">
+                <number>-100</number>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="singleStep">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>-100</number>
+               </property>
+              </widget>
+             </item>
+             <item row="59" column="1">
+              <widget class="QLabel" name="label_32">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Emboss.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="29" column="1">
+              <widget class="QLabel" name="label_6">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Grayscale.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="58" column="1">
+              <widget class="QLabel" name="label_31">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Negative.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="2" colspan="3">
+              <layout class="QHBoxLayout" name="horizontalLayout_14">
+               <property name="spacing">
+                <number>2</number>
+               </property>
+               <item>
+                <widget class="QDoubleSpinBox" name="WValue">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::PlusMinus</enum>
+                 </property>
+                 <property name="suffix">
+                  <string notr="true">%</string>
+                 </property>
+                 <property name="value">
+                  <double>99.989999999999995</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_10">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Define the height</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true"/>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Height.png</pixmap>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="HValue">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::PlusMinus</enum>
+                 </property>
+                 <property name="suffix">
+                  <string notr="true">%</string>
+                 </property>
+                 <property name="value">
+                  <double>99.989999999999995</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item row="44" column="2">
+              <widget class="QSlider" name="BlurSharpenSigmaSlider">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Adjust blur/sharpen sigma</string>
+               </property>
+               <property name="minimum">
+                <number>-100</number>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+               <property name="singleStep">
+                <number>5</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+               <property name="tickInterval">
+                <number>10</number>
+               </property>
+              </widget>
+             </item>
+             <item row="34" column="1">
+              <widget class="QLabel" name="label_3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Green.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="73" column="1">
+              <widget class="QLabel" name="SpacerVert_6">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="53" column="1">
+              <widget class="QLabel" name="SpacerVert_5">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="68" column="3">
+              <widget class="QSpinBox" name="SwirlValue">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Adjust blue channel</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
+               </property>
+               <property name="minimum">
+                <number>-360</number>
+               </property>
+               <property name="maximum">
+                <number>360</number>
+               </property>
+               <property name="value">
+                <number>-360</number>
+               </property>
+              </widget>
+             </item>
+             <item row="26" column="2">
+              <widget class="QSlider" name="GammaSlider">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>24</height>
+                </size>
+               </property>
+               <property name="toolTip">
+                <string>Adjust gamma</string>
+               </property>
+               <property name="maximum">
+                <number>590</number>
+               </property>
+               <property name="singleStep">
+                <number>10</number>
+               </property>
+               <property name="pageStep">
+                <number>100</number>
+               </property>
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="tickPosition">
+                <enum>QSlider::TicksBelow</enum>
+               </property>
+               <property name="tickInterval">
+                <number>50</number>
+               </property>
+              </widget>
+             </item>
+             <item row="66" column="1">
+              <widget class="QLabel" name="SpacerVert_7">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="24" column="4">
+              <widget class="QToolButton" name="ContrastResetBT">
+               <property name="toolTip">
+                <string>Reset to zero</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="27" column="1">
+              <widget class="QLabel" name="SpacerVert_3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>10</height>
+                </size>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+              </widget>
+             </item>
+             <item row="36" column="3">
+              <widget class="QSpinBox" name="BlueValue">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Adjust blue channel</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
+               </property>
+               <property name="minimum">
+                <number>-250</number>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+               <property name="value">
+                <number>-250</number>
+               </property>
+              </widget>
+             </item>
+             <item row="44" column="3">
+              <widget class="QDoubleSpinBox" name="BlurSharpenSigmaSB">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Adjust blur/sharpen sigma</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
+               </property>
+               <property name="decimals">
+                <number>1</number>
+               </property>
+               <property name="minimum">
+                <double>-10.000000000000000</double>
+               </property>
+               <property name="maximum">
+                <double>10.000000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.500000000000000</double>
+               </property>
+               <property name="value">
+                <double>-10.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="74" column="1">
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item row="24" column="1">
+              <widget class="QLabel" name="ContrastLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Contrast.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="24" column="3">
+              <widget class="QSpinBox" name="ContrastValue">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Adjust contrast</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
+               </property>
+               <property name="minimum">
+                <number>-250</number>
+               </property>
+               <property name="maximum">
+                <number>250</number>
+               </property>
+               <property name="value">
+                <number>-250</number>
+               </property>
+              </widget>
+             </item>
+             <item row="43" column="2" colspan="3">
               <layout class="QHBoxLayout" name="horizontalLayout_7">
                <property name="spacing">
                 <number>0</number>
@@ -322,55 +1687,32 @@
                </item>
               </layout>
              </item>
-             <item row="33" column="2">
-              <widget class="QSlider" name="DesatSlider">
+             <item row="34" column="3">
+              <widget class="QSpinBox" name="GreenValue">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
                <property name="toolTip">
-                <string>Adjust desaturat level</string>
+                <string>Adjust green channel</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
                </property>
                <property name="minimum">
-                <number>0</number>
+                <number>-250</number>
                </property>
                <property name="maximum">
-                <number>100</number>
+                <number>250</number>
                </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="tickPosition">
-                <enum>QSlider::TicksBelow</enum>
-               </property>
-               <property name="tickInterval">
-                <number>50</number>
+               <property name="value">
+                <number>-250</number>
                </property>
               </widget>
              </item>
-             <item row="42" column="4">
-              <widget class="QToolButton" name="BlurSharpenRadiusResetBT">
-               <property name="toolTip">
-                <string>Reset to 5</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item row="66" column="3">
+             <item row="70" column="3">
               <widget class="QSpinBox" name="ImplodeValue">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -395,8 +1737,132 @@
                </property>
               </widget>
              </item>
-             <item row="6" column="1">
-              <widget class="QLabel" name="label_18">
+             <item row="46" column="2">
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="BlurRadiusLabel">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="font">
+                  <font>
+                   <pointsize>8</pointsize>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string notr="true"/>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Radius.png</pixmap>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="BlurSharpenRadiusSlider">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Adjust blur/sharpen radius</string>
+                 </property>
+                 <property name="minimum">
+                  <number>1</number>
+                 </property>
+                 <property name="maximum">
+                  <number>10</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>1</number>
+                 </property>
+                 <property name="pageStep">
+                  <number>1</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="tickPosition">
+                  <enum>QSlider::TicksBelow</enum>
+                 </property>
+                 <property name="tickInterval">
+                  <number>1</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="59" column="2" colspan="3">
+              <widget class="QCheckBox" name="FilterOnOff_EmbossCB">
+               <property name="text">
+                <string>Emboss</string>
+               </property>
+              </widget>
+             </item>
+             <item row="60" column="2" colspan="3">
+              <widget class="QCheckBox" name="FilterOnOff_EdgeCB">
+               <property name="text">
+                <string>Edge</string>
+               </property>
+              </widget>
+             </item>
+             <item row="71" column="4">
+              <widget class="QToolButton" name="WaveAmpResetBT">
+               <property name="toolTip">
+                <string>Reset to zero</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="48" column="1">
+              <widget class="QLabel" name="label_30">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Antialias.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="26" column="1">
+              <widget class="QLabel" name="label_8">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -404,25 +1870,18 @@
                 </sizepolicy>
                </property>
                <property name="text">
-                <string notr="true"/>
+                <string/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Geometry.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Gamma.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>
-             <item row="25" column="2" colspan="3">
-              <widget class="QCheckBox" name="FilterOnOff_GrayCB">
-               <property name="text">
-                <string>Grayscale</string>
-               </property>
-              </widget>
-             </item>
-             <item row="64" column="2">
-              <widget class="QSlider" name="SwirlSlider">
+             <item row="24" column="2">
+              <widget class="QSlider" name="ContrastSlider">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -436,13 +1895,13 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Adjust blue channel</string>
+                <string>Adjust contrast</string>
                </property>
                <property name="minimum">
-                <number>-360</number>
+                <number>-250</number>
                </property>
                <property name="maximum">
-                <number>360</number>
+                <number>250</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -455,8 +1914,22 @@
                </property>
               </widget>
              </item>
-             <item row="40" column="3">
-              <widget class="QDoubleSpinBox" name="BlurSharpenSigmaSB">
+             <item row="34" column="4">
+              <widget class="QToolButton" name="GreenResetBT">
+               <property name="toolTip">
+                <string>Reset to zero</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="icon">
+                <iconset resource="../../../RSCffDiaporama.qrc">
+                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+               </property>
+              </widget>
+             </item>
+             <item row="37" column="3">
+              <widget class="QSpinBox" name="DesatValue">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -464,29 +1937,23 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Adjust blur/sharpen sigma</string>
+                <string>Adjust desaturat level</string>
                </property>
                <property name="buttonSymbols">
                 <enum>QAbstractSpinBox::PlusMinus</enum>
                </property>
-               <property name="decimals">
-                <number>1</number>
-               </property>
                <property name="minimum">
-                <double>-10.000000000000000</double>
+                <number>0</number>
                </property>
                <property name="maximum">
-                <double>10.000000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.500000000000000</double>
+                <number>100</number>
                </property>
                <property name="value">
-                <double>-10.000000000000000</double>
+                <number>100</number>
                </property>
               </widget>
              </item>
-             <item row="59" column="1">
+             <item row="63" column="1">
               <widget class="QLabel" name="label_34">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
@@ -511,63 +1978,210 @@
                </property>
               </widget>
              </item>
-             <item row="26" column="1">
-              <widget class="QLabel" name="label_28">
+             <item row="16" column="1">
+              <widget class="QLabel" name="label_5">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
                <property name="text">
-                <string/>
+                <string notr="true"/>
                </property>
                <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Equalize.png</pixmap>
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateZ.png</pixmap>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>
-             <item row="15" column="4">
-              <widget class="QToolButton" name="BrightnessResetBT">
-               <property name="toolTip">
-                <string>Reset to zero</string>
-               </property>
+             <item row="6" column="2" colspan="3">
+              <widget class="cCFramingComboBox" name="FramingStyleCB"/>
+             </item>
+             <item row="58" column="2" colspan="3">
+              <widget class="QCheckBox" name="FilterOnOff_NegativeCB">
                <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
+                <string>Negative</string>
                </property>
               </widget>
              </item>
-             <item row="41" column="4">
-              <widget class="QToolButton" name="QuickBlurSharpenSigmaResetBT">
-               <property name="toolTip">
-                <string>Reset to zero</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item row="32" column="1">
-              <widget class="QLabel" name="label_4">
+             <item row="46" column="3">
+              <widget class="QSpinBox" name="BlurSharpenRadiusED">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Adjust blur/sharpen radius</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
+               </property>
+               <property name="minimum">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <number>10</number>
+               </property>
+               <property name="singleStep">
+                <number>1</number>
+               </property>
+               <property name="value">
+                <number>10</number>
+               </property>
+              </widget>
+             </item>
+             <item row="71" column="2">
+              <layout class="QHBoxLayout" name="horizontalLayout_10">
+               <property name="spacing">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label_41">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true"/>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Height.png</pixmap>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSlider" name="WaveAmpSlider">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>24</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>Adjust blur/sharpen sigma</string>
+                 </property>
+                 <property name="minimum">
+                  <number>-100</number>
+                 </property>
+                 <property name="maximum">
+                  <number>100</number>
+                 </property>
+                 <property name="singleStep">
+                  <number>1</number>
+                 </property>
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="tickPosition">
+                  <enum>QSlider::TicksBelow</enum>
+                 </property>
+                 <property name="tickInterval">
+                  <number>10</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item row="8" column="2" colspan="3">
+              <layout class="QHBoxLayout" name="horizontalLayout_15">
+               <property name="spacing">
+                <number>2</number>
+               </property>
+               <item>
+                <widget class="QDoubleSpinBox" name="XValue">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Define the horizontal position from the left (X)</string>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::PlusMinus</enum>
+                 </property>
+                 <property name="suffix">
+                  <string notr="true">%</string>
+                 </property>
+                 <property name="value">
+                  <double>99.989999999999995</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_12">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true"/>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Y.png</pixmap>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QDoubleSpinBox" name="YValue">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Define the vertical position from the top of the image ( Y )</string>
+                 </property>
+                 <property name="buttonSymbols">
+                  <enum>QAbstractSpinBox::PlusMinus</enum>
+                 </property>
+                 <property name="suffix">
+                  <string notr="true">%</string>
+                 </property>
+                 <property name="value">
+                  <double>99.989999999999995</double>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item row="14" column="0">
+              <widget class="QLabel" name="SpacerVert">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -575,36 +2189,34 @@
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>20</height>
+                 <height>10</height>
                 </size>
                </property>
                <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Blue.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                <string notr="true"/>
                </property>
               </widget>
              </item>
-             <item row="15" column="2">
-              <widget class="QSlider" name="BrightnessSlider">
+             <item row="30" column="2" colspan="3">
+              <widget class="QCheckBox" name="FilterOnOff_EqualizeCB">
+               <property name="text">
+                <string>Equalize</string>
+               </property>
+              </widget>
+             </item>
+             <item row="33" column="3">
+              <widget class="QSpinBox" name="RedValue">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
                </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
                <property name="toolTip">
-                <string>Adjust luminosity</string>
+                <string>Adjust red channel</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
                </property>
                <property name="minimum">
                 <number>-250</number>
@@ -612,18 +2224,264 @@
                <property name="maximum">
                 <number>250</number>
                </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="tickPosition">
-                <enum>QSlider::TicksBelow</enum>
-               </property>
-               <property name="tickInterval">
-                <number>50</number>
+               <property name="value">
+                <number>-250</number>
                </property>
               </widget>
              </item>
-             <item row="12" column="2" colspan="3">
+             <item row="47" column="1">
+              <widget class="QLabel" name="label_29">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Despeckle.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="26" column="3">
+              <widget class="QDoubleSpinBox" name="GammaValue">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Adjust gamma</string>
+               </property>
+               <property name="buttonSymbols">
+                <enum>QAbstractSpinBox::PlusMinus</enum>
+               </property>
+               <property name="decimals">
+                <number>1</number>
+               </property>
+               <property name="maximum">
+                <double>5.900000000000000</double>
+               </property>
+               <property name="singleStep">
+                <double>0.100000000000000</double>
+               </property>
+               <property name="value">
+                <double>5.900000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item row="64" column="1">
+              <widget class="QLabel" name="label_35">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Oilpaint.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="48" column="2" colspan="3">
+              <widget class="QCheckBox" name="FilterOnOff_AntialiasCB">
+               <property name="text">
+                <string>Antialias</string>
+               </property>
+              </widget>
+             </item>
+             <item row="11" column="0" colspan="5">
+              <widget class="QLabel" name="label_43">
+               <property name="font">
+                <font>
+                 <italic>true</italic>
+                 <underline>true</underline>
+                </font>
+               </property>
+               <property name="text">
+                <string>Annimation settings:</string>
+               </property>
+              </widget>
+             </item>
+             <item row="71" column="1">
+              <widget class="QLabel" name="label_40">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Wave.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QLabel" name="label_18">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Geometry.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_11">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>24</width>
+                 <height>0</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </item>
+             <item row="43" column="1">
+              <widget class="QLabel" name="BlurLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Blur.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
+               </property>
+              </widget>
+             </item>
+             <item row="70" column="1">
+              <widget class="QLabel" name="label_39">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Implode.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="68" column="1">
+              <widget class="QLabel" name="label_38">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="minimumSize">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Swirl.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="1">
+              <widget class="QLabel" name="label_7">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Define the width</string>
+               </property>
+               <property name="text">
+                <string notr="true"/>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Width.png</pixmap>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+              </widget>
+             </item>
+             <item row="16" column="2" colspan="3">
               <layout class="QHBoxLayout" name="horizontalLayout">
                <property name="spacing">
                 <number>0</number>
@@ -734,334 +2592,14 @@
                </item>
               </layout>
              </item>
-             <item row="17" column="2" colspan="3">
+             <item row="21" column="2" colspan="3">
               <widget class="QCheckBox" name="FilterOnOff_NormalizeCB">
                <property name="text">
                 <string>Automatic contrast (normalize)</string>
                </property>
               </widget>
              </item>
-             <item row="64" column="4">
-              <widget class="QToolButton" name="SwirlResetBT">
-               <property name="toolTip">
-                <string>Reset to zero</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item row="60" column="1">
-              <widget class="QLabel" name="label_35">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Oilpaint.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="68" column="3">
-              <widget class="QSpinBox" name="WaveFreqValue">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Adjust blur/sharpen radius</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
-               </property>
-               <property name="minimum">
-                <number>0</number>
-               </property>
-               <property name="maximum">
-                <number>100</number>
-               </property>
-               <property name="singleStep">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>100</number>
-               </property>
-              </widget>
-             </item>
-             <item row="68" column="4">
-              <widget class="QToolButton" name="WaveFreqResetBT">
-               <property name="toolTip">
-                <string>Reset to zero</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item row="55" column="2" colspan="3">
-              <widget class="QCheckBox" name="FilterOnOff_EmbossCB">
-               <property name="text">
-                <string>Emboss</string>
-               </property>
-              </widget>
-             </item>
-             <item row="7" column="2" colspan="3">
-              <widget class="ccFrameShapeBox" name="BackgroundFormCB">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="toolTip">
-                <string>Select a shape for the current block</string>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">QComboBox QAbstractItemView {
-background: #ffffff;
-color: #000000;
-}</string>
-               </property>
-               <property name="editable">
-                <bool>false</bool>
-               </property>
-               <property name="iconSize">
-                <size>
-                 <width>16</width>
-                 <height>16</height>
-                </size>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="2" colspan="3">
-              <widget class="cFramingComboBox" name="FramingStyleCB"/>
-             </item>
-             <item row="29" column="4">
-              <widget class="QToolButton" name="RedResetBT">
-               <property name="toolTip">
-                <string>Reset to zero</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item row="56" column="1">
-              <widget class="QLabel" name="label_33">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Edge.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="15" column="1">
-              <widget class="QLabel" name="label">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Brightness.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="32" column="2">
-              <widget class="QSlider" name="BlueSlider">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="toolTip">
-                <string>Adjust blue channel</string>
-               </property>
-               <property name="minimum">
-                <number>-250</number>
-               </property>
-               <property name="maximum">
-                <number>250</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="tickPosition">
-                <enum>QSlider::TicksBelow</enum>
-               </property>
-               <property name="tickInterval">
-                <number>50</number>
-               </property>
-              </widget>
-             </item>
-             <item row="67" column="1">
-              <widget class="QLabel" name="label_40">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Wave.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-               </property>
-              </widget>
-             </item>
-             <item row="42" column="2">
-              <layout class="QHBoxLayout" name="horizontalLayout_4">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="BlurRadiusLabel">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="font">
-                  <font>
-                   <pointsize>8</pointsize>
-                  </font>
-                 </property>
-                 <property name="text">
-                  <string notr="true"/>
-                 </property>
-                 <property name="pixmap">
-                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Radius.png</pixmap>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSlider" name="BlurSharpenRadiusSlider">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="toolTip">
-                  <string>Adjust blur/sharpen radius</string>
-                 </property>
-                 <property name="minimum">
-                  <number>1</number>
-                 </property>
-                 <property name="maximum">
-                  <number>10</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>1</number>
-                 </property>
-                 <property name="pageStep">
-                  <number>1</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="tickPosition">
-                  <enum>QSlider::TicksBelow</enum>
-                 </property>
-                 <property name="tickInterval">
-                  <number>1</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="59" column="2" colspan="3">
-              <widget class="QCheckBox" name="FilterOnOff_CharcoalCB">
-               <property name="text">
-                <string>Charcoal</string>
-               </property>
-              </widget>
-             </item>
-             <item row="33" column="4">
+             <item row="37" column="4">
               <widget class="QToolButton" name="DesatResetBT">
                <property name="toolTip">
                 <string>Reset to zero</string>
@@ -1075,169 +2613,10 @@ color: #000000;
                </property>
               </widget>
              </item>
-             <item row="30" column="3">
-              <widget class="QSpinBox" name="GreenValue">
+             <item row="68" column="2">
+              <widget class="QSlider" name="SwirlSlider">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Adjust green channel</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
-               </property>
-               <property name="minimum">
-                <number>-250</number>
-               </property>
-               <property name="maximum">
-                <number>250</number>
-               </property>
-               <property name="value">
-                <number>-250</number>
-               </property>
-              </widget>
-             </item>
-             <item row="9" column="1">
-              <widget class="QLabel" name="label_7">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Define the width</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Width.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="26" column="2" colspan="3">
-              <widget class="QCheckBox" name="FilterOnOff_EqualizeCB">
-               <property name="text">
-                <string>Equalize</string>
-               </property>
-              </widget>
-             </item>
-             <item row="9" column="2" colspan="3">
-              <layout class="QHBoxLayout" name="horizontalLayout_14">
-               <property name="spacing">
-                <number>2</number>
-               </property>
-               <item>
-                <widget class="QDoubleSpinBox" name="WValue">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::PlusMinus</enum>
-                 </property>
-                 <property name="suffix">
-                  <string notr="true">%</string>
-                 </property>
-                 <property name="value">
-                  <double>99.989999999999995</double>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_10">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="toolTip">
-                  <string>Define the height</string>
-                 </property>
-                 <property name="text">
-                  <string notr="true"/>
-                 </property>
-                 <property name="pixmap">
-                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Height.png</pixmap>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QDoubleSpinBox" name="HValue">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::PlusMinus</enum>
-                 </property>
-                 <property name="suffix">
-                  <string notr="true">%</string>
-                 </property>
-                 <property name="value">
-                  <double>99.989999999999995</double>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item row="32" column="3">
-              <widget class="QSpinBox" name="BlueValue">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Adjust blue channel</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
-               </property>
-               <property name="minimum">
-                <number>-250</number>
-               </property>
-               <property name="maximum">
-                <number>250</number>
-               </property>
-               <property name="value">
-                <number>-250</number>
-               </property>
-              </widget>
-             </item>
-             <item row="55" column="1">
-              <widget class="QLabel" name="label_32">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -1245,524 +2624,17 @@ color: #000000;
                <property name="minimumSize">
                 <size>
                  <width>0</width>
-                 <height>20</height>
+                 <height>24</height>
                 </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Emboss.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="67" column="4">
-              <widget class="QToolButton" name="WaveAmpResetBT">
-               <property name="toolTip">
-                <string>Reset to zero</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item row="70" column="1">
-              <spacer name="verticalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>20</width>
-                 <height>40</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-             <item row="40" column="4">
-              <widget class="QToolButton" name="BlurSharpenSigmaResetBT">
-               <property name="toolTip">
-                <string>Reset to zero</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item row="64" column="3">
-              <widget class="QSpinBox" name="SwirlValue">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
                </property>
                <property name="toolTip">
                 <string>Adjust blue channel</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
                </property>
                <property name="minimum">
                 <number>-360</number>
                </property>
                <property name="maximum">
                 <number>360</number>
-               </property>
-               <property name="value">
-                <number>-360</number>
-               </property>
-              </widget>
-             </item>
-             <item row="49" column="1">
-              <widget class="QLabel" name="SpacerVert_5">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>10</height>
-                </size>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-              </widget>
-             </item>
-             <item row="43" column="1">
-              <widget class="QLabel" name="label_29">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Despeckle.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="42" column="3">
-              <widget class="QSpinBox" name="BlurSharpenRadiusED">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Adjust blur/sharpen radius</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
-               </property>
-               <property name="minimum">
-                <number>1</number>
-               </property>
-               <property name="maximum">
-                <number>10</number>
-               </property>
-               <property name="singleStep">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>10</number>
-               </property>
-              </widget>
-             </item>
-             <item row="20" column="2">
-              <widget class="QSlider" name="ContrastSlider">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="toolTip">
-                <string>Adjust contrast</string>
-               </property>
-               <property name="minimum">
-                <number>-250</number>
-               </property>
-               <property name="maximum">
-                <number>250</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="tickPosition">
-                <enum>QSlider::TicksBelow</enum>
-               </property>
-               <property name="tickInterval">
-                <number>50</number>
-               </property>
-              </widget>
-             </item>
-             <item row="22" column="1">
-              <widget class="QLabel" name="label_8">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Gamma.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="17" column="1">
-              <widget class="QLabel" name="label_27">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Contrast.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="15" column="3">
-              <widget class="QSpinBox" name="BrightnessValue">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Adjust luminosity</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
-               </property>
-               <property name="minimum">
-                <number>-254</number>
-               </property>
-               <property name="maximum">
-                <number>254</number>
-               </property>
-               <property name="value">
-                <number>-250</number>
-               </property>
-              </widget>
-             </item>
-             <item row="25" column="1">
-              <widget class="QLabel" name="label_6">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Grayscale.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="66" column="1">
-              <widget class="QLabel" name="label_39">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Implode.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="22" column="3">
-              <widget class="QDoubleSpinBox" name="GammaValue">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Adjust gamma</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
-               </property>
-               <property name="decimals">
-                <number>1</number>
-               </property>
-               <property name="maximum">
-                <double>5.900000000000000</double>
-               </property>
-               <property name="singleStep">
-                <double>0.100000000000000</double>
-               </property>
-               <property name="value">
-                <double>5.900000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item row="20" column="3">
-              <widget class="QSpinBox" name="ContrastValue">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Adjust contrast</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
-               </property>
-               <property name="minimum">
-                <number>-250</number>
-               </property>
-               <property name="maximum">
-                <number>250</number>
-               </property>
-               <property name="value">
-                <number>-250</number>
-               </property>
-              </widget>
-             </item>
-             <item row="30" column="4">
-              <widget class="QToolButton" name="GreenResetBT">
-               <property name="toolTip">
-                <string>Reset to zero</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item row="33" column="3">
-              <widget class="QSpinBox" name="DesatValue">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Adjust desaturat level</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
-               </property>
-               <property name="minimum">
-                <number>0</number>
-               </property>
-               <property name="maximum">
-                <number>100</number>
-               </property>
-               <property name="value">
-                <number>100</number>
-               </property>
-              </widget>
-             </item>
-             <item row="20" column="4">
-              <widget class="QToolButton" name="ContrastResetBT">
-               <property name="toolTip">
-                <string>Reset to zero</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item row="67" column="3">
-              <widget class="QSpinBox" name="WaveAmpValue">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Adjust blur/sharpen radius</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
-               </property>
-               <property name="minimum">
-                <number>-100</number>
-               </property>
-               <property name="maximum">
-                <number>100</number>
-               </property>
-               <property name="singleStep">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>-100</number>
-               </property>
-              </widget>
-             </item>
-             <item row="23" column="1">
-              <widget class="QLabel" name="SpacerVert_3">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>10</height>
-                </size>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-              </widget>
-             </item>
-             <item row="29" column="2">
-              <widget class="QSlider" name="RedSlider">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="toolTip">
-                <string>Adjust red channel</string>
-               </property>
-               <property name="minimum">
-                <number>-250</number>
-               </property>
-               <property name="maximum">
-                <number>250</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="tickPosition">
-                <enum>QSlider::TicksBelow</enum>
-               </property>
-               <property name="tickInterval">
-                <number>50</number>
-               </property>
-              </widget>
-             </item>
-             <item row="43" column="2" colspan="3">
-              <widget class="QCheckBox" name="FilterOnOff_DespeckleCB">
-               <property name="text">
-                <string>Despeckle</string>
-               </property>
-              </widget>
-             </item>
-             <item row="22" column="2">
-              <widget class="QSlider" name="GammaSlider">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="toolTip">
-                <string>Adjust gamma</string>
-               </property>
-               <property name="maximum">
-                <number>590</number>
-               </property>
-               <property name="singleStep">
-                <number>10</number>
-               </property>
-               <property name="pageStep">
-                <number>100</number>
                </property>
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -1776,7 +2648,7 @@ color: #000000;
               </widget>
              </item>
              <item row="10" column="1">
-              <widget class="QLabel" name="SpacerVert">
+              <widget class="QLabel" name="SpacerVert_8">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1794,837 +2666,18 @@ color: #000000;
                </property>
               </widget>
              </item>
-             <item row="56" column="2" colspan="3">
-              <widget class="QCheckBox" name="FilterOnOff_EdgeCB">
+             <item row="13" column="0" colspan="2">
+              <widget class="QLabel" name="label_44">
                <property name="text">
-                <string>Edge</string>
-               </property>
-              </widget>
-             </item>
-             <item row="40" column="2">
-              <widget class="QSlider" name="BlurSharpenSigmaSlider">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="toolTip">
-                <string>Adjust blur/sharpen sigma</string>
-               </property>
-               <property name="minimum">
-                <number>-100</number>
-               </property>
-               <property name="maximum">
-                <number>100</number>
-               </property>
-               <property name="singleStep">
-                <number>5</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="tickPosition">
-                <enum>QSlider::TicksBelow</enum>
-               </property>
-               <property name="tickInterval">
-                <number>10</number>
-               </property>
-              </widget>
-             </item>
-             <item row="29" column="1">
-              <widget class="QLabel" name="label_2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Red.png</pixmap>
+                <string>Speed wave:</string>
                </property>
                <property name="alignment">
                 <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
                </property>
               </widget>
              </item>
-             <item row="66" column="4">
-              <widget class="QToolButton" name="ImplodeResetBT">
-               <property name="toolTip">
-                <string>Reset to zero</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item row="33" column="1">
-              <widget class="QLabel" name="label_37">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Desaturate.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="60" column="2" colspan="3">
-              <widget class="QCheckBox" name="FilterOnOff_OilCB">
-               <property name="text">
-                <string>Oilpaint</string>
-               </property>
-              </widget>
-             </item>
-             <item row="12" column="1">
-              <widget class="QLabel" name="label_5">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/RotateZ.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="13" column="1">
-              <widget class="QLabel" name="SpacerVert_2">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>10</height>
-                </size>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-              </widget>
-             </item>
-             <item row="32" column="4">
-              <widget class="QToolButton" name="BlueResetBT">
-               <property name="toolTip">
-                <string>Reset to zero</string>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/undo.png</normaloff>:/img/undo.png</iconset>
-               </property>
-              </widget>
-             </item>
-             <item row="39" column="1">
-              <widget class="QLabel" name="BlurLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Blur.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTop|Qt::AlignTrailing</set>
-               </property>
-              </widget>
-             </item>
-             <item row="44" column="2" colspan="3">
-              <widget class="QCheckBox" name="FilterOnOff_AntialiasCB">
-               <property name="text">
-                <string>Antialias</string>
-               </property>
-              </widget>
-             </item>
-             <item row="62" column="1">
-              <widget class="QLabel" name="SpacerVert_7">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>10</height>
-                </size>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="2" colspan="3">
-              <layout class="QHBoxLayout" name="horizontalLayout_15">
-               <property name="spacing">
-                <number>2</number>
-               </property>
-               <item>
-                <widget class="QDoubleSpinBox" name="XValue">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="toolTip">
-                  <string>Define the horizontal position from the left (X)</string>
-                 </property>
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::PlusMinus</enum>
-                 </property>
-                 <property name="suffix">
-                  <string notr="true">%</string>
-                 </property>
-                 <property name="value">
-                  <double>99.989999999999995</double>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QLabel" name="label_12">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string notr="true"/>
-                 </property>
-                 <property name="pixmap">
-                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Y.png</pixmap>
-                 </property>
-                 <property name="alignment">
-                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QDoubleSpinBox" name="YValue">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="toolTip">
-                  <string>Define the vertical position from the top of the image ( Y )</string>
-                 </property>
-                 <property name="buttonSymbols">
-                  <enum>QAbstractSpinBox::PlusMinus</enum>
-                 </property>
-                 <property name="suffix">
-                  <string notr="true">%</string>
-                 </property>
-                 <property name="value">
-                  <double>99.989999999999995</double>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <spacer name="horizontalSpacer_2">
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>40</width>
-                   <height>20</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
-              </layout>
-             </item>
-             <item row="7" column="1">
-              <widget class="QLabel" name="label_20">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="font">
-                <font>
-                 <family>Sans Serif</family>
-                 <pointsize>9</pointsize>
-                </font>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/TimelineBlocks.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="29" column="3">
-              <widget class="QSpinBox" name="RedValue">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Adjust red channel</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
-               </property>
-               <property name="minimum">
-                <number>-250</number>
-               </property>
-               <property name="maximum">
-                <number>250</number>
-               </property>
-               <property name="value">
-                <number>-250</number>
-               </property>
-              </widget>
-             </item>
-             <item row="41" column="3">
-              <widget class="QSpinBox" name="QuickBlurSharpenSigmaSB">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="toolTip">
-                <string>Adjust blur/sharpen radius</string>
-               </property>
-               <property name="buttonSymbols">
-                <enum>QAbstractSpinBox::PlusMinus</enum>
-               </property>
-               <property name="minimum">
-                <number>-10</number>
-               </property>
-               <property name="maximum">
-                <number>10</number>
-               </property>
-               <property name="singleStep">
-                <number>1</number>
-               </property>
-               <property name="value">
-                <number>-10</number>
-               </property>
-              </widget>
-             </item>
-             <item row="69" column="1">
-              <widget class="QLabel" name="SpacerVert_6">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>10</height>
-                </size>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-              </widget>
-             </item>
-             <item row="8" column="1">
-              <widget class="QLabel" name="label_15">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_X.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="30" column="2">
-              <widget class="QSlider" name="GreenSlider">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="toolTip">
-                <string>Adjust green channel</string>
-               </property>
-               <property name="minimum">
-                <number>-250</number>
-               </property>
-               <property name="maximum">
-                <number>250</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="tickPosition">
-                <enum>QSlider::TicksBelow</enum>
-               </property>
-               <property name="tickInterval">
-                <number>50</number>
-               </property>
-              </widget>
-             </item>
-             <item row="68" column="2">
-              <layout class="QHBoxLayout" name="horizontalLayout_9">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_42">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string notr="true"/>
-                 </property>
-                 <property name="pixmap">
-                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Width.png</pixmap>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSlider" name="WaveFreqSlider">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="toolTip">
-                  <string>Adjust blur/sharpen sigma</string>
-                 </property>
-                 <property name="minimum">
-                  <number>0</number>
-                 </property>
-                 <property name="maximum">
-                  <number>100</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>1</number>
-                 </property>
-                 <property name="pageStep">
-                  <number>10</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="tickPosition">
-                  <enum>QSlider::TicksBelow</enum>
-                 </property>
-                 <property name="tickInterval">
-                  <number>10</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="54" column="1">
-              <widget class="QLabel" name="label_31">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Negative.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="64" column="1">
-              <widget class="QLabel" name="label_38">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Swirl.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="44" column="1">
-              <widget class="QLabel" name="label_30">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Antialias.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="66" column="2">
-              <widget class="QSlider" name="ImplodeSlider">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>24</height>
-                </size>
-               </property>
-               <property name="toolTip">
-                <string>Adjust blue channel</string>
-               </property>
-               <property name="minimum">
-                <number>-100</number>
-               </property>
-               <property name="maximum">
-                <number>100</number>
-               </property>
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="tickPosition">
-                <enum>QSlider::TicksBelow</enum>
-               </property>
-               <property name="tickInterval">
-                <number>50</number>
-               </property>
-              </widget>
-             </item>
-             <item row="67" column="2">
-              <layout class="QHBoxLayout" name="horizontalLayout_10">
-               <property name="spacing">
-                <number>0</number>
-               </property>
-               <item>
-                <widget class="QLabel" name="label_41">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="text">
-                  <string notr="true"/>
-                 </property>
-                 <property name="pixmap">
-                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/PosSize_Height.png</pixmap>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QSlider" name="WaveAmpSlider">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="minimumSize">
-                  <size>
-                   <width>0</width>
-                   <height>24</height>
-                  </size>
-                 </property>
-                 <property name="toolTip">
-                  <string>Adjust blur/sharpen sigma</string>
-                 </property>
-                 <property name="minimum">
-                  <number>-100</number>
-                 </property>
-                 <property name="maximum">
-                  <number>100</number>
-                 </property>
-                 <property name="singleStep">
-                  <number>1</number>
-                 </property>
-                 <property name="orientation">
-                  <enum>Qt::Horizontal</enum>
-                 </property>
-                 <property name="tickPosition">
-                  <enum>QSlider::TicksBelow</enum>
-                 </property>
-                 <property name="tickInterval">
-                  <number>10</number>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item row="20" column="1">
-              <widget class="QLabel" name="ContrastLabel">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-               <property name="pixmap">
-                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/Filter/Contrast.png</pixmap>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-              </widget>
-             </item>
-             <item row="34" column="1">
-              <widget class="QLabel" name="SpacerVert_4">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>0</width>
-                 <height>10</height>
-                </size>
-               </property>
-               <property name="text">
-                <string notr="true"/>
-               </property>
-              </widget>
-             </item>
-             <item row="54" column="2" colspan="3">
-              <widget class="QCheckBox" name="FilterOnOff_NegativeCB">
-               <property name="text">
-                <string>Negative</string>
-               </property>
-              </widget>
-             </item>
-             <item row="6" column="0">
-              <widget class="QLabel" name="label_11">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>24</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="0" colspan="5">
-              <widget class="QLabel" name="label_14">
-               <property name="font">
-                <font>
-                 <italic>true</italic>
-                 <underline>true</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>Framing and form:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="11" column="0" colspan="5">
-              <widget class="QLabel" name="label_16">
-               <property name="font">
-                <font>
-                 <italic>true</italic>
-                 <underline>true</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>Image rotation:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="14" column="0" colspan="5">
-              <widget class="QLabel" name="label_23">
-               <property name="font">
-                <font>
-                 <italic>true</italic>
-                 <underline>true</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>Luminosity, contrast and gamma:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="24" column="0" colspan="5">
-              <widget class="QLabel" name="label_24">
-               <property name="font">
-                <font>
-                 <italic>true</italic>
-                 <underline>true</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>Color enhancement:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="36" column="0" colspan="5">
-              <widget class="QLabel" name="label_25">
-               <property name="font">
-                <font>
-                 <italic>true</italic>
-                 <underline>true</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>Image enhancement:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="50" column="0" colspan="5">
-              <widget class="QLabel" name="label_26">
-               <property name="font">
-                <font>
-                 <italic>true</italic>
-                 <underline>true</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>Artistic effects:</string>
-               </property>
-              </widget>
-             </item>
-             <item row="63" column="0" colspan="5">
-              <widget class="QLabel" name="label_36">
-               <property name="font">
-                <font>
-                 <italic>true</italic>
-                 <underline>true</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>Image distortion:</string>
-               </property>
-              </widget>
+             <item row="13" column="2" colspan="3">
+              <widget class="cCSpeedWaveComboBox" name="SpeedWaveCB"/>
              </item>
             </layout>
            </widget>
@@ -3028,14 +3081,19 @@ color: #000000;
  </widget>
  <customwidgets>
   <customwidget>
-   <class>cFramingComboBox</class>
+   <class>cCFramingComboBox</class>
    <extends>QComboBox</extends>
-   <header>cCustomComboBox.h</header>
+   <header>../CustomCtrl/cCFramingComboBox.h</header>
   </customwidget>
   <customwidget>
-   <class>ccFrameShapeBox</class>
+   <class>cCShapeComboBox</class>
    <extends>QComboBox</extends>
-   <header>cCustomComboBox.h</header>
+   <header>../CustomCtrl/cCShapeComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCSpeedWaveComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cCSpeedWaveComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cImgInteractiveZone</class>

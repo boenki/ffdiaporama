@@ -44,6 +44,7 @@ public:
 
 private slots:
     void    WQtWebSite();
+    void    LibAVWebSite();
     void    ffMPEGWebSite();
     void    SDLWebSite();
     void    EXIV2WebSite();

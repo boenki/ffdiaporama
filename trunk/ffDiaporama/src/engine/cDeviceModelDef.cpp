@@ -667,10 +667,10 @@ bool cDeviceModelList::Initffmpeg(QString &BinaryEncoderPath) {
         bool        Continue=false;
         QProcess    Process;
 
-        #ifdef LIBAV_AVCONV
+        #ifdef LIBAV_FFMPEG
+        // Search ffmpeg
         if (!Continue) {
-            // Search avconv
-            BinaryEncoderPath="avconv";
+            BinaryEncoderPath="ffmpeg";
             Process.start(BinaryEncoderPath,QString("-version").split(";"));
             if (Process.waitForStarted(-1)) {
                 if (!Process.waitForFinished()) Process.kill();
@@ -680,10 +680,10 @@ bool cDeviceModelList::Initffmpeg(QString &BinaryEncoderPath) {
         }
         #endif
 
-        #ifdef LIBAV_FFMPEG
-        // Search ffmpeg
+        #ifdef LIBAV_AVCONV
         if (!Continue) {
-            BinaryEncoderPath="ffmpeg";
+            // Search avconv
+            BinaryEncoderPath="avconv";
             Process.start(BinaryEncoderPath,QString("-version").split(";"));
             if (Process.waitForStarted(-1)) {
                 if (!Process.waitForFinished()) Process.kill();

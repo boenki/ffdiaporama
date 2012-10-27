@@ -1247,7 +1247,7 @@ void MainWindow::s_Action_ProjectProperties() {
     ui->Action_PrjProperties_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgffDPjrProperties Dlg(Diaporama->ProjectInfo,HELPFILE_DlgffDPjrProperties,ApplicationConfig,ApplicationConfig->DlgffDPjrPropertiesWSP,this);
+    DlgffDPjrProperties Dlg(false,Diaporama,HELPFILE_DlgffDPjrProperties,ApplicationConfig,ApplicationConfig->DlgffDPjrPropertiesWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) SetModifyFlag(true);
 }
@@ -1307,36 +1307,41 @@ void MainWindow::s_Action_New() {
     ui->Action_New_BT->setDown(false);
     ui->Action_New_BT_2->setDown(false);
 
-    if ((Diaporama->IsModify)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","New project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
+    if ((Diaporama->IsModify)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgffDPjrProperties","New project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
 
-    while (ApplicationConfig->ImagesCache.List.count()>0) delete ApplicationConfig->ImagesCache.List.takeLast();
+    // Ask user for project option
     cDiaporama *NewDiaporama=new cDiaporama(ApplicationConfig);
-    AliasList.clear();
+    DlgffDPjrProperties Dlg(true,NewDiaporama,HELPFILE_DlgffDPjrProperties,ApplicationConfig,ApplicationConfig->DlgffDPjrPropertiesWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) {
+        while (ApplicationConfig->ImagesCache.List.count()>0) delete ApplicationConfig->ImagesCache.List.takeLast();
+        AliasList.clear();
 
-    // Clean actual timeline and diaporama
-    FLAGSTOPITEMSELECTION=true;
-    ui->timeline->setUpdatesEnabled(false);
-    for (int Row=0;Row<ui->timeline->rowCount();Row++) for (int Col=0;Col<ui->timeline->columnCount();Col++) if (ui->timeline->cellWidget(Row,Col)!=NULL) ui->timeline->removeCellWidget(Row,Col);
-    delete Diaporama;
-    Diaporama=NULL;
-    ui->timeline->setUpdatesEnabled(true);
-    FLAGSTOPITEMSELECTION=false;
+        // Clean actual timeline and diaporama
+        FLAGSTOPITEMSELECTION=true;
+        ui->timeline->setUpdatesEnabled(false);
+        for (int Row=0;Row<ui->timeline->rowCount();Row++) for (int Col=0;Col<ui->timeline->columnCount();Col++) if (ui->timeline->cellWidget(Row,Col)!=NULL) ui->timeline->removeCellWidget(Row,Col);
+        delete Diaporama;
+        Diaporama=NULL;
+        ui->timeline->setUpdatesEnabled(true);
+        FLAGSTOPITEMSELECTION=false;
 
-    // Create new diaporama
-    Diaporama=NewDiaporama;
-    BackgroundList.ScanDisk("background",Diaporama->ImageGeometry);
-    ui->timeline->Diaporama=Diaporama;
-    ui->preview->InitDiaporamaPlay(Diaporama);
-    ui->preview->SetActualDuration(Diaporama->GetDuration());
-    ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
-    ui->preview2->InitDiaporamaPlay(Diaporama);
-    ui->preview2->SetActualDuration(Diaporama->GetDuration());
-    ui->preview2->SetStartEndPos(0,0,-1,0,-1,0);
-    ui->timeline->ResetDisplay(-1);
-    RefreshControls();
-    SetModifyFlag(false);
-    resizeEvent(NULL);
+        // Create new diaporama
+        Diaporama=NewDiaporama;
+        BackgroundList.ScanDisk("background",Diaporama->ImageGeometry);
+        ui->timeline->Diaporama=Diaporama;
+        ui->preview->InitDiaporamaPlay(Diaporama);
+        ui->preview->SetActualDuration(Diaporama->GetDuration());
+        ui->preview->SetStartEndPos(0,0,-1,0,-1,0);
+        ui->preview2->InitDiaporamaPlay(Diaporama);
+        ui->preview2->SetActualDuration(Diaporama->GetDuration());
+        ui->preview2->SetStartEndPos(0,0,-1,0,-1,0);
+        ui->timeline->ResetDisplay(-1);
+        RefreshControls();
+        SetModifyFlag(false);
+        resizeEvent(NULL);
+    }
 }
 
 //====================================================================================================================
@@ -2201,7 +2206,7 @@ void MainWindow::s_Event_SaveImageEvent() {
             if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Diaporama->CurrentPosition,Diaporama,1);
             Diaporama->LoadSources(Frame,double(Height)/double(1080),Width,Height,false,0);
-            Diaporama->DoAssembly(Frame,Width,Height);
+            Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,Width,Height);
             Frame->RenderedImage->save(OutputFileName,0,100);
             delete Frame;
         }

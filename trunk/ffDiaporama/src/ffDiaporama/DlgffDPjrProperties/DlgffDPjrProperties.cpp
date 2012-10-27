@@ -23,13 +23,15 @@
 
 //====================================================================================================================
 
-DlgffDPjrProperties::DlgffDPjrProperties(cffDProjectFile *ffdProject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
+DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgffDPjrProperties) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DlgffDPjrProperties");
 
-    this->ffdProject=ffdProject;
+    this->IsPrjCreate=IsPrjCreate;
+    this->ffdProject =ffdProject;
     ui->setupUi(this);
+
     CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
     HelpBt  =ui->HelpBT;
@@ -41,25 +43,37 @@ DlgffDPjrProperties::DlgffDPjrProperties(cffDProjectFile *ffdProject,QString Hel
 void DlgffDPjrProperties::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoInitDialog");
 
-    ui->TitleED->setText(ffdProject->Title);
-    ui->AuthorED->setText(ffdProject->Author);
-    ui->AlbumED->setText(ffdProject->Album);
-    ui->YearED->setValue(ffdProject->Year);
-    ui->CommentED->setPlainText(ffdProject->Comment);
-    ui->LanguageED->setText(ffdProject->DefaultLanguage);
+    if (IsPrjCreate) {
+        setWindowTitle(QApplication::translate("DlgffDPjrProperties","New project"));
+        OkBt->setText(QApplication::translate("DlgffDPjrProperties","Create project"));
+    } else {
+        setWindowTitle(QApplication::translate("DlgffDPjrProperties","Project properties"));
+    }
+    ui->tabWidget->setCurrentIndex(0);
+    ui->GeometryCombo->setCurrentIndex(ffdProject->ImageGeometry);
+    ui->GeometryCombo->setEnabled(IsPrjCreate);
+    ui->TitleED->setText(ffdProject->ProjectInfo->Title);
+    ui->AuthorED->setText(ffdProject->ProjectInfo->Author);
+    ui->AlbumED->setText(ffdProject->ProjectInfo->Album);
+    ui->YearED->setValue(ffdProject->ProjectInfo->Year);
+    ui->CommentED->setPlainText(ffdProject->ProjectInfo->Comment);
+    ui->LanguageED->setText(ffdProject->ProjectInfo->DefaultLanguage);
+    ui->TransitionSpeedWaveCB->SetCurrentValue(ffdProject->TransitionSpeedWave);
+    ui->BlockSpeedWaveCB->SetCurrentValue(ffdProject->BlockAnimSpeedWave);
+    ui->ImageSpeedWaveCB->SetCurrentValue(ffdProject->ImageAnimSpeedWave);
 
     DoInitTableWidget(ui->ChapterTable,QApplication::translate("DlgffDPjrProperties","#;Slide;Title;Start;End;Duration","Column headers"));
-    for (int i=0;i<ffdProject->NbrChapters;i++) {
+    for (int i=0;i<ffdProject->ProjectInfo->NbrChapters;i++) {
         QString ChapterNum=QString("%1").arg(i); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
         ChapterNum="Chapter_"+ChapterNum+":";
         QColor Background=((i & 0x01)==0x01)?Qt::white:QColor(0xE0,0xE0,0xE0);
         ui->ChapterTable->insertRow(ui->ChapterTable->rowCount());
         ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,0,CreateItem(QString("%1").arg(i+1),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,1,CreateItem(ffdProject->GetInformationValue(ChapterNum+"InSlide"),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,2,CreateItem(ffdProject->GetInformationValue(ChapterNum+"title"),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,3,CreateItem(ffdProject->GetInformationValue(ChapterNum+"Start"),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,4,CreateItem(ffdProject->GetInformationValue(ChapterNum+"End"),Qt::AlignLeft|Qt::AlignVCenter,Background));
-        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,5,CreateItem(ffdProject->GetInformationValue(ChapterNum+"Duration"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,1,CreateItem(ffdProject->ProjectInfo->GetInformationValue(ChapterNum+"InSlide"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,2,CreateItem(ffdProject->ProjectInfo->GetInformationValue(ChapterNum+"title"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,3,CreateItem(ffdProject->ProjectInfo->GetInformationValue(ChapterNum+"Start"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,4,CreateItem(ffdProject->ProjectInfo->GetInformationValue(ChapterNum+"End"),Qt::AlignLeft|Qt::AlignVCenter,Background));
+        ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,5,CreateItem(ffdProject->ProjectInfo->GetInformationValue(ChapterNum+"Duration"),Qt::AlignLeft|Qt::AlignVCenter,Background));
     }
     DoResizeColumnsTableWidget(ui->ChapterTable);
 }
@@ -78,10 +92,14 @@ DlgffDPjrProperties::~DlgffDPjrProperties() {
 void DlgffDPjrProperties::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoAccept");
 
-    ffdProject->Title           =ui->TitleED->text();
-    ffdProject->Author          =ui->AuthorED->text();
-    ffdProject->Album           =ui->AlbumED->text();
-    ffdProject->Year            =ui->YearED->value();
-    ffdProject->Comment         =ui->CommentED->toPlainText();
-    ffdProject->DefaultLanguage =ui->LanguageED->text();
+    if (IsPrjCreate) ffdProject->ImageGeometry=ui->GeometryCombo->currentIndex();
+    ffdProject->ProjectInfo->Title          =ui->TitleED->text();
+    ffdProject->ProjectInfo->Author         =ui->AuthorED->text();
+    ffdProject->ProjectInfo->Album          =ui->AlbumED->text();
+    ffdProject->ProjectInfo->Year           =ui->YearED->value();
+    ffdProject->ProjectInfo->Comment        =ui->CommentED->toPlainText();
+    ffdProject->ProjectInfo->DefaultLanguage=ui->LanguageED->text();
+    ffdProject->TransitionSpeedWave         =ui->TransitionSpeedWaveCB->GetCurrentValue();
+    ffdProject->BlockAnimSpeedWave          =ui->BlockSpeedWaveCB->GetCurrentValue();
+    ffdProject->ImageAnimSpeedWave          =ui->ImageSpeedWaveCB->GetCurrentValue();
 }

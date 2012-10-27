@@ -75,6 +75,8 @@ void DlgTransitionProperties::DoInitDialog() {
 
     if (IsMultiple) setWindowTitle(QApplication::translate("DlgTransitionProperties","Select a transition for a set of slides"));
 
+    ui->SpeedWaveCB->AddProjectDefault(DiaporamaObject->Parent->TransitionSpeedWave);
+
     ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","None and basic"),  QVariant(TRANSITIONFAMILLY_BASE));
     ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Zoom"),            QVariant(TRANSITIONFAMILLY_ZOOMINOUT));
     ui->TransitionTypeCB->addItem(QApplication::translate("DlgTransitionProperties","Slide"),           QVariant(TRANSITIONFAMILLY_SLIDE));
@@ -97,9 +99,9 @@ void DlgTransitionProperties::DoInitDialog() {
     for (int i=0;i<ui->TransitionTable->columnCount();i++) ui->TransitionTable->setColumnWidth(i,W+DECAL*2);
 
     // Save Object settings before force a transition
-    TransitionFamilly =DiaporamaObject->TransitionFamilly;
-    TransitionSubType =DiaporamaObject->TransitionSubType;
-    TransitionDuration=DiaporamaObject->TransitionDuration;
+    TransitionFamilly  =DiaporamaObject->TransitionFamilly;
+    TransitionSubType  =DiaporamaObject->TransitionSubType;
+    TransitionDuration =DiaporamaObject->TransitionDuration;
 
     //=================> Init PreviousFrame object
 
@@ -116,9 +118,9 @@ void DlgTransitionProperties::DoInitDialog() {
     DiaporamaObject->Parent->LoadSources(PreviousFrame,double(H)/double(1080),W,H,true,true);                       // Load background and image
 
     // Set old values
-    DiaporamaObject->TransitionFamilly =TransitionFamilly;
-    DiaporamaObject->TransitionSubType =TransitionSubType;
-    DiaporamaObject->TransitionDuration=TransitionDuration;
+    DiaporamaObject->TransitionFamilly  =TransitionFamilly;
+    DiaporamaObject->TransitionSubType  =TransitionSubType;
+    DiaporamaObject->TransitionDuration =TransitionDuration;
 
     //=================> Init controls
 
@@ -132,11 +134,14 @@ void DlgTransitionProperties::DoInitDialog() {
         s_ChTransitionTypeCB(i);
     }
 
+    ui->SpeedWaveCB->SetCurrentValue(DiaporamaObject->TransitionSpeedWave);
+
     //=================> Define handlers
 
     connect(ui->TransitionTypeCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChTransitionTypeCB(int)));
     connect(ui->TransitionTable,SIGNAL(currentCellChanged(int,int,int,int)),this,SLOT(s_TableCellChanged(int,int,int,int)));
-    connect(ui->TransitionDurationCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChTransitionDurationCB(int)));
+    connect(ui->TransitionDurationCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChTransitionCB(int)));
+    connect(ui->SpeedWaveCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChTransitionCB(int)));
     connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
 }
 
@@ -166,9 +171,10 @@ void DlgTransitionProperties::DoGlobalUndo() {
 void DlgTransitionProperties::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::DoAccept");
 
-    DiaporamaObject->TransitionFamilly =ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
-    DiaporamaObject->TransitionSubType =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
-    DiaporamaObject->TransitionDuration=qlonglong(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
+    DiaporamaObject->TransitionFamilly  =ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
+    DiaporamaObject->TransitionSubType  =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
+    DiaporamaObject->TransitionDuration =qlonglong(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
+    DiaporamaObject->TransitionSpeedWave=ui->SpeedWaveCB->GetCurrentValue();
 }
 
 //====================================================================================================================
@@ -224,7 +230,7 @@ void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
             delete Frame->RenderedImage;
             Frame->RenderedImage=NULL;
         }
-        DiaporamaObject->Parent->DoAssembly(Frame,W,H);
+        DiaporamaObject->Parent->DoAssembly(ComputePCT(Frame->CurrentObject->GetSpeedWave(),Frame->TransitionPCTDone),Frame,W,H);
 
         // Create a label object to handle the bitmap
         QLabel *Widget=new QLabel();
@@ -258,8 +264,8 @@ void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
 // Change of transition duration : Reload frame with new value
 //====================================================================================================================
 
-void DlgTransitionProperties::s_ChTransitionDurationCB(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::s_ChTransitionDurationCB");
+void DlgTransitionProperties::s_ChTransitionCB(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::s_ChTransitionCB");
     // Stop timer
     Timer.stop();
 
@@ -270,9 +276,9 @@ void DlgTransitionProperties::s_ChTransitionDurationCB(int) {
     }
 
     // Change Object settings to force a transition
-    DiaporamaObject->TransitionFamilly =1;
-    DiaporamaObject->TransitionSubType =0;
-    DiaporamaObject->TransitionDuration=int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
+    DiaporamaObject->TransitionFamilly  =1;
+    DiaporamaObject->TransitionSubType  =0;
+    DiaporamaObject->TransitionDuration =int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
 
     // Retrieve time information
     TimePosition=DiaporamaObject->Parent->GetObjectStartPosition(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject));
@@ -282,16 +288,16 @@ void DlgTransitionProperties::s_ChTransitionDurationCB(int) {
     DiaporamaObject->Parent->LoadSources(PreviousFrame,double(H)/double(1080),W,H,true,true);                       // Load background and image
 
     // Set old values
-    DiaporamaObject->TransitionFamilly =TransitionFamilly;
-    DiaporamaObject->TransitionSubType =TransitionSubType;
-    DiaporamaObject->TransitionDuration=TransitionDuration;
+    DiaporamaObject->TransitionFamilly  =TransitionFamilly;
+    DiaporamaObject->TransitionSubType  =TransitionSubType;
+    DiaporamaObject->TransitionDuration =TransitionDuration;
 
     // Reset AnimationTime
     AnimationTime=0;
 
     // Adjust Transition
-    PreviousFrame->TransitionFamilly=ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
-    PreviousFrame->TransitionSubType=ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
+    PreviousFrame->TransitionFamilly =ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
+    PreviousFrame->TransitionSubType =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
     PreviousFrame->TransitionDuration=int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
 
     // Restart timer
@@ -313,7 +319,6 @@ void DlgTransitionProperties::s_TimerEvent() {
     cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame);
     // Ajdust Transition PCT done
     Frame->TransitionPCTDone=double(AnimationTime)/double(Frame->TransitionDuration);
-    Frame->TransitionPCTEnd =double(AnimationTime+double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS)/double(Frame->TransitionDuration);
 
     for (int i=0;i<MaxItem;i++) {
         // Adjust transition subtype
@@ -323,7 +328,9 @@ void DlgTransitionProperties::s_TimerEvent() {
             delete Frame->RenderedImage;
             Frame->RenderedImage=NULL;
         }
-        DiaporamaObject->Parent->DoAssembly(Frame,W,H);
+        int SpeedWave=ui->SpeedWaveCB->GetCurrentValue();
+        if (SpeedWave==SPEEDWAVE_PROJECTDEFAULT) SpeedWave=DiaporamaObject->Parent->TransitionSpeedWave;
+        DiaporamaObject->Parent->DoAssembly(ComputePCT(SpeedWave,Frame->TransitionPCTDone),Frame,W,H);
 
         // Add icon in the bottom left corner
         QPainter P;

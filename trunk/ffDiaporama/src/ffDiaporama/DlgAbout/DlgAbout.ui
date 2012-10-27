@@ -236,8 +236,8 @@ This General Public License does not permit incorporating your program into prop
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>530</width>
-                <height>587</height>
+                <width>528</width>
+                <height>591</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_2">
@@ -288,7 +288,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="7" column="2">
+               <item row="8" column="2">
                 <widget class="QPushButton" name="EXIV2WebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -319,7 +319,7 @@ This General Public License does not permit incorporating your program into prop
                   </font>
                  </property>
                  <property name="text">
-                  <string>Video decoding and encoding engines are based on libav</string>
+                  <string>Video decoding and encoding engines are based on libav or ffmpeg</string>
                  </property>
                  <property name="alignment">
                   <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -336,7 +336,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="4" column="0" colspan="3">
+               <item row="5" column="0" colspan="3">
                 <widget class="QLabel" name="label_8">
                  <property name="minimumSize">
                   <size>
@@ -360,14 +360,14 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="5" column="1">
+               <item row="6" column="1">
                 <widget class="QLabel" name="label_9">
                  <property name="text">
                   <string>WEB site &amp; licence :</string>
                  </property>
                 </widget>
                </item>
-               <item row="6" column="0" colspan="3">
+               <item row="7" column="0" colspan="3">
                 <widget class="QLabel" name="label_10">
                  <property name="minimumSize">
                   <size>
@@ -391,14 +391,14 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="7" column="1">
+               <item row="8" column="1">
                 <widget class="QLabel" name="label_11">
                  <property name="text">
                   <string>WEB site &amp; licence :</string>
                  </property>
                 </widget>
                </item>
-               <item row="17" column="0" colspan="3">
+               <item row="18" column="0" colspan="3">
                 <widget class="QLabel" name="label_12">
                  <property name="minimumSize">
                   <size>
@@ -422,21 +422,21 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="19" column="1">
+               <item row="20" column="1">
                 <widget class="QLabel" name="label_13">
                  <property name="text">
                   <string>C.C. WEB site :</string>
                  </property>
                 </widget>
                </item>
-               <item row="15" column="1">
+               <item row="16" column="1">
                 <widget class="QLabel" name="label_15">
                  <property name="text">
                   <string>WEB site &amp; licence :</string>
                  </property>
                 </widget>
                </item>
-               <item row="14" column="0" colspan="3">
+               <item row="15" column="0" colspan="3">
                 <widget class="QLabel" name="label_14">
                  <property name="minimumSize">
                   <size>
@@ -460,7 +460,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="10" column="0" colspan="3">
+               <item row="11" column="0" colspan="3">
                 <widget class="QLabel" name="label_16">
                  <property name="minimumSize">
                   <size>
@@ -484,14 +484,14 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="12" column="1">
+               <item row="13" column="1">
                 <widget class="QLabel" name="label_17">
                  <property name="text">
                   <string>WEB site &amp; licence :</string>
                  </property>
                 </widget>
                </item>
-               <item row="20" column="2">
+               <item row="21" column="2">
                 <spacer name="verticalSpacer_2">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
@@ -522,7 +522,7 @@ This General Public License does not permit incorporating your program into prop
                 </widget>
                </item>
                <item row="3" column="2">
-                <widget class="QPushButton" name="ffMPEGWebSiteBT">
+                <widget class="QPushButton" name="LibAVWebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                    <horstretch>0</horstretch>
@@ -538,7 +538,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="5" column="2">
+               <item row="6" column="2">
                 <widget class="QPushButton" name="SDLWebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -555,7 +555,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="12" column="2">
+               <item row="13" column="2">
                 <widget class="QPushButton" name="FMTFWebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -572,7 +572,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="15" column="2">
+               <item row="16" column="2">
                 <widget class="QPushButton" name="CrystalWebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -589,7 +589,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="19" column="2">
+               <item row="20" column="2">
                 <widget class="QPushButton" name="CC2WebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -606,7 +606,7 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="8" column="0" colspan="3">
+               <item row="9" column="0" colspan="3">
                 <widget class="QLabel" name="label_20">
                  <property name="minimumSize">
                   <size>
@@ -630,14 +630,14 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="9" column="1">
+               <item row="10" column="1">
                 <widget class="QLabel" name="label_21">
                  <property name="text">
                   <string>WEB site &amp; licence :</string>
                  </property>
                 </widget>
                </item>
-               <item row="9" column="2">
+               <item row="10" column="2">
                 <widget class="QPushButton" name="TAGLibWebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -654,14 +654,14 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                 </widget>
                </item>
-               <item row="13" column="1">
+               <item row="14" column="1">
                 <widget class="QLabel" name="label_22">
                  <property name="text">
                   <string>WEB site &amp; licence :</string>
                  </property>
                 </widget>
                </item>
-               <item row="13" column="2">
+               <item row="14" column="2">
                 <widget class="QPushButton" name="QIBWebSiteBT">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -671,6 +671,30 @@ This General Public License does not permit incorporating your program into prop
                  </property>
                  <property name="text">
                   <string notr="true">http://qimageblitz.sourceforge.net/</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../../../RSCffDiaporama.qrc">
+                   <normaloff>:/img/Internet.png</normaloff>:/img/Internet.png</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QLabel" name="label_23">
+                 <property name="text">
+                  <string>WEB site &amp; licence :</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="2">
+                <widget class="QPushButton" name="ffMPEGWebSiteBT">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="text">
+                  <string notr="true">http://ffmpeg.org/index.html</string>
                  </property>
                  <property name="icon">
                   <iconset resource="../../../RSCffDiaporama.qrc">
@@ -711,7 +735,7 @@ This General Public License does not permit incorporating your program into prop
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
             </widget>
            </item>

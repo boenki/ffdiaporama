@@ -60,15 +60,18 @@ enum UNDOACTION_ID {
     UNDOACTION_EDITZONE_BLUE,
     UNDOACTION_EDITZONE_GEOMETRY,
     UNDOACTION_EDITZONE_SHAPEFORM,
+    UNDOACTION_EDITZONE_SPEEDWAVE,
     UNDOACTION_VIDEOPART_STARTPOS,
     UNDOACTION_VIDEOPART_ENDPOS,
     UNDOACTION_VIDEOPART_VOLUME,
     UNDOACTION_VIDEOPART_DEINTERLACE
 };
 
-DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *TheBackgroundForm,cBrushDefinition *TheCurrentBrush,int TheVideoPosition,int TheImageGeometry,
-    QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgImageCorrection) {
+DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *TheBackgroundForm,cBrushDefinition *TheCurrentBrush,
+                                       int TheVideoPosition,int TheImageGeometry,int TheDefaultSpeedWave,
+                                       QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+                                       QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgImageCorrection) {
+
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DlgImageCorrection");
 
     ui->setupUi(this);
@@ -86,6 +89,7 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *T
     CompoObject     =TheCompoObject;
     BackgroundForm  =TheBackgroundForm;
     IsVideo         =(CurrentBrush->Video!=NULL);
+    DefaultSpeedWave=TheDefaultSpeedWave;
     ui->InteractiveZone->MagneticRuler=((cApplicationConfig *)BaseApplicationConfig)->FramingRuler;
     ui->InteractiveZone->InitCachedImage(TheCompoObject,(BackgroundForm!=NULL)?(*TheBackgroundForm):1,TheCurrentBrush,TheVideoPosition);
 }
@@ -164,6 +168,10 @@ void DlgImageCorrection::DoInitDialog() {
         for (int i=0;i<ShapeFormDefinition.count();i++) if (ShapeFormDefinition.at(i).Enable) ui->BackgroundFormCB->addItem(ShapeFormDefinition.at(i).Name,QVariant(i));
         MakeFormIcon(ui->BackgroundFormCB);
     }
+
+    // Speed wave
+    if (DefaultSpeedWave==SPEEDWAVE_DISABLE) ui->SpeedWaveCB->setEnabled(false); else ui->SpeedWaveCB->AddProjectDefault(DefaultSpeedWave);
+    connect(ui->SpeedWaveCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_SpeedWaveChanged(int)));
 
     // Define handler
     connect(ui->TabWidget,SIGNAL(currentChanged(int)),this,SLOT(s_TabWidgetChanged(int)));
@@ -267,7 +275,7 @@ void DlgImageCorrection::MakeFormIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,NULL,false,0,false);
+        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,1,NULL,false,0,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -622,7 +630,7 @@ void DlgImageCorrection::RefreshControls() {
     //***********************************************
 
     // Framing and form
-    ui->BackgroundFormCB->PrepareFrameShapeTable(true,0,ui->InteractiveZone->BackgroundForm,(cApplicationConfig *)BaseApplicationConfig);
+    ui->BackgroundFormCB->PrepareFrameShapeTable(true,0,ui->InteractiveZone->BackgroundForm);
     ui->BackgroundFormCB->SetCurrentFrameShape(ui->InteractiveZone->BackgroundForm);
     ui->XValue->setValue(CurrentBrush->X*100);
     ui->YValue->setValue(CurrentBrush->Y*100);
@@ -678,6 +686,9 @@ void DlgImageCorrection::RefreshControls() {
     ui->ImplodeSlider->setValue(int(CurrentBrush->Implode*100));    ui->ImplodeValue->setValue(int(CurrentBrush->Implode*100));
     ui->WaveAmpSlider->setValue(int(CurrentBrush->WaveAmp));        ui->WaveAmpValue->setValue(int(CurrentBrush->WaveAmp));
     ui->WaveFreqSlider->setValue(int(CurrentBrush->WaveFreq));      ui->WaveFreqValue->setValue(int(CurrentBrush->WaveFreq));
+
+    // Speed wave
+    if (DefaultSpeedWave!=SPEEDWAVE_DISABLE) ui->SpeedWaveCB->SetCurrentValue(CurrentBrush->ImageSpeedWave);
 
     // File
     ui->FileNameED->setText(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video?CurrentBrush->Video->FileName:"");
@@ -1380,4 +1391,13 @@ void DlgImageCorrection::s_SeekRight() {
     if (!IsVideo) return;
     ui->VideoPlayer->SeekPlayer(QTime(0,0,0,0).msecsTo(CurrentBrush->Video->EndPos));
     ui->VideoPlayer->SetPlayerToPause();
+}
+
+//====================================================================================================================
+
+void DlgImageCorrection::s_SpeedWaveChanged(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_SpeedWaveChanged");
+    AppendPartialUndo(UNDOACTION_EDITZONE_SPEEDWAVE,ui->SpeedWaveCB,true);
+    CurrentBrush->ImageSpeedWave=ui->SpeedWaveCB->GetCurrentValue();
+    RefreshControls();
 }

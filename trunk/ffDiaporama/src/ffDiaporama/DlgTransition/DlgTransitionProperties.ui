@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>553</width>
-    <height>350</height>
+    <width>476</width>
+    <height>282</height>
    </rect>
   </property>
   <property name="font">
@@ -37,7 +37,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>Transition type :</string>
+        <string>Transition type:</string>
        </property>
       </widget>
      </item>
@@ -55,6 +55,25 @@
       </widget>
      </item>
      <item>
+      <widget class="QLabel" name="label_4">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Speed wave:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="cCSpeedWaveComboBox" name="SpeedWaveCB"/>
+     </item>
+     <item>
       <widget class="QLabel" name="label_2">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
@@ -63,7 +82,7 @@
         </sizepolicy>
        </property>
        <property name="text">
-        <string>Duration :</string>
+        <string>Duration:</string>
        </property>
        <property name="alignment">
         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -266,6 +285,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>cCSpeedWaveComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cCSpeedWaveComboBox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../../../RSCffDiaporama.qrc"/>
  </resources>

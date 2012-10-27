@@ -118,7 +118,9 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->GeometryCombo->setCurrentIndex(ApplicationConfig->ImageGeometry);
     ui->NoShotED->setValue(double(ApplicationConfig->NoShotDuration)/1000);
     ui->StaticShotED->setValue(double(ApplicationConfig->FixedDuration)/1000);
-    ui->SpeedWaveCombo->setCurrentIndex(ApplicationConfig->SpeedWave);
+    ui->TransitionSpeedWaveCB->SetCurrentValue(ApplicationConfig->DefaultTransitionSpeedWave);
+    ui->BlockSpeedWaveCB->SetCurrentValue(ApplicationConfig->DefaultBlockAnimSpeedWave);
+    ui->ImageSpeedWaveCB->SetCurrentValue(ApplicationConfig->DefaultImageAnimSpeedWave);
     ui->RandomTransitionRD->setChecked(ApplicationConfig->RandomTransition);
     ui->NoTransitionRD->setChecked((!ApplicationConfig->RandomTransition)&&(ApplicationConfig->DefaultTransitionFamilly==0)&&(ApplicationConfig->DefaultTransitionSubType==0));
     ui->BasicTransitionRD->setChecked((!ApplicationConfig->RandomTransition)&&(ApplicationConfig->DefaultTransitionFamilly==0)&&(ApplicationConfig->DefaultTransitionSubType==1));
@@ -355,12 +357,15 @@ void DlgApplicationSettings::DoAccept() {
     ApplicationConfig->DefaultTransitionFamilly =0;
 
     // ProjectDefault part
-    ApplicationConfig->NoShotDuration           =int(ui->NoShotED->value()*1000);
-    ApplicationConfig->FixedDuration            =int(ui->StaticShotED->value()*1000);
-    ApplicationConfig->SpeedWave                =ui->SpeedWaveCombo->currentIndex();
-    ApplicationConfig->ImageGeometry            =ui->GeometryCombo->currentIndex();
-    ApplicationConfig->DefaultTitleFilling      =ui->DefaultTitleCB->currentIndex();
-    ApplicationConfig->DefaultAuthor            =ui->DefaultAuthorED->text();
+    ApplicationConfig->DefaultTransitionSpeedWave   =ui->TransitionSpeedWaveCB->GetCurrentValue();
+    ApplicationConfig->DefaultBlockAnimSpeedWave    =ui->BlockSpeedWaveCB->GetCurrentValue();
+    ApplicationConfig->DefaultImageAnimSpeedWave    =ui->ImageSpeedWaveCB->GetCurrentValue();
+
+    ApplicationConfig->NoShotDuration               =int(ui->NoShotED->value()*1000);
+    ApplicationConfig->FixedDuration                =int(ui->StaticShotED->value()*1000);
+    ApplicationConfig->ImageGeometry                =ui->GeometryCombo->currentIndex();
+    ApplicationConfig->DefaultTitleFilling          =ui->DefaultTitleCB->currentIndex();
+    ApplicationConfig->DefaultAuthor                =ui->DefaultAuthorED->text();
 
     ApplicationConfig->DefaultBlock_Text_TextST     =ApplicationConfig->StyleTextCollection.EncodeString(ui->ST_Text_TextCB,-1,-1);
     ApplicationConfig->DefaultBlock_Text_BackGST    =ApplicationConfig->StyleTextBackgroundCollection.EncodeString(ui->ST_Text_BackgroundCB,-1,-1);

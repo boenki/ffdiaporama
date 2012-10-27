@@ -69,6 +69,12 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             DlgCheckConfig/DlgCheckConfig.cpp \
             DlgInfoFile/DlgInfoFile.cpp \
             DlgffDPjrProperties/DlgffDPjrProperties.cpp \
+            DlgManageFavorite/DlgManageFavorite.cpp \
+            DlgWorkingTask/DlgWorkingTask.cpp \
+            DlgTransition/DlgTransitionDuration.cpp \
+            DlgSlide/DlgSlideDuration.cpp \
+            ../fmt_filters/fmt_filters.cpp \
+            ../CustomCtrl/cCSpeedWaveComboBox.cpp \
             ../engine/_GlobalDefines.cpp \
             ../engine/QCustomRuller.cpp \
             ../engine/cSaveWindowPosition.cpp \
@@ -81,15 +87,17 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../engine/_QCustomDialog.cpp \
             ../engine/cBrushDefinition.cpp \
             ../engine/cCustomIcon.cpp \
-            ../fmt_filters/fmt_filters.cpp \ 
-    ../engine/QCustomHorizSplitter.cpp \
-    ../engine/QCustomFolderTree.cpp \
-    ../engine/QCustomFolderTable.cpp \
-    ../engine/cDriveList.cpp \
-    DlgManageFavorite/DlgManageFavorite.cpp \
-    DlgWorkingTask/DlgWorkingTask.cpp \
-    DlgTransition/DlgTransitionDuration.cpp \
-    DlgSlide/DlgSlideDuration.cpp
+            ../engine/QCustomHorizSplitter.cpp \
+            ../engine/QCustomFolderTree.cpp \
+            ../engine/QCustomFolderTable.cpp \
+            ../engine/cDriveList.cpp \
+    ../engine/_SpeedWave.cpp \
+    ../CustomCtrl/cCColorComboBox.cpp \
+    ../CustomCtrl/cCBrushComboBox.cpp \
+    ../CustomCtrl/cCGrdOrientationComboBox.cpp \
+    ../CustomCtrl/cCFramingComboBox.cpp \
+    ../CustomCtrl/cCShapeComboBox.cpp \
+    ../engine/_Shape.cpp
 
 HEADERS  += \
             _ImagesDefinitions.h \
@@ -120,6 +128,12 @@ HEADERS  += \
             DlgCheckConfig/DlgCheckConfig.h \
             DlgInfoFile/DlgInfoFile.h \
             DlgffDPjrProperties/DlgffDPjrProperties.h \
+            DlgManageFavorite/DlgManageFavorite.h \
+            DlgWorkingTask/DlgWorkingTask.h \
+            DlgTransition/DlgTransitionDuration.h \
+            DlgSlide/DlgSlideDuration.h \
+            ../CustomCtrl/cCSpeedWaveComboBox.h \
+            ../fmt_filters/fmt_filters.h \
             ../engine/QCustomRuller.h \
             ../engine/cSaveWindowPosition.h \
             ../engine/cBaseApplicationConfig.h \
@@ -132,15 +146,17 @@ HEADERS  += \
             ../engine/_QCustomDialog.h \
             ../engine/cBrushDefinition.h \
             ../engine/cCustomIcon.h \
-            ../fmt_filters/fmt_filters.h \ 
-    ../engine/QCustomHorizSplitter.h \
-    ../engine/QCustomFolderTree.h \
-    ../engine/QCustomFolderTable.h \
-    ../engine/cDriveList.h \
-    DlgManageFavorite/DlgManageFavorite.h \
-    DlgWorkingTask/DlgWorkingTask.h \
-    DlgTransition/DlgTransitionDuration.h \
-    DlgSlide/DlgSlideDuration.h
+            ../engine/QCustomHorizSplitter.h \
+            ../engine/QCustomFolderTree.h \
+            ../engine/QCustomFolderTable.h \
+            ../engine/cDriveList.h \
+    ../engine/_SpeedWave.h \
+    ../CustomCtrl/cCColorComboBox.h \
+    ../CustomCtrl/cCBrushComboBox.h \
+    ../CustomCtrl/cCGrdOrientationComboBox.h \
+    ../CustomCtrl/cCFramingComboBox.h \
+    ../CustomCtrl/cCShapeComboBox.h \
+    ../engine/_Shape.h
 
 FORMS    += mainwindow.ui \
             wgt_QVideoPlayer.ui \
@@ -159,10 +175,10 @@ FORMS    += mainwindow.ui \
             DlgCheckConfig/DlgCheckConfig.ui \
             DlgInfoFile/DlgInfoFile.ui \
             DlgffDPjrProperties/DlgffDPjrProperties.ui \ 
-    DlgManageFavorite/DlgManageFavorite.ui \
-    DlgWorkingTask/DlgWorkingTask.ui \
-    DlgTransition/DlgTransitionDuration.ui \
-    DlgSlide/DlgSlideDuration.ui
+            DlgManageFavorite/DlgManageFavorite.ui \
+            DlgWorkingTask/DlgWorkingTask.ui \
+            DlgTransition/DlgTransitionDuration.ui \
+            DlgSlide/DlgSlideDuration.ui
 
 
 # Installation on linux systems
@@ -211,21 +227,7 @@ unix {
     mimefile.files      = ../../ffDiaporama-mime.xml
     INSTALLS 		+= mimefile
 
-    # install desktop files /opt version
-    contains(PREFIX,/opt) {
-        desktop.path    = $$PREFIX/share/applications
-        desktop.files   = ../../ffDiaporamaopt.desktop
-    }
-    # install PREFIX files /usr/local version
-    contains(PREFIX,/usr/local) {
-        desktop.path    = $$PREFIX/share/applications
-        desktop.files   = ../../ffDiaporamalocal.desktop
-    }
-    # install desktop files /usr version
-    !contains(PREFIX,/usr/local) : !contains(PREFIX,/opt) {
-        desktop.path    = $$PREFIX/share/applications
-        desktop.files   = ../../ffDiaporama.desktop
-    }
+    desktop.path        = /usr/share/icons/hicolor/32x32/apps
+    desktop.files       = ../../ffDiaporama.desktop
     INSTALLS 		+= desktop
-
 }
