@@ -206,9 +206,11 @@ public:
     int                     ImageGeometry;                              // Project image geometry for image rendering
     int                     NoShotDuration;                             // Default duration for fixed image when is alone (no shot)
     int                     FixedDuration;                              // Default duration for fixed image
-    int                     SpeedWave;                                  // Default Speed wave methode
     QString                 DefaultAuthor;                              // Default Author name
     int                     DefaultTitleFilling;                        // Default Title filling mode
+    int                     DefaultTransitionSpeedWave;                 // Default Speed wave for transition
+    int                     DefaultBlockAnimSpeedWave;                  // Default Speed wave for block animation
+    int                     DefaultImageAnimSpeedWave;                  // Default Speed wave for image framing and correction animation
 
     // Default transition
     bool                    RandomTransition;                           // if true randomize a transition

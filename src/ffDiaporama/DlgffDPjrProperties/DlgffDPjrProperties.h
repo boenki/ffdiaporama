@@ -31,7 +31,7 @@
 
 // Include some common various class
 #include "../../engine/cBaseApplicationConfig.h"
-#include "../../engine/cBaseMediaFile.h"
+#include "_Diaporama.h"
 
 namespace Ui {
     class DlgffDPjrProperties;
@@ -40,9 +40,10 @@ namespace Ui {
 class DlgffDPjrProperties : public QCustomDialog {
 Q_OBJECT
 public:
-    cffDProjectFile *ffdProject;
+    cDiaporama *ffdProject;
+    bool       IsPrjCreate;
 
-    explicit DlgffDPjrProperties(cffDProjectFile *ffdProject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgffDPjrProperties();
 
     // function to be overloaded

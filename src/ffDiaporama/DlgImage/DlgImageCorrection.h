@@ -50,8 +50,10 @@ public:
     int                     *BackgroundForm;
     bool                    IsVideo;
     bool                    StopMaj;
+    int                     DefaultSpeedWave;
 
-    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int *BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,int ImageGeometry,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int *BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,int ImageGeometry,int DefaultSpeedWave,
+                                QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgImageCorrection();
 
     // function to be overloaded
@@ -140,6 +142,8 @@ private slots:
     void            s_EditEndPos(QTime NewValue);
     void            MusicReduceFactorChange(int);
     void            s_Deinterlace(int);
+
+    void            s_SpeedWaveChanged(int);
 
 private:
     void            UpdateFramingStyleCB(bool Reset=false);

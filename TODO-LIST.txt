@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.5 - Trunk
 *
-* Dernier commit le : 14/10/2012
+* Dernier commit le : 21/10/2012
 **************************************************
 
 TODO :
@@ -20,19 +20,15 @@ Criticité   Etat    Enoncé
 ----------- ------- -------------------------------------------------------------------------------------------------------
 Critique    -       Neutraliser le text scalling pour les blocs de texte des projets !
 
-Critique    WIP     Tester l'encodage h264 avec une 12.04 sans Medibuntu !
-                    =>  Pour ubuntu, il faut forcer l'utilisation de la version extra du paquet libavcodec
-                        Il faut modifier le packaging Ubuntu
-
 Critique    WIP     Absence de certains codecs dans la version Windows
                     =>  Bug ouvert chez LibAV : en attente de réponse
                         Si pas de réponse d'ici au 27/10 => retour à ffmpeg
 
-Normal      -       Bug de SESTAY sur un plantage lors de la relecture d'un ancien fichier de configuration
-
 Normal      -       Bug de Pepe sur les tailles des bordures en VGA
 
 Normal      -       Bug sur le text scalling en render DVD
+
+Normal      -       Ajouter des formes de shape (jumelle, trapeze, parrallelograme ...)
 
 Normal      -       Bug sur l'encodage MP3 : 1 seconde de trop par minute d'encodage (http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=449)
 
@@ -42,9 +38,18 @@ Normal      WIP     Les vidéos avec chapitre exportées en .mkv font planter VL
 
 Basse       NF      Etudier la transposition des cadres de sélection quand rotation dans la boite slide
 
+Basse       WIP     Supprimer la librairie de fond de la mémoire
+                    =>  Isolation du code de cBackgroundComboBox réalisé
+                        Il faut encore isolé le code depuis cBrushDefinition
+
+Basse       WIP     Isolation du code des transition
+                    =>  A isoler dans une _xxxx sous engine
+
 Basse       NF      Support des vidéo ULAW à faire
 
-Basse       NF      Supprimer la librairie de fond de la mémoire
+Basse       -       Bug de SESTAY sur un plantage lors de la relecture d'un ancien fichier de configuration
+
+Basse       NF      Supprimer les scrollers inutiles dans les combo brush et GradientOrientation
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
@@ -55,24 +60,34 @@ WIP : Work in progress
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+Code cleaning +
+
 French version / Correction de bug :
--Corrige le bug de lecture de certaines vidéos (introduit suite à la prise en charge des vidéos .mts)
--Relit correctement les réglages de filtre de flou/netteté des fichiers .ffd produit avec des versions antérieurs à 1.5
--Corrige le bug sur l'UNDO pour les modifications de texte dans la boite de dialog d'edition des slides
+-Corrige un crash de l'application quand on ajoute une image par Drag & Drop directement dans la zone des blocs de la boite d'édition des slides si la liste des blocs est vide
+-Corrige le positionnement de l'icone verrous pour les blocs verrouillés dans la boite slide
+-Modifie le menu contextuel des blocs, dans la boite d'edition des slides pour pouvoir verrouiller ou déverrouiller tous les blocs de la sélection
+-Corrige le fonctionnement des verrous dans la boite d'edition des slides : maintenant les modifications apportés a une sélection multiple de blocs sont bien répercutés à tous les blocs verrouillés dans les plans suivants (les modifications ne s'appliquaient qu'au 1er bloc de la sélection)
 
 English version / Bug fixes :
--Fix bug of reading some video (this bug was introduce by the .mts video support)
--Fix reading of settings of blur/sharpen filter of .ffd project created with previous 1.5 versions
--Fix bug of UNDO of text modifications in edit slide dialog
+-Fixed an application crash when adding an image by drag & drop directly into the blocks table of the edit slides dialog if block list is empty
+-Correct the positioning of the lock icone for blocks locked in the slide box
+-Modify the contextual menu of blocks, in the edit slides dialog to be able to lock or unlock all the blocks of the selection
+-Correct the functioning of locks in slide edit dialog: now the modifications brought to a multiple selection of blocks are echoed to all the locked blocks in the following plans (the modifications applied only to the 1st block of the selection)
 
 French version / Nouveautés :
--Ajoute des guides intermédiaires pour les formes de types Chevron et Puzzle (Ne fonctionne que pour les blocs non tournés)
--Affiche les marges de texte dans la zone interactive de la boite slide quand on ouvre la boite texte
--Prédéfini des marges de texte adaptées pour chaque forme de bloc
--Ajoute un onglet dans la boite d'edition des textes pour modifier les marges de textes
+-Modifie le fonctionnement du bouton "Nouveau projet" : Maintenant il ouvre la boite de dialogue de propriété du projet
+-Ajoute la sélection du format d'image (4:3, 16:9 ou cinema) dans la boite de propriété du projet (La sélection n'est possible qu'en création de nouveau projet)
+-Eclate la propriété Speed Wave en 4 propriétés pour la musique (forcé à SPEEDWAVE_SINQUARTER), pour les transitions, pour les animations de blocs et pour les animations d'image (cadrage et filtres)
+-Modifie la boite d'options pour permettre la définition des valeurs par défaut des propriétés Speed wave pour les transitions, pour les animations de blocs et pour les animations d'image
+-Modifie la boite de propriété du projet pour permettre la définition des propriétés Speed wave pour les transitions, pour les animations de blocs et pour les animations d'image
+-Modifie les boites transition, édition de slide et édition d'image pour ajouter la sélection de la courbe de vitesse
+-Définie et/ou renomme les courbes de vitesse en 5 courbes : Constant speed, Fast then slow, Slow then fast, Faster and faster et Slower and slower
 
 English version / New features :
--Add intermediate rulers for shape of type Chevron and Puzzle (Work only for unrotated blocks)
--Display text margins in interactive zone of slide dialog when text dialog is open
--Défine default text margins for each block shape
--Add a tab in edit text dialog to define settings of text margins
+-Modifies the operation of the "New project" button: Now open the project property dialog
+-Adds the selection of format (4:3, 16:9 or cinema) in the project property dialog (selection is only possible when creating new project)
+-Split Speed ​​Wave property into 4 properties for music (forced to SPEEDWAVE_SINQUARTER), for transitions, for blocks animations and image animations (frame and filters)
+-Changes the options dialog to allow the setting of default Speed ​​wave properties for transitions, block animations and image animations
+-Changes the project properties dialog to allow the setting of Speed ​​wave properties for transitions, block animations and image animations
+-Modifies the transition, edit slide and edit image dialog to add selection of speed wave
+-Defines and/or renamme speed wave to 5 curves: Constant speed, Fast then slow, Slow then fast, Faster and faster et Slower and slower

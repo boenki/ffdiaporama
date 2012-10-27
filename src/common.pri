@@ -54,13 +54,15 @@ win32 {
         DEFINES         += DEBUG_MODE
     }
 
-    INCLUDEPATH += C:\\ffDiaporama-trunk-Qt\\libav-win32\\usr\\include      #------ libav library path
+    #INCLUDEPATH += C:\\ffDiaporama-trunk-Qt\\libav-win32\\usr\\include      #------ libav library path
+    INCLUDEPATH += C:\\ffDiaporama-trunk-Qt\\ffmpeg-win32-dev\\include      #------ ffmpeg library path
     INCLUDEPATH += C:\\ffDiaporama-trunk-Qt\\SDL-1.2.15\\include\\SDL       #------ SDL library path
     INCLUDEPATH += C:\\ffDiaporama-trunk-Qt\\ThirdLib\\include              #------ TAGlib and EXIV2 library path
     INCLUDEPATH += C:\\ffDiaporama-trunk-Qt\\qimageblitz-0.0.6\\blitz       #------ QImageBlitz
     INCLUDEPATH += .                                                        #------ I don't know why, but windows need this !
 
-    LIBS        += -L"C:\\ffDiaporama-trunk-Qt\\libav-win32\\usr\\bin"      #------ libav library path
+    #LIBS        += -L"C:\\ffDiaporama-trunk-Qt\\libav-win32\\usr\\bin"      #------ libav library path
+    LIBS        += -L"C:\\ffDiaporama-trunk-Qt\\ffmpeg-win32-dev\\lib"      #------ ffmpeg library path
     LIBS        += -L"C:\\ffDiaporama-trunk-Qt\\SDL-1.2.15\\lib"            #------ SDL library path
     LIBS        += -L"C:\\ffDiaporama-trunk-Qt\\ThirdLib\\lib"              #------ library path (dynamic version) of third party libs (exiv2lib and taglib)
     LIBS        += -L"C:\\ffDiaporama-trunk-Qt\\qimageblitz-0.0.6\\bin\\bin"#------ QImageBlitz

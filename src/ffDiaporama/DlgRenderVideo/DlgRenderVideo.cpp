@@ -221,7 +221,7 @@ void DlgRenderVideo::DoInitDialog() {
 void DlgRenderVideo::ProjectProperties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::ProjectProperties");
 
-    DlgffDPjrProperties Dlg(Diaporama->ProjectInfo,HELPFILE_DlgffDPjrProperties,BaseApplicationConfig,((cApplicationConfig *)BaseApplicationConfig)->DlgffDPjrPropertiesWSP,this);
+    DlgffDPjrProperties Dlg(false,Diaporama,HELPFILE_DlgffDPjrProperties,BaseApplicationConfig,((cApplicationConfig *)BaseApplicationConfig)->DlgffDPjrPropertiesWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) emit SetModifyFlag();
 }
@@ -1155,8 +1155,8 @@ void DlgRenderVideo::DoAccept() {
                 Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
 
                 // Prepare frame with correct W and H
-                Diaporama->LoadSources(Frame,double(H)/double(1080),W,H,false,true);        // Load source images
-                Diaporama->DoAssembly(Frame,W,H);                                           // Make final assembly
+                Diaporama->LoadSources(Frame,double(H)/double(1080),W,H,false,true);                                        // Load source images
+                Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H); // Make final assembly
 
                 // Give time to interface!
                 QApplication::processEvents();

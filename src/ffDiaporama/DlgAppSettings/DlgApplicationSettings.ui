@@ -47,7 +47,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -73,8 +73,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>927</width>
-            <height>699</height>
+            <width>492</width>
+            <height>451</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -493,7 +493,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
             <x>0</x>
             <y>0</y>
             <width>911</width>
-            <height>969</height>
+            <height>1059</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -503,97 +503,26 @@ generations will be saved to be reused the next time you use ffDiaporama</string
            <property name="spacing">
             <number>4</number>
            </property>
-           <item row="14" column="1">
-            <widget class="QLabel" name="label_39">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
+           <item row="4" column="1">
+            <widget class="QLabel" name="label_94">
              <property name="text">
-              <string>Shape</string>
+              <string>Default language :</string>
              </property>
              <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
-           <item row="6" column="1">
-            <widget class="QLabel" name="label_18">
+           <item row="7" column="1">
+            <widget class="QLabel" name="label_11">
              <property name="text">
-              <string>Project geometry:</string>
+              <string>1st shot duration:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
              <property name="buddy">
-              <cstring>GeometryCombo</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="19" column="1" colspan="2">
-            <widget class="QLabel" name="label_47">
-             <property name="minimumSize">
-              <size>
-               <width>0</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-               <underline>true</underline>
-              </font>
-             </property>
-             <property name="text">
-              <string>Default options for new image or video block (when creating slide)</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="1">
-            <widget class="QLabel" name="label_13">
-             <property name="text">
-              <string>Next shot duration:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>StaticShotED</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="12" column="2">
-            <widget class="QComboBox" name="ST_Text_TextCB">
-             <property name="sizeAdjustPolicy">
-              <enum>QComboBox::AdjustToMinimumContentsLength</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="13" column="1">
-            <widget class="QLabel" name="label_38">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <property name="text">
-              <string>Background</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+              <cstring>NoShotED</cstring>
              </property>
             </widget>
            </item>
@@ -620,66 +549,7 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="6" column="2">
-            <layout class="QHBoxLayout" name="horizontalLayout_5">
-             <property name="spacing">
-              <number>2</number>
-             </property>
-             <item>
-              <widget class="QComboBox" name="GeometryCombo">
-               <property name="toolTip">
-                <string>Select the image geometry to be used for the creation of new projects</string>
-               </property>
-               <property name="currentIndex">
-                <number>0</number>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Old TV (4:3)</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>TV Wide (16:9)</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Cinema (2.35:1)</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_15">
-               <property name="text">
-                <string>(Only for new project)</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item row="13" column="2">
-            <widget class="QComboBox" name="ST_Text_BackgroundCB">
-             <property name="sizeAdjustPolicy">
-              <enum>QComboBox::AdjustToMinimumContentsLength</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="24" column="1" colspan="3">
+           <item row="28" column="1" colspan="3">
             <widget class="QLabel" name="label_41">
              <property name="font">
               <font>
@@ -696,8 +566,85 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="11" column="1" colspan="3">
-            <widget class="QLabel" name="label_36">
+           <item row="8" column="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_8">
+             <property name="spacing">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="QDoubleSpinBox" name="StaticShotED">
+               <property name="toolTip">
+                <string>Define the default duration of following shots within a slide</string>
+               </property>
+               <property name="decimals">
+                <number>3</number>
+               </property>
+               <property name="value">
+                <double>3.000000000000000</double>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_14">
+               <property name="text">
+                <string>sec</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_6">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="12" column="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <property name="spacing">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="cCSpeedWaveComboBox" name="TransitionSpeedWaveCB">
+               <property name="toolTip">
+                <string>Select the playback profile to be used for transitions and animations</string>
+               </property>
+               <property name="currentIndex">
+                <number>-1</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="18" column="2">
+            <widget class="QComboBox" name="ST_Text_ShapeCB">
+             <property name="sizeAdjustPolicy">
+              <enum>QComboBox::AdjustToMinimumContentsLength</enum>
+             </property>
+            </widget>
+           </item>
+           <item row="11" column="1" colspan="2">
+            <widget class="QLabel" name="label_44">
              <property name="font">
               <font>
                <weight>75</weight>
@@ -706,53 +653,99 @@ generations will be saved to be reused the next time you use ffDiaporama</string
               </font>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for new text block&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for speed wave&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
              </property>
             </widget>
            </item>
-           <item row="4" column="2">
-            <layout class="QHBoxLayout" name="horizontalLayout_11">
-             <property name="spacing">
-              <number>2</number>
+           <item row="20" column="2">
+            <widget class="QComboBox" name="ST_Text_LockingCB">
+             <property name="sizeAdjustPolicy">
+              <enum>QComboBox::AdjustToMinimumContentsLength</enum>
              </property>
-             <property name="margin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLineEdit" name="LanguageED">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>und</string>
-               </property>
-               <property name="maxLength">
-                <number>3</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_95">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="text">
-                <string>(ISO 639 language code)</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+            </widget>
            </item>
-           <item row="12" column="1">
+           <item row="10" column="1">
+            <widget class="QLabel" name="label_25">
+             <property name="text">
+              <string>Default transition:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="13" column="1">
+            <widget class="QLabel" name="label_45">
+             <property name="text">
+              <string>Block animation:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>TransitionSpeedWaveCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QLabel" name="label_92">
+             <property name="text">
+              <string>Title :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="19" column="1">
+            <widget class="QLabel" name="label_40">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <property name="text">
+              <string>Coordinates</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="6" column="1">
+            <widget class="QLabel" name="label_18">
+             <property name="text">
+              <string>Project geometry:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>GeometryCombo</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="20" column="1">
+            <widget class="QLabel" name="label_43">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <property name="text">
+              <string>Locking</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="16" column="1">
             <widget class="QLabel" name="label_37">
              <property name="frameShape">
               <enum>QFrame::StyledPanel</enum>
@@ -768,71 +761,60 @@ generations will be saved to be reused the next time you use ffDiaporama</string
              </property>
             </widget>
            </item>
-           <item row="7" column="2">
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
-             <property name="spacing">
-              <number>2</number>
+           <item row="17" column="2">
+            <widget class="QComboBox" name="ST_Text_BackgroundCB">
+             <property name="sizeAdjustPolicy">
+              <enum>QComboBox::AdjustToMinimumContentsLength</enum>
              </property>
-             <item>
-              <widget class="QDoubleSpinBox" name="NoShotED">
-               <property name="toolTip">
-                <string>Define the default duration of slides during their creation,
-this is by definition the first shot of each slide</string>
-               </property>
-               <property name="decimals">
-                <number>3</number>
-               </property>
-               <property name="value">
-                <double>6.000000000000000</double>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_12">
-               <property name="text">
-                <string>sec</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>0</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+            </widget>
            </item>
-           <item row="3" column="1">
-            <widget class="QLabel" name="label_93">
+           <item row="5" column="1" colspan="2">
+            <widget class="QLabel" name="label_32">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
              <property name="text">
-              <string>Author :</string>
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Project options (default values)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             </property>
+            </widget>
+           </item>
+           <item row="8" column="1">
+            <widget class="QLabel" name="label_13">
+             <property name="text">
+              <string>Next shot duration:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
+             <property name="buddy">
+              <cstring>StaticShotED</cstring>
+             </property>
             </widget>
            </item>
-           <item row="15" column="1">
-            <widget class="QLabel" name="label_40">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <property name="text">
-              <string>Coordinates</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-             </property>
+           <item row="2" column="2">
+            <widget class="QComboBox" name="DefaultTitleCB">
+             <item>
+              <property name="text">
+               <string>No automatic filling</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Fill with project name when project save (if not yet defined)</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Fill with project folder name when project save (if not yet defined)</string>
+              </property>
+             </item>
             </widget>
            </item>
            <item row="10" column="2">
@@ -1002,56 +984,84 @@ Crossfade transition</string>
              </item>
             </layout>
            </item>
-           <item row="7" column="1">
-            <widget class="QLabel" name="label_11">
+           <item row="23" column="1" colspan="2">
+            <widget class="QLabel" name="label_47">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>30</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
              <property name="text">
-              <string>1st shot duration:</string>
+              <string>Default options for new image or video block (when creating slide)</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QLabel" name="label_93">
+             <property name="text">
+              <string>Author :</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
-             <property name="buddy">
-              <cstring>NoShotED</cstring>
-             </property>
             </widget>
            </item>
-           <item row="10" column="1">
-            <widget class="QLabel" name="label_25">
-             <property name="text">
-              <string>Default transition:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="2">
-            <layout class="QHBoxLayout" name="horizontalLayout_10">
+           <item row="6" column="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
              <property name="spacing">
               <number>2</number>
              </property>
              <item>
-              <widget class="QComboBox" name="SpeedWaveCombo">
+              <widget class="QComboBox" name="GeometryCombo">
                <property name="toolTip">
-                <string>Select the playback profile to be used for transitions and animations</string>
+                <string>Select the image geometry to be used for the creation of new projects</string>
                </property>
                <property name="currentIndex">
-                <number>1</number>
+                <number>0</number>
                </property>
                <item>
                 <property name="text">
-                 <string>Linear</string>
+                 <string>Old TV (4:3)</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string>Quarter sine</string>
+                 <string>TV Wide (16:9)</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Cinema (2.35:1)</string>
                 </property>
                </item>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_8">
+              <widget class="QLabel" name="label_15">
+               <property name="text">
+                <string>(Only for new project)</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_3">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -1065,62 +1075,30 @@ Crossfade transition</string>
              </item>
             </layout>
            </item>
-           <item row="2" column="1">
-            <widget class="QLabel" name="label_92">
-             <property name="text">
-              <string>Title :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="1">
-            <widget class="QLabel" name="label_17">
-             <property name="text">
-              <string>Speed wave:</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>SpeedWaveCombo</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="14" column="2">
-            <widget class="QComboBox" name="ST_Text_ShapeCB">
+           <item row="16" column="2">
+            <widget class="QComboBox" name="ST_Text_TextCB">
              <property name="sizeAdjustPolicy">
               <enum>QComboBox::AdjustToMinimumContentsLength</enum>
              </property>
             </widget>
            </item>
-           <item row="2" column="2">
-            <widget class="QComboBox" name="DefaultTitleCB">
-             <item>
-              <property name="text">
-               <string>No automatic filling</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Fill with project name when project save (if not yet defined)</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Fill with project folder name when project save (if not yet defined)</string>
-              </property>
-             </item>
+           <item row="19" column="2">
+            <widget class="QComboBox" name="ST_Text_CoordCB">
+             <property name="sizeAdjustPolicy">
+              <enum>QComboBox::AdjustToMinimumContentsLength</enum>
+             </property>
             </widget>
            </item>
-           <item row="4" column="1">
-            <widget class="QLabel" name="label_94">
+           <item row="12" column="1">
+            <widget class="QLabel" name="label_17">
              <property name="text">
-              <string>Default language :</string>
+              <string>Transition:</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>TransitionSpeedWaveCB</cstring>
              </property>
             </widget>
            </item>
@@ -1131,33 +1109,66 @@ Crossfade transition</string>
              </property>
             </widget>
            </item>
-           <item row="8" column="2">
-            <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item row="17" column="1">
+            <widget class="QLabel" name="label_38">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <property name="text">
+              <string>Background</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="18" column="1">
+            <widget class="QLabel" name="label_39">
+             <property name="frameShape">
+              <enum>QFrame::StyledPanel</enum>
+             </property>
+             <property name="frameShadow">
+              <enum>QFrame::Raised</enum>
+             </property>
+             <property name="text">
+              <string>Shape</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="7" column="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_7">
              <property name="spacing">
               <number>2</number>
              </property>
              <item>
-              <widget class="QDoubleSpinBox" name="StaticShotED">
+              <widget class="QDoubleSpinBox" name="NoShotED">
                <property name="toolTip">
-                <string>Define the default duration of following shots within a slide</string>
+                <string>Define the default duration of slides during their creation,
+this is by definition the first shot of each slide</string>
                </property>
                <property name="decimals">
                 <number>3</number>
                </property>
                <property name="value">
-                <double>3.000000000000000</double>
+                <double>6.000000000000000</double>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_14">
+              <widget class="QLabel" name="label_12">
                <property name="text">
                 <string>sec</string>
                </property>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_6">
+              <spacer name="horizontalSpacer_5">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -1171,54 +1182,46 @@ Crossfade transition</string>
              </item>
             </layout>
            </item>
-           <item row="5" column="1" colspan="2">
-            <widget class="QLabel" name="label_32">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-               <underline>true</underline>
-              </font>
+           <item row="4" column="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_11">
+             <property name="spacing">
+              <number>2</number>
              </property>
-             <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Project options (default values)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             <property name="margin">
+              <number>0</number>
              </property>
-             <property name="alignment">
-              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-             </property>
-            </widget>
+             <item>
+              <widget class="QLineEdit" name="LanguageED">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>und</string>
+               </property>
+               <property name="maxLength">
+                <number>3</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_95">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>(ISO 639 language code)</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
-           <item row="15" column="2">
-            <widget class="QComboBox" name="ST_Text_CoordCB">
-             <property name="sizeAdjustPolicy">
-              <enum>QComboBox::AdjustToMinimumContentsLength</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="16" column="1">
-            <widget class="QLabel" name="label_43">
-             <property name="frameShape">
-              <enum>QFrame::StyledPanel</enum>
-             </property>
-             <property name="frameShadow">
-              <enum>QFrame::Raised</enum>
-             </property>
-             <property name="text">
-              <string>Locking</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="16" column="2">
-            <widget class="QComboBox" name="ST_Text_LockingCB">
-             <property name="sizeAdjustPolicy">
-              <enum>QComboBox::AdjustToMinimumContentsLength</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="27" column="1" colspan="2">
+           <item row="31" column="1" colspan="2">
             <layout class="QGridLayout" name="gridLayout_27">
              <property name="margin">
               <number>0</number>
@@ -1560,7 +1563,24 @@ Framing:</string>
              </item>
             </layout>
            </item>
-           <item row="22" column="1" colspan="2">
+           <item row="15" column="1" colspan="3">
+            <widget class="QLabel" name="label_36">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
+             <property name="text">
+              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for new text block&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
+             </property>
+            </widget>
+           </item>
+           <item row="26" column="1" colspan="2">
             <layout class="QGridLayout" name="gridLayout_9">
              <property name="margin">
               <number>0</number>
@@ -1902,6 +1922,79 @@ Coordinates:</string>
              </item>
             </layout>
            </item>
+           <item row="14" column="1">
+            <widget class="QLabel" name="label_46">
+             <property name="text">
+              <string>Image animation:</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>TransitionSpeedWaveCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="13" column="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
+             <property name="spacing">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="cCSpeedWaveComboBox" name="BlockSpeedWaveCB">
+               <property name="toolTip">
+                <string>Select the playback profile to be used for transitions and animations</string>
+               </property>
+               <property name="currentIndex">
+                <number>-1</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_9">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item row="14" column="2">
+            <layout class="QHBoxLayout" name="horizontalLayout_14">
+             <property name="spacing">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="cCSpeedWaveComboBox" name="ImageSpeedWaveCB">
+               <property name="toolTip">
+                <string>Select the playback profile to be used for transitions and animations</string>
+               </property>
+               <property name="currentIndex">
+                <number>-1</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_10">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>0</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
           </layout>
          </widget>
         </widget>
@@ -1932,8 +2025,8 @@ Coordinates:</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>927</width>
-            <height>699</height>
+            <width>383</width>
+            <height>395</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -2444,6 +2537,13 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>cCSpeedWaveComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cCSpeedWaveComboBox.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>RandomTransitionRD</tabstop>
   <tabstop>NoTransitionRD</tabstop>
@@ -2452,7 +2552,7 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
   <tabstop>GeometryCombo</tabstop>
   <tabstop>NoShotED</tabstop>
   <tabstop>StaticShotED</tabstop>
-  <tabstop>SpeedWaveCombo</tabstop>
+  <tabstop>TransitionSpeedWaveCB</tabstop>
   <tabstop>OkBt</tabstop>
   <tabstop>CancelBt</tabstop>
  </tabstops>

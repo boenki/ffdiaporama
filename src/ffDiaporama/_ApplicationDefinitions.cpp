@@ -133,12 +133,14 @@ void cApplicationConfig::InitValues() {
     PreviewFPS                  = 12.5;                     // Preview FrameRate
     NoShotDuration              = 6000;                     // Default duration for fixed image when is alone (no shot)
     FixedDuration               = 3000;                     // Default duration for fixed image (msec)
-    SpeedWave                   = SPEEDWAVE_LINEAR;         // Default speed wave methode
     ImageGeometry               = GEOMETRY_16_9;            // Project image geometry for image rendering
     SlideRuler                  = RULER_DEFAULT;            // if true, ruler is on in slide properties dialog box
     FramingRuler                = true;                     // if true, ruler is on in framing/correction dialog box
     DefaultTitleFilling         = 0;                        // Default Title filling mode
     DefaultAuthor               = "";                       // Default Author name
+    DefaultTransitionSpeedWave  = SPEEDWAVE_SINQUARTER;     // Default Speed wave for transition
+    DefaultBlockAnimSpeedWave   = SPEEDWAVE_LINEAR;         // Default Speed wave for block animation
+    DefaultImageAnimSpeedWave   = SPEEDWAVE_LINEAR;         // Default Speed wave for image framing and correction animation
 
     DefaultFormat               = 1;                        // Default format = avi
     DefaultNameProjectName      =true;                      // Use project name as default name for rendering
@@ -303,9 +305,11 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("ImageGeometry",               ImageGeometry);
     Element.setAttribute("NoShotDuration",              NoShotDuration);
     Element.setAttribute("FixedDuration",               FixedDuration);
-    Element.setAttribute("SpeedWave",                   SpeedWave);
     Element.setAttribute("DefaultAuthor",               DefaultAuthor);
     Element.setAttribute("DefaultTitleFilling",         DefaultTitleFilling);
+    Element.setAttribute("DefaultTransitionSpeedWave",  DefaultTransitionSpeedWave);
+    Element.setAttribute("DefaultBlockAnimSpeedWave",   DefaultBlockAnimSpeedWave);
+    Element.setAttribute("DefaultImageAnimSpeedWave",   DefaultImageAnimSpeedWave);
 
     SubElement=Document.createElement("DefaultBlock_Text");
     SubElement.setAttribute("TextST",                   DefaultBlock_Text_TextST);
@@ -445,9 +449,18 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         if (Element.hasAttribute("ImageGeometry"))              ImageGeometry               =Element.attribute("ImageGeometry").toInt();
         if (Element.hasAttribute("NoShotDuration"))             NoShotDuration              =Element.attribute("NoShotDuration").toInt();
         if (Element.hasAttribute("FixedDuration"))              FixedDuration               =Element.attribute("FixedDuration").toInt();
-        if (Element.hasAttribute("SpeedWave"))                  SpeedWave                   =Element.attribute("SpeedWave").toInt();
         if (Element.hasAttribute("DefaultTitleFilling"))        DefaultTitleFilling         =Element.attribute("DefaultTitleFilling").toInt();
         if (Element.hasAttribute("DefaultAuthor"))              DefaultAuthor               =Element.attribute("DefaultAuthor");
+        if (Element.hasAttribute("DefaultTransitionSpeedWave")) DefaultTransitionSpeedWave  =Element.attribute("DefaultTransitionSpeedWave").toInt();
+        if (Element.hasAttribute("DefaultBlockAnimSpeedWave"))  DefaultBlockAnimSpeedWave   =Element.attribute("DefaultBlockAnimSpeedWave").toInt();
+        if (Element.hasAttribute("DefaultImageAnimSpeedWave"))  DefaultImageAnimSpeedWave   =Element.attribute("DefaultImageAnimSpeedWave").toInt();
+
+        // Compatibility with version prior to 1.5
+        if (Element.hasAttribute("SpeedWave")) {
+            DefaultTransitionSpeedWave=Element.attribute("SpeedWave").toInt();
+            DefaultBlockAnimSpeedWave =Element.attribute("SpeedWave").toInt();
+            DefaultImageAnimSpeedWave =Element.attribute("SpeedWave").toInt();
+        }
 
         if ((Element.elementsByTagName("DefaultBlock_Text").length()>0)&&(Element.elementsByTagName("DefaultBlock_Text").item(0).isElement()==true)) {
             QDomElement SubElement=Element.elementsByTagName("DefaultBlock_Text").item(0).toElement();

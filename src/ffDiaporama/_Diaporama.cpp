@@ -85,6 +85,8 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
     FormShadow              = 0;                                                // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
     FormShadowDistance      = 5;                                                // Distance from form to shadow
 
+    BlockSpeedWave          = SPEEDWAVE_PROJECTDEFAULT;
+
     // Block animation part
     BlockAnimType           = BLOCKANIMTYPE_NONE;
     TurnZAxis               = 0;                                                // Number of turn from Z axis
@@ -171,6 +173,8 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("RotateYAxis",RotateYAxis);                // Rotation from Y axis
     Element.setAttribute("BackgroundTransparent",Opacity);          // Opacity of the form
 
+    Element.setAttribute("BlockSpeedWave",BlockSpeedWave);          // Block speed wave
+
     // Block animation
     Element.setAttribute("BlockAnimType",BlockAnimType);            // Block animation type
     Element.setAttribute("TurnZAxis",TurnZAxis);                    // Number of turn from Z axis
@@ -242,12 +246,13 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         if (Element.hasAttribute("RotateXAxis"))                RotateXAxis     =Element.attribute("RotateXAxis").toDouble();           // Rotation from X axis
         if (Element.hasAttribute("RotateYAxis"))                RotateYAxis     =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
 
+        if (Element.hasAttribute("BlockSpeedWave"))             BlockSpeedWave  =Element.attribute("BlockSpeedWave").toInt();           // Block speed wave
 
-        if (Element.hasAttribute("BlockAnimType"))              BlockAnimType   =Element.attribute("BlockAnimType").toInt();        // Block animation type
-        if (Element.hasAttribute("TurnZAxis"))                  TurnZAxis       =Element.attribute("TurnZAxis").toInt();            // Number of turn from Z axis
-        if (Element.hasAttribute("TurnXAxis"))                  TurnXAxis       =Element.attribute("TurnXAxis").toInt();            // Number of turn from X axis
-        if (Element.hasAttribute("TurnYAxis"))                  TurnYAxis       =Element.attribute("TurnYAxis").toInt();            // Number of turn from Y axis
-        if (Element.hasAttribute("Dissolve"))                   Dissolve        =Element.attribute("Dissolve").toInt();             // Dissolve value
+        if (Element.hasAttribute("BlockAnimType"))              BlockAnimType   =Element.attribute("BlockAnimType").toInt();            // Block animation type
+        if (Element.hasAttribute("TurnZAxis"))                  TurnZAxis       =Element.attribute("TurnZAxis").toInt();                // Number of turn from Z axis
+        if (Element.hasAttribute("TurnXAxis"))                  TurnXAxis       =Element.attribute("TurnXAxis").toInt();                // Number of turn from X axis
+        if (Element.hasAttribute("TurnYAxis"))                  TurnYAxis       =Element.attribute("TurnYAxis").toInt();                // Number of turn from Y axis
+        if (Element.hasAttribute("Dissolve"))                   Dissolve        =Element.attribute("Dissolve").toInt();                 // Dissolve value
 
         // Text part
         if ((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
@@ -671,6 +676,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
     RotateZAxis          =CompositionObjectToCopy->RotateZAxis;
     RotateXAxis          =CompositionObjectToCopy->RotateXAxis;
     RotateYAxis          =CompositionObjectToCopy->RotateYAxis;
+    BlockSpeedWave       =CompositionObjectToCopy->BlockSpeedWave;
     BlockAnimType        =CompositionObjectToCopy->BlockAnimType;
     TurnZAxis            =CompositionObjectToCopy->TurnZAxis;
     TurnXAxis            =CompositionObjectToCopy->TurnXAxis;
@@ -711,7 +717,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 
 // ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
-                                               cSoundBlockList *SoundTrackMontage,double PctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache,qlonglong ShotDuration,bool EnableAnimation,
+                                               cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache,qlonglong ShotDuration,bool EnableAnimation,
                                                bool Transfo,double NewX,double NewY,double NewW,double NewH) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:DrawCompositionObject");
 
@@ -723,7 +729,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
     if (SoundOnly) {
         // if SoundOnly then load Brush of type BRUSHTYPE_IMAGEDISK to SoundTrackMontage
         if ((BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(SoundTrackMontage!=NULL)) {
-            QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,0,0),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,NULL);
+            QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,0,0),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,NULL);
             if (BR) delete BR;
         }
     } else {
@@ -731,7 +737,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         if (!PreviewMode || GlobalMainWindow->ApplicationConfig->Smoothing) DestPainter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
             else DestPainter->setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
-        // Define values depending on PctDone and PrevCompoObject
+        // Define values depending on BlockPctDone and PrevCompoObject
         double TheX             =Transfo?NewX:x;
         double TheY             =Transfo?NewY:y;
         double TheW             =Transfo?NewW:w;
@@ -744,21 +750,21 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
         double TheTxtScrollY    =TxtScrollY;
 
         if (PrevCompoObject) {
-            if (PrevCompoObject->x!=TheX)                       TheX            =PrevCompoObject->x+(TheX-PrevCompoObject->x)*PctDone;
-            if (PrevCompoObject->y!=TheY)                       TheY            =PrevCompoObject->y+(TheY-PrevCompoObject->y)*PctDone;
-            if (PrevCompoObject->w!=TheW)                       TheW            =PrevCompoObject->w+(TheW-PrevCompoObject->w)*PctDone;
-            if (PrevCompoObject->h!=TheH)                       TheH            =PrevCompoObject->h+(TheH-PrevCompoObject->h)*PctDone;
-            if (PrevCompoObject->RotateZAxis!=TheRotateZAxis)   TheRotateZAxis  =PrevCompoObject->RotateZAxis+(TheRotateZAxis-PrevCompoObject->RotateZAxis)*PctDone;
-            if (PrevCompoObject->RotateXAxis!=TheRotateXAxis)   TheRotateXAxis  =PrevCompoObject->RotateXAxis+(TheRotateXAxis-PrevCompoObject->RotateXAxis)*PctDone;
-            if (PrevCompoObject->RotateYAxis!=TheRotateYAxis)   TheRotateYAxis  =PrevCompoObject->RotateYAxis+(TheRotateYAxis-PrevCompoObject->RotateYAxis)*PctDone;
-            if (PrevCompoObject->TxtZoomLevel!=TheTxtZoomLevel) TheTxtZoomLevel =PrevCompoObject->TxtZoomLevel+(TheTxtZoomLevel-PrevCompoObject->TxtZoomLevel)*PctDone;
-            if (PrevCompoObject->TxtScrollX!=TheTxtScrollX)     TheTxtScrollX   =PrevCompoObject->TxtScrollX+(TheTxtScrollX-PrevCompoObject->TxtScrollX)*PctDone;
-            if (PrevCompoObject->TxtScrollY!=TheTxtScrollY)     TheTxtScrollY   =PrevCompoObject->TxtScrollY+(TheTxtScrollY-PrevCompoObject->TxtScrollY)*PctDone;
+            if (PrevCompoObject->x!=TheX)                       TheX            =PrevCompoObject->x+(TheX-PrevCompoObject->x)*BlockPctDone;
+            if (PrevCompoObject->y!=TheY)                       TheY            =PrevCompoObject->y+(TheY-PrevCompoObject->y)*BlockPctDone;
+            if (PrevCompoObject->w!=TheW)                       TheW            =PrevCompoObject->w+(TheW-PrevCompoObject->w)*BlockPctDone;
+            if (PrevCompoObject->h!=TheH)                       TheH            =PrevCompoObject->h+(TheH-PrevCompoObject->h)*BlockPctDone;
+            if (PrevCompoObject->RotateZAxis!=TheRotateZAxis)   TheRotateZAxis  =PrevCompoObject->RotateZAxis+(TheRotateZAxis-PrevCompoObject->RotateZAxis)*BlockPctDone;
+            if (PrevCompoObject->RotateXAxis!=TheRotateXAxis)   TheRotateXAxis  =PrevCompoObject->RotateXAxis+(TheRotateXAxis-PrevCompoObject->RotateXAxis)*BlockPctDone;
+            if (PrevCompoObject->RotateYAxis!=TheRotateYAxis)   TheRotateYAxis  =PrevCompoObject->RotateYAxis+(TheRotateYAxis-PrevCompoObject->RotateYAxis)*BlockPctDone;
+            if (PrevCompoObject->TxtZoomLevel!=TheTxtZoomLevel) TheTxtZoomLevel =PrevCompoObject->TxtZoomLevel+(TheTxtZoomLevel-PrevCompoObject->TxtZoomLevel)*BlockPctDone;
+            if (PrevCompoObject->TxtScrollX!=TheTxtScrollX)     TheTxtScrollX   =PrevCompoObject->TxtScrollX+(TheTxtScrollX-PrevCompoObject->TxtScrollX)*BlockPctDone;
+            if (PrevCompoObject->TxtScrollY!=TheTxtScrollY)     TheTxtScrollY   =PrevCompoObject->TxtScrollY+(TheTxtScrollY-PrevCompoObject->TxtScrollY)*BlockPctDone;
         } else {
             if (EnableAnimation && (BlockAnimType==BLOCKANIMTYPE_MULTIPLETURN)) {
-                TheRotateZAxis=RotateZAxis+360*TurnZAxis*PctDone;
-                TheRotateXAxis=RotateXAxis+360*TurnXAxis*PctDone;
-                TheRotateYAxis=RotateYAxis+360*TurnYAxis*PctDone;
+                TheRotateZAxis=RotateZAxis+360*TurnZAxis*BlockPctDone;
+                TheRotateXAxis=RotateXAxis+360*TurnXAxis*BlockPctDone;
+                TheRotateYAxis=RotateYAxis+360*TurnYAxis*BlockPctDone;
             }
         }
 
@@ -821,7 +827,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 // Create brush with Ken Burns effect !
                 QBrush *BR              =NULL;
 
-                BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
+                BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
                 if (BR) {
                     QTransform  MatrixBR;
                     MatrixBR.translate(-W/2,-H/2);
@@ -936,17 +942,17 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
 
                     double BlinkNumber=0;
                     switch (Dissolve) {
-                        case BLOCKANIMVALUE_APPEAR        : DestOpacity=DestOpacity*PctDone;        break;
-                        case BLOCKANIMVALUE_DISAPPEAR     : DestOpacity=DestOpacity*(1-PctDone);    break;
-                        case BLOCKANIMVALUE_BLINK_SLOW    : BlinkNumber=0.25;                       break;
-                        case BLOCKANIMVALUE_BLINK_MEDIUM  : BlinkNumber=0.5;                        break;
-                        case BLOCKANIMVALUE_BLINK_FAST    : BlinkNumber=1;                          break;
-                        case BLOCKANIMVALUE_BLINK_VERYFAST: BlinkNumber=2;                          break;
+                        case BLOCKANIMVALUE_APPEAR        : DestOpacity=DestOpacity*BlockPctDone;       break;
+                        case BLOCKANIMVALUE_DISAPPEAR     : DestOpacity=DestOpacity*(1-BlockPctDone);   break;
+                        case BLOCKANIMVALUE_BLINK_SLOW    : BlinkNumber=0.25;                           break;
+                        case BLOCKANIMVALUE_BLINK_MEDIUM  : BlinkNumber=0.5;                            break;
+                        case BLOCKANIMVALUE_BLINK_FAST    : BlinkNumber=1;                              break;
+                        case BLOCKANIMVALUE_BLINK_VERYFAST: BlinkNumber=2;                              break;
                     }
                     if (BlinkNumber!=0) {
                         BlinkNumber=BlinkNumber*ShotDuration;
                         if (int(BlinkNumber/1000)!=(BlinkNumber/1000)) BlinkNumber=int(BlinkNumber/1000)+1; else BlinkNumber=int(BlinkNumber/1000); // Adjust to upper 1000
-                        double FullPct=PctDone*BlinkNumber*100;
+                        double FullPct=BlockPctDone*BlinkNumber*100;
                         FullPct=int(FullPct)-int(FullPct/100)*100;
                         FullPct=(FullPct/100)*2;
                         if (FullPct<1)  DestOpacity=DestOpacity*(1-FullPct);
@@ -1157,6 +1163,7 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
     TransitionFamilly                       = TRANSITIONFAMILLY_BASE;       // Transition familly
     TransitionSubType                       = 0;                            // Transition type in the familly
     TransitionDuration                      = 1000;                         // Transition duration (in msec)
+    TransitionSpeedWave                     = SPEEDWAVE_PROJECTDEFAULT;
     BackgroundComposition.TypeComposition   = COMPOSITIONTYPE_BACKGROUND;
     ObjectComposition.TypeComposition       = COMPOSITIONTYPE_OBJECT;
     Thumbnail                               = NULL;
@@ -1206,12 +1213,18 @@ void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Pa
 
         // Add static shot composition
         if (List.count()>0) for (int j=0;j<List[0]->ShotComposition.List.count();j++) {
-            List[0]->ShotComposition.List[j]->DrawCompositionObject(&P,double(ThumbHeight)/1080,0,0,ThumbWidth,ThumbHeight,true,0,0,NULL,0,NULL,false,List[0]->StaticDuration,false);
+            List[0]->ShotComposition.List[j]->DrawCompositionObject(&P,double(ThumbHeight)/1080,0,0,ThumbWidth,ThumbHeight,true,0,0,NULL,0,0,NULL,false,List[0]->StaticDuration,false);
         }
 
         P.end();
     }
     Painter->drawImage(AddX,AddY,*Thumbnail);
+}
+
+//===============================================================
+
+int cDiaporamaObject::GetSpeedWave() {
+    if (TransitionSpeedWave==SPEEDWAVE_PROJECTDEFAULT) return Parent->TransitionSpeedWave; else return TransitionSpeedWave;
 }
 
 //===============================================================
@@ -1291,6 +1304,7 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     SubElement.setAttribute("TransitionFamilly",TransitionFamilly);                         // Transition familly
     SubElement.setAttribute("TransitionSubType",TransitionSubType);                         // Transition type in the familly
     SubElement.setAttribute("TransitionDuration",TransitionDuration);                       // Transition duration (in msec)
+    SubElement.setAttribute("TransitionSpeedWave",TransitionSpeedWave);                     // Transition speed wave
     Element.appendChild(SubElement);
 
     // Music properties
@@ -1361,9 +1375,10 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         // Transition properties
         if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
             QDomElement SubElement=Element.elementsByTagName("Transition").item(0).toElement();
-            TransitionFamilly =SubElement.attribute("TransitionFamilly").toInt();                                                   // Transition familly
-            TransitionSubType =SubElement.attribute("TransitionSubType").toInt();                                                   // Transition type in the familly
-            TransitionDuration=SubElement.attribute("TransitionDuration").toInt();                                                  // Transition duration (in msec)
+            TransitionFamilly =SubElement.attribute("TransitionFamilly").toInt();                                                           // Transition familly
+            TransitionSubType =SubElement.attribute("TransitionSubType").toInt();                                                           // Transition type in the familly
+            TransitionDuration=SubElement.attribute("TransitionDuration").toInt();                                                          // Transition duration (in msec)
+            if (SubElement.hasAttribute("TransitionSpeedWave")) TransitionSpeedWave=SubElement.attribute("TransitionSpeedWave").toInt();    // Transition speed wave
             Element.appendChild(SubElement);
         }
         // Music properties
@@ -1438,8 +1453,13 @@ cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
     ProjectInfo->Composer       = ApplicationConfig->ApplicationName+QString(" ")+ApplicationConfig->ApplicationVersion;
     ProjectInfo->Author         = ApplicationConfig->DefaultAuthor;
     ProjectInfo->DefaultLanguage= ApplicationConfig->DefaultLanguage;
+    TransitionSpeedWave         = ApplicationConfig->DefaultTransitionSpeedWave;                    // Speed wave for transition
+    BlockAnimSpeedWave          = ApplicationConfig->DefaultBlockAnimSpeedWave;                     // Speed wave for block animation
+    ImageAnimSpeedWave          = ApplicationConfig->DefaultImageAnimSpeedWave;                     // Speed wave for image framing and correction animation
+
     // Set default value
     DefineSizeAndGeometry(ApplicationConfig->ImageGeometry);                                // Default to 16:9
+
 }
 
 //====================================================================================================================
@@ -1752,18 +1772,7 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position
         double Factor=CurMusic->Volume; // Master volume
         if (List[Column]->MusicReduceVolume || FadeEffect) {
             if (FadeEffect) {
-                double PctDone=1;
-                // calculate PctDone
-                switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
-                case SPEEDWAVE_LINEAR :
-                    PctDone=double(Position)/double(List[Column]->TransitionDuration);
-                    break;
-                case SPEEDWAVE_SINQUARTER :
-                    PctDone=double(Position)/double(List[Column]->TransitionDuration);
-                    PctDone=sin(1.5708*PctDone);
-                    break;
-                }
-
+                double  PctDone  =ComputePCT(SPEEDWAVE_SINQUARTER,double(Position)/double(List[Column]->TransitionDuration));
                 double  AncReduce=List[Column-1]->MusicPause?0:List[Column-1]->MusicReduceVolume?List[Column-1]->MusicReduceFactor:1;
                 double  NewReduce=List[Column]->MusicPause?0:List[Column]->MusicReduceVolume?List[Column]->MusicReduceFactor:1;
                 double  ReduceFactor=AncReduce+(NewReduce-AncReduce)*PctDone;
@@ -1794,7 +1803,6 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     cDiaporamaShot      *CurShot            =IsCurrentObject?Info->CurrentObject_CurrentShot:Info->TransitObject_CurrentShot;
     cDiaporamaObject    *CurObject          =IsCurrentObject?Info->CurrentObject:Info->TransitObject;
     int                 CurTimePosition     =(IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime);
-    double              PCTDone             =IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone;
     cSoundBlockList     *SoundTrackMontage  =(IsCurrentObject?Info->CurrentObject_SoundTrackMontage:Info->TransitObject_SoundTrackMontage);
     int                 ObjectNumber        =IsCurrentObject?Info->CurrentObject_Number:Info->TransitObject_Number;
     int                 ShotNumber          =IsCurrentObject?Info->CurrentObject_ShotSequenceNumber:Info->TransitObject_ShotSequenceNumber;
@@ -1823,7 +1831,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
                 }
                 VideoPosition+=(CurTimePosition-ThePosition);
 
-                CurShot->ShotComposition.List[j]->DrawCompositionObject(NULL,double(H)/double(1080),0,0,0,0,true,VideoPosition,StartPosToAdd,SoundTrackMontage,1,NULL,false,CurShot->StaticDuration,true);
+                CurShot->ShotComposition.List[j]->DrawCompositionObject(NULL,double(H)/double(1080),0,0,0,0,true,VideoPosition,StartPosToAdd,SoundTrackMontage,1,1,NULL,false,CurShot->StaticDuration,true);
             }
         }
         return;
@@ -1895,7 +1903,13 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
         } else VideoPosition=CurTimePosition;
 
         // Draw object
-        CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),0,0,W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,PCTDone,PrevCompoObject,false,Duration,true);
+        int     BlockSpeedWave=CurShot->ShotComposition.List[j]->BlockSpeedWave;                        if (BlockSpeedWave==SPEEDWAVE_PROJECTDEFAULT) BlockSpeedWave=BlockAnimSpeedWave;
+        int     ImageSpeedWave=CurShot->ShotComposition.List[j]->BackgroundBrush->ImageSpeedWave;       if (ImageSpeedWave==SPEEDWAVE_PROJECTDEFAULT) ImageSpeedWave=ImageAnimSpeedWave;
+
+        double  BlockPCTDone  =ComputePCT(BlockSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
+        double  ImagePCTDone  =ComputePCT(ImageSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
+
+        CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),0,0,W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,BlockPCTDone,ImagePCTDone,PrevCompoObject,false,Duration,true);
 
     }
     P.end();
@@ -1906,7 +1920,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
 //=============================================================================================================================
 // Function use directly or with thread to make assembly of background and images and make mix (sound & music) when transition
 //=============================================================================================================================
-void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
+void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoAssembly");
 
     if (Info->RenderedImage!=NULL) return;    // return immediatly if we have image
@@ -1914,21 +1928,23 @@ void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
 
     // Prepare image
     if (!SoundOnly) {
-        QImage  *Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+        QImage   *Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
         QPainter P;
+
         P.begin(Image);
         P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
         P.fillRect(0,0,W,H,Qt::black);  // Always start with a black frame
+
         // Draw background
         if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
             double Opacity;
             if ((Info->TransitObject)&&(Info->TransitObject_PreparedBackground)) {
-                Opacity=1-(Info->TransitionPCTDone);
+                Opacity=1-ComputePCT(Info->CurrentObject->GetSpeedWave(),Info->TransitionPCTDone);
                 P.setOpacity(Opacity);
                 P.drawImage(0,0,*Info->TransitObject_PreparedBackground);
             }
             if (Info->CurrentObject_PreparedBackground) {
-                Opacity=(Info->TransitionPCTDone);
+                Opacity=ComputePCT(Info->CurrentObject->GetSpeedWave(),Info->TransitionPCTDone);
                 P.setOpacity(Opacity);
                 P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
             }
@@ -1945,17 +1961,17 @@ void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
                 Info->TransitObject_FreePreparedImage=true;
             }
             switch (Info->TransitionFamilly) {
-            case TRANSITIONFAMILLY_BASE        : DoBasic(Info,&P,W,H);                  break;
-            case TRANSITIONFAMILLY_ZOOMINOUT   : DoZoom(Info,&P,W,H);                   break;
-            case TRANSITIONFAMILLY_PUSH        : DoPush(Info,&P,W,H);                   break;
-            case TRANSITIONFAMILLY_SLIDE       : DoSlide(Info,&P,W,H);                  break;
-            case TRANSITIONFAMILLY_DEFORM      : DoDeform(Info,&P,W,H);                 break;
-            case TRANSITIONFAMILLY_LUMA_BAR    : DoLuma(&LumaList_Bar,Info,&P,W,H);     break;
-            case TRANSITIONFAMILLY_LUMA_BOX    : DoLuma(&LumaList_Box,Info,&P,W,H);     break;
-            case TRANSITIONFAMILLY_LUMA_CENTER : DoLuma(&LumaList_Center,Info,&P,W,H);  break;
-            case TRANSITIONFAMILLY_LUMA_CHECKER: DoLuma(&LumaList_Checker,Info,&P,W,H); break;
-            case TRANSITIONFAMILLY_LUMA_CLOCK  : DoLuma(&LumaList_Clock,Info,&P,W,H);   break;
-            case TRANSITIONFAMILLY_LUMA_SNAKE  : DoLuma(&LumaList_Snake,Info,&P,W,H);   break;
+            case TRANSITIONFAMILLY_BASE        : DoBasic(PCT,Info,&P,W,H);                  break;
+            case TRANSITIONFAMILLY_ZOOMINOUT   : DoZoom(PCT,Info,&P,W,H);                   break;
+            case TRANSITIONFAMILLY_PUSH        : DoPush(PCT,Info,&P,W,H);                   break;
+            case TRANSITIONFAMILLY_SLIDE       : DoSlide(PCT,Info,&P,W,H);                  break;
+            case TRANSITIONFAMILLY_DEFORM      : DoDeform(PCT,Info,&P,W,H);                 break;
+            case TRANSITIONFAMILLY_LUMA_BAR    : DoLuma(PCT,&LumaList_Bar,Info,&P,W,H);     break;
+            case TRANSITIONFAMILLY_LUMA_BOX    : DoLuma(PCT,&LumaList_Box,Info,&P,W,H);     break;
+            case TRANSITIONFAMILLY_LUMA_CENTER : DoLuma(PCT,&LumaList_Center,Info,&P,W,H);  break;
+            case TRANSITIONFAMILLY_LUMA_CHECKER: DoLuma(PCT,&LumaList_Checker,Info,&P,W,H); break;
+            case TRANSITIONFAMILLY_LUMA_CLOCK  : DoLuma(PCT,&LumaList_Clock,Info,&P,W,H);   break;
+            case TRANSITIONFAMILLY_LUMA_SNAKE  : DoLuma(PCT,&LumaList_Snake,Info,&P,W,H);   break;
             }
         } else if (Info->CurrentObject_PreparedImage!=NULL) P.drawImage(0,0,*Info->CurrentObject_PreparedImage);
         P.end();
@@ -1966,7 +1982,7 @@ void cDiaporama::DoAssembly(cDiaporamaObjectInfo *Info,int W,int H) {
 
 //============================================================================================
 
-void cDiaporama::DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int,int) {
+void cDiaporama::DoBasic(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int,int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoBasic");
 
     switch (Info->TransitionSubType) {
@@ -1974,25 +1990,25 @@ void cDiaporama::DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int,int) {
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
         break;
     case 1:
-        P->setOpacity(1-Info->TransitionPCTDone);
+        P->setOpacity(1-PCT);
         P->drawImage(0,0,*Info->TransitObject_PreparedImage);
-        P->setOpacity(Info->TransitionPCTDone);
+        P->setOpacity(PCT);
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
         P->setOpacity(1);
         break;
     case 2:
-        //P->setOpacity(1-Info->TransitionPCTDone);
+        //P->setOpacity(1-PCT);
         P->drawImage(0,0,*Info->TransitObject_PreparedImage);
-        P->setOpacity(Info->TransitionPCTDone);
+        P->setOpacity(PCT);
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
         P->setOpacity(1);
         break;
     case 3:
-        if (Info->TransitionPCTDone<0.5) {
-            P->setOpacity(1-(Info->TransitionPCTDone)*2);
+        if (PCT<0.5) {
+            P->setOpacity(1-PCT*2);
             P->drawImage(0,0,*Info->TransitObject_PreparedImage);
         } else {
-            P->setOpacity((Info->TransitionPCTDone-0.5)*2);
+            P->setOpacity((PCT-0.5)*2);
             P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
         }
         P->setOpacity(1);
@@ -2002,7 +2018,7 @@ void cDiaporama::DoBasic(cDiaporamaObjectInfo *Info,QPainter *P,int,int) {
 
 //============================================================================================
 
-void cDiaporama::DoLuma(cLumaList *LumaList,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
+void cDiaporama::DoLuma(double PCT,cLumaList *LumaList,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoLuma");
 
     QImage  Img=Info->CurrentObject_PreparedImage->copy();
@@ -2012,7 +2028,7 @@ void cDiaporama::DoLuma(cLumaList *LumaList,cDiaporamaObjectInfo *Info,QPainter 
                         LumaList->List[Info->TransitionSubType].OriginalLuma.scaled(Info->CurrentObject_PreparedImage->size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation).convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
         // Apply PCTDone to luma mask
-        uint8_t limit    =uint8_t(Info->TransitionPCTDone*double(0xff))+1;
+        uint8_t limit    =uint8_t(PCT*double(0xff))+1;
         uint32_t *LumaData=(uint32_t *)Luma.bits();
         uint32_t *ImgData =(uint32_t *)Img.bits();
         uint32_t *ImgData2=(uint32_t *)Info->TransitObject_PreparedImage->bits();
@@ -2029,13 +2045,13 @@ void cDiaporama::DoLuma(cLumaList *LumaList,cDiaporamaObjectInfo *Info,QPainter 
 
 //============================================================================================
 
-void cDiaporama::DoZoom(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
+void cDiaporama::DoZoom(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoZoom");
 
     bool    Reverse=(Info->TransitionSubType & 0x1)==1;
     QPoint  box;
-    int     wt= int(double(W)*(Reverse?(1-Info->TransitionPCTDone):Info->TransitionPCTDone));
-    int     ht= int(double(H)*(Reverse?(1-Info->TransitionPCTDone):Info->TransitionPCTDone));
+    int     wt= int(double(W)*(Reverse?(1-PCT):PCT));
+    int     ht= int(double(H)*(Reverse?(1-PCT):PCT));
 
     switch (Info->TransitionSubType) {
     case 0 :
@@ -2061,14 +2077,14 @@ void cDiaporama::DoZoom(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
     // Draw transformed image
     if (!Reverse) {
         // Old image will desapear progressively during the second half time of the transition
-        if (Info->TransitionPCTDone<0.5) P->drawImage(0,0,*Info->TransitObject_PreparedImage); else {
-            P->setOpacity(1-(Info->TransitionPCTDone-0.5)*2);
+        if (PCT<0.5) P->drawImage(0,0,*Info->TransitObject_PreparedImage); else {
+            P->setOpacity(1-(PCT-0.5)*2);
             P->drawImage(0,0,*Info->TransitObject_PreparedImage);
             P->setOpacity(1);
         }
     } else {
         // New image will apear immediatly during the old image is moving out
-        //P->setOpacity(Info->TransitionPCTDone);
+        //P->setOpacity(PCT);
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
         //P->setOpacity(1);
     }
@@ -2077,12 +2093,11 @@ void cDiaporama::DoZoom(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
 
 //============================================================================================
 
-void cDiaporama::DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
+void cDiaporama::DoSlide(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoSlide");
 
     QRect   box1,box2;
-    bool    Reverse=Info->TransitionSubType>=8;
-    double  PCT=(Reverse?(1-Info->TransitionPCTDone):Info->TransitionPCTDone);
+    bool    Reverse=Info->TransitionSubType>=8;     if (Reverse) PCT=(1-PCT);
     int     PCTW=int(PCT*double(W));
     int     PCTH=int(PCT*double(H));
 
@@ -2107,14 +2122,14 @@ void cDiaporama::DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
     // Draw transformed image
     if (!Reverse) {
         // Old image will desapear progressively during the second half time of the transition
-        if (Info->TransitionPCTDone<0.5) P->drawImage(0,0,*Info->TransitObject_PreparedImage); else {
-            P->setOpacity(1-(Info->TransitionPCTDone-0.5)*2);
+        if (PCT<0.5) P->drawImage(0,0,*Info->TransitObject_PreparedImage); else {
+            P->setOpacity(1-(PCT-0.5)*2);
             P->drawImage(0,0,*Info->TransitObject_PreparedImage);
             P->setOpacity(1);
         }
     } else {
         // New image will apear immediatly during the old image is moving out
-        //P->setOpacity(Info->TransitionPCTDone);
+        //P->setOpacity(PCT);
         P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
         //P->setOpacity(1);
     }
@@ -2123,17 +2138,17 @@ void cDiaporama::DoSlide(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
 
 //============================================================================================
 
-void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
+void cDiaporama::DoPush(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoPush");
 
     QRect       box1,box2;
     QRect       box3,box4;
     QPoint      box;
     int         wt,ht;
-    int         PCTW=int(Info->TransitionPCTDone*double(W));
-    int         PCTH=int(Info->TransitionPCTDone*double(H));
-    int         PCTWB=int((1-Info->TransitionPCTDone)*double(W));
-    int         PCTHB=int((1-Info->TransitionPCTDone)*double(H));
+    int         PCTW=int(PCT*double(W));
+    int         PCTH=int(PCT*double(H));
+    int         PCTWB=int((1-PCT)*double(W));
+    int         PCTHB=int((1-PCT)*double(H));
     double      Rotate,dw,dh;
     QImage      Img;
 
@@ -2159,51 +2174,51 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
         P->drawImage(box2,*Info->CurrentObject_PreparedImage,box1);
         break;
     case 4 :    // Enterring : zoom in from border Left Center - Previous image : zoom out to border Right Center
-        wt=int(double(W)*(1-Info->TransitionPCTDone));
-        ht=int(double(H)*(1-Info->TransitionPCTDone));
+        wt=int(double(W)*(1-PCT));
+        ht=int(double(H)*(1-PCT));
         box=QPoint(W-wt,(H-ht)/2);
         P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        wt=int(double(W)*Info->TransitionPCTDone);
-        ht=int(double(H)*Info->TransitionPCTDone);
+        wt=int(double(W)*PCT);
+        ht=int(double(H)*PCT);
         box=QPoint(0,(H-ht)/2);
         P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         break;
     case 5 :    // Enterring : zoom in from border Right Center - Previous image : zoom out to border Left Center
-        wt=int(double(W)*(1-Info->TransitionPCTDone));
-        ht=int(double(H)*(1-Info->TransitionPCTDone));
+        wt=int(double(W)*(1-PCT));
+        ht=int(double(H)*(1-PCT));
         box=QPoint(0,(H-ht)/2);
         P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        wt=int(double(W)*Info->TransitionPCTDone);
-        ht=int(double(H)*Info->TransitionPCTDone);
+        wt=int(double(W)*PCT);
+        ht=int(double(H)*PCT);
         box=QPoint(W-wt,(H-ht)/2);
         P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         break;
     case 6 :    // Enterring : zoom in from border Top Center - Previous image : zoom out to border bottom Center
-        wt=int(double(W)*(1-Info->TransitionPCTDone));
-        ht=int(double(H)*(1-Info->TransitionPCTDone));
+        wt=int(double(W)*(1-PCT));
+        ht=int(double(H)*(1-PCT));
         box=QPoint((W-wt)/2,H-ht);
         P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        wt=int(double(W)*Info->TransitionPCTDone);
-        ht=int(double(H)*Info->TransitionPCTDone);
+        wt=int(double(W)*PCT);
+        ht=int(double(H)*PCT);
         box=QPoint((W-wt)/2,0);
         P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         break;
     case 7 :    // Enterring : zoom in from border bottom Center - Previous image : zoom out to border Top Center
-        wt=int(double(W)*(1-Info->TransitionPCTDone));
-        ht=int(double(H)*(1-Info->TransitionPCTDone));
+        wt=int(double(W)*(1-PCT));
+        ht=int(double(H)*(1-PCT));
         box=QPoint((W-wt)/2,0);
         P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        wt=int(double(W)*Info->TransitionPCTDone);
-        ht=int(double(H)*Info->TransitionPCTDone);
+        wt=int(double(W)*PCT);
+        ht=int(double(H)*PCT);
         box=QPoint((W-wt)/2,H-ht);
         P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
         break;
     case 8 :    // Rotating from y axis
-        if (Info->TransitionPCTDone<0.5) {
-            Rotate=double(90)*(Info->TransitionPCTDone*2);
+        if (PCT<0.5) {
+            Rotate=double(90)*(PCT*2);
             Img=RotateImage(0,Rotate,0,Info->TransitObject_PreparedImage);
         } else {
-            Rotate=double(-90)*((1-Info->TransitionPCTDone)*2);
+            Rotate=double(-90)*((1-PCT)*2);
             Img=RotateImage(0,Rotate,0,Info->CurrentObject_PreparedImage);
         }
         dw=(double(W)-double(Img.width()))/2;
@@ -2211,11 +2226,11 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
         P->drawImage(QPointF(dw,dh),Img);
         break;
     case 9 :    // Rotating from y axis
-        if (Info->TransitionPCTDone<0.5) {
-            Rotate=double(-90)*(Info->TransitionPCTDone*2);
+        if (PCT<0.5) {
+            Rotate=double(-90)*(PCT*2);
             Img=RotateImage(0,Rotate,0,Info->TransitObject_PreparedImage);
         } else {
-            Rotate=double(90)*((1-Info->TransitionPCTDone)*2);
+            Rotate=double(90)*((1-PCT)*2);
             Img=RotateImage(0,Rotate,0,Info->CurrentObject_PreparedImage);
         }
         dw=(double(W)-double(Img.width()))/2;
@@ -2223,11 +2238,11 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
         P->drawImage(QPointF(dw,dh),Img);
         break;
     case 10 :    // Rotating from x axis
-        if (Info->TransitionPCTDone<0.5) {
-            Rotate=double(90)*(Info->TransitionPCTDone*2);
+        if (PCT<0.5) {
+            Rotate=double(90)*(PCT*2);
             Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
         } else {
-            Rotate=double(-90)*((1-Info->TransitionPCTDone)*2);
+            Rotate=double(-90)*((1-PCT)*2);
             Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
         }
         dw=(double(W)-double(Img.width()))/2;
@@ -2235,11 +2250,11 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
         P->drawImage(QPointF(dw,dh),Img);
         break;
     case 11 :    // Rotating from x axis
-        if (Info->TransitionPCTDone<0.5) {
-            Rotate=double(-90)*(Info->TransitionPCTDone*2);
+        if (PCT<0.5) {
+            Rotate=double(-90)*(PCT*2);
             Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
         } else {
-            Rotate=double(90)*((1-Info->TransitionPCTDone)*2);
+            Rotate=double(90)*((1-PCT)*2);
             Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
         }
         dw=(double(W)-double(Img.width()))/2;
@@ -2250,14 +2265,14 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
         dw=W/2;
         P->drawImage(QRectF(0,0,dw,H),*Info->TransitObject_PreparedImage,QRectF(0,0,dw,H));
         P->drawImage(QRectF(dw,0,dw,H),*Info->CurrentObject_PreparedImage,QRectF(dw,0,dw,H));
-        if (Info->TransitionPCTDone<0.5) {
-            Rotate=double(90)*(Info->TransitionPCTDone*2);
+        if (PCT<0.5) {
+            Rotate=double(90)*(PCT*2);
             Img=RotateImage(0,Rotate,0,Info->TransitObject_PreparedImage);
             dw=(double(W)-double(Img.width()))/2;
             dh=(double(H)-double(Img.height()))/2;
             P->drawImage(QRectF(W/2,dh,Img.width()/2,Img.height()),Img,QRectF(Img.width()/2,0,Img.width()/2,Img.height()));
         } else {
-            Rotate=double(-90)*((1-Info->TransitionPCTDone)*2);
+            Rotate=double(-90)*((1-PCT)*2);
             Img=RotateImage(0,Rotate,0,Info->CurrentObject_PreparedImage);
             dw=(double(W)-double(Img.width()))/2;
             dh=(double(H)-double(Img.height()))/2;
@@ -2268,14 +2283,14 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
         dw=W/2;
         P->drawImage(QRectF(0,0,dw,H),*Info->CurrentObject_PreparedImage,QRectF(0,0,dw,H));
         P->drawImage(QRectF(dw,0,dw,H),*Info->TransitObject_PreparedImage,QRectF(dw,0,dw,H));
-        if (Info->TransitionPCTDone<0.5) {
-            Rotate=double(-90)*(Info->TransitionPCTDone*2);
+        if (PCT<0.5) {
+            Rotate=double(-90)*(PCT*2);
             Img=RotateImage(0,Rotate,0,Info->TransitObject_PreparedImage);
             dw=(double(W)-double(Img.width()))/2;
             dh=(double(H)-double(Img.height()))/2;
             P->drawImage(QRectF(dw,dh,Img.width()/2,Img.height()),Img,QRectF(0,0,Img.width()/2,Img.height()));
         } else {
-            Rotate=double(90)*((1-Info->TransitionPCTDone)*2);
+            Rotate=double(90)*((1-PCT)*2);
             Img=RotateImage(0,Rotate,0,Info->CurrentObject_PreparedImage);
             dw=(double(W)-double(Img.width()))/2;
             dh=(double(H)-double(Img.height()))/2;
@@ -2286,14 +2301,14 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
         dh=H/2;
         P->drawImage(QRectF(0,0,W,dh),*Info->TransitObject_PreparedImage,QRectF(0,0,W,dh));
         P->drawImage(QRectF(0,dh,W,dh),*Info->CurrentObject_PreparedImage,QRectF(0,dh,W,dh));
-        if (Info->TransitionPCTDone<0.5) {
-            Rotate=double(90)*(Info->TransitionPCTDone*2);
+        if (PCT<0.5) {
+            Rotate=double(90)*(PCT*2);
             Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
             dw=(double(W)-double(Img.width()))/2;
             dh=(double(H)-double(Img.height()))/2;
             P->drawImage(QRectF(dw,H/2,Img.width(),Img.height()/2),Img,QRectF(0,Img.height()/2,Img.width(),Img.height()/2));
         } else {
-            Rotate=double(-90)*((1-Info->TransitionPCTDone)*2);
+            Rotate=double(-90)*((1-PCT)*2);
             Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
             dw=(double(W)-double(Img.width()))/2;
             dh=(double(H)-double(Img.height()))/2;
@@ -2304,14 +2319,14 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
         dh=H/2;
         P->drawImage(QRectF(0,0,W,dh),*Info->CurrentObject_PreparedImage,QRectF(0,0,W,dh));
         P->drawImage(QRectF(0,dh,W,dh),*Info->TransitObject_PreparedImage,QRectF(0,dh,W,dh));
-        if (Info->TransitionPCTDone<0.5) {
-            Rotate=double(-90)*(Info->TransitionPCTDone*2);
+        if (PCT<0.5) {
+            Rotate=double(-90)*(PCT*2);
             Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
             dw=(double(W)-double(Img.width()))/2;
             dh=(double(H)-double(Img.height()))/2;
             P->drawImage(QRectF(dw,dh,Img.width(),Img.height()/2),Img,QRectF(0,0,Img.width(),Img.height()/2));
         } else {
-            Rotate=double(90)*((1-Info->TransitionPCTDone)*2);
+            Rotate=double(90)*((1-PCT)*2);
             Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
             dw=(double(W)-double(Img.width()))/2;
             dh=(double(H)-double(Img.height()))/2;
@@ -2323,13 +2338,13 @@ void cDiaporama::DoPush(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
 
 //============================================================================================
 
-void cDiaporama::DoDeform(cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
+void cDiaporama::DoDeform(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoDeform");
 
-    int         PCTW=int(Info->TransitionPCTDone*double(W));
-    int         PCTH=int(Info->TransitionPCTDone*double(H));
-    int         PCTWB=int((1-Info->TransitionPCTDone)*double(W));
-    int         PCTHB=int((1-Info->TransitionPCTDone)*double(H));
+    int         PCTW=int(PCT*double(W));
+    int         PCTH=int(PCT*double(H));
+    int         PCTWB=int((1-PCT)*double(W));
+    int         PCTHB=int((1-PCT)*double(H));
 
     switch (Info->TransitionSubType) {
     case 0 :    // Since left to right
@@ -2438,7 +2453,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
                 if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush);
                 // Apply composition to background
                 for (int j=0;j<List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List.count();j++)
-                    List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,false,0,false);
+                    List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,1,NULL,false,0,false);
                 P.end();
             }
             // same job for Transition Object if a previous was not keep !
@@ -2454,7 +2469,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
                 if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush);
                 // Apply composition to background
                 for (int j=0;j<List[Info->TransitObject_BackgroundIndex]->BackgroundComposition.List.count();j++)
-                    List[Info->TransitObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,NULL,false,0,false);
+                    List[Info->TransitObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,0,0,W,H,PreviewMode,0,0,NULL,1,1,NULL,false,0,false);
                 P.end();
             }
         }
@@ -2679,7 +2694,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     CurrentObject_ShotSequenceNumber    =PreviousFrame->CurrentObject_ShotSequenceNumber;   // Number of the shot sequence in the current object
     CurrentObject_CurrentShot           =PreviousFrame->CurrentObject_CurrentShot;          // Link to the current shot in the current object
     CurrentObject_CurrentShotType       =PreviousFrame->CurrentObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
-    CurrentObject_ShotDuration         =PreviousFrame->CurrentObject_ShotDuration;        // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
+    CurrentObject_ShotDuration          =PreviousFrame->CurrentObject_ShotDuration;        // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     CurrentObject_PCTDone               =PreviousFrame->CurrentObject_PCTDone;
     CurrentObject_SourceImage           =PreviousFrame->CurrentObject_SourceImage;          // Source image
     CurrentObject_FreeSourceImage       =false;                                             // True if allow to delete CurrentObject_SourceImage during destructor
@@ -2699,7 +2714,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     // Transitionnal object
     IsTransition                        =PreviousFrame->IsTransition;                       // True if transition in progress
     TransitionPCTDone                   =PreviousFrame->TransitionPCTDone;                  // PCT achevement for transition
-    TransitionPCTEnd                    =PreviousFrame->TransitionPCTEnd;                   // PCT achevement @ end of this frame for fade in/out
     TransitObject_Number                =PreviousFrame->TransitObject_Number;               // Object number
     TransitObject_StartTime             =PreviousFrame->TransitObject_StartTime;            // Position (in msec) of the first frame relative to the diaporama
     TransitObject_InObjectTime          =PreviousFrame->TransitObject_InObjectTime;         // Position (in msec) in the object
@@ -2742,7 +2756,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     CurrentObject_ShotSequenceNumber    =0;                 // Number of the shot sequence in the current object
     CurrentObject_CurrentShot           =NULL;              // Link to the current shot in the current object
     CurrentObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
-    CurrentObject_ShotDuration         =0;                 // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
+    CurrentObject_ShotDuration          =0;                 // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     CurrentObject_PCTDone               =0;                 // PCT achevement for static shot
     CurrentObject_SourceImage           =NULL;              // Source image
     CurrentObject_FreeSourceImage       =true;              // True if allow to delete CurrentObject_SourceImage during destructor
@@ -2762,7 +2776,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     // Transitionnal object
     IsTransition                        =false;             // True if transition in progress
     TransitionPCTDone                   =0;                 // PCT achevement for transition
-    TransitionPCTEnd                    =0;                 // PCT achevement @ end of this frame for fade in/out
     TransitObject_Number                =0;                 // Object number
     TransitObject_StartTime             =0;                 // Position (in msec) of the first frame relative to the diaporama
     TransitObject_InObjectTime          =0;                 // Position (in msec) in the object
@@ -2770,7 +2783,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     TransitObject_ShotSequenceNumber    =0;                 // Number of the shot sequence in the current object
     TransitObject_CurrentShot           =NULL;              // Link to the current shot in the current object
     TransitObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
-    TransitObject_ShotDuration         =0;                 // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
+    TransitObject_ShotDuration          =0;                 // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
     TransitObject_PCTDone               =0;                 // PCT achevement for static shot
     TransitObject_SourceImage           =NULL;              // Source image
     TransitObject_FreeSourceImage       =true;              // True if allow to delete TransitObject_SourceImage during destructor
@@ -2829,15 +2842,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 else CurrentObject_ShotDuration=CurrentObject_CurrentShot->Parent->GetDuration()-CurPos;
 
             // calculate CurrentObject_PCTDone
-            switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
-            case SPEEDWAVE_LINEAR :
-                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_ShotDuration));
-                break;
-            case SPEEDWAVE_SINQUARTER :
-                CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_ShotDuration));
-                CurrentObject_PCTDone=sin(1.5708*CurrentObject_PCTDone);
-                break;
-            }
+            CurrentObject_PCTDone=(double(CurrentObject_InObjectTime)-double(CurPos))/(double(CurrentObject_ShotDuration));
 
             // Force all to SHOTTYPE_VIDEO
             CurrentObject_CurrentShotType=SHOTTYPE_VIDEO;
@@ -2858,17 +2863,8 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
             TransitionSubType =CurrentObject->TransitionSubType;                      // Transition type in the familly
             TransitionDuration=CurrentObject->TransitionDuration;                     // Transition duration (in msec)
             IsTransition      =true;
-            switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
-            case SPEEDWAVE_LINEAR :
-                TransitionPCTDone=double(CurrentObject_InObjectTime)/double(TransitionDuration);
-                break;
-            case SPEEDWAVE_SINQUARTER :
-                TransitionPCTDone=double(CurrentObject_InObjectTime)/double(TransitionDuration);
-                TransitionPCTDone=sin(1.5708*TransitionPCTDone);
-                TransitionPCTEnd =(double(CurrentObject_InObjectTime)+FrameDuration)/double(TransitionDuration);
-                TransitionPCTEnd =sin(1.5708*TransitionPCTDone);
-                break;
-            }
+            TransitionPCTDone =double(CurrentObject_InObjectTime)/double(TransitionDuration);
+
             // If CurrentObject is not the first object
             if (CurrentObject_Number>0) {
                 TransitObject_Number        =CurrentObject_Number-1;
@@ -2888,15 +2884,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 TransitObject_CurrentShotType=SHOTTYPE_VIDEO;
 
                 // calculate TransitObject_PCTDone
-                switch (GlobalMainWindow->ApplicationConfig->SpeedWave) {
-                case SPEEDWAVE_LINEAR :
-                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_ShotDuration));
-                    break;
-                case SPEEDWAVE_SINQUARTER :
-                    TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_ShotDuration));
-                    TransitObject_PCTDone=sin(1.5708*TransitObject_PCTDone);
-                    break;
-                }
+                TransitObject_PCTDone=(double(TransitObject_InObjectTime)-double(CurPos))/(double(TransitObject_ShotDuration));
 
                 // Force all to SHOTTYPE_VIDEO
                 // Calculate wich BackgroundIndex to be use for transition object (Background type : false=same as precedent - true=new background definition)

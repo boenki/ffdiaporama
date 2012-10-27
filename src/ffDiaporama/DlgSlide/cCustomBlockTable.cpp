@@ -406,7 +406,7 @@ void cCustomBlockTable::dropEvent(QDropEvent *event) {
 void cCustomBlockTable::dragMoveEvent(QDragMoveEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBlockTable::dragMoveEvent");
     int OldDragItemDest=DragItemDest;
-    DragItemDest=(event->pos().y()+verticalOffset())/rowHeight(0);
+    if (rowCount()>0) DragItemDest=(event->pos().y()+verticalOffset())/rowHeight(0); else DragItemDest=0;
     if (DragItemDest>rowCount())    setCursor(Qt::ForbiddenCursor);
         else                        setCursor(Qt::ClosedHandCursor);
     event->acceptProposedAction();

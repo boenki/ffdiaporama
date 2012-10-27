@@ -422,7 +422,7 @@ void DlgBackgroundProperties::s_ImageEditCorrect() {
         AppendPartialUndo(UNDOACTION_EDITIMG,ui->ImageEditCorrectBT,false);
 
         //DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
-        DlgImageCorrection Dlg(NULL,NULL,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,
+        DlgImageCorrection Dlg(NULL,NULL,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,SPEEDWAVE_DISABLE,
                                HELPFILE_DlgImageCorrection,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgImageCorrectionWSP,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {

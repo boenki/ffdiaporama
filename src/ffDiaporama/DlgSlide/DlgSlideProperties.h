@@ -152,7 +152,8 @@ private slots:
 
     // Block settings : Basic values
     void            s_BlockSettings_ToggleVisibleState();
-    void            s_BlockSettings_ToggleSameAsPreviousShot();
+    void            s_BlockSettings_SetSameAsPreviousShot();
+    void            s_BlockSettings_UnsetSameAsPreviousShot();
     void            s_BlockSettings_GetSound();
 
     // Block settings : Coordinates
@@ -200,6 +201,9 @@ private slots:
     void            s_BlockSettings_TextAnimScrollXReset();
     void            s_BlockSettings_TextAnimScrollY(int);
     void            s_BlockSettings_TextAnimScrollYReset();
+
+    // Block settings : Speed wave
+    void            s_BlockSettings_SpeedWave(int);
 
     // Block settings : Block animation
     void            s_BlockSettings_BlockAnimType(int);

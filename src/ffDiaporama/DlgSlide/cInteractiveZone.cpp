@@ -211,11 +211,10 @@ void cInteractiveZone::RefreshDisplay() {
 
             QRectF NewRect=ApplyModifAndScaleFactors(i,SceneRect,false);
             BlockTable->CompositionList->List[i]->DrawCompositionObject(&P,double(ForegroundImage->height())/double(1080),0,0,ForegroundImage->width(),ForegroundImage->height(),true,0,StartVideoPos,
-                                                                        NULL,1,NULL,true,DiaporamaObject->List[CurrentShotNbr]->StaticDuration,false,
+                                                                        NULL,1,1,NULL,true,DiaporamaObject->List[CurrentShotNbr]->StaticDuration,false,
                                                                         (IsCapture)&&(TransfoType!=NOTYETDEFINED),NewRect.left()/SceneRect.width(),NewRect.top()/SceneRect.height(),NewRect.width()/SceneRect.width(),NewRect.height()/SceneRect.height());
 
-            if ((CurrentShotNbr>0)&&(BlockTable->CompositionList->List[i]->SameAsPrevShot))
-                P.drawImage((NewRect.left()/SW+(NewRect.width()/SW)/2)*double(ForegroundImage->width())-12,(NewRect.top()/SceneRect.height()+(NewRect.height()/SceneRect.height())/2)*double(ForegroundImage->height())-12,QImage(":/img/Lock24.png"));
+            if ((CurrentShotNbr>0)&&(BlockTable->CompositionList->List[i]->SameAsPrevShot)) P.drawImage(NewRect.center().x()-12,NewRect.center().y()-12,QImage(":/img/Lock24.png"));
         }
 
         P.restore();

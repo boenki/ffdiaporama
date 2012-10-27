@@ -33,6 +33,8 @@
 #include <QtXml/QDomElement>
 
 // Include some common various class
+#include "_SpeedWave.h"
+#include "_Shape.h"
 #include "cLuLoImageCache.h"
 #include "cBaseMediaFile.h"
 #include "cSoundBlockList.h"
@@ -115,6 +117,7 @@
 
 //============================================
 // OnOffFilter mask definition
+//============================================
 
 #define FilterEqualize                      0x0001
 #define FilterDespeckle                     0x0002
@@ -126,38 +129,6 @@
 #define FilterNormalize                     0x0080
 #define FilterCharcoal                      0x0100
 #define FilterOil                           0x0200
-
-//============================================
-// Shape definitions
-//============================================
-
-enum SHAPEFORM_ID {
-    SHAPEFORM_NOSHAPE,
-    SHAPEFORM_RECTANGLE,        SHAPEFORM_ROUNDRECT,        SHAPEFORM_BUBBLE,           SHAPEFORM_ELLIPSE,
-    SHAPEFORM_TRIANGLEUP,       SHAPEFORM_TRIANGLERIGHT,    SHAPEFORM_TRIANGLEDOWN,     SHAPEFORM_TRIANGLELEFT,     SHAPEFORM_RHOMBUS,          SHAPEFORM_PENTAGON,         SHAPEFORM_HEXAGON,          SHAPEFORM_OCTOGON,
-    SHAPEFORM_SIMPLEARROWUP,    SHAPEFORM_SIMPLEARROWRIGHT, SHAPEFORM_SIMPLEARROWDOWN,  SHAPEFORM_SIMPLEARROWLEFT,  SHAPEFORM_HEART,            SHAPEFORM_PUZZLEUL,         SHAPEFORM_PUZZLEUC,         SHAPEFORM_PUZZLEUR,
-    SHAPEFORM_DOUBLEARROWVERT,  SHAPEFORM_DOUBLEARROWHORIZ, SHAPEFORM_DOUBLEARROWDIAG1, SHAPEFORM_DOUBLEARROWDIAG2, SHAPEFORM_SPADE,            SHAPEFORM_PUZZLEML,         SHAPEFORM_PUZZLEMC,         SHAPEFORM_PUZZLEMR,
-    SHAPEFORM_RIGHTTRIANGLEUL,  SHAPEFORM_RIGHTTRIANGLEUR,  SHAPEFORM_RIGHTTRIANGLEDL,  SHAPEFORM_RIGHTTRIANGLEDR,  SHAPEFORM_CLUB,             SHAPEFORM_PUZZLEDL,         SHAPEFORM_PUZZLEDC,         SHAPEFORM_PUZZLEDR,
-    SHAPEFORM_STRIANGLEUP,      SHAPEFORM_STRIANGLERIGHT,   SHAPEFORM_STRIANGLEDOWN,    SHAPEFORM_STRIANGLELEFT,    SHAPEFORM_PUSHEDUP,         SHAPEFORM_SHARPDOWN,        SHAPEFORM_STAR4,            SHAPEFORM_STAR5,
-    SHAPEFORM_DTRIANGLEUP,      SHAPEFORM_DTRIANGLERIGHT,   SHAPEFORM_DTRIANGLEDOWN,    SHAPEFORM_DTRIANGLELEFT,    SHAPEFORM_DCHEVRONUP,       SHAPEFORM_SCHEVRONDOWN,     SHAPEFORM_STAR6,            SHAPEFORM_STAR8,
-    SHAPEFORM_PUSHEDLEFT,       SHAPEFORM_DCHEVRONLEFT,     SHAPEFORM_SCHEVRONLEFT,     SHAPEFORM_SHARPLEFT,        SHAPEFORM_SCHEVRONUP,       SHAPEFORM_DCHEVRONDOWN,     SHAPEFORM_GEAR6,            SHAPEFORM_GEAR8,
-    SHAPEFORM_SHARPRIGHT,       SHAPEFORM_SCHEVRONRIGHT,    SHAPEFORM_DCHEVRONRIGHT,    SHAPEFORM_PUSHEDRIGHT,      SHAPEFORM_SHARPUP,          SHAPEFORM_PUSHEDDOWN,       SHAPEFORM_GEAR10,           SHAPEFORM_GEAR12,
-    NBR_SHAPEFORM                   // Last of the list !
-};
-
-class cShapeFormDefinition {
-public:
-    bool            Enable;
-    QString         Name;
-    QList<double>   AdditonnalRulerX;       // Additionnal rulers
-    QList<double>   AdditonnalRulerY;       // Additionnal rulers
-    double          TMx,TMy,TMw,TMh;        // Default shape text margins
-    cShapeFormDefinition() {}
-    cShapeFormDefinition(bool Enable,QList<double> AdditonnalRulerX,QList<double> AdditonnalRulerY,double TMx,double TMy,double TMw,double TMh,QString Name);
-};
-
-extern QList<cShapeFormDefinition> ShapeFormDefinition;
-void   ShapeFormDefinitionInit();  // Utility function to init shape collection and translate shape names
 
 //============================================
 // Auto Framing
@@ -181,33 +152,6 @@ void   AutoFramingDefInit();
 
 extern  QBrush  Transparent;    // Transparent brush
 QBrush  *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QString ColorD,QString ColorF,QString ColorIntermed,double Intermediate);
-
-//============================================
-// Shape computations
-//============================================
-
-// Utilities functions to compute a polygon for a given form
-QList<QPolygonF>    ComputePolygon(int BackgroundForm,qreal left,qreal top,qreal width,qreal height,qreal CenterX,qreal CenterY);
-QRectF              PolygonToRectF(QList<QPolygonF> Polygon);
-
-// Utilities functions to compute shape
-QList<QPolygonF> ComputePolygonRect(QRectF Rect);
-QList<QPolygonF> ComputePolygonRoundRect(QRectF Rect,qreal RayX,qreal RayY);
-QList<QPolygonF> ComputePolygonEllipse(QRectF Rect);
-QList<QPolygonF> ComputeHeart(QRectF Rect);
-QList<QPolygonF> ComputeSpade(QRectF Rect);
-QList<QPolygonF> ComputeClub(QRectF Rect);
-QList<QPolygonF> ComputePolygonR(double width,double height,double CenterX,double CenterY,int MaxPoint,double StartAngle);
-QList<QPolygonF> ComputeSingleChevron(QRectF Rect,int Angle,int Options);
-QList<QPolygonF> ComputeDoubleChevron(QRectF Rect,int Angle);
-QList<QPolygonF> ComputeSingleTriangle(QRectF Rect,int Angle);
-QList<QPolygonF> ComputeDoubleTriangle(QRectF Rect,int Angle);
-QList<QPolygonF> ComputeSimpleArrow(QRectF Rect,int Angle);
-QList<QPolygonF> ComputeDoubleArrow(QRectF Rect,int Angle);
-QList<QPolygonF> ComputeStar(QRectF Rect,int Pointed);
-QList<QPolygonF> ComputeGear(QRectF Rect,int tooth);
-QList<QPolygonF> ComputeRightTriangle(QRectF Rect,int Angle);
-QList<QPolygonF> ComputePuzzle(QRectF Rect,int Forme);
 
 //*********************************************************************************************************************************************
 // Base object for background library object
@@ -283,6 +227,7 @@ public:
     double                  WaveAmp,WaveFreq;           // Filter parameters
 
     int                     OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
+    int                     ImageSpeedWave;
 
     // Link to global objects
     cBaseApplicationConfig  *ApplicationConfig;

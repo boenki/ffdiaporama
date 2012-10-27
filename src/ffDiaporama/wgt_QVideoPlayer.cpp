@@ -630,7 +630,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     Diaporama->LoadSources(Frame,double(ui->MovieFrame->height())/double(1080),ui->MovieFrame->width(),ui->MovieFrame->height(),true,AddStartPos);
 
     // Do Assembly
-    Diaporama->DoAssembly(Frame,ui->MovieFrame->width(),ui->MovieFrame->height());
+    Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,ui->MovieFrame->width(),ui->MovieFrame->height());
 
     if ((SoundWanted)&&(Frame->CurrentObject)) {
         // Calc number of packet to mix

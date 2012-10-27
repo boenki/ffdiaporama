@@ -112,7 +112,7 @@
           </widget>
          </item>
          <item>
-          <widget class="cCustomColorComboBox" name="FontColorCombo">
+          <widget class="cCColorComboBox" name="FontColorCombo">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -400,7 +400,7 @@
           </widget>
          </item>
          <item>
-          <widget class="cCustomColorComboBox" name="StyleShadowColorCombo">
+          <widget class="cCColorComboBox" name="StyleShadowColorCombo">
            <property name="sizePolicy">
             <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
              <horstretch>0</horstretch>
@@ -823,7 +823,7 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>287</width>
+            <width>462</width>
             <height>214</height>
            </rect>
           </property>
@@ -921,7 +921,7 @@ p, li { white-space: pre-wrap; }
               <number>0</number>
              </property>
              <item>
-              <widget class="cCustomColorComboBox" name="FirstColorCombo">
+              <widget class="cCColorComboBox" name="FirstColorCombo">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -953,7 +953,7 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="cCustomColorComboBox" name="FinalColorCombo">
+              <widget class="cCColorComboBox" name="FinalColorCombo">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -985,7 +985,7 @@ p, li { white-space: pre-wrap; }
               </widget>
              </item>
              <item>
-              <widget class="cCustomColorComboBox" name="IntermColorCombo">
+              <widget class="cCColorComboBox" name="IntermColorCombo">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1032,7 +1032,7 @@ p, li { white-space: pre-wrap; }
             </widget>
            </item>
            <item row="3" column="1">
-            <widget class="cCustomBrushComboBox" name="PatternBrushCombo">
+            <widget class="cCBrushComboBox" name="PatternBrushCombo">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -1093,7 +1093,7 @@ p, li { white-space: pre-wrap; }
               <number>0</number>
              </property>
              <item>
-              <widget class="cGradientOrientationComboBox" name="OrientationCombo">
+              <widget class="cCGrdOrientationComboBox" name="OrientationCombo">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -1335,7 +1335,7 @@ p, li { white-space: pre-wrap; }
        <item row="0" column="0" colspan="7">
         <widget class="QRadioButton" name="ShapeDefaultBT">
          <property name="text">
-          <string>Default magins</string>
+          <string>Default margins</string>
          </property>
         </widget>
        </item>
@@ -1596,29 +1596,29 @@ p, li { white-space: pre-wrap; }
  </widget>
  <customwidgets>
   <customwidget>
-   <class>cCustomColorComboBox</class>
-   <extends>QComboBox</extends>
-   <header>cCustomComboBox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cCustomBrushComboBox</class>
-   <extends>QComboBox</extends>
-   <header>cCustomComboBox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cGradientOrientationComboBox</class>
-   <extends>QComboBox</extends>
-   <header>cCustomComboBox.h</header>
-  </customwidget>
-  <customwidget>
    <class>cBackgroundComboBox</class>
    <extends>QComboBox</extends>
    <header>cCustomComboBox.h</header>
   </customwidget>
   <customwidget>
+   <class>cCColorComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cCColorComboBox.h</header>
+  </customwidget>
+  <customwidget>
    <class>cCustomTextEdit</class>
    <extends>QTextEdit</extends>
    <header>DlgText/cCustomTextEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCBrushComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cCBrushComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCGrdOrientationComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cCGrdOrientationComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>
