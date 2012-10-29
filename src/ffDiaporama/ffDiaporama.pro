@@ -189,15 +189,23 @@ unix {
     TARGET.files         = $$DESTDIR/$$TARGET
     INSTALLS 		+= TARGET
 
+    ico.path            = /usr/share/icons/hicolor/32x32/apps
+    ico.files           = ../../application-ffDiaporama.png \
+                          ../../application-ffDiaporama.ico
+    INSTALLS 		+= ico
+
+    desktop.path        = /usr/share/applications
+    desktop.files       = ../../ffDiaporama.desktop
+    INSTALLS 		+= desktop
+
+    mimefile.path       = /usr/share/mime/packages
+    mimefile.files      = ../../ffDiaporama-mime.xml
+    INSTALLS 		+= mimefile
+
     translation.path    = $$PREFIX/share/$$APPFOLDER/locale
     translation.files   = ../../locale/ffDiaporama_* \
                           ../../locale/qt_*
     INSTALLS 		+= translation
-
-    ico.path            = $$PREFIX/share/$$APPFOLDER
-    ico.files           = ../../application-ffDiaporama.png \
-                          ../../application-ffDiaporama.ico
-    INSTALLS 		+= ico
 
     background.path     = $$PREFIX/share/$$APPFOLDER/background
     background.files    = ../../background/*.*
@@ -222,12 +230,4 @@ unix {
     General.path        = $$PREFIX/share/$$APPFOLDER
     General.files       = ../../*.xml ../../*.txt ../../*.rtf ../../*.ffpreset
     INSTALLS 		+= General
-
-    mimefile.path       = $$PREFIX/share/mime/packages
-    mimefile.files      = ../../ffDiaporama-mime.xml
-    INSTALLS 		+= mimefile
-
-    desktop.path        = /usr/share/icons/hicolor/32x32/apps
-    desktop.files       = ../../ffDiaporama.desktop
-    INSTALLS 		+= desktop
 }

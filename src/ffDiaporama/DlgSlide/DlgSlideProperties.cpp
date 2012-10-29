@@ -283,6 +283,8 @@ void DlgSlideProperties::DoInitDialog() {
     ui->actionRemoveShot->setIconVisibleInMenu(true);
     ui->actionMoveLeft->setIconVisibleInMenu(true);
     ui->actionMoveRight->setIconVisibleInMenu(true);
+    ui->actionDistributeHoriz->setIconVisibleInMenu(true);
+    ui->actionDistributeVert->setIconVisibleInMenu(true);
 
     ui->ShotTable->setRowCount(1);
 
@@ -310,6 +312,8 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->actionLeft,SIGNAL(triggered()),this,SLOT(s_BlockTable_AlignLeft()));
     connect(ui->actionCenter,SIGNAL(triggered()),this,SLOT(s_BlockTable_AlignCenter()));
     connect(ui->actionRight,SIGNAL(triggered()),this,SLOT(s_BlockTable_AlignRight()));
+    connect(ui->actionDistributeHoriz,SIGNAL(triggered()),this,SLOT(s_BlockTable_DistributeHoriz()));
+    connect(ui->actionDistributeVert,SIGNAL(triggered()),this,SLOT(s_BlockTable_DistributeVert()));
 
     connect(ui->SlideNameED,SIGNAL(textEdited(QString)),this,SLOT(s_SlideSet_SlideNameChange(QString)));
     connect(ui->NewChapterCB,SIGNAL(stateChanged(int)),this,SLOT(s_SlideSet_NewChapter(int)));
@@ -900,28 +904,30 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     //***********************
     // Tools button
     //***********************
-    ui->EditBT->            setEnabled((BlockSelectMode==SELECTMODE_ONE));
-    ui->ArrangeBT->         setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
-    ui->InfoBlock->         setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+    ui->EditBT->                setEnabled((BlockSelectMode==SELECTMODE_ONE));
+    ui->ArrangeBT->             setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
+    ui->InfoBlock->             setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
 
     // actions
-    ui->actionTop->         setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
-    ui->actionMiddle->      setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
-    ui->actionBottom->      setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
-    ui->actionLeft->        setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
-    ui->actionCenter->      setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
-    ui->actionRight->       setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
-    ui->actionSetVisible->  setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock));
-    ui->actionSetHide->     setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock));
-    ui->actionTakeSound->   setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->Video!=NULL)&&(CurrentCompoObject->BackgroundBrush->SoundVolume==0));
-    ui->actionEditImage->   setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
-    ui->actionEditText->    setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible));
-    ui->actionInfo->        setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
-    ui->actionRemoveBlock-> setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
-    ui->actionUpBlock->     setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObjectNbr>0));
-    ui->actionDownBlock->   setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObjectNbr<ui->BlockTable->rowCount()-1));
-    ui->actionCopy->        setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
-    ui->actionCut->         setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
+    ui->actionTop->             setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
+    ui->actionMiddle->          setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
+    ui->actionBottom->          setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
+    ui->actionLeft->            setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
+    ui->actionCenter->          setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
+    ui->actionRight->           setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
+    ui->actionDistributeHoriz-> setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
+    ui->actionDistributeVert->  setEnabled((BlockSelectMode==SELECTMODE_MULTIPLE)&&(!SelectionHaveLockBlock));
+    ui->actionSetVisible->      setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock));
+    ui->actionSetHide->         setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock));
+    ui->actionTakeSound->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->Video!=NULL)&&(CurrentCompoObject->BackgroundBrush->SoundVolume==0));
+    ui->actionEditImage->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+    ui->actionEditText->        setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible));
+    ui->actionInfo->            setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+    ui->actionRemoveBlock->     setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
+    ui->actionUpBlock->         setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObjectNbr>0));
+    ui->actionDownBlock->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObjectNbr<ui->BlockTable->rowCount()-1));
+    ui->actionCopy->            setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
+    ui->actionCut->             setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
 
     if (ui->actionEditImage->isEnabled()) {
         ui->actionEditImage->setIcon(QIcon(CurrentCompoObject->BackgroundBrush->Image!=NULL?ICON_EDIT_IMAGE:ICON_EDIT_MOVIE));
@@ -1034,10 +1040,12 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     // Speed wave
     //**************************
     if ((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible)) {
-        ui->SpeedWaveCB->setEnabled(true);
+        ui->SpeedWaveCB->setEnabled(!SelectionHaveLockBlock);
+        ui->SpeedWaveLabel->setEnabled(!SelectionHaveLockBlock);
         ui->SpeedWaveCB->SetCurrentValue(CurrentCompoObject->BlockSpeedWave);
     } else {
         ui->SpeedWaveCB->setEnabled(false);
+        ui->SpeedWaveLabel->setEnabled(false);
         ui->SpeedWaveCB->SetCurrentValue(SPEEDWAVE_PROJECTDEFAULT);
     }
 
@@ -1567,6 +1575,9 @@ void DlgSlideProperties::s_BlockSettings_Arrange() {
     ContextMenu->addAction(ui->actionCenter);
     ContextMenu->addAction(ui->actionRight);
     ContextMenu->addSeparator();
+    ContextMenu->addAction(ui->actionDistributeHoriz);
+    ContextMenu->addAction(ui->actionDistributeVert);
+    ContextMenu->addSeparator();
     ContextMenu->addAction(ui->actionUpBlock);
     ContextMenu->addAction(ui->actionDownBlock);
     ContextMenu->exec(QCursor::pos());
@@ -1653,6 +1664,9 @@ void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
         ContextMenu->addAction(ui->actionLeft);
         ContextMenu->addAction(ui->actionCenter);
         ContextMenu->addAction(ui->actionRight);
+        ContextMenu->addSeparator();
+        ContextMenu->addAction(ui->actionDistributeHoriz);
+        ContextMenu->addAction(ui->actionDistributeVert);
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionCut);
         ContextMenu->addAction(ui->actionCopy);
@@ -2155,6 +2169,52 @@ void DlgSlideProperties::s_BlockTable_AlignRight() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AlignRight");
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) CompositionList->List[i]->x=(ui->InteractiveZone->Sel_X+ui->InteractiveZone->Sel_W)-CompositionList->List[i]->w;
+    RefreshControls(true);
+}
+
+void DlgSlideProperties::s_BlockTable_DistributeHoriz() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_DistributeHoriz");
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
+
+    // 1st step : compute available space
+    qreal   SpaceW   =ui->InteractiveZone->Sel_W;
+    qreal   CurrentX =ui->InteractiveZone->Sel_X;
+    int     NbrBlocks=0;
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        SpaceW=SpaceW-CompositionList->List[i]->w;
+        NbrBlocks++;
+    }
+    SpaceW=SpaceW/qreal(NbrBlocks-1);
+
+    // 2nd step : move blocks
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        CompositionList->List[i]->x=CurrentX;
+        CurrentX=CurrentX+CompositionList->List[i]->w+SpaceW;
+    }
+
+    RefreshControls(true);
+}
+
+void DlgSlideProperties::s_BlockTable_DistributeVert() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_DistributeVert");
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
+
+    // 1st step : compute available space
+    qreal   SpaceH   =ui->InteractiveZone->Sel_H;
+    qreal   CurrentY =ui->InteractiveZone->Sel_Y;
+    int     NbrBlocks=0;
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        SpaceH=SpaceH-CompositionList->List[i]->h;
+        NbrBlocks++;
+    }
+    SpaceH=SpaceH/qreal(NbrBlocks-1);
+
+    // 2nd step : move blocks
+    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+        CompositionList->List[i]->y=CurrentY;
+        CurrentY=CurrentY+CompositionList->List[i]->h+SpaceH;
+    }
+
     RefreshControls(true);
 }
 

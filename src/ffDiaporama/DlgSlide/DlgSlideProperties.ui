@@ -351,7 +351,7 @@ block</string>
 block</string>
         </property>
         <property name="icon">
-         <iconset resource="../../../RSCffDiaporama.qrc">
+         <iconset>
           <normaloff>:/img/arrange.png</normaloff>:/img/arrange.png</iconset>
         </property>
         <property name="iconSize">
@@ -2710,7 +2710,7 @@ color: #000000;
               </widget>
              </item>
              <item row="30" column="0">
-              <widget class="QLabel" name="ZoomLabel_2">
+              <widget class="QLabel" name="SpeedWaveLabel">
                <property name="font">
                 <font>
                  <family>Sans Serif</family>
@@ -3149,7 +3149,7 @@ color: #000000;
   <action name="actionTop">
    <property name="icon">
     <iconset resource="../../../RSCffDiaporama.qrc">
-     <normaloff>:/img/aotop.png</normaloff>:/img/aotop.png</iconset>
+     <normaloff>:/img/Arrange/aotop.png</normaloff>:/img/Arrange/aotop.png</iconset>
    </property>
    <property name="text">
     <string>Align top</string>
@@ -3167,7 +3167,7 @@ color: #000000;
   <action name="actionMiddle">
    <property name="icon">
     <iconset resource="../../../RSCffDiaporama.qrc">
-     <normaloff>:/img/aocenterv.png</normaloff>:/img/aocenterv.png</iconset>
+     <normaloff>:/img/Arrange/aocenterv.png</normaloff>:/img/Arrange/aocenterv.png</iconset>
    </property>
    <property name="text">
     <string>Align middle</string>
@@ -3185,7 +3185,7 @@ color: #000000;
   <action name="actionBottom">
    <property name="icon">
     <iconset resource="../../../RSCffDiaporama.qrc">
-     <normaloff>:/img/aobottom.png</normaloff>:/img/aobottom.png</iconset>
+     <normaloff>:/img/Arrange/aobottom.png</normaloff>:/img/Arrange/aobottom.png</iconset>
    </property>
    <property name="text">
     <string>Align bottom</string>
@@ -3203,7 +3203,7 @@ color: #000000;
   <action name="actionLeft">
    <property name="icon">
     <iconset resource="../../../RSCffDiaporama.qrc">
-     <normaloff>:/img/aoleft.png</normaloff>:/img/aoleft.png</iconset>
+     <normaloff>:/img/Arrange/aoleft.png</normaloff>:/img/Arrange/aoleft.png</iconset>
    </property>
    <property name="text">
     <string>Align left</string>
@@ -3221,7 +3221,7 @@ color: #000000;
   <action name="actionCenter">
    <property name="icon">
     <iconset resource="../../../RSCffDiaporama.qrc">
-     <normaloff>:/img/aocenterh.png</normaloff>:/img/aocenterh.png</iconset>
+     <normaloff>:/img/Arrange/aocenterh.png</normaloff>:/img/Arrange/aocenterh.png</iconset>
    </property>
    <property name="text">
     <string>Align center</string>
@@ -3239,7 +3239,7 @@ color: #000000;
   <action name="actionRight">
    <property name="icon">
     <iconset resource="../../../RSCffDiaporama.qrc">
-     <normaloff>:/img/aoright.png</normaloff>:/img/aoright.png</iconset>
+     <normaloff>:/img/Arrange/aoright.png</normaloff>:/img/Arrange/aoright.png</iconset>
    </property>
    <property name="text">
     <string>Align right</string>
@@ -3408,6 +3408,42 @@ color: #000000;
    </property>
    <property name="toolTip">
     <string>Hide the active block</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionDistributeHoriz">
+   <property name="icon">
+    <iconset resource="../../../RSCffDiaporama.qrc">
+     <normaloff>:/img/Arrange/aodistH.png</normaloff>:/img/Arrange/aodistH.png</iconset>
+   </property>
+   <property name="text">
+    <string>distribute horizontally</string>
+   </property>
+   <property name="toolTip">
+    <string>Place each block so as to have the same space between each</string>
+   </property>
+   <property name="font">
+    <font>
+     <family>Sans Serif</family>
+     <pointsize>9</pointsize>
+    </font>
+   </property>
+  </action>
+  <action name="actionDistributeVert">
+   <property name="icon">
+    <iconset resource="../../../RSCffDiaporama.qrc">
+     <normaloff>:/img/Arrange/aodistV.png</normaloff>:/img/Arrange/aodistV.png</iconset>
+   </property>
+   <property name="text">
+    <string>distribute vertically</string>
+   </property>
+   <property name="toolTip">
+    <string>Place each block so as to have the same space between each</string>
    </property>
    <property name="font">
     <font>

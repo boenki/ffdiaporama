@@ -193,6 +193,8 @@ private slots:
     void            s_BlockTable_AlignLeft();
     void            s_BlockTable_AlignCenter();
     void            s_BlockTable_AlignRight();
+    void            s_BlockTable_DistributeHoriz();
+    void            s_BlockTable_DistributeVert();
 
     // Block settings : Text animation
     void            s_BlockSettings_TextAnimZoom(int);

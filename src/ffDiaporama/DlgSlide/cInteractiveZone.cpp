@@ -396,7 +396,7 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
             pen.setWidth(2);
             pen.setStyle(Qt::DashLine);
             Painter.setPen(pen);
-            DrawSelect(Painter,CurSelRect,true);
+            if (CurSelRect.isValid()) DrawSelect(Painter,CurSelRect,true);
         }
 
     } else if (DisplayMode==DisplayMode_TextMargin) {
