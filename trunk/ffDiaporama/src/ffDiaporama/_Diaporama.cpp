@@ -865,7 +865,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                                            ShapeFormDefinition[BackgroundForm].TMw*TheW*width-FullMargin*2,ShapeFormDefinition[BackgroundForm].TMh*TheH*height-FullMargin*2);
 
                 //****************
-
+                /*
                 Painter.save();
                 QPen PP(Qt::white);
                 PP.setStyle(Qt::DotLine);
@@ -874,7 +874,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 Painter.setBrush(Qt::NoBrush);
                 Painter.drawRect(QRectF(ShapeRect.left()+TextMargin.left(),ShapeRect.top()+TextMargin.top(),TextMargin.width(),TextMargin.height()));
                 Painter.restore();
-
+                */
                 //****************
 
                 Painter.setClipRect(QRectF(ShapeRect.left()+TextMargin.left(),ShapeRect.top()+TextMargin.top(),TextMargin.width(),TextMargin.height()));
