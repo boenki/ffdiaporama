@@ -129,10 +129,15 @@ void cCompositionObject::ApplyTextMargin(int TMType) {
 QRectF cCompositionObject::GetPrivateTextMargin() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::GetPrivateTextMargin");
 
-    if (TMType==TEXTMARGINS_FULLSHAPE)              return PolygonToRectF(ComputePolygon(BackgroundForm,0,0,1,1,0,0));
-        else if (TMType==TEXTMARGINS_SHAPEDEFAULT)  return QRectF(ShapeFormDefinition[BackgroundForm].TMx,ShapeFormDefinition[BackgroundForm].TMy,
-                                                                  ShapeFormDefinition[BackgroundForm].TMw,ShapeFormDefinition[BackgroundForm].TMh);
-    return QRectF(TMx,TMy,TMw,TMh);
+    QRectF RectF;
+    if (TMType==TEXTMARGINS_FULLSHAPE) {
+            QRectF X100=RectF=PolygonToRectF(ComputePolygon(BackgroundForm,0,0,100,100,50,50));
+            RectF=QRectF(X100.left()/100,X100.top()/100,X100.width()/100,X100.height()/100);
+    } else if (TMType==TEXTMARGINS_SHAPEDEFAULT) {
+        RectF=QRectF(ShapeFormDefinition[BackgroundForm].TMx,ShapeFormDefinition[BackgroundForm].TMy,
+                     ShapeFormDefinition[BackgroundForm].TMw,ShapeFormDefinition[BackgroundForm].TMh);
+    } else RectF=QRectF(TMx,TMy,TMw,TMh);
+    return RectF;
 }
 
 //====================================================================================================================
@@ -855,16 +860,12 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 double          PointSize =((double(width)/double(SCALINGTEXTFACTOR)));
                 QTextDocument   TextDocument;
 
-                // if type is ShapeDefault, then adjust with border size
-                if ((TMType==TEXTMARGINS_FULLSHAPE)||(TMType==TEXTMARGINS_CUSTOM)) {
-                    TextMargin=QRectF(TMx*TheW*width,TMy*TheH*height,TMw*TheW*width,TMh*TheH*height);
-                } else {
-                    TextMargin=QRectF(ShapeFormDefinition[BackgroundForm].TMx*TheW*width+FullMargin,ShapeFormDefinition[BackgroundForm].TMy*TheH*height+FullMargin,
-                                  ShapeFormDefinition[BackgroundForm].TMw*TheW*width-FullMargin*2,ShapeFormDefinition[BackgroundForm].TMh*TheH*height-FullMargin*2);
-                }
+                if ((TMType==TEXTMARGINS_FULLSHAPE)||(TMType==TEXTMARGINS_CUSTOM)) TextMargin=QRectF(TMx*TheW*width,TMy*TheH*height,TMw*TheW*width,TMh*TheH*height);
+                    else TextMargin=QRectF(ShapeFormDefinition[BackgroundForm].TMx*TheW*width+FullMargin,ShapeFormDefinition[BackgroundForm].TMy*TheH*height+FullMargin,
+                                           ShapeFormDefinition[BackgroundForm].TMw*TheW*width-FullMargin*2,ShapeFormDefinition[BackgroundForm].TMh*TheH*height-FullMargin*2);
 
                 //****************
-                /*
+
                 Painter.save();
                 QPen PP(Qt::white);
                 PP.setStyle(Qt::DotLine);
@@ -873,7 +874,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 Painter.setBrush(Qt::NoBrush);
                 Painter.drawRect(QRectF(ShapeRect.left()+TextMargin.left(),ShapeRect.top()+TextMargin.top(),TextMargin.width(),TextMargin.height()));
                 Painter.restore();
-                */
+
                 //****************
 
                 Painter.setClipRect(QRectF(ShapeRect.left()+TextMargin.left(),ShapeRect.top()+TextMargin.top(),TextMargin.width(),TextMargin.height()));
@@ -886,7 +887,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                                   double(TextDocument.documentLayout()->documentSize().width())*(TheTxtZoomLevel/100)*PointSize,
                                   double(TextDocument.documentLayout()->documentSize().height())*(TheTxtZoomLevel/100)*PointSize);
 
-                double  DecalX=ShapeRect.left()+TextMargin.left()+(TheTxtScrollX/100)*TextMargin.width();
+                double  DecalX=ShapeRect.left()+TextMargin.left()+(TheTxtScrollX/100)*TextMargin.width()+(TextMargin.width()-TextMargin.width()*(TheTxtZoomLevel/100))/2;
                 int     MaxH  =TextMargin.height()>FmtBdRect.height()?TextMargin.height():FmtBdRect.height();
                 double  DecalY=ShapeRect.top()+TextMargin.top()+(-TheTxtScrollY/100)*MaxH;
 
@@ -919,6 +920,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                     Painter.restore();
                     TextDocument.setHtml(Text);     // Restore Text Document
                 }
+
                 Painter.translate(DecalX,DecalY);
                 Painter.scale((TheTxtZoomLevel/100)*PointSize,(TheTxtZoomLevel/100)*PointSize);
                 TextDocument.documentLayout()->draw(&Painter,Context);

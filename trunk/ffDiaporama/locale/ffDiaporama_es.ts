@@ -81,7 +81,7 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="322"/>
         <source>Video decoding and encoding engines are based on libav or ffmpeg</source>
-        <translation type="unfinished"></translation>
+        <translation>Motores para codificar y decodificar  videos están basados en libav o ffmpeg</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="353"/>
@@ -111,7 +111,7 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="477"/>
         <source>Image effects are based on fmt_filters and QImageBlitz</source>
-        <translation type="unfinished"></translation>
+        <translation>Ls efectos de imagen están basados en fmt_filters y QImageBlitz</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="623"/>
@@ -499,17 +499,17 @@ Transición de fundido</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="656"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for speed wave&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;OPciones predeterminadas para speed wave&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="683"/>
         <source>Block animation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Animación de bloque:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1095"/>
         <source>Transition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Transition:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1254"/>
@@ -566,7 +566,7 @@ Encuadre:</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1928"/>
         <source>Image animation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Animación de imagen:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2006"/>
@@ -1261,17 +1261,17 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1136"/>
         <source>Artistic effects:</source>
-        <translation type="unfinished"></translation>
+        <translation>Efectos artísticos:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2313"/>
         <source>Antialias</source>
-        <translation type="unfinished"></translation>
+        <translation>Antialiasing</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1814"/>
         <source>Emboss</source>
-        <translation type="unfinished"></translation>
+        <translation>Relieve</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2203"/>
@@ -1281,32 +1281,32 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2006"/>
         <source>Negative</source>
-        <translation type="unfinished"></translation>
+        <translation>Negativo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="427"/>
         <source>Oilpaint</source>
-        <translation type="unfinished"></translation>
+        <translation>Pintura oleo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1821"/>
         <source>Edge</source>
-        <translation type="unfinished"></translation>
+        <translation>Borde</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1664"/>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1678"/>
         <source>Fast</source>
-        <translation type="unfinished"></translation>
+        <translation>Rápido</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1683"/>
         <source>Gaussian</source>
-        <translation type="unfinished"></translation>
+        <translation>Gaussian</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="248"/>
@@ -1315,7 +1315,7 @@ See help for more details!</source>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1784"/>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2019"/>
         <source>Adjust blur/sharpen radius</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustar radio difuminado/resaltado</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="976"/>
@@ -1324,27 +1324,27 @@ See help for more details!</source>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1571"/>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2074"/>
         <source>Adjust blur/sharpen sigma</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustar sigma difuminado/resaltado</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="372"/>
         <source>Grayscale</source>
-        <translation type="unfinished"></translation>
+        <translation>Escala de grises</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="472"/>
         <source>Color enhancement:</source>
-        <translation type="unfinished"></translation>
+        <translation>Realce del color:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1123"/>
         <source>Framing and form:</source>
-        <translation type="unfinished"></translation>
+        <translation>Encuadre y forma:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2598"/>
         <source>Automatic contrast (normalize)</source>
-        <translation type="unfinished"></translation>
+        <translation>Contraste automático (normalizar)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="575"/>
@@ -1359,43 +1359,43 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="749"/>
         <source>Image distortion:</source>
-        <translation type="unfinished"></translation>
+        <translation>Distorsión de imagen:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1012"/>
         <source>Image enhancement:</source>
-        <translation type="unfinished"></translation>
+        <translation>Realce de imagen:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="820"/>
         <source>Luminosity, contrast and gamma:</source>
-        <translation type="unfinished"></translation>
+        <translation>Lminosidad, contraste y gamma:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="298"/>
         <source>Charcoal</source>
-        <translation type="unfinished"></translation>
+        <translation>Carboncillo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="921"/>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1940"/>
         <source>Adjust desaturat level</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajuste el nivel de desaturación</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="440"/>
         <source>Image rotation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rotación de imagen:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2326"/>
         <source>Annimation settings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar animación:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2672"/>
         <source>Speed wave:</source>
-        <translation type="unfinished">Curva de velocidad :</translation>
+        <translation>Curva de velocidad :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2724"/>
@@ -1574,7 +1574,7 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="713"/>
         <source>Video position :</source>
-        <translation type="unfinished"></translation>
+        <translation>Video posición :</translation>
     </message>
 </context>
 <context>
@@ -3059,7 +3059,7 @@ información</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3389"/>
         <source>Unlock properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propiedades desbloqueo</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3407"/>
@@ -3180,7 +3180,7 @@ información</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1979"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Animation settings:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Configurar animación:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2205"/>
@@ -3208,7 +3208,7 @@ información</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2721"/>
         <source>Speed wave :</source>
-        <translation type="unfinished"></translation>
+        <translation>nivel de velocidad:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2797"/>
@@ -3708,19 +3708,19 @@ toma</translation>
         <location filename="../src/engine/_GlobalDefines.cpp" line="159"/>
         <source>Correct, reframe or cut video</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Corregir, encuadrar o cortar video</translation>
     </message>
     <message>
         <location filename="../src/engine/_GlobalDefines.cpp" line="160"/>
         <source>Define framing and correction of image</source>
         <comment>Tooltip</comment>
-        <translation type="unfinished"></translation>
+        <translation>Definir encuadre y corrección de imagen</translation>
     </message>
     <message>
         <location filename="../src/engine/_GlobalDefines.cpp" line="161"/>
         <source>Define framing and correction of image or cut video</source>
         <comment>Tooltip</comment>
-        <translation type="unfinished"></translation>
+        <translation>Definir encuadre y corrección de imagen o cortar video</translation>
     </message>
 </context>
 <context>
@@ -3894,22 +3894,22 @@ toma</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1278"/>
         <source>Margins</source>
-        <translation type="unfinished"></translation>
+        <translation>Margenes</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1338"/>
         <source>Default margins</source>
-        <translation type="unfinished"></translation>
+        <translation>Márgenes predeterminados</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1345"/>
         <source>Full Shape</source>
-        <translation type="unfinished"></translation>
+        <translation>Forma completa</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1352"/>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Personalizado</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1509"/>
@@ -4155,17 +4155,17 @@ toma</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="40"/>
         <source>Transition type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo de transición:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="66"/>
         <source>Speed wave:</source>
-        <translation type="unfinished">Curva de velocidad :</translation>
+        <translation>Curva de velocidad :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="85"/>
         <source>Duration:</source>
-        <translation type="unfinished">Duración:</translation>
+        <translation>Duración:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="101"/>
@@ -4277,64 +4277,64 @@ toma</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="42"/>
         <source>Project</source>
-        <translation type="unfinished">Proyecto</translation>
+        <translation>Proyecto</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="156"/>
         <source>Project geometry:</source>
-        <translation type="unfinished">Geometría del proyecto:</translation>
+        <translation>Geometría del proyecto:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="239"/>
         <source>Select the image geometry to be used for the creation of new projects</source>
-        <translation type="unfinished">Seleccionar la geometría de imagen que se usará para la creación de nuevos proyectos</translation>
+        <translation>Seleccionar la geometría de imagen que se usará para la creación de nuevos proyectos</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="246"/>
         <source>Old TV (4:3)</source>
-        <translation type="unfinished">Antigua TV (4:3)</translation>
+        <translation>Antigua TV (4:3)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="251"/>
         <source>TV Wide (16:9)</source>
-        <translation type="unfinished">TV panorámica (16:9)</translation>
+        <translation>TV panorámica (16:9)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="256"/>
         <source>Cinema (2.35:1)</source>
-        <translation type="unfinished">Cinema (2.35:1)</translation>
+        <translation>Cinema (2.35:1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="302"/>
         <source>Default options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opciones pedeterminadas</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="361"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Options for speed wave&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Opciones para nivel de velocidad&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="371"/>
         <source>Block animation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Animación de bloque:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="384"/>
         <source>Transition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Transición:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="397"/>
         <source>Image animation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Animación de imagen:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="415"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="445"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="475"/>
         <source>Select the playback profile to be used for transitions and animations</source>
-        <translation type="unfinished">Seleccionar el perfil de reproducción para ser utilizado para las transiciones y animaciones </translation>
+        <translation>Seleccionar el perfil de reproducción para ser utilizado para las transiciones y animaciones </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="533"/>
@@ -4375,12 +4375,12 @@ toma</translation>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="47"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1310"/>
         <source>New project</source>
-        <translation type="unfinished">Nuevo proyecto</translation>
+        <translation>Nuevo proyecto</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="48"/>
         <source>Create project</source>
-        <translation type="unfinished"></translation>
+        <translation>Crear proyecto</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="65"/>
@@ -6457,32 +6457,32 @@ Si continúas, se corre el riesgo de perder datos!
     <message>
         <location filename="../src/engine/_SpeedWave.cpp" line="42"/>
         <source>Project default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Proyecto predeterminado (%1)</translation>
     </message>
     <message>
         <location filename="../src/engine/_SpeedWave.cpp" line="43"/>
         <source>Constant speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Velocidad constante</translation>
     </message>
     <message>
         <location filename="../src/engine/_SpeedWave.cpp" line="44"/>
         <source>Fast then slow</source>
-        <translation type="unfinished"></translation>
+        <translation>Rápido y después lento</translation>
     </message>
     <message>
         <location filename="../src/engine/_SpeedWave.cpp" line="45"/>
         <source>Slow then fast</source>
-        <translation type="unfinished"></translation>
+        <translation>Lento y después rápido</translation>
     </message>
     <message>
         <location filename="../src/engine/_SpeedWave.cpp" line="46"/>
         <source>Faster and faster</source>
-        <translation type="unfinished"></translation>
+        <translation>Rápido y rápido</translation>
     </message>
     <message>
         <location filename="../src/engine/_SpeedWave.cpp" line="47"/>
         <source>Slower and slower</source>
-        <translation type="unfinished"></translation>
+        <translation>Lento y lento</translation>
     </message>
 </context>
 <context>
