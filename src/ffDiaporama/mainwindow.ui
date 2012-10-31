@@ -33,7 +33,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../../RSCffDiaporama.qrc">
-    <normaloff>:/application-ffDiaporama.png</normaloff>:/application-ffDiaporama.png</iconset>
+    <normaloff>:/ffdiaporama.png</normaloff>:/ffdiaporama.png</iconset>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="font">
@@ -1143,7 +1143,7 @@ WEB</string>
              <string>About</string>
             </property>
             <property name="icon">
-             <iconset resource="../../RSCffDiaporama.qrc">
+             <iconset>
               <normaloff>:/application-ffDiaporama.png</normaloff>:/application-ffDiaporama.png</iconset>
             </property>
             <property name="iconSize">
@@ -2308,7 +2308,7 @@ WEB</string>
               <string>About</string>
              </property>
              <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
+              <iconset>
                <normaloff>:/application-ffDiaporama.png</normaloff>:/application-ffDiaporama.png</iconset>
              </property>
              <property name="iconSize">

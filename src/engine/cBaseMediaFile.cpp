@@ -1591,7 +1591,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     AVPacket        *StreamPacket       =NULL;
     int64_t         MaxAudioLenDecoded  =AVCODEC_MAX_AUDIO_FRAME_SIZE*10;
     int64_t         AudioLenDecoded     =0;
-    uint8_t         *BufferForDecoded   =(uint8_t *)av_malloc(MaxAudioLenDecoded);
+    uint8_t         *BufferForDecoded   =(uint8_t *)av_malloc(MaxAudioLenDecoded+8);    //***************** !
     double          dPosition           =double(Position)/1000;     // Position in double format
     //double          AudioDataWanted     =(PreviewMode?SoundTrackBloc->WantedDuration:5)*double(AudioStream->codec->sample_rate)*SrcSampleSize;  // 5 sec for rendering
     double          AudioLengthWanted   =(PreviewMode?1:5)*SoundTrackBloc->WantedDuration;                                                      // 5 frame for rendering
@@ -1694,6 +1694,10 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                                 Delta=int64_t(double(dPosition-FramePosition)*double(AudioStream->codec->sample_rate));
                                 Delta*=SrcSampleSize;
                             }
+                            // ensure buffer is enought !
+                            if (AudioLenDecoded+(SizeDecoded-Delta)>=MaxAudioLenDecoded) {
+qDebug()<<"Depassement MaxAudioLenDecoded";
+                            }
                             // Append decoded data to BufferForDecoded buffer
                             #ifdef LIBAV_07
                             memcpy(BufferForDecoded+AudioLenDecoded,BufferToDecode+Delta,SizeDecoded-Delta);
@@ -1785,7 +1789,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
             double  PasDst =1/double(SoundTrackBloc->SamplingRate);
             double  PosSrc =0;
             double  PosDst =0;
-            int16_t *NewBuf=(short int*)av_malloc(NewSize*DstSampleSize+DstSampleSize);
+            int16_t *NewBuf=(short int*)av_malloc(NewSize*DstSampleSize+DstSampleSize+8);   //********************* !
             int16_t *PtrSrc=(int16_t*)BufferForDecoded;
             int16_t *PtrDst=NewBuf;
             int     RealNewSize=0;
@@ -1984,7 +1988,7 @@ int cVideoFile::FilterOpen(QString filters) {
             ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::FilterOpen : avfilter_graph_create_filter: out"));
             return result;
         }
-        av_freep(&buffersink_params);
+        av_free(buffersink_params);
         AVFilterInOut *outputs=avfilter_inout_alloc();
         AVFilterInOut *inputs =avfilter_inout_alloc();
 

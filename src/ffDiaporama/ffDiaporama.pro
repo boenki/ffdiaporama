@@ -190,8 +190,7 @@ unix {
     INSTALLS 		+= TARGET
 
     ico.path            = /usr/share/icons/hicolor/32x32/apps
-    ico.files           = ../../application-ffDiaporama.png \
-                          ../../application-ffDiaporama.ico
+    ico.files           = ../../ffdiaporama.png
     INSTALLS 		+= ico
 
     desktop.path        = /usr/share/applications

@@ -1057,7 +1057,7 @@ void DlgRenderVideo::DoAccept() {
 
         // Construct ffmpeg command line
         if (Continue) {
-            ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Start avconv encoder"));
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Start encoder"));
 
             #ifdef Q_OS_WIN
             ffmpegCommand="\""+Diaporama->ApplicationConfig->BinaryEncoderPath+"\"";
@@ -1105,7 +1105,7 @@ void DlgRenderVideo::DoAccept() {
             Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);                 // Start command
             if (!Process.waitForStarted()) {
                 CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),
-                                      QApplication::translate("DlgRenderVideo","Error starting avconv","Error message")+"\n"+ffmpegCommand,
+                                      QApplication::translate("DlgRenderVideo","Error starting encoder","Error message")+"\n"+ffmpegCommand,
                                       QMessageBox::Close);
                 Continue=false;
             }
@@ -1180,16 +1180,16 @@ void DlgRenderVideo::DoAccept() {
 
                 // Save image to the pipe
                 if (!ToSave->save(&Process,"PPM",-1)) {
-                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error sending image to ffmpeg","Error message"),QMessageBox::Close);
+                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error sending image to encoder","Error message"),QMessageBox::Close);
                     Continue=false;
                 }
 
                 if (ToSave!=Frame->RenderedImage) delete ToSave;
 
-                // Wait until ffmpeg processed the frame
+                // Wait until encoder processed the frame
                 while (Continue &&(Process.bytesToWrite()>0)) {
                     if (!Process.waitForBytesWritten()) {
-                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","avconv error","Error message"),QMessageBox::Close);
+                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Encoder error","Error message"),QMessageBox::Close);
                         Continue=false;
                     }
                     // Give time to interface!
@@ -1225,12 +1225,12 @@ void DlgRenderVideo::DoAccept() {
             ui->SlideProgressBar->setValue(ui->SlideProgressBar->maximum());
             ui->TotalProgressBar->setValue(NbrFrame);
 
-            if (!Process.waitForFinished(30000)) { // 30 sec max to close ffmpeg
-                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error during avconv process","Error message"),QMessageBox::Close);
+            if (!Process.waitForFinished(30000)) { // 30 sec max to close encoder
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error closing encoder","Error message"),QMessageBox::Close);
                 Process.terminate();
                 Continue=false;
             } else if (Process.exitStatus()!=QProcess::NormalExit) {
-              CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error exiting avconv","Error message"),QMessageBox::Close);
+              CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error exiting encoder","Error message"),QMessageBox::Close);
               Continue=false;
             }
         }
@@ -1451,7 +1451,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             Diaporama->LoadSources(Frame,0,0,0,false,true);
 
             // Give time to interface!
-            QApplication::processEvents();
+            while ((ThreadWrite.isRunning())&&(!StopProcessWanted)) QApplication::processEvents();  //ThreadWrite.waitForFinished();
 
             // Calc number of packet to mix
             int MaxPacket=Frame->CurrentObject_MusicTrack->List.count();
@@ -1465,7 +1465,6 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 WriteWAV.RenderMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
 
             // Write audio frame to disk
-            if (ThreadWrite.isRunning()) ThreadWrite.waitForFinished();
             ThreadWrite.setFuture(QtConcurrent::run(this,&DlgRenderVideo::WriteRenderedMusicToDisk,&WriteWAV,&Continue));
 
             QApplication::processEvents();  // Give time to interface!
@@ -1477,10 +1476,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             Frame =NULL;
 
             // Stop the process if error occur or user ask to stop
-            Continue=Continue && !StopProcessWanted;;
+            Continue=Continue && !StopProcessWanted;
         }
 
-        if (ThreadWrite.isRunning()) ThreadWrite.waitForFinished();
+        while (ThreadWrite.isRunning()) QApplication::processEvents();  //ThreadWrite.waitForFinished();
 
         // Write de trailer
         if ((Continue)&&(av_write_trailer(WriteWAV.OutputFormatContext)!=0)) {
@@ -1501,7 +1500,10 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
         if (WriteWAV.OutputFormatContext->pb) avio_close(WriteWAV.OutputFormatContext->pb);                                   // close the file
         if (WriteWAV.OutputFormatContext->streams[0]) {
             avcodec_close(WriteWAV.AudioStream->codec);                                                              // close codec
-            if (WriteWAV.OutputFormatContext->streams[0]->codec) av_freep(&WriteWAV.OutputFormatContext->streams[0]->codec);  // free the audiostream
+            if (WriteWAV.OutputFormatContext->streams[0]->codec) {
+                av_free(WriteWAV.OutputFormatContext->streams[0]->codec);  // free the audiostream
+                WriteWAV.OutputFormatContext->streams[0]->codec=NULL;
+            }
         }
         av_free(WriteWAV.OutputFormatContext);                                                                       // free the container
     }
@@ -1515,16 +1517,21 @@ void DlgRenderVideo::WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue
     // Flush audio frame
     while (WriteWAV->RenderMusic.List.count()>0) {
         int16_t *PacketSound=WriteWAV->RenderMusic.DetachFirstPacket();
+qDebug()<<"Get"<<PacketSound;
         if (PacketSound==NULL) {
             PacketSound=(int16_t *)av_malloc(WriteWAV->RenderMusic.SoundPacketSize+4);
             memset(PacketSound,0,WriteWAV->RenderMusic.SoundPacketSize);
+qDebug()<<"Alloc"<<PacketSound;
         }
 
         #if FF_API_OLD_ENCODE_AUDIO
 
             // Init frame
             AVFrame *frame=avcodec_alloc_frame();
-            if (frame->extended_data!=frame->data) av_freep(&frame->extended_data);
+            if (frame->extended_data!=frame->data) {
+                av_free(frame->extended_data);
+                frame->extended_data=NULL;
+            }
             avcodec_get_frame_defaults(frame);
             frame->nb_samples=WriteWAV->RenderMusic.SoundPacketSize/(WriteWAV->AudioCodecContext->channels*av_get_bytes_per_sample(WriteWAV->AudioCodecContext->sample_fmt));
 
@@ -1591,6 +1598,7 @@ void DlgRenderVideo::WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue
                 *Continue=false;
             }
         #endif
+qDebug()<<"Before free"<<PacketSound;
         av_free(PacketSound);
     }
 }
