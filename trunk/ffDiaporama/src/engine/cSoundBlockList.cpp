@@ -30,7 +30,7 @@
 cSoundBlockList::cSoundBlockList() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::cSoundBlockList");
 
-    TempData            =(uint8_t *)av_malloc(MAXSOUNDPACKETSIZE+4);                        // Buffer for stocking temporary data (when decoding data are less than a packet)
+    TempData            =(uint8_t *)av_malloc(MAXSOUNDPACKETSIZE+8);                        // Buffer for stocking temporary data (when decoding data are less than a packet)
     CurrentTempSize     =0;                                                                 // Amount of data in the TempData buffer
     SoundPacketSize     =MAXSOUNDPACKETSIZE;                                                // Size of a packet (depending on FPS)
     Channels            =2;                                                                 // Number of channels
@@ -139,7 +139,7 @@ void cSoundBlockList::AppendData(int16_t *Data,int64_t DataLen) {
     uint8_t *CurData=(uint8_t *)Data;
     // Cut data to Packet
     while ((DataLen+CurrentTempSize>=SoundPacketSize)) {
-        uint8_t *Packet=(uint8_t *)av_malloc(SoundPacketSize+4);
+        uint8_t *Packet=(uint8_t *)av_malloc(SoundPacketSize+8);    //*************************** !
         if (Packet) {
             if (CurrentTempSize>0) {                                // Use previously data store in TempData
                 int DataToUse=SoundPacketSize-CurrentTempSize;

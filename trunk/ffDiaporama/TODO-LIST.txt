@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.5 - Trunk
 *
-* Dernier commit le : 27/10/2012
+* Dernier commit le : 29/10/2012
 **************************************************
 
 TODO :
@@ -58,19 +58,15 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige une regression introduite en version 20121014 : Le centrage des textes ne s'effectuaient plus correctement quand le zoom de texte était différent de 100%
--Corrige une regression introduite en version 20121014 : Erreur de calcul des marges de texte en mode forme entière, pour les formes Roundrect et Bubble
--Corrige une regression introduite en version 20121021 : Erreur de répertoire pour l'écriture du fichier d'icone (.desktop) sur les systèmes Linux
--Corrige une regression introduite en version 20121027 : Erreur de détermination de l'outil externe à utiliser pour l'encodage sur les systèmes Linux
+-Corrige un bug d'encodage du son lors de l'utilisation de fichier FLAC long
+-Corrige le nom et l'emplacement de l'icone pour les systèmes linux
+-Remet SDL.dll dans le paquet Windows
 
 English version / Bug fixes :
--Fixes a regression introduced in version 20121014: Centering text does not perform correctly when the text zoom was different 100%
--Fixes a regression introduced in version 20121014: Error calculating margins of text using full form option for RoundRect and Bubble forms
--Fixes a regression introduced in version 20121021: Error of directory for writing the icon file (.desktop) on Linux systems
--Fixes a regression introduced in version 20121027: Error determining external tools for encoding on Linux systems
+-Fixed a bug with the encoding when using long FLAC file
+-Fixed the name and location of the icon for linux systems
+-Resets SDL.dll in Windows package
 
 French version / Nouveautés :
--Ajoute les options "Distribuer horizontalement" et "Distribuer verticalement" dans le menu d'alignement de la boite d'édition des slides
 
 English version / New features :
--Adds options "Distribute Horizontally" and "Distribute Vertically" in the alignment menu of the editing slide dialog

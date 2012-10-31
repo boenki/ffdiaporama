@@ -152,7 +152,6 @@
         <file>img/MediaIcons/100x100/Thumbnails.png</file>
         <file>img/MediaIcons/100x100/usb.png</file>
         <file>img/MediaIcons/100x100/video.png</file>
-        <file>application-ffDiaporama.png</file>
         <file>img/Transitions/tr-00-00.png</file>
         <file>img/Transitions/tr-00-01.png</file>
         <file>img/Transitions/tr-00-02.png</file>
@@ -280,5 +279,6 @@
         <file>img/Arrange/arrange.png</file>
         <file>img/Arrange/aodistH.png</file>
         <file>img/Arrange/aodistV.png</file>
+        <file>ffdiaporama.png</file>
     </qresource>
 </RCC>
