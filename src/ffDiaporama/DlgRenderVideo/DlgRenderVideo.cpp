@@ -621,9 +621,7 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
 // Video codec part
 bool DlgRenderVideo::ComputeVideoPart(QString &vCodec) {
     bool    Continue=true;
-    #ifdef LIBAV_08
     bool    isAVCONV=(Diaporama->ApplicationConfig->BinaryEncoderPath=="avconv");
-    #endif
 
     switch (VIDEOCODECDEF[VideoCodecIndex].FFD_VCODEC) {
 
@@ -704,6 +702,7 @@ bool DlgRenderVideo::ComputeVideoPart(QString &vCodec) {
 // Audio codec part
 bool DlgRenderVideo::ComputeAudioPart(QString &aCodec) {
     bool    Continue=true;
+    bool    isAVCONV=(Diaporama->ApplicationConfig->BinaryEncoderPath=="avconv");
 
     if (!ui->IncludeSoundCB->isChecked()) {
         aCodec="-an";
@@ -722,7 +721,8 @@ bool DlgRenderVideo::ComputeAudioPart(QString &aCodec) {
                 break;
 
             case CODEC_ID_AC3:
-                aCodec=QString("-acodec %1 -sample_fmt:1 flt -ab %2").arg(AUDIOCODECDEF[AudioCodecIndex].ShortName).arg(AudioBitRate);
+                if (isAVCONV) aCodec=QString("-acodec %1 -sample_fmt:1 flt -ab %2").arg(AUDIOCODECDEF[AudioCodecIndex].ShortName).arg(AudioBitRate);
+                    else      aCodec=QString("-acodec %1 -ab %2").arg(AUDIOCODECDEF[AudioCodecIndex].ShortName).arg(AudioBitRate);
                 break;
 
             case CODEC_ID_MP2:
@@ -1517,11 +1517,9 @@ void DlgRenderVideo::WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue
     // Flush audio frame
     while (WriteWAV->RenderMusic.List.count()>0) {
         int16_t *PacketSound=WriteWAV->RenderMusic.DetachFirstPacket();
-qDebug()<<"Get"<<PacketSound;
         if (PacketSound==NULL) {
             PacketSound=(int16_t *)av_malloc(WriteWAV->RenderMusic.SoundPacketSize+4);
             memset(PacketSound,0,WriteWAV->RenderMusic.SoundPacketSize);
-qDebug()<<"Alloc"<<PacketSound;
         }
 
         #if FF_API_OLD_ENCODE_AUDIO
@@ -1598,7 +1596,6 @@ qDebug()<<"Alloc"<<PacketSound;
                 *Continue=false;
             }
         #endif
-qDebug()<<"Before free"<<PacketSound;
         av_free(PacketSound);
     }
 }

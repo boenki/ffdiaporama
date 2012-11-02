@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.5 - Trunk
 *
-* Dernier commit le : 29/10/2012
+* Dernier commit le : 31/10/2012
 **************************************************
 
 TODO :
@@ -21,12 +21,11 @@ Criticité   Etat    Enoncé
 Critique    -       Neutraliser le text scalling pour les blocs de texte des projets !
 
 Normal      -       Bug de Pepe sur les tailles des bordures en VGA
-
 Normal      -       Bug sur le text scalling en render DVD
-
-Normal      -       Ajouter des formes de shape (jumelle, trapeze, parrallelograme ...)
-
+Basse       -       Bug de SESTAY sur un plantage lors de la relecture d'un ancien fichier de configuration
 Normal      -       Bug sur l'encodage MP3 : 1 seconde de trop par minute d'encodage (http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=449)
+
+Normal      NF      Ajouter des formes de shape (jumelle, trapeze, parrallelograme ...)
 
 Normal      WIP     Les vidéos avec chapitre exportées en .mkv font planter VLC
                     =>  Pour le moment, j'ai supprimé les chapitres dans les mkv pour tous les codecs sauf lossless
@@ -43,10 +42,6 @@ Basse       WIP     Isolation du code des transition
 
 Basse       NF      Support des vidéo ULAW à faire
 
-Basse       -       Bug de SESTAY sur un plantage lors de la relecture d'un ancien fichier de configuration
-
-Basse       NF      Supprimer les scrollers inutiles dans les combo brush et GradientOrientation
-
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
 NF  : New Feature
@@ -58,15 +53,19 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige un bug d'encodage du son lors de l'utilisation de fichier FLAC long
--Corrige le nom et l'emplacement de l'icone pour les systèmes linux
--Remet SDL.dll dans le paquet Windows
+-Corrige l'erreur d'encodage avec le codec AC3 pour les systèmes utilisant ffmpeg (Windows + certains linux)
+-Corrige l'erreur d'image qui est parfois coupée lors de rotation de bloc
+-Corrige l'erreur de ligne parasite qui apparait parfois lors de rotation de bloc
 
 English version / Bug fixes :
--Fixed a bug with the encoding when using long FLAC file
--Fixed the name and location of the icon for linux systems
--Resets SDL.dll in Windows package
+-Corrects error encoding with AC3 codec for systems using ffmpeg (Windows + some linux)
+-Corrects error of image that is sometimes cut during block rotation
+-Corrects error of parasite line that appears sometimes during block rotation
 
 French version / Nouveautés :
+-Supprime les scrollers inutiles dans les combobox brush et GradientOrientation et agrandie les icônes de la combobox brush
+-Supprime l'onglet système de la boite A propos de ... et transfert toutes les informations systèmes dans la boite vérifier la configuration
 
 English version / New features :
+-Removes unnecessary-scrollers in the brush and GradientOrientation combobox and enlarged icons of brush combobox
+-Removes the System information tab of the about dialog and transfer all the information systems in the configuration check dialog

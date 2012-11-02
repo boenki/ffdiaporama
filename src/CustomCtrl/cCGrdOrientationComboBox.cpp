@@ -37,18 +37,23 @@ void cCGrdOrientationComboBoxItem::paint(QPainter *painter,const QStyleOptionVie
     if ((!ComboBox)||(!ComboBox->Brush)) return;
     int ColorNum=index.row()*3+index.column();
     if ((ColorNum>=0)&&(ColorNum<MAXGRADIENTORIENTATION)) {
-        cBrushDefinition Brush(ComboBox->Brush->ApplicationConfig,/*&BackgroundList*/NULL);
-        Brush.BrushType=ComboBox->Brush->BrushType;
-        Brush.ColorD=ComboBox->Brush->ColorD;
-        Brush.ColorF=ComboBox->Brush->ColorF;
-        Brush.ColorIntermed=ComboBox->Brush->ColorIntermed;
-        Brush.Intermediate=ComboBox->Brush->Intermediate;
-        Brush.GradientOrientation=ColorNum;
-        QBrush *BR=Brush.GetBrush(option.rect,true,0,0,NULL,1,NULL);
-        if (BR) {
-            painter->setBrush(*BR);
-            delete BR;
+
+        QGradient Gradient;
+        switch (ColorNum) {
+            case GRADIENTORIENTATION_UPLEFT:        Gradient=QLinearGradient(QPointF(option.rect.x(),option.rect.y()),QPointF(option.rect.x()+option.rect.width(),option.rect.y()+option.rect.height()));                                                                                                                                       break;          // Up-Left
+            case GRADIENTORIENTATION_UP:            Gradient=QLinearGradient(QPointF(option.rect.x()+option.rect.width()/2,option.rect.y()),QPointF(option.rect.x()+option.rect.width()/2,option.rect.y()+option.rect.height()));                                                                                                               break;          // Up
+            case GRADIENTORIENTATION_UPRIGHT:       Gradient=QLinearGradient(QPointF(option.rect.x()+option.rect.width(),option.rect.y()),QPointF(option.rect.x(),option.rect.y()+option.rect.height()));                                                                                                                                       break;          // Up-right
+            case GRADIENTORIENTATION_LEFT:          Gradient=QLinearGradient(QPointF(option.rect.x(),option.rect.y()+option.rect.height()/2),QPointF(option.rect.x()+option.rect.width(),option.rect.y()+option.rect.height()/2));                                                                                                              break;          // Left
+            case GRADIENTORIENTATION_RADIAL:        Gradient=QRadialGradient(QPointF(option.rect.x()+option.rect.width()/2,option.rect.y()+option.rect.height()/2),option.rect.width()>option.rect.height()?option.rect.width():option.rect.height(),QPointF(option.rect.x()+option.rect.width()/2,option.rect.y()+option.rect.height()/2));    break;          // Radial
+            case GRADIENTORIENTATION_RIGHT:         Gradient=QLinearGradient(QPointF(option.rect.x()+option.rect.width(),option.rect.y()+option.rect.height()/2),QPointF(option.rect.x(),option.rect.y()+option.rect.height()/2));                                                                                                              break;          // Right
+            case GRADIENTORIENTATION_BOTTOMLEFT:    Gradient=QLinearGradient(QPointF(option.rect.x(),option.rect.y()+option.rect.height()),QPointF(option.rect.x()+option.rect.width(),option.rect.y()));                                                                                                                                       break;          // bt-Left
+            case GRADIENTORIENTATION_BOTTOM:        Gradient=QLinearGradient(QPointF(option.rect.x()+option.rect.width()/2,option.rect.y()+option.rect.height()),QPointF(option.rect.x()+option.rect.width()/2,option.rect.y()));                                                                                                               break;          // bottom
+            case GRADIENTORIENTATION_BOTTOMRIGHT:   Gradient=QLinearGradient(QPointF(option.rect.x()+option.rect.width(),option.rect.y()+option.rect.height()),QPointF(option.rect.x(),option.rect.y()));                                                                                                                                       break;          // bt-right
         }
+        Gradient.setColorAt(0,QColor(ComboBox->Brush->ColorD));
+        Gradient.setColorAt(1,QColor(ComboBox->Brush->ColorF));
+        if (ComboBox->Brush->BrushType==BRUSHTYPE_GRADIENT3) Gradient.setColorAt(ComboBox->Brush->Intermediate,QColor(ComboBox->Brush->ColorIntermed));
+        painter->setBrush(Gradient);
         painter->drawRect(option.rect);
     } else {
         painter->fillRect(option.rect,Qt::white);
@@ -97,8 +102,8 @@ cCGrdOrientationComboBox::cCGrdOrientationComboBox(QWidget *parent):QComboBox(pa
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
     MakeIcons();
-    this->view()->setFixedWidth(3*32+18);
-    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->view()->setFixedSize(3*32,3*32);
     connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 
@@ -140,19 +145,24 @@ void cCGrdOrientationComboBox::MakeIcons() {
     QPainter Painter;
     Painter.begin(&Image);
     if ((ColorNum>=0)&&(ColorNum<MAXGRADIENTORIENTATION)) {
-        cBrushDefinition TheBrush(Brush->ApplicationConfig,/*&BackgroundList*/NULL);
-        TheBrush.BrushType=Brush->BrushType;
-        TheBrush.ColorD=Brush->ColorD;
-        TheBrush.ColorF=Brush->ColorF;
-        TheBrush.ColorIntermed=Brush->ColorIntermed;
-        TheBrush.Intermediate=Brush->Intermediate;
-        TheBrush.GradientOrientation=ColorNum;
-        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,iconSize().width(),iconSize().height()),true,0,0,NULL,1,NULL);
-        if (BR) {
-            Painter.setBrush(*BR);
-            delete BR;
+        QRectF      Rect=QRectF(0,0,iconSize().width(),iconSize().height());
+        QGradient   Gradient;
+        switch (ColorNum) {
+            case GRADIENTORIENTATION_UPLEFT:        Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()));                                                                                             break;          // Up-Left
+            case GRADIENTORIENTATION_UP:            Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()),QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()));                                                                            break;          // Up
+            case GRADIENTORIENTATION_UPRIGHT:       Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()),QPointF(Rect.x(),Rect.y()+Rect.height()));                                                                                             break;          // Up-right
+            case GRADIENTORIENTATION_LEFT:          Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()/2),QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2));                                                                           break;          // Left
+            case GRADIENTORIENTATION_RADIAL:        Gradient=QRadialGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2),Rect.width()>Rect.height()?Rect.width():Rect.height(),QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()/2));    break;          // Radial
+            case GRADIENTORIENTATION_RIGHT:         Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()/2),QPointF(Rect.x(),Rect.y()+Rect.height()/2));                                                                           break;          // Right
+            case GRADIENTORIENTATION_BOTTOMLEFT:    Gradient=QLinearGradient(QPointF(Rect.x(),Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width(),Rect.y()));                                                                                             break;          // bt-Left
+            case GRADIENTORIENTATION_BOTTOM:        Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width()/2,Rect.y()+Rect.height()),QPointF(Rect.x()+Rect.width()/2,Rect.y()));                                                                            break;          // bottom
+            case GRADIENTORIENTATION_BOTTOMRIGHT:   Gradient=QLinearGradient(QPointF(Rect.x()+Rect.width(),Rect.y()+Rect.height()),QPointF(Rect.x(),Rect.y()));                                                                                             break;          // bt-right
         }
-        Painter.drawRect(QRectF(0,0,iconSize().width(),iconSize().height()));
+        Gradient.setColorAt(0,QColor(Brush->ColorD));
+        Gradient.setColorAt(1,QColor(Brush->ColorF));
+        if (Brush->BrushType==BRUSHTYPE_GRADIENT3) Gradient.setColorAt(Brush->Intermediate,QColor(Brush->ColorIntermed));
+        Painter.setBrush(Gradient);
+        Painter.drawRect(Rect);
     } else {
         Painter.setBrush(QBrush(Qt::white));
         Painter.drawRect(QRectF(0,0,iconSize().width(),iconSize().height()));

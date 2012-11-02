@@ -1143,8 +1143,8 @@ WEB</string>
              <string>About</string>
             </property>
             <property name="icon">
-             <iconset>
-              <normaloff>:/application-ffDiaporama.png</normaloff>:/application-ffDiaporama.png</iconset>
+             <iconset resource="../../RSCffDiaporama.qrc">
+              <normaloff>:/ffdiaporama.png</normaloff>:/ffdiaporama.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2308,8 +2308,8 @@ WEB</string>
               <string>About</string>
              </property>
              <property name="icon">
-              <iconset>
-               <normaloff>:/application-ffDiaporama.png</normaloff>:/application-ffDiaporama.png</iconset>
+              <iconset resource="../../RSCffDiaporama.qrc">
+               <normaloff>:/ffdiaporama.png</normaloff>:/ffdiaporama.png</iconset>
              </property>
              <property name="iconSize">
               <size>

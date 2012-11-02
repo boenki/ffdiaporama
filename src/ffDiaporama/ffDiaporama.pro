@@ -27,8 +27,7 @@ include(../common.pri)
 # Ressource files
 win32:RC_FILE    += ../../ffDiaporama.rc
 unix:OTHER_FILES += ../../ffDiaporama.rc
-RESOURCES        += \
-    ../../RSCffDiaporama.qrc
+RESOURCES        += ../../RSCffDiaporama.qrc
 
 TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_it.ts \
@@ -41,7 +40,6 @@ TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_cz.ts
 
 SOURCES +=  _ApplicationDefinitions.cpp \
-            _ImagesDefinitions.cpp \
             _Diaporama.cpp \
             wgt_QVideoPlayer.cpp \
             cCustomComboBox.cpp \
@@ -91,16 +89,16 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../engine/QCustomFolderTree.cpp \
             ../engine/QCustomFolderTable.cpp \
             ../engine/cDriveList.cpp \
-    ../engine/_SpeedWave.cpp \
-    ../CustomCtrl/cCColorComboBox.cpp \
-    ../CustomCtrl/cCBrushComboBox.cpp \
-    ../CustomCtrl/cCGrdOrientationComboBox.cpp \
-    ../CustomCtrl/cCFramingComboBox.cpp \
-    ../CustomCtrl/cCShapeComboBox.cpp \
-    ../engine/_Shape.cpp
+            ../engine/_Transition.cpp \
+            ../engine/_SpeedWave.cpp \
+            ../engine/_Shape.cpp \
+            ../CustomCtrl/cCColorComboBox.cpp \
+            ../CustomCtrl/cCBrushComboBox.cpp \
+            ../CustomCtrl/cCGrdOrientationComboBox.cpp \
+            ../CustomCtrl/cCFramingComboBox.cpp \
+            ../CustomCtrl/cCShapeComboBox.cpp
 
 HEADERS  += \
-            _ImagesDefinitions.h \
             _ApplicationDefinitions.h \
             _Diaporama.h \
             _StyleDefinitions.h \
@@ -150,13 +148,14 @@ HEADERS  += \
             ../engine/QCustomFolderTree.h \
             ../engine/QCustomFolderTable.h \
             ../engine/cDriveList.h \
-    ../engine/_SpeedWave.h \
-    ../CustomCtrl/cCColorComboBox.h \
-    ../CustomCtrl/cCBrushComboBox.h \
-    ../CustomCtrl/cCGrdOrientationComboBox.h \
-    ../CustomCtrl/cCFramingComboBox.h \
-    ../CustomCtrl/cCShapeComboBox.h \
-    ../engine/_Shape.h
+            ../engine/_Transition.h \
+            ../engine/_SpeedWave.h \
+            ../engine/_Shape.h \
+            ../CustomCtrl/cCColorComboBox.h \
+            ../CustomCtrl/cCBrushComboBox.h \
+            ../CustomCtrl/cCGrdOrientationComboBox.h \
+            ../CustomCtrl/cCFramingComboBox.h \
+            ../CustomCtrl/cCShapeComboBox.h
 
 FORMS    += mainwindow.ui \
             wgt_QVideoPlayer.ui \

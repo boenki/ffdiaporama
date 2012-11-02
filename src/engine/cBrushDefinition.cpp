@@ -20,20 +20,11 @@
 
 #include "cBrushDefinition.h"
 
-// Include qimageblitz lib
-#ifdef Q_OS_WIN
-    #include <qimageblitz.h>
-    #include <blitzcpu.h>
-#else
-    #include <qimageblitz/qimageblitz.h>
-    #include <qimageblitz/blitzcpu.h>
-#endif
-
-#include "../fmt_filters/fmt_filters.h"
-
 //============================================
 // Global static
 //============================================
+
+cBackgroundList BackgroundList;
 
 #define PI              3.14159265
 QBrush  Transparent;                    // Transparent brush
@@ -247,16 +238,31 @@ cBrushDefinition::~cBrushDefinition() {
 QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetBrush");
 
+    QPainter Painter;
+    QImage   Img(Rect.width()+2,Rect.height()+2,QImage::Format_ARGB32_Premultiplied);
+    Painter.begin(&Img);
+    Painter.setCompositionMode(QPainter::CompositionMode_Source);
+    Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
+    Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+    QBrush  *Br;
+
     switch (BrushType) {
-        case BRUSHTYPE_NOBRUSH :        return new QBrush(Qt::NoBrush);
-        case BRUSHTYPE_SOLID :          return new QBrush(QColor(ColorD),Qt::SolidPattern);
-        case BRUSHTYPE_PATTERN :        return new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));
-        case BRUSHTYPE_GRADIENT2 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
-        case BRUSHTYPE_GRADIENT3 :      return GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);
-        case BRUSHTYPE_IMAGELIBRARY :   return GetLibraryBrush(Rect);
-        case BRUSHTYPE_IMAGEDISK :      return GetImageDiskBrush(Rect,PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PreviousBrush,UseBrushCache);
+        case BRUSHTYPE_NOBRUSH :        Br=new QBrush(Qt::NoBrush); break;
+        case BRUSHTYPE_SOLID :          Br=new QBrush(QColor(ColorD),Qt::SolidPattern); break;
+        case BRUSHTYPE_PATTERN :        Br=new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));  break;
+        case BRUSHTYPE_GRADIENT2 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);   break;
+        case BRUSHTYPE_GRADIENT3 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);   break;
+        case BRUSHTYPE_IMAGELIBRARY :   Br=GetLibraryBrush(Rect);   break;
+        case BRUSHTYPE_IMAGEDISK :      Br=GetImageDiskBrush(Rect,PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PreviousBrush,UseBrushCache);    break;
+        default :                       Br=new QBrush(Qt::NoBrush); break;
     }
-    return new QBrush(Qt::NoBrush);
+    Painter.setBrush(*Br);
+    Painter.setPen(Qt::NoPen);
+    Painter.drawRect(QRectF(1,1,Rect.width(),Rect.height()));
+    Painter.end();
+    delete Br;
+    return new QBrush(Img);
 }
 
 //====================================================================================================================
@@ -345,9 +351,9 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 }
 
                 // Prepare values from sourceimage size
-                double   RealImageW=double(RenderImage->width());                       if ((int(RealImageW) & 0x01)==1) RealImageW=RealImageW+1;    // Get real image widht
-                double   RealImageH=double(RenderImage->height());                      if ((int(RealImageH) & 0x01)==1) RealImageH=RealImageH+1;    // Get real image height
-                double   Hyp       =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);  if ((int(Hyp)        & 0x01)==1) Hyp       =Hyp+1;           // Calc hypothenuse of the image to define full canvas
+                double   RealImageW=RenderImage->width();
+                double   RealImageH=RenderImage->height();
+                double   Hyp       =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);
                 double   HypPixel  =Hyp*TheZoomFactor;
 
                 // Expand canvas
@@ -373,14 +379,9 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                     NewRenderImage=NewRenderImage.copy(ax/2,ay/2,NewRenderImage.width()-ax,NewRenderImage.height()-ay);
                 }
 
-                /*****************************************************************************
-                  Le problème de ligne parasite vient du calcul suivant
-                  pour le "résoudre", j'ai mis +2 et +2 mais ce n'est pas très mathématique !
-                ******************************************************************************/
-
                 // Get part we need and scaled it to destination size
                 NewRenderImage=NewRenderImage.copy(Hyp*TheXFactor,Hyp*TheYFactor,HypPixel,HypPixel*TheAspectRatio)
-                                    .scaled(Rect.width()+2,double(Rect.width())*TheAspectRatio+2,Qt::IgnoreAspectRatio,
+                                    .scaled(Rect.width(),Rect.width()*TheAspectRatio,Qt::IgnoreAspectRatio,
                                     ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
 
                 // Apply correction filters to DestImage

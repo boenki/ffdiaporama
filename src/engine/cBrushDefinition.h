@@ -32,6 +32,18 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
+// Include qimageblitz lib
+#ifdef Q_OS_WIN
+    #include <qimageblitz.h>
+    #include <blitzcpu.h>
+#else
+    #include <qimageblitz/qimageblitz.h>
+    #include <qimageblitz/blitzcpu.h>
+#endif
+
+// Include fmt_filters lib
+#include "../fmt_filters/fmt_filters.h"
+
 // Include some common various class
 #include "_SpeedWave.h"
 #include "_Shape.h"
@@ -185,6 +197,7 @@ public:
     void    ScanDisk(QString Path,int Geometry);
     int     SearchImage(QString NameToFind);
 };
+extern  cBackgroundList BackgroundList;
 
 //*********************************************************************************************************************************************
 // Base object for brush object

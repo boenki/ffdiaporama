@@ -141,6 +141,7 @@ public:
     QString                 CurrentFolder;                              // Current Path
     QString                 CurrentLanguage;                            // Current Language translation
     QString                 ForceLanguage;                              // Empty or forced language
+    QString                 StartingPath;
     bool                    MainWinState;                               // WindowsSettings-ismaximized
     cSaveWindowPosition     *MainWinWSP;                                // MainWindow - Window size and position
 

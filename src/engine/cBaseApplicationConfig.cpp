@@ -311,6 +311,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
 
     // Initialise all variables and set them default value
     ParentWindow            = NULL;
+    StartingPath            = AdjustDirForOS(QDir::currentPath());
     this->ForceLanguage     = ForceLanguage;
     MainWinState            = false;                                                        // WindowsSettings-ismaximized
     RestoreWindow           = true;                                                         // if true then restore windows size and position

@@ -79,10 +79,6 @@
         <translation>&amp;Ok</translation>
     </message>
     <message>
-        <source>System information</source>
-        <translation>Informazioni sistema</translation>
-    </message>
-    <message>
         <source>This application was developed using Open Source version of Qt 4.8 SDK</source>
         <translation>Quest&apos;applicazione è stata sviluppata utilizzando la versione Open Source di Qt 4.8 SDK</translation>
     </message>
@@ -802,24 +798,8 @@ Inquadratura:</translation>
         <translation>Supporto TAGLib per M4A/MP4</translation>
     </message>
     <message>
-        <source>LIBAVCODEC version:</source>
-        <translation>Versione LIBAVCODEC:</translation>
-    </message>
-    <message>
-        <source>LIBAVFORMAT version:</source>
-        <translation>Versione LIBAVFORMAT:</translation>
-    </message>
-    <message>
-        <source>LIBSWSCALE version:</source>
-        <translation>Versione LIBSWSCALE:</translation>
-    </message>
-    <message>
         <source>LibExiv2/Exiv2 binary version</source>
         <translation>Versione LibExiv2/Exiv2 binario</translation>
-    </message>
-    <message>
-        <source>Lossless</source>
-        <translation>Lossless</translation>
     </message>
     <message>
         <source>Lossless rendering</source>
@@ -838,28 +818,124 @@ Inquadratura:</translation>
         <translation>versione codificatore:</translation>
     </message>
     <message>
-        <source>LIBAV support for TAG and CHAPTERS</source>
-        <translation>Supporto LIBAV per TAG e CAPITOLI</translation>
+        <source>Operating system version: %1 - %2 Core/CPU</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>libav Audio Codecs</source>
-        <translation>Codec Audio libav</translation>
+        <source>User config file: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>libav Video Codecs</source>
-        <translation>Codec Video libav</translation>
+        <source>Global config file: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>libav Container Formats</source>
-        <translation>Formati contenitori libav</translation>
+        <source>Starting path: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>LIBAV support for AVCHD video</source>
-        <translation>Supporto LIBAV per video AVCHD</translation>
+        <source>Working path set to: %1</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>LIBAVFILTER version:</source>
-        <translation>Versione LIBAVFILTER:</translation>
+        <source>The background library contains %1 pictures</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The non-luma library contains %1 transitions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The luma library contains %1 transitions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SDL version:%1.%2.%3-Licence=GPL version 2.1 or later</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>fmt_filters version:0.6.4-Licence=LGPL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>QT version: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Detected system locale: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Translation file loaded: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>QImageBlitz</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MMX extension %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>IntegerSSE extension %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSE extension %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SSE2 extension %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AMD3DNOW extension %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AMD3DNOW2 extension %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>AltiVec extension %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBAVCODEC version:%1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBAVFORMAT version:%1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBSWSCALE version:%1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBAVFILTER version:%1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Support for TAG and CHAPTERS</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Support for AVCHD video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio Codecs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video Codecs</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Container Formats</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2061,41 +2137,12 @@ Vuoi sovrascriverlo?</translation>
         <translation> - Tempo stimato rimanente :</translation>
     </message>
     <message>
-        <source>Error sending image to ffmpeg</source>
-        <comment>Error message</comment>
-        <translation>Errore durante l&apos;invio d&apos;immagini per ffmpeg</translation>
-    </message>
-    <message>
         <source>Closing encoder</source>
         <translation>Chiusura codifica</translation>
     </message>
     <message>
         <source>Job completed successfully!</source>
         <translation>Lavoro completato con successo! </translation>
-    </message>
-    <message>
-        <source>Start avconv encoder</source>
-        <translation>Avvio codifica avconv</translation>
-    </message>
-    <message>
-        <source>Error starting avconv</source>
-        <comment>Error message</comment>
-        <translation>Errore avvio avconv</translation>
-    </message>
-    <message>
-        <source>avconv error</source>
-        <comment>Error message</comment>
-        <translation>errore avconv</translation>
-    </message>
-    <message>
-        <source>Error during avconv process</source>
-        <comment>Error message</comment>
-        <translation>Errore durante processo avconv</translation>
-    </message>
-    <message>
-        <source>Error exiting avconv</source>
-        <comment>Error message</comment>
-        <translation>Errore all&apos;uscita di avconv</translation>
     </message>
     <message>
         <source>Edit project properties</source>
@@ -2112,6 +2159,35 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Select the file type to use for the rendering</source>
         <translation>Selezionare il tipo di file utilizzato per il rendering</translation>
+    </message>
+    <message>
+        <source>Start encoder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error starting encoder</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error sending image to encoder</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Encoder error</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error closing encoder</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error exiting encoder</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2871,6 +2947,18 @@ blocco</translation>
     </message>
     <message>
         <source>Unlock properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>distribute horizontally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Place each block so as to have the same space between each</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>distribute vertically</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3865,40 +3953,16 @@ la geometria dell&apos;immagine nel file non è uguale a quella del progetto cor
         <translation>Avvio di SDL...</translation>
     </message>
     <message>
-        <source>Library :</source>
-        <translation>Libreria :</translation>
-    </message>
-    <message>
         <source>Loading background library...</source>
         <translation>Caricamento libreria sfondi...</translation>
-    </message>
-    <message>
-        <source> images loaded into the background-library from </source>
-        <translation>Immagini caricate nella libreria-sfondi da </translation>
     </message>
     <message>
         <source>Loading no-luma transitions...</source>
         <translation>Caricamento transizione no-luma...</translation>
     </message>
     <message>
-        <source> no-luma transitions loaded into the transition-library</source>
-        <translation>transizione no-luma caricata nella libreria-transizione</translation>
-    </message>
-    <message>
         <source>Loading luma transitions...</source>
         <translation>Caricamento transizione luma...</translation>
-    </message>
-    <message>
-        <source> luma transitions loaded into the transition-library from </source>
-        <translation>Transizione luma caricata nella libreria-transizione da </translation>
-    </message>
-    <message>
-        <source>  Total:</source>
-        <translation>  Totale :</translation>
-    </message>
-    <message>
-        <source> transitions loaded into the transition-library</source>
-        <translation>Transizione caricata nella libreria-transizione</translation>
     </message>
     <message>
         <source>Slide : </source>

@@ -50,7 +50,6 @@ void DlgAbout::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::DoInitDialog");
 
     ui->ApplicationReleaseLabel->setText(CurrentAppVersion);
-    ui->SystemInfoED->setText(SystemProperties);
     ui->ApplicationNameLabel->setText(BaseApplicationConfig->ApplicationVersion);
     ui->tabWidget->setCurrentIndex(0);
     connect(ui->QtWebSiteBT,SIGNAL(clicked()),this,SLOT(WQtWebSite()));
