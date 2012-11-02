@@ -98,8 +98,8 @@ cCShapeComboBox::cCShapeComboBox(QWidget *parent):QComboBox(parent) {
     setView(Table);
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
-    this->view()->setFixedWidth(AutoFrameShapeComboBoxIMAGEWIDTH*AutoFrameShapeComboBoxNBRCOLUMN+18);
     this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    this->view()->setFixedWidth(AutoFrameShapeComboBoxIMAGEWIDTH*AutoFrameShapeComboBoxNBRCOLUMN+18);
     connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 

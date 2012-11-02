@@ -42,6 +42,10 @@
 #include <QtCore>
 #include <QApplication>
 
+// Global values
+extern QString CurrentAppName;                                  // Application name (including devel, beta, ...)
+extern QString CurrentAppVersion;                               // Application version read from BUILDVERSION.txt
+
 //====================================================================
 // For windows, windows.h and winbase.h must be included after QtCore
 //====================================================================

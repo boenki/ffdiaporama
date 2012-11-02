@@ -32,29 +32,6 @@
 #define RULER_VERT_UNSELECTED       0x0080
 #define RULER_DEFAULT               RULER_HORIZ_SCREENBORDER|RULER_HORIZ_TVMARGIN|RULER_HORIZ_SCREENCENTER|RULER_HORIZ_UNSELECTED|RULER_VERT_SCREENBORDER|RULER_VERT_TVMARGIN|RULER_VERT_SCREENCENTER|RULER_VERT_UNSELECTED
 
-/****************************************************************************
-  Other
-****************************************************************************/
-QString SystemProperties ="";                                   // System properties log
-QString CurrentAppName   ="";                                   // Application name (including devel, beta, ...)
-QString CurrentAppVersion="";                                   // Application version read from BUILDVERSION.txt
-
-void AddToSystemProperties(QString StringToAdd) {
-    if (SystemProperties.length()>0) SystemProperties=SystemProperties+"\n";
-    SystemProperties=SystemProperties+StringToAdd;
-}
-
-void AddSeparatorToSystemProperties() {
-    AddToSystemProperties("------------------------------------------------------------------------------");
-}
-
-void ExitApplicationWithFatalError(QString StringToAdd) {
-    AddSeparatorToSystemProperties();
-    AddToSystemProperties(StringToAdd);
-    fprintf(stderr,"%s\n",SystemProperties.toLocal8Bit().data());     // Print out SystemProperties
-    exit(1);
-}
-
 //====================================================================================================================
 
 cSaveDlgSlideProperties::cSaveDlgSlideProperties(QString WindowName,bool &RestoreWindow,bool IsMainWindow):cSaveWindowPosition(WindowName,RestoreWindow,IsMainWindow) {
@@ -177,10 +154,6 @@ void cApplicationConfig::InitValues() {
         SDLAudioOldMode         = true;                         // If true SDL audio use old mode sample instead byte
         CurrentPath="~";   // User home folder
     #endif
-
-    AddToSystemProperties(QString(OPERATINGSYSTEM_STR)+Plateforme+" - "+QString("%1").arg(getCpuCount())+" Core/CPU");
-    AddToSystemProperties(QString(USERCONFIGFILE_STR)+UserConfigFile);
-    AddToSystemProperties(QString(GLOBALCONFIGFILE_STR)+GlobalConfigFile);
 
     // Init collections
     StyleTextCollection.CollectionName          =QString(STYLENAME_TEXTSTYLE);

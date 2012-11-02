@@ -22,6 +22,13 @@
 #include <iostream>
 #include "_GlobalDefines.h"
 
+QString CurrentAppName;                                  // Application name (including devel, beta, ...)
+QString CurrentAppVersion;                               // Application version read from BUILDVERSION.txt
+
+//======================================================================
+// Internal log defines and functions
+//====================================================================
+
 int         LogMsgLevel=LOGMSG_INFORMATION;     // Level from wich debug message was print to stdout
 QStringList EventList;                          // Internal event queue
 QObject     *EventReceiver=NULL;                // Windows wich receive event

@@ -65,7 +65,7 @@ void cCBrushComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &op
 
 QSize cCBrushComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBoxItem::sizeHint");
-    return QSize(24,24);
+    return QSize(32,32);
 }
 
 //******************************************************************************************************************
@@ -79,25 +79,25 @@ cCBrushComboBox::cCBrushComboBox(QWidget *parent):QComboBox(parent) {
     QTableWidget    *Table=new QTableWidget();
     Table->horizontalHeader()->hide();
     Table->verticalHeader()->hide();
-    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
-    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
-    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
-    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,24);
+    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,32);
+    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,32);
+    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,32);
+    Table->insertColumn(Table->columnCount());  Table->setColumnWidth(Table->columnCount()-1,32);
     setModel(Table->model());
     setView(Table);
     int i=0;
     while (i<MAXBRUSHPATTERN) {
         if ((i/4)>=Table->rowCount()) {
             addItem("");    //automaticaly do a Table->insertRow(Table->rowCount());
-            Table->setRowHeight(Table->rowCount()-1,24);
+            Table->setRowHeight(Table->rowCount()-1,32);
         }
         i++;
     }
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
     MakeIcons();
-    this->view()->setFixedWidth(4*24+18);
-    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    this->view()->setFixedSize(4*32,3*32);
     connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 
@@ -133,7 +133,7 @@ void cCBrushComboBox::MakeIcons() {
     if (CurrentCol<0) CurrentCol=0;
     int ColorNum=CurrentRow*4+CurrentCol;
     //setIconSize(QSize(width()-16,16));
-    setIconSize(QSize(24,12));
+    setIconSize(QSize(32,12));
     QPixmap  Image(iconSize());
     QPainter Painter;
     Painter.begin(&Image);

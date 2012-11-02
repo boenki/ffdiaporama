@@ -23,6 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "../engine/_GlobalDefines.h"
+#include "../engine/_Transition.h"
 
 // Include some additional standard class
 #include "../engine/cBaseMediaFile.h"
@@ -33,27 +34,6 @@ class cDiaporama;
 class cDiaporamaObject;
 
 #include "_ApplicationDefinitions.h"
-#include "_ImagesDefinitions.h"
-
-// Transition familly definition
-#define TRANSITIONFAMILLY_BASE              0
-#define TRANSITIONFAMILLY_ZOOMINOUT         1
-#define TRANSITIONFAMILLY_SLIDE             2
-#define TRANSITIONFAMILLY_PUSH              3
-#define TRANSITIONFAMILLY_LUMA_BAR          4
-#define TRANSITIONFAMILLY_LUMA_BOX          5
-#define TRANSITIONFAMILLY_LUMA_CENTER       6
-#define TRANSITIONFAMILLY_LUMA_CHECKER      7
-#define TRANSITIONFAMILLY_LUMA_CLOCK        8
-#define TRANSITIONFAMILLY_LUMA_SNAKE        9
-#define TRANSITIONFAMILLY_DEFORM            10
-
-// No luma transition : number of sub type
-#define TRANSITIONMAXSUBTYPE_BASE           4
-#define TRANSITIONMAXSUBTYPE_ZOOMINOUT      18
-#define TRANSITIONMAXSUBTYPE_SLIDE          16
-#define TRANSITIONMAXSUBTYPE_PUSH           16
-#define TRANSITIONMAXSUBTYPE_DEFORM         4
 
 // Object type definition
 #define DIAPORAMAOBJECTTYPE_EMPTY           0
@@ -173,7 +153,7 @@ public:
     ~cCompositionObject();
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
-    void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
+    void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,double AddX,double AddY,double width,double height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
                                       cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache,qlonglong ShotDuration,bool EnableAnimation,
                                       bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0);
 
@@ -400,15 +380,6 @@ public:
     void                    PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack);
     void                    LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos);
     void                    DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H);
-
-    // Transition
-    void                    DoBasic(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                    DoZoom(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                    DoSlide(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                    DoPush(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                    DoDeform(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    void                    DoLuma(double PCT,cLumaList *List,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H);
-    QImage                  RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg);
 
     // Memory
     void                    CloseUnusedLibAv(int CurrentCell);

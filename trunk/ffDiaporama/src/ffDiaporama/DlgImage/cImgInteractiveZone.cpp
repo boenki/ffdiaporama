@@ -631,16 +631,12 @@ void cImgInteractiveZone::mouseMoveEvent(QMouseEvent *event) {
 
             // Apply magnetic rules horizontal
             for (int Ruller=0;Ruller<MagnetHoriz.count();Ruller++) if ((MagnetHoriz[Ruller].Screen<NewCurScrSelRect.bottom())&&(NewCurScrSelRect.top()>=MagnetHoriz[Ruller].Screen-HANDLEMAGNETY)&&(NewCurScrSelRect.top()<=MagnetHoriz[Ruller].Screen+HANDLEMAGNETY)) {
-                qDebug()<<"Avant"<<Move_Y<<Scale_Y<<Ratio_Y<<"Delta"<<MagnetHoriz[Ruller].Image-CurImgSelRect.top()<<"Hyp"<<Hyp.Image;
-
                 Move_Y =(MagnetHoriz[Ruller].Image-CurImgSelRect.top())/Hyp.Image;
                 Scale_Y=-Move_Y*Ratio_Y;
                 if (CurrentBrush->LockGeometry) {
                     Scale_X=-(Move_Y/CurrentBrush->AspectRatio)*Ratio_X;
                     Move_X =(Move_Y/CurrentBrush->AspectRatio)/2;
                 }
-
-                qDebug()<<"Après"<<Move_Y<<Scale_Y<<Ratio_Y;
                 break;
             }
         // Bottom

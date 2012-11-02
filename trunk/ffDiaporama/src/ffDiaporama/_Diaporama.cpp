@@ -721,7 +721,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 //====================================================================================================================
 
 // ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
-void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,int AddX,int AddY,int width,int height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
+void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,double AddX,double AddY,double width,double height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
                                                cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache,qlonglong ShotDuration,bool EnableAnimation,
                                                bool Transfo,double NewX,double NewY,double NewW,double NewH) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:DrawCompositionObject");
@@ -773,30 +773,33 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             }
         }
 
-        double  W  =int(TheW*double(width));    if ((int(W)   & 0x01)==1)   W=W+1;
-        double  H  =int(TheH*double(height));   if ((int(H)   & 0x01)==1)   H=H+1;
-        double  Hyp=int(sqrt(W*W+H*H));         if ((int(Hyp) & 0x01)==1)   Hyp=Hyp+1;
-        double  Wb =int(Hyp);
-        double  Hb =Wb;         // always square image
-
-        AddX-=(Wb-W)/2;
-        AddY-=(Hb-H)/2;
-        double  DstX=AddX+TheX*double(width);
-        double  DstY=AddY+TheY*double(height);
-        double  DstW=Wb;
-        double  DstH=Hb;
-
-        //***********************************************************************************
-        // Prepare brush
-        //***********************************************************************************
+        double  W=TheW*width;     //if ((W-2*int(W/2))>1)   W=2*(int(W/2)+1);   else W=int(W);    // Adjusts to the nearest multiple of 2
+        double  H=TheH*height;    //if ((H-2*int(H/2))>1)   H=2*(int(H/2)+1);   else H=int(H);    // Adjusts to the nearest multiple of 2
 
         if ((W>0)&&(H>0)) {
+            // Compute shape
+            QList<QPolygonF> PolygonList=ComputePolygon(BackgroundForm,-W/2,-H/2,W,H,0,0);
+            QRectF           ShapeRect =PolygonToRectF(PolygonList);
+
+            // Compute Hyp (adjusted to rotated shape)
+            QTransform  SMatrix;
+            if (TheRotateZAxis!=0) SMatrix.rotate(TheRotateZAxis,Qt::ZAxis);   // Standard axis
+            if (TheRotateXAxis!=0) SMatrix.rotate(TheRotateXAxis,Qt::XAxis);   // Rotate from X axis
+            if (TheRotateYAxis!=0) SMatrix.rotate(TheRotateYAxis,Qt::YAxis);   // Rotate from Y axis
+            QRectF RotatedShapeRect=SMatrix.mapRect(ShapeRect);
+            double NewW=((W<RotatedShapeRect.width())? RotatedShapeRect.width(): W)+FormShadowDistance;
+            double NewH=((H<RotatedShapeRect.height())?RotatedShapeRect.height():H)+FormShadowDistance;
+
+            //***********************************************************************************
+            // Prepare brush
+            //***********************************************************************************
+
             QPen     Pen;
-            QImage   Img(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
+            QImage   Img(NewW,NewH,QImage::Format_ARGB32_Premultiplied);
             QPainter Painter;
             Painter.begin(&Img);
             Painter.setCompositionMode(QPainter::CompositionMode_Source);
-            Painter.fillRect(QRect(0,0,Hyp,Hyp),Qt::transparent);
+            Painter.fillRect(QRect(0,0,NewW,NewH),Qt::transparent);
             Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
             if (!PreviewMode || GlobalMainWindow->ApplicationConfig->Smoothing)  Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
                 else Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
@@ -814,10 +817,8 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 Painter.setPen(Pen);
             }
             // All coordonates from center
-            double      CenterX=Hyp/2;
-            double      CenterY=Hyp/2;
             QTransform  Matrix;
-            Matrix.translate(CenterX,CenterY);
+            Matrix.translate(NewW/2,NewH/2);
             if (TheRotateZAxis!=0) Matrix.rotate(TheRotateZAxis,Qt::ZAxis);   // Standard axis
             if (TheRotateXAxis!=0) Matrix.rotate(TheRotateXAxis,Qt::XAxis);   // Rotate from X axis
             if (TheRotateYAxis!=0) Matrix.rotate(TheRotateYAxis,Qt::YAxis);   // Rotate from Y axis
@@ -829,13 +830,11 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
 
             if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setBrush(Qt::transparent); else {
 
-                // Create brush with Ken Burns effect !
-                QBrush *BR              =NULL;
-
-                BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
+                // Create brush with filter and Ken Burns effect !
+                QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,W+2,H+2),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
                 if (BR) {
                     QTransform  MatrixBR;
-                    MatrixBR.translate(-W/2,-H/2);
+                    MatrixBR.translate(-W/2-1,-H/2-1);
                     BR->setTransform(MatrixBR);  // Apply transforme matrix to the brush
                     Painter.setBrush(*BR);
                     delete BR;
@@ -844,8 +843,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 }
             }
             if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_Source);
-            QList<QPolygonF> List=ComputePolygon(BackgroundForm,-W/2,-H/2,W,H,0,0);
-            for (int i=0;i<List.count();i++) Painter.drawPolygon(List.at(i));
+            for (int i=0;i<PolygonList.count();i++) Painter.drawPolygon(PolygonList.at(i));
             if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
             //**********************************************************************************
@@ -854,7 +852,6 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
 
             if (TheTxtZoomLevel>0) {
 
-                QRectF          ShapeRect =PolygonToRectF(List);
                 double          FullMargin=((TMType==TEXTMARGINS_FULLSHAPE)||(TMType==TEXTMARGINS_CUSTOM))?0:double(PenSize)*ADJUST_RATIO/double(2);
                 QRectF          TextMargin;
                 double          PointSize =((double(width)/double(SCALINGTEXTFACTOR)));
@@ -929,6 +926,14 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             Painter.end();
 
             //**********************************************************************************
+            // Compute Destination rectangle
+            //**********************************************************************************
+            double  DstX=AddX-(NewW-W)/2+TheX*width;
+            double  DstY=AddY-(NewH-H)/2+TheY*height;
+            double  DstW=NewW;
+            double  DstH=NewH;
+
+            //**********************************************************************************
             // Block shadow part
             //**********************************************************************************
 
@@ -981,8 +986,8 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             }
             if (DstW>width)     DstW=width;
             if (DstH>height)    DstH=height;
-            if (SrcX+DstW>Wb)   DstW=Wb-SrcX;
-            if (SrcY+DstH>Hb)   DstH=Hb-SrcY;
+            if (SrcX+DstW>NewW) DstW=NewW-SrcX;
+            if (SrcY+DstH>NewH) DstH=NewH-SrcY;
 
             if ((!Img.isNull())) DestPainter->drawImage(QRectF(DstX,DstY,DstW,DstH),Img,QRectF(SrcX,SrcY,DstW,DstH));
             DestPainter->setOpacity(1);
@@ -1962,440 +1967,11 @@ void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H) {
                 Info->TransitObject_PreparedImage->fill(0);
                 Info->TransitObject_FreePreparedImage=true;
             }
-            switch (Info->TransitionFamilly) {
-            case TRANSITIONFAMILLY_BASE        : DoBasic(PCT,Info,&P,W,H);                  break;
-            case TRANSITIONFAMILLY_ZOOMINOUT   : DoZoom(PCT,Info,&P,W,H);                   break;
-            case TRANSITIONFAMILLY_PUSH        : DoPush(PCT,Info,&P,W,H);                   break;
-            case TRANSITIONFAMILLY_SLIDE       : DoSlide(PCT,Info,&P,W,H);                  break;
-            case TRANSITIONFAMILLY_DEFORM      : DoDeform(PCT,Info,&P,W,H);                 break;
-            case TRANSITIONFAMILLY_LUMA_BAR    : DoLuma(PCT,&LumaList_Bar,Info,&P,W,H);     break;
-            case TRANSITIONFAMILLY_LUMA_BOX    : DoLuma(PCT,&LumaList_Box,Info,&P,W,H);     break;
-            case TRANSITIONFAMILLY_LUMA_CENTER : DoLuma(PCT,&LumaList_Center,Info,&P,W,H);  break;
-            case TRANSITIONFAMILLY_LUMA_CHECKER: DoLuma(PCT,&LumaList_Checker,Info,&P,W,H); break;
-            case TRANSITIONFAMILLY_LUMA_CLOCK  : DoLuma(PCT,&LumaList_Clock,Info,&P,W,H);   break;
-            case TRANSITIONFAMILLY_LUMA_SNAKE  : DoLuma(PCT,&LumaList_Snake,Info,&P,W,H);   break;
-            }
+            DoTransition(Info->TransitionFamilly,Info->TransitionSubType,PCT,Info->TransitObject_PreparedImage,Info->CurrentObject_PreparedImage,&P,W,H);
         } else if (Info->CurrentObject_PreparedImage!=NULL) P.drawImage(0,0,*Info->CurrentObject_PreparedImage);
         P.end();
         Info->RenderedImage=Image;
     }
-}
-
-
-//============================================================================================
-
-void cDiaporama::DoBasic(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int,int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoBasic");
-
-    switch (Info->TransitionSubType) {
-    case 0:
-        P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
-        break;
-    case 1:
-        P->setOpacity(1-PCT);
-        P->drawImage(0,0,*Info->TransitObject_PreparedImage);
-        P->setOpacity(PCT);
-        P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
-        P->setOpacity(1);
-        break;
-    case 2:
-        //P->setOpacity(1-PCT);
-        P->drawImage(0,0,*Info->TransitObject_PreparedImage);
-        P->setOpacity(PCT);
-        P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
-        P->setOpacity(1);
-        break;
-    case 3:
-        if (PCT<0.5) {
-            P->setOpacity(1-PCT*2);
-            P->drawImage(0,0,*Info->TransitObject_PreparedImage);
-        } else {
-            P->setOpacity((PCT-0.5)*2);
-            P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
-        }
-        P->setOpacity(1);
-        break;
-    }
-}
-
-//============================================================================================
-
-void cDiaporama::DoLuma(double PCT,cLumaList *LumaList,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoLuma");
-
-    QImage  Img=Info->CurrentObject_PreparedImage->copy();
-    if (Info->TransitionSubType<LumaList->List.count()) {
-        // Get a copy of luma image scaled to correct size
-        QImage  Luma=((W==LUMADLG_WIDTH)&&(H==LUMADLG_HEIGHT))?LumaList->List[Info->TransitionSubType].DlgLumaImage:
-                        LumaList->List[Info->TransitionSubType].OriginalLuma.scaled(Info->CurrentObject_PreparedImage->size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation).convertToFormat(QImage::Format_ARGB32_Premultiplied);
-
-        // Apply PCTDone to luma mask
-        uint8_t limit    =uint8_t(PCT*double(0xff))+1;
-        uint32_t *LumaData=(uint32_t *)Luma.bits();
-        uint32_t *ImgData =(uint32_t *)Img.bits();
-        uint32_t *ImgData2=(uint32_t *)Info->TransitObject_PreparedImage->bits();
-
-        for (int i=0;i<W*H;i++) {
-            if (((*LumaData++) & 0xff)>limit) *ImgData=*ImgData2;
-            ImgData++;
-            ImgData2++;
-        }
-    }
-    // Draw transformed image
-    P->drawImage(0,0,Img);
-}
-
-//============================================================================================
-
-void cDiaporama::DoZoom(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoZoom");
-
-    bool    Reverse=(Info->TransitionSubType & 0x1)==1;
-    QPoint  box;
-    int     wt= int(double(W)*(Reverse?(1-PCT):PCT));
-    int     ht= int(double(H)*(Reverse?(1-PCT):PCT));
-
-    switch (Info->TransitionSubType) {
-    case 0 :
-    case 1 : box=QPoint(0,(H-ht)/2);            break;  // Border Left Center
-    case 2 :
-    case 3 : box=QPoint(W-wt,(H-ht)/2);         break;  // Border Right Center
-    case 4 :
-    case 5 : box=QPoint((W-wt)/2,0);            break;  // Border Top Center
-    case 6 :
-    case 7 : box=QPoint((W-wt)/2,H-ht);         break;  // Border Bottom Center
-    case 8 :
-    case 9 : box=QPoint(0,0);                   break;  // Upper Left Corner
-    case 10:
-    case 11: box=QPoint(W-wt,0);                break;  // Upper Right Corner
-    case 12:
-    case 13: box=QPoint(0,H-ht);                break;  // Bottom Left Corner
-    case 14:
-    case 15: box=QPoint(W-wt,H-ht);             break;  // Bottom Right Corner
-    case 16:
-    case 17: box=QPoint((W-wt)/2,(H-ht)/2);     break;  // Center
-    }
-
-    // Draw transformed image
-    if (!Reverse) {
-        // Old image will desapear progressively during the second half time of the transition
-        if (PCT<0.5) P->drawImage(0,0,*Info->TransitObject_PreparedImage); else {
-            P->setOpacity(1-(PCT-0.5)*2);
-            P->drawImage(0,0,*Info->TransitObject_PreparedImage);
-            P->setOpacity(1);
-        }
-    } else {
-        // New image will apear immediatly during the old image is moving out
-        //P->setOpacity(PCT);
-        P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
-        //P->setOpacity(1);
-    }
-    P->drawImage(box,(Reverse?Info->TransitObject_PreparedImage:Info->CurrentObject_PreparedImage)->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-}
-
-//============================================================================================
-
-void cDiaporama::DoSlide(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoSlide");
-
-    QRect   box1,box2;
-    bool    Reverse=Info->TransitionSubType>=8;     if (Reverse) PCT=(1-PCT);
-    int     PCTW=int(PCT*double(W));
-    int     PCTH=int(PCT*double(H));
-
-    switch (Info->TransitionSubType) {
-    case 0 :
-    case 8 :    box1=QRect(W-PCTW,0,PCTW,H);            box2=QRect(0,0,PCTW,H);                 break;      // Since left to right
-    case 1 :
-    case 9 :    box1=QRect(0,0,PCTW,H);                 box2=QRect(W-PCTW,0,PCTW,H);            break;      // Since right to left
-    case 2 :
-    case 10:    box1=QRect(0,H-PCTH,W,PCTH);            box2=QRect(0,0,W,PCTH);                 break;      // Since up to down
-    case 3 :
-    case 11:    box1=QRect(0,0,W,PCTH);                 box2=QRect(0,H-PCTH,W,PCTH);            break;      // Since down to up
-    case 4 :
-    case 12:    box1=QRect(W-PCTW,H-PCTH,PCTW,PCTH);    box2=QRect(0,0,PCTW,PCTH);              break;      // Since the upper left corner
-    case 5 :
-    case 13:    box1=QRect(0,H-PCTH,PCTW,PCTH);         box2=QRect(W-PCTW,0,PCTW,PCTH);         break;      // Since the upper right corner
-    case 6 :
-    case 14:    box1=QRect(W-PCTW,0,PCTW,PCTH);         box2=QRect(0,H-PCTH,PCTW,PCTH);         break;      // Since the lower left corner
-    case 7 :
-    case 15:    box1=QRect(0,0,PCTW,PCTH);              box2=QRect(W-PCTW,H-PCTH,PCTW,PCTH);    break;      // Since the lower right corner
-    }
-    // Draw transformed image
-    if (!Reverse) {
-        // Old image will desapear progressively during the second half time of the transition
-        if (PCT<0.5) P->drawImage(0,0,*Info->TransitObject_PreparedImage); else {
-            P->setOpacity(1-(PCT-0.5)*2);
-            P->drawImage(0,0,*Info->TransitObject_PreparedImage);
-            P->setOpacity(1);
-        }
-    } else {
-        // New image will apear immediatly during the old image is moving out
-        //P->setOpacity(PCT);
-        P->drawImage(0,0,*Info->CurrentObject_PreparedImage);
-        //P->setOpacity(1);
-    }
-    P->drawImage(box2,Reverse?*Info->TransitObject_PreparedImage:*Info->CurrentObject_PreparedImage,box1);
-}
-
-//============================================================================================
-
-void cDiaporama::DoPush(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoPush");
-
-    QRect       box1,box2;
-    QRect       box3,box4;
-    QPoint      box;
-    int         wt,ht;
-    int         PCTW=int(PCT*double(W));
-    int         PCTH=int(PCT*double(H));
-    int         PCTWB=int((1-PCT)*double(W));
-    int         PCTHB=int((1-PCT)*double(H));
-    double      Rotate,dw,dh;
-    QImage      Img;
-
-    switch (Info->TransitionSubType) {
-    case 0 :    // Since left to right
-        box1=QRect(W-PCTW,0,PCTW,H);    box2=QRect(0,0,PCTW,H);         box3=QRect(0,0,PCTWB,H);         box4=QRect(W-PCTWB,0,PCTWB,H);
-        P->drawImage(box4,*Info->TransitObject_PreparedImage,box3);
-        P->drawImage(box2,*Info->CurrentObject_PreparedImage,box1);
-        break;
-    case 1 :    // Since right to left
-        box1=QRect(0,0,PCTW,H);         box2=QRect(W-PCTW,0,PCTW,H);    box3=QRect(W-PCTWB,0,PCTWB,H);   box4=QRect(0,0,PCTWB,H);
-        P->drawImage(box4,*Info->TransitObject_PreparedImage,box3);
-        P->drawImage(box2,*Info->CurrentObject_PreparedImage,box1);
-        break;
-    case 2 :    // Since up to down
-        box1=QRect(0,H-PCTH,W,PCTH);    box2=QRect(0,0,W,PCTH);         box3=QRect(0,0,W,PCTHB);         box4=QRect(0,H-PCTHB,W,PCTHB);
-        P->drawImage(box4,*Info->TransitObject_PreparedImage,box3);
-        P->drawImage(box2,*Info->CurrentObject_PreparedImage,box1);
-        break;
-    case 3 :    // Since down to up
-        box1=QRect(0,0,W,PCTH);         box2=QRect(0,H-PCTH,W,PCTH);    box3=QRect(0,H-PCTHB,W,PCTHB);   box4=QRect(0,0,W,PCTHB);
-        P->drawImage(box4,*Info->TransitObject_PreparedImage,box3);
-        P->drawImage(box2,*Info->CurrentObject_PreparedImage,box1);
-        break;
-    case 4 :    // Enterring : zoom in from border Left Center - Previous image : zoom out to border Right Center
-        wt=int(double(W)*(1-PCT));
-        ht=int(double(H)*(1-PCT));
-        box=QPoint(W-wt,(H-ht)/2);
-        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        wt=int(double(W)*PCT);
-        ht=int(double(H)*PCT);
-        box=QPoint(0,(H-ht)/2);
-        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        break;
-    case 5 :    // Enterring : zoom in from border Right Center - Previous image : zoom out to border Left Center
-        wt=int(double(W)*(1-PCT));
-        ht=int(double(H)*(1-PCT));
-        box=QPoint(0,(H-ht)/2);
-        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        wt=int(double(W)*PCT);
-        ht=int(double(H)*PCT);
-        box=QPoint(W-wt,(H-ht)/2);
-        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        break;
-    case 6 :    // Enterring : zoom in from border Top Center - Previous image : zoom out to border bottom Center
-        wt=int(double(W)*(1-PCT));
-        ht=int(double(H)*(1-PCT));
-        box=QPoint((W-wt)/2,H-ht);
-        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        wt=int(double(W)*PCT);
-        ht=int(double(H)*PCT);
-        box=QPoint((W-wt)/2,0);
-        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        break;
-    case 7 :    // Enterring : zoom in from border bottom Center - Previous image : zoom out to border Top Center
-        wt=int(double(W)*(1-PCT));
-        ht=int(double(H)*(1-PCT));
-        box=QPoint((W-wt)/2,0);
-        P->drawImage(box,Info->TransitObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        wt=int(double(W)*PCT);
-        ht=int(double(H)*PCT);
-        box=QPoint((W-wt)/2,H-ht);
-        P->drawImage(box,Info->CurrentObject_PreparedImage->scaled(QSize(wt,ht),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        break;
-    case 8 :    // Rotating from y axis
-        if (PCT<0.5) {
-            Rotate=double(90)*(PCT*2);
-            Img=RotateImage(0,Rotate,0,Info->TransitObject_PreparedImage);
-        } else {
-            Rotate=double(-90)*((1-PCT)*2);
-            Img=RotateImage(0,Rotate,0,Info->CurrentObject_PreparedImage);
-        }
-        dw=(double(W)-double(Img.width()))/2;
-        dh=(double(H)-double(Img.height()))/2;
-        P->drawImage(QPointF(dw,dh),Img);
-        break;
-    case 9 :    // Rotating from y axis
-        if (PCT<0.5) {
-            Rotate=double(-90)*(PCT*2);
-            Img=RotateImage(0,Rotate,0,Info->TransitObject_PreparedImage);
-        } else {
-            Rotate=double(90)*((1-PCT)*2);
-            Img=RotateImage(0,Rotate,0,Info->CurrentObject_PreparedImage);
-        }
-        dw=(double(W)-double(Img.width()))/2;
-        dh=(double(H)-double(Img.height()))/2;
-        P->drawImage(QPointF(dw,dh),Img);
-        break;
-    case 10 :    // Rotating from x axis
-        if (PCT<0.5) {
-            Rotate=double(90)*(PCT*2);
-            Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
-        } else {
-            Rotate=double(-90)*((1-PCT)*2);
-            Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
-        }
-        dw=(double(W)-double(Img.width()))/2;
-        dh=(double(H)-double(Img.height()))/2;
-        P->drawImage(QPointF(dw,dh),Img);
-        break;
-    case 11 :    // Rotating from x axis
-        if (PCT<0.5) {
-            Rotate=double(-90)*(PCT*2);
-            Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
-        } else {
-            Rotate=double(90)*((1-PCT)*2);
-            Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
-        }
-        dw=(double(W)-double(Img.width()))/2;
-        dh=(double(H)-double(Img.height()))/2;
-        P->drawImage(QPointF(dw,dh),Img);
-        break;
-    case 12 :    // 1/2 Rotating from y axis (flip)
-        dw=W/2;
-        P->drawImage(QRectF(0,0,dw,H),*Info->TransitObject_PreparedImage,QRectF(0,0,dw,H));
-        P->drawImage(QRectF(dw,0,dw,H),*Info->CurrentObject_PreparedImage,QRectF(dw,0,dw,H));
-        if (PCT<0.5) {
-            Rotate=double(90)*(PCT*2);
-            Img=RotateImage(0,Rotate,0,Info->TransitObject_PreparedImage);
-            dw=(double(W)-double(Img.width()))/2;
-            dh=(double(H)-double(Img.height()))/2;
-            P->drawImage(QRectF(W/2,dh,Img.width()/2,Img.height()),Img,QRectF(Img.width()/2,0,Img.width()/2,Img.height()));
-        } else {
-            Rotate=double(-90)*((1-PCT)*2);
-            Img=RotateImage(0,Rotate,0,Info->CurrentObject_PreparedImage);
-            dw=(double(W)-double(Img.width()))/2;
-            dh=(double(H)-double(Img.height()))/2;
-            P->drawImage(QRectF(dw,dh,Img.width()/2,Img.height()),Img,QRectF(0,0,Img.width()/2,Img.height()));
-        }
-        break;
-    case 13 :    // 1/2 Rotating from y axis (flip)
-        dw=W/2;
-        P->drawImage(QRectF(0,0,dw,H),*Info->CurrentObject_PreparedImage,QRectF(0,0,dw,H));
-        P->drawImage(QRectF(dw,0,dw,H),*Info->TransitObject_PreparedImage,QRectF(dw,0,dw,H));
-        if (PCT<0.5) {
-            Rotate=double(-90)*(PCT*2);
-            Img=RotateImage(0,Rotate,0,Info->TransitObject_PreparedImage);
-            dw=(double(W)-double(Img.width()))/2;
-            dh=(double(H)-double(Img.height()))/2;
-            P->drawImage(QRectF(dw,dh,Img.width()/2,Img.height()),Img,QRectF(0,0,Img.width()/2,Img.height()));
-        } else {
-            Rotate=double(90)*((1-PCT)*2);
-            Img=RotateImage(0,Rotate,0,Info->CurrentObject_PreparedImage);
-            dw=(double(W)-double(Img.width()))/2;
-            dh=(double(H)-double(Img.height()))/2;
-            P->drawImage(QRectF(W/2,dh,Img.width()/2,Img.height()),Img,QRectF(Img.width()/2,0,Img.width()/2,Img.height()));
-        }
-        break;
-    case 14 :    // 1/2 Rotating from x axis (flip)
-        dh=H/2;
-        P->drawImage(QRectF(0,0,W,dh),*Info->TransitObject_PreparedImage,QRectF(0,0,W,dh));
-        P->drawImage(QRectF(0,dh,W,dh),*Info->CurrentObject_PreparedImage,QRectF(0,dh,W,dh));
-        if (PCT<0.5) {
-            Rotate=double(90)*(PCT*2);
-            Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
-            dw=(double(W)-double(Img.width()))/2;
-            dh=(double(H)-double(Img.height()))/2;
-            P->drawImage(QRectF(dw,H/2,Img.width(),Img.height()/2),Img,QRectF(0,Img.height()/2,Img.width(),Img.height()/2));
-        } else {
-            Rotate=double(-90)*((1-PCT)*2);
-            Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
-            dw=(double(W)-double(Img.width()))/2;
-            dh=(double(H)-double(Img.height()))/2;
-            P->drawImage(QRectF(dw,dh,Img.width(),Img.height()/2),Img,QRectF(0,0,Img.width(),Img.height()/2));
-        }
-        break;
-    case 15 :    // 1/2 Rotating from x axis (flip)
-        dh=H/2;
-        P->drawImage(QRectF(0,0,W,dh),*Info->CurrentObject_PreparedImage,QRectF(0,0,W,dh));
-        P->drawImage(QRectF(0,dh,W,dh),*Info->TransitObject_PreparedImage,QRectF(0,dh,W,dh));
-        if (PCT<0.5) {
-            Rotate=double(-90)*(PCT*2);
-            Img=RotateImage(Rotate,0,0,Info->TransitObject_PreparedImage);
-            dw=(double(W)-double(Img.width()))/2;
-            dh=(double(H)-double(Img.height()))/2;
-            P->drawImage(QRectF(dw,dh,Img.width(),Img.height()/2),Img,QRectF(0,0,Img.width(),Img.height()/2));
-        } else {
-            Rotate=double(90)*((1-PCT)*2);
-            Img=RotateImage(Rotate,0,0,Info->CurrentObject_PreparedImage);
-            dw=(double(W)-double(Img.width()))/2;
-            dh=(double(H)-double(Img.height()))/2;
-            P->drawImage(QRectF(dw,H/2,Img.width(),Img.height()/2),Img,QRectF(0,Img.height()/2,Img.width(),Img.height()/2));
-        }
-        break;
-    }
-}
-
-//============================================================================================
-
-void cDiaporama::DoDeform(double PCT,cDiaporamaObjectInfo *Info,QPainter *P,int W,int H) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoDeform");
-
-    int         PCTW=int(PCT*double(W));
-    int         PCTH=int(PCT*double(H));
-    int         PCTWB=int((1-PCT)*double(W));
-    int         PCTHB=int((1-PCT)*double(H));
-
-    switch (Info->TransitionSubType) {
-    case 0 :    // Since left to right
-        P->drawImage(QRect(PCTW,0,W-PCTW,H),*Info->TransitObject_PreparedImage,QRect(0,0,W,H));
-        P->drawImage(QRect(0,0,PCTW,H),*Info->CurrentObject_PreparedImage,QRect(0,0,W,H));
-        break;
-    case 1 :    // Since right to left
-        P->drawImage(QRect(0,0,PCTWB,H),*Info->TransitObject_PreparedImage,QRect(0,0,W,H));
-        P->drawImage(QRect(PCTWB,0,W-PCTWB,H),*Info->CurrentObject_PreparedImage,QRect(0,0,W,H));
-        break;
-    case 2 :    // Since up to down
-        P->drawImage(QRect(0,PCTH,W,H-PCTH),*Info->TransitObject_PreparedImage,QRect(0,0,W,H));
-        P->drawImage(QRect(0,0,W,PCTH),*Info->CurrentObject_PreparedImage,QRect(0,0,W,H));
-        break;
-    case 3 :    // Since down to up
-        P->drawImage(QRect(0,0,W,PCTHB),*Info->TransitObject_PreparedImage,QRect(0,0,W,H));
-        P->drawImage(QRect(0,PCTHB,W,H-PCTHB),*Info->CurrentObject_PreparedImage,QRect(0,0,W,H));
-        break;
-    }
-}
-
-//============================================================================================
-
-QImage cDiaporama::RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZAxis,QImage *OldImg) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:RotateImage");
-
-    double dw=double(OldImg->width());
-    double dh=double(OldImg->height());
-    double hyp=sqrt(dw*dw+dh*dh);
-
-    QImage   Img(hyp,hyp,QImage::Format_ARGB32_Premultiplied);
-    QPainter Painter;
-    Painter.begin(&Img);
-    Painter.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-    Painter.setCompositionMode(QPainter::CompositionMode_Source);
-    Painter.fillRect(QRect(0,0,hyp,hyp),Qt::transparent);
-    Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-
-    // All coordonates from center
-    QTransform  Matrix;
-    Matrix.translate(hyp/2,hyp/2);
-    if (TheRotateZAxis!=0) Matrix.rotate(TheRotateZAxis,Qt::ZAxis);   // Standard axis
-    if (TheRotateXAxis!=0) Matrix.rotate(TheRotateXAxis,Qt::XAxis);   // Rotate from X axis
-    if (TheRotateYAxis!=0) Matrix.rotate(TheRotateYAxis,Qt::YAxis);   // Rotate from Y axis
-    Painter.setWorldTransform(Matrix,false);
-    Painter.drawImage(-(dw)/2,-(dh)/2,*OldImg);
-
-    Painter.end();
-    return Img;
 }
 
 //============================================================================================

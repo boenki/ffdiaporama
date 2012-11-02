@@ -83,24 +83,6 @@
 #define STYLENAME_COORDINATESTYLE           "StyleCoordinateCollection"
 #define STYLENAME_BLOCKSHAPESTYLE           "StyleBlockShapeCollection"
 
-// String to include in the system properties
-#define OPERATINGSYSTEM_STR                 "Operating system version\t: "
-#define STARTINGPATH_STR                    "Starting path\t: "
-#define WORKINGPATH_STR                     "Working path set to\t: "
-#define SYSTEMLOCAL_STR                     "Detected system locale\t: "
-#define LOADEDLOCAL_STR                     "Translation file loaded\t: "
-#define COMMONPARTVERSION_STR               "Common part version\t: "
-#define VERSIONQT_STR                       "QT version\t\t: "
-#define FMTFILTERVERSION_STR                "fmt_filters version\t: "
-#define SDLVERSION_STR                      "SDL version\t\t: "
-#define LIBAVCODECVERSION_STR               "LIBAVCODEC version\t: "
-#define LIBAVFORMATVERSION_STR              "LIBAVFORMAT version\t: "
-#define LIBSWSCALEVERSION_STR               "LIBSWSCALE version\t: "
-#define LIBAVFILTERVERSION_STR              "LIBAVFILTER version\t: "
-#define USERCONFIGFILE_STR                  "User config file\t: "
-#define GLOBALCONFIGFILE_STR                "Global config file\t: "
-
-
 #define ICON_GEOMETRY_LOCKED                ":/img/Geometry_Lock.png"
 #define ICON_GEOMETRY_UNLOCKED              ":/img/Geometry_Unlock.png"
 #define ICON_GEOMETRY_PROJECT               ":/img/Geometry_ProjectLock.png"
@@ -117,17 +99,7 @@
 #define TIMELINEMINHEIGH                    144                 // min heigh of montage track =(32+4)*4
 #define TIMELINEMAXHEIGH                    224                 // max heigh of montage track (min height+4x20 pixels)
 
-// Global values
-extern QString SystemProperties;                                // System properties log
-extern QString CurrentAppName;                                  // Application name (including devel, beta, ...)
-extern QString CurrentAppVersion;                               // Application version read from BUILDVERSION.txt
-
 #define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de;nl"
-
-// Utility functions
-void    AddToSystemProperties(QString StringToAdd);             // Add a string to the system properties log
-void    AddSeparatorToSystemProperties();                       // Add a separator line to the system properties log
-void    ExitApplicationWithFatalError(QString StringToAdd);     // Exit application with error code 1 if error adding a string to the system properties log and and display it
 
 //====================================================================================================================
 
