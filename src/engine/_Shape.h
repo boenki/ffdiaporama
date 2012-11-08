@@ -63,7 +63,7 @@ void   ShapeFormDefinitionInit();  // Utility function to init shape collection 
 //============================================
 
 // Utilities functions to compute a polygon for a given form
-QList<QPolygonF>    ComputePolygon(int BackgroundForm,qreal left,qreal top,qreal width,qreal height,qreal CenterX,qreal CenterY);
+QList<QPolygonF>    ComputePolygon(int BackgroundForm,qreal left,qreal top,qreal width,qreal height);
 QRectF              PolygonToRectF(QList<QPolygonF> Polygon);
 
 // Utilities functions to compute shape

@@ -748,7 +748,7 @@ void MainWindow::s_Action_Documentation() {
 
     ui->ActionDocumentation_BT->setDown(false);
     ui->ActionDocumentation_BT_2->setDown(false);
-    QDesktopServices::openUrl(QUrl(QString(HELPFILE_SUPPORT).replace("<local>",ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
+    QDesktopServices::openUrl(QUrl(QString(HELPFILE_INDEX).replace("<local>",ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
 }
 
 //====================================================================================================================
@@ -1990,7 +1990,7 @@ void MainWindow::s_Action_DoAddFile() {
                 return;
             }
 
-            if ((ApplicationConfig->Deinterlace)&&(CurrentBrush->Video!=NULL)&&(CurrentBrush->Video->FileExtension.toLower()=="mts")) CurrentBrush->Deinterlace=true;
+            if ((ApplicationConfig->Deinterlace)&&(CurrentBrush->Video!=NULL)&&((CurrentBrush->Video->FileExtension.toLower()=="mts")||(CurrentBrush->Video->FileExtension.toLower()=="m2ts"))) CurrentBrush->Deinterlace=true;
 
             // No future need of this
             if (Image) {

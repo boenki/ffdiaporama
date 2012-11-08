@@ -109,8 +109,7 @@ QRectF cInteractiveZone::ApplyModifAndScaleFactors(int Block,QRectF Ref,bool App
     qreal  NewH         =BlockTable->CompositionList->List[Block]->h;
     qreal  RatioScale_X =(RSel_W+Scale_X)/RSel_W;
     qreal  RatioScale_Y =(RSel_H+Scale_Y)/RSel_H;
-    QList<QPolygonF> Pol=ComputePolygon(BlockTable->CompositionList->List[Block]->BackgroundForm,NewX*Ref.width(),NewY*Ref.height(),
-                                        NewW*Ref.width(),NewH*Ref.height(),NewX*Ref.width()+(NewW*Ref.width()/2),NewY*Ref.height()+(NewH*Ref.height()/2));
+    QList<QPolygonF> Pol=ComputePolygon(BlockTable->CompositionList->List[Block]->BackgroundForm,NewX*Ref.width(),NewY*Ref.height(),NewW*Ref.width(),NewH*Ref.height());
     QPolygonF PolU(Pol.at(0));
     for (int i=1;i<Pol.count();i++) PolU=PolU.united(Pol.at(i));
     QRectF tmpRect=PolU.boundingRect();
@@ -210,10 +209,10 @@ void cInteractiveZone::RefreshDisplay() {
             } else StartVideoPos=0;
 
             QRectF NewRect=ApplyModifAndScaleFactors(i,SceneRect,false);
-            BlockTable->CompositionList->List[i]->DrawCompositionObject(&P,double(ForegroundImage->height())/double(1080),0,0,ForegroundImage->width(),ForegroundImage->height(),true,0,StartVideoPos,
+            BlockTable->CompositionList->List[i]->DrawCompositionObject(&P,double(ForegroundImage->height())/double(1080),ForegroundImage->width(),ForegroundImage->height(),true,0,StartVideoPos,
                                                                         NULL,1,1,NULL,true,DiaporamaObject->List[CurrentShotNbr]->StaticDuration,false,
-                                                                        (IsCapture)&&(TransfoType!=NOTYETDEFINED),NewRect.left()/SceneRect.width(),NewRect.top()/SceneRect.height(),NewRect.width()/SceneRect.width(),NewRect.height()/SceneRect.height());
-
+                                                                        (IsCapture)&&(TransfoType!=NOTYETDEFINED),NewRect.left()/SceneRect.width(),NewRect.top()/SceneRect.height(),NewRect.width()/SceneRect.width(),NewRect.height()/SceneRect.height(),
+                                                                        (DisplayMode==DisplayMode_TextMargin)&&(BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i]));
             if ((CurrentShotNbr>0)&&(BlockTable->CompositionList->List[i]->SameAsPrevShot)) P.drawImage(NewRect.center().x()-12,NewRect.center().y()-12,QImage(":/img/Lock24.png"));
         }
 
@@ -399,28 +398,6 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
             if (CurSelRect.isValid()) DrawSelect(Painter,CurSelRect,true);
         }
 
-    } else if (DisplayMode==DisplayMode_TextMargin) {
-
-        for (int i=0;i<BlockTable->CompositionList->List.count();i++) if ((BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i])) {
-            QPen pen(Qt::blue);
-            pen.setWidth(1);
-            pen.setStyle(Qt::DashLine);
-            Painter.setPen(pen);
-
-            QRectF       FullRect=BlockTable->CompositionList->List.at(i)->GetTextMargin(SceneRect,SceneRect.height()/qreal(1080));
-            QPointF      Center  =FullRect.center();
-            QPainterPath Path;
-            QTransform   Matrix;
-            FullRect.translate(-Center.x()+BlockTable->CompositionList->List.at(i)->x*SceneRect.width(),-Center.y()+BlockTable->CompositionList->List.at(i)->y*SceneRect.height());
-            Matrix.rotate(BlockTable->CompositionList->List[i]->RotateXAxis,Qt::XAxis);
-            Matrix.rotate(BlockTable->CompositionList->List[i]->RotateYAxis,Qt::YAxis);
-            Matrix.rotate(BlockTable->CompositionList->List[i]->RotateZAxis,Qt::ZAxis);
-            Path.addRect(FullRect);
-            QPolygonF Shape=Path.toFillPolygon(Matrix);
-            Shape.translate(Center);
-            Painter.drawPolygon(Shape);
-
-        }
     }
 
     Painter.restore();
@@ -624,15 +601,11 @@ void cInteractiveZone::ComputeRulers(QList<sDualQReal> &MagnetVert,QList<sDualQR
     if (IsCapture) for (int i=BlockTable->CompositionList->List.count()-1;i>=0;i--) if ((!IsSelected[i])&&(BlockTable->CompositionList->List[i]->IsVisible)) {
         QList<QPolygonF> PolScene=ComputePolygon( BlockTable->CompositionList->List[i]->BackgroundForm,
                                                   BlockTable->CompositionList->List[i]->x*SceneRect.width(),  BlockTable->CompositionList->List[i]->y*SceneRect.height(),
-                                                  BlockTable->CompositionList->List[i]->w*SceneRect.width(),  BlockTable->CompositionList->List[i]->h*SceneRect.height(),
-                                                  BlockTable->CompositionList->List[i]->x*SceneRect.width() +(BlockTable->CompositionList->List[i]->w*SceneRect.width()/2),
-                                                  BlockTable->CompositionList->List[i]->y*SceneRect.height()+(BlockTable->CompositionList->List[i]->h*SceneRect.height()/2));
+                                                  BlockTable->CompositionList->List[i]->w*SceneRect.width(),  BlockTable->CompositionList->List[i]->h*SceneRect.height());
 
         QList<QPolygonF> PolScreen=ComputePolygon(BlockTable->CompositionList->List[i]->BackgroundForm,
                                                   BlockTable->CompositionList->List[i]->x*ScreenRect.width(),  BlockTable->CompositionList->List[i]->y*ScreenRect.height(),
-                                                  BlockTable->CompositionList->List[i]->w*ScreenRect.width(),  BlockTable->CompositionList->List[i]->h*ScreenRect.height(),
-                                                  BlockTable->CompositionList->List[i]->x*ScreenRect.width() +(BlockTable->CompositionList->List[i]->w*ScreenRect.width()/2),
-                                                  BlockTable->CompositionList->List[i]->y*ScreenRect.height()+(BlockTable->CompositionList->List[i]->h*ScreenRect.height()/2));
+                                                  BlockTable->CompositionList->List[i]->w*ScreenRect.width(),  BlockTable->CompositionList->List[i]->h*ScreenRect.height());
 
         QPolygonF PolSceneU(PolScene.at(0));
         for (int j=1;j<PolScene.count();j++) PolSceneU=PolSceneU.united(PolScene.at(j));

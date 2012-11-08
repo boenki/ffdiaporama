@@ -2545,7 +2545,7 @@ bool cVideoFile::OpenCodecAndFile() {
 
     // Open video stream
     if ((VideoStreamNumber!=-1)&&(!MusicOnly)) {
-        IsMTS=FileName.endsWith(".mts",Qt::CaseInsensitive);
+        IsMTS=(FileName.endsWith(".mts",Qt::CaseInsensitive) || FileName.endsWith(".m2ts",Qt::CaseInsensitive));
 
         // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
         if (avformat_open_input(&ffmpegVideoFile,FileName.toLocal8Bit(),NULL,NULL)!=0) return false;
@@ -2608,7 +2608,7 @@ bool cVideoFile::OpenCodecAndFile() {
         // Try to load one image to be sure we can make something with this file
 
         qlonglong Position=0;
-        if (QTime(0,0,0,0).msecsTo(Duration)>1000) Position=1000;   // If video is > 1 sec then get image at 1 sec
+        if (QTime(0,0,0,0).msecsTo(Duration)>500) Position=500;   // If video is > 0.5 sec then get image at 0.5 sec
         QImage *Img =ImageAt(true,Position,0,NULL,false,1,false,false);
         if (Img) {
             // Get information about size image

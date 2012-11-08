@@ -64,7 +64,6 @@ public:
 
     // Other
     void            RefreshControls();
-    void            MakeTextStyleIcon(QComboBox *UICB);
 
 private slots:
     void            s_cursorPositionChanged();

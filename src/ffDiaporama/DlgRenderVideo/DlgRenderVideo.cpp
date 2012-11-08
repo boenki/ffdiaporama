@@ -59,6 +59,7 @@ void DlgRenderVideo::DoInitDialog() {
 
     switch (ExportMode) {
         case EXPORTMODE_ADVANCED :  setWindowTitle(QApplication::translate("DlgRenderVideo","Advanced render video"));                          break;
+        case MODE_LOSSLESS       :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render lossless video"));                          break;
         case MODE_SMARTPHONE     :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for mobil player and smartphone"));   break;
         case MODE_MULTIMEDIASYS  :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for multimedia system"));             break;
         case MODE_FORTHEWEB      :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for the WEB"));                       break;
@@ -308,12 +309,17 @@ void DlgRenderVideo::SelectDestinationFile() {
         int OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
         FileFormat=QString(FORMATDEF[OutputFileFormat].LongName)+" (*."+QString(FORMATDEF[OutputFileFormat].FileExtension)+")";
     } else {
-        QString Device=ui->DeviceModelCB->currentText();
-        int i=0;
-        while ((i<Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceName!=Device)) i++;
-        if (i<Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel.count()) {
-            FileFormat=QString(FORMATDEF[Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->FileFormat].LongName)+" (*."+
-                    QString(FORMATDEF[Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->FileFormat].FileExtension)+")";
+        if (ExportMode==MODE_LOSSLESS) {
+            // For Lossless, OutputFileFormat is 2 : matroska
+            FileFormat=QString(FORMATDEF[2].LongName)+" (*."+QString(FORMATDEF[2].FileExtension)+")";
+        } else {
+            QString Device=ui->DeviceModelCB->currentText();
+            int i=0;
+            while ((i<Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel.count())&&(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceName!=Device)) i++;
+            if (i<Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel.count()) {
+                FileFormat=QString(FORMATDEF[Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->FileFormat].LongName)+" (*."+
+                        QString(FORMATDEF[Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->FileFormat].FileExtension)+")";
+            }
         }
     }
     //QString Path=QFileInfo(ui->DestinationFilePath->text()).absolutePath();

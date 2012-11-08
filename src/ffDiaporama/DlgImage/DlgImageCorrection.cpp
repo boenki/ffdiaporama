@@ -275,7 +275,7 @@ void DlgImageCorrection::MakeFormIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,1,NULL,false,0,false);
+        Object.DrawCompositionObject(&Painter,1,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,1,NULL,false,0,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }

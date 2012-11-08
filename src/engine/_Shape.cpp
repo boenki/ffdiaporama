@@ -820,8 +820,12 @@ QList<QPolygonF> ComputePuzzle(QRectF Rect,int Forme) {
 //====================================================================================================================
 // Utilities functions to compute a polygon for a given form
 
-QList<QPolygonF> ComputePolygon(int BackgroundForm,qreal left,qreal top,qreal width,qreal height,qreal CenterX,qreal CenterY) {
-    qreal RayX=0,RayY=0;
+QList<QPolygonF> ComputePolygon(int BackgroundForm,qreal left,qreal top,qreal width,qreal height) {
+    qreal CenterX=left+width/2;
+    qreal CenterY=top+height/2;
+    qreal RayX   =0;
+    qreal RayY   =0;
+
     switch (BackgroundForm) {
         case SHAPEFORM_ROUNDRECT : // Round rect
             RayX=width/10;     if (RayX>16) RayX=16; else if (RayX<2)  RayX=2;

@@ -280,5 +280,11 @@
         <file>img/Arrange/aodistH.png</file>
         <file>img/Arrange/aodistV.png</file>
         <file>ffdiaporama.png</file>
+        <file>img/Text/outline.png</file>
+        <file>img/Text/Shadow bottom left.png</file>
+        <file>img/Text/Shadow bottom right.png</file>
+        <file>img/Text/Shadow upper left.png</file>
+        <file>img/Text/Shadow upper right.png</file>
+        <file>img/Text/normal.png</file>
     </qresource>
 </RCC>

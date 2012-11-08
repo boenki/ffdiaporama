@@ -460,11 +460,7 @@ void DlgSlideProperties::DoGlobalUndo() {
 //====================================================================================================================
 
 void DlgSlideProperties::ComputeBlockRatio(cCompositionObject *Block,qreal &Ratio_X,qreal &Ratio_Y) {
-    QRectF tmpRect=PolygonToRectF(ComputePolygon(Block->BackgroundForm,
-                                                 Block->x*DisplayW,Block->y*DisplayH,
-                                                 Block->w*DisplayW,Block->h*DisplayH,
-                                                 Block->x*DisplayW+(Block->w*DisplayW/2),
-                                                 Block->y*DisplayH+(Block->h*DisplayH/2)));
+    QRectF tmpRect=PolygonToRectF(ComputePolygon(Block->BackgroundForm,Block->x*DisplayW,Block->y*DisplayH,Block->w*DisplayW,Block->h*DisplayH));
     Ratio_X=(Block->w*DisplayW)/tmpRect.width();
     Ratio_Y=(Block->h*DisplayH)/tmpRect.height();
 }
@@ -491,7 +487,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,0,0,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,1,NULL,false,0,false);
+        Object.DrawCompositionObject(&Painter,1,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,1,NULL,false,0,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -2237,6 +2233,7 @@ void DlgSlideProperties::s_BlockSettings_TextEditor() {
     NoPrepUndo=false;
 
     ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
+    ui->InteractiveZone->RefreshDisplay();
     DlgTextEdit Dlg(CurrentCompoObject,HELPFILE_DlgTextEdit,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgTextEditWSP,
                     &((cApplicationConfig *)BaseApplicationConfig)->StyleTextCollection,&((cApplicationConfig *)BaseApplicationConfig)->StyleTextBackgroundCollection,this);
     Dlg.InitDialog();
@@ -2756,9 +2753,7 @@ void DlgSlideProperties::s_BlockSettings_IntZoneDisplayTransformBlocks(qreal Mov
     qreal   RatioScale_Y=(RSel_H+Scale_Y)/RSel_H;
     QRectF  tmpRect     =PolygonToRectF(ComputePolygon(CompositionList->List[i]->BackgroundForm,
                                                        CompositionList->List[i]->x*DisplayW,CompositionList->List[i]->y*DisplayH,
-                                                       CompositionList->List[i]->w*DisplayW,CompositionList->List[i]->h*DisplayH,
-                                                       CompositionList->List[i]->x*DisplayW+(CompositionList->List[i]->w*DisplayW/2),
-                                                       CompositionList->List[i]->y*DisplayH+(CompositionList->List[i]->h*DisplayH/2)));
+                                                       CompositionList->List[i]->w*DisplayW,CompositionList->List[i]->h*DisplayH));
     qreal   Ratio_X     =(CompositionList->List[i]->x*DisplayW*DisplayW)/tmpRect.width();
     qreal   Ratio_Y     =(CompositionList->List[i]->h*DisplayH)/tmpRect.height();
     qreal   x           =RSel_X+Move_X+(CompositionList->List[i]->x-RSel_X)*RatioScale_X;
