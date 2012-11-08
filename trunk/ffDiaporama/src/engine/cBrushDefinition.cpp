@@ -238,31 +238,19 @@ cBrushDefinition::~cBrushDefinition() {
 QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetBrush");
 
-    QPainter Painter;
-    QImage   Img(Rect.width()+2,Rect.height()+2,QImage::Format_ARGB32_Premultiplied);
-    Painter.begin(&Img);
-    Painter.setCompositionMode(QPainter::CompositionMode_Source);
-    Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
-    Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-
-    QBrush  *Br;
+    QBrush  *Br=NULL;
 
     switch (BrushType) {
-        case BRUSHTYPE_NOBRUSH :        Br=new QBrush(Qt::NoBrush); break;
-        case BRUSHTYPE_SOLID :          Br=new QBrush(QColor(ColorD),Qt::SolidPattern); break;
-        case BRUSHTYPE_PATTERN :        Br=new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));  break;
-        case BRUSHTYPE_GRADIENT2 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);   break;
-        case BRUSHTYPE_GRADIENT3 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);   break;
-        case BRUSHTYPE_IMAGELIBRARY :   Br=GetLibraryBrush(Rect);   break;
+        case BRUSHTYPE_NOBRUSH :        Br=new QBrush(Qt::NoBrush);                                                                                             break;
+        case BRUSHTYPE_SOLID :          Br=new QBrush(QColor(ColorD),Qt::SolidPattern);                                                                         break;
+        case BRUSHTYPE_PATTERN :        Br=new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));                                                          break;
+        case BRUSHTYPE_GRADIENT2 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);                       break;
+        case BRUSHTYPE_GRADIENT3 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);                       break;
+        case BRUSHTYPE_IMAGELIBRARY :   Br=GetLibraryBrush(Rect);                                                                                               break;
         case BRUSHTYPE_IMAGEDISK :      Br=GetImageDiskBrush(Rect,PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PreviousBrush,UseBrushCache);    break;
-        default :                       Br=new QBrush(Qt::NoBrush); break;
+        default :                       Br=new QBrush(Qt::NoBrush);                                                                                             break;
     }
-    Painter.setBrush(*Br);
-    Painter.setPen(Qt::NoPen);
-    Painter.drawRect(QRectF(1,1,Rect.width(),Rect.height()));
-    Painter.end();
-    delete Br;
-    return new QBrush(Img);
+    return Br;
 }
 
 //====================================================================================================================
@@ -325,22 +313,22 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
 
                 // Adjust values depending on PctDone and previous Filter (if exist)
                 if (PreviousBrush) {
-                    if (((PreviousBrush->OnOffFilter & FilterNormalize)==0)&&(PreviousBrush->Contrast!=TheContrast)) TheContrast=PreviousBrush->Contrast+(TheContrast-PreviousBrush->Contrast)*PctDone;
-                    if (PreviousBrush->AspectRatio!=TheAspectRatio)                     TheAspectRatio          =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
-                    if (PreviousBrush->X!=TheXFactor)                                   TheXFactor              =PreviousBrush->X+(TheXFactor-PreviousBrush->X)*PctDone;
-                    if (PreviousBrush->Y!=TheYFactor)                                   TheYFactor              =PreviousBrush->Y+(TheYFactor-PreviousBrush->Y)*PctDone;
-                    if (PreviousBrush->ZoomFactor!=TheZoomFactor)                       TheZoomFactor           =PreviousBrush->ZoomFactor+(TheZoomFactor-PreviousBrush->ZoomFactor)*PctDone;
-                    if (PreviousBrush->ImageRotation!=TheRotateFactor)                  TheRotateFactor         =PreviousBrush->ImageRotation+(TheRotateFactor-PreviousBrush->ImageRotation)*PctDone;
-                    if (PreviousBrush->Brightness!=TheBrightness)                       TheBrightness           =PreviousBrush->Brightness+(TheBrightness-PreviousBrush->Brightness)*PctDone;
-                    if (PreviousBrush->Gamma!=TheGamma)                                 TheGamma                =PreviousBrush->Gamma+(TheGamma-PreviousBrush->Gamma)*PctDone;
-                    if (PreviousBrush->Red!=TheRed)                                     TheRed                  =PreviousBrush->Red+(TheRed-PreviousBrush->Red)*PctDone;
-                    if (PreviousBrush->Green!=TheGreen)                                 TheGreen                =PreviousBrush->Green+(TheGreen-PreviousBrush->Green)*PctDone;
-                    if (PreviousBrush->Blue!=TheBlue)                                   TheBlue                 =PreviousBrush->Blue+(TheBlue-PreviousBrush->Blue)*PctDone;
-                    if (PreviousBrush->Desat!=TheDesat)                                 TheDesat                =PreviousBrush->Desat+(TheDesat-PreviousBrush->Desat)*PctDone;
-                    if (PreviousBrush->Swirl!=TheSwirl)                                 TheSwirl                =PreviousBrush->Swirl+(TheSwirl-PreviousBrush->Swirl)*PctDone;
-                    if (PreviousBrush->Implode!=TheImplode)                             TheImplode              =PreviousBrush->Implode+(TheImplode-PreviousBrush->Implode)*PctDone;
-                    if (PreviousBrush->WaveAmp!=TheWaveAmp)                             TheWaveAmp              =PreviousBrush->WaveAmp+(TheWaveAmp-PreviousBrush->WaveAmp)*PctDone;
-                    if (PreviousBrush->WaveFreq!=TheWaveFreq)                           TheWaveFreq             =PreviousBrush->WaveFreq+(TheWaveFreq-PreviousBrush->WaveFreq)*PctDone;
+                    if (((PreviousBrush->OnOffFilter & FilterNormalize)==0)&&(PreviousBrush->Contrast!=TheContrast))    TheContrast     =PreviousBrush->Contrast+(TheContrast-PreviousBrush->Contrast)*PctDone;
+                    if (PreviousBrush->AspectRatio!=TheAspectRatio)                                                     TheAspectRatio  =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
+                    if (PreviousBrush->X!=TheXFactor)                                                                   TheXFactor      =PreviousBrush->X+(TheXFactor-PreviousBrush->X)*PctDone;
+                    if (PreviousBrush->Y!=TheYFactor)                                                                   TheYFactor      =PreviousBrush->Y+(TheYFactor-PreviousBrush->Y)*PctDone;
+                    if (PreviousBrush->ZoomFactor!=TheZoomFactor)                                                       TheZoomFactor   =PreviousBrush->ZoomFactor+(TheZoomFactor-PreviousBrush->ZoomFactor)*PctDone;
+                    if (PreviousBrush->ImageRotation!=TheRotateFactor)                                                  TheRotateFactor =PreviousBrush->ImageRotation+(TheRotateFactor-PreviousBrush->ImageRotation)*PctDone;
+                    if (PreviousBrush->Brightness!=TheBrightness)                                                       TheBrightness   =PreviousBrush->Brightness+(TheBrightness-PreviousBrush->Brightness)*PctDone;
+                    if (PreviousBrush->Gamma!=TheGamma)                                                                 TheGamma        =PreviousBrush->Gamma+(TheGamma-PreviousBrush->Gamma)*PctDone;
+                    if (PreviousBrush->Red!=TheRed)                                                                     TheRed          =PreviousBrush->Red+(TheRed-PreviousBrush->Red)*PctDone;
+                    if (PreviousBrush->Green!=TheGreen)                                                                 TheGreen        =PreviousBrush->Green+(TheGreen-PreviousBrush->Green)*PctDone;
+                    if (PreviousBrush->Blue!=TheBlue)                                                                   TheBlue         =PreviousBrush->Blue+(TheBlue-PreviousBrush->Blue)*PctDone;
+                    if (PreviousBrush->Desat!=TheDesat)                                                                 TheDesat        =PreviousBrush->Desat+(TheDesat-PreviousBrush->Desat)*PctDone;
+                    if (PreviousBrush->Swirl!=TheSwirl)                                                                 TheSwirl        =PreviousBrush->Swirl+(TheSwirl-PreviousBrush->Swirl)*PctDone;
+                    if (PreviousBrush->Implode!=TheImplode)                                                             TheImplode      =PreviousBrush->Implode+(TheImplode-PreviousBrush->Implode)*PctDone;
+                    if (PreviousBrush->WaveAmp!=TheWaveAmp)                                                             TheWaveAmp      =PreviousBrush->WaveAmp+(TheWaveAmp-PreviousBrush->WaveAmp)*PctDone;
+                    if (PreviousBrush->WaveFreq!=TheWaveFreq)                                                           TheWaveFreq     =PreviousBrush->WaveFreq+(TheWaveFreq-PreviousBrush->WaveFreq)*PctDone;
 
                     if ((PreviousBrush->OnOffFilter!=TheOnOffFilter)||
                         (PreviousBrush->GaussBlurSharpenSigma!=GaussBlurSharpenSigma)||
@@ -353,7 +341,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 // Prepare values from sourceimage size
                 double   RealImageW=RenderImage->width();
                 double   RealImageH=RenderImage->height();
-                double   Hyp       =sqrt(RealImageW*RealImageW+RealImageH*RealImageH);
+                double   Hyp       =round(sqrt(RealImageW*RealImageW+RealImageH*RealImageH));
                 double   HypPixel  =Hyp*TheZoomFactor;
 
                 // Expand canvas
@@ -361,7 +349,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 QPainter Painter;
                 Painter.begin(&NewRenderImage);
                 Painter.setCompositionMode(QPainter::CompositionMode_Source);
-                Painter.fillRect(QRect(0,0,Hyp,Hyp),Qt::transparent);
+                Painter.fillRect(QRect(0,0,NewRenderImage.width(),NewRenderImage.height()),Qt::transparent);
                 Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
                 Painter.drawImage(QPoint((Hyp-RealImageW)/2,(Hyp-RealImageH)/2),*RenderImage);
                 Painter.end();
@@ -437,9 +425,9 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                         P.drawImage(0,0,NewRenderImage);
                         P.setOpacity(1);
                         P.end();
-                        if (!PreviousImage.isNull()) Ret=new QBrush(PreviousImage);
-                    } else if (!NewRenderImage.isNull()) Ret=new QBrush(NewRenderImage);
-                } else if (!NewRenderImage.isNull()) Ret=new QBrush(NewRenderImage);
+                        if (!PreviousImage.isNull())     Ret=new QBrush(PreviousImage.scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                    } else if (!NewRenderImage.isNull()) Ret=new QBrush(NewRenderImage.scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                } else if (!NewRenderImage.isNull())     Ret=new QBrush(NewRenderImage.scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
             }
         }
         return Ret;
@@ -817,7 +805,7 @@ void cBrushDefinition::ApplyMaskToImageToWorkspace(QImage *SrcImage,QRectF CurSe
     PainterImg.fillRect(QRect(0,0,RowHeight,RowHeight),QBrush(0x555555));
     PainterImg.setBrush(Qt::transparent);
     PainterImg.setCompositionMode(QPainter::CompositionMode_Source);
-    QList<QPolygonF> List=ComputePolygon(BackgroundForm,CurSelRect.left(),CurSelRect.top(),CurSelRect.width(),CurSelRect.height(),CurSelRect.width()/2+CurSelRect.left(),CurSelRect.height()/2+CurSelRect.top());
+    QList<QPolygonF> List=ComputePolygon(BackgroundForm,CurSelRect.left(),CurSelRect.top(),CurSelRect.width(),CurSelRect.height());
     for (int i=0;i<List.count();i++) PainterImg.drawPolygon(List.at(i));
     PainterImg.setCompositionMode(QPainter::CompositionMode_SourceOver);
     PainterImg.end();

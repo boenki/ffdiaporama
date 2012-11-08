@@ -392,6 +392,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowVideoExtension.append("wmv");     AllowVideoExtension.append("WMV");
     #ifdef LIBAV_AVCHD
     AllowVideoExtension.append("mts");     AllowVideoExtension.append("MTS");
+    AllowVideoExtension.append("m2ts");    AllowVideoExtension.append("M2TS");
     #endif
     // List of all file extension allowed for image
     AllowImageExtension.append("bmp");     AllowImageExtension.append("BMP");

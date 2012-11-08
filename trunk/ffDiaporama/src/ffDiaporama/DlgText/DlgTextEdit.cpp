@@ -119,13 +119,12 @@ void DlgTextEdit::DoInitDialog() {
     CurrentPlainText=ui->TextEdit->toPlainText();
 
     // Init combo box FontEffect
-    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","No effect"));
-    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Outerline"));
-    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Shadow upper left"));
-    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Shadow upper right"));
-    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Shadow bottom left"));
-    ui->fontEffectCB->addItem(QApplication::translate("DlgTextEdit","Shadow bottom right"));
-    MakeTextStyleIcon(ui->fontEffectCB);
+    ui->fontEffectCB->addItem(QIcon(":/img/Text/normal.png"),               QApplication::translate("DlgTextEdit","No effect"));
+    ui->fontEffectCB->addItem(QIcon(":/img/Text/outline.png"),              QApplication::translate("DlgTextEdit","Outerline"));
+    ui->fontEffectCB->addItem(QIcon(":/img/Text/Shadow upper left.png"),    QApplication::translate("DlgTextEdit","Shadow upper left"));
+    ui->fontEffectCB->addItem(QIcon(":/img/Text/Shadow upper right.png"),   QApplication::translate("DlgTextEdit","Shadow upper right"));
+    ui->fontEffectCB->addItem(QIcon(":/img/Text/Shadow bottom left.png"),   QApplication::translate("DlgTextEdit","Shadow bottom left"));
+    ui->fontEffectCB->addItem(QIcon(":/img/Text/Shadow bottom right.png"),  QApplication::translate("DlgTextEdit","Shadow bottom right"));
 
     // Init combo box Background  type
     ui->BrushTypeCombo->addItem(QApplication::translate("DlgTextEdit","No brush"));              ui->BrushTypeCombo->setItemData(ui->BrushTypeCombo->count()-1,QVariant(int(BRUSHTYPE_NOBRUSH)));
@@ -397,36 +396,6 @@ void DlgTextEdit::RefreshControls() {
 
     StopMAJSpinbox=false;
     emit RefreshDisplay();
-}
-
-void DlgTextEdit::MakeTextStyleIcon(QComboBox *UICB) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::MakeTextStyleIcon");
-
-    for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,BaseApplicationConfig);
-        Object.Text="T";
-        Object.x=0.15;
-        Object.y=0.15;
-        Object.w=0.7;
-        Object.h=0.7;
-        Object.HAlign           =1;                 // Center
-        Object.VAlign           =1;                 // Center
-        Object.FontColor        ="#00ff00";
-        Object.FontShadowColor  ="#ff0000";
-        Object.StyleText        =i;
-        Object.FontSize         =200;
-        Object.IsBold           =true;
-        Object.PenSize          =0;
-        Object.BackgroundForm   =1;
-        Object.Opacity=0;
-        QPixmap  Image(32,32);
-        QPainter Painter;
-        Painter.begin(&Image);
-        Painter.fillRect(QRect(0,0,32,32),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,0,0,32,32,true,0,0,NULL,1,1,NULL,false,0,false);
-        Painter.end();
-        UICB->setItemIcon(i,QIcon(Image));
-    }
 }
 
 //====================================================================================================================

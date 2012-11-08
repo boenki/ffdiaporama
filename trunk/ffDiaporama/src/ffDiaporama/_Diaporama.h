@@ -153,9 +153,10 @@ public:
     ~cCompositionObject();
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
-    void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,double AddX,double AddY,double width,double height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
+    void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
                                       cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache,qlonglong ShotDuration,bool EnableAnimation,
-                                      bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0);
+                                      bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0,
+                                      bool DisplayTextMargin=false);
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition=true);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
@@ -180,7 +181,6 @@ public:
     void        ApplyBlockShapeStyle(QString StyleDef);
 
 private:
-    QImage      AddShadow(QImage SourceImage,double &DstX,double &DstY,double &DstW,double &DstH,double Distance);
     QRectF      GetPrivateTextMargin();
 };
 

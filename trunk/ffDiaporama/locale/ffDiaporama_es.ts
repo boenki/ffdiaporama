@@ -1003,67 +1003,67 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="114"/>
         <source>Operating system version: %1 - %2 Core/CPU</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistema operativo versión: %1 - %2 Core/CPU</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="115"/>
         <source>User config file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivo de configuración: %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="116"/>
         <source>Global config file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuración global: %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="117"/>
         <source>Starting path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciando ruta: %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="118"/>
         <source>Working path set to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruta de trabajo: %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="120"/>
         <source>The background library contains %1 pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>La librería de fondo contiene %1 imágenes</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="121"/>
         <source>The non-luma library contains %1 transitions</source>
-        <translation type="unfinished"></translation>
+        <translation>Librería no luma contiene %1 transiciones</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="122"/>
         <source>The luma library contains %1 transitions</source>
-        <translation type="unfinished"></translation>
+        <translation>Librería luma contiene %1 transiciones</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="124"/>
         <source>SDL version:%1.%2.%3-Licence=GPL version 2.1 or later</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión SDL:%1.%2.%3-Licencia=GPL versión 2.1 o mayor</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="126"/>
         <source>fmt_filters version:0.6.4-Licence=LGPL</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión de fmt_filters:0.6.4-Licencia=LGPL</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="129"/>
         <source>QT version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión QT:%1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="130"/>
         <source>Detected system locale: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Detectado locales del sistema: %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="131"/>
         <source>Translation file loaded: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivo de traducción cargado: %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="136"/>
@@ -1124,42 +1124,42 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="176"/>
         <source>QImageBlitz</source>
-        <translation type="unfinished"></translation>
+        <translation>QImageBlitz</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="177"/>
         <source>MMX extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Extensión MMX %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="178"/>
         <source>IntegerSSE extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Extensión IntegerSSE %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="179"/>
         <source>SSE extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Extensión SSE %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="180"/>
         <source>SSE2 extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Extensión IntegerSSE2 %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="181"/>
         <source>AMD3DNOW extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Extensión AMD3DNOW %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="182"/>
         <source>AMD3DNOW2 extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Extensión AMD3DNOW2 %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="183"/>
         <source>AltiVec extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Extensión AltiVec  %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="189"/>
@@ -1169,47 +1169,47 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="190"/>
         <source>LIBAVCODEC version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBAVCODEC versión:%1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="191"/>
         <source>LIBAVFORMAT version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBAVFORMAT versión:%1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="192"/>
         <source>LIBSWSCALE version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBSWSCALE versión:%1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="194"/>
         <source>LIBAVFILTER version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBAVFILTER versión:%1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="202"/>
         <source>Support for TAG and CHAPTERS</source>
-        <translation type="unfinished"></translation>
+        <translation>Soporte para ETIQUETA y CAPÍTULOS</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="210"/>
         <source>Support for AVCHD video</source>
-        <translation type="unfinished"></translation>
+        <translation>Soporte para video AVCHD</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="219"/>
         <source>Audio Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio Codecs</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="223"/>
         <source>Video Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Video Codecs</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="227"/>
         <source>Container Formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Formatos contenedores</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="213"/>
@@ -2765,13 +2765,13 @@ Do you want to overwrite it ?</source>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1183"/>
         <source>Error sending image to encoder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error al enviar imagen al codificador</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1192"/>
         <source>Encoder error</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error de codificación</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="26"/>
@@ -2815,7 +2815,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1060"/>
         <source>Start encoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Iniciando codificación</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1107"/>
@@ -2832,7 +2832,7 @@ Do you want to overwrite it ?</source>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1108"/>
         <source>Error starting encoder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error iniciando codificación</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1143"/>
@@ -2848,13 +2848,13 @@ Do you want to overwrite it ?</source>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1229"/>
         <source>Error closing encoder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error cerrando codificación</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1233"/>
         <source>Error exiting encoder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Error al salir de codificación</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1245"/>
@@ -3470,18 +3470,18 @@ información</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3425"/>
         <source>distribute horizontally</source>
-        <translation type="unfinished"></translation>
+        <translation>Distribuir horizontalmente</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3428"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3446"/>
         <source>Place each block so as to have the same space between each</source>
-        <translation type="unfinished"></translation>
+        <translation>Colocar cada bloque a fin de tener el mismo espacio entre ellos</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3443"/>
         <source>distribute vertically</source>
-        <translation type="unfinished"></translation>
+        <translation>Distribuir verticalmente</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1939"/>
@@ -6252,12 +6252,12 @@ Si continúas, se corre el riesgo de perder datos!
     <message>
         <location filename="../src/engine/_Shape.cpp" line="72"/>
         <source>Hexagon</source>
-        <translation>Hexagono</translation>
+        <translation>Hexágono</translation>
     </message>
     <message>
         <location filename="../src/engine/_Shape.cpp" line="73"/>
         <source>Octogon</source>
-        <translation>Octágono</translation>
+        <translation>Octógono</translation>
     </message>
     <message>
         <location filename="../src/engine/_Shape.cpp" line="74"/>
@@ -6803,3 +6803,4 @@ Si continúas, se corre el riesgo de perder datos!
     </message>
 </context>
 </TS>
+

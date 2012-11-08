@@ -85,8 +85,8 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
                 if (ParentTable->DiaporamaObject->List[k]->ShotComposition.List[l]->IsVisible) StartPosToAdd+=ParentTable->DiaporamaObject->List[k]->StaticDuration;
                 l=ParentTable->DiaporamaObject->List[k]->ShotComposition.List.count();    // Stop loop
             }
-            ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),0,0,Width,Height,true,0,StartPosToAdd,NULL,1,1,NULL,false,0,false);
-        } else ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),0,0,Width,Height,true,Position,0,NULL,1,1,NULL,false,0,false);
+            ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),Width,Height,true,0,StartPosToAdd,NULL,1,1,NULL,false,0,false);
+        } else ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),Width,Height,true,Position,0,NULL,1,1,NULL,false,0,false);
     }
 
     // Draw selected box (if needed)

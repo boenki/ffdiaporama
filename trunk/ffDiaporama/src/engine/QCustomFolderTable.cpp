@@ -892,7 +892,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     }
 
     // Scan folder entries to integrate new files to actual MediaList
-    for (i=0;i<Files.count();i++) {
+    for (i=0;i<Files.count();i++) if (QFileInfo(((QFileInfo)Files[i]).absoluteFilePath()).exists()){
         j=0;
         while ((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()!=MediaList[j]->FileName)) j++;
         if (!((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()==MediaList[j]->FileName))) {
