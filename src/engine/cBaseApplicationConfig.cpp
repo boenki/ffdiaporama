@@ -326,7 +326,6 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     MemCacheMaxValue        = 512*1024*1024;                                                // 512 Mb for image cache
     Crop1088To1080          = true;                                                         // Automaticaly crop video from 1088 lines to 1080 (CANON)
     Deinterlace             = false;
-    QuickResamplingPreview  = false;                                                        // If true then use quick resampling during preview
     Smoothing               = true;                                                         // True do smoothing in preview
 
     //*********************************************************************
@@ -560,7 +559,6 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
             if (Element.hasAttribute("RestoreWindow"))                          RestoreWindow           =Element.attribute("RestoreWindow")=="1";
             if (Element.hasAttribute("Crop1088To1080"))                         Crop1088To1080          =Element.attribute("Crop1088To1080")!="0";
             if (Element.hasAttribute("Deinterlace"))                            Deinterlace             =Element.attribute("Deinterlace")!="0";
-            if (Element.hasAttribute("QuickResamplingPreview"))                 QuickResamplingPreview  =Element.attribute("QuickResamplingPreview")=="1";
             if (Element.hasAttribute("Smoothing"))                              Smoothing               =Element.attribute("Smoothing")=="1";
             if (Element.hasAttribute("CheckConfigAtStartup"))                   CheckConfigAtStartup    =Element.attribute("CheckConfigAtStartup")=="1";
         }
@@ -630,7 +628,6 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("ForceLanguage",           ForceLanguage);
     Element.setAttribute("Crop1088To1080",          Crop1088To1080?"1":"0");
     Element.setAttribute("Deinterlace",             Deinterlace?"1":"0");
-    Element.setAttribute("QuickResamplingPreview",  QuickResamplingPreview?"1":0);
     Element.setAttribute("Smoothing",               Smoothing?"1":0);
     Element.setAttribute("CheckConfigAtStartup",    CheckConfigAtStartup?"1":"0");
     root.appendChild(Element);

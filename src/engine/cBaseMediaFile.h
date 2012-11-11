@@ -282,26 +282,39 @@ public:
     virtual void            ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
     virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
 
-    #ifdef LIBAVFILTER
-    // Filter part
-    AVFilterGraph           *m_pFilterGraph;
-    AVFilterContext         *m_pFilterIn;
-    AVFilterContext         *m_pFilterOut;
-    QString                 m_filters;
-    QString                 m_filters_next;
+    //*********************
+    // video filters part
+    //*********************
+    #ifdef VIDEO_LIBAVFILTER
+        AVFilterGraph           *VideoFilterGraph;
+        AVFilterContext         *VideoFilterIn;
+        AVFilterContext         *VideoFilterOut;
+        QString                 m_filters;
+        QString                 m_filters_next;
 
-    enum EFilterFlags {
-        FILTER_NONE                 = 0x0,
-        FILTER_DEINTERLACE_YADIF    = 0x1,
-        FILTER_DEINTERLACE_ANY      = 0xf,
-        FILTER_DEINTERLACE_FLAGGED  = 0x10,
-        FILTER_DEINTERLACE_HALFED   = 0x20
-    };
+        enum EFilterFlags {
+            FILTER_NONE                 = 0x0,
+            FILTER_DEINTERLACE_YADIF    = 0x1,
+            FILTER_DEINTERLACE_ANY      = 0xf,
+            FILTER_DEINTERLACE_FLAGGED  = 0x10,
+            FILTER_DEINTERLACE_HALFED   = 0x20
+        };
 
-    virtual unsigned int    SetFilters(unsigned int flags);
-    virtual int             FilterOpen(QString filters);
-    virtual void            FilterClose();
-    virtual int             FilterProcess();
+        virtual unsigned int    SetFilters(unsigned int flags);
+        virtual int             VideoFilter_Open(QString Filters);
+        virtual void            VideoFilter_Close();
+        virtual int             VideoFilter_Process();
+    #endif
+
+    //*********************
+    // audio filters part
+    //*********************
+    #ifdef AUDIO_LIBAVFILTER
+        AVFilterGraph           *AudioFilterGraph;
+        AVFilterContext         *AudioFilterIn;
+        AVFilterContext         *AudioFilterOut;
+        virtual int             AudioFilter_Open(QString Filters);
+        virtual void            AudioFilter_Close();
     #endif
 };
 

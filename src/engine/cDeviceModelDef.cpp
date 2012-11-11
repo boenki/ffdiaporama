@@ -40,7 +40,7 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {720, 576, 4,3,   30000L/1001L, "30000/1001","SD/DVD - 720x576 - 29.97 FPS (PAL-M)",     0},     // SIZE_DVD - No extend ! special case for PAL-M
             {0,   0,   4,3,   0,            "0",         "free",                                     0}      // free - not used
         },{ // GEOMETRY_16_9
-            {320, 180, 4,3,   25,           "25",        "QVGA - 320x180+PAD - 25 FPS",              30},
+            {320, 180, 4,3,   25,           "25",        "QVGA - 320x180 - 25 FPS",                 30},
             {480, 270, 16,9,  25,           "25",        "HVGA - 480x270 - 25 FPS",                  0},
             {640, 360, 16,9,  25,           "25",        "VGA - 640x360 - 25 FPS",                   0},
             {720, 576, 16,9,  25,           "25",        "SD/DVD - 720x576 WIDE - 25 FPS",           0},     // SIZE_DVD - No extend ! special case
@@ -60,7 +60,7 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,436, 40,17, 25,           "25",        "XGA - 1024x436 - 25 FPS",                  0},
             {1280,544, 40,17, 25,           "25",        "720p - 1280x544 - 25 FPS",                 0},
             {1920,816, 40,17, 25,           "25",        "1080p - 1920x816 - 25 FPS",                0},
-            {240, 102, 4,3,   24,           "24",        "RIM 240 - 240x135+PAD - 24 FPS",           39},
+            {240, 102, 4,3,   24,           "24",        "RIM 240 - 240x136+PAD - 24 FPS",           39},
             {720, 436, 40,17, 30000L/1001L, "30000/1001","SD/DVD - 720x436 WIDE - 29.97 FPS (PAL-M)",0},     // SIZE_DVD - No extend ! special case for PAL-M
             {0,   0,   40,17, 0,            "0",         "free",                                     0}      // free - not used
     }},{// STANDARD_NTSC
@@ -85,7 +85,7 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,576, 16,9,   30000L/1001L,"30000/1001","XGA - 1024x576 - 29.97 FPS",               0},
             {1280,720, 16,9,   24000L/1001L,"24000/1001","720p - 1280x720 - 23.976 FPS",             0},
             {1920,1080,16,9,   24000L/1001L,"24000/1001","1080p - 1920x1080 - 23.976 FPS",           0},
-            {240, 136, 4,3,    24,          "24",        "RIM 240 - 240x135 - 24 FPS",               22},
+            {240, 136, 4,3,    24,          "24",        "RIM 240 - 240x136 - 24 FPS",               22},
             {1280,720, 16,9,   30000L/1001L,"30000/1001","720p - 1280x720 - 29.97 FPS",              0},
             {1920,1080,16,9,   30000L/1001L,"30000/1001","1080p - 1920x1080 - 29.97 FPS",            0}
         },{ // GEOMETRY_40_17
@@ -97,7 +97,7 @@ sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF] = {
             {1024,436,40,17,   30000L/1001L,"30000/1001","XGA - 1024x436 - 29.97 FPS",               0},
             {1280,544,40,17,   24000L/1001L,"24000/1001","720p - 1280x544 - 23.976 FPS",             0},
             {1920,816,40,17,   24000L/1001L,"24000/1001","1080p - 1920x816 - 23.976 FPS",            0},
-            {240, 102,4,3,     24,          "24",        "RIM 240 - 240x135+PAD - 24 FPS",           39},
+            {240, 102,4,3,     24,          "24",        "RIM 240 - 240x136+PAD - 24 FPS",           39},
             {1280,544,40,17,   30000L/1001L,"30000/1001","720p - 1280x544 - 29.97 FPS",              0},
             {1920,816,40,17,   30000L/1001L,"30000/1001","1080p - 1920x816 - 29.97 FPS",             0}
     }}
@@ -701,7 +701,7 @@ bool cDeviceModelList::Initffmpeg(QString &BinaryEncoderPath) {
             // Next step : start libav
             ToLog(LOGMSG_INFORMATION,"Starting libav lib ...");
             #ifdef LIBAV_08
-                #ifdef LIBAVFILTER
+                #if defined(VIDEO_LIBAVFILTER) || defined(AUDIO_LIBAVFILTER)
                     avfilter_register_all();
                 #endif
                 avcodec_register_all();

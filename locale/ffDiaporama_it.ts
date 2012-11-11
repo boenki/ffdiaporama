@@ -222,14 +222,6 @@
         <translation>Levigatura immagine durante l&apos;anteprima</translation>
     </message>
     <message>
-        <source>Use quick resampler during preview</source>
-        <translation>Usa ricampionamento veloce durante l&apos;anteprima</translation>
-    </message>
-    <message>
-        <source>Audio resampling :</source>
-        <translation>Ricampionamento audio :</translation>
-    </message>
-    <message>
         <source>Project Options</source>
         <translation>Opzioni Progetto</translation>
     </message>
@@ -2187,6 +2179,18 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Error exiting encoder</source>
         <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Render lossless video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>HTML5 :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Up the video to leave room for controls</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

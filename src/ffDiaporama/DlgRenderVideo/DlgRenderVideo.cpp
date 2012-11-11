@@ -97,7 +97,10 @@ void DlgRenderVideo::DoInitDialog() {
 
     ui->IncludeSoundCB->setChecked(true);
     connect(ui->IncludeSoundCB,SIGNAL(clicked()),this,SLOT(s_IncludeSound()));
-
+    ui->HTML5UPVideoCB->setVisible(false);
+    ui->HTML5UPVideoLabel->setVisible(false);
+    ui->HTML5UPVideoCB->setChecked(false);
+    connect(ui->HTML5UPVideoCB,SIGNAL(clicked()),this,SLOT(s_HTML5UPVideo()));
     if (ExportMode==EXPORTMODE_ADVANCED) {
 
         ui->DeviceTypeLabel->setVisible(false);
@@ -424,13 +427,16 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
     if (ExportMode==MODE_LOSSLESS) {
         QString Text="Format=\tMKV\nVideo=\tx264 lossless";
         int ImgSize=ImageSize=ui->ImageSizeCombo->itemData(ui->ImageSizeCombo->currentIndex()).toInt();
-        int ExtendH   =0;
-        int ExtendV   =0;
-        int W=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Width;
-        int H=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Height;
+        int ExtendH =0;
+        int ExtendV =DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Extend;
+        int W       =DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Width;
+        int H       =DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Height;
         Text=Text+QString("-%1").arg(W)+"x"+QString("%1").arg(H);
         if (ExtendH>0) Text=Text+"+PADLEFT:"+QString("%1").arg(ExtendH/2)+"+PADRIGHT:"+QString("%1").arg(ExtendH-ExtendH/2);
-        if (ExtendV>0) Text=Text+"+PADTOP:"+QString("%1").arg(ExtendV/2)+"+PADBOTTOM:"+QString("%1").arg(ExtendV-ExtendV/2);
+        if (ExtendV>0) {
+            if (!ui->HTML5UPVideoCB->isChecked())   Text=Text+"+PADTOP:"+QString("%1").arg(ExtendV/2)+"+PADBOTTOM:"+QString("%1").arg(ExtendV-ExtendV/2);
+                else                                Text=Text+"+PADBOTTOM:"+QString("%1").arg(ExtendV);
+        }
         if (ui->IncludeSoundCB->isChecked()) Text=Text+"\nAudio=\tFLAC";
         ui->RenderFormatText->setText(Text);
         AdjustDestinationFile();
@@ -586,6 +592,11 @@ void DlgRenderVideo::s_IncludeSound() {
 
 //====================================================================================================================
 
+void DlgRenderVideo::s_HTML5UPVideo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::s_HTML5UPVideo");
+    s_DeviceModelCB(0);
+}
+
 void DlgRenderVideo::s_DeviceModelCB(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::s_DeviceModelCB");
 
@@ -598,12 +609,20 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
         Text=Text+VIDEOCODECDEF[Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->VideoCodec].LongName;
         int ImgSize=Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->ImageSize;
         int ExtendH   =0;
-        int ExtendV   =0;
-        int W=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Width;
-        int H=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Height;
+        int ExtendV   =DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Extend*2;
+        int W         =DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Width;
+        int H         =DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].Height;
         Text=Text+QString("-%1").arg(W)+"x"+QString("%1").arg(H);
         if (ExtendH>0) Text=Text+"+PADLEFT:"+QString("%1").arg(ExtendH/2)+"+PADRIGHT:"+QString("%1").arg(ExtendH-ExtendH/2);
-        if (ExtendV>0) Text=Text+"+PADTOP:"+QString("%1").arg(ExtendV/2)+"+PADBOTTOM:"+QString("%1").arg(ExtendV-ExtendV/2);
+        if (ExtendV>0) {
+            ui->HTML5UPVideoCB->setVisible(true);
+            ui->HTML5UPVideoLabel->setVisible(true);
+            if (!ui->HTML5UPVideoCB->isChecked()) Text=Text+"+PADTOP:"+QString("%1").arg(ExtendV/2)+"+PADBOTTOM:"+QString("%1").arg(ExtendV-ExtendV/2);
+                else Text=Text+"+PADBOTTOM:"+QString("%1").arg(ExtendV);
+        } else {
+            ui->HTML5UPVideoCB->setVisible(false);
+            ui->HTML5UPVideoLabel->setVisible(false);
+        }
 
         QString FPS=DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].dFPS==24?"24 FPS":
                     DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].dFPS==25?"25 FPS":
@@ -669,18 +688,16 @@ bool DlgRenderVideo::ComputeVideoPart(QString &vCodec) {
             Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
             #endif
             #ifdef LIBAV_08
-            Preset="-preset veryfast -refs:0 3";
-            //if (isAVCONV)   Preset="-preset veryfast -refs:0 3";
-            //    else        Preset="-preset veryfast -x264opts ref=3";
+            if (isAVCONV)   Preset="-preset veryfast -refs:0 3";
+                else        Preset="-preset veryfast -x264opts ref=3";
             #endif
         } else if (VIDEOCODECDEF[VideoCodecIndex].FFD_VCODEC==VCODEC_H264PQ) {
             #ifdef LIBAV_07
             Preset="-fpre \""+Preset+"libx264-pq.ffpreset\"";
             #endif
             #ifdef LIBAV_08
-            Preset="-preset veryfast -profile:v baseline -tune:v fastdecode";
-            //if (isAVCONV)   Preset="-preset veryfast -profile:v baseline -tune:v fastdecode";
-            //    else        Preset="-preset veryfast -x264opts level=1.3:no-cabac:vbv-bufsize=768:vbv-maxrate=768";
+            if (isAVCONV)   Preset="-preset veryfast -profile:v baseline -tune:v fastdecode";
+                else        Preset="-preset veryfast -x264opts ref=3 -profile:v baseline -tune:v fastdecode";
             #endif
         } else if (VIDEOCODECDEF[VideoCodecIndex].FFD_VCODEC==VCODEC_X264LL) {
             #ifdef LIBAV_07
@@ -1180,7 +1197,8 @@ void DlgRenderVideo::DoAccept() {
                     ToSave->fill(0);
                     QPainter P;
                     P.begin(ToSave);
-                    P.drawImage(ExtendH/2,ExtendV/2,*Frame->RenderedImage);
+                    if (!ui->HTML5UPVideoCB->isChecked())   P.drawImage(ExtendH/2,ExtendV/2,*Frame->RenderedImage);
+                        else                                P.drawImage(ExtendH/2,0,*Frame->RenderedImage);
                     P.end();
                 }
 

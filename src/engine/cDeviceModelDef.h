@@ -64,9 +64,14 @@ extern "C" {
     #include <libavformat/avformat.h>
     #include <libavformat/avio.h>
 
+    #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,60,0)
+    #include "libavutil/samplefmt.h"
+    #include "libswresample/swresample.h"
+    #endif
+
     // include for libavfilter
     #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(2,13,0)       // For all
-        #define LIBAVFILTER
+        #define VIDEO_LIBAVFILTER
         #if LIBAVCODEC_VERSION_INT > AV_VERSION_INT(53,8,0)
         #include "libavfilter/avfilter.h"
         #endif
@@ -78,12 +83,15 @@ extern "C" {
             #include "libavfilter/avcodec.h"
             #include "libavfilter/vsrc_buffer.h"
         #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)   // From 2.6 to 3.0
+            //#define AUDIO_LIBAVFILTER
             #include "libavfilter/buffersink.h"
             #include "libavfilter/avcodec.h"
         #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)   // From 3.0 to 3.1
+            //#define AUDIO_LIBAVFILTER
             #include "libavfilter/buffersink.h"
             #include "libavfilter/avcodec.h"
         #else                                                   // From 3.1
+            //#define AUDIO_LIBAVFILTER
             #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(3,17,0)   // From 3.17
                 #include "libavfilter/avcodec.h"
             #endif

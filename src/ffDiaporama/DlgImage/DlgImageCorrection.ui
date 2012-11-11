@@ -193,7 +193,7 @@
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>0</y>
+              <y>-659</y>
               <width>332</width>
               <height>1009</height>
              </rect>
@@ -943,7 +943,7 @@ color: #000000;
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_42">
+                <widget class="QLabel" name="Wavelabel3">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                    <horstretch>0</horstretch>
@@ -2041,7 +2041,7 @@ color: #000000;
                 <number>0</number>
                </property>
                <item>
-                <widget class="QLabel" name="label_41">
+                <widget class="QLabel" name="Wavelabel2">
                  <property name="sizePolicy">
                   <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                    <horstretch>0</horstretch>
@@ -2328,7 +2328,7 @@ color: #000000;
               </widget>
              </item>
              <item row="71" column="1">
-              <widget class="QLabel" name="label_40">
+              <widget class="QLabel" name="Wavelabel1">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -3081,6 +3081,11 @@ color: #000000;
  </widget>
  <customwidgets>
   <customwidget>
+   <class>cCSpeedWaveComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cCSpeedWaveComboBox.h</header>
+  </customwidget>
+  <customwidget>
    <class>cCFramingComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCFramingComboBox.h</header>
@@ -3089,11 +3094,6 @@ color: #000000;
    <class>cCShapeComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCShapeComboBox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cCSpeedWaveComboBox</class>
-   <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCSpeedWaveComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cImgInteractiveZone</class>

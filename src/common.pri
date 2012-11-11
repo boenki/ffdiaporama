@@ -69,6 +69,7 @@ win32 {
     LIBS        += -lgdi32 -lkernel32 -luser32 -lshell32 -ladvapi32         #------ Windows GDI libs link
     LIBS        += -llibexiv2                                               #------ Exiv2 (dynamic version, so not -llibexpat -lxmpsdk -lzlib1)
     LIBS        += -llibQImageBlitz                                         #------ QImageBlitz
+    LIBS        += -lswresample                                             #------ LibAV swresample
 }
 
 #---- Libs for windows and linux

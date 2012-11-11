@@ -147,12 +147,12 @@ void cImgInteractiveZone::paintEvent(QPaintEvent *) {
     Painter.setPen(Qt::NoPen);
     Painter.setCompositionMode(QPainter::CompositionMode_SourceAtop);
     QImage PartImage=ForegroundImage->copy(ScrSelRect.left(),ScrSelRect.top(),ScrSelRect.width(),ScrSelRect.height());
-    CurrentBrush->ApplyFilter(&PartImage);
+    PartImage=CurrentBrush->ApplyFilter(PartImage);
     QBrush PartBrush(PartImage);
     PartBrush.setTransform(QTransform().translate(ScrSelRect.left(),ScrSelRect.top()));
     Painter.setBrush(PartBrush);
     for (int i=0;i<List.count();i++) Painter.drawPolygon(List.at(i));
-    ShapePainter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+    Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
     //**********************************
     // Draw rulers if they was enabled
