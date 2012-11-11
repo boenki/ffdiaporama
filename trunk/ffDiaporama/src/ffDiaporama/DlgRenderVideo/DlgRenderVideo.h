@@ -99,6 +99,7 @@ private slots:
     void            SetZoneToAll();
     void            SetZoneToPartial();
     void            s_IncludeSound();
+    void            s_HTML5UPVideo();
 
 signals:
     void            SetModifyFlag();

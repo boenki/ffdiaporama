@@ -58,13 +58,12 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     if (ParentTable->DiaporamaObject==NULL) return;
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    Painter->save();
-    Painter->setClipRect(QRectF(option.rect.x(),option.rect.y(),option.rect.width(),option.rect.height()));
-    // Fill background
-    Painter->fillRect(option.rect,Transparent);
+    QImage    TempImg(Width,Height,QImage::Format_ARGB32_Premultiplied);
+    QPainter  TempPainter;
+    TempPainter.begin(&TempImg);
 
-    // Translate painter (if needed) so all coordinate are from 0,0
-    if ((option.rect.x()!=0)||(option.rect.y()!=0)) Painter->translate(option.rect.x(),option.rect.y());
+    // Fill background
+    TempPainter.fillRect(QRectF(0,0,Width,Height),Transparent);
 
     // Calc start position of this shot
     qlonglong Position=0; for (int i=1;i<=index.column();i++) Position=Position+ParentTable->DiaporamaObject->List[i-1]->StaticDuration;
@@ -85,8 +84,8 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
                 if (ParentTable->DiaporamaObject->List[k]->ShotComposition.List[l]->IsVisible) StartPosToAdd+=ParentTable->DiaporamaObject->List[k]->StaticDuration;
                 l=ParentTable->DiaporamaObject->List[k]->ShotComposition.List.count();    // Stop loop
             }
-            ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),Width,Height,true,0,StartPosToAdd,NULL,1,1,NULL,false,0,false);
-        } else ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(Painter,double(Height)/double(1080),Width,Height,true,Position,0,NULL,1,1,NULL,false,0,false);
+            ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(&TempPainter,double(Height)/double(1080),Width,Height,true,0,StartPosToAdd,NULL,1,1,NULL,false,0,false);
+        } else ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(&TempPainter,double(Height)/double(1080),Width,Height,true,Position,0,NULL,1,1,NULL,false,0,false);
     }
 
     // Draw selected box (if needed)
@@ -95,59 +94,61 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
         QPen Pen;
         Pen.setColor(Qt::blue);
         Pen.setWidth(6);
-        Painter->setPen(Pen);
-        Painter->setBrush(Qt::NoBrush);
-        Painter->drawRect(3,3,Width-1-6,Height-1-6);
+        TempPainter.setPen(Pen);
+        TempPainter.setBrush(Qt::NoBrush);
+        TempPainter.drawRect(3,3,Width-1-6,Height-1-6);
     }
 
     // Draw Drag & Drop inserting point (if needed)
     if ((ParentTable->IsDragOn==1)&&(index.column()!=ParentTable->DragItemSource)&&((index.column()==ParentTable->DragItemDest)||((index.column()==ParentTable->DragItemDest-1)&&(ParentTable->DragItemDest==ParentTable->DiaporamaObject->List.count())))) {
-        Painter->save();
+        TempPainter.save();
         QPen Pen;
         Pen.setColor(Qt::red);
         Pen.setStyle(Qt::SolidLine);
         Pen.setWidth(6);
-        Painter->setPen(Pen);
-        Painter->setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
-        Painter->setOpacity(0.5);
-        Painter->setOpacity(0.5);
-        if (index.column()==ParentTable->DragItemDest)  Painter->drawLine(3,      0,3,      Height);
-            else                                        Painter->drawLine(Width-3,0,Width-3,Height);
-        Painter->setOpacity(1);
-        Painter->restore();
+        TempPainter.setPen(Pen);
+        TempPainter.setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
+        TempPainter.setOpacity(0.5);
+        TempPainter.setOpacity(0.5);
+        if (index.column()==ParentTable->DragItemDest)  TempPainter.drawLine(3,      0,3,      Height);
+            else                                        TempPainter.drawLine(Width-3,0,Width-3,Height);
+        TempPainter.setOpacity(1);
+        TempPainter.restore();
     }
 
     // -------------------------- Draw shot duration
     QPen  Pen;
     QFont font= QApplication::font();
     int   FontFactor=((ParentTable->DiaporamaObject->Parent->ApplicationConfig->TimelineHeight-TIMELINEMINHEIGH)/20)*10;
-    Painter->setFont(font);
+    TempPainter.setFont(font);
     #ifdef Q_OS_WIN
-    font.setPointSizeF(double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+    font.setPointSizeF(double(110+FontFactor)/double(TempPainter.fontMetrics().boundingRect("0").height()));                  // Scale font
     #else
-    font.setPointSizeF(double(140+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+    font.setPointSizeF(double(140+FontFactor)/double(TempPainter.fontMetrics().boundingRect("0").height()));                  // Scale font
     #endif
-    Painter->setFont(font);
+    TempPainter.setFont(font);
     Pen.setWidth(1);
     Pen.setStyle(Qt::SolidLine);
     QString ShotDuration=QTime(0,0,0,0).addMSecs(Duration).toString("hh:mm:ss.zzz");
     Pen.setColor(Qt::black);
-    Painter->setPen(Pen);
-    Painter->drawText(QRectF(6+1,6+1,Width-12,Height-12),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+    TempPainter.setPen(Pen);
+    TempPainter.drawText(QRectF(6+1,6+1,Width-12,Height-12),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
     Pen.setColor(RedColor?Qt::red:Qt::white);
-    Painter->setPen(Pen);
-    Painter->drawText(QRectF(6,6,Width-12,Height-12),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
+    TempPainter.setPen(Pen);
+    TempPainter.drawText(QRectF(6,6,Width-12,Height-12),ShotDuration,Qt::AlignHCenter|Qt::AlignTop);
 
-    // -------------------------- Draw shot en position
+    // -------------------------- Draw shot position
     ShotDuration=QTime(0,0,0,0).addMSecs(Position+Duration).toString("hh:mm:ss.zzz");
     Pen.setColor(Qt::black);
-    Painter->setPen(Pen);
-    Painter->drawText(QRectF(6+1,6+1,Width-12,Height-12),ShotDuration,Qt::AlignRight|Qt::AlignBottom);
+    TempPainter.setPen(Pen);
+    TempPainter.drawText(QRectF(6+1,6+1,Width-12,Height-12),ShotDuration,Qt::AlignRight|Qt::AlignBottom);
     Pen.setColor(RedColor?Qt::red:Qt::white);
-    Painter->setPen(Pen);
-    Painter->drawText(QRectF(6,6,Width-12,Height-12),ShotDuration,Qt::AlignRight|Qt::AlignBottom);
+    TempPainter.setPen(Pen);
+    TempPainter.drawText(QRectF(6,6,Width-12,Height-12),ShotDuration,Qt::AlignRight|Qt::AlignBottom);
 
-    Painter->restore();
+    TempPainter.end();
+    Painter->drawImage(option.rect.x(),option.rect.y(),TempImg);
+
     QApplication::restoreOverrideCursor();
 }
 

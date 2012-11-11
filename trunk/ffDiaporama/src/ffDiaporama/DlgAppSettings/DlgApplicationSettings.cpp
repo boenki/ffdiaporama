@@ -95,7 +95,6 @@ void DlgApplicationSettings::DoInitDialog() {
     if (FPS.endsWith('.')) FPS=FPS.left(FPS.length()-1);
     ui->PreviewFrameRateCB->setCurrentIndex(ui->PreviewFrameRateCB->findText(FPS));
     ui->SmoothImageDuringPreviewCB->setChecked(ApplicationConfig->Smoothing);
-    ui->QuickResamplingPreviewCB->setChecked(ApplicationConfig->QuickResamplingPreview);
 
     // Editor options
     ui->UnitCB->setCurrentIndex(ApplicationConfig->DisplayUnit);
@@ -106,7 +105,7 @@ void DlgApplicationSettings::DoInitDialog() {
     // Video options
     ui->Crop1088To1080CB->setChecked(ApplicationConfig->Crop1088To1080);
     ui->DeinterlaceCB->setChecked(ApplicationConfig->Deinterlace);
-    #ifndef LIBAVFILTER
+    #ifndef VIDEO_LIBAVFILTER
     ui->DeinterlaceCB->setEnabled(false);
     #endif
 
@@ -333,7 +332,6 @@ void DlgApplicationSettings::DoAccept() {
 
     // Preview Options part
     ApplicationConfig->Smoothing                =ui->SmoothImageDuringPreviewCB->isChecked();
-    ApplicationConfig->QuickResamplingPreview   =ui->QuickResamplingPreviewCB->isChecked();
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
 
     switch (ui->MemCacheProfilCB->currentIndex()) {

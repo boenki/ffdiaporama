@@ -824,8 +824,8 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             if (FormShadow) {
                 ShadowImg=QImage(width,height,QImage::Format_ARGB32_Premultiplied);
                 Painter=new QPainter();
-                Painter->setRenderHints(hints,true);
                 Painter->begin(&ShadowImg);
+                Painter->setRenderHints(hints,true);
                 Painter->setCompositionMode(QPainter::CompositionMode_Source);
                 Painter->fillRect(QRect(0,0,width,height),Qt::transparent);
                 Painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -880,12 +880,27 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter->setBrush(Qt::NoBrush); else {
 
                 // Create brush with filter and Ken Burns effect !
-                // Note: To avoid phantom lines, add 2 transparent points after brush (W+2,H+2)
-                QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,W+2,H+2),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
+                QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
                 if (BR) {
                     QTransform  MatrixBR;
-                    MatrixBR.translate(NewShapeRect.left()+(X-ShapeRect.left()),NewShapeRect.top()+(Y-ShapeRect.top()));
-                    BR->setTransform(MatrixBR);         // Apply transforme matrix to the brush
+                    // Avoid phantom lines
+                    if ((TheRotateZAxis!=0)||(TheRotateXAxis!=0)||(TheRotateYAxis!=0)) {
+                        QImage   TempImage(W+4,H+4,QImage::Format_ARGB32_Premultiplied);
+                        QPainter TempPainter;
+                        TempPainter.begin(&TempImage);
+                        TempPainter.setRenderHints(hints,true);
+                        TempPainter.setCompositionMode(QPainter::CompositionMode_Source);
+                        TempPainter.fillRect(QRect(0,0,TempImage.width(),TempImage.height()),Qt::transparent);
+                        TempPainter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                        TempPainter.drawImage(2,2,BR->textureImage());
+                        TempPainter.end();
+                        delete BR;
+                        BR=new QBrush(TempImage);
+                        MatrixBR.translate(NewShapeRect.left()+(X-ShapeRect.left())-2,NewShapeRect.top()+(Y-ShapeRect.top())-2);
+                    } else {
+                        MatrixBR.translate(NewShapeRect.left()+(X-ShapeRect.left()),NewShapeRect.top()+(Y-ShapeRect.top()));
+                    }
+                    BR->setTransform(MatrixBR);         // Apply transform matrix to the brush
                     Painter->setBrush(*BR);
                     delete BR;
                 } else {
@@ -938,7 +953,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
 
                 int     MaxH  =TextMargin.height()>FmtBdRect.height()?TextMargin.height():FmtBdRect.height();
                 double  DecalX=(TheTxtScrollX/100)*TextMargin.width()+TextMargin.center().x()-TextMargin.width()/2+(TextMargin.width()-FmtBdRect.width())/2;
-                double  DecalY=(TheTxtScrollY/100)*MaxH+TextMargin.center().y()-TextMargin.height()/2;
+                double  DecalY=(-TheTxtScrollY/100)*MaxH+TextMargin.center().y()-TextMargin.height()/2;
 
                 if (VAlign==0)      ;                                                               //Qt::AlignTop (Nothing to do)
                 else if (VAlign==1) DecalY=DecalY+(TextMargin.height()-FmtBdRect.height())/2;       //Qt::AlignVCenter

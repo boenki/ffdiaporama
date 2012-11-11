@@ -381,7 +381,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 if (TheDesat!=0)                                                Blitz::desaturate(NewRenderImage,TheDesat);
                 if (TheSwirl!=0)                                                NewRenderImage=Blitz::swirl(NewRenderImage,-TheSwirl);
                 if (TheImplode!=0)                                              NewRenderImage=Blitz::implode(NewRenderImage,TheImplode);
-                if ((TheWaveAmp!=0)&&(TheWaveFreq!=0))                          NewRenderImage=Blitz::wave(NewRenderImage,NewRenderImage.height()*(TheWaveAmp/100),NewRenderImage.width()/(TheWaveFreq/10));
+                if ((TheWaveAmp!=0)&&(TheWaveFreq!=0))                          NewRenderImage=Blitz::wave(NewRenderImage,NewRenderImage.height()*(TheWaveAmp/100),NewRenderImage.width()/(TheWaveFreq/10)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
                 if ((ProgressifOnOffFilter)||(GaussBlurSharpenSigma!=0)||(QuickBlurSharpenSigma!=0)||(OnOffFilter!=0)) {
                     QImage PreviousImage=NewRenderImage.copy();
@@ -443,43 +443,35 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
 
 //====================================================================================================================
 // Note:This function is use only by cBrushDefinition !
-void cBrushDefinition::ApplyFilter(QImage *Image) {
+QImage cBrushDefinition::ApplyFilter(QImage Image) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::ApplyFilter");
 
-    if (Image==NULL) return;
-    fmt_filters::image img(Image->bits(),Image->width(),Image->height());
+    if (Image.isNull()) return Image;
+    fmt_filters::image img(Image.bits(),Image.width(),Image.height());
     if (Brightness!=0)                                          fmt_filters::brightness(img,Brightness);
     if ((Contrast!=0)&&((OnOffFilter & FilterNormalize)==0))    fmt_filters::contrast(img,Contrast);
     if (Gamma!=1)                                               fmt_filters::gamma(img,Gamma);
     if ((Red!=0)||(Green!=0)||(Blue!=0))                        fmt_filters::colorize(img,Red,Green,Blue);
-    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma<0))        *Image=Blitz::blur(*Image,-QuickBlurSharpenSigma);
-    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma>0))        *Image=Blitz::sharpen(*Image,QuickBlurSharpenSigma);
-    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma<0))        *Image=Blitz::gaussianBlur(*Image,BlurSharpenRadius,-GaussBlurSharpenSigma);
-    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma>0))        *Image=Blitz::gaussianSharpen(*Image,BlurSharpenRadius,GaussBlurSharpenSigma);
-    if ((OnOffFilter & FilterDespeckle)!=0)                     Blitz::despeckle(*Image);
-    if ((OnOffFilter & FilterEqualize)!=0)                      Blitz::equalize(*Image);
-    if ((OnOffFilter & FilterGray)!=0)                          Blitz::grayscale(*Image,false);
-    if ((OnOffFilter & FilterNegative)!=0)                      Blitz::invert(*Image,QImage::InvertRgb);
-    if ((OnOffFilter & FilterEmboss)!=0)                        *Image=Blitz::emboss(*Image,0,1,Blitz::High);
-    if ((OnOffFilter & FilterEdge)!=0)                          *Image=Blitz::edge(*Image);
-    if ((OnOffFilter & FilterAntialias)!=0)                     *Image=Blitz::antialias(*Image);
-    if ((OnOffFilter & FilterNormalize)!=0)                     Blitz::normalize(*Image);
-    if ((OnOffFilter & FilterCharcoal)!=0)                      *Image=Blitz::charcoal(*Image);
-    if ((OnOffFilter & FilterOil)!=0)                           *Image=Blitz::oilPaint(*Image);
-    if (Desat!=0)                                               Blitz::desaturate(*Image,Desat);
-    if (Swirl!=0)                                               *Image=Blitz::swirl(*Image,-Swirl);
-    if (Implode!=0)                                             *Image=Blitz::implode(*Image,Implode);
-    if ((WaveAmp!=0)&&(WaveFreq!=0))                            *Image=Blitz::wave(*Image,Image->height()*(WaveAmp/100),Image->width()/(WaveFreq/10));
+    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma<0))        Image=Blitz::blur(Image,-QuickBlurSharpenSigma);
+    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma>0))        Image=Blitz::sharpen(Image,QuickBlurSharpenSigma);
+    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma<0))        Image=Blitz::gaussianBlur(Image,BlurSharpenRadius,-GaussBlurSharpenSigma);
+    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma>0))        Image=Blitz::gaussianSharpen(Image,BlurSharpenRadius,GaussBlurSharpenSigma);
+    if ((OnOffFilter & FilterDespeckle)!=0)                     Blitz::despeckle(Image);
+    if ((OnOffFilter & FilterEqualize)!=0)                      Blitz::equalize(Image);
+    if ((OnOffFilter & FilterGray)!=0)                          Blitz::grayscale(Image,false);
+    if ((OnOffFilter & FilterNegative)!=0)                      Blitz::invert(Image,QImage::InvertRgb);
+    if ((OnOffFilter & FilterEmboss)!=0)                        Image=Blitz::emboss(Image,0,1,Blitz::High);
+    if ((OnOffFilter & FilterEdge)!=0)                          Image=Blitz::edge(Image);
+    if ((OnOffFilter & FilterAntialias)!=0)                     Image=Blitz::antialias(Image);
+    if ((OnOffFilter & FilterNormalize)!=0)                     Blitz::normalize(Image);
+    if ((OnOffFilter & FilterCharcoal)!=0)                      Image=Blitz::charcoal(Image);
+    if ((OnOffFilter & FilterOil)!=0)                           Image=Blitz::oilPaint(Image);
+    if (Desat!=0)                                               Blitz::desaturate(Image,Desat);
+    if (Swirl!=0)                                               Image=Blitz::swirl(Image,-Swirl);
+    if (Implode!=0)                                             Image=Blitz::implode(Image,Implode);
+    if ((WaveAmp!=0)&&(WaveFreq!=0))                            Image=Blitz::wave(Image,Image.height()*(WaveAmp/100),Image.width()/(WaveFreq/10));
+    return Image;
 }
-
-/*
-    static QImage& contrast(QImage &img, bool sharpen, int weight=3);
-    static QImage& intensity(QImage &img, float percent);
-    static QImage& channelIntensity(QImage &img, float percent,RGBChannel channel);
-    static QImage& flatten(QImage &img, const QColor &ca, const QColor &cb);
-    static QImage threshold(QImage &img, unsigned char thresholdValue=127,RGBChannel channel=Grayscale,unsigned int aboveColor=qRgb(255, 255, 255),unsigned int belowColor=qRgb(0, 0, 0));
-    static QImage& modulate(QImage &img, QImage &modImg, bool reverse,ModulationType type, int factor,RGBChannel channel);
-*/
 
 //====================================================================================================================
 
@@ -945,7 +937,7 @@ QImage *cBrushDefinition::ImageToWorkspace(QImage *SrcImage,int WantedSize,qreal
 
     if (ToUseImage.format()!=QImage::Format_ARGB32_Premultiplied) ToUseImage=ToUseImage.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-    ApplyFilter(&ToUseImage);
+    ToUseImage=ApplyFilter(ToUseImage);
 
     RetImage=new QImage(WantedSize,WantedSize,QImage::Format_ARGB32_Premultiplied);
     QPainter P;

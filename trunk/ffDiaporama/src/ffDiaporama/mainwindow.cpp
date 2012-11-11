@@ -383,7 +383,7 @@ MainWindow::~MainWindow() {
 
     // Close some libav additionnals
     #ifdef LIBAV_08
-        #ifdef LIBAVFILTER
+        #if defined(VIDEO_LIBAVFILTER) || defined(AUDIO_LIBAVFILTER)
             avfilter_uninit();
         #endif
         avformat_network_deinit();

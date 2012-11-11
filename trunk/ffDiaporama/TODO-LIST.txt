@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.5 - Trunk
 *
-* Dernier commit le : 02/11/2012
+* Dernier commit le : 08/11/2012
 **************************************************
 
 TODO :
@@ -26,27 +26,31 @@ Normal      -       Bug de Pepe sur les tailles des bordures en VGA
 Normal      -       Bug sur le text scalling en render DVD
 Basse       -       Bug de SESTAY sur un plantage lors de la relecture d'un ancien fichier de configuration
 Normal      -       Bug sur l'encodage MP3 : 1 seconde de trop par minute d'encodage (http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=449)
-
+Basse       -       Bug de génération en 3GP - 320x240
 Normal      -       Pb de son sur les vidéos U8 (Olivier L)
 
 
 Normal      NF      Ajouter des formes de shape (jumelle, trapeze, parrallelograme ...)
-
 Normal      WIP     Les vidéos avec chapitre exportées en .mkv font planter VLC
                     =>  Pour le moment, j'ai supprimé les chapitres dans les mkv pour tous les codecs sauf lossless
                         C'est une solution provisoire - à revoir
-
 Basse       NF      Etudier la transposition des cadres de sélection quand rotation dans la boite slide
-
 Basse       WIP     Supprimer la librairie de fond de la mémoire
                     =>  Isolation du code de cBackgroundComboBox réalisé
                         Il faut encore isolé le code depuis cBrushDefinition
-
 Basse       WIP     Isolation du code des transition
                     =>  A isoler dans une _xxxx sous engine
-
 Basse       NF      Support des vidéo ULAW à faire
-Basse       -       Pouvoir réduire ffD pendant la génération de film
+Basse       -       Pouvoir réduire ffD pendant la génération de film sous Windows
+Basse       -       Ajouter des boutons KeyFrame précédente et suivante dans la boite cut-vidéo
+Basse       WIP     Pouvoir activer/désactiver le clipping des textes dans les formes
+                    =>  Tout est pret maintenant : il ne reste plus qu'à ajouter l'option dans la boite texte et dans les fichiers de données
+Basse       WIP     Pouvoir déplacer le centre de rotation des formes
+                    =>  La fonction de dessin des formes permet maintenant un traitement plein écran
+                        Reste à faire :
+                            - Ajouter le centre de rotation quand la forme est sélectionnée et pouvoir le déplacer dans la zone interactive et dans la boite slide
+                            - Ajouter la position du centre de rotation dans les fichiers de données
+                            - Prendre en compte le centre de rotation dans la foction de dessin des formes
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
@@ -57,26 +61,25 @@ WIP : Work in progress
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-Switch help file to new ffDiaporama 1.5 help menu
 
 French version / Correction de bug :
--Corrige le bug lors de la sélection d'un fichier de destination en mode lossless dans la boite render : Le format proposé est 3GP au lieu de MKV
--Corrige le problème sur le déplacement inoportun du centre de rotation lors des rotations de certains blocs (Pepe)
--Corrige le problème de forme coupée lors des rotation de certains blocs (Pepe)
--Corrige les icônes d'effet de texte (contour et ombres) dans la boite texte
--Force le mask alpha des ombres pour les blocs contenant des parties transparentes (des couleurs inattendues apparaissaient parfois)
+-Correction de bug: L'image de fond ne s'affiche que sur la vignette du premièr plan[devel 20121108]
+-Correction de bug: Erreur de position du texte, haut et bas sont inversés [devel 20121108]
+-Correction de bug: Corrige l'affichage du padding dans la fenetre de génération de video en mode par device
+-Correction de bug: Force ffmpeg à 3 refFrame lors des encodages en x264
 
 English version / Bug fixes :
--Fix bug when select destination file for lossless rendering in Render dialog: Proposed file format is 3GP instead of MKV
--Fix the problem on improper movement of the rotation center during rotation of some blocks (Pepe)
--Corrects problem with cut form during rotation of some blocks (Pepe)
--Fix icons text effect (outline and shading) in the text dialog
--Force the alpha mask of shadows for blocks with transparent parts (sometimes unexpected colors appear)
+-Bug fix: The background image only appears on the thumbnail of the first shot [devel 20121108]
+-Bug fix: Error text position, top and bottom are reversed [devel 20121108]
+-Bug fix: Corrects the display of the padding in render dialog when using device mode
+-Bug fix: Force ffmpeg to use 3 refFrame when encoding x264
 
 French version / Nouveautés :
--Ajoute l'extension de fichier .m2ts à la liste des formats de fichier supportés
--Change la façon de dessiner les ombres sur les blocs : Désormais les blocs restent fixe
+-Ajoute une option dans la boite de génération de video pour positionner la vidéo en haut quand le format d'image inclus du padding vertical
+-Modifie la méthode de resampling pour l'audio => revient au resampler de libav en le forçant en mode lineaire et du coup, supprime l'option "Quick resampler" de la boite d'option
+-Retire le filtre wave car trop de problème de transparence pour le moment !
 
 English version / New features :
--Adds .m2ts file extension to the list of allowed file formats
--Change how to draw shadows on blocks: blocks are now fixed
+-Adds an option in the render dialog to position the video up when the image format included vertical padding
+-Changes the audio resampling method => back to libav resampling function forced in linear mode and then removes the "Quick resampler" option from the option dialog
+-Removes Wave filter because as too much transparency problems for the moment!

@@ -107,6 +107,22 @@ DlgImageCorrection::~DlgImageCorrection() {
 void DlgImageCorrection::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DoInitDialog");
 
+    //*******************************
+    // Retire le filtre wave car trop de problème de transparence pour le moment !
+    //*******************************
+
+    ui->WaveAmpSlider->setVisible(false);
+    ui->WaveAmpValue->setVisible(false);
+    ui->WaveAmpResetBT->setVisible(false);
+    ui->WaveFreqSlider->setVisible(false);
+    ui->WaveFreqValue->setVisible(false);
+    ui->WaveFreqResetBT->setVisible(false);
+    ui->Wavelabel1->setVisible(false);
+    ui->Wavelabel2->setVisible(false);
+    ui->Wavelabel3->setVisible(false);
+
+    //*******************************
+
     // Set title of dialog
     setWindowTitle(!IsVideo?ffDText(ffDSection_DlgImageCorrection,0):ffDText(ffDSection_DlgImageCorrection,1));
 
@@ -158,7 +174,7 @@ void DlgImageCorrection::DoInitDialog() {
         connect(ui->EndPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditEndPos(QTime)));
         connect(ui->VideoPlayer,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
 
-        #ifndef LIBAVFILTER
+        #ifndef VIDEO_LIBAVFILTER
         ui->DeinterlaceBt->setEnabled(false);
         #endif
     }
