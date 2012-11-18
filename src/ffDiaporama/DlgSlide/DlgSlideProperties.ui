@@ -351,8 +351,8 @@ block</string>
 block</string>
         </property>
         <property name="icon">
-         <iconset>
-          <normaloff>:/img/arrange.png</normaloff>:/img/arrange.png</iconset>
+         <iconset resource="../../../RSCffDiaporama.qrc">
+          <normaloff>:/img/Arrange/arrange.png</normaloff>:/img/Arrange/arrange.png</iconset>
         </property>
         <property name="iconSize">
          <size>

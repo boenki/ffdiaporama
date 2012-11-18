@@ -78,7 +78,7 @@ void DlgApplicationSettings::DoInitDialog() {
         if      (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
         else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(512*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(1);
         else ui->MemCacheProfilCB->setCurrentIndex(2);
-        ui->MemCacheProfilCB->removeItem(3);
+        //ui->MemCacheProfilCB->removeItem(3);
         //ui->MemCacheProfilCB->removeItem(2);
     }
     #else

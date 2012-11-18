@@ -19,6 +19,7 @@
    ====================================================================== */
 
 #include "_Transition.h"
+#include "cBrushDefinition.h"
 
 // static global values
 cLumaList       LumaList_Bar;
@@ -221,30 +222,35 @@ QImage RotateImage(double TheRotateXAxis,double TheRotateYAxis,double TheRotateZ
 //      1       Dissolve with gradual disappearance of the image A
 //      2       Dissolve with no modification of the image A
 //      3       Fade to black
+//      4       Fade with blur
 //============================================================================================
 
 void Transition_Basic(int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int,int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:_Transition::Transition_Basic");
+    QImage  ImgA,ImgB;
+    int     DestImageWith  =ImageA->width();
+    int     DestImageHeight=ImageA->height();
+    int     MaxRA,MaxRB;
 
     switch (TransitionSubType) {
         case 0:
             WorkingPainter->drawImage(0,0,*ImageB);
             break;
-        case 1:
+        case 1:     // Dissolve with gradual disappearance of the image A
             WorkingPainter->setOpacity(1-PCT);
             WorkingPainter->drawImage(0,0,*ImageA);
             WorkingPainter->setOpacity(PCT);
             WorkingPainter->drawImage(0,0,*ImageB);
             WorkingPainter->setOpacity(1);
             break;
-        case 2:
+        case 2:     // Dissolve with no modification of the image A
             //WorkingPainter->setOpacity(1-PCT);
             WorkingPainter->drawImage(0,0,*ImageA);
             WorkingPainter->setOpacity(PCT);
             WorkingPainter->drawImage(0,0,*ImageB);
             WorkingPainter->setOpacity(1);
             break;
-        case 3:
+        case 3:     // Fade to black
             if (PCT<0.5) {
                 WorkingPainter->setOpacity(1-PCT*2);
                 WorkingPainter->drawImage(0,0,*ImageA);
@@ -253,6 +259,25 @@ void Transition_Basic(int TransitionSubType,double PCT,QImage *ImageA,QImage *Im
                 WorkingPainter->drawImage(0,0,*ImageB);
             }
             WorkingPainter->setOpacity(1);
+            break;
+        case 4 :    // Blur
+            if (PCT<0.5) {
+                ImgA =ImageA->scaledToHeight(DestImageHeight/4);
+                MaxRA=ImgA.width()/4; if (MaxRA>ImgA.height()/4) MaxRA=ImgA.height()/4;
+                WorkingPainter->drawImage(QRect(0,0,DestImageWith,DestImageHeight),Blitz::blur(ImgA,int(PCT*MaxRA)),QRect(0,0,ImgA.width(),ImgA.height()));
+                if (PCT>0.4) {
+                    WorkingPainter->setOpacity((PCT-0.4)*5);
+                    ImgB =ImageB->scaledToHeight(DestImageHeight/4);
+                    MaxRB=ImgB.width()/4; if (MaxRB>ImgB.height()/4) MaxRB=ImgB.height()/4;
+                    WorkingPainter->drawImage(QRect(0,0,DestImageWith,DestImageHeight),Blitz::blur(ImgB,int((0.5-(PCT/2))*MaxRB)),QRect(0,0,ImgB.width(),ImgB.height()));
+                    WorkingPainter->setOpacity(1);
+                }
+            } else {
+                ImgB=ImageB->scaledToHeight(DestImageHeight/4);
+                MaxRB=ImgB.width()/4; if (MaxRB>ImgB.height()/4) MaxRB=ImgB.height()/4;
+                WorkingPainter->drawImage(QRect(0,0,DestImageWith,DestImageHeight),Blitz::blur(ImgB,int((0.5-(PCT/2))*MaxRB)),QRect(0,0,ImgB.width(),ImgB.height()));
+                if (PCT>0.6) WorkingPainter->setOpacity(1);
+            }
             break;
     }
 }
@@ -341,33 +366,67 @@ void Transition_Zoom(int TransitionSubType,double PCT,QImage *ImageA,QImage *Ima
 //      13      ImageA disappear moving from the upper right corner
 //      14      ImageA disappear moving from the lower left corner
 //      15      ImageA disappear moving from the lower right corner
+//      16      ImageB is cut into two and each part moves to the sides left and right
+//      17      ImageA is cut into two and each part moves from the sides left and right
+//      18      ImageB is cut into two and each part moves to the sides top and bottom
+//      19      ImageA is cut into two and each part moves from the sides top and bottom
+//      20      ImageB is cut into four and each part moves to the sides left and right and top and bottom
+//      21      ImageA is cut into four and each part moves from the sides left and right and top and bottom
 //============================================================================================
 
 void Transition_Slide(int TransitionSubType,double PCT,QImage *ImageA,QImage *ImageB,QPainter *WorkingPainter,int DestImageWith,int DestImageHeight) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:_Transition::Transition_Slide");
 
-    QRect   box1,box2;
-    bool    Reverse=TransitionSubType>=8;     if (Reverse) PCT=(1-PCT);
-    int     PCTW=int(PCT*double(DestImageWith));
-    int     PCTH=int(PCT*double(DestImageHeight));
+    bool    Reverse=((TransitionSubType<16) &&(TransitionSubType>=8))||
+                    ((TransitionSubType>=16)&&((TransitionSubType & 0x1)>0));
+    if (Reverse) PCT=(1-PCT);
+
+    QRect   box1,box2,box3,box4,box5,box6,box7,box8;
+    int     BoxNum =(TransitionSubType<16)?1:(TransitionSubType<20)?2:3;
+    int     PCTW   =int(PCT*double(DestImageWith));
+    int     PCTH   =int(PCT*double(DestImageHeight));
+
 
     switch (TransitionSubType) {
         case 0 :
-        case 8 :    box1=QRect(DestImageWith-PCTW,0,PCTW,DestImageHeight);          box2=QRect(0,0,PCTW,DestImageHeight);                           break;      // Since left to right
+        case 8 :    box1=QRect(DestImageWith-PCTW,0,PCTW,DestImageHeight);                      box2=QRect(0,0,PCTW,DestImageHeight);                           break;      // Since left to right
         case 1 :
-        case 9 :    box1=QRect(0,0,PCTW,DestImageHeight);                           box2=QRect(DestImageWith-PCTW,0,PCTW,DestImageHeight);          break;      // Since right to left
+        case 9 :    box1=QRect(0,0,PCTW,DestImageHeight);                                       box2=QRect(DestImageWith-PCTW,0,PCTW,DestImageHeight);          break;      // Since right to left
         case 2 :
-        case 10:    box1=QRect(0,DestImageHeight-PCTH,DestImageWith,PCTH);          box2=QRect(0,0,DestImageWith,PCTH);                             break;      // Since up to down
+        case 10:    box1=QRect(0,DestImageHeight-PCTH,DestImageWith,PCTH);                      box2=QRect(0,0,DestImageWith,PCTH);                             break;      // Since up to down
         case 3 :
-        case 11:    box1=QRect(0,0,DestImageWith,PCTH);                             box2=QRect(0,DestImageHeight-PCTH,DestImageWith,PCTH);          break;      // Since down to up
+        case 11:    box1=QRect(0,0,DestImageWith,PCTH);                                         box2=QRect(0,DestImageHeight-PCTH,DestImageWith,PCTH);          break;      // Since down to up
         case 4 :
-        case 12:    box1=QRect(DestImageWith-PCTW,DestImageHeight-PCTH,PCTW,PCTH);  box2=QRect(0,0,PCTW,PCTH);                                      break;      // Since the upper left corner
+        case 12:    box1=QRect(DestImageWith-PCTW,DestImageHeight-PCTH,PCTW,PCTH);              box2=QRect(0,0,PCTW,PCTH);                                      break;      // Since the upper left corner
         case 5 :
-        case 13:    box1=QRect(0,DestImageHeight-PCTH,PCTW,PCTH);                   box2=QRect(DestImageWith-PCTW,0,PCTW,PCTH);                     break;      // Since the upper right corner
+        case 13:    box1=QRect(0,DestImageHeight-PCTH,PCTW,PCTH);                               box2=QRect(DestImageWith-PCTW,0,PCTW,PCTH);                     break;      // Since the upper right corner
         case 6 :
-        case 14:    box1=QRect(DestImageWith-PCTW,0,PCTW,PCTH);                     box2=QRect(0,DestImageHeight-PCTH,PCTW,PCTH);                   break;      // Since the lower left corner
+        case 14:    box1=QRect(DestImageWith-PCTW,0,PCTW,PCTH);                                 box2=QRect(0,DestImageHeight-PCTH,PCTW,PCTH);                   break;      // Since the lower left corner
         case 7 :
-        case 15:    box1=QRect(0,0,PCTW,PCTH);                                      box2=QRect(DestImageWith-PCTW,DestImageHeight-PCTH,PCTW,PCTH);  break;      // Since the lower right corner
+        case 15:    box1=QRect(0,0,PCTW,PCTH);                                                  box2=QRect(DestImageWith-PCTW,DestImageHeight-PCTH,PCTW,PCTH);  break;      // Since the lower right corner
+
+        // Cut image and slide each part : 2 parts image
+        case 16:
+        case 17:    PCTW=int(PCT*double(DestImageWith/2));
+                    box1=QRect((DestImageWith/2)-PCTW,0,PCTW,DestImageHeight);                  box2=QRect(0,0,PCTW,DestImageHeight);                                       // left part
+                    box3=QRect((DestImageWith/2),0,PCTW,DestImageHeight);                       box4=QRect(DestImageWith-PCTW,0,PCTW,DestImageHeight);                      // right part
+                    break;      // Since left and right
+        case 18:
+        case 19:    PCTH=int(PCT*double(DestImageHeight/2));
+                    box1=QRect(0,(DestImageHeight/2)-PCTH,DestImageWith,PCTH);                  box2=QRect(0,0,DestImageWith,PCTH);                                         // top part
+                    box3=QRect(0,(DestImageHeight/2),DestImageWith,PCTH);                       box4=QRect(0,DestImageHeight-PCTH,DestImageWith,PCTH);                      // bottom part
+                    break;      // Since top and bottom
+
+        // Cut image and slide each part : 4 parts image
+        case 20:
+        case 21:    PCTW=int(PCT*double(DestImageWith/2));
+                    PCTH=int(PCT*double(DestImageHeight/2));
+                    box1=QRect((DestImageWith/2)-PCTW,(DestImageHeight/2)-PCTH,PCTW,PCTH);      box2=QRect(0,                 0,PCTW,PCTH);                                 // left-top part
+                    box3=QRect((DestImageWith/2),     (DestImageHeight/2)-PCTH,PCTW,PCTH);      box4=QRect(DestImageWith-PCTW,0,PCTW,PCTH);                                 // right part
+
+                    box5=QRect((DestImageWith/2)-PCTW,(DestImageHeight/2),     PCTW,PCTH);      box6=QRect(0,                 DestImageHeight-PCTH,PCTW,PCTH);              // left-top part
+                    box7=QRect((DestImageWith/2),     (DestImageHeight/2),     PCTW,PCTH);      box8=QRect(DestImageWith-PCTW,DestImageHeight-PCTH,PCTW,PCTH);              // right part
+                    break;      // Since top and bottom
     }
     // Draw transformed image
     if (!Reverse) {
@@ -382,6 +441,11 @@ void Transition_Slide(int TransitionSubType,double PCT,QImage *ImageA,QImage *Im
         WorkingPainter->drawImage(0,0,*ImageB);
     }
     WorkingPainter->drawImage(box2,Reverse?*ImageA:*ImageB,box1);
+    if (BoxNum>1) WorkingPainter->drawImage(box4,Reverse?*ImageA:*ImageB,box3);
+    if (BoxNum>2) {
+        WorkingPainter->drawImage(box6,Reverse?*ImageA:*ImageB,box5);
+        WorkingPainter->drawImage(box8,Reverse?*ImageA:*ImageB,box7);
+    }
 }
 
 //============================================================================================

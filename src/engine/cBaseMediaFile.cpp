@@ -1789,7 +1789,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                     SoundTrackBloc->Channels,AudioStream->codec->channels,          // output_channels, input_channels
                     SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,   // output_rate, input_rate
                     AV_SAMPLE_FMT_S16,AudioStream->codec->sample_fmt,               // sample_fmt_out, sample_fmt_in
-                    4,                                                              // filter_length
+                    16,                                                             // filter_length (trying 4 !)
                     10,                                                             // log2_phase_count
                     1,                                                              // linear
                     1.0);                                                           // cutoff

@@ -5,7 +5,7 @@
     <name>CommonErrorMsg</name>
     <message>
         <source>Format not supported</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato non supportato</translation>
     </message>
     <message>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
@@ -88,11 +88,11 @@
     </message>
     <message>
         <source>Image effects are based on fmt_filters and QImageBlitz</source>
-        <translation type="unfinished"></translation>
+        <translation>Gli effetti immagini sono basati su fmt_filter e QImageBlitz</translation>
     </message>
     <message>
         <source>Video decoding and encoding engines are based on libav or ffmpeg</source>
-        <translation type="unfinished"></translation>
+        <translation>I motori di codifica e decodifica video sono basati su libav i ffmpeg</translation>
     </message>
 </context>
 <context>
@@ -637,19 +637,19 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for speed wave&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Opzioni predefinite per la velocità onda&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Block animation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Blocco animazione:</translation>
     </message>
     <message>
         <source>Transition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Transizione:</translation>
     </message>
     <message>
         <source>Image animation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Animazione immagine:</translation>
     </message>
 </context>
 <context>
@@ -811,123 +811,123 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>Operating system version: %1 - %2 Core/CPU</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione sistema operativo: %1 - %2 Core/CPU</translation>
     </message>
     <message>
         <source>User config file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>File configurazione utente: %1</translation>
     </message>
     <message>
         <source>Global config file: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>File configurazione globale: %1</translation>
     </message>
     <message>
         <source>Starting path: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvio percorso: %1</translation>
     </message>
     <message>
         <source>Working path set to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Percorso di lavoro settato a: %1</translation>
     </message>
     <message>
         <source>The background library contains %1 pictures</source>
-        <translation type="unfinished"></translation>
+        <translation>La libreria sfondo contiene %1 immagini</translation>
     </message>
     <message>
         <source>The non-luma library contains %1 transitions</source>
-        <translation type="unfinished"></translation>
+        <translation>La libreria non-luma contiene %1 trasizioni</translation>
     </message>
     <message>
         <source>The luma library contains %1 transitions</source>
-        <translation type="unfinished"></translation>
+        <translation>La libreria luma contiene %1 trasizioni</translation>
     </message>
     <message>
         <source>SDL version:%1.%2.%3-Licence=GPL version 2.1 or later</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione SDL:Licenza-%1.%2.%3=GPL versione 2.1 o successiva</translation>
     </message>
     <message>
         <source>fmt_filters version:0.6.4-Licence=LGPL</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione fmt_filters:Licenza-0.6.4=LGPL</translation>
     </message>
     <message>
         <source>QT version: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione QT: %1</translation>
     </message>
     <message>
         <source>Detected system locale: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Rilevamento sistema locale: %1</translation>
     </message>
     <message>
         <source>Translation file loaded: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>File traduzione caricato: %1</translation>
     </message>
     <message>
         <source>QImageBlitz</source>
-        <translation type="unfinished"></translation>
+        <translation>QImageBlitz</translation>
     </message>
     <message>
         <source>MMX extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Estenzione MMX %1</translation>
     </message>
     <message>
         <source>IntegerSSE extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Estenzione IntegerSSE %1</translation>
     </message>
     <message>
         <source>SSE extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Estenzione SSE %1</translation>
     </message>
     <message>
         <source>SSE2 extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Estenzione SSE2 %1</translation>
     </message>
     <message>
         <source>AMD3DNOW extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Estenzione AMD3DNOW %1</translation>
     </message>
     <message>
         <source>AMD3DNOW2 extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Estenzione AMD3DNOW2 %1</translation>
     </message>
     <message>
         <source>AltiVec extension %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Estenzione AltiVec %1</translation>
     </message>
     <message>
         <source>LIBAVCODEC version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione LIBAVCODEC:%1.%2.%3.%4</translation>
     </message>
     <message>
         <source>LIBAVFORMAT version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione LIBAVFORMAT:%1.%2.%3.%4</translation>
     </message>
     <message>
         <source>LIBSWSCALE version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione LIBSWSCALE:%1.%2.%3.%4</translation>
     </message>
     <message>
         <source>LIBAVFILTER version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione LIBAVFILTER:%1.%2.%3.%4</translation>
     </message>
     <message>
         <source>Support for TAG and CHAPTERS</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporto per TAG e CAPITOLI</translation>
     </message>
     <message>
         <source>Support for AVCHD video</source>
-        <translation type="unfinished"></translation>
+        <translation>Supporto per video AVCHD</translation>
     </message>
     <message>
         <source>Audio Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec Audio</translation>
     </message>
     <message>
         <source>Video Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec Video</translation>
     </message>
     <message>
         <source>Container Formats</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato Contenitore</translation>
     </message>
 </context>
 <context>
@@ -1160,19 +1160,19 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>Video position :</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizione video :</translation>
     </message>
     <message>
         <source>Artistic effects:</source>
-        <translation type="unfinished"></translation>
+        <translation>Effetti artistici:</translation>
     </message>
     <message>
         <source>Antialias</source>
-        <translation type="unfinished"></translation>
+        <translation>Antialias</translation>
     </message>
     <message>
         <source>Emboss</source>
-        <translation type="unfinished"></translation>
+        <translation>Rilievo</translation>
     </message>
     <message>
         <source>Equalize</source>
@@ -1180,51 +1180,51 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>Negative</source>
-        <translation type="unfinished"></translation>
+        <translation>Negatico</translation>
     </message>
     <message>
         <source>Oilpaint</source>
-        <translation type="unfinished"></translation>
+        <translation>Pittura a olio</translation>
     </message>
     <message>
         <source>Edge</source>
-        <translation type="unfinished"></translation>
+        <translation>Spigolo</translation>
     </message>
     <message>
         <source>Type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo:</translation>
     </message>
     <message>
         <source>Fast</source>
-        <translation type="unfinished"></translation>
+        <translation>Veloce</translation>
     </message>
     <message>
         <source>Gaussian</source>
-        <translation type="unfinished"></translation>
+        <translation>Distribuzione normale</translation>
     </message>
     <message>
         <source>Adjust blur/sharpen radius</source>
-        <translation type="unfinished"></translation>
+        <translation>Regola raggio sfocatura/nitidezza</translation>
     </message>
     <message>
         <source>Adjust blur/sharpen sigma</source>
-        <translation type="unfinished"></translation>
+        <translation>Regola sigma sfocatura/nitidezza</translation>
     </message>
     <message>
         <source>Grayscale</source>
-        <translation type="unfinished"></translation>
+        <translation>Scala di grigi</translation>
     </message>
     <message>
         <source>Color enhancement:</source>
-        <translation type="unfinished"></translation>
+        <translation>Miglioramento colore:</translation>
     </message>
     <message>
         <source>Framing and form:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cornice e forma:</translation>
     </message>
     <message>
         <source>Automatic contrast (normalize)</source>
-        <translation type="unfinished"></translation>
+        <translation>Contrasto automatico (normalizzato)</translation>
     </message>
     <message>
         <source>Despeckle</source>
@@ -1232,35 +1232,35 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>Image distortion:</source>
-        <translation type="unfinished"></translation>
+        <translation>Distorzione immagine:</translation>
     </message>
     <message>
         <source>Image enhancement:</source>
-        <translation type="unfinished"></translation>
+        <translation>Miglioramento immagine:</translation>
     </message>
     <message>
         <source>Luminosity, contrast and gamma:</source>
-        <translation type="unfinished"></translation>
+        <translation>Luminosità, contrasto e gamma:</translation>
     </message>
     <message>
         <source>Charcoal</source>
-        <translation type="unfinished"></translation>
+        <translation>Carbone</translation>
     </message>
     <message>
         <source>Adjust desaturat level</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiusta livello desaturazione</translation>
     </message>
     <message>
         <source>Image rotation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Rotazione immagine:</translation>
     </message>
     <message>
         <source>Annimation settings:</source>
-        <translation type="unfinished"></translation>
+        <translation>Impostazioni animazione:</translation>
     </message>
     <message>
         <source>Speed wave:</source>
-        <translation type="unfinished">Velocità onda:</translation>
+        <translation>Velocità onda:</translation>
     </message>
 </context>
 <context>
@@ -2154,36 +2154,36 @@ Vuoi sovrascriverlo?</translation>
     </message>
     <message>
         <source>Start encoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvia codifica</translation>
     </message>
     <message>
         <source>Error starting encoder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore avvio codifica</translation>
     </message>
     <message>
         <source>Error sending image to encoder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore nell&apos;invio immagine al codificatore</translation>
     </message>
     <message>
         <source>Encoder error</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore codifica</translation>
     </message>
     <message>
         <source>Error closing encoder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore chiusura codifica</translation>
     </message>
     <message>
         <source>Error exiting encoder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore uscita codifica</translation>
     </message>
     <message>
         <source>Render lossless video</source>
-        <translation type="unfinished"></translation>
+        <translation>Genera video senza perdita</translation>
     </message>
     <message>
         <source>HTML5 :</source>
@@ -2929,41 +2929,41 @@ blocco</translation>
     <message>
         <source>Correct, reframe or cut video</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>Correzione, riformulazione e taglia video</translation>
     </message>
     <message>
         <source>Define framing and correction of image</source>
         <comment>Tooltip</comment>
-        <translation type="unfinished"></translation>
+        <translation>Definisce l&apos;inquadratura e la correzione dell&apos;immagine</translation>
     </message>
     <message>
         <source>Define framing and correction of image or cut video</source>
         <comment>Tooltip</comment>
-        <translation type="unfinished"></translation>
+        <translation>Definisce l&apos;inquadratura e la correzione dell&apos;immagine o del video tagliato</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Animation settings:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Impostazioni animazione:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Speed wave :</source>
-        <translation type="unfinished"></translation>
+        <translation>Velocità onda :</translation>
     </message>
     <message>
         <source>Unlock properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Sblocca propietà</translation>
     </message>
     <message>
         <source>distribute horizontally</source>
-        <translation type="unfinished"></translation>
+        <translation>distribuire orizzontalmente</translation>
     </message>
     <message>
         <source>Place each block so as to have the same space between each</source>
-        <translation type="unfinished"></translation>
+        <translation>Posizionare ogni blocco in modo da avere lo stesso spazio tra di essi</translation>
     </message>
     <message>
         <source>distribute vertically</source>
-        <translation type="unfinished"></translation>
+        <translation>distribuire verticalmente</translation>
     </message>
 </context>
 <context>
@@ -3190,19 +3190,19 @@ blocco</translation>
     </message>
     <message>
         <source>Margins</source>
-        <translation type="unfinished"></translation>
+        <translation>Margini</translation>
     </message>
     <message>
         <source>Full Shape</source>
-        <translation type="unfinished"></translation>
+        <translation>Forma piena</translation>
     </message>
     <message>
         <source>Custom</source>
-        <translation type="unfinished"></translation>
+        <translation>Personalizza</translation>
     </message>
     <message>
         <source>Default margins</source>
-        <translation type="unfinished"></translation>
+        <translation>Margini predefiniti</translation>
     </message>
 </context>
 <context>
@@ -3348,15 +3348,15 @@ blocco</translation>
     </message>
     <message>
         <source>Transition type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo transizione:</translation>
     </message>
     <message>
         <source>Speed wave:</source>
-        <translation type="unfinished">Velocità onda:</translation>
+        <translation>Velocità onda:</translation>
     </message>
     <message>
         <source>Duration:</source>
-        <translation type="unfinished">Durata:</translation>
+        <translation>Durata:</translation>
     </message>
 </context>
 <context>
@@ -3443,59 +3443,59 @@ blocco</translation>
     </message>
     <message>
         <source>Project</source>
-        <translation type="unfinished">Progetto</translation>
+        <translation>Progetto</translation>
     </message>
     <message>
         <source>Project geometry:</source>
-        <translation type="unfinished">Geometrica progetto:</translation>
+        <translation>Geometrica progetto:</translation>
     </message>
     <message>
         <source>Select the image geometry to be used for the creation of new projects</source>
-        <translation type="unfinished">Selezionare la geometria immagine che sarà usata per la creazione di un nuovo progetto</translation>
+        <translation>Seleziona la geometria immagine che sarà usata per la creazione di un nuovo progetto</translation>
     </message>
     <message>
         <source>Old TV (4:3)</source>
-        <translation type="unfinished">Vecchie TV (4:3)</translation>
+        <translation>Vecchie TV (4:3)</translation>
     </message>
     <message>
         <source>TV Wide (16:9)</source>
-        <translation type="unfinished">TV larga (16:9)</translation>
+        <translation>TV larga (16:9)</translation>
     </message>
     <message>
         <source>Cinema (2.35:1)</source>
-        <translation type="unfinished">Cinema (2.35:1)</translation>
+        <translation>Cinema (2.35:1)</translation>
     </message>
     <message>
         <source>Default options</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni predefinite</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Options for speed wave&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Opzioni per la velocità onda&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Block animation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Blocco animazione:</translation>
     </message>
     <message>
         <source>Transition:</source>
-        <translation type="unfinished"></translation>
+        <translation>Transizione:</translation>
     </message>
     <message>
         <source>Image animation:</source>
-        <translation type="unfinished"></translation>
+        <translation>Animazione immagine:</translation>
     </message>
     <message>
         <source>Select the playback profile to be used for transitions and animations</source>
-        <translation type="unfinished">Selezionare il profilo di riproduzione da utilizzare per le transizioni e animazioni</translation>
+        <translation>Selezionare il profilo di riproduzione da utilizzare per le transizioni e animazioni</translation>
     </message>
     <message>
         <source>New project</source>
-        <translation type="unfinished">Nuovo progetto</translation>
+        <translation>Nuovo progetto</translation>
     </message>
     <message>
         <source>Create project</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea progetto</translation>
     </message>
 </context>
 <context>
@@ -4948,27 +4948,27 @@ Sei sicuro che è vuota?</translation>
     <name>Speed wave</name>
     <message>
         <source>Project default (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Progetto predefinito (%1)</translation>
     </message>
     <message>
         <source>Constant speed</source>
-        <translation type="unfinished"></translation>
+        <translation>Velocità costante</translation>
     </message>
     <message>
         <source>Fast then slow</source>
-        <translation type="unfinished"></translation>
+        <translation>Veloce poi lento</translation>
     </message>
     <message>
         <source>Slow then fast</source>
-        <translation type="unfinished"></translation>
+        <translation>Lento poi veloce</translation>
     </message>
     <message>
         <source>Faster and faster</source>
-        <translation type="unfinished"></translation>
+        <translation>Veloce e veloce</translation>
     </message>
     <message>
         <source>Slower and slower</source>
-        <translation type="unfinished"></translation>
+        <translation>Lento e lento</translation>
     </message>
 </context>
 <context>

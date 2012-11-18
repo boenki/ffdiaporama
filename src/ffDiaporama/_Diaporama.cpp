@@ -883,8 +883,8 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
                 if (BR) {
                     QTransform  MatrixBR;
-                    // Avoid phantom lines
-                    if ((TheRotateZAxis!=0)||(TheRotateXAxis!=0)||(TheRotateYAxis!=0)) {
+                    // Avoid phantom lines for image brush
+                    if ((!BR->textureImage().isNull())&&((TheRotateZAxis!=0)||(TheRotateXAxis!=0)||(TheRotateYAxis!=0))) {
                         QImage   TempImage(W+4,H+4,QImage::Format_ARGB32_Premultiplied);
                         QPainter TempPainter;
                         TempPainter.begin(&TempImage);

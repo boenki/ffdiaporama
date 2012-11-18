@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.5 - Trunk
 *
-* Dernier commit le : 08/11/2012
+* Dernier commit le : 11/11/2012
 **************************************************
 
 TODO :
@@ -18,6 +18,7 @@ Clip art :
 
 Criticité   Etat    Enoncé
 ----------- ------- -------------------------------------------------------------------------------------------------------
+
 Critique    -       Neutraliser le text scalling pour les blocs de texte des projets !
 
 Critique    -       Bug de drag & drop de bloc qui se fait quand on change de plan dans la boite slide
@@ -27,8 +28,6 @@ Normal      -       Bug sur le text scalling en render DVD
 Basse       -       Bug de SESTAY sur un plantage lors de la relecture d'un ancien fichier de configuration
 Normal      -       Bug sur l'encodage MP3 : 1 seconde de trop par minute d'encodage (http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=449)
 Basse       -       Bug de génération en 3GP - 320x240
-Normal      -       Pb de son sur les vidéos U8 (Olivier L)
-
 
 Normal      NF      Ajouter des formes de shape (jumelle, trapeze, parrallelograme ...)
 Normal      WIP     Les vidéos avec chapitre exportées en .mkv font planter VLC
@@ -40,7 +39,6 @@ Basse       WIP     Supprimer la librairie de fond de la mémoire
                         Il faut encore isolé le code depuis cBrushDefinition
 Basse       WIP     Isolation du code des transition
                     =>  A isoler dans une _xxxx sous engine
-Basse       NF      Support des vidéo ULAW à faire
 Basse       -       Pouvoir réduire ffD pendant la génération de film sous Windows
 Basse       -       Ajouter des boutons KeyFrame précédente et suivante dans la boite cut-vidéo
 Basse       WIP     Pouvoir activer/désactiver le clipping des textes dans les formes
@@ -57,29 +55,30 @@ Basse       WIP     Pouvoir déplacer le centre de rotation des formes
 NF  : New Feature
 WIP : Work in progress
 
-
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Correction de bug: L'image de fond ne s'affiche que sur la vignette du premièr plan[devel 20121108]
--Correction de bug: Erreur de position du texte, haut et bas sont inversés [devel 20121108]
--Correction de bug: Corrige l'affichage du padding dans la fenetre de génération de video en mode par device
--Correction de bug: Force ffmpeg à 3 refFrame lors des encodages en x264
+-Corrige l'icône manquante sur le bouton Arrange dans la boite slide
+-Corrige le bug de détermination du bitrate audio quand encodage avec le codec amrw (bitrate exprimé en int au lieu de double)
+-Corrige le bug de perte de la couleur de fond pour les blocs texte quand ils sont tournés (régression 20121111)
+-Enleve 1 Go de la liste des choix possible pour la mémoire cache [Windows uniquement]
+-Corrige une erreur de n° de version utilisé pour la compilation conditionnelle qui empechait la compilation avec libav 0.9
+-Corrige le bug de sauvegarde des options de coordonnées par défaut des nouveaux blocs
+-Remplace la dernière luma de la famille mélangeur par celle proposée par SESTAY (supression des lignes parasites)
 
 English version / Bug fixes :
--Bug fix: The background image only appears on the thumbnail of the first shot [devel 20121108]
--Bug fix: Error text position, top and bottom are reversed [devel 20121108]
--Bug fix: Corrects the display of the padding in render dialog when using device mode
--Bug fix: Force ffmpeg to use 3 refFrame when encoding x264
+-Fixes missing icon for Arrange button in slide dialog
+-Fixes bug when computing audio bitrate for encoding with amrw audio codec (bitrate expressed as int instead of double)
+-Fixed bug of losing the background color for the text blocks when they are turned (regression 20121111)
+-Removes 1 GB from the list of possible choices for the cache [Windows only]
+-Corrects an error of version number used for conditional compilation that prevented compiling with libav 0.9
+-Fixed the bug of options save regarding defaults coordinate for new blocks
+-Replaces the last luma mask of checker family with the one proposed by SESTAY (suppression of interfering lines)
 
 French version / Nouveautés :
--Ajoute une option dans la boite de génération de video pour positionner la vidéo en haut quand le format d'image inclus du padding vertical
--Modifie la méthode de resampling pour l'audio => revient au resampler de libav en le forçant en mode lineaire et du coup, supprime l'option "Quick resampler" de la boite d'option
--Retire le filtre wave car trop de problème de transparence pour le moment !
+-Ajoute 6 nouvelles transitions dans la famille Glisser + 1 dans la famille Basic
 
 English version / New features :
--Adds an option in the render dialog to position the video up when the image format included vertical padding
--Changes the audio resampling method => back to libav resampling function forced in linear mode and then removes the "Quick resampler" option from the option dialog
--Removes Wave filter because as too much transparency problems for the moment!
+-Adds 6 new transitions in Slide family + 1 in Basic family
