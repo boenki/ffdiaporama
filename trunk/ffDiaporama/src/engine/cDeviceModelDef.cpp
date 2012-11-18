@@ -350,22 +350,22 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "8000k"     // 1080p-29.97
         }}
     },{
-        false,false,CODEC_ID_H264,VCODEC_X264LL,VCODECST_X264LL,                                              // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_H264,VCODEC_X264LL,VCODECST_X264LL,                                        // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "libx264","x264 lossless",                                                                      // ShortName[50], LongName[200]
         "",                                                                                             // PossibleBitrate
         {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
     },{
-        false,false,CODEC_ID_WMV1,VCODEC_WMV1,VCODECST_WMV1,                                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_WMV1,VCODEC_WMV1,VCODECST_WMV1,                                            // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "wmv1","Windows Media Video 7",                                                                 // ShortName[50], LongName[200]
         "",                                                                                             // PossibleBitrate
         {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
     },{
-        false,false,CODEC_ID_WMV2,VCODEC_WMV2,VCODECST_WMV2,                                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_WMV2,VCODEC_WMV2,VCODECST_WMV2,                                            // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "wmv2","Windows Media Video 8",                                                                 // ShortName[50], LongName[200]
         "",                                                                                             // PossibleBitrate
         {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
     },{
-        false,false,CODEC_ID_WMV3,VCODEC_WMV3,VCODECST_WMV3,                                                  // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,CODEC_ID_WMV3,VCODEC_WMV3,VCODECST_WMV3,                                            // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "wmv3","Windows Media Video 9",                                                                 // ShortName[50], LongName[200]
         "",                                                                                             // PossibleBitrate
         {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
@@ -379,7 +379,7 @@ struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
     {false,false, CODEC_ID_AC3,      "ac3",               "AC3 (Doly Digital)",                   "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",     true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k"},
     {false,false, CODEC_ID_VORBIS,   "vorbis",            "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",     false,"","128k"},
     {false,false, CODEC_ID_MP2,      "mp2",               "MP2 (MPEG-1 Audio Layer II)",          "64k#96k#128k#192k#256k#500k",     false,"","128k"},
-    {false,false, CODEC_ID_AMR_WB,   "libvo_amrwbenc",    "Adaptive Multi-Rate (AMR) Wide-Band",  "6.6k#8.85k#12.65k#14.25k#15.85k#18.25k#19.85k#23.05k#23.85k",     false,"","6.6k"},
+    {false,false, CODEC_ID_AMR_WB,   "libvo_amrwbenc",    "Adaptive Multi-Rate (AMR) Wide-Band",  "6.60k#8.85k#12.65k#14.25k#15.85k#18.25k#19.85k#23.05k#23.85k",     false,"","6.60k"},
     {false,false, CODEC_ID_FLAC,     "flac",              "FLAC (Free Lossless Audio Codec)",     "",     false,"",""},
     {false,false, CODEC_ID_AMR_NB,   "libopencore_amrnb", "Adaptive Multi-Rate (AMR) NB",         "",     false,"",""},
     {false,false, CODEC_ID_WMAV1,    "wmav1",             "Windows Media Audio 1",                "",     false,"",""},
@@ -470,10 +470,20 @@ bool cDeviceModelDef::LoadFromXML(QDomElement domDocument,QString ElementName,bo
         FileFormat      =Element.attribute("FileFormat").toInt();
         VideoCodec      =Element.attribute("VideoCodec").toInt();
         AudioCodec      =Element.attribute("AudioCodec").toInt();
-        AudioBitrate    =Element.attribute("AudioBitrate").toInt();
         Standard        =Element.attribute("Standard").toInt();
         ImageSize       =Element.attribute("ImageSize").toInt();
         VideoBitrate    =Element.attribute("VideoBitrate").toInt();
+
+        // Special case for audio bitrate wich can be exprim as double value
+        QString BitRate =Element.attribute("AudioBitrate");
+        if (BitRate.endsWith("k")) {
+            if (BitRate.contains(".")) {
+                BitRate=BitRate.left(BitRate.length()-1);
+                double Value=BitRate.toDouble()*1000;
+                BitRate=QString("%1").arg(int(Value));
+            } else BitRate=BitRate.left(BitRate.length()-1)+"000";
+        }
+        AudioBitrate=BitRate.toInt();
 
         if (FromUserConf==false) {
             BckDeviceName   =DeviceName;                                      // long name for the device model
@@ -719,7 +729,7 @@ bool cDeviceModelList::Initffmpeg(QString &BinaryEncoderPath) {
                 if (
                         #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(53,35,0)
                         (p->encode!=NULL)
-                        #elif LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,59,0)
+                        #elif LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,27,0)
                         (p->encode!=NULL)||(p->encode2!=NULL)
                         #else
                         (p->encode2!=NULL)

@@ -286,5 +286,12 @@
         <file>img/Text/Shadow upper left.png</file>
         <file>img/Text/Shadow upper right.png</file>
         <file>img/Text/normal.png</file>
+        <file>img/Transitions/tr-02-16.png</file>
+        <file>img/Transitions/tr-02-17.png</file>
+        <file>img/Transitions/tr-02-18.png</file>
+        <file>img/Transitions/tr-02-19.png</file>
+        <file>img/Transitions/tr-02-20.png</file>
+        <file>img/Transitions/tr-02-21.png</file>
+        <file>img/Transitions/tr-00-04.png</file>
     </qresource>
 </RCC>

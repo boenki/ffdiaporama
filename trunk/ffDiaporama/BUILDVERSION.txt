@@ -1,1 +1,1 @@
-Version 1.5_Beta_1 20121111
+Version 1.5_Beta_2 20121118

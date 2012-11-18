@@ -100,7 +100,7 @@ void cApplicationConfig::InitValues() {
     // Initialise all variables and set them default value
     WindowDisplayMode           = DISPLAYWINDOWMODE_PLAYER; // Mainwindow display mode
     PartitionMode               = false;                    // If true, partition mode is on (timeline with multiple row)
-
+    MemCacheMaxValue            = qlonglong(512*1024*1024);
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
     SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
@@ -295,20 +295,22 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     SubElement=Document.createElement("DefaultBlockSL_IMG");
     SubElement.setAttribute("TextST",                   DefaultBlockSL_IMG_TextST);
     SubElement.setAttribute("ShapeST",                  DefaultBlockSL_IMG_ShapeST);
-    for (int i=1;i<NBR_IMAGETYPE;i++) if ((SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).length()>0)&&(SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).isElement()==true)) {
+    for (int i=1;i<NBR_IMAGETYPE;i++) {
         SubSubElement=Document.createElement(QString("IMG_GEO_%1").arg(i));
         SubSubElement.setAttribute("AutoCompo",         DefaultBlockSL[i].AutoCompo);
         SubSubElement.setAttribute("AutoFraming",       DefaultBlockSL[i].AutoFraming);
+        SubElement.appendChild(SubSubElement);
     }
     Element.appendChild(SubElement);
 
     SubElement=Document.createElement("DefaultBlockBA_IMG");
     SubElement.setAttribute("TextST",                   DefaultBlockBA_IMG_TextST);
     SubElement.setAttribute("ShapeST",                  DefaultBlockBA_IMG_ShapeST);
-    for (int i=1;i<NBR_IMAGETYPE;i++) if ((SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).length()>0)&&(SubElement.elementsByTagName(QString("IMG_GEO_%1").arg(i)).item(0).isElement()==true)) {
+    for (int i=1;i<NBR_IMAGETYPE;i++) {
         SubSubElement=Document.createElement(QString("IMG_GEO_%1").arg(i));
         SubSubElement.setAttribute("AutoCompo",         DefaultBlockBA[i].AutoCompo);
         SubSubElement.setAttribute("AutoFraming",       DefaultBlockBA[i].AutoFraming);
+        SubElement.appendChild(SubSubElement);
     }
     Element.appendChild(SubElement);
     domDocument.appendChild(Element);
@@ -385,7 +387,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         QDomElement Element=domDocument.elementsByTagName("EditorOptions").item(0).toElement();
         if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue            =Element.attribute("MemCacheMaxValue").toLongLong();
         #ifdef Q_OS_WIN
-        if ((!IsWindowsXP)&&(MemCacheMaxValue>qlonglong(1024*1024*1024))) MemCacheMaxValue=qlonglong(1024*1024*1024);
+        if ((!IsWindowsXP)&&(MemCacheMaxValue>qlonglong(512*1024*1024))) MemCacheMaxValue=qlonglong(512*1024*1024);
         #endif
         if (Element.hasAttribute("SDLAudioOldMode"))            SDLAudioOldMode             =Element.attribute("SDLAudioOldMode")=="1";
         if (Element.hasAttribute("AppendObject"))               AppendObject                =Element.attribute("AppendObject")=="1";

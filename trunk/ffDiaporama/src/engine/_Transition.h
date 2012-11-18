@@ -42,9 +42,9 @@
     #define TRANSITIONFAMILLY_DEFORM            10
 
     // No luma transition : number of sub type
-    #define TRANSITIONMAXSUBTYPE_BASE           4
+    #define TRANSITIONMAXSUBTYPE_BASE           5
     #define TRANSITIONMAXSUBTYPE_ZOOMINOUT      18
-    #define TRANSITIONMAXSUBTYPE_SLIDE          16
+    #define TRANSITIONMAXSUBTYPE_SLIDE          22
     #define TRANSITIONMAXSUBTYPE_PUSH           16
     #define TRANSITIONMAXSUBTYPE_DEFORM         4
 

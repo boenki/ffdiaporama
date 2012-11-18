@@ -520,9 +520,9 @@ void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
         }
         for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
             QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
-            int     NumA=NameA.toInt();
+            double  NumA=NameA.toDouble();
             QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
-            int     NumB=NameB.toInt();
+            double  NumB=NameB.toDouble();
             if (NumA>NumB) List.swap(j,j+1);
         }
         for (int i=0;i<List.count();i++) {
@@ -931,7 +931,13 @@ void DlgRenderVideo::DoAccept() {
             }
             AudioCodecIndex=ui->AudioFormatCB->itemData(AudioCodecIndex).toInt();
             BitRate=ui->AudioBitRateCB->currentText();
-            if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1)+"000";
+            if (BitRate.endsWith("k")) {
+                if (BitRate.contains(".")) {
+                    BitRate=BitRate.left(BitRate.length()-1);
+                    double Value=BitRate.toDouble()*1000;
+                    BitRate=QString("%1").arg(int(Value));
+                } else BitRate=BitRate.left(BitRate.length()-1)+"000";
+            }
             AudioBitRate=BitRate.toInt();
             ExtendV =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Extend*2;
 
