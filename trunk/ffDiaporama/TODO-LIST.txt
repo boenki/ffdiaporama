@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.5 - Trunk
 *
-* Dernier commit le : 11/11/2012
+* Dernier commit le : 18/11/2012
 **************************************************
 
 TODO :
@@ -60,25 +60,9 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige l'icône manquante sur le bouton Arrange dans la boite slide
--Corrige le bug de détermination du bitrate audio quand encodage avec le codec amrw (bitrate exprimé en int au lieu de double)
--Corrige le bug de perte de la couleur de fond pour les blocs texte quand ils sont tournés (régression 20121111)
--Enleve 1 Go de la liste des choix possible pour la mémoire cache [Windows uniquement]
--Corrige une erreur de n° de version utilisé pour la compilation conditionnelle qui empechait la compilation avec libav 0.9
--Corrige le bug de sauvegarde des options de coordonnées par défaut des nouveaux blocs
--Remplace la dernière luma de la famille mélangeur par celle proposée par SESTAY (supression des lignes parasites)
 
 English version / Bug fixes :
--Fixes missing icon for Arrange button in slide dialog
--Fixes bug when computing audio bitrate for encoding with amrw audio codec (bitrate expressed as int instead of double)
--Fixed bug of losing the background color for the text blocks when they are turned (regression 20121111)
--Removes 1 GB from the list of possible choices for the cache [Windows only]
--Corrects an error of version number used for conditional compilation that prevented compiling with libav 0.9
--Fixed the bug of options save regarding defaults coordinate for new blocks
--Replaces the last luma mask of checker family with the one proposed by SESTAY (suppression of interfering lines)
 
 French version / Nouveautés :
--Ajoute 6 nouvelles transitions dans la famille Glisser + 1 dans la famille Basic
 
 English version / New features :
--Adds 6 new transitions in Slide family + 1 in Basic family
