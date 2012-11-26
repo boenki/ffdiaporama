@@ -2582,12 +2582,12 @@ Move the current selected file a notch up</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="501"/>
         <source>HTML5 :</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML5 :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="511"/>
         <source>Up the video to leave room for controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Τοποθέτηση του βίντεο επάνω ώστε να αφαιθεί χώρος για τα κουμπιά ελέγχου</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="539"/>
@@ -6528,7 +6528,7 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/engine/_SpeedWave.cpp" line="42"/>
         <source>Project default (%1)</source>
-        <translation type="unfinished">Καμπύλη εξ&apos; ορισμού από το έργο (%1)</translation>
+        <translation>Προκαθορισμένο του έργου (%1)</translation>
     </message>
     <message>
         <location filename="../src/engine/_SpeedWave.cpp" line="43"/>

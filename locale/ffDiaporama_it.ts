@@ -2187,11 +2187,11 @@ Vuoi sovrascriverlo?</translation>
     </message>
     <message>
         <source>HTML5 :</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML5 :</translation>
     </message>
     <message>
         <source>Up the video to leave room for controls</source>
-        <translation type="unfinished"></translation>
+        <translation>Sull&apos; video per lasciare spazio per i controlli</translation>
     </message>
 </context>
 <context>
