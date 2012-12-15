@@ -33,7 +33,7 @@
 //*****************************************************************************************************************************************
 
 #ifdef Q_OS_LINUX
-    bool SearchRasterMode(QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName) {
+    bool SearchRasterMode(QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName) {
         ToLog(LOGMSG_DEBUGTRACE,"IN:SearchRasterMode");
 
         QString UserConfigPath;    // Path and filename to user profil path
@@ -43,7 +43,7 @@
 
         UserConfigPath=QDir::homePath();
         if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
-        UserConfigPath  = UserConfigPath+"."+ApplicationGroupName+QDir::separator();
+        UserConfigPath  = UserConfigPath+"."+ApplicationName+QDir::separator();
         GlobalConfigFile=QFileInfo(ApplicationName+ConfigFileExt).absoluteFilePath();
         UserConfigFile  =QFileInfo(UserConfigPath+ApplicationName+ConfigFileExt).absoluteFilePath();
 
@@ -132,20 +132,25 @@ bool CheckFolder(QString FileToTest,QString PathToTest) {
 //      or in $$PREFIX/share/ApplicationName
 //**************************************************
 
-bool SetWorkingPath(char * const argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt) {
+bool SetWorkingPath(char * const argv[],QString ApplicationName,QString ConfigFileExt) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SetWorkingPath");
     QString StartupDir=QFileInfo(argv[0]).absolutePath();
     ToLog(LOGMSG_INFORMATION,"StartupDir "+StartupDir);
     QDir::setCurrent(StartupDir);
 
     QString FileToTest  =QString("%1%2").arg(ApplicationName).arg(ConfigFileExt);
-    QString ShareDir=SHARE_DIR;
+    #ifdef Q_OS_WIN
+    QString ShareDir="..";
+    #else
+    QString ShareDir=QString(SHARE_DIR)+QDir().separator()+QString("share");
+    #endif
 
     if (!CheckFolder(FileToTest,QDir::currentPath())
-        &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationGroupName))
+        //&&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationGroupName))
         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationName))
-        &&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+QString("share")+QDir().separator()+ApplicationGroupName))
-        &&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+QString("share")+QDir().separator()+ApplicationName))
+        &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()))
+        //&&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+ApplicationGroupName))
+        &&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+ApplicationName))
        ) {
         ToLog(LOGMSG_INFORMATION,QString("Critical error : Impossible to find global configuration file (%1%2)").arg(ApplicationName).arg(ConfigFileExt));
         exit(1);

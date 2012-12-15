@@ -18,62 +18,58 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef cCustomColorComboBox_H
-#define cCustomColorComboBox_H
+#ifndef CBACKGROUNDCOMBOBOX_H
+#define CBACKGROUNDCOMBOBOX_H
 
 // Basic inclusions (common to all files)
 #include "../engine/_GlobalDefines.h"
+#include "../engine/cBrushDefinition.h"
 
-// Specific inclusions
-#include "_Diaporama.h"
-
+#include <QComboBox>
 #include <QStyledItemDelegate>
-#include <QLabel>
-
-//======================================
-// Specific defines for this dialog box
-//======================================
-#define COMBOTYPEITEM_COLOR     0
-#define COMBOTYPEITEM_BRUSH     1
 
 //******************************************************************************************************************
-// Custom QAbstractItemDelegate for Background ComboBox
+// Custom QAbstractItemDelegate for Brush ComboBox
 //******************************************************************************************************************
 
 class cBackgroundComboBox;
-class cBackgroundComboBoxItem : public QStyledItemDelegate {
+class cCBackgroundComboBoxItem : public QStyledItemDelegate {
 Q_OBJECT
 public:
     cBackgroundComboBox    *ComboBox;
 
-    explicit cBackgroundComboBoxItem(QObject *parent=0);
+    explicit cCBackgroundComboBoxItem(QObject *parent=0);
 
     virtual void    paint(QPainter *painter,const QStyleOptionViewItem &option,const QModelIndex &index) const;
     virtual QSize   sizeHint(const QStyleOptionViewItem &option,const QModelIndex &index) const;
 };
 
-//******************************************************************************************************************
-// Custom Brush ComboBox
-//******************************************************************************************************************
-
 class cBackgroundComboBox : public QComboBox {
 Q_OBJECT
 public:
-    bool                       STOPMAJ;
-    QString                    BrushImage;
-    cBackgroundComboBoxItem    ItemDelegate;
+    cBackgroundList             *BackgroundTable;
+    int                         CurrentSel;
+    int                         Geometry;
+    bool                        STOPMAJ;
+    int                         ImageWidth;
+    cCBackgroundComboBoxItem    ItemDelegate;
+
 
     explicit            cBackgroundComboBox(QWidget *parent = 0);
-    void                MakeIcons();
-    void                SetCurrentBackground(QString BrushImage);
+    void                PrepareTable(int ProjectGeometry,cBackgroundList *Table);
+    void                SetCurrentBackground(QString BackgroundName);
     QString             GetCurrentBackground();
+    void                MakeIcons();
 
 protected:
+    virtual void        hidePopup();
+    virtual void        keyReleaseEvent(QKeyEvent *event);
 
 signals:
+    void itemSelectionHaveChanged();
 
 public slots:
     void s_ItemSelectionChanged();
 };
 
-#endif // cCustomColorComboBox_H
+#endif // CBACKGROUNDCOMBOBOX_H

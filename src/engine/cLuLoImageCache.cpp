@@ -24,6 +24,7 @@
 
 // Include some additional standard class
 #include <QFileInfo>
+#include <QImageReader>
 
 //*********************************************************************************************************************************************
 // Base object for image cache manipulation
@@ -98,7 +99,8 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
         if (TypeObject==LULOOBJECT_IMAGE) {
             // Load image from disk
             ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
-            CacheRenderImage=new QImage(FileName);
+            QImageReader Img(FileName);
+            CacheRenderImage=new QImage(Img.read());
 
             #ifdef Q_OS_WIN
             // On Windows : reduce image size to 8 MPix max

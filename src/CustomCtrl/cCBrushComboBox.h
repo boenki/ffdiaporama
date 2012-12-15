@@ -51,8 +51,8 @@ public:
 class cCBrushComboBox : public QComboBox {
 Q_OBJECT
 public:
-    bool                        STOPMAJ;
-    cBrushDefinition            *Brush;
+    bool                   STOPMAJ;
+    cBrushDefinition       *Brush;
     cCBrushComboBoxItem    ItemDelegate;
 
     explicit            cCBrushComboBox(QWidget *parent = 0);

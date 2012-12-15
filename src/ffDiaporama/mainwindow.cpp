@@ -134,7 +134,6 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->preview2->FLAGSTOPITEMSELECTION=&FLAGSTOPITEMSELECTION;
     ui->ToolBoxNormal->setCurrentIndex(0);
 
-
     Transparent.setTextureImage(QImage(":/img/transparent.png"));  // Load transparent brush
 
     // Now, we have application settings then we can init all others
@@ -151,7 +150,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Register background library
     screen.showMessage(QApplication::translate("MainWindow","Loading background library..."),Qt::AlignHCenter|Qt::AlignBottom);
-    BackgroundList.ScanDisk("background",GEOMETRY_16_9);
+    BackgroundList.ScanDisk("background",ApplicationConfig);
 
     // Register non luma library
     screen.showMessage(QApplication::translate("MainWindow","Loading no-luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
@@ -1304,7 +1303,6 @@ void MainWindow::s_Action_New() {
 
         // Create new diaporama
         Diaporama=NewDiaporama;
-        BackgroundList.ScanDisk("background",Diaporama->ImageGeometry);
         ui->timeline->Diaporama=Diaporama;
         ui->preview->InitDiaporamaPlay(Diaporama);
         ui->preview->SetActualDuration(Diaporama->GetDuration());

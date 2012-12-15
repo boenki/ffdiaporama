@@ -61,7 +61,7 @@ void cCFramingComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &
 //========================================================================================================================
 
 QSize cCFramingComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,const QModelIndex &/*index*/) const {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundComboBoxItem::sizeHint");
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCFramingComboBoxItem::sizeHint");
     return QSize(AutoFramingComboBoxIMAGEWIDTH,AutoFramingComboBoxIMAGEWIDTH);
 }
 

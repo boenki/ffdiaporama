@@ -39,9 +39,9 @@ int main(int argc, char* argv[]) {
     SetLFHeap();
     #endif
 
-    SetWorkingPath(argv,APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT);
+    SetWorkingPath(argv,APPLICATION_NAME,CONFIGFILEEXT);
     #ifdef Q_OS_LINUX
-        if (SearchRasterMode(APPLICATION_NAME,APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
+        if (SearchRasterMode(APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
     #else
         QApplication::setStyle("Cleanlooks");
     #endif

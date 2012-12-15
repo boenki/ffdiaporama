@@ -71,7 +71,7 @@ private slots:
     void            s_ChIndexGradientFirstColorCombo(int);
     void            s_ChIndexGradientFinalColorCombo(int);
     void            s_ChIndexGradientIntermColorCombo(int);
-    void            s_ChIndexBackgroundCombo(int);
+    void            s_ChIndexBackgroundCombo();
     void            s_SelectFile();
     void            s_ImageEditCorrect();
     void            s_FullFill();

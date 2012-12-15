@@ -3,22 +3,22 @@
 #-------------------------------------------------
 
 win32 {
+	QT          -= core
+	QT			-= gui
     TEMPLATE    = app
-    SOURCES     += main.cpp
     TARGET      = ffDiaporamaStart
     CONFIG      -= app_bundle
     LIBS        += -lShell32
 
-    CONFIG(release, debug|release) {
-        DESTDIR     += ..\\..\\..\\winbuild
-        OBJECTS_DIR += ..\\..\\..\\winbuild\\src\\$$TARGET
-        MOC_DIR     += ..\\..\\..\\winbuild\\src\\$$TARGET
-        UI_DIR      += ..\\..\\..\\winbuild\\src\\$$TARGET
-    }
-    CONFIG(debug, debug|release) {
-        DESTDIR     += ..\\..\\..\\windebugbuild
-        OBJECTS_DIR += ..\\..\\..\\windebugbuild\\src\\$$TARGET
-        MOC_DIR     += ..\\..\\..\\windebugbuild\\src\\$$TARGET
-        UI_DIR      += ..\\..\\..\\windebugbuild\\src\\$$TARGET
-    }
+    HEADERS += \
+        blitzcpu.h
+
+    SOURCES += \
+        blitzcpu.cpp \
+        main.cpp
+
+	# add console if debug mode
+	CONFIG(debug, debug|release) {
+		CONFIG += console
+	}
 }

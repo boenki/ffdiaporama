@@ -19,8 +19,6 @@ Clip art :
 Criticité   Etat    Enoncé
 ----------- ------- -------------------------------------------------------------------------------------------------------
 
-Critique    -       Neutraliser le text scalling pour les blocs de texte des projets !
-
 Critique    -       Bug de drag & drop de bloc qui se fait quand on change de plan dans la boite slide
 
 Normal      -       Bug de Pepe sur les tailles des bordures en VGA
@@ -30,9 +28,6 @@ Normal      -       Bug sur l'encodage MP3 : 1 seconde de trop par minute d'enco
 Basse       -       Bug de génération en 3GP - 320x240
 
 Normal      NF      Ajouter des formes de shape (jumelle, trapeze, parrallelograme ...)
-Normal      WIP     Les vidéos avec chapitre exportées en .mkv font planter VLC
-                    =>  Pour le moment, j'ai supprimé les chapitres dans les mkv pour tous les codecs sauf lossless
-                        C'est une solution provisoire - à revoir
 Basse       NF      Etudier la transposition des cadres de sélection quand rotation dans la boite slide
 Basse       WIP     Supprimer la librairie de fond de la mémoire
                     =>  Isolation du code de cBackgroundComboBox réalisé
@@ -64,5 +59,13 @@ French version / Correction de bug :
 English version / Bug fixes :
 
 French version / Nouveautés :
+-Modifie les combo box de sélection d'une image depuis la librairie de fond d'écran dans les boites Arriere plan et Texte
+-Ne conserve plus les images de la librairie en mémoire => passage en LULO comme les photos
+-Création de l'addon ffDiaporama-texturemate
+-Modifie la boite A propos de pour afficher le readme.txt de l'addon ffDiaporama-texturemate
 
 English version / New features :
+-Change the combo box for selecting an image from the library in text and background dialog
+-Do not keep anymore images of the library in memory => switch to LULO mode like photos
+-Creation of Addon ffDiaporama-texturemate
+-Changes the About box to display the readme.txt of ffDiaporama-texturemate addon (if present)

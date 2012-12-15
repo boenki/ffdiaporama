@@ -58,7 +58,7 @@ enum {
 
 //====================================================================================================================
 
-DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
+DlgTextEdit::DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *TheCurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
                          cStyleCollection *TheStyleTextCollection,cStyleCollection *TheStyleTextBackgroundCollection,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTextEdit) {
 
@@ -69,6 +69,7 @@ DlgTextEdit::DlgTextEdit(cCompositionObject *TheCurrentTextItem,QString HelpURL,
     CancelBt                        =ui->CancelBt;
     HelpBt                          =ui->HelpBT;
     UndoBt                          =ui->UndoBT;
+    this->Diaporama                 =Diaporama;
     CurrentTextItem                 =TheCurrentTextItem;
     StyleTextCollection             =TheStyleTextCollection;
     StyleTextBackgroundCollection   =TheStyleTextBackgroundCollection;
@@ -88,6 +89,8 @@ DlgTextEdit::~DlgTextEdit() {
 
 void DlgTextEdit::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::DoInitDialog");
+
+    ui->BackgroundCombo->PrepareTable(Diaporama->ImageGeometry,&BackgroundList);
 
     ui->tabWidget->setCurrentIndex(0);
     ui->TextEdit->setUndoRedoEnabled(false);    // we want to manage the undo
@@ -174,7 +177,7 @@ void DlgTextEdit::DoInitDialog() {
     connect(ui->FirstColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientFirstColorCombo(int)));
     connect(ui->FinalColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientFinalColorCombo(int)));
     connect(ui->IntermColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientIntermColorCombo(int)));
-    connect(ui->BackgroundCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexBackgroundCombo(int)));
+    connect(ui->BackgroundCombo,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_ChIndexBackgroundCombo()));
     connect(ui->IntermPosSlider,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
     connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
 
@@ -891,7 +894,7 @@ void DlgTextEdit::s_ChIndexGradientIntermColorCombo(int) {
 }
 
 //========= Background image
-void DlgTextEdit::s_ChIndexBackgroundCombo(int) {
+void DlgTextEdit::s_ChIndexBackgroundCombo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::s_ChIndexBackgroundCombo");
     if (StopMAJSpinbox) return;
     AppendPartialUndo(UNDOACTION_BRUSHLIBBRUSH,ui->TextEdit,false);

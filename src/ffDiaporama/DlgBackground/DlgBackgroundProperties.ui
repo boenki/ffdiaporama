@@ -330,13 +330,13 @@
              <property name="minimumSize">
               <size>
                <width>140</width>
-               <height>76</height>
+               <height>68</height>
               </size>
              </property>
              <property name="maximumSize">
               <size>
                <width>140</width>
-               <height>76</height>
+               <height>68</height>
               </size>
              </property>
             </widget>
@@ -721,11 +721,6 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>cBackgroundComboBox</class>
-   <extends>QComboBox</extends>
-   <header>cCustomComboBox.h</header>
-  </customwidget>
-  <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCColorComboBox.h</header>
@@ -739,6 +734,11 @@
    <class>cCGrdOrientationComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCGrdOrientationComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cBackgroundComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cBackgroundComboBox.h</header>
   </customwidget>
  </customwidgets>
  <resources>

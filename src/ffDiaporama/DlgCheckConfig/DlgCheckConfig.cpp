@@ -116,6 +116,7 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Global config file: %1").arg(BaseApplicationConfig->GlobalConfigFile)));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Starting path: %1").arg(BaseApplicationConfig->StartingPath)));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Working path set to: %1").arg(AdjustDirForOS(QDir::currentPath()))));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Search path set to: %1").arg(getenv("PATH"))));
     // Ressources libraries
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","The background library contains %1 pictures").arg(BackgroundList.List.count())));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","The non-luma library contains %1 transitions").arg(IconList.List.count()-LumaListNbr)));
@@ -132,11 +133,7 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
     // exiv2
-    #ifdef Q_OS_LINUX
     StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 version:")+QString("%1.%2.%3").arg(EXIV2_MAJOR_VERSION).arg(EXIV2_MINOR_VERSION).arg(EXIV2_PATCH_VERSION);
-    #else
-    StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2/Exiv2 binary version");
-    #endif
     ui->ListWidget->addItem(new QListWidgetItem(StatusStr));
     #ifdef EXIV2WITHPREVIEW
     Status=true;
@@ -174,8 +171,6 @@ void DlgCheckConfig::DoInitDialog() {
 
     // QImageBlitz
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","QImageBlitz")));
-#ifdef Q_OS_WIN
-#else
     BlitzCPUInfo    Info;
     Status=Info.haveExtension(BlitzCPUInfo::MMX);        ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","MMX extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
     Status=Info.haveExtension(BlitzCPUInfo::IntegerSSE); ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","IntegerSSE extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
@@ -184,7 +179,6 @@ void DlgCheckConfig::DoInitDialog() {
     Status=Info.haveExtension(BlitzCPUInfo::AMD3DNOW);   ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","AMD3DNOW extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
     Status=Info.haveExtension(BlitzCPUInfo::AMD3DNOW2);  ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","AMD3DNOW2 extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
     Status=Info.haveExtension(BlitzCPUInfo::AltiVec);    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","AltiVec extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
-#endif
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
     // libav/ffmpeg

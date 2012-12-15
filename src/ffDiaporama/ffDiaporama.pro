@@ -37,12 +37,12 @@ TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_pt.ts \
     ../../locale/ffDiaporama_ru.ts \
     ../../locale/ffDiaporama_el.ts \
+    ../../locale/ffDiaporama_uk.ts \
     ../../locale/ffDiaporama_cz.ts
 
 SOURCES +=  _ApplicationDefinitions.cpp \
             _Diaporama.cpp \
             wgt_QVideoPlayer.cpp \
-            cCustomComboBox.cpp \
             mainwindow.cpp \
             main.cpp \
             cCustomSlideTable.cpp \
@@ -96,14 +96,14 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../CustomCtrl/cCBrushComboBox.cpp \
             ../CustomCtrl/cCGrdOrientationComboBox.cpp \
             ../CustomCtrl/cCFramingComboBox.cpp \
-            ../CustomCtrl/cCShapeComboBox.cpp
+            ../CustomCtrl/cCShapeComboBox.cpp \
+            ../CustomCtrl/cBackgroundComboBox.cpp
 
 HEADERS  += \
             _ApplicationDefinitions.h \
             _Diaporama.h \
             _StyleDefinitions.h \
             wgt_QVideoPlayer.h \
-            cCustomComboBox.h \
             cCustomSlideTable.h \
             mainwindow.h \
             DlgRenderVideo/DlgRenderVideo.h \
@@ -155,7 +155,8 @@ HEADERS  += \
             ../CustomCtrl/cCBrushComboBox.h \
             ../CustomCtrl/cCGrdOrientationComboBox.h \
             ../CustomCtrl/cCFramingComboBox.h \
-            ../CustomCtrl/cCShapeComboBox.h
+            ../CustomCtrl/cCShapeComboBox.h \
+            ../CustomCtrl/cBackgroundComboBox.h
 
 FORMS    += mainwindow.ui \
             wgt_QVideoPlayer.ui \
@@ -181,22 +182,22 @@ FORMS    += mainwindow.ui \
 
 
 # Installation on linux systems
-unix {
+#unix {
     message("Install to : $$PREFIX")
 
     TARGET.path          = $$PREFIX/bin
     TARGET.files         = $$DESTDIR/$$TARGET
     INSTALLS 		+= TARGET
 
-    ico.path            = /usr/share/icons/hicolor/32x32/apps
+    ico.path            = $$PREFIX/share/icons/hicolor/32x32/apps
     ico.files           = ../../ffdiaporama.png
     INSTALLS 		+= ico
 
-    desktop.path        = /usr/share/applications
+    desktop.path        = $$PREFIX/share/applications
     desktop.files       = ../../ffDiaporama.desktop
     INSTALLS 		+= desktop
 
-    mimefile.path       = /usr/share/mime/packages
+    mimefile.path       = $$PREFIX/share/mime/packages
     mimefile.files      = ../../ffDiaporama-mime.xml
     INSTALLS 		+= mimefile
 
@@ -228,4 +229,4 @@ unix {
     General.path        = $$PREFIX/share/$$APPFOLDER
     General.files       = ../../*.xml ../../*.txt ../../*.rtf ../../*.ffpreset
     INSTALLS 		+= General
-}
+#}
