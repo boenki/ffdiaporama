@@ -42,6 +42,7 @@ namespace Ui {
 class DlgTextEdit : public QCustomDialog {
 Q_OBJECT
 public:
+    cDiaporama          *Diaporama;
     cCompositionObject  *CurrentTextItem;                       // Text to modify
     cBrushDefinition    *CurrentBrush;                          // Brush to modify
     bool                StopMAJSpinbox;
@@ -49,7 +50,7 @@ public:
     cStyleCollection    *StyleTextBackgroundCollection;         // Link to background text style collection
     QString             CurrentPlainText;
 
-    explicit        DlgTextEdit(cCompositionObject *CurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
+    explicit        DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *CurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
                                 cStyleCollection *StyleTextCollection,cStyleCollection *StyleTextBackgroundCollection,QWidget *parent=0);
                     ~DlgTextEdit();
 
@@ -108,7 +109,7 @@ private slots:
     void            s_ChIndexGradientFirstColorCombo(int);
     void            s_ChIndexGradientFinalColorCombo(int);
     void            s_ChIndexGradientIntermColorCombo(int);
-    void            s_ChIndexBackgroundCombo(int);
+    void            s_ChIndexBackgroundCombo();
 
     void            s_TextStyleBT();
     void            s_BackgroundStyleBT();

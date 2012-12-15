@@ -79,10 +79,10 @@ int     getCpuCount();                                                          
 QString AdjustDirForOS(QString Dir);                                                                                // Adjust separator in pathname depending on operating system
 QString GetTextSize(qlonglong Size);                                                                                // transform a size (_int64) in a string with apropriate unit (Gb/Tb...)
 bool    CheckFolder(QString FileToTest,QString PathToTest);                                                         // Check if FileToTest exist in PathToTest and if yes the change current folder to PathToTest
-bool    SetWorkingPath(char * const argv[],QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt);    // Adjust current folder
+bool    SetWorkingPath(char * const argv[],QString ApplicationName,QString ConfigFileExt);    // Adjust current folder
 
 #ifdef Q_OS_LINUX
-    bool SearchRasterMode(QString ApplicationGroupName,QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName);
+    bool SearchRasterMode(QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName);
 #endif
 
 // Application config class

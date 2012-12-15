@@ -5,9 +5,6 @@ TEMPLATE        = subdirs
 SUBDIRS         += src/ffDiaporama
 TARGET          += ffDiaporama
 
-# ffDiaporama start application (windows only)
-win32:SUBDIRS   += src/ffDiaporamaStart
-
 OTHER_FILES += TODO-LIST.txt \          # Developpement file
     BUILDVERSION.txt \                  # Developpement file
     ffDiaporama-mime.xml \              # MIME definition of .ffd type

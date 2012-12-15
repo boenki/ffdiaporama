@@ -677,19 +677,17 @@ bool cDeviceModelList::Initffmpeg(QString &BinaryEncoderPath) {
         bool        Continue=false;
         QProcess    Process;
 
-        #ifndef Q_OS_WIN
-            #ifdef LIBAV_AVCONV
-            if (!Continue) {
-                // Search avconv
-                BinaryEncoderPath="avconv";
-                Process.start(BinaryEncoderPath,QString("-version").split(";"));
-                if (Process.waitForStarted(-1)) {
-                    if (!Process.waitForFinished()) Process.kill();
-                        else Continue=true;
-                }
-                ToLog(LOGMSG_INFORMATION,QString("Try to found %1 ... %2").arg(BinaryEncoderPath).arg(Continue?"found":"not found"));
+        #ifdef LIBAV_AVCONV
+        if (!Continue) {
+            // Search avconv
+            BinaryEncoderPath="avconv";
+            Process.start(BinaryEncoderPath,QString("-version").split(";"));
+            if (Process.waitForStarted(-1)) {
+                if (!Process.waitForFinished()) Process.kill();
+                    else Continue=true;
             }
-            #endif
+            ToLog(LOGMSG_INFORMATION,QString("Try to found %1 ... %2").arg(BinaryEncoderPath).arg(Continue?"found":"not found"));
+        }
         #endif
 
         #ifdef LIBAV_FFMPEG

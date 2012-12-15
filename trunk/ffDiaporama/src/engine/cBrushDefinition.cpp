@@ -91,43 +91,61 @@ QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QStri
 // Base object for composition definition
 //*********************************************************************************************************************************************
 
-cBackgroundObject::cBackgroundObject(QString FileName,int TheGeometry) {
+cBackgroundObject::cBackgroundObject(QString FileName,cBaseApplicationConfig *AppConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundObject::cBackgroundObject");
 
-    IsValide    = false;
-    FilePath    = FileName;
-    Name        = QFileInfo(FileName).baseName();
+    IsValide            = false;
+    FilePath            = FileName;
+    ModifDateTime       = QFileInfo(FileName).created();
+    ApplicationConfig   = AppConfig;
+    Name                = QFileInfo(FileName).baseName();
 
-    // Load file
-    BackgroundImage.load(FilePath);
+    QString FName=QFileInfo(FileName).absoluteFilePath();
+    FName=FName.left(FName.lastIndexOf("."));
+    Thumbnail[GEOMETRY_4_3].load(FName+".ic1","PNG");
+    if (!Thumbnail[GEOMETRY_4_3].isNull()) {
+        Thumbnail[GEOMETRY_16_9].load(FName+".ic2","PNG");
+        Thumbnail[GEOMETRY_40_17].load(FName+".ic3","PNG");
+    } else {
+        // Load file
+        QImage Image(FilePath);
+        IsValide=!Image.isNull();
 
-    // Make Icon
-    QImage *BrushImage=new QImage(BackgroundImage.copy());
-    if (!BrushImage->isNull()) {
-        Geometry = TheGeometry;
-        int     H,W;
-        QImage  *NewImg;
-        switch (Geometry) {
-            case GEOMETRY_4_3 :
-                H=BrushImage->height();
-                W=int(double(4)*(double(H)/double(3)));
-                NewImg=new QImage(BrushImage->copy((BrushImage->width()-W)/2,(BrushImage->height()-H)/2,W,H));
-                delete BrushImage;
-                BrushImage=NewImg;
-                break;
-            case GEOMETRY_40_17 :
-                W=BrushImage->width();
-                H=int(double(17)*(double(W)/double(40)));
-                NewImg=new QImage(BrushImage->copy((BrushImage->width()-W)/2,(BrushImage->height()-H)/2,W,H));
-                delete BrushImage;
-                BrushImage=NewImg;
-                break;
-        }
+        // Make Icon
+        QImage Img56 =Image.scaledToHeight(56);
+        QImage Img132=Image.scaledToWidth(132);
+        Thumbnail[GEOMETRY_4_3]  =Img56.copy((Img56.width()-75)/2 ,0,75 ,56);
+        Thumbnail[GEOMETRY_16_9] =Img56;
+        Thumbnail[GEOMETRY_40_17]=Img132.copy(0,(Img132.height()-56)/2,132,56);
 
-        Icon=QPixmap(QPixmap::fromImage(BrushImage->scaledToHeight(64)));
-        delete BrushImage;
+        // Save Icon
+        //Thumbnail[GEOMETRY_4_3].save(FName+".ic1","PNG");
+        //Thumbnail[GEOMETRY_16_9].save(FName+".ic2","PNG");
+        //Thumbnail[GEOMETRY_40_17].save(FName+".ic3","PNG");
     }
-    IsValide=!Icon.isNull();
+}
+
+QImage* cBackgroundObject::GetBackgroundImage() {
+    cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FilePath,ModifDateTime,1,ApplicationConfig->Smoothing,true);
+    if (ImageObject==NULL) {
+        ToLog(LOGMSG_CRITICAL,"Error in cBackgroundObject::GetBackgroundImage : FindObject return NULL for background image loading !");
+    } else {
+        QImage *LN_Image=ImageObject->ValidateCacheRenderImage();   // Get a link to render image in LuLoImageCache collection
+        if ((LN_Image==NULL)||(LN_Image->isNull())) {
+            ToLog(LOGMSG_CRITICAL,"Error in cBackgroundObject::GetBackgroundImage : ValidateCacheRenderImage return NULL for background image loading !");
+        } else {
+            return LN_Image;
+        }
+    }
+    return NULL;
+}
+
+QImage cBackgroundObject::GetBackgroundThumb(int Geometry) {
+    switch (Geometry) {
+        case GEOMETRY_4_3   : return Thumbnail[GEOMETRY_4_3];
+        case GEOMETRY_40_17 : return Thumbnail[GEOMETRY_40_17];
+        default             : return Thumbnail[GEOMETRY_16_9];
+    }
 }
 
 //*********************************************************************************************************************************************
@@ -135,25 +153,22 @@ cBackgroundObject::cBackgroundObject(QString FileName,int TheGeometry) {
 //*********************************************************************************************************************************************
 cBackgroundList::cBackgroundList() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundList::cBackgroundList");
-
-    Geometry=-1;
 }
 
 //====================================================================================================================
 
-void cBackgroundList::ScanDisk(QString Path,int TheGeometry) {
+void cBackgroundList::ScanDisk(QString Path,cBaseApplicationConfig *ApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundList::ScanDisk");
-
-    if (Geometry==TheGeometry) return;
-    Geometry=TheGeometry;
 
     QDir                Folder(Path);
     QFileInfoList       Files=Folder.entryInfoList();;
 
-    List.clear();
-    for (int i=0;i<Files.count();i++) if (Files[i].isFile() && ((QString(Files[i].suffix()).toLower()=="jpg")||(QString(Files[i].suffix()).toLower()=="png"))) {
-        QString FileName=QFileInfo(Files[i]).absoluteFilePath();
-        if (QFileInfo(QString(FileName)).isFile()) List.append(cBackgroundObject(Files[i].absoluteFilePath(),Geometry));
+    for (int i=0;i<Files.count();i++) {
+        if (Files[i].isFile() && ((QString(Files[i].suffix()).toLower()=="jpg")||(QString(Files[i].suffix()).toLower()=="png"))) {
+            QString FileName=QFileInfo(Files[i]).absoluteFilePath();
+            if (QFileInfo(QString(FileName)).isFile()) List.append(cBackgroundObject(Files[i].absoluteFilePath(),ApplicationConfig));
+        } else if (Files[i].isDir() && (QString(Files[i].fileName())!=".")&&(QString(Files[i].fileName())!=".."))
+            ScanDisk(Files[i].absoluteFilePath(),ApplicationConfig);
     }
 }
 
@@ -481,22 +496,16 @@ QBrush *cBrushDefinition::GetLibraryBrush(QRectF Rect) {
     if (!BackgroundList) return NULL;
     int BackgroundImageNumber=BackgroundList->SearchImage(BrushImage);
     if ((BackgroundImageNumber>=0)&&(BackgroundImageNumber<BackgroundList->List.count())) {
-        double Ratio=double(BackgroundList->List[BackgroundImageNumber].BackgroundImage.height())/double(BackgroundList->List[BackgroundImageNumber].BackgroundImage.width());
-        double H    =Rect.height()+1;
-        double W    =H/Ratio;
-        QImage NewImg1;
-        if (W<(Rect.width()+1)) {
-            NewImg1=QImage(BackgroundList->List[BackgroundImageNumber].BackgroundImage.scaledToWidth(Rect.width()+1,Qt::SmoothTransformation));
+        QImage *Bckg=BackgroundList->List[BackgroundImageNumber].GetBackgroundImage();
+        double RatioBck  =double(Bckg->height())/double(Bckg->width());
+        double RatioRect =double(Rect.height()+1)/double(Rect.width()+1);
+        if (RatioRect>=RatioBck) {
+            QImage Background=Bckg->scaledToHeight(Rect.height()+1,Qt::SmoothTransformation);
+            return new QBrush(Background.copy((Background.width()-(Rect.width()+1))/2,0,Rect.width()+1,Background.height()));
         } else {
-            NewImg1=QImage(BackgroundList->List[BackgroundImageNumber].BackgroundImage.scaledToHeight(Rect.height()+1,Qt::SmoothTransformation));
+            QImage Background=Bckg->scaledToWidth(Rect.width()+1,Qt::SmoothTransformation);
+            return new QBrush(Background.copy(0,(Background.height()-(Rect.height()+1))/2,Background.width(),Rect.height()+1));
         }
-        W=NewImg1.width();
-        H=GetHeightForWidth(W,Rect);
-        if (H<NewImg1.height()) {
-            H=NewImg1.height();
-            W=GetWidthForHeight(H,Rect);
-        }
-        if ((W!=NewImg1.width())||(H!=NewImg1.height())) return new QBrush(QImage(NewImg1.copy(0,0,W,H))); else return new QBrush(NewImg1);
     } else return new QBrush(Qt::NoBrush);
 }
 

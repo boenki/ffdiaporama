@@ -38,7 +38,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="TextTab">
       <attribute name="title">
@@ -1596,11 +1596,6 @@ p, li { white-space: pre-wrap; }
  </widget>
  <customwidgets>
   <customwidget>
-   <class>cBackgroundComboBox</class>
-   <extends>QComboBox</extends>
-   <header>cCustomComboBox.h</header>
-  </customwidget>
-  <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCColorComboBox.h</header>
@@ -1619,6 +1614,11 @@ p, li { white-space: pre-wrap; }
    <class>cCGrdOrientationComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCGrdOrientationComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cBackgroundComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cBackgroundComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

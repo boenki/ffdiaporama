@@ -48,6 +48,15 @@ DlgAbout::~DlgAbout() {
 
 void DlgAbout::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::DoInitDialog");
+    QString FName=QString("background")+QDir::separator()+QString("texturemate")+QDir::separator()+QString("readme.txt");
+    QFile File(FName);
+    if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {
+        QString Text=File.readAll();
+        ui->TexturemateED->setText(Text);
+        File.close();
+    } else {
+        ui->tabWidget->removeTab(2);
+    }
 
     ui->ApplicationReleaseLabel->setText(CurrentAppVersion);
     ui->ApplicationNameLabel->setText(BaseApplicationConfig->ApplicationVersion);

@@ -1516,7 +1516,6 @@ void cDiaporama::DefineSizeAndGeometry(int Geometry) {
     ImageGeometry   =Geometry;
     InternalHeight  =PREVIEWMAXHEIGHT;
     InternalWidth   =GetWidthForHeight(InternalHeight);
-    BackgroundList.ScanDisk("background",ImageGeometry);
     LumaList_Bar.SetGeometry(ImageGeometry);
     LumaList_Center.SetGeometry(ImageGeometry);
     LumaList_Checker.SetGeometry(ImageGeometry);

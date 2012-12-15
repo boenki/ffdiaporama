@@ -2234,7 +2234,7 @@ void DlgSlideProperties::s_BlockSettings_TextEditor() {
 
     ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
     ui->InteractiveZone->RefreshDisplay();
-    DlgTextEdit Dlg(CurrentCompoObject,HELPFILE_DlgTextEdit,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgTextEditWSP,
+    DlgTextEdit Dlg(CurrentSlide->Parent,CurrentCompoObject,HELPFILE_DlgTextEdit,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgTextEditWSP,
                     &((cApplicationConfig *)BaseApplicationConfig)->StyleTextCollection,&((cApplicationConfig *)BaseApplicationConfig)->StyleTextBackgroundCollection,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));

@@ -66,6 +66,8 @@ DlgBackgroundProperties::~DlgBackgroundProperties() {
 void DlgBackgroundProperties::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::DoInitDialog");
 
+    ui->BackgroundCombo->PrepareTable(DiaporamaObject->Parent->ImageGeometry,&BackgroundList);
+
     ui->SameBackgroundRD->setChecked(!DiaporamaObject->BackgroundType);
     ui->NewBackgroundRD->setChecked(DiaporamaObject->BackgroundType);
 
@@ -94,7 +96,7 @@ void DlgBackgroundProperties::DoInitDialog() {
     connect(ui->FirstColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientFirstColorCombo(int)));
     connect(ui->FinalColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientFinalColorCombo(int)));
     connect(ui->IntermColorCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexGradientIntermColorCombo(int)));
-    connect(ui->BackgroundCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(s_ChIndexBackgroundCombo(int)));
+    connect(ui->BackgroundCombo,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_ChIndexBackgroundCombo()));
 
     // Intermediate position for gradient 3 colors
     connect(ui->IntermPosSlider,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosSliderMoved(int)));
@@ -407,7 +409,7 @@ void DlgBackgroundProperties::s_ChIndexGradientIntermColorCombo(int) {
 }
 
 //========= Background image
-void DlgBackgroundProperties::s_ChIndexBackgroundCombo(int) {
+void DlgBackgroundProperties::s_ChIndexBackgroundCombo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_ChIndexBackgroundCombo");
     if (StopMAJSpinbox) return;
     AppendPartialUndo(UNDOACTION_LIBBRUSH,ui->BackgroundCombo,false);

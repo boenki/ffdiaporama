@@ -33,13 +33,8 @@
 #include <QtXml/QDomElement>
 
 // Include qimageblitz lib
-#ifdef Q_OS_WIN
-    #include <qimageblitz.h>
-    #include <blitzcpu.h>
-#else
-    #include <qimageblitz/qimageblitz.h>
-    #include <qimageblitz/blitzcpu.h>
-#endif
+#include <qimageblitz/qimageblitz.h>
+#include <qimageblitz/blitzcpu.h>
 
 // Include fmt_filters lib
 #include "../fmt_filters/fmt_filters.h"
@@ -171,16 +166,20 @@ QBrush  *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QStr
 
 class   cBackgroundObject {
 public:
-    bool        IsValide;
-    QString     FilePath;
-    QString     Name;
-    QPixmap     Icon;
-    int         Geometry;
-    QImage      BackgroundImage;
+    bool                    IsValide;
+    QString                 FilePath;
+    QDateTime               ModifDateTime;
+    cBaseApplicationConfig *ApplicationConfig;
+    QString                 Name;
 
-    cBackgroundObject(QString FileName,int Geometry);
+    cBackgroundObject(QString FileName,cBaseApplicationConfig *ApplicationConfig);
 
-    void    SetGeometry(int Geometry);
+    QImage* GetBackgroundImage();
+    QImage  GetBackgroundThumb(int Geometry);
+
+private:
+    int         CurrentGeometry;
+    QImage      Thumbnail[3];
 };
 
 //*********************************************************************************************************************************************
@@ -189,12 +188,11 @@ public:
 
 class   cBackgroundList {
 public:
-    int                         Geometry;
-    QList<cBackgroundObject>    List;                       // list of brush
+    QList<cBackgroundObject> List;                       // list of brush
 
     cBackgroundList();
 
-    void    ScanDisk(QString Path,int Geometry);
+    void    ScanDisk(QString Path,cBaseApplicationConfig *ApplicationConfig);
     int     SearchImage(QString NameToFind);
 };
 extern  cBackgroundList BackgroundList;
