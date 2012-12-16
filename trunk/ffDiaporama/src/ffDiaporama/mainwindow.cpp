@@ -292,6 +292,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->ActionLossLess_BT,SIGNAL(released()),this,SLOT(s_Action_RenderLossLess()));                     connect(ui->ActionLossLess_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderLossLess()));
 
     // Timeline
+    connect(ui->VersionBT,SIGNAL(released()),this,SLOT(s_Action_Version()));
     connect(ui->ZoomPlusBT,SIGNAL(released()),this,SLOT(s_Action_ZoomPlus()));
     connect(ui->ZoomMinusBT,SIGNAL(released()),this,SLOT(s_Action_ZoomMinus()));
     connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_Event_TimelineSelectionChanged()));
@@ -357,7 +358,8 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     // Some other init
     LastLogMessageTime=QTime::currentTime();
     EventReceiver=this; // Connect Event Receiver so now we accept LOG messages
-    ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+"0 / 0");
+    ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide: ")+"0/0");
+    ui->StatusBar_ChapterNumber->setText(QApplication::translate("MainWindow","Chapter: ")+"0/0");
     s_Event_ToolbarChanged(0);
     ToStatusBar("");
     SetModifyFlag(false);           // Setup title window and do first RefreshControls();
@@ -447,12 +449,37 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
 
 void MainWindow::ToStatusBar(QString Text) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::ToStatusBar");
+    ui->StatusBar_General->setText(Text);
+}
 
-    if (Text=="") {
-        if (InternetBUILDVERSION!="") ui->StatusBar_General->setText(InternetBUILDVERSION); else ui->StatusBar_General->setText("");
-    } else {
-        ui->StatusBar_General->setText(Text);
+//====================================================================================================================
+
+void MainWindow::UpdateChapterInfo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::UpdateChapterInfo");
+    QString     ChapterNum="Chapter_000:";
+    QList<int>  Chapter;
+
+    Diaporama->UpdateChapterInformation();
+    for (int i=0;i<Diaporama->ProjectInfo->NbrChapters;i++) {
+        ChapterNum=QString("%1").arg(i);
+        while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
+        ChapterNum="Chapter_"+ChapterNum+":";
+        Chapter.append(Diaporama->ProjectInfo->GetInformationValue(ChapterNum+"InSlide").toInt());
     }
+    if (Chapter.count()==0) {
+        Diaporama->CurrentChapter=-1;
+        Diaporama->CurrentChapterName="";
+        ui->StatusBar_ChapterNumber->setText(QApplication::translate("MainWindow","Chapter: ")+QString("0/0"));
+    } else {
+        Diaporama->CurrentChapter=1;
+        while ((Diaporama->CurrentChapter<Chapter.count())&&((Diaporama->CurrentCol+1)>=Chapter.at(Diaporama->CurrentChapter))) Diaporama->CurrentChapter++;
+        ChapterNum=QString("%1").arg(Diaporama->CurrentChapter-1);
+        while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
+        ChapterNum="Chapter_"+ChapterNum+":";
+        Diaporama->CurrentChapterName=Diaporama->ProjectInfo->GetInformationValue(ChapterNum+"title");
+        ui->StatusBar_ChapterNumber->setText(QApplication::translate("MainWindow","Chapter: ")+QString("%1/%2 [%3]").arg(Diaporama->CurrentChapter).arg(Diaporama->ProjectInfo->NbrChapters).arg(Diaporama->CurrentChapterName));
+    }
+    ToStatusBar("");
 }
 
 //====================================================================================================================
@@ -591,6 +618,10 @@ void MainWindow::DoMaximized() {
 // Function use when reading BUILDVERSION from WEB Site
 //====================================================================================================================
 
+void MainWindow::s_Action_Version() {
+    CustomMessageBox(this,QMessageBox::Information,APPLICATION_NAME,ui->VersionBT->toolTip());
+}
+
 void MainWindow::s_Event_NetworkReply(QNetworkReply* reply) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_NetworkReply");
 
@@ -603,8 +634,15 @@ void MainWindow::s_Event_NetworkReply(QNetworkReply* reply) {
             if (InternetBUILDVERSION.lastIndexOf(" ")) InternetBUILDVERSION=InternetBUILDVERSION.mid(InternetBUILDVERSION.lastIndexOf(" ")+1);
             int CurrentVersion =CurrentAppVersion.toInt();
             int InternetVersion=InternetBUILDVERSION.toInt();
-            if (InternetVersion>CurrentVersion) InternetBUILDVERSION=QApplication::translate("MainWindow","A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !");
-                else InternetBUILDVERSION="";
+            if (InternetVersion>CurrentVersion) {
+                InternetBUILDVERSION=QApplication::translate("MainWindow","A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !");
+                ui->VersionBT->setIcon(QIcon(":/img/Red.png"));
+                ui->VersionBT->setToolTip(InternetBUILDVERSION);
+            } else {
+                InternetBUILDVERSION="";
+                ui->VersionBT->setIcon(QIcon(":/img/Green.png"));
+                ui->VersionBT->setToolTip(QApplication::translate("MainWindow","Your version of ffDiaporama is up to day"));
+            }
         } else InternetBUILDVERSION="";
     } else InternetBUILDVERSION="";
     ToStatusBar(InternetBUILDVERSION);
@@ -685,7 +723,7 @@ void MainWindow::RefreshControls() {
     ui->UpFolderBt->setEnabled(ui->FolderTable->CanBrowseToUpperPath());
 
     // StatusBar
-    ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide : ")+QString("%1").arg(Diaporama->CurrentCol+1)+" / "+QString("%1").arg(Diaporama->List.count()));
+    ui->StatusBar_SlideNumber->setText(QApplication::translate("MainWindow","Slide: ")+QString("%1/%2").arg(Diaporama->List.count()>0?Diaporama->CurrentCol+1:0).arg(Diaporama->List.count()));
 }
 
 //====================================================================================================================
@@ -709,7 +747,10 @@ void MainWindow::s_Event_SetModifyFlag() {
 //====================================================================================================================
 
 void MainWindow::SetTimelineCurrentCell(int Cell) {
+    int OldCurrentCol=Diaporama->CurrentCol;
     ui->timeline->SetCurrentCell(Cell);
+    if (OldCurrentCol!=Diaporama->CurrentCol) UpdateChapterInfo();
+
 }
 
 //====================================================================================================================
@@ -1026,6 +1067,7 @@ void MainWindow::DoTimelineSelectionChanged() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_TimelineSelectionChanged");
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     if (!FLAGSTOPITEMSELECTION) {
+        int OldCurrentCol=Diaporama->CurrentCol;
         int Selected=ui->timeline->CurrentSelected();
         if (Selected>=Diaporama->List.count()) {
             Selected=Diaporama->List.count()-1;
@@ -1061,6 +1103,7 @@ void MainWindow::DoTimelineSelectionChanged() {
         }
         RefreshControls();
         ui->timeline->repaint();
+        if (OldCurrentCol!=Diaporama->CurrentCol) UpdateChapterInfo();
     }
     QApplication::restoreOverrideCursor();
 }
@@ -1314,6 +1357,7 @@ void MainWindow::s_Action_New() {
         RefreshControls();
         SetModifyFlag(false);
         resizeEvent(NULL);
+        UpdateChapterInfo();
     }
 }
 
@@ -2074,6 +2118,7 @@ void MainWindow::s_Action_DoAddFile() {
     // Set title flag
     AdjustRuller();
     SetModifyFlag(true);
+    UpdateChapterInfo();
     QApplication::restoreOverrideCursor();
 }
 
@@ -2330,6 +2375,7 @@ void MainWindow::s_Action_RemoveObject() {
     SetModifyFlag(true);
     AdjustRuller();
     ui->timeline->setUpdatesEnabled(true);
+    UpdateChapterInfo();
     QApplication::restoreOverrideCursor();
 }
 
@@ -2463,6 +2509,7 @@ void MainWindow::s_Action_PasteFromClipboard() {
             ui->timeline->ResetDisplay(SavedCurIndex+1);
             AdjustRuller();
             ui->timeline->setUpdatesEnabled(true);
+            UpdateChapterInfo();
             QApplication::restoreOverrideCursor();
         }
     }

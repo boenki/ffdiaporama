@@ -3584,6 +3584,46 @@ font-size: 11px;
        <number>0</number>
       </property>
       <item>
+       <widget class="QToolButton" name="VersionBT">
+        <property name="minimumSize">
+         <size>
+          <width>21</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>21</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="toolTip">
+         <string>Latest version number of ffDiaporama is indeterminable</string>
+        </property>
+        <property name="styleSheet">
+         <string notr="true"> QToolButton {
+     border: 1px solid #8f8f91;
+     border-radius: 2px;
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
+ }
+
+ QToolButton:pressed {
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #dadbde, stop: 1 #f6f7fa);
+ }
+</string>
+        </property>
+        <property name="text">
+         <string notr="true"/>
+        </property>
+        <property name="icon">
+         <iconset resource="../../RSCffDiaporama.qrc">
+          <normaloff>:/img/Yellow.png</normaloff>:/img/Yellow.png</iconset>
+        </property>
+       </widget>
+      </item>
+      <item>
        <widget class="QLabel" name="StatusBar_SlideNumber">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -3619,7 +3659,47 @@ font-size: 11px;
          <number>2</number>
         </property>
         <property name="text">
-         <string>Slide : xx/xxx</string>
+         <string>Slide: xx/xxx</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="StatusBar_ChapterNumber">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>21</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">QLabel {
+    font-size: 11px;
+}
+</string>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::StyledPanel</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Raised</enum>
+        </property>
+        <property name="lineWidth">
+         <number>2</number>
+        </property>
+        <property name="text">
+         <string>Chapter: xx/xxx</string>
         </property>
        </widget>
       </item>

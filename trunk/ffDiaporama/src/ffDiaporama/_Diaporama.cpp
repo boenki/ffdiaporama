@@ -1451,6 +1451,8 @@ cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
     ProjectInfo                 = new cffDProjectFile(ApplicationConfig);
     CurrentCol                  = -1;                                                               // Current selected item
     CurrentPosition             = -1;                                                               // Current position (msec)
+    CurrentChapter              = -1;
+    CurrentChapterName          = QString("");
     IsModify                    = false;                                                            // true if project was modify
     ProjectFileName             = "";                                                               // Path and name of current file project
     ProjectInfo->Composer       = ApplicationConfig->ApplicationName+QString(" ")+ApplicationConfig->ApplicationVersion;

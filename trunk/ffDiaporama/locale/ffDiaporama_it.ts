@@ -94,6 +94,10 @@
         <source>Video decoding and encoding engines are based on libav or ffmpeg</source>
         <translation>I motori di codifica e decodifica video sono basati su libav i ffmpeg</translation>
     </message>
+    <message>
+        <source>Texturemate</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgApplicationSettings</name>
@@ -790,10 +794,6 @@ Inquadratura:</translation>
         <translation>Supporto TAGLib per M4A/MP4</translation>
     </message>
     <message>
-        <source>LibExiv2/Exiv2 binary version</source>
-        <translation>Versione LibExiv2/Exiv2 binario</translation>
-    </message>
-    <message>
         <source>Lossless rendering</source>
         <translation>Generazione lossless</translation>
     </message>
@@ -928,6 +928,10 @@ Inquadratura:</translation>
     <message>
         <source>Container Formats</source>
         <translation>Formato Contenitore</translation>
+    </message>
+    <message>
+        <source>Search path set to: %1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3782,10 +3786,6 @@ e aiuto</translation>
         <translation>Cosa c&apos;è di nuovo</translation>
     </message>
     <message>
-        <source>Slide : xx/xxx</source>
-        <translation>Diapositiva : xx/xxx</translation>
-    </message>
-    <message>
         <source>Switch display to preview mode</source>
         <translation>Passa in modalità visualizzazione anteprima</translation>
     </message>
@@ -3967,10 +3967,6 @@ la geometria dell&apos;immagine nel file non è uguale a quella del progetto cor
     <message>
         <source>Loading luma transitions...</source>
         <translation>Caricamento transizione luma...</translation>
-    </message>
-    <message>
-        <source>Slide : </source>
-        <translation>Diapositiva : </translation>
     </message>
     <message>
         <source>Close application</source>
@@ -4450,6 +4446,30 @@ Sei sicuro che è vuota?</translation>
     <message>
         <source>Rescale image to 8MPix</source>
         <translation>Riscala immagine a 8MPix</translation>
+    </message>
+    <message>
+        <source>Latest version number of ffDiaporama is indeterminable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide: xx/xxx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter: xx/xxx</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Your version of ffDiaporama is up to day</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4942,6 +4962,14 @@ Sei sicuro che è vuota?</translation>
     <message>
         <source>Twelve tooth gear</source>
         <translation>Ingranaggio a dodici denti</translation>
+    </message>
+    <message>
+        <source>Binoculars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trinoculars</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

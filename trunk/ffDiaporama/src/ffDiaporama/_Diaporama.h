@@ -345,6 +345,9 @@ public:
     int                     CurrentCol;             // Current position in the timeline (column)
     qlonglong               CurrentPosition;        // Current position in the timeline (msec)
 
+    int                     CurrentChapter;
+    QString                 CurrentChapterName;
+
     bool                    IsModify;               // true if project was modify
     QString                 ProjectFileName;        // Path and name of current file project
 

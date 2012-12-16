@@ -127,6 +127,8 @@ void ShapeFormDefinitionInit() {
     ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.2,                       0,          0.2,        1,              0.8,            QApplication::translate("Shape forms","Pushed down")));
     ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.175,      0.125,      0.65,           0.75,           QApplication::translate("Shape forms","Ten tooth gear")));
     ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.1,        0.225,      0.8,            0.55,           QApplication::translate("Shape forms","Twelve tooth gear")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.04,       0.26,       0.92,           0.48,           QApplication::translate("Shape forms","Binoculars")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.03,       0.26,       0.94,           0.48,           QApplication::translate("Shape forms","Trinoculars")));
 }
 
 //====================================================================================================================
@@ -818,6 +820,51 @@ QList<QPolygonF> ComputePuzzle(QRectF Rect,int Forme) {
 }
 
 //====================================================================================================================
+
+#define COS30 0.866
+#define SIN30 0.5
+
+QList<QPolygonF> ComputeOculars(QRectF Rect,int OcularsNbr) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    QRectF              DemiRect;
+    if (OcularsNbr==2) {
+        DemiRect=QRectF(Rect.left(),Rect.top(),(Rect.width()/4)*(2+(1-COS30)),Rect.height());
+        Path.moveTo(DemiRect.center().x()+COS30*DemiRect.width()/2,DemiRect.center().y()-SIN30*DemiRect.height()/2);
+        Path.arcTo(DemiRect,30, 60);
+        Path.arcTo(DemiRect,90, 90);
+        Path.arcTo(DemiRect,180,90);
+        Path.arcTo(DemiRect,270,60);
+        DemiRect=QRectF(Rect.left()+Rect.width()/2-(1-COS30)*(Rect.width()/4),Rect.top(),DemiRect.width(),DemiRect.height());
+        Path.arcTo(DemiRect,210,60);
+        Path.arcTo(DemiRect,270,90);
+        Path.arcTo(DemiRect,0,  90);
+        Path.arcTo(DemiRect,90, 60);
+        List.append(Path.toFillPolygon(QTransform()));
+    } else if (OcularsNbr==3) {
+        DemiRect=QRectF(Rect.left(),Rect.top(),(Rect.width()/6)*(2+1-COS30+(1-COS30)/3),Rect.height());
+        Path.moveTo(DemiRect.center().x()+COS30*DemiRect.width()/2,DemiRect.center().y()-SIN30*DemiRect.height()/2);
+        Path.arcTo(DemiRect,30, 60);
+        Path.arcTo(DemiRect,90, 90);
+        Path.arcTo(DemiRect,180,90);
+        Path.arcTo(DemiRect,270,60);
+        DemiRect=QRectF(Rect.center().x()-DemiRect.width()/2,Rect.top(),DemiRect.width(),DemiRect.height());
+        Path.arcTo(DemiRect,210,60);
+        Path.arcTo(DemiRect,270,60);
+        DemiRect=QRectF(Rect.right()-DemiRect.width(),Rect.top(),DemiRect.width(),DemiRect.height());
+        Path.arcTo(DemiRect,210,60);
+        Path.arcTo(DemiRect,270,90);
+        Path.arcTo(DemiRect,0,  90);
+        Path.arcTo(DemiRect,90, 60);
+        DemiRect=QRectF(Rect.center().x()-DemiRect.width()/2,Rect.top(),DemiRect.width(),DemiRect.height());
+        Path.arcTo(DemiRect,30, 60);
+        Path.arcTo(DemiRect,90,60);
+        List.append(Path.toFillPolygon(QTransform()));
+    }
+    return List;
+}
+
+//====================================================================================================================
 // Utilities functions to compute a polygon for a given form
 
 QList<QPolygonF> ComputePolygon(int BackgroundForm,qreal left,qreal top,qreal width,qreal height) {
@@ -902,6 +949,8 @@ QList<QPolygonF> ComputePolygon(int BackgroundForm,qreal left,qreal top,qreal wi
         case SHAPEFORM_PUZZLEDL         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_RIGHT);                           break;  // Puzzle Down-Left
         case SHAPEFORM_PUZZLEDC         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_LEFT|OPTION_RIGHT);               break;  // Puzzle Down-Center
         case SHAPEFORM_PUZZLEDR         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_LEFT);                            break;  // Puzzle Down-Right
+        case SHAPEFORM_BINOCULARS       : return ComputeOculars(QRectF(left,top,width,height),2);                                               break;  // Binoculars
+        case SHAPEFORM_TRINOCULARS      : return ComputeOculars(QRectF(left,top,width,height),3);                                               break;  // Trinoculars
         default                         : return ComputePolygonRect(QRectF(left,top,width,height));                                             break;  // No shape or rectangle or unknown shape
     }
 }

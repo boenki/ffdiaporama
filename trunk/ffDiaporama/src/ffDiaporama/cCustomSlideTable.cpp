@@ -882,6 +882,7 @@ void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
 void cCustomSlideTable::mouseDoubleClickEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::mouseDoubleClickEvent");
 
+    if (columnCount()==0) return;
     int ThumbWidth =columnWidth(0);
     int ThumbHeight=rowHeight(0);
     int row=(event->pos().y()+verticalOffset())/ThumbHeight;

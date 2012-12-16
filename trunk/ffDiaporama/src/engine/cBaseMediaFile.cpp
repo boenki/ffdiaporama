@@ -1649,6 +1649,8 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 
     }
 
+    bool ResamplingContinue=((Position!=0)&&(DiffTimePosition>0)&&(DiffTimePosition<500));
+
     //*************************************************************************************************************************************
     // Decoding process : Get StreamPacket until AudioLenDecoded>=AudioDataWanted or we have reach the end of file
     //*************************************************************************************************************************************
@@ -1743,83 +1745,170 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     // Transfert data from BufferForDecoded to Buffer using audio_resample
     //**********************************************************************
     if (AudioLenDecoded>0) {
-        if ((AudioStream->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||(AudioStream->codec->channels!=2)||(AudioStream->codec->sample_rate!=48000)) {
-            // Resample sound to wanted freq. using ffmpeg audio_resample function
-            /*#if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,60,0)
+        if ((AudioStream->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||(AudioStream->codec->channels!=2)) {
+            // Use avlib function to transform BufferForDecoded to AV_SAMPLT_FMT_S16 / 2 channels
+            // don't use this function to resample, because result is not good !
+            ToLog(LOGMSG_DEBUGTRACE,QString("IN:cVideoFile::ReadAudioFrame => do a reformat of %1 bytes audio data").arg(AudioLenDecoded));
+            ReSampleContext *RSC=av_audio_resample_init(                        // Context for resampling audio data
+                SoundTrackBloc->Channels,AudioStream->codec->channels,          // output_channels, input_channels
+                AudioStream->codec->sample_rate,AudioStream->codec->sample_rate,// output_rate, input_rate
+                AV_SAMPLE_FMT_S16,AudioStream->codec->sample_fmt,               // sample_fmt_out, sample_fmt_in
+                16,                                                             // filter_length (trying 4 !)
+                10,                                                             // log2_phase_count
+                1,                                                              // linear
+                1.0);                                                           // cutoff
+            if (RSC!=NULL) {
+                short int *BufSampled=(short int*)av_malloc(MaxAudioLenDecoded);
+                AudioLenDecoded=audio_resample(RSC,BufSampled,(short int*)BufferForDecoded,AudioLenDecoded/SrcSampleSize)*DstSampleSize;
 
-                SwrContext *RSC=swr_alloc_set_opts(NULL,
-                        AV_CH_LAYOUT_STEREO,                                        // output channel layout (AV_CH_LAYOUT_*)
-                        av_get_alt_sample_fmt(AV_SAMPLE_FMT_S16, 1),                // output sample format (AV_SAMPLE_FMT_*).
-                        48000,                                                      // output sample rate (frequency in Hz)
-                        AudioStream->codec->channel_layout,                         // input channel layout (AV_CH_LAYOUT_*)
-                        av_get_alt_sample_fmt(AudioStream->codec->sample_fmt,1),    // input sample format (AV_SAMPLE_FMT_*).
-                        AudioStream->codec->sample_rate,                            // input sample rate (frequency in Hz)
-                        0,                                                          // logging level offset
-                        NULL);                                                      // parent logging context, can be NULL
+                // switch 2 buffers
+                av_free(BufferForDecoded);
+                BufferForDecoded=(uint8_t *)BufSampled;
 
-                if (RSC!=NULL) {
-                    swr_init(RSC);
-
-                    uint8_t       *BufSampled=(uint8_t *)av_malloc(MaxAudioLenDecoded);
-                    const uint8_t *BufSrc=BufferForDecoded;
-
-                    AudioLenDecoded=swr_convert(RSC,&BufSampled,MaxAudioLenDecoded/DstSampleSize,&BufSrc,AudioLenDecoded/SrcSampleSize)*DstSampleSize;
-
-                    // Adjust volume
-                    if (Volume!=1) {
-                        int16_t *Buf1=(int16_t*)BufSampled;
-                        int32_t mix;
-                        for (int j=0;j<AudioLenDecoded/4;j++) {
-                            // Left channel : Adjust if necessary (16 bits)
-                            mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                            // Right channel : Adjust if necessary (16 bits)
-                            mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                        }
-                    }
-
-                    // Append data to SoundTrackBloc
-                    SoundTrackBloc->AppendData((int16_t*)BufSampled,AudioLenDecoded);
-                    swr_free(&RSC);             // Close the resampling audio context
-                    av_free(BufSampled);        // Free allocated buffers
-                }
-
-            #else   // Before AV_VERSION_INT(54,60,0)
-            */
-                ReSampleContext *RSC=av_audio_resample_init(                        // Context for resampling audio data
-                    SoundTrackBloc->Channels,AudioStream->codec->channels,          // output_channels, input_channels
-                    SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,   // output_rate, input_rate
-                    AV_SAMPLE_FMT_S16,AudioStream->codec->sample_fmt,               // sample_fmt_out, sample_fmt_in
-                    16,                                                             // filter_length (trying 4 !)
-                    10,                                                             // log2_phase_count
-                    1,                                                              // linear
-                    1.0);                                                           // cutoff
-                if (RSC!=NULL) {
-
-                    short int *BufSampled=(short int*)av_malloc(MaxAudioLenDecoded);
-
-                    AudioLenDecoded=audio_resample(RSC,BufSampled,(short int*)BufferForDecoded,AudioLenDecoded/SrcSampleSize)*DstSampleSize;
-
-                    // Adjust volume
-                    if (Volume!=1) {
-                        int16_t *Buf1=(int16_t*)BufSampled;
-                        int32_t mix;
-                        for (int j=0;j<AudioLenDecoded/4;j++) {
-                            // Left channel : Adjust if necessary (16 bits)
-                            mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                            // Right channel : Adjust if necessary (16 bits)
-                            mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                        }
-                    }
-
-                    // Append data to SoundTrackBloc
-                    SoundTrackBloc->AppendData((int16_t*)BufSampled,AudioLenDecoded);
-                    audio_resample_close(RSC);   // Close the resampling audio context
-                    av_free(BufSampled);         // Free allocated buffers
-                }
-            //#endif
-        } else {
-            SoundTrackBloc->AppendData((int16_t*)BufferForDecoded,AudioLenDecoded);
+                // Close the resampling audio context
+                audio_resample_close(RSC);
+            }
         }
+        if (Volume!=1) {
+            // Adjust volume
+            int16_t *Buf1=(int16_t*)BufferForDecoded;
+            int32_t mix;
+            for (int j=0;j<AudioLenDecoded/4;j++) {
+                // Left channel : Adjust if necessary (16 bits)
+                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+                // Right channel : Adjust if necessary (16 bits)
+                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+            }
+        }
+        if (AudioStream->codec->sample_rate!=SoundTrackBloc->SamplingRate) {
+            // Resampling
+            ToLog(LOGMSG_DEBUGTRACE,QString("IN:cVideoFile::ReadAudioFrame => do a resample of %1 bytes").arg(AudioLenDecoded));
+
+            double  NewSize=((double(AudioLenDecoded)/double(DstSampleSize))/double(AudioStream->codec->sample_rate))*double(SoundTrackBloc->SamplingRate);
+            double  PasSrc =1/double(AudioStream->codec->sample_rate);
+            double  PasDst =1/double(SoundTrackBloc->SamplingRate);
+            double  PosSrc =0;
+            double  PosDst =0;
+            int16_t *NewBuf=(short int*)av_malloc(NewSize*DstSampleSize+DstSampleSize);
+            int16_t *PtrSrc=(int16_t*)BufferForDecoded;
+            int16_t *PtrDst=NewBuf;
+            int     RealNewSize=0;
+
+            // For Rendering Mode use a resampling linear method with Hermit interpolation (http://en.wikipedia.org/wiki/Hermite_interpolation)
+            int16_t Left_x0,Left_x1,Left_x2,Left_x3;
+            int16_t Right_x0,Right_x1,Right_x2,Right_x3;
+            float   t,c0,c1,c2,c3,Value;
+
+            int Start=0,Nbr=NewSize;
+
+            if (ResamplingContinue) {
+                // First value
+                Left_x0=PrevLeft_x0;
+                Right_x0=PrevRight_x0;
+
+                // Second value
+                Left_x1=PrevLeft_x1;
+                Right_x1=PrevRight_x1;
+
+                // Third value
+                Left_x2=PrevLeft_x2;
+                Right_x2=PrevRight_x2;
+
+                // Fourth value
+                Left_x3=PrevLeft_x3;
+                Right_x3=PrevRight_x3;
+
+            } else {
+                // First value
+                Left_x0=*(PtrSrc++);    *(PtrDst++)=Left_x0;
+                Right_x0=*(PtrSrc++);   *(PtrDst++)=Right_x0;
+                PosSrc=PosSrc+PasSrc;
+                PosDst=PosDst+PasDst;
+                RealNewSize++;
+
+                // Second value
+                Left_x1=*(PtrSrc++);    *(PtrDst++)=Left_x1;
+                Right_x1=*(PtrSrc++);   *(PtrDst++)=Right_x1;
+                //PosSrc=PosSrc+PasSrc;
+                PosDst=PosDst+PasDst;
+                RealNewSize++;
+
+                // Third value
+                Left_x2=*(PtrSrc++);
+                Right_x2=*(PtrSrc++);
+
+                // Neutralize first swap
+                Left_x3 =Left_x2;       Left_x2 =Left_x1;       Left_x1 =Left_x0;
+                Right_x3=Right_x2;      Right_x2=Right_x1;      Right_x1=Right_x0;
+
+                // Adjust counter
+                Start=2;
+                Nbr=NewSize-2;
+            }
+            for (int i=Start;i<Nbr;i++) {
+
+                if ((PosDst-PosSrc)>=PasSrc) {
+                    // swap all values
+                    Left_x0 =Left_x1;       Left_x1 =Left_x2;       Left_x2 =Left_x3;
+                    Right_x0=Right_x1;      Right_x1=Right_x2;      Right_x2=Right_x3;
+
+                    // Get fourth value
+                    Left_x3=*(PtrSrc++);
+                    Right_x3=*(PtrSrc++);
+                    PosSrc=PosSrc+PasSrc;
+                }
+
+                // Calculate distance between PosSrc and next point
+                t=(PosDst-PosSrc)/PasSrc;
+
+                // Calculate interpolation using Hermite method
+                // Left Chanel
+                c0   =Left_x1;
+                c1   =.5F * (Left_x2 - Left_x0);
+                c2   =Left_x0 - (2.5F * Left_x1) + (2 * Left_x2) - (.5F * Left_x3);
+                c3   =(.5F * (Left_x3 - Left_x0)) + (1.5F * (Left_x1 - Left_x2));
+                Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
+                if (Value>32767)  Value=32767; else if (Value<-32768) Value=-32768;
+                *(PtrDst++)=int16_t(Value);
+
+                // Right Chanel
+                c0   =Right_x1;
+                c1   =.5F * (Right_x2 - Right_x0);
+                c2   =Right_x0 - (2.5F * Right_x1) + (2 * Right_x2) - (.5F * Right_x3);
+                c3   =(.5F * (Right_x3 - Right_x0)) + (1.5F * (Right_x1 - Right_x2));
+                Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
+                if (Value>32767)  Value=32767; else if (Value<-32768) Value=-32768;
+                *(PtrDst++)=int16_t(Value);
+                PosDst=PosDst+PasDst;
+
+                RealNewSize++;
+            }
+            /* // Last 2 values
+            *(PtrDst++)=Left_x2;
+            *(PtrDst++)=Right_x2;
+            RealNewSize++;
+            *(PtrDst++)=Left_x3;    //Left_x3;
+            *(PtrDst++)=Right_x3;   //Right_x3;
+            RealNewSize++;*/
+
+            // keep values for next time
+            PrevLeft_x0=Left_x0;
+            PrevRight_x0=Right_x0;
+            PrevLeft_x1=Left_x1;
+            PrevRight_x1=Right_x1;
+            PrevLeft_x2=Left_x2;
+            PrevRight_x2=Right_x2;
+            PrevLeft_x3=Left_x3;
+            PrevRight_x3=Right_x3;
+
+            // switch 2 buffers
+            AudioLenDecoded=RealNewSize*DstSampleSize;
+            av_free(BufferForDecoded);
+            BufferForDecoded=(uint8_t *)NewBuf;
+        }
+
+        // Append data to SoundTrackBloc
+        SoundTrackBloc->AppendData((int16_t*)BufferForDecoded,AudioLenDecoded);
     }
 
     // Now ensure SoundTrackBloc have correct wanted packet (if no then add nullsound)
