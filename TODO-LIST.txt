@@ -1,7 +1,7 @@
 **************************************************
-* FFDIAPORAMA 1.5 - Trunk
+* FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 18/11/2012
+* Dernier commit le : 15/12/2012
 **************************************************
 
 TODO :
@@ -55,17 +55,19 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
+-Corrige des problèmes de rééchantillonage du son qui provoquait un chevrotement sur les musiques <48 KHz
+-Corrige un plantage quand on double cliquait dans la timeline alors qu'il n'y a aucun slide
 
 English version / Bug fixes :
+-Fixes problems in resampling sound causing a quaver of <48 KHz music
+-Fixes a crash when double clicked in the timeline so that there is no slide
 
 French version / Nouveautés :
--Modifie les combo box de sélection d'une image depuis la librairie de fond d'écran dans les boites Arriere plan et Texte
--Ne conserve plus les images de la librairie en mémoire => passage en LULO comme les photos
--Création de l'addon ffDiaporama-texturemate
--Modifie la boite A propos de pour afficher le readme.txt de l'addon ffDiaporama-texturemate
+-N'affiche plus le message indiquant qu'une nouvelle version de ffDiaporama est disponible dans la barre de status mais le remplace par un bouton jaune, vert ou rouge selon le cas
+-Ajoute l'affichage du chapitre en cours dans la barre de status
+-Ajoute 2 nouvelles formes de bloc : Binoculars (Jumelles) et Trinoculars (Trinoculaire)
 
 English version / New features :
--Change the combo box for selecting an image from the library in text and background dialog
--Do not keep anymore images of the library in memory => switch to LULO mode like photos
--Creation of Addon ffDiaporama-texturemate
--Changes the About box to display the readme.txt of ffDiaporama-texturemate addon (if present)
+-No longer displays a message indicating that a new version of ffDiaporama is available in the status bar but replaces it with a button yellow, green or red, depending on the case
+-Adds display of the current chapter in the status bar
+-Adds 2 new shape for block : Binoculars and Trinoculars

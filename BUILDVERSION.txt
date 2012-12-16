@@ -1,1 +1,1 @@
-Version 1.6_devel 20121215
+Version 1.6_devel 20121216

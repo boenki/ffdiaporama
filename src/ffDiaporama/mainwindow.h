@@ -128,6 +128,7 @@ private slots:
     void    s_Event_SaveImageEvent();                       // Click on preview save image button
 
     // Actions small bottom right toolbar menu
+    void    s_Action_Version();
     void    s_Action_ZoomPlus();
     void    s_Action_ZoomMinus();
     void    s_Action_ChWindowDisplayMode_ToPlayerMode();
@@ -221,6 +222,7 @@ private:
     QAction *CreateMenuAction(QImage *Icon,QString Text,int Data,bool Checkable,bool IsCheck);
     QAction *CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck);
     bool    s_Browser_InRemoveFolder(QString FolderPath);
+    void    UpdateChapterInfo();
 
     Ui::MainWindow *ui;
 };

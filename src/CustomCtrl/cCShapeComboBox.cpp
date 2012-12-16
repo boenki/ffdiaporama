@@ -204,7 +204,7 @@ int cCShapeComboBox::GetCurrentFrameShape() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCShapeComboBox::GetCurrentFrameShape");
     int CurIndex=((QTableWidget *)view())->currentRow()*AutoFrameShapeComboBoxNBRCOLUMN+((QTableWidget *)view())->currentColumn();
     if ((CurIndex>=0)&&(CurIndex<FrameShapeTable.count())) return FrameShapeTable.at(CurIndex).FrameStyle;
-    return -1;
+    return 0;
 }
 
 //========================================================================================================================

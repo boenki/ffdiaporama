@@ -259,6 +259,10 @@ public:
     int                     AudioStreamNumber;          // Number of the audio stream
     int                     AudioTrackNbr;              // Number of audio stream in file
     int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
+    int16_t                 PrevLeft_x0,PrevLeft_x1;
+    int16_t                 PrevLeft_x2,PrevLeft_x3;
+    int16_t                 PrevRight_x0,PrevRight_x1;
+    int16_t                 PrevRight_x2,PrevRight_x3;
 
     QList<cImageInCache>    CacheImage;
 

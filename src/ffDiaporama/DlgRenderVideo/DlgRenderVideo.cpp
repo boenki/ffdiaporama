@@ -1187,8 +1187,17 @@ void DlgRenderVideo::DoAccept() {
                 Diaporama->LoadSources(Frame,double(H)/double(1080),W,H,false,true);                                        // Load source images
                 Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H); // Make final assembly
 
-                // Give time to interface!
-                QApplication::processEvents();
+                // Wait until encoder end processed the previous frame
+                while (Continue &&(Process.bytesToWrite()>0)) {
+                    if (!Process.waitForBytesWritten()) {
+                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Encoder error","Error message"),QMessageBox::Close);
+                        Continue=false;
+                    }
+                    // Give time to interface!
+                    QApplication::processEvents();
+                    // Stop the process if error occur or user ask to stop
+                    Continue=Continue && !StopProcessWanted;
+                }
 
                 // Apply anamorphous
                 if ((UpdateWidth!=W)&&(Frame->RenderedImage->width()!=UpdateWidth)) {
@@ -1216,18 +1225,6 @@ void DlgRenderVideo::DoAccept() {
 
                 if (ToSave!=Frame->RenderedImage) delete ToSave;
 
-                // Wait until encoder processed the frame
-                while (Continue &&(Process.bytesToWrite()>0)) {
-                    if (!Process.waitForBytesWritten()) {
-                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Encoder error","Error message"),QMessageBox::Close);
-                        Continue=false;
-                    }
-                    // Give time to interface!
-                    QApplication::processEvents();
-                    // Stop the process if error occur or user ask to stop
-                    Continue=Continue && !StopProcessWanted;
-                }
-
                 // Calculate next position
                 Position+=(FPS/1000);
 
@@ -1238,6 +1235,12 @@ void DlgRenderVideo::DoAccept() {
                 // Stop the process if error occur or user ask to stop
                 Continue=Continue && !StopProcessWanted;;
             }
+
+            if (!Process.waitForBytesWritten()) {
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Encoder error","Error message"),QMessageBox::Close);
+                Continue=false;
+            }
+
             // Clean PreviousFrame
             if (PreviousFrame!=NULL) delete PreviousFrame;
 
