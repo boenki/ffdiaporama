@@ -840,8 +840,7 @@ void cCustomSlideTable::mousePressEvent(QMouseEvent *event) {
             if (Selected!=Diaporama->CurrentCol) selectionModel()->select(model()->index(row,col,QModelIndex()),QItemSelectionModel::Toggle);
         } else {
             // Other : clear selection, then add item to selection
-            selectionModel()->clear();
-            setCurrentCell(row,col,QItemSelectionModel::Select|QItemSelectionModel::Current);
+            ResetDisplay(Selected);
         }
 
         IsDragOn=DRAGMODE_NOACTION;

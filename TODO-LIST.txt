@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 15/12/2012
+* Dernier commit le : 16/12/2012
 **************************************************
 
 TODO :
@@ -29,9 +29,6 @@ Basse       -       Bug de génération en 3GP - 320x240
 
 Normal      NF      Ajouter des formes de shape (jumelle, trapeze, parrallelograme ...)
 Basse       NF      Etudier la transposition des cadres de sélection quand rotation dans la boite slide
-Basse       WIP     Supprimer la librairie de fond de la mémoire
-                    =>  Isolation du code de cBackgroundComboBox réalisé
-                        Il faut encore isolé le code depuis cBrushDefinition
 Basse       WIP     Isolation du code des transition
                     =>  A isoler dans une _xxxx sous engine
 Basse       -       Pouvoir réduire ffD pendant la génération de film sous Windows
@@ -55,19 +52,15 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige des problèmes de rééchantillonage du son qui provoquait un chevrotement sur les musiques <48 KHz
--Corrige un plantage quand on double cliquait dans la timeline alors qu'il n'y a aucun slide
+-Corrige un bug d'affichage: Le cadre de sélection est toujours affiché sur l'ancienne sélection quand la preview est en fonction et qu'on clique sur une autre diapo
+-Corrige un bug d'interface: Dans la boite d'édition des diapositives, les raccourcies clavier du copier/coller des blocs prend le dessus même dans les zones d'édition
 
 English version / Bug fixes :
--Fixes problems in resampling sound causing a quaver of <48 KHz music
--Fixes a crash when double clicked in the timeline so that there is no slide
+-Fixed a bug of display: The selection frame is always displayed on the previous selection when the preview is running and you click on another slide
+-Fixed a bug of interface: In the slide edit dialog, keyboard shortcuts of copy/paste of blocks takes over even when cursor is in an edit zone
 
 French version / Nouveautés :
--N'affiche plus le message indiquant qu'une nouvelle version de ffDiaporama est disponible dans la barre de status mais le remplace par un bouton jaune, vert ou rouge selon le cas
--Ajoute l'affichage du chapitre en cours dans la barre de status
--Ajoute 2 nouvelles formes de bloc : Binoculars (Jumelles) et Trinoculars (Trinoculaire)
+-Ajoute 22 formes diverses (trapèzes, parallélograme, etc...)
 
 English version / New features :
--No longer displays a message indicating that a new version of ffDiaporama is available in the status bar but replaces it with a button yellow, green or red, depending on the case
--Adds display of the current chapter in the status bar
--Adds 2 new shape for block : Binoculars and Trinoculars
+-Adds 22 various forms (trapezoid, parallelogram, etc...)

@@ -23,14 +23,13 @@
 #include <QPainterPath>
 #include <QTransform>
 
-/* Shape form to add :
-    - PARALLÉLOGRAMME
-    - TRAPÈZE
-    - JUMELLE
-*/
-
 #define PI              3.14159265
 #define COSSIN45        0.707106781
+#define COS30           0.866
+#define SIN30           0.5
+#define SIN60           0.866
+#define COS60           0.5
+
 #define OPTION_UP       0x01
 #define OPTION_DOWN     0x02
 #define OPTION_RIGHT    0x04
@@ -127,8 +126,30 @@ void ShapeFormDefinitionInit() {
     ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.2,                       0,          0.2,        1,              0.8,            QApplication::translate("Shape forms","Pushed down")));
     ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.175,      0.125,      0.65,           0.75,           QApplication::translate("Shape forms","Ten tooth gear")));
     ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.1,        0.225,      0.8,            0.55,           QApplication::translate("Shape forms","Twelve tooth gear")));
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.04,       0.26,       0.92,           0.48,           QApplication::translate("Shape forms","Binoculars")));
-    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.03,       0.26,       0.94,           0.48,           QApplication::translate("Shape forms","Trinoculars")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.04,       0.26,       0.92,           0.48,           QApplication::translate("Shape forms","Vertical Binoculars")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.03,       0.26,       0.94,           0.48,           QApplication::translate("Shape forms","Vertical Trinoculars")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.75,                    QList<double>(),                            0,          0,          0.75,           1,              QApplication::translate("Shape forms","Trapezoid Down-Right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.25<<0.75,              QList<double>(),                            0.25,       0,          0.5,            1,              QApplication::translate("Shape forms","Trapezoid Up")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.25,                    QList<double>(),                            0.25,       0,          0.75,           1,              QApplication::translate("Shape forms","Trapezoid Down-Left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.75,                      0,          0,          1,              0.75,           QApplication::translate("Shape forms","Trapezoid Right-Down")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.75,                      0,          0,          1,              0.75,           QApplication::translate("Shape forms","Trapezoid Left-Down")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.25,       0.05,       0.5,            0.95,           QApplication::translate("Shape forms","Keyhole")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.26,       0.04,       0.48,           0.92,           QApplication::translate("Shape forms","Horizontal Binoculars")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.26,       0.03,       0.48,           0.94,           QApplication::translate("Shape forms","Horizontal Trinoculars")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.75,                    QList<double>(),                            0,          0,          0.75,           1,              QApplication::translate("Shape forms","Trapezoid Up-Right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.25<<0.75,              QList<double>(),                            0.25,       0,          0.5,            1,              QApplication::translate("Shape forms","Trapezoid Down")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.25,                    QList<double>(),                            0.25,       0,          0.75,           1,              QApplication::translate("Shape forms","Trapezoid Up-Left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.25<<0.75,                0,          0.25,       1,              0.5,            QApplication::translate("Shape forms","Trapezoid Left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.25<<0.75,                0,          0.25,       1,              0.5,            QApplication::translate("Shape forms","Trapezoid Right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.25<<0.75,              QList<double>()<<0.25<<0.75,                0,          0.25,       1,              0.5,            QApplication::translate("Shape forms","Plus")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0.09,       0.09,       0.82,           0.82,           QApplication::translate("Shape forms","Four oculars")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.25<<0.75,              QList<double>(),                            0.25,       0,          0.5,            1,              QApplication::translate("Shape forms","Parallelogram Left")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>()<<0.25<<0.75,              QList<double>(),                            0.25,       0,          0.5,            1,              QApplication::translate("Shape forms","Parallelogram Right")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.25<<0.75,                0,          0.25,       1,              0.5,            QApplication::translate("Shape forms","Parallelogram Up")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.25<<0.75,                0,          0.25,       1,              0.5,            QApplication::translate("Shape forms","Parallelogram Down")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.25,                      0,          0.25,       1,              0.75,           QApplication::translate("Shape forms","Trapezoid Right-Up")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>()<<0.25,                      0,          0.25,       1,              0.75,           QApplication::translate("Shape forms","Trapezoid Left-Up")));
+    ShapeFormDefinition.append(cShapeFormDefinition(true, QList<double>(),                          QList<double>(),                            0,          0,          1,              1,              QApplication::translate("Shape forms","Hourglass")));
 }
 
 //====================================================================================================================
@@ -821,47 +842,206 @@ QList<QPolygonF> ComputePuzzle(QRectF Rect,int Forme) {
 
 //====================================================================================================================
 
-#define COS30 0.866
-#define SIN30 0.5
-
-QList<QPolygonF> ComputeOculars(QRectF Rect,int OcularsNbr) {
+QList<QPolygonF> ComputeOculars(QRectF Rect,int OcularsNbr,int Options) {
     QList<QPolygonF>    List;
     QPainterPath        Path;
     QRectF              DemiRect;
     if (OcularsNbr==2) {
-        DemiRect=QRectF(Rect.left(),Rect.top(),(Rect.width()/4)*(2+(1-COS30)),Rect.height());
-        Path.moveTo(DemiRect.center().x()+COS30*DemiRect.width()/2,DemiRect.center().y()-SIN30*DemiRect.height()/2);
-        Path.arcTo(DemiRect,30, 60);
-        Path.arcTo(DemiRect,90, 90);
-        Path.arcTo(DemiRect,180,90);
-        Path.arcTo(DemiRect,270,60);
-        DemiRect=QRectF(Rect.left()+Rect.width()/2-(1-COS30)*(Rect.width()/4),Rect.top(),DemiRect.width(),DemiRect.height());
-        Path.arcTo(DemiRect,210,60);
-        Path.arcTo(DemiRect,270,90);
-        Path.arcTo(DemiRect,0,  90);
-        Path.arcTo(DemiRect,90, 60);
-        List.append(Path.toFillPolygon(QTransform()));
+        if (Options==OPTION_UP) {
+            DemiRect=QRectF(Rect.left(),Rect.top(),(Rect.width()/4)*(2+(1-COS30)),Rect.height());
+            Path.moveTo(DemiRect.center().x()+COS30*DemiRect.width()/2,DemiRect.center().y()-SIN30*DemiRect.height()/2);
+            Path.arcTo(DemiRect, 30,300);
+            DemiRect=QRectF(Rect.left()+Rect.width()/2-(1-COS30)*(Rect.width()/4),Rect.top(),DemiRect.width(),DemiRect.height());
+            Path.arcTo(DemiRect,210,300);
+        } else {
+            DemiRect=QRectF(Rect.left(),Rect.top(),Rect.width(),(Rect.height()/4)*(2+(1-SIN60)));
+            Path.moveTo(DemiRect.center().x()-COS60*DemiRect.width()/2,DemiRect.center().y()+SIN60*DemiRect.height()/2);
+            Path.arcTo(DemiRect,240,-300);
+            DemiRect=QRectF(Rect.left(),Rect.top()+Rect.height()/2-(1-SIN60)*(Rect.height()/4),DemiRect.width(),DemiRect.height());
+            Path.arcTo(DemiRect, 60,-300);
+        }
     } else if (OcularsNbr==3) {
-        DemiRect=QRectF(Rect.left(),Rect.top(),(Rect.width()/6)*(2+1-COS30+(1-COS30)/3),Rect.height());
-        Path.moveTo(DemiRect.center().x()+COS30*DemiRect.width()/2,DemiRect.center().y()-SIN30*DemiRect.height()/2);
-        Path.arcTo(DemiRect,30, 60);
-        Path.arcTo(DemiRect,90, 90);
-        Path.arcTo(DemiRect,180,90);
-        Path.arcTo(DemiRect,270,60);
-        DemiRect=QRectF(Rect.center().x()-DemiRect.width()/2,Rect.top(),DemiRect.width(),DemiRect.height());
-        Path.arcTo(DemiRect,210,60);
-        Path.arcTo(DemiRect,270,60);
-        DemiRect=QRectF(Rect.right()-DemiRect.width(),Rect.top(),DemiRect.width(),DemiRect.height());
-        Path.arcTo(DemiRect,210,60);
-        Path.arcTo(DemiRect,270,90);
-        Path.arcTo(DemiRect,0,  90);
-        Path.arcTo(DemiRect,90, 60);
-        DemiRect=QRectF(Rect.center().x()-DemiRect.width()/2,Rect.top(),DemiRect.width(),DemiRect.height());
-        Path.arcTo(DemiRect,30, 60);
-        Path.arcTo(DemiRect,90,60);
-        List.append(Path.toFillPolygon(QTransform()));
+        if (Options==OPTION_UP) {
+            DemiRect=QRectF(Rect.left(),Rect.top(),(Rect.width()/6)*(2+1-COS30+(1-COS30)/3),Rect.height());
+            Path.moveTo(DemiRect.center().x()+COS30*DemiRect.width()/2,DemiRect.center().y()-SIN30*DemiRect.height()/2);
+            Path.arcTo(DemiRect, 30,300);
+            DemiRect=QRectF(Rect.center().x()-DemiRect.width()/2,Rect.top(),DemiRect.width(),DemiRect.height());
+            Path.arcTo(DemiRect,210,120);
+            DemiRect=QRectF(Rect.right()-DemiRect.width(),Rect.top(),DemiRect.width(),DemiRect.height());
+            Path.arcTo(DemiRect,210,300);
+            DemiRect=QRectF(Rect.center().x()-DemiRect.width()/2,Rect.top(),DemiRect.width(),DemiRect.height());
+            Path.arcTo(DemiRect, 30,120);
+        } else {
+            DemiRect=QRectF(Rect.left(),Rect.top(),Rect.width(),(Rect.height()/6)*(2+1-SIN60+(1-SIN60)/3));
+            Path.moveTo(DemiRect.center().x()-COS60*DemiRect.width()/2,DemiRect.center().y()+SIN60*DemiRect.height()/2);
+            Path.arcTo(DemiRect,240,-300);
+            DemiRect=QRectF(Rect.left(),Rect.center().y()-DemiRect.height()/2,DemiRect.width(),DemiRect.height());
+            Path.arcTo(DemiRect, 60,-120);
+            DemiRect=QRectF(Rect.left(),Rect.bottom()-DemiRect.height(),DemiRect.width(),DemiRect.height());
+            Path.arcTo(DemiRect, 60,-300);
+            DemiRect=QRectF(Rect.left(),Rect.center().y()-DemiRect.height()/2,DemiRect.width(),DemiRect.height());
+            Path.arcTo(DemiRect,240,-120);
+        }
+    } else if (OcularsNbr==4) {
+        DemiRect=QRectF(Rect.left(),Rect.top(),(Rect.width()/4)*(2+(1-COSSIN45)),(Rect.height()/4)*(2+(1-COSSIN45)));
+        Path.moveTo(DemiRect.center().x()-COSSIN45*DemiRect.width()/2,DemiRect.center().y()+COSSIN45*DemiRect.height()/2);
+        Path.arcTo(DemiRect,225,-180);
+        DemiRect=QRectF(Rect.left()+Rect.width()/2-(1-COSSIN45)*(Rect.width()/4),Rect.top(),DemiRect.width(),DemiRect.height());
+        Path.arcTo(DemiRect,135,-180);
+        DemiRect=QRectF(DemiRect.left(),Rect.top()+Rect.height()/2-(1-COSSIN45)*(Rect.height()/4),DemiRect.width(),DemiRect.height());
+        Path.arcTo(DemiRect, 45,-180);
+        DemiRect=QRectF(Rect.left(),DemiRect.top(),DemiRect.width(),DemiRect.height());
+        Path.arcTo(DemiRect,-45,-180);
     }
+    List.append(Path.toFillPolygon(QTransform()));
     return List;
+}
+
+//====================================================================================================================
+
+QList<QPolygonF> ComputeTrapezoid(QRectF Rect,int Options,int SubOptions) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    qreal               QuarterX=Rect.width()/4;
+    qreal               QuarterY=Rect.height()/4;
+    switch (Options) {
+        case OPTION_UP:
+            Path.moveTo(QPointF(Rect.left(),Rect.bottom()));
+            if ((SubOptions&OPTION_LEFT)!=0)  Path.lineTo(QPointF(Rect.left()+QuarterX,Rect.top()));  else Path.lineTo(QPointF(Rect.left(),Rect.top()));
+            if ((SubOptions&OPTION_RIGHT)!=0) Path.lineTo(QPointF(Rect.right()-QuarterX,Rect.top())); else Path.lineTo(QPointF(Rect.right(),Rect.top()));
+            Path.lineTo(QPointF(Rect.right(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.left(),Rect.bottom()));
+            break;
+
+        case OPTION_DOWN:
+            Path.moveTo(QPointF(Rect.left(),Rect.top()));
+            if ((SubOptions&OPTION_LEFT)!=0)  Path.lineTo(QPointF(Rect.left()+QuarterX,Rect.bottom()));  else Path.lineTo(QPointF(Rect.left(),Rect.bottom()));
+            if ((SubOptions&OPTION_RIGHT)!=0) Path.lineTo(QPointF(Rect.right()-QuarterX,Rect.bottom())); else Path.lineTo(QPointF(Rect.right(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.right(),Rect.top()));
+            Path.lineTo(QPointF(Rect.left(),Rect.top()));
+            break;
+        case OPTION_LEFT :
+            Path.moveTo(QPointF(Rect.right(),Rect.bottom()));
+            if ((SubOptions&OPTION_DOWN)!=0) Path.lineTo(QPointF(Rect.left(),Rect.bottom()-QuarterY)); else Path.lineTo(QPointF(Rect.left(),Rect.bottom()));
+            if ((SubOptions&OPTION_UP)!=0)   Path.lineTo(QPointF(Rect.left(),Rect.top()+QuarterY));    else Path.lineTo(QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.right(),Rect.top()));
+            Path.lineTo(QPointF(Rect.right(),Rect.bottom()));
+            break;
+        case OPTION_RIGHT :
+            Path.moveTo(QPointF(Rect.left(),Rect.bottom()));
+            if ((SubOptions&OPTION_DOWN)!=0) Path.lineTo(QPointF(Rect.right(),Rect.bottom()-QuarterY)); else Path.lineTo(QPointF(Rect.right(),Rect.bottom()));
+            if ((SubOptions&OPTION_UP)!=0)   Path.lineTo(QPointF(Rect.right(),Rect.top()+QuarterY));    else Path.lineTo(QPointF(Rect.right(),Rect.top()));
+            Path.lineTo(QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.left(),Rect.bottom()));
+            break;
+    }
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+//====================================================================================================================
+
+QList<QPolygonF> ComputeParallelo(QRectF Rect,int Options) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    qreal               QuarterX=Rect.width()/4;
+    qreal               QuarterY=Rect.height()/4;
+    switch (Options) {
+        case OPTION_LEFT:
+            Path.moveTo(QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.right()-QuarterX,Rect.top()));
+            Path.lineTo(QPointF(Rect.right(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.left()+QuarterX,Rect.bottom()));
+            Path.lineTo(QPointF(Rect.left(),Rect.top()));
+            break;
+        case OPTION_RIGHT:
+            Path.moveTo(QPointF(Rect.left()+QuarterX,Rect.top()));
+            Path.lineTo(QPointF(Rect.right(),Rect.top()));
+            Path.lineTo(QPointF(Rect.right()-QuarterX,Rect.bottom()));
+            Path.lineTo(QPointF(Rect.left(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.left()+QuarterX,Rect.top()));
+            break;
+        case OPTION_UP:
+            Path.moveTo(QPointF(Rect.left(),Rect.top()+QuarterY));
+            Path.lineTo(QPointF(Rect.right(),Rect.top()));
+            Path.lineTo(QPointF(Rect.right(),Rect.bottom()-QuarterY));
+            Path.lineTo(QPointF(Rect.left(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.left(),Rect.top()+QuarterY));
+            break;
+        case OPTION_DOWN:
+            Path.moveTo(QPointF(Rect.left(),Rect.top()));
+            Path.lineTo(QPointF(Rect.right(),Rect.top()+QuarterY));
+            Path.lineTo(QPointF(Rect.right(),Rect.bottom()));
+            Path.lineTo(QPointF(Rect.left(),Rect.bottom()-QuarterY));
+            Path.lineTo(QPointF(Rect.left(),Rect.top()));
+            break;
+    }
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+//====================================================================================================================
+
+QList<QPolygonF> ComputeKeyHole(QRectF Rect) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    QRectF              DemiRect;
+
+    DemiRect=QRectF(Rect.left(),Rect.top(),Rect.width(),(Rect.height()/4)*(2+(1-SIN60)));
+    Path.moveTo(DemiRect.center().x()-COS60*DemiRect.width()/2,DemiRect.center().y()+SIN60*DemiRect.height()/2);
+    Path.arcTo(DemiRect,240,-300);
+    Path.lineTo(QPointF(Rect.right()-Rect.width()*0.1,Rect.bottom()));
+    Path.lineTo(QPointF(Rect.left()+Rect.width()*0.1,Rect.bottom()));
+    Path.lineTo(DemiRect.center().x()-COS60*DemiRect.width()/2,DemiRect.center().y()+SIN60*DemiRect.height()/2);
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+//====================================================================================================================
+
+QList<QPolygonF> ComputePlus(QRectF Rect) {
+    qreal               QuarterX=Rect.width()/4;
+    qreal               QuarterY=Rect.height()/4;
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    Path.moveTo(QPointF(Rect.left()+QuarterX,Rect.top()));
+    Path.lineTo(QPointF(Rect.right()-QuarterX,Rect.top()));
+    Path.lineTo(QPointF(Rect.right()-QuarterX,Rect.top()+QuarterY));
+    Path.lineTo(QPointF(Rect.right(),Rect.top()+QuarterY));
+    Path.lineTo(QPointF(Rect.right(),Rect.bottom()-QuarterY));
+    Path.lineTo(QPointF(Rect.right()-QuarterX,Rect.bottom()-QuarterY));
+    Path.lineTo(QPointF(Rect.right()-QuarterX,Rect.bottom()));
+    Path.lineTo(QPointF(Rect.left()+QuarterX,Rect.bottom()));
+    Path.lineTo(QPointF(Rect.left()+QuarterX,Rect.bottom()-QuarterY));
+    Path.lineTo(QPointF(Rect.left(),Rect.bottom()-QuarterY));
+    Path.lineTo(QPointF(Rect.left(),Rect.top()+QuarterY));
+    Path.lineTo(QPointF(Rect.left()+QuarterX,Rect.top()+QuarterY));
+    Path.lineTo(QPointF(Rect.left()+QuarterX,Rect.top()));
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+}
+
+//====================================================================================================================
+
+#define COS80 0.173648178
+#define SIN80 0.984807753
+
+QList<QPolygonF> ComputeHourglass(QRectF Rect) {
+    QList<QPolygonF>    List;
+    QPainterPath        Path;
+    QRectF              DemiRect;
+    DemiRect=QRectF(Rect.left(),Rect.top()-Rect.height()/2,Rect.width(),Rect.height());
+    Path.moveTo(DemiRect.center().x()-COS80*DemiRect.width()/2,DemiRect.center().y()+SIN80*DemiRect.height()/2);
+    Path.arcTo(DemiRect,260,-80);
+    Path.lineTo(Rect.right(),Rect.top());
+    Path.arcTo(DemiRect,0,-80);
+    DemiRect=QRectF(Rect.left(),Rect.bottom()-Rect.height()/2,Rect.width(),Rect.height());
+    Path.arcTo(DemiRect,80,-80);
+    Path.lineTo(Rect.left(),Rect.bottom());
+    Path.arcTo(DemiRect,180,-80);
+    List.append(Path.toFillPolygon(QTransform()));
+    return List;
+
 }
 
 //====================================================================================================================
@@ -949,8 +1129,30 @@ QList<QPolygonF> ComputePolygon(int BackgroundForm,qreal left,qreal top,qreal wi
         case SHAPEFORM_PUZZLEDL         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_RIGHT);                           break;  // Puzzle Down-Left
         case SHAPEFORM_PUZZLEDC         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_LEFT|OPTION_RIGHT);               break;  // Puzzle Down-Center
         case SHAPEFORM_PUZZLEDR         : return ComputePuzzle(QRectF(left,top,width,height),OPTION_UP|OPTION_LEFT);                            break;  // Puzzle Down-Right
-        case SHAPEFORM_BINOCULARS       : return ComputeOculars(QRectF(left,top,width,height),2);                                               break;  // Binoculars
-        case SHAPEFORM_TRINOCULARS      : return ComputeOculars(QRectF(left,top,width,height),3);                                               break;  // Trinoculars
+        case SHAPEFORM_BINOCULARSV      : return ComputeOculars(QRectF(left,top,width,height),2,OPTION_UP);                                     break;  // Binoculars vertical
+        case SHAPEFORM_TRINOCULARSV     : return ComputeOculars(QRectF(left,top,width,height),3,OPTION_UP);                                     break;  // Trinoculars vertical
+        case SHAPEFORM_BINOCULARSH      : return ComputeOculars(QRectF(left,top,width,height),2,OPTION_LEFT);                                   break;  // Binoculars horizontal
+        case SHAPEFORM_TRINOCULARSH     : return ComputeOculars(QRectF(left,top,width,height),3,OPTION_LEFT);                                   break;  // Trinoculars horizontal
+        case SHAPEFORM_FOUROCULARS      : return ComputeOculars(QRectF(left,top,width,height),4,OPTION_UP);                                     break;  // Four oculars
+        case SHAPEFORM_TRAPEZOIDUPLEFT  : return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_UP,OPTION_LEFT);                         break;  // Trapezoid Up-Left
+        case SHAPEFORM_TRAPEZOIDUP      : return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_UP,OPTION_LEFT|OPTION_RIGHT);            break;  // Trapezoid Up
+        case SHAPEFORM_TRAPEZOIDUPRIGHT : return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_UP,OPTION_RIGHT);                        break;  // Trapezoid Up-Right
+        case SHAPEFORM_TRAPEZOIDOWNLEFT : return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_DOWN,OPTION_LEFT);                       break;  // Trapezoid Down-Left
+        case SHAPEFORM_TRAPEZOIDOWN     : return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_DOWN,OPTION_LEFT|OPTION_RIGHT);          break;  // Trapezoid Down
+        case SHAPEFORM_TRAPEZOIDOWNRIGHT: return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_DOWN,OPTION_RIGHT);                      break;  // Trapezoid Down-Right
+        case SHAPEFORM_TRAPEZOIDLEFTUP  : return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_LEFT,OPTION_UP);                         break;  // Trapezoid Left-Up
+        case SHAPEFORM_TRAPEZOIDLEFT    : return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_LEFT,OPTION_UP|OPTION_DOWN);             break;  // Trapezoid Left
+        case SHAPEFORM_TRAPEZOIDLEFTDOWN: return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_LEFT,OPTION_DOWN);                       break;  // Trapezoid Left-Down
+        case SHAPEFORM_TRAPEZOIDRIGHTUP : return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_RIGHT,OPTION_UP);                        break;  // Trapezoid Right-Up
+        case SHAPEFORM_TRAPEZOIDRIGHT   : return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_RIGHT,OPTION_UP|OPTION_DOWN);            break;  // Trapezoid Right
+        case SHAPEFORM_TRAPEZOIDRIGHTDOWN:return ComputeTrapezoid(QRectF(left,top,width,height),OPTION_RIGHT,OPTION_DOWN);                      break;  // Trapezoid Right-Down
+        case SHAPEFORM_PARALLELOLEFT    : return ComputeParallelo(QRectF(left,top,width,height),OPTION_LEFT);                                   break;  // Parallelogram Left
+        case SHAPEFORM_PARALLELORIGHT   : return ComputeParallelo(QRectF(left,top,width,height),OPTION_RIGHT);                                  break;  // Parallelogram Right
+        case SHAPEFORM_PARALLELOUP      : return ComputeParallelo(QRectF(left,top,width,height),OPTION_UP);                                     break;  // Parallelogram Up
+        case SHAPEFORM_PARALLELODOWN    : return ComputeParallelo(QRectF(left,top,width,height),OPTION_DOWN);                                   break;  // Parallelogram Down
+        case SHAPEFORM_KEYHOLE          : return ComputeKeyHole(QRectF(left,top,width,height));                                                 break;  // KeyHole
+        case SHAPEFORM_PLUS             : return ComputePlus(QRectF(left,top,width,height));                                                    break;  // Plus
+        case SHAPEFORM_HOURGLASS        : return ComputeHourglass(QRectF(left,top,width,height));                                               break;  // Hourglass
         default                         : return ComputePolygonRect(QRectF(left,top,width,height));                                             break;  // No shape or rectangle or unknown shape
     }
 }
