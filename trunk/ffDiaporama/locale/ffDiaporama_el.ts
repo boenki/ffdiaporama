@@ -1598,7 +1598,7 @@ See help for more details!</source>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="138"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="185"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="203"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="801"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="804"/>
         <source>Full screen size</source>
         <translation>Πλήρης οθόνη</translation>
     </message>
@@ -1606,7 +1606,7 @@ See help for more details!</source>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="139"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="186"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="204"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="803"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="806"/>
         <source>TV margins</source>
         <translation>Περιθώρια TV</translation>
     </message>
@@ -1614,7 +1614,7 @@ See help for more details!</source>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="140"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="187"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="205"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="805"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="808"/>
         <source>Two thirds screen</source>
         <translation>2/3 της οθόνης</translation>
     </message>
@@ -1622,7 +1622,7 @@ See help for more details!</source>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="141"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="188"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="206"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="807"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="810"/>
         <source>Half screen</source>
         <translation>1/2 της οθόνης</translation>
     </message>
@@ -1630,7 +1630,7 @@ See help for more details!</source>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="142"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="189"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="207"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="809"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="812"/>
         <source>Third screen</source>
         <translation>1/3 της οθόνης</translation>
     </message>
@@ -1638,37 +1638,37 @@ See help for more details!</source>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="143"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="190"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="208"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="811"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="814"/>
         <source>Quarter screen</source>
         <translation>1/4 της οθόνης</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="145"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="822"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="825"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="828"/>
         <source>Unlock</source>
         <translation>Ξεκλείδωμα</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="184"/>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="202"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="798"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="801"/>
         <source>Real image size</source>
         <translation>Πραγματικό μέγεθος</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="794"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="797"/>
         <source>Custom size</source>
         <translation>Προσαρμοσμένο μέγεθος</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="826"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="829"/>
         <source>Lock to this geometry</source>
         <translation>Κλείδωμα σε αυτήν τη γεωμετρία</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="147"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="827"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="830"/>
         <source>Lock to project geometry</source>
         <translation>Κλείδωμα στη γεωμετρία του έργου</translation>
     </message>
@@ -2722,58 +2722,58 @@ Move the current selected file a notch up</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="577"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="872"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="871"/>
         <source>Stop rendering</source>
         <translation>Διακοπή της κωδικοποίησης</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="884"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="883"/>
         <source>Range selection</source>
         <translation>Εύρος επιλογής</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="885"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="884"/>
         <source>Slide range is defined to incorrect values</source>
         <translation>Το εύρος έχει καθοριστεί σε μη έγκυρες τιμές</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="893"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="892"/>
         <source>Language selection</source>
         <translation>Επιλογή γλώσσας</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="894"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="893"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
         <translation>Η γλώσσα θα πρέπει να είναι κενή ή ένας κωδικός γλώσσας ISO 639 (3 χαρακτήρες)
 Δείτε στη Βοήθεια για περισσότερες πληροφορίες!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="901"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="900"/>
         <source>Overwrite file ?</source>
         <translation>Αντικατάσταση του αρχείου;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="902"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="901"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
         <translation>Το αρχείο που επιλέξατε υπάρχει ήδη.
 Επιθυμείτε την αντικατάστασή του;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1035"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1034"/>
         <source>Stop rendering process and exit dialog box</source>
         <translation>Διακοπή της διεργασίας αποτύπωσης και κλείσιμο του παραθύρου</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1222"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1221"/>
         <source>Error sending image to encoder</source>
         <comment>Error message</comment>
         <translation>Σφάλμα αποστολής της εικόνας στον κωδικοποιητή</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1193"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1240"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1192"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1239"/>
         <source>Encoder error</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κωδικοποιητή</translation>
@@ -2781,88 +2781,88 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="26"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="673"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="761"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="916"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="928"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1278"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1333"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1342"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1359"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1374"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1395"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1411"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1420"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1427"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1519"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1581"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1596"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1601"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1624"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1628"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="760"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="915"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="927"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1277"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1332"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1341"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1358"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1373"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1394"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1410"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1419"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1426"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1518"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1580"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1595"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1600"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1623"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1627"/>
         <source>Render video</source>
         <translation>Δημιουργία του βίντεο</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="961"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="960"/>
         <source>Device model selection</source>
         <translation>Επιλογή μοντέλου συσκευής</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="962"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="961"/>
         <source>A device model is require!</source>
         <translation>Απαιτείται ένα μοντέλο συσκευής!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1046"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1045"/>
         <source>Encoding sound</source>
         <translation>Κωδικοποίηση ήχου</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1089"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1088"/>
         <source>Start encoder</source>
         <translation>Εκκίνηση του κωδικοποιητή</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1136"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1193"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1222"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1240"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1262"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1266"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1135"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1192"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1221"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1239"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1261"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1265"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Σφάλμα</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1137"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1136"/>
         <source>Error starting encoder</source>
         <comment>Error message</comment>
         <translation>Σφάλμα εκκίνησης του κωδικοποιητή</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1172"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1171"/>
         <source> - Estimated time left : </source>
         <translation> - Εκτίμηση εναπομένοντος χρόνου: </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1247"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1246"/>
         <source>Closing encoder</source>
         <translation>Κλείσιμο του κωδικοποιητή</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1262"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1261"/>
         <source>Error closing encoder</source>
         <comment>Error message</comment>
         <translation>Σφάλμα στο κλείσιμο του κωδικοποιητή</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1266"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1265"/>
         <source>Error exiting encoder</source>
         <comment>Error message</comment>
         <translation>Σφάλμα κατά την έξοδο του κωδικοποιητή</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1278"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1277"/>
         <source>Job completed successfully!</source>
         <translation>Η εργασία ολοκληρώθηκε επιτυχώς!</translation>
     </message>
@@ -3494,7 +3494,7 @@ information</source>
         <translation>Διανομή καθέτως</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1935"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1938"/>
         <source>Remove block</source>
         <translation>Αφαίρεση τμήματος</translation>
     </message>
@@ -3779,44 +3779,44 @@ shot</source>
         <translation>Αναβόσβημα σε πολύ υψηλή ταχύτητα</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1322"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1325"/>
         <source>Are you sure you want to delete this shot?</source>
         <translation>Επιθυμείτε σίγουρα τη διαγραφή αυτού του στιγμιότυπου;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1463"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1466"/>
         <source>Lengthened to %1</source>
         <translation>Επιμηκύνθηκε σε %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1935"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1938"/>
         <source>Are you sure you want to delete this block?</source>
         <translation>Επιθυμείτε σίγουρα τη διαγραφή αυτού του τμήματος;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1938"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1941"/>
         <source>Are you sure you want to delete these blocks?</source>
         <translation>Επιθυμείτε σίγουρα τη διαγραφή των τμημάτων;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1938"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1941"/>
         <source>Remove blocks</source>
         <translation>Αφαίρεση των τμημάτων</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3317"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1322"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1325"/>
         <source>Remove shot</source>
         <translation>Αφαίρεση στιγμιότυπου</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1704"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1707"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Κείμενο</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1763"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1766"/>
         <source>Add files</source>
         <translation>Προσθήκη αρχείων</translation>
     </message>
@@ -5206,21 +5206,21 @@ and help</source>
         <translation>Ανάγνωση αρχείου διαμόρφωσης</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1847"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1850"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1939"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
         <translation>Αυτή η εφαρμογή υποστηρίζει μόνο κομμάτια ήχου με δειγματοληψία μη υπογεγραμμένου 8bit ή υπογεγραμμένου 16bit</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1851"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1854"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1945"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
         <translation>Αυτή η εφαρμογή υποστηρίζει κομμάτια ήχου mono ή stereo μόνο</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1922"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1925"/>
         <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1732"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1494"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1498"/>
@@ -5774,7 +5774,7 @@ Do you want to open it nevertheless?</source>
         <translation>Προσθήκη αρχείων</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1805"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1808"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1919"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
@@ -6207,358 +6207,468 @@ Do you want to open it nevertheless?</source>
 <context>
     <name>Shape forms</name>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="61"/>
+        <location filename="../src/engine/_Shape.cpp" line="60"/>
         <source>No shape</source>
         <translation>Χωρίς σχήμα</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="62"/>
+        <location filename="../src/engine/_Shape.cpp" line="61"/>
         <source>Rectangle</source>
         <translation>Ορθογώνιο</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="63"/>
+        <location filename="../src/engine/_Shape.cpp" line="62"/>
         <source>Rounded rectangle</source>
         <translation>Στρογγυλεμένο ορθογώνιο</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="64"/>
+        <location filename="../src/engine/_Shape.cpp" line="63"/>
         <source>Bubble</source>
         <translation>Σφαίρα</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="65"/>
+        <location filename="../src/engine/_Shape.cpp" line="64"/>
         <source>Ellipse</source>
         <translation>Έλλειψη</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="66"/>
+        <location filename="../src/engine/_Shape.cpp" line="65"/>
         <source>Old Triangle up version</source>
         <translation>Τρίγωνο πάνω - παλιά έκδοση</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="67"/>
+        <location filename="../src/engine/_Shape.cpp" line="66"/>
         <source>Old Triangle right version</source>
         <translation>Τρίγωνο δεξιά - παλιά έκδοση</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="68"/>
+        <location filename="../src/engine/_Shape.cpp" line="67"/>
         <source>Old Triangle down version</source>
         <translation>Τρίγωνο κάτω - παλιά έκδοση</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="69"/>
+        <location filename="../src/engine/_Shape.cpp" line="68"/>
         <source>Old Triangle left version</source>
         <translation>Τρίγωνο αριστερά - παλιά έκδοση</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="70"/>
+        <location filename="../src/engine/_Shape.cpp" line="69"/>
         <source>Rhombus</source>
         <translation>Ρόμβος</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="71"/>
+        <location filename="../src/engine/_Shape.cpp" line="70"/>
         <source>Pentagon</source>
         <translation>Πεντάγωνο</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="72"/>
+        <location filename="../src/engine/_Shape.cpp" line="71"/>
         <source>Hexagon</source>
         <translation>Εξάγωνο</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="73"/>
+        <location filename="../src/engine/_Shape.cpp" line="72"/>
         <source>Octogon</source>
         <translation>Οκτάγωνο</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="74"/>
+        <location filename="../src/engine/_Shape.cpp" line="73"/>
         <source>Simple arrow up</source>
         <translation>Απλό βέλος πάνω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="75"/>
+        <location filename="../src/engine/_Shape.cpp" line="74"/>
         <source>Simple arrow right</source>
         <translation>Απλό βέλος δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="76"/>
+        <location filename="../src/engine/_Shape.cpp" line="75"/>
         <source>Simple arrow down</source>
         <translation>Απλό βέλος κάτω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="77"/>
+        <location filename="../src/engine/_Shape.cpp" line="76"/>
         <source>Simple arrow left</source>
         <translation>Απλό βέλος αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="78"/>
+        <location filename="../src/engine/_Shape.cpp" line="77"/>
         <source>Heart</source>
         <translation>Καρδιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="79"/>
+        <location filename="../src/engine/_Shape.cpp" line="78"/>
         <source>Puzzle Up-Left</source>
         <translation>Παζλ πάνω αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="80"/>
+        <location filename="../src/engine/_Shape.cpp" line="79"/>
         <source>Puzzle Up-Center</source>
         <translation>Παζλ πάνω κέντρο</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="81"/>
+        <location filename="../src/engine/_Shape.cpp" line="80"/>
         <source>Puzzle Up-Right</source>
         <translation>Παζλ πάνω δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="82"/>
+        <location filename="../src/engine/_Shape.cpp" line="81"/>
         <source>Double vertical arrows</source>
         <translation>Διπλά βέλη κάθετα</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="83"/>
+        <location filename="../src/engine/_Shape.cpp" line="82"/>
         <source>Double horizontal arrows</source>
         <translation>Διπλά βέλη οριζόντια</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="84"/>
+        <location filename="../src/engine/_Shape.cpp" line="83"/>
         <source>Double diagonal arrows 1</source>
         <translation>Διπλά βέλη διαγώνια 1</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="85"/>
+        <location filename="../src/engine/_Shape.cpp" line="84"/>
         <source>Double diagonal arrows 2</source>
         <translation>Διπλά βέλη διαγώνια 2</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="86"/>
+        <location filename="../src/engine/_Shape.cpp" line="85"/>
         <source>Spade</source>
         <translation>Μπαστούνι</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="87"/>
+        <location filename="../src/engine/_Shape.cpp" line="86"/>
         <source>Puzzle Middle-Left</source>
         <translation>Παζλ μέση αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="88"/>
+        <location filename="../src/engine/_Shape.cpp" line="87"/>
         <source>Puzzle Middle-Center</source>
         <translation>Παζλ μέση κέντρο</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="89"/>
+        <location filename="../src/engine/_Shape.cpp" line="88"/>
         <source>Puzzle Middle-Right</source>
         <translation>Παζλ μέση δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="90"/>
+        <location filename="../src/engine/_Shape.cpp" line="89"/>
         <source>Right triangle Up-Left</source>
         <translation>Ορθογώνιο τρίγωνο αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="91"/>
+        <location filename="../src/engine/_Shape.cpp" line="90"/>
         <source>Right triangle Up-Right</source>
         <translation>Ορθογώνιο τρίγωνο πάνω δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="92"/>
+        <location filename="../src/engine/_Shape.cpp" line="91"/>
         <source>Right triangle Down-Left</source>
         <translation>Ορθογώνιο τρίγωνο κάτω αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="93"/>
+        <location filename="../src/engine/_Shape.cpp" line="92"/>
         <source>Right triangle Down-Right</source>
         <translation>Ορθογώνιο τρίγωνο κάτω δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="94"/>
+        <location filename="../src/engine/_Shape.cpp" line="93"/>
         <source>Club</source>
         <translation>Τριφύλλι</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="95"/>
+        <location filename="../src/engine/_Shape.cpp" line="94"/>
         <source>Puzzle Down-Left</source>
         <translation>Παζλ κάτω αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="96"/>
+        <location filename="../src/engine/_Shape.cpp" line="95"/>
         <source>Puzzle Down-Center</source>
         <translation>Παζλ κάτω κέντρο</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="97"/>
+        <location filename="../src/engine/_Shape.cpp" line="96"/>
         <source>Puzzle Down-Right</source>
         <translation>Παζλ κάτω δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="98"/>
+        <location filename="../src/engine/_Shape.cpp" line="97"/>
         <source>Single triangle up</source>
         <translation>Απλό τρίγωνο - πάνω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="99"/>
+        <location filename="../src/engine/_Shape.cpp" line="98"/>
         <source>Single triangle right</source>
         <translation>Απλό τρίγωνο - δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="100"/>
+        <location filename="../src/engine/_Shape.cpp" line="99"/>
         <source>Single triangle down</source>
         <translation>Απλό τρίγωνο - κάτω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="101"/>
+        <location filename="../src/engine/_Shape.cpp" line="100"/>
         <source>Single triangle left</source>
         <translation>Απλό τρίγωνο - αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="102"/>
+        <location filename="../src/engine/_Shape.cpp" line="101"/>
         <source>Pushed up</source>
         <translation>Εισερχόμενη άκρη - πάνω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="103"/>
+        <location filename="../src/engine/_Shape.cpp" line="102"/>
         <source>Sharp down</source>
         <translation>Εξερχόμενη άκρη - κάτω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="104"/>
+        <location filename="../src/engine/_Shape.cpp" line="103"/>
         <source>Four-pointed stars</source>
         <translation>Αστέρι 4ων ακτίνων</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="105"/>
+        <location filename="../src/engine/_Shape.cpp" line="104"/>
         <source>Five-pointed stars</source>
         <translation>Αστέρι 5 ακτίνων</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="106"/>
+        <location filename="../src/engine/_Shape.cpp" line="105"/>
         <source>Double triangle up</source>
         <translation>Διπλό τρίγωνο - πάνω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="107"/>
+        <location filename="../src/engine/_Shape.cpp" line="106"/>
         <source>Double triangle right</source>
         <translation>Διπλό τρίγωνο - δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="108"/>
+        <location filename="../src/engine/_Shape.cpp" line="107"/>
         <source>Double triangle down</source>
         <translation>Διπλό τρίγωνο - κάτω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="109"/>
+        <location filename="../src/engine/_Shape.cpp" line="108"/>
         <source>Double triangle left</source>
         <translation>Διπλό τρίγωνο - αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="110"/>
+        <location filename="../src/engine/_Shape.cpp" line="109"/>
         <source>Double chevron up</source>
         <translation>Διπλό σεβρόν - πάνω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="111"/>
+        <location filename="../src/engine/_Shape.cpp" line="110"/>
         <source>Single chevron down</source>
         <translation>Διπλό σεβρόν - κάτω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="112"/>
+        <location filename="../src/engine/_Shape.cpp" line="111"/>
         <source>Six-pointed stars</source>
         <translation>Αστέρι 6 ακτίνων</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="113"/>
+        <location filename="../src/engine/_Shape.cpp" line="112"/>
         <source>Height-pointed stars</source>
         <translation>Αστέρι 8 ακτίνων</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="114"/>
+        <location filename="../src/engine/_Shape.cpp" line="113"/>
         <source>Pushed left</source>
         <translation>Εισερχόμενη άκρη - αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="115"/>
+        <location filename="../src/engine/_Shape.cpp" line="114"/>
         <source>Double chevron left</source>
         <translation>Διπλό σεβρόν - αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="116"/>
+        <location filename="../src/engine/_Shape.cpp" line="115"/>
         <source>Single chevron left</source>
         <translation>Απλό σεβρόν - αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="117"/>
+        <location filename="../src/engine/_Shape.cpp" line="116"/>
         <source>Sharp left</source>
         <translation>Εξερχόμενη άκρη - αριστερά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="118"/>
+        <location filename="../src/engine/_Shape.cpp" line="117"/>
         <source>Single chevron up</source>
         <translation>Απλό σεβρόν - πάνω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="119"/>
+        <location filename="../src/engine/_Shape.cpp" line="118"/>
         <source>Double chevron down</source>
         <translation>Διπλό σεβρόν - κάτω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="120"/>
+        <location filename="../src/engine/_Shape.cpp" line="119"/>
         <source>Six tooth gear</source>
         <translation>Γρανάζι 6 δοντιών</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="121"/>
+        <location filename="../src/engine/_Shape.cpp" line="120"/>
         <source>Eight tooth gear</source>
         <translation>Γρανάζι 8 δοντιών</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="122"/>
+        <location filename="../src/engine/_Shape.cpp" line="121"/>
         <source>Sharp right</source>
         <translation>Εξερχόμενη άκρη - δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="123"/>
+        <location filename="../src/engine/_Shape.cpp" line="122"/>
         <source>Single chevron right</source>
         <translation>Απλό σεβρόν - δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="124"/>
+        <location filename="../src/engine/_Shape.cpp" line="123"/>
         <source>Double chevron right</source>
         <translation>Διπλό σεβρόν - δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="125"/>
+        <location filename="../src/engine/_Shape.cpp" line="124"/>
         <source>Pushed right</source>
         <translation>Εισερχόμενη άκρη - δεξιά</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="126"/>
+        <location filename="../src/engine/_Shape.cpp" line="125"/>
         <source>Sharp up</source>
         <translation>Εξερχόμενη άκρη - πάνω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="127"/>
+        <location filename="../src/engine/_Shape.cpp" line="126"/>
         <source>Pushed down</source>
         <translation>Εισερχόμενη άκρη - κάτω</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="128"/>
+        <location filename="../src/engine/_Shape.cpp" line="127"/>
         <source>Ten tooth gear</source>
         <translation>Γρανάζι 10 δοντιών</translation>
     </message>
     <message>
-        <location filename="../src/engine/_Shape.cpp" line="129"/>
+        <location filename="../src/engine/_Shape.cpp" line="128"/>
         <source>Twelve tooth gear</source>
         <translation>Γρανάζι 12 δοντιών</translation>
     </message>
     <message>
+        <location filename="../src/engine/_Shape.cpp" line="129"/>
+        <source>Vertical Binoculars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/engine/_Shape.cpp" line="130"/>
-        <source>Binoculars</source>
+        <source>Vertical Trinoculars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/engine/_Shape.cpp" line="131"/>
-        <source>Trinoculars</source>
+        <source>Trapezoid Down-Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="132"/>
+        <source>Trapezoid Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="133"/>
+        <source>Trapezoid Down-Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="134"/>
+        <source>Trapezoid Right-Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="135"/>
+        <source>Trapezoid Left-Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="136"/>
+        <source>Keyhole</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="137"/>
+        <source>Horizontal Binoculars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="138"/>
+        <source>Horizontal Trinoculars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="139"/>
+        <source>Trapezoid Up-Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="140"/>
+        <source>Trapezoid Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="141"/>
+        <source>Trapezoid Up-Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="142"/>
+        <source>Trapezoid Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="143"/>
+        <source>Trapezoid Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="144"/>
+        <source>Plus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="145"/>
+        <source>Four oculars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="146"/>
+        <source>Parallelogram Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="147"/>
+        <source>Parallelogram Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="148"/>
+        <source>Parallelogram Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="149"/>
+        <source>Parallelogram Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="150"/>
+        <source>Trapezoid Right-Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="151"/>
+        <source>Trapezoid Left-Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_Shape.cpp" line="152"/>
+        <source>Hourglass</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

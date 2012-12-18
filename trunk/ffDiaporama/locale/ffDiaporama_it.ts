@@ -4964,11 +4964,99 @@ Sei sicuro che è vuota?</translation>
         <translation>Ingranaggio a dodici denti</translation>
     </message>
     <message>
-        <source>Binoculars</source>
+        <source>Vertical Binoculars</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Trinoculars</source>
+        <source>Vertical Trinoculars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Down-Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Down-Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Right-Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Left-Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keyhole</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontal Binoculars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontal Trinoculars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Up-Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Up-Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Plus</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Four oculars</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parallelogram Left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parallelogram Right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parallelogram Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Parallelogram Down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Right-Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Trapezoid Left-Up</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hourglass</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

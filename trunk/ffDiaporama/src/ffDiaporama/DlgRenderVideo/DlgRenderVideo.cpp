@@ -751,7 +751,6 @@ bool DlgRenderVideo::ComputeAudioPart(QString &aCodec) {
             case CODEC_ID_MP2:
             case CODEC_ID_MP3:
             case CODEC_ID_AAC:
-            case CODEC_ID_VORBIS:
             case CODEC_ID_AMR_WB:
             case CODEC_ID_AMR_NB:
                 aCodec=QString("-acodec %1 -ab %2").arg(AUDIOCODECDEF[AudioCodecIndex].ShortName).arg(AudioBitRate);

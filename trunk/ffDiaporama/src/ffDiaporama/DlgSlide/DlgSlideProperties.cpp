@@ -537,23 +537,26 @@ void DlgSlideProperties::RestoreWindowState() {
 
 void DlgSlideProperties::keyReleaseEvent(QKeyEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::keyReleaseEvent");
-    if (event->modifiers()==Qt::ControlModifier) {
-        switch (event->key()) {
-            case Qt::Key_C      : s_BlockTable_Copy();                      break;
-            case Qt::Key_X      : s_BlockTable_Cut();                       break;
-            case Qt::Key_V      : s_BlockTable_Paste();                     break;
-            default             : QCustomDialog::keyReleaseEvent(event);    break;
-        }
-    } if (event->modifiers()==Qt::NoModifier) {
-        switch (event->key()) {
-            case Qt::Key_Delete :
-                if ((ui->InteractiveZone->hasFocus())||(ui->BlockTable->hasFocus())) s_BlockTable_RemoveBlock();
-                else if (ui->ShotTable->hasFocus()) s_ShotTable_RemoveShot();
-                break;
-            default :
-                QCustomDialog::keyReleaseEvent(event);
-                break;
-        }
+
+    if ((focusWidget()==ui->BlockTable)||(focusWidget()==ui->InteractiveZone)) {
+        if (event->modifiers()==Qt::ControlModifier) {
+            switch (event->key()) {
+                case Qt::Key_C      : s_BlockTable_Copy();                      break;
+                case Qt::Key_X      : s_BlockTable_Cut();                       break;
+                case Qt::Key_V      : s_BlockTable_Paste();                     break;
+                default             : QCustomDialog::keyReleaseEvent(event);    break;
+            }
+        } if (event->modifiers()==Qt::NoModifier) {
+            switch (event->key()) {
+                case Qt::Key_Delete :
+                    if ((ui->InteractiveZone->hasFocus())||(ui->BlockTable->hasFocus())) s_BlockTable_RemoveBlock();
+                    else if (ui->ShotTable->hasFocus()) s_ShotTable_RemoveShot();
+                    break;
+                default :
+                    QCustomDialog::keyReleaseEvent(event);
+                    break;
+            }
+        } else QCustomDialog::keyReleaseEvent(event);
     } else QCustomDialog::keyReleaseEvent(event);
 }
 
