@@ -832,6 +832,18 @@ cImageFile::cImageFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile
     ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::cImageFile");
 
     ObjectType  =OBJECTTYPE_IMAGEFILE;  // coul be turn later to OBJECTTYPE_THUMBNAIL
+    IsVectorImg =false;
+    VectorImage =NULL;
+}
+
+//====================================================================================================================
+
+cImageFile::~cImageFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::~cImageFile");
+    if (VectorImage) {
+        delete VectorImage;
+        VectorImage=NULL;
+    }
 }
 
 //====================================================================================================================
@@ -859,125 +871,177 @@ void cImageFile::GetFullInformationFromFile() {
 
     ImageOrientation    =-1;
     IsInformationValide =false;
-    bool ExifOk=false;
+    IsVectorImg         =(QFileInfo(FileName).suffix().toLower()=="svg");
+    bool                ExifOk=false;
 
-    // ******************************************************************************************************
-    // Try to load EXIF information using library exiv2
-    // ******************************************************************************************************
-    Exiv2::Image::AutoPtr ImageFile;
-    try {
-        #ifdef Q_OS_WIN
-            ImageFile=Exiv2::ImageFactory::open(FileName.toLocal8Bit().data());
-        #else
-            ImageFile=Exiv2::ImageFactory::open(FileName.toUtf8().data());
-        #endif
-        ExifOk=true;
-    }
-    catch( Exiv2::Error& /*e*/ ) {
-        ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
-    }
-    if (ExifOk) {
-        ImageFile->readMetadata();
-        // Read data
-        Exiv2::ExifData &exifData = ImageFile->exifData();
-        if (!exifData.empty()) {
-            Exiv2::ExifData::const_iterator end = exifData.end();
-            for (Exiv2::ExifData::const_iterator CurrentData=exifData.begin();CurrentData!=end;++CurrentData) {
+    if (!IsVectorImg) {
+        // ******************************************************************************************************
+        // Try to load EXIF information using library exiv2
+        // ******************************************************************************************************
+        Exiv2::Image::AutoPtr ImageFile;
+        try {
+            #ifdef Q_OS_WIN
+                ImageFile=Exiv2::ImageFactory::open(FileName.toLocal8Bit().data());
+            #else
+                ImageFile=Exiv2::ImageFactory::open(FileName.toUtf8().data());
+            #endif
+            ExifOk=true;
+        }
+        catch( Exiv2::Error& /*e*/ ) {
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
+        }
+        if (ExifOk) {
+            ImageFile->readMetadata();
+            // Read data
+            Exiv2::ExifData &exifData = ImageFile->exifData();
+            if (!exifData.empty()) {
+                Exiv2::ExifData::const_iterator end = exifData.end();
+                for (Exiv2::ExifData::const_iterator CurrentData=exifData.begin();CurrentData!=end;++CurrentData) {
 
-                if ((QString().fromStdString(CurrentData->key())=="Exif.Image.Orientation")&&(CurrentData->tag()==274))
-                    ImageOrientation=QString().fromStdString(CurrentData->value().toString()).toInt();
+                    if ((QString().fromStdString(CurrentData->key())=="Exif.Image.Orientation")&&(CurrentData->tag()==274))
+                        ImageOrientation=QString().fromStdString(CurrentData->value().toString()).toInt();
 
-                if ((CurrentData->typeId()!=Exiv2::undefined)&&
-                    (!(((CurrentData->typeId()==Exiv2::unsignedByte)||(CurrentData->typeId()==Exiv2::signedByte))&&(CurrentData->size()>64)))) {
-                    QString Key  =QString().fromStdString(CurrentData->key());
-                    #ifdef Q_OS_WIN
-                    QString Value=QString().fromStdString(CurrentData->print(&exifData).c_str());
-                    #else
-                    QString Value=QString().fromUtf8(CurrentData->print(&exifData).c_str());
-                    #endif
-                    if (Key.startsWith("Exif.")) Key=Key.mid(QString("Exif.").length());
-                    InformationList.append(Key+QString("##")+Value);
+                    if ((CurrentData->typeId()!=Exiv2::undefined)&&
+                        (!(((CurrentData->typeId()==Exiv2::unsignedByte)||(CurrentData->typeId()==Exiv2::signedByte))&&(CurrentData->size()>64)))) {
+                        QString Key  =QString().fromStdString(CurrentData->key());
+                        #ifdef Q_OS_WIN
+                        QString Value=QString().fromStdString(CurrentData->print(&exifData).c_str());
+                        #else
+                        QString Value=QString().fromUtf8(CurrentData->print(&exifData).c_str());
+                        #endif
+                        if (Key.startsWith("Exif.")) Key=Key.mid(QString("Exif.").length());
+                        InformationList.append(Key+QString("##")+Value);
+                    }
                 }
             }
-        }
 
-        // Append InformationList
-        if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
-        if (GetInformationValue("Image.Model")!="")  {
-            if (GetInformationValue("Image.Model").contains(GetInformationValue("Image.Make"),Qt::CaseInsensitive)) InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
-                else InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Make")+" "+GetInformationValue("Image.Model"));
-        }
-        // Get size information
-        ImageWidth =ImageFile->pixelWidth();
-        ImageHeight=ImageFile->pixelHeight();
-        /*if (GetInformationValue("Photo.PixelXDimension")!="")       ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
-            else if (GetInformationValue("Image.ImageWidth")!="")   ImageWidth =GetInformationValue("Image.ImageWidth").toInt();            // TIFF Version
-        if (GetInformationValue("Photo.PixelYDimension")!="")       ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
-            else if (GetInformationValue("Image.ImageLength")!="")  ImageHeight=GetInformationValue("Image.ImageLength").toInt();           // TIFF Version
-        */
-        // switch ImageWidth and ImageHeight if image was rotated
-        if ((ImageOrientation==6)||(ImageOrientation==8)) {
-            int IW=ImageWidth;
-            ImageWidth=ImageHeight;
-            ImageHeight=IW;
-        }
+            // Append InformationList
+            if (GetInformationValue("Image.Artist")!="") InformationList.append(QString("artist")+QString("##")+GetInformationValue("Image.Artist"));
+            if (GetInformationValue("Image.Model")!="")  {
+                if (GetInformationValue("Image.Model").contains(GetInformationValue("Image.Make"),Qt::CaseInsensitive)) InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Model"));
+                    else InformationList.append(QString("composer")+QString("##")+GetInformationValue("Image.Make")+" "+GetInformationValue("Image.Model"));
+            }
+            // Get size information
+            ImageWidth =ImageFile->pixelWidth();
+            ImageHeight=ImageFile->pixelHeight();
+            /*if (GetInformationValue("Photo.PixelXDimension")!="")       ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
+                else if (GetInformationValue("Image.ImageWidth")!="")   ImageWidth =GetInformationValue("Image.ImageWidth").toInt();            // TIFF Version
+            if (GetInformationValue("Photo.PixelYDimension")!="")       ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
+                else if (GetInformationValue("Image.ImageLength")!="")  ImageHeight=GetInformationValue("Image.ImageLength").toInt();           // TIFF Version
+            */
+            // switch ImageWidth and ImageHeight if image was rotated
+            if ((ImageOrientation==6)||(ImageOrientation==8)) {
+                int IW=ImageWidth;
+                ImageWidth=ImageHeight;
+                ImageHeight=IW;
+            }
 
-        // Read preview image
-        #ifdef EXIV2WITHPREVIEW
-        if (IsIconNeeded) {
-            Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
-            if (Manager) {
-                Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
-                if (!Properties.empty()) {
-                    Exiv2::PreviewImage Image=Manager->getPreviewImage(Properties[Properties.size()-1]);      // Get the latest image (biggest)
-                    QImage *Icon=new QImage();
-                    if (Icon->loadFromData(QByteArray((const char*)Image.pData(),Image.size()))) {
-                        if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
-                            QMatrix matrix;
-                            matrix.rotate(-90);
-                            QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                            delete Icon;
-                            Icon=NewImage;
-                        } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
-                            QMatrix matrix;
-                            matrix.rotate(180);
-                            QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                            delete Icon;
-                            Icon=NewImage;
-                        } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
-                            QMatrix matrix;
-                            matrix.rotate(90);
-                            QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
-                            delete Icon;
-                            Icon=NewImage;
-                        }
-
-                        // Sometimes, Icon have black bar : try to remove them
-                        if ((double(Icon->width())/double(Icon->height()))!=(double(ImageWidth)/double(ImageHeight))) {
-                            if (ImageWidth>ImageHeight) {
-                                int RealHeight=int((double(Icon->width())*double(ImageHeight))/double(ImageWidth));
-                                int Delta     =Icon->height()-RealHeight;
-                                QImage *NewImage=new QImage(Icon->copy(0,Delta/2,Icon->width(),Icon->height()-Delta));
+            // Read preview image
+            #ifdef EXIV2WITHPREVIEW
+            if (IsIconNeeded) {
+                Exiv2::PreviewManager *Manager=new Exiv2::PreviewManager(*ImageFile);
+                if (Manager) {
+                    Exiv2::PreviewPropertiesList Properties=Manager->getPreviewProperties();
+                    if (!Properties.empty()) {
+                        Exiv2::PreviewImage Image=Manager->getPreviewImage(Properties[Properties.size()-1]);      // Get the latest image (biggest)
+                        QImage *Icon=new QImage();
+                        if (Icon->loadFromData(QByteArray((const char*)Image.pData(),Image.size()))) {
+                            if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+                                QMatrix matrix;
+                                matrix.rotate(-90);
+                                QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
                                 delete Icon;
                                 Icon=NewImage;
-                            } else {
-                                int RealWidth=int((double(Icon->height())*double(ImageWidth))/double(ImageHeight));
-                                int Delta     =Icon->width()-RealWidth;
-                                QImage *NewImage=new QImage(Icon->copy(Delta/2,0,Icon->width()-Delta,Icon->height()));
+                            } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+                                QMatrix matrix;
+                                matrix.rotate(180);
+                                QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
+                                delete Icon;
+                                Icon=NewImage;
+                            } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+                                QMatrix matrix;
+                                matrix.rotate(90);
+                                QImage *NewImage=new QImage(Icon->transformed(matrix,Qt::SmoothTransformation));
                                 delete Icon;
                                 Icon=NewImage;
                             }
-                        }
 
-                        // if preview Icon have a really small size, then don't use it
-                        if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
+                            // Sometimes, Icon have black bar : try to remove them
+                            if ((double(Icon->width())/double(Icon->height()))!=(double(ImageWidth)/double(ImageHeight))) {
+                                if (ImageWidth>ImageHeight) {
+                                    int RealHeight=int((double(Icon->width())*double(ImageHeight))/double(ImageWidth));
+                                    int Delta     =Icon->height()-RealHeight;
+                                    QImage *NewImage=new QImage(Icon->copy(0,Delta/2,Icon->width(),Icon->height()-Delta));
+                                    delete Icon;
+                                    Icon=NewImage;
+                                } else {
+                                    int RealWidth=int((double(Icon->height())*double(ImageWidth))/double(ImageHeight));
+                                    int Delta     =Icon->width()-RealWidth;
+                                    QImage *NewImage=new QImage(Icon->copy(Delta/2,0,Icon->width()-Delta,Icon->height()));
+                                    delete Icon;
+                                    Icon=NewImage;
+                                }
+                            }
+
+                            // if preview Icon have a really small size, then don't use it
+                            if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
+                        }
+                        delete Icon;
                     }
-                    delete Icon;
+                    delete Manager;
                 }
-                delete Manager;
             }
+            #endif
         }
-        #endif
+    } else {
+        // Vector image file
+        QSvgRenderer SVGImg(FileName);
+        if (SVGImg.isValid()) {
+            ImageOrientation=0;
+            ImageWidth      =SVGImg.viewBox().width();
+            ImageHeight     =SVGImg.viewBox().height();
+
+            QPainter Painter;
+            QImage   Img;
+            qreal    RatioX=(ImageWidth>ImageHeight?1:qreal(ImageWidth)/qreal(ImageHeight));
+            qreal    RatioY=(ImageWidth<ImageHeight?1:qreal(ImageHeight)/qreal(ImageWidth));
+
+            // 16x16 icon
+            Img=QImage(qreal(16)*RatioX,qreal(16)*RatioY,QImage::Format_ARGB32);
+            Painter.begin(&Img);
+            Painter.setCompositionMode(QPainter::CompositionMode_Source);
+            Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
+            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            SVGImg.render(&Painter);
+            Painter.end();
+            Icon16=QImage(16,16,QImage::Format_ARGB32_Premultiplied);
+            Painter.begin(&Icon16);
+            Painter.setCompositionMode(QPainter::CompositionMode_Source);
+            Painter.fillRect(QRect(0,0,Icon16.width(),Icon16.height()),Qt::transparent);
+            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            Painter.drawImage(QPoint((16-Img.width())/2,(16-Img.height())/2),Img);
+            Painter.end();
+
+            // 100x100 icon
+            Img=QImage(qreal(100)*RatioX,qreal(100)*RatioY,QImage::Format_ARGB32);
+            Painter.begin(&Img);
+            Painter.setCompositionMode(QPainter::CompositionMode_Source);
+            Painter.fillRect(QRect(0,0,Img.width(),Img.height()),Qt::transparent);
+            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            SVGImg.render(&Painter);
+            Painter.end();
+            Icon100=QImage(100,100,QImage::Format_ARGB32_Premultiplied);
+            Painter.begin(&Icon100);
+            Painter.setCompositionMode(QPainter::CompositionMode_Source);
+            Painter.fillRect(QRect(0,0,Icon100.width(),Icon100.height()),Qt::transparent);
+            Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            Painter.drawImage(QPoint((100-Img.width())/2,(100-Img.height())/2),Img);
+            Painter.end();
+
+            InformationList.append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
+            InformationList.append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
+            IsInformationValide=true;
+        }
     }
 
     //************************************************************************************
@@ -1072,12 +1136,37 @@ QString cImageFile::GetTAGInfo() {
 }
 
 //====================================================================================================================
+QImage *cImageFile::LoadVectorImg() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::ImageAt");
+
+    if (!IsValide)            return NULL;
+    if (!IsInformationValide) GetFullInformationFromFile();
+    if (!IsVectorImg)         return NULL;
+
+    // Vector image file
+    QSvgRenderer SVGImg(FileName);
+    QImage       *Img=NULL;
+    if (SVGImg.isValid()) {
+        Img=new QImage(ImageWidth,ImageHeight,QImage::Format_ARGB32_Premultiplied);
+        QPainter Painter;
+        Painter.begin(Img);
+        Painter.setCompositionMode(QPainter::CompositionMode_Source);
+        Painter.fillRect(QRect(0,0,Img->width(),Img->height()),Qt::transparent);
+        Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        SVGImg.render(&Painter);
+        Painter.end();
+    }
+    return Img;
+}
+
+//====================================================================================================================
 
 QImage *cImageFile::ImageAt(bool PreviewMode) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::ImageAt");
 
     if (!IsValide)            return NULL;
     if (!IsInformationValide) GetFullInformationFromFile();
+    if (IsVectorImg)          return LoadVectorImg();
 
     QImage                *LN_Image   =NULL;
     QImage                *RetImage   =NULL;

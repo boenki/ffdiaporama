@@ -25,6 +25,8 @@
 #include "DlgSlideProperties.h"
 #include "ui_DlgSlideProperties.h"
 
+#include "../../engine/cTextFrame.h"
+
 #include "../DlgInfoFile/DlgInfoFile.h"
 #include "../DlgImage/DlgImageCorrection.h"
 #include "../DlgText/DlgTextEdit.h"
@@ -75,6 +77,7 @@ enum UNDOACTION_ID {
     UNDOACTION_EDITZONE_ROTATEY,
     UNDOACTION_EDITZONE_ROTATEZ,
     UNDOACTION_EDITZONE_SHAPEFORM,
+    UNDOACTION_EDITZONE_TEXTCLIPART,
     UNDOACTION_EDITZONE_SHAPEOPACITY,
     UNDOACTION_EDITZONE_SHAPEPENSIZE,
     UNDOACTION_EDITZONE_SHAPEPENSTYLE,
@@ -161,6 +164,7 @@ void DlgSlideProperties::DoInitDialog() {
 
     ui->SplitterTop->setCollapsible(0,false);
     ui->SplitterTop->setCollapsible(1,false);
+    ui->TextClipArtCB->PrepareTable();
 
     setWindowTitle(windowTitle()+" - "+QApplication::translate("DlgSlideProperties","Slide")+QString(" %1/%2").arg(CurrentSlide->Parent->CurrentCol+1).arg(CurrentSlide->Parent->List.count()));
     ui->NewChapterCB->setChecked(CurrentSlide->StartNewChapter);
@@ -285,6 +289,8 @@ void DlgSlideProperties::DoInitDialog() {
     ui->actionMoveRight->setIconVisibleInMenu(true);
     ui->actionDistributeHoriz->setIconVisibleInMenu(true);
     ui->actionDistributeVert->setIconVisibleInMenu(true);
+    ui->actionAddSimpleTextBlock->setIconVisibleInMenu(true);
+    ui->actionAddClipArtTextBlock->setIconVisibleInMenu(true);
 
     ui->ShotTable->setRowCount(1);
 
@@ -342,6 +348,7 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->WidthEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosWidthValue(double)));
     connect(ui->HeightEd,SIGNAL(valueChanged(double)),this,SLOT(s_BlockSettings_PosHeightValue(double)));
     connect(ui->BackgroundFormCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_BlockSettings_ShapeBackgroundForm()));
+    connect(ui->TextClipArtCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(s_BlockSettings_ShapeTextClipArtChIndex()));
     connect(ui->OpacityCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeOpacity(int)));
     connect(ui->PenStyleCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapePenStyle(int)));
     connect(ui->ShadowEffectCB,SIGNAL(currentIndexChanged(int)),this,SLOT(s_BlockSettings_ShapeShadowFormValue(int)));
@@ -371,6 +378,8 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->BlockTable,SIGNAL(DragMoveBlock(int,int)),this,SLOT(s_BlockTable_DragMoveBlock(int,int)));
     connect(ui->BlockTable,SIGNAL(DragDropFiles(QList<QUrl>)),this,SLOT(s_BlockTable_DragDropFiles(QList<QUrl>)));
     connect(ui->AddTextBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewTextBlock()));                                          connect(ui->actionAddTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewTextBlock()));
+    connect(ui->actionAddSimpleTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewSimpleTextBlock()));
+    connect(ui->actionAddClipArtTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewClipArtTextBlock()));
     connect(ui->AddFileBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewFileBlock()));                                          connect(ui->actionAddFile,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewFileBlock()));
     connect(ui->actionRemoveBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_RemoveBlock()));
 
@@ -629,6 +638,7 @@ void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
                 break;
             case UNDOACTION_EDITZONE_SHAPEOPACITY:          SubElement.setAttribute("BackgroundTransparent",CompositionList->List[i]->Opacity);             break;
             case UNDOACTION_EDITZONE_SHAPEFORM:             SubElement.setAttribute("BackgroundForm",CompositionList->List[i]->BackgroundForm);             break;
+            case UNDOACTION_EDITZONE_TEXTCLIPART:           SubElement.setAttribute("TextClipArtName",CompositionList->List[i]->TextClipArtName);           break;
             case UNDOACTION_EDITZONE_SHAPEPENSIZE:          SubElement.setAttribute("PenSize",CompositionList->List[i]->PenSize);                           break;
             case UNDOACTION_EDITZONE_SHAPEPENSTYLE:         SubElement.setAttribute("PenStyle",CompositionList->List[i]->PenStyle);                         break;
             case UNDOACTION_EDITZONE_SHAPEPENCOLOR:         SubElement.setAttribute("PenColor",CompositionList->List[i]->PenColor);                         break;
@@ -706,6 +716,7 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                     break;
                 case UNDOACTION_EDITZONE_SHAPEOPACITY:      if (SubElement.hasAttribute("BackgroundTransparent"))   CompositionList->List[i]->Opacity=                      SubElement.attribute("BackgroundTransparent").toInt();  break;
                 case UNDOACTION_EDITZONE_SHAPEFORM:         if (SubElement.hasAttribute("BackgroundForm"))          CompositionList->List[i]->BackgroundForm=               SubElement.attribute("BackgroundForm").toInt();         break;
+                case UNDOACTION_EDITZONE_TEXTCLIPART:       if (SubElement.hasAttribute("TextClipArtName"))         CompositionList->List[i]->TextClipArtName=              SubElement.attribute("TextClipArtName");                break;
                 case UNDOACTION_EDITZONE_SHAPEPENSIZE:      if (SubElement.hasAttribute("PenSize"))                 CompositionList->List[i]->PenSize=                      SubElement.attribute("PenSize").toInt();                break;
                 case UNDOACTION_EDITZONE_SHAPEPENSTYLE:     if (SubElement.hasAttribute("PenStyle"))                CompositionList->List[i]->PenStyle=                     SubElement.attribute("PenStyle").toInt();               break;
                 case UNDOACTION_EDITZONE_SHAPEPENCOLOR:     if (SubElement.hasAttribute("PenColor"))                CompositionList->List[i]->PenColor=                     SubElement.attribute("PenColor");                       break;
@@ -766,7 +777,11 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                     break;
             }
         }
-        RefreshControls(true);
+        ApplyToContexte(true);
+        RefreshBlockTable(CurrentCompoObjectNbr);
+        ui->ShotTable->setUpdatesEnabled(false);
+        ui->ShotTable->setUpdatesEnabled(true);
+        //RefreshControls(true);
     }
 }
 
@@ -919,7 +934,7 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     ui->actionSetVisible->      setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock));
     ui->actionSetHide->         setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock));
     ui->actionTakeSound->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->Video!=NULL)&&(CurrentCompoObject->BackgroundBrush->SoundVolume==0));
-    ui->actionEditImage->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
+    ui->actionEditImage->       setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible) &&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&((CurrentCompoObject->BackgroundBrush->Video)||((CurrentCompoObject->BackgroundBrush->Image)&&(!CurrentCompoObject->BackgroundBrush->Image->IsVectorImg))));
     ui->actionEditText->        setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(!SelectionHaveLockBlock)&&(CurrentCompoObject->IsVisible));
     ui->actionInfo->            setEnabled((BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK));
     ui->actionRemoveBlock->     setEnabled((BlockSelectMode==SELECTMODE_ONE)||(BlockSelectMode==SELECTMODE_MULTIPLE));
@@ -1034,6 +1049,19 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
         ui->ShadowColorCB->     SetCurrentColor(NULL);
     }
 
+    // Set control visible or hide depending on TextClipArt
+    ui->BlockShapeStyleBT->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
+    ui->BlockShapeStyleSpacer->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
+    ui->BlockShapeStyleED->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
+    ui->BackgroundFormCB->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
+    ui->BackgroundFormLabel->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
+    ui->PenSizeEd->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
+    ui->PenColorCB->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
+    ui->PenStyleCB->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
+    ui->PenLabel->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
+    ui->TextClipArtCB->setVisible((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!=""));
+    ui->TextClipArtLabel->setVisible((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!=""));
+    if ((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!="")) ui->TextClipArtCB->SetCurrentTextFrame(CurrentCompoObject->TextClipArtName);
 
     //**************************
     // Speed wave
@@ -1206,6 +1234,7 @@ void DlgSlideProperties::CopyBlockProperties(cCompositionObject *SourceBlock,cCo
 
     // Attribut of the text part
     DestBlock->Text                 =SourceBlock->Text;                     // Text of the object
+    DestBlock->TextClipArtName      =SourceBlock->TextClipArtName;          // Text ClipArt of the object
     DestBlock->FontName             =SourceBlock->FontName;                 // font name
     DestBlock->FontSize             =SourceBlock->FontSize;                 // font size
     DestBlock->FontColor            =SourceBlock->FontColor;                // font color
@@ -1595,7 +1624,7 @@ void DlgSlideProperties::s_BlockSettings_Edit() {
     ContextMenu->addAction(ui->actionPaste);
     ContextMenu->addSeparator();
     ContextMenu->addAction(ui->actionEditText);
-    ContextMenu->addAction(ui->actionEditImage);
+    if (ui->actionEditImage->isEnabled()) ContextMenu->addAction(ui->actionEditImage);
     ContextMenu->addSeparator();
     ContextMenu->addAction(ui->actionRemoveBlock);
     if (NbrSelected==1) {   // Single selection
@@ -1636,7 +1665,7 @@ void DlgSlideProperties::s_BlockTable_ItemRightClicked(QMouseEvent *) {
         ContextMenu->addAction(ui->actionPaste);
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionEditText);
-        ContextMenu->addAction(ui->actionEditImage);
+        if (ui->actionEditImage->isEnabled()) ContextMenu->addAction(ui->actionEditImage);
         ContextMenu->addSeparator();
         ContextMenu->addAction(ui->actionRemoveBlock);
         ContextMenu->addSeparator();
@@ -1688,6 +1717,18 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewTextBlock");
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_ADDTEXTBLOCK,ui->BlockTable,true);
 
+    QMenu *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(ui->actionAddSimpleTextBlock);
+    ContextMenu->addAction(ui->actionAddClipArtTextBlock);
+    ContextMenu->exec(QCursor::pos());
+    delete ContextMenu;
+    ui->AddTextBlock->setDown(false);
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlockTable_AddNewSimpleTextBlock() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewTextBlock");
     int CurrentShotNbr=ui->ShotTable->currentColumn();
 
     // Create and append a composition block to the object list
@@ -1702,6 +1743,69 @@ void DlgSlideProperties::s_BlockTable_AddNewTextBlock() {
     CompositionObject->ApplyAutoCompoSize(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_AutoSizePos,CurrentSlide->Parent->ImageGeometry);
     CompositionObject->BackgroundBrush->LockGeometry=(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_AutoLocking==AUTOFRAMING_CUSTOMPRJLOCK);
     CompositionObject->BackgroundBrush->AspectRatio=(CompositionObject->h*(CurrentSlide->Parent->ImageGeometry==GEOMETRY_4_3?1440:CurrentSlide->Parent->ImageGeometry==GEOMETRY_16_9?1080:CurrentSlide->Parent->ImageGeometry==GEOMETRY_40_17?816:1920))/(CompositionObject->w*1920);
+
+    // Create default text
+    QTextDocument       TextDoc(QApplication::translate("DlgSlideProperties","Text","Default text value"));
+    QFont               Font=QFont(CompositionObject->FontName,CompositionObject->FontSize,CompositionObject->IsBold?QFont::Bold:QFont::Normal,CompositionObject->IsItalic?QFont::StyleItalic:QFont::StyleNormal);
+    QTextOption         OptionText((CompositionObject->HAlign==0)?Qt::AlignLeft:(CompositionObject->HAlign==1)?Qt::AlignHCenter:(CompositionObject->HAlign==2)?Qt::AlignRight:Qt::AlignJustify);
+    QTextCursor         Cursor(&TextDoc);
+    QTextCharFormat     TCF;
+    QTextBlockFormat    TBF;
+    Cursor.select(QTextCursor::Document);
+    OptionText.setWrapMode(QTextOption::WordWrap);
+    Font.setUnderline(CompositionObject->IsUnderline);
+    TextDoc.setDefaultFont(Font);
+    TextDoc.setDefaultTextOption(OptionText);
+    TCF.setFont(Font);
+    TCF.setFontWeight(CompositionObject->IsBold?QFont::Bold:QFont::Normal);
+    TCF.setFontItalic(CompositionObject->IsItalic);
+    TCF.setFontUnderline(CompositionObject->IsUnderline);
+    TCF.setForeground(QBrush(QColor(CompositionObject->FontColor)));
+    TBF.setAlignment((CompositionObject->HAlign==0)?Qt::AlignLeft:(CompositionObject->HAlign==1)?Qt::AlignHCenter:(CompositionObject->HAlign==2)?Qt::AlignRight:Qt::AlignJustify);
+    Cursor.setCharFormat(TCF);
+    Cursor.setBlockFormat(TBF);
+    CompositionObject->Text=TextDoc.toHtml();
+
+    // Now create and append a shot composition block to all shot
+    for (int i=0;i<CurrentSlide->List.count();i++) {
+        CurrentSlide->List[i]->ShotComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_SHOT,CompositionObject->IndexKey,((cApplicationConfig *)BaseApplicationConfig)));
+        CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->CopyFromCompositionObject(CompositionObject);
+        // Ensure new object is not visible in previous shot
+        if (i<CurrentShotNbr) CurrentSlide->List[i]->ShotComposition.List[CurrentSlide->List[i]->ShotComposition.List.count()-1]->IsVisible=false;
+    }
+
+    // Inc NextIndexKey
+    CurrentSlide->NextIndexKey++;
+
+    RefreshBlockTable(CompositionList->List.count()-1);
+    NoPrepUndo=true;
+    QTimer::singleShot(250,this,SLOT(s_BlockSettings_TextEditor()));    // Append "Open text editor" to the message queue
+}
+
+//====================================================================================================================
+
+void DlgSlideProperties::s_BlockTable_AddNewClipArtTextBlock() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewClipArtTextBlock");
+    int CurrentShotNbr=ui->ShotTable->currentColumn();
+
+    // Create and append a composition block to the object list
+    CurrentSlide->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,CurrentSlide->NextIndexKey,((cApplicationConfig *)BaseApplicationConfig)));
+    cCompositionObject *CompositionObject=CurrentSlide->ObjectComposition.List[CurrentSlide->ObjectComposition.List.count()-1];
+
+    // Apply Styles
+    CompositionObject->ApplyTextStyle(TextFrameList.List[0].TextStyle);
+    //CompositionObject->ApplyBackgroundStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleTextBackgroundCollection.GetStyleDef(((cApplicationConfig *)BaseApplicationConfig)->StyleTextBackgroundCollection.DecodeString(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_Text_BackGST)));
+    //CompositionObject->ApplyBlockShapeStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.GetStyleDef(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.DecodeString(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_Text_ShapeST)));
+    CompositionObject->BackgroundBrush->LockGeometry=false; // For ApplyAutoCompoSize don't use it
+    CompositionObject->ApplyAutoCompoSize(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_AutoSizePos,CurrentSlide->Parent->ImageGeometry);
+
+    CompositionObject->BackgroundBrush->LockGeometry=(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_AutoLocking==AUTOFRAMING_CUSTOMPRJLOCK);
+    CompositionObject->BackgroundBrush->AspectRatio =(CompositionObject->h*(CurrentSlide->Parent->ImageGeometry==GEOMETRY_4_3?1440:CurrentSlide->Parent->ImageGeometry==GEOMETRY_16_9?1080:CurrentSlide->Parent->ImageGeometry==GEOMETRY_40_17?816:1920))/(CompositionObject->w*1920);
+    CompositionObject->TextClipArtName              =TextFrameList.List[0].RessourceName; // Use the first clipart
+    CompositionObject->TMx                          =TextFrameList.List[0].TMx;
+    CompositionObject->TMy                          =TextFrameList.List[0].TMy;
+    CompositionObject->TMw                          =TextFrameList.List[0].TMw;
+    CompositionObject->TMh                          =TextFrameList.List[0].TMh;
 
     // Create default text
     QTextDocument       TextDoc(QApplication::translate("DlgSlideProperties","Text","Default text value"));
@@ -2276,7 +2380,7 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ImageEditCorrect");
 
     if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)||
-        ((!CurrentCompoObject->BackgroundBrush->Video)&&(!CurrentCompoObject->BackgroundBrush->Image))) return;
+        ((!CurrentCompoObject->BackgroundBrush->Video)&&(!CurrentCompoObject->BackgroundBrush->Image))||(!ui->actionEditImage->isEnabled())) return;
 
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITIMAGE,ui->InteractiveZone,true);
     cBrushDefinition *CurrentBrush=CurrentCompoObject->BackgroundBrush;
@@ -2522,6 +2626,24 @@ void DlgSlideProperties::s_BlockSettings_ResetRotateZValue() {
 // Handler for shape
 //====================================================================================================================
 
+//========= Text ClipArt
+void DlgSlideProperties::s_BlockSettings_ShapeTextClipArtChIndex() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapeTextClipArtChIndex");
+    if ((InRefreshControls)||(BlockSelectMode!=SELECTMODE_ONE)||(!CurrentCompoObject)||(!CurrentCompoObject->IsVisible)||(CurrentCompoObject->TextClipArtName=="")) return;
+    AppendPartialUndo(UNDOACTION_EDITZONE_TEXTCLIPART,ui->TextClipArtCB,false);
+    CurrentCompoObject->TextClipArtName=ui->TextClipArtCB->GetCurrentTextFrame();
+    cTextFrameObject *TFO=&TextFrameList.List[TextFrameList.SearchImage(CurrentCompoObject->TextClipArtName)];
+    CurrentCompoObject->TMx=TFO->TMx;
+    CurrentCompoObject->TMy=TFO->TMy;
+    CurrentCompoObject->TMw=TFO->TMw;
+    CurrentCompoObject->TMh=TFO->TMh;
+    CurrentCompoObject->ApplyTextStyle(TFO->TextStyle);
+    ApplyToContexte(true);
+    RefreshBlockTable(CurrentCompoObjectNbr);
+    ui->ShotTable->setUpdatesEnabled(false);
+    ui->ShotTable->setUpdatesEnabled(true);
+}
+
 //========= Background forme
 void DlgSlideProperties::s_BlockSettings_ShapeBackgroundForm() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockSettings_ShapeBackgroundForm");
@@ -2530,6 +2652,8 @@ void DlgSlideProperties::s_BlockSettings_ShapeBackgroundForm() {
     CurrentCompoObject->BackgroundForm=ui->BackgroundFormCB->GetCurrentFrameShape();
     ApplyToContexte(true);
     RefreshBlockTable(CurrentCompoObjectNbr);
+    ui->ShotTable->setUpdatesEnabled(false);
+    ui->ShotTable->setUpdatesEnabled(true);
 }
 
 //========= Opacity

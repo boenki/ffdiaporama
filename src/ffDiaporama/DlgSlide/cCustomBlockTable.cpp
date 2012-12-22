@@ -23,6 +23,7 @@
 #include <QHeaderView>
 #include <QTextDocument>
 #include <QScrollBar>
+#include "../../engine/cTextFrame.h"
 
 #define ICON_VISIBLE_OK                     ":/img/Visible_OK.png"
 #define ICON_VISIBLE_KO                     ":/img/Visible_KO.png"
@@ -109,7 +110,10 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
             delete NewRenderImage;
         }
 
-    } else Icon=ParentTable->TextIcon.copy();
+    } else {
+        if (ParentTable->CompositionList->List[index.row()]->TextClipArtName=="") Icon=ParentTable->TextIcon.copy();
+            else Icon=TextFrameList.List[TextFrameList.SearchImage(ParentTable->CompositionList->List[index.row()]->TextClipArtName)].Icon.copy();
+    }
 
     int         IconHeight  =RowHeight;
     int         IconWidth   =RowHeight+16;

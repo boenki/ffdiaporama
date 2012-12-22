@@ -19,6 +19,7 @@
    ====================================================================== */
 
 #include "cBrushDefinition.h"
+#include <QtSvg>
 
 //============================================
 // Global static
@@ -295,11 +296,11 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                         else            ImageObject->CacheRenderImage=new QImage(RenderImage->copy());
                 }
             } else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
-        } else if (Image) RenderImage=Image->ImageAt(PreviewMode);
+        } else if ((Image)&&(!Image->IsVectorImg)) RenderImage=Image->ImageAt(PreviewMode);
 
         QBrush *Ret=NULL;
 
-        if (RenderImage) {
+        if ((!Image->IsVectorImg)&&(RenderImage)) {
             if (FullFilling) {
                 // Create brush image with distortion
                 Ret=new QBrush(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
@@ -443,6 +444,20 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                         if (!PreviousImage.isNull())     Ret=new QBrush(PreviousImage.scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
                     } else if (!NewRenderImage.isNull()) Ret=new QBrush(NewRenderImage.scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
                 } else if (!NewRenderImage.isNull())     Ret=new QBrush(NewRenderImage.scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+            }
+        } else if (Image->IsVectorImg) {
+            // Vector image file
+            if (!Image->VectorImage) Image->VectorImage=new QSvgRenderer(Image->FileName);
+            if ((Image->VectorImage)&&(Image->VectorImage->isValid())) {
+                QPainter Painter;
+                QImage Img(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
+                Painter.begin(&Img);
+                Painter.setCompositionMode(QPainter::CompositionMode_Source);
+                Painter.fillRect(QRect(0,0,Rect.width(),Rect.height()),Qt::transparent);
+                Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                Image->VectorImage->render(&Painter);
+                Painter.end();
+                Ret=new QBrush(Img);
             }
         }
         return Ret;

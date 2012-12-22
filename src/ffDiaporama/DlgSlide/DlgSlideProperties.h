@@ -134,6 +134,8 @@ private slots:
     void            s_BlockTable_ItemRightClicked(QMouseEvent *);
     void            s_BlockTable_DragDropFiles(QList<QUrl> UrlList);
     void            s_BlockTable_AddNewTextBlock();
+    void            s_BlockTable_AddNewSimpleTextBlock();
+    void            s_BlockTable_AddNewClipArtTextBlock();
     void            s_BlockTable_AddNewFileBlock();
     void            s_BlockTable_RemoveBlock();
     void            s_BlockTable_Copy();
@@ -172,6 +174,7 @@ private slots:
     void            s_BlockSettings_ResetRotateYValue();
 
     // Block settings : Shape
+    void            s_BlockSettings_ShapeTextClipArtChIndex();
     void            s_BlockSettings_ShapeBackgroundForm();
     void            s_BlockSettings_ShapeOpacity(int);
     void            s_BlockSettings_ShapeShadowFormValue(int);

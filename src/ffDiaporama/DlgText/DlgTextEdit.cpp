@@ -21,6 +21,7 @@
 #include "DlgTextEdit.h"
 #include "ui_DlgTextEdit.h"
 #include "cCustomTextEdit.h"
+#include "../../engine/cTextFrame.h"
 
 #include <QTextCharFormat>
 #include <QTextList>
@@ -327,7 +328,7 @@ void DlgTextEdit::RefreshControls() {
     //ui->TextStyleED->setText(StyleTextCollection->GetStyleName(CurrentTextItem->GetTextStyle()));
 
     // Brush TAB part
-    bool Allow_Brush  =(CurrentTextItem->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK);
+    bool Allow_Brush  =((CurrentTextItem->BackgroundBrush->BrushType!=BRUSHTYPE_IMAGEDISK)&&(CurrentTextItem->TextClipArtName==""));
     bool Allow_Color1 =(Allow_Brush)&&((CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_SOLID)||(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_PATTERN)||(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3));
     bool Allow_Color2 =(Allow_Brush)&&((CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT2)||(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3));
     bool Allow_Color3 =(Allow_Brush)&&(CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_GRADIENT3);
@@ -391,7 +392,11 @@ void DlgTextEdit::RefreshControls() {
     QBrush   *Brush=NULL;
     if (CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) {
         Brush=new QBrush(Transparent);
-    } else Brush=CurrentTextItem->BackgroundBrush->GetBrush(QRectF(0,0,ui->TextEdit->width(),ui->TextEdit->height()),true,0,0,NULL,1,NULL,false);
+    } else if (CurrentTextItem->TextClipArtName=="") {
+        Brush=CurrentTextItem->BackgroundBrush->GetBrush(QRectF(0,0,ui->TextEdit->width(),ui->TextEdit->height()),true,0,0,NULL,1,NULL,false);
+    } else {
+        Brush=new QBrush(TextFrameList.List[TextFrameList.SearchImage(CurrentTextItem->TextClipArtName)].BckColor,Qt::SolidPattern);
+    }
     QPalette Palette;
     Palette.setBrush(QPalette::Base,*Brush);
     ui->TextEdit->setPalette(Palette);

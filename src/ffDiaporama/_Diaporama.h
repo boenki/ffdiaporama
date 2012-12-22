@@ -120,6 +120,7 @@ public:
 
     // Attribut of the text part (Global values)
     QString             Text;                   // Text of the object
+    QString             TextClipArtName;        // ClipArt name (if text clipart mode)
     QString             FontName;               // font name
     int                 FontSize;               // font size
     QString             FontColor;              // font color
