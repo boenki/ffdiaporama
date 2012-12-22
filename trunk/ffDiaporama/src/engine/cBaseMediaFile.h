@@ -32,6 +32,7 @@
 #include <QTime>
 #include <QDateTime>
 #include <QImage>
+#include <QtSvg>
 
 // Include some common various class
 #include "cDeviceModelDef.h"                // Contains ffmpeg include
@@ -205,9 +206,14 @@ public:
 //*********************************************************************************************************************************************
 class cImageFile : public cBaseMediaFile {
 public:
-    explicit cImageFile(cBaseApplicationConfig *ApplicationConfig);
+    bool                    IsVectorImg;
+    QSvgRenderer            *VectorImage;
+
+    explicit                cImageFile(cBaseApplicationConfig *ApplicationConfig);
+                            ~cImageFile();
 
     virtual QImage          *ImageAt(bool PreviewMode);
+    virtual QImage          *LoadVectorImg();
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType);
     virtual void            GetFullInformationFromFile();

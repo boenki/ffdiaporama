@@ -36,9 +36,10 @@
 #include <QFileDialog>
 #include <QScrollBar>
 
-#include <../engine/QCustomFolderTree.h>
-#include <../engine/QCustomFolderTable.h>
-#include <../engine/QCustomHorizSplitter.h>
+#include "../engine/QCustomFolderTree.h"
+#include "../engine/QCustomFolderTable.h"
+#include "../engine/QCustomHorizSplitter.h"
+#include "../engine/cTextFrame.h"
 
 #include "DlgInfoFile/DlgInfoFile.h"
 #include "DlgCheckConfig/DlgCheckConfig.h"
@@ -151,6 +152,10 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     // Register background library
     screen.showMessage(QApplication::translate("MainWindow","Loading background library..."),Qt::AlignHCenter|Qt::AlignBottom);
     BackgroundList.ScanDisk("background",ApplicationConfig);
+
+    // Register text frame library
+    screen.showMessage(QApplication::translate("MainWindow","Loading text frame  library..."),Qt::AlignHCenter|Qt::AlignBottom);
+    TextFrameList.DoPreploadList();
 
     // Register non luma library
     screen.showMessage(QApplication::translate("MainWindow","Loading no-luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);

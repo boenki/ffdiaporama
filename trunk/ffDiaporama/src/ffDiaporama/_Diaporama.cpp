@@ -23,6 +23,7 @@
 #include "_Diaporama.h"
 #include "_ApplicationDefinitions.h"
 #include "mainwindow.h"
+#include "../engine/cTextFrame.h"
 
 #include <QFileDialog>
 #include <QAbstractTextDocumentLayout>
@@ -59,7 +60,8 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
     RotateYAxis             = 0;                    // Rotation from Y axis
 
     // Text part
-    Text                    = "";           // Text of the object
+    Text                    = "";                                               // Text of the object
+    TextClipArtName         = "";                                               // Clipart name (if clipart mode)
     FontName                = DEFAULT_FONT_FAMILLY;                             // font name
     FontSize                = DEFAULT_FONT_SIZE;                                // font size
     FontColor               = DEFAULT_FONT_COLOR;                               // font color
@@ -117,7 +119,7 @@ void cCompositionObject::ApplyTextMargin(int TMType) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::ApplyTextMargin");
     if ((this->TMType==TEXTMARGINS_CUSTOM)&&(TMType==TEXTMARGINS_CUSTOM)) return;   // Don't overwrite custom settings
     this->TMType=TMType;
-    QRectF Rect=GetPrivateTextMargin();
+    QRectF Rect =GetPrivateTextMargin();
     this->TMx   =Rect.left();
     this->TMy   =Rect.top();
     this->TMw   =Rect.width();
@@ -134,8 +136,13 @@ QRectF cCompositionObject::GetPrivateTextMargin() {
             QRectF X100=RectF=PolygonToRectF(ComputePolygon(BackgroundForm,0,0,100,100));
             RectF=QRectF(X100.left()/100,X100.top()/100,X100.width()/100,X100.height()/100);
     } else if (TMType==TEXTMARGINS_SHAPEDEFAULT) {
-        RectF=QRectF(ShapeFormDefinition[BackgroundForm].TMx,ShapeFormDefinition[BackgroundForm].TMy,
-                     ShapeFormDefinition[BackgroundForm].TMw,ShapeFormDefinition[BackgroundForm].TMh);
+        if (TextClipArtName!="") {
+            cTextFrameObject *TFO=&TextFrameList.List[TextFrameList.SearchImage(TextClipArtName)];
+            RectF=QRectF(TFO->TMx,TFO->TMy,TFO->TMw,TFO->TMh);
+        } else {
+            RectF=QRectF(ShapeFormDefinition[BackgroundForm].TMx,ShapeFormDefinition[BackgroundForm].TMy,
+                         ShapeFormDefinition[BackgroundForm].TMw,ShapeFormDefinition[BackgroundForm].TMh);
+        }
     } else RectF=QRectF(TMx,TMy,TMw,TMh);
     return RectF;
 }
@@ -188,6 +195,7 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("Dissolve",Dissolve);                      // Dissolve value
 
     // Text part
+    Element.setAttribute("TextClipArtName",TextClipArtName);        // ClipArt name (if text clipart mode)
     if ((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
         Element.setAttribute("Text",Text); // Text of the object
         if (Text!="") {
@@ -260,9 +268,11 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         if (Element.hasAttribute("Dissolve"))                   Dissolve        =Element.attribute("Dissolve").toInt();                 // Dissolve value
 
         // Text part
+        if (Element.hasAttribute("TextClipArtName"))            TextClipArtName =Element.attribute("TextClipArtName");                      // ClipArt name (if text clipart mode)
         if ((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
             Text=Element.attribute("Text");  // Text of the object
             if (Text!="") {
+
                 if (Element.hasAttribute("FontName"))           FontName        =Element.attribute("FontName");                             // font name
                 if (Element.hasAttribute("FontSize"))           FontSize        =Element.attribute("FontSize").toInt();                     // font size
                 if (Element.hasAttribute("FontColor"))          FontColor       =Element.attribute("FontColor");                            // font color
@@ -689,6 +699,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
     Dissolve             =CompositionObjectToCopy->Dissolve;
     Opacity              =CompositionObjectToCopy->Opacity;
     Text                 =CompositionObjectToCopy->Text;
+    TextClipArtName      =CompositionObjectToCopy->TextClipArtName;
     FontName             =CompositionObjectToCopy->FontName;
     FontSize             =CompositionObjectToCopy->FontSize;
     FontColor            =CompositionObjectToCopy->FontColor;
@@ -854,73 +865,80 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             if (TheRotateYAxis!=0) Matrix.rotate(TheRotateYAxis,Qt::YAxis);     // Rotate from Y axis
             Painter->setWorldTransform(Matrix,false);
 
-            for (int i=0;i<PolygonList.count();i++) PolygonList[i].translate(-CenterF.x(),-CenterF.y());
-            QRectF NewShapeRect=PolygonToRectF(PolygonList);
-
-            //***********************************************************************************
-            // Prepare pen
-            //***********************************************************************************
-
-            QPen Pen;
-            Pen.setCapStyle(Qt::RoundCap);
-            Pen.setJoinStyle(Qt::RoundJoin);
-            Pen.setCosmetic(false);
-            Pen.setStyle(Qt::SolidLine);
-            if (PenSize==0) Painter->setPen(Qt::NoPen); else {
-                Pen.setColor(PenColor);
-                Pen.setWidthF(double(PenSize)*ADJUST_RATIO);
-                Pen.setStyle((Qt::PenStyle)PenStyle);
-                Painter->setPen(Pen);
-            }
-
-            //***********************************************************************************
-            // Prepare brush
-            //***********************************************************************************
-
-            if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter->setBrush(Qt::NoBrush); else {
-
-                // Create brush with filter and Ken Burns effect !
-                QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
-                if (BR) {
-                    QTransform  MatrixBR;
-                    // Avoid phantom lines for image brush
-                    if ((!BR->textureImage().isNull())&&((TheRotateZAxis!=0)||(TheRotateXAxis!=0)||(TheRotateYAxis!=0))) {
-                        QImage   TempImage(W+4,H+4,QImage::Format_ARGB32_Premultiplied);
-                        QPainter TempPainter;
-                        TempPainter.begin(&TempImage);
-                        TempPainter.setRenderHints(hints,true);
-                        TempPainter.setCompositionMode(QPainter::CompositionMode_Source);
-                        TempPainter.fillRect(QRect(0,0,TempImage.width(),TempImage.height()),Qt::transparent);
-                        TempPainter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                        TempPainter.drawImage(2,2,BR->textureImage());
-                        TempPainter.end();
-                        delete BR;
-                        BR=new QBrush(TempImage);
-                        MatrixBR.translate(NewShapeRect.left()+(X-ShapeRect.left())-2,NewShapeRect.top()+(Y-ShapeRect.top())-2);
-                    } else {
-                        MatrixBR.translate(NewShapeRect.left()+(X-ShapeRect.left()),NewShapeRect.top()+(Y-ShapeRect.top()));
-                    }
-                    BR->setTransform(MatrixBR);         // Apply transform matrix to the brush
-                    Painter->setBrush(*BR);
-                    delete BR;
+            if (TextClipArtName!="") {
+                QSvgRenderer SVGImg(TextClipArtName);
+                if (!SVGImg.isValid()) {
+                    ToLog(LOGMSG_CRITICAL,QString("IN:cCompositionObject:DrawCompositionObject: Error loading ClipArt Image %1").arg(TextClipArtName));
                 } else {
-                    ToLog(LOGMSG_CRITICAL,"Error in cCompositionObject::DrawCompositionObject Brush is NULL !");
-                    Painter->setBrush(Qt::NoBrush);
+                    SVGImg.render(Painter,QRectF(-W/2,-H/2,W,H));
                 }
+            } else if ((BackgroundBrush->BrushType!=BRUSHTYPE_NOBRUSH)||(PenSize!=0)) {
+                for (int i=0;i<PolygonList.count();i++) PolygonList[i].translate(-CenterF.x(),-CenterF.y());
+                QRectF NewShapeRect=PolygonToRectF(PolygonList);
+
+                //***********************************************************************************
+                // Prepare pen
+                //***********************************************************************************
+
+                QPen Pen;
+                Pen.setCapStyle(Qt::RoundCap);
+                Pen.setJoinStyle(Qt::RoundJoin);
+                Pen.setCosmetic(false);
+                Pen.setStyle(Qt::SolidLine);
+                if (PenSize==0) Painter->setPen(Qt::NoPen); else {
+                    Pen.setColor(PenColor);
+                    Pen.setWidthF(double(PenSize)*ADJUST_RATIO);
+                    Pen.setStyle((Qt::PenStyle)PenStyle);
+                    Painter->setPen(Pen);
+                }
+
+                //***********************************************************************************
+                // Prepare brush
+                //***********************************************************************************
+                if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter->setBrush(Qt::NoBrush); else {
+
+                    // Create brush with filter and Ken Burns effect !
+                    QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
+                    if (BR) {
+                        QTransform  MatrixBR;
+                        // Avoid phantom lines for image brush
+                        if ((!BR->textureImage().isNull())&&((TheRotateZAxis!=0)||(TheRotateXAxis!=0)||(TheRotateYAxis!=0))) {
+                            QImage   TempImage(W+4,H+4,QImage::Format_ARGB32_Premultiplied);
+                            QPainter TempPainter;
+                            TempPainter.begin(&TempImage);
+                            TempPainter.setRenderHints(hints,true);
+                            TempPainter.setCompositionMode(QPainter::CompositionMode_Source);
+                            TempPainter.fillRect(QRect(0,0,TempImage.width(),TempImage.height()),Qt::transparent);
+                            TempPainter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+                            TempPainter.drawImage(2,2,BR->textureImage());
+                            TempPainter.end();
+                            delete BR;
+                            BR=new QBrush(TempImage);
+                            MatrixBR.translate(NewShapeRect.left()+(X-ShapeRect.left())-2,NewShapeRect.top()+(Y-ShapeRect.top())-2);
+                        } else {
+                            MatrixBR.translate(NewShapeRect.left()+(X-ShapeRect.left()),NewShapeRect.top()+(Y-ShapeRect.top()));
+                        }
+                        BR->setTransform(MatrixBR);         // Apply transform matrix to the brush
+                        Painter->setBrush(*BR);
+                        delete BR;
+                    } else {
+                        ToLog(LOGMSG_CRITICAL,"Error in cCompositionObject::DrawCompositionObject Brush is NULL !");
+                        Painter->setBrush(Qt::NoBrush);
+                    }
+                }
+
+                //***********************************************************************************
+                // Draw shape (with pen and brush and transform matrix)
+                //***********************************************************************************
+                if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter->setCompositionMode(QPainter::CompositionMode_Source);
+                for (int i=0;i<PolygonList.count();i++) Painter->drawPolygon(PolygonList.at(i));
+                if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
             }
-
-            //***********************************************************************************
-            // Draw shape (with pen and brush and transform matrix)
-            //***********************************************************************************
-
-            if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter->setCompositionMode(QPainter::CompositionMode_Source);
-            for (int i=0;i<PolygonList.count();i++) Painter->drawPolygon(PolygonList.at(i));
-            if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter->setCompositionMode(QPainter::CompositionMode_SourceOver);
 
             //**********************************************************************************
             // Text part
             //**********************************************************************************
-            if (TheTxtZoomLevel>0) {
+            if ((TheTxtZoomLevel>0)&&(Text!="")) {
 
                 double          FullMargin=((TMType==TEXTMARGINS_FULLSHAPE)||(TMType==TEXTMARGINS_CUSTOM))?0:double(PenSize)*ADJUST_RATIO/double(2);
                 QRectF          TextMargin;
@@ -928,8 +946,14 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 QTextDocument   TextDocument;
 
                 if ((TMType==TEXTMARGINS_FULLSHAPE)||(TMType==TEXTMARGINS_CUSTOM)) TextMargin=QRectF(TMx*TheW*width,TMy*TheH*height,TMw*TheW*width,TMh*TheH*height);
-                    else TextMargin=QRectF(ShapeFormDefinition[BackgroundForm].TMx*TheW*width+FullMargin,ShapeFormDefinition[BackgroundForm].TMy*TheH*height+FullMargin,
-                                           ShapeFormDefinition[BackgroundForm].TMw*TheW*width-FullMargin*2,ShapeFormDefinition[BackgroundForm].TMh*TheH*height-FullMargin*2);
+                else if (TextClipArtName!="") {
+                        cTextFrameObject *TFO=&TextFrameList.List[TextFrameList.SearchImage(TextClipArtName)];
+                        TextMargin=QRectF(TFO->TMx*TheW*width+FullMargin,TFO->TMy*TheH*height+FullMargin,
+                                          TFO->TMw*TheW*width-FullMargin*2,TFO->TMh*TheH*height-FullMargin*2);
+                } else {
+                    TextMargin=QRectF(ShapeFormDefinition[BackgroundForm].TMx*TheW*width+FullMargin,ShapeFormDefinition[BackgroundForm].TMy*TheH*height+FullMargin,
+                                      ShapeFormDefinition[BackgroundForm].TMw*TheW*width-FullMargin*2,ShapeFormDefinition[BackgroundForm].TMh*TheH*height-FullMargin*2);
+                }
                 TextMargin.translate(-ShapeRect.width()/2,-ShapeRect.height()/2);
 
                 if (DisplayTextMargin) {
@@ -990,7 +1014,6 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 Painter->scale((TheTxtZoomLevel/100)*PointSize,(TheTxtZoomLevel/100)*PointSize);
                 TextDocument.documentLayout()->draw(Painter,Context);
                 Painter->restore();
-
             }
 
             //**********************************************************************************

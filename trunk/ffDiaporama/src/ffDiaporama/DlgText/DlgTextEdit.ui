@@ -38,7 +38,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="TextTab">
       <attribute name="title">
@@ -1622,15 +1622,52 @@ p, li { white-space: pre-wrap; }
   </customwidget>
  </customwidgets>
  <tabstops>
+  <tabstop>ShapeDefaultBT</tabstop>
+  <tabstop>FullShapeBT</tabstop>
+  <tabstop>CustomBT</tabstop>
+  <tabstop>PosXEd</tabstop>
+  <tabstop>WidthEd</tabstop>
+  <tabstop>PosYEd</tabstop>
+  <tabstop>HeightEd</tabstop>
+  <tabstop>CancelBt</tabstop>
+  <tabstop>HelpBT</tabstop>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>TextStyleBT</tabstop>
+  <tabstop>fontStyleCB</tabstop>
+  <tabstop>fontSize</tabstop>
+  <tabstop>FontColorCombo</tabstop>
+  <tabstop>ListBt</tabstop>
+  <tabstop>ListNbrBt</tabstop>
+  <tabstop>textLeft</tabstop>
+  <tabstop>textJustif</tabstop>
+  <tabstop>textCenter</tabstop>
+  <tabstop>textRight</tabstop>
+  <tabstop>fontEffectCB</tabstop>
+  <tabstop>StyleShadowColorCombo</tabstop>
+  <tabstop>bold</tabstop>
+  <tabstop>Italic</tabstop>
+  <tabstop>Souligne</tabstop>
+  <tabstop>TextSuperBt</tabstop>
+  <tabstop>TextSubBt</tabstop>
+  <tabstop>IndentInBt</tabstop>
+  <tabstop>IndentOutBt</tabstop>
+  <tabstop>textUp</tabstop>
+  <tabstop>textVCenter</tabstop>
+  <tabstop>textBottom</tabstop>
+  <tabstop>TextEdit</tabstop>
+  <tabstop>scrollArea</tabstop>
+  <tabstop>BackgroundStyleBT</tabstop>
+  <tabstop>BrushTypeCombo</tabstop>
+  <tabstop>PatternBrushCombo</tabstop>
+  <tabstop>BackgroundCombo</tabstop>
+  <tabstop>OrientationCombo</tabstop>
   <tabstop>FirstColorCombo</tabstop>
   <tabstop>FinalColorCombo</tabstop>
   <tabstop>IntermColorCombo</tabstop>
-  <tabstop>OrientationCombo</tabstop>
-  <tabstop>IntermPosSlider</tabstop>
   <tabstop>IntermPosED</tabstop>
   <tabstop>OKBT</tabstop>
-  <tabstop>CancelBt</tabstop>
-  <tabstop>HelpBT</tabstop>
+  <tabstop>IntermPosSlider</tabstop>
+  <tabstop>UndoBT</tabstop>
  </tabstops>
  <resources>
   <include location="../../../RSCffDiaporama.qrc"/>

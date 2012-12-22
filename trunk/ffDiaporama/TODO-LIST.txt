@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 16/12/2012
+* Dernier commit le : 18/12/2012
 **************************************************
 
 TODO :
@@ -52,15 +52,15 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige un bug d'affichage: Le cadre de sélection est toujours affiché sur l'ancienne sélection quand la preview est en fonction et qu'on clique sur une autre diapo
--Corrige un bug d'interface: Dans la boite d'édition des diapositives, les raccourcies clavier du copier/coller des blocs prend le dessus même dans les zones d'édition
+-Corrige plusieurs petits bug d'undo dans la boite slide
 
 English version / Bug fixes :
--Fixed a bug of display: The selection frame is always displayed on the previous selection when the preview is running and you click on another slide
--Fixed a bug of interface: In the slide edit dialog, keyboard shortcuts of copy/paste of blocks takes over even when cursor is in an edit zone
+-Several small bug fixes for undo in the slide edit dialog
 
 French version / Nouveautés :
--Ajoute 22 formes diverses (trapèzes, parallélograme, etc...)
+-Ajoute un nouveau type de bloc : les textes clip-art
+-Ajoute une collection de 68 clip-arts comprenant des bulles de BD, des panneaux et des papiers pour fonctionner en texte clip-art
 
 English version / New features :
--Adds 22 various forms (trapezoid, parallelogram, etc...)
+-Adds a new block type: clip-art texts
+-Adds a collection of 68 clip arts including comics bubbles, panels and papers to work with text clip-art

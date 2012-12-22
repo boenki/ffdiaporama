@@ -2969,6 +2969,26 @@ blocco</translation>
         <source>distribute vertically</source>
         <translation>distribuire verticalmente</translation>
     </message>
+    <message>
+        <source>Clip-Art :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add simple text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new simple text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add ClipArt text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new ClipArt text block</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgTextEdit</name>
@@ -4469,6 +4489,10 @@ Sei sicuro che è vuota?</translation>
     </message>
     <message>
         <source>Your version of ffDiaporama is up to day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Loading text frame  library...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -4,7 +4,7 @@
 #       xxx could be /usr, /usr/local or /opt
 #--------------------------------------------------------------
 
-QT           += core gui xml network
+QT           += core gui xml network svg
 #win32:CONFIG += console
 CONFIG       += thread
 QMAKE_STRIP  = echo
@@ -92,12 +92,14 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../engine/_Transition.cpp \
             ../engine/_SpeedWave.cpp \
             ../engine/_Shape.cpp \
+            ../engine/cTextFrame.cpp \
             ../CustomCtrl/cCColorComboBox.cpp \
             ../CustomCtrl/cCBrushComboBox.cpp \
             ../CustomCtrl/cCGrdOrientationComboBox.cpp \
             ../CustomCtrl/cCFramingComboBox.cpp \
             ../CustomCtrl/cCShapeComboBox.cpp \
-            ../CustomCtrl/cBackgroundComboBox.cpp
+            ../CustomCtrl/cBackgroundComboBox.cpp \
+            ../CustomCtrl/cCTexteFrameComboBox.cpp
 
 HEADERS  += \
             _ApplicationDefinitions.h \
@@ -151,12 +153,14 @@ HEADERS  += \
             ../engine/_Transition.h \
             ../engine/_SpeedWave.h \
             ../engine/_Shape.h \
+            ../engine/cTextFrame.h \
             ../CustomCtrl/cCColorComboBox.h \
             ../CustomCtrl/cCBrushComboBox.h \
             ../CustomCtrl/cCGrdOrientationComboBox.h \
             ../CustomCtrl/cCFramingComboBox.h \
             ../CustomCtrl/cCShapeComboBox.h \
-            ../CustomCtrl/cBackgroundComboBox.h
+            ../CustomCtrl/cBackgroundComboBox.h \
+            ../CustomCtrl/cCTexteFrameComboBox.h
 
 FORMS    += mainwindow.ui \
             wgt_QVideoPlayer.ui \

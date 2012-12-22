@@ -99,6 +99,9 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
         if (TypeObject==LULOOBJECT_IMAGE) {
             // Load image from disk
             ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
+            if (QFileInfo(FileName).suffix().toLower()=="svg") {
+                qDebug()<<"SVG";
+            }
             QImageReader Img(FileName);
             CacheRenderImage=new QImage(Img.read());
 

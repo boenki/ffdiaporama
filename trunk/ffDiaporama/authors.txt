@@ -14,6 +14,7 @@ Logo & icons :
     Pepe Baeza <http://www.quesepuedehacerenlinux.net/search/label/ffdiaporama>
     Crystal Project <http://www.everaldo.com/crystal/>
     Nuvola <http://fr.wikipedia.org/wiki/Nuvola>
+    OpenClipArts <http://openclipart.org/>
 
 English interface and WIKI translation :
     Dominique LEVRAY <levray.dominique@bbox.fr>
@@ -39,3 +40,4 @@ Czech interface :
 
 Dutch interface :
     J.G. Visser <jgvnet@gmail.com>
+
