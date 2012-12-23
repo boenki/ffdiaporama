@@ -300,7 +300,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
 
         QBrush *Ret=NULL;
 
-        if ((!Image->IsVectorImg)&&(RenderImage)) {
+        if ( (!((Image!=NULL)&&(Image->IsVectorImg))) && (RenderImage)) {
             if (FullFilling) {
                 // Create brush image with distortion
                 Ret=new QBrush(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));

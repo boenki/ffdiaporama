@@ -860,7 +860,8 @@ bool cImageFile::IsFilteredFile(int RequireObjectType) {
 QString cImageFile::GetFileTypeStr() {
     ToLog(LOGMSG_DEBUGTRACE,QString("IN:cImageFile::GetFileTypeStr for %1").arg(FileName));
 
-    if (ObjectType==OBJECTTYPE_IMAGEFILE) return QApplication::translate("cBaseMediaFile","Image","File type");
+    if ((ObjectType==OBJECTTYPE_IMAGEFILE)&&(!IsVectorImg))         return QApplication::translate("cBaseMediaFile","Image","File type");
+        else if ((ObjectType==OBJECTTYPE_IMAGEFILE)&&(IsVectorImg)) return QApplication::translate("cBaseMediaFile","Vector image","File type");
         else return QApplication::translate("cBaseMediaFile","Thumbnail","File type");
 }
 
@@ -1047,7 +1048,7 @@ void cImageFile::GetFullInformationFromFile() {
     //************************************************************************************
     // If no exif preview image (of image too small) then load/create thumbnail
     //************************************************************************************
-    if ((IsIconNeeded)&&(Icon16.isNull())) {
+    if ((!IsVectorImg)&&(IsIconNeeded)&&(Icon16.isNull())) {
         cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
         if (ImageObject==NULL) {
             ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for thumbnail creation !");
@@ -1064,7 +1065,7 @@ void cImageFile::GetFullInformationFromFile() {
     //************************************************************************************
     // if no information about size then load image
     //************************************************************************************
-    if ((ImageWidth==0)||(ImageHeight==0)) {
+    if ((!IsVectorImg)&&((ImageWidth==0)||(ImageHeight==0))) {
         cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileName,ModifDateTime,ImageOrientation,ApplicationConfig->Smoothing,true);
         if (ImageObject==NULL) {
             ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for size computation !");
@@ -2569,19 +2570,6 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
             }
         }
 
-        if (IsVideoFind) {
-            ObjectGeometry=IMAGE_GEOMETRY_UNKNOWN;
-            double RatioHW=double(RetImage->width())/double(RetImage->height());
-            if ((RatioHW>=1.45)&&(RatioHW<=1.55))           ObjectGeometry=IMAGE_GEOMETRY_3_2;
-            else if ((RatioHW>=0.65)&&(RatioHW<=0.67))      ObjectGeometry=IMAGE_GEOMETRY_2_3;
-            else if ((RatioHW>=1.32)&&(RatioHW<=1.34))      ObjectGeometry=IMAGE_GEOMETRY_4_3;
-            else if ((RatioHW>=0.74)&&(RatioHW<=0.76))      ObjectGeometry=IMAGE_GEOMETRY_3_4;
-            else if ((RatioHW>=1.77)&&(RatioHW<=1.79))      ObjectGeometry=IMAGE_GEOMETRY_16_9;
-            else if ((RatioHW>=0.56)&&(RatioHW<=0.58))      ObjectGeometry=IMAGE_GEOMETRY_9_16;
-            else if ((RatioHW>=2.34)&&(RatioHW<=2.36))      ObjectGeometry=IMAGE_GEOMETRY_40_17;
-            else if ((RatioHW>=0.42)&&(RatioHW<=0.44))      ObjectGeometry=IMAGE_GEOMETRY_17_40;
-        }
-
         // Continue with a new one
         if (StreamPacket!=NULL) {
             av_free_packet(StreamPacket); // Free the StreamPacket that was allocated by previous call to av_read_frame
@@ -2795,7 +2783,6 @@ bool cVideoFile::OpenCodecAndFile() {
         VideoDecoderCodec=avcodec_find_decoder(ffmpegVideoFile->streams[VideoStreamNumber]->codec->codec_id);
 
         // Setup decoder options
-
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
         ffmpegVideoFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
@@ -2830,14 +2817,72 @@ bool cVideoFile::OpenCodecAndFile() {
         if ((AspectRatio==1)&&(ffmpegVideoFile->streams[VideoStreamNumber]->codec->coded_width==720)&&(ffmpegVideoFile->streams[VideoStreamNumber]->codec->coded_height==576))
             AspectRatio=double((576/3)*4)/720;
 
-        IsOpen=true;
-
         // Try to load one image to be sure we can make something with this file
+        // and use this first image as thumbnail (if no jukebox thumbnail)
+        qlonglong   Position =0;
+        QImage      *Img     =NULL;
+        double      dEndFile =double(QTime(0,0,0,0).msecsTo(Duration))/1000;    // End File Position in double format
+        if (dEndFile!=0) {
+            // Allocate structure for YUV image
+            if (FrameBufferYUV==NULL) FrameBufferYUV=avcodec_alloc_frame();
+            if (FrameBufferYUV!=NULL) {
+                FrameBufferYUVReady    = false;
+                FrameBufferYUVPosition = 0;
 
-        qlonglong Position=0;
-        if (QTime(0,0,0,0).msecsTo(Duration)>500) Position=500;   // If video is > 0.5 sec then get image at 0.5 sec
-        QImage *Img =ImageAt(true,Position,0,NULL,false,1,false,false);
+                AVStream    *VideoStream    =ffmpegVideoFile->streams[VideoStreamNumber];
+                AVPacket    *StreamPacket   =NULL;
+                bool        Continue        =true;
+                bool        IsVideoFind     =false;
+                double      FrameTimeBase   =av_q2d(VideoStream->time_base);;
+                double      FramePosition   =0;
+
+                while (Continue) {
+                    StreamPacket=new AVPacket();
+                    av_init_packet(StreamPacket);
+                    StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
+                    if (av_read_frame(ffmpegVideoFile,StreamPacket)==0) {
+                        if (StreamPacket->stream_index==VideoStreamNumber) {
+                            int FrameDecoded=0;
+                            if (avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket)<0)
+                                ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::OpenCodecAndFile : avcodec_decode_video2 return an error");
+                            if (FrameDecoded>0) {
+                                int64_t pts=AV_NOPTS_VALUE;
+                                if ((FrameBufferYUV->pkt_dts==(int64_t)AV_NOPTS_VALUE)&&(FrameBufferYUV->pkt_pts!=(int64_t)AV_NOPTS_VALUE)) pts = FrameBufferYUV->pkt_pts; else pts = FrameBufferYUV->pkt_dts;
+                                if (pts==(int64_t)AV_NOPTS_VALUE) pts = 0;
+                                FramePosition         =double(pts)*FrameTimeBase;
+                                FrameBufferYUVReady   =true;                            // Keep actual value for FrameBufferYUV
+                                FrameBufferYUVPosition=int(FramePosition*1000);         // Keep actual value for FrameBufferYUV
+                                Img                   =ConvertYUVToRGB(false);          // Create Img from YUV Buffer
+                                IsVideoFind           =(Img!=NULL);
+                                ObjectGeometry        =IMAGE_GEOMETRY_UNKNOWN;
+                            }
+                        }
+                        // Check if we need to continue loop
+                        Continue=(IsVideoFind==false)&&(FramePosition<dEndFile);
+                    } else {
+                        // if error in av_read_frame(...) then may be we have reach the end of file !
+                        Continue=false;
+                    }
+                    // Continue with a new one
+                    if (StreamPacket!=NULL) {
+                        av_free_packet(StreamPacket); // Free the StreamPacket that was allocated by previous call to av_read_frame
+                        delete StreamPacket;
+                        StreamPacket=NULL;
+                    }
+                }
+
+                if ((!IsVideoFind)&&(!Img)) {
+                    ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return black frame").arg(Position));
+                    Img=new QImage(ffmpegVideoFile->streams[VideoStreamNumber]->codec->width,ffmpegVideoFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
+                    Img->fill(0);
+                }
+            } else ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::OpenCodecAndFile : Impossible to allocate FrameBufferYUV");
+        } else ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::OpenCodecAndFile : dEndFile=0 ?????");
+
+        //=========================================================================================================================
+
         if (Img) {
+            IsOpen=true;
             // Get information about size image
             ImageWidth =ffmpegVideoFile->streams[VideoStreamNumber]->codec->coded_width;    //Img->width();
             ImageHeight=ffmpegVideoFile->streams[VideoStreamNumber]->codec->coded_height;   //Img->height();
@@ -2868,7 +2913,6 @@ bool cVideoFile::OpenCodecAndFile() {
 
         } else {
             CloseCodecAndFile();
-            return false;
         }
     }
 

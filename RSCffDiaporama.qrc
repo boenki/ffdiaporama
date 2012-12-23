@@ -352,9 +352,7 @@
         <file>img/TextFrame/111.svg</file>
         <file>img/TextFrame/112.svg</file>
         <file>img/add_cliparttext.png</file>
-        <file>img/TextFrame/113.svg</file>
         <file>img/TextFrame/114.svg</file>
-        <file>img/TextFrame/115.svg</file>
         <file>img/TextFrame/117.svg</file>
         <file>img/TextFrame/118.svg</file>
         <file>img/TextFrame/119.svg</file>
@@ -363,5 +361,6 @@
         <file>img/TextFrame/122.svg</file>
         <file>img/TextFrame/116.svg</file>
         <file>img/TextFrame/123.svg</file>
+        <file>img/TextFrame/115.svg</file>
     </qresource>
 </RCC>

@@ -70,4 +70,19 @@ public slots:
     void s_ItemSelectionChanged();
 };
 
+class cPopupTexteFrame : public QDialog {
+Q_OBJECT
+public:
+    cCTexteFrameComboBoxItem    ItemDelegate;
+    QTableWidget                *Table;
+    int                         CurrentSel;
+
+    explicit            cPopupTexteFrame(QWidget *parent = 0);
+    void                DoInitPopup(QPoint Pos);
+    QString             GetCurrentTextFrame();
+
+public slots:
+    void s_ItemSelectionChanged();
+};
+
 #endif // CCTEXTEFRAMECOMBOBOX_H
