@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 18/12/2012
+* Dernier commit le : 22/12/2012
 **************************************************
 
 TODO :
@@ -52,15 +52,17 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige plusieurs petits bug d'undo dans la boite slide
+-Corrige un crash introduit dans la devel 121222
 
 English version / Bug fixes :
--Several small bug fixes for undo in the slide edit dialog
+-Fix a crash introduce in devel 121222
 
 French version / Nouveautés :
--Ajoute un nouveau type de bloc : les textes clip-art
--Ajoute une collection de 68 clip-arts comprenant des bulles de BD, des panneaux et des papiers pour fonctionner en texte clip-art
+-Accélère la production des vignettes des vidéos dans l'explorateur de fichier
+-Ajoute une popup quand on click sur ajouter un texte clip-art pour sélectionner le clip-art dans la boite de dialog d'edition des diapositives
+-Ajoute la prise en charge des images vectorielles au format SVG
 
 English version / New features :
--Adds a new block type: clip-art texts
--Adds a collection of 68 clip arts including comics bubbles, panels and papers to work with text clip-art
+-Speed up thumbnail creation of videos for multimedia file explorer
+-Adds a popup when click on add clip-art text to select clip-art in edit slide dialog
+-Adds support of vector images as SVG format

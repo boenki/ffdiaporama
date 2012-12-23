@@ -130,9 +130,8 @@ void cTextFrameList::DoPreploadList() {
     List.append(cTextFrameObject(":/img/TextFrame/110.svg", 0.06,0.15,0.86,0.78,Qt::white,             MEDIUMBLACK));
     List.append(cTextFrameObject(":/img/TextFrame/111.svg", 0.11,0.10,0.75,0.79,QColor(0xe6,0xe2,0xd2),MEDIUMBLACK));
     List.append(cTextFrameObject(":/img/TextFrame/112.svg", 0.22,0.15,0.69,0.64,QColor(0xe6,0xe2,0xd2),MEDIUMBLACK));
-    List.append(cTextFrameObject(":/img/TextFrame/113.svg", 0.06,0.15,0.85,0.68,QColor(0xda,0xbf,0x97),MEDIUMBLACK));
     List.append(cTextFrameObject(":/img/TextFrame/114.svg", 0.09,0.11,0.82,0.77,QColor(0xda,0xbf,0x97),MEDIUMBLACK));
-    List.append(cTextFrameObject(":/img/TextFrame/115.svg", 0.05,0.15,0.86,0.65,QColor(0xda,0xbf,0x97),MEDIUMBLACK));
+    List.append(cTextFrameObject(":/img/TextFrame/115.svg", 0.05,0.15,0.89,0.73,QColor(0xda,0xbf,0x97),MEDIUMBLACK));
     List.append(cTextFrameObject(":/img/TextFrame/116.svg", 0.15,0.26,0.68,0.50,Qt::white,MEDIUMBLACK));
     List.append(cTextFrameObject(":/img/TextFrame/117.svg", 0.18,0.27,0.68,0.50,QColor(0xd7,0xda,0x77),MEDIUMBLACK));
     List.append(cTextFrameObject(":/img/TextFrame/118.svg", 0.04,0.04,0.92,0.51,Qt::white,MEDIUMBLACK));

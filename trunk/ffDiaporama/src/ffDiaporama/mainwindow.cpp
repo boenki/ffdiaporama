@@ -2058,7 +2058,8 @@ void MainWindow::s_Action_DoAddFile() {
             // Apply styles for coordinates
             qreal ProjectGeometry=qreal(Diaporama->ImageGeometry==GEOMETRY_4_3?1440:Diaporama->ImageGeometry==GEOMETRY_16_9?1080:Diaporama->ImageGeometry==GEOMETRY_40_17?816:1920)/qreal(1920);
             CompositionObject->BackgroundBrush->ApplyAutoFraming(ApplicationConfig->DefaultBlockSL[CompositionObject->BackgroundBrush->GetImageType()].AutoFraming,ProjectGeometry);
-            CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockSL[CompositionObject->BackgroundBrush->GetImageType()].AutoCompo,Diaporama->ImageGeometry);
+            if ((CompositionObject->BackgroundBrush->Image)&&(CompositionObject->BackgroundBrush->Image->IsVectorImg)) CompositionObject->ApplyAutoCompoSize(AUTOCOMPOSIZE_REALSIZE,Diaporama->ImageGeometry);
+                else CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockSL[CompositionObject->BackgroundBrush->GetImageType()].AutoCompo,Diaporama->ImageGeometry);
 
             //*************************************************************
             // Now create and append a shot composition block to all shot

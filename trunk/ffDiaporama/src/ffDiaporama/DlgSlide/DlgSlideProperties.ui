@@ -883,7 +883,7 @@ information</string>
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-258</y>
+              <y>0</y>
               <width>272</width>
               <height>800</height>
              </rect>
@@ -2566,7 +2566,7 @@ color: #000000;
               </widget>
              </item>
              <item row="10" column="0">
-              <widget class="QLabel" name="TextFramingStyleLabel_2">
+              <widget class="QLabel" name="TextFramingStyleLabel">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
                  <horstretch>0</horstretch>
@@ -3541,6 +3541,11 @@ color: #000000;
  </widget>
  <customwidgets>
   <customwidget>
+   <class>cCSpeedWaveComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cCSpeedWaveComboBox.h</header>
+  </customwidget>
+  <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCColorComboBox.h</header>
@@ -3570,11 +3575,6 @@ color: #000000;
    <class>cCShapeComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCShapeComboBox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cCSpeedWaveComboBox</class>
-   <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCSpeedWaveComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCTexteFrameComboBox</class>

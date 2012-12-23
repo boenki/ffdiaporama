@@ -28,6 +28,7 @@
 
 cCTexteFrameComboBoxItem::cCTexteFrameComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCTexteFrameComboBoxItem::cCTexteFrameComboBoxItem");
+    ComboBox=NULL;
 }
 
 //========================================================================================================================
@@ -43,7 +44,7 @@ void cCTexteFrameComboBoxItem::paint(QPainter *painter,const QStyleOptionViewIte
     } else {
         painter->fillRect(option.rect,Qt::white);
     }
-    if (ComboBox->CurrentSel==index.row()*((QTableWidget *)ComboBox->view())->columnCount()+index.column()) {
+    if ((ComboBox!=NULL)&&(ComboBox->CurrentSel==index.row()*((QTableWidget *)ComboBox->view())->columnCount()+index.column())) {
         painter->setPen(QPen(Qt::red));
         painter->setBrush(QBrush(Qt::NoBrush));
         painter->drawRect(option.rect.x()+3,option.rect.y()+3,option.rect.width()-6-1,option.rect.height()-6-1);
@@ -75,6 +76,8 @@ cCTexteFrameComboBox::cCTexteFrameComboBox(QWidget *parent):QComboBox(parent) {
     STOPMAJ             =false;
 
     QTableWidget *Table=new QTableWidget();
+    Table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    Table->setSelectionMode(QAbstractItemView::SingleSelection);
     Table->horizontalHeader()->hide();
     Table->verticalHeader()->hide();
     for (int i=0;i<NBRCOLUMN;i++) {
@@ -85,21 +88,20 @@ cCTexteFrameComboBox::cCTexteFrameComboBox(QWidget *parent):QComboBox(parent) {
     setView(Table);
     ItemDelegate.ComboBox=this;
     setItemDelegate(&ItemDelegate);
-    this->view()->setFixedWidth(ICONSIZE*NBRCOLUMN+22);
     this->view()->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-    setIconSize(QSize(ICONSIZE,ICONSIZE));
-    setFixedSize(QSize(ICONSIZE+22,ICONSIZE+4));
+    this->view()->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
 }
 
 //========================================================================================================================
 
 void cCTexteFrameComboBox::PrepareTable() {
-    this->view()->setFixedWidth(ICONSIZE*NBRCOLUMN+22);
+    int ScrollBarWidth=((QTableWidget *)view())->verticalScrollBar()->width();
+    this->view()->setFixedWidth(ICONSIZE*NBRCOLUMN+ScrollBarWidth);
     setIconSize(QSize(ICONSIZE,ICONSIZE));
-    setFixedSize(QSize(ICONSIZE+22,ICONSIZE+4));
-    for (int i=0;i<NBRCOLUMN;i++) ((QTableWidget *)view())->setColumnWidth(i,ICONSIZE);
+    setFixedHeight(ICONSIZE+4);
 
+    for (int i=0;i<NBRCOLUMN;i++) ((QTableWidget *)view())->setColumnWidth(i,ICONSIZE);
     int CurIndex  =((QTableWidget *)view())->currentRow()*NBRCOLUMN+((QTableWidget *)view())->currentColumn();
     while (count()>0) removeItem(count()-1);
     int NbrItem=TextFrameList.List.count();
@@ -181,7 +183,70 @@ void cCTexteFrameComboBox::SetCurrentTextFrame(QString BackgroundName) {
 //========================================================================================================================
 
 QString cCTexteFrameComboBox::GetCurrentTextFrame() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCBrushComboBox::GetCurrentTextFrame");
     CurrentSel=((QTableWidget *)view())->currentRow()*NBRCOLUMN+((QTableWidget *)view())->currentColumn();
     if (CurrentSel>=TextFrameList.List.count()) CurrentSel=TextFrameList.List.count()-1;
     return TextFrameList.List[CurrentSel].RessourceName;
+}
+
+//************************************************************************************************************************
+// cPopupTexteFrame
+//************************************************************************************************************************
+
+cPopupTexteFrame::cPopupTexteFrame(QWidget *parent):QDialog(parent,Qt::FramelessWindowHint|Qt::Popup/*Qt::Tool|Qt::Window|Qt::FramelessWindowHint*/) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cPopupTexteFrame::cPopupTexteFrame");
+    Table=NULL;
+    CurrentSel=-1;
+}
+
+//========================================================================================================================
+
+void cPopupTexteFrame::DoInitPopup(QPoint Pos) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cPopupTexteFrame::showEvent");
+    setFocusPolicy(Qt::StrongFocus);
+    move(Pos);
+
+    Table=new QTableWidget(this);
+    Table->setItemDelegate(&ItemDelegate);
+    Table->horizontalHeader()->hide();
+    Table->verticalHeader()->hide();
+    Table->setEditTriggers(QAbstractItemView::NoEditTriggers);
+    Table->setSelectionMode(QAbstractItemView::SingleSelection);
+    Table->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+    Table->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    Table->setFocus();
+    for (int i=0;i<NBRCOLUMN;i++) {
+        Table->insertColumn(0);
+        Table->setColumnWidth(0,ICONSIZE);
+    }
+    int NbrItem=TextFrameList.List.count();
+    int NbrRow=NbrItem/NBRCOLUMN;
+    if (NbrRow*NBRCOLUMN<NbrItem) NbrRow++;
+    for (int i=0;i<NbrRow;i++) {
+        Table->insertRow(Table->rowCount());
+        Table->setRowHeight(Table->rowCount()-1,ICONSIZE);
+    }
+    int ScrollBarWidth=Table->verticalScrollBar()->width();
+    Table->setFixedWidth(ICONSIZE*NBRCOLUMN+ScrollBarWidth);
+    Table->setFixedHeight(ICONSIZE*4);    // 4 lines
+    setFixedHeight(Table->height());
+    setFixedWidth(Table->width());
+    connect(Table,SIGNAL(itemSelectionChanged()),this,SLOT(s_ItemSelectionChanged()));
+}
+
+//========================================================================================================================
+
+void cPopupTexteFrame::s_ItemSelectionChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cPopupTexteFrame::s_ItemSelectionChanged");
+    CurrentSel=Table->currentRow()*NBRCOLUMN+Table->currentColumn();
+    if (CurrentSel>=TextFrameList.List.count()) CurrentSel=-1;
+    close();
+}
+
+//========================================================================================================================
+
+QString cPopupTexteFrame::GetCurrentTextFrame() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cPopupTexteFrame::GetCurrentTextFrame");
+    if ((CurrentSel<0)||(CurrentSel>=TextFrameList.List.count())) return "";
+        else return TextFrameList.List[CurrentSel].RessourceName;
 }

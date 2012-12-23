@@ -26,6 +26,7 @@
 #include "ui_DlgSlideProperties.h"
 
 #include "../../engine/cTextFrame.h"
+#include "../../CustomCtrl/cCTexteFrameComboBox.h"
 
 #include "../DlgInfoFile/DlgInfoFile.h"
 #include "../DlgImage/DlgImageCorrection.h"
@@ -377,10 +378,12 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->BlockTable,SIGNAL(RightClickEvent(QMouseEvent *)),this,SLOT(s_BlockTable_ItemRightClicked(QMouseEvent *)));
     connect(ui->BlockTable,SIGNAL(DragMoveBlock(int,int)),this,SLOT(s_BlockTable_DragMoveBlock(int,int)));
     connect(ui->BlockTable,SIGNAL(DragDropFiles(QList<QUrl>)),this,SLOT(s_BlockTable_DragDropFiles(QList<QUrl>)));
-    connect(ui->AddTextBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewTextBlock()));                                          connect(ui->actionAddTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewTextBlock()));
+    connect(ui->AddTextBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewTextBlock()));
+    connect(ui->actionAddTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewTextBlock()));
     connect(ui->actionAddSimpleTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewSimpleTextBlock()));
     connect(ui->actionAddClipArtTextBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewClipArtTextBlock()));
-    connect(ui->AddFileBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewFileBlock()));                                          connect(ui->actionAddFile,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewFileBlock()));
+    connect(ui->AddFileBlock,SIGNAL(pressed()),this,SLOT(s_BlockTable_AddNewFileBlock()));
+    connect(ui->actionAddFile,SIGNAL(triggered()),this,SLOT(s_BlockTable_AddNewFileBlock()));
     connect(ui->actionRemoveBlock,SIGNAL(triggered()),this,SLOT(s_BlockTable_RemoveBlock()));
 
     // Style buttons
@@ -794,6 +797,7 @@ void DlgSlideProperties::RefreshStyleControls() {
     InRefreshStyleControls=true;
 
     bool IsVisible=(BlockSelectMode==SELECTMODE_ONE)&&(CurrentCompoObject->IsVisible);
+    bool IsVectorImg=((CurrentCompoObject)&&(CurrentCompoObject->BackgroundBrush)&&(CurrentCompoObject->BackgroundBrush->Image)&&(CurrentCompoObject->BackgroundBrush->Image->IsVectorImg));
     ui->BlockShapeStyleBT ->setEnabled(IsVisible && !SelectionHaveLockBlock);
     ui->BlockShapeStyleED ->setEnabled(IsVisible && !SelectionHaveLockBlock);
     ui->FramingStyleCB    ->setEnabled(IsVisible && !SelectionHaveLockBlock);
@@ -834,8 +838,9 @@ void DlgSlideProperties::RefreshStyleControls() {
         if ((CurrentCompoObject->BackgroundBrush->Video==NULL)&&(CurrentCompoObject->BackgroundBrush->Image==NULL)) {
             // It's a text block
 
-            if (ui->FramingStyleCB->isVisible())        ui->FramingStyleCB->setVisible(false);
-            if (!ui->TextFramingStyleCB->isVisible())   ui->TextFramingStyleCB->setVisible(true);
+            if (ui->FramingStyleCB->isVisible())         ui->FramingStyleCB->setVisible(false);
+            if (!ui->TextFramingStyleCB->isVisible())    ui->TextFramingStyleCB->setVisible(true);
+            if (!ui->TextFramingStyleLabel->isVisible()) ui->TextFramingStyleLabel->setVisible(true);
 
             if (ui->TextFramingStyleCB->itemText(0)!=QApplication::translate("DlgImageCorrection","Unlock")) {
                 ui->TextFramingStyleCB->setUpdatesEnabled(false);
@@ -852,7 +857,8 @@ void DlgSlideProperties::RefreshStyleControls() {
         } else {
             // It's Image or video
 
-            if (!ui->FramingStyleCB->isVisible())       ui->FramingStyleCB->setVisible(true);
+            if (ui->FramingStyleCB->isVisible()!=(!IsVectorImg))        ui->FramingStyleCB->setVisible(!IsVectorImg);
+            if (ui->TextFramingStyleLabel->isVisible()!=(!IsVectorImg)) ui->TextFramingStyleLabel->setVisible(!IsVectorImg);
             if (ui->TextFramingStyleCB->isVisible())    ui->TextFramingStyleCB->setVisible(false);
 
             if ((FramingCB_CurrentBrush!=CurrentCompoObject->BackgroundBrush)||(FramingCB_CurrentShot!=CurrentShotNbr)) {
@@ -1050,15 +1056,16 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     }
 
     // Set control visible or hide depending on TextClipArt
-    ui->BlockShapeStyleBT->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
-    ui->BlockShapeStyleSpacer->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
-    ui->BlockShapeStyleED->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
-    ui->BackgroundFormCB->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
-    ui->BackgroundFormLabel->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
-    ui->PenSizeEd->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
-    ui->PenColorCB->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
-    ui->PenStyleCB->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
-    ui->PenLabel->setVisible((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""));
+    bool IsVectorImg=((CurrentCompoObject)&&(CurrentCompoObject->BackgroundBrush)&&(CurrentCompoObject->BackgroundBrush->Image)&&(CurrentCompoObject->BackgroundBrush->Image->IsVectorImg));
+    ui->BlockShapeStyleBT->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
+    ui->BlockShapeStyleSpacer->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
+    ui->BlockShapeStyleED->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
+    ui->BackgroundFormCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
+    ui->BackgroundFormLabel->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
+    ui->PenSizeEd->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
+    ui->PenColorCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
+    ui->PenStyleCB->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
+    ui->PenLabel->setVisible(((!CurrentCompoObject)||(CurrentCompoObject->TextClipArtName==""))&&(!IsVectorImg));
     ui->TextClipArtCB->setVisible((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!=""));
     ui->TextClipArtLabel->setVisible((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!=""));
     if ((CurrentCompoObject)&&(CurrentCompoObject->TextClipArtName!="")) ui->TextClipArtCB->SetCurrentTextFrame(CurrentCompoObject->TextClipArtName);
@@ -1786,6 +1793,14 @@ void DlgSlideProperties::s_BlockTable_AddNewSimpleTextBlock() {
 
 void DlgSlideProperties::s_BlockTable_AddNewClipArtTextBlock() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewClipArtTextBlock");
+
+    cPopupTexteFrame* popup1 = new cPopupTexteFrame(this);
+    QPoint Pos=mapToGlobal(ui->AddTextBlock->pos());
+    popup1->DoInitPopup(QPoint(Pos.x()+ui->AddTextBlock->width(),Pos.y()+ui->AddTextBlock->height()));
+    popup1->exec();
+    QString RessourceName=popup1->GetCurrentTextFrame();
+    if (RessourceName=="") return;
+
     int CurrentShotNbr=ui->ShotTable->currentColumn();
 
     // Create and append a composition block to the object list
@@ -1793,19 +1808,16 @@ void DlgSlideProperties::s_BlockTable_AddNewClipArtTextBlock() {
     cCompositionObject *CompositionObject=CurrentSlide->ObjectComposition.List[CurrentSlide->ObjectComposition.List.count()-1];
 
     // Apply Styles
-    CompositionObject->ApplyTextStyle(TextFrameList.List[0].TextStyle);
-    //CompositionObject->ApplyBackgroundStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleTextBackgroundCollection.GetStyleDef(((cApplicationConfig *)BaseApplicationConfig)->StyleTextBackgroundCollection.DecodeString(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_Text_BackGST)));
-    //CompositionObject->ApplyBlockShapeStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.GetStyleDef(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.DecodeString(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_Text_ShapeST)));
+    CompositionObject->ApplyTextStyle(TextFrameList.List[TextFrameList.SearchImage(RessourceName)].TextStyle);
     CompositionObject->BackgroundBrush->LockGeometry=false; // For ApplyAutoCompoSize don't use it
     CompositionObject->ApplyAutoCompoSize(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_AutoSizePos,CurrentSlide->Parent->ImageGeometry);
-
     CompositionObject->BackgroundBrush->LockGeometry=(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlock_AutoLocking==AUTOFRAMING_CUSTOMPRJLOCK);
     CompositionObject->BackgroundBrush->AspectRatio =(CompositionObject->h*(CurrentSlide->Parent->ImageGeometry==GEOMETRY_4_3?1440:CurrentSlide->Parent->ImageGeometry==GEOMETRY_16_9?1080:CurrentSlide->Parent->ImageGeometry==GEOMETRY_40_17?816:1920))/(CompositionObject->w*1920);
-    CompositionObject->TextClipArtName              =TextFrameList.List[0].RessourceName; // Use the first clipart
-    CompositionObject->TMx                          =TextFrameList.List[0].TMx;
-    CompositionObject->TMy                          =TextFrameList.List[0].TMy;
-    CompositionObject->TMw                          =TextFrameList.List[0].TMw;
-    CompositionObject->TMh                          =TextFrameList.List[0].TMh;
+    CompositionObject->TextClipArtName              =RessourceName;
+    CompositionObject->TMx                          =TextFrameList.List[TextFrameList.SearchImage(RessourceName)].TMx;
+    CompositionObject->TMy                          =TextFrameList.List[TextFrameList.SearchImage(RessourceName)].TMy;
+    CompositionObject->TMw                          =TextFrameList.List[TextFrameList.SearchImage(RessourceName)].TMw;
+    CompositionObject->TMh                          =TextFrameList.List[TextFrameList.SearchImage(RessourceName)].TMh;
 
     // Create default text
     QTextDocument       TextDoc(QApplication::translate("DlgSlideProperties","Text","Default text value"));
@@ -1991,7 +2003,8 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
                 // Apply styles for coordinates
                 qreal ProjectGeometry=qreal(CurrentSlide->Parent->ImageGeometry==GEOMETRY_4_3?1440:CurrentSlide->Parent->ImageGeometry==GEOMETRY_16_9?1080:CurrentSlide->Parent->ImageGeometry==GEOMETRY_40_17?816:1920)/qreal(1920);
                 CompositionObject->BackgroundBrush->ApplyAutoFraming(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlockBA[CompositionObject->BackgroundBrush->GetImageType()].AutoFraming,ProjectGeometry);
-                CompositionObject->ApplyAutoCompoSize(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlockBA[CompositionObject->BackgroundBrush->GetImageType()].AutoCompo,CurrentSlide->Parent->ImageGeometry);
+                if ((CurrentBrush->Image)&&(CurrentBrush->Image->IsVectorImg)) CompositionObject->ApplyAutoCompoSize(AUTOCOMPOSIZE_REALSIZE,CurrentSlide->Parent->ImageGeometry);
+                    else CompositionObject->ApplyAutoCompoSize(((cApplicationConfig *)BaseApplicationConfig)->DefaultBlockBA[CompositionObject->BackgroundBrush->GetImageType()].AutoCompo,CurrentSlide->Parent->ImageGeometry);
                 delete Image;
             }
         }
