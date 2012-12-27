@@ -1843,13 +1843,13 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                 SoundTrackBloc->Channels,AudioStream->codec->channels,          // output_channels, input_channels
                 AudioStream->codec->sample_rate,AudioStream->codec->sample_rate,// output_rate, input_rate
                 AV_SAMPLE_FMT_S16,AudioStream->codec->sample_fmt,               // sample_fmt_out, sample_fmt_in
-                16,                                                             // filter_length (trying 4 !)
-                10,                                                             // log2_phase_count
+                0,                                                              // filter_length (trying 4 !)
+                0,                                                              // log2_phase_count
                 1,                                                              // linear
-                1.0);                                                           // cutoff
+                0);                                                             // cutoff
             if (RSC!=NULL) {
                 short int *BufSampled=(short int*)av_malloc(MaxAudioLenDecoded);
-                AudioLenDecoded=audio_resample(RSC,BufSampled,(short int*)BufferForDecoded,AudioLenDecoded/SrcSampleSize)*DstSampleSize;
+                AudioLenDecoded=audio_resample(RSC,BufSampled,(short int*)BufferForDecoded,(AudioLenDecoded/SrcSampleSize))*DstSampleSize;
 
                 // switch 2 buffers
                 av_free(BufferForDecoded);
@@ -1874,68 +1874,70 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
             // Resampling
             ToLog(LOGMSG_DEBUGTRACE,QString("IN:cVideoFile::ReadAudioFrame => do a resample of %1 bytes").arg(AudioLenDecoded));
 
-            double  NewSize=((double(AudioLenDecoded)/double(DstSampleSize))/double(AudioStream->codec->sample_rate))*double(SoundTrackBloc->SamplingRate);
-            double  PasSrc =1/double(AudioStream->codec->sample_rate);
-            double  PasDst =1/double(SoundTrackBloc->SamplingRate);
-            double  PosSrc =0;
-            double  PosDst =0;
-            int16_t *NewBuf=(short int*)av_malloc(NewSize*DstSampleSize+DstSampleSize);
+            qreal   NewSize=((qreal(AudioLenDecoded)/4)/qreal(AudioStream->codec->sample_rate))*qreal(SoundTrackBloc->SamplingRate);
+            qreal   PasSrc =qreal(1)/qreal(AudioStream->codec->sample_rate);
+            qreal   PasDst =qreal(1)/qreal(SoundTrackBloc->SamplingRate);
+            int16_t *NewBuf=(short int*)av_malloc(NewSize*4+16);
             int16_t *PtrSrc=(int16_t*)BufferForDecoded;
+            int16_t *EndSrc=(int16_t*)(BufferForDecoded+AudioLenDecoded);
             int16_t *PtrDst=NewBuf;
             int     RealNewSize=0;
 
             // For Rendering Mode use a resampling linear method with Hermit interpolation (http://en.wikipedia.org/wiki/Hermite_interpolation)
             int16_t Left_x0,Left_x1,Left_x2,Left_x3;
             int16_t Right_x0,Right_x1,Right_x2,Right_x3;
-            float   t,c0,c1,c2,c3,Value;
-
-            int Start=0,Nbr=NewSize;
+            qreal   t,c0,c1,c2,c3,Value,PosSrc,PosDst;
 
             if (ResamplingContinue) {
+                // Set positions
+                PosSrc = PrevPosSrc;
+                PosDst = PrevPosDst;
+
                 // First value
-                Left_x0=PrevLeft_x0;
+                Left_x0 =PrevLeft_x0;
                 Right_x0=PrevRight_x0;
 
                 // Second value
-                Left_x1=PrevLeft_x1;
+                Left_x1 =PrevLeft_x1;
                 Right_x1=PrevRight_x1;
 
                 // Third value
-                Left_x2=PrevLeft_x2;
+                Left_x2 =PrevLeft_x2;
                 Right_x2=PrevRight_x2;
 
                 // Fourth value
-                Left_x3=PrevLeft_x3;
+                Left_x3 =PrevLeft_x3;
                 Right_x3=PrevRight_x3;
 
             } else {
+                // Set positions
+                PosSrc =0;
+                PosDst =0;
+
                 // First value
-                Left_x0=*(PtrSrc++);    *(PtrDst++)=Left_x0;
+                Left_x0 =*(PtrSrc++);   *(PtrDst++)=Left_x0;
                 Right_x0=*(PtrSrc++);   *(PtrDst++)=Right_x0;
                 PosSrc=PosSrc+PasSrc;
                 PosDst=PosDst+PasDst;
                 RealNewSize++;
 
                 // Second value
-                Left_x1=*(PtrSrc++);    *(PtrDst++)=Left_x1;
+                Left_x1 =*(PtrSrc++);   *(PtrDst++)=Left_x1;
                 Right_x1=*(PtrSrc++);   *(PtrDst++)=Right_x1;
                 //PosSrc=PosSrc+PasSrc;
                 PosDst=PosDst+PasDst;
                 RealNewSize++;
 
                 // Third value
-                Left_x2=*(PtrSrc++);
+                Left_x2 =*(PtrSrc++);
                 Right_x2=*(PtrSrc++);
 
                 // Neutralize first swap
                 Left_x3 =Left_x2;       Left_x2 =Left_x1;       Left_x1 =Left_x0;
                 Right_x3=Right_x2;      Right_x2=Right_x1;      Right_x1=Right_x0;
-
-                // Adjust counter
-                Start=2;
-                Nbr=NewSize-2;
             }
-            for (int i=Start;i<Nbr;i++) {
+            //while (RealNewSize<NewSize) {
+            while (PtrSrc<EndSrc) {
 
                 if ((PosDst-PosSrc)>=PasSrc) {
                     // swap all values
@@ -1943,7 +1945,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                     Right_x0=Right_x1;      Right_x1=Right_x2;      Right_x2=Right_x3;
 
                     // Get fourth value
-                    Left_x3=*(PtrSrc++);
+                    Left_x3 =*(PtrSrc++);
                     Right_x3=*(PtrSrc++);
                     PosSrc=PosSrc+PasSrc;
                 }
@@ -1969,19 +1971,21 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                 Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
                 if (Value>32767)  Value=32767; else if (Value<-32768) Value=-32768;
                 *(PtrDst++)=int16_t(Value);
-                PosDst=PosDst+PasDst;
 
+                PosDst=PosDst+PasDst;
                 RealNewSize++;
             }
-            /* // Last 2 values
+            // Last 2 values
             *(PtrDst++)=Left_x2;
             *(PtrDst++)=Right_x2;
             RealNewSize++;
             *(PtrDst++)=Left_x3;    //Left_x3;
             *(PtrDst++)=Right_x3;   //Right_x3;
-            RealNewSize++;*/
+            RealNewSize++;
 
             // keep values for next time
+            PrevPosSrc=PosSrc;
+            PrevPosDst=PosDst;
             PrevLeft_x0=Left_x0;
             PrevRight_x0=Right_x0;
             PrevLeft_x1=Left_x1;
@@ -2275,6 +2279,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                 Ret=av_buffersink_read(VideoFilterOut,&m_pBufferRef);
                 if (Ret<0) break;
                 avfilter_copy_buf_props(FrameBufferYUV,m_pBufferRef);
+                if (FrameBufferYUV->opaque) avfilter_unref_buffer((AVFilterBufferRef *)FrameBufferYUV->opaque);
                 FrameBufferYUV->opaque=m_pBufferRef;
             }
         #endif
@@ -2509,11 +2514,13 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
         if (av_read_frame(ffmpegVideoFile,StreamPacket)==0) {
 
             if (StreamPacket->stream_index==VideoStreamNumber) {
+                #ifdef VIDEO_LIBAVFILTER
                 #if LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(3,1,0)
                 if (FrameBufferYUV->opaque) {
                     avfilter_unref_buffer((AVFilterBufferRef *)FrameBufferYUV->opaque);
                     FrameBufferYUV->opaque=NULL;
                 }
+                #endif
                 #endif
 
                 int FrameDecoded=0;

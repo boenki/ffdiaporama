@@ -269,6 +269,7 @@ public:
     int16_t                 PrevLeft_x2,PrevLeft_x3;
     int16_t                 PrevRight_x0,PrevRight_x1;
     int16_t                 PrevRight_x2,PrevRight_x3;
+    qreal                   PrevPosSrc,PrevPosDst;
 
     QList<cImageInCache>    CacheImage;
 

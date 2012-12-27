@@ -28,7 +28,6 @@ unix {
     }
 
     INCLUDEPATH += /usr/include/ffmpeg/                                     # Specific for Fedora
-    INCLUDEPATH += /usr/include/SDL
 }
 
 win32 {
@@ -50,16 +49,14 @@ win32 {
         UI_HEADERS_DIR  += ..\\..\\..\\windebugbuild\\src\\$$TARGET
         UI_SOURCES_DIR  += ..\\..\\..\\windebugbuild\\src\\$$TARGET
         DEFINES         += DEBUG_MODE
-        INCLUDEPATH     += "/F/Dev/ffDiaporama/trunk/msysenv/32bit/include"
-        INCLUDEPATH     += "/F/Dev/ffDiaporama/trunk/msysenv/32bit/sse2/include"
-        LIBS            += -L"/F/Dev/ffDiaporama/trunk/msysenv/32bit/lib"
-        LIBS            += -L"/F/Dev/ffDiaporama/trunk/msysenv/32bit/sse2/lib"
+        #INCLUDEPATH     += "/F/Dev/ffDiaporama/trunk/msysenv/32bitsse1/include"
+        INCLUDEPATH     += F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include
+        #LIBS            += -L"/F/Dev/ffDiaporama/trunk/msysenv/32bitsse1/lib"
+        LIBS            += -L"F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\lib"
     }
 
     INCLUDEPATH += .                                                        #------ I don't know why, but windows need this !
     LIBS        += -lgdi32 -lkernel32 -luser32 -lshell32 -ladvapi32         #------ Windows GDI libs link
-    INCLUDEPATH += "/C/Program Files (x86)/Microsoft Visual Studio 10.0/VC/include"
-    #LIBS        += -lavresample                                             #------ LibAV swresample
 }
 
 #---- Libs for windows and linux
