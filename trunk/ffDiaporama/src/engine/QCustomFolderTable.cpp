@@ -800,7 +800,7 @@ QString QCustomFolderTable::BrowseToUpperPath() {
         Path=AdjustDirForOS(BrowsePathList[BrowsePathList.count()-1]);     // Actual folder
         if (Path.endsWith(QDir::separator())) Path=Path.left(Path.length()-1);
         #ifdef Q_OS_WIN
-        if ((Path.length()==2)&&(Path.at(1)==':')) return false;    // if it's a drive !
+        if ((Path.length()==2)&&(Path.at(1)==':')) return "";    // if it's a drive !
         #endif
         QStringList PathList=Path.split(QDir::separator());
         Path="";

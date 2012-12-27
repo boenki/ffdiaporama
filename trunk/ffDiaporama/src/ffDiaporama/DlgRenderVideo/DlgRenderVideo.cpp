@@ -751,6 +751,7 @@ bool DlgRenderVideo::ComputeAudioPart(QString &aCodec) {
             case CODEC_ID_MP2:
             case CODEC_ID_MP3:
             case CODEC_ID_AAC:
+            case CODEC_ID_VORBIS:
             case CODEC_ID_AMR_WB:
             case CODEC_ID_AMR_NB:
                 aCodec=QString("-acodec %1 -ab %2").arg(AUDIOCODECDEF[AudioCodecIndex].ShortName).arg(AudioBitRate);
@@ -1122,7 +1123,7 @@ void DlgRenderVideo::DoAccept() {
             ffmpegCommand=ffmpegCommand.replace("24000/1001","23.976");
             #endif
 
-            ToLog(LOGMSG_INFORMATION,ffmpegCommand);
+            ToLog(LOGMSG_WARNING,ffmpegCommand);
 
             ffmpegCommand=AdjustDirForOS(ffmpegCommand);
         }
@@ -1545,7 +1546,6 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
 void DlgRenderVideo::WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue) {
    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::WriteTempAudioFile");
-
     // Flush audio frame
     while (WriteWAV->RenderMusic.List.count()>0) {
         int16_t *PacketSound=WriteWAV->RenderMusic.DetachFirstPacket();
@@ -1563,7 +1563,7 @@ void DlgRenderVideo::WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue
                 frame->extended_data=NULL;
             }
             avcodec_get_frame_defaults(frame);
-            frame->nb_samples=WriteWAV->RenderMusic.SoundPacketSize/(WriteWAV->AudioCodecContext->channels*av_get_bytes_per_sample(WriteWAV->AudioCodecContext->sample_fmt));
+            frame->nb_samples=WriteWAV->RenderMusic.SoundPacketSize/4;//(WriteWAV->AudioCodecContext->channels*av_get_bytes_per_sample(WriteWAV->AudioCodecContext->sample_fmt));
 
             // fill buffer
             if (avcodec_fill_audio_frame(frame,WriteWAV->AudioCodecContext->channels,WriteWAV->AudioCodecContext->sample_fmt,(const uint8_t*)PacketSound,WriteWAV->RenderMusic.SoundPacketSize,1)>=0) {

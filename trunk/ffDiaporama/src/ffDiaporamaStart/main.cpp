@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     printf("Current folder: %s\n\n",Folder);
 
 	// try to read config file
-	sprintf(ConfFile,"%s\\ffDSSE.ini",Folder);
+    /*sprintf(ConfFile,"%s\\ffDSSE.ini",Folder);
     std::ifstream ConfigSSEFile;
 	ConfigSSEFile.open(ConfFile);
 	if (ConfigSSEFile.is_open()) {
@@ -44,7 +44,7 @@ int main(int argc, char *argv[]) {
 				else if (strcmp(ToRead,"SSE=4")==0) ForceSSE=4;
 		}
 	}
-	ConfigSSEFile.close();	
+    ConfigSSEFile.close();*/
 
 	// if no config file, try to detect processor extensions
 	if (ForceSSE==0) {
@@ -64,10 +64,10 @@ int main(int argc, char *argv[]) {
         exit(1);
     }
 	switch (ForceSSE) {
-        case 1 : sprintf(Path,"PATH=%s;%s\\32bitsse1",CurPath,Folder);						break;
-        case 2 : sprintf(Path,"PATH=%s;%s\\32bit;%s\\32bit\\sse2",CurPath,Folder,Folder);	break;
-        case 3 : sprintf(Path,"PATH=%s;%s\\32bit;%s\\32bit\\sse3",CurPath,Folder,Folder);	break;
-        case 4 : sprintf(Path,"PATH=%s;%s\\32bit;%s\\32bit\\sse4",CurPath,Folder,Folder);	break;
+        case 1 : sprintf(Path,"PATH=%s;%s;%s\\32bitsse1",CurPath,Folder,Folder);	break;
+        case 2 : sprintf(Path,"PATH=%s;%s;%s\\32bitsse2",CurPath,Folder,Folder);	break;
+        //case 3 : sprintf(Path,"PATH=%s;%s\\32bit;%s\\32bit\\sse3",CurPath,Folder,Folder);	break;
+        //case 4 : sprintf(Path,"PATH=%s;%s\\32bit;%s\\32bit\\sse4",CurPath,Folder,Folder);	break;
 	}
     _putenv(Path);
     printf( "New PATH variable: %s\n\n",Path);
@@ -78,8 +78,8 @@ int main(int argc, char *argv[]) {
         printf("\nStarting 32bit sse1 version:%s\\32bitsse1\\ffDiaporama.exe\n",Folder);
 		swprintf(wFolder,L"%S\\32bitsse1",Folder);
 	} else {
-        printf("\nStarting 32bit sse%d version:%s\\32bit\\ffDiaporama.exe\n",ForceSSE,Folder);
-		swprintf(wFolder,L"%S\\32bit",Folder);
+        printf("\nStarting 32bit sse2 version:%s\\32bitsse2\\ffDiaporama.exe\n",Folder);
+        swprintf(wFolder,L"%S\\32bitss2",Folder);
 	}
 
     // Get parameters

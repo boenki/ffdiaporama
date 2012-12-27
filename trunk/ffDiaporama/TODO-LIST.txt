@@ -52,17 +52,13 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige un crash introduit dans la devel 121222
+-Corrige l'erreur de durée de la piste son générée
+-Corrige une grosse fuite de mémoire lors de la lecture de vidéo avec libavfilter>=3.1
 
 English version / Bug fixes :
--Fix a crash introduce in devel 121222
+-Fix duration error of rendered sound
+-Fix a critical memory leak when reading video with libavfilter>=3.1
 
 French version / Nouveautés :
--Accélère la production des vignettes des vidéos dans l'explorateur de fichier
--Ajoute une popup quand on click sur ajouter un texte clip-art pour sélectionner le clip-art dans la boite de dialog d'edition des diapositives
--Ajoute la prise en charge des images vectorielles au format SVG
 
 English version / New features :
--Speed up thumbnail creation of videos for multimedia file explorer
--Adds a popup when click on add clip-art text to select clip-art in edit slide dialog
--Adds support of vector images as SVG format

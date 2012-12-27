@@ -26,7 +26,7 @@
 
 // SDL Library
 extern "C" {
-    #include <SDL.h>
+    #include <SDL/SDL.h>
 }
 // Include some common various class
 #include "cSoundBlockList.h"
