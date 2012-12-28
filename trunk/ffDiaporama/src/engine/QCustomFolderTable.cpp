@@ -87,14 +87,14 @@ QCustomStyledItemDelegate::QCustomStyledItemDelegate(QObject *parent):QStyledIte
 void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem &option,const QModelIndex &index) const {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomStyledItemDelegate::paint");
 
-    if (((ParentTable->ApplicationConfig->CurrentMode==DISPLAY_DATA)&&(index.row()>=ParentTable->MediaList.count()))||
-        ((ParentTable->ApplicationConfig->CurrentMode!=DISPLAY_DATA)&&(index.row()*ParentTable->columnCount()+index.column()>=ParentTable->MediaList.count()))) {
+    if (((ParentTable->CurrentMode==DISPLAY_DATA)&&(index.row()>=ParentTable->MediaList.count()))||
+        ((ParentTable->CurrentMode!=DISPLAY_DATA)&&(index.row()*ParentTable->columnCount()+index.column()>=ParentTable->MediaList.count()))) {
 
         // index is out of range
         Painter->fillRect(option.rect,Qt::white);
 
     } else {
-        int ItemIndex=(ParentTable->ApplicationConfig->CurrentMode==DISPLAY_DATA?index.row():index.row()*ParentTable->columnCount()+index.column());
+        int ItemIndex=(ParentTable->CurrentMode==DISPLAY_DATA?index.row():index.row()*ParentTable->columnCount()+index.column());
         if (ItemIndex>=ParentTable->MediaList.count()) return;
 
         bool ThreadToPause=false;
@@ -103,7 +103,7 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
             ParentTable->ScanMediaList.pause();
         }
 
-        if (ParentTable->ApplicationConfig->CurrentMode==DISPLAY_DATA) {
+        if (ParentTable->CurrentMode==DISPLAY_DATA) {
 
             QString         TextToDisplay  =ParentTable->GetTextForColumn(index.column(),ParentTable->MediaList[ItemIndex]);
             QImage          *ImageToDisplay=ParentTable->GetImageForColumn(index.column(),ParentTable->MediaList[ItemIndex]);
@@ -152,7 +152,7 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
 
             addX=(option.rect.width()-Icon->width())/2;
 
-            if (ParentTable->ApplicationConfig->DisplayFileName) addY=(option.rect.height()-Icon->height()-DISPLAYFILENAMEHEIGHT)/3;
+            if (ParentTable->DisplayFileName) addY=(option.rect.height()-Icon->height()-DISPLAYFILENAMEHEIGHT)/3;
                 else addY=(option.rect.height()-Icon->height())/2;
 
             // Draw Icon
@@ -167,7 +167,7 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
             Painter->setPen(Pen);
 
             // Draw file name if needed
-            if (ParentTable->ApplicationConfig->DisplayFileName) {
+            if (ParentTable->DisplayFileName) {
                 // Setup default font
                 font=QFont("Sans serif",8,QFont::Normal,QFont::StyleNormal);
                 font.setUnderline(false);
@@ -213,6 +213,9 @@ QCustomFolderTable::QCustomFolderTable(QWidget *parent):QTableWidget(parent) {
     ApplicationConfig       =NULL;
     StopAllEvent            =false;
     CurrentPath             ="";
+    AllowedFilter           =FILTERALLOW_OBJECTTYPE_ALL;
+    CurrentMode             =0;
+    CurrentFilter           =0;
     CurrentShowFolderNumber =0;
     CurrentShowFilesNumber  =0;
     CurrentShowFolderNumber =0;
@@ -221,6 +224,8 @@ QCustomFolderTable::QCustomFolderTable(QWidget *parent):QTableWidget(parent) {
     CurrentTotalFolderSize  =0;
     CurrentDisplayItem      =0;
     CurrentShowDuration     =0;
+    ShowHiddenFilesAndDir   =false;
+    DisplayFileName         =true;
     StopScanMediaList       =false;
     ScanMediaListProgress   =false;
     InScanMediaFunction     =false;
@@ -393,11 +398,11 @@ int QCustomFolderTable::GetWidthForIcon() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetWidthForIcon");
 
     int SizeColumn;
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
+    if (CurrentMode==DISPLAY_ICON100) {
         SizeColumn=100+CELLBORDER;
     } else {
-        if (ApplicationConfig->CurrentFilter==OBJECTTYPE_VIDEOFILE)          SizeColumn=ApplicationConfig->Video_ThumbWidth+CELLBORDER;
-            else if (ApplicationConfig->CurrentFilter==OBJECTTYPE_IMAGEFILE) SizeColumn=ApplicationConfig->Image_ThumbWidth+CELLBORDER;
+        if (CurrentFilter==OBJECTTYPE_VIDEOFILE)          SizeColumn=ApplicationConfig->Video_ThumbWidth+CELLBORDER;
+            else if (CurrentFilter==OBJECTTYPE_IMAGEFILE) SizeColumn=ApplicationConfig->Image_ThumbWidth+CELLBORDER;
             else {
             SizeColumn=ApplicationConfig->Image_ThumbWidth;
             if (SizeColumn<ApplicationConfig->Music_ThumbWidth) SizeColumn=ApplicationConfig->Music_ThumbWidth;
@@ -414,9 +419,9 @@ int QCustomFolderTable::GetHeightForIcon() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetHeightForIcon");
 
     int SizeColumn;
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100)   {
+    if (CurrentMode==DISPLAY_ICON100)   {
 
-        SizeColumn=100+CELLBORDER+(ApplicationConfig->DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
+        SizeColumn=100+CELLBORDER+(DisplayFileName?DISPLAYFILENAMEHEIGHT:0);
 
     } else {
 
@@ -433,7 +438,7 @@ void QCustomFolderTable::resizeEvent(QResizeEvent *ev) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::resizeEvent");
 
     // Update view
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
+    if (CurrentMode==DISPLAY_ICON100) {
         int ColumnWidth   =GetWidthForIcon();
         int RowHeight     =GetHeightForIcon();
         int NewColumnCount=(viewport()->width()/ColumnWidth);	if (NewColumnCount<=0) NewColumnCount=1;
@@ -455,10 +460,10 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
     // Ensure scan thread is stoped
     EnsureThreadIsStopped();
     if (Mode>DISPLAY_ICON100) Mode=DISPLAY_ICON100;
-    ApplicationConfig->CurrentMode  =Mode;
-    ApplicationConfig->CurrentFilter=Filter;
+    CurrentMode  =Mode;
+    CurrentFilter=Filter;
 
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
+    if (CurrentMode==DISPLAY_ICON100) {
         // Compute DISPLAYFILENAMEHEIGHT
         QImage      Img(100,100,QImage::Format_ARGB32);
         QPainter    Painter;
@@ -499,7 +504,7 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
     verticalHeader()->hide();
     verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
 
-    switch (ApplicationConfig->CurrentMode) {
+    switch (CurrentMode) {
         case DISPLAY_ICON100 :
             setItemDelegate(IconDelegate);
             setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -517,7 +522,7 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
             horizontalHeader()->show();
             horizontalHeader()->setStretchLastSection(false);
             setShowGrid(false);
-            switch (ApplicationConfig->CurrentFilter) {
+            switch (CurrentFilter) {
                 //case OBJECTTYPE_FOLDER    :
                 //case OBJECTTYPE_THUMBNAIL :
                 case OBJECTTYPE_UNMANAGED :
@@ -669,7 +674,7 @@ void QCustomFolderTable::RefreshListFolder() {
     // Scan folder entries to remove all file not corresponding to showhiden filter
     i=0;
     while (i<Files.count()) if ((Files[i].fileName()==".")||(Files[i].fileName()=="..")||
-        ((!ApplicationConfig->ShowHiddenFilesAndDir)&&((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))))
+        ((!ShowHiddenFilesAndDir)&&((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))))
         Files.removeAt(i); else i++;
 
     // Compute total number of files and total folder size
@@ -681,7 +686,7 @@ void QCustomFolderTable::RefreshListFolder() {
     //**********************************************************
 
     // Scan media list to remove all files wich are no longer present (depending on filter)
-    i=0; while (i<MediaList.count()) if (MediaList[i]->IsFilteredFile(ApplicationConfig->CurrentFilter)) i++; else delete MediaList.takeAt(i);
+    i=0; while (i<MediaList.count()) if (MediaList[i]->IsFilteredFile(CurrentFilter,AllowedFilter)) i++; else delete MediaList.takeAt(i);
 
     // Scan media list to remove all files wich are no longer present in folder entries or files for which date/time has changed
     i=0;
@@ -722,7 +727,7 @@ void QCustomFolderTable::RefreshListFolder() {
                 MediaObject=NULL;
             }
             // Check if file correspond to current filer
-            if ((MediaObject)&&(!MediaObject->IsFilteredFile(ApplicationConfig->CurrentFilter))) {
+            if ((MediaObject)&&(!MediaObject->IsFilteredFile(CurrentFilter,AllowedFilter))) {
                 delete MediaObject;
                 MediaObject=NULL;
             }
@@ -738,7 +743,7 @@ void QCustomFolderTable::RefreshListFolder() {
         else qSort(MediaList.begin(),MediaList.end(),MediaListLessThan);
 
     // Set Rows and Columns
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
+    if (CurrentMode==DISPLAY_ICON100) {
         if (MediaList.count()>0) setRowCount((MediaList.count()/columnCount())+1); else setRowCount(0);
         int SizeColumn=GetWidthForIcon();
         int RHeight=GetHeightForIcon();
@@ -868,7 +873,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     // Scan folder entries to remove all file not corresponding to showhiden filter
     i=0;
     while (i<Files.count()) if ((Files[i].fileName()==".")||(Files[i].fileName()=="..")||
-        ((!ApplicationConfig->ShowHiddenFilesAndDir)&&((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))))
+        ((!ShowHiddenFilesAndDir)&&((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))))
         Files.removeAt(i); else i++;
 
     // Compute total number of files and total folder size
@@ -880,7 +885,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     //**********************************************************
 
     // Scan media list to remove all files wich are no longer present (depending on filter)
-    i=0; while (i<MediaList.count()) if (MediaList[i]->IsFilteredFile(ApplicationConfig->CurrentFilter)) i++; else delete MediaList.takeAt(i);
+    i=0; while (i<MediaList.count()) if (MediaList[i]->IsFilteredFile(CurrentFilter,AllowedFilter)) i++; else delete MediaList.takeAt(i);
 
     // Scan media list to remove all files wich are no longer present in folder entries
     i=0;
@@ -920,7 +925,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
                 MediaObject=NULL;
             }
             // Check if file correspond to current filer
-            if ((MediaObject)&&(!MediaObject->IsFilteredFile(ApplicationConfig->CurrentFilter))) {
+            if ((MediaObject)&&(!MediaObject->IsFilteredFile(CurrentFilter,AllowedFilter))) {
                 delete MediaObject;
                 MediaObject=NULL;
             }
@@ -936,7 +941,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     //**********************************************************
 
     // Create column (if needed)
-    if (ApplicationConfig->CurrentMode==DISPLAY_ICON100) {
+    if (CurrentMode==DISPLAY_ICON100) {
         int SizeColumn=GetWidthForIcon();
         if (viewport()->width()/SizeColumn==0) setColumnCount(1); else setColumnCount(viewport()->width()/SizeColumn);
         for (i=0;i<columnCount();i++) setColumnWidth(i,SizeColumn);
@@ -957,12 +962,22 @@ void QCustomFolderTable::FillListFolder(QString Path) {
 
 //====================================================================================================================
 
+QStringList QCustomFolderTable::GetCurrentSelectedFiles() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetCurrentSelectedFiles");
+    QStringList             Files;
+    QList<cBaseMediaFile*>  SelMediaList=GetCurrentSelectedMediaFile();
+    for (int i=0;i<SelMediaList.count();i++) Files.append(SelMediaList.at(i)->FileName);
+    return Files;
+}
+
+//====================================================================================================================
+
 QList<cBaseMediaFile*> QCustomFolderTable::GetCurrentSelectedMediaFile() const {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetCurrentSelectedMediaFile");
 
     QList<cBaseMediaFile*>  SelMediaList;
     QModelIndexList         SelList=selectionModel()->selectedIndexes();
-    if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
+    if (CurrentMode==DISPLAY_DATA) {
         int CurrentRow=-1;
         for (int i=0;i<SelList.count();i++) {
             int Row   =SelList[i].row();
@@ -989,7 +1004,7 @@ cBaseMediaFile *QCustomFolderTable::GetCurrentMediaFile() {
     cBaseMediaFile  *Media=NULL;
     if (currentRow()>=0) {
         int Index;
-        if (ApplicationConfig->CurrentMode==DISPLAY_DATA) Index=currentRow();
+        if (CurrentMode==DISPLAY_DATA) Index=currentRow();
             else Index=currentRow()*columnCount()+currentColumn();
         if (Index<MediaList.count()) Media=MediaList[Index];
     }
@@ -1002,7 +1017,7 @@ void QCustomFolderTable::DoResizeColumns() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::DoResizeColumns");
 
     if (!StopAllEvent) {
-        if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
+        if (CurrentMode==DISPLAY_DATA) {
             int      ColSize[100]; for (int i=0;i<100;i++) ColSize[i]=horizontalHeader()->sectionSizeHint(i);
             QImage   Image(100,100,QImage::Format_ARGB32_Premultiplied);
             QPainter Painter;
@@ -1049,7 +1064,7 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
         CurrentShowFolderSize+=MediaObject->FileSize;
     }
 
-    if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
+    if (CurrentMode==DISPLAY_DATA) {
 
         insertRow(Row);
         verticalHeader()->setResizeMode(Row,QHeaderView::Fixed);
@@ -1087,7 +1102,7 @@ void QCustomFolderTable::DoScanMediaList() {
         MediaList[ItemIndex]->GetFullInformationFromFile();
 
         // Update display
-        if (ApplicationConfig->CurrentMode==DISPLAY_DATA) {
+        if (CurrentMode==DISPLAY_DATA) {
             for (int Col=0;Col<columnCount();Col++) update(model()->index(ItemIndex,Col));
         } else {
             int Row=ItemIndex/columnCount();

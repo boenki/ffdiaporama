@@ -47,10 +47,11 @@
 QCustomFolderTree::QCustomFolderTree(QWidget *parent):QTreeWidget(parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::QCustomFolderTree");
 
-    ApplicationConfig   =NULL;
-    DriveList           =NULL;
-    IsRemoveAllowed     =false;
-    IsRenameAllowed     =false;
+    ApplicationConfig       =NULL;
+    DriveList               =NULL;
+    IsRemoveAllowed         =false;
+    IsRenameAllowed         =false;
+    IsCreateFolderAllowed   =false;
 
     setContextMenuPolicy(Qt::CustomContextMenu);
     connect(this,SIGNAL(itemExpanded(QTreeWidgetItem *)),this,SLOT(s_itemExpanded(QTreeWidgetItem *)));
@@ -101,9 +102,9 @@ void QCustomFolderTree::s_ContextMenu(const QPoint) {
     QMenu   *ContextMenu=new QMenu(this);
     ContextMenu->addAction(CreateMenuAction(":/img/Refresh.png",QApplication::translate("QCustomFolderTree","Refresh all"),1,false,false));
     ContextMenu->addAction(CreateMenuAction(":/img/Refresh.png",QApplication::translate("QCustomFolderTree","Refresh from here"),2,false,false));
-    ContextMenu->addAction(CreateMenuAction(":/img/AddFolder.png",QApplication::translate("QCustomFolderTree","Create new subfolder"),3,false,false));
-    if (IsRemoveAllowed) ContextMenu->addAction(CreateMenuAction(":/img/trash.png",QApplication::translate("QCustomFolderTree","Remove folder"),4,false,false));
-    if (IsRenameAllowed) ContextMenu->addAction(CreateMenuAction(":/img/action_edit.png",QApplication::translate("QCustomFolderTree","Rename folder"),5,false,false));
+    if (IsCreateFolderAllowed)  ContextMenu->addAction(CreateMenuAction(":/img/AddFolder.png",QApplication::translate("QCustomFolderTree","Create new subfolder"),3,false,false));
+    if (IsRemoveAllowed)        ContextMenu->addAction(CreateMenuAction(":/img/trash.png",QApplication::translate("QCustomFolderTree","Remove folder"),4,false,false));
+    if (IsRenameAllowed)        ContextMenu->addAction(CreateMenuAction(":/img/action_edit.png",QApplication::translate("QCustomFolderTree","Rename folder"),5,false,false));
     QAction *Action=ContextMenu->exec(QCursor::pos());
     if (Action) {
         int     ActionType=Action->data().toInt();

@@ -103,12 +103,12 @@
 
 //====================================================================================================================
 
-class cSaveDlgSlideProperties : public cSaveWindowPosition {
+class cSaveWinWithSplitterPos : public cSaveWindowPosition {
 public:
     QString SplitterTop;
 
-    explicit        cSaveDlgSlideProperties(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
-    virtual         ~cSaveDlgSlideProperties() {}
+    explicit        cSaveWinWithSplitterPos(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
+    virtual         ~cSaveWinWithSplitterPos() {}
     virtual void    ApplyToWindow(QWidget *Window,QSplitter *Top);
     virtual void    SaveWindowState(QWidget *Window,QSplitter *Top);
     virtual void    OverloadedSaveToXML(QDomElement &domDocument);
@@ -218,8 +218,9 @@ public:
     cSaveWindowPosition     *DlgRenderVideoWSP;                         // Dialog box "Render Video" - Window size and position
     cSaveWindowPosition     *DlgTransitionPropertiesWSP;                // Dialog box "Transition properties" - Window size and position
     cSaveWindowPosition     *DlgTransitionDurationWSP;                  // Dialog box "Transition duration" - Window size and position
-    cSaveDlgSlideProperties *DlgSlidePropertiesWSP;                     // Dialog box "Slide properties" - Window size and position
-    cSaveDlgSlideProperties *DlgSlideDurationWSP;                       // Dialog box "Slide duration" - Window size and position
+    cSaveWinWithSplitterPos *DlgSlidePropertiesWSP;                     // Dialog box "Slide properties" - Window size and position
+    cSaveWinWithSplitterPos *DlgSlideDurationWSP;                       // Dialog box "Slide duration" - Window size and position
+    cSaveWinWithSplitterPos *DlgFileExplorerWSP;                        // Dialog box "File Explorer" - Window size and position
     cSaveWindowPosition     *DlgImageTransformationWSP;                 // Dialog box "Image Transformation" - Window size and position
     cSaveWindowPosition     *DlgImageCorrectionWSP;                     // Dialog box "Image Correction" - Window size and position
     cSaveWindowPosition     *DlgTextEditWSP;                            // Dialog box "Text editor" - Window size and position

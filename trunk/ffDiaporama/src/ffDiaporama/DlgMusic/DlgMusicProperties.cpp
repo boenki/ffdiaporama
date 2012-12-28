@@ -21,6 +21,7 @@
 #include "DlgMusicProperties.h"
 #include "ui_DlgMusicProperties.h"
 
+#include "../DlgFileExplorer/DlgFileExplorer.h"
 #include <QFileDialog>
 #include <QMessageBox>
 
@@ -219,10 +220,12 @@ void DlgMusicProperties::RefreshControl(bool RefreshList) {
 
 void DlgMusicProperties::s_AddMusic() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_AddMusic");
-    QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("DlgMusicProperties","Add music files"),
-                                                       DiaporamaObject->Parent->ApplicationConfig->RememberLastDirectories?DiaporamaObject->Parent->ApplicationConfig->LastMusicPath:"",
-                                                       BaseApplicationConfig->GetFilterForMediaFile(cBaseApplicationConfig::MUSICFILE));
-    QApplication::processEvents();
+    QStringList FileList;
+    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MUSICFILE,OBJECTTYPE_MUSICFILE,
+                        QApplication::translate("DlgMusicProperties","Add music files"),NULL,DiaporamaObject->Parent->ApplicationConfig,DiaporamaObject->Parent->ApplicationConfig->DlgFileExplorerWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
+
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int CurIndex=DiaporamaObject->MusicList.count();
 

@@ -31,6 +31,8 @@
 #include "../DlgInfoFile/DlgInfoFile.h"
 #include "../DlgImage/DlgImageCorrection.h"
 #include "../DlgText/DlgTextEdit.h"
+#include "../DlgFileExplorer/DlgFileExplorer.h"
+
 #include "DlgRuler/DlgRulerDef.h"
 
 #include <QClipboard>
@@ -533,7 +535,7 @@ void DlgSlideProperties::SaveWindowState() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::SaveWindowState");
 
     // Save Window size and position
-    if (DlgWSP) ((cSaveDlgSlideProperties *)DlgWSP)->SaveWindowState(this,ui->SplitterTop);
+    if (DlgWSP) ((cSaveWinWithSplitterPos *)DlgWSP)->SaveWindowState(this,ui->SplitterTop);
 }
 
 //====================================================================================================================
@@ -542,7 +544,7 @@ void DlgSlideProperties::RestoreWindowState() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::RestoreWindowState");
 
     // Restore window size and position
-    if (DlgWSP) ((cSaveDlgSlideProperties *)DlgWSP)->ApplyToWindow(this,ui->SplitterTop);
+    if (DlgWSP) ((cSaveWinWithSplitterPos *)DlgWSP)->ApplyToWindow(this,ui->SplitterTop);
 }
 
 //====================================================================================================================
@@ -1879,9 +1881,11 @@ void DlgSlideProperties::s_BlockTable_DragDropFiles(QList<QUrl> urlList) {
 void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewFileBlock");
 
-    QStringList FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("DlgSlideProperties","Add files"),
-                                                       ((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories?((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath:"",
-                                                       ((cApplicationConfig *)BaseApplicationConfig)->GetFilterForMediaFile(cBaseApplicationConfig::ALLFILE));
+    QStringList FileList;
+    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE,OBJECTTYPE_MANAGED,
+                        QApplication::translate("MainWindow","Add files"),NULL,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgFileExplorerWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     if (FileList.count()==0) return;
 
     // Sort files in the fileList

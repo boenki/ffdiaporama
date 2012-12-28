@@ -472,10 +472,10 @@ QString cUnmanagedFile::GetFileTypeStr() {
 
 //====================================================================================================================
 
-bool cUnmanagedFile::IsFilteredFile(int RequireObjectType) {
+bool cUnmanagedFile::IsFilteredFile(int RequireObjectType,int AllowedObjectType) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cUnmanagedFile::IsFilteredFile");
 
-    return RequireObjectType==OBJECTTYPE_UNMANAGED;
+    return (RequireObjectType==OBJECTTYPE_UNMANAGED)&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_UNMANAGED)!=0);
 }
 
 //*********************************************************************************************************************************************
@@ -502,10 +502,10 @@ bool cFolder::GetInformationFromFile(QString GivenFileName,QStringList * /*Alias
 
 //====================================================================================================================
 
-bool cFolder::IsFilteredFile(int) {
+bool cFolder::IsFilteredFile(int,int AllowedObjectType) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cFolder::IsFilteredFile");
 
-    return true;    // always valide
+    return ((AllowedObjectType&FILTERALLOW_OBJECTTYPE_FOLDER)!=0);    // always valide
 }
 
 //====================================================================================================================
@@ -810,10 +810,10 @@ QString cffDProjectFile::GetTAGInfo() {
 
 //====================================================================================================================
 
-bool cffDProjectFile::IsFilteredFile(int RequireObjectType) {
+bool cffDProjectFile::IsFilteredFile(int RequireObjectType,int AllowedObjectType) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::IsFilteredFile");
 
-    return (RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(RequireObjectType==OBJECTTYPE_FFDFILE);
+    return ((RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(RequireObjectType==OBJECTTYPE_FFDFILE))&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_FFDFILE)!=0);
 }
 
 //====================================================================================================================
@@ -848,11 +848,11 @@ cImageFile::~cImageFile() {
 
 //====================================================================================================================
 
-bool cImageFile::IsFilteredFile(int RequireObjectType) {
+bool cImageFile::IsFilteredFile(int RequireObjectType,int AllowedObjectType) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::IsFilteredFile");
-    if (FileName.endsWith("_ffd.jpg",Qt::CaseInsensitive)) return (RequireObjectType==OBJECTTYPE_UNMANAGED);
-        else if (ObjectType==OBJECTTYPE_IMAGEFILE) return (RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(RequireObjectType==OBJECTTYPE_IMAGEFILE);
-        else return (RequireObjectType==OBJECTTYPE_UNMANAGED);
+    if (FileName.endsWith("_ffd.jpg",Qt::CaseInsensitive)) return (RequireObjectType==OBJECTTYPE_UNMANAGED)&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_UNMANAGED)!=0);
+        else if (ObjectType==OBJECTTYPE_IMAGEFILE) return ((RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(RequireObjectType==OBJECTTYPE_IMAGEFILE))&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_IMAGEFILE)!=0);
+        else return (RequireObjectType==OBJECTTYPE_UNMANAGED)&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_UNMANAGED)!=0);
 }
 
 //====================================================================================================================
@@ -1534,10 +1534,11 @@ void cVideoFile::GetFullInformationFromFile() {
 
 //====================================================================================================================
 
-bool cVideoFile::IsFilteredFile(int RequireObjectType) {
+bool cVideoFile::IsFilteredFile(int RequireObjectType,int AllowedObjectType) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::IsFilteredFile");
 
-    return (RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(ObjectType==RequireObjectType);
+    if (ObjectType==OBJECTTYPE_MUSICFILE) return ((RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(ObjectType==RequireObjectType))&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_MUSICFILE)!=0);
+        else                              return ((RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(ObjectType==RequireObjectType))&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_VIDEOFILE)!=0);
 }
 
 //====================================================================================================================
@@ -2984,4 +2985,12 @@ bool cMusicObject::LoadMedia(QString &TheFilename,QStringList *AliasList,bool *M
 
     IsValide=(GetInformationFromFile(TheFilename,AliasList,ModifyFlag))&&(OpenCodecAndFile());
     return IsValide;
+}
+
+//====================================================================================================================
+
+bool cMusicObject::IsFilteredFile(int RequireObjectType,int AllowedObjectType) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cMusicObject::IsFilteredFile");
+
+    return ((RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(ObjectType==RequireObjectType))&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_MUSICFILE)!=0);
 }

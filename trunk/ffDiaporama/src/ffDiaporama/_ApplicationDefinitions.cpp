@@ -34,30 +34,30 @@
 
 //====================================================================================================================
 
-cSaveDlgSlideProperties::cSaveDlgSlideProperties(QString WindowName,bool &RestoreWindow,bool IsMainWindow):cSaveWindowPosition(WindowName,RestoreWindow,IsMainWindow) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::cSaveDlgSlideProperties");
+cSaveWinWithSplitterPos::cSaveWinWithSplitterPos(QString WindowName,bool &RestoreWindow,bool IsMainWindow):cSaveWindowPosition(WindowName,RestoreWindow,IsMainWindow) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::cSaveWinWithSplitterPos");
     SplitterTop="";
 }
 
-void cSaveDlgSlideProperties::ApplyToWindow(QWidget *Window,QSplitter *Top) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::ApplyToWindow");
+void cSaveWinWithSplitterPos::ApplyToWindow(QWidget *Window,QSplitter *Top) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::ApplyToWindow");
     cSaveWindowPosition::ApplyToWindow(Window);
     if (SplitterTop!="")    Top->restoreState(QByteArray::fromHex(SplitterTop.toUtf8()));
 }
 
-void cSaveDlgSlideProperties::SaveWindowState(QWidget *Window,QSplitter *Top) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::SaveWindowState");
+void cSaveWinWithSplitterPos::SaveWindowState(QWidget *Window,QSplitter *Top) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::SaveWindowState");
     cSaveWindowPosition::SaveWindowState(Window);
     SplitterTop   =QString(QByteArray(Top->saveState()).toHex());
 }
 
-void cSaveDlgSlideProperties::OverloadedSaveToXML(QDomElement &Element) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::OverloadedSaveToXML");
+void cSaveWinWithSplitterPos::OverloadedSaveToXML(QDomElement &Element) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::OverloadedSaveToXML");
     Element.setAttribute("SplitterTop",SplitterTop);
 }
 
-void cSaveDlgSlideProperties::OverloadedLoadFromXML(QDomElement Element) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveDlgSlideProperties::OverloadedLoadFromXML");
+void cSaveWinWithSplitterPos::OverloadedLoadFromXML(QDomElement Element) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::OverloadedLoadFromXML");
     if (Element.hasAttribute("SplitterTop"))    SplitterTop=Element.attribute("SplitterTop");
 }
 
@@ -90,6 +90,7 @@ cApplicationConfig::~cApplicationConfig() {
     delete DlgInfoFileWSP;
     delete DlgRulerDef;
     delete DlgManageFavoriteWSP;
+    delete DlgFileExplorerWSP;
 }
 
 //====================================================================================================================
@@ -166,8 +167,8 @@ void cApplicationConfig::InitValues() {
     DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);          // Dialog box "Render Video" - Window size and position
     DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false); // Dialog box "Transition properties" - Window size and position
     DlgTransitionDurationWSP    =new cSaveWindowPosition("DlgTransitionDurationWSP",RestoreWindow,false);   // Dialog box "Transition duration" - Window size and position
-    DlgSlidePropertiesWSP       =new cSaveDlgSlideProperties("DlgSlidePropertiesWSP",RestoreWindow,false);  // Dialog box "Slide properties" - Window size and position
-    DlgSlideDurationWSP         =new cSaveDlgSlideProperties("DlgSlideDurationWSP",RestoreWindow,false);    // Dialog box "Slide duration" - Window size and position
+    DlgSlidePropertiesWSP       =new cSaveWinWithSplitterPos("DlgSlidePropertiesWSP",RestoreWindow,false);  // Dialog box "Slide properties" - Window size and position
+    DlgSlideDurationWSP         =new cSaveWinWithSplitterPos("DlgSlideDurationWSP",RestoreWindow,false);    // Dialog box "Slide duration" - Window size and position
     DlgImageTransformationWSP   =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);  // Dialog box "Image transformation" - Window size and position
     DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
     DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
@@ -179,6 +180,7 @@ void cApplicationConfig::InitValues() {
     DlgInfoFileWSP              =new cSaveWindowPosition("DlgInfoFileWSP",RestoreWindow,false);             // Dialog box "File Information" - Window size and position
     DlgRulerDef                 =new cSaveWindowPosition("DlgRulerDef",RestoreWindow,false);                // Dialog box "Ruler properties" - Window size and position
     DlgManageFavoriteWSP        =new cSaveWindowPosition("DlgManageFavoriteWSP",RestoreWindow,false);       // Dialog box "Manage favorite" - Window size and position
+    DlgFileExplorerWSP          =new cSaveWinWithSplitterPos("DlgFileExplorerWSP",RestoreWindow,false);     // Dialog box "File explorer" - Window size and position
 
     // Default new text block options
     DefaultBlock_Text_TextST    ="###GLOBALSTYLE###:0";
@@ -367,6 +369,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     DlgInfoFileWSP->SaveToXML(domDocument);
     DlgRulerDef->SaveToXML(domDocument);
     DlgManageFavoriteWSP->SaveToXML(domDocument);
+    DlgFileExplorerWSP->SaveToXML(domDocument);
 }
 
 //====================================================================================================================
@@ -529,6 +532,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     DlgInfoFileWSP->LoadFromXML(domDocument);
     DlgRulerDef->LoadFromXML(domDocument);
     DlgManageFavoriteWSP->LoadFromXML(domDocument);
+    DlgFileExplorerWSP->LoadFromXML(domDocument);
 
     return true;
 }
