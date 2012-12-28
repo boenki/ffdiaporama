@@ -68,6 +68,17 @@
 #define OBJECTTYPE_MUSICFILE                6
 #define OBJECTTYPE_THUMBNAIL                7
 
+// Media filtering constant
+#define FILTERALLOW_OBJECTTYPE_UNMANAGED                0x0001
+#define FILTERALLOW_OBJECTTYPE_MANAGED                  0x0002
+#define FILTERALLOW_OBJECTTYPE_FOLDER                   0x0004
+#define FILTERALLOW_OBJECTTYPE_FFDFILE                  0x0008
+#define FILTERALLOW_OBJECTTYPE_IMAGEFILE                0x0010
+#define FILTERALLOW_OBJECTTYPE_VIDEOFILE                0x0020
+#define FILTERALLOW_OBJECTTYPE_MUSICFILE                0x0040
+#define FILTERALLOW_OBJECTTYPE_THUMBNAIL                0x0080
+#define FILTERALLOW_OBJECTTYPE_ALL                      0xffff
+
 // MMFiler allowed display mode
 #define DISPLAY_DATA                        0
 #define DISPLAY_ICON100                     1

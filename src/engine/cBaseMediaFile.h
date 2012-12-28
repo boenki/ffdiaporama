@@ -118,7 +118,7 @@ public:
 
     virtual void            Reset();
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
-    virtual bool            IsFilteredFile(int RequireObjectType)=0;
+    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType)=0;
     virtual void            GetFullInformationFromFile()=0;
     virtual QString         GetInformationValue(QString ValueToSearch);
     virtual QString         GetCumulInfoStr(QString Key1,QString Key2);
@@ -145,7 +145,7 @@ public:
 
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual QString         GetFileTypeStr();
-    virtual bool            IsFilteredFile(int RequireObjectType);
+    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
     virtual void            GetFullInformationFromFile()                    {/*Nothing to do*/}
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFILEIcon.GetIcon(Size); }
     virtual QString         GetTechInfo()                                   { return ""; }
@@ -161,7 +161,7 @@ public:
 
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual QString         GetFileTypeStr();
-    virtual bool            IsFilteredFile(int RequireObjectType);
+    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
     virtual void            GetFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFOLDERIcon.GetIcon(Size); }
     virtual QString         GetTechInfo()                                   { return ""; }
@@ -190,7 +190,7 @@ public:
 
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual QString         GetFileTypeStr();
-    virtual bool            IsFilteredFile(int RequireObjectType);
+    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
     virtual void            GetFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return ApplicationConfig->DefaultFFDIcon.GetIcon(Size); }
 
@@ -215,7 +215,7 @@ public:
     virtual QImage          *ImageAt(bool PreviewMode);
     virtual QImage          *LoadVectorImg();
     virtual QString         GetFileTypeStr();
-    virtual bool            IsFilteredFile(int RequireObjectType);
+    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
     virtual void            GetFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size) { return (ObjectType==OBJECTTYPE_THUMBNAIL?ApplicationConfig->DefaultThumbIcon:ApplicationConfig->DefaultIMAGEIcon).GetIcon(Size); }
     virtual QString         GetTechInfo();
@@ -278,7 +278,7 @@ public:
     virtual void            Reset(int TheWantedObjectType);
 
     virtual QString         GetFileTypeStr();
-    virtual bool            IsFilteredFile(int RequireObjectType);
+    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
     virtual void            GetFullInformationFromFile();
     virtual QImage          *GetDefaultTypeIcon(cCustomIcon::IconSize Size);
 
@@ -339,9 +339,11 @@ public:
 
     cMusicObject(cBaseApplicationConfig *ApplicationConfig);
 
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag);
-    bool        LoadMedia(QString &filename,QStringList *AliasList,bool *ModifyFlag);
+    virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
+
+    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
+    bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag);
+    bool                    LoadMedia(QString &filename,QStringList *AliasList,bool *ModifyFlag);
 };
 
 #endif // CBASEMEDIAFILE_H

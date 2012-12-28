@@ -52,13 +52,23 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige l'erreur de durée de la piste son générée
--Corrige une grosse fuite de mémoire lors de la lecture de vidéo avec libavfilter>=3.1
+-Supprime la ligne Capturer une image en 0x0 du bouton d'export d'image du lecteur multimédia de la fenêtre principale
 
 English version / Bug fixes :
--Fix duration error of rendered sound
--Fix a critical memory leak when reading video with libavfilter>=3.1
+-Deletes the line "Capture an image of 0x0" of the image export button of the main window media player
 
 French version / Nouveautés :
+-Ajoute une boite de progression lors de l'ajout de projet avec le bouton Ajouter projets de la fenêtre principale
+-Modifie le fonctionnement des boutons
+ -Ajouter fichiers et Ajouter projets de la fenêtre principale
+ -Ajouter fichiers de la boite de dialog d'edition des diapositives
+ -Ajouter des musiques de la boite de dialog d'edition de la piste musicale
+ => Maintenant ils ouvrent l'explorateur multimédia plutôt que la boite système de sélection de fichier
 
 English version / New features :
+-Adds a progress box when adding project with the Add projects button of the main window
+-Change the function of the buttons:
+  -Add Files and Add Projects of the main window
+  -Add Files of the edition slides dialog
+  -Add Music of the music track edition dialog
+  => Now they open the Multimedia Explorer rather than system file dialog

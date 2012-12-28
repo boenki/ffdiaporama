@@ -71,6 +71,7 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             DlgWorkingTask/DlgWorkingTask.cpp \
             DlgTransition/DlgTransitionDuration.cpp \
             DlgSlide/DlgSlideDuration.cpp \
+            DlgFileExplorer/DlgFileExplorer.cpp \
             ../fmt_filters/fmt_filters.cpp \
             ../CustomCtrl/cCSpeedWaveComboBox.cpp \
             ../engine/_GlobalDefines.cpp \
@@ -132,6 +133,7 @@ HEADERS  += \
             DlgWorkingTask/DlgWorkingTask.h \
             DlgTransition/DlgTransitionDuration.h \
             DlgSlide/DlgSlideDuration.h \
+            DlgFileExplorer/DlgFileExplorer.h \
             ../CustomCtrl/cCSpeedWaveComboBox.h \
             ../fmt_filters/fmt_filters.h \
             ../engine/QCustomRuller.h \
@@ -182,8 +184,8 @@ FORMS    += mainwindow.ui \
             DlgManageFavorite/DlgManageFavorite.ui \
             DlgWorkingTask/DlgWorkingTask.ui \
             DlgTransition/DlgTransitionDuration.ui \
-            DlgSlide/DlgSlideDuration.ui
-
+            DlgSlide/DlgSlideDuration.ui \
+            DlgFileExplorer/DlgFileExplorer.ui
 
 # Installation on linux systems
 #unix {

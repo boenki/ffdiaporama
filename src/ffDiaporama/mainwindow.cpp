@@ -54,6 +54,7 @@
 #include "DlgSlide/DlgSlideDuration.h"
 #include "DlgAppSettings/DlgApplicationSettings.h"
 #include "DlgManageFavorite/DlgManageFavorite.h"
+#include "DlgFileExplorer/DlgFileExplorer.h"
 
 MainWindow  *GlobalMainWindow=NULL;
 
@@ -89,6 +90,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     InPlayerUpdate          =false;
     DriveList               =NULL;
     DlgWorkingTaskDialog    =NULL;
+    CancelAction            =false;
+    CurrentDriveCheck       =0;
     setAcceptDrops(true);
     ApplicationConfig->ParentWindow=this;
 }
@@ -209,12 +212,15 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Initialise integrated browser
     ui->FolderTree->ApplicationConfig =ApplicationConfig;
-    ui->FolderTree->IsRemoveAllowed   =true;
-    ui->FolderTree->IsRenameAllowed   =true;
+    ui->FolderTree->IsRemoveAllowed         =true;
+    ui->FolderTree->IsRenameAllowed         =true;
+    ui->FolderTree->IsCreateFolderAllowed   =true;
     ui->FolderTable->ApplicationConfig=ApplicationConfig;
     DriveList->UpdateDriveList();
     ui->FolderTree->InitDrives(DriveList);
     ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
+    ui->FolderTable->ShowHiddenFilesAndDir  =ApplicationConfig->ShowHiddenFilesAndDir;
+    ui->FolderTable->DisplayFileName        =ApplicationConfig->DisplayFileName;
 
     // Initialise diaporama
     Diaporama=new cDiaporama(ApplicationConfig);
@@ -325,7 +331,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->preview2,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
 
     // Browser event
-    connect(ui->FolderTree,SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),this,SLOT(s_Browser_FloderTreeItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
+    connect(ui->FolderTree,SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),this,SLOT(s_Browser_FolderTreeItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
     connect(ui->FolderTree,SIGNAL(ActionRefreshAll()),this,SLOT(s_Browser_RefreshAll()));
     connect(ui->FolderTree,SIGNAL(ActionRefreshHere()),this,SLOT(s_Browser_RefreshHere()));
     connect(ui->FolderTree,SIGNAL(ActionRemoveFolder()),this,SLOT(s_Browser_RemoveFolder()));
@@ -1725,10 +1731,11 @@ void MainWindow::s_Action_AddFile() {
     ui->ActionAdd_BT->setDown(false);
     ui->ActionAdd_BT_2->setDown(false);
 
-    FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add files"),
-                                                ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-                                                ApplicationConfig->GetFilterForMediaFile(cBaseApplicationConfig::ALLFILE),
-                                                0,0);
+    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE,OBJECTTYPE_MANAGED,
+                        QApplication::translate("MainWindow","Add files"),NULL,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
+
     if (FileList.count()>0) {
 
         // Calc position of new object depending on ApplicationConfig->AppendObject
@@ -2144,9 +2151,28 @@ void MainWindow::s_Action_AddProject() {
     ui->ActionAddProject_BT->setDown(false);
     ui->ActionAddProject_BT_2->setDown(false);
 
-    FileList=QFileDialog::getOpenFileNames(this,QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
+    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
+                        QApplication::translate("MainWindow","Add a sub project"),NULL,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     CancelAction=false;
     if (FileList.count()>0) {
+
+        // Load object list
+        CurrentLoadingProjectNbrObject=FileList.count();
+        CurrentLoadingProjectObject   =0;
+        CancelAction                  =false;
+
+        // Open progress window
+        if (DlgWorkingTaskDialog) {
+            DlgWorkingTaskDialog->close();
+            delete DlgWorkingTaskDialog;
+            DlgWorkingTaskDialog=NULL;
+        }
+        DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Add files to project"),&CancelAction,ApplicationConfig,this);
+        DlgWorkingTaskDialog->InitDialog();
+        DlgWorkingTaskDialog->SetMaxValue(CurrentLoadingProjectNbrObject,0);
+
         // Calc position of new object depending on ApplicationConfig->AppendObject
         if (ApplicationConfig->AppendObject) {
             SavedCurIndex   =Diaporama->List.count();
@@ -2158,6 +2184,7 @@ void MainWindow::s_Action_AddProject() {
         }
         ToStatusBar(QApplication::translate("MainWindow","Add project file :")+QFileInfo(FileList[0]).fileName());
         QTimer::singleShot(LATENCY,this,SLOT(s_Action_DoAddFile()));
+        DlgWorkingTaskDialog->exec();
     }
 }
 
@@ -2209,7 +2236,7 @@ void MainWindow::s_Event_SaveImageEvent() {
         }
     }
 
-    for (int i=0;i<Size.count();i++) {
+    for (int i=0;i<Size.count();i++) if (Size[i]!="0x0") {
         QAction *UpdateAction=new QAction(QApplication::translate("MainWindow","Capture the image ")+Size[i],this);
         UpdateAction->setFont(QFont("Sans Serif",9));
         ContextMenu->addAction(UpdateAction);
@@ -2577,14 +2604,12 @@ void MainWindow::AdjustRuller() {
 
 //====================================================================================================================
 
-void MainWindow::s_Browser_FloderTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FloderTreeItemChanged");
+void MainWindow::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FolderTreeItemChanged");
 
     ApplicationConfig->CurrentPath=ui->FolderTree->GetFolderPath(current,false);
 
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
-    DoBrowserRefreshFolderInfo();
-
     ui->CurrentPathED->setText(ApplicationConfig->CurrentPath);
     ui->FolderIcon->setPixmap(DriveList->GetFolderIcon(ApplicationConfig->CurrentPath).pixmap(16,16));
 
@@ -2596,13 +2621,13 @@ void MainWindow::s_Browser_FloderTreeItemChanged(QTreeWidgetItem *current,QTreeW
         if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
     #endif
     ui->FolderTable->FillListFolder(Path);
-    RefreshControls();
+    DoBrowserRefreshFolderInfo();
 }
 
 //====================================================================================================================
 
 void MainWindow::DoBrowserRefreshFolderInfo() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FloderTreeItemChanged");
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FolderTreeItemChanged");
     DriveList->UpdateDriveList();   // To update free space on drive
     cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(ApplicationConfig->CurrentPath);
     if (HDD) {
@@ -2803,7 +2828,7 @@ void MainWindow::s_Browser_RefreshDrive() {
 
 void MainWindow::s_Browser_RefreshHere() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshHere");
-    s_Browser_FloderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
+    s_Browser_FolderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
     if (DlgWorkingTaskDialog) {
         DlgWorkingTaskDialog->close();
         delete DlgWorkingTaskDialog;
@@ -2850,7 +2875,7 @@ void MainWindow::s_Browser_Favorite() {
         ui->FolderTree->SetSelectItemByPath(Texts[1].left(Texts[1].length()-1));
     }
     delete ContextMenu;
-    ui->ActionEdit_BT->setDown(false);
+    ui->FavoriteBt->setDown(false);
 }
 
 //====================================================================================================================
@@ -3041,20 +3066,22 @@ void MainWindow::s_Browser_ChangeDisplayMode() {
             if (ApplicationConfig->CurrentMode!=SubAction) {
                 ApplicationConfig->CurrentMode=SubAction;
                 ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
-                s_Browser_FloderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
+                s_Browser_FolderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
             }
         } else if (ActionType==ACTIONTYPE_FILTERMODE) {
             if (ApplicationConfig->CurrentFilter!=SubAction) {
                 ApplicationConfig->CurrentFilter=SubAction;
                 ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
-                s_Browser_FloderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
+                s_Browser_FolderTreeItemChanged(ui->FolderTree->currentItem(),NULL);
             }
         } else if (ActionType==ACTIONTYPE_ONOFFOPTIONS) {
             if ((SubAction==ONOFFOPTIONS_SHOWHIDDEN)||(SubAction==ONOFFOPTIONS_HIDEHIDDEN)) {
                 ApplicationConfig->ShowHiddenFilesAndDir=(SubAction==ONOFFOPTIONS_SHOWHIDDEN);
+                ui->FolderTable->ShowHiddenFilesAndDir=ApplicationConfig->ShowHiddenFilesAndDir;
                 s_Browser_RefreshAll();
             } else if ((SubAction==ONOFFOPTIONS_SHOWFILENAME)||(SubAction==ONOFFOPTIONS_HIDEFILENAME)) {
                 ApplicationConfig->DisplayFileName=(SubAction==ONOFFOPTIONS_SHOWFILENAME);
+                ui->FolderTable->DisplayFileName=ApplicationConfig->DisplayFileName;
                 s_Browser_RefreshAll();
             }
         }
@@ -3090,18 +3117,18 @@ void MainWindow::s_Browser_OpenFile() {
             Path=Path+Media->ShortName;
             ui->FolderTree->SetSelectItemByPath(Path);
         } else if (Media->ObjectType==OBJECTTYPE_FFDFILE) {
-                FileForIO=Media->FileName;
-                int Ret=QMessageBox::Yes;
-                if (Diaporama->IsModify) {
-                    Ret=CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project"),
-                        QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
-                        QMessageBox::Cancel|QMessageBox::Yes|QMessageBox::No,QMessageBox::Yes);
-                    if (Ret==QMessageBox::Yes) s_Action_Save();
-                }
-                if (Ret!=QMessageBox::Cancel) {
-                    ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileForIO).fileName());
-                    QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
-                }
+            FileForIO=Media->FileName;
+            int Ret=QMessageBox::Yes;
+            if (Diaporama->IsModify) {
+                Ret=CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project"),
+                    QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
+                    QMessageBox::Cancel|QMessageBox::Yes|QMessageBox::No,QMessageBox::Yes);
+                if (Ret==QMessageBox::Yes) s_Action_Save();
+            }
+            if (Ret!=QMessageBox::Cancel) {
+                ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileForIO).fileName());
+                QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
+            }
         }
     }
 }

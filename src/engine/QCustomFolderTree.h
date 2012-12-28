@@ -45,6 +45,7 @@ public:
     explicit                QCustomFolderTree(QWidget *parent=0);
     bool                    IsRemoveAllowed;
     bool                    IsRenameAllowed;
+    bool                    IsCreateFolderAllowed;
 
     // Public utility functions
     virtual void        InitDrives(cDriveList *TheDriveList);

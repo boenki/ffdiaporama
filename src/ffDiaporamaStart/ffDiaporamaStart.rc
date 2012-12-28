@@ -1,9 +1,9 @@
 #include <winver.h>
-IDI_CON1 ICON        DISCARDABLE "ffdiaporama.ico"
+IDI_CON1 ICON        DISCARDABLE "ffdiaporamaStart.ico"
 
 VS_VERSION_INFO VERSIONINFO
-FILEVERSION	1,6,12,1228
-PRODUCTVERSION 	1,6,12,1228
+FILEVERSION	1,1,0,0
+PRODUCTVERSION 	1,1,0,0
 FILEFLAGSMASK  	0
 FILEFLAGS      	0
 FILEOS         	VOS__WINDOWS32
@@ -14,12 +14,12 @@ FILESUBTYPE    	0
         BLOCK "040904E4" {  // 0409 for english 0x409 and 04E4 for 1252 code page
             VALUE "CompanyName",      "."
             VALUE "LegalCopyright",   "(c) 2011-2012 Dominique LEVRAY"
-            VALUE "FileDescription",  "ffDiaporama devel"
-            VALUE "FileVersion",      "1.6.devel.2012.1228"
-            VALUE "InternalName",     "ffDiaporama"
-            VALUE "OriginalFilename", "ffDiaporama.exe"
-            VALUE "ProductName",      "ffDiaporama"
-            VALUE "ProductVersion",   "1.6.devel.2012.1228"
+            VALUE "FileDescription",  "ffdiaporamaStart"
+            VALUE "FileVersion",      "1.1"
+            VALUE "InternalName",     "ffdiaporamaStart"
+            VALUE "OriginalFilename", "ffdiaporamaStart.exe"
+            VALUE "ProductName",      "ffdiaporamaStart"
+            VALUE "ProductVersion",   "1.1"
         }
     }
     BLOCK "VarFileInfo" {

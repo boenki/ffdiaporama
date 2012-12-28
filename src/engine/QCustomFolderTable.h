@@ -42,6 +42,11 @@ public:
     cBaseApplicationConfig  *ApplicationConfig;
 
     QString                 CurrentPath;
+    int                     AllowedFilter;
+    int                     CurrentFilter;
+    int                     CurrentMode;
+    bool                    ShowHiddenFilesAndDir;
+    bool                    DisplayFileName;
 
     int                     CurrentShowFolderNumber;
     int                     CurrentTotalFilesNumber;
@@ -82,6 +87,7 @@ public:
 
     virtual cBaseMediaFile          *GetCurrentMediaFile();
     virtual QList<cBaseMediaFile*>  GetCurrentSelectedMediaFile() const;
+    virtual QStringList             GetCurrentSelectedFiles();
 
     virtual bool            CanBrowseToPreviousPath();
     virtual QString         BrowseToPreviousPath();

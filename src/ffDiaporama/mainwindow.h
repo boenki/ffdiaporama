@@ -190,7 +190,7 @@ private slots:
     void    DoSaveFile();
 
     // Browser event
-    void    s_Browser_FloderTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *);
+    void    s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeWidgetItem *);
     void    s_Browser_RefreshAll();
     void    s_Browser_RefreshDriveList();
     void    s_Browser_RefreshDrive();
