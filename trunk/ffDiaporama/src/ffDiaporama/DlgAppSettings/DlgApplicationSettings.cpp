@@ -69,24 +69,19 @@ void DlgApplicationSettings::DoInitDialog() {
         ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
     #endif
 
-    #ifdef Q_OS_WIN
-    if (IsWindowsXP) {
-        ui->MemCacheProfilCB->setVisible(false);
-        ui->MemCacheProfilLabel->setVisible(false);
-        ui->MemCacheProfilSpacer->setVisible(false);
-    } else {
+    #if defined(Q_OS_WIN32) || defined(Q_OS_LINUX32)
         if      (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
         else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(512*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(1);
         else ui->MemCacheProfilCB->setCurrentIndex(2);
-        //ui->MemCacheProfilCB->removeItem(3);
-        //ui->MemCacheProfilCB->removeItem(2);
-    }
+        ui->MemCacheProfilCB->removeItem(3);
+        ui->MemCacheProfilCB->removeItem(2);
     #else
-    if      (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
-    else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(512*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(1);
-    else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(1024*1024*1024))    ui->MemCacheProfilCB->setCurrentIndex(2);
-    else ui->MemCacheProfilCB->setCurrentIndex(3);
+        if      (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
+        else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(512*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(1);
+        else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(1024*1024*1024))    ui->MemCacheProfilCB->setCurrentIndex(2);
+        else ui->MemCacheProfilCB->setCurrentIndex(3);
     #endif
+
     ui->SDLAudioModeCB->setChecked(ApplicationConfig->SDLAudioOldMode);
 
     // Preview Options

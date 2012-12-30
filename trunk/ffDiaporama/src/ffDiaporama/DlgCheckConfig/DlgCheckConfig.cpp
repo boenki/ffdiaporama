@@ -112,6 +112,11 @@ void DlgCheckConfig::DoInitDialog() {
     // ffDiaporama
     ui->ListWidget->addItem(new QListWidgetItem(QString("ffDiaporama:%1").arg(BaseApplicationConfig->ApplicationVersion)));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Operating system version: %1 - %2 Core/CPU").arg(BaseApplicationConfig->Plateforme).arg(getCpuCount())));
+    #if defined(Q_OS_WIN32) || defined(Q_OS_LINUX32)
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Application architecture: 32 bits")));
+    #else
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Application architecture: 64 bits")));
+    #endif
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","User config file: %1").arg(BaseApplicationConfig->UserConfigFile)));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Global config file: %1").arg(BaseApplicationConfig->GlobalConfigFile)));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Starting path: %1").arg(BaseApplicationConfig->StartingPath)));

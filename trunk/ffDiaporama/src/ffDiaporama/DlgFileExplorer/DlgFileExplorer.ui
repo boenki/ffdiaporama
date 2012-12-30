@@ -428,7 +428,7 @@
           <bool>true</bool>
          </property>
          <property name="dragDropMode">
-          <enum>QAbstractItemView::DragOnly</enum>
+          <enum>QAbstractItemView::NoDragDrop</enum>
          </property>
          <property name="iconSize">
           <size>

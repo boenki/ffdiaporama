@@ -20,6 +20,7 @@
 
 #include "DlgImageCorrection.h"
 #include "ui_DlgImageCorrection.h"
+#include "../DlgFileExplorer/DlgFileExplorer.h"
 
 #include <QMessageBox>
 #include <QFileDialog>
@@ -741,12 +742,20 @@ void DlgImageCorrection::s_ChangeFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ChangeFile");
     ui->VideoPlayer->SetPlayerToPause();
 
-    bool    IsValide=true;
-    QString ActualFilePath=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).absolutePath();
-    QString NewFile=QFileDialog::getOpenFileName(this,ffDText(ffDSection_CommonInfoMsg,0),
-                                                 ActualFilePath,//((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories?((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath:"",
-                                                 ((cApplicationConfig *)BaseApplicationConfig)->GetFilterForMediaFile(CurrentBrush->Image?cBaseApplicationConfig::IMAGEFILE:cBaseApplicationConfig::VIDEOFILE));
-    QApplication::processEvents();
+    bool        IsValide=true;
+    QString     ActualFilePath=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).absolutePath();
+    QStringList FileList;
+    QString     NewFile="";
+    DlgFileExplorer Dlg(CurrentBrush->Image?FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE:FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_VIDEOFILE,
+                        CurrentBrush->Image?OBJECTTYPE_IMAGEFILE:OBJECTTYPE_VIDEOFILE,
+                        false,false,ActualFilePath,
+                        ffDText(ffDSection_CommonInfoMsg,0),NULL,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgFileExplorerWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) {
+        FileList=Dlg.GetCurrentSelectedFiles();
+        if (FileList.count()==1) NewFile=FileList.at(0);
+    }
+
     if (NewFile=="") return;
     AppendPartialUndo(UNDOACTION_EDITZONE_FILE,ui->InteractiveZone,true);
     if (((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories) ((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use

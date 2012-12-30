@@ -88,7 +88,6 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     IsFirstInitDone         =false;        // true when first show window was done
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
     InPlayerUpdate          =false;
-    DriveList               =NULL;
     DlgWorkingTaskDialog    =NULL;
     CancelAction            =false;
     CurrentDriveCheck       =0;
@@ -169,7 +168,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     RegisterLumaTransition();
 
     // Because now we have local installed, then we can translate drive name
-    DriveList=new cDriveList(ApplicationConfig);
+    ApplicationConfig->DriveList=new cDriveList(ApplicationConfig);
 
     // Because now we have local installed, then we can translate collection style name
     ApplicationConfig->StyleTextCollection.DoTranslateCollection();
@@ -211,13 +210,13 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->actionRandomize_transition->setIconVisibleInMenu(true);
 
     // Initialise integrated browser
-    ui->FolderTree->ApplicationConfig =ApplicationConfig;
+    ui->FolderTree->ApplicationConfig       =ApplicationConfig;
     ui->FolderTree->IsRemoveAllowed         =true;
     ui->FolderTree->IsRenameAllowed         =true;
     ui->FolderTree->IsCreateFolderAllowed   =true;
-    ui->FolderTable->ApplicationConfig=ApplicationConfig;
-    DriveList->UpdateDriveList();
-    ui->FolderTree->InitDrives(DriveList);
+    ui->FolderTable->ApplicationConfig      =ApplicationConfig;
+    ApplicationConfig->DriveList->UpdateDriveList();
+    ui->FolderTree->InitDrives(ApplicationConfig->DriveList);
     ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
     ui->FolderTable->ShowHiddenFilesAndDir  =ApplicationConfig->ShowHiddenFilesAndDir;
     ui->FolderTable->DisplayFileName        =ApplicationConfig->DisplayFileName;
@@ -391,7 +390,6 @@ MainWindow::~MainWindow() {
     delete ApplicationConfig;
     SDLLastClose();
     delete ui;
-    delete DriveList;
 
     // Close some libav additionnals
     #ifdef LIBAV_08
@@ -1419,11 +1417,17 @@ void MainWindow::s_Action_Open() {
     if ((Diaporama->IsModify)&&(CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Open project"),QApplication::translate("MainWindow","Current project has been modified.\nDo you want to save-it ?"),
         QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) s_Action_Save();
 
-    QString ProjectFileName=QFileDialog::getOpenFileName(this,QApplication::translate("MainWindow","Open project"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
-    if (ProjectFileName!="") {
-        ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(ProjectFileName).fileName());
-        FileForIO=ProjectFileName;
-        QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
+    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
+                        false,false,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",
+                        QApplication::translate("MainWindow","Open project"),NULL,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) {
+        FileList=Dlg.GetCurrentSelectedFiles();
+        if (FileList.count()==1) {
+            ToStatusBar(QApplication::translate("MainWindow","Open file :")+QFileInfo(FileList.at(0)).fileName());
+            FileForIO=FileList.at(0);
+            QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
+        }
     }
 }
 
@@ -1731,7 +1735,8 @@ void MainWindow::s_Action_AddFile() {
     ui->ActionAdd_BT->setDown(false);
     ui->ActionAdd_BT_2->setDown(false);
 
-    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE,OBJECTTYPE_MANAGED,
+    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,OBJECTTYPE_MANAGED,
+                        true,true,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
                         QApplication::translate("MainWindow","Add files"),NULL,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
@@ -2065,8 +2070,18 @@ void MainWindow::s_Action_DoAddFile() {
             // Apply styles for coordinates
             qreal ProjectGeometry=qreal(Diaporama->ImageGeometry==GEOMETRY_4_3?1440:Diaporama->ImageGeometry==GEOMETRY_16_9?1080:Diaporama->ImageGeometry==GEOMETRY_40_17?816:1920)/qreal(1920);
             CompositionObject->BackgroundBrush->ApplyAutoFraming(ApplicationConfig->DefaultBlockSL[CompositionObject->BackgroundBrush->GetImageType()].AutoFraming,ProjectGeometry);
-            if ((CompositionObject->BackgroundBrush->Image)&&(CompositionObject->BackgroundBrush->Image->IsVectorImg)) CompositionObject->ApplyAutoCompoSize(AUTOCOMPOSIZE_REALSIZE,Diaporama->ImageGeometry);
-                else CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockSL[CompositionObject->BackgroundBrush->GetImageType()].AutoCompo,Diaporama->ImageGeometry);
+            if ((CompositionObject->BackgroundBrush->Image)&&(CompositionObject->BackgroundBrush->Image->IsVectorImg)) {
+                CompositionObject->ApplyAutoCompoSize(AUTOCOMPOSIZE_REALSIZE,Diaporama->ImageGeometry);
+                // adjust for image was not too small !
+                if ((CompositionObject->w<0.2)&&(CompositionObject->h<0.2)) {
+                    while ((CompositionObject->w<0.2)&&(CompositionObject->h<0.2)) {
+                        CompositionObject->w=CompositionObject->w*2;
+                        CompositionObject->h=CompositionObject->h*2;
+                    }
+                    CompositionObject->x=(1-CompositionObject->w)/2;
+                    CompositionObject->y=(1-CompositionObject->h)/2;
+                }
+            } else CompositionObject->ApplyAutoCompoSize(ApplicationConfig->DefaultBlockSL[CompositionObject->BackgroundBrush->GetImageType()].AutoCompo,Diaporama->ImageGeometry);
 
             //*************************************************************
             // Now create and append a shot composition block to all shot
@@ -2152,6 +2167,7 @@ void MainWindow::s_Action_AddProject() {
     ui->ActionAddProject_BT_2->setDown(false);
 
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
+                        true,true,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",
                         QApplication::translate("MainWindow","Add a sub project"),NULL,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
@@ -2611,12 +2627,12 @@ void MainWindow::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeW
 
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
     ui->CurrentPathED->setText(ApplicationConfig->CurrentPath);
-    ui->FolderIcon->setPixmap(DriveList->GetFolderIcon(ApplicationConfig->CurrentPath).pixmap(16,16));
+    ui->FolderIcon->setPixmap(ApplicationConfig->DriveList->GetFolderIcon(ApplicationConfig->CurrentPath).pixmap(16,16));
 
     QString Path=ApplicationConfig->CurrentPath;
     #ifdef Q_OS_WIN
-        Path.replace("%HOMEDRIVE%%HOMEPATH%",DriveList->List[0].Path,Qt::CaseInsensitive);
-        Path.replace("%USERPROFILE%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path.replace("%HOMEDRIVE%%HOMEPATH%",ApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path.replace("%USERPROFILE%",ApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
         Path=AdjustDirForOS(Path);
         if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
     #endif
@@ -2628,7 +2644,7 @@ void MainWindow::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,QTreeW
 
 void MainWindow::DoBrowserRefreshFolderInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_FolderTreeItemChanged");
-    DriveList->UpdateDriveList();   // To update free space on drive
+    ApplicationConfig->DriveList->UpdateDriveList();   // To update free space on drive
     cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(ApplicationConfig->CurrentPath);
     if (HDD) {
         // If scan in progress
@@ -2789,7 +2805,7 @@ void MainWindow::s_Browser_RefreshAll() {
     }
     DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Refresh All"),&CancelAction,ApplicationConfig,this);
     DlgWorkingTaskDialog->InitDialog();
-    DlgWorkingTaskDialog->SetMaxValue(DriveList->List.count()+2,0);
+    DlgWorkingTaskDialog->SetMaxValue(ApplicationConfig->DriveList->List.count()+2,0);
     DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive list"));
     QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDriveList()));
     DlgWorkingTaskDialog->exec();
@@ -2801,9 +2817,9 @@ void MainWindow::s_Browser_RefreshDriveList() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshDriveList");
     // Refresh drive list
     ui->FolderTree->RefreshDriveList();
-    DlgWorkingTaskDialog->SetMaxValue(DriveList->List.count()+2,0);
-    DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(DriveList->List[CurrentDriveCheck].Label));
-    DlgWorkingTaskDialog->DisplayProgress(1+DriveList->List.count()-CurrentDriveCheck);
+    DlgWorkingTaskDialog->SetMaxValue(ApplicationConfig->DriveList->List.count()+2,0);
+    DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(ApplicationConfig->DriveList->List[CurrentDriveCheck].Label));
+    DlgWorkingTaskDialog->DisplayProgress(1+ApplicationConfig->DriveList->List.count()-CurrentDriveCheck);
     QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDrive()));
 }
 
@@ -2811,11 +2827,11 @@ void MainWindow::s_Browser_RefreshDriveList() {
 
 void MainWindow::s_Browser_RefreshDrive() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshDrive");
-    if (CurrentDriveCheck<DriveList->List.count()) ui->FolderTree->RefreshItemByPath(ui->FolderTree->DriveList->List[CurrentDriveCheck].Label,true);
+    if (CurrentDriveCheck<ApplicationConfig->DriveList->List.count()) ui->FolderTree->RefreshItemByPath(ui->FolderTree->DriveList->List[CurrentDriveCheck].Label,true);
     CurrentDriveCheck++;
-    if ((!CancelAction)&&(CurrentDriveCheck<DriveList->List.count())) {
-        DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(DriveList->List[CurrentDriveCheck].Label));
-        DlgWorkingTaskDialog->DisplayProgress(1+DriveList->List.count()-CurrentDriveCheck);
+    if ((!CancelAction)&&(CurrentDriveCheck<ApplicationConfig->DriveList->List.count())) {
+        DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(ApplicationConfig->DriveList->List[CurrentDriveCheck].Label));
+        DlgWorkingTaskDialog->DisplayProgress(1+ApplicationConfig->DriveList->List.count()-CurrentDriveCheck);
         QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDrive()));
     } else {
         DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update current folder"));

@@ -112,6 +112,7 @@ public:
 
     bool    StartPlay(cVideoFile *FileInfo,double WantedFPS);         // Start player in DlgVideoDialogBox mode
     bool    InitDiaporamaPlay(cDiaporama *Diaporama);       // Start player in preview mode
+    void    StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H);
 
     void    SetStartEndPos(int StartPos,int Duration,int PreviousStartPos,int PrevisousEndPos,int NextStartPos,int NextEndPos);
     void    SeekPlayer(int Value);

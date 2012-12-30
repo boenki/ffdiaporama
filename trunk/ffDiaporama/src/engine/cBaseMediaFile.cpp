@@ -850,9 +850,12 @@ cImageFile::~cImageFile() {
 
 bool cImageFile::IsFilteredFile(int RequireObjectType,int AllowedObjectType) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::IsFilteredFile");
-    if (FileName.endsWith("_ffd.jpg",Qt::CaseInsensitive)) return (RequireObjectType==OBJECTTYPE_UNMANAGED)&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_UNMANAGED)!=0);
-        else if (ObjectType==OBJECTTYPE_IMAGEFILE) return ((RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(RequireObjectType==OBJECTTYPE_IMAGEFILE))&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_IMAGEFILE)!=0);
-        else return (RequireObjectType==OBJECTTYPE_UNMANAGED)&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_UNMANAGED)!=0);
+    if (FileName.endsWith("_ffd.jpg",Qt::CaseInsensitive)) {
+        return (RequireObjectType==OBJECTTYPE_UNMANAGED)&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_UNMANAGED)!=0);
+    } else if (ObjectType==OBJECTTYPE_IMAGEFILE) {
+        if (IsVectorImg) return ((RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(RequireObjectType==OBJECTTYPE_IMAGEFILE))&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE)!=0);
+            else         return ((RequireObjectType==OBJECTTYPE_UNMANAGED)||(RequireObjectType==OBJECTTYPE_MANAGED)||(RequireObjectType==OBJECTTYPE_IMAGEFILE))&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_IMAGEFILE)!=0);
+    } else return (RequireObjectType==OBJECTTYPE_UNMANAGED)&&((AllowedObjectType&FILTERALLOW_OBJECTTYPE_UNMANAGED)!=0);
 }
 
 //====================================================================================================================
@@ -867,12 +870,19 @@ QString cImageFile::GetFileTypeStr() {
 
 //====================================================================================================================
 
+bool cImageFile::GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::GetInformationFromFile");
+    IsVectorImg=(QFileInfo(GivenFileName).suffix().toLower()=="svg");
+    return cBaseMediaFile::GetInformationFromFile(GivenFileName,AliasList,ModifyFlag);
+}
+
+//====================================================================================================================
+
 void cImageFile::GetFullInformationFromFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cImageFile::GetFullInformationFromFile");
 
     ImageOrientation    =-1;
     IsInformationValide =false;
-    IsVectorImg         =(QFileInfo(FileName).suffix().toLower()=="svg");
     bool                ExifOk=false;
 
     if (!IsVectorImg) {

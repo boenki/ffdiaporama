@@ -76,7 +76,8 @@
 #define FILTERALLOW_OBJECTTYPE_IMAGEFILE                0x0010
 #define FILTERALLOW_OBJECTTYPE_VIDEOFILE                0x0020
 #define FILTERALLOW_OBJECTTYPE_MUSICFILE                0x0040
-#define FILTERALLOW_OBJECTTYPE_THUMBNAIL                0x0080
+#define FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE          0x0080
+#define FILTERALLOW_OBJECTTYPE_THUMBNAIL                0x0100
 #define FILTERALLOW_OBJECTTYPE_ALL                      0xffff
 
 // MMFiler allowed display mode

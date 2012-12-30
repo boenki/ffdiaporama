@@ -14,6 +14,15 @@ TEMPLATE     = app
 DEFINES      += HAVE_CONFIG_H               # specific for TAGLib
 DEFINES      += TAGLIB_STATIC               # specific for TAGLib
 
+unix {
+    HARDWARE_PLATFORM = $$system(uname -i)
+    contains( HARDWARE_PLATFORM, x86_64 ) {
+        DEFINES+=Q_OS_LINUX64
+    } else {
+        DEFINES+=Q_OS_LINUX32
+    }
+}
+
 isEmpty(PREFIX) {
     PREFIX = /usr
 }

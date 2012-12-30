@@ -27,11 +27,14 @@
 
 #define LATENCY 5
 
-DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,QString BoxTitle,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgFileExplorer) {
+DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,
+                QString StartupPath,QString BoxTitle,QString HelpURL,
+                cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+                QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgFileExplorer) {
+
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::DlgFileExplorer");
 
-    CurrentPath             =((cApplicationConfig *)BaseApplicationConfig)->CurrentPath;
+    CurrentPath             =StartupPath;
     DlgWorkingTaskDialog    =NULL;
     CancelAction            =false;
     CurrentDriveCheck       =0;
@@ -50,7 +53,6 @@ DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,QString Box
     ui->FolderTable->ShowHiddenFilesAndDir  =((cApplicationConfig *)BaseApplicationConfig)->ShowHiddenFilesAndDir;
     ui->FolderTable->DisplayFileName        =((cApplicationConfig *)BaseApplicationConfig)->DisplayFileName;
 
-    DriveList                               =new cDriveList((cApplicationConfig *)BaseApplicationConfig);
     ui->FolderTree->ApplicationConfig       =((cApplicationConfig *)BaseApplicationConfig);
     ui->FolderTable->ApplicationConfig      =((cApplicationConfig *)BaseApplicationConfig);
 
@@ -58,9 +60,12 @@ DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,QString Box
     ui->FolderTree->IsRenameAllowed         =false;
     ui->FolderTree->IsCreateFolderAllowed   =false;
 
-    DriveList->UpdateDriveList();
-    ui->FolderTree->InitDrives(DriveList);
+    ((cApplicationConfig *)BaseApplicationConfig)->DriveList->UpdateDriveList();
+    ui->FolderTree->InitDrives(((cApplicationConfig *)BaseApplicationConfig)->DriveList);
     ui->FolderTable->SetMode(((cApplicationConfig *)BaseApplicationConfig)->CurrentMode,CurrentFilter);
+
+    ui->FolderTable->setDragDropMode(AllowDragDrop?QAbstractItemView::DragOnly:QAbstractItemView::NoDragDrop);
+    ui->FolderTable->setSelectionMode(AllowMultipleSelection?QAbstractItemView::ExtendedSelection:QAbstractItemView::SingleSelection);
 }
 
 //====================================================================================================================
@@ -99,8 +104,11 @@ void DlgFileExplorer::DoInitDialog() {
     connect(ui->actionManageFavorite,SIGNAL(triggered()),this,SLOT(s_Browser_ManageFavorite()));
     connect(ui->ActionModeBt,SIGNAL(pressed()),this,SLOT(s_Browser_ChangeDisplayMode()));
 
-    ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(CurrentPath));
-    if (ui->FolderTree->GetCurrentFolderPath()!=CurrentPath) ui->FolderTree->SetSelectItemByPath(PersonalFolder);
+    if (CurrentPath!="") ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(CurrentPath));
+    if ((CurrentPath=="")||(ui->FolderTree->GetCurrentFolderPath()!=CurrentPath)) {
+        CurrentPath=((cApplicationConfig *)BaseApplicationConfig)->CurrentPath;
+        ui->FolderTree->SetSelectItemByPath(CurrentPath);
+    }
 }
 
 //====================================================================================================================
@@ -152,12 +160,12 @@ void DlgFileExplorer::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,Q
 
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
     ui->CurrentPathED->setText(CurrentPath);
-    ui->FolderIcon->setPixmap(DriveList->GetFolderIcon(CurrentPath).pixmap(16,16));
+    ui->FolderIcon->setPixmap(((cApplicationConfig *)BaseApplicationConfig)->DriveList->GetFolderIcon(CurrentPath).pixmap(16,16));
 
     QString Path=CurrentPath;
     #ifdef Q_OS_WIN
-        Path.replace("%HOMEDRIVE%%HOMEPATH%",DriveList->List[0].Path,Qt::CaseInsensitive);
-        Path.replace("%USERPROFILE%",DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path.replace("%HOMEDRIVE%%HOMEPATH%",((cApplicationConfig *)BaseApplicationConfig)->DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path.replace("%USERPROFILE%",((cApplicationConfig *)BaseApplicationConfig)->DriveList->List[0].Path,Qt::CaseInsensitive);
         Path=AdjustDirForOS(Path);
         if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
     #endif
@@ -170,7 +178,7 @@ void DlgFileExplorer::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,Q
 
 void DlgFileExplorer::DoBrowserRefreshFolderInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_FolderTreeItemChanged");
-    DriveList->UpdateDriveList();   // To update free space on drive
+    ((cApplicationConfig *)BaseApplicationConfig)->DriveList->UpdateDriveList();   // To update free space on drive
     cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(CurrentPath);
     if (HDD) {
         // If scan in progress
@@ -347,7 +355,7 @@ void DlgFileExplorer::s_Browser_RefreshAll() {
     }
     DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Refresh All"),&CancelAction,((cApplicationConfig *)BaseApplicationConfig),this);
     DlgWorkingTaskDialog->InitDialog();
-    DlgWorkingTaskDialog->SetMaxValue(DriveList->List.count()+2,0);
+    DlgWorkingTaskDialog->SetMaxValue(((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count()+2,0);
     DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive list"));
     QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDriveList()));
     DlgWorkingTaskDialog->exec();
@@ -359,9 +367,9 @@ void DlgFileExplorer::s_Browser_RefreshDriveList() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_RefreshDriveList");
     // Refresh drive list
     ui->FolderTree->RefreshDriveList();
-    DlgWorkingTaskDialog->SetMaxValue(DriveList->List.count()+2,0);
-    DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(DriveList->List[CurrentDriveCheck].Label));
-    DlgWorkingTaskDialog->DisplayProgress(1+DriveList->List.count()-CurrentDriveCheck);
+    DlgWorkingTaskDialog->SetMaxValue(((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count()+2,0);
+    DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(((cApplicationConfig *)BaseApplicationConfig)->DriveList->List[CurrentDriveCheck].Label));
+    DlgWorkingTaskDialog->DisplayProgress(1+((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count()-CurrentDriveCheck);
     QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDrive()));
 }
 
@@ -369,11 +377,11 @@ void DlgFileExplorer::s_Browser_RefreshDriveList() {
 
 void DlgFileExplorer::s_Browser_RefreshDrive() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_RefreshDrive");
-    if (CurrentDriveCheck<DriveList->List.count()) ui->FolderTree->RefreshItemByPath(ui->FolderTree->DriveList->List[CurrentDriveCheck].Label,true);
+    if (CurrentDriveCheck<((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count()) ui->FolderTree->RefreshItemByPath(ui->FolderTree->DriveList->List[CurrentDriveCheck].Label,true);
     CurrentDriveCheck++;
-    if ((!CancelAction)&&(CurrentDriveCheck<DriveList->List.count())) {
-        DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(DriveList->List[CurrentDriveCheck].Label));
-        DlgWorkingTaskDialog->DisplayProgress(1+DriveList->List.count()-CurrentDriveCheck);
+    if ((!CancelAction)&&(CurrentDriveCheck<((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count())) {
+        DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(((cApplicationConfig *)BaseApplicationConfig)->DriveList->List[CurrentDriveCheck].Label));
+        DlgWorkingTaskDialog->DisplayProgress(1+((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count()-CurrentDriveCheck);
         QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDrive()));
     } else {
         DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update current folder"));

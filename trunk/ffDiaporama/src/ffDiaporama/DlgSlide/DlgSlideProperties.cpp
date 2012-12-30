@@ -38,7 +38,6 @@
 #include <QClipboard>
 #include <QMimeData>
 #include <QMessageBox>
-#include <QFileDialog>
 #include <QTextDocument>
 #include <QTextCursor>
 #include <QTextCharFormat>
@@ -1882,7 +1881,8 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_AddNewFileBlock");
 
     QStringList FileList;
-    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE,OBJECTTYPE_MANAGED,
+    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,
+                        OBJECTTYPE_MANAGED,true,false,((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories?((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath:"",
                         QApplication::translate("MainWindow","Add files"),NULL,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();

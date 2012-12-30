@@ -630,7 +630,9 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     Diaporama->LoadSources(Frame,double(ui->MovieFrame->height())/double(1080),ui->MovieFrame->width(),ui->MovieFrame->height(),true,AddStartPos);
 
     // Do Assembly
-    Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,ui->MovieFrame->width(),ui->MovieFrame->height());
+    QFutureWatcher<void> ThreadAssembly;
+    ThreadAssembly.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::StartThreadAssembly,ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,ui->MovieFrame->width(),ui->MovieFrame->height()));
+    //Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,ui->MovieFrame->width(),ui->MovieFrame->height());
 
     if ((SoundWanted)&&(Frame->CurrentObject)) {
         // Calc number of packet to mix
@@ -644,8 +646,14 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
         for (int j=0;j<MaxPacket;j++) MixedMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
     }
 
+    if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
+
     // Append this image to the queue
     ImageList.AppendImage(Frame);
+}
+
+void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H) {
+    Diaporama->DoAssembly(PCT,Info,W,H);
 }
 
 void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position) {
