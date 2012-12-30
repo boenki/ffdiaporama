@@ -21,8 +21,7 @@
 #include "../DlgImage/DlgImageCorrection.h"
 #include "DlgBackgroundProperties.h"
 #include "ui_DlgBackgroundProperties.h"
-
-#include <QFileDialog>
+#include "../DlgFileExplorer/DlgFileExplorer.h"
 
 // Undo actions
 #define UNDOACTION_BACKGROUNDTYPE       1
@@ -308,11 +307,16 @@ void DlgBackgroundProperties::s_ChangeBrushTypeCombo(int Value) {
 
 void DlgBackgroundProperties::s_SelectFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::s_SelectFile");
-    QString NewFile=QFileDialog::getOpenFileName(this,
-                                                 QApplication::translate("DlgBackgroundProperties","Select a file"),
-                                                 ((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories?((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath:"",
-                                                 ((cApplicationConfig *)BaseApplicationConfig)->GetFilterForMediaFile(cBaseApplicationConfig::IMAGEFILE));
-    QApplication::processEvents();
+    QStringList FileList;
+    QString     NewFile="";
+    DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE,OBJECTTYPE_IMAGEFILE,
+                        false,false,((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories?((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath:"",
+                        QApplication::translate("DlgBackgroundProperties","Select a file"),NULL,DiaporamaObject->Parent->ApplicationConfig,DiaporamaObject->Parent->ApplicationConfig->DlgFileExplorerWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) {
+        FileList=Dlg.GetCurrentSelectedFiles();
+        if (FileList.count()==1) NewFile=FileList.at(0);
+    }
     if (NewFile=="") return;
     AppendPartialUndo(UNDOACTION_BRUSHFILE,ui->ImageFileBT,true);
     if (((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories) ((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use

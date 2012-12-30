@@ -23,6 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "../engine/_GlobalDefines.h"
+#include "../engine/cDriveList.h"
 
 // Include some common various class
 #include "../engine/cBaseApplicationConfig.h"
@@ -147,6 +148,9 @@ public:
     QString                 DefaultBlockBA_IMG_TextST;
     QString                 DefaultBlockBA_IMG_ShapeST;
     sDefaultBlockCoord      DefaultBlockBA[NBR_IMAGETYPE];
+
+    // Drive list for browser
+    cDriveList              *DriveList;
 
     // Last directories
     QString                 LastProjectPath;                            // Last folder use for project

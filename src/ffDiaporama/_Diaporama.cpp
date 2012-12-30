@@ -25,7 +25,6 @@
 #include "mainwindow.h"
 #include "../engine/cTextFrame.h"
 
-#include <QFileDialog>
 #include <QAbstractTextDocumentLayout>
 #include <QTextDocument>
 #include <QTextCursor>
@@ -34,6 +33,17 @@
 
 // Composition parameters
 #define SCALINGTEXTFACTOR                   700     // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
+
+cCompositionObjectContext::cCompositionObjectContext() {
+    PreparedBrush=NULL;
+}
+
+cCompositionObjectContext::~cCompositionObjectContext() {
+    if (PreparedBrush) {
+        delete PreparedBrush;
+        PreparedBrush=NULL;
+    }
+}
 
 //*********************************************************************************************************************************************
 // Base object for composition definition
@@ -734,7 +744,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 // ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
                                                cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache,qlonglong ShotDuration,bool EnableAnimation,
-                                               bool Transfo,double NewX,double NewY,double NewW,double NewH,bool DisplayTextMargin) {
+                                               bool Transfo,double NewX,double NewY,double NewW,double NewH,bool DisplayTextMargin,QBrush **PreparedBrush) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:DrawCompositionObject");
 
     // W and H = 0 when producing sound track in render process
@@ -902,7 +912,10 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter->setBrush(Qt::NoBrush); else {
 
                     // Create brush with filter and Ken Burns effect !
-                    QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
+                    QBrush *BR;
+                    if (PreparedBrush) BR=*PreparedBrush;
+                        else           BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
+
                     if (BR) {
                         QTransform  MatrixBR;
                         // Avoid phantom lines for image brush
@@ -925,6 +938,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                         BR->setTransform(MatrixBR);         // Apply transform matrix to the brush
                         Painter->setBrush(*BR);
                         delete BR;
+                        if (PreparedBrush) *PreparedBrush=NULL;
                     } else {
                         ToLog(LOGMSG_CRITICAL,"Error in cCompositionObject::DrawCompositionObject Brush is NULL !");
                         Painter->setBrush(Qt::NoBrush);
@@ -1062,6 +1076,65 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             DestPainter->restore();
         }
     }
+}
+
+//*********************************************************************************************************************************************
+
+QBrush *cCompositionObject::PrepareCompositionObjectContext(double width,double height,bool PreviewMode,qlonglong Position,
+    qlonglong StartPosToAdd,cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PrevCompoObject,
+    bool UseBrushCache,bool Transfo,double NewX,double NewY,double NewW,double NewH) {
+
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:PrepareCompositionObjectContext");
+
+    // W and H = 0 when producing sound track in render process
+    if (!IsVisible) return NULL;
+
+    if ((width==0)||(height==0)||(Transfo && ((NewW==0)||(NewH==0)))||(!Transfo && ((w==0)||(h==0)))) return NULL;
+
+    QBrush *BR=NULL;
+
+    // Define values depending on BlockPctDone and PrevCompoObject
+    double TheX=Transfo?NewX:x;
+    double TheY=Transfo?NewY:y;
+    double TheW=Transfo?NewW:w;
+    double TheH=Transfo?NewH:h;
+
+    if (PrevCompoObject) {
+        if (PrevCompoObject->x!=TheX)   TheX=PrevCompoObject->x+(TheX-PrevCompoObject->x)*BlockPctDone;
+        if (PrevCompoObject->y!=TheY)   TheY=PrevCompoObject->y+(TheY-PrevCompoObject->y)*BlockPctDone;
+        if (PrevCompoObject->w!=TheW)   TheW=PrevCompoObject->w+(TheW-PrevCompoObject->w)*BlockPctDone;
+        if (PrevCompoObject->h!=TheH)   TheH=PrevCompoObject->h+(TheH-PrevCompoObject->h)*BlockPctDone;
+    }
+
+    //**********************************************************************************
+
+    double  X=TheX*width;
+    double  Y=TheY*height;
+    double  W=TheW*width;
+    double  H=TheH*height;
+    if ((W>0)&&(H>0)) {
+        //***********************************************************************************
+        // Compute shape
+        //***********************************************************************************
+        X=round(X);
+        Y=round(Y);
+        W=round(W/2)*2;
+        H=round(H/2)*2;
+        //***********************************************************************************
+        // Prepare Transform Matrix
+        //***********************************************************************************
+        if (
+                (TextClipArtName=="")&&
+                (!((BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(BackgroundBrush->Image)&&(BackgroundBrush->Image->IsVectorImg)))&&
+                (((BackgroundBrush->BrushType!=BRUSHTYPE_NOBRUSH)||(PenSize!=0)))&&
+                (BackgroundBrush->BrushType!=BRUSHTYPE_NOBRUSH)
+           ) {
+                // Create brush with filter and Ken Burns effect !
+                BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,StartPosToAdd,SoundTrackMontage,ImagePctDone,
+                                             PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
+        }
+    }
+    return BR;
 }
 
 //*********************************************************************************************************************************************
@@ -1900,52 +1973,141 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     P.fillRect(0,0,W,H,Qt::transparent);
     P.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
-    // Draw shot
-    if (List.count()>0) for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
-        // Get PrevCompoObject to enable animation from previous shot
-        cCompositionObject *PrevCompoObject=NULL;
-        if (PreviousShot) {
-            int k=0;
-            while (k<PreviousShot->ShotComposition.List.count()) {
-                if (PreviousShot->ShotComposition.List[k]->IndexKey==CurShot->ShotComposition.List[j]->IndexKey) {
-                    PrevCompoObject=PreviousShot->ShotComposition.List[k];
-                    k=PreviousShot->ShotComposition.List.count();
-                } else k++;
-            }
-        }
-        // Calc StartPosToAdd for video depending on AddStartPos
-        qlonglong StartPosToAdd=((AddStartPos&&CurShot->ShotComposition.List[j]->BackgroundBrush->Video)?QTime(0,0,0,0).msecsTo(CurShot->ShotComposition.List[j]->BackgroundBrush->Video->StartPos):0);
-        qlonglong VideoPosition=0;
+    if (List.count()>0) {
+        //******************************************************************************************
+        // Les threads sont une bonne idée, mais ça fait planter l'appli sous windows en render !
+        //******************************************************************************************
 
-        if (CurShot->ShotComposition.List[j]->BackgroundBrush->Video) {
-            // Calc VideoPosition depending on video set to pause (visible=off) in previous shot
-            int ThePosition=0;
-            int TheShot=0;
-            while ((TheShot<CurObject->List.count())&&(ThePosition+CurObject->List[TheShot]->StaticDuration<CurTimePosition)) {
-                for (int w=0;w<CurObject->List[TheShot]->ShotComposition.List.count();w++) if (CurObject->List[TheShot]->ShotComposition.List[w]->IndexKey==CurShot->ShotComposition.List[j]->IndexKey) {
-                    if (CurObject->List[TheShot]->ShotComposition.List[w]->IsVisible) VideoPosition+=CurObject->List[TheShot]->StaticDuration;
-                    break;
+        bool UseThread=false; //(List.count()>1);
+        // First step : Start threads to prepare background brush
+        QList<cCompositionObjectContext *> PreparedBrushList;
+
+        if (UseThread) for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
+
+            // Get PrevCompoObject to enable animation from previous shot
+            cCompositionObject *PrevCompoObject=NULL;
+            if (PreviousShot) {
+                int k=0;
+                while (k<PreviousShot->ShotComposition.List.count()) {
+                    if (PreviousShot->ShotComposition.List[k]->IndexKey==CurShot->ShotComposition.List[j]->IndexKey) {
+                        PrevCompoObject=PreviousShot->ShotComposition.List[k];
+                        k=PreviousShot->ShotComposition.List.count();
+                    } else k++;
                 }
-                ThePosition+=CurObject->List[TheShot]->StaticDuration;
-                TheShot++;
             }
-            VideoPosition+=(CurTimePosition-ThePosition);
+            // Calc StartPosToAdd for video depending on AddStartPos
+            qlonglong StartPosToAdd=((AddStartPos&&CurShot->ShotComposition.List[j]->BackgroundBrush->Video)?QTime(0,0,0,0).msecsTo(CurShot->ShotComposition.List[j]->BackgroundBrush->Video->StartPos):0);
+            qlonglong VideoPosition=0;
 
-        } else VideoPosition=CurTimePosition;
+            if (CurShot->ShotComposition.List[j]->BackgroundBrush->Video) {
+                // Calc VideoPosition depending on video set to pause (visible=off) in previous shot
+                int ThePosition=0;
+                int TheShot=0;
+                while ((TheShot<CurObject->List.count())&&(ThePosition+CurObject->List[TheShot]->StaticDuration<CurTimePosition)) {
+                    for (int w=0;w<CurObject->List[TheShot]->ShotComposition.List.count();w++) if (CurObject->List[TheShot]->ShotComposition.List[w]->IndexKey==CurShot->ShotComposition.List[j]->IndexKey) {
+                        if (CurObject->List[TheShot]->ShotComposition.List[w]->IsVisible) VideoPosition+=CurObject->List[TheShot]->StaticDuration;
+                        break;
+                    }
+                    ThePosition+=CurObject->List[TheShot]->StaticDuration;
+                    TheShot++;
+                }
+                VideoPosition+=(CurTimePosition-ThePosition);
 
-        // Draw object
-        int     BlockSpeedWave=CurShot->ShotComposition.List[j]->BlockSpeedWave;                        if (BlockSpeedWave==SPEEDWAVE_PROJECTDEFAULT) BlockSpeedWave=BlockAnimSpeedWave;
-        int     ImageSpeedWave=CurShot->ShotComposition.List[j]->BackgroundBrush->ImageSpeedWave;       if (ImageSpeedWave==SPEEDWAVE_PROJECTDEFAULT) ImageSpeedWave=ImageAnimSpeedWave;
+            } else VideoPosition=CurTimePosition;
 
-        double  BlockPCTDone  =ComputePCT(BlockSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
-        double  ImagePCTDone  =ComputePCT(ImageSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
+            // Draw object
+            int     BlockSpeedWave=CurShot->ShotComposition.List[j]->BlockSpeedWave;                        if (BlockSpeedWave==SPEEDWAVE_PROJECTDEFAULT) BlockSpeedWave=BlockAnimSpeedWave;
+            int     ImageSpeedWave=CurShot->ShotComposition.List[j]->BackgroundBrush->ImageSpeedWave;       if (ImageSpeedWave==SPEEDWAVE_PROJECTDEFAULT) ImageSpeedWave=ImageAnimSpeedWave;
 
-        CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),W,H,PreviewMode,VideoPosition,StartPosToAdd,SoundTrackMontage,BlockPCTDone,ImagePCTDone,PrevCompoObject,false,Duration,true);
+            double  BlockPCTDone  =ComputePCT(BlockSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
+            double  ImagePCTDone  =ComputePCT(ImageSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
 
+            cCompositionObjectContext *PreparedBrush=new cCompositionObjectContext();
+            PreparedBrush->Object               =CurShot->ShotComposition.List[j];
+            PreparedBrush->width                =W;
+            PreparedBrush->height               =H;
+            PreparedBrush->PreviewMode          =PreviewMode;
+            PreparedBrush->Position             =VideoPosition;
+            PreparedBrush->StartPosToAdd        =StartPosToAdd;
+            PreparedBrush->SoundTrackMontage    =SoundTrackMontage;
+            PreparedBrush->BlockPctDone         =BlockPCTDone;
+            PreparedBrush->ImagePctDone         =ImagePCTDone;
+            PreparedBrush->PrevCompoObject      =PrevCompoObject;
+            PreparedBrush->UseBrushCache        =false;
+            PreparedBrush->Transfo              =false;
+            PreparedBrush->NewX                 =0;
+            PreparedBrush->NewY                 =0;
+            PreparedBrush->NewW                 =0;
+            PreparedBrush->NewH                 =0;
+
+            PreparedBrush->PreparedBrushThread.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareCompositionObjectContext,PreparedBrush));
+            PreparedBrushList.append(PreparedBrush);
+        }
+
+        // Second step : wait for all thread finish
+        if (UseThread) for (int j=0;j<PreparedBrushList.count();j++)
+            if (PreparedBrushList[j]->PreparedBrushThread.isRunning()) PreparedBrushList[j]->PreparedBrushThread.waitForFinished();
+
+        // Draw shot
+        for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
+            // Get PrevCompoObject to enable animation from previous shot
+            cCompositionObject *PrevCompoObject=NULL;
+            if (PreviousShot) {
+                int k=0;
+                while (k<PreviousShot->ShotComposition.List.count()) {
+                    if (PreviousShot->ShotComposition.List[k]->IndexKey==CurShot->ShotComposition.List[j]->IndexKey) {
+                        PrevCompoObject=PreviousShot->ShotComposition.List[k];
+                        k=PreviousShot->ShotComposition.List.count();
+                    } else k++;
+                }
+            }
+            // Calc StartPosToAdd for video depending on AddStartPos
+            qlonglong StartPosToAdd=((AddStartPos&&CurShot->ShotComposition.List[j]->BackgroundBrush->Video)?QTime(0,0,0,0).msecsTo(CurShot->ShotComposition.List[j]->BackgroundBrush->Video->StartPos):0);
+            qlonglong VideoPosition=0;
+
+            if (CurShot->ShotComposition.List[j]->BackgroundBrush->Video) {
+                // Calc VideoPosition depending on video set to pause (visible=off) in previous shot
+                int ThePosition=0;
+                int TheShot=0;
+                while ((TheShot<CurObject->List.count())&&(ThePosition+CurObject->List[TheShot]->StaticDuration<CurTimePosition)) {
+                    for (int w=0;w<CurObject->List[TheShot]->ShotComposition.List.count();w++) if (CurObject->List[TheShot]->ShotComposition.List[w]->IndexKey==CurShot->ShotComposition.List[j]->IndexKey) {
+                        if (CurObject->List[TheShot]->ShotComposition.List[w]->IsVisible) VideoPosition+=CurObject->List[TheShot]->StaticDuration;
+                        break;
+                    }
+                    ThePosition+=CurObject->List[TheShot]->StaticDuration;
+                    TheShot++;
+                }
+                VideoPosition+=(CurTimePosition-ThePosition);
+
+            } else VideoPosition=CurTimePosition;
+
+            // Draw object
+            int     BlockSpeedWave=CurShot->ShotComposition.List[j]->BlockSpeedWave;                        if (BlockSpeedWave==SPEEDWAVE_PROJECTDEFAULT) BlockSpeedWave=BlockAnimSpeedWave;
+            int     ImageSpeedWave=CurShot->ShotComposition.List[j]->BackgroundBrush->ImageSpeedWave;       if (ImageSpeedWave==SPEEDWAVE_PROJECTDEFAULT) ImageSpeedWave=ImageAnimSpeedWave;
+
+            double  BlockPCTDone  =ComputePCT(BlockSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
+            double  ImagePCTDone  =ComputePCT(ImageSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
+
+            CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),W,H,PreviewMode,VideoPosition,StartPosToAdd,
+                                                                    SoundTrackMontage,BlockPCTDone,ImagePCTDone,PrevCompoObject,false,Duration,
+                                                                    true,false,0,0,0,0,false,UseThread?&PreparedBrushList[j]->PreparedBrush:NULL);
+
+        }
+        // Delete ObjectContext
+        if (UseThread) while (PreparedBrushList.count()>0) delete PreparedBrushList.takeLast();
     }
     P.end();
 
     if (IsCurrentObject) Info->CurrentObject_PreparedImage=Image; else Info->TransitObject_PreparedImage=Image;
+}
+
+//============================================================================================
+
+void cDiaporama::PrepareCompositionObjectContext(cCompositionObjectContext *PreparedBrush) {
+    PreparedBrush->PreparedBrush=PreparedBrush->Object->PrepareCompositionObjectContext(
+                PreparedBrush->width,PreparedBrush->height,PreparedBrush->PreviewMode,PreparedBrush->Position,PreparedBrush->StartPosToAdd,
+                PreparedBrush->SoundTrackMontage,PreparedBrush->BlockPctDone,PreparedBrush->ImagePctDone,PreparedBrush->PrevCompoObject,
+                PreparedBrush->UseBrushCache,PreparedBrush->Transfo,PreparedBrush->NewX,PreparedBrush->NewY,PreparedBrush->NewW,PreparedBrush->NewH);
 }
 
 //=============================================================================================================================
@@ -2007,6 +2169,9 @@ void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H) {
 void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:LoadSources");
 
+    QFutureWatcher<void> ThreadPrepareCurrentMusicBloc;
+    QFutureWatcher<void> ThreadPrepareTransitMusicBloc;
+
     // W and H = 0 when producing sound track in render process
     bool SoundOnly=((W==0)&&(H==0));
 
@@ -2029,10 +2194,12 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
 
         // Load music bloc
         if ((PreviewMode || SoundOnly)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)) {
-            PrepareMusicBloc(PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
+            ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
+            //PrepareMusicBloc(PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
         }
         if ((PreviewMode || SoundOnly)&&(Info->TransitObject)&&(Info->TransitObject_MusicTrack)) {
-            PrepareMusicBloc(PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
+            ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
+            //PrepareMusicBloc(PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
         }
         // Transition Object if a previous was not keep !
         if (Info->TransitObject) LoadTransitVideoImage(Info,PreviewMode,W,H,AddStartPos);
@@ -2053,9 +2220,12 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
                 P.begin(Info->CurrentObject_PreparedBackground);
                 P.fillRect(QRect(0,0,W,H),QBrush(Qt::black));
                 if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush);
+
                 // Apply composition to background
                 for (int j=0;j<List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List.count();j++)
-                    List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,W,H,PreviewMode,0,0,NULL,1,1,NULL,false,0,false);
+                    List[Info->CurrentObject_BackgroundIndex]->BackgroundComposition.List[j]->DrawCompositionObject(&P,ADJUST_RATIO,W,H,
+                        PreviewMode,0,0,NULL,1,1,NULL,false,0,false,false,0,0,0,0,false);
+
                 P.end();
             }
             // same job for Transition Object if a previous was not keep !
@@ -2076,6 +2246,9 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int 
             }
         }
     }
+
+    if (ThreadPrepareCurrentMusicBloc.isRunning()) ThreadPrepareCurrentMusicBloc.waitForFinished();
+    if (ThreadPrepareTransitMusicBloc.isRunning()) ThreadPrepareTransitMusicBloc.waitForFinished();
 
     // Special case to clear music buffer if not transition and music of CurrentObject is in pause mode
     if ((!Info->IsTransition)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject->MusicPause)&&(Info->CurrentObject_MusicTrack->List.count()>0)) {

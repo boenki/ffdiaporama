@@ -16,13 +16,13 @@ class DlgFileExplorer;
 class DlgFileExplorer : public QCustomDialog {
 Q_OBJECT
 public:
-    cDriveList              *DriveList;
     QString                 CurrentPath;
     DlgWorkingTask          *DlgWorkingTaskDialog;
     bool                    CancelAction;
     int                     CurrentDriveCheck;
 
-    explicit                DlgFileExplorer(int AllowedFilter,int CurrentFilter,QString BoxTitle,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit                DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,QString StartupPath,QString BoxTitle,
+                                            QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     virtual                 ~DlgFileExplorer();
     
     // function to be overloaded

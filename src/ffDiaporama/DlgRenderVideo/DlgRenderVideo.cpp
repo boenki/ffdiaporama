@@ -325,8 +325,6 @@ void DlgRenderVideo::SelectDestinationFile() {
             }
         }
     }
-    //QString Path=QFileInfo(ui->DestinationFilePath->text()).absolutePath();
-    //QString OutputFileName  =QFileDialog::getSaveFileName(this,QApplication::translate("DlgRenderVideo","Select destination file"),Path,FileFormat);
     QString OutputFileName  =QFileDialog::getSaveFileName(this,QApplication::translate("DlgRenderVideo","Select destination file"),ui->DestinationFilePath->text(),FileFormat);
     if (OutputFileName!="") {
         Diaporama->ApplicationConfig->LastRenderVideoPath=QFileInfo(OutputFileName).dir().absolutePath();
@@ -744,8 +742,9 @@ bool DlgRenderVideo::ComputeAudioPart(QString &aCodec) {
                 break;
 
             case CODEC_ID_AC3:
-                if (isAVCONV) aCodec=QString("-acodec %1 -sample_fmt:1 flt -ab %2").arg(AUDIOCODECDEF[AudioCodecIndex].ShortName).arg(AudioBitRate);
-                    else      aCodec=QString("-acodec %1 -ab %2").arg(AUDIOCODECDEF[AudioCodecIndex].ShortName).arg(AudioBitRate);
+                if ((isAVCONV)&&(QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)!=QString("ac3")))
+                            aCodec=QString("-acodec %1 -sample_fmt:1 flt -ab %2").arg(AUDIOCODECDEF[AudioCodecIndex].ShortName).arg(AudioBitRate);
+                    else    aCodec=QString("-acodec %1 -ab %2").arg(AUDIOCODECDEF[AudioCodecIndex].ShortName).arg(AudioBitRate);
                 break;
 
             case CODEC_ID_MP2:

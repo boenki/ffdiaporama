@@ -26,7 +26,6 @@
 
 // Include some common various class
 #include "../engine/_SDL_Support.h"
-#include "../engine/cDriveList.h"
 #include "DlgWorkingTask/DlgWorkingTask.h"
 
 #include <QNetworkReply>
@@ -48,7 +47,6 @@ public:
     bool                    FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
     cApplicationConfig      *ApplicationConfig;
     cDiaporama              *Diaporama;
-    cDriveList              *DriveList;
     int                     LastCount;
     QString                 InternetBUILDVERSION;
     QString                 TitleBar;

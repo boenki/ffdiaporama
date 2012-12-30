@@ -212,6 +212,7 @@ public:
     explicit                cImageFile(cBaseApplicationConfig *ApplicationConfig);
                             ~cImageFile();
 
+    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual QImage          *ImageAt(bool PreviewMode);
     virtual QImage          *LoadVectorImg();
     virtual QString         GetFileTypeStr();

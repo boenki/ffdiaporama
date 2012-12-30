@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 22/12/2012
+* Dernier commit le : 28/12/2012
 **************************************************
 
 TODO :
@@ -19,18 +19,9 @@ Clip art :
 Criticité   Etat    Enoncé
 ----------- ------- -------------------------------------------------------------------------------------------------------
 
-Critique    -       Bug de drag & drop de bloc qui se fait quand on change de plan dans la boite slide
-
-Normal      -       Bug de Pepe sur les tailles des bordures en VGA
 Normal      -       Bug sur le text scalling en render DVD
-Basse       -       Bug de SESTAY sur un plantage lors de la relecture d'un ancien fichier de configuration
-Normal      -       Bug sur l'encodage MP3 : 1 seconde de trop par minute d'encodage (http://ffdiaporama.tuxfamily.org/Forum/viewtopic.php?id=449)
-Basse       -       Bug de génération en 3GP - 320x240
 
-Normal      NF      Ajouter des formes de shape (jumelle, trapeze, parrallelograme ...)
 Basse       NF      Etudier la transposition des cadres de sélection quand rotation dans la boite slide
-Basse       WIP     Isolation du code des transition
-                    =>  A isoler dans une _xxxx sous engine
 Basse       -       Pouvoir réduire ffD pendant la génération de film sous Windows
 Basse       -       Ajouter des boutons KeyFrame précédente et suivante dans la boite cut-vidéo
 Basse       WIP     Pouvoir activer/désactiver le clipping des textes dans les formes
@@ -41,6 +32,9 @@ Basse       WIP     Pouvoir déplacer le centre de rotation des formes
                             - Ajouter le centre de rotation quand la forme est sélectionnée et pouvoir le déplacer dans la zone interactive et dans la boite slide
                             - Ajouter la position du centre de rotation dans les fichiers de données
                             - Prendre en compte le centre de rotation dans la foction de dessin des formes
+Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers dans les répertoires à browser
+                        Pour le moment, j'ai réduit la qualité des thumbnails quand plus de 100 images (division par 4)
+                        C'est une solution provisoire car l'idéal est de décharger la mémoire si nécessaire et recharger les thumbnails au besoin
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
@@ -52,23 +46,19 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Supprime la ligne Capturer une image en 0x0 du bouton d'export d'image du lecteur multimédia de la fenêtre principale
+-Plantage lors du parcours de gros répertoire dans l'explorateur multimédia
+    =>Réduit la qualité des vignettes quand les répertoires à parcourir contiennent plus de 100 fichiers (solution provisoire)
 
 English version / Bug fixes :
--Deletes the line "Capture an image of 0x0" of the image export button of the main window media player
+-Crash when browsing large directory in multimedia explorer
+    =>Reduces the quality of thumbnails when browse directories containing more than 100 files (temporary solution)
 
 French version / Nouveautés :
--Ajoute une boite de progression lors de l'ajout de projet avec le bouton Ajouter projets de la fenêtre principale
--Modifie le fonctionnement des boutons
- -Ajouter fichiers et Ajouter projets de la fenêtre principale
- -Ajouter fichiers de la boite de dialog d'edition des diapositives
- -Ajouter des musiques de la boite de dialog d'edition de la piste musicale
- => Maintenant ils ouvrent l'explorateur multimédia plutôt que la boite système de sélection de fichier
+-Modifie le fonctionnement des boutons de sélection de fichier dans la boite d'arriere plan (mode fichier) et dans la boite de recadrage ainsi que du bouton ouvrir projet de la fenêtre principale
+    => Maintenant ils ouvrent l'explorateur multimédia plutot que la boite système
+-N'authorize le drag & drop depuis la boite de dialog de l'explorateur multimédia que lors des ajouts de fichiers ou de projet depuis la fenêtre principale
 
 English version / New features :
--Adds a progress box when adding project with the Add projects button of the main window
--Change the function of the buttons:
-  -Add Files and Add Projects of the main window
-  -Add Files of the edition slides dialog
-  -Add Music of the music track edition dialog
-  => Now they open the Multimedia Explorer rather than system file dialog
+-Change the function of the file selection buttons in the Background dialog (file mode) and in the Framming dialog and the open project button in the main window
+    => Now they open the Multimedia Explorer dialog rather than system file dialog
+-Allow drag & drop from the multimedia explorer dialog only when adding files or projects from the main window

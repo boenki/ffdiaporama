@@ -32,15 +32,18 @@
 #include <QPainter>
 #include <QModelIndex>
 #include <QModelIndexList>
+#include <qimageblitz/qimageblitz.h>
 
 #include "QCustomFolderTable.h"
 #include "QCustomFolderTree.h"
 
 #define FILETABLESTATE_FILETOCHEK   1
 #define FileToCheckIcon             ":/img/player_time.png"
+#define LOWQUALITYITEMNBR           100                         // Number of item in list to use low quality big icon
+#define LOWQUALITYITEMHEIGHT        50                          // Maximum size for *2
+#define CELLBORDER                  8
 
-#define CELLBORDER              8
-int DISPLAYFILENAMEHEIGHT=20;           // Will be compute because it's not the same for all operating system
+int DISPLAYFILENAMEHEIGHT           =20;                        // Will be compute because it's not the same for all operating system
 
 //********************************************************************************************************
 // Utility functions use to sort table
@@ -150,13 +153,20 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
 
             if (Icon->isNull()) Icon=ParentTable->MediaList[ItemIndex]->GetDefaultTypeIcon(cCustomIcon::ICON100);
 
-            addX=(option.rect.width()-Icon->width())/2;
-
-            if (ParentTable->DisplayFileName) addY=(option.rect.height()-Icon->height()-DISPLAYFILENAMEHEIGHT)/3;
-                else addY=(option.rect.height()-Icon->height())/2;
-
             // Draw Icon
-            Painter->drawImage(QRectF(option.rect.x()+1+addX,option.rect.y()+1+addY,Icon->width(),Icon->height()),*Icon);
+            if (Icon->height()<=LOWQUALITYITEMHEIGHT) {
+                QImage NewIcon=Icon->scaledToHeight(Icon->height()*2,Qt::SmoothTransformation);
+                NewIcon=Blitz::sharpen(NewIcon);
+                addX=(option.rect.width()-NewIcon.width())/2;
+                if (ParentTable->DisplayFileName) addY=(option.rect.height()-NewIcon.height()-DISPLAYFILENAMEHEIGHT)/3;
+                    else addY=(option.rect.height()-NewIcon.height())/2;
+                Painter->drawImage(QRectF(option.rect.x()+1+addX,option.rect.y()+1+addY,NewIcon.width(),NewIcon.height()),NewIcon);
+            } else {
+                addX=(option.rect.width()-Icon->width())/2;
+                if (ParentTable->DisplayFileName) addY=(option.rect.height()-Icon->height()-DISPLAYFILENAMEHEIGHT)/3;
+                    else addY=(option.rect.height()-Icon->height())/2;
+                Painter->drawImage(QRectF(option.rect.x()+1+addX,option.rect.y()+1+addY,Icon->width(),Icon->height()),*Icon);
+            }
 
             // Setup default brush
             Painter->setBrush(Qt::NoBrush);
@@ -952,6 +962,8 @@ void QCustomFolderTable::FillListFolder(QString Path) {
 
     // Update display
     DoResizeColumns();
+    if (updatesEnabled()) setUpdatesEnabled(false);
+    setUpdatesEnabled(true);
 
     // Start thread to scan files
     ScanMediaList.setFuture(QtConcurrent::run(this,&QCustomFolderTable::DoScanMediaList));
@@ -1100,6 +1112,13 @@ void QCustomFolderTable::DoScanMediaList() {
 
         // Get full information
         MediaList[ItemIndex]->GetFullInformationFromFile();
+
+        #if defined(Q_OS_WIN32) || defined(Q_OS_LINUX32)
+        // Reduce quality of thumbnails to reduce memory used when huge number of files in folder
+        if ((MediaList.count()>=LOWQUALITYITEMNBR)&&(!MediaList[ItemIndex]->Icon100.isNull())&&(MediaList[ItemIndex]->Icon100.height()>LOWQUALITYITEMHEIGHT)) {
+            MediaList[ItemIndex]->Icon100=MediaList[ItemIndex]->Icon100.scaledToHeight(MediaList[ItemIndex]->Icon100.height()/2,Qt::SmoothTransformation);
+        }
+        #endif
 
         // Update display
         if (CurrentMode==DISPLAY_DATA) {

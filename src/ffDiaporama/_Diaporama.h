@@ -157,7 +157,10 @@ public:
     void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
                                       cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache,qlonglong ShotDuration,bool EnableAnimation,
                                       bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0,
-                                      bool DisplayTextMargin=false);
+                                      bool DisplayTextMargin=false,QBrush **PreparedBrush=NULL);
+    QBrush      *PrepareCompositionObjectContext(double width,double height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
+                                      cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PrevCompoObject,
+                                      bool UseBrushCache,bool Transfo,double NewX,double NewY,double NewW,double NewH);
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition=true);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
@@ -339,6 +342,24 @@ public:
 //*********************************************************************************************************************************************
 // Global class containing the project
 //*********************************************************************************************************************************************
+class cCompositionObjectContext {
+public:
+    QBrush                  *PreparedBrush;
+    QFutureWatcher<void>    PreparedBrushThread;
+    cCompositionObject      *Object;
+    double                  width,height;
+    bool                    PreviewMode;
+    qlonglong               Position,StartPosToAdd;
+    cSoundBlockList         *SoundTrackMontage;
+    double                  BlockPctDone,ImagePctDone;
+    cCompositionObject      *PrevCompoObject;
+    bool                    UseBrushCache,Transfo;
+    double                  NewX,NewY,NewW,NewH;
+
+    cCompositionObjectContext();
+    ~cCompositionObjectContext();
+};
+
 class cDiaporama {
 public:
     cApplicationConfig      *ApplicationConfig;
@@ -384,6 +405,7 @@ public:
     void                    PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack);
     void                    LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos);
     void                    DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H);
+    void                    PrepareCompositionObjectContext(cCompositionObjectContext *PreparedBrush);
 
     // Memory
     void                    CloseUnusedLibAv(int CurrentCell);

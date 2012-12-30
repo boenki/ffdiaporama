@@ -22,7 +22,6 @@
 #include "ui_DlgMusicProperties.h"
 
 #include "../DlgFileExplorer/DlgFileExplorer.h"
-#include <QFileDialog>
 #include <QMessageBox>
 
 DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
@@ -222,6 +221,7 @@ void DlgMusicProperties::s_AddMusic() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::s_AddMusic");
     QStringList FileList;
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MUSICFILE,OBJECTTYPE_MUSICFILE,
+                        true,false,((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories?((cApplicationConfig *)BaseApplicationConfig)->LastMusicPath:"",
                         QApplication::translate("DlgMusicProperties","Add music files"),NULL,DiaporamaObject->Parent->ApplicationConfig,DiaporamaObject->Parent->ApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();

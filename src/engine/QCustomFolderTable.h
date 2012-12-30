@@ -99,24 +99,24 @@ protected:
     virtual void            keyReleaseEvent(QKeyEvent *event);
 
 signals:
-    void    DoubleClickEvent(QMouseEvent *ev);
-    void    RightClickEvent(QMouseEvent *ev);
-    void    RefreshFolderInfo();
-    void    NeedResizeColumns();
-    void    RemoveFiles();
-    void    InsertFiles();
-    void    OpenFiles();
-    void    RenameFiles();
-    void    Refresh();
+    void                    DoubleClickEvent(QMouseEvent *ev);
+    void                    RightClickEvent(QMouseEvent *ev);
+    void                    RefreshFolderInfo();
+    void                    NeedResizeColumns();
+    void                    RemoveFiles();
+    void                    InsertFiles();
+    void                    OpenFiles();
+    void                    RenameFiles();
+    void                    Refresh();
 
 public slots:
-    void    DoResizeColumns();
+    void                    DoResizeColumns();
 
 private:
-    void                DoScanMediaList();
-    int                 GetWidthForIcon();
-    int                 GetHeightForIcon();
-    QTableWidgetItem    *CreateItem(QString ItemText,int Alignment,QBrush Background);
+    void                    DoScanMediaList();
+    int                     GetWidthForIcon();
+    int                     GetHeightForIcon();
+    QTableWidgetItem        *CreateItem(QString ItemText,int Alignment,QBrush Background);
 };
 
 #endif // QCUSTOMFOLDERTABLE_H
