@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -115,7 +115,7 @@ void DlgTransitionProperties::DoInitDialog() {
 
     // Retrieve object information and create PreviousFrame
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);
-    DiaporamaObject->Parent->LoadSources(PreviousFrame,double(H)/double(1080),W,H,true,true);                       // Load background and image
+    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true,true);                       // Load background and image
 
     // Set old values
     DiaporamaObject->TransitionFamilly  =TransitionFamilly;
@@ -285,7 +285,7 @@ void DlgTransitionProperties::s_ChTransitionCB(int) {
 
     // Retrieve object information and create PreviousFrame
     PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);
-    DiaporamaObject->Parent->LoadSources(PreviousFrame,double(H)/double(1080),W,H,true,true);                       // Load background and image
+    DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true,true);                       // Load background and image
 
     // Set old values
     DiaporamaObject->TransitionFamilly  =TransitionFamilly;

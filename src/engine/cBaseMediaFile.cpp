@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -2682,7 +2682,7 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
 
 //====================================================================================================================
 //DontUseEndPos default=false
-QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,cSoundBlockList *SoundTrackBloc,bool Deinterlace,
+QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,bool Deinterlace,
                             double Volume,bool ForceSoundOnly,bool DontUseEndPos) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ImageAt");
@@ -2694,11 +2694,11 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartP
     QImage *LoadedImage=NULL;
 
     if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)&&(SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS))
-        ReadAudioFrame(PreviewMode,Position+StartPosToAdd,SoundTrackBloc,Volume,DontUseEndPos);
+        ReadAudioFrame(PreviewMode,Position,SoundTrackBloc,Volume,DontUseEndPos);
 
 
     if ((!MusicOnly)&&(!ForceSoundOnly)) {
-        LoadedImage=ReadVideoFrame(PreviewMode,Position+StartPosToAdd,DontUseEndPos,Deinterlace);
+        LoadedImage=ReadVideoFrame(PreviewMode,Position,DontUseEndPos,Deinterlace);
         if (LoadedImage) {
 
             // If preview mode and image size > PreviewMaxHeight, reduce Cache Image

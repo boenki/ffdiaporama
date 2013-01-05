@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -292,7 +292,7 @@ void DlgImageCorrection::MakeFormIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,1,NULL,false,0,false);
+        Object.DrawCompositionObject(&Painter,1,UICB->iconSize().width(),UICB->iconSize().height(),true,0,NULL,1,1,NULL,false,0,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -1342,7 +1342,7 @@ void DlgImageCorrection::s_Event_SaveImageEvent() {
         if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
         if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
 
-        QImage *Image=CurrentBrush->Video->ImageAt(false,ui->VideoPlayer->ActualPosition,0,NULL,CurrentBrush->Deinterlace,1,false,true);
+        QImage *Image=CurrentBrush->Video->ImageAt(false,ui->VideoPlayer->ActualPosition,NULL,CurrentBrush->Deinterlace,1,false,true);
         Image->save(OutputFileName,0,100);
         delete Image;
     }

@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -251,7 +251,7 @@ cBrushDefinition::~cBrushDefinition() {
 
 //====================================================================================================================
 
-QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
+QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetBrush");
 
     QBrush  *Br=NULL;
@@ -263,7 +263,7 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int
         case BRUSHTYPE_GRADIENT2 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);                       break;
         case BRUSHTYPE_GRADIENT3 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);                       break;
         case BRUSHTYPE_IMAGELIBRARY :   Br=GetLibraryBrush(Rect);                                                                                               break;
-        case BRUSHTYPE_IMAGEDISK :      Br=GetImageDiskBrush(Rect,PreviewMode,Position,StartPosToAdd,SoundTrackMontage,PctDone,PreviousBrush,UseBrushCache);    break;
+        case BRUSHTYPE_IMAGEDISK :      Br=GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage,PctDone,PreviousBrush,UseBrushCache);    break;
         default :                       Br=new QBrush(Qt::NoBrush);                                                                                             break;
     }
     return Br;
@@ -271,7 +271,7 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,int
 
 //====================================================================================================================
 
-QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,int StartPosToAdd,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
+QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetImageDiskBrush");
 
     // If not an image or a video or filename is empty then return
@@ -286,16 +286,16 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
             // Only slide dialog set UseBrushCache to true => use LuloImageCache to Cache rendered image
             if (UseBrushCache) {
                 QImage                *LN_Image=NULL;
-                cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(Video,Position+StartPosToAdd,(!PreviewMode || ApplicationConfig->Smoothing),true);
+                cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(Video,Position,(!PreviewMode || ApplicationConfig->Smoothing),true);
                 if (PreviewMode) LN_Image=ImageObject->CachePreviewImage;
                     else         LN_Image=ImageObject->CacheRenderImage;
                 if (LN_Image) RenderImage=new QImage(LN_Image->copy());
-                    else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
+                    else RenderImage=Video->ImageAt(PreviewMode,Position,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
                 if (!LN_Image) {
                     if (PreviewMode)    ImageObject->CachePreviewImage=new QImage(RenderImage->copy());
                         else            ImageObject->CacheRenderImage=new QImage(RenderImage->copy());
                 }
-            } else RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
+            } else RenderImage=Video->ImageAt(PreviewMode,Position,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
         } else if ((Image)&&(!Image->IsVectorImg)) RenderImage=Image->ImageAt(PreviewMode);
 
         QBrush *Ret=NULL;
@@ -464,7 +464,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
     } else {
         // Force loading of sound of video
         if (Video) {
-            QImage *RenderImage=Video->ImageAt(PreviewMode,Position,StartPosToAdd,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
+            QImage *RenderImage=Video->ImageAt(PreviewMode,Position,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
             if (RenderImage) delete RenderImage;
         }
         return new QBrush(Qt::NoBrush);

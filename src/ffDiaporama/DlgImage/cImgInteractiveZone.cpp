@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -86,7 +86,7 @@ void cImgInteractiveZone::InitCachedImage(cCompositionObject *TheCompoObject,int
     if (CurrentBrush->Image) {
         CachedImage=CurrentBrush->Image->ImageAt(false);
      } else if (CurrentBrush->Video) {
-        CachedImage=CurrentBrush->Video->ImageAt(false,VideoPosition,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,false);
+        CachedImage=CurrentBrush->Video->ImageAt(false,VideoPosition+QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,false);
         if (CachedImage->format()!=QImage::Format_ARGB32_Premultiplied) {
             QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
             delete CachedImage;

@@ -1,4 +1,4 @@
-(C) 2011-2012 Dominique LEVRAY <levray.dominique@bbox.fr>
+(C) 2011-2013 Dominique LEVRAY <levray.dominique@bbox.fr>
 
 ffDiaporama use these third party libraries :
     fmt_filters <http://ksquirrel.sourceforge.net/subprojects.php>

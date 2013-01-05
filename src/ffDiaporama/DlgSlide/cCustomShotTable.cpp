@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -76,17 +76,7 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     if (RedColor) Duration=ParentTable->DiaporamaObject->GetDuration()-Position;
 
     // draw shot
-    for (int j=0;j<ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List.count();j++) {
-        if (ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->BackgroundBrush->Video) {
-            int StartPosToAdd=0;
-            // Calc Start position of the video (depending on visible state)
-            for (int k=0;k<index.column();k++) for (int l=0;l<ParentTable->DiaporamaObject->List[k]->ShotComposition.List.count();l++) if (ParentTable->DiaporamaObject->List[k]->ShotComposition.List[l]->IndexKey==ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->IndexKey) {
-                if (ParentTable->DiaporamaObject->List[k]->ShotComposition.List[l]->IsVisible) StartPosToAdd+=ParentTable->DiaporamaObject->List[k]->StaticDuration;
-                l=ParentTable->DiaporamaObject->List[k]->ShotComposition.List.count();    // Stop loop
-            }
-            ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(&TempPainter,double(Height)/double(1080),Width,Height,true,0,StartPosToAdd,NULL,1,1,NULL,false,0,false);
-        } else ParentTable->DiaporamaObject->List[index.column()]->ShotComposition.List[j]->DrawCompositionObject(&TempPainter,double(Height)/double(1080),Width,Height,true,Position,0,NULL,1,1,NULL,false,0,false);
-    }
+    ParentTable->DiaporamaObject->DrawThumbnail(Width,Height,&TempPainter,0,0,index.column());
 
     // Draw selected box (if needed)
 

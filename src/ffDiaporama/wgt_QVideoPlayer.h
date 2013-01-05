@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -101,11 +101,10 @@ public:
     bool                Flag_InTimer;           // true if timer event is in progress
     bool                TimerTick;              // To use timer 1 time for 2 call
 
-    QImage              *ActualDisplay;
-
     // Thread controls
     QFutureWatcher<void> ThreadPrepareVideo;
     QFutureWatcher<void> ThreadPrepareImage;
+    QFutureWatcher<void> ThreadDisplayImage;
 
     explicit wgt_QVideoPlayer(QWidget *parent = 0);
     ~wgt_QVideoPlayer();
