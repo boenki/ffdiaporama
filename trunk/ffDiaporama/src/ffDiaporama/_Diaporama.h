@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -97,6 +97,43 @@ class cDiaporamaObject;
 //*********************************************************************************************************************************************
 
 class cCompositionList;
+class cCompositionObject;
+class cDiaporamaShot;
+class cDiaporamaObjectInfo;
+
+class cCompositionObjectContext {
+public:
+    bool                    NeedPreparedBrush;
+    cCompositionObject      *Object;
+    double                  width,height;
+    bool                    PreviewMode;
+    bool                    AddStartPos;
+    qlonglong               VideoPosition,StartPosToAdd,ShotDuration;
+    cSoundBlockList         *SoundTrackMontage;
+    double                  BlockPctDone,ImagePctDone;
+    cCompositionObject      *PrevCompoObject;
+    bool                    UseBrushCache,Transfo,EnableAnimation;
+    double                  NewX,NewY,NewW,NewH;
+    double                  TheX,TheY,TheW,TheH;
+    double                  TheRotateZAxis,TheRotateXAxis,TheRotateYAxis;
+    double                  TheTxtZoomLevel,TheTxtScrollX,TheTxtScrollY;
+    double                  X,Y,W,H;
+    double                  DestOpacity;
+    bool                    IsCurrentObject;
+    QList<QPolygonF>        PolygonList;
+    QRectF                  ShapeRect;
+    cDiaporamaShot          *CurShot;
+    cDiaporamaShot          *PreviousShot;
+    cDiaporamaObjectInfo    *Info;
+    int                     ObjectNumber;
+
+    cCompositionObjectContext(int ObjectNumber,bool PreviewMode,bool IsCurrentObject,cDiaporamaObjectInfo *Info,double width,double height,
+                              cDiaporamaShot *CurShot,cDiaporamaShot *PreviousShot,cSoundBlockList *SoundTrackMontage,bool AddStartPos,qlonglong ShotDuration);
+    void Compute();
+};
+
+//**********************************
+
 class cCompositionObject {
 public:
     int                 TypeComposition;        // Type of composition object (COMPOSITIONTYPE_BACKGROUND, COMPOSITIONTYPE_OBJECT, COMPOSITIONTYPE_SHOT)
@@ -154,13 +191,10 @@ public:
     ~cCompositionObject();
 
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
-    void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
+    void        DrawCompositionObject(QPainter *Painter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,qlonglong Position,
                                       cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PreviousCompositionObject,bool UseBrushCache,qlonglong ShotDuration,bool EnableAnimation,
                                       bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0,
-                                      bool DisplayTextMargin=false,QBrush **PreparedBrush=NULL);
-    QBrush      *PrepareCompositionObjectContext(double width,double height,bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,
-                                      cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PrevCompoObject,
-                                      bool UseBrushCache,bool Transfo,double NewX,double NewY,double NewW,double NewH);
+                                      bool DisplayTextMargin=false,cCompositionObjectContext *PreparedBrush=NULL);
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition=true);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
@@ -234,7 +268,6 @@ public:
     // Background definition
     bool                    BackgroundType;             // Background type : false=same as precedent - true=new background definition
     cBrushDefinition        *BackgroundBrush;           // Background brush
-    cCompositionList        BackgroundComposition;      // Background Composition object list
 
     // Object definition
     cCompositionList        ObjectComposition;          // Composition object list
@@ -261,7 +294,7 @@ public:
     QString                 GetDisplayName();
     qlonglong               GetCumulTransitDuration();
     qlonglong               GetDuration();
-    void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY);   // Draw Thumb @ position 0
+    void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY,int ShotNumber=0);   // Draw Thumb @ position 0
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList);
     qlonglong               GetTransitDuration();
@@ -342,24 +375,6 @@ public:
 //*********************************************************************************************************************************************
 // Global class containing the project
 //*********************************************************************************************************************************************
-class cCompositionObjectContext {
-public:
-    QBrush                  *PreparedBrush;
-    QFutureWatcher<void>    PreparedBrushThread;
-    cCompositionObject      *Object;
-    double                  width,height;
-    bool                    PreviewMode;
-    qlonglong               Position,StartPosToAdd;
-    cSoundBlockList         *SoundTrackMontage;
-    double                  BlockPctDone,ImagePctDone;
-    cCompositionObject      *PrevCompoObject;
-    bool                    UseBrushCache,Transfo;
-    double                  NewX,NewY,NewW,NewH;
-
-    cCompositionObjectContext();
-    ~cCompositionObjectContext();
-};
-
 class cDiaporama {
 public:
     cApplicationConfig      *ApplicationConfig;
@@ -403,9 +418,8 @@ public:
 
     // Thread functions
     void                    PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack);
-    void                    LoadSources(cDiaporamaObjectInfo *Info,double ADJUST_RATIO,int W,int H,bool PreviewMode,bool AddStartPos);
+    void                    LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos);
     void                    DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H);
-    void                    PrepareCompositionObjectContext(cCompositionObjectContext *PreparedBrush);
 
     // Memory
     void                    CloseUnusedLibAv(int CurrentCell);

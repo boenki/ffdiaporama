@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -500,7 +500,7 @@ void DlgSlideProperties::MakeFormIcon(QComboBox *UICB) {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,UICB->iconSize().width(),UICB->iconSize().height()),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,UICB->iconSize().width(),UICB->iconSize().height(),true,0,0,NULL,1,1,NULL,false,0,false);
+        Object.DrawCompositionObject(&Painter,1,UICB->iconSize().width(),UICB->iconSize().height(),true,0,NULL,1,1,NULL,false,0,false);
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
@@ -875,7 +875,7 @@ void DlgSlideProperties::RefreshStyleControls() {
                 if (CurrentCompoObject->BackgroundBrush->Image) {
                     CachedImage=CurrentCompoObject->BackgroundBrush->Image->ImageAt(true);
                  } else if (CurrentCompoObject->BackgroundBrush->Video) {
-                    CachedImage=CurrentCompoObject->BackgroundBrush->Video->ImageAt(true,Position,QTime(0,0,0,0).msecsTo(CurrentCompoObject->BackgroundBrush->Video->StartPos),NULL,CurrentCompoObject->BackgroundBrush->Deinterlace,1,false,false);
+                    CachedImage=CurrentCompoObject->BackgroundBrush->Video->ImageAt(true,Position+QTime(0,0,0,0).msecsTo(CurrentCompoObject->BackgroundBrush->Video->StartPos),NULL,CurrentCompoObject->BackgroundBrush->Deinterlace,1,false,false);
                     if (CachedImage->format()!=QImage::Format_ARGB32_Premultiplied) {
                         QImage *NewCachedImage=new QImage(CachedImage->convertToFormat(QImage::Format_ARGB32_Premultiplied));
                         delete CachedImage;
@@ -1988,7 +1988,7 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
         if (IsValide) {
 
             QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,false):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos),NULL,CurrentBrush->Deinterlace,1,false,false):
                            NULL);
             if (!Image) {
                 IsValide=false;
@@ -2404,9 +2404,12 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
 
     int Position=0;
     // Compute position of video
-    if (CurrentBrush->Video) for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
-        if (CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==CurrentCompoObject->IndexKey) {
-            if (CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible) Position+=CurrentSlide->List[i]->StaticDuration;
+    if (CurrentBrush->Video) {
+        Position=QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos);
+        for (int i=0;i<ui->ShotTable->currentColumn();i++) for (int j=0;j<CurrentSlide->List[i]->ShotComposition.List.count();j++)
+          if ((CurrentSlide->List[i]->ShotComposition.List[j]->IndexKey==CurrentCompoObject->IndexKey)&&
+              (CurrentSlide->List[i]->ShotComposition.List[j]->IsVisible)
+             ) Position+=CurrentSlide->List[i]->StaticDuration;
     }
 
     QString FileName    =QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).fileName();
@@ -2419,6 +2422,10 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
         FramingCB_CurrentBrush   =NULL; // To force a refresh of ui->FramingCB !
         CurrentBrush->AspectRatio=CurrentBrush->AspectRatio;
         CurrentCompoObject->h    =(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
+        if ((CurrentShotNbr==0)&&(CurrentSlide->Thumbnail!=NULL)) {
+            delete CurrentSlide->Thumbnail;
+            CurrentSlide->Thumbnail=NULL;
+        }
 
         // Adjust height and width to image stay in screen
         if (((CurrentCompoObject->y+CurrentCompoObject->h)*DisplayH)>DisplayH) {

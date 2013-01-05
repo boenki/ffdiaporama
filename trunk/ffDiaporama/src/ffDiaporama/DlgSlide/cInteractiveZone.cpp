@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -209,7 +209,7 @@ void cInteractiveZone::RefreshDisplay() {
             } else StartVideoPos=0;
 
             QRectF NewRect=ApplyModifAndScaleFactors(i,SceneRect,false);
-            BlockTable->CompositionList->List[i]->DrawCompositionObject(&P,double(ForegroundImage->height())/double(1080),ForegroundImage->width(),ForegroundImage->height(),true,0,StartVideoPos,
+            BlockTable->CompositionList->List[i]->DrawCompositionObject(&P,double(ForegroundImage->height())/double(1080),ForegroundImage->width(),ForegroundImage->height(),true,StartVideoPos,
                                                                         NULL,1,1,NULL,true,DiaporamaObject->List[CurrentShotNbr]->StaticDuration,false,
                                                                         (IsCapture)&&(TransfoType!=NOTYETDEFINED),NewRect.left()/SceneRect.width(),NewRect.top()/SceneRect.height(),NewRect.width()/SceneRect.width(),NewRect.height()/SceneRect.height(),
                                                                         (DisplayMode==DisplayMode_TextMargin)&&(BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i]));

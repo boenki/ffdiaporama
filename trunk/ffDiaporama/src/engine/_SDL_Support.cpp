@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -37,15 +37,14 @@ int32_t             SDLBufSize=0;
 // SDL Audio Call Back
 //*********************************************************************************************************************************************
 
-
 void SDLAudioCallback(void *,Uint8 *stream,int len) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SDLAudioCallback");
 
     SDLIsAudioOpen=true;
-    /*if (len!=MixedMusic.SoundPacketSize) {
+    if (len!=MixedMusic.SoundPacketSize) {
         ToLog(LOGMSG_CRITICAL,QString("Error in SDLAudioCallback : Wanted len(%1)<>MixedMusic.SoundPacketSize(%2)").arg(len).arg(MixedMusic.SoundPacketSize));
         return;
-    }*/
+    }
     int32_t CurPos=0;
     if (SDLBufSize>0) {
         memcpy(stream,&SDLBuf,SDLBufSize);
@@ -135,9 +134,7 @@ void SDLSetFPS(double WantedFPS,bool SDLAncMode) {
     Desired.size    =Desired.samples*2;
     Desired.padding =0;
     Desired.silence =0;
-#ifndef Q_OS_WIN
     if (!SDLAncMode) Desired.samples/=MixedMusic.SampleBytes;           // New SDL use byte instead of sample
-#endif
     AudioSpec=Desired;
     bool Error=false;
     if (SDL_OpenAudio(&Desired,&AudioSpec)<0) Error=true;

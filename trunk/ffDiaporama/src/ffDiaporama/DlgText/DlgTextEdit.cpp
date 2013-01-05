@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -393,7 +393,7 @@ void DlgTextEdit::RefreshControls() {
     if (CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) {
         Brush=new QBrush(Transparent);
     } else if (CurrentTextItem->TextClipArtName=="") {
-        Brush=CurrentTextItem->BackgroundBrush->GetBrush(QRectF(0,0,ui->TextEdit->width(),ui->TextEdit->height()),true,0,0,NULL,1,NULL,false);
+        Brush=CurrentTextItem->BackgroundBrush->GetBrush(QRectF(0,0,ui->TextEdit->width(),ui->TextEdit->height()),true,0,NULL,1,NULL,false);
     } else {
         Brush=new QBrush(TextFrameList.List[TextFrameList.SearchImage(CurrentTextItem->TextClipArtName)].BckColor,Qt::SolidPattern);
     }

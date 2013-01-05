@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -89,7 +89,7 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
 
 
         QImage *RenderImage=(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Image->ImageAt(true):
-                            (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->ImageAt(true,Position,QTime(0,0,0,0).msecsTo(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->StartPos),NULL,ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Deinterlace,1,false,false):
+                            (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video!=NULL)?ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->ImageAt(true,Position+QTime(0,0,0,0).msecsTo(ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Video->StartPos),NULL,ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Deinterlace,1,false,false):
                             NULL;
 
         if (RenderImage!=NULL) {

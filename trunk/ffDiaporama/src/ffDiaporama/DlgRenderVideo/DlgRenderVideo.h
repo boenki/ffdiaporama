@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -43,6 +43,9 @@ struct sWriteWAV {
 class DlgRenderVideo : public QCustomDialog {
 Q_OBJECT
 public:
+    QTimer          Timer;                          // Display progress information
+    int             Column,ColumnStart,Position;    // Display progress information
+
     cDiaporama      *Diaporama;
     int             ExportMode;                     // Export mode (smartphone, advanced, etc...)
     bool            StopSpinboxRecursion;
@@ -73,6 +76,9 @@ public:
     QString         TempMETAFileName;
     int             FromSlide,ToSlide;
 
+    int             ExtendH,ExtendV;
+    int             W,H;
+
     explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgRenderVideo();
 
@@ -82,6 +88,9 @@ public:
     virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
     virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
     virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
+
+    // threaded funtion
+    void SavePPM(cDiaporamaObjectInfo *Frame,QProcess *Process,bool *Continue);
 
 protected:
     virtual void    reject();
@@ -100,6 +109,7 @@ private slots:
     void            SetZoneToPartial();
     void            s_IncludeSound();
     void            s_HTML5UPVideo();
+    void            s_TimerEvent();
 
 signals:
     void            SetModifyFlag();

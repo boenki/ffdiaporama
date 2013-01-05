@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -218,6 +218,7 @@ void DlgRenderVideo::DoInitDialog() {
     connect(ui->DestinationFilePath,SIGNAL(editingFinished()),this,SLOT(AdjustDestinationFile()));
 
     connect(ui->ProjectPropertiesBt,SIGNAL(clicked()),this,SLOT(ProjectProperties()));
+    connect(&Timer,SIGNAL(timeout()),this,SLOT(s_TimerEvent()));
 }
 
 //====================================================================================================================
@@ -862,9 +863,6 @@ void DlgRenderVideo::DoAccept() {
     QString                 TAG="";
     QString                 ffmpegCommand;
     QProcess                Process;
-    bool                    RefreshDisplay;
-    int                     DurationProcess;        // Display information
-    QString                 DisplayText;            // Display information
 
     if (IsDestFileOpen) {
         StopProcessWanted=true;
@@ -876,8 +874,8 @@ void DlgRenderVideo::DoAccept() {
         RenderedFrame   =0;
         FromSlide       =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneFromED->value()-1:0;
         ToSlide         =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneToED->value()-1:Diaporama->List.count()-1;
-        int ExtendH     =0;
-        int ExtendV     =0;
+        ExtendH         =0;
+        ExtendV         =0;
 
         if (FromSlide>ToSlide) {
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Range selection"),
@@ -1064,8 +1062,8 @@ void DlgRenderVideo::DoAccept() {
 
         int GeoW        =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARNUM;
         int GeoH        =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARDEN;
-        int W           =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width;
-        int H           =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height;
+        W               =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width;
+        H               =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height;
         int UpdateWidth =W;
 
         // Special case for SD-DVD format (anamorphous)
@@ -1142,11 +1140,17 @@ void DlgRenderVideo::DoAccept() {
         // Encode video
         if (Continue) {
             LastCheckTime   =StartTime;                                     // Display control : last time the loop start
-            int Position    =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
-            int ColumnStart =-1;                                            // Render start position of current object
-            int Column      =-1;                                            // Render current object
+            Position        =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
+            ColumnStart     =-1;                                            // Render start position of current object
+            Column          =-1;                                            // Render current object
 
+            QFutureWatcher<void> ThreadSavePPM;
+
+            Timer.start(500);
             for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
+                // Give time to interface!
+                QApplication::processEvents();
+
                 int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
                 if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
 
@@ -1159,44 +1163,14 @@ void DlgRenderVideo::DoAccept() {
                         if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(AdjustedDuration)/(FPS/double(1000)))-1);
                         Diaporama->CloseUnusedLibAv(Column);
                     }
-                    RefreshDisplay =true;
-                } else RefreshDisplay =(LastCheckTime.msecsTo(QTime::currentTime())>=1000);    // Refresh display only one time per second
-
-                // Refresh Display (if needed)
-                if (RefreshDisplay) {
-                    DurationProcess=StartTime.msecsTo(QTime::currentTime());
-                    double CalcFPS =(double(RenderedFrame)/(double(DurationProcess)/1000));
-                    double EstimDur=double(NbrFrame-RenderedFrame)/CalcFPS;
-                    DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"))+
-                            QApplication::translate("DlgRenderVideo"," - Estimated time left : ")+
-                            QString("%1").arg(QTime(0,0,0,0).addMSecs(EstimDur*1000).toString("hh:mm:ss"));
-                    ui->ElapsedTimeLabel->setText(DisplayText);
-                    DisplayText=QString("%1").arg(double(RenderedFrame)/(double(DurationProcess)/1000),0,'f',1);        ui->FPSLabel->setText(DisplayText);
-                    DisplayText=QString("%1/%2").arg(Column-FromSlide+1).arg(ToSlide-FromSlide+1);                      ui->SlideNumberLabel->setText(DisplayText);
-                    DisplayText=QString("%1/%2").arg(RenderedFrame).arg(NbrFrame);                                      ui->FrameNumberLabel->setText(DisplayText);
-                    ui->SlideProgressBar->setValue(int(double(Position-ColumnStart)/(FPS/double(1000))));
-                    ui->TotalProgressBar->setValue(RenderedFrame);
-                    LastCheckTime=QTime::currentTime();
                 }
 
                 // Get current frame
                 Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
 
                 // Prepare frame with correct W and H
-                Diaporama->LoadSources(Frame,double(H)/double(1080),W,H,false,true);                                        // Load source images
+                Diaporama->LoadSources(Frame,W,H,false,true);                                        // Load source images
                 Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H); // Make final assembly
-
-                // Wait until encoder end processed the previous frame
-                while (Continue &&(Process.bytesToWrite()>0)) {
-                    if (!Process.waitForBytesWritten()) {
-                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Encoder error","Error message"),QMessageBox::Close);
-                        Continue=false;
-                    }
-                    // Give time to interface!
-                    QApplication::processEvents();
-                    // Stop the process if error occur or user ask to stop
-                    Continue=Continue && !StopProcessWanted;
-                }
 
                 // Apply anamorphous
                 if ((UpdateWidth!=W)&&(Frame->RenderedImage->width()!=UpdateWidth)) {
@@ -1205,43 +1179,24 @@ void DlgRenderVideo::DoAccept() {
                     Frame->RenderedImage=NewImage;
                 }
 
-                QImage *ToSave=Frame->RenderedImage;
-                if ((ExtendV>0)||(ExtendH>0)) {
-                    ToSave=new QImage(W+ExtendH,H+ExtendV,QImage::Format_RGB32);
-                    ToSave->fill(0);
-                    QPainter P;
-                    P.begin(ToSave);
-                    if (!ui->HTML5UPVideoCB->isChecked())   P.drawImage(ExtendH/2,ExtendV/2,*Frame->RenderedImage);
-                        else                                P.drawImage(ExtendH/2,0,*Frame->RenderedImage);
-                    P.end();
-                }
-
-                // Save image to the pipe
-                if (!ToSave->save(&Process,"PPM",-1)) {
-                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error sending image to encoder","Error message"),QMessageBox::Close);
-                    Continue=false;
-                }
-
-                if (ToSave!=Frame->RenderedImage) delete ToSave;
+                while (ThreadSavePPM.isRunning()) ThreadSavePPM.waitForFinished();
+                if (PreviousFrame) delete PreviousFrame;
+                PreviousFrame=Frame;
+                if (!StopProcessWanted) ThreadSavePPM.setFuture(QtConcurrent::run(this,&DlgRenderVideo::SavePPM,Frame,&Process,&Continue));
 
                 // Calculate next position
                 Position+=(FPS/1000);
-
-                if (PreviousFrame!=NULL) delete PreviousFrame;
-                PreviousFrame=Frame;
                 Frame =NULL;
 
                 // Stop the process if error occur or user ask to stop
                 Continue=Continue && !StopProcessWanted;;
             }
+            Timer.stop();
 
-            if (!Process.waitForBytesWritten()) {
-                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Encoder error","Error message"),QMessageBox::Close);
-                Continue=false;
-            }
+            //***********************************************************************
 
-            // Clean PreviousFrame
-            if (PreviousFrame!=NULL) delete PreviousFrame;
+            while (ThreadSavePPM.isRunning()) ThreadSavePPM.waitForFinished();
+            if (PreviousFrame) delete PreviousFrame;
 
             ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Closing encoder"));
 
@@ -1249,7 +1204,9 @@ void DlgRenderVideo::DoAccept() {
             Process.closeWriteChannel();
 
             // Last information update
-            DurationProcess=StartTime.msecsTo(QTime::currentTime());
+            QString DisplayText;
+            int     DurationProcess=StartTime.msecsTo(QTime::currentTime());
+
             DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
             DisplayText=QString("%1").arg(double(NbrFrame)/(double(DurationProcess)/1000),0,'f',1);             ui->FPSLabel->setText(DisplayText);
             DisplayText=QString("%1/%2").arg(Column-FromSlide+1).arg(ToSlide-FromSlide+1);                      ui->SlideNumberLabel->setText(DisplayText);
@@ -1282,6 +1239,67 @@ void DlgRenderVideo::DoAccept() {
         // Close the dialog box
         done(0);
     }
+}
+
+//====================================================================================================================
+
+void DlgRenderVideo::SavePPM(cDiaporamaObjectInfo *Frame,QProcess *Process,bool *Continue) {
+    if (!Frame) return;
+    QImage *ToSave=Frame->RenderedImage;
+    if ((ExtendV>0)||(ExtendH>0)) {
+        ToSave=new QImage(W+ExtendH,H+ExtendV,QImage::Format_RGB32);
+        ToSave->fill(0);
+        QPainter P;
+        P.begin(ToSave);
+        if (!ui->HTML5UPVideoCB->isChecked())   P.drawImage(ExtendH/2,ExtendV/2,*Frame->RenderedImage);
+            else                                P.drawImage(ExtendH/2,0,*Frame->RenderedImage);
+        P.end();
+    }
+
+    // Save image to the pipe
+    if (!ToSave->save(Process,"PPM",-1)) {
+        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error sending image to encoder","Error message"),QMessageBox::Close);
+        *Continue=false;
+    }
+
+    // Wait until encoder processed the frame
+    while (Continue &&(Process->bytesToWrite()>0)) {
+        int counter=0;
+        while ((!Process->waitForBytesWritten(500))&&(counter<30)) {
+            counter++;
+            QApplication::processEvents();
+        }
+        if (counter==30){
+            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Encoder error","Error message"),QMessageBox::Close);
+            Continue=false;
+        }
+        // Stop the process if error occur or user ask to stop
+        *Continue=*Continue && !StopProcessWanted;
+    }
+
+    // Clean memory
+    if (ToSave!=Frame->RenderedImage) delete ToSave;
+}
+
+//============================================================================================
+
+void DlgRenderVideo::s_TimerEvent() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::s_TimerEvent");
+
+    QString DisplayText;
+    int     DurationProcess=StartTime.msecsTo(QTime::currentTime());
+    double  CalcFPS =(double(RenderedFrame)/(double(DurationProcess)/1000));
+    double  EstimDur=double(NbrFrame-RenderedFrame)/CalcFPS;
+
+    DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"))+
+            QApplication::translate("DlgRenderVideo"," - Estimated time left : ")+
+            QString("%1").arg(QTime(0,0,0,0).addMSecs(EstimDur*1000).toString("hh:mm:ss"));
+    ui->ElapsedTimeLabel->setText(DisplayText);
+    DisplayText=QString("%1").arg(double(RenderedFrame)/(double(DurationProcess)/1000),0,'f',1);        ui->FPSLabel->setText(DisplayText);
+    DisplayText=QString("%1/%2").arg(Column-FromSlide+1).arg(ToSlide-FromSlide+1);                      ui->SlideNumberLabel->setText(DisplayText);
+    DisplayText=QString("%1/%2").arg(RenderedFrame).arg(NbrFrame);                                      ui->FrameNumberLabel->setText(DisplayText);
+    ui->SlideProgressBar->setValue(int(double(Position-ColumnStart)/(FPS/double(1000))));
+    ui->TotalProgressBar->setValue(RenderedFrame);
 }
 
 //============================================================================================
@@ -1454,6 +1472,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
                 DisplayText=QString("%1").arg(double(RenderedFrame)/(double(DurationProcess)/1000),0,'f',1);        ui->FPSLabel->setText(DisplayText);
                 LastCheckTime=QTime::currentTime();
                 ui->SoundProgressBar->setValue(RenderedFrame);
+                QApplication::processEvents();  // Give time to interface!
             }
 
             // Get current frame
@@ -1480,7 +1499,7 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             }
 
             // Prepare frame with W and H =0 to force SoundMusicOnly! (thread mode is not necessary here)
-            Diaporama->LoadSources(Frame,0,0,0,false,true);
+            Diaporama->LoadSources(Frame,0,0,false,true);
 
             // Give time to interface!
             while ((ThreadWrite.isRunning())&&(!StopProcessWanted)) QApplication::processEvents();  //ThreadWrite.waitForFinished();
@@ -1498,8 +1517,6 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
             // Write audio frame to disk
             ThreadWrite.setFuture(QtConcurrent::run(this,&DlgRenderVideo::WriteRenderedMusicToDisk,&WriteWAV,&Continue));
-
-            QApplication::processEvents();  // Give time to interface!
 
             // Calculate next position
             Position     +=(FPS/1000);

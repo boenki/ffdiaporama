@@ -933,6 +933,105 @@ Inquadratura:</translation>
         <source>Search path set to: %1</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Application architecture: 32 bits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Application architecture: 64 bits</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DlgFileExplorer</name>
+    <message>
+        <source>Dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust display mode and file filtering</source>
+        <translation type="unfinished">Agiusta la modalità di visualizzazione e il filtro sui file</translation>
+    </message>
+    <message>
+        <source>...</source>
+        <translation type="unfinished">...</translation>
+    </message>
+    <message>
+        <source>Change to upper folder</source>
+        <translation type="unfinished">Cambia la cartella superiore</translation>
+    </message>
+    <message>
+        <source>Change to previous folder</source>
+        <translation type="unfinished">Cambia la cartella precedente</translation>
+    </message>
+    <message>
+        <source>Refresh folder table</source>
+        <translation type="unfinished">Aggiorna la tabella cartella</translation>
+    </message>
+    <message>
+        <source>Use or manage favorite path</source>
+        <translation type="unfinished">Utilizza o gestisci il path preferiti</translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">Annulla (&amp;C)</translation>
+    </message>
+    <message>
+        <source>Open help page describing this dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>F1</source>
+        <translation type="unfinished">F1</translation>
+    </message>
+    <message>
+        <source>Add to favorite</source>
+        <translation type="unfinished">Aggiungi ai favoriti</translation>
+    </message>
+    <message>
+        <source>Add current path to favorite</source>
+        <translation type="unfinished">Aggiungi il path corrente ai preferiti</translation>
+    </message>
+    <message>
+        <source>Manage favorites</source>
+        <translation type="unfinished">Gestione preferiti</translation>
+    </message>
+    <message>
+        <source>Manage favorites (rename or remove)</source>
+        <translation type="unfinished">Gestione preferiti (rinomina o rimuovi)</translation>
+    </message>
+    <message>
+        <source>Open</source>
+        <translation type="unfinished">Apri</translation>
+    </message>
+    <message>
+        <source>Open file with system associated application</source>
+        <translation type="unfinished">Aprire il file con l&apos;applicazione associata del sistema</translation>
+    </message>
+    <message>
+        <source>Properties</source>
+        <translation type="unfinished">Propietà</translation>
+    </message>
+    <message>
+        <source>Display information on file</source>
+        <translation type="unfinished">Visualizza informazioni file</translation>
+    </message>
 </context>
 <context>
     <name>DlgImageCorrection</name>
@@ -2171,11 +2270,6 @@ Vuoi sovrascriverlo?</translation>
         <translation>Errore nell&apos;invio immagine al codificatore</translation>
     </message>
     <message>
-        <source>Encoder error</source>
-        <comment>Error message</comment>
-        <translation>Errore codifica</translation>
-    </message>
-    <message>
         <source>Error closing encoder</source>
         <comment>Error message</comment>
         <translation>Errore chiusura codifica</translation>
@@ -2490,10 +2584,6 @@ Vuoi sovrascriverlo?</translation>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Testo</translation>
-    </message>
-    <message>
-        <source>Add files</source>
-        <translation>Aggiungi files</translation>
     </message>
     <message>
         <source>Zoom :</source>
@@ -5201,6 +5291,11 @@ Sei sicuro che è vuota?</translation>
     <message>
         <source>Image don&apos;t have EXIF metadata %1</source>
         <translation>Immagine non ha metadati EXIF %1</translation>
+    </message>
+    <message>
+        <source>Vector image</source>
+        <comment>File type</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

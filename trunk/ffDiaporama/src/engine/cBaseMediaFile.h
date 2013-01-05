@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -289,7 +289,7 @@ public:
     virtual bool            OpenCodecAndFile();
     virtual void            CloseCodecAndFile();
 
-    virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,qlonglong StartPosToAdd,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,bool DontUseEndPos);
+    virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,bool DontUseEndPos);
     virtual QImage          *ReadVideoFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace);
     virtual void            ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
     virtual QImage          *ConvertYUVToRGB(bool PreviewMode);

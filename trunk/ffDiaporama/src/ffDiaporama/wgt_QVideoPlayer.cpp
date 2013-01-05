@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,7 +36,6 @@ QMovieLabel::QMovieLabel(QWidget *parent):QLabel(parent) {
 
 QMovieLabel::~QMovieLabel() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QMovieLabel::~QMovieLabel");
-
 }
 
 void QMovieLabel::mouseDoubleClickEvent(QMouseEvent *) {
@@ -51,7 +50,7 @@ void QMovieLabel::mouseReleaseEvent(QMouseEvent *event) {
 
 void QMovieLabel::SetImage(QImage Image) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QMovieLabel::SetImage");
-    CurrentImage=Image.copy();
+    CurrentImage=Image;
     repaint();
 }
 
@@ -148,7 +147,6 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     IsSliderProcess         = false;
     ActualPosition          = -1;
     tDuration               = QTime(0,0,0,0);
-    ActualDisplay           = NULL;
     ResetPositionWanted     = false;
     Deinterlace             = false;
 
@@ -367,6 +365,7 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
     if (SDL_GetAudioStatus()==SDL_AUDIO_PLAYING) SDL_PauseAudio(1);
     if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
     if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
+    if (ThreadDisplayImage.isRunning()) ThreadDisplayImage.waitForFinished();
     MixedMusic.ClearList();                         // Free sound buffers
     ImageList.ClearList();                          // Free ImageList
     PlayerPlayMode  = true;
@@ -441,10 +440,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();
 
             // Display frame
-            if ((Frame->RenderedImage)&&(ActualDisplay!=Frame->RenderedImage))
-                ui->MovieFrame->SetImage(Frame->RenderedImage);
-
-            ActualDisplay=Frame->RenderedImage;
+            if (Frame->RenderedImage) ui->MovieFrame->SetImage(Frame->RenderedImage);
 
             // If Diaporama mode and needed, set Diaporama to another object
             if (Diaporama) {
@@ -479,11 +475,10 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
     } else {
 
         QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-        ActualDisplay=NULL;
 
         if (FileInfo) {
 
-            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,0,NULL,Deinterlace,1,false,false);
+            QImage *VideoImage=FileInfo->ImageAt(true,ActualPosition,NULL,Deinterlace,1,false,false);
             if (VideoImage) {
                 // Display frame
                 ui->MovieFrame->SetImage(VideoImage->scaledToHeight(ui->MovieFrame->height()));
@@ -585,7 +580,11 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     }
 
     // if TimerTick update the preview
-    if ((TimerTick)&&(ui->CustomRuller!=NULL)) s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
+    if ((TimerTick)&&(ui->CustomRuller!=NULL)) {
+        if (ThreadDisplayImage.isRunning()) ThreadDisplayImage.waitForFinished();
+        //ThreadDisplayImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::
+        s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
+    }
 
     ui->BufferState->setValue(ImageList.List.count());
     if (ImageList.List.count()<2)
@@ -627,7 +626,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     }
 
     // Ensure background, image and soundtrack is ready
-    Diaporama->LoadSources(Frame,double(ui->MovieFrame->height())/double(1080),ui->MovieFrame->width(),ui->MovieFrame->height(),true,AddStartPos);
+    Diaporama->LoadSources(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),true,AddStartPos);
 
     // Do Assembly
     QFutureWatcher<void> ThreadAssembly;
@@ -658,7 +657,7 @@ void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Info
 
 void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::PrepareVideoFrame");
-    QImage *Temp=FileInfo->ImageAt(true,Position,0,&MixedMusic,Deinterlace,1,false,true);
+    QImage *Temp=FileInfo->ImageAt(true,Position,&MixedMusic,Deinterlace,1,false,true);
     if (Temp) {
         QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
         NewFrame->RenderedImage=Temp2;

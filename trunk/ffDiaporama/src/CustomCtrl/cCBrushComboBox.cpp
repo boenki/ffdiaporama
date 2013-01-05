@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -42,7 +42,7 @@ void cCBrushComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem &op
         Brush.BrushType  =BRUSHTYPE_PATTERN;
         Brush.PatternType=ColorNum;
         painter->fillRect(option.rect,Brush.ColorD.toLower()!="#ffffff"?Qt::white:Qt::black);
-        QBrush *BR=Brush.GetBrush(option.rect,true,0,0,NULL,1,NULL);
+        QBrush *BR=Brush.GetBrush(option.rect,true,0,NULL,1,NULL);
         if (BR) {
             painter->setBrush(*BR);
             delete BR;
@@ -143,7 +143,7 @@ void cCBrushComboBox::MakeIcons() {
         TheBrush.BrushType  =BRUSHTYPE_PATTERN;
         TheBrush.PatternType=ColorNum;
         Painter.fillRect(QRectF(0,0,iconSize().width(),iconSize().height()),TheBrush.ColorD.toLower()!="#ffffff"?Qt::white:Qt::black);
-        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,iconSize().width(),iconSize().height()),true,0,0,NULL,1,NULL);
+        QBrush *BR=TheBrush.GetBrush(QRectF(0,0,iconSize().width(),iconSize().height()),true,0,NULL,1,NULL);
         if (BR) {
             Painter.setBrush(*BR);
             delete BR;

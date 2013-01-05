@@ -1,7 +1,7 @@
 /* ======================================================================
     This file is part of ffDiaporama
     ffDiaporama is a tools to make diaporama as video
-    Copyright (C) 2011-2012 Dominique Levray <levray.dominique@bbox.fr>
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -2034,7 +2034,7 @@ void MainWindow::s_Action_DoAddFile() {
             // Try to load an image to ensure all is ok
             //*****************************************************
             QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(/*true*/false):
-                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,0,NULL,CurrentBrush->Deinterlace,1,false,false):
+                           CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,NULL,CurrentBrush->Deinterlace,1,false,false):
                            NULL);
 
             if (!Image) {
@@ -2272,7 +2272,7 @@ void MainWindow::s_Event_SaveImageEvent() {
             if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
             if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Diaporama->CurrentPosition,Diaporama,1);
-            Diaporama->LoadSources(Frame,double(Height)/double(1080),Width,Height,false,0);
+            Diaporama->LoadSources(Frame,Width,Height,false,0);
             Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,Width,Height);
             Frame->RenderedImage->save(OutputFileName,0,100);
             delete Frame;
