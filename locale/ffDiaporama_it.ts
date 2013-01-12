@@ -39,10 +39,6 @@
         <translation>Licenza</translation>
     </message>
     <message>
-        <source>Copyright (C) 2011-2012 Dominique Levray</source>
-        <translation>Copyright (C) 2011-2012 Dominique Levray</translation>
-    </message>
-    <message>
         <source>This software is licensed under the GPL version 2 :</source>
         <translation>Questo software è rilasciato sotto la licenza GPL versione 2 :</translation>
     </message>
@@ -97,6 +93,10 @@
     <message>
         <source>Texturemate</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright (C) 2011-2013 Dominique Levray</source>
+        <translation type="unfinished">Copyright (C) 2011-2012 Dominique Levray {2011-2013 ?}</translation>
     </message>
 </context>
 <context>
@@ -655,6 +655,14 @@ Inquadratura:</translation>
         <source>Image animation:</source>
         <translation>Animazione immagine:</translation>
     </message>
+    <message>
+        <source>Use thread for pipe operations</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced options</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgBackgroundProperties</name>
@@ -945,16 +953,8 @@ Inquadratura:</translation>
 <context>
     <name>DlgFileExplorer</name>
     <message>
-        <source>Dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Adjust display mode and file filtering</source>
         <translation type="unfinished">Agiusta la modalità di visualizzazione e il filtro sui file</translation>
-    </message>
-    <message>
-        <source>...</source>
-        <translation type="unfinished">...</translation>
     </message>
     <message>
         <source>Change to upper folder</source>
@@ -2290,6 +2290,15 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Up the video to leave room for controls</source>
         <translation>Sull&apos; video per lasciare spazio per i controlli</translation>
+    </message>
+    <message>
+        <source>Export soundtrack</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Encoder error</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4583,6 +4592,11 @@ Sei sicuro che è vuota?</translation>
     </message>
     <message>
         <source>Loading text frame  library...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export
+Soundtrack</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

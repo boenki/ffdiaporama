@@ -388,7 +388,7 @@ struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
 
 struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
     {false,false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libvo_amrwbenc#libopencore_amrnb"},
-    {false,false, "avi",      "avi",  "AVI file format",              "MJPEG#MPEG#MPEG4#H264HQ#H264PQ",   "pcm_s16le#mp2#libmp3lame#ac3"},
+    {false,false, "avi",      "avi",  "AVI file format",              "MJPEG#MPEG#MPEG4#H264HQ#H264PQ",   "pcm_s16le#mp2#libmp3lame#ac3#libfaac#aac#libvo_aacenc#libvorbis#vorbis"},
     {false,false, "matroska", "mkv",  "MKV Matroska file format",     "MPEG4#H264HQ#H264PQ#THEORA#LIBTHEORA#X264LL","pcm_s16le#libmp3lame#libfaac#aac#libvo_aacenc#ac3#libvorbis#vorbis#flac"},
     {false,false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                            "pcm_s16le"},
     {false,false, "mp4",      "mp4",  "MP4 file format",              "MPEG4#H264HQ#H264PQ",              "libmp3lame#libfaac#aac#libvo_aacenc"},
@@ -401,11 +401,12 @@ struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
 };
 
 struct sFormatDef AUDIOFORMATDEF[NBR_AUDIOFORMATDEF]={
-    {false,false, "flac", "flac", "FLAC (Free Lossless Audio Codec)",         "",         "flac"},
-    {false,false, "mp4",  "m4a",  "M4A file format",                          "",         "libfaac#aac#libvo_aacenc"},
-    {false,false, "mp3",  "mp3",  "MP3 (MPEG-1/2 Audio Layer III)",           "",         "libmp3lame"},
-    {false,false, "ogg",  "ogg",  "OGG (Vorbis)",                             "",         "libvorbis#vorbis"},
-    {false,false, "wav",  "wav",  "WAV (PCM signed 16-bit little-endian)",    "",         "pcm_s16le"}
+    {false,false, "flac", "flac", "FLAC",   "",         "flac"},
+    {false,false, "mp2",  "mp2",  "MP2",    "",         "mp2"},
+    {false,false, "mp3",  "mp3",  "MP3",    "",         "libmp3lame"},
+//    {false,false, "mp4",  "m4a",  "M4A",    "",         "libfaac#aac#libvo_aacenc"},
+//    {false,false, "ogg",  "ogg",  "OGG",    "",         "libvorbis#vorbis"},
+    {false,false, "wav",  "wav",  "WAV",    "",         "pcm_s16le"}
 };
 
 //====================================================================================================================

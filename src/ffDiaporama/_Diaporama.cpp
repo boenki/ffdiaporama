@@ -1948,6 +1948,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
     }
     if (ProjectInfo->Author=="") ProjectInfo->Author=ApplicationConfig->DefaultAuthor;
     ProjectInfo->ffDRevision=CurrentAppVersion;
+    ProjectInfo->Composer   =ApplicationConfig->ApplicationName+QString(" ")+ApplicationConfig->ApplicationVersion;
 
     // Create xml document and root
     root=domDocument.createElement(APPLICATION_ROOTNAME);
@@ -2077,7 +2078,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
                 }
                 VideoPosition+=(CurTimePosition-ThePosition);
 
-                CurShot->ShotComposition.List[j]->DrawCompositionObject(NULL,double(H)/double(1080),0,true,VideoPosition,StartPosToAdd,SoundTrackMontage,1,1,NULL,false,CurShot->StaticDuration,true);
+                CurShot->ShotComposition.List[j]->DrawCompositionObject(NULL,double(H)/double(1080),0,0,true,VideoPosition+StartPosToAdd,SoundTrackMontage,1,1,NULL,false,CurShot->StaticDuration,true);
             }
         }
         return;

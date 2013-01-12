@@ -174,6 +174,7 @@ private slots:
     void    s_Action_RenderMultimedia();
     void    s_Action_RenderForTheWEB();
     void    s_Action_RenderLossLess();
+    void    s_Action_RenderSoundTrack();
 
     // Actions Help menu
     void    s_Action_About();

@@ -104,7 +104,6 @@ public:
     // Thread controls
     QFutureWatcher<void> ThreadPrepareVideo;
     QFutureWatcher<void> ThreadPrepareImage;
-    QFutureWatcher<void> ThreadDisplayImage;
 
     explicit wgt_QVideoPlayer(QWidget *parent = 0);
     ~wgt_QVideoPlayer();

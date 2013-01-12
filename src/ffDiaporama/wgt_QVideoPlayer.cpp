@@ -360,12 +360,11 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
 
 void wgt_QVideoPlayer::SetPlayerToPause() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::SetPlayerToPause");
+    if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
+    if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
     if (!(PlayerPlayMode && !PlayerPauseMode)) return;
     Timer.stop();                                   // Stop Timer
     if (SDL_GetAudioStatus()==SDL_AUDIO_PLAYING) SDL_PauseAudio(1);
-    if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
-    if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
-    if (ThreadDisplayImage.isRunning()) ThreadDisplayImage.waitForFinished();
     MixedMusic.ClearList();                         // Free sound buffers
     ImageList.ClearList();                          // Free ImageList
     PlayerPlayMode  = true;
@@ -580,11 +579,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     }
 
     // if TimerTick update the preview
-    if ((TimerTick)&&(ui->CustomRuller!=NULL)) {
-        if (ThreadDisplayImage.isRunning()) ThreadDisplayImage.waitForFinished();
-        //ThreadDisplayImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::
-        s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
-    }
+    if ((TimerTick)&&(ui->CustomRuller!=NULL)) s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
 
     ui->BufferState->setValue(ImageList.List.count());
     if (ImageList.List.count()<2)

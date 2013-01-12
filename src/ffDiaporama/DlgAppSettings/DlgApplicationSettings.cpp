@@ -209,6 +209,7 @@ void DlgApplicationSettings::DoInitDialog() {
     //********************************
 
     // Init format container combo
+    ui->PipeThreadCB->setChecked(ApplicationConfig->PipeThread);
     ui->DefaultNameProjectNameCB->setCurrentIndex(ApplicationConfig->DefaultNameProjectName);
     for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
         ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
@@ -379,6 +380,7 @@ void DlgApplicationSettings::DoAccept() {
     }
 
     // RenderDefault part
+    ApplicationConfig->PipeThread=ui->PipeThreadCB->isChecked();
     ApplicationConfig->DefaultLanguage =ui->LanguageED->text();
     if (ApplicationConfig->DefaultLanguage=="") ApplicationConfig->DefaultLanguage="und";
     if (ApplicationConfig->DefaultLanguage.length()!=3) {

@@ -239,7 +239,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     // Help menu
     connect(ui->Action_About_BT,SIGNAL(released()),this,SLOT(s_Action_About()));                            connect(ui->Action_About_BT_2,SIGNAL(released()),this,SLOT(s_Action_About()));
     connect(ui->ActionDocumentation_BT,SIGNAL(released()),this,SLOT(s_Action_Documentation()));             connect(ui->ActionDocumentation_BT_2,SIGNAL(released()),this,SLOT(s_Action_Documentation()));
-    connect(ui->ActionNewFunctions_BT,SIGNAL(released()),this,SLOT(s_Action_NewFunctions()));               connect(ui->ActionNewFunctions_BT_2,SIGNAL(released()),this,SLOT(s_Action_NewFunctions()));
+    connect(ui->ActionNewFunctions_BT,SIGNAL(released()),this,SLOT(s_Action_NewFunctions()));
 
     // File menu
     connect(ui->Action_New_BT,SIGNAL(released()),this,SLOT(s_Action_New()));                                connect(ui->Action_New_BT_2,SIGNAL(released()),this,SLOT(s_Action_New()));
@@ -300,6 +300,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->ActionMultimedia_BT,SIGNAL(released()),this,SLOT(s_Action_RenderMultimedia()));                 connect(ui->ActionMultimedia_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderMultimedia()));
     connect(ui->ActionForTheWEB_BT,SIGNAL(released()),this,SLOT(s_Action_RenderForTheWEB()));                   connect(ui->ActionForTheWEB_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderForTheWEB()));
     connect(ui->ActionLossLess_BT,SIGNAL(released()),this,SLOT(s_Action_RenderLossLess()));                     connect(ui->ActionLossLess_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderLossLess()));
+    connect(ui->ActionSoundtrack_BT,SIGNAL(released()),this,SLOT(s_Action_RenderSoundTrack()));                 connect(ui->ActionSoundtrack_BT_2,SIGNAL(released()),this,SLOT(s_Action_RenderSoundTrack()));
 
     // Timeline
     connect(ui->VersionBT,SIGNAL(released()),this,SLOT(s_Action_Version()));
@@ -723,6 +724,8 @@ void MainWindow::RefreshControls() {
     ui->ActionMultimedia_BT_2->setEnabled(Diaporama->List.count()>0);
     ui->ActionForTheWEB_BT->setEnabled(Diaporama->List.count()>0);
     ui->ActionForTheWEB_BT_2->setEnabled(Diaporama->List.count()>0);
+    ui->ActionSoundtrack_BT->setEnabled(Diaporama->List.count()>0);
+    ui->ActionSoundtrack_BT_2->setEnabled(Diaporama->List.count()>0);
 
     ui->ActionLossLess_BT->setEnabled((Diaporama->List.count()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
     ui->ActionLossLess_BT_2->setEnabled((Diaporama->List.count()>0)&&(AUDIOCODECDEF[7].IsFind)&&(VIDEOCODECDEF[8].IsFind)&&(FORMATDEF[2].IsFind));
@@ -806,7 +809,6 @@ void MainWindow::s_Action_NewFunctions() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_NewFunctions");
 
     ui->ActionNewFunctions_BT->setDown(false);
-    ui->ActionNewFunctions_BT_2->setDown(false);
     QDesktopServices::openUrl(QUrl(QString(HELPFILE_NEWS).replace("<local>",ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
 }
 
@@ -1242,7 +1244,7 @@ void MainWindow::s_Action_RenderLossLess() {
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderForTheWEB()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderLossLess()));
         return;
     }
     ui->ActionLossLess_BT->setDown(false);
@@ -1250,6 +1252,26 @@ void MainWindow::s_Action_RenderLossLess() {
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
     DlgRenderVideo Dlg(*Diaporama,MODE_LOSSLESS,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+    Dlg.InitDialog();
+    Dlg.exec();
+    AdjustRuller();
+}
+
+void MainWindow::s_Action_RenderSoundTrack() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_RenderSoundTrack");
+
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_RenderSoundTrack()));
+        return;
+    }
+    ui->ActionSoundtrack_BT->setDown(false);
+    ui->ActionSoundtrack_BT_2->setDown(false);
+
+    if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
+    DlgRenderVideo Dlg(*Diaporama,MODE_SOUNDTRACK,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
     Dlg.exec();

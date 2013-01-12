@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 30/12/2012
+* Dernier commit le : 05/01/2013
 **************************************************
 
 TODO :
@@ -50,5 +50,9 @@ French version / Correction de bug :
 English version / Bug fixes :
 
 French version / Nouveautés :
+-Ajoute une option dans la boite d'option pour activer ou désactiver l'utilisation des threads pour les opérations de pipe lors des générations de vidéos
+-Ajoute un bouton dans la zone de génération de la fenêtre principal pour exporter la piste audio
 
 English version / New features :
+-Adds an option in the option dialog to enable or disable the use of threads for pipe operations during video rendering
+-Adds a button in the generation zone of the main window to export the audio track

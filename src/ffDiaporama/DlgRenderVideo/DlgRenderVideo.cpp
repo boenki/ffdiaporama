@@ -63,6 +63,7 @@ void DlgRenderVideo::DoInitDialog() {
         case MODE_SMARTPHONE     :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for mobil player and smartphone"));   break;
         case MODE_MULTIMEDIASYS  :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for multimedia system"));             break;
         case MODE_FORTHEWEB      :  setWindowTitle(QApplication::translate("DlgRenderVideo","Render video for the WEB"));                       break;
+        case MODE_SOUNDTRACK     :  setWindowTitle(QApplication::translate("DlgRenderVideo","Export soundtrack"));                              break;
     }
 
     // For the first step, only SelectDestWidget is display and enable
@@ -146,6 +147,34 @@ void DlgRenderVideo::DoInitDialog() {
 
         connect(ui->VideoFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
         connect(ui->AudioFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitAudioBitRateCB(int)));
+
+    } else if (ExportMode==MODE_SOUNDTRACK) {
+
+        ui->IncludeSoundCB->setVisible(false);
+        ui->DeviceTypeLabel->setVisible(false);                         ui->DeviceTypeCB->setVisible(false);
+        ui->DeviceModelLabel->setVisible(false);                        ui->DeviceModelCB->setVisible(false);
+        ui->RenderFormatText->setVisible(false);                        ui->SoundLabel->setVisible(false);
+        ui->GeometryLabel->setVisible(false);                           ui->GeometryCombo->setVisible(false);
+        ui->StandardLabel->setVisible(false);                           ui->StandardCombo->setVisible(false);
+        ui->VideoFormatLabel->setVisible(false);                        ui->VideoFormatCB->setVisible(false);
+        ui->VideoBitRateLabel->setVisible(false);                       ui->VideoBitRateCB->setVisible(false);
+        ui->ImageSizeLabel->setVisible(false);                          ui->ImageSizeCombo->setVisible(false);
+
+        // Init format container combo
+        for (int i=0;i<NBR_AUDIOFORMATDEF;i++) if (AUDIOFORMATDEF[i].IsFind) {
+            ui->FileFormatCB->addItem(AUDIOFORMATDEF[i].LongName,QVariant(i));
+            if (i==OutputFileFormat) {
+                ui->FileFormatCB->setCurrentIndex(ui->FileFormatCB->count()-1);
+                FileFormatCombo(i);
+            }
+        }
+
+        connect(ui->AudioFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitAudioBitRateCB(int)));
+        connect(ui->FileFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
+
+        // codec(s) & bitrate(s)
+        FileFormatCombo(0);
+        InitAudioBitRateCB(-1);
 
     } else {
         ui->FileFormatLabel->setVisible(false);                         ui->FileFormatCB->setVisible(false);
@@ -312,6 +341,9 @@ void DlgRenderVideo::SelectDestinationFile() {
     if (ExportMode==EXPORTMODE_ADVANCED) {
         int OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
         FileFormat=QString(FORMATDEF[OutputFileFormat].LongName)+" (*."+QString(FORMATDEF[OutputFileFormat].FileExtension)+")";
+    } else if (ExportMode==MODE_SOUNDTRACK) {
+        int OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
+        FileFormat=QString(AUDIOFORMATDEF[OutputFileFormat].LongName)+" (*."+QString(AUDIOFORMATDEF[OutputFileFormat].FileExtension)+")";
     } else {
         if (ExportMode==MODE_LOSSLESS) {
             // For Lossless, OutputFileFormat is 2 : matroska
@@ -346,43 +378,52 @@ void DlgRenderVideo::FileFormatCombo(int) {
 
     //********* Video codec part
     int         CurrentFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
-    QString     AllowedCodec=FORMATDEF[CurrentFormat].PossibleVideoCodec;
+    QString     AllowedCodec;
     QString     Codec="";
     QString     ToSelect="";
     QStringList List;
     int         Index=0;
-    while (AllowedCodec.length()>0) {
-        Index=AllowedCodec.indexOf("#");
-        if (Index>0) {
-            Codec=AllowedCodec.left(Index);
-            AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
-        } else {
-            Codec=AllowedCodec;
-            AllowedCodec="";
+
+    if (ExportMode==EXPORTMODE_ADVANCED) {
+        AllowedCodec=FORMATDEF[CurrentFormat].PossibleVideoCodec;
+        while (AllowedCodec.length()>0) {
+            Index=AllowedCodec.indexOf("#");
+            if (Index>0) {
+                Codec=AllowedCodec.left(Index);
+                AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+            } else {
+                Codec=AllowedCodec;
+                AllowedCodec="";
+            }
+            // Now find index of this codec in the VIDEOCODECDEF
+            Index=0;
+            while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
+            if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) {
+                List.append(QString("%1#####%2").arg(VIDEOCODECDEF[Index].LongName).arg(Index));
+                if (Codec==QString(VideoCodec)) ToSelect=QString(VIDEOCODECDEF[Index].LongName);
+            }
         }
-        // Now find index of this codec in the VIDEOCODECDEF
-        Index=0;
-        while ((Index<NBR_VIDEOCODECDEF)&&(Codec!=QString(VIDEOCODECDEF[Index].FFD_VCODECST))) Index++;
-        if ((Index<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[Index].IsFind)) {
-            List.append(QString("%1#####%2").arg(VIDEOCODECDEF[Index].LongName).arg(Index));
-            if (Codec==QString(VideoCodec)) ToSelect=QString(VIDEOCODECDEF[Index].LongName);
+        // Sort List
+        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j]>List[j+1]) List.swap(j,j+1);
+        // Fill combo
+        for (int i=0;i<List.count();i++) {
+            Codec=List[i].left(List[i].indexOf("#####"));
+            Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
+            ui->VideoFormatCB->addItem(Codec,QVariant(Index));
         }
+        // Set current selection
+        if (ui->VideoFormatCB->findText(ToSelect)!=-1) ui->VideoFormatCB->setCurrentIndex(ui->VideoFormatCB->findText(ToSelect));
+            else ui->VideoFormatCB->setCurrentIndex(0);
+        ui->VideoFormatCB->setEnabled(ui->VideoFormatCB->count()>0);
+
+        AllowedCodec=FORMATDEF[CurrentFormat].PossibleAudioCodec;
+
+    } else if (ExportMode==MODE_SOUNDTRACK) {
+
+        AllowedCodec=AUDIOFORMATDEF[CurrentFormat].PossibleAudioCodec;
     }
-    // Sort List
-    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j]>List[j+1]) List.swap(j,j+1);
-    // Fill combo
-    for (int i=0;i<List.count();i++) {
-        Codec=List[i].left(List[i].indexOf("#####"));
-        Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
-        ui->VideoFormatCB->addItem(Codec,QVariant(Index));
-    }
-    // Set current selection
-    if (ui->VideoFormatCB->findText(ToSelect)!=-1) ui->VideoFormatCB->setCurrentIndex(ui->VideoFormatCB->findText(ToSelect));
-        else ui->VideoFormatCB->setCurrentIndex(0);
-    ui->VideoFormatCB->setEnabled(ui->VideoFormatCB->count()>0);
 
     //********* Audio codec part
-    AllowedCodec=FORMATDEF[CurrentFormat].PossibleAudioCodec;
     Codec="";
     Index=0;
     ToSelect="";
@@ -404,6 +445,7 @@ void DlgRenderVideo::FileFormatCombo(int) {
             if (Codec==QString(AudioCodec)) ToSelect=QString(AUDIOCODECDEF[Index].LongName);
         }
     }
+
     // Sort List
     for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j]>List[j+1]) List.swap(j,j+1);
     // Fill combo
@@ -545,6 +587,9 @@ void DlgRenderVideo::AdjustDestinationFile() {
     if (ExportMode==EXPORTMODE_ADVANCED) {
         int OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
         FileFormat=FORMATDEF[OutputFileFormat].FileExtension;
+    } else if (ExportMode==MODE_SOUNDTRACK) {
+        int OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
+        FileFormat=AUDIOFORMATDEF[OutputFileFormat].FileExtension;
     } else {
         if (ExportMode!=MODE_LOSSLESS) {
             QString Device=ui->DeviceModelCB->currentText();
@@ -769,7 +814,7 @@ bool DlgRenderVideo::ComputeAudioPart(QString &aCodec) {
             AudioChannels=1;
             AudioFrequency=8000;
         }
-        if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))          aCodec=aCodec+" -strict experimental -absf aac_adtstoasc";
+        if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))          aCodec=aCodec+" -strict experimental -bsf:a aac_adtstoasc";
         if (AudioFrequency!=48000)                                                      aCodec=aCodec+QString(" -ar %1").arg(AudioFrequency);
         if (AudioChannels !=2)                                                          aCodec=aCodec+QString(" -ac %1").arg(AudioChannels);
 
@@ -815,7 +860,7 @@ bool DlgRenderVideo::ComputeTAGPart(QString &aTAG,bool WithChapters) {
         out<<QString("album="+AdjustMETA(Diaporama->ProjectInfo->Album));
         out<<QString("comment="+AdjustMETA(Diaporama->ProjectInfo->Comment));
         out<<QString("date="+QString("%1").arg(Diaporama->ProjectInfo->Year)+"\n");
-        out<<QString("composer="+AdjustMETA(Diaporama->ProjectInfo->Composer));
+        out<<QString("composer="+QString(Diaporama->ApplicationConfig->ApplicationName+QString(" ")+Diaporama->ApplicationConfig->ApplicationVersion));
         out<<QString("language="+Language+"\n");
         out<<QString("creation_time="+QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss")+"\n");   // ISO 8601 format
 
@@ -868,7 +913,7 @@ void DlgRenderVideo::DoAccept() {
         StopProcessWanted=true;
         ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Stop rendering"));
     } else {
-        TempWAVFileName ="";
+        TempAudioFileName ="";
         TempMETAFileName="";
         AudioFrequency  =48000;
         RenderedFrame   =0;
@@ -938,6 +983,27 @@ void DlgRenderVideo::DoAccept() {
             AudioBitRate=BitRate.toInt();
             ExtendV =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Extend*2;
 
+        } else if (ExportMode==MODE_SOUNDTRACK) {
+
+            OutputFileFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
+            // Audio codec
+            AudioCodecIndex=ui->AudioFormatCB->currentIndex();
+            if (AudioCodecIndex<0) {
+                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec error!");
+                done(0);
+                return;
+            }
+            AudioCodecIndex=ui->AudioFormatCB->itemData(AudioCodecIndex).toInt();
+            QString BitRate=ui->AudioBitRateCB->currentText();
+            if (BitRate.endsWith("k")) {
+                if (BitRate.contains(".")) {
+                    BitRate=BitRate.left(BitRate.length()-1);
+                    double Value=BitRate.toDouble()*1000;
+                    BitRate=QString("%1").arg(int(Value));
+                } else BitRate=BitRate.left(BitRate.length()-1)+"000";
+            }
+            AudioBitRate=BitRate.toInt();
+
         } else if (ExportMode==MODE_LOSSLESS) {
 
             Standard        =Diaporama->ApplicationConfig->DefaultStandard;
@@ -975,16 +1041,33 @@ void DlgRenderVideo::DoAccept() {
             }
         }
 
-        //QString FileFormat  =FORMATDEF[OutputFileFormat].FileExtension;
-        VideoCodec=VIDEOCODECDEF[VideoCodecIndex].FFD_VCODECST;
-        AudioCodec=AUDIOCODECDEF[AudioCodecIndex].ShortName;
+        if (ExportMode==MODE_SOUNDTRACK) {
 
-        // Special case adjustment
-        if (AUDIOCODECDEF[AudioCodecIndex].Codec_id==CODEC_ID_PCM_S16LE)    AudioBitRate=1536;      // Special case for WAV
-        if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("flv")) AudioFrequency=44100;   // Special case for FLV
-        if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("3gp")) AudioFrequency=8000;    // Special case for AMRNB
+            //QString FileFormat  =FORMATDEF[OutputFileFormat].FileExtension;
+            AudioCodec=AUDIOCODECDEF[AudioCodecIndex].ShortName;
 
-        //*****************
+            // Special case adjustment
+            if (AUDIOCODECDEF[AudioCodecIndex].Codec_id==CODEC_ID_PCM_S16LE)    AudioBitRate=1536;      // Special case for WAV
+
+            ui->InformationLabel2->setVisible(false);       ui->InformationLabelA2->setVisible(false);
+            ui->InformationLabel3->setVisible(false);       ui->InformationLabelA3->setVisible(false);
+            ui->SlideProgressBarLabel->setVisible(false);   ui->SlideNumberLabel->setVisible(false);
+            ui->TotalProgressBarLabel->setVisible(false);   ui->FrameNumberLabel->setVisible(false);
+
+        } else {
+
+            //QString FileFormat  =FORMATDEF[OutputFileFormat].FileExtension;
+            VideoCodec=VIDEOCODECDEF[VideoCodecIndex].FFD_VCODECST;
+            AudioCodec=AUDIOCODECDEF[AudioCodecIndex].ShortName;
+
+            // Special case adjustment
+            if (AUDIOCODECDEF[AudioCodecIndex].Codec_id==CODEC_ID_PCM_S16LE)    AudioBitRate=1536;      // Special case for WAV
+            if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("flv")) AudioFrequency=44100;   // Special case for FLV
+            if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("3gp")) AudioFrequency=8000;    // Special case for AMRNB
+        }
+
+        //***************** display
+
         QString VideoBitRateStr=QString("%1").arg(VideoBitRate); if (VideoBitRateStr.endsWith("000")) VideoBitRateStr=VideoBitRateStr.left(VideoBitRateStr.length()-3)+"k";
         QString AudioBitRateStr=QString("%1").arg(AudioBitRate); if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
 
@@ -1022,7 +1105,14 @@ void DlgRenderVideo::DoAccept() {
         // Only ProcessWidget must be display and enable
         ui->SelectDestScroll->setEnabled(false);    ui->SelectDestScroll->setVisible(false);
         ui->ProcessWidget->setEnabled(true);        ui->ProcessWidget->setVisible(true);
-        ui->SelectDestScroll->setVisible(false);
+        if (ExportMode==MODE_SOUNDTRACK) {
+            ui->SlideProgressBar->setVisible(false);
+            ui->SlideProgressBar->setVisible(false);
+            ui->TotalProgressBar->setVisible(false);
+            ui->TotalProgressBar->setVisible(false);
+            ui->SlideNumberLabel->setVisible(false);
+            ui->FrameNumberLabel->setVisible(false);
+        }
 
         // Disable unwanted buttons
         ui->OkBt->setEnabled(false);
@@ -1035,200 +1125,223 @@ void DlgRenderVideo::DoAccept() {
         // 1st step encoding : produce WAV file with sound
         //**********************************************************************************************************************************
 
-        if (ui->IncludeSoundCB->isChecked()) {
-            // Create tempwavefile in the same directory as destination file
-            TempWAVFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
-            if (!TempWAVFileName.endsWith(QDir::separator())) TempWAVFileName=TempWAVFileName+QDir::separator();
-            TempWAVFileName=TempWAVFileName+"temp.wav";
-            ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding sound"));
-            Continue=WriteTempAudioFile(TempWAVFileName,FromSlide);
+        if ((ui->IncludeSoundCB->isChecked())||(ExportMode==MODE_SOUNDTRACK)) {
+
+            if (ExportMode==MODE_SOUNDTRACK) {
+
+                // Create tempwavefile in the same directory as destination file
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding sound"));
+                Continue=EncodeVideo(OutputFileName,25,
+                                     false,"",0,0,PIX_FMT_YUV420P,0,0,
+                                     true,AUDIOCODECDEF[AudioCodecIndex].Codec_id,2,AudioBitRate,48000);
+
+            } else {
+
+                // Create tempwavefile in the same directory as destination file
+                TempAudioFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
+                if (!TempAudioFileName.endsWith(QDir::separator())) TempAudioFileName=TempAudioFileName+QDir::separator();
+                //TempAudioFileName=TempAudioFileName+QFileInfo(OutputFileName).completeBaseName()+".tmp."+QFileInfo(OutputFileName).suffix();
+                TempAudioFileName=TempAudioFileName+QFileInfo(OutputFileName).completeBaseName()+".tmp.wav";
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding sound"));
+
+                Continue=EncodeVideo(TempAudioFileName,25,
+                                     false,"",0,0,PIX_FMT_YUV420P,0,0,
+                                     ui->IncludeSoundCB->isChecked(),CODEC_ID_PCM_S16LE,2,1536,48000);
+                                       //ui->IncludeSoundCB->isChecked(),AUDIOCODECDEF[AudioCodecIndex].Codec_id,2,AudioBitRate,48000);
+            }
+
         } else {
             ui->SoundProgressLabel->setEnabled(false);
             ui->SoundProgressBar->setEnabled(false);
         }
 
-        //**********************************************************************************************************************************
-        // 2nd step encoding : produce final file using temporary WAV file with sound
-        //**********************************************************************************************************************************
-        //StartTime=QTime::currentTime();                                                             // Display control : time the process start
-        FPS             =double(AV_TIME_BASE)/VideoFrameRate;
-        NbrFrame        =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/FPS);    // Number of frame to generate
+        if (ExportMode!=MODE_SOUNDTRACK) {
+            //**********************************************************************************************************************************
+            // 2nd step encoding : produce final file using temporary WAV file with sound
+            //**********************************************************************************************************************************
+            //StartTime=QTime::currentTime();                                                             // Display control : time the process start
+            FPS             =double(AV_TIME_BASE)/VideoFrameRate;
+            NbrFrame        =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/FPS);    // Number of frame to generate
 
-        ui->SlideProgressBar->setValue(0);
-        ui->TotalProgressBar->setValue(0);
-        ui->TotalProgressBar->setMaximum(NbrFrame);
-        ui->SlideNumberLabel->setText("");
-        ui->FrameNumberLabel->setText("");
+            ui->SlideProgressBar->setValue(0);
+            ui->TotalProgressBar->setValue(0);
+            ui->TotalProgressBar->setMaximum(NbrFrame);
+            ui->SlideNumberLabel->setText("");
+            ui->FrameNumberLabel->setText("");
 
-        int GeoW        =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARNUM;
-        int GeoH        =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARDEN;
-        W               =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width;
-        H               =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height;
-        int UpdateWidth =W;
+            int GeoW        =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARNUM;
+            int GeoH        =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARDEN;
+            W               =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width;
+            H               =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height;
+            int UpdateWidth =W;
 
-        // Special case for SD-DVD format (anamorphous)
-        if (W==720) switch (Diaporama->ImageGeometry) {
-            case GEOMETRY_4_3:      W=(Standard==STANDARD_PAL?768:640);     GeoW=4;     GeoH=3;  break;
-            case GEOMETRY_16_9:     W=(Standard==STANDARD_PAL?1024:852);    GeoW=16;    GeoH=9;  break;
-            case GEOMETRY_40_17:    W=(Standard==STANDARD_PAL?1356:1130);   GeoW=40;    GeoH=17; break;
-        }
-
-        Continue=Continue && ComputeVideoPart(vCodec);
-        Continue=Continue && ComputeAudioPart(aCodec);
-        if (QString(FORMATDEF[OutputFileFormat].ShortName)=="mpeg") StreamFormat=" -f mpegts";
-
-        #ifdef LIBAV_TAGCHAPTERS
-        Continue=Continue && ComputeTAGPart(TAG,(OutputFileFormat!=2)||(ExportMode==MODE_LOSSLESS));
-        #endif
-
-        // Construct ffmpeg command line
-        if (Continue) {
-            ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Start encoder"));
-
-            #ifdef Q_OS_WIN
-            ffmpegCommand="\""+Diaporama->ApplicationConfig->BinaryEncoderPath+"\"";
-            #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-            ffmpegCommand=Diaporama->ApplicationConfig->BinaryEncoderPath;
-            #endif
-
-            ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r %1 -i -").arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
-                (ui->IncludeSoundCB->isChecked()?" -i \""+TempWAVFileName+"\"":"")+
-                TAG+
-                #ifdef LIBAV_07
-                " -timestamp now"+
-                #endif
-                QString(" -dframes %1%2 %3 -r %4 ").arg(NbrFrame).arg(StreamFormat).arg(vCodec).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
-                //(UpdateWidth!=W?QString(" -s %1x%2").arg(UpdateWidth).arg(H+ExtendV):"")+
-                #ifdef LIBAV_08
-                    #if (LIBAVCODEC_VERSION_MAJOR>=54)
-                        ((Diaporama->ApplicationConfig->BinaryEncoderPath=="avconv")?QString(" -filter:v scale=%1:%2:flags=bicubic ").arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height):
-                    #else
-                        (
-                    #endif
-                      " -sws_flags bicubic ")+
-                #endif
-                QString("%1 -aspect %2:%3").arg(aCodec).arg(GeoW).arg(GeoH);
-
-            // Activate multithreading support if getCpuCount()>1 and codec is h264 or VP8
-            if (((getCpuCount()-1)>1)&&((VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_H264)||(VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_VP8)))
-                ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount()-1);
-
-            ffmpegCommand=ffmpegCommand+" \""+OutputFileName+"\"";
-
-            #ifdef Q_OS_WIN
-            ffmpegCommand=ffmpegCommand.replace("30000/1001","29.97");
-            ffmpegCommand=ffmpegCommand.replace("24000/1001","23.976");
-            #endif
-
-            ToLog(LOGMSG_WARNING,ffmpegCommand);
-
-            ffmpegCommand=AdjustDirForOS(ffmpegCommand);
-        }
-
-        // Start ffmpegCommand
-        if (Continue) {
-            Process.setProcessChannelMode(QProcess::/*SeparateChannels*/ForwardedChannels);      // Forward standard and error message to the ffdiaporama console
-            Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);                 // Start command
-            if (!Process.waitForStarted()) {
-                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),
-                                      QApplication::translate("DlgRenderVideo","Error starting encoder","Error message")+"\n"+ffmpegCommand,
-                                      QMessageBox::Close);
-                Continue=false;
+            // Special case for SD-DVD format (anamorphous)
+            if (W==720) switch (Diaporama->ImageGeometry) {
+                case GEOMETRY_4_3:      W=(Standard==STANDARD_PAL?768:640);     GeoW=4;     GeoH=3;  break;
+                case GEOMETRY_16_9:     W=(Standard==STANDARD_PAL?1024:852);    GeoW=16;    GeoH=9;  break;
+                case GEOMETRY_40_17:    W=(Standard==STANDARD_PAL?1356:1130);   GeoW=40;    GeoH=17; break;
             }
-        }
 
-        // Encode video
-        if (Continue) {
-            LastCheckTime   =StartTime;                                     // Display control : last time the loop start
-            Position        =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
-            ColumnStart     =-1;                                            // Render start position of current object
-            Column          =-1;                                            // Render current object
+            Continue=Continue && ComputeVideoPart(vCodec);
+            Continue=Continue && ComputeAudioPart(aCodec);
+            if (QString(FORMATDEF[OutputFileFormat].ShortName)=="mpeg") StreamFormat=" -f mpegts";
 
-            QFutureWatcher<void> ThreadSavePPM;
+            #ifdef LIBAV_TAGCHAPTERS
+            Continue=Continue && ComputeTAGPart(TAG,(OutputFileFormat!=2)||(ExportMode==MODE_LOSSLESS));
+            #endif
 
-            Timer.start(500);
-            for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
-                // Give time to interface!
-                QApplication::processEvents();
+            // Construct ffmpeg command line
+            if (Continue) {
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Start encoder"));
 
-                int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
-                if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
+                #ifdef Q_OS_WIN
+                ffmpegCommand="\""+Diaporama->ApplicationConfig->BinaryEncoderPath+"\"";
+                #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+                ffmpegCommand=Diaporama->ApplicationConfig->BinaryEncoderPath;
+                #endif
 
-                if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
-                    while ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
-                        Column++;
-                        AdjustedDuration=(Column<Diaporama->List.count())?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
-                        if (AdjustedDuration<33) AdjustedDuration=33;   // Not less than 1/30 sec
-                        ColumnStart=Diaporama->GetObjectStartPosition(Column);
-                        if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(AdjustedDuration)/(FPS/double(1000)))-1);
-                        Diaporama->CloseUnusedLibAv(Column);
+                ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r %1 -i -").arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
+                    (ui->IncludeSoundCB->isChecked()?" -i \""+TempAudioFileName+"\"":"")+
+                    TAG+
+                    #ifdef LIBAV_07
+                    " -timestamp now"+
+                    #endif
+                    QString(" -dframes %1%2 %3 -r %4 ").arg(NbrFrame).arg(StreamFormat).arg(vCodec).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
+                    //(UpdateWidth!=W?QString(" -s %1x%2").arg(UpdateWidth).arg(H+ExtendV):"")+
+                    #ifdef LIBAV_08
+                        #if (LIBAVCODEC_VERSION_MAJOR>=54)
+                            ((Diaporama->ApplicationConfig->BinaryEncoderPath=="avconv")?QString(" -filter:v scale=%1:%2:flags=bicubic ").arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height):
+                        #else
+                            (
+                        #endif
+                          " -sws_flags bicubic ")+
+                    #endif
+                    QString("%1 -aspect %2:%3").arg(aCodec).arg(GeoW).arg(GeoH);
+
+                // Activate multithreading support if getCpuCount()>1 and codec is h264 or VP8
+                if (((getCpuCount()-1)>1)&&((VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_H264)||(VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_VP8)))
+                    ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount()-1);
+
+                ffmpegCommand=ffmpegCommand+" \""+OutputFileName+"\"";
+
+                #ifdef Q_OS_WIN
+                ffmpegCommand=ffmpegCommand.replace("30000/1001","29.97");
+                ffmpegCommand=ffmpegCommand.replace("24000/1001","23.976");
+                #endif
+
+                ToLog(LOGMSG_WARNING,ffmpegCommand);
+
+                ffmpegCommand=AdjustDirForOS(ffmpegCommand);
+            }
+
+            // Start ffmpegCommand
+            if (Continue) {
+                Process.setProcessChannelMode(QProcess::/*SeparateChannels*/ForwardedChannels);      // Forward standard and error message to the ffdiaporama console
+                Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);                 // Start command
+                if (!Process.waitForStarted()) {
+                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),
+                                          QApplication::translate("DlgRenderVideo","Error starting encoder","Error message")+"\n"+ffmpegCommand,
+                                          QMessageBox::Close);
+                    Continue=false;
+                }
+            }
+
+            // Encode video
+            if (Continue) {
+                LastCheckTime   =StartTime;                                     // Display control : last time the loop start
+                Position        =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
+                ColumnStart     =-1;                                            // Render start position of current object
+                Column          =-1;                                            // Render current object
+
+                QFutureWatcher<void> ThreadSavePPM;
+
+                Timer.start(500);
+                for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
+                    // Give time to interface!
+                    QApplication::processEvents();
+
+                    int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
+                    if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
+
+                    if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
+                        while ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
+                            Column++;
+                            AdjustedDuration=(Column<Diaporama->List.count())?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
+                            if (AdjustedDuration<33) AdjustedDuration=33;   // Not less than 1/30 sec
+                            ColumnStart=Diaporama->GetObjectStartPosition(Column);
+                            if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(AdjustedDuration)/(FPS/double(1000)))-1);
+                            Diaporama->CloseUnusedLibAv(Column);
+                        }
                     }
+
+                    // Get current frame
+                    Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
+
+                    // Prepare frame with correct W and H
+                    Diaporama->LoadSources(Frame,W,H,false,true);                                        // Load source images
+                    Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H); // Make final assembly
+
+                    // Apply anamorphous
+                    if ((UpdateWidth!=W)&&(Frame->RenderedImage->width()!=UpdateWidth)) {
+                        QImage *NewImage=new QImage(Frame->RenderedImage->scaled(QSize(UpdateWidth,Frame->RenderedImage->height()),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                        delete Frame->RenderedImage;
+                        Frame->RenderedImage=NewImage;
+                    }
+
+                    while (ThreadSavePPM.isRunning()) ThreadSavePPM.waitForFinished();
+                    if (PreviousFrame) delete PreviousFrame;
+                    PreviousFrame=Frame;
+                    if (!StopProcessWanted) {
+                        if (Diaporama->ApplicationConfig->PipeThread) ThreadSavePPM.setFuture(QtConcurrent::run(this,&DlgRenderVideo::SavePPM,Frame,&Process,&Continue));
+                            else SavePPM(Frame,&Process,&Continue);
+                    }
+
+                    // Calculate next position
+                    Position+=(FPS/1000);
+                    Frame =NULL;
+
+                    // Stop the process if error occur or user ask to stop
+                    Continue=Continue && !StopProcessWanted;;
                 }
+                Timer.stop();
 
-                // Get current frame
-                Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
-
-                // Prepare frame with correct W and H
-                Diaporama->LoadSources(Frame,W,H,false,true);                                        // Load source images
-                Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H); // Make final assembly
-
-                // Apply anamorphous
-                if ((UpdateWidth!=W)&&(Frame->RenderedImage->width()!=UpdateWidth)) {
-                    QImage *NewImage=new QImage(Frame->RenderedImage->scaled(QSize(UpdateWidth,Frame->RenderedImage->height()),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-                    delete Frame->RenderedImage;
-                    Frame->RenderedImage=NewImage;
-                }
+                //***********************************************************************
 
                 while (ThreadSavePPM.isRunning()) ThreadSavePPM.waitForFinished();
                 if (PreviousFrame) delete PreviousFrame;
-                PreviousFrame=Frame;
-                if (!StopProcessWanted) ThreadSavePPM.setFuture(QtConcurrent::run(this,&DlgRenderVideo::SavePPM,Frame,&Process,&Continue));
 
-                // Calculate next position
-                Position+=(FPS/1000);
-                Frame =NULL;
+                ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Closing encoder"));
 
-                // Stop the process if error occur or user ask to stop
-                Continue=Continue && !StopProcessWanted;;
+                // Close the pipe to stop ffmpeg process
+                Process.closeWriteChannel();
+
+                // Last information update
+                QString DisplayText;
+                int     DurationProcess=StartTime.msecsTo(QTime::currentTime());
+
+                DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
+                DisplayText=QString("%1").arg(double(NbrFrame)/(double(DurationProcess)/1000),0,'f',1);             ui->FPSLabel->setText(DisplayText);
+                DisplayText=QString("%1/%2").arg(Column-FromSlide+1).arg(ToSlide-FromSlide+1);                      ui->SlideNumberLabel->setText(DisplayText);
+                DisplayText=QString("%1/%2").arg(NbrFrame).arg(NbrFrame);                                           ui->FrameNumberLabel->setText(DisplayText);
+                ui->SlideProgressBar->setValue(ui->SlideProgressBar->maximum());
+                ui->TotalProgressBar->setValue(NbrFrame);
+
+                if (!Process.waitForFinished(30000)) { // 30 sec max to close encoder
+                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error closing encoder","Error message"),QMessageBox::Close);
+                    Process.terminate();
+                    Continue=false;
+                } else if (Process.exitStatus()!=QProcess::NormalExit) {
+                  CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error exiting encoder","Error message"),QMessageBox::Close);
+                  Continue=false;
+                }
             }
-            Timer.stop();
 
-            //***********************************************************************
+    //        if (TempAudioFileName!="")  QFile::remove(TempAudioFileName);
+            if (TempMETAFileName!="") QFile::remove(TempMETAFileName);
 
-            while (ThreadSavePPM.isRunning()) ThreadSavePPM.waitForFinished();
-            if (PreviousFrame) delete PreviousFrame;
-
-            ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Closing encoder"));
-
-            // Close the pipe to stop ffmpeg process
-            Process.closeWriteChannel();
-
-            // Last information update
-            QString DisplayText;
-            int     DurationProcess=StartTime.msecsTo(QTime::currentTime());
-
-            DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
-            DisplayText=QString("%1").arg(double(NbrFrame)/(double(DurationProcess)/1000),0,'f',1);             ui->FPSLabel->setText(DisplayText);
-            DisplayText=QString("%1/%2").arg(Column-FromSlide+1).arg(ToSlide-FromSlide+1);                      ui->SlideNumberLabel->setText(DisplayText);
-            DisplayText=QString("%1/%2").arg(NbrFrame).arg(NbrFrame);                                           ui->FrameNumberLabel->setText(DisplayText);
-            ui->SlideProgressBar->setValue(ui->SlideProgressBar->maximum());
-            ui->TotalProgressBar->setValue(NbrFrame);
-
-            if (!Process.waitForFinished(30000)) { // 30 sec max to close encoder
-                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error closing encoder","Error message"),QMessageBox::Close);
-                Process.terminate();
-                Continue=false;
-            } else if (Process.exitStatus()!=QProcess::NormalExit) {
-              CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error exiting encoder","Error message"),QMessageBox::Close);
-              Continue=false;
-            }
+            Process.terminate();
+            Process.close();
         }
-
-        if (TempWAVFileName!="")  QFile::remove(TempWAVFileName);
-        if (TempMETAFileName!="") QFile::remove(TempMETAFileName);
-
-        Process.terminate();
-        Process.close();
 
         // Inform user of success
         if (Continue) CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Job completed successfully!"));
@@ -1304,7 +1417,7 @@ void DlgRenderVideo::s_TimerEvent() {
 
 //============================================================================================
 
-QString DlgRenderVideo::AdjustMETA(QString Text) {
+QString DlgRenderVideo::AdjustMETA(QString Text,bool AddBreak) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::AdjustMETA");
 
     //Metadata keys or values containing special characters (’=’, ’;’, ’#’, ’\’ and a newline) must be escaped with a backslash ’\’.
@@ -1313,7 +1426,7 @@ QString DlgRenderVideo::AdjustMETA(QString Text) {
     Text.replace("#","\\#");
     //Text.replace("\\","\\\\");
     Text.replace("\n","\\\n");
-    Text=Text+"\n";
+    if (AddBreak) Text=Text+"\n";
     #ifdef Q_OS_WIN
         return Text.toUtf8();
     #else
@@ -1321,137 +1434,348 @@ QString DlgRenderVideo::AdjustMETA(QString Text) {
     #endif
 }
 
-//============================================================================================
-// Make audio temp file
-//============================================================================================
+//*************************************************************************************************************************************************
 
-bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::WriteTempAudioFile");
+bool DlgRenderVideo::EncodeVideo(QString m_filename,double m_frameRate,
+                                 bool EncodeVideo,QString /*VideoCodecStr*/,int /*m_width*/,int /*m_height*/,enum PixelFormat /*pix_fmt*/,int /*m_videoBitrate*/,int /*m_keyFrameDist*/,
+                                 bool EncodeAudio,int audioCodecId,int m_audioChannels,int m_audioBitrate,int m_audioSampleRate) {
 
-    bool                    Continue            =true;      // true if no error occur
-    cDiaporamaObjectInfo    *PreviousFrame      =NULL;
-    cDiaporamaObjectInfo    *Frame              =NULL;
-    AVOutputFormat          *Fmt                =NULL;      // No delete needed!
-    AVCodec                 *AudioCodec         =NULL;
-    QFutureWatcher<void>    ThreadWrite;
-    sWriteWAV               WriteWAV;
-    double                  RenderFPS           =25;        // For sound generation, use only 25 FPS to avoid rounded issue (instead of VideoFrameRate)
+    bool                Continue=true,IsOpen=false;
+    int                 StreamNbr=0,/*VideoStreamNbr=-1,*/AudioStreamNbr=-1;
+    AVStream            /**VideoStream=NULL,*/*AudioStream=NULL;
+    AVCodec             /**VideoCodec=NULL,*/*AudioCodec=NULL;
+    AVOutputFormat      OutputFormat;
+    AVFormatContext     *Container=NULL;
+    cSoundBlockList     RenderMusic,ToEncodeMusic;
+    //AVPacket            *m_pkt=NULL,*m_audPkt=NULL;
+    //unsigned char       *m_videoOutBuf=NULL;
+    //AVFrame             *Picture=NULL,*TmpPicture=NULL;
 
-    WriteWAV.AudioCodecContext  =NULL;
-    WriteWAV.audio_outbuf       =NULL;
-    WriteWAV.AudioStream        =NULL;
-    WriteWAV.OutputFormatContext=NULL;
+    //********************************************
+    // CONTAINER PART
+    //********************************************
 
-    ui->SoundProgressBar->setMaximum(NbrFrame);
-
-    // Get the container format
-    Fmt=av_guess_format(NULL,TempWAVFileName.toUtf8(),NULL);
-    if (Fmt==NULL) {
-        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary wav file!");
+    // Get container format
+    QString FMT=QFileInfo(m_filename).suffix();
+    int i=0;
+    while ((i<NBR_FORMATDEF)&&(QString(FORMATDEF[i].FileExtension)!=FMT)) i++;
+    if (i>=NBR_FORMATDEF) {
+        int i=0;
+        while ((i<NBR_AUDIOFORMATDEF)&&(QString(AUDIOFORMATDEF[i].FileExtension)!=FMT)) i++;
+        if (i>=NBR_AUDIOFORMATDEF) {
+            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-Init: Unknown format %1").arg(FMT));
+            return false;
+        } else FMT=AUDIOFORMATDEF[i].ShortName;
+    } else FMT=FORMATDEF[i].ShortName;
+    AVOutputFormat *fmt=av_guess_format(FMT.toLocal8Bit().constData(),NULL,NULL);
+    if (!fmt) {
+        ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-Init: Unable to guess AVOutputFormat from container %1").arg(FMT));
         Continue=false;
-    } else Fmt->audio_codec=CODEC_ID_PCM_S16LE;
+    } else OutputFormat=*fmt;
 
-    // allocate the output media context
-    if (Continue) {
-
-        WriteWAV.OutputFormatContext = avformat_alloc_context();
-        if (!WriteWAV.OutputFormatContext) {
-            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : Unable to allocate OutputFormatContext!");
+    // Get video codec
+    /*
+    if (Continue && EncodeVideo) {
+        VideoStreamNbr=StreamNbr++;
+        VideoCodec=avcodec_find_encoder_by_name(VideoCodecStr.toLocal8Bit().constData());
+        if (!VideoCodec) {
+            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-Init: Unable to find video codec %1").arg(VideoCodecStr));
             Continue=false;
-        } else {
-            memcpy(WriteWAV.OutputFormatContext->filename,TempWAVFileName.toUtf8(),strlen(TempWAVFileName.toUtf8())+1);
-            WriteWAV.OutputFormatContext->oformat  =Fmt;
-            WriteWAV.OutputFormatContext->bit_rate =1536;
-        }
+        } else OutputFormat.video_codec=VideoCodec->id;
     }
-
-    // Allocate AudioStream
-    if (Continue) {
-        #ifdef LIBAV_07
-        WriteWAV.AudioStream=av_new_stream(WriteWAV.OutputFormatContext,0);
-        #else
-        WriteWAV.AudioStream=avformat_new_stream(WriteWAV.OutputFormatContext,0);
-        #endif
-        if (WriteWAV.AudioStream==NULL) {
-            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio stream!");
+    */
+    // Get audio codec
+    if (Continue && EncodeAudio) {
+        AudioStreamNbr=StreamNbr++;
+        int i=0;
+        while ((i<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[i].Codec_id!=audioCodecId)) i++;
+        if ((i>=NBR_AUDIOCODECDEF)||(!AUDIOCODECDEF[i].IsFind)) {
+            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-Init: audio codec not available"));
             Continue=false;
-        }
-    }
-
-    // Open audio codec
-    if (Continue) {
-        WriteWAV.AudioCodecContext=WriteWAV.AudioStream->codec;
-        #ifdef LIBAV_07
-        avcodec_get_context_defaults2(WriteWAV.AudioCodecContext,AVMEDIA_TYPE_AUDIO);    // Fill stream with default values
-        #else
-        avcodec_get_context_defaults3(WriteWAV.AudioCodecContext,NULL);     // Fill stream with default values
-        #endif
-        AudioCodec=avcodec_find_encoder(CODEC_ID_PCM_S16LE);                    // Open Audio encoder
+        } else AudioCodec=avcodec_find_encoder_by_name(AUDIOCODECDEF[i].ShortName);
         if (!AudioCodec) {
-            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Audio codec not found!");
+            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-Init: Unable to find audio codec %1").arg(audioCodecId));
+            Continue=false;
+        } else OutputFormat.audio_codec=AudioCodec->id;
+    }
+
+    // Alloc container
+    if (Continue) {
+        Container = avformat_alloc_context();
+        if (!Container) {
+            ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: Unable to allocate AVFormatContext");
             Continue=false;
         } else {
-            WriteWAV.AudioCodecContext->codec_id             = CODEC_ID_PCM_S16LE;
-            WriteWAV.AudioCodecContext->codec_type           = AVMEDIA_TYPE_AUDIO;
-            WriteWAV.AudioCodecContext->sample_fmt           = AV_SAMPLE_FMT_S16;
-            WriteWAV.AudioCodecContext->sample_rate          = 48000;
-            WriteWAV.AudioCodecContext->bit_rate             = 48000;
-            WriteWAV.AudioCodecContext->rc_max_rate          = 0;
-            WriteWAV.AudioCodecContext->rc_min_rate          = 0;
-            WriteWAV.AudioCodecContext->bit_rate_tolerance   = 0;
-            WriteWAV.AudioCodecContext->rc_buffer_size       = 0;
-            WriteWAV.AudioCodecContext->channels             = 2;
-            WriteWAV.AudioCodecContext->channel_layout       = AV_CH_STEREO_LEFT|AV_CH_STEREO_RIGHT;    //CH_LAYOUT_STEREO;
-            WriteWAV.AudioCodecContext->time_base            = (AVRational){1,WriteWAV.AudioCodecContext->sample_rate};
-            WriteWAV.AudioStream->r_frame_rate               = WriteWAV.AudioCodecContext->time_base;
-            WriteWAV.AudioStream->time_base                  = WriteWAV.AudioCodecContext->time_base;
-            WriteWAV.AudioCodecContext->flags               |= CODEC_FLAG_GLOBAL_HEADER;
+            Container->oformat = &OutputFormat;
+            //if (m_container == "mpegts") Container->packet_size = 2324;
+            snprintf(Container->filename, sizeof(Container->filename), "%s",m_filename.toLocal8Bit().constData());
+        }
+    }
 
-            // open the codec
-            if (avcodec_open2(WriteWAV.AudioCodecContext,AudioCodec,NULL)<0) {
-                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"could not open audio codec!");
+    //********************************************
+    // VIDEO PART
+    //********************************************
+    /*
+    if ((EncodeVideo)&&(OutputFormat.video_codec!=CODEC_ID_NONE)) {
+        if (Continue) {
+            // Create video streams
+            VideoStream=avformat_new_stream(Container, NULL);
+            if (!VideoStream) {
+                ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: avformat_new_stream() failed");
                 Continue=false;
-            } else {
-                // Init sound blocks
-                WriteWAV.RenderMusic.SetFPS(RenderFPS);
+            }
+
+            if (Continue) {
+                AVCodec *codec =avcodec_find_encoder(Container->oformat->video_codec);
+                if (!codec) {
+                    ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: avcodec_find_encoder() failed");
+                    Continue=false;
+                } else {
+                    avcodec_get_context_defaults3(VideoStream->codec,codec);
+                    VideoStream->codec->codec= codec;
+                }
+            }
+            if (Continue) {
+                VideoStream->id                               =VideoStreamNbr;
+                VideoStream->codec->codec_id                  = Container->oformat->video_codec;
+                VideoStream->codec->codec_type                = AVMEDIA_TYPE_VIDEO;
+                VideoStream->codec->bit_rate                  = m_videoBitrate;
+                VideoStream->codec->width                     = m_width;
+                VideoStream->codec->height                    = m_height;
+                // VideoStream->codec->sample_aspect_ratio.num= (int)floor(m_aspect * 10000);
+                // VideoStream->codec->sample_aspect_ratio.den = 10000;
+                VideoStream->codec->time_base                 = GetCodecTimeBase(VideoStream->codec->codec,m_frameRate);
+                //VideoStream->time_base.den                    = 90000;
+                //VideoStream->time_base.num                    = 1;
+                VideoStream->r_frame_rate.num                 = 0;
+                VideoStream->r_frame_rate.den                 = 0;
+                VideoStream->codec->gop_size                  = m_keyFrameDist;
+                VideoStream->codec->pix_fmt                   = PIX_FMT_YUV420P;
+                VideoStream->codec->thread_count              = ((getCpuCount()-1)>1)?(getCpuCount()-1):1;
+                VideoStream->codec->thread_type               = FF_THREAD_SLICE;
+
+                if (VideoStream->codec->codec_id==CODEC_ID_MPEG2VIDEO) {
+                    VideoStream->codec->max_b_frames=2;
+                } else if (VideoStream->codec->codec_id==CODEC_ID_MPEG1VIDEO) {
+                    VideoStream->codec->mb_decision =2;
+                } else if (VideoStream->codec->codec_id==CODEC_ID_H264) {
+
+                    if ((VideoStream->codec->width > 480)||(VideoStream->codec->bit_rate > 600000)) {
+                        VideoStream->codec->level = 31;
+                        av_opt_set(VideoStream->codec->priv_data,"profile","main",0);
+                    } else {
+                        VideoStream->codec->level = 30;
+                        av_opt_set(VideoStream->codec->priv_data,"profile","baseline",0);
+                    }
+
+                    VideoStream->codec->coder_type            = 0;
+                    VideoStream->codec->max_b_frames          = 0;
+                    VideoStream->codec->slices                = 8;
+                    VideoStream->codec->flags                |= CODEC_FLAG_LOOP_FILTER;
+                    VideoStream->codec->me_cmp               |= 1;
+                    VideoStream->codec->me_method             = ME_HEX;
+                    VideoStream->codec->me_subpel_quality     = 6;
+                    VideoStream->codec->me_range              = 16;
+                    VideoStream->codec->keyint_min            = 25;
+                    VideoStream->codec->scenechange_threshold = 40;
+                    VideoStream->codec->i_quant_factor        = 0.71;
+                    VideoStream->codec->b_frame_strategy      = 1;
+                    VideoStream->codec->qcompress             = 0.6;
+                    VideoStream->codec->qmin                  = 10;
+                    VideoStream->codec->qmax                  = 51;
+                    VideoStream->codec->max_qdiff             = 4;
+                    VideoStream->codec->refs                  = 3;
+                    VideoStream->codec->trellis               = 0;
+                    av_opt_set(VideoStream->codec,"partitions","i8x8,i4x4,p8x8,b8x8",0);
+                    av_opt_set_int(VideoStream->codec,"direct-pred",  1,0);
+                    av_opt_set_int(VideoStream->codec,"rc-lookahead", 0,0);
+                    av_opt_set_int(VideoStream->codec,"fast-pskip",   1,0);
+                    av_opt_set_int(VideoStream->codec,"mixed-refs",   1,0);
+                    av_opt_set_int(VideoStream->codec,"8x8dct",       0,0);
+                    av_opt_set_int(VideoStream->codec,"weightb",      0,0);
+                }
+                if (Container->oformat->flags&AVFMT_GLOBALHEADER) VideoStream->codec->flags|=CODEC_FLAG_GLOBAL_HEADER;
+            }
+
+            // Alloc AVPacket for video
+            if (Continue) {
+                m_pkt=new AVPacket;
+                if (!m_pkt) {
+                    ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: error allocating AVPacket for video");
+                    Continue=false;
+                } else av_new_packet(m_pkt,Container->packet_size);
+            }
+
+            // Alloc AVPacket for video
+            if (Continue) {
+                m_audPkt=new AVPacket;
+                if (!m_audPkt) {
+                    ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: error allocating AVPacket for audio");
+                    Continue=false;
+                } else av_new_packet(m_audPkt,Container->packet_size);
+            }
+            // Open video codec
+            if (Continue) {
+                m_videoOutBuf = (unsigned char *)av_malloc(m_width*m_height*2+10);
+                if (avcodec_open2(VideoStream->codec,NULL,NULL)<0) {
+                    ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: avcodec_open() failed for video");
+                    Continue=false;
+                }
+            }
+
+            // Allocate picture
+            if (Continue) {
+                int     size=avpicture_get_size(pix_fmt, m_width, m_height);
+                AVFrame *picture=avcodec_alloc_frame();
+                if (!picture) {
+                    ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: avcodec_alloc_frame() failed for picture");
+                    Continue=false;
+                } else {
+                    unsigned char *picture_buf = (unsigned char *)av_malloc(size);
+                    if (!picture_buf) {
+                        ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: av_malloc() failed for picture");
+                        av_free(picture);
+                        Continue=false;
+                    } else {
+                        avpicture_fill((AVPicture *)picture, picture_buf,pix_fmt, m_width, m_height);
+                        Picture=picture;
+                    }
+                }
+            }
+
+            // Allocate tmppicture (if needed)
+            if ((Continue)&&(VideoStream->codec->pix_fmt != PIX_FMT_YUV420P)) {
+                int     size=avpicture_get_size(pix_fmt, m_width, m_height);
+                AVFrame *picture=avcodec_alloc_frame();
+                if (!picture) {
+                    ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: avcodec_alloc_frame() failed for tmpPicture");
+                    Continue=false;
+                } else {
+                    unsigned char *picture_buf = (unsigned char *)av_malloc(size);
+                    if (!picture_buf) {
+                        ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: av_malloc() failed for tmpPicture");
+                        av_free(picture);
+                        Continue=false;
+                    } else {
+                        avpicture_fill((AVPicture *)picture, picture_buf,pix_fmt, m_width, m_height);
+                        TmpPicture=picture;
+                    }
+                }
+            }
+        }
+    }
+    */
+    //********************************************
+    // AUDIO PART
+    //********************************************
+    if ((EncodeAudio)&&(OutputFormat.audio_codec!=CODEC_ID_NONE)) {
+        if (Continue) {
+            // Open codec
+            AVStream *st=avformat_new_stream(Container,NULL);
+            if (!st) {
+                ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: avformat_new_stream() failed");
+                Continue=false;
+            } else AudioStream=st;
+
+            if (Continue) {
+                AudioStream->id                       = AudioStreamNbr;
+                AudioStream->codec->time_base.den     = m_audioSampleRate;
+                AudioStream->codec->time_base.num     = 1;                    //GetCodecTimeBase(AudioStream->codec->codec,m_frameRate);
+                //AudioStream->codec->time_base         = GetCodecTimeBase(AudioStream->codec->codec,m_frameRate);
+                AudioStream->codec->codec_id          = Container->oformat->audio_codec;
+                AudioStream->codec->codec_type        = AVMEDIA_TYPE_AUDIO;
+                AudioStream->codec->bit_rate          = m_audioBitrate;
+                AudioStream->codec->sample_rate       = m_audioSampleRate;
+                AudioStream->codec->channels          = m_audioChannels;
+                AudioStream->codec->sample_fmt        = AV_SAMPLE_FMT_S16;
+
+                //AudioStream->codec->rc_min_rate       = m_audioBitrate;
+                //AudioStream->codec->rc_max_rate       = m_audioBitrate;
+                //AudioStream->codec->channel_layout    = CH_LAYOUT_STEREO;      // AV_CH_STEREO_LEFT|AV_CH_STEREO_RIGHT
+                //AudioStream->codec->bit_rate_tolerance= 0;
+                //AudioStream->codec->rc_buffer_size    = 0;
+                //AudioStream->codec->flags |= CODEC_FLAG_QSCALE; // VBR
+                //AudioStream->codec->global_quality = blah;
+                //AudioStream->time_base                = AudioStream->codec->time_base;
+                //AudioStream->duration                 = 0;
+
+                if (Container->oformat->flags&AVFMT_GLOBALHEADER) AudioStream->codec->flags|=CODEC_FLAG_GLOBAL_HEADER;
+                switch (AudioStream->codec->codec_id) {
+                    case CODEC_ID_MP3:      AudioStream->codec->channel_layout=AV_CH_LAYOUT_STEREO;                     break;
+                    case CODEC_ID_AC3:      AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLT;                          break;
+                    case CODEC_ID_AMR_NB:   AudioStream->codec->sample_rate=8000;                                       break;  // PROBLEME : 8Khz only
+                    case CODEC_ID_AMR_WB:   AudioStream->codec->sample_rate=16000;                                      break;  // PROBLEME : 16Khz only
+                    default:                                                                                            break;
+                }
+            }
+
+            if (Continue) {
+                //AudioStream->codec->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
+                AVCodec *codec=avcodec_find_encoder(AudioStream->codec->codec_id);
+                if (!codec) {
+                    ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: avcodec_find_encoder() failed");
+                    Continue=false;
+                } else {
+                    int errcode=avcodec_open2(AudioStream->codec,codec,NULL);
+                    if (errcode<0) {
+                        char Buf[2048];
+                        av_strerror(errcode,Buf,2048);
+                        ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: avcodec_open2() failed: "+QString(Buf));
+                        Continue=false;
+                    } else av_dict_set(&AudioStream->metadata,"language",Language.toLocal8Bit().constData(),0);
+                }
             }
         }
     }
 
-    // open the file for writing
-    if (Continue) {
-        int Err=0;
-        if ((Err=avio_open(&WriteWAV.OutputFormatContext->pb,TempWAVFileName.toUtf8(),AVIO_FLAG_WRITE))<0) {
-            char Buf[500];
-            av_strerror(Err,Buf,500);
-            ToLog(LOGMSG_CRITICAL,Buf);
-            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error creating temporary audio file!");
+    av_dict_set(&Container->metadata,"language",Language.toLocal8Bit().constData(),0);
+    av_dict_set(&Container->metadata,"title",AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title,false).toLocal8Bit().constData(),0);
+    av_dict_set(&Container->metadata,"artist",AdjustMETA(Diaporama->ProjectInfo->Author,false).toLocal8Bit().constData(),0);
+    av_dict_set(&Container->metadata,"album",AdjustMETA(Diaporama->ProjectInfo->Album,false).toLocal8Bit().constData(),0);
+    av_dict_set(&Container->metadata,"comment",AdjustMETA(Diaporama->ProjectInfo->Comment,false).toLocal8Bit().constData(),0);
+    av_dict_set(&Container->metadata,"date",QString("%1").arg(Diaporama->ProjectInfo->Year).toLocal8Bit().constData(),0);
+    av_dict_set(&Container->metadata,"composer",QString(Diaporama->ApplicationConfig->ApplicationName+QString(" ")+Diaporama->ApplicationConfig->ApplicationVersion).toLocal8Bit().constData(),0);
+    av_dict_set(&Container->metadata,"creation_time",QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().constData(),0); // ISO 8601 format
+
+    av_dump_format(Container,0,m_filename.toLocal8Bit().constData(),1);
+
+    //********************************************
+    // Open file and header
+    //********************************************
+
+    if ((Continue)&&(!(OutputFormat.flags & AVFMT_NOFILE))) {
+        if (avio_open(&Container->pb, m_filename.toLocal8Bit().constData(),AVIO_FLAG_WRITE)<0) {
+            ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: avio_open() failed");
             Continue=false;
+        } else {
+            avformat_write_header(Container,NULL);
+            IsOpen=true;
         }
     }
 
-    // Allocate buffer to encode
-    if (Continue) {
-        WriteWAV.audio_outbuf=(uint8_t *)av_malloc(FF_MIN_BUFFER_SIZE);
-        if (WriteWAV.audio_outbuf==NULL) {
-            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Memory error : could not allocate audio buffer!");
-            Continue=false;
-        }
-    }
+    //********************************************
+    // Encoding
+    //********************************************
 
-    // write the header
-    if ((Continue)&&(avformat_write_header(WriteWAV.OutputFormatContext,NULL)<0)) {
-        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the header of the temporary audio file!");
-        Continue=false;
-    }
-
-    // Encode the file
     if (Continue) {
+        QFutureWatcher<void>    ThreadWrite;
+        cDiaporamaObjectInfo    *PreviousFrame=NULL;
+        cDiaporamaObjectInfo    *Frame        =NULL;
+        qlonglong               RenderedFrame =0;
+
+        CurAudioPts         =0;
         LastCheckTime       =StartTime;                                     // Display control : last time the loop start
         qlonglong Position  =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
         int ColumnStart     =-1;                                            // Render start position of current object
         int Column          =-1;                                            // Render current object
-        for (qlonglong RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
+
+        RenderMusic.SetFPS(m_frameRate);
+
+        int ComputedFrameSize=AudioStream->codec->channels*AudioStream->codec->frame_size*av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);
+        if (ComputedFrameSize==0) ComputedFrameSize=RenderMusic.SoundPacketSize;
+        ToEncodeMusic.SetFrameSize(ComputedFrameSize);
+
+        for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
 
             // Calculate position & column
             int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
@@ -1476,50 +1800,68 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
             }
 
             // Get current frame
-            Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000)/*((double(AV_TIME_BASE)/RenderFPS)/1000)*/);
+            Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,double(1000)/double(m_frameRate));
 
             // Ensure MusicTracks are ready
             if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
                 Frame->CurrentObject_MusicTrack=new cSoundBlockList();
-                Frame->CurrentObject_MusicTrack->SetFPS(RenderFPS);
+                Frame->CurrentObject_MusicTrack->SetFPS(m_frameRate);
             }
             if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
                 Frame->TransitObject_MusicTrack=new cSoundBlockList();
-                Frame->TransitObject_MusicTrack->SetFPS(RenderFPS);
+                Frame->TransitObject_MusicTrack->SetFPS(m_frameRate);
             }
 
             // Ensure SoundTracks are ready
             if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
                 Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
-                Frame->CurrentObject_SoundTrackMontage->SetFPS(RenderFPS);
+                Frame->CurrentObject_SoundTrackMontage->SetFPS(m_frameRate);
             }
             if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
                 Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
-                Frame->TransitObject_SoundTrackMontage->SetFPS(RenderFPS);
+                Frame->TransitObject_SoundTrackMontage->SetFPS(m_frameRate);
             }
 
             // Prepare frame with W and H =0 to force SoundMusicOnly! (thread mode is not necessary here)
-            Diaporama->LoadSources(Frame,0,0,false,true);
+            Diaporama->LoadSources(Frame,0,0,false,0);
 
             // Give time to interface!
             while ((ThreadWrite.isRunning())&&(!StopProcessWanted)) QApplication::processEvents();  //ThreadWrite.waitForFinished();
+
+            //************************** Unthreaded part
 
             // Calc number of packet to mix
             int MaxPacket=Frame->CurrentObject_MusicTrack->List.count();
             if ((Frame->CurrentObject_SoundTrackMontage!=NULL)&&
                 (Frame->CurrentObject_SoundTrackMontage->List.count()>0)&&
                 (MaxPacket>Frame->CurrentObject_SoundTrackMontage->List.count())) MaxPacket=Frame->CurrentObject_SoundTrackMontage->List.count();
-            if (MaxPacket>WriteWAV.RenderMusic.NbrPacketForFPS) MaxPacket=WriteWAV.RenderMusic.NbrPacketForFPS;
+            if (MaxPacket>RenderMusic.NbrPacketForFPS) MaxPacket=RenderMusic.NbrPacketForFPS;
 
             // mix audio data
             for (int j=0;j<MaxPacket;j++)
-                WriteWAV.RenderMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
+                RenderMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket());
+
+            // Transfert RenderMusic data to EncodeMusic data
+            while (RenderMusic.List.count()>0) {
+                int16_t *PacketSound=RenderMusic.DetachFirstPacket();
+                int     PacketSoundSize=RenderMusic.SoundPacketSize;
+                if (PacketSound==NULL) {
+                    PacketSound=(int16_t *)av_malloc(RenderMusic.SoundPacketSize+4);
+                    memset(PacketSound,0,RenderMusic.SoundPacketSize);
+                }
+                // Add data to ToEncodeMusic
+                ToEncodeMusic.AppendData(PacketSound,PacketSoundSize);
+                av_free(PacketSound);
+            }
+
+            //************************** End of unthreaded part
 
             // Write audio frame to disk
-            ThreadWrite.setFuture(QtConcurrent::run(this,&DlgRenderVideo::WriteRenderedMusicToDisk,&WriteWAV,&Continue));
+            ThreadWrite.setFuture(QtConcurrent::run(this,&DlgRenderVideo::EncodeMusic,&ToEncodeMusic,AudioStream,Container,&Continue,EncodeVideo));
+            //EncodeMusic(&ToEncodeMusic,AudioStream,Container,&Continue,EncodeVideo);
 
             // Calculate next position
-            Position     +=(FPS/1000);
+            Position     +=double(1000)/double(m_frameRate);
             if (PreviousFrame!=NULL) delete PreviousFrame;
             PreviousFrame=Frame;
             Frame =NULL;
@@ -1530,120 +1872,169 @@ bool DlgRenderVideo::WriteTempAudioFile(QString TempWAVFileName,int FromSlide) {
 
         while (ThreadWrite.isRunning()) QApplication::processEvents();  //ThreadWrite.waitForFinished();
 
-        // Write de trailer
-        if ((Continue)&&(av_write_trailer(WriteWAV.OutputFormatContext)!=0)) {
-            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error writing the trailer of the temporary audio file!");
-            Continue=false;
-        }
+        // refresh display
+        int         DurationProcess =0;
+        QString     DisplayText     ="";
+        DurationProcess=StartTime.msecsTo(QTime::currentTime());
+        DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
+        DisplayText=QString("%1").arg(double(RenderedFrame)/(double(DurationProcess)/1000),0,'f',1);        ui->FPSLabel->setText(DisplayText);
+        LastCheckTime=QTime::currentTime();
+        ui->SoundProgressBar->setValue(RenderedFrame);
+        QApplication::processEvents();  // Give time to interface!
     }
+    //********************************************
+    // Trailer, close file and cleaning
+    //********************************************
 
-    // Ensure sound progress bar is at 100%
-    if (Continue) ui->SoundProgressBar->setValue(ui->SoundProgressBar->maximum());
-
-    // Clean all
-
-    if (WriteWAV.audio_outbuf)   av_free(WriteWAV.audio_outbuf);
-    if (PreviousFrame)  delete PreviousFrame;
-    if (Frame)          delete Frame;
-    if (WriteWAV.OutputFormatContext) {
-        if (WriteWAV.OutputFormatContext->pb) avio_close(WriteWAV.OutputFormatContext->pb);                                   // close the file
-        if (WriteWAV.OutputFormatContext->streams[0]) {
-            avcodec_close(WriteWAV.AudioStream->codec);                                                              // close codec
-            if (WriteWAV.OutputFormatContext->streams[0]->codec) {
-                av_free(WriteWAV.OutputFormatContext->streams[0]->codec);  // free the audiostream
-                WriteWAV.OutputFormatContext->streams[0]->codec=NULL;
-            }
+    if (Container) {
+        if ((EncodeAudio)&&(IsOpen)) {
+            // Finalize with NULL input needed by FLAC to generate md5sum in context extradata
+            AVPacket pkt;
+            int got_packet;
+            av_init_packet(&pkt);
+            pkt.data=NULL;
+            pkt.size=0;
+            pkt.pts =CurAudioPts++;
+            pkt.dts =AV_NOPTS_VALUE;
+            avcodec_encode_audio2(AudioStream->codec,&pkt,NULL,&got_packet);
+            avcodec_flush_buffers(AudioStream->codec);
         }
-        av_free(WriteWAV.OutputFormatContext);                                                                       // free the container
+        if (IsOpen) {
+            av_write_trailer(Container);
+            avio_close(Container->pb);
+        }
+        for(unsigned int i=0;i<Container->nb_streams;i++) av_freep(&Container->streams[i]);
+        av_free(Container);
+        Container = NULL;
     }
+    /*
+    if (m_pkt) {
+        av_free_packet(m_pkt);
+        delete m_pkt;
+        m_pkt = NULL;
+    }
+    if (m_audPkt) {
+        av_free_packet(m_audPkt);
+        delete m_audPkt;
+        m_audPkt = NULL;
+    }
+    if (m_videoOutBuf) av_free(m_videoOutBuf);
+    if (Picture)     av_free(Picture);
+    if (TmpPicture)  av_free(TmpPicture);
+    */
+    //********************************************
 
     return Continue;
 }
 
-void DlgRenderVideo::WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue) {
-   ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::WriteTempAudioFile");
-    // Flush audio frame
-    while (WriteWAV->RenderMusic.List.count()>0) {
-        int16_t *PacketSound=WriteWAV->RenderMusic.DetachFirstPacket();
-        if (PacketSound==NULL) {
-            PacketSound=(int16_t *)av_malloc(WriteWAV->RenderMusic.SoundPacketSize+4);
-            memset(PacketSound,0,WriteWAV->RenderMusic.SoundPacketSize);
-        }
+//*************************************************************************************************************************************************
 
-        #if FF_API_OLD_ENCODE_AUDIO
+AVRational DlgRenderVideo::GetCodecTimeBase(const AVCodec *VideoCodec,double m_frameRate) {
+    AVRational result;
+    result.den = (int)floor(m_frameRate * 100);
+    result.num = 100;
+    if (VideoCodec && VideoCodec->supported_framerates) {
+        const AVRational *p= VideoCodec->supported_framerates;
+        AVRational      req =(AVRational){result.den, result.num};
+        const AVRational *best = NULL;
+        AVRational best_error= (AVRational){INT_MAX, 1};
+        for(; p->den!=0; p++) {
+            AVRational error = av_sub_q(req, *p);
+            if (error.num <0)   error.num *= -1;
+            if (av_cmp_q(error, best_error) < 0) {
+                best_error = error;
+                best = p;
+            }
+        }
+        if (best && best->num && best->den) {
+            result.den = best->num;
+            result.num = best->den;
+        }
+    }
+    if (result.den == 2997) {
+        result.den = 30000;
+        result.num = 1001;
+    } else if (result.den == 5994) {
+        result.den = 60000;
+        result.num = 1001;
+    }
+    return result;
+}
+
+//*************************************************************************************************************************************************
+
+void DlgRenderVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,AVStream *AudioStream,AVFormatContext *OutputFormatContext,bool *Continue,bool SoundOnly) {
+   int errcode;
+
+   ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::EncodeMusic");
+
+    // Flush audio frame of ToEncodeMusic
+    while (ToEncodeMusic->List.count()>0) {
+        int16_t *PacketSound=ToEncodeMusic->DetachFirstPacket();
+        if (PacketSound==NULL) {
+            ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: PacketSound==NULL"));
+            *Continue=false;
+        } else {
 
             // Init frame
             AVFrame *frame=avcodec_alloc_frame();
-            if (frame->extended_data!=frame->data) {
-                av_free(frame->extended_data);
-                frame->extended_data=NULL;
-            }
             avcodec_get_frame_defaults(frame);
-            frame->nb_samples=WriteWAV->RenderMusic.SoundPacketSize/4;//(WriteWAV->AudioCodecContext->channels*av_get_bytes_per_sample(WriteWAV->AudioCodecContext->sample_fmt));
+            frame->nb_samples=ToEncodeMusic->SoundPacketSize/(ToEncodeMusic->Channels*av_get_bytes_per_sample(AV_SAMPLE_FMT_S16));
+            frame->format    =AV_SAMPLE_FMT_S16; //AudioStream->codec->sample_fmt;
 
             // fill buffer
-            if (avcodec_fill_audio_frame(frame,WriteWAV->AudioCodecContext->channels,WriteWAV->AudioCodecContext->sample_fmt,(const uint8_t*)PacketSound,WriteWAV->RenderMusic.SoundPacketSize,1)>=0) {
-
+            errcode=avcodec_fill_audio_frame(frame,ToEncodeMusic->Channels,AV_SAMPLE_FMT_S16,(const uint8_t*)PacketSound,ToEncodeMusic->SoundPacketSize,1);
+            if (errcode>=0) {
                 // Init packet
                 AVPacket pkt;
                 av_init_packet(&pkt);
-                pkt.data = NULL;
-                pkt.size = 0;
+                pkt.data    =NULL;
+                pkt.size    =0;
+                pkt.pts     =CurAudioPts++;
+                pkt.dts     =AV_NOPTS_VALUE;
+                //pkt.duration=1;
 
                 int got_packet=0;
-                if (avcodec_encode_audio2(WriteWAV->AudioCodecContext,&pkt,frame,&got_packet)<0) {
-
+                errcode=avcodec_encode_audio2(AudioStream->codec,&pkt,frame,&got_packet);
+                if (errcode<0) {
+                    char Buf[2048];
+                    av_strerror(errcode,Buf,2048);
+                    ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: avcodec_encode_audio2() failed: ")+QString(Buf));
                     CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
                     *Continue=false;
-
                 } else {
-
-                    if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->pts!=int64_t(INT64_C(0x8000000000000000))))
-                        pkt.pts=av_rescale_q(WriteWAV->AudioCodecContext->coded_frame->pts,WriteWAV->AudioCodecContext->time_base,WriteWAV->AudioStream->time_base);
-
-                    if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->key_frame))
-                        pkt.flags|=AV_PKT_FLAG_KEY;
-
-                    pkt.stream_index=WriteWAV->AudioStream->index;
+                    pkt.flags       |= AV_PKT_FLAG_KEY;
+                    pkt.stream_index =AudioStream->index;
+                    pkt.dts          =AV_NOPTS_VALUE;
+                    pkt.pts          =CurAudioPts*AudioStream->codec->time_base.den/AudioStream->codec->time_base.num;
+                    //pkt.duration     =(double(frame->nb_samples)*double(AudioStream->time_base.den))/
+                    //                    (double(AudioStream->codec->sample_rate)*double(AudioStream->time_base.num));
 
                     // write the compressed frame in the media file
-                    if (av_interleaved_write_frame(WriteWAV->OutputFormatContext,&pkt)!=0) {
+                    if (!SoundOnly) errcode=av_interleaved_write_frame(OutputFormatContext,&pkt);
+                        else        errcode=av_write_frame(OutputFormatContext,&pkt);
+                    if (errcode!=0) {
+                        char Buf[2048];
+                        av_strerror(errcode,Buf,2048);
+                        ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: av_interleaved_write_frame failed: ")+QString(Buf));
                         CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
                         *Continue=false;
-                    }
+                    } else AudioStream->duration+=pkt.duration;
                 }
             } else {
+                char Buf[2048];
+                av_strerror(errcode,Buf,2048);
+                ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: avcodec_fill_audio_frame() failed: ")+QString(Buf));
                 CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
                 *Continue=false;
+            }
+            if ((frame->extended_data)&&(frame->extended_data!=frame->data)) {
+                av_free(frame->extended_data);
+                frame->extended_data=NULL;
             }
             av_free(frame);
-
-        #else
-            int out_size= avcodec_encode_audio(WriteWAV->AudioCodecContext,WriteWAV->audio_outbuf,WriteWAV->RenderMusic.SoundPacketSize,(short int *)PacketSound);
-            if (out_size>0) {
-                AVPacket pkt;
-                av_init_packet(&pkt);
-
-                if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->pts!=int64_t(INT64_C(0x8000000000000000))))
-                    pkt.pts=av_rescale_q(WriteWAV->AudioCodecContext->coded_frame->pts,WriteWAV->AudioCodecContext->time_base,WriteWAV->AudioStream->time_base);
-
-                if ((WriteWAV->AudioCodecContext->coded_frame!=NULL)&&(WriteWAV->AudioCodecContext->coded_frame->key_frame))
-                    pkt.flags|=AV_PKT_FLAG_KEY;
-
-                pkt.stream_index=WriteWAV->AudioStream->index;
-                pkt.data        =WriteWAV->audio_outbuf;
-                pkt.size        =out_size;
-
-                // write the compressed frame in the media file
-                if (av_interleaved_write_frame(WriteWAV->OutputFormatContext,&pkt)!=0) {
-                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
-                    *Continue=false;
-                }
-            } else if (out_size<0) {
-                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
-                *Continue=false;
-            }
-        #endif
+        }
         av_free(PacketSound);
     }
+    //avcodec_flush_buffers(AudioStream->codec);
 }

@@ -53,6 +53,7 @@ extern "C" {
     #endif
     #include <libavformat/version.h>
     #include <libavutil/avutil.h>
+    #include <libavutil/opt.h>
     #include <libswscale/swscale.h>
 
     #include <libavutil/mathematics.h>
@@ -136,6 +137,8 @@ extern "C" {
 #define ICON_FORTHEWEB                      ":/img/Internet.png"
 #define MODE_LOSSLESS                       4
 #define ICON_LOSSLESS                       ":/img/Lossless.png"
+#define MODE_SOUNDTRACK                     5
+#define ICON_SOUNDTRACK                     ":/img/object_sound.png"
 
 //============================================
 
@@ -243,7 +246,7 @@ struct sFormatDef {
 #define NBR_FORMATDEF   11
 extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];
 
-#define NBR_AUDIOFORMATDEF   5
+#define NBR_AUDIOFORMATDEF   4
 extern struct sFormatDef AUDIOFORMATDEF[NBR_AUDIOFORMATDEF];
 
 //============================================
