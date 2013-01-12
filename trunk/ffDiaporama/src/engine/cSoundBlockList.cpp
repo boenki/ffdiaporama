@@ -21,7 +21,7 @@
 #include "cSoundBlockList.h"
 
 // Specific defines for this file
-#define MAXSOUNDPACKETSIZE     3840 //4096 //16384
+#define MAXSOUNDPACKETSIZE     AVCODEC_MAX_AUDIO_FRAME_SIZE //3840 //4096 //16384
 
 //*********************************************************************************************************************************************
 // Base object for sound manipulation
@@ -158,8 +158,8 @@ void cSoundBlockList::AppendData(int16_t *Data,int64_t DataLen) {
     }
     if (DataLen>0) {                                            // Store a partial packet in temp buffer
         // Store data left to TempData
-        memcpy(TempData,CurData,DataLen);
-        CurrentTempSize=DataLen;
+        memcpy(TempData+CurrentTempSize,CurData,DataLen);
+        CurrentTempSize+=DataLen;
     }
 }
 

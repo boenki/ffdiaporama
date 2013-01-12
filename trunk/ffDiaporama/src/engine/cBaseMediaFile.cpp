@@ -1704,7 +1704,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     int64_t         SrcSampleSize       =(AudioStream->codec->sample_fmt==AV_SAMPLE_FMT_S16?2:1)*int64_t(AudioStream->codec->channels);
     int64_t         DstSampleSize       =(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels);
     AVPacket        *StreamPacket       =NULL;
-    int64_t         MaxAudioLenDecoded  =AVCODEC_MAX_AUDIO_FRAME_SIZE*3;
+    int64_t         MaxAudioLenDecoded  =AVCODEC_MAX_AUDIO_FRAME_SIZE;
     int64_t         AudioLenDecoded     =0;
     uint8_t         *BufferForDecoded   =(uint8_t *)av_malloc(MaxAudioLenDecoded+8);    //***************** !
     double          dPosition           =double(Position)/1000;     // Position in double format
@@ -1780,7 +1780,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 
                     #ifdef LIBAV_07
                     // Decode audio data
-                    int SizeDecoded     =(AVCODEC_MAX_AUDIO_FRAME_SIZE*3)/2;
+                    int SizeDecoded     =AVCODEC_MAX_AUDIO_FRAME_SIZE;
                     int Len             =avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
                     #else
                     AVFrame *Frame      =avcodec_alloc_frame();
@@ -1854,7 +1854,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                 SoundTrackBloc->Channels,AudioStream->codec->channels,          // output_channels, input_channels
                 AudioStream->codec->sample_rate,AudioStream->codec->sample_rate,// output_rate, input_rate
                 AV_SAMPLE_FMT_S16,AudioStream->codec->sample_fmt,               // sample_fmt_out, sample_fmt_in
-                0,                                                              // filter_length (trying 4 !)
+                0,                                                              // filter_length
                 0,                                                              // log2_phase_count
                 1,                                                              // linear
                 0);                                                             // cutoff
@@ -2623,10 +2623,6 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
 
     int W   =ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
     int H   =ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
-    if (ffmpegVideoFile->streams[VideoStreamNumber]->codec->lowres==1) {
-        W/=2;
-        H/=2;
-    }
     int NewW=W;
     int NewH=H;
     // Reduce image size for preview mode

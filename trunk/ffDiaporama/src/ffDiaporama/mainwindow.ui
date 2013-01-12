@@ -96,7 +96,7 @@ QToolButton:pressed {
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>3</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="TabFile">
          <property name="font">
@@ -1073,6 +1073,53 @@ WEB</string>
             <property name="icon">
              <iconset resource="../../RSCffDiaporama.qrc">
               <normaloff>:/img/render.png</normaloff>:/img/render.png</iconset>
+            </property>
+            <property name="iconSize">
+             <size>
+              <width>24</width>
+              <height>24</height>
+             </size>
+            </property>
+            <property name="toolButtonStyle">
+             <enum>Qt::ToolButtonTextUnderIcon</enum>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QToolButton" name="ActionSoundtrack_BT">
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
+            <property name="minimumSize">
+             <size>
+              <width>64</width>
+              <height>58</height>
+             </size>
+            </property>
+            <property name="maximumSize">
+             <size>
+              <width>16777215</width>
+              <height>56</height>
+             </size>
+            </property>
+            <property name="font">
+             <font>
+              <pointsize>-1</pointsize>
+             </font>
+            </property>
+            <property name="toolTip">
+             <string>Render project as a video</string>
+            </property>
+            <property name="text">
+             <string>Export
+Soundtrack</string>
+            </property>
+            <property name="icon">
+             <iconset resource="../../RSCffDiaporama.qrc">
+              <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
             </property>
             <property name="iconSize">
              <size>
@@ -2270,6 +2317,53 @@ WEB</string>
             </widget>
            </item>
            <item>
+            <widget class="QToolButton" name="ActionSoundtrack_BT_2">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>64</width>
+               <height>58</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>16777215</width>
+               <height>56</height>
+              </size>
+             </property>
+             <property name="font">
+              <font>
+               <pointsize>-1</pointsize>
+              </font>
+             </property>
+             <property name="toolTip">
+              <string>Render project as a video</string>
+             </property>
+             <property name="text">
+              <string>Export
+Soundtrack</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../RSCffDiaporama.qrc">
+               <normaloff>:/img/object_sound.png</normaloff>:/img/object_sound.png</iconset>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>24</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="toolButtonStyle">
+              <enum>Qt::ToolButtonTextUnderIcon</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="Line" name="line_9">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -2357,52 +2451,6 @@ and help</string>
              <property name="icon">
               <iconset resource="../../RSCffDiaporama.qrc">
                <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>24</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="toolButtonStyle">
-              <enum>Qt::ToolButtonTextUnderIcon</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="ActionNewFunctions_BT_2">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>64</width>
-               <height>58</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>56</height>
-              </size>
-             </property>
-             <property name="font">
-              <font>
-               <pointsize>-1</pointsize>
-              </font>
-             </property>
-             <property name="toolTip">
-              <string>Display blog/news page from internet WEB site</string>
-             </property>
-             <property name="text">
-              <string>What's new</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../../RSCffDiaporama.qrc">
-               <normaloff>:/img/contents.png</normaloff>:/img/contents.png</iconset>
              </property>
              <property name="iconSize">
               <size>

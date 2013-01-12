@@ -32,19 +32,12 @@ namespace Ui {
     class DlgRenderVideo;
 }
 
-struct sWriteWAV {
-    cSoundBlockList         RenderMusic;
-    AVCodecContext          *AudioCodecContext;
-    uint8_t                 *audio_outbuf;
-    AVStream                *AudioStream;
-    AVFormatContext         *OutputFormatContext;
-};
-
 class DlgRenderVideo : public QCustomDialog {
 Q_OBJECT
 public:
     QTimer          Timer;                          // Display progress information
     int             Column,ColumnStart,Position;    // Display progress information
+    int64_t         CurAudioPts;
 
     cDiaporama      *Diaporama;
     int             ExportMode;                     // Export mode (smartphone, advanced, etc...)
@@ -72,7 +65,7 @@ public:
     int             Standard;                       // Last standard use for rendering
 
     QString         Language;
-    QString         TempWAVFileName;
+    QString         TempAudioFileName;
     QString         TempMETAFileName;
     int             FromSlide,ToSlide;
 
@@ -91,6 +84,10 @@ public:
 
     // threaded funtion
     void SavePPM(cDiaporamaObjectInfo *Frame,QProcess *Process,bool *Continue);
+
+    bool EncodeVideo(QString m_filename,double m_frameRate,
+                                     bool EncodeVideo,QString m_videoCodec,int m_width,int m_height,enum PixelFormat pix_fmt,int m_videoBitrate,int m_keyFrameDist,
+                                     bool EncodeAudio,int audioCodecId,int m_audioChannels,int m_audioBitrate,int m_audioSampleRate);
 
 protected:
     virtual void    reject();
@@ -117,13 +114,14 @@ signals:
 private:
     Ui::DlgRenderVideo *ui;
 
-    bool            WriteTempAudioFile(QString TempWAVFileName,int FromSlide);
-    QString         AdjustMETA(QString Text);
-    void            WriteRenderedMusicToDisk(sWriteWAV *WriteWAV,bool *Continue);
+    QString         AdjustMETA(QString Text,bool AddBreak=true);
 
     bool            ComputeVideoPart(QString &vCodec);
     bool            ComputeAudioPart(QString &aCodec);
     bool            ComputeTAGPart(  QString &aTAG,bool WithChapters);
+
+    AVRational      GetCodecTimeBase(const AVCodec *m_avVideoCodec,double m_frameRate);
+    void            EncodeMusic(cSoundBlockList *ToEncodeMusic,AVStream *AudioStream,AVFormatContext *OutputFormatContext,bool *Continue,bool SoundOnly);
 
 };
 

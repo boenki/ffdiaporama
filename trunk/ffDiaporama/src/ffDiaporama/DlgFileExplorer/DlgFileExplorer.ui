@@ -17,7 +17,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string notr="true">Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -245,7 +245,7 @@
 </string>
             </property>
             <property name="text">
-             <string>...</string>
+             <string notr="true">...</string>
             </property>
             <property name="icon">
              <iconset resource="../../../RSCffDiaporama.qrc">
@@ -285,7 +285,7 @@
 </string>
             </property>
             <property name="text">
-             <string>...</string>
+             <string notr="true">...</string>
             </property>
             <property name="icon">
              <iconset resource="../../../RSCffDiaporama.qrc">
@@ -325,7 +325,7 @@
 </string>
             </property>
             <property name="text">
-             <string>...</string>
+             <string notr="true">...</string>
             </property>
             <property name="icon">
              <iconset resource="../../../RSCffDiaporama.qrc">
@@ -365,7 +365,7 @@
 </string>
             </property>
             <property name="text">
-             <string>...</string>
+             <string notr="true">...</string>
             </property>
             <property name="icon">
              <iconset resource="../../../RSCffDiaporama.qrc">
@@ -405,7 +405,7 @@
 </string>
             </property>
             <property name="text">
-             <string>...</string>
+             <string notr="true">...</string>
             </property>
             <property name="icon">
              <iconset resource="../../../RSCffDiaporama.qrc">
