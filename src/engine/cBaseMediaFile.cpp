@@ -1063,12 +1063,20 @@ void cImageFile::GetFullInformationFromFile() {
         if (ImageObject==NULL) {
             ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for thumbnail creation !");
         } else {
+            QImageReader ImgReader(FileName);
+            if (ImgReader.canRead()) {
+                QImage Image=ImgReader.read();
+                if (Image.isNull()) ToLog(LOGMSG_CRITICAL,"QImageReader.read return error in GetFullInformationFromFile");
+                    else LoadIcons(&Image);
+            }
+            /*
             QImage *LN_Image=ImageObject->ValidateCacheRenderImage();   // Get a link to render image in LuLoImageCache collection
             if ((LN_Image==NULL)||(LN_Image->isNull())) {
                 ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : ValidateCacheRenderImage return NULL for thumbnail creation !");
             } else {
                 LoadIcons(LN_Image);
             }
+            */
         }
     }
 
@@ -1249,17 +1257,25 @@ void cVideoFile::Reset(int TheWantedObjectType) {
     AudioTrackNbr           = 0;
     AudioStreamNumber       =-1;
 
+    // Audio resampling
+    RSC                     =NULL;
+    RSC_InChannels          =2;
+    RSC_OutChannels         =2;
+    RSC_InSampleRate        =48000;
+    RSC_OutSampleRate       =48000;
+    #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,31,0)
+    RSC_InChannelLayout     =av_get_default_channel_layout(2);
+    RSC_OutChannelLayout    =av_get_default_channel_layout(2);
+    #endif
+    RSC_InSampleFmt         =AV_SAMPLE_FMT_S16;
+    RSC_OutSampleFmt        =AV_SAMPLE_FMT_S16;
+
     // Filter part
- #ifdef VIDEO_LIBAVFILTER
+    #ifdef VIDEO_LIBAVFILTER
     VideoFilterGraph        =NULL;
     VideoFilterIn           =NULL;
     VideoFilterOut          =NULL;
-#endif
-#ifdef AUDIO_LIBAVFILTER
-    AudioFilterGraph        =NULL;
-    AudioFilterIn           =NULL;
-    AudioFilterOut          =NULL;
-#endif
+    #endif
 }
 
 //====================================================================================================================
@@ -1633,13 +1649,14 @@ void cVideoFile::CloseCodecAndFile() {
 
     while (CacheImage.count()>0) CacheImage.removeLast();
 
+    // Close the resampling context
+    CloseResampler();
+
     // Close the filter context
     #ifdef VIDEO_LIBAVFILTER
     if (VideoFilterGraph) VideoFilter_Close();
     #endif
-    #ifdef AUDIO_LIBAVFILTER
-    if (AudioFilterGraph) AudioFilter_Close();
-    #endif
+
     // Close the video codec
     if (VideoDecoderCodec!=NULL) {
         avcodec_close(ffmpegVideoFile->streams[VideoStreamNumber]->codec);
@@ -1694,19 +1711,14 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     // Ensure Position is not > EndPosition
     if (Position>QTime(0,0,0,0).msecsTo(DontUseEndPos?Duration:EndPos)) return;
 
-    #ifdef AUDIO_LIBAVFILTER
-    if (!AudioFilterGraph) AudioFilter_Open("aresample=48000,aconvert=s16:stereo");
-    #endif
-
-
     int64_t         AVNOPTSVALUE        =INT64_C(0x8000000000000000); // to solve type error with Qt
     AVStream        *AudioStream        =ffmpegAudioFile->streams[AudioStreamNumber];
-    int64_t         SrcSampleSize       =(AudioStream->codec->sample_fmt==AV_SAMPLE_FMT_S16?2:1)*int64_t(AudioStream->codec->channels);
+    int64_t         SrcSampleSize       =av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
     int64_t         DstSampleSize       =(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels);
     AVPacket        *StreamPacket       =NULL;
-    int64_t         MaxAudioLenDecoded  =AVCODEC_MAX_AUDIO_FRAME_SIZE;
+    int64_t         MaxAudioLenDecoded  =AVCODEC_MAX_AUDIO_FRAME_SIZE*4;
     int64_t         AudioLenDecoded     =0;
-    uint8_t         *BufferForDecoded   =(uint8_t *)av_malloc(MaxAudioLenDecoded+8);    //***************** !
+    uint8_t         *BufferForDecoded   =(uint8_t *)av_malloc(MaxAudioLenDecoded);
     double          dPosition           =double(Position)/1000;     // Position in double format
     //double          AudioDataWanted     =(PreviewMode?SoundTrackBloc->WantedDuration:5)*double(AudioStream->codec->sample_rate)*SrcSampleSize;  // 5 sec for rendering
     double          AudioLengthWanted   =(PreviewMode?1:5)*SoundTrackBloc->WantedDuration;                                                      // 5 frame for rendering
@@ -1846,29 +1858,56 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     // Transfert data from BufferForDecoded to Buffer using audio_resample
     //**********************************************************************
     if (AudioLenDecoded>0) {
-        if ((AudioStream->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||(AudioStream->codec->channels!=2)) {
+        if ((AudioStream->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||(AudioStream->codec->channels!=SoundTrackBloc->Channels)||(AudioStream->codec->sample_rate!=SoundTrackBloc->SamplingRate)) {
+            if (!ResamplingContinue) CloseResampler();
+            CheckResampler(AudioStream->codec->channels,SoundTrackBloc->Channels,
+                           AudioStream->codec->sample_fmt,AV_SAMPLE_FMT_S16,
+                           AudioStream->codec->sample_rate,SoundTrackBloc->SamplingRate
+                           #if LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,31,0)
+                           ,AudioStream->codec->channel_layout,av_get_default_channel_layout(SoundTrackBloc->Channels)
+                           #endif
+                           );
+            int NbrSample=(AudioLenDecoded/SrcSampleSize);
             // Use avlib function to transform BufferForDecoded to AV_SAMPLT_FMT_S16 / 2 channels
-            // don't use this function to resample, because result is not good !
-            ToLog(LOGMSG_DEBUGTRACE,QString("IN:cVideoFile::ReadAudioFrame => do a reformat of %1 bytes audio data").arg(AudioLenDecoded));
-            ReSampleContext *RSC=av_audio_resample_init(                        // Context for resampling audio data
-                SoundTrackBloc->Channels,AudioStream->codec->channels,          // output_channels, input_channels
-                AudioStream->codec->sample_rate,AudioStream->codec->sample_rate,// output_rate, input_rate
-                AV_SAMPLE_FMT_S16,AudioStream->codec->sample_fmt,               // sample_fmt_out, sample_fmt_in
-                0,                                                              // filter_length
-                0,                                                              // log2_phase_count
-                1,                                                              // linear
-                0);                                                             // cutoff
-            if (RSC!=NULL) {
-                short int *BufSampled=(short int*)av_malloc(MaxAudioLenDecoded);
-                AudioLenDecoded=audio_resample(RSC,BufSampled,(short int*)BufferForDecoded,(AudioLenDecoded/SrcSampleSize))*DstSampleSize;
+            #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,31,0)
+                ToLog(LOGMSG_DEBUGTRACE,QString("IN:cVideoFile::ReadAudioFrame => do a reformat of %1 bytes audio data").arg(AudioLenDecoded));
+                if (RSC!=NULL) {
+                    short int *BufSampled=(short int*)av_malloc(MaxAudioLenDecoded);
+                    AudioLenDecoded=audio_resample(RSC,BufSampled,(short int*)BufferForDecoded,NbrSample)*DstSampleSize;
 
-                // switch 2 buffers
-                av_free(BufferForDecoded);
-                BufferForDecoded=(uint8_t *)BufSampled;
+                    // switch 2 buffers
+                    av_free(BufferForDecoded);
+                    BufferForDecoded=(uint8_t *)BufSampled;
+                }
+            #else
+                if (RSC!=NULL) {
+                    uint8_t     *in_data[AVRESAMPLE_MAX_CHANNELS]={0},*out_data[AVRESAMPLE_MAX_CHANNELS]={0};
+                    int         in_linesize=0,out_linesize=0;
+                    short int   *BufSampled=(short int*)av_malloc(MaxAudioLenDecoded);
 
-                // Close the resampling audio context
-                audio_resample_close(RSC);
-            }
+                    if (av_samples_fill_arrays(in_data,&in_linesize,(uint8_t *)BufferForDecoded,AudioStream->codec->channels,NbrSample,AudioStream->codec->sample_fmt,0)<0) {
+                        ToLog(LOGMSG_CRITICAL,QString("failed in_data fill arrays"));
+                    } else {
+                        if (av_samples_fill_arrays(out_data,&out_linesize,(uint8_t *)BufSampled,SoundTrackBloc->Channels,NbrSample,AV_SAMPLE_FMT_S16,0)<0) {
+                            ToLog(LOGMSG_CRITICAL,QString("failed out_data fill arrays"));
+                        } else {
+                            int len=avresample_convert(RSC,out_data,out_linesize,MaxAudioLenDecoded/DstSampleSize,in_data,in_linesize,NbrSample);
+                            if (len<=0) {
+                                ToLog(LOGMSG_CRITICAL,QString("Error in avresample_convert"));
+                            }
+                            //if (avresample_get_delay(RSC)>0) qDebug()<<avresample_get_delay(RSC)<<"delay samples not converted";
+                            if (avresample_available(RSC)>0)   qDebug()<<avresample_available(RSC)<<"/"<<len<<"/"<<NbrSample<<"samples available for output";
+
+                            // switch 2 buffers
+                            av_free(BufferForDecoded);
+                            BufferForDecoded=(uint8_t *)BufSampled;
+                            BufSampled      =NULL;
+                            AudioLenDecoded =len*DstSampleSize;
+                        }
+                    }
+                    if (BufSampled) av_free(BufSampled);
+                }
+            #endif
         }
         if (Volume!=1) {
             // Adjust volume
@@ -1881,137 +1920,6 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                 mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
             }
         }
-        if (AudioStream->codec->sample_rate!=SoundTrackBloc->SamplingRate) {
-            // Resampling
-            ToLog(LOGMSG_DEBUGTRACE,QString("IN:cVideoFile::ReadAudioFrame => do a resample of %1 bytes").arg(AudioLenDecoded));
-
-            qreal   NewSize=((qreal(AudioLenDecoded)/4)/qreal(AudioStream->codec->sample_rate))*qreal(SoundTrackBloc->SamplingRate);
-            qreal   PasSrc =qreal(1)/qreal(AudioStream->codec->sample_rate);
-            qreal   PasDst =qreal(1)/qreal(SoundTrackBloc->SamplingRate);
-            int16_t *NewBuf=(short int*)av_malloc(NewSize*4+16);
-            int16_t *PtrSrc=(int16_t*)BufferForDecoded;
-            int16_t *EndSrc=(int16_t*)(BufferForDecoded+AudioLenDecoded);
-            int16_t *PtrDst=NewBuf;
-            int     RealNewSize=0;
-
-            // For Rendering Mode use a resampling linear method with Hermit interpolation (http://en.wikipedia.org/wiki/Hermite_interpolation)
-            int16_t Left_x0,Left_x1,Left_x2,Left_x3;
-            int16_t Right_x0,Right_x1,Right_x2,Right_x3;
-            qreal   t,c0,c1,c2,c3,Value,PosSrc,PosDst;
-
-            if (ResamplingContinue) {
-                // Set positions
-                PosSrc = PrevPosSrc;
-                PosDst = PrevPosDst;
-
-                // First value
-                Left_x0 =PrevLeft_x0;
-                Right_x0=PrevRight_x0;
-
-                // Second value
-                Left_x1 =PrevLeft_x1;
-                Right_x1=PrevRight_x1;
-
-                // Third value
-                Left_x2 =PrevLeft_x2;
-                Right_x2=PrevRight_x2;
-
-                // Fourth value
-                Left_x3 =PrevLeft_x3;
-                Right_x3=PrevRight_x3;
-
-            } else {
-                // Set positions
-                PosSrc =0;
-                PosDst =0;
-
-                // First value
-                Left_x0 =*(PtrSrc++);   *(PtrDst++)=Left_x0;
-                Right_x0=*(PtrSrc++);   *(PtrDst++)=Right_x0;
-                PosSrc=PosSrc+PasSrc;
-                PosDst=PosDst+PasDst;
-                RealNewSize++;
-
-                // Second value
-                Left_x1 =*(PtrSrc++);   *(PtrDst++)=Left_x1;
-                Right_x1=*(PtrSrc++);   *(PtrDst++)=Right_x1;
-                //PosSrc=PosSrc+PasSrc;
-                PosDst=PosDst+PasDst;
-                RealNewSize++;
-
-                // Third value
-                Left_x2 =*(PtrSrc++);
-                Right_x2=*(PtrSrc++);
-
-                // Neutralize first swap
-                Left_x3 =Left_x2;       Left_x2 =Left_x1;       Left_x1 =Left_x0;
-                Right_x3=Right_x2;      Right_x2=Right_x1;      Right_x1=Right_x0;
-            }
-            //while (RealNewSize<NewSize) {
-            while (PtrSrc<EndSrc) {
-
-                if ((PosDst-PosSrc)>=PasSrc) {
-                    // swap all values
-                    Left_x0 =Left_x1;       Left_x1 =Left_x2;       Left_x2 =Left_x3;
-                    Right_x0=Right_x1;      Right_x1=Right_x2;      Right_x2=Right_x3;
-
-                    // Get fourth value
-                    Left_x3 =*(PtrSrc++);
-                    Right_x3=*(PtrSrc++);
-                    PosSrc=PosSrc+PasSrc;
-                }
-
-                // Calculate distance between PosSrc and next point
-                t=(PosDst-PosSrc)/PasSrc;
-
-                // Calculate interpolation using Hermite method
-                // Left Chanel
-                c0   =Left_x1;
-                c1   =.5F * (Left_x2 - Left_x0);
-                c2   =Left_x0 - (2.5F * Left_x1) + (2 * Left_x2) - (.5F * Left_x3);
-                c3   =(.5F * (Left_x3 - Left_x0)) + (1.5F * (Left_x1 - Left_x2));
-                Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
-                if (Value>32767)  Value=32767; else if (Value<-32768) Value=-32768;
-                *(PtrDst++)=int16_t(Value);
-
-                // Right Chanel
-                c0   =Right_x1;
-                c1   =.5F * (Right_x2 - Right_x0);
-                c2   =Right_x0 - (2.5F * Right_x1) + (2 * Right_x2) - (.5F * Right_x3);
-                c3   =(.5F * (Right_x3 - Right_x0)) + (1.5F * (Right_x1 - Right_x2));
-                Value=(((((c3 * t) + c2) * t) + c1) * t) + c0;
-                if (Value>32767)  Value=32767; else if (Value<-32768) Value=-32768;
-                *(PtrDst++)=int16_t(Value);
-
-                PosDst=PosDst+PasDst;
-                RealNewSize++;
-            }
-            // Last 2 values
-            *(PtrDst++)=Left_x2;
-            *(PtrDst++)=Right_x2;
-            RealNewSize++;
-            *(PtrDst++)=Left_x3;    //Left_x3;
-            *(PtrDst++)=Right_x3;   //Right_x3;
-            RealNewSize++;
-
-            // keep values for next time
-            PrevPosSrc=PosSrc;
-            PrevPosDst=PosDst;
-            PrevLeft_x0=Left_x0;
-            PrevRight_x0=Right_x0;
-            PrevLeft_x1=Left_x1;
-            PrevRight_x1=Right_x1;
-            PrevLeft_x2=Left_x2;
-            PrevRight_x2=Right_x2;
-            PrevLeft_x3=Left_x3;
-            PrevRight_x3=Right_x3;
-
-            // switch 2 buffers
-            AudioLenDecoded=RealNewSize*DstSampleSize;
-            av_free(BufferForDecoded);
-            BufferForDecoded=(uint8_t *)NewBuf;
-        }
-
         // Append data to SoundTrackBloc
         SoundTrackBloc->AppendData((int16_t*)BufferForDecoded,AudioLenDecoded);
     }
@@ -2025,10 +1933,93 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     if (BufferForDecoded) av_free(BufferForDecoded);
 }
 
+//*********************************************************************************************************************
+
+void cVideoFile::CloseResampler() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::CloseResampler");
+    if (RSC) {
+        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,31,0)
+            audio_resample_close(RSC);
+            RSC=NULL;
+        #else
+            avresample_free(&RSC);  // This also calls avresample_close() before freeing
+            RSC=NULL;
+        #endif
+    }
+}
+
+//*********************************************************************************************************************
+
+void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleFormat RSC_InSampleFmt,AVSampleFormat RSC_OutSampleFmt,int RSC_InSampleRate,int RSC_OutSampleRate
+                                           #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,31,0)
+                                               ,uint64_t RSC_InChannelLayout,uint64_t RSC_OutChannelLayout
+                                           #endif
+                                      ) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::CheckResampler");
+    #if LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,31,0)
+    if (RSC_InChannelLayout==0)  RSC_InChannelLayout =av_get_default_channel_layout(RSC_InChannels);
+    if (RSC_OutChannelLayout==0) RSC_OutChannelLayout=av_get_default_channel_layout(RSC_OutChannels);
+    #endif
+    if ((RSC!=NULL)&&
+        ( (RSC_InChannels!=this->RSC_InChannels)    ||(RSC_OutChannels!=this->RSC_OutChannels)
+        ||(RSC_InSampleFmt!=this->RSC_InSampleFmt)  ||(RSC_OutSampleFmt!=this->RSC_OutSampleFmt)
+        ||(RSC_InSampleRate!=this->RSC_InSampleRate)||(RSC_OutSampleRate!=this->RSC_OutSampleRate)
+        #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,31,0)
+        ||(RSC_InChannelLayout!=this->RSC_InChannelLayout)||(RSC_OutChannelLayout!=this->RSC_OutChannelLayout)
+        #endif
+       )) {
+        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,31,0)
+            audio_resample_close(RSC);
+            RSC=NULL;
+        #else
+            avresample_free(&RSC);
+            RSC=NULL;
+        #endif
+    }
+    if (RSC==NULL) {
+        this->RSC_InChannels   =RSC_InChannels;
+        this->RSC_OutChannels  =RSC_OutChannels;
+        this->RSC_InSampleFmt  =RSC_InSampleFmt;
+        this->RSC_OutSampleFmt =RSC_OutSampleFmt;
+        this->RSC_InSampleRate =RSC_InSampleRate;
+        this->RSC_OutSampleRate=RSC_OutSampleRate;
+
+        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,31,0)
+            RSC=av_audio_resample_init(    // Context for resampling audio data
+                RSC_OutChannels,RSC_InChannels,             // output_channels, input_channels
+                RSC_OutSampleRate,RSC_InSampleRate,         // output_rate, input_rate
+                RSC_OutSampleFmt,RSC_InSampleFmt,           // sample_fmt_out, sample_fmt_in
+                0,                                          // filter_length
+                0,                                          // log2_phase_count
+                1,                                          // linear
+                0);                                         // cutoff
+            if (RSC==NULL) ToLog(LOGMSG_CRITICAL,QString("CheckResampler: av_audio_resample_init failed"));
+        #else
+            this->RSC_InChannelLayout =RSC_InChannelLayout;
+            this->RSC_OutChannelLayout=RSC_OutChannelLayout;
+            RSC=avresample_alloc_context();
+            if (RSC) {
+                av_opt_set_int(RSC,"in_channel_layout",  RSC_InChannelLayout, 0);
+                av_opt_set_int(RSC,"in_sample_fmt",      RSC_InSampleFmt,     0);
+                av_opt_set_int(RSC,"in_sample_rate",     RSC_InSampleRate,    0);
+                av_opt_set_int(RSC,"out_channel_layout", RSC_OutChannelLayout,0);
+                av_opt_set_int(RSC,"out_sample_fmt",     RSC_OutSampleFmt,    0);
+                av_opt_set_int(RSC,"out_sample_rate",    RSC_OutSampleRate,   0);
+                av_opt_set_int(RSC,"internal_sample_fmt",AV_SAMPLE_FMT_FLTP,  0);
+                if (avresample_open(RSC)<0) {
+                    ToLog(LOGMSG_CRITICAL,QString("CheckResampler: avresample_open failed"));
+                    avresample_free(&RSC);
+                    RSC=NULL;
+                }
+            } else ToLog(LOGMSG_CRITICAL,QString("CheckResampler: avresample_alloc_context failed"));
+        #endif
+    }
+}
+
+//*********************************************************************************************************************
+// VIDEO FILTER PART : This code was adapt from xbmc sources files DVDVideoCodecFFmpeg.h/.cpp and AVPLAY.c
+//*********************************************************************************************************************
 #ifdef VIDEO_LIBAVFILTER
-    //*********************************************************************************************************************
-    // VIDEO FILTER PART : This code was adapt from xbmc sources files DVDVideoCodecFFmpeg.h/.cpp and AVPLAY.c
-    //*********************************************************************************************************************
 
     unsigned int cVideoFile::SetFilters(unsigned int flags) {
         m_filters_next.clear();
@@ -2295,125 +2286,6 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
             }
         #endif
         return VC_BUFFER;
-    }
-
-#endif
-
-#ifdef AUDIO_LIBAVFILTER
-    //*********************************************************************************************************************
-    // AUDIO FILTER PART : This code was adapt from filtering_audio.c give with ffmpeg library
-    //*********************************************************************************************************************
-    //"aresample=48000,aconvert=s16:stereo"
-
-    int cVideoFile::AudioFilter_Open(QString Filters) {
-        if (AudioFilterGraph) AudioFilter_Close();
-
-        QString             Args;
-        int                 ret;
-        AVCodecContext      *dec_ctx            =ffmpegAudioFile->streams[AudioStreamNumber]->codec;
-        AVRational          time_base           =ffmpegAudioFile->streams[AudioStreamNumber]->time_base;
-
-        if (!(AudioFilterGraph=avfilter_graph_alloc())) {
-            ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::AudioFilter_Open : unable to alloc filter graph"));
-            return -1;
-        }
-
-        #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(2,60,0)    // from 2.13 to 2.60
-        if (!dec_ctx->channel_layout) dec_ctx->channel_layout = av_get_default_channel_layout(dec_ctx->channels);
-        #endif
-
-        Args=QString("time_base=%1/%2:sample_rate=%3:sample_fmt=%4:channel_layout=0x%5").arg(time_base.num).arg(time_base.den).arg(dec_ctx->sample_rate).arg(av_get_sample_fmt_name(dec_ctx->sample_fmt)).arg(dec_ctx->channel_layout);
-
-        #if (LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(2,60,0)) && (LIBAVFILTER_VERSION_INT<AV_VERSION_INT(3,1,0))     // from 2.60 to 3.1
-
-            AVFilter *srcFilter=avfilter_get_by_name("abuffer");
-            AVFilter *outFilter=avfilter_get_by_name("ffabuffersink");
-
-            if ((result=avfilter_graph_create_filter(&AudioFilterIn,srcFilter,"src",Args.toLocal8Bit().constData(),NULL,AudioFilterGraph))<0) {
-                ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::AudioFilter_Open : avfilter_graph_create_filter: src"));
-                return result;
-            }
-
-            const enum AVSampleFormat sample_fmts[] = { AV_SAMPLE_FMT_S16, AVSampleFormat(-1) };
-
-            /* buffer audio sink: to terminate the filter chain. */
-            AVABufferSinkParams *abuffersink_params=av_abuffersink_params_alloc();
-            abuffersink_params->sample_fmts = sample_fmts;
-            if (ret=(avfilter_graph_create_filter(&AudioFilterOut,outFilter,"out",NULL,abuffersink_params,AudioFilterGraph))<0) {
-                av_free(abuffersink_params);
-                ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::AudioFilter_Open : Cannot create audio buffer sink"));
-                return ret;
-            }
-            av_free(abuffersink_params);
-
-            AVFilterInOut *outputs=avfilter_inout_alloc();
-            AVFilterInOut *inputs =avfilter_inout_alloc();
-
-        #else                                                   // from 3.1
-
-            AVFilter *srcFilter=avfilter_get_by_name("abuffer");
-            AVFilter *outFilter=avfilter_get_by_name("ffabuffersink");
-
-            if ((result=avfilter_graph_create_filter(&AudioFilterIn,srcFilter,"src",Args.toLocal8Bit().constData(),NULL,AudioFilterGraph))<0) {
-                ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::AudioFilter_Open : avfilter_graph_create_filter: src"));
-                return result;
-            }
-            if ((result=avfilter_graph_create_filter(&AudioFilterOut,outFilter,"out",NULL,NULL,AudioFilterGraph))<0) {
-                ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::AudioFilter_Open : avfilter_graph_create_filter: out"));
-                return result;
-            }
-            AVFilterInOut *outputs=avfilter_inout_alloc();
-            AVFilterInOut *inputs =avfilter_inout_alloc();
-
-        #endif
-
-        /* Endpoints for the filter graph. */
-        outputs->name      =av_strdup("in");
-        outputs->filter_ctx=AudioFilterIn;
-        outputs->pad_idx   =0;
-        outputs->next      =NULL;
-
-        inputs->name       =av_strdup("out");
-        inputs->filter_ctx =AudioFilterOut;
-        inputs->pad_idx    =0;
-        inputs->next       =NULL;
-
-        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,23,0)
-        if ((ret=avfilter_graph_parse(AudioFilterGraph,Filters.toLocal8Bit().constData(),inputs,outputs,NULL))<0) {
-        #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)
-        if ((ret=avfilter_graph_parse(AudioFilterGraph,Filters.toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
-        #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,17,0)
-        if ((ret=avfilter_graph_parse(AudioFilterGraph,Filters.toLocal8Bit().constData(),inputs,outputs,NULL))<0) {
-        #else
-        if ((ret=avfilter_graph_parse(AudioFilterGraph,Filters.toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
-        #endif
-            ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::AudioFilter_Open : avfilter_graph_parse"));
-            return ret;
-        }
-
-        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,23,0)
-        //av_free(outputs);
-        //av_free(inputs);
-        #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0) // since 3.1, do not dispose them
-        avfilter_inout_free(&outputs);
-        avfilter_inout_free(&inputs);
-        #endif
-
-        if ((ret=avfilter_graph_config(VideoFilterGraph,NULL))<0) {
-            ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::AudioFilter_Open : avfilter_graph_config"));
-            return ret;
-        }
-
-        return 0;
-    }
-
-    void cVideoFile::AudioFilter_Close() {
-        if (AudioFilterGraph) {
-            avfilter_graph_free(&AudioFilterGraph);
-            // Disposed by avfilter_graph_free
-            AudioFilterIn =NULL;
-            AudioFilterOut=NULL;
-        }
     }
 
 #endif

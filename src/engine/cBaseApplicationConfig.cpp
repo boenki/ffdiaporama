@@ -414,12 +414,18 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     AllowImageExtension.append("svg");     AllowImageExtension.append("SVG");
     // List of all file extension allowed for musique
     AllowMusicExtension.append("wav");     AllowMusicExtension.append("WAV");
+    AllowMusicExtension.append("aac");     AllowMusicExtension.append("AAC");
+    AllowMusicExtension.append("adts");    AllowMusicExtension.append("ADTS");
+    AllowMusicExtension.append("ac3");     AllowMusicExtension.append("AC3");
+    AllowMusicExtension.append("mp2");     AllowMusicExtension.append("MP2");
     AllowMusicExtension.append("mp3");     AllowMusicExtension.append("MP3");
     AllowMusicExtension.append("mp4");     AllowMusicExtension.append("MP4");
     AllowMusicExtension.append("m4a");     AllowMusicExtension.append("M4A");
     AllowMusicExtension.append("m4b");     AllowMusicExtension.append("M4B");
     AllowMusicExtension.append("m4p");     AllowMusicExtension.append("M4P");
     AllowMusicExtension.append("3g2");     AllowMusicExtension.append("3G2");
+    AllowMusicExtension.append("3ga");     AllowMusicExtension.append("3GA");
+    AllowMusicExtension.append("3gp");     AllowMusicExtension.append("3GP");
     AllowMusicExtension.append("ogg");     AllowMusicExtension.append("OGG");
     AllowMusicExtension.append("oga");     AllowMusicExtension.append("OGA");
     AllowMusicExtension.append("spx");     AllowMusicExtension.append("SPX");

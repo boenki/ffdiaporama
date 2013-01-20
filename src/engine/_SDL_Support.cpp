@@ -79,7 +79,7 @@ void SDLAudioCallback(void *,Uint8 *stream,int len) {
 // SDL Init/Reinit function
 //*********************************************************************************************************************************************
 
-void SDLFirstInit(double WantedFPS,bool SDLAncMode) {
+void SDLFirstInit(double WantedFPS,bool SDLAncMode,int64_t SamplingRate) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SDLFirstInit");
 
     // Start SDL
@@ -90,7 +90,7 @@ void SDLFirstInit(double WantedFPS,bool SDLAncMode) {
         ToLog(LOGMSG_CRITICAL,QString("SDLFirstInit=Could not initialize SDL :%1").arg(SDL_GetError()));
         exit(1);    // ExitApplicationWithFatalError
     }
-    SDLSetFPS(WantedFPS,SDLAncMode);
+    SDLSetFPS(WantedFPS,SDLAncMode,SamplingRate);
 }
 
 //*********************************************************************************************************************************************
@@ -111,7 +111,7 @@ void SDLLastClose() {
 // SDLSetFPS function
 //*********************************************************************************************************************************************
 
-void SDLSetFPS(double WantedFPS,bool SDLAncMode) {
+void SDLSetFPS(double WantedFPS,bool SDLAncMode,int64_t SamplingRate) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SDLSetFPS");
 
     //if (SDLCurrentFPS==WantedFPS) return;
@@ -121,7 +121,7 @@ void SDLSetFPS(double WantedFPS,bool SDLAncMode) {
 
     // Init MixedMusic
     MixedMusic.ClearList();                                             // Free sound buffers
-    MixedMusic.SetFPS(WantedFPS);
+    MixedMusic.SetFPS(WantedFPS,SamplingRate);
 
     // Init SDL
     SDL_AudioSpec Desired;

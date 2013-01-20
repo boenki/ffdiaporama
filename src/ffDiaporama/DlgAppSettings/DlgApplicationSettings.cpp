@@ -85,10 +85,12 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->SDLAudioModeCB->setChecked(ApplicationConfig->SDLAudioOldMode);
 
     // Preview Options
+    QString ASR=(QString("%1").arg(ApplicationConfig->PreviewSamplingRate));
     QString FPS=(QString("%1").arg(ApplicationConfig->PreviewFPS,0,'f')).trimmed();
     while (FPS.endsWith('0')) FPS=FPS.left(FPS.length()-1);
     if (FPS.endsWith('.')) FPS=FPS.left(FPS.length()-1);
     ui->PreviewFrameRateCB->setCurrentIndex(ui->PreviewFrameRateCB->findText(FPS));
+    ui->PreviewAudioRateCB->setCurrentIndex(ui->PreviewAudioRateCB->findText(ASR));
     ui->SmoothImageDuringPreviewCB->setChecked(ApplicationConfig->Smoothing);
 
     // Editor options
@@ -209,26 +211,40 @@ void DlgApplicationSettings::DoInitDialog() {
     //********************************
 
     // Init format container combo
-    ui->PipeThreadCB->setChecked(ApplicationConfig->PipeThread);
-    ui->DefaultNameProjectNameCB->setCurrentIndex(ApplicationConfig->DefaultNameProjectName);
     for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
         ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
         if (i==ApplicationConfig->DefaultFormat) ui->FileFormatCB->setCurrentIndex(ui->FileFormatCB->count()-1);
     }
     if (ui->FileFormatCB->currentIndex()<0) ui->FileFormatCB->setCurrentIndex(0);
+
+    // Init format container combo for soundtrack export
+    for (int i=0;i<NBR_AUDIOFORMATDEF;i++) if (AUDIOFORMATDEF[i].IsFind) {
+        ui->SoundtrackFileFormatCB->addItem(AUDIOFORMATDEF[i].LongName,QVariant(i));
+        if (i==ApplicationConfig->DefaultSoundtrackFormat) ui->SoundtrackFileFormatCB->setCurrentIndex(ui->SoundtrackFileFormatCB->count()-1);
+    }
+    if (ui->SoundtrackFileFormatCB->currentIndex()<0) ui->SoundtrackFileFormatCB->setCurrentIndex(0);
+
+
     // Image size & standard
     ui->StandardCombo->setCurrentIndex(ApplicationConfig->DefaultStandard);
     InitImageSizeCombo(0);
     ui->SizeCombo->setCurrentIndex(ui->SizeCombo->findText(DefImageFormat[ApplicationConfig->DefaultStandard][ApplicationConfig->ImageGeometry][ApplicationConfig->DefaultImageSize].Name));
     ui->LosslessSizeCombo->setCurrentIndex(ui->LosslessSizeCombo->findText(DefImageFormat[ApplicationConfig->DefaultStandard][ApplicationConfig->ImageGeometry][ApplicationConfig->DefaultLossLess].Name));
+
     // codec(s) & bitrate(s)
-    FileFormatCombo(-1);     // For first initialisation : ChangeIndex=-1
+    FileFormatCombo(-1);            // For first initialisation : ChangeIndex=-1
+    SoundtrackFileFormatCombo(-1);  // For first initialisation : ChangeIndex=-1
+
     ui->LanguageED->setText(ApplicationConfig->DefaultLanguage);
+    ui->PipeThreadCB->setChecked(ApplicationConfig->PipeThread);
+    ui->DefaultNameProjectNameCB->setCurrentIndex(ApplicationConfig->DefaultNameProjectName);
+
     connect(ui->StandardCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
     connect(ui->SizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
     connect(ui->FileFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
     connect(ui->VideoFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
     connect(ui->AudioFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitAudioBitRateCB(int)));
+    connect(ui->SoundtrackFileFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(SoundtrackFileFormatCombo(int)));
 
     //***********************************
     // Default Device type for rendering
@@ -313,6 +329,33 @@ void DlgApplicationSettings::AddItemToFramingCB(QComboBox *CB,int FraminStyle) {
 }
 
 //====================================================================================================================
+// Create and sort List
+
+QStringList DlgApplicationSettings::StringToSortedStringList(QString String) {
+    QStringList StringList;
+    QString     SubString;
+    while (String.length()>0) {
+        int Index=String.indexOf("#");
+        if (Index>0) {
+            SubString=String.left(Index);
+            String=String.right(String.length()-Index-1);
+        } else {
+            SubString=String;
+            String="";
+        }
+        StringList.append(SubString);
+    }
+    for (int i=0;i<StringList.count();i++) for (int j=0;j<StringList.count()-1;j++) {
+        QString NameA=StringList[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
+        double  NumA=NameA.toDouble();
+        QString NameB=StringList[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
+        double  NumB=NameB.toDouble();
+        if (NumA>NumB) StringList.swap(j,j+1);
+    }
+    return StringList;
+}
+
+//====================================================================================================================
 // Call when user click on Ok button
 
 void DlgApplicationSettings::DoAccept() {
@@ -329,6 +372,7 @@ void DlgApplicationSettings::DoAccept() {
     // Preview Options part
     ApplicationConfig->Smoothing                =ui->SmoothImageDuringPreviewCB->isChecked();
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
+    ApplicationConfig->PreviewSamplingRate      =ui->PreviewAudioRateCB->currentText().toLong();
 
     switch (ui->MemCacheProfilCB->currentIndex()) {
         case 3  : ApplicationConfig->MemCacheMaxValue=qlonglong(2048*qlonglong(1024*1024));    break;
@@ -338,17 +382,17 @@ void DlgApplicationSettings::DoAccept() {
     }
 
     // Editor Options part
-    ApplicationConfig->AppendObject             =ui->AppendObjectCB->currentIndex()==1;
-    ApplicationConfig->SortFile                 =ui->SortFileCB->isChecked();
-    ApplicationConfig->AskUserToRemove          =ui->AskUserToRemove->isChecked();
-    ApplicationConfig->DisplayUnit              =ui->UnitCB->currentIndex();
-    ApplicationConfig->Crop1088To1080           =ui->Crop1088To1080CB->isChecked();
-    ApplicationConfig->Deinterlace              =ui->DeinterlaceCB->isChecked();
+    ApplicationConfig->AppendObject                 =ui->AppendObjectCB->currentIndex()==1;
+    ApplicationConfig->SortFile                     =ui->SortFileCB->isChecked();
+    ApplicationConfig->AskUserToRemove              =ui->AskUserToRemove->isChecked();
+    ApplicationConfig->DisplayUnit                  =ui->UnitCB->currentIndex();
+    ApplicationConfig->Crop1088To1080               =ui->Crop1088To1080CB->isChecked();
+    ApplicationConfig->Deinterlace                  =ui->DeinterlaceCB->isChecked();
 
-    ApplicationConfig->DefaultTransitionDuration=int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
-    ApplicationConfig->RandomTransition         =ui->RandomTransitionRD->isChecked();
-    ApplicationConfig->DefaultTransitionSubType =(ui->NoTransitionRD->isChecked()?0:1);
-    ApplicationConfig->DefaultTransitionFamilly =0;
+    ApplicationConfig->DefaultTransitionDuration    =int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
+    ApplicationConfig->RandomTransition             =ui->RandomTransitionRD->isChecked();
+    ApplicationConfig->DefaultTransitionSubType     =(ui->NoTransitionRD->isChecked()?0:1);
+    ApplicationConfig->DefaultTransitionFamilly     =0;
 
     // ProjectDefault part
     ApplicationConfig->DefaultTransitionSpeedWave   =ui->TransitionSpeedWaveCB->GetCurrentValue();
@@ -401,10 +445,17 @@ void DlgApplicationSettings::DoAccept() {
     QString BitRate=ui->VideoBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultVideoBitRate=BitRate.toInt();
     BitRate        =ui->AudioBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultAudioBitRate=BitRate.toInt();
 
-    ApplicationConfig->DefaultSmartphoneType =ui->SmartphoneTypeCB->itemData(ui->SmartphoneTypeCB->currentIndex()).toInt();
-    ApplicationConfig->DefaultMultimediaType =ui->MMSystemTypeCB->itemData(ui->MMSystemTypeCB->currentIndex()).toInt();
-    ApplicationConfig->DefaultForTheWEBType  =ui->ForTheWTypeCB->itemData(ui->ForTheWTypeCB->currentIndex()).toInt();
-    ApplicationConfig->DefaultLossLess       =ui->LosslessSizeCombo->itemData(ui->LosslessSizeCombo->currentIndex()).toInt();
+    ApplicationConfig->DefaultSoundtrackFormat  =ui->SoundtrackFileFormatCB->currentIndex();
+    if (ApplicationConfig->DefaultSoundtrackFormat>=0) ApplicationConfig->DefaultSoundtrackFormat=ui->SoundtrackFileFormatCB->itemData(ApplicationConfig->DefaultSoundtrackFormat).toInt(); else ApplicationConfig->DefaultSoundtrackFormat=0;
+    Codec=ui->SoundtrackAudioFormatCB->currentIndex();
+    if (Codec>=0) ApplicationConfig->DefaultSoundtrackAudioCodec=AUDIOCODECDEF[ui->SoundtrackAudioFormatCB->itemData(Codec).toInt()].ShortName; else ApplicationConfig->DefaultSoundtrackAudioCodec="";
+    BitRate=ui->SoundtrackAudioBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultSoundtrackBitRate=BitRate.toInt();
+    QString Freq=ui->SoundtrackAudioFreqCB->currentText(); ApplicationConfig->DefaultSoundtrackFreq=Freq.toInt();
+
+    ApplicationConfig->DefaultSmartphoneType    =ui->SmartphoneTypeCB->itemData(ui->SmartphoneTypeCB->currentIndex()).toInt();
+    ApplicationConfig->DefaultMultimediaType    =ui->MMSystemTypeCB->itemData(ui->MMSystemTypeCB->currentIndex()).toInt();
+    ApplicationConfig->DefaultForTheWEBType     =ui->ForTheWTypeCB->itemData(ui->ForTheWTypeCB->currentIndex()).toInt();
+    ApplicationConfig->DefaultLossLess          =ui->LosslessSizeCombo->itemData(ui->LosslessSizeCombo->currentIndex()).toInt();
 
     QString Text=ui->SmartphoneModelCB->currentText();
     int i=0;
@@ -513,9 +564,9 @@ void DlgApplicationSettings::FileFormatCombo(int ChangeIndex) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::FileFormatCombo");
     ui->VideoFormatCB->clear();
     ui->AudioFormatCB->clear();
+    int CurrentFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
 
     //********* Video codec part
-    int         CurrentFormat=ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
     QString     AllowedCodec=FORMATDEF[CurrentFormat].PossibleVideoCodec;
     QString     Codec="";
     QString     ToSelect="";
@@ -592,6 +643,51 @@ void DlgApplicationSettings::FileFormatCombo(int ChangeIndex) {
 
 //====================================================================================================================
 
+void DlgApplicationSettings::SoundtrackFileFormatCombo(int ChangeIndex) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::SoundtrackFileFormatCombo");
+    ui->SoundtrackAudioFormatCB->clear();
+
+    int         CurrentFormat=ui->SoundtrackFileFormatCB->itemData(ui->SoundtrackFileFormatCB->currentIndex()).toInt();
+    QString     AllowedCodec=AUDIOFORMATDEF[CurrentFormat].PossibleAudioCodec;
+    QString     Codec="";
+    int         Index=0;
+    QString     ToSelect="";
+    QStringList List;
+
+    while (AllowedCodec.length()>0) {
+        Index=AllowedCodec.indexOf("#");
+        if (Index>0) {
+            Codec=AllowedCodec.left(Index);
+            AllowedCodec=AllowedCodec.right(AllowedCodec.length()-Index-1);
+        } else {
+            Codec=AllowedCodec;
+            AllowedCodec="";
+        }
+        // Now find index of this codec in the AUDIOCODECDEF
+        Index=0;
+        while ((Index<NBR_AUDIOCODECDEF)&&(Codec!=QString(AUDIOCODECDEF[Index].ShortName))) Index++;
+        if ((Index<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[Index].IsFind)) {
+            List.append(QString("%1#####%2").arg(AUDIOCODECDEF[Index].LongName).arg(Index));
+            if (Codec==QString(ApplicationConfig->DefaultSoundtrackAudioCodec)) ToSelect=QString(AUDIOCODECDEF[Index].LongName);
+        }
+    }
+    // Sort List
+    for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) if (List[j]>List[j+1]) List.swap(j,j+1);
+    // Fill combo
+    for (int i=0;i<List.count();i++) {
+        Codec=List[i].left(List[i].indexOf("#####"));
+        Index=List[i].mid(List[i].indexOf("#####")+QString("#####").length()).toInt();
+        ui->SoundtrackAudioFormatCB->addItem(Codec,QVariant(Index));
+    }
+    // Set current selection
+    if (ui->SoundtrackAudioFormatCB->findText(ToSelect)!=-1) ui->SoundtrackAudioFormatCB->setCurrentIndex(ui->SoundtrackAudioFormatCB->findText(ToSelect));
+        else ui->SoundtrackAudioFormatCB->setCurrentIndex(0);
+    ui->SoundtrackAudioFormatCB->setEnabled(ui->SoundtrackAudioFormatCB->count()>0);
+    InitSoundTrackAudioBitRateCB(ChangeIndex);
+}
+
+//====================================================================================================================
+
 void DlgApplicationSettings::ChangeSmartphoneTypeCB(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::ChangeSmartphoneTypeCB");
     int         ExportMode=MODE_SMARTPHONE;
@@ -661,33 +757,9 @@ void DlgApplicationSettings::InitVideoBitRateCB(int ChangeIndex) {
     if (CurrentCodec>=0) {
         CurrentCodec=ui->VideoFormatCB->itemData(CurrentCodec).toInt();
 
-        QString     AllowedBitRate=FORMATDEF[ui->FileFormatCB->currentIndex()].PossibleVideoCodec;
-        QString     BitRate="";
-        int         Index=0;
+        QStringList List=StringToSortedStringList(VIDEOCODECDEF[CurrentCodec].PossibleBitrate);
         bool        IsFindBitRate=false;
-        AllowedBitRate=VIDEOCODECDEF[CurrentCodec].PossibleBitrate;
-        BitRate="";
-        Index=0;
-        IsFindBitRate=false;
-        QStringList List;
-        while (AllowedBitRate.length()>0) {
-            Index=AllowedBitRate.indexOf("#");
-            if (Index>0) {
-                BitRate=AllowedBitRate.left(Index);
-                AllowedBitRate=AllowedBitRate.right(AllowedBitRate.length()-Index-1);
-            } else {
-                BitRate=AllowedBitRate;
-                AllowedBitRate="";
-            }
-            List.append(BitRate);
-        }
-        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
-            QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
-            int     NumA=NameA.toInt();
-            QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
-            int     NumB=NameB.toInt();
-            if (NumA>NumB) List.swap(j,j+1);
-        }
+
         for (int i=0;i<List.count();i++) {
             ui->VideoBitRateCB->addItem(List[i]);
             if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(ApplicationConfig->DefaultVideoBitRate))) {
@@ -710,41 +782,63 @@ void DlgApplicationSettings::InitAudioBitRateCB(int ChangeIndex) {
     if (CurrentCodec>=0) {
         CurrentCodec=ui->AudioFormatCB->itemData(CurrentCodec).toInt();
 
-        QString     AllowedBitRate=FORMATDEF[ui->FileFormatCB->currentIndex()].PossibleVideoCodec;
-        QString     BitRate="";
-        int         Index=0;
         bool        IsFindBitRate=false;
-        AllowedBitRate=AUDIOCODECDEF[CurrentCodec].PossibleBitrate2CH;
-        BitRate="";
-        Index=0;
-        IsFindBitRate=false;
-        QStringList List;
-        while (AllowedBitRate.length()>0) {
-            Index=AllowedBitRate.indexOf("#");
-            if (Index>0) {
-                BitRate=AllowedBitRate.left(Index);
-                AllowedBitRate=AllowedBitRate.right(AllowedBitRate.length()-Index-1);
-            } else {
-                BitRate=AllowedBitRate;
-                AllowedBitRate="";
-            }
-            List.append(BitRate);
-        }
-        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
-            QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
-            int     NumA=NameA.toInt();
-            QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
-            int     NumB=NameB.toInt();
-            if (NumA>NumB) List.swap(j,j+1);
-        }
-        for (int i=0;i<List.count();i++) {
-            ui->AudioBitRateCB->addItem(List[i]);
-            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(ApplicationConfig->DefaultAudioBitRate))) {
+        QStringList ListBitRate     =StringToSortedStringList(AUDIOCODECDEF[CurrentCodec].PossibleBitrate2CH);
+
+        for (int i=0;i<ListBitRate.count();i++) {
+            ui->AudioBitRateCB->addItem(ListBitRate[i]);
+            if ((ChangeIndex==-1)&&(ListBitRate[i]==QString("%1k").arg(ApplicationConfig->DefaultAudioBitRate))) {
                 ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->count()-1);
                 IsFindBitRate=true;
             }
         }
         if (!IsFindBitRate) ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->findText(AUDIOCODECDEF[CurrentCodec].Default));
         ui->AudioBitRateCB->setEnabled(ui->AudioBitRateCB->count()>1);
+
     } else ui->AudioBitRateCB->setEnabled(false);
+}
+
+//====================================================================================================================
+
+void DlgApplicationSettings::InitSoundTrackAudioBitRateCB(int ChangeIndex) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::InitSoundTrackAudioBitRateCB");
+
+    ui->SoundtrackAudioBitRateCB->clear();
+    ui->SoundtrackAudioFreqCB->clear();
+    int CurrentCodec=ui->SoundtrackAudioFormatCB->currentIndex();
+    if (CurrentCodec>=0) {
+        CurrentCodec=ui->SoundtrackAudioFormatCB->itemData(CurrentCodec).toInt();
+        int         CurrentFormat=ui->SoundtrackFileFormatCB->itemData(ui->SoundtrackFileFormatCB->currentIndex()).toInt();
+        QStringList ListBitRate     =StringToSortedStringList(AUDIOCODECDEF[CurrentCodec].PossibleBitrate2CH);
+        QStringList ListFreq        =StringToSortedStringList(AUDIOCODECDEF[CurrentCodec].PossibleFrequency);
+        QStringList ListAllowedFreq =StringToSortedStringList(AUDIOFORMATDEF[CurrentFormat].PossibleFrequency);
+        bool        IsFindBitRate   =false;
+        bool        IsFindFreq      =false;
+
+        // Fill AudioBitRateCB
+        for (int i=0;i<ListBitRate.count();i++) {
+            ui->SoundtrackAudioBitRateCB->addItem(ListBitRate[i]);
+            if ((ChangeIndex==-1)&&(ListBitRate[i]==QString("%1k").arg(ApplicationConfig->DefaultSoundtrackBitRate))) {
+                ui->SoundtrackAudioBitRateCB->setCurrentIndex(ui->SoundtrackAudioBitRateCB->count()-1);
+                IsFindBitRate=true;
+            }
+        }
+        if (!IsFindBitRate) ui->SoundtrackAudioBitRateCB->setCurrentIndex(ui->SoundtrackAudioBitRateCB->findText(AUDIOCODECDEF[CurrentCodec].Default));
+        ui->SoundtrackAudioBitRateCB->setEnabled(ui->SoundtrackAudioBitRateCB->count()>1);
+
+        // Fill AudioFreqCB (only if freq in ListFreq and in ListFreqAllowed)
+        for (int i=0;i<ListFreq.count();i++) if (ListAllowedFreq.indexOf(ListFreq[i])!=-1) {
+            ui->SoundtrackAudioFreqCB->addItem(ListFreq[i]);
+            if ((ChangeIndex==-1)&&(ListFreq[i]==QString("%1").arg(ApplicationConfig->DefaultSoundtrackFreq))) {
+                ui->SoundtrackAudioFreqCB->setCurrentIndex(ui->SoundtrackAudioFreqCB->count()-1);
+                IsFindFreq=true;
+            }
+        }
+        if (!IsFindFreq) ui->SoundtrackAudioFreqCB->setCurrentIndex(ui->SoundtrackAudioFreqCB->findText(AUDIOFORMATDEF[CurrentFormat].DefaultAudioFreq));
+        if ((ui->SoundtrackAudioFreqCB->currentIndex()==-1)&&(ui->SoundtrackAudioFreqCB->count()>0)) ui->SoundtrackAudioFreqCB->setCurrentIndex(0);
+        ui->SoundtrackAudioFreqCB->setEnabled(ui->SoundtrackAudioFreqCB->count()>0);
+    } else {
+        ui->SoundtrackAudioBitRateCB->setEnabled(false);
+        ui->SoundtrackAudioFreqCB->setEnabled(false);
+    }
 }

@@ -177,6 +177,7 @@ public:
 
     // Preview setting
     double                  PreviewFPS;                                 // Preview FrameRate
+    int64_t                 PreviewSamplingRate;                        // Sampling rate (frequency) for preview
 
     // Default project settings
     int                     ImageGeometry;                              // Project image geometry for image rendering
@@ -203,6 +204,10 @@ public:
     int                     DefaultAudioBitRate;                        // Default audio bit rate
     int                     DefaultImageSize;                           // Default image size
     int                     DefaultStandard;                            // Default standard (PAL/NTSC)
+    int                     DefaultSoundtrackFormat;                    // Default format container for export soundtrack
+    QString                 DefaultSoundtrackAudioCodec;                // Default audio codec for export soundtrack
+    int                     DefaultSoundtrackBitRate;                   // Default audio bit rate for export soundtrack
+    int                     DefaultSoundtrackFreq;                      // Default frequency for export soundtrack
     QString                 DefaultLanguage;                            // Default Language (ISO 639 language code)
 
     int                     DefaultSmartphoneType;                      // Default Smartphone Type

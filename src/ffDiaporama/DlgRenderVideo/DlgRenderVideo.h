@@ -60,6 +60,7 @@ public:
     int             VideoBitRate;                   // Last video bit rate used
     QString         AudioCodec;                     // Last audio codec used
     int             AudioFrequency;                 // Last audio frequency used
+    int             AudioChannels;
     int             AudioBitRate;                   // Last audio bit rate used
     int             ImageSize;                      // Last image size use for rendering
     int             Standard;                       // Last standard use for rendering
@@ -123,6 +124,7 @@ private:
     AVRational      GetCodecTimeBase(const AVCodec *m_avVideoCodec,double m_frameRate);
     void            EncodeMusic(cSoundBlockList *ToEncodeMusic,AVStream *AudioStream,AVFormatContext *OutputFormatContext,bool *Continue,bool SoundOnly);
 
+    QStringList     StringToSortedStringList(QString String);
 };
 
 #endif // DLGRENDERVIDEO_H

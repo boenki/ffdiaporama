@@ -59,8 +59,11 @@ private slots:
     void            TabChanged(int);
 
     void            FileFormatCombo(int);
+    void            SoundtrackFileFormatCombo(int);
+
     void            InitVideoBitRateCB(int);
     void            InitAudioBitRateCB(int);
+    void            InitSoundTrackAudioBitRateCB(int);
     void            InitImageSizeCombo(int);
 
     void            ChangeSmartphoneTypeCB(int);
@@ -69,6 +72,7 @@ private slots:
 
 private:
     void            AddItemToFramingCB(QComboBox *CB,int FraminStyle);     // Utility function use to add item in framing combobox
+    QStringList     StringToSortedStringList(QString String);
 
     Ui::DlgApplicationSettings *ui;
 };
