@@ -79,22 +79,35 @@ void DlgRenderVideo::DoInitDialog() {
     }
 
     // Output file
-    OutputFileName=Diaporama->ApplicationConfig->LastRenderVideoPath+
-        (Diaporama->ApplicationConfig->LastRenderVideoPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
-        (Diaporama->ProjectFileName!=""?
-             (Diaporama->ApplicationConfig->DefaultNameProjectName==1?QFileInfo(Diaporama->ProjectFileName).baseName():
-             (((Diaporama->ApplicationConfig->DefaultNameProjectName==2)&&(Diaporama->ProjectInfo->Title!=""))?Diaporama->ProjectInfo->Title:FolderProject)):
-             QApplication::translate("DlgRenderVideo","movie","Default name for rendering"));
-
-    OutputFileFormat    = Diaporama->ApplicationConfig->DefaultFormat;
     VideoCodec          = Diaporama->ApplicationConfig->DefaultVideoCodec;
     VideoFrameRate      = 25;
     VideoBitRate        = Diaporama->ApplicationConfig->DefaultVideoBitRate;
-    AudioCodec          = Diaporama->ApplicationConfig->DefaultAudioCodec;
-    AudioFrequency      = 48000;
-    AudioBitRate        = Diaporama->ApplicationConfig->DefaultAudioBitRate;
     ImageSize           = Diaporama->ApplicationConfig->DefaultImageSize;
     Standard            = Diaporama->ApplicationConfig->DefaultStandard;
+
+    if (ExportMode==MODE_SOUNDTRACK) {
+        OutputFileName=Diaporama->ApplicationConfig->LastMusicPath+
+            (Diaporama->ApplicationConfig->LastMusicPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
+            (Diaporama->ProjectFileName!=""?
+                 (Diaporama->ApplicationConfig->DefaultNameProjectName==1?QFileInfo(Diaporama->ProjectFileName).baseName():
+                 (((Diaporama->ApplicationConfig->DefaultNameProjectName==2)&&(Diaporama->ProjectInfo->Title!=""))?Diaporama->ProjectInfo->Title:FolderProject)):
+                 QApplication::translate("DlgRenderVideo","soundtrack","Default name for rendering"));
+        OutputFileFormat    = Diaporama->ApplicationConfig->DefaultSoundtrackFormat;
+        AudioCodec          = Diaporama->ApplicationConfig->DefaultSoundtrackAudioCodec;
+        AudioFrequency      = Diaporama->ApplicationConfig->DefaultSoundtrackFreq;
+        AudioBitRate        = Diaporama->ApplicationConfig->DefaultSoundtrackBitRate;
+    } else {
+        OutputFileName=Diaporama->ApplicationConfig->LastRenderVideoPath+
+            (Diaporama->ApplicationConfig->LastRenderVideoPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
+            (Diaporama->ProjectFileName!=""?
+                 (Diaporama->ApplicationConfig->DefaultNameProjectName==1?QFileInfo(Diaporama->ProjectFileName).baseName():
+                 (((Diaporama->ApplicationConfig->DefaultNameProjectName==2)&&(Diaporama->ProjectInfo->Title!=""))?Diaporama->ProjectInfo->Title:FolderProject)):
+                 QApplication::translate("DlgRenderVideo","movie","Default name for rendering"));
+        OutputFileFormat    = Diaporama->ApplicationConfig->DefaultFormat;
+        AudioCodec          = Diaporama->ApplicationConfig->DefaultAudioCodec;
+        AudioFrequency      = 48000;
+        AudioBitRate        = Diaporama->ApplicationConfig->DefaultAudioBitRate;
+    }
 
     ui->IncludeSoundCB->setChecked(true);
     connect(ui->IncludeSoundCB,SIGNAL(clicked()),this,SLOT(s_IncludeSound()));
@@ -144,6 +157,9 @@ void DlgRenderVideo::DoInitDialog() {
         ui->AudioFormatCB->setEnabled(ui->IncludeSoundCB->isChecked());
         ui->AudioBitRateLabel->setEnabled(ui->IncludeSoundCB->isChecked());
         ui->AudioBitRateCB->setEnabled(ui->IncludeSoundCB->isChecked());
+        ui->AudioFreqLabel->setEnabled(ui->IncludeSoundCB->isChecked());
+        ui->AudioFreqLabel2->setEnabled(ui->IncludeSoundCB->isChecked());
+        ui->AudioFreqCB->setEnabled(ui->IncludeSoundCB->isChecked());
 
         connect(ui->VideoFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitVideoBitRateCB(int)));
         connect(ui->AudioFormatCB,SIGNAL(currentIndexChanged(int)),this,SLOT(InitAudioBitRateCB(int)));
@@ -187,6 +203,9 @@ void DlgRenderVideo::DoInitDialog() {
         ui->AudioFormatCB->setVisible(false);                           ui->AudioFormatCB->setEnabled(false);
         ui->AudioBitRateLabel->setVisible(false);                       ui->AudioBitRateLabel->setEnabled(false);
         ui->AudioBitRateCB->setVisible(false);                          ui->AudioBitRateCB->setEnabled(false);
+        ui->AudioFreqLabel->setVisible(false);                          ui->AudioFreqLabel->setEnabled(false);
+        ui->AudioFreqLabel2->setVisible(false);                         ui->AudioFreqLabel2->setEnabled(false);
+        ui->AudioFreqCB->setVisible(false);                             ui->AudioFreqCB->setEnabled(false);
 
         QStringList List;
         int         Default=ExportMode==MODE_SMARTPHONE?Diaporama->ApplicationConfig->DefaultSmartphoneType:
@@ -285,6 +304,33 @@ void DlgRenderVideo::SetZoneToPartial() {
 }
 
 //====================================================================================================================
+// Create and sort List
+
+QStringList DlgRenderVideo::StringToSortedStringList(QString String) {
+    QStringList StringList;
+    QString     SubString;
+    while (String.length()>0) {
+        int Index=String.indexOf("#");
+        if (Index>0) {
+            SubString=String.left(Index);
+            String=String.right(String.length()-Index-1);
+        } else {
+            SubString=String;
+            String="";
+        }
+        StringList.append(SubString);
+    }
+    for (int i=0;i<StringList.count();i++) for (int j=0;j<StringList.count()-1;j++) {
+        QString NameA=StringList[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
+        double  NumA=NameA.toDouble();
+        QString NameB=StringList[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
+        double  NumB=NameB.toDouble();
+        if (NumA>NumB) StringList.swap(j,j+1);
+    }
+    return StringList;
+}
+
+//====================================================================================================================
 
 void DlgRenderVideo::s_DeviceTypeCB(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::s_DeviceTypeCB");
@@ -360,7 +406,8 @@ void DlgRenderVideo::SelectDestinationFile() {
     }
     QString OutputFileName  =QFileDialog::getSaveFileName(this,QApplication::translate("DlgRenderVideo","Select destination file"),ui->DestinationFilePath->text(),FileFormat);
     if (OutputFileName!="") {
-        Diaporama->ApplicationConfig->LastRenderVideoPath=QFileInfo(OutputFileName).dir().absolutePath();
+        if (ExportMode==MODE_SOUNDTRACK)    Diaporama->ApplicationConfig->LastMusicPath=QFileInfo(OutputFileName).dir().absolutePath();
+            else                            Diaporama->ApplicationConfig->LastRenderVideoPath=QFileInfo(OutputFileName).dir().absolutePath();
         ui->DestinationFilePath->setText(OutputFileName);
         AdjustDestinationFile();
     }
@@ -489,33 +536,9 @@ void DlgRenderVideo::InitVideoBitRateCB(int ChangeIndex) {
         if (CurrentCodec>=0) {
             CurrentCodec=ui->VideoFormatCB->itemData(CurrentCodec).toInt();
 
-            QString     AllowedBitRate;
-            QString     BitRate="";
-            int         Index=0;
             bool        IsFindBitRate=false;
-            AllowedBitRate=VIDEOCODECDEF[CurrentCodec].PossibleBitrate;
-            BitRate="";
-            Index=0;
-            IsFindBitRate=false;
-            QStringList List;
-            while (AllowedBitRate.length()>0) {
-                Index=AllowedBitRate.indexOf("#");
-                if (Index>0) {
-                    BitRate=AllowedBitRate.left(Index);
-                    AllowedBitRate=AllowedBitRate.right(AllowedBitRate.length()-Index-1);
-                } else {
-                    BitRate=AllowedBitRate;
-                    AllowedBitRate="";
-                }
-                List.append(BitRate);
-            }
-            for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
-                QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
-                int     NumA=NameA.toInt();
-                QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
-                int     NumB=NameB.toInt();
-                if (NumA>NumB) List.swap(j,j+1);
-            }
+            QStringList List=StringToSortedStringList(VIDEOCODECDEF[CurrentCodec].PossibleBitrate);
+
             for (int i=0;i<List.count();i++) {
                 ui->VideoBitRateCB->addItem(List[i]);
                 if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(VideoBitRate))) {
@@ -535,47 +558,47 @@ void DlgRenderVideo::InitAudioBitRateCB(int ChangeIndex) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::InitAudioBitRateCB");
 
     ui->AudioBitRateCB->clear();
+    ui->AudioFreqCB->clear();
+
     int CurrentCodec=ui->AudioFormatCB->currentIndex();
     if (CurrentCodec>=0) {
         CurrentCodec=ui->AudioFormatCB->itemData(CurrentCodec).toInt();
 
-        QString     AllowedBitRate;
-        QString     BitRate="";
-        int         Index=0;
+        int         CurrentFormat    =ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
+        sFormatDef  *CurrentContainer=(ExportMode==MODE_SOUNDTRACK?&AUDIOFORMATDEF[CurrentFormat]:&FORMATDEF[CurrentFormat]);
+        QStringList ListBitRate      =StringToSortedStringList(AUDIOCODECDEF[CurrentCodec].PossibleBitrate2CH);
+        QStringList ListFreq         =StringToSortedStringList(AUDIOCODECDEF[CurrentCodec].PossibleFrequency);
+        QStringList ListAllowedFreq  =StringToSortedStringList(CurrentContainer->PossibleFrequency);
+
+        bool        IsFindFreq=false;
         bool        IsFindBitRate=false;
-        AllowedBitRate=AUDIOCODECDEF[CurrentCodec].PossibleBitrate2CH;
-        BitRate="";
-        Index=0;
-        IsFindBitRate=false;
-        QStringList List;
-        while (AllowedBitRate.length()>0) {
-            Index=AllowedBitRate.indexOf("#");
-            if (Index>0) {
-                BitRate=AllowedBitRate.left(Index);
-                AllowedBitRate=AllowedBitRate.right(AllowedBitRate.length()-Index-1);
-            } else {
-                BitRate=AllowedBitRate;
-                AllowedBitRate="";
-            }
-            List.append(BitRate);
-        }
-        for (int i=0;i<List.count();i++) for (int j=0;j<List.count()-1;j++) {
-            QString NameA=List[j];      if (NameA.endsWith("k")) NameA=NameA.left(NameA.length()-1);
-            double  NumA=NameA.toDouble();
-            QString NameB=List[j+1];    if (NameB.endsWith("k")) NameB=NameB.left(NameB.length()-1);
-            double  NumB=NameB.toDouble();
-            if (NumA>NumB) List.swap(j,j+1);
-        }
-        for (int i=0;i<List.count();i++) {
-            ui->AudioBitRateCB->addItem(List[i]);
-            if ((ChangeIndex==-1)&&(List[i]==QString("%1k").arg(AudioBitRate))) {
+
+        // Fill AudioBitRateCB
+        for (int i=0;i<ListBitRate.count();i++) {
+            ui->AudioBitRateCB->addItem(ListBitRate[i]);
+            if ((ChangeIndex==-1)&&(ListBitRate[i]==QString("%1k").arg(AudioBitRate))) {
                 ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->count()-1);
                 IsFindBitRate=true;
             }
         }
         if (!IsFindBitRate) ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->findText(AUDIOCODECDEF[CurrentCodec].Default));
         ui->AudioBitRateCB->setEnabled(ui->AudioBitRateCB->count()>1);
-    } else ui->AudioBitRateCB->setEnabled(false);
+
+        // Fill AudioFreqCB (only if freq in ListFreq and in ListFreqAllowed)
+        for (int i=0;i<ListFreq.count();i++) if (ListAllowedFreq.indexOf(ListFreq[i])!=-1) {
+            ui->AudioFreqCB->addItem(ListFreq[i]);
+            if ((ChangeIndex==-1)&&(ListFreq[i]==QString("%1").arg(AudioFrequency))) {
+                ui->AudioFreqCB->setCurrentIndex(ui->AudioFreqCB->count()-1);
+                IsFindFreq=true;
+            }
+        }
+        if (!IsFindFreq) ui->AudioFreqCB->setCurrentIndex(ui->AudioFreqCB->findText(CurrentContainer->DefaultAudioFreq));
+        if ((ui->AudioFreqCB->currentIndex()==-1)&&(ui->AudioFreqCB->count()>0)) ui->AudioFreqCB->setCurrentIndex(0);
+        ui->AudioFreqCB->setEnabled(ui->AudioFreqCB->count()>0);
+    } else {
+        ui->AudioBitRateCB->setEnabled(false);
+        ui->AudioFreqCB->setEnabled(false);
+    }
 }
 
 //====================================================================================================================
@@ -631,6 +654,9 @@ void DlgRenderVideo::s_IncludeSound() {
     ui->AudioFormatCB->setEnabled(ui->IncludeSoundCB->isChecked());
     ui->AudioBitRateLabel->setEnabled(ui->IncludeSoundCB->isChecked());
     ui->AudioBitRateCB->setEnabled(ui->IncludeSoundCB->isChecked());
+    ui->AudioFreqLabel->setEnabled(ui->IncludeSoundCB->isChecked());
+    ui->AudioFreqLabel2->setEnabled(ui->IncludeSoundCB->isChecked());
+    ui->AudioFreqCB->setEnabled(ui->IncludeSoundCB->isChecked());
     if (ExportMode!=EXPORTMODE_ADVANCED) s_DeviceModelCB(ui->DeviceModelCB->currentIndex());
 }
 
@@ -673,12 +699,27 @@ void DlgRenderVideo::s_DeviceModelCB(int) {
                     DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].dFPS==24000L/1001L?"23.98 FPS":
                     DefImageFormat[Standard][Diaporama->ImageGeometry][ImgSize].dFPS==30000L/1001L?"29.97 FPS":
                     "";
-                                                                                          ;
+
         QString VideoBitRateStr=QString("%1").arg(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->VideoBitrate); if (VideoBitRateStr.endsWith("000")) VideoBitRateStr=VideoBitRateStr.left(VideoBitRateStr.length()-3)+"k";
         QString AudioBitRateStr=QString("%1").arg(Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioBitrate); if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
 
         Text=Text+"-"+FPS+"-"+VideoBitRateStr+"b/s";
-        if (ui->IncludeSoundCB->isChecked()) Text=Text+"\nAudio=\t"+AUDIOCODECDEF[Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioCodec].LongName+"-"+AudioBitRateStr+"b/s";
+        if (ui->IncludeSoundCB->isChecked()) {
+            int AudioFreq=48000;
+            int AudioChannels=2;
+            if (AUDIOCODECDEF[Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioCodec].Codec_id==CODEC_ID_AMR_WB) {
+                AudioChannels=1;
+                AudioFreq=16000;
+            } else if (AUDIOCODECDEF[Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioCodec].Codec_id==CODEC_ID_AMR_NB) {
+                AudioChannels=1;
+                AudioFreq=8000;
+            } else if (QString(FORMATDEF[Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->FileFormat].ShortName)==QString("flv")) {
+                AudioFreq=44100;   // Special case for FLV
+            }
+
+            Text=Text+"\nAudio=\t"+AUDIOCODECDEF[Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioCodec].LongName+"-"+AudioBitRateStr+"b/s"
+                    +QString(" - %1 Hz ").arg(AudioFreq)+(AudioChannels==2?" - Stereo":" - Mono");
+        }
         ui->RenderFormatText->setText(Text);
 
     } else ui->RenderFormatText->setText("");
@@ -815,7 +856,6 @@ bool DlgRenderVideo::ComputeAudioPart(QString &aCodec) {
             AudioFrequency=8000;
         }
         if (QString(AUDIOCODECDEF[AudioCodecIndex].ShortName)==QString("aac"))          aCodec=aCodec+" -strict experimental -bsf:a aac_adtstoasc";
-        if (AudioFrequency!=48000)                                                      aCodec=aCodec+QString(" -ar %1").arg(AudioFrequency);
         if (AudioChannels !=2)                                                          aCodec=aCodec+QString(" -ac %1").arg(AudioChannels);
 
         #ifdef LIBAV_07
@@ -913,14 +953,15 @@ void DlgRenderVideo::DoAccept() {
         StopProcessWanted=true;
         ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Stop rendering"));
     } else {
-        TempAudioFileName ="";
-        TempMETAFileName="";
-        AudioFrequency  =48000;
-        RenderedFrame   =0;
-        FromSlide       =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneFromED->value()-1:0;
-        ToSlide         =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneToED->value()-1:Diaporama->List.count()-1;
-        ExtendH         =0;
-        ExtendV         =0;
+        TempAudioFileName="";
+        TempMETAFileName ="";
+        RenderedFrame    =0;
+        FromSlide        =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneFromED->value()-1:0;
+        ToSlide          =(ui->RenderZoneFromBt->isChecked())?ui->RenderZoneToED->value()-1:Diaporama->List.count()-1;
+        ExtendH          =0;
+        ExtendV          =0;
+        AudioChannels    =2;
+        AudioFrequency   =48000;
 
         if (FromSlide>ToSlide) {
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Range selection"),
@@ -981,6 +1022,7 @@ void DlgRenderVideo::DoAccept() {
                 } else BitRate=BitRate.left(BitRate.length()-1)+"000";
             }
             AudioBitRate=BitRate.toInt();
+            if (ui->AudioFreqCB->currentText()!="") AudioFrequency=ui->AudioFreqCB->currentText().toInt();
             ExtendV =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Extend*2;
 
         } else if (ExportMode==MODE_SOUNDTRACK) {
@@ -1003,6 +1045,7 @@ void DlgRenderVideo::DoAccept() {
                 } else BitRate=BitRate.left(BitRate.length()-1)+"000";
             }
             AudioBitRate=BitRate.toInt();
+            if (ui->AudioFreqCB->currentText()!="") AudioFrequency=ui->AudioFreqCB->currentText().toInt();
 
         } else if (ExportMode==MODE_LOSSLESS) {
 
@@ -1038,6 +1081,17 @@ void DlgRenderVideo::DoAccept() {
                 VideoBitRate    =Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->VideoBitrate;
                 AudioBitRate    =Diaporama->ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->AudioBitrate;
                 ExtendV         =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Extend*2;
+                AudioFrequency  =48000;
+                AudioChannels   =2;
+                if (AUDIOCODECDEF[AudioCodecIndex].Codec_id==CODEC_ID_AMR_WB) {
+                    AudioChannels =1;
+                    AudioFrequency=16000;
+                } else if (AUDIOCODECDEF[AudioCodecIndex].Codec_id==CODEC_ID_AMR_NB) {
+                    AudioChannels =1;
+                    AudioFrequency=8000;
+                } else if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("flv")) {
+                    AudioFrequency=44100;   // Special case for FLV
+                }
             }
         }
 
@@ -1063,7 +1117,6 @@ void DlgRenderVideo::DoAccept() {
             // Special case adjustment
             if (AUDIOCODECDEF[AudioCodecIndex].Codec_id==CODEC_ID_PCM_S16LE)    AudioBitRate=1536;      // Special case for WAV
             if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("flv")) AudioFrequency=44100;   // Special case for FLV
-            if (QString(FORMATDEF[OutputFileFormat].ShortName)==QString("3gp")) AudioFrequency=8000;    // Special case for AMRNB
         }
 
         //***************** display
@@ -1072,9 +1125,11 @@ void DlgRenderVideo::DoAccept() {
         QString AudioBitRateStr=QString("%1").arg(AudioBitRate); if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
 
         ui->InformationLabel1->setText(OutputFileName);
-        ui->InformationLabel2->setText(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Name);
-        ui->InformationLabel3->setText(QString(VIDEOCODECDEF[VideoCodecIndex].LongName)+" - "+(VideoBitRateStr!="0"?VideoBitRateStr+"b/s":"lossless"));
-        ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+QString(" - %1 Hz - ").arg(AudioFrequency)+(AudioBitRateStr!="0"?AudioBitRateStr+"b/s":"lossless"));
+        if (ExportMode!=MODE_SOUNDTRACK) {
+            ui->InformationLabel2->setText(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Name);
+            ui->InformationLabel3->setText(QString(VIDEOCODECDEF[VideoCodecIndex].LongName)+" - "+(VideoBitRateStr!="0"?VideoBitRateStr+" b/s":"lossless"));
+        }
+        ui->InformationLabel4->setText(QString(AUDIOCODECDEF[AudioCodecIndex].LongName)+QString(" - %1 Hz - ").arg(AudioFrequency)+(AudioBitRateStr!="0"?AudioBitRateStr+" b/s":"lossless"));
 
         //**********************************************************************************************************************************
         if ((VideoFrameRate>=29.96)&&(VideoFrameRate<=29.98))    VideoFrameRate=29.97;              // Manual rounded
@@ -1133,7 +1188,7 @@ void DlgRenderVideo::DoAccept() {
                 ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding sound"));
                 Continue=EncodeVideo(OutputFileName,25,
                                      false,"",0,0,PIX_FMT_YUV420P,0,0,
-                                     true,AUDIOCODECDEF[AudioCodecIndex].Codec_id,2,AudioBitRate,48000);
+                                     true,AUDIOCODECDEF[AudioCodecIndex].Codec_id,2,AudioBitRate,AudioFrequency);
 
             } else {
 
@@ -1146,8 +1201,7 @@ void DlgRenderVideo::DoAccept() {
 
                 Continue=EncodeVideo(TempAudioFileName,25,
                                      false,"",0,0,PIX_FMT_YUV420P,0,0,
-                                     ui->IncludeSoundCB->isChecked(),CODEC_ID_PCM_S16LE,2,1536,48000);
-                                       //ui->IncludeSoundCB->isChecked(),AUDIOCODECDEF[AudioCodecIndex].Codec_id,2,AudioBitRate,48000);
+                                     ui->IncludeSoundCB->isChecked(),CODEC_ID_PCM_S16LE,2,1536,AudioFrequency);
             }
 
         } else {
@@ -1336,7 +1390,7 @@ void DlgRenderVideo::DoAccept() {
                 }
             }
 
-    //        if (TempAudioFileName!="")  QFile::remove(TempAudioFileName);
+            if (TempAudioFileName!="")  QFile::remove(TempAudioFileName);
             if (TempMETAFileName!="") QFile::remove(TempMETAFileName);
 
             Process.terminate();
@@ -1679,34 +1733,40 @@ bool DlgRenderVideo::EncodeVideo(QString m_filename,double m_frameRate,
 
             if (Continue) {
                 AudioStream->id                       = AudioStreamNbr;
-                AudioStream->codec->time_base.den     = m_audioSampleRate;
-                AudioStream->codec->time_base.num     = 1;                    //GetCodecTimeBase(AudioStream->codec->codec,m_frameRate);
-                //AudioStream->codec->time_base         = GetCodecTimeBase(AudioStream->codec->codec,m_frameRate);
                 AudioStream->codec->codec_id          = Container->oformat->audio_codec;
                 AudioStream->codec->codec_type        = AVMEDIA_TYPE_AUDIO;
                 AudioStream->codec->bit_rate          = m_audioBitrate;
-                AudioStream->codec->sample_rate       = m_audioSampleRate;
-                AudioStream->codec->channels          = m_audioChannels;
                 AudioStream->codec->sample_fmt        = AV_SAMPLE_FMT_S16;
+                AudioStream->codec->channels          = m_audioChannels;
+                AudioStream->codec->sample_rate       = m_audioSampleRate;
+                AudioStream->codec->time_base         = (AVRational){1,m_audioSampleRate};
 
                 //AudioStream->codec->rc_min_rate       = m_audioBitrate;
                 //AudioStream->codec->rc_max_rate       = m_audioBitrate;
-                //AudioStream->codec->channel_layout    = CH_LAYOUT_STEREO;      // AV_CH_STEREO_LEFT|AV_CH_STEREO_RIGHT
                 //AudioStream->codec->bit_rate_tolerance= 0;
                 //AudioStream->codec->rc_buffer_size    = 0;
                 //AudioStream->codec->flags |= CODEC_FLAG_QSCALE; // VBR
                 //AudioStream->codec->global_quality = blah;
-                //AudioStream->time_base                = AudioStream->codec->time_base;
-                //AudioStream->duration                 = 0;
 
                 if (Container->oformat->flags&AVFMT_GLOBALHEADER) AudioStream->codec->flags|=CODEC_FLAG_GLOBAL_HEADER;
+
                 switch (AudioStream->codec->codec_id) {
-                    case CODEC_ID_MP3:      AudioStream->codec->channel_layout=AV_CH_LAYOUT_STEREO;                     break;
-                    case CODEC_ID_AC3:      AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLT;                          break;
-                    case CODEC_ID_AMR_NB:   AudioStream->codec->sample_rate=8000;                                       break;  // PROBLEME : 8Khz only
-                    case CODEC_ID_AMR_WB:   AudioStream->codec->sample_rate=16000;                                      break;  // PROBLEME : 16Khz only
-                    default:                                                                                            break;
+                    #if (LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,31,0))
+                    case CODEC_ID_MP3:      AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_S16P;                     break;
+                    case CODEC_ID_VORBIS:   AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLTP;                     break;
+                    case CODEC_ID_AC3:      AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLTP;                     break;
+                    #else
+                    case CODEC_ID_AC3:      AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLT;                      break;
+                    #endif
+                    case CODEC_ID_AMR_NB:   AudioStream->codec->channels=1;                                         break;
+                    case CODEC_ID_AMR_WB:   AudioStream->codec->channels=1;                                         break;
+                    default:                                                                                        break;
                 }
+                #if (LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(52,0,0))
+                    AudioStream->codec->channel_layout= av_get_default_channel_layout(AudioStream->codec->channels);
+                #else
+                    AudioStream->codec->channel_layout= AudioStream->codec->channels==2?AV_CH_LAYOUT_STEREO:AV_CH_LAYOUT_MONO;
+                #endif
             }
 
             if (Continue) {
@@ -1727,24 +1787,25 @@ bool DlgRenderVideo::EncodeVideo(QString m_filename,double m_frameRate,
             }
         }
     }
-
-    av_dict_set(&Container->metadata,"language",Language.toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"title",AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title,false).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"artist",AdjustMETA(Diaporama->ProjectInfo->Author,false).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"album",AdjustMETA(Diaporama->ProjectInfo->Album,false).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"comment",AdjustMETA(Diaporama->ProjectInfo->Comment,false).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"date",QString("%1").arg(Diaporama->ProjectInfo->Year).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"composer",QString(Diaporama->ApplicationConfig->ApplicationName+QString(" ")+Diaporama->ApplicationConfig->ApplicationVersion).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"creation_time",QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().constData(),0); // ISO 8601 format
-
-    av_dump_format(Container,0,m_filename.toLocal8Bit().constData(),1);
-
-    //********************************************
-    // Open file and header
-    //********************************************
-
     if ((Continue)&&(!(OutputFormat.flags & AVFMT_NOFILE))) {
-        if (avio_open(&Container->pb, m_filename.toLocal8Bit().constData(),AVIO_FLAG_WRITE)<0) {
+        // Set TAGS
+        av_dict_set(&Container->metadata,"language",Language.toLocal8Bit().constData(),0);
+        av_dict_set(&Container->metadata,"title",AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title,false).toLocal8Bit().constData(),0);
+        av_dict_set(&Container->metadata,"artist",AdjustMETA(Diaporama->ProjectInfo->Author,false).toLocal8Bit().constData(),0);
+        av_dict_set(&Container->metadata,"album",AdjustMETA(Diaporama->ProjectInfo->Album,false).toLocal8Bit().constData(),0);
+        av_dict_set(&Container->metadata,"comment",AdjustMETA(Diaporama->ProjectInfo->Comment,false).toLocal8Bit().constData(),0);
+        av_dict_set(&Container->metadata,"date",QString("%1").arg(Diaporama->ProjectInfo->Year).toLocal8Bit().constData(),0);
+        av_dict_set(&Container->metadata,"composer",QString(Diaporama->ApplicationConfig->ApplicationName+QString(" ")+Diaporama->ApplicationConfig->ApplicationVersion).toLocal8Bit().constData(),0);
+        av_dict_set(&Container->metadata,"creation_time",QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().constData(),0); // ISO 8601 format
+
+        // Log output format
+        av_dump_format(Container,0,m_filename.toLocal8Bit().constData(),1);
+
+        //********************************************
+        // Open file and header
+        //********************************************
+
+        if (avio_open(&Container->pb, m_filename.toUtf8().constData(),AVIO_FLAG_WRITE)<0) {
             ToLog(LOGMSG_CRITICAL,"EncodeVideo-Init: avio_open() failed");
             Continue=false;
         } else {
@@ -1769,11 +1830,11 @@ bool DlgRenderVideo::EncodeVideo(QString m_filename,double m_frameRate,
         int ColumnStart     =-1;                                            // Render start position of current object
         int Column          =-1;                                            // Render current object
 
-        RenderMusic.SetFPS(m_frameRate);
+        RenderMusic.SetFPS(m_frameRate,m_audioSampleRate);
 
         int ComputedFrameSize=AudioStream->codec->channels*AudioStream->codec->frame_size*av_get_bytes_per_sample(AV_SAMPLE_FMT_S16);
         if (ComputedFrameSize==0) ComputedFrameSize=RenderMusic.SoundPacketSize;
-        ToEncodeMusic.SetFrameSize(ComputedFrameSize);
+        ToEncodeMusic.SetFrameSize(ComputedFrameSize,m_audioSampleRate);
 
         for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
 
@@ -1805,21 +1866,21 @@ bool DlgRenderVideo::EncodeVideo(QString m_filename,double m_frameRate,
             // Ensure MusicTracks are ready
             if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
                 Frame->CurrentObject_MusicTrack=new cSoundBlockList();
-                Frame->CurrentObject_MusicTrack->SetFPS(m_frameRate);
+                Frame->CurrentObject_MusicTrack->SetFPS(m_frameRate,m_audioSampleRate);
             }
             if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
                 Frame->TransitObject_MusicTrack=new cSoundBlockList();
-                Frame->TransitObject_MusicTrack->SetFPS(m_frameRate);
+                Frame->TransitObject_MusicTrack->SetFPS(m_frameRate,m_audioSampleRate);
             }
 
             // Ensure SoundTracks are ready
             if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
                 Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
-                Frame->CurrentObject_SoundTrackMontage->SetFPS(m_frameRate);
+                Frame->CurrentObject_SoundTrackMontage->SetFPS(m_frameRate,m_audioSampleRate);
             }
             if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
                 Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
-                Frame->TransitObject_SoundTrackMontage->SetFPS(m_frameRate);
+                Frame->TransitObject_SoundTrackMontage->SetFPS(m_frameRate,m_audioSampleRate);
             }
 
             // Prepare frame with W and H =0 to force SoundMusicOnly! (thread mode is not necessary here)
@@ -1976,63 +2037,135 @@ void DlgRenderVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,AVStream *AudioS
             *Continue=false;
         } else {
 
-            // Init frame
-            AVFrame *frame=avcodec_alloc_frame();
-            avcodec_get_frame_defaults(frame);
-            frame->nb_samples=ToEncodeMusic->SoundPacketSize/(ToEncodeMusic->Channels*av_get_bytes_per_sample(AV_SAMPLE_FMT_S16));
-            frame->format    =AV_SAMPLE_FMT_S16; //AudioStream->codec->sample_fmt;
+            // Ensure sample format is correct
+            int64_t DestNbrSamples=ToEncodeMusic->SoundPacketSize/(ToEncodeMusic->Channels*av_get_bytes_per_sample(AV_SAMPLE_FMT_S16));
+            int64_t DestPacketSize=DestNbrSamples*AudioStream->codec->channels*av_get_bytes_per_sample(AudioStream->codec->sample_fmt);
+            void    *DestPacket   =AudioStream->codec->sample_fmt==AV_SAMPLE_FMT_S16?PacketSound:av_malloc(DestPacketSize+8);
 
-            // fill buffer
-            errcode=avcodec_fill_audio_frame(frame,ToEncodeMusic->Channels,AV_SAMPLE_FMT_S16,(const uint8_t*)PacketSound,ToEncodeMusic->SoundPacketSize,1);
-            if (errcode>=0) {
-                // Init packet
-                AVPacket pkt;
-                av_init_packet(&pkt);
-                pkt.data    =NULL;
-                pkt.size    =0;
-                pkt.pts     =CurAudioPts++;
-                pkt.dts     =AV_NOPTS_VALUE;
-                //pkt.duration=1;
+            if (DestPacket!=PacketSound) {
+                #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,31,0)
+                    ReSampleContext *RSC=av_audio_resample_init(                        // Context for resampling audio data
+                        AudioStream->codec->channels,ToEncodeMusic->Channels,           // output_channels, input_channels
+                        AudioStream->codec->sample_rate,ToEncodeMusic->SamplingRate,    // output_rate, input_rate
+                        AudioStream->codec->sample_fmt,AV_SAMPLE_FMT_S16,               // sample_fmt_out, sample_fmt_in
+                        0,                                                              // filter_length
+                        0,                                                              // log2_phase_count
+                        1,                                                              // linear
+                        0);                                                             // cutoff
+                    if (RSC==NULL) {
+                        ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: av_audio_resample_init failed"));
+                        *Continue=false;
+                    } else {
+                        int AudioLen=audio_resample(RSC,(short int*)DestPacket,(short int*)PacketSound,DestNbrSamples);
+                        if (AudioLen<=0) {
+                            ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: audio_resample failed"));
+                            *Continue=false;
+                        }
+                        // Close the resampling audio context
+                        audio_resample_close(RSC);
+                    }
+                #else
+                    AVAudioResampleContext *RSC=avresample_alloc_context();
+                    if (RSC) {
+                        uint8_t *in_data[AVRESAMPLE_MAX_CHANNELS]={0},*out_data[AVRESAMPLE_MAX_CHANNELS]={0};
+                        int     in_linesize=0,out_linesize=0;
 
-                int got_packet=0;
-                errcode=avcodec_encode_audio2(AudioStream->codec,&pkt,frame,&got_packet);
-                if (errcode<0) {
-                    char Buf[2048];
-                    av_strerror(errcode,Buf,2048);
-                    ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: avcodec_encode_audio2() failed: ")+QString(Buf));
-                    CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
-                    *Continue=false;
-                } else {
-                    pkt.flags       |= AV_PKT_FLAG_KEY;
-                    pkt.stream_index =AudioStream->index;
-                    pkt.dts          =AV_NOPTS_VALUE;
-                    pkt.pts          =CurAudioPts*AudioStream->codec->time_base.den/AudioStream->codec->time_base.num;
-                    //pkt.duration     =(double(frame->nb_samples)*double(AudioStream->time_base.den))/
-                    //                    (double(AudioStream->codec->sample_rate)*double(AudioStream->time_base.num));
+                        if (av_samples_fill_arrays(in_data,&in_linesize,(uint8_t *)PacketSound,ToEncodeMusic->Channels,DestNbrSamples,AV_SAMPLE_FMT_S16,0)<0) {
+                            ToLog(LOGMSG_CRITICAL,QString("failed in_data fill arrays"));
+                            *Continue=false;
+                        } else {
+                            if (av_samples_fill_arrays(out_data,&out_linesize,(uint8_t *)DestPacket,AudioStream->codec->channels,DestNbrSamples,AudioStream->codec->sample_fmt,0)<0) {
+                                ToLog(LOGMSG_CRITICAL,QString("failed out_data fill arrays"));
+                                *Continue=false;
+                            } else {
+                                av_opt_set_int(RSC,"in_channel_layout",  av_get_default_channel_layout(ToEncodeMusic->Channels),  0);
+                                av_opt_set_int(RSC,"in_sample_fmt",      AV_SAMPLE_FMT_S16,                                       0);
+                                av_opt_set_int(RSC,"in_sample_rate",     ToEncodeMusic->SamplingRate,                             0);
+                                av_opt_set_int(RSC,"out_channel_layout", AudioStream->codec->channel_layout,                      0);
+                                av_opt_set_int(RSC,"out_sample_fmt",     AudioStream->codec->sample_fmt,                          0);
+                                av_opt_set_int(RSC,"out_sample_rate",    AudioStream->codec->sample_rate,                         0);
+                                av_opt_set_int(RSC,"internal_sample_fmt",AV_SAMPLE_FMT_FLTP, 0);
 
-                    // write the compressed frame in the media file
-                    if (!SoundOnly) errcode=av_interleaved_write_frame(OutputFormatContext,&pkt);
-                        else        errcode=av_write_frame(OutputFormatContext,&pkt);
-                    if (errcode!=0) {
+                                if (avresample_open(RSC)<0) {
+                                    ToLog(LOGMSG_CRITICAL,QString("Error opening context"));
+                                    *Continue=false;
+                                } else {
+                                    int len=avresample_convert(RSC,out_data,out_linesize,DestNbrSamples,in_data,in_linesize,DestNbrSamples);
+                                    if (len<=0) {
+                                        ToLog(LOGMSG_CRITICAL,QString("Error in avresample_convert"));
+                                        *Continue=false;
+                                    //} else {
+                                    //    if (avresample_get_delay(s)>0) qDebug()<<avresample_get_delay(s)<<"delay samples not converted";
+                                    //    if (avresample_available(s)>0) qDebug()<<avresample_available(s)<<"samples available for output";
+                                    }
+                                    avresample_close(RSC);
+                                    avresample_free(&RSC);
+                                }
+                            }
+                        }
+                    } else {
+                        ToLog(LOGMSG_CRITICAL,QString("Error allocating AVAudioResampleContext"));
+                        *Continue=false;
+                    }
+                #endif
+            }
+
+            if (*Continue) {
+                // Init frame
+                AVFrame *frame=avcodec_alloc_frame();
+                avcodec_get_frame_defaults(frame);
+                frame->nb_samples=DestNbrSamples;
+                frame->format    =AudioStream->codec->sample_fmt;
+
+                // fill buffer
+                errcode=avcodec_fill_audio_frame(frame,AudioStream->codec->channels,AudioStream->codec->sample_fmt,(const uint8_t*)DestPacket,DestPacketSize,1);
+                if (errcode>=0) {
+                    // Init packet
+                    AVPacket pkt;
+                    av_init_packet(&pkt);
+                    pkt.data    =NULL;
+                    pkt.size    =0;
+                    pkt.pts     =CurAudioPts++;
+                    pkt.dts     =AV_NOPTS_VALUE;
+
+                    int got_packet=0;
+                    errcode=avcodec_encode_audio2(AudioStream->codec,&pkt,frame,&got_packet);
+                    if (errcode<0) {
                         char Buf[2048];
                         av_strerror(errcode,Buf,2048);
-                        ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: av_interleaved_write_frame failed: ")+QString(Buf));
-                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error while writing audio frame!");
+                        ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: avcodec_encode_audio2() failed: ")+QString(Buf));
                         *Continue=false;
-                    } else AudioStream->duration+=pkt.duration;
+                    } else {
+                        pkt.flags       |= AV_PKT_FLAG_KEY;
+                        pkt.stream_index =AudioStream->index;
+
+                        if (pkt.pts!=(int64_t)AV_NOPTS_VALUE)   pkt.pts     =av_rescale_q(pkt.pts,AudioStream->codec->time_base,AudioStream->time_base);
+                        if (pkt.dts!=(int64_t)AV_NOPTS_VALUE)   pkt.dts     =av_rescale_q(pkt.dts,AudioStream->codec->time_base,AudioStream->time_base);
+                        if (pkt.duration>0)                     pkt.duration=av_rescale_q(pkt.duration,AudioStream->codec->time_base,AudioStream->time_base);
+
+                        // write the compressed frame in the media file
+                        if (!SoundOnly) errcode=av_interleaved_write_frame(OutputFormatContext,&pkt);
+                            else        errcode=av_write_frame(OutputFormatContext,&pkt);
+                        if (errcode!=0) {
+                            char Buf[2048];
+                            av_strerror(errcode,Buf,2048);
+                            ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: av_interleaved_write_frame failed: ")+QString(Buf));
+                            *Continue=false;
+                        } else AudioStream->duration+=pkt.duration;
+                    }
+                } else {
+                    char Buf[2048];
+                    av_strerror(errcode,Buf,2048);
+                    ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: avcodec_fill_audio_frame() failed: ")+QString(Buf));
+                    *Continue=false;
                 }
-            } else {
-                char Buf[2048];
-                av_strerror(errcode,Buf,2048);
-                ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: avcodec_fill_audio_frame() failed: ")+QString(Buf));
-                CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Render video"),"Error encoding sound!");
-                *Continue=false;
+                if ((frame->extended_data)&&(frame->extended_data!=frame->data)) {
+                    av_free(frame->extended_data);
+                    frame->extended_data=NULL;
+                }
+                av_free(frame);
             }
-            if ((frame->extended_data)&&(frame->extended_data!=frame->data)) {
-                av_free(frame->extended_data);
-                frame->extended_data=NULL;
-            }
-            av_free(frame);
+            if (DestPacket!=PacketSound) av_free(DestPacket);
         }
         av_free(PacketSound);
     }

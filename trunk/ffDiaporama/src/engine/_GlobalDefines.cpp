@@ -126,6 +126,7 @@ void ToLog(int MessageType,QString Message,QString Source) {
     if ((MessageType!=LOGMSG_DEBUGTRACE)&&(EventReceiver!=NULL)) PostEvent(EVENT_GeneralLogChanged,QString("%1###:###%2###:###%3").arg((int)MessageType).arg(Message).arg(Source));
 
     QString DateTime=QTime::currentTime().toString("hh:mm:ss.zzz");
+    //QString DateTime="";
     if (MessageType>=LogMsgLevel) switch (MessageType) {
         case LOGMSG_DEBUGTRACE:    std::cout << QString("["+DateTime+":DEBUGTRACE]\t" +Message+"\n").toLocal8Bit().constData() << std::flush;    break;
         case LOGMSG_INFORMATION:   std::cout << QString("["+DateTime+":INFORMATION]\t"+Message+"\n").toLocal8Bit().constData() << std::flush;    break;

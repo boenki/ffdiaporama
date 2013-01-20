@@ -53,8 +53,8 @@ public:
     virtual void    AppendNullSoundPacket();                                        // Append a packet of null sound to the end of the list
     virtual void    MixAppendPacket(int16_t *PacketA,int16_t *PacketB);             // Append a packet to the end of the list by mixing 2 packet
     virtual void    AppendData(int16_t *Data,int64_t DataLen);                      // Append data to the list creating packet as necessary and filling TempData
-    virtual void    SetFPS(double FPS);                                             // Prepare and calculate values for a frame rate
-    virtual void    SetFrameSize(int FrameSize);                                    // Prepare and calculate values for a frame size
+    virtual void    SetFPS(double FPS,int64_t SamplingRate);                        // Prepare and calculate values for a frame rate
+    virtual void    SetFrameSize(int FrameSize,int64_t SamplingRate);               // Prepare and calculate values for a frame size
     virtual void    ApplyVolume(int PacketNumber,double VolumeFactor);              // Adjust volume
 private:
     virtual void    AppendPacket(int16_t *PacketToAdd);                             // Append a packet to the end of the list

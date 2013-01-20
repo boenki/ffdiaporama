@@ -114,6 +114,7 @@ void cApplicationConfig::InitValues() {
     DefaultFraming              = 2;                        // 0=Width, 1=Height, 2=Full
     TimelineHeight              = TIMELINEMINHEIGH;         // Initial height of the timeline
     PreviewFPS                  = 12.5;                     // Preview FrameRate
+    PreviewSamplingRate         = 44100;                    // Preview sound audio rate
     NoShotDuration              = 6000;                     // Default duration for fixed image when is alone (no shot)
     FixedDuration               = 3000;                     // Default duration for fixed image (msec)
     ImageGeometry               = GEOMETRY_16_9;            // Project image geometry for image rendering
@@ -126,23 +127,26 @@ void cApplicationConfig::InitValues() {
     DefaultImageAnimSpeedWave   = SPEEDWAVE_LINEAR;         // Default Speed wave for image framing and correction animation
 
     DefaultFormat               = 1;                        // Default format = avi
-    DefaultNameProjectName      =true;                      // Use project name as default name for rendering
+    DefaultNameProjectName      = true;                     // Use project name as default name for rendering
     DefaultImageSize            = SIZE_720P;                // Default image size
     DefaultStandard             = STANDARD_PAL;             // Default standard (PAL/NTSC)
-    DefaultLanguage             ="und";                     // Default Language (ISO 639 language code)
+    DefaultSoundtrackFormat     = 5;                        // Default format container for export soundtrack
+    DefaultSoundtrackAudioCodec = "libmp3lame";             // Default audio codec for export soundtrack
+    DefaultSoundtrackBitRate    = 44100;                    // Default audio bit rate for export soundtrack
+    DefaultLanguage             = "und";                    // Default Language (ISO 639 language code)
 
-    RandomTransition            =true;                      // if true randomize a transition
-    DefaultTransitionFamilly    =TRANSITIONFAMILLY_BASE;    // Transition familly
-    DefaultTransitionSubType    =1;                         // Transition type in the familly
-    DefaultTransitionDuration   =1000;                      // Transition duration (in msec)
+    RandomTransition            = true;                     // if true randomize a transition
+    DefaultTransitionFamilly    = TRANSITIONFAMILLY_BASE;   // Transition familly
+    DefaultTransitionSubType    = 1;                        // Transition type in the familly
+    DefaultTransitionDuration   = 1000;                     // Transition duration (in msec)
 
-    DefaultSmartphoneType       =0;                         // Default Smartphone Type
-    DefaultSmartphoneModel      =0;                         // Default Smartphone Model
-    DefaultMultimediaType       =0;                         // Default Multimedia Type
-    DefaultMultimediaModel      =0;                         // Default Multimedia Model
-    DefaultForTheWEBType        =0;                         // Default ForTheWEB Type
-    DefaultForTheWEBModel       =0;                         // Default ForTheWEB Model
-    DefaultLossLess             =0;                         // Default Lossless imagesize
+    DefaultSmartphoneType       = 0;                        // Default Smartphone Type
+    DefaultSmartphoneModel      = 0;                        // Default Smartphone Model
+    DefaultMultimediaType       = 0;                        // Default Multimedia Type
+    DefaultMultimediaModel      = 0;                        // Default Multimedia Model
+    DefaultForTheWEBType        = 0;                        // Default ForTheWEB Type
+    DefaultForTheWEBModel       = 0;                        // Default ForTheWEB Model
+    DefaultLossLess             = 0;                        // Default Lossless imagesize
 
     #ifdef Q_OS_WIN
         PipeThread              = true;                         // if true, use thread for pipe operation
@@ -269,6 +273,7 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("NewTimelineHeight",           TimelineHeight);
     Element.setAttribute("DefaultFraming",              DefaultFraming);
     Element.setAttribute("PreviewFPS",                  (QString("%1").arg(PreviewFPS,0,'f')));
+    Element.setAttribute("PreviewSamplingRate",         (QString("%1").arg(PreviewSamplingRate)));
     Element.setAttribute("RandomTransition",            RandomTransition?"1":"0");
     Element.setAttribute("DefaultTransitionFamilly",    DefaultTransitionFamilly);
     Element.setAttribute("DefaultTransitionSubType",    DefaultTransitionSubType);
@@ -335,6 +340,10 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("Standard",                    DefaultStandard);
     Element.setAttribute("Language",                    DefaultLanguage);
     Element.setAttribute("ImageSize",                   DefaultImageSize);
+    Element.setAttribute("DefaultSoundtrackFormat",     DefaultSoundtrackFormat);
+    Element.setAttribute("DefaultSoundtrackAudioCodec", DefaultSoundtrackAudioCodec);
+    Element.setAttribute("DefaultSoundtrackBitRate",    DefaultSoundtrackBitRate);
+    Element.setAttribute("DefaultSoundtrackFreq",       DefaultSoundtrackFreq);
     Element.setAttribute("DefaultSmartphoneType",       DefaultSmartphoneType);
     Element.setAttribute("DefaultSmartphoneModel",      DefaultSmartphoneModel);
     Element.setAttribute("DefaultMultimediaType",       DefaultMultimediaType);
@@ -412,6 +421,7 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
         if (TimelineHeight>TIMELINEMAXHEIGH) TimelineHeight=TIMELINEMAXHEIGH;
         if (Element.hasAttribute("DefaultFraming"))             DefaultFraming              =Element.attribute("DefaultFraming").toInt();
         if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS                  =Element.attribute("PreviewFPS").toDouble();
+        if (Element.hasAttribute("PreviewSamplingRate"))        PreviewSamplingRate         =Element.attribute("PreviewSamplingRate").toLong();
         if (Element.hasAttribute("RandomTransition"))           RandomTransition            =Element.attribute("RandomTransition")=="1";
         if (Element.hasAttribute("DefaultTransitionFamilly"))   DefaultTransitionFamilly    =Element.attribute("DefaultTransitionFamilly").toInt();
         if (Element.hasAttribute("DefaultTransitionSubType"))   DefaultTransitionSubType    =Element.attribute("DefaultTransitionSubType").toInt();
@@ -480,23 +490,27 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     }
     if ((domDocument.elementsByTagName("RenderDefault").length()>0)&&(domDocument.elementsByTagName("RenderDefault").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("RenderDefault").item(0).toElement();
-        if (Element.hasAttribute("PipeThread"))             PipeThread              =Element.attribute("PipeThread")=="1";
-        if (Element.hasAttribute("DefaultNameProjectName")) DefaultNameProjectName  =Element.attribute("DefaultNameProjectName")=="1";
-        if (Element.hasAttribute("Format"))                 DefaultFormat           =Element.attribute("Format").toInt();
-        if (Element.hasAttribute("VideoCodec"))             DefaultVideoCodec       =Element.attribute("VideoCodec");
-        if (Element.hasAttribute("VideoBitRate"))           DefaultVideoBitRate     =Element.attribute("VideoBitRate").toInt();
-        if (Element.hasAttribute("AudioCodec"))             DefaultAudioCodec       =Element.attribute("AudioCodec");
-        if (Element.hasAttribute("AudioBitRate"))           DefaultAudioBitRate     =Element.attribute("AudioBitRate").toInt();
-        if (Element.hasAttribute("ImageSize"))              DefaultImageSize        =Element.attribute("ImageSize").toInt();
-        if (Element.hasAttribute("Standard"))               DefaultStandard         =Element.attribute("Standard").toInt();
-        if (Element.hasAttribute("Language"))               DefaultLanguage         =Element.attribute("Language");
-        if (Element.hasAttribute("DefaultSmartphoneType"))  DefaultSmartphoneType   =Element.attribute("DefaultSmartphoneType").toInt();
-        if (Element.hasAttribute("DefaultSmartphoneModel")) DefaultSmartphoneModel  =Element.attribute("DefaultSmartphoneModel").toInt();
-        if (Element.hasAttribute("DefaultMultimediaType"))  DefaultMultimediaType   =Element.attribute("DefaultMultimediaType").toInt();
-        if (Element.hasAttribute("DefaultMultimediaModel")) DefaultMultimediaModel  =Element.attribute("DefaultMultimediaModel").toInt();
-        if (Element.hasAttribute("DefaultForTheWEBType"))   DefaultForTheWEBType    =Element.attribute("DefaultForTheWEBType").toInt();
-        if (Element.hasAttribute("DefaultForTheWEBModel"))  DefaultForTheWEBModel   =Element.attribute("DefaultForTheWEBModel").toInt();
-        if (Element.hasAttribute("DefaultLossLess"))        DefaultLossLess         =Element.attribute("DefaultLossLess").toInt();
+        if (Element.hasAttribute("PipeThread"))                     PipeThread                  =Element.attribute("PipeThread")=="1";
+        if (Element.hasAttribute("DefaultNameProjectName"))         DefaultNameProjectName      =Element.attribute("DefaultNameProjectName")=="1";
+        if (Element.hasAttribute("Format"))                         DefaultFormat               =Element.attribute("Format").toInt();
+        if (Element.hasAttribute("VideoCodec"))                     DefaultVideoCodec           =Element.attribute("VideoCodec");
+        if (Element.hasAttribute("VideoBitRate"))                   DefaultVideoBitRate         =Element.attribute("VideoBitRate").toInt();
+        if (Element.hasAttribute("AudioCodec"))                     DefaultAudioCodec           =Element.attribute("AudioCodec");
+        if (Element.hasAttribute("AudioBitRate"))                   DefaultAudioBitRate         =Element.attribute("AudioBitRate").toInt();
+        if (Element.hasAttribute("ImageSize"))                      DefaultImageSize            =Element.attribute("ImageSize").toInt();
+        if (Element.hasAttribute("Standard"))                       DefaultStandard             =Element.attribute("Standard").toInt();
+        if (Element.hasAttribute("DefaultSoundtrackBitRate"))       DefaultSoundtrackBitRate    =Element.attribute("DefaultSoundtrackBitRate").toInt();
+        if (Element.hasAttribute("DefaultSoundtrackFreq"))          DefaultSoundtrackFreq       =Element.attribute("DefaultSoundtrackFreq").toInt();
+        if (Element.hasAttribute("DefaultSoundtrackFormat"))        DefaultSoundtrackFormat     =Element.attribute("DefaultSoundtrackFormat").toInt();
+        if (Element.hasAttribute("DefaultSoundtrackAudioCodec"))    DefaultSoundtrackAudioCodec =Element.attribute("DefaultSoundtrackAudioCodec");
+        if (Element.hasAttribute("Language"))                       DefaultLanguage             =Element.attribute("Language");
+        if (Element.hasAttribute("DefaultSmartphoneType"))          DefaultSmartphoneType       =Element.attribute("DefaultSmartphoneType").toInt();
+        if (Element.hasAttribute("DefaultSmartphoneModel"))         DefaultSmartphoneModel      =Element.attribute("DefaultSmartphoneModel").toInt();
+        if (Element.hasAttribute("DefaultMultimediaType"))          DefaultMultimediaType       =Element.attribute("DefaultMultimediaType").toInt();
+        if (Element.hasAttribute("DefaultMultimediaModel"))         DefaultMultimediaModel      =Element.attribute("DefaultMultimediaModel").toInt();
+        if (Element.hasAttribute("DefaultForTheWEBType"))           DefaultForTheWEBType        =Element.attribute("DefaultForTheWEBType").toInt();
+        if (Element.hasAttribute("DefaultForTheWEBModel"))          DefaultForTheWEBModel       =Element.attribute("DefaultForTheWEBModel").toInt();
+        if (Element.hasAttribute("DefaultLossLess"))                DefaultLossLess             =Element.attribute("DefaultLossLess").toInt();
     }
 
     if ((domDocument.elementsByTagName("RecentFiles").length()>0)&&(domDocument.elementsByTagName("RecentFiles").item(0).isElement()==true)) {

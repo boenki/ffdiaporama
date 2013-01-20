@@ -660,8 +660,28 @@ Inquadratura:</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Advanced options</source>
+        <source>Sound sample rate :</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Hz (Reduce this value for slow computer)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default soundtrack rendering options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Advanced option :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequency :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the bit rate to use for audio during the rendering.</source>
+        <translation type="unfinished">Seleziona il bit rate da usare per l&apos;audio durante il rendering.</translation>
     </message>
 </context>
 <context>
@@ -2298,6 +2318,15 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>Encoder error</source>
         <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequency :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>soundtrack</source>
+        <comment>Default name for rendering</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>

@@ -265,12 +265,19 @@ public:
     AVCodec                 *AudioDecoderCodec;         // Associated LibAVCodec for audio stream
     int                     AudioStreamNumber;          // Number of the audio stream
     int                     AudioTrackNbr;              // Number of audio stream in file
+
     int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
-    int16_t                 PrevLeft_x0,PrevLeft_x1;
-    int16_t                 PrevLeft_x2,PrevLeft_x3;
-    int16_t                 PrevRight_x0,PrevRight_x1;
-    int16_t                 PrevRight_x2,PrevRight_x3;
-    qreal                   PrevPosSrc,PrevPosDst;
+
+    // Audio resampling
+    #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,31,0)
+    ReSampleContext         *RSC;
+    #else
+    AVAudioResampleContext  *RSC;
+    uint64_t                RSC_InChannelLayout,RSC_OutChannelLayout;
+    #endif
+    int                     RSC_InChannels,RSC_OutChannels;
+    int                     RSC_InSampleRate,RSC_OutSampleRate;
+    AVSampleFormat          RSC_InSampleFmt,RSC_OutSampleFmt;
 
     QList<cImageInCache>    CacheImage;
 
@@ -294,6 +301,13 @@ public:
     virtual void            ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
     virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
 
+    virtual void            CloseResampler();
+    virtual void            CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleFormat RSC_InSampleFmt,AVSampleFormat RSC_OutSampleFmt,int RSC_InSampleRate,int RSC_OutSampleRate
+                                               #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,31,0)
+                                                   ,uint64_t RSC_InChannelLayout,uint64_t RSC_OutChannelLayout
+                                               #endif
+                                          );
+
     //*********************
     // video filters part
     //*********************
@@ -316,17 +330,6 @@ public:
         virtual int             VideoFilter_Open(QString Filters);
         virtual void            VideoFilter_Close();
         virtual int             VideoFilter_Process();
-    #endif
-
-    //*********************
-    // audio filters part
-    //*********************
-    #ifdef AUDIO_LIBAVFILTER
-        AVFilterGraph           *AudioFilterGraph;
-        AVFilterContext         *AudioFilterIn;
-        AVFilterContext         *AudioFilterOut;
-        virtual int             AudioFilter_Open(QString Filters);
-        virtual void            AudioFilter_Close();
     #endif
 };
 

@@ -53,10 +53,11 @@ cSoundBlockList::~cSoundBlockList() {
 //====================================================================================================================
 // Prepare and calculate values for a frame rate
 //====================================================================================================================
-void cSoundBlockList::SetFPS(double TheFPS) {
+void cSoundBlockList::SetFPS(double TheFPS,int64_t TheSamplingRate) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFPS");
 
-    FPS=TheFPS;
+    FPS            =TheFPS;
+    SamplingRate   =TheSamplingRate;
     WantedDuration =(double(AV_TIME_BASE)/FPS)/(1000*1000); //double(1)/FPS;
     //if ((WantedDuration>=double(0.033))&&(WantedDuration<=double(0.035))) WantedDuration=0.03337;
     SoundPacketSize=int(WantedDuration*double(SamplingRate))*SampleBytes*Channels;
@@ -73,9 +74,10 @@ void cSoundBlockList::SetFPS(double TheFPS) {
 //====================================================================================================================
 // Prepare and calculate values for a frame size
 //====================================================================================================================
-void cSoundBlockList::SetFrameSize(int FrameSize) {
+void cSoundBlockList::SetFrameSize(int FrameSize,int64_t TheSamplingRate) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFrameSize");
 
+    SamplingRate   =TheSamplingRate;
     SoundPacketSize=FrameSize;
     //WantedDuration =double(SoundPacketSize)/(double(SamplingRate)*double(SampleBytes)*double(Channels));
     //FPS            =1/WantedDuration;

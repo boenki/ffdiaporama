@@ -65,9 +65,11 @@ extern "C" {
     #include <libavformat/avformat.h>
     #include <libavformat/avio.h>
 
-    #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,60,0)
-    #include "libavutil/samplefmt.h"
-    #include "libswresample/swresample.h"
+    #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,31,0)
+        #include "libavresample/avresample.h"
+    #elif LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,60,0)
+        #include "libavutil/samplefmt.h"
+        #include "libswresample/swresample.h"
     #endif
 
     // include for libavfilter
@@ -84,15 +86,12 @@ extern "C" {
             #include "libavfilter/avcodec.h"
             #include "libavfilter/vsrc_buffer.h"
         #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)   // From 2.6 to 3.0
-            //#define AUDIO_LIBAVFILTER
             #include "libavfilter/buffersink.h"
             #include "libavfilter/avcodec.h"
         #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,1,0)   // From 3.0 to 3.1
-            //#define AUDIO_LIBAVFILTER
             #include "libavfilter/buffersink.h"
             #include "libavfilter/avcodec.h"
         #else                                                   // From 3.1
-            //#define AUDIO_LIBAVFILTER
             #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(3,17,0)   // From 3.17
                 #include "libavfilter/avcodec.h"
             #endif
@@ -228,6 +227,7 @@ struct sAudioCodecDef {
     bool    Possibly6CH;                                        // true if this codec support 5.1/6 chanels mode
     char    PossibleBitrate6CH[200];                            // list of possible compression bit rate in 5.1/6 chanels mode (define by this application)
     char    Default[10];                                        // prefered compression bit rate
+    char    PossibleFrequency[200];                             // list of possible audio frequency
 };
 #define NBR_AUDIOCODECDEF   11
 extern struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF];
@@ -242,11 +242,13 @@ struct sFormatDef {
     char    LongName[200];                                      // long name of the codec (define by this application)
     char    PossibleVideoCodec[200];                            // list of possible video codec for this format container (using VCODECST String define)
     char    PossibleAudioCodec[200];                            // list of possible audio codec for this format container (define by this application)
+    char    PossibleFrequency[200];                             // list of possible audio frequency
+    char    DefaultAudioFreq[10];                               // prefered audio frequency
 };
 #define NBR_FORMATDEF   11
 extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];
 
-#define NBR_AUDIOFORMATDEF   4
+#define NBR_AUDIOFORMATDEF   8
 extern struct sFormatDef AUDIOFORMATDEF[NBR_AUDIOFORMATDEF];
 
 //============================================

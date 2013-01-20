@@ -33,9 +33,9 @@ extern "C" {
 
 // Functions to manage SDL library
 void SDLAudioCallback(void *,Uint8 *stream,int len);
-void SDLFirstInit(double WantedFPS,bool SDLAncMode);
+void SDLFirstInit(double WantedFPS,bool SDLAncMode,int64_t SamplingRate);
 void SDLLastClose();
-void SDLSetFPS(double WantedFPS,bool SDLAncMode);
+void SDLSetFPS(double WantedFPS,bool SDLAncMode,int64_t SamplingRate);
 
 // SDL Version of the
 class cSDLSoundBlockList : public cSoundBlockList {
