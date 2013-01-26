@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 12/01/2013
+* Dernier commit le : 20/01/2013
 **************************************************
 
 TODO :
@@ -44,29 +44,18 @@ WIP : Work in progress
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-
 French version / Correction de bug :
--Corrige l'erreur lors de l'export audio en MP3 avec libavcodec>=54.31 (Windows+certain linux)
--Corrige les erreurs de conversion des pistes son en format U8, U-LAW et FLT (dont les WMV et WMA) avec libavcodec>=54.31 (Windows+certain linux)
--Modifie la boite de génération pour qu'elle propose par défaut l'export dans le répertoire musique en mode export de piste son
+-Correction de bug dans le decodage du son (U8 Mono)
 
 English version / Bug fixes :
--Fixs bug of audio export using MP3 codec with libavcodec>=54.31 (Windows+some linux)
--Fixs conversion error of audio track using U8, U-LAW and FLT format (included WMV and WMA) with libavcodec>=54.31 (Windows+some linux)
--Modify render dialog to propose export to music folder when exporting sound track
+-Bug fix for reading sound (U8 Mono)
 
 French version / Nouveautés :
--Redirige les messages de logs LIBAV dans le système de log de ffDiaporama
--Ajoute l'export audio en format/codec AC3
--Ajoute les extensions .mp2,.adts,.m4a,.ogg et .ac3 à la liste des extensions supportées pour les fichiers audio
--Ajoute une option dans la boite de configuration pour sélectionner la fréquence du son pour la preview
--Ajoute des options dans la boite de configuration pour définir les valeurs par défaut de format,codec, frequence et compression pour les exports de piste son
--Ajoute la sélection de la fréquence audio dans les boites de "Génération avancée" et d'"Export de piste son"
+- Poursuite des travaux sur le nouveau moteur d'encodage
+    LIBAV 0.8 : Tout est ok mais bizarrerie sur l'OGG: Durée non lisible mais computée
+    LIBAV 9.1 : Il reste des problèmes en AMR (Erreur de durée qui est doublée) et en OGG (Durée non lisible et non computée)
 
 English version / New features :
--Redirect LIBAV log message to ffDiaporama log system
--Adds audio export using AC3 format/codec
--Adds .mp2,.adts,.m4a,.ogg and .ac3 extensions to the list of supported extensions for audio files
--Adds option to select audio rate for preview in option dialog
--Adds options in option dialog to define default values for format,codec,frequency and compression for rendering of soundtrack
--Adds selection of audio frequency in Advance render and Export soundtrack dialog
+- Further work on the new encoding engine
+     Libav 0.8: Everything is ok but oddity on OGG: Time readable but not computed
+     Libav 9.1: There are still problems on AMR (error duration is doubled) and on OGG (Duration not readable and not computed)

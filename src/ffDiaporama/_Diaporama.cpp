@@ -2297,7 +2297,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         if (Info->CurrentObject_SoundTrackMontage==NULL) {
             // if we don't have a CurrentObject_SoundTrackMontage, we need to create it because it's the destination !
             Info->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
-            Info->CurrentObject_SoundTrackMontage->SetFPS(Info->TransitObject_SoundTrackMontage->FPS,Info->TransitObject_SoundTrackMontage->SamplingRate);
+            Info->CurrentObject_SoundTrackMontage->SetFPS(Info->TransitObject_SoundTrackMontage->FPS,2,Info->TransitObject_SoundTrackMontage->SamplingRate,AV_SAMPLE_FMT_S16);
         }
         // Ensure this track have enough data
         while (Info->CurrentObject_SoundTrackMontage->List.count()<Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS)

@@ -21,7 +21,7 @@
 #include "cSoundBlockList.h"
 
 // Specific defines for this file
-#define MAXSOUNDPACKETSIZE     AVCODEC_MAX_AUDIO_FRAME_SIZE //3840 //4096 //16384
+#define MAXSOUNDPACKETSIZE     3840
 
 //*********************************************************************************************************************************************
 // Base object for sound manipulation
@@ -30,9 +30,9 @@
 cSoundBlockList::cSoundBlockList() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::cSoundBlockList");
 
-    TempData            =(uint8_t *)av_malloc(MAXSOUNDPACKETSIZE+8);                        // Buffer for stocking temporary data (when decoding data are less than a packet)
     CurrentTempSize     =0;                                                                 // Amount of data in the TempData buffer
     SoundPacketSize     =MAXSOUNDPACKETSIZE;                                                // Size of a packet (depending on FPS)
+    TempData            =(uint8_t *)av_malloc(SoundPacketSize+8);                           // Buffer for stocking temporary data (when decoding data are less than a packet)
     Channels            =2;                                                                 // Number of channels
     SamplingRate        =48000;                                                             // Sampling rate (frequency)
     SampleBytes         =2;                                                                 // 16 bits : Size of a sample
@@ -46,18 +46,22 @@ cSoundBlockList::~cSoundBlockList() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::~cSoundBlockList");
 
     ClearList();
-    av_free(TempData);
-    TempData=NULL;
+    if (TempData) {
+        av_free(TempData);
+        TempData=NULL;
+    }
 }
 
 //====================================================================================================================
 // Prepare and calculate values for a frame rate
 //====================================================================================================================
-void cSoundBlockList::SetFPS(double TheFPS,int64_t TheSamplingRate) {
+void cSoundBlockList::SetFPS(double TheFPS,int TheChannels,int64_t TheSamplingRate,enum AVSampleFormat TheSampleFormat) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFPS");
 
     FPS            =TheFPS;
     SamplingRate   =TheSamplingRate;
+    SampleFormat   =TheSampleFormat;
+    Channels       =TheChannels;
     WantedDuration =(double(AV_TIME_BASE)/FPS)/(1000*1000); //double(1)/FPS;
     //if ((WantedDuration>=double(0.033))&&(WantedDuration<=double(0.035))) WantedDuration=0.03337;
     SoundPacketSize=int(WantedDuration*double(SamplingRate))*SampleBytes*Channels;
@@ -69,16 +73,23 @@ void cSoundBlockList::SetFPS(double TheFPS,int64_t TheSamplingRate) {
         dDuration       =dDuration/2;
         NbrPacketForFPS*=2;
     }
+    if (TempData) {
+        av_free(TempData);
+        TempData=NULL;
+    }
+    TempData=(uint8_t *)av_malloc(SoundPacketSize+8);
 }
 
 //====================================================================================================================
 // Prepare and calculate values for a frame size
 //====================================================================================================================
-void cSoundBlockList::SetFrameSize(int FrameSize,int64_t TheSamplingRate) {
+void cSoundBlockList::SetFrameSize(int FrameSize,int TheChannels,int64_t TheSamplingRate,enum AVSampleFormat TheSampleFormat) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFrameSize");
 
     SamplingRate   =TheSamplingRate;
+    SampleFormat   =TheSampleFormat;
     SoundPacketSize=FrameSize;
+    Channels       =TheChannels;
     //WantedDuration =double(SoundPacketSize)/(double(SamplingRate)*double(SampleBytes)*double(Channels));
     //FPS            =1/WantedDuration;
     NbrPacketForFPS=1;
@@ -88,6 +99,11 @@ void cSoundBlockList::SetFrameSize(int FrameSize,int64_t TheSamplingRate) {
     //        FPS            /=2;
     //}
     dDuration=double(SoundPacketSize)/(double(SamplingRate)*double(SampleBytes)*double(Channels));
+    if (TempData) {
+        av_free(TempData);
+        TempData=NULL;
+    }
+    TempData=(uint8_t *)av_malloc(SoundPacketSize+8);
 }
 
 //====================================================================================================================
@@ -141,7 +157,13 @@ void cSoundBlockList::AppendData(int16_t *Data,int64_t DataLen) {
     uint8_t *CurData=(uint8_t *)Data;
     // Cut data to Packet
     while ((DataLen+CurrentTempSize>=SoundPacketSize)) {
-        uint8_t *Packet=(uint8_t *)av_malloc(SoundPacketSize+8);    //*************************** !
+        #ifndef USELIBAVRESAMPLE
+            uint8_t *Packet=(uint8_t *)av_malloc(SoundPacketSize+8);
+        #else
+            uint8_t *Packet=NULL;
+            int     out_linesize=0;
+            av_samples_alloc(&Packet,&out_linesize,Channels,SoundPacketSize+8,SampleFormat,1);
+        #endif
         if (Packet) {
             if (CurrentTempSize>0) {                                // Use previously data store in TempData
                 int DataToUse=SoundPacketSize-CurrentTempSize;

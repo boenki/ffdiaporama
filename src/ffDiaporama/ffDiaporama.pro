@@ -103,6 +103,7 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../engine/_SpeedWave.cpp \
             ../engine/_Shape.cpp \
             ../engine/cTextFrame.cpp \
+            ../engine/_EncodeVideo.cpp \
             ../CustomCtrl/cCColorComboBox.cpp \
             ../CustomCtrl/cCBrushComboBox.cpp \
             ../CustomCtrl/cCGrdOrientationComboBox.cpp \
@@ -165,6 +166,7 @@ HEADERS  += \
             ../engine/_SpeedWave.h \
             ../engine/_Shape.h \
             ../engine/cTextFrame.h \
+            ../engine/_EncodeVideo.h \
             ../CustomCtrl/cCColorComboBox.h \
             ../CustomCtrl/cCBrushComboBox.h \
             ../CustomCtrl/cCGrdOrientationComboBox.h \

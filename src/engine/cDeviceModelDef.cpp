@@ -403,11 +403,11 @@ struct sFormatDef FORMATDEF[NBR_FORMATDEF]={
 };
 
 struct sFormatDef AUDIOFORMATDEF[NBR_AUDIOFORMATDEF]={
-//    {false,false, "3gp",  "3ga",  "3GP format",                       "",                                 "libvo_amrwbenc#libopencore_amrnb", "8000#16000","8000"},
-    {false,false, "adts", "adts","ADTS AAC (Advanced Audio Coding)",  "",                                 "libfaac#aac#libvo_aacenc", "8000#11025#12000#16000#22050#24000#32000#44100#48000","48000"},
+    {false,false, "3gp",  "3ga",  "3GP format",                       "",                                 "libvo_amrwbenc#libopencore_amrnb", "8000#16000","8000"},
     {false,false, "ac3",  "ac3", "AC-3 (Dolby Digital)",              "",                                 "ac3", "8000#11025#12000#16000#22050#24000#32000#44100#48000","48000"},
+    {false,false, "adts", "adts","ADTS AAC (Advanced Audio Coding)",  "",                                 "libfaac#aac#libvo_aacenc", "8000#11025#12000#16000#22050#24000#32000#44100#48000","48000"},
     {false,false, "flac", "flac","FLAC",                              "",                                 "flac", "8000#11025#12000#16000#22050#24000#32000#44100#48000","44100"},
-    {false,false, "mp4",  "m4a", "M4A QuickTime/MOV",                 "",                                 "libfaac#aac#libvo_aacenc", "8000#11025#12000#16000#22050#24000#32000#44100#48000","44100"},
+    {false,false, "mp4",  "m4a", "M4A QuickTime/MOV",                 "",                                 "libfaac#aac#libvo_aacenc#libmp3lame", "8000#11025#12000#16000#22050#24000#32000#44100#48000","44100"},
     {false,false, "mp2",  "mp2", "MP2 (MPEG audio layer 2)",          "",                                 "mp2", "8000#11025#12000#16000#22050#24000#32000#44100#48000","48000"},
     {false,false, "mp3",  "mp3", "MP3 (MPEG audio layer 3)",          "",                                 "libmp3lame", "8000#11025#12000#16000#22050#24000#32000#44100#48000","44100"},
     {false,false, "ogg",  "ogg", "OGG",                               "",                                 "libvorbis#vorbis", "8000#11025#12000#16000#22050#24000#32000#44100#48000","44100"},
