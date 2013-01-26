@@ -269,7 +269,7 @@ public:
     int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
 
     // Audio resampling
-    #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,31,0)
+    #ifndef USELIBAVRESAMPLE
     ReSampleContext         *RSC;
     #else
     AVAudioResampleContext  *RSC;
@@ -303,7 +303,7 @@ public:
 
     virtual void            CloseResampler();
     virtual void            CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleFormat RSC_InSampleFmt,AVSampleFormat RSC_OutSampleFmt,int RSC_InSampleRate,int RSC_OutSampleRate
-                                               #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,31,0)
+                                               #ifdef USELIBAVRESAMPLE
                                                    ,uint64_t RSC_InChannelLayout,uint64_t RSC_OutChannelLayout
                                                #endif
                                           );

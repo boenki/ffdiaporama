@@ -30,7 +30,8 @@ unix {
     INCLUDEPATH += /usr/include/ffmpeg/                                     # Specific for Fedora
 
     exists(/usr/include/libavresample/avresample.h) {
-        LIBS    += -lavresample                                                 #------ conditionnaly include libavresample
+        DEFINES += USELIBAVRESAMPLE
+        LIBS    += -lavresample                                             #------ conditionnaly include libavresample
     }
 }
 
@@ -63,6 +64,7 @@ win32 {
     LIBS        += -lgdi32 -lkernel32 -luser32 -lshell32 -ladvapi32         #------ Windows GDI libs link
 
     exists("F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include\\libavresample\\avresample.h") {
+        DEFINES += USELIBAVRESAMPLE
         LIBS    += -lavresample                                                 #------ conditionnaly include libavresample
     }
 }

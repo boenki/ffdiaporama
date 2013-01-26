@@ -602,21 +602,21 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
         // Ensure MusicTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
             Frame->CurrentObject_MusicTrack=new cSDLSoundBlockList();
-            Frame->CurrentObject_MusicTrack->SetFPS(WantedFPS,Diaporama->ApplicationConfig->PreviewSamplingRate);
+            Frame->CurrentObject_MusicTrack->SetFPS(WantedFPS,2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
             Frame->TransitObject_MusicTrack=new cSDLSoundBlockList();
-            Frame->TransitObject_MusicTrack->SetFPS(WantedFPS,Diaporama->ApplicationConfig->PreviewSamplingRate);
+            Frame->TransitObject_MusicTrack->SetFPS(WantedFPS,2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
 
         // Ensure SoundTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
             Frame->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
-            Frame->CurrentObject_SoundTrackMontage->SetFPS(WantedFPS,Diaporama->ApplicationConfig->PreviewSamplingRate);
+            Frame->CurrentObject_SoundTrackMontage->SetFPS(WantedFPS,2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
             Frame->TransitObject_SoundTrackMontage=new cSDLSoundBlockList();
-            Frame->TransitObject_SoundTrackMontage->SetFPS(WantedFPS,Diaporama->ApplicationConfig->PreviewSamplingRate);
+            Frame->TransitObject_SoundTrackMontage->SetFPS(WantedFPS,2,Diaporama->ApplicationConfig->PreviewSamplingRate,AV_SAMPLE_FMT_S16);
         }
     }
 

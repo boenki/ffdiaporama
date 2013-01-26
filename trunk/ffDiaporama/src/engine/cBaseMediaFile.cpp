@@ -1263,7 +1263,7 @@ void cVideoFile::Reset(int TheWantedObjectType) {
     RSC_OutChannels         =2;
     RSC_InSampleRate        =48000;
     RSC_OutSampleRate       =48000;
-    #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,31,0)
+    #ifdef USELIBAVRESAMPLE
     RSC_InChannelLayout     =av_get_default_channel_layout(2);
     RSC_OutChannelLayout    =av_get_default_channel_layout(2);
     #endif
@@ -1735,11 +1735,6 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     qlonglong DiffTimePosition=(LastAudioReadedPosition-Diff)-(dPosition*1000);
     if (DiffTimePosition<0) DiffTimePosition=-DiffTimePosition;
 
-    #ifdef LIBAV_07
-        // if Old ffmpeg : Prepare a buffer for sound decoding
-        uint8_t *BufferToDecode=(uint8_t *)av_malloc(48000*4*2);   // 2 sec buffer
-    #endif
-
     // Calc if we need to seek to a position
     if ((Position==0)||(DiffTimePosition>500)) {// Allow 0,5 sec diff (rounded double !)
         // Flush all buffers
@@ -1759,7 +1754,6 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
             }
         }
         FramePosition=-1;
-
     }
 
     bool ResamplingContinue=((Position!=0)&&(DiffTimePosition>0)&&(DiffTimePosition<500));
@@ -1790,15 +1784,9 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                 // NOTE: the audio packet can contain several NbrFrames
                 if (FramePosition!=-1) while (PacketTemp.size>0) {
 
-                    #ifdef LIBAV_07
-                    // Decode audio data
-                    int SizeDecoded     =AVCODEC_MAX_AUDIO_FRAME_SIZE;
-                    int Len             =avcodec_decode_audio3(AudioStream->codec,(int16_t *)BufferToDecode,&SizeDecoded,&PacketTemp);
-                    #else
                     AVFrame *Frame      =avcodec_alloc_frame();
                     int     SizeDecoded =0;
                     int     Len         =avcodec_decode_audio4(AudioStream->codec,Frame,&SizeDecoded,&PacketTemp);
-                    #endif
                     if (Len<0) {
                         // if decode error then data are not good : replace them with null sound
                         //SizeDecoded=int64_t(LastAudioFrameDuration*double(SoundTrackBloc->SamplingRate))*DstSampleSize;
@@ -1808,38 +1796,83 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                         // if error, we skip the frame and exit the while loop
                         PacketTemp.size=0;
                     } else if (SizeDecoded>0) {
-                        #ifdef LIBAV_07
-                        FrameDuration=double(SizeDecoded)/(double(SrcSampleSize)*double(AudioStream->codec->sample_rate));
+                        #ifdef USELIBAVRESAMPLE
+                        SizeDecoded  =av_samples_get_buffer_size(NULL,AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,0);
                         #else
                         SizeDecoded  =Frame->nb_samples*SrcSampleSize;
-                        FrameDuration=double(Frame->nb_samples)/double(AudioStream->codec->sample_rate);
                         #endif
+                        FrameDuration=double(SizeDecoded/SrcSampleSize)/double(AudioStream->codec->sample_rate);
+
+                        uint8_t *Data=Frame->data[0];
+                        int     NbrSample=Frame->nb_samples;
+
+                        if ((AudioStream->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||(AudioStream->codec->channels!=SoundTrackBloc->Channels)||(AudioStream->codec->sample_rate!=SoundTrackBloc->SamplingRate)) {
+                            if (!ResamplingContinue) CloseResampler();
+                            CheckResampler(AudioStream->codec->channels,SoundTrackBloc->Channels,
+                                           AudioStream->codec->sample_fmt,SoundTrackBloc->SampleFormat,
+                                           AudioStream->codec->sample_rate,SoundTrackBloc->SamplingRate
+                                           #ifdef USELIBAVRESAMPLE
+                                           ,AudioStream->codec->channel_layout,av_get_default_channel_layout(SoundTrackBloc->Channels)
+                                           #endif
+                                           );
+                            // Use avlib function to transform BufferForDecoded to AV_SAMPLE_FMT_S16 / 2 channels
+                            #ifndef USELIBAVRESAMPLE
+                                if (RSC!=NULL) {
+                                    Data=(uint8_t *)av_malloc(MaxAudioLenDecoded);
+                                    NbrSample=audio_resample(RSC,(short int*)Data,(short int*)Frame->data[0],NbrSample);
+                                    SizeDecoded=NbrSample*DstSampleSize;
+                                }
+                            #else
+                                if (RSC!=NULL) {
+                                    uint8_t *in_data[AVRESAMPLE_MAX_CHANNELS]={0};
+                                    int     in_linesize=0;
+                                    if (av_samples_fill_arrays(in_data,&in_linesize,(uint8_t *)Frame->data[0],AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,1)<0) {
+                                        ToLog(LOGMSG_CRITICAL,QString("failed in_data fill arrays"));
+                                    } else {
+                                        uint8_t *out_data[AVRESAMPLE_MAX_CHANNELS]={0};
+                                        int     out_linesize=0;
+                                        int     out_samples=avresample_available(RSC)+av_rescale_rnd(avresample_get_delay(RSC)+NbrSample,SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,AV_ROUND_UP);
+                                        if (av_samples_alloc(&Data,&out_linesize,SoundTrackBloc->Channels,out_samples,SoundTrackBloc->SampleFormat,1)<0) {
+                                            ToLog(LOGMSG_CRITICAL,QString("av_samples_alloc failed"));
+                                        } else {
+                                            if (av_samples_fill_arrays(out_data,&out_linesize,Data,SoundTrackBloc->Channels,out_samples,SoundTrackBloc->SampleFormat,1)<0) {
+                                                ToLog(LOGMSG_CRITICAL,QString("failed out_data fill arrays"));
+                                                Continue=false;
+                                            } else {
+                                                NbrSample=avresample_convert(RSC,out_data,out_linesize,out_samples,in_data,in_linesize,Frame->nb_samples);
+                                                SizeDecoded=NbrSample*DstSampleSize;
+                                            }
+                                        }
+                                    }
+                                }
+                            #endif
+                        }
+                        // Adjust FrameDuration with real NbrSample
+                        FrameDuration=double(NbrSample)/double(SoundTrackBloc->SamplingRate);
 
                         // If wanted position <= CurrentPosition+Packet duration then add this packet to the queue
                         if ((FramePosition+FrameDuration)>=dPosition) {
                             int64_t Delta=0;
                             // if dPosition start in the midle of the pack, then calculate delta
                             if (dPosition>FramePosition) {
-                                Delta=round((dPosition-FramePosition)*AudioStream->codec->sample_rate)*SrcSampleSize;
+                                Delta=round((dPosition-FramePosition)*SoundTrackBloc->SamplingRate)*DstSampleSize;
                                 if (Delta<0) Delta=0;
                             }
                             // Append decoded data to BufferForDecoded buffer
-                            #ifdef LIBAV_07
-                            memcpy(BufferForDecoded+AudioLenDecoded,BufferToDecode+Delta,SizeDecoded-Delta);
-                            #else
-                            memcpy(BufferForDecoded+AudioLenDecoded,Frame->data[0]+Delta,SizeDecoded-Delta);
-                            #endif
-                            AudioLenDecoded+=(SizeDecoded-Delta);
+                            if (Delta<SizeDecoded) {
+                                memcpy(BufferForDecoded+AudioLenDecoded,Data+Delta,SizeDecoded-Delta);
+                                AudioLenDecoded+=(SizeDecoded-Delta);
+                            }
                         }
+
+                        if (Data!=Frame->data[0]) av_free(Data);
 
                         PacketTemp.data        +=Len;
                         PacketTemp.size        -=Len;
                         FramePosition           =FramePosition+FrameDuration;
                         LastAudioReadedPosition =int(FramePosition*1000);    // Keep NextPacketPosition for determine next time if we need to seek
                     }
-                    #ifndef LIBAV_07
                     av_free(Frame);
-                    #endif
                 }
             }
 
@@ -1858,57 +1891,6 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     // Transfert data from BufferForDecoded to Buffer using audio_resample
     //**********************************************************************
     if (AudioLenDecoded>0) {
-        if ((AudioStream->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||(AudioStream->codec->channels!=SoundTrackBloc->Channels)||(AudioStream->codec->sample_rate!=SoundTrackBloc->SamplingRate)) {
-            if (!ResamplingContinue) CloseResampler();
-            CheckResampler(AudioStream->codec->channels,SoundTrackBloc->Channels,
-                           AudioStream->codec->sample_fmt,AV_SAMPLE_FMT_S16,
-                           AudioStream->codec->sample_rate,SoundTrackBloc->SamplingRate
-                           #if LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,31,0)
-                           ,AudioStream->codec->channel_layout,av_get_default_channel_layout(SoundTrackBloc->Channels)
-                           #endif
-                           );
-            int NbrSample=(AudioLenDecoded/SrcSampleSize);
-            // Use avlib function to transform BufferForDecoded to AV_SAMPLT_FMT_S16 / 2 channels
-            #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,31,0)
-                ToLog(LOGMSG_DEBUGTRACE,QString("IN:cVideoFile::ReadAudioFrame => do a reformat of %1 bytes audio data").arg(AudioLenDecoded));
-                if (RSC!=NULL) {
-                    short int *BufSampled=(short int*)av_malloc(MaxAudioLenDecoded);
-                    AudioLenDecoded=audio_resample(RSC,BufSampled,(short int*)BufferForDecoded,NbrSample)*DstSampleSize;
-
-                    // switch 2 buffers
-                    av_free(BufferForDecoded);
-                    BufferForDecoded=(uint8_t *)BufSampled;
-                }
-            #else
-                if (RSC!=NULL) {
-                    uint8_t     *in_data[AVRESAMPLE_MAX_CHANNELS]={0},*out_data[AVRESAMPLE_MAX_CHANNELS]={0};
-                    int         in_linesize=0,out_linesize=0;
-                    short int   *BufSampled=(short int*)av_malloc(MaxAudioLenDecoded);
-
-                    if (av_samples_fill_arrays(in_data,&in_linesize,(uint8_t *)BufferForDecoded,AudioStream->codec->channels,NbrSample,AudioStream->codec->sample_fmt,0)<0) {
-                        ToLog(LOGMSG_CRITICAL,QString("failed in_data fill arrays"));
-                    } else {
-                        if (av_samples_fill_arrays(out_data,&out_linesize,(uint8_t *)BufSampled,SoundTrackBloc->Channels,NbrSample,AV_SAMPLE_FMT_S16,0)<0) {
-                            ToLog(LOGMSG_CRITICAL,QString("failed out_data fill arrays"));
-                        } else {
-                            int len=avresample_convert(RSC,out_data,out_linesize,MaxAudioLenDecoded/DstSampleSize,in_data,in_linesize,NbrSample);
-                            if (len<=0) {
-                                ToLog(LOGMSG_CRITICAL,QString("Error in avresample_convert"));
-                            }
-                            //if (avresample_get_delay(RSC)>0) qDebug()<<avresample_get_delay(RSC)<<"delay samples not converted";
-                            if (avresample_available(RSC)>0)   qDebug()<<avresample_available(RSC)<<"/"<<len<<"/"<<NbrSample<<"samples available for output";
-
-                            // switch 2 buffers
-                            av_free(BufferForDecoded);
-                            BufferForDecoded=(uint8_t *)BufSampled;
-                            BufSampled      =NULL;
-                            AudioLenDecoded =len*DstSampleSize;
-                        }
-                    }
-                    if (BufSampled) av_free(BufSampled);
-                }
-            #endif
-        }
         if (Volume!=1) {
             // Adjust volume
             int16_t *Buf1=(int16_t*)BufferForDecoded;
@@ -1927,9 +1909,6 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     // Now ensure SoundTrackBloc have correct wanted packet (if no then add nullsound)
     //while (SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS) SoundTrackBloc->AppendNullSoundPacket();
 
-    #ifdef LIBAV_07
-    if (BufferToDecode)   av_free(BufferToDecode);
-    #endif
     if (BufferForDecoded) av_free(BufferForDecoded);
 }
 
@@ -1938,7 +1917,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 void cVideoFile::CloseResampler() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::CloseResampler");
     if (RSC) {
-        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,31,0)
+        #ifndef USELIBAVRESAMPLE
             audio_resample_close(RSC);
             RSC=NULL;
         #else
@@ -1951,12 +1930,12 @@ void cVideoFile::CloseResampler() {
 //*********************************************************************************************************************
 
 void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleFormat RSC_InSampleFmt,AVSampleFormat RSC_OutSampleFmt,int RSC_InSampleRate,int RSC_OutSampleRate
-                                           #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,31,0)
+                                           #ifdef USELIBAVRESAMPLE
                                                ,uint64_t RSC_InChannelLayout,uint64_t RSC_OutChannelLayout
                                            #endif
                                       ) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::CheckResampler");
-    #if LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,31,0)
+    #ifdef USELIBAVRESAMPLE
     if (RSC_InChannelLayout==0)  RSC_InChannelLayout =av_get_default_channel_layout(RSC_InChannels);
     if (RSC_OutChannelLayout==0) RSC_OutChannelLayout=av_get_default_channel_layout(RSC_OutChannels);
     #endif
@@ -1964,11 +1943,11 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
         ( (RSC_InChannels!=this->RSC_InChannels)    ||(RSC_OutChannels!=this->RSC_OutChannels)
         ||(RSC_InSampleFmt!=this->RSC_InSampleFmt)  ||(RSC_OutSampleFmt!=this->RSC_OutSampleFmt)
         ||(RSC_InSampleRate!=this->RSC_InSampleRate)||(RSC_OutSampleRate!=this->RSC_OutSampleRate)
-        #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,31,0)
+        #ifdef USELIBAVRESAMPLE
         ||(RSC_InChannelLayout!=this->RSC_InChannelLayout)||(RSC_OutChannelLayout!=this->RSC_OutChannelLayout)
         #endif
        )) {
-        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,31,0)
+        #ifndef USELIBAVRESAMPLE
             audio_resample_close(RSC);
             RSC=NULL;
         #else
@@ -1984,7 +1963,7 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
         this->RSC_InSampleRate =RSC_InSampleRate;
         this->RSC_OutSampleRate=RSC_OutSampleRate;
 
-        #if LIBAVCODEC_VERSION_INT < AV_VERSION_INT(54,31,0)
+        #ifndef USELIBAVRESAMPLE
             RSC=av_audio_resample_init(    // Context for resampling audio data
                 RSC_OutChannels,RSC_InChannels,             // output_channels, input_channels
                 RSC_OutSampleRate,RSC_InSampleRate,         // output_rate, input_rate
@@ -2005,7 +1984,7 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
                 av_opt_set_int(RSC,"out_channel_layout", RSC_OutChannelLayout,0);
                 av_opt_set_int(RSC,"out_sample_fmt",     RSC_OutSampleFmt,    0);
                 av_opt_set_int(RSC,"out_sample_rate",    RSC_OutSampleRate,   0);
-                av_opt_set_int(RSC,"internal_sample_fmt",AV_SAMPLE_FMT_FLTP,  0);
+                //av_opt_set_int(RSC,"internal_sample_fmt",AV_SAMPLE_FMT_FLTP,  0);
                 if (avresample_open(RSC)<0) {
                     ToLog(LOGMSG_CRITICAL,QString("CheckResampler: avresample_open failed"));
                     avresample_free(&RSC);

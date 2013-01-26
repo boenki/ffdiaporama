@@ -121,7 +121,7 @@ void SDLSetFPS(double WantedFPS,bool SDLAncMode,int64_t SamplingRate) {
 
     // Init MixedMusic
     MixedMusic.ClearList();                                             // Free sound buffers
-    MixedMusic.SetFPS(WantedFPS,SamplingRate);
+    MixedMusic.SetFPS(WantedFPS,2,SamplingRate,AV_SAMPLE_FMT_S16);
 
     // Init SDL
     SDL_AudioSpec Desired;

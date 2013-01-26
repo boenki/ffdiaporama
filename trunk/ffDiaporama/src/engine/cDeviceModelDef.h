@@ -65,11 +65,8 @@ extern "C" {
     #include <libavformat/avformat.h>
     #include <libavformat/avio.h>
 
-    #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,31,0)
+    #ifdef USELIBAVRESAMPLE
         #include "libavresample/avresample.h"
-    #elif LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(54,60,0)
-        #include "libavutil/samplefmt.h"
-        #include "libswresample/swresample.h"
     #endif
 
     // include for libavfilter
@@ -248,7 +245,7 @@ struct sFormatDef {
 #define NBR_FORMATDEF   11
 extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];
 
-#define NBR_AUDIOFORMATDEF   8
+#define NBR_AUDIOFORMATDEF   9
 extern struct sFormatDef AUDIOFORMATDEF[NBR_AUDIOFORMATDEF];
 
 //============================================
