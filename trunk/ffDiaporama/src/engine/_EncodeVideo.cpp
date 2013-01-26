@@ -608,8 +608,8 @@ bool cEncodeVideo::EncodeVideo() {
                     Continue=false;
                 }
             }
-        #endif
-    }
+        }
+    #endif
 
     for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
 

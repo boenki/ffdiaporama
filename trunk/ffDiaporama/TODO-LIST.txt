@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 20/01/2013
+* Dernier commit le : 26/01/2013
 **************************************************
 
 TODO :
@@ -45,17 +45,9 @@ WIP : Work in progress
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Correction de bug dans le decodage du son (U8 Mono)
 
 English version / Bug fixes :
--Bug fix for reading sound (U8 Mono)
 
 French version / Nouveautés :
-- Poursuite des travaux sur le nouveau moteur d'encodage
-    LIBAV 0.8 : Tout est ok mais bizarrerie sur l'OGG: Durée non lisible mais computée
-    LIBAV 9.1 : Il reste des problèmes en AMR (Erreur de durée qui est doublée) et en OGG (Durée non lisible et non computée)
 
 English version / New features :
-- Further work on the new encoding engine
-     Libav 0.8: Everything is ok but oddity on OGG: Time readable but not computed
-     Libav 9.1: There are still problems on AMR (error duration is doubled) and on OGG (Duration not readable and not computed)
