@@ -29,6 +29,8 @@
 
 #include "cDeviceModelDef.h"                // Contains libav include
 
+#define MAXSOUNDPACKETSIZE     3840
+
 // Base object for sound manipulation
 class cSoundBlockList {
 public:

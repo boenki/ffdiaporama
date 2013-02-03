@@ -24,6 +24,7 @@
 // Basic inclusions (common to all files)
 #include "../../engine/_GlobalDefines.h"
 #include "../../engine/_QCustomDialog.h"
+#include "../../engine/_EncodeVideo.h"
 
 // Specific inclusions
 #include "../_Diaporama.h"
@@ -35,6 +36,7 @@ namespace Ui {
 class DlgRenderVideo : public QCustomDialog {
 Q_OBJECT
 public:
+    cEncodeVideo    Encoder;
     QTimer          Timer;                          // Display progress information
     int             Column,ColumnStart,Position;    // Display progress information
 

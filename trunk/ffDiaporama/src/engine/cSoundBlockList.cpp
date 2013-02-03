@@ -20,9 +20,6 @@
 
 #include "cSoundBlockList.h"
 
-// Specific defines for this file
-#define MAXSOUNDPACKETSIZE     3840
-
 //*********************************************************************************************************************************************
 // Base object for sound manipulation
 //*********************************************************************************************************************************************
@@ -62,10 +59,11 @@ void cSoundBlockList::SetFPS(double TheFPS,int TheChannels,int64_t TheSamplingRa
     SamplingRate   =TheSamplingRate;
     SampleFormat   =TheSampleFormat;
     Channels       =TheChannels;
+
     WantedDuration =(double(AV_TIME_BASE)/FPS)/(1000*1000); //double(1)/FPS;
     //if ((WantedDuration>=double(0.033))&&(WantedDuration<=double(0.035))) WantedDuration=0.03337;
     SoundPacketSize=int(WantedDuration*double(SamplingRate))*SampleBytes*Channels;
-    if (SoundPacketSize==31996) SoundPacketSize=32000;      // Fix a rounded error for 6 FPS
+
     NbrPacketForFPS=1;
     dDuration      =WantedDuration;
     while (SoundPacketSize>MAXSOUNDPACKETSIZE) {

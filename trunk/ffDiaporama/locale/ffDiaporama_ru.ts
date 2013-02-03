@@ -632,21 +632,6 @@ Crossfade</translation>
         <translation>Без потерь :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2561"/>
-        <source>Advanced option :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2616"/>
-        <source>Frequency :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2632"/>
-        <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2670"/>
         <source>Manage Devices</source>
         <translation>Управление устройствами</translation>
@@ -836,6 +821,21 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2548"/>
         <source>Use thread for pipe operations</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2561"/>
+        <source>Advanced option :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2616"/>
+        <source>Frequency :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2632"/>
+        <source>Select the bit rate to use for audio during the rendering.</source>
+        <translation type="unfinished">Выберите битрейт аудио для рендеринга.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2694"/>
@@ -2422,7 +2422,7 @@ Do you want to overwrite-it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="38"/>
         <source>You can continue the playlist defined in a previous slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы можете продолжить плейлист, определенный в предыдущем слайде</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="41"/>
@@ -2432,146 +2432,148 @@ Do you want to overwrite-it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="68"/>
         <source>Set reduced volume level during this slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить уменьшенный уровень громкости во время этого слайда</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="71"/>
         <source>Change volume level to :</source>
-        <translation type="unfinished"></translation>
+        <translation>Сменить уровень громкости на :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="87"/>
         <source>Define the sound volume for this slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить уровень громкости во время этого слайда</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="155"/>
         <source>Set music to pause during this slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Поставить музыку на паузу во время этого слайда</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="158"/>
         <source>Set to pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить на паузу</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="168"/>
         <source>No specific settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Без особых настроек</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="171"/>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>Нормальный</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="186"/>
         <source>Start a new playlist from this slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Начать новый плейлист с этого слайда</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="204"/>
         <source>Add a file to the playlist</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить файл в плейлист</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="218"/>
         <source>Remove the current selected file</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить выбранный файл</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="247"/>
         <source>Change the order in which the music files will be played:
 Move the current selected file a notch down</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить порядок проигрывания музыкальных файлов
+Переместить выбранный файл на метку ниже</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="183"/>
         <source>You can start a new playlist from this slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы можете начать новый плейлист с этого слайда</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="232"/>
         <source>Change the order in which the music files will be played:
 Move the current selected file a notch up</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить порядок проигрывания музыкальных файлов
+Переместить выбранный файл на метку выше</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="262"/>
         <source>Total playlist duration : </source>
-        <translation type="unfinished"></translation>
+        <translation>Общая длительность плейлиста : </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="312"/>
         <source>File</source>
-        <translation type="unfinished">Файл</translation>
+        <translation>Файл</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="322"/>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Длительность</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="332"/>
         <source>Volume</source>
-        <translation type="unfinished"></translation>
+        <translation>Громкость</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="342"/>
         <source>Source folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Исходная папка</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="380"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Принять изменение и выйти из диалогового окна</translation>
+        <translation>Принять изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="383"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Ок</translation>
+        <translation>&amp;Ок</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="394"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Отменить изменение и выйти из диалогового окна</translation>
+        <translation>Отменить изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="397"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Отмена</translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="408"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">Открыть страницу помощи, описывающий это диалоговое окно</translation>
+        <translation>Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="411"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Помощь</translation>
+        <translation>&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="418"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.cpp" line="225"/>
         <source>Add music files</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить музыкальные файлы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.cpp" line="258"/>
         <source>Error</source>
         <comment>Error message</comment>
-        <translation type="unfinished">Ошибка</translation>
+        <translation>Ошибка</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.cpp" line="259"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
-        <translation type="unfinished">Формат не поддерживается</translation>
+        <translation>Формат не поддерживается</translation>
     </message>
 </context>
 <context>
@@ -2580,184 +2582,184 @@ Move the current selected file a notch up</source>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="394"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="631"/>
         <source>Image format :</source>
-        <translation type="unfinished">Формат изображения:</translation>
+        <translation>Формат изображения:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="146"/>
         <source>Destination file :</source>
-        <translation type="unfinished"></translation>
+        <translation>Целевой файл :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="191"/>
         <source>Destination file path</source>
-        <translation type="unfinished"></translation>
+        <translation>Путь к целевому файлу</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="198"/>
         <source>Select the destination file path</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите путь к целевому файлу</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="483"/>
         <source>Video standard :</source>
-        <translation type="unfinished">Видео стандарт:</translation>
+        <translation>Стандарт видео :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="416"/>
         <source>Select the video standard to use, PAL or NTSC.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите стандарт видео для использования, PAL или NTSC.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="420"/>
         <source>PAL</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="425"/>
         <source>NTSC</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="439"/>
         <source>Geometry :</source>
-        <translation type="unfinished"></translation>
+        <translation>Геометрия :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="453"/>
         <source>Old TV (4:3)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="458"/>
         <source>TV Wide (16:9)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="463"/>
         <source>Cinema (2.35:1)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="344"/>
         <source>Select the image resolution to use for the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите разрешение изображения для рендеринга.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="534"/>
         <source>Select the video codec to use for the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите кодек видео для рендеринга.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="60"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="547"/>
         <source>Bit rate :</source>
-        <translation type="unfinished">Битрейт:</translation>
+        <translation>Битрейт:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="114"/>
         <source>Select the bit rate to use for video during the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите битрейт видео для рендеринга.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="515"/>
         <source>Select the audio codec to use for the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите аудио кодек для рендеринга.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="81"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="578"/>
         <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите битрейт аудио для рендеринга.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="214"/>
         <source>File format :</source>
-        <translation type="unfinished">Формат файла:</translation>
+        <translation>Формат файла:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="224"/>
         <source>Audio codec :</source>
-        <translation type="unfinished">Аудио кодек:</translation>
+        <translation>Аудио кодек:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="493"/>
         <source>Video codec :</source>
-        <translation type="unfinished">Видео кодек:</translation>
+        <translation>Видео кодек:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="234"/>
         <source>Select the model of equipment</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите модель оборудования</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="384"/>
         <source>Device model :</source>
-        <translation type="unfinished">Модель устройства :</translation>
+        <translation>Модель устройства :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="364"/>
         <source>Device type :</source>
-        <translation type="unfinished">Тип девайса:</translation>
+        <translation>Тип устройства:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="262"/>
         <source>All slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Все слайды</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="269"/>
         <source>From</source>
-        <translation type="unfinished"></translation>
+        <translation>От</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="279"/>
         <source>To</source>
-        <translation type="unfinished"></translation>
+        <translation>До</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="374"/>
         <source>To render :</source>
-        <translation type="unfinished"></translation>
+        <translation>До рендера :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="354"/>
         <source>Sound :</source>
-        <translation type="unfinished"></translation>
+        <translation>Звук :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="304"/>
         <source>Include sound in the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Включить звук в видео</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="319"/>
         <source>und</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="335"/>
         <source>(ISO 639 language code)</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="473"/>
         <source>Language :</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="176"/>
         <source>Select the type of equipment</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите тип оборудования</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="169"/>
         <source>Select the file type to use for the rendering</source>
-        <translation type="unfinished">Выбрать тип файла для рендеринга</translation>
+        <translation>Выбрать тип файла для рендеринга</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="404"/>
         <source>HTML5 :</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML5 :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="156"/>
@@ -2777,265 +2779,270 @@ Move the current selected file a notch up</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="641"/>
         <source>Video format :</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат видео:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="651"/>
         <source>Audio format :</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат аудио:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="754"/>
         <source>Audio track - Total progression</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио трек - Общая прогрессия</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="781"/>
         <source>Video track - Current slide progression</source>
-        <translation type="unfinished"></translation>
+        <translation>Видео трек - Прогрессия текущего слайда</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="836"/>
         <source>Video track - Total progression</source>
-        <translation type="unfinished"></translation>
+        <translation>Видео трек - Общая прогрессия</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="892"/>
         <source>Elapsed time :</source>
-        <translation type="unfinished"></translation>
+        <translation>Истекшее время :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="902"/>
         <source>Average render speed :</source>
-        <translation type="unfinished"></translation>
+        <translation>Средняя скорость рендеринга :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="938"/>
         <source>fps</source>
-        <translation type="unfinished"></translation>
+        <translation>fps</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="975"/>
         <source>Edit project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактировать параметры проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1002"/>
         <source>Accept modification and start rendering process</source>
-        <translation type="unfinished"></translation>
+        <translation>Принять модификацию и начать процесс рендеринга</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="978"/>
         <source>&amp;Properties</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Свойства</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1005"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Ок</translation>
+        <translation>&amp;Ок</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1016"/>
         <source>Cancel modification or rendering process and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Отмменить изменения или процесс рендеринга и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1019"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Отмена</translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1030"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">Открыть страницу помощи, описывающий это диалоговое окно</translation>
+        <translation>Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1033"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Помощь</translation>
+        <translation>&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1040"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="62"/>
+        <source>Advanced render video</source>
+        <translation>Продвинутый рендеринг видео</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="63"/>
+        <source>Render lossless video</source>
+        <translation>Рендеринг видео &quot;без потерь&quot;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="64"/>
-        <source>Advanced render video</source>
-        <translation type="unfinished"></translation>
+        <source>Render video for mobil player and smartphone</source>
+        <translation>Рендеринг видео для мобильного плеера или смартфона</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="65"/>
-        <source>Render lossless video</source>
-        <translation type="unfinished"></translation>
+        <source>Render video for multimedia system</source>
+        <translation>Рендеринг видео для системы мультимедиа</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="66"/>
-        <source>Render video for mobil player and smartphone</source>
-        <translation type="unfinished"></translation>
+        <source>Render video for the WEB</source>
+        <translation>Рендеринг видео для WEB</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="67"/>
-        <source>Render video for multimedia system</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="68"/>
-        <source>Render video for the WEB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="69"/>
         <source>Export soundtrack</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="97"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="95"/>
         <source>soundtrack</source>
         <comment>Default name for rendering</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="108"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="106"/>
         <source>movie</source>
         <comment>Default name for rendering</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="410"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="408"/>
         <source>Select destination file</source>
-        <translation type="unfinished">Выбрать пункт назначения для файла</translation>
+        <translation>Выбрать целевой файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="647"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="957"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="646"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="947"/>
         <source>Stop rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Остановить рендеринг</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="962"/>
+        <source>Range selection</source>
+        <translation>Диапазон выбора</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="963"/>
+        <source>Slide range is defined to incorrect values</source>
+        <translation>Диапазон слайдов определен неправильными значениями</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="971"/>
+        <source>Language selection</source>
+        <translation>Выбор языка</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="972"/>
-        <source>Range selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="973"/>
-        <source>Slide range is defined to incorrect values</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="981"/>
-        <source>Language selection</source>
-        <translation type="unfinished">Выбор языка</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="982"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="989"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="979"/>
         <source>Overwrite file ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Заменить файл?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="990"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="980"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбранный файл уже существует.
+Вы хотите заменить его?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1182"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1174"/>
         <source>Stop rendering process and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Остановить рендеринг и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1452"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1487"/>
         <source>Error sending image to encoder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Сообщение об ошибке</translatorcomment>
+        <translation>Ошибка отправления изображения кодировщику</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="26"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="761"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="850"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1004"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1016"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1039"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1425"/>
-        <source>Render video</source>
-        <translation type="unfinished">Рендировать видео</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1072"/>
-        <source>Device model selection</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1073"/>
-        <source>A device model is require!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1193"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1214"/>
-        <source>Encoding sound</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1273"/>
-        <source>Start encoder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1320"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1408"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1412"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1452"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1464"/>
-        <source>Error</source>
-        <comment>Error message</comment>
-        <translation type="unfinished">Ошибка</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1321"/>
-        <source>Error starting encoder</source>
-        <comment>Error message</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1464"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1499"/>
         <source>Encoder error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engine/_EncodeVideo.cpp" line="464"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1486"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="26"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="760"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="849"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="994"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1006"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1029"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1460"/>
+        <source>Render video</source>
+        <translation>Рендеринг видео</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1062"/>
+        <source>Device model selection</source>
+        <translation>Выбор модели устройства</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1063"/>
+        <source>A device model is require!</source>
+        <translation>Требуется модель устройства!</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1183"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1261"/>
+        <source>Encoding sound</source>
+        <translation>Звук кодирования</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1304"/>
+        <source>Start encoder</source>
+        <translation>Начать кодировщик</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1351"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1439"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1443"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1487"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1499"/>
+        <source>Error</source>
+        <comment>Error message</comment>
+        <translation>Ошибка</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1352"/>
+        <source>Error starting encoder</source>
+        <comment>Error message</comment>
+        <translation>Ошибка запуска кодировщика</translation>
+    </message>
+    <message>
+        <location filename="../src/engine/_EncodeVideo.cpp" line="512"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1521"/>
         <source> - Estimated time left : </source>
-        <translation type="unfinished"></translation>
+        <translation> - Прогнозируемое оставшееся время : </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1391"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1422"/>
         <source>Closing encoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Закрытие кодировщика</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1408"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1439"/>
         <source>Error closing encoder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Ошибка закрытия кодировщика</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1412"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1443"/>
         <source>Error exiting encoder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation variants="yes">
+            <lengthvariant>Ошибка выходящего кодировщика</lengthvariant>
+            <lengthvariant>Ошибка существующего кодировщика</lengthvariant>
+        </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1425"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1460"/>
         <source>Job completed successfully!</source>
-        <translation type="unfinished"></translation>
+        <translation>Задание выполнено успешно!</translation>
     </message>
 </context>
 <context>
@@ -3043,76 +3050,76 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="20"/>
         <source>Ruler properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Свойства линейки</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="76"/>
         <source>Horizontal rulers</source>
-        <translation type="unfinished"></translation>
+        <translation>Горизонтальные линейки</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="97"/>
         <source>Vertical rulers</source>
-        <translation type="unfinished"></translation>
+        <translation>Вертикальные линейки</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="110"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="123"/>
         <source>screen borders</source>
-        <translation type="unfinished"></translation>
+        <translation>края экрана</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="136"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="149"/>
         <source>TV margins</source>
-        <translation type="unfinished">TV поля</translation>
+        <translation>Поля TV </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="162"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="175"/>
         <source>Screen center</source>
-        <translation type="unfinished"></translation>
+        <translation>Центр экрана</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="195"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="202"/>
         <source>Unselected objects</source>
-        <translation type="unfinished"></translation>
+        <translation>Невыделенные объекты</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="241"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Принять изменение и выйти из диалогового окна</translation>
+        <translation>Принять изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="244"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Ок</translation>
+        <translation>&amp;Ок</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="255"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Отменить изменение и выйти из диалогового окна</translation>
+        <translation>Отменить изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="258"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Отмена</translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="269"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">Открыть страницу помощи, описывающий это диалоговое окно</translation>
+        <translation>Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="272"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Помощь</translation>
+        <translation>&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="279"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -3120,57 +3127,57 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="20"/>
         <source>Set first shot duration for a set of slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Установить длительность первого кадра как для слайдов</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="43"/>
         <source>First shot duration :</source>
-        <translation type="unfinished"></translation>
+        <translation>Длительность первого кадра:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="58"/>
         <source>Define the duration for the current selected shots</source>
-        <translation type="unfinished"></translation>
+        <translation>Установите длительность для выбранных кадров</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="81"/>
         <source>HH:mm:ss.zzz</source>
-        <translation type="unfinished"></translation>
+        <translation>HH:mm:ss.zzz</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="149"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Принять изменение и выйти из диалогового окна</translation>
+        <translation>Принять изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="152"/>
         <source>&amp;Ok</source>
-        <translation type="unfinished">&amp;Ок</translation>
+        <translation>&amp;Ок</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="163"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Отменить изменение и выйти из диалогового окна</translation>
+        <translation>Отменить изменение и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="166"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Отмена</translation>
+        <translation>&amp;Отмена</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="177"/>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">Открыть страницу помощи, описывающий это диалоговое окно</translation>
+        <translation>Открыть страницу помощи, описывающий это диалоговое окно</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="180"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Помощь</translation>
+        <translation>&amp;Помощь</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="187"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation>F1</translation>
     </message>
 </context>
 <context>
@@ -3219,7 +3226,7 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="680"/>
         <source>HH:mm:ss.zzz</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HH:mm:ss.zzz</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="642"/>
@@ -3765,7 +3772,7 @@ information</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2982"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3013"/>
@@ -4272,7 +4279,7 @@ information</source>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1589"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.cpp" line="126"/>
@@ -4390,7 +4397,7 @@ information</source>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionDuration.ui" line="187"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
 </context>
 <context>
@@ -4523,7 +4530,7 @@ information</source>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="280"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
 </context>
 <context>
@@ -4565,7 +4572,7 @@ information</source>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="274"/>
         <source>Language :</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Язык :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="137"/>
@@ -4685,7 +4692,7 @@ information</source>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="571"/>
         <source>F1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">F1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="47"/>
@@ -6038,14 +6045,14 @@ Do you want to open it nevertheless?</source>
         <translation type="unfinished">Выбрать пункт назначения для файла</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SDL_Support.cpp" line="87"/>
-        <location filename="../src/engine/_SDL_Support.cpp" line="142"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="78"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="135"/>
         <source>Error during startup</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engine/_SDL_Support.cpp" line="88"/>
-        <location filename="../src/engine/_SDL_Support.cpp" line="143"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="79"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="136"/>
         <source>Error during initialisation of sound system. Check your configuration and try again</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6113,7 +6120,7 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/engine/QCustomFolderTable.cpp" line="617"/>
         <source>Duration</source>
         <comment>Column header</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Длительность</translation>
     </message>
     <message>
         <location filename="../src/engine/QCustomFolderTable.cpp" line="322"/>

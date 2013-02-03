@@ -1720,8 +1720,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     int64_t         AudioLenDecoded     =0;
     uint8_t         *BufferForDecoded   =(uint8_t *)av_malloc(MaxAudioLenDecoded);
     double          dPosition           =double(Position)/1000;     // Position in double format
-    //double          AudioDataWanted     =(PreviewMode?SoundTrackBloc->WantedDuration:5)*double(AudioStream->codec->sample_rate)*SrcSampleSize;  // 5 sec for rendering
-    double          AudioLengthWanted   =(PreviewMode?1:5)*SoundTrackBloc->WantedDuration;                                                      // 5 frame for rendering
+    double          AudioLengthWanted   =(PreviewMode?/*1*/2:5)*SoundTrackBloc->WantedDuration;                                                      // 5 frame for rendering
 
     bool            Continue        =true;
     double          FramePosition   =dPosition;
@@ -1882,7 +1881,6 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
             StreamPacket=NULL;
 
             // Check if we need to continue loop
-            //Continue=(AudioLenDecoded<AudioDataWanted);
             Continue=FramePosition<dPosition+AudioLengthWanted;
         }
     }

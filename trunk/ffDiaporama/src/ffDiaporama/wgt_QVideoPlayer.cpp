@@ -25,7 +25,7 @@
 #define ICON_PLAYERPLAY                     ":/img/player_play.png"                 // FileName of play icon
 #define ICON_PLAYERPAUSE                    ":/img/player_pause.png"                // FileName of pause icon
 
-#define BUFFERING_NBR_FRAME                 5                                     // Number of frame wanted in the playing buffer
+#define BUFFERING_NBR_FRAME                 10                                      // Number of frame wanted in the playing buffer
 
 //*********************************************************************************************************************************************
 // Base object for Movie frame
@@ -327,6 +327,7 @@ bool wgt_QVideoPlayer::StartPlay(cVideoFile *theFileInfo,double theWantedFPS) {
     FileInfo =theFileInfo;
     WantedFPS=theWantedFPS;
     IsValide=true;
+    SDLFlushBuffers();
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     SetActualDuration(QTime(0,0,0,0).msecsTo(FileInfo->Duration));
@@ -348,6 +349,7 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
     PlayerPlayMode  = true;
     PlayerPauseMode = false;
     ui->VideoPlayerPlayPauseBT->setIcon(IconPlay);
+    SDLFlushBuffers();
 
     // Start timer
     TimerTick=true;
@@ -371,6 +373,7 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
     PlayerPauseMode = true;
     ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
     ui->BufferState->setValue(0);
+    SDLFlushBuffers();
 }
 
 //============================================================================================
