@@ -45,9 +45,24 @@ WIP : Work in progress
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
+-Corrige les problèmes de son lors de la prévisualisation en 6 et 8.33 fps à 22050 et 44100 Hz
+-Corrige les problèmes de son lors de l'encodage
 
 English version / Bug fixes :
+-Fix sound errors during preview using 6 or 8.33 fps with 22050 and 44100 Hz
+-Fix sound errors during rendering
 
 French version / Nouveautés :
 
 English version / New features :
+
+
+Montage de 31 sec :
+    Linux                   Windows
+    NEW : 12.1 FPS/1:04
+    OLD : 11.1 FPS/1:10
+
+44100 - 6 fps : Wanted len(3672)<>MixedMusic.SoundPacketSize(3674)
+44100 - 8.3 fps : Wanted len(2644)<>MixedMusic.SoundPacketSize(2646)
+22050 - 6 fps : Wanted len(3672)<>MixedMusic.SoundPacketSize(3674)
+22050 - 8.3 fps : Wanted len(2644)<>MixedMusic.SoundPacketSize(2646)

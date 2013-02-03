@@ -26,11 +26,11 @@
 // SDL global define values
 //*********************************************************************************************************************************************
 
-bool                SDLIsAudioOpen=false;   // true if SDL work at least one time
-double              SDLCurrentFPS =-1;      // Current FPS setting for SDL
-SDL_AudioSpec       AudioSpec;              // SDL param bloc
-cSDLSoundBlockList  MixedMusic;             // Sound to play
-Uint8               SDLBuf[64000];
+bool                SDLIsAudioOpen=false;           // true if SDL work at least one time
+double              SDLCurrentFPS =-1;              // Current FPS setting for SDL
+SDL_AudioSpec       AudioSpec;                      // SDL param bloc
+cSDLSoundBlockList  MixedMusic;                     // Sound to play
+Uint8               SDLBuf[MAXSOUNDPACKETSIZE*2];
 int32_t             SDLBufSize=0;
 
 //*********************************************************************************************************************************************
@@ -41,38 +41,29 @@ void SDLAudioCallback(void *,Uint8 *stream,int len) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SDLAudioCallback");
 
     SDLIsAudioOpen=true;
-    if (len!=MixedMusic.SoundPacketSize) {
-        ToLog(LOGMSG_CRITICAL,QString("Error in SDLAudioCallback : Wanted len(%1)<>MixedMusic.SoundPacketSize(%2)").arg(len).arg(MixedMusic.SoundPacketSize));
-        return;
-    }
-    int32_t CurPos=0;
-    if (SDLBufSize>0) {
-        memcpy(stream,&SDLBuf,SDLBufSize);
-        CurPos=SDLBufSize;
-        SDLBufSize=0;
-    }
-    while (len>0) {
+
+    while (SDLBufSize<len) {
         int16_t *Packet=MixedMusic.DetachFirstPacket();
         if (Packet!=NULL) {
-            if (len>=MixedMusic.SoundPacketSize) {
-                memcpy(stream+CurPos,(Uint8 *)Packet,MixedMusic.SoundPacketSize);
-                CurPos+=MixedMusic.SoundPacketSize;
-                len   -=MixedMusic.SoundPacketSize;
-            } else {
-                memcpy(stream+CurPos,(Uint8 *)Packet,len);
-                SDLBufSize=MixedMusic.SoundPacketSize-len;
-                memcpy(&SDLBuf,(Uint8 *)Packet+len,SDLBufSize);
-                CurPos+=len;
-                len   -=MixedMusic.SoundPacketSize;
-            }
-            av_free(Packet);
+            memcpy(SDLBuf+SDLBufSize,Packet,MixedMusic.SoundPacketSize);
+            SDLBufSize+=MixedMusic.SoundPacketSize;
         } else {
-            memset(stream+CurPos,0,len);
-            len=0;
-            CurPos=0;
-            SDLBufSize=0;
+            ToLog(LOGMSG_WARNING,"SDLAudioCallback: Not enought data to play sound");
+            return;
         }
     }
+
+    if (SDLBufSize>=len) {
+        memcpy(stream,SDLBuf,len);
+        memcpy(SDLBuf,SDLBuf+len,SDLBufSize-len);
+        SDLBufSize-=len;
+    }
+}
+
+//*********************************************************************************************************************************************
+
+void SDLFlushBuffers() {
+    SDLBufSize=0;
 }
 
 //*********************************************************************************************************************************************
@@ -90,6 +81,7 @@ void SDLFirstInit(double WantedFPS,bool SDLAncMode,int64_t SamplingRate) {
         ToLog(LOGMSG_CRITICAL,QString("SDLFirstInit=Could not initialize SDL :%1").arg(SDL_GetError()));
         exit(1);    // ExitApplicationWithFatalError
     }
+
     SDLSetFPS(WantedFPS,SDLAncMode,SamplingRate);
 }
 
@@ -113,6 +105,7 @@ void SDLLastClose() {
 
 void SDLSetFPS(double WantedFPS,bool SDLAncMode,int64_t SamplingRate) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SDLSetFPS");
+    SDLFlushBuffers();
 
     //if (SDLCurrentFPS==WantedFPS) return;
     SDLCurrentFPS=WantedFPS;
