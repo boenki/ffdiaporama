@@ -4,17 +4,17 @@
 <context>
     <name>CommonErrorMsg</name>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="157"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="170"/>
         <source>Format not supported</source>
         <translation>Formaat wordt niet ondersteund</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="158"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="171"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <translation>Deze toepassing ondersteunt alleen audio met xx 8 bit of xx 16 bit sample formaat</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="159"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="172"/>
         <source>This application support only mono or stereo audio track</source>
         <translation>Deze toepassing ondersteunt alleen mono of stereo geluidsweergave</translation>
     </message>
@@ -22,12 +22,12 @@
 <context>
     <name>CommonInfoMsg</name>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="162"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="175"/>
         <source>Select a file</source>
         <translation>Bestand selecteren</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="163"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="176"/>
         <source>Error</source>
         <comment>Title of dialog box displaying an error</comment>
         <translation>Fout</translation>
@@ -2895,50 +2895,50 @@ Verplaats het geselecteerde bestand een plaats omhoog</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="646"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="947"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="927"/>
         <source>Stop rendering</source>
         <translation>Exporteren stoppen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="962"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="942"/>
         <source>Range selection</source>
         <translation>Selecteren van een reeks dia&apos;s</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="963"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="943"/>
         <source>Slide range is defined to incorrect values</source>
         <translation>Diabereik is met onjuiste waarden gedefinieerd</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="971"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="951"/>
         <source>Language selection</source>
         <translation>Taalkeuze</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="972"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="952"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
         <translation>Leeglaten of een ISO 639 taalcode (3 karakters) vermelden. Zie help voor meer details!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="979"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="959"/>
         <source>Overwrite file ?</source>
         <translation>Bestand overschrijven ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="980"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="960"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
         <translation>Het gekozen bestand bestaat al.
 Wilt u het overschrijven ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1174"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1154"/>
         <source>Stop rendering process and exit dialog box</source>
         <translation>Annuleer de video-export en verlaat het dialoogvenster</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1487"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1515"/>
         <source>Error sending image to encoder</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
@@ -2946,82 +2946,82 @@ Wilt u het overschrijven ?</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="26"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="760"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="849"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="994"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1006"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1029"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1460"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="829"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="974"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="986"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1009"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1488"/>
         <source>Render video</source>
         <translation>Video exporteren</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1062"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1042"/>
         <source>Device model selection</source>
         <translation>Selecteren van een toestel model</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1063"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1043"/>
         <source>A device model is require!</source>
         <translation>Een apparaatmodel is noodzakelijk!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1183"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1261"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1163"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1289"/>
         <source>Encoding sound</source>
         <translation>Geluidscodering</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1304"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1332"/>
         <source>Start encoder</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1351"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1439"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1443"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1487"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1499"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1379"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1467"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1471"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1515"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1527"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Fout</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1352"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1380"/>
         <source>Error starting encoder</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1499"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1527"/>
         <source>Encoder error</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engine/_EncodeVideo.cpp" line="512"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1521"/>
+        <location filename="../src/engine/_EncodeVideo.cpp" line="587"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1549"/>
         <source> - Estimated time left : </source>
         <translation> - Geschatte resterende tijd : </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1422"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1450"/>
         <source>Closing encoder</source>
         <translation>Coderen afsluiten</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1439"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1467"/>
         <source>Error closing encoder</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1443"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1471"/>
         <source>Error exiting encoder</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1460"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1488"/>
         <source>Job completed successfully!</source>
         <translation>Taak met succes afgerond!</translation>
     </message>
@@ -4007,25 +4007,25 @@ verwijderen</translation>
         <translation>Duur:</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="166"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="179"/>
         <source>Correct or reframe image</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
         <translation>Afbeelding corrigeren of bijsnijden</translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="167"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="180"/>
         <source>Correct, reframe or cut video</source>
         <comment>Action title in slide edit dialog + dialog title of image edit dialog</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="168"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="181"/>
         <source>Define framing and correction of image</source>
         <comment>Tooltip</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engine/_GlobalDefines.cpp" line="169"/>
+        <location filename="../src/engine/_GlobalDefines.cpp" line="182"/>
         <source>Define framing and correction of image or cut video</source>
         <comment>Tooltip</comment>
         <translation type="unfinished"></translation>
@@ -5393,7 +5393,7 @@ nieuws</translation>
     </message>
     <message>
         <location filename="../src/engine/cBaseApplicationConfig.cpp" line="539"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="554"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="555"/>
         <source>Read configuration file</source>
         <translation>Configuratiebestand lezen</translation>
     </message>
@@ -5431,28 +5431,28 @@ nieuws</translation>
     </message>
     <message>
         <location filename="../src/engine/cBaseApplicationConfig.cpp" line="541"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="564"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="565"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Fout bij het lezen van het configuratiebestand</translation>
     </message>
     <message>
         <location filename="../src/engine/cBaseApplicationConfig.cpp" line="549"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="569"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="570"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Fout bij het lezen van de inhoud van het configuratiebestand</translation>
     </message>
     <message>
         <location filename="../src/engine/cBaseApplicationConfig.cpp" line="559"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="576"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="577"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Het bestand is geen geldig configuratiebestand</translation>
     </message>
     <message>
         <location filename="../src/engine/cBaseApplicationConfig.cpp" line="680"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="623"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="624"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translation>Fout bij het maken van het configuratiebestand</translation>
@@ -6050,20 +6050,20 @@ Wilt u het desondanks openen?</translation>
         <translation>Selecteer bestemming</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SDL_Support.cpp" line="78"/>
-        <location filename="../src/engine/_SDL_Support.cpp" line="135"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="74"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="128"/>
         <source>Error during startup</source>
         <translation>Fout tijdens het opstarten</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SDL_Support.cpp" line="79"/>
-        <location filename="../src/engine/_SDL_Support.cpp" line="136"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="75"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="129"/>
         <source>Error during initialisation of sound system. Check your configuration and try again</source>
         <translation>Fout bij het initialiseren van het geluidssysteem. Controleer uw configuratie en probeer het opnieuw</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="697"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="730"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="698"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="731"/>
         <source>ffDiaporama initialisation</source>
         <translation>Initialisatie van ffDiaporama</translation>
     </message>
@@ -7067,98 +7067,98 @@ frequentie</translation>
 <context>
     <name>cDeviceModelList</name>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="671"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="672"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
         <translation>Geavanceerd</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="672"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="676"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="673"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="677"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
         <translation>Smartphone</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="673"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="674"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
         <translation>Multimediasysteem</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="674"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="675"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
         <translation>Voor het internet</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="675"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="676"/>
         <source>Lossless</source>
         <comment>Device database type</comment>
         <translation>Zonder verlies</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="677"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="678"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
         <translation>Draagbare speler</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="678"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="679"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
         <translation>Netbook/NetPC</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="679"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="680"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
         <translation>Draagbare spelcomputer</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="680"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="681"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
         <translation>Tablet computer</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="681"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="682"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
         <translation>Multimedia hard drive and gateway</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="682"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="683"/>
         <source>Player</source>
         <comment>Device database type</comment>
         <translation>Speler</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="683"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="684"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
         <translation>ADSL Box</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="684"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="685"/>
         <source>Game console</source>
         <comment>Device database type</comment>
         <translation>Spelcomputer</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="685"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="686"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
         <translation>SWF Flash Player</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="686"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="687"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
         <translation>Videosharing en sociale media</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="687"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="688"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>

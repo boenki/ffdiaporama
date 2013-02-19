@@ -1999,7 +1999,6 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position
         return;
     }
 
-
     bool IsCurrentTransitionIN =(Position<List[Column]->TransitionDuration);
     bool FadeEffect            =(IsCurrentTransitionIN && ((Column>0)&&(
                                     (List[Column-1]->MusicReduceVolume!=List[Column]->MusicReduceVolume)||
@@ -2221,16 +2220,16 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 
     } else {
 
-        // if not PreviewMode then no need of music or sound
-
         //==============> Music track part
 
         if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)) {
-            ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
+            if (Info->FrameDuration>Info->CurrentObject_MusicTrack->List.count()*Info->CurrentObject_MusicTrack->WantedDuration*1000)
+                ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
             //PrepareMusicBloc(PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
         }
         if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack)) {
-            ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
+            if (Info->FrameDuration>Info->TransitObject_MusicTrack->List.count()*Info->TransitObject_MusicTrack->WantedDuration*1000)
+                ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
             //PrepareMusicBloc(PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
         }
 
@@ -2297,7 +2296,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         if (Info->CurrentObject_SoundTrackMontage==NULL) {
             // if we don't have a CurrentObject_SoundTrackMontage, we need to create it because it's the destination !
             Info->CurrentObject_SoundTrackMontage=new cSDLSoundBlockList();
-            Info->CurrentObject_SoundTrackMontage->SetFPS(Info->TransitObject_SoundTrackMontage->FPS,2,Info->TransitObject_SoundTrackMontage->SamplingRate,AV_SAMPLE_FMT_S16);
+            Info->CurrentObject_SoundTrackMontage->SetFPS(Info->FrameDuration,2,Info->TransitObject_SoundTrackMontage->SamplingRate,AV_SAMPLE_FMT_S16);
         }
         // Ensure this track have enough data
         while (Info->CurrentObject_SoundTrackMontage->List.count()<Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS)
@@ -2375,9 +2374,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 
         // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
         for (int i=0;i<MaxPacket;i++) {
-            SDL_LockAudio();
             int16_t *Paquet=Info->TransitObject_MusicTrack->DetachFirstPacket();
-            SDL_UnlockAudio();
             int32_t mix;
             int16_t *Buf1=Info->CurrentObject_MusicTrack->List[i];
             int     Max=Info->CurrentObject_MusicTrack->SoundPacketSize/(Info->CurrentObject_MusicTrack->SampleBytes*Info->CurrentObject_MusicTrack->Channels);

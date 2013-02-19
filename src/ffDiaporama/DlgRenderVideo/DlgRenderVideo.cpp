@@ -771,38 +771,18 @@ bool DlgRenderVideo::ComputeVideoPart(QString &vCodec) {
         QString Preset=AdjustDirForOS(QDir::currentPath()); if (!Preset.endsWith(QDir::separator())) Preset=Preset+QDir::separator();
 
         if (VIDEOCODECDEF[VideoCodecIndex].FFD_VCODEC==VCODEC_H264HQ) {
-            #ifdef LIBAV_07
-            Preset="-fpre \""+Preset+"libx264-hq.ffpreset\"";
-            #endif
-            #ifdef LIBAV_08
             if (isAVCONV)   Preset="-preset veryfast -refs:0 3";
                 else        Preset="-preset veryfast -x264opts ref=3";
-            #endif
         } else if (VIDEOCODECDEF[VideoCodecIndex].FFD_VCODEC==VCODEC_H264PQ) {
-            #ifdef LIBAV_07
-            Preset="-fpre \""+Preset+"libx264-pq.ffpreset\"";
-            #endif
-            #ifdef LIBAV_08
             if (isAVCONV)   Preset="-preset veryfast -profile:v baseline -tune:v fastdecode";
                 else        Preset="-preset veryfast -x264opts ref=3 -profile:v baseline -tune:v fastdecode";
-            #endif
         } else if (VIDEOCODECDEF[VideoCodecIndex].FFD_VCODEC==VCODEC_X264LL) {
-            #ifdef LIBAV_07
-            Preset="-fpre \""+Preset+"libx264-lossless.ffpreset\"";
-            #endif
-            #ifdef LIBAV_08
             Preset="-preset veryfast -qp 0 ";
-            #endif
         }
         vCodec=vCodec+" "+Preset;
     }
 
-    #ifdef LIBAV_07
-    vCodec.replace(" -b:0 "," -b "); // switch to old syntax
-    #endif
-    #ifdef LIBAV_08
     if (isAVCONV) vCodec.replace("-vcodec libx264","-vcodec libx264 -vsync vfr"); // add vsync vfr for h264 (AVCONV only)
-    #endif
 
     return Continue;
 }
@@ -1189,269 +1169,317 @@ void DlgRenderVideo::DoAccept() {
             Encoder.TotalProgressBar=ui->SoundProgressBar;  //ui->TotalProgressBar;
 
             Continue=Encoder.OpenEncoder(Diaporama,OutputFileName,FromSlide,ToSlide,
-                                    false,CODEC_ID_NONE,0,25,0,0,0,0,(AVRational){1,1},0,
+                                    false,CODEC_ID_NONE,0,(AVRational){1,25},0,0,0,0,0,(AVRational){1,1},0,
                                     true,AUDIOCODECDEF[AudioCodecIndex].Codec_id,2,AudioBitRate,AudioFrequency,Language);
             Continue=Continue && Encoder.DoEncode();
             Encoder.CloseEncoder();
 
         } else {
-            int GeoW        =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARNUM;
-            int GeoH        =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARDEN;
-            W               =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width;
-            H               =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height;
-            int UpdateWidth =W;
+            #ifndef USELIBAVRESAMPLE
+            if ((OutputFileFormat==VFORMAT_OLDFLV)
+                ||(OutputFileFormat==VFORMAT_OGV)
+                ||(OutputFileFormat==VFORMAT_WEBM)
+//                ||(OutputFileFormat==VFORMAT_MP4)
+//                ||(OutputFileFormat==VFORMAT_MKV)
+//                ||(OutputFileFormat==VFORMAT_MPEG)
+//                ||(OutputFileFormat==VFORMAT_3GP)
+//                ||(OutputFileFormat==VFORMAT_AVI)
+//                ||(OutputFileFormat==VFORMAT_MJPEG)
+//                ||(OutputFileFormat==VFORMAT_FLV)
+               ) {
 
-            // Special case for SD-DVD format (anamorphous)
-            AVRational PixelAspectRatio=(AVRational){1,1};
-            if (W==720) {
-                switch (Standard) {
-                    case STANDARD_PAL :
-                        switch (Diaporama->ImageGeometry) {
-                            case GEOMETRY_4_3:      W=768;      PixelAspectRatio=(AVRational){16,15};       break;
-                            case GEOMETRY_16_9:     W=1024;     PixelAspectRatio=(AVRational){71,50};       break;
-                            case GEOMETRY_40_17:    W=1356;     PixelAspectRatio=(AVRational){4708,2500};   break;
-                        }
-                        break;
-                    case STANDARD_NTSC:
-                        switch (Diaporama->ImageGeometry) {
-                            case GEOMETRY_4_3:      W=640;      PixelAspectRatio=(AVRational){111,125};     break;
-                            case GEOMETRY_16_9:     W=854;      PixelAspectRatio=(AVRational){593,500};     break;
-                            case GEOMETRY_40_17:    W=1130;     PixelAspectRatio=(AVRational){1962,1250};   break;
-                        }
-                        break;
+            #else
+
+            if ((OutputFileFormat==VFORMAT_OLDFLV)
+//             ||(OutputFileFormat==VFORMAT_MKV)
+//                    ||(OutputFileFormat==VFORMAT_MPEG)
+//                    ||(OutputFileFormat==VFORMAT_OGV)
+//                    ||(OutputFileFormat==VFORMAT_WEBM)
+//                    ||(OutputFileFormat==VFORMAT_3GP)
+//                    ||(OutputFileFormat==VFORMAT_AVI)
+//                    ||(OutputFileFormat==VFORMAT_MJPEG)
+//                    ||(OutputFileFormat==VFORMAT_MP4)
+//                    ||(OutputFileFormat==VFORMAT_FLV)
+           ) {
+
+            #endif
+
+                int         Final_W,Final_H,Internal_W,Internal_H,Ext_H;
+                AVRational  PixelAspectRatio;
+
+                // Special case for SD-DVD format (anamorphous)
+                if (ImageSize==SIZE_DVD) {
+                    switch (Standard) {
+                        /* SD-DVD Anamorphous
+                        SD-4/3  PAL:    I:768x576 -D:720x576-PAR:16:15  -DAR:4:3
+                        SD-16/9 PAL:    I:1024x576-D:720x576-PAR:64:45  -DAR:16:9
+                        SD-CIN  PAL:    I:1024x436-D:720x436-PAR:218:153-DAR:40:17
+                        SD-4/3  NTSC:   I:640x480 -D:720x480-PAR:8:9    -DAR:4:3
+                        SD-16/9 NTSC:   I:854x480 -D:720x480-PAR:32:27  -DAR:16:9
+                        SD-CIN  NTSC:   I:854x436 -D:720x362-PAR:181:153-DAR:40:17
+                        */
+
+                        case STANDARD_PAL :
+                            switch (Diaporama->ImageGeometry) {
+                                case GEOMETRY_4_3:      Final_W=720;  Final_H=576;  Internal_W=768;  Internal_H=576;  PixelAspectRatio=(AVRational){16,15};     break;
+                                case GEOMETRY_16_9:     Final_W=720;  Final_H=576;  Internal_W=1024; Internal_H=576;  PixelAspectRatio=(AVRational){64,45};     break;
+                                case GEOMETRY_40_17:    Final_W=720;  Final_H=436;  Internal_W=1024; Internal_H=436;  PixelAspectRatio=(AVRational){64,45};     break;
+                            }
+                            Ext_H=576-Final_H;
+                            break;
+                        case STANDARD_NTSC:
+                            switch (Diaporama->ImageGeometry) {
+                                case GEOMETRY_4_3:      Final_W=720;  Final_H=480;  Internal_W=640;  Internal_H=480;  PixelAspectRatio=(AVRational){8,9};       break;
+                                case GEOMETRY_16_9:     Final_W=720;  Final_H=480;  Internal_W=854;  Internal_H=480;  PixelAspectRatio=(AVRational){32,27};     break;
+                                case GEOMETRY_40_17:    Final_W=720;  Final_H=306;  Internal_W=854;  Internal_H=306;  PixelAspectRatio=(AVRational){32,27};     break;
+                            }
+                            Ext_H=480-Final_H;
+                            break;
+                    }
+                } else {
+                    Ext_H       =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Extend*2;
+                    Final_W     =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width;
+                    Final_H     =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height;
+                    Internal_W  =Final_W;
+                    Internal_H  =Final_H;
+                    PixelAspectRatio=(AVRational){1,1};
                 }
-            }
 
+                ui->SoundProgressBar->setVisible(false);
+                ui->SoundProgressLabel->setVisible(false);
+                Encoder.ElapsedTimeLabel=ui->ElapsedTimeLabel;
+                Encoder.SlideNumberLabel=ui->SlideNumberLabel;
+                Encoder.FrameNumberLabel=ui->FrameNumberLabel;
+                Encoder.FPSLabel        =ui->FPSLabel;
+                Encoder.SlideProgressBar=ui->SlideProgressBar;
+                Encoder.TotalProgressBar=ui->TotalProgressBar;
 
-            Encoder.ElapsedTimeLabel=ui->ElapsedTimeLabel;
-            Encoder.SlideNumberLabel=ui->SlideNumberLabel;
-            Encoder.FrameNumberLabel=ui->FrameNumberLabel;
-            Encoder.FPSLabel        =ui->FPSLabel;
-            Encoder.SlideProgressBar=ui->SlideProgressBar;
-            Encoder.TotalProgressBar=ui->TotalProgressBar;
-
-#if 1==2
-
-            Continue=Encoder.OpenEncoder(Diaporama,OutputFileName,FromSlide,ToSlide,
-                                    true,VIDEOCODECDEF[VideoCodecIndex].Codec_id,VideoCodecIndex,25,UpdateWidth,H+ExtendV,W,H,PixelAspectRatio,VideoBitRate,
-                                    ui->IncludeSoundCB->isChecked(),AUDIOCODECDEF[AudioCodecIndex].Codec_id,2,AudioBitRate,AudioFrequency,Language);
-            Continue=Continue && Encoder.DoEncode();
-            Encoder.CloseEncoder();
-
-#else
-
-            //=================================================================================================>
-
-            cDiaporamaObjectInfo    *PreviousFrame  =NULL;
-            cDiaporamaObjectInfo    *Frame          =NULL;
-            QString                 vCodec="";
-            QString                 aCodec="";
-            QString                 StreamFormat="";
-            QString                 TAG="";
-            QString                 ffmpegCommand;
-            QProcess                Process;
-
-            if (ui->IncludeSoundCB->isChecked()) {
-
-                // Create tempwavefile in the same directory as destination file
-                TempAudioFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
-                if (!TempAudioFileName.endsWith(QDir::separator())) TempAudioFileName=TempAudioFileName+QDir::separator();
-                //TempAudioFileName=TempAudioFileName+QFileInfo(OutputFileName).completeBaseName()+".tmp."+QFileInfo(OutputFileName).suffix();
-                TempAudioFileName=TempAudioFileName+QFileInfo(OutputFileName).completeBaseName()+".tmp.wav";
-                ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding sound"));
-
-                Encoder.ElapsedTimeLabel=ui->SoundProgressLabel;    //ui->ElapsedTimeLabel;
-                //Encoder.SlideNumberLabel=ui->SlideNumberLabel;
-                //Encoder.FrameNumberLabel=ui->FrameNumberLabel;
-                //Encoder.FPSLabel        =ui->FPSLabel;
-                //Encoder.SlideProgressBar=ui->SlideProgressBar;
-                Encoder.TotalProgressBar=ui->SoundProgressBar;  //ui->TotalProgressBar;
-
-                Continue=Encoder.OpenEncoder(Diaporama,TempAudioFileName,FromSlide,ToSlide,
-                                        false,CODEC_ID_NONE,0,25,0,0,0,0,(AVRational){1,1},0,
-                                        true,CODEC_ID_PCM_S16LE,2,1536,AudioFrequency,Language);
+                Continue=Encoder.OpenEncoder(Diaporama,OutputFileName,FromSlide,ToSlide,
+                                        true,VIDEOCODECDEF[VideoCodecIndex].Codec_id,VideoCodecIndex,DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].AVFPS,Final_W,Final_H,Ext_H,Internal_W,Internal_H,PixelAspectRatio,VideoBitRate,
+                                        ui->IncludeSoundCB->isChecked(),AUDIOCODECDEF[AudioCodecIndex].Codec_id,2,AudioBitRate,AudioFrequency,Language);
                 Continue=Continue && Encoder.DoEncode();
                 Encoder.CloseEncoder();
-            }
 
-            ui->SoundProgressLabel->setEnabled(false);
-            ui->SoundProgressBar->setEnabled(false);
+            } else {
 
-            if (Continue) {
-                // **********************************************************************************************************************************
-                // 2nd step encoding : produce final file using temporary WAV file with sound
-                // **********************************************************************************************************************************
-                //StartTime=QTime::currentTime();                                                             // Display control : time the process start
-                FPS             =double(AV_TIME_BASE)/VideoFrameRate;
-                NbrFrame        =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/FPS);    // Number of frame to generate
+                int GeoW        =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARNUM;
+                int GeoH        =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].PARDEN;
+                W               =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width;
+                H               =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height;
+                int UpdateWidth =W;
 
-                ui->SlideProgressBar->setValue(0);
-                ui->TotalProgressBar->setValue(0);
-                ui->TotalProgressBar->setMaximum(NbrFrame);
-                ui->SlideNumberLabel->setText("");
-                ui->FrameNumberLabel->setText("");
+                //=================================================================================================>
 
-                Continue=Continue && ComputeVideoPart(vCodec);
-                Continue=Continue && ComputeAudioPart(aCodec);
-                if (QString(FORMATDEF[OutputFileFormat].ShortName)=="mpeg") StreamFormat=" -f mpegts";
+                cDiaporamaObjectInfo    *PreviousFrame  =NULL;
+                cDiaporamaObjectInfo    *Frame          =NULL;
+                QString                 vCodec="";
+                QString                 aCodec="";
+                QString                 StreamFormat="";
+                QString                 TAG="";
+                QString                 ffmpegCommand;
+                QProcess                Process;
 
-                #ifdef LIBAV_TAGCHAPTERS
-                Continue=Continue && ComputeTAGPart(TAG,(OutputFileFormat!=2)||(ExportMode==MODE_LOSSLESS));
-                #endif
+                if (ui->IncludeSoundCB->isChecked()) {
 
-                // Construct ffmpeg command line
+                    // Create tempwavefile in the same directory as destination file
+                    TempAudioFileName=AdjustDirForOS(QFileInfo(OutputFileName).absolutePath());
+                    if (!TempAudioFileName.endsWith(QDir::separator())) TempAudioFileName=TempAudioFileName+QDir::separator();
+                    //TempAudioFileName=TempAudioFileName+QFileInfo(OutputFileName).completeBaseName()+".tmp."+QFileInfo(OutputFileName).suffix();
+                    TempAudioFileName=TempAudioFileName+QFileInfo(OutputFileName).completeBaseName()+".tmp.wav";
+                    ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding sound"));
+
+                    Encoder.ElapsedTimeLabel=ui->SoundProgressLabel;    //ui->ElapsedTimeLabel;
+                    //Encoder.SlideNumberLabel=ui->SlideNumberLabel;
+                    //Encoder.FrameNumberLabel=ui->FrameNumberLabel;
+                    //Encoder.FPSLabel        =ui->FPSLabel;
+                    //Encoder.SlideProgressBar=ui->SlideProgressBar;
+                    Encoder.TotalProgressBar=ui->SoundProgressBar;  //ui->TotalProgressBar;
+
+                    Continue=Encoder.OpenEncoder(Diaporama,TempAudioFileName,FromSlide,ToSlide,
+                                                 false,CODEC_ID_NONE,0,(AVRational){1,25},0,0,0,0,0,(AVRational){1,1},0,
+                                                true,CODEC_ID_PCM_S16LE,2,1536,AudioFrequency,Language);
+                    Continue=Continue && Encoder.DoEncode();
+                    Encoder.CloseEncoder();
+                }
+
+                ui->SoundProgressLabel->setEnabled(false);
+                ui->SoundProgressBar->setEnabled(false);
+
                 if (Continue) {
-                    ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Start encoder"));
+                    // **********************************************************************************************************************************
+                    // 2nd step encoding : produce final file using temporary WAV file with sound
+                    // **********************************************************************************************************************************
+                    //StartTime=QTime::currentTime();                                                             // Display control : time the process start
+                    FPS             =double(AV_TIME_BASE)/VideoFrameRate;
+                    NbrFrame        =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide)*1000)/FPS);    // Number of frame to generate
 
-                    #ifdef Q_OS_WIN
-                    ffmpegCommand="\""+Diaporama->ApplicationConfig->BinaryEncoderPath+"\"";
-                    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-                    ffmpegCommand=Diaporama->ApplicationConfig->BinaryEncoderPath;
+                    ui->SlideProgressBar->setValue(0);
+                    ui->TotalProgressBar->setValue(0);
+                    ui->TotalProgressBar->setMaximum(NbrFrame);
+                    ui->SlideNumberLabel->setText("");
+                    ui->FrameNumberLabel->setText("");
+
+                    Continue=Continue && ComputeVideoPart(vCodec);
+                    Continue=Continue && ComputeAudioPart(aCodec);
+                    if (QString(FORMATDEF[OutputFileFormat].ShortName)=="mpeg") StreamFormat=" -f mpegts";
+
+                    #ifdef LIBAV_TAGCHAPTERS
+                    Continue=Continue && ComputeTAGPart(TAG,(OutputFileFormat!=2)||(ExportMode==MODE_LOSSLESS));
                     #endif
 
-                    ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r %1 -i -").arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
-                        (ui->IncludeSoundCB->isChecked()?" -i \""+TempAudioFileName+"\"":"")+
-                        TAG+
-                        #ifdef LIBAV_07
-                        " -timestamp now"+
+                    // Construct ffmpeg command line
+                    if (Continue) {
+                        ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Start encoder"));
+
+                        #ifdef Q_OS_WIN
+                        ffmpegCommand="\""+Diaporama->ApplicationConfig->BinaryEncoderPath+"\"";
+                        #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+                        ffmpegCommand=Diaporama->ApplicationConfig->BinaryEncoderPath;
                         #endif
-                        QString(" -dframes %1%2 %3 -r %4 ").arg(NbrFrame).arg(StreamFormat).arg(vCodec).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
-                        //(UpdateWidth!=W?QString(" -s %1x%2").arg(UpdateWidth).arg(H+ExtendV):"")+
-                        #ifdef LIBAV_08
-                            #if (LIBAVCODEC_VERSION_MAJOR>=54)
-                                ((Diaporama->ApplicationConfig->BinaryEncoderPath=="avconv")?QString(" -filter:v scale=%1:%2:flags=bicubic ").arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height):
-                            #else
-                                (
+
+                        ffmpegCommand=ffmpegCommand+QString(" -y -f image2pipe -vcodec ppm -r %1 -i -").arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
+                            (ui->IncludeSoundCB->isChecked()?" -i \""+TempAudioFileName+"\"":"")+
+                            TAG+
+                            #ifdef LIBAV_07
+                            " -timestamp now"+
                             #endif
-                              " -sws_flags bicubic ")+
+                            QString(" -dframes %1%2 %3 -r %4 ").arg(NbrFrame).arg(StreamFormat).arg(vCodec).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].FPS)+
+                            //(UpdateWidth!=W?QString(" -s %1x%2").arg(UpdateWidth).arg(H+ExtendV):"")+
+                            #ifdef LIBAV_08
+                                #if (LIBAVCODEC_VERSION_MAJOR>=54)
+                                    ((Diaporama->ApplicationConfig->BinaryEncoderPath=="avconv")?QString(" -filter:v scale=%1:%2:flags=bicubic ").arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Width).arg(DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height):
+                                #else
+                                    (
+                                #endif
+                                  " -sws_flags bicubic ")+
+                            #endif
+                            QString("%1 -aspect %2:%3").arg(aCodec).arg(GeoW).arg(GeoH);
+
+                        // Activate multithreading support if getCpuCount()>1 and codec is h264 or VP8
+                        if (((getCpuCount()-1)>1)&&((VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_H264)||(VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_VP8)))
+                            ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount()-1);
+
+                        ffmpegCommand=ffmpegCommand+" \""+OutputFileName+"\"";
+
+                        #ifdef Q_OS_WIN
+                        ffmpegCommand=ffmpegCommand.replace("30000/1001","29.97");
+                        ffmpegCommand=ffmpegCommand.replace("24000/1001","23.976");
                         #endif
-                        QString("%1 -aspect %2:%3").arg(aCodec).arg(GeoW).arg(GeoH);
 
-                    // Activate multithreading support if getCpuCount()>1 and codec is h264 or VP8
-                    if (((getCpuCount()-1)>1)&&((VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_H264)||(VIDEOCODECDEF[VideoCodecIndex].Codec_id==CODEC_ID_VP8)))
-                        ffmpegCommand=ffmpegCommand+" -threads "+QString("%1").arg(getCpuCount()-1);
+                        ToLog(LOGMSG_WARNING,ffmpegCommand);
 
-                    ffmpegCommand=ffmpegCommand+" \""+OutputFileName+"\"";
-
-                    #ifdef Q_OS_WIN
-                    ffmpegCommand=ffmpegCommand.replace("30000/1001","29.97");
-                    ffmpegCommand=ffmpegCommand.replace("24000/1001","23.976");
-                    #endif
-
-                    ToLog(LOGMSG_WARNING,ffmpegCommand);
-
-                    ffmpegCommand=AdjustDirForOS(ffmpegCommand);
-                }
-
-                // Start ffmpegCommand
-                if (Continue) {
-                    Process.setProcessChannelMode(QProcess::ForwardedChannels);      // Forward standard and error message to the ffdiaporama console
-                    Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);                 // Start command
-                    if (!Process.waitForStarted()) {
-                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),
-                                              QApplication::translate("DlgRenderVideo","Error starting encoder","Error message")+"\n"+ffmpegCommand,
-                                              QMessageBox::Close);
-                        Continue=false;
+                        ffmpegCommand=AdjustDirForOS(ffmpegCommand);
                     }
-                }
 
-                // Encode video
-                if (Continue) {
-                    LastCheckTime   =StartTime;                                     // Display control : last time the loop start
-                    Position        =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
-                    ColumnStart     =-1;                                            // Render start position of current object
-                    Column          =-1;                                            // Render current object
+                    // Start ffmpegCommand
+                    if (Continue) {
+                        Process.setProcessChannelMode(QProcess::ForwardedChannels);      // Forward standard and error message to the ffdiaporama console
+                        Process.start(ffmpegCommand,QIODevice::Append|QIODevice::ReadWrite);                 // Start command
+                        if (!Process.waitForStarted()) {
+                            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),
+                                                  QApplication::translate("DlgRenderVideo","Error starting encoder","Error message")+"\n"+ffmpegCommand,
+                                                  QMessageBox::Close);
+                            Continue=false;
+                        }
+                    }
 
-                    QFutureWatcher<void> ThreadSavePPM;
+                    // Encode video
+                    if (Continue) {
+                        LastCheckTime   =StartTime;                                     // Display control : last time the loop start
+                        Position        =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
+                        ColumnStart     =-1;                                            // Render start position of current object
+                        Column          =-1;                                            // Render current object
 
-                    Timer.start(500);
-                    for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
-                        // Give time to interface!
-                        QApplication::processEvents();
+                        QFutureWatcher<void> ThreadSavePPM;
 
-                        int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
-                        if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
+                        Timer.start(500);
+                        for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
+                            // Give time to interface!
+                            QApplication::processEvents();
 
-                        if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
-                            while ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
-                                Column++;
-                                AdjustedDuration=(Column<Diaporama->List.count())?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
-                                if (AdjustedDuration<33) AdjustedDuration=33;   // Not less than 1/30 sec
-                                ColumnStart=Diaporama->GetObjectStartPosition(Column);
-                                if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(AdjustedDuration)/(FPS/double(1000)))-1);
-                                Diaporama->CloseUnusedLibAv(Column);
+                            int AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
+                            if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
+
+                            if ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
+                                while ((ColumnStart==-1)||(Column==-1)||((Column<Diaporama->List.count())&&((ColumnStart+AdjustedDuration)<=Position))) {
+                                    Column++;
+                                    AdjustedDuration=(Column<Diaporama->List.count())?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
+                                    if (AdjustedDuration<33) AdjustedDuration=33;   // Not less than 1/30 sec
+                                    ColumnStart=Diaporama->GetObjectStartPosition(Column);
+                                    if (Column<Diaporama->List.count()) ui->SlideProgressBar->setMaximum(int(double(AdjustedDuration)/(FPS/double(1000)))-1);
+                                    Diaporama->CloseUnusedLibAv(Column);
+                                }
                             }
+
+                            // Get current frame
+                            Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
+
+                            // Prepare frame with correct W and H
+                            Diaporama->LoadSources(Frame,W,H,false,true);                                        // Load source images
+                            Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H); // Make final assembly
+
+                            // Apply anamorphous
+                            if ((UpdateWidth!=W)&&(Frame->RenderedImage->width()!=UpdateWidth)) {
+                                QImage *NewImage=new QImage(Frame->RenderedImage->scaled(QSize(UpdateWidth,Frame->RenderedImage->height()),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                                delete Frame->RenderedImage;
+                                Frame->RenderedImage=NewImage;
+                            }
+
+                            while (ThreadSavePPM.isRunning()) ThreadSavePPM.waitForFinished();
+                            if (PreviousFrame) delete PreviousFrame;
+                            PreviousFrame=Frame;
+                            if (!StopProcessWanted) {
+                                if (Diaporama->ApplicationConfig->PipeThread) ThreadSavePPM.setFuture(QtConcurrent::run(this,&DlgRenderVideo::SavePPM,Frame,&Process,&Continue));
+                                    else SavePPM(Frame,&Process,&Continue);
+                            }
+
+                            // Calculate next position
+                            Position+=(FPS/1000);
+                            Frame =NULL;
+
+                            // Stop the process if error occur or user ask to stop
+                            Continue=Continue && !StopProcessWanted;;
                         }
+                        Timer.stop();
 
-                        // Get current frame
-                        Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,(FPS/1000));
-
-                        // Prepare frame with correct W and H
-                        Diaporama->LoadSources(Frame,W,H,false,0);                                        // Load source images
-                        Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H); // Make final assembly
-
-                        // Apply anamorphous
-                        if ((UpdateWidth!=W)&&(Frame->RenderedImage->width()!=UpdateWidth)) {
-                            QImage *NewImage=new QImage(Frame->RenderedImage->scaled(QSize(UpdateWidth,Frame->RenderedImage->height()),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-                            delete Frame->RenderedImage;
-                            Frame->RenderedImage=NewImage;
-                        }
+                        // ***********************************************************************
 
                         while (ThreadSavePPM.isRunning()) ThreadSavePPM.waitForFinished();
                         if (PreviousFrame) delete PreviousFrame;
-                        PreviousFrame=Frame;
-                        if (!StopProcessWanted) {
-                            if (Diaporama->ApplicationConfig->PipeThread) ThreadSavePPM.setFuture(QtConcurrent::run(this,&DlgRenderVideo::SavePPM,Frame,&Process,&Continue));
-                                else SavePPM(Frame,&Process,&Continue);
+
+                        ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Closing encoder"));
+
+                        // Close the pipe to stop ffmpeg process
+                        Process.closeWriteChannel();
+
+                        // Last information update
+                        QString DisplayText;
+                        int     DurationProcess=StartTime.msecsTo(QTime::currentTime());
+
+                        DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
+                        DisplayText=QString("%1").arg(double(NbrFrame)/(double(DurationProcess)/1000),0,'f',1);             ui->FPSLabel->setText(DisplayText);
+                        DisplayText=QString("%1/%2").arg(Column-FromSlide+1).arg(ToSlide-FromSlide+1);                      ui->SlideNumberLabel->setText(DisplayText);
+                        DisplayText=QString("%1/%2").arg(NbrFrame).arg(NbrFrame);                                           ui->FrameNumberLabel->setText(DisplayText);
+                        ui->SlideProgressBar->setValue(ui->SlideProgressBar->maximum());
+                        ui->TotalProgressBar->setValue(NbrFrame);
+
+                        if (!Process.waitForFinished(30000)) { // 30 sec max to close encoder
+                            CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error closing encoder","Error message"),QMessageBox::Close);
+                            Process.terminate();
+                            Continue=false;
+                        } else if (Process.exitStatus()!=QProcess::NormalExit) {
+                          CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error exiting encoder","Error message"),QMessageBox::Close);
+                          Continue=false;
                         }
-
-                        // Calculate next position
-                        Position+=(FPS/1000);
-                        Frame =NULL;
-
-                        // Stop the process if error occur or user ask to stop
-                        Continue=Continue && !StopProcessWanted;;
                     }
-                    Timer.stop();
 
-                    // ***********************************************************************
+                    if (TempAudioFileName!="")  QFile::remove(TempAudioFileName);
+                    if (TempMETAFileName!="") QFile::remove(TempMETAFileName);
 
-                    while (ThreadSavePPM.isRunning()) ThreadSavePPM.waitForFinished();
-                    if (PreviousFrame) delete PreviousFrame;
-
-                    ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Closing encoder"));
-
-                    // Close the pipe to stop ffmpeg process
-                    Process.closeWriteChannel();
-
-                    // Last information update
-                    QString DisplayText;
-                    int     DurationProcess=StartTime.msecsTo(QTime::currentTime());
-
-                    DisplayText=QString("%1").arg((QTime(0,0,0,0).addMSecs(DurationProcess)).toString("hh:mm:ss"));     ui->ElapsedTimeLabel->setText(DisplayText);
-                    DisplayText=QString("%1").arg(double(NbrFrame)/(double(DurationProcess)/1000),0,'f',1);             ui->FPSLabel->setText(DisplayText);
-                    DisplayText=QString("%1/%2").arg(Column-FromSlide+1).arg(ToSlide-FromSlide+1);                      ui->SlideNumberLabel->setText(DisplayText);
-                    DisplayText=QString("%1/%2").arg(NbrFrame).arg(NbrFrame);                                           ui->FrameNumberLabel->setText(DisplayText);
-                    ui->SlideProgressBar->setValue(ui->SlideProgressBar->maximum());
-                    ui->TotalProgressBar->setValue(NbrFrame);
-
-                    if (!Process.waitForFinished(30000)) { // 30 sec max to close encoder
-                        CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error closing encoder","Error message"),QMessageBox::Close);
-                        Process.terminate();
-                        Continue=false;
-                    } else if (Process.exitStatus()!=QProcess::NormalExit) {
-                      CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Error exiting encoder","Error message"),QMessageBox::Close);
-                      Continue=false;
-                    }
+                    Process.terminate();
+                    Process.close();
                 }
-
-                if (TempAudioFileName!="")  QFile::remove(TempAudioFileName);
-                if (TempMETAFileName!="") QFile::remove(TempMETAFileName);
-
-                Process.terminate();
-                Process.close();
             }
-#endif
             //===========================================================================================>
 
         }
@@ -1489,7 +1517,7 @@ void DlgRenderVideo::SavePPM(cDiaporamaObjectInfo *Frame,QProcess *Process,bool 
     }
 
     // Wait until encoder processed the frame
-    while (Continue &&(Process->bytesToWrite()>0)) {
+    while ((*Continue)&&(Process->bytesToWrite()>0)) {
         int counter=0;
         while ((!Process->waitForBytesWritten(500))&&(counter<30)) {
             counter++;
@@ -1497,7 +1525,7 @@ void DlgRenderVideo::SavePPM(cDiaporamaObjectInfo *Frame,QProcess *Process,bool 
         }
         if (counter==30){
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgRenderVideo","Error","Error message"),QApplication::translate("DlgRenderVideo","Encoder error","Error message"),QMessageBox::Close);
-            Continue=false;
+            *Continue=false;
         }
         // Stop the process if error occur or user ask to stop
         *Continue=*Continue && !StopProcessWanted;

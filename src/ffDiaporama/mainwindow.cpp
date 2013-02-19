@@ -145,7 +145,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Register SDL
     screen.showMessage(QApplication::translate("MainWindow","Starting SDL..."),Qt::AlignHCenter|Qt::AlignBottom);
-    SDLFirstInit(ApplicationConfig->PreviewFPS,ApplicationConfig->SDLAudioOldMode,ApplicationConfig->PreviewSamplingRate);
+    SDLFirstInit(double(1000)/double(ApplicationConfig->PreviewFPS),ApplicationConfig->SDLAudioOldMode,ApplicationConfig->PreviewSamplingRate);
 
     // Register all formats and codecs for libavformat/libavcodec/etc ...
     screen.showMessage(QApplication::translate("MainWindow","Starting libav..."),Qt::AlignHCenter|Qt::AlignBottom);
@@ -1331,7 +1331,7 @@ void MainWindow::DoChangeApplicationSettings() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     ui->preview->WantedFPS =ApplicationConfig->PreviewFPS;
     ui->preview2->WantedFPS=ApplicationConfig->PreviewFPS;
-    SDLSetFPS(ApplicationConfig->PreviewFPS,ApplicationConfig->SDLAudioOldMode,ApplicationConfig->PreviewSamplingRate);  // Reinit SDL if Preview FPS has changed
+    SDLSetFPS(double(1000)/ApplicationConfig->PreviewFPS,ApplicationConfig->SDLAudioOldMode,ApplicationConfig->PreviewSamplingRate);  // Reinit SDL if Preview FPS has changed
     // Save configuration
     //ApplicationConfig->MainWinWSP->SaveWindowState(this); // Do not change get WindowState for mainwindow except when closing
     ApplicationConfig->SaveConfigurationFile();

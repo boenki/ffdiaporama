@@ -76,7 +76,7 @@ extern QObject      *EventReceiver;                     // Windows wich receive 
 void    SetLFHeap();
 #endif
 void    PostEvent(int EventType,QString EventParam="");
-void    ToLog(int MessageType,QString Message,QString Source="internal");
+void    ToLog(int MessageType,QString Message,QString Source="internal",bool AddBreak=true);
 QString ito2a(int val);
 QString ito3a(int val);
 

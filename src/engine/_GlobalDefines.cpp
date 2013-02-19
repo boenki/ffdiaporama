@@ -122,17 +122,30 @@ void PostEvent(int EventType,QString EventParam) {
 
 //====================================================================================================================
 
-void ToLog(int MessageType,QString Message,QString Source) {
+bool PreviousBreak=true;
+
+void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
     if ((MessageType!=LOGMSG_DEBUGTRACE)&&(EventReceiver!=NULL)) PostEvent(EVENT_GeneralLogChanged,QString("%1###:###%2###:###%3").arg((int)MessageType).arg(Message).arg(Source));
 
     QString DateTime=QTime::currentTime().toString("hh:mm:ss.zzz");
-    //QString DateTime="";
-    if (MessageType>=LogMsgLevel) switch (MessageType) {
-        case LOGMSG_DEBUGTRACE:    std::cout << QString("["+DateTime+":DEBUGTRACE]\t" +Message+"\n").toLocal8Bit().constData() << std::flush;    break;
-        case LOGMSG_INFORMATION:   std::cout << QString("["+DateTime+":INFORMATION]\t"+Message+"\n").toLocal8Bit().constData() << std::flush;    break;
-        case LOGMSG_WARNING:       std::cout << QString("["+DateTime+":WARNING]\t"    +Message+"\n").toLocal8Bit().constData() << std::flush;    break;
-        case LOGMSG_CRITICAL:      std::cout << QString("["+DateTime+":ERROR]\t"      +Message+"\n").toLocal8Bit().constData() << std::flush;    break;
+
+    if ((MessageType>=LogMsgLevel)&&(PreviousBreak)) {
+        #ifdef Q_OS_WIN
+        if (Message.endsWith("\n")) Message=Message.left(Message.length()-QString("\n").length());
+        if (Message.endsWith(char(10))) Message=Message.left(Message.length()-QString(char(10)).length());
+        if (Message.endsWith(char(13))) Message=Message.left(Message.length()-QString(char(13)).length());
+        if (Message.endsWith(char(10))) Message=Message.left(Message.length()-QString(char(10)).length());
+        #endif
+        switch (MessageType) {
+            case LOGMSG_DEBUGTRACE:    std::cout << QString("["+DateTime+":DEBUGTRACE]\t" +Message+(AddBreak?"\n":"")).toLocal8Bit().constData() << std::flush;    break;
+            case LOGMSG_INFORMATION:   std::cout << QString("["+DateTime+":INFORMATION]\t"+Message+(AddBreak?"\n":"")).toLocal8Bit().constData() << std::flush;    break;
+            case LOGMSG_WARNING:       std::cout << QString("["+DateTime+":WARNING]\t"    +Message+(AddBreak?"\n":"")).toLocal8Bit().constData() << std::flush;    break;
+            case LOGMSG_CRITICAL:      std::cout << QString("["+DateTime+":ERROR]\t"      +Message+(AddBreak?"\n":"")).toLocal8Bit().constData() << std::flush;    break;
+        }
+    } else if (MessageType>=LogMsgLevel) {
+        std::cout << Message.toLocal8Bit().constData() << std::flush;
     }
+    PreviousBreak=((AddBreak)||(Message.endsWith("\n")));
 }
 
 //====================================================================================================================

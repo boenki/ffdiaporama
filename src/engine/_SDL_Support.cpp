@@ -27,7 +27,6 @@
 //*********************************************************************************************************************************************
 
 bool                SDLIsAudioOpen=false;           // true if SDL work at least one time
-double              SDLCurrentFPS =-1;              // Current FPS setting for SDL
 SDL_AudioSpec       AudioSpec;                      // SDL param bloc
 cSDLSoundBlockList  MixedMusic;                     // Sound to play
 Uint8               SDLBuf[MAXSOUNDPACKETSIZE*2];
@@ -39,20 +38,17 @@ int32_t             SDLBufSize=0;
 
 void SDLAudioCallback(void *,Uint8 *stream,int len) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SDLAudioCallback");
-
     SDLIsAudioOpen=true;
-
     while (SDLBufSize<len) {
         int16_t *Packet=MixedMusic.DetachFirstPacket();
         if (Packet!=NULL) {
             memcpy(SDLBuf+SDLBufSize,Packet,MixedMusic.SoundPacketSize);
             SDLBufSize+=MixedMusic.SoundPacketSize;
         } else {
-            ToLog(LOGMSG_WARNING,"SDLAudioCallback: Not enought data to play sound");
+            ToLog(LOGMSG_DEBUGTRACE,"SDLAudioCallback: Not enought data to play sound");
             return;
         }
     }
-
     if (SDLBufSize>=len) {
         memcpy(stream,SDLBuf,len);
         memcpy(SDLBuf,SDLBuf+len,SDLBufSize-len);
@@ -70,7 +66,7 @@ void SDLFlushBuffers() {
 // SDL Init/Reinit function
 //*********************************************************************************************************************************************
 
-void SDLFirstInit(double WantedFPS,bool SDLAncMode,int64_t SamplingRate) {
+void SDLFirstInit(double WantedDuration,bool SDLAncMode,int64_t SamplingRate) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SDLFirstInit");
 
     // Start SDL
@@ -82,7 +78,7 @@ void SDLFirstInit(double WantedFPS,bool SDLAncMode,int64_t SamplingRate) {
         exit(1);    // ExitApplicationWithFatalError
     }
 
-    SDLSetFPS(WantedFPS,SDLAncMode,SamplingRate);
+    SDLSetFPS(WantedDuration,SDLAncMode,SamplingRate);
 }
 
 //*********************************************************************************************************************************************
@@ -103,18 +99,15 @@ void SDLLastClose() {
 // SDLSetFPS function
 //*********************************************************************************************************************************************
 
-void SDLSetFPS(double WantedFPS,bool SDLAncMode,int64_t SamplingRate) {
+void SDLSetFPS(double WantedDuration,bool SDLAncMode,int64_t SamplingRate) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SDLSetFPS");
     SDLFlushBuffers();
-
-    //if (SDLCurrentFPS==WantedFPS) return;
-    SDLCurrentFPS=WantedFPS;
 
     SDL_CloseAudio();                               // Close audio
 
     // Init MixedMusic
     MixedMusic.ClearList();                                             // Free sound buffers
-    MixedMusic.SetFPS(WantedFPS,2,SamplingRate,AV_SAMPLE_FMT_S16);
+    MixedMusic.SetFPS(WantedDuration,2,SamplingRate,AV_SAMPLE_FMT_S16);
 
     // Init SDL
     SDL_AudioSpec Desired;
