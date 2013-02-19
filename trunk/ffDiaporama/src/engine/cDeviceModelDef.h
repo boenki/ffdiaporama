@@ -158,14 +158,15 @@ extern "C" {
 // Image format definition
 //============================================
 struct sIMAGEDEF {
-    int     Width;                                              // Width
-    int     Height;                                             // Height
-    int     PARNUM;                                             // Pixel aspect ratio (num)
-    int     PARDEN;                                             // Pixel aspect ratio (den)
-    double  dFPS;                                               // Frame per second
-    char    FPS[20];                                            // Frame per second
-    char    Name[100];                                          // Display name
-    int     Extend;                                             // Padding for cinema mode with DVD
+    int         Width;                                          // Width
+    int         Height;                                         // Height
+    int         PARNUM;                                         // Pixel aspect ratio (num)
+    int         PARDEN;                                         // Pixel aspect ratio (den)
+    double      dFPS;                                           // Frame per second
+    char        FPS[20];                                        // Frame per second
+    AVRational  AVFPS;
+    char        Name[100];                                      // Display name
+    int         Extend;                                         // Padding for cinema mode with DVD
 };
 extern sIMAGEDEF DefImageFormat [2][3][NBR_SIZEDEF];            // Image format definition
 extern QString   IMAGEDEFGENNAME[2][NBR_SIZEDEF];               // Image format generic name
@@ -232,6 +233,22 @@ extern struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF];
 //============================================
 // Format container definitions
 //============================================
+
+enum VFORMAT_ID {
+    VFORMAT_3GP,
+    VFORMAT_AVI,
+    VFORMAT_MKV,
+    VFORMAT_MJPEG,
+    VFORMAT_MP4,
+    VFORMAT_MPEG,
+    VFORMAT_WEBM,
+    VFORMAT_OLDFLV,
+    VFORMAT_FLV,
+    VFORMAT_OGV,
+    VFORMAT_WMV,
+    VFORMAT_NBR
+};
+
 struct sFormatDef {
     bool    IsFind,IsRead;                                      // true if format container is supported for write,read by installed version of libav
     char    ShortName[50];                                      // short name of the format container (copy of the libav value)

@@ -309,7 +309,7 @@ public:
     //=====> All objects
     QImage              *RenderedImage;                         // Final image rendered
     bool                FreeRenderedImage;                      // True if allow to delete RenderedImage during destructor
-    double              FrameDuration;                          // Duration of a frame
+    double              FrameDuration;                          // Duration of a frame (in msec)
 
     //=====> Current object
     int                 CurrentObject_Number;                   // Object number

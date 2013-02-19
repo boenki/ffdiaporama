@@ -24,32 +24,36 @@
 #define QTPIXFMT    QImage::Format_RGB888
 
 cEncodeVideo::cEncodeVideo() {
-    StopProcessWanted   =false;
-    Diaporama           =NULL;
-    FormatDef           =NULL;
-    VideoCodecDef       =NULL;
-    AudioCodecDef       =NULL;
-    Container           =NULL;
-    VideoCodec          =NULL;
-    AudioCodec          =NULL;
-    VideoStream         =NULL;
-    AudioStream         =NULL;
-    IsOpen              =false;
+    StopProcessWanted       =false;
+    Diaporama               =NULL;
+    Container               =NULL;
+    IsOpen                  =false;
 
     // Audio buffers
-    AudioFrame          =NULL;
+    AudioStream             =NULL;
+    AudioFrame              =NULL;
+    AudioResampler          =NULL;
+    AudioResamplerBuffer    =NULL;
 
     //Video buffers
-    EncodeBuffer        =NULL;
-    EncodeBufferSize    =1024*256;
+    VideoStream             =NULL;
+    VideoEncodeBuffer       =NULL;
+    VideoEncodeBufferSize   =40*1024*1024;
+    VideoFrameConverter     =NULL;
+    VideoFrame              =NULL;
+    InternalWidth           =0;
+    InternalHeight          =0;
+    ExtendV                 =0;
+    VideoFrameBufSize       =0;
+    VideoFrameBuf           =NULL;
 
     // link to control for progression display
-    ElapsedTimeLabel    =NULL;
-    SlideNumberLabel    =NULL;
-    FrameNumberLabel    =NULL;
-    FPSLabel            =NULL;
-    SlideProgressBar    =NULL;
-    TotalProgressBar    =NULL;
+    ElapsedTimeLabel        =NULL;
+    SlideNumberLabel        =NULL;
+    FrameNumberLabel        =NULL;
+    FPSLabel                =NULL;
+    SlideProgressBar        =NULL;
+    TotalProgressBar        =NULL;
 }
 
 //*************************************************************************************************************************************************
@@ -61,12 +65,14 @@ cEncodeVideo::~cEncodeVideo() {
 //*************************************************************************************************************************************************
 
 void cEncodeVideo::CloseEncoder() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::CloseEncoder");
+
     if (Container) {
         if (IsOpen) {
-            if ((AudioStream)&&(AudioStream->codec->codec_id==CODEC_ID_FLAC)) {
-                // Finalize with NULL input needed by FLAC to generate md5sum in context extradata
-                AVPacket pkt;
-                int got_packet;
+            //if ((AudioStream)&&(AudioStream->codec->codec_id==CODEC_ID_FLAC)) {
+            AVPacket pkt;
+            int got_packet;
+            if (AudioStream) {
                 av_init_packet(&pkt);
                 pkt.data=NULL;
                 pkt.size=0;
@@ -75,6 +81,17 @@ void cEncodeVideo::CloseEncoder() {
                 avcodec_encode_audio2(AudioStream->codec,&pkt,NULL,&got_packet);
                 avcodec_flush_buffers(AudioStream->codec);
             }
+            if (VideoStream) {
+                #ifdef USELIBAVRESAMPLE
+                pkt.data=NULL;
+                pkt.size=0;
+                pkt.pts =CurVideoPts++;
+                pkt.dts =AV_NOPTS_VALUE;
+                avcodec_encode_video2(VideoStream->codec,&pkt,NULL,&got_packet);
+                avcodec_flush_buffers(VideoStream->codec);
+                #endif
+            }
+
             av_write_trailer(Container);
             avio_close(Container->pb);
         }
@@ -99,10 +116,35 @@ void cEncodeVideo::CloseEncoder() {
         av_free(AudioFrame);
         AudioFrame=NULL;
     }
+    if (AudioResampler) {
+        #ifndef USELIBAVRESAMPLE
+            audio_resample_close(AudioResampler);
+            AudioResampler=NULL;
+        #else
+            avresample_close(AudioResampler);
+            avresample_free(&AudioResampler);
+            AudioResampler=NULL;
+        #endif
+    }
+    if (AudioResamplerBuffer) {
+        av_free(AudioResamplerBuffer);
+        AudioResamplerBuffer=NULL;
+    }
 
     // Video buffers
-    while (VideoFrameList.count()>0) {
-        AVFrame *VideoFrame=VideoFrameList.takeFirst();
+    if (VideoEncodeBuffer) {
+        av_free(VideoEncodeBuffer);
+        VideoEncodeBuffer=NULL;
+    }
+    if (VideoFrameConverter) {
+        sws_freeContext(VideoFrameConverter);
+        VideoFrameConverter=NULL;
+    }
+    if (VideoFrame) {
+        if ((VideoFrame->extended_data)&&(VideoFrame->extended_data!=VideoFrame->data)) {
+            av_free(VideoFrame->extended_data);
+            VideoFrame->extended_data=NULL;
+        }
         if (VideoFrame->data[0]) {
             av_free(VideoFrame->data[0]);
             VideoFrame->data[0]=NULL;
@@ -110,38 +152,28 @@ void cEncodeVideo::CloseEncoder() {
         av_free(VideoFrame);
         VideoFrame=NULL;
     }
-    if (EncodeBuffer) {
-        av_free(EncodeBuffer);
-        EncodeBuffer=NULL;
-    }
 }
 
 //*************************************************************************************************************************************************
 
 bool cEncodeVideo::OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int FromSlide,int ToSlide,
-                    bool EncodeVideo,int VideoCodecId,int VideoCodecSubId,double VideoFrameRate,int ImageWidth,int ImageHeight,int InternalWidth,int InternalHeight,AVRational PixelAspectRatio,int VideoBitrate,
+                    bool EncodeVideo,int VideoCodecId,int VideoCodecSubId,AVRational VideoFrameRate,int ImageWidth,int ImageHeight,int ExtendV,int InternalWidth,int InternalHeight,AVRational PixelAspectRatio,int VideoBitrate,
                     bool EncodeAudio,int AudioCodecId,int AudioChannels,int AudioBitrate,int AudioSampleRate,QString Language) {
 
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::OpenEncoder");
+
+    sFormatDef *FormatDef   =NULL;
     this->Diaporama         =Diaporama;
     this->OutputFileName    =OutputFileName;
     this->FromSlide         =FromSlide;
     this->ToSlide           =ToSlide;
+    this->dFPS              =double(VideoFrameRate.den)/double(VideoFrameRate.num);
+    NbrFrame                =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide))*dFPS/1000);    // Number of frame to generate
+    QString FMT             =QFileInfo(OutputFileName).suffix();
 
-    // Video parameters
-    this->VideoFrameRate    =VideoFrameRate;
-    this->InternalWidth     =InternalWidth;
-    this->InternalHeight    =InternalHeight;
-
-    // Audio parameters
-    this->AudioChannels     =AudioChannels;
-    this->AudioBitrate      =AudioBitrate;
-    this->AudioSampleRate   =AudioSampleRate;
-
-    NbrFrame            =int(double(Diaporama->GetPartialDuration(FromSlide,ToSlide))*VideoFrameRate/1000);    // Number of frame to generate
-    int StreamNbr       =0;
-
-    // Search container format from OutputFileName
-    QString FMT=QFileInfo(OutputFileName).suffix();
+    //=======================================
+    // Prepare container
+    //=======================================
 
     // Search FMT from FROMATDEF
     int i=0;
@@ -157,300 +189,349 @@ bool cEncodeVideo::OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int 
         } else FormatDef=&AUDIOFORMATDEF[i];
     } else FormatDef=&FORMATDEF[i];
 
-    // Search Audio codec from VideoCodecId
-    if (EncodeAudio) {
-        int i=0;
-        while ((i<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[i].Codec_id!=AudioCodecId)) i++;
-        if ((i>=NBR_AUDIOCODECDEF)||(!AUDIOCODECDEF[i].IsFind)) {
-            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenEncoder: audio codec not available"));
-            return false;
-        }
-        AudioCodecDef=&AUDIOCODECDEF[i];
-        //=========> TODO : Check parameters !
-    }
-
-    // Search Video codec from VideoCodecId
-    if (EncodeVideo) {
-        int i=0;
-        while ((i<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[i].Codec_id!=VideoCodecId)) i++;
-        if ((i>=NBR_VIDEOCODECDEF)||(!VIDEOCODECDEF[i].IsFind)) {
-            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenEncoder: video codec not available"));
-            return false;
-        }
-        VideoCodecDef=&VIDEOCODECDEF[i];
-        //=========> TODO : Check parameters !
-    }
-
-    //=======================================
-    // Prepare container
-    //=======================================
-
-    // Prepare AVOutputFormat struct
-    AVOutputFormat *fmt=av_guess_format(QString(FormatDef->ShortName).toLocal8Bit().constData(),NULL,NULL);
-    if (!fmt) {
-        ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenEncoder: Unable to guess AVOutputFormat from container %1").arg(QString(FormatDef->ShortName)));
-        return false;
-    }
-    OutputFormat=*fmt;
-    if (OutputFormat.flags & AVFMT_NOFILE) return false;
-
-    // Check if audio codec is available
-    if (AudioCodecDef) {
-        AudioStreamNbr=StreamNbr++;
-        AudioCodec=avcodec_find_encoder_by_name(AudioCodecDef->ShortName);
-        if (!AudioCodec) {
-            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenEncoder: Unable to find audio codec %1").arg(AudioCodecId));
-            return false;
-        } else if (AudioCodec->id==CODEC_ID_NONE) return false;
-        OutputFormat.audio_codec=AudioCodec->id;
-    }
-
-    // Check if video codec is available
-    if (VideoCodecDef) {
-        VideoStreamNbr=StreamNbr++;
-        VideoCodec=avcodec_find_encoder_by_name(VideoCodecDef->ShortName);
-        if (!VideoCodec) {
-            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenEncoder: Unable to find video codec %1").arg(VideoCodecId));
-            return false;
-        } else if (VideoCodec->id==CODEC_ID_NONE) return false;
-        OutputFormat.video_codec=VideoCodec->id;
-    }
-
-    //=======================================
-    // Prepare streams
-    //=======================================
-
     // Alloc container
     Container=avformat_alloc_context();
     if (!Container) {
         ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenEncoder: Unable to allocate AVFormatContext");
         return false;
     }
-    Container->oformat=&OutputFormat;
-    if (QString(Container->oformat->name)==QString("mpegts"))    Container->packet_size=2324;
 
-    snprintf(Container->filename,sizeof(Container->filename),"%s",OutputFileName.toLocal8Bit().constData());
+    // Prepare container struct
+    snprintf(Container->filename,sizeof(Container->filename),"%s",OutputFileName.toUtf8().constData());
 
-    if ((AudioCodecDef)&&(!OpenAudioStream(AudioChannels,AudioBitrate,AudioSampleRate,Language))) return false;
-    if ((VideoCodecDef)&&(!OpenVideoStream(VideoCodecSubId,VideoFrameRate,ImageWidth,ImageHeight,PixelAspectRatio,VideoBitrate))) return false;
-    if (!PrepareTAG(Language)) return false;
+    Container->oformat=av_guess_format(QString(FormatDef->ShortName).toUtf8().constData(),NULL,NULL);
+    if (!Container->oformat) {
+        ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenEncoder: Unable to guess av_guess_format from container %1").arg(QString(FormatDef->ShortName)));
+        return false;
+    }
+    if (Container->oformat->flags & AVFMT_NOFILE) {
+        ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenEncoder: Container->oformat->flags==AVFMT_NOFILE"));
+        return false;
+    }
+
+    if (QString(Container->oformat->name)==QString("mpegts")) {
+        Container->packet_size=2324;
+        Container->max_delay  =(int)(double(0.7)*double(AV_TIME_BASE));
+    } else if (QString(Container->oformat->name)==QString("mpeg")) {
+        //Container->packet_size=2048;
+        Container->max_delay  =(int)(double(0.7)*double(AV_TIME_BASE));
+    }
+
+    //=======================================
+    // Open video stream
+    //=======================================
+
+    if (EncodeVideo) {
+
+        // Video parameters
+        this->VideoFrameRate=VideoFrameRate;
+        this->InternalWidth =InternalWidth;
+        this->InternalHeight=InternalHeight;
+        this->ExtendV       =ExtendV;
+
+        // Search Video codec from VideoCodecId
+        int i=0;
+        while ((i<NBR_VIDEOCODECDEF)&&(VIDEOCODECDEF[i].Codec_id!=VideoCodecId)) i++;
+        if ((i>=NBR_VIDEOCODECDEF)||(!VIDEOCODECDEF[i].IsFind)) {
+            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenEncoder: video codec not available"));
+            return false;
+        }
+
+        // Add stream
+        if (!OpenVideoStream(&VIDEOCODECDEF[i],VideoCodecSubId,VideoFrameRate,ImageWidth,ImageHeight+ExtendV,PixelAspectRatio,VideoBitrate))
+            return false;
+    }
+
+    //=======================================
+    // Open Audio stream
+    //=======================================
+
+    if (EncodeAudio) {
+        // Audio parameters
+        this->AudioChannels     =AudioChannels;
+        this->AudioBitrate      =AudioBitrate;
+        this->AudioSampleRate   =AudioSampleRate;
+
+        // Search Video codec from AudioCodecId
+        int i=0;
+        while ((i<NBR_AUDIOCODECDEF)&&(AUDIOCODECDEF[i].Codec_id!=AudioCodecId)) i++;
+        if ((i>=NBR_AUDIOCODECDEF)||(!AUDIOCODECDEF[i].IsFind)) {
+            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenEncoder: audio codec not available"));
+            return false;
+        }
+
+        // Add stream
+        if (!OpenAudioStream(&AUDIOCODECDEF[i],AudioChannels,AudioBitrate,AudioSampleRate,Language))
+            return false;
+    }
 
     //********************************************
     // Open file and header
     //********************************************
 
-    if (avio_open(&Container->pb,OutputFileName.toUtf8().constData(),AVIO_FLAG_WRITE)<0) {
+    if (!PrepareTAG(Language)) return false;
+
+    if (avio_open(&Container->pb,Container->filename,AVIO_FLAG_WRITE)<0) {
         ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenEncoder: avio_open() failed");
         return false;
     }
-    avformat_write_header(Container,NULL);
-    IsOpen=true;
+    if (avformat_write_header(Container,NULL)<0) {
+        ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenEncoder: avformat_write_header() failed");
+        return false;
+    }
 
     //********************************************
     // Log output format
     //********************************************
-    av_dump_format(Container,0,OutputFileName.toLocal8Bit().constData(),1);
-    if (AudioStream) ToLog(LOGMSG_INFORMATION,QString("Audio timebase=%1:%2/%3:%4").arg(AudioStream->codec->time_base.den).arg(AudioStream->codec->time_base.num).arg(AudioStream->time_base.den).arg(AudioStream->time_base.num));
-    if (VideoStream) ToLog(LOGMSG_INFORMATION,QString("Video timebase=%1:%2/%3:%4").arg(VideoStream->codec->time_base.den).arg(VideoStream->codec->time_base.num).arg(VideoStream->time_base.den).arg(VideoStream->time_base.num));
+    av_dump_format(Container,0,OutputFileName.toUtf8().constData(),1);
+
+    IsOpen=true;
     return true;
 }
 
 //*************************************************************************************************************************************************
+// Create video streams
+//*************************************************************************************************************************************************
 
-bool cEncodeVideo::OpenVideoStream(int VideoCodecSubId,double VideoFrameRate,int ImageWidth,int ImageHeight,AVRational PixelAspectRatio,int VideoBitrate) {
+bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecSubId,AVRational VideoFrameRate,
+                                   int ImageWidth,int ImageHeight,AVRational PixelAspectRatio,int VideoBitrate) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::OpenVideoStream");
+    AVDictionary *opts=NULL;
+    int MinRate=int(double(VideoBitrate)*0.9);
+    int MaxRate=int(double(VideoBitrate)*1.1);
+    int BufSize=int(double(VideoBitrate)*2);
+    int ThreadC=((getCpuCount()-1)>1)?(getCpuCount()-1):1;
 
-    EncodeBuffer=(uint8_t *)av_malloc(EncodeBufferSize);
-    if (!EncodeBuffer) {
-        ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: av_malloc() failed for EncodeBuffer");
+    AVCodec *codec=avcodec_find_encoder_by_name(VideoCodecDef->ShortName);
+    if (!codec) {
+        ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenVideoStream: Unable to find video codec %1").arg(VideoCodecDef->ShortName));
+        return false;
+    }
+    if (codec->id==CODEC_ID_NONE) {
+        ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenVideoStream: VideoCodec->id==CODEC_ID_NONE"));
         return false;
     }
 
-    // Create video streams
+    Container->oformat->video_codec=codec->id;
+
     VideoStream=avformat_new_stream(Container,NULL);
     if (!VideoStream) {
         ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: avformat_new_stream() failed");
         return false;
     }
-
-    AVCodec *codec=avcodec_find_encoder(Container->oformat->video_codec);
-    if (!codec) {
-        ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: avcodec_find_encoder() failed");
+    if (avcodec_get_context_defaults3(VideoStream->codec,codec)<0) {
+        ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: avcodec_get_context_defaults3() failed");
         return false;
     }
-    avcodec_get_context_defaults3(VideoStream->codec,codec);
-    VideoStream->id                             = VideoStreamNbr;
-    VideoStream->codec->codec                   = codec;
-    VideoStream->codec->codec_id                = Container->oformat->video_codec;
-    VideoStream->codec->codec_type              = AVMEDIA_TYPE_VIDEO;
-    VideoStream->codec->thread_count            = ((getCpuCount()-1)>1)?(getCpuCount()-1):1;
-    VideoStream->codec->thread_type             = FF_THREAD_SLICE;
-    VideoStream->codec->width                   = ImageWidth;
-    VideoStream->codec->height                  = ImageHeight;
-    VideoStream->codec->pix_fmt                 = PIX_FMT_YUV420P;
-    VideoStream->codec->bit_rate                = VideoBitrate;
-    //VideoStream->codec->sample_aspect_ratio     = PixelAspect
-    VideoStream->codec->time_base               = GetCodecTimeBase(VideoStream->codec->codec,VideoFrameRate);
-    //VideoStream->time_base                      = VideoStream->codec->time_base;
 
-    if (VideoStream->codec->codec_id==CODEC_ID_MPEG2VIDEO) {
+    VideoStream->codec->width               =ImageWidth;
+    VideoStream->codec->height              =ImageHeight;
+    VideoStream->codec->pix_fmt             =PIX_FMT_YUV420P;
+    VideoStream->codec->bits_per_raw_sample =0;
+    VideoStream->codec->time_base           =VideoFrameRate;
+    VideoStream->codec->sample_aspect_ratio =PixelAspectRatio;
+    VideoStream->sample_aspect_ratio        =PixelAspectRatio;
+    VideoStream->codec->bit_rate            =VideoBitrate;          av_dict_set(&opts,"b",QString("%1").arg(VideoBitrate).toUtf8(),0);
+    VideoStream->codec->thread_count        =ThreadC;               av_dict_set(&opts,"threads",QString("%1").arg(ThreadC).toUtf8(),0);
 
-        VideoStream->codec->max_b_frames    = 2;
-        //VideoStream->codec->gop_size        = 8;
+    if (codec->id==CODEC_ID_MPEG2VIDEO) {
 
-    } else if (VideoStream->codec->codec_id==CODEC_ID_MJPEG) {
+        //-bf 3
+        VideoStream->codec->max_b_frames = 3;   av_dict_set(&opts,"bf","3",0);
 
-        VideoStream->codec->pix_fmt     = PIX_FMT_YUVJ420P;
+    } else if (codec->id==CODEC_ID_MJPEG) {
 
-    } else if (VideoStream->codec->codec_id==CODEC_ID_H264) {
-        av_opt_set(VideoStream->codec,"preset","veryfast",0);
-        VideoStream->codec->me_range              = 16;
-        VideoStream->codec->flags                |= CODEC_FLAG_LOOP_FILTER;
-        VideoStream->codec->keyint_min            = 25;
-        VideoStream->codec->scenechange_threshold = 40;
-        VideoStream->codec->me_cmp               |= 1;
-        VideoStream->codec->i_quant_factor        = 0.71;
-        VideoStream->codec->qcompress             = 0.6;
-        VideoStream->codec->max_qdiff             = 4;
+        //-qscale 2 -qmin 2 -qmax 2
 
-        if ((VideoStream->codec->width > 480)||(VideoStream->codec->bit_rate > 600000)) {
-            VideoStream->codec->level = 31;
-            av_opt_set(VideoStream->codec->priv_data,"profile","main",0);
-        } else {
-            VideoStream->codec->level = 30;
-            av_opt_set(VideoStream->codec->priv_data,"profile","baseline",0);
-        }
+    } else if (codec->id==CODEC_ID_FLV1) {
 
+        VideoStream->codec->flags2           =0;
+
+    } else if (codec->id==VCODEC_VP8) {
+        //  -minrate %1 -maxrate %2 -bufsize %3 -bf 3
+
+        //av_dict_set(&opts,"minrate",QString("%1").arg(MinRate).toUtf8(),0);
+        //av_dict_set(&opts,"maxrate",QString("%1").arg(MaxRate).toUtf8(),0);
+        //av_dict_set(&opts,"bufsize",QString("%1").arg(BufSize).toUtf8(),0);
+
+    } else if (codec->id==CODEC_ID_H264) {
 
         switch (VideoCodecSubId) {
-            //vCodec=QString("-vcodec %1 -pix_fmt yuv420p -b:0 %2").arg(VIDEOCODECDEF[VideoCodecIndex].ShortName).arg(VideoBitRate);
             case VCODEC_H264HQ:     // High Quality H.264 AVC/MPEG-4 AVC
-                // g=250; wpredp=2
-                VideoStream->codec->coder_type            = 1;
-                VideoStream->codec->max_b_frames          = 3;
-                //VideoStream->codec->slices                = 8;
-                VideoStream->codec->me_method             = ME_UMH;
-                VideoStream->codec->me_subpel_quality     = 8;
-                VideoStream->codec->b_frame_strategy      = 2;
-                VideoStream->codec->qmin                  = 10;
-                VideoStream->codec->qmax                  = 51;
-                VideoStream->codec->refs                  = 3;
-                VideoStream->codec->trellis               = 1;
-                av_opt_set_int(VideoStream->codec,"direct-pred",  3,0);
-                av_opt_set(VideoStream->codec,"partitions","i8x8,i4x4,p8x8,b8x8",0);    //partitions=+parti8x8+parti4x4+partp8x8+partb8x8
-                av_opt_set_int(VideoStream->codec,"fast-pskip", 1,0);
-                av_opt_set_int(VideoStream->codec,"8x8dct",     1,0);
-                //av_opt_set_int(VideoStream->codec,"wpred",      1,0); //flags2=+wpred??????????
-                av_opt_set_int(VideoStream->codec,"mixed-refs", 1,0);
-                //av_opt_set_int(VideoStream->codec,"b-pyramid",  1,0);
-                //av_opt_set_int(VideoStream->codec,"rc-lookahead", 50,0);
+                // "-preset veryfast -refs:0 3 -minrate %1 -maxrate %2 -bufsize %3 | -preset veryfast -x264opts ref=3 -minrate %1 -maxrate %2 -bufsize %3
+
+                av_dict_set(&opts,"preset","veryfast",0);
+                /*if ((VideoStream->codec->width>480)||(VideoStream->codec->bit_rate>600000)) {
+                    VideoStream->codec->level  =31;
+                    VideoStream->codec->profile=FF_PROFILE_H264_MAIN;       av_opt_set(VideoStream->codec->priv_data,"profile","main",0);
+                } else {
+                    VideoStream->codec->level = 30;
+                    VideoStream->codec->profile=FF_PROFILE_H264_BASELINE;   av_opt_set(VideoStream->codec->priv_data,"profile","baseline",0);
+                }*/
+                VideoStream->codec->flags2              =0;
+                VideoStream->codec->rc_min_rate         =MinRate;       av_dict_set(&opts,"minrate",QString("%1").arg(MinRate).toUtf8(),0);
+                VideoStream->codec->rc_max_rate         =MaxRate;       av_dict_set(&opts,"maxrate",QString("%1").arg(MaxRate).toUtf8(),0);
+                VideoStream->codec->rc_buffer_size      =BufSize;       av_dict_set(&opts,"bufsize",QString("%1").arg(BufSize).toUtf8(),0);
+                VideoStream->codec->max_b_frames        =0;             av_dict_set(&opts,"bf",QString("%1").arg(VideoStream->codec->max_b_frames).toUtf8(),0);
+                VideoStream->codec->refs                =3;             av_opt_set_int(VideoStream->codec->priv_data,"refs",3,0);
+                VideoStream->codec->qmin                =0;
+                VideoStream->codec->qmax                =69;
+                VideoStream->codec->me_subpel_quality   =2;
+                VideoStream->codec->trellis             =0;
+                VideoStream->codec->chromaoffset        =0;
+                VideoStream->codec->max_b_frames        =3;             av_dict_set(&opts,"bf","3",0);
                 break;
 
             case VCODEC_H264PQ:     // Phone Quality H.264 AVC/MPEG-4 AVC
-                // g=250; wpredp=0
-                VideoStream->codec->coder_type            = 0;
-                VideoStream->codec->max_b_frames          = 0;
-                //VideoStream->codec->slices                = 8;
-                VideoStream->codec->me_method             = ME_UMH;
-                VideoStream->codec->me_subpel_quality     = 8;
-                VideoStream->codec->b_frame_strategy      = 2;
-                VideoStream->codec->qmin                  = 10;
-                VideoStream->codec->qmax                  = 51;
-                VideoStream->codec->refs                  = 1;
-                VideoStream->codec->trellis               = 1;
-                av_opt_set_int(VideoStream->codec,"direct-pred",3,0);
-                av_opt_set(VideoStream->codec,"partitions",     "i8x8,i4x4,p8x8,b8x8",0);    //partitions=+parti8x8+parti4x4+partp8x8+partb8x8
-                av_opt_set_int(VideoStream->codec,"fast-pskip", 1,0);
-                av_opt_set_int(VideoStream->codec,"8x8dct",     0,0);
-                //av_opt_set_int(VideoStream->codec,"wpred",      0,0); //flags2=-wpred??????????
-                av_opt_set_int(VideoStream->codec,"mixed-refs", 1,0);
-                av_opt_set_int(VideoStream->codec,"b-pyramid",  1,0);
-                av_opt_set_int(VideoStream->codec,"rc-lookahead", 50,0);
+                av_opt_set(VideoStream->codec->priv_data,"tune","zerolatency",0);
+                av_dict_set(&opts,"minrate",QString("%1").arg(int(double(VideoBitrate)*0.9)).toUtf8(),0);
+                av_dict_set(&opts,"maxrate",QString("%1").arg(int(double(VideoBitrate)*1.9)).toUtf8(),0);
+                av_dict_set(&opts,"bufsize",QString("%1").arg(int(double(VideoBitrate)*2)).toUtf8(),0);
+                av_dict_set(&opts,"preset","veryfast",0);
+                av_dict_set(&opts,"refs","3",0);
+                av_dict_set(&opts,"threads",QString("%1").arg(((getCpuCount()-1)>1)?(getCpuCount()-1):1).toUtf8(),0);
+                av_dict_set(&opts,"profile","baseline",0);
+                av_dict_set(&opts,"tune","fastdecode",0);
                 break;
 
             case VCODEC_X264LL:     // x264 lossless
-                // g=250; cqp=0; wpredp=0
-                VideoStream->codec->coder_type            = 0;
-                VideoStream->codec->max_b_frames          = 0;
-                //VideoStream->codec->slices                = 8;
-                VideoStream->codec->flags                |= CODEC_FLAG_CLOSED_GOP;
-                VideoStream->codec->me_method             = ME_HEX;
-                VideoStream->codec->me_subpel_quality     = 3;
-                VideoStream->codec->b_frame_strategy      = 1;
-                VideoStream->codec->qmin                  = 0;
-                VideoStream->codec->qmax                  = 69;
-                //VideoStream->codec->refs                  = 3;
-                //VideoStream->codec->trellis               = 1;
-                av_opt_set_int(VideoStream->codec,"direct-pred",  1,0);
-                av_opt_set(VideoStream->codec,"partitions","i4x4,p8x8",0);    //partitions=-parti8x8+parti4x4+partp8x8-partp4x4-partb8x8
-                av_opt_set_int(VideoStream->codec,"fast-pskip", 1,0);
-                //av_opt_set_int(VideoStream->codec,"8x8dct",     0,0);
-                //av_opt_set_int(VideoStream->codec,"wpred",      0,0); //flags2=-wpred??????????
-                //av_opt_set_int(VideoStream->codec,"mixed-refs", 1,0);
-                //av_opt_set_int(VideoStream->codec,"b-pyramid",  1,0);
-                //av_opt_set_int(VideoStream->codec,"rc-lookahead", 50,0);
+                av_dict_set(&opts,"preset","veryfast",0);
+                av_dict_set(&opts,"refs","3",0);
+                av_dict_set(&opts,"threads",QString("%1").arg(((getCpuCount()-1)>1)?(getCpuCount()-1):1).toUtf8(),0);
+                av_dict_set(&opts,"qp","0",0);
                 break;
         }
     }
-    if (Container->oformat->flags&AVFMT_GLOBALHEADER)       VideoStream->codec->flags|=CODEC_FLAG_GLOBAL_HEADER;
-    if (QString(Container->oformat->name)==QString("mpeg")) Container->max_delay      =(int)(double(0.7)*double(AV_TIME_BASE));
 
-    int errcode=avcodec_open2(VideoStream->codec,codec,NULL);
+    VideoStream->codec->has_b_frames=(VideoStream->codec->max_b_frames>0)?1:0;
+
+    if ((Container->oformat->flags & AVFMT_GLOBALHEADER)||(!strcmp(Container->oformat->name,"mp4"))||(!strcmp(Container->oformat->name,"mov"))||(!strcmp(Container->oformat->name,"3gp")))
+        VideoStream->codec->flags|=CODEC_FLAG_GLOBAL_HEADER;
+
+    // Open encoder
+    int errcode=avcodec_open2(VideoStream->codec,codec,&opts);
     if (errcode<0) {
         char Buf[2048];
         av_strerror(errcode,Buf,2048);
         ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: avcodec_open2() failed: "+QString(Buf));
         return false;
     }
+
+    // Create VideoFrameConverter
+    VideoFrameConverter=sws_getContext(
+        VideoStream->codec->width,VideoStream->codec->height,PIXFMT,                        // Src Widht,Height,Format
+        VideoStream->codec->width,VideoStream->codec->height,VideoStream->codec->pix_fmt,   // Destination Width,Height,Format
+        SWS_BICUBIC,                                                                        // flags
+        NULL,NULL,NULL);                                                                    // src Filter,dst Filter,param
+    if (!VideoFrameConverter) {
+        ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: sws_getContext() failed");
+        return false;
+    }
+
+    #ifndef USELIBAVRESAMPLE
+    // Create VideoEncodeBuffer
+    VideoEncodeBuffer=(uint8_t *)av_malloc(VideoEncodeBufferSize);
+    if (!VideoEncodeBuffer) {
+        ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: av_malloc() failed for VideoEncodeBuffer");
+        return false;
+    }
+    #endif
+
+    // Create and prepare VideoFrame and VideoFrameBuf
+    VideoFrame=avcodec_alloc_frame();  // Allocate structure for RGB image
+    if (!VideoFrame) {
+        ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: avcodec_alloc_frame() failed");
+        return false;
+    } else {
+        VideoFrameBufSize=avpicture_get_size(VideoStream->codec->pix_fmt,VideoStream->codec->width,VideoStream->codec->height);
+        VideoFrameBuf   =(uint8_t *)av_malloc(VideoFrameBufSize);
+        if ((!VideoFrameBufSize)||(!VideoFrameBuf)) {
+            ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: av_malloc() failed for VideoFrameBuf");
+            return false;
+        }
+    }
+
     return true;
 }
 
 //*************************************************************************************************************************************************
+// Create audio streams
+//*************************************************************************************************************************************************
 
-bool cEncodeVideo::OpenAudioStream(int AudioChannels,int AudioBitrate,int AudioSampleRate,QString Language) {
-    // Open codec
+bool cEncodeVideo::OpenAudioStream(sAudioCodecDef *AudioCodecDef,int AudioChannels,int AudioBitrate,int AudioSampleRate,QString Language) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::OpenAudioStream");
+    AVDictionary    *opts   =NULL;
+    int             ThreadC =((getCpuCount()-1)>1)?(getCpuCount()-1):1;
+
+    AVCodec *Codec=avcodec_find_encoder_by_name(AudioCodecDef->ShortName);
+    if (!Codec) {
+        ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenAudioStream: Unable to find audio codec %1").arg(AudioCodecDef->ShortName));
+        return false;
+    }
+
+    if (Codec->id==CODEC_ID_NONE) {
+        ToLog(LOGMSG_CRITICAL,QString("EncodeVideo-OpenAudioStream: AudioCodec->id==CODEC_ID_NONE"));
+        return false;
+    }
+
+    Container->oformat->audio_codec=Codec->id;
+
     AudioStream=avformat_new_stream(Container,NULL);
     if (!AudioStream) {
         ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenAudioStream: avformat_new_stream() failed");
         return false;
     }
 
-    AudioStream->id                       = AudioStreamNbr;
-    AudioStream->codec->codec_id          = Container->oformat->audio_codec;
-    AudioStream->codec->codec_type        = AVMEDIA_TYPE_AUDIO;
-    AudioStream->codec->bit_rate          = AudioBitrate;
-    AudioStream->codec->sample_fmt        = AV_SAMPLE_FMT_S16;
-    AudioStream->codec->channels          = AudioChannels;
-    AudioStream->codec->sample_rate       = AudioSampleRate;
+    //AudioStream->codec->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
 
-    if ((Container->oformat->flags & AVFMT_GLOBALHEADER)||(!strcmp(Container->oformat->name,"mp4"))||(!strcmp(Container->oformat->name,"mov"))||(!strcmp(Container->oformat->name,"3gp")))
-        AudioStream->codec->flags|=CODEC_FLAG_GLOBAL_HEADER;
+    // Open codec
+    av_dict_set(&AudioStream->metadata,"language",Language.toUtf8().constData(),0);
 
-    switch (AudioStream->codec->codec_id) {
-        case CODEC_ID_PCM_S16LE :
-            break;
-        case CODEC_ID_MP3:
+    AudioStream->codec->sample_fmt  =AV_SAMPLE_FMT_S16;
+    AudioStream->codec->channels    =AudioChannels;
+    AudioStream->codec->sample_rate =AudioSampleRate;
+    AudioStream->codec->bit_rate    =AudioBitrate;          av_dict_set(&opts,"b",QString("%1").arg(AudioBitrate).toUtf8(),0);
+    AudioStream->codec->thread_count=ThreadC;               av_dict_set(&opts,"threads",QString("%1").arg(ThreadC).toUtf8(),0);
+
+    if ((Container->oformat->flags & AVFMT_GLOBALHEADER)
+            ||(!strcmp(Container->oformat->name,"mp4"))
+            ||(!strcmp(Container->oformat->name,"mov"))
+            ||(!strcmp(Container->oformat->name,"3gp"))
+            //||(!strcmp(Container->oformat->name,"ogg"))
+        )
+            AudioStream->codec->flags|=CODEC_FLAG_GLOBAL_HEADER;
+
+    if (Codec->id==CODEC_ID_PCM_S16LE) {
+
+    } else if (Codec->id==CODEC_ID_FLAC) {
+            av_opt_set_int(AudioStream->codec,"lpc_coeff_precision",15,0);
+            av_opt_set_int(AudioStream->codec,"lpc_type",2,0);
+            av_opt_set_int(AudioStream->codec,"lpc_passes",1,0);
+            av_opt_set_int(AudioStream->codec,"min_partition_order",0,0);
+            av_opt_set_int(AudioStream->codec,"max_partition_order",8,0);
+            av_opt_set_int(AudioStream->codec,"prediction_order_method",0,0);
+            av_opt_set_int(AudioStream->codec,"ch_mode",-1,0);
+    } else if (Codec->id==CODEC_ID_AAC) {
+
+    } else if (Codec->id==CODEC_ID_MP3) {
             #ifdef USELIBAVRESAMPLE
             AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_S16P;
             #endif
-            break;
-        case CODEC_ID_VORBIS:
-            #ifdef USELIBAVRESAMPLE
-            AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLTP;
-            AudioStream->codec->flags|=CODEC_FLAG_QSCALE;
-            #endif
-            break;
-        case CODEC_ID_AC3:
-            #ifdef USELIBAVRESAMPLE
-            AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLTP;                     break;
-            #else
-            AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLT;
-            #endif
-            break;
-        case CODEC_ID_AMR_NB:
-        case CODEC_ID_AMR_WB:
-            AudioStream->codec->channels=1;
-            break;
-        default:                                                                                        break;
+            av_opt_set_int(AudioStream->codec,"reservoir",1,0);
+    } else if (Codec->id==CODEC_ID_VORBIS) {
+        #ifdef USELIBAVRESAMPLE
+        AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLTP;
+        #endif
+    } else if (Codec->id==CODEC_ID_AC3) {
+        #ifdef USELIBAVRESAMPLE
+        AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLTP;
+        #else
+        AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLT;
+        #endif
+    } else if (Codec->id==CODEC_ID_AMR_NB) {
+        AudioStream->codec->channels=1;
+    } else if (Codec->id==CODEC_ID_AMR_WB) {
+        AudioStream->codec->channels=1;
     }
     #ifdef USELIBAVRESAMPLE
         AudioStream->codec->channel_layout= av_get_default_channel_layout(AudioStream->codec->channels);
@@ -458,20 +539,12 @@ bool cEncodeVideo::OpenAudioStream(int AudioChannels,int AudioBitrate,int AudioS
         AudioStream->codec->channel_layout= AudioStream->codec->channels==2?AV_CH_LAYOUT_STEREO:AV_CH_LAYOUT_MONO;
     #endif
 
-    //AudioStream->codec->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
-    AVCodec *codec=avcodec_find_encoder(AudioStream->codec->codec_id);
-    if (!codec) {
-        ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenAudioStream: avcodec_find_encoder() failed");
+    int errcode=avcodec_open2(AudioStream->codec,Codec,&opts);
+    if (errcode<0) {
+        char Buf[2048];
+        av_strerror(errcode,Buf,2048);
+        ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenAudioStream: avcodec_open2() failed: "+QString(Buf));
         return false;
-    } else {
-        int errcode=avcodec_open2(AudioStream->codec,codec,NULL);
-        if (errcode<0) {
-            char Buf[2048];
-            av_strerror(errcode,Buf,2048);
-            ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenAudioStream: avcodec_open2() failed: "+QString(Buf));
-            return false;
-        }
-        av_dict_set(&AudioStream->metadata,"language",Language.toLocal8Bit().constData(),0);
     }
 
     AudioFrame=avcodec_alloc_frame();
@@ -486,15 +559,17 @@ bool cEncodeVideo::OpenAudioStream(int AudioChannels,int AudioBitrate,int AudioS
 //*************************************************************************************************************************************************
 
 bool cEncodeVideo::PrepareTAG(QString Language) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::PrepareTAG");
+
     // Set TAGS
-    av_dict_set(&Container->metadata,"language",Language.toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"title",AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"artist",AdjustMETA(Diaporama->ProjectInfo->Author).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"album",AdjustMETA(Diaporama->ProjectInfo->Album).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"comment",AdjustMETA(Diaporama->ProjectInfo->Comment).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"date",QString("%1").arg(Diaporama->ProjectInfo->Year).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"composer",QString(Diaporama->ApplicationConfig->ApplicationName+QString(" ")+Diaporama->ApplicationConfig->ApplicationVersion).toLocal8Bit().constData(),0);
-    av_dict_set(&Container->metadata,"creation_time",QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss").toLocal8Bit().constData(),0); // ISO 8601 format
+    av_dict_set(&Container->metadata,"language",Language.toUtf8().constData(),0);
+    av_dict_set(&Container->metadata,"title",AdjustMETA(Diaporama->ProjectInfo->Title==""?QFileInfo(OutputFileName).baseName():Diaporama->ProjectInfo->Title).toUtf8().constData(),0);
+    av_dict_set(&Container->metadata,"artist",AdjustMETA(Diaporama->ProjectInfo->Author).toUtf8().constData(),0);
+    av_dict_set(&Container->metadata,"album",AdjustMETA(Diaporama->ProjectInfo->Album).toUtf8().constData(),0);
+    av_dict_set(&Container->metadata,"comment",AdjustMETA(Diaporama->ProjectInfo->Comment).toUtf8().constData(),0);
+    av_dict_set(&Container->metadata,"date",QString("%1").arg(Diaporama->ProjectInfo->Year).toUtf8().constData(),0);
+    av_dict_set(&Container->metadata,"composer",QString(Diaporama->ApplicationConfig->ApplicationName+QString(" ")+Diaporama->ApplicationConfig->ApplicationVersion).toUtf8().constData(),0);
+    av_dict_set(&Container->metadata,"creation_time",QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss").toUtf8().constData(),0); // ISO 8601 format
 
     //===========> TODO: Add chapters !
 
@@ -514,7 +589,7 @@ void cEncodeVideo::DisplayProgress(qlonglong RenderedFrame,qlonglong Position,in
     if (FPSLabel)           FPSLabel->setText(QString("%1").arg(double(RenderedFrame)/(double(DurationProcess)/1000),0,'f',1));
     if (SlideNumberLabel)   SlideNumberLabel->setText(QString("%1/%2").arg(Column-FromSlide+1).arg(ToSlide-FromSlide+1));
     if (FrameNumberLabel)   FrameNumberLabel->setText(QString("%1/%2").arg(RenderedFrame).arg(NbrFrame));
-    if (SlideProgressBar)   SlideProgressBar->setValue(int(double(Position-ColumnStart)/(double(AV_TIME_BASE)/VideoFrameRate/double(1000))));
+    if (SlideProgressBar)   SlideProgressBar->setValue(Position!=-1?int(double(Position-ColumnStart)/(double(AV_TIME_BASE)/dFPS/double(1000))):SlideProgressBar->maximum());
     if (TotalProgressBar)   TotalProgressBar->setValue(RenderedFrame);
 
     LastCheckTime=QTime::currentTime();
@@ -541,136 +616,106 @@ QString cEncodeVideo::AdjustMETA(QString Text) {
 
 //*************************************************************************************************************************************************
 
-AVRational cEncodeVideo::GetCodecTimeBase(const AVCodec *VideoCodec,double FPS) {
-    AVRational result;
-    result.den = (int)floor(FPS * 100);
-    result.num = 100;
-    if (VideoCodec && VideoCodec->supported_framerates) {
-        const AVRational *p= VideoCodec->supported_framerates;
-        AVRational      req =(AVRational){result.den, result.num};
-        const AVRational *best = NULL;
-        AVRational best_error= (AVRational){INT_MAX, 1};
-        for(; p->den!=0; p++) {
-            AVRational error = av_sub_q(req, *p);
-            if (error.num <0)   error.num *= -1;
-            if (av_cmp_q(error, best_error) < 0) {
-                best_error = error;
-                best = p;
-            }
-        }
-        if (best && best->num && best->den) {
-            result.den = best->num;
-            result.num = best->den;
-        }
-    }
-    if (result.den == 2997) {
-        result.den = 30000;
-        result.num = 1001;
-    } else if (result.den == 5994) {
-        result.den = 60000;
-        result.num = 1001;
-    }
-    return result;
-}
-
-//*************************************************************************************************************************************************
-
 bool cEncodeVideo::DoEncode() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::DoEncode");
+
     bool                    Continue=true;
     cSoundBlockList         RenderMusic,ToEncodeMusic;
+    QList<QImage *>         ImageList;
     cDiaporamaObjectInfo    *PreviousFrame=NULL;
     cDiaporamaObjectInfo    *Frame        =NULL;
     qlonglong               RenderedFrame =0;
+    int                     FrameSize     =0;
+
+    // Init RenderMusic and ToEncodeMusic
+    RenderMusic.SetFPS(double(1000)/double(dFPS),2,AudioSampleRate,AV_SAMPLE_FMT_S16);
+    if (AudioStream) {
+        FrameSize=AudioStream->codec->frame_size;
+        if ((FrameSize==0)&&(VideoStream)) FrameSize=(AudioStream->codec->sample_rate*AudioStream->time_base.num)/AudioStream->time_base.den;
+        #ifndef USELIBAVRESAMPLE
+            // LIBAV 0.8 => ToEncodeMusic use AudioStream->codec->sample_fmt format
+            int ComputedFrameSize=AudioChannels*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*FrameSize;
+            if (ComputedFrameSize==0) ComputedFrameSize=RenderMusic.SoundPacketSize;
+            ToEncodeMusic.SetFrameSize(ComputedFrameSize,AudioChannels,AudioSampleRate,AudioStream->codec->sample_fmt);
+        #else
+            // LIBAV 9 => ToEncodeMusic use AV_SAMPLE_FMT_S16 format
+            int ComputedFrameSize=AudioChannels*av_get_bytes_per_sample(AV_SAMPLE_FMT_S16)*FrameSize;
+            if (ComputedFrameSize==0) ComputedFrameSize=RenderMusic.SoundPacketSize;
+            ToEncodeMusic.SetFrameSize(ComputedFrameSize,RenderMusic.Channels,AudioSampleRate,AV_SAMPLE_FMT_S16);
+        #endif
+    }
 
     CurAudioPts         =0;
     CurVideoPts         =0;
+    LastAudioPts        =0;
+    LastVideoPts        =0;
+    IncreasingVideoPts  =double(1000)/double(dFPS);
+    IncreasingAudioPts  =FrameSize*1000*AudioStream->codec->time_base.num/AudioStream->codec->time_base.den;
     StartTime           =QTime::currentTime();
     LastCheckTime       =StartTime;                                     // Display control : last time the loop start
     qlonglong Position  =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
     int ColumnStart     =-1;                                            // Render start position of current object
     int Column          =-1;                                            // Render current object
 
-    // Init RenderMusic and ToEncodeMusic
-    RenderMusic.SetFPS(VideoFrameRate,2,AudioSampleRate,AV_SAMPLE_FMT_S16);
-    if (AudioStream) {
-        int FrameSize=AudioStream->codec->frame_size;
-        if ((FrameSize==0)&&(VideoStream))
-            FrameSize=(AudioStream->codec->sample_rate*AudioStream->time_base.num)/AudioStream->time_base.den;
-    #ifndef USELIBAVRESAMPLE
-        // LIBAV 0.8 => ToEncodeMusic use AudioStream->codec->sample_fmt format
-        int ComputedFrameSize=AudioChannels*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*FrameSize;
-        if (ComputedFrameSize==0) ComputedFrameSize=RenderMusic.SoundPacketSize;
-        ToEncodeMusic.SetFrameSize(ComputedFrameSize,AudioChannels,AudioSampleRate,AudioStream->codec->sample_fmt);
-    #else
-        // LIBAV 9 => ToEncodeMusic use AV_SAMPLE_FMT_S16 format
-        int ComputedFrameSize=AudioChannels*av_get_bytes_per_sample(AV_SAMPLE_FMT_S16)*FrameSize;
-        if (ComputedFrameSize==0) ComputedFrameSize=RenderMusic.SoundPacketSize;
-        ToEncodeMusic.SetFrameSize(ComputedFrameSize,RenderMusic.Channels,AudioSampleRate,AV_SAMPLE_FMT_S16);
-    #endif
-    }
-
     // Init Resampler (if needed)
-    RPCK=NULL;
-    RSC =NULL;
     if (AudioStream) {
-    #ifndef USELIBAVRESAMPLE
-        if ((AudioStream->codec->sample_fmt!=RenderMusic.SampleFormat)||(AudioChannels!=RenderMusic.Channels)||(AudioSampleRate!=RenderMusic.SamplingRate)) {
-            if (!RPCK) {
-                RPCK=(uint8_t *)av_malloc(AVCODEC_MAX_AUDIO_FRAME_SIZE*ToEncodeMusic.Channels);
-                if (!RPCK) {
-                    ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: RPCK allocation failed"));
-                    Continue=false;
-                }
-            }
-            if (!RSC) RSC=av_audio_resample_init(                               // Context for resampling audio data
-                AudioChannels,RenderMusic.Channels,                             // output_channels, input_channels
-                AudioSampleRate,RenderMusic.SamplingRate,                       // output_rate, input_rate
-                AudioStream->codec->sample_fmt,RenderMusic.SampleFormat,        // sample_fmt_out, sample_fmt_in
-                0,                                                              // filter_length
-                0,                                                              // log2_phase_count
-                1,                                                              // linear
-                0);                                                             // cutoff
-            if (!RSC) {
-                ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: av_audio_resample_init failed"));
-                Continue=false;
-            }
-        }
-    #else
-        if ((AudioStream->codec->sample_fmt!=ToEncodeMusic.SampleFormat)||(AudioChannels!=ToEncodeMusic.Channels)||(AudioSampleRate!=ToEncodeMusic.SamplingRate)) {
-            if (!RPCK) {
-                int out_linesize=0;
-                if (av_samples_alloc(&RPCK,&out_linesize,ToEncodeMusic.Channels,AVCODEC_MAX_AUDIO_FRAME_SIZE,ToEncodeMusic.SampleFormat,1)<0) {
-                    ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: RPCK allocation failed"));
-                    Continue=false;
-                }
-            }
-            if (!RSC) {
-                RSC=avresample_alloc_context();
-                if (RSC) {
-                    av_opt_set_int(RSC,"in_channel_layout",  av_get_default_channel_layout(ToEncodeMusic.Channels), 0);
-                    av_opt_set_int(RSC,"in_sample_fmt",      ToEncodeMusic.SampleFormat,                            0);
-                    av_opt_set_int(RSC,"in_sample_rate",     ToEncodeMusic.SamplingRate,                            0);
-                    av_opt_set_int(RSC,"out_channel_layout", AudioStream->codec->channel_layout,                    0);
-                    av_opt_set_int(RSC,"out_sample_fmt",     AudioStream->codec->sample_fmt,                        0);
-                    av_opt_set_int(RSC,"out_sample_rate",    AudioSampleRate,                       0);
-                    if (avresample_open(RSC)<0) {
-                        ToLog(LOGMSG_CRITICAL,QString("Error opening context"));
+        #ifndef USELIBAVRESAMPLE
+            if ((AudioStream->codec->sample_fmt!=RenderMusic.SampleFormat)||(AudioChannels!=RenderMusic.Channels)||(AudioSampleRate!=RenderMusic.SamplingRate)) {
+                if (!AudioResamplerBuffer) {
+                    AudioResamplerBuffer=(uint8_t *)av_malloc(AVCODEC_MAX_AUDIO_FRAME_SIZE*ToEncodeMusic.Channels);
+                    if (!AudioResamplerBuffer) {
+                        ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: AudioResamplerBuffer allocation failed"));
                         Continue=false;
                     }
-                } else {
-                    ToLog(LOGMSG_CRITICAL,QString("Error allocating AVAudioResampleContext"));
+                }
+                if (!AudioResampler) AudioResampler=av_audio_resample_init(                               // Context for resampling audio data
+                    AudioChannels,RenderMusic.Channels,                             // output_channels, input_channels
+                    AudioSampleRate,RenderMusic.SamplingRate,                       // output_rate, input_rate
+                    AudioStream->codec->sample_fmt,RenderMusic.SampleFormat,        // sample_fmt_out, sample_fmt_in
+                    0,                                                              // filter_length
+                    0,                                                              // log2_phase_count
+                    1,                                                              // linear
+                    0);                                                             // cutoff
+                if (!AudioResampler) {
+                    ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: av_audio_resample_init failed"));
                     Continue=false;
                 }
             }
-        }
-    #endif
+        #else
+            if ((AudioStream->codec->sample_fmt!=ToEncodeMusic.SampleFormat)||(AudioChannels!=ToEncodeMusic.Channels)||(AudioSampleRate!=ToEncodeMusic.SamplingRate)) {
+                if (!AudioResamplerBuffer) {
+                    int out_linesize=0;
+                    if (av_samples_alloc(&AudioResamplerBuffer,&out_linesize,ToEncodeMusic.Channels,AVCODEC_MAX_AUDIO_FRAME_SIZE,ToEncodeMusic.SampleFormat,1)<0) {
+                        ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: AudioResamplerBuffer allocation failed"));
+                        Continue=false;
+                    }
+                }
+                if (!AudioResampler) {
+                    AudioResampler=avresample_alloc_context();
+                    if (AudioResampler) {
+                        av_opt_set_int(AudioResampler,"in_channel_layout",  av_get_default_channel_layout(ToEncodeMusic.Channels), 0);
+                        av_opt_set_int(AudioResampler,"in_sample_fmt",      ToEncodeMusic.SampleFormat,                            0);
+                        av_opt_set_int(AudioResampler,"in_sample_rate",     ToEncodeMusic.SamplingRate,                            0);
+                        av_opt_set_int(AudioResampler,"out_channel_layout", AudioStream->codec->channel_layout,                    0);
+                        av_opt_set_int(AudioResampler,"out_sample_fmt",     AudioStream->codec->sample_fmt,                        0);
+                        av_opt_set_int(AudioResampler,"out_sample_rate",    AudioSampleRate,                       0);
+                        if (avresample_open(AudioResampler)<0) {
+                            ToLog(LOGMSG_CRITICAL,QString("Error opening context"));
+                            Continue=false;
+                        }
+                    } else {
+                        ToLog(LOGMSG_CRITICAL,QString("Error allocating AVAudioResampleContext"));
+                        Continue=false;
+                    }
+                }
+            }
+        #endif
     }
 
     if (SlideProgressBar)   SlideProgressBar->setMaximum(100);
     if (TotalProgressBar)   TotalProgressBar->setMaximum(NbrFrame);
 
     QFutureWatcher<void> ThreadEncodeVideo;
-
     for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
         // Give time to interface!
         QApplication::processEvents();
@@ -684,7 +729,7 @@ bool cEncodeVideo::DoEncode() {
             AdjustedDuration=((Column>=0)&&(Column<Diaporama->List.count()))?Diaporama->List[Column]->GetDuration()-Diaporama->GetTransitionDuration(Column+1):0;
             if (AdjustedDuration<33) AdjustedDuration=33; // Not less than 1/30 sec
             ColumnStart=Diaporama->GetObjectStartPosition(Column);
-            if ((Column<Diaporama->List.count())&&(SlideProgressBar)) SlideProgressBar->setMaximum(int(double(AdjustedDuration)/((double(AV_TIME_BASE)/VideoFrameRate)/double(1000)))-1);
+            if ((Column<Diaporama->List.count())&&(SlideProgressBar)) SlideProgressBar->setMaximum(int(double(AdjustedDuration)/((double(AV_TIME_BASE)/dFPS)/double(1000)))-1);
             Diaporama->CloseUnusedLibAv(Column);
             DisplayProgress(RenderedFrame,Position,Column,ColumnStart);
 
@@ -692,30 +737,30 @@ bool cEncodeVideo::DoEncode() {
         } else if (LastCheckTime.msecsTo(QTime::currentTime())>=1000) DisplayProgress(RenderedFrame,Position,Column,ColumnStart);  // Refresh display only one time per second
 
         // Get current frame
-        Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,double(1000)/double(VideoFrameRate));
+        Frame=new cDiaporamaObjectInfo(PreviousFrame,Position,Diaporama,double(1000)/double(dFPS));
 
         // Ensure MusicTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_MusicTrack==NULL)) {
             Frame->CurrentObject_MusicTrack=new cSoundBlockList();
-            Frame->CurrentObject_MusicTrack->SetFPS(VideoFrameRate,2,AudioSampleRate,AV_SAMPLE_FMT_S16);
+            Frame->CurrentObject_MusicTrack->SetFPS(Frame->FrameDuration,2,AudioSampleRate,AV_SAMPLE_FMT_S16);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_MusicTrack==NULL)&&(Frame->TransitObject_MusicObject!=NULL)&&(Frame->TransitObject_MusicObject!=Frame->CurrentObject_MusicObject)) {
             Frame->TransitObject_MusicTrack=new cSoundBlockList();
-            Frame->TransitObject_MusicTrack->SetFPS(VideoFrameRate,2,AudioSampleRate,AV_SAMPLE_FMT_S16);
+            Frame->TransitObject_MusicTrack->SetFPS(Frame->FrameDuration,2,AudioSampleRate,AV_SAMPLE_FMT_S16);
         }
 
         // Ensure SoundTracks are ready
         if ((Frame->CurrentObject)&&(Frame->CurrentObject_SoundTrackMontage==NULL)) {
             Frame->CurrentObject_SoundTrackMontage=new cSoundBlockList();
-            Frame->CurrentObject_SoundTrackMontage->SetFPS(VideoFrameRate,2,AudioSampleRate,AV_SAMPLE_FMT_S16);
+            Frame->CurrentObject_SoundTrackMontage->SetFPS(Frame->FrameDuration,2,AudioSampleRate,AV_SAMPLE_FMT_S16);
         }
         if ((Frame->TransitObject)&&(Frame->TransitObject_SoundTrackMontage==NULL)) {
             Frame->TransitObject_SoundTrackMontage=new cSoundBlockList();
-            Frame->TransitObject_SoundTrackMontage->SetFPS(VideoFrameRate,2,AudioSampleRate,AV_SAMPLE_FMT_S16);
+            Frame->TransitObject_SoundTrackMontage->SetFPS(Frame->FrameDuration,2,AudioSampleRate,AV_SAMPLE_FMT_S16);
         }
 
         // Prepare frame (if W=H=0 then soundonly)
-        Diaporama->LoadSources(Frame,InternalWidth,InternalHeight,false,0);                                        // Load source images
+        Diaporama->LoadSources(Frame,InternalWidth,InternalHeight,false,true);                                        // Load source images
         Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,InternalWidth,InternalHeight); // Make final assembly
 
         // Prepare data
@@ -740,13 +785,13 @@ bool cEncodeVideo::DoEncode() {
                 }
                 #ifndef USELIBAVRESAMPLE
                     // LIBAV 0.8 => ToEncodeMusic must have exactly AudioStream->codec->frame_size data
-                    if ((RSC!=NULL)&&(RPCK!=NULL)) {
+                    if ((AudioResampler!=NULL)&&(AudioResamplerBuffer!=NULL)) {
                         int64_t DestNbrSamples=RenderMusic.SoundPacketSize/(RenderMusic.Channels*av_get_bytes_per_sample(RenderMusic.SampleFormat));
-                        int64_t DestPacketSize=audio_resample(RSC,(short int*)RPCK,(short int*)PacketSound,DestNbrSamples)*AudioChannels*av_get_bytes_per_sample(AudioStream->codec->sample_fmt);
+                        int64_t DestPacketSize=audio_resample(AudioResampler,(short int*)AudioResamplerBuffer,(short int*)PacketSound,DestNbrSamples)*AudioChannels*av_get_bytes_per_sample(AudioStream->codec->sample_fmt);
                         if (DestPacketSize<=0) {
                             ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: audio_resample failed"));
                             Continue=false;
-                        } else ToEncodeMusic.AppendData((int16_t *)RPCK,DestPacketSize);
+                        } else ToEncodeMusic.AppendData((int16_t *)AudioResamplerBuffer,DestPacketSize);
                     } else ToEncodeMusic.AppendData((int16_t *)PacketSound,RenderMusic.SoundPacketSize);
                 #else
                     // LIBAV 9 => ToEncodeMusic is converted during encoding process
@@ -755,16 +800,18 @@ bool cEncodeVideo::DoEncode() {
                 av_free(PacketSound);
             }
         }
+
         // Write data to disk
         if (Continue) {
-            QImage *Image=(VideoStream?new QImage(Frame->RenderedImage->convertToFormat(QTPIXFMT)):NULL);
+            if (VideoStream) ImageList.append(new QImage(Frame->RenderedImage->convertToFormat(QTPIXFMT)));
+            //QImage *Image=(VideoStream?new QImage(Frame->RenderedImage->convertToFormat(QTPIXFMT)):NULL);
             if (ThreadEncodeVideo.isRunning()) ThreadEncodeVideo.waitForFinished();
-            ThreadEncodeVideo.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeVideo,&ToEncodeMusic,Image,&Continue));
+            ThreadEncodeVideo.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeVideo,&ToEncodeMusic,&ImageList,&Continue));
         }
 
         // Calculate next position
         if (Continue) {
-            Position     +=double(1000)/VideoFrameRate;
+            Position+=double(1000)/dFPS;
             if (PreviousFrame!=NULL) delete PreviousFrame;
             PreviousFrame=Frame;
             Frame =NULL;
@@ -777,24 +824,13 @@ bool cEncodeVideo::DoEncode() {
     if (ThreadEncodeVideo.isRunning()) ThreadEncodeVideo.waitForFinished();
 
     // refresh display
-    DisplayProgress(RenderedFrame,Position,Column,0);
-
-    // Close Resampler (if needed)
-    if (RSC) {
-        #ifndef USELIBAVRESAMPLE
-            audio_resample_close(RSC);
-            RSC=NULL;
-        #else
-            avresample_close(RSC);
-            avresample_free(&RSC);
-            RSC=NULL;
-        #endif
-    }
-    if (RPCK) av_free(RPCK);
+    if (!StopProcessWanted) DisplayProgress(RenderedFrame,-1,Column,0);  // Set All to 100%
 
     // Cleaning
     if (PreviousFrame!=NULL) delete PreviousFrame;
     if (Frame!=NULL)         delete Frame;
+
+    CloseEncoder();
 
     return Continue;
 }
@@ -804,8 +840,6 @@ bool cEncodeVideo::DoEncode() {
 void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool *Continue) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::EncodeMusic");
 
-    if (!AudioFrame) return;
-
     int     errcode;
     int64_t DestNbrSamples=ToEncodeMusic->SoundPacketSize/(ToEncodeMusic->Channels*av_get_bytes_per_sample(ToEncodeMusic->SampleFormat));
     int     DestSampleSize=AudioStream->codec->channels*av_get_bytes_per_sample(AudioStream->codec->sample_fmt);
@@ -814,7 +848,7 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool *Continue) {
     int64_t DestPacketSize=DestNbrSamples*DestSampleSize;
 
     // Flush audio frame of ToEncodeMusic
-    while ((Continue)&&(ToEncodeMusic->List.count()>0)&&(!StopProcessWanted)) {
+    while ((Continue)&&(ToEncodeMusic->List.count()>0)&&(!StopProcessWanted)&&((!VideoStream)||(LastAudioPts<(LastVideoPts+IncreasingVideoPts)))) {
         PacketSound=ToEncodeMusic->DetachFirstPacket();
         if (PacketSound==NULL) {
             ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: PacketSound==NULL"));
@@ -822,20 +856,20 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool *Continue) {
         } else {
             #ifdef USELIBAVRESAMPLE
                 // LIBAV 9 => Convert sample format (is needed)
-                if ((RSC!=NULL)&&(RPCK!=NULL)) {
-                    DestPacket=RPCK;
+                if ((AudioResampler!=NULL)&&(AudioResamplerBuffer!=NULL)) {
+                    DestPacket=AudioResamplerBuffer;
                     uint8_t *in_data[AVRESAMPLE_MAX_CHANNELS]={0},*out_data[AVRESAMPLE_MAX_CHANNELS]={0};
                     int     in_linesize=0,out_linesize=0;
-                    int     out_samples=avresample_available(RSC)+av_rescale_rnd(avresample_get_delay(RSC)+DestNbrSamples,AudioStream->codec->sample_rate,ToEncodeMusic->SamplingRate,AV_ROUND_UP);
+                    int     out_samples=avresample_available(AudioResampler)+av_rescale_rnd(avresample_get_delay(AudioResampler)+DestNbrSamples,AudioStream->codec->sample_rate,ToEncodeMusic->SamplingRate,AV_ROUND_UP);
                     if (av_samples_fill_arrays(in_data,&in_linesize,(uint8_t *)PacketSound,ToEncodeMusic->Channels,DestNbrSamples,ToEncodeMusic->SampleFormat,1)<0) {
                         ToLog(LOGMSG_CRITICAL,QString("failed in_data fill arrays"));
                         Continue=false;
                     } else {
-                        if (av_samples_fill_arrays(out_data,&out_linesize,RPCK,AudioStream->codec->channels,out_samples,AudioStream->codec->sample_fmt,1)<0) {
+                        if (av_samples_fill_arrays(out_data,&out_linesize,AudioResamplerBuffer,AudioStream->codec->channels,out_samples,AudioStream->codec->sample_fmt,1)<0) {
                             ToLog(LOGMSG_CRITICAL,QString("failed out_data fill arrays"));
                             Continue=false;
                         } else {
-                            DestPacketSize=avresample_convert(RSC,out_data,out_linesize,out_samples,in_data,in_linesize,DestNbrSamples)*DestSampleSize;
+                            DestPacketSize=avresample_convert(AudioResampler,out_data,out_linesize,out_samples,in_data,in_linesize,DestNbrSamples)*DestSampleSize;
                             if (DestPacketSize<=0) {
                                 ToLog(LOGMSG_CRITICAL,QString("Error in avresample_convert"));
                                 Continue=false;
@@ -851,6 +885,9 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool *Continue) {
             // Init AudioFrame
             avcodec_get_frame_defaults(AudioFrame);
             AudioFrame->nb_samples    =DestPacketSize/DestSampleSize;
+            //AudioFrame->pts           =CurAudioPts;
+            AudioFrame->pts         =CurAudioPts*DestNbrSamples;
+
             #ifdef USELIBAVRESAMPLE
             AudioFrame->format        =AudioStream->codec->sample_fmt;
             AudioFrame->channel_layout=AudioStream->codec->channel_layout;
@@ -862,13 +899,11 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool *Continue) {
             if (errcode>=0) {
                 // Init packet
                 AVPacket pkt;
-                av_init_packet(&pkt);
-                pkt.stream_index=AudioStream->index;
-                pkt.data        =NULL;
-                pkt.size        =0;
-                pkt.pts         =CurAudioPts*AudioFrame->nb_samples;
-
                 int got_packet=0;
+                av_init_packet(&pkt);
+                pkt.size=0;
+                pkt.data=NULL;
+
                 errcode=avcodec_encode_audio2(AudioStream->codec,&pkt,AudioFrame,&got_packet);
                 if (errcode<0) {
                     char Buf[2048];
@@ -876,14 +911,21 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool *Continue) {
                     ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: avcodec_encode_audio2() failed: ")+QString(Buf));
                     *Continue=false;
                 } else {
-                    pkt.flags       |= AV_PKT_FLAG_KEY;
-
-                    if (pkt.pts!=(int64_t)AV_NOPTS_VALUE)   pkt.pts     =av_rescale_q(pkt.pts,AudioStream->codec->time_base,AudioStream->time_base);
-                    if (pkt.dts!=(int64_t)AV_NOPTS_VALUE)   pkt.dts     =av_rescale_q(pkt.dts,AudioStream->codec->time_base,AudioStream->time_base);
-                    if (pkt.duration>0)                     pkt.duration=av_rescale_q(pkt.duration,AudioStream->codec->time_base,AudioStream->time_base);
+                    pkt.flags|=AV_PKT_FLAG_KEY;
+                    #ifndef USELIBAVRESAMPLE
+                    if (AudioStream->codec->coded_frame && AudioStream->codec->coded_frame->pts!=(int64_t)AV_NOPTS_VALUE)
+                        pkt.pts=av_rescale_q(AudioStream->codec->coded_frame->pts,AudioStream->codec->time_base,AudioStream->time_base);
+                    else pkt.pts=CurAudioPts*AudioFrame->nb_samples*1000*AudioStream->codec->time_base.num/AudioStream->codec->time_base.den;
+                    #else
+                    if (pkt.dts!=(int64_t)AV_NOPTS_VALUE) {
+                        pkt.dts=av_rescale_q(pkt.dts,AudioStream->codec->time_base,AudioStream->time_base);
+                        pkt.pts=pkt.dts;
+                    } else if (pkt.pts!=(int64_t)AV_NOPTS_VALUE)  pkt.pts=av_rescale_q(pkt.pts,AudioStream->codec->time_base,AudioStream->time_base);
+                    #endif
 
                     // write the compressed frame in the media file
-//                    qDebug()<<"Audio:  Stream"<<AudioStream->index<<"PTS/DTS="<<pkt.pts<<"/"<<pkt.dts;
+                    //ToLog(LOGMSG_INFORMATION,QString("Audio:  Stream:%1 - Frame:%2 - PTS:%3").arg(AudioStream->index).arg(CurAudioPts).arg(pkt.pts));
+                    pkt.stream_index=AudioStream->index;
                     errcode=av_interleaved_write_frame(Container,&pkt);
                     if (errcode!=0) {
                         char Buf[2048];
@@ -892,6 +934,8 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool *Continue) {
                         *Continue=false;
                     }
                 }
+                //if (pkt.data) av_free(pkt.data);
+                LastAudioPts+=IncreasingAudioPts;
                 CurAudioPts++;
             } else {
                 char Buf[2048];
@@ -911,140 +955,117 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool *Continue) {
 
 //*************************************************************************************************************************************************
 
-void cEncodeVideo::EncodeVideo(cSoundBlockList *ToEncodeMusic,QImage *Image,bool *Continue) {
-    if (AudioStream) EncodeMusic(ToEncodeMusic,Continue);
-    if (!VideoStream) return;
-    if (!Image) {
-        ToLog(LOGMSG_CRITICAL,"EncodeVideo: Image is NULL");
-        *Continue=false;
-        return;
-    }
+void cEncodeVideo::EncodeVideo(cSoundBlockList *ToEncodeMusic,QList<QImage *>*ImageList,bool *Continue) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::EncodeVideo");
+    if ((AudioStream)&&(AudioFrame)) EncodeMusic(ToEncodeMusic,Continue);
 
-    AVFrame *VideoFrame=NULL;
-
-    if ((*Continue)&&(!StopProcessWanted)) {
-        // Allocate VideoFrame and VideoFrameBuf
-        VideoFrame=avcodec_alloc_frame();  // Allocate structure for RGB image
-        if (!VideoFrame) {
-            ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: avcodec_alloc_frame() failed");
-            *Continue=false;
+    if ((VideoStream)&&(ImageList->count()>0)&&(VideoFrameConverter)&&(VideoFrame)) {
+        QImage *Image=ImageList->takeFirst();
+        avcodec_get_frame_defaults(VideoFrame);
+        if (avpicture_fill(
+                (AVPicture *)VideoFrame,            // Frame to prepare
+                VideoFrameBuf,                      // Buffer which will contain the image data
+                VideoStream->codec->pix_fmt,        // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
+                VideoStream->codec->width,          // The width of the image in pixels
+                VideoStream->codec->height          // The height of the image in pixels
+        )!=VideoFrameBufSize) {
+            ToLog(LOGMSG_CRITICAL,"EncodeVideo-EncodeVideo: avpicture_fill() failed for VideoFrameBuf");
             return;
-        } else {
-            avcodec_get_frame_defaults(VideoFrame);
-            unsigned char *VideoFrameBuf=(unsigned char *)av_malloc(avpicture_get_size(VideoStream->codec->pix_fmt,VideoStream->codec->width,VideoStream->codec->height));
-            if (!VideoFrameBuf) {
-                ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: av_malloc() failed for VideoFrameBuf");
-                *Continue=false;
-                return;
-            }
-
-            avpicture_fill(
-                    (AVPicture *)VideoFrame,        // Frame to prepare
-                    VideoFrameBuf,                  // Buffer which will contain the image data
-                    VideoStream->codec->pix_fmt,    // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
-                    VideoStream->codec->width,      // The width of the image in pixels
-                    VideoStream->codec->height      // The height of the image in pixels
-            );
-
         }
-    }
-
-    struct SwsContext *img_convert_ctx=NULL;
-
-    // Apply anamorphous
-    if ((*Continue)&&(!StopProcessWanted)&&(Image->width()!=VideoStream->codec->width)) {
-        QImage *NewImage=new QImage(Image->scaled(QSize(VideoStream->codec->width,Image->height()),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-        delete Image;
-        Image=NewImage;
-    }
-
-    // Apply ExtendV
-    if (Image->height()!=VideoStream->codec->height) {
-        QImage *NewImage=new QImage(VideoStream->codec->width,VideoStream->codec->height,QTPIXFMT);
-        QPainter P;
-        P.begin(NewImage);
-        P.fillRect(QRect(0,0,NewImage->width(),NewImage->height()),Qt::black);
-        P.drawImage(0,(NewImage->height()-Image->height())/2,*Image);
-        P.end();
-        delete Image;
-        Image=NewImage;
-    }
-
-    // Prepare VideoFrame and get a converter from libswscale
-    if ((*Continue)&&(!StopProcessWanted)) {
-        img_convert_ctx=sws_getContext(
-            Image->width(),Image->height(),PIXFMT,                                              // Src Widht,Height,Format
-            VideoStream->codec->width,VideoStream->codec->height,VideoStream->codec->pix_fmt,   // Destination Width,Height,Format
-            SWS_BICUBIC,                                                                        // flags
-            NULL,NULL,NULL);                                                                    // src Filter,dst Filter,param
-        if (!img_convert_ctx) {
-            ToLog(LOGMSG_CRITICAL,"EncodeVideo-ConvertRGBToYUV: sws_getContext() failed");
-            *Continue=false;
-        }
-    }
-
-    // Now, convert image
-    if ((*Continue)&&(!StopProcessWanted)&&(img_convert_ctx)) {
-        uint8_t *data=(uint8_t *)Image->bits();
-        int     LineSize=Image->bytesPerLine();
-        int Ret=sws_scale(
-            img_convert_ctx,        // libswscale converter
-            &data,                  // Source buffer
-            &LineSize,              // Source Stride ?
-            0,                      // Source SliceY:the position in the source image of the slice to process, that is the number (counted starting from zero) in the image of the first row of the slice
-            Image->height(),        // Source SliceH:the height of the source slice, that is the number of rows in the slice
-            VideoFrame->data,       // Destination buffer
-            VideoFrame->linesize    // Destination Stride
-        );
-        if (Ret!=Image->height()) {
-            ToLog(LOGMSG_CRITICAL,"EncodeVideo-ConvertRGBToYUV: sws_scale() failed");
-            *Continue=false;
-        }
-    }
-
-    if (img_convert_ctx) sws_freeContext(img_convert_ctx);
-
-    if ((Continue)&&(!StopProcessWanted)) {
 
         if ((CurVideoPts%VideoStream->codec->gop_size)==0) VideoFrame->pict_type=AV_PICTURE_TYPE_I;
-        VideoFrame->type=FF_BUFFER_TYPE_SHARED;
-        VideoFrame->pts =CurVideoPts;
+        VideoFrame->pts=CurVideoPts;
 
-        int out_size=avcodec_encode_video(VideoStream->codec,EncodeBuffer,EncodeBufferSize,VideoFrame);
-        if (out_size<0) {
-            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: avcodec_encode_video failed"));
-            *Continue=false;
-        } else if (out_size>0) {
+        // Apply ExtendV
+        if ((*Continue)&&(!StopProcessWanted)&&(Image->height()!=VideoStream->codec->height)) {
+            QImage *NewImage=new QImage(VideoStream->codec->width,VideoStream->codec->height,QTPIXFMT);
+            QPainter P;
+            P.begin(NewImage);
+            P.fillRect(QRect(0,0,NewImage->width(),NewImage->height()),Qt::black);
+            P.drawImage(0,(NewImage->height()-Image->height())/2,*Image);
+            P.end();
+            delete Image;
+            Image=NewImage;
+        }
+
+        // Now, convert image
+        if ((*Continue)&&(!StopProcessWanted)) {
+            uint8_t *data   =(uint8_t *)Image->bits();
+            int     LineSize=Image->bytesPerLine();
+            int Ret=sws_scale(
+                VideoFrameConverter,    // libswscale converter
+                &data,                  // Source buffer
+                &LineSize,              // Source Stride ?
+                0,                      // Source SliceY:the position in the source image of the slice to process, that is the number (counted starting from zero) in the image of the first row of the slice
+                Image->height(),        // Source SliceH:the height of the source slice, that is the number of rows in the slice
+                VideoFrame->data,       // Destination buffer
+                VideoFrame->linesize    // Destination Stride
+            );
+            if (Ret!=Image->height()) {
+                ToLog(LOGMSG_CRITICAL,"EncodeVideo-ConvertRGBToYUV: sws_scale() failed");
+                *Continue=false;
+            }
+        }
+
+        if (Image) delete Image;
+
+        if ((*Continue)&&(!StopProcessWanted)) {
 
             AVPacket pkt;
             av_init_packet(&pkt);
-            pkt.stream_index=VideoStream->index;
-            pkt.data        =EncodeBuffer;
-            pkt.size        =out_size;
+            pkt.size=0;
+            pkt.data=NULL;
 
-            if (VideoStream->codec->coded_frame->pts!=(int64_t)AV_NOPTS_VALUE)  pkt.pts   =av_rescale_q(VideoStream->codec->coded_frame->pts,VideoStream->codec->time_base,VideoStream->time_base);
-            if (VideoStream->codec->coded_frame->key_frame)                     pkt.flags|=AV_PKT_FLAG_KEY;
-
-//            qDebug()<<"Video: Stream"<<VideoStream->index<<"PTS/DTS="<<pkt.pts<<"/"<<pkt.dts;
-            int errcode=av_interleaved_write_frame(Container,&pkt);
+            #ifndef USELIBAVRESAMPLE
+            int out_size=avcodec_encode_video(VideoStream->codec,VideoEncodeBuffer,VideoEncodeBufferSize,VideoFrame);
+            if (out_size<0) {
+                ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: avcodec_encode_video failed"));
+                *Continue=false;
+            } else if (out_size>0) {
+                pkt.data=VideoEncodeBuffer;
+                pkt.size=out_size;
+                if (VideoStream->codec->coded_frame && VideoStream->codec->coded_frame->pts!=(int64_t)AV_NOPTS_VALUE)
+                    pkt.pts=av_rescale_q(VideoStream->codec->coded_frame->pts,VideoStream->codec->time_base,VideoStream->time_base);
+            #else
+            int got_packet=0;
+            int errcode=avcodec_encode_video2(VideoStream->codec,&pkt,VideoFrame,&got_packet);
             if (errcode!=0) {
                 char Buf[2048];
                 av_strerror(errcode,Buf,2048);
-                ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: av_interleaved_write_frame failed: ")+QString(Buf));
+                ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: avcodec_encode_video2 failed")+QString(Buf));
                 *Continue=false;
-            }
-        }
+            } else if (got_packet) {
+                if (pkt.dts!=(int64_t)AV_NOPTS_VALUE) {
+                    pkt.dts=av_rescale_q(pkt.dts,VideoStream->codec->time_base,VideoStream->time_base);
+                    pkt.pts=pkt.dts;
+                } else if (pkt.pts!=(int64_t)AV_NOPTS_VALUE)  pkt.pts=av_rescale_q(pkt.pts,VideoStream->codec->time_base,VideoStream->time_base);
+            #endif
 
-        if ((VideoFrame->extended_data)&&(VideoFrame->extended_data!=VideoFrame->data)) {
-            av_free(VideoFrame->extended_data);
-            VideoFrame->extended_data=NULL;
+                if (VideoStream->codec->coded_frame && VideoStream->codec->coded_frame->key_frame) pkt.flags|=AV_PKT_FLAG_KEY;
+
+                // write the compressed frame in the media file
+                //ToLog(LOGMSG_INFORMATION,QString("Video:  Stream:%1 - Frame:%2 - PTS:%3").arg(VideoStream->index).arg(CurVideoPts).arg(pkt.pts));
+                pkt.stream_index=VideoStream->index;
+                int errcode=av_interleaved_write_frame(Container,&pkt);
+                if (errcode!=0) {
+                    char Buf[2048];
+                    av_strerror(errcode,Buf,2048);
+                    ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: av_interleaved_write_frame failed: ")+QString(Buf));
+                    *Continue=false;
+                }
+            }
+
+            #ifdef USELIBAVRESAMPLE
+            //if (pkt.data) av_free(pkt.data);
+            #endif
+
+            if ((VideoFrame->extended_data)&&(VideoFrame->extended_data!=VideoFrame->data)) {
+                av_free(VideoFrame->extended_data);
+                VideoFrame->extended_data=NULL;
+            }
+            LastVideoPts+=IncreasingVideoPts;
+            CurVideoPts++;
         }
-        if (VideoFrame->data[0]) {
-            av_free(VideoFrame->data[0]);
-            VideoFrame->data[0]=NULL;
-        }
-        av_free(VideoFrame);
-        CurVideoPts++;
+        avcodec_flush_buffers(VideoStream->codec);
     }
-    avcodec_flush_buffers(VideoStream->codec);
 }

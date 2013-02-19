@@ -695,6 +695,7 @@ void cCustomSlideTable::dropEvent(QDropEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dropEvent");
 
     IsDragOn=DRAGMODE_NOACTION;
+    GlobalMainWindow->FileList.clear();
 
     QList<QUrl> urlList;
     QString     fName;

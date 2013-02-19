@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 26/01/2013
+* Dernier commit le : 03/02/2013
 **************************************************
 
 TODO :
@@ -36,6 +36,9 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
                         Pour le moment, j'ai réduit la qualité des thumbnails quand plus de 100 images (division par 4)
                         C'est une solution provisoire car l'idéal est de décharger la mémoire si nécessaire et recharger les thumbnails au besoin
 
+-Pb de son en NTFS
+-VLC ne lit pas les sons du MPG
+
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
 NF  : New Feature
@@ -45,24 +48,32 @@ WIP : Work in progress
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige les problèmes de son lors de la prévisualisation en 6 et 8.33 fps à 22050 et 44100 Hz
--Corrige les problèmes de son lors de l'encodage
+-Corrige le bug de découpage des vidéos lors de l'encodage (la vidéo s'encode toujours à partir du début)
+-Corrige le bug d'insertion de photo/video
 
 English version / Bug fixes :
--Fix sound errors during preview using 6 or 8.33 fps with 22050 and 44100 Hz
--Fix sound errors during rendering
+-Fixed bug when switching video encoding (encode the video again from the beginning)
+-Fixed bug insertion photo / video
 
 French version / Nouveautés :
+-Active le nouveau moteur d'encodage pour le le Theora (.ogg), le flash 2005 et le WEBM (libav 0.8.x) et le flash 2005 (libav 9.x)
 
 English version / New features :
+-Activate the new encoding engine for the Theora (. Ogg), Flash 2005 and WEBM (libav 0.8.x) and flash 2005 (libav 9.x)
 
-
-Montage de 31 sec :
-    Linux                   Windows
-    NEW : 12.1 FPS/1:04
-    OLD : 11.1 FPS/1:10
-
-44100 - 6 fps : Wanted len(3672)<>MixedMusic.SoundPacketSize(3674)
-44100 - 8.3 fps : Wanted len(2644)<>MixedMusic.SoundPacketSize(2646)
-22050 - 6 fps : Wanted len(3672)<>MixedMusic.SoundPacketSize(3674)
-22050 - 8.3 fps : Wanted len(2644)<>MixedMusic.SoundPacketSize(2646)
+LIBAV 0.8.x
+                                                Compilation             Son     Video   VLC GStreamer
+    old-divx-3gp        00:29/15.9/3151476      00:26/17.9  3226577     ko      ok      ok
+    old-h264.3gp        00:28/16.8/2496214      ko
+    old-h264p.3gp       00:28/16.7/2733147      ko
+    old-divx-wav.avi    00:29/16.2/6816896      00:26/17.9  6814028     ko      ok      ko  ok
+    old-h264-aac.avi    00:29/16.2/2893036      ko
+    old-mp2-mp2.avi     00:28/16.6/3378420      00:26/17.9  3795600     ko      ok      ko  ok
+    old-h264-aac.mkv    00:28/16.8/2861343      ko
+    old-lossless.mkv    00:27/17.3/13773965     ko
+    old-mjpeg.avi       00:29/16.0/17629396
+    old-mp4.mp4         00:28/16.8/2871731      00:25/18.8/4634472
+ok  old-flv2005.flv     00:29/15.8/4112254      00:26/17.8  4109566     ok      ok      ok  ok
+    old-h264.flv        00:28/16.9/2877903
+ok  old-webm.webm       00:29/12.1/5030581      00:39/12.0/3787118      ok      ok      ok  ok
+ok  old-theora.ogv      00:36/13.1/2576057      00:30/15.6/2575427      ok      ok      ok  ok

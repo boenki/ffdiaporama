@@ -1700,7 +1700,7 @@ void cVideoFile::CloseCodecAndFile() {
 // Read an audio frame from current stream
 //====================================================================================================================
 
-void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
+void cVideoFile::ReadAudioFrame(qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadAudioFrame");
 
     if (Volume==0) return;
@@ -1720,7 +1720,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
     int64_t         AudioLenDecoded     =0;
     uint8_t         *BufferForDecoded   =(uint8_t *)av_malloc(MaxAudioLenDecoded);
     double          dPosition           =double(Position)/1000;     // Position in double format
-    double          AudioLengthWanted   =(PreviewMode?/*1*/2:5)*SoundTrackBloc->WantedDuration;                                                      // 5 frame for rendering
+    double          AudioLengthWanted   =10*(double(SoundTrackBloc->WantedDuration)/1000);    // frames in advance !
 
     bool            Continue        =true;
     double          FramePosition   =dPosition;
@@ -1745,7 +1745,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
 
         // Seek to nearest previous key frame
         ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadAudioFrame => do a seek");
-        int64_t seek_target=av_rescale_q(int64_t((dPosition/1000)*AV_TIME_BASE),AV_TIME_BASE_Q,ffmpegAudioFile->streams[AudioStreamNumber]->time_base);
+        int64_t seek_target=av_rescale_q(int64_t(dPosition/(AV_TIME_BASE/1000)),AV_TIME_BASE_Q,ffmpegAudioFile->streams[AudioStreamNumber]->time_base);
         if (av_seek_frame(ffmpegAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
             // Try in AVSEEK_FLAG_ANY mode
             if (av_seek_frame(ffmpegAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
@@ -1755,7 +1755,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
         FramePosition=-1;
     }
 
-    bool ResamplingContinue=((Position!=0)&&(DiffTimePosition>0)&&(DiffTimePosition<500));
+    bool ResamplingContinue=((Position!=0)&&(DiffTimePosition>=0)&&(DiffTimePosition<500));
 
     //*************************************************************************************************************************************
     // Decoding process : Get StreamPacket until AudioLenDecoded>=AudioDataWanted or we have reach the end of file
@@ -1853,7 +1853,7 @@ void cVideoFile::ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockL
                         if ((FramePosition+FrameDuration)>=dPosition) {
                             int64_t Delta=0;
                             // if dPosition start in the midle of the pack, then calculate delta
-                            if (dPosition>FramePosition) {
+                            if ((!ResamplingContinue)&&(dPosition>FramePosition)) {
                                 Delta=round((dPosition-FramePosition)*SoundTrackBloc->SamplingRate)*DstSampleSize;
                                 if (Delta<0) Delta=0;
                             }
@@ -2470,15 +2470,15 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
 QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ConvertYUVToRGB");
 
-    int W   =ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
-    int H   =ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
-    int NewW=W;
-    int NewH=H;
-    // Reduce image size for preview mode
-    if (PreviewMode && (H>576)) { if ((H==1088)&&(W=1920)) { NewH=542; NewW=960; } else { NewH=540; NewW=NewH*(double(W)/double(H)); } }    // H=540
-    //if (PreviewMode && (H>270)) { if ((H==1088)&&(W=1920)) { NewH=271; NewW=480; } else { NewH=270; NewW=NewH*(double(W)/double(H)); } }    // H=270
+    int W   =FrameBufferYUV->width;  //ffmpegVideoFile->streams[VideoStreamNumber]->codec->width;
+    int H   =FrameBufferYUV->height;    //ffmpegVideoFile->streams[VideoStreamNumber]->codec->height;
+    //int NewW=W;
+    //int NewH=H;
 
-    QImage   RetImage(NewW,NewH,QTPIXFMT);
+    // Reduce image size for preview mode
+    if (PreviewMode && (H>576)) { if ((H==1088)&&(W=1920)) { H=542; W=960; } else { W=540*(double(W)/double(H)); H=540; } }    // H=540
+
+    QImage   RetImage(W,H,QTPIXFMT);
     AVFrame *FrameBufferRGB =avcodec_alloc_frame();  // Allocate structure for RGB image
 
     if (FrameBufferRGB!=NULL) {
@@ -2487,16 +2487,19 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
                 (AVPicture *)FrameBufferRGB,        // Buffer to prepare
                 RetImage.bits(),                    // Buffer which will contain the image data
                 PIXFMT,                             // The format in which the picture data is stored (see http://wiki.aasimon.org/doku.php?id=ffmpeg:pixelformat)
-                NewW,                               // The width of the image in pixels
-                NewH                                // The height of the image in pixels
+                W,                                  // The width of the image in pixels
+                H                                   // The height of the image in pixels
         );
 
         // Get a converter from libswscale
         struct SwsContext *img_convert_ctx=sws_getContext(
-            W,H,ffmpegVideoFile->streams[VideoStreamNumber]->codec->pix_fmt,        // Src Widht,Height,Format
-            NewW,NewH,PIXFMT,                                                             // Destination Width,Height,Format
-            SWS_FAST_BILINEAR/*SWS_BICUBIC*/,                                       // flags
-            NULL,NULL,NULL);                                                        // src Filter,dst Filter,param
+            FrameBufferYUV->width,                                                  // Src width
+            FrameBufferYUV->height,                                                 // Src height
+            (PixelFormat)FrameBufferYUV->format,                                    // Src Format
+            W,                                                                      // Destination width
+            H,                                                                      // Destination height
+            PIXFMT,                                                                 // Destination Format
+            SWS_BICUBIC,NULL,NULL,NULL);                                            // flags,src Filter,dst Filter,param
 
         if (img_convert_ctx!=NULL) {
             int ret = sws_scale(
@@ -2504,15 +2507,13 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
                 FrameBufferYUV->data,                                               // Source buffer
                 FrameBufferYUV->linesize,                                           // Source Stride ?
                 0,                                                                  // Source SliceY:the position in the source image of the slice to process, that is the number (counted starting from zero) in the image of the first row of the slice
-                H,                                                                  // Source SliceH:the height of the source slice, that is the number of rows in the slice
+                FrameBufferYUV->height,                                             // Source SliceH:the height of the source slice, that is the number of rows in the slice
                 FrameBufferRGB->data,                                               // Destination buffer
                 FrameBufferRGB->linesize                                            // Destination Stride
             );
             if (ret>0) {
                 if      ((ApplicationConfig->Crop1088To1080)&&(RetImage.height()==1088)&&(RetImage.width()==1920))  RetImage=RetImage.copy(0,4,1920,1080);
                 else if ((ApplicationConfig->Crop1088To1080)&&(RetImage.height()==542)&&(RetImage.width()==960))    RetImage=RetImage.copy(0,2,960,540);
-                //else if ((ApplicationConfig->Crop1088To1080)&&(RetImage.height()==271)&&(RetImage.width()==480)) RetImage=RetImage.copy(0,1,480,270);
-                //FinalImage=new QImage(RetImage.convertToFormat(QImage::Format_ARGB32_Premultiplied)); // Force to ARGB32
             }
             sws_freeContext(img_convert_ctx);
         }
@@ -2539,8 +2540,7 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,cSoundBlockList 
     QImage *LoadedImage=NULL;
 
     if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)&&(SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS))
-        ReadAudioFrame(PreviewMode,Position,SoundTrackBloc,Volume,DontUseEndPos);
-
+        ReadAudioFrame(Position,SoundTrackBloc,Volume,DontUseEndPos);
 
     if ((!MusicOnly)&&(!ForceSoundOnly)) {
         LoadedImage=ReadVideoFrame(PreviewMode,Position,DontUseEndPos,Deinterlace);
@@ -2552,15 +2552,15 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,cSoundBlockList 
                 delete LoadedImage;
                 LoadedImage =NewImage;
             }
-
+//ICI
             // Scale image if anamorphous
-            if (AspectRatio!=1) {
+            /*if (AspectRatio!=1) {
                 ImageWidth =int(double(LoadedImage->width())*AspectRatio);
                 ImageHeight=LoadedImage->height();
                 QImage *NewLoadedImage=new QImage(LoadedImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
                 delete LoadedImage;
                 LoadedImage=NewLoadedImage;
-            }
+            }*/
         }
 
     }
@@ -2604,7 +2604,6 @@ bool cVideoFile::OpenCodecAndFile() {
 
         // Find the decoder for the audio stream and open it
         AudioDecoderCodec=avcodec_find_decoder(ffmpegAudioFile->streams[AudioStreamNumber]->codec->codec_id);
-        IsVorbis=(strcmp(AudioDecoderCodec->name,"vorbis")==0);
 
         // Setup decoder options
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
@@ -2617,6 +2616,8 @@ bool cVideoFile::OpenCodecAndFile() {
         ffmpegAudioFile->streams[AudioStreamNumber]->codec->error_concealment=3;
 
         if ((AudioDecoderCodec==NULL)||(avcodec_open2(ffmpegAudioFile->streams[AudioStreamNumber]->codec,AudioDecoderCodec,NULL)<0)) return false;
+
+        IsVorbis=(strcmp(AudioDecoderCodec->name,"vorbis")==0);
         IsOpen=true;
     }
 
@@ -2669,6 +2670,7 @@ bool cVideoFile::OpenCodecAndFile() {
         }
 
         // Get Aspect Ratio
+
         AspectRatio=double(ffmpegVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.num)/double(ffmpegVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.den);
 
         if (ffmpegVideoFile->streams[VideoStreamNumber]->sample_aspect_ratio.num!=0)
@@ -2710,8 +2712,8 @@ bool cVideoFile::OpenCodecAndFile() {
                                 ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::OpenCodecAndFile : avcodec_decode_video2 return an error");
                             if (FrameDecoded>0) {
                                 int64_t pts=AV_NOPTS_VALUE;
-                                if ((FrameBufferYUV->pkt_dts==(int64_t)AV_NOPTS_VALUE)&&(FrameBufferYUV->pkt_pts!=(int64_t)AV_NOPTS_VALUE)) pts = FrameBufferYUV->pkt_pts; else pts = FrameBufferYUV->pkt_dts;
-                                if (pts==(int64_t)AV_NOPTS_VALUE) pts = 0;
+                                if ((FrameBufferYUV->pkt_dts==(int64_t)AV_NOPTS_VALUE)&&(FrameBufferYUV->pkt_pts!=(int64_t)AV_NOPTS_VALUE)) pts=FrameBufferYUV->pkt_pts; else pts=FrameBufferYUV->pkt_dts;
+                                if (pts==(int64_t)AV_NOPTS_VALUE) pts=0;
                                 FramePosition         =double(pts)*FrameTimeBase;
                                 FrameBufferYUVReady   =true;                            // Keep actual value for FrameBufferYUV
                                 FrameBufferYUVPosition=int(FramePosition*1000);         // Keep actual value for FrameBufferYUV

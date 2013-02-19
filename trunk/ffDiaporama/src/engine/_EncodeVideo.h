@@ -30,74 +30,69 @@
 
 class cEncodeVideo {
 public:
-    cDiaporama      *Diaporama;
-    bool            IsOpen;
-    QString         OutputFileName;
-    sFormatDef      *FormatDef;                     // Link to FormatDef or NULL if error
-    sVideoCodecDef  *VideoCodecDef;                 // Link to VideoCodecDef or NULL if no video part
-    sAudioCodecDef  *AudioCodecDef;                 // Link to AudioCodecDef or NULL if no audio part
+    cDiaporama          *Diaporama;
+    bool                IsOpen;
 
-    AVOutputFormat  OutputFormat;
-    AVCodec         *VideoCodec,*AudioCodec;
-    AVFormatContext *Container;
-    AVStream        *VideoStream,*AudioStream;
-    int             VideoStreamNbr,AudioStreamNbr;  // Stream number
+    // Container parameters & buffers
+    QString             OutputFileName;
+    int                 FromSlide,ToSlide;
+    qlonglong           NbrFrame;                       // Number of frame to generate
+    AVFormatContext     *Container;
 
-    // Audio buffers
-    AVFrame         *AudioFrame;
+    // Video parameters & buffers
+    int64_t             LastVideoPts;
+    int64_t             IncreasingVideoPts;
+    int64_t             CurVideoPts;
+    AVStream            *VideoStream;
+    AVRational          VideoFrameRate;
+    double              dFPS;
+    int                 InternalWidth,InternalHeight,ExtendV;
+    AVFrame             *VideoFrame;
+    struct SwsContext   *VideoFrameConverter;           // Converter from QImage to YUV image
+    uint8_t             *VideoEncodeBuffer;             // Buffer for encoded image
+    int                 VideoEncodeBufferSize;          // Buffer for encoded image
+    int64_t             VideoFrameBufSize;
+    uint8_t             *VideoFrameBuf;
 
-    // Video buffers
-    QList<AVFrame*> VideoFrameList;
-    uint8_t         *EncodeBuffer;
-    int             EncodeBufferSize;
-
-    // Global settings
-    int             InternalWidth,InternalHeight;
-    int             FromSlide,ToSlide;
-
-    // Video parameters
-    double          VideoFrameRate;
-
-    // Audio parameters
-    int             AudioChannels;
-    int             AudioBitrate;
-    int             AudioSampleRate;
-
-    bool            StopProcessWanted;              // True if user click on cancel or close during encoding process
-    qlonglong       NbrFrame;                       // Number of frame to generate
-    int64_t         CurAudioPts,CurVideoPts;
-    QTime           StartTime;                      // Time the process start
-    QTime           LastCheckTime;                  // Last time the loop start
-
-    uint8_t                 *RPCK;
+    // Audio parameters & buffers
+    int64_t             LastAudioPts;
+    int64_t             IncreasingAudioPts;
+    int64_t             CurAudioPts;
+    AVStream            *AudioStream;
+    int                 AudioChannels,AudioBitrate,AudioSampleRate;
+    AVFrame             *AudioFrame;
+    uint8_t             *AudioResamplerBuffer;          // Buffer for sampled audio
     #ifdef USELIBAVRESAMPLE
-    AVAudioResampleContext  *RSC;
+    AVAudioResampleContext  *AudioResampler;            // Audio resampler
     #else
-    ReSampleContext         *RSC;
+    ReSampleContext         *AudioResampler;            // Audio resampler
     #endif
 
-    QLabel          *ElapsedTimeLabel,*SlideNumberLabel,*FrameNumberLabel,*FPSLabel;
-    QProgressBar    *SlideProgressBar,*TotalProgressBar;
+    // Progress display settings
+    bool                StopProcessWanted;              // True if user click on cancel or close during encoding process
+    QTime               StartTime;                      // Time the process start
+    QTime               LastCheckTime;                  // Last time the loop start
+    QLabel              *ElapsedTimeLabel,*SlideNumberLabel,*FrameNumberLabel,*FPSLabel;
+    QProgressBar        *SlideProgressBar,*TotalProgressBar;
 
     cEncodeVideo();
     ~cEncodeVideo();
 
     bool            OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int FromSlide,int ToSlide,
-                        bool EncodeVideo,int VideoCodecId,int VideoCodecSubId,double FPS,int ImageWidth,int ImageHeight,int InternalWidth,int InternalHeight,AVRational PixelAspectRatio,int VideoBitrate,
+                        bool EncodeVideo,int VideoCodecId,int VideoCodecSubId,AVRational FPS,int ImageWidth,int ImageHeight,int ExtendV,int InternalWidth,int InternalHeight,AVRational PixelAspectRatio,int VideoBitrate,
                         bool EncodeAudio,int AudioCodecId,int AudioChannels,int AudioBitrate,int AudioSampleRate,QString Language);
     bool            DoEncode();
     void            CloseEncoder();
 
 private:
-    bool            OpenVideoStream(int VideoCodecSubId,double VideoFrameRate,int ImageWidth,int ImageHeight,AVRational PixelAspectRatio,int VideoBitrate);
-    bool            OpenAudioStream(int AudioChannels,int AudioBitrate,int AudioSampleRate,QString Language);
+    bool            OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecSubId,AVRational VideoFrameRate,int ImageWidth,int ImageHeight,AVRational PixelAspectRatio,int VideoBitrate);
+    bool            OpenAudioStream(sAudioCodecDef *AudioCodecDef,int AudioChannels,int AudioBitrate,int AudioSampleRate,QString Language);
     bool            PrepareTAG(QString Language);
     void            DisplayProgress(qlonglong RenderedFrame,qlonglong Position,int Column,int ColumnStart);
     QString         AdjustMETA(QString Text);
-    AVRational      GetCodecTimeBase(const AVCodec *m_avVideoCodec,double FPS);
 
     void            EncodeMusic(cSoundBlockList *ToEncodeMusic,bool *Continue);
-    void            EncodeVideo(cSoundBlockList *ToEncodeMusic,QImage *Image,bool *Continue);
+    void            EncodeVideo(cSoundBlockList *ToEncodeMusic,QList<QImage *>*ImageList,bool *Continue);
 };
 
 #endif // _ENCODEVIDEO_H

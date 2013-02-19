@@ -33,9 +33,9 @@ extern "C" {
 
 // Functions to manage SDL library
 void SDLAudioCallback(void *,Uint8 *stream,int len);
-void SDLFirstInit(double WantedFPS,bool SDLAncMode,int64_t SamplingRate);
+void SDLFirstInit(double WantedDuration,bool SDLAncMode,int64_t SamplingRate);
 void SDLLastClose();
-void SDLSetFPS(double WantedFPS,bool SDLAncMode,int64_t SamplingRate);
+void SDLSetFPS(double WantedDuration,bool SDLAncMode,int64_t SamplingRate);
 void SDLFlushBuffers();
 
 // SDL Version of the
@@ -49,7 +49,6 @@ public:
 
 // SDL global define values
 extern bool                SDLIsAudioOpen;          // true if SDL work at least one time
-extern double              SDLCurrentFPS;           // Current FPS setting for SDL
 extern SDL_AudioSpec       AudioSpec;               // SDL param bloc
 extern cSDLSoundBlockList  MixedMusic;              // Sound to play
 

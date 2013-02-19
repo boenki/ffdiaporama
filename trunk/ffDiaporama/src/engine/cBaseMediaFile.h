@@ -298,7 +298,7 @@ public:
 
     virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,bool DontUseEndPos);
     virtual QImage          *ReadVideoFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace);
-    virtual void            ReadAudioFrame(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
+    virtual void            ReadAudioFrame(qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
     virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
 
     virtual void            CloseResampler();

@@ -52,20 +52,18 @@ cSoundBlockList::~cSoundBlockList() {
 //====================================================================================================================
 // Prepare and calculate values for a frame rate
 //====================================================================================================================
-void cSoundBlockList::SetFPS(double TheFPS,int TheChannels,int64_t TheSamplingRate,enum AVSampleFormat TheSampleFormat) {
+void cSoundBlockList::SetFPS(double TheWantedDuration,int TheChannels,int64_t TheSamplingRate,enum AVSampleFormat TheSampleFormat) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFPS");
 
-    FPS            =TheFPS;
     SamplingRate   =TheSamplingRate;
     SampleFormat   =TheSampleFormat;
     Channels       =TheChannels;
 
-    WantedDuration =(double(AV_TIME_BASE)/FPS)/(1000*1000); //double(1)/FPS;
-    //if ((WantedDuration>=double(0.033))&&(WantedDuration<=double(0.035))) WantedDuration=0.03337;
-    SoundPacketSize=int(WantedDuration*double(SamplingRate))*SampleBytes*Channels;
-
+    WantedDuration =TheWantedDuration;
     NbrPacketForFPS=1;
-    dDuration      =WantedDuration;
+    dDuration      =double(WantedDuration)/1000;
+    SoundPacketSize=int(dDuration*double(SamplingRate))*SampleBytes*Channels;
+
     while (SoundPacketSize>MAXSOUNDPACKETSIZE) {
         SoundPacketSize =SoundPacketSize/2;
         dDuration       =dDuration/2;
@@ -88,15 +86,9 @@ void cSoundBlockList::SetFrameSize(int FrameSize,int TheChannels,int64_t TheSamp
     SampleFormat   =TheSampleFormat;
     SoundPacketSize=FrameSize;
     Channels       =TheChannels;
-    //WantedDuration =double(SoundPacketSize)/(double(SamplingRate)*double(SampleBytes)*double(Channels));
-    //FPS            =1/WantedDuration;
     NbrPacketForFPS=1;
-    //dDuration      =WantedDuration;
-    //while (FPS>30) {
-    //        WantedDuration *=2;
-    //        FPS            /=2;
-    //}
-    dDuration=double(SoundPacketSize)/(double(SamplingRate)*double(SampleBytes)*double(Channels));
+    dDuration      =double(SoundPacketSize)/(double(SamplingRate)*double(SampleBytes)*double(Channels));
+    WantedDuration =dDuration*1000;
     if (TempData) {
         av_free(TempData);
         TempData=NULL;
