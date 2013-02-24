@@ -168,13 +168,14 @@ void DlgTransitionProperties::DoGlobalUndo() {
 
 //====================================================================================================================
 
-void DlgTransitionProperties::DoAccept() {
+bool DlgTransitionProperties::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::DoAccept");
 
     DiaporamaObject->TransitionFamilly  =ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
     DiaporamaObject->TransitionSubType  =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
     DiaporamaObject->TransitionDuration =qlonglong(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
     DiaporamaObject->TransitionSpeedWave=ui->SpeedWaveCB->GetCurrentValue();
+    return true;
 }
 
 //====================================================================================================================

@@ -43,7 +43,6 @@ public:
     cDiaporama      *Diaporama;
     int             ExportMode;                     // Export mode (smartphone, advanced, etc...)
     bool            StopSpinboxRecursion;
-    bool            StopProcessWanted;              // True if user click on cancel or close during encoding process
     int             Extend;                         // amout of padding (top and bottom) for cinema mode with DVD
     int             VideoCodecIndex;                // Index of video codec
     int             AudioCodecIndex;                // Index of audio codec
@@ -79,7 +78,7 @@ public:
 
     // function to be overloaded
     virtual void    DoInitDialog();                             // Initialise dialog
-    virtual void    DoAccept();                                 // Call when user click on Ok button
+    virtual bool    DoAccept();                                 // Call when user click on Ok button
     virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
     virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
     virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
@@ -91,6 +90,7 @@ protected:
     virtual void    reject();
 
 private slots:
+    void            SwitchToRenderMode();
     void            ProjectProperties();
     void            InitImageSizeCombo(int);
     void            SelectDestinationFile();
@@ -115,7 +115,6 @@ private:
     QString         AdjustMETA(QString Text,bool AddBreak=true);
 
     bool            ComputeVideoPart(QString &vCodec);
-    bool            ComputeAudioPart(QString &aCodec);
     bool            ComputeTAGPart(  QString &aTAG,bool WithChapters);
 
     QStringList     StringToSortedStringList(QString String);

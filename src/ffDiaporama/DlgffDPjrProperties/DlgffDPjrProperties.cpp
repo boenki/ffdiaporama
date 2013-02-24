@@ -89,7 +89,7 @@ DlgffDPjrProperties::~DlgffDPjrProperties() {
 //====================================================================================================================
 // Call when user click on Ok button
 
-void DlgffDPjrProperties::DoAccept() {
+bool DlgffDPjrProperties::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoAccept");
 
     if (IsPrjCreate) ffdProject->ImageGeometry=ui->GeometryCombo->currentIndex();
@@ -102,4 +102,5 @@ void DlgffDPjrProperties::DoAccept() {
     ffdProject->TransitionSpeedWave         =ui->TransitionSpeedWaveCB->GetCurrentValue();
     ffdProject->BlockAnimSpeedWave          =ui->BlockSpeedWaveCB->GetCurrentValue();
     ffdProject->ImageAnimSpeedWave          =ui->ImageSpeedWaveCB->GetCurrentValue();
+    return true;
 }

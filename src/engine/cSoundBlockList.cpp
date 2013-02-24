@@ -147,7 +147,7 @@ void cSoundBlockList::AppendData(int16_t *Data,int64_t DataLen) {
     uint8_t *CurData=(uint8_t *)Data;
     // Cut data to Packet
     while ((DataLen+CurrentTempSize>=SoundPacketSize)) {
-        #ifndef USELIBAVRESAMPLE
+        #ifdef LIBAV_08
             uint8_t *Packet=(uint8_t *)av_malloc(SoundPacketSize+8);
         #else
             uint8_t *Packet=NULL;

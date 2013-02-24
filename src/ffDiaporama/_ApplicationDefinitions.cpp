@@ -150,21 +150,11 @@ void cApplicationConfig::InitValues() {
 
     #ifdef Q_OS_WIN
         PipeThread              = true;                         // if true, use thread for pipe operation
-        LastProjectPath         = WINDOWS_DOCUMENTS;            // Last folder use for project
-        LastRenderVideoPath     = WINDOWS_VIDEO;                // Last folder use for render video
-        LastCaptureImage        = WINDOWS_PICTURES;             // Last folder use for captured image
-        if (LastRenderVideoPath=="") LastRenderVideoPath=WINDOWS_DOCUMENTS;
         SDLAudioOldMode         = false;                        // If true SDL audio use old mode sample instead byte
-        QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
-        CurrentPath=Settings.value("Personal").toString();
     #endif
     #ifdef Q_WS_X11
         PipeThread              = false;                        // if true, use thread for pipe operation
-        LastProjectPath         = QDir::home().absolutePath();  // Last folder use for project
-        LastRenderVideoPath     = QDir::home().absolutePath();  // Last folder use for render video
-        LastCaptureImage        = QDir::home().absolutePath();  // Last folder use for captured image
         SDLAudioOldMode         = true;                         // If true SDL audio use old mode sample instead byte
-        CurrentPath="~";   // User home folder
     #endif
 
     // Init collections

@@ -49,8 +49,9 @@ void DlgSlideDuration::DoInitDialog() {
 
 //====================================================================================================================
 
-void DlgSlideDuration::DoAccept() {
+bool DlgSlideDuration::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideDuration::DoAccept");
     Duration=QTime(0,0,0,0).msecsTo(ui->ShotDurationED->time());
+    return true;
 }
 

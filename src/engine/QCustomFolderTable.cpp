@@ -217,8 +217,8 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
 QCustomFolderTable::QCustomFolderTable(QWidget *parent):QTableWidget(parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::QCustomFolderTable");
 
-    DefaultModel            =model();           // Save default QAbstractItemModel
-    DefaultDelegate         =itemDelegate();    // Save default QAbstractItemDelegate
+    DefaultModel            =model();               // Save default QAbstractItemModel
+    DefaultDelegate         =itemDelegate();        // Save default QAbstractItemDelegate
     IconDelegate            =(QAbstractItemDelegate *)new QCustomStyledItemDelegate(this);
     ApplicationConfig       =NULL;
     StopAllEvent            =false;
@@ -514,9 +514,10 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
     verticalHeader()->hide();
     verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
 
+    setItemDelegate(IconDelegate);
+
     switch (CurrentMode) {
         case DISPLAY_ICON100 :
-            setItemDelegate(IconDelegate);
             setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             setSelectionBehavior(QAbstractItemView::SelectItems);
             horizontalHeader()->hide();
@@ -525,8 +526,6 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
             break;
 
         case DISPLAY_DATA :
-            setItemDelegate(IconDelegate);
-            //setItemDelegate(DefaultDelegate);
             setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
             setSelectionBehavior(QAbstractItemView::SelectRows);
             horizontalHeader()->show();
@@ -990,14 +989,10 @@ QList<cBaseMediaFile*> QCustomFolderTable::GetCurrentSelectedMediaFile() const {
     QList<cBaseMediaFile*>  SelMediaList;
     QModelIndexList         SelList=selectionModel()->selectedIndexes();
     if (CurrentMode==DISPLAY_DATA) {
-        int CurrentRow=-1;
-        for (int i=0;i<SelList.count();i++) {
-            int Row   =SelList[i].row();
-            if ((Row<MediaList.count())&&(CurrentRow!=Row)) {
-                CurrentRow=Row;
-                SelMediaList.append(MediaList[Row]);
-            }
-        }
+        QList<int> List;
+        for (int i=0;i<MediaList.count();i++) List.append(0);
+        for (int i=0;i<SelList.count();i++) List[SelList[i].row()]=1;
+        for (int i=0;i<List.count();i++) if (List[i]==1) SelMediaList.append(MediaList[i]);
     } else {
         for (int i=0;i<SelList.count();i++) {
             int Col   =SelList[i].column();

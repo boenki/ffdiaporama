@@ -113,18 +113,6 @@ void DlgFileExplorer::DoInitDialog() {
 
 //====================================================================================================================
 
-void DlgFileExplorer::DoAccept() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::DoAccept");
-}
-
-//====================================================================================================================
-
-void DlgFileExplorer::DoRejet() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::DoRejet");
-}
-
-//====================================================================================================================
-
 void DlgFileExplorer::PrepareGlobalUndo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::PrepareGlobalUndo");
 }

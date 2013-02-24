@@ -103,7 +103,6 @@ public:
     enum    FilterFile          {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
     enum    LoadConfigFileType  {USERCONFIGFILE,GLOBALCONFIGFILE};
 
-    QString                 PathEXIV2;                                  // Filename with path to exiv2 binary
     QString                 BinaryEncoderPath;                          // Filename with path to binary encoder ffmpeg or avconv
 
     bool                    RasterMode;                                 // Enable or disable raster mode [Linux only]
@@ -119,6 +118,10 @@ public:
     bool                    RememberLastDirectories;                    // If true, Remember all directories for future use
     QString                 LastMediaPath;                              // Last folder use for image/video
     QString                 LastMusicPath;                              // Last folder use for music
+    QString                 LastProjectPath;                            // Last folder use for project
+    QString                 LastRenderVideoPath;                        // Last folder use for render video
+    QString                 LastCaptureImage;                           // Last folder use for captured image
+    QString                 CurrentPath;                                // Currently shown path in browser widget
 
     // Other
     bool                    Smoothing;                                  // True do smoothing in preview

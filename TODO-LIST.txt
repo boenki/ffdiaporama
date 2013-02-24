@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 03/02/2013
+* Dernier commit le : 19/02/2013
 **************************************************
 
 TODO :
@@ -36,7 +36,6 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
                         Pour le moment, j'ai réduit la qualité des thumbnails quand plus de 100 images (division par 4)
                         C'est une solution provisoire car l'idéal est de décharger la mémoire si nécessaire et recharger les thumbnails au besoin
 
--Pb de son en NTFS
 -VLC ne lit pas les sons du MPG
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
@@ -44,36 +43,86 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
 NF  : New Feature
 WIP : Work in progress
 
+Problèmes                   libav 0.8.x             libav 9.x
+    flv2005 h263/mp3        vlc=ok,gs=ok,ffd=ok     vlc=ok,ffx=ok,ffd=ok
+
+    ogv     vp3/vorbis      vlc=ok,gs=ok,ffd=KO     vlc=ok,ffx=ok,ffd=KO    => VP3 error: First frame not a key frame
+
+    webm    vp8/vorbis      vlc=ok,gs=ok,ffd=ok     vlc=KO,ffx=KO,ffd=KO    => seek error
+
+    3gp     divx/amr-nb     vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=KO,ffd=ok     => no sound with media player
+            divx/amr-wb     vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=KO,ffd=ok     => no sound with media player
+
+    avi     divx/ac3        vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=ok,ffd=ok
+            divx/mp2        vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=ok,ffd=ok
+            divx/mp3        vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=ok,ffd=ok
+            divx/wav        vlc=KO,gs=ok,ffd=KO                             => Old encoder
+            mp2/ac3         vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=KO,ffd=ok     => no image with media player
+            mp2/mp2         vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=KO,ffd=ok     => no image with media player
+            mp2/mp3         vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=KO,ffd=ok     => no image with media player
+            mp2/wav         vlc=KO,gs=ok,ffd=KO                             => Old encoder
+            mjpeg/ac3                               vlc=ok,MP=ok,ffd=ok
+            mjpeg/mp2                               vlc=ok,MP=ok,ffd=ok
+            mjpeg/mp3                               vlc=ok,MP=ok,ffd=ok
+            mjpeg/wav       vlc=KO,gs=ok,ffd=KO                             => Old encoder
+
+    mpg     mp2/ac3         vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=ok,ffd=ok
+            mp2/mp2         vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=ok,ffd=ok
+
+    mp4     divx/aac        vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=ok,ffd=OK     => ffd/Win error: sound read as mono
+            divx/mp3        vlc=ok,gs=ok,ffd=ok     vlc=ok,MP=ok,ffd=ok
+
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
 French version / Correction de bug :
--Corrige le bug de découpage des vidéos lors de l'encodage (la vidéo s'encode toujours à partir du début)
--Corrige le bug d'insertion de photo/video
+-Corrige un bug de sélection multiple dans l'explorateur de fichiers en vue détaillée
+-Corrige le bug de décodage des vidéos avec anamorphisme [regression de la version  précédente]
+-Corrige le bug d'encodage du son en 3ga (export de piste son) libav 0.8.x/9.x
+-Corrige un bug dans la boite de génération : Quand le son est décoché, si on change de format, les controles liés au son sont réactivés
 
 English version / Bug fixes :
--Fixed bug when switching video encoding (encode the video again from the beginning)
--Fixed bug insertion photo / video
+-Fixed a bug with multiple selection in file explorer detailed view
+-Fixed bug with decoding video anamorphism [regression from the previous version]
+-Fixed the bug of encoding sound using 3ga format (export soundtrack) libav 0.8.x/9.x
+-Fixed a bug in the render dialog: When the sound is unchecked, if you change the format, the controls are reactivated
 
 French version / Nouveautés :
--Active le nouveau moteur d'encodage pour le le Theora (.ogg), le flash 2005 et le WEBM (libav 0.8.x) et le flash 2005 (libav 9.x)
+-Active le nouveau moteur d'encodage pour de nombreux formats
+-Modifie la boite de dialogue de génération pour qu'elle ne se ferme plus lors de la sélection de paramétres incohérents
+-Améliore la réactivité du bouton "Cancel" dans la boite de génération pour stopper une génération en cours
+-Ajoute l'affichage du titre de la musique sur la diapo dans la barre de temps
+
+-Evolution des langues prises en charge :
+ -Ajoute la prise en charge du Taïwanais (-lang=zh_tw) et des langues contenant un sous code
+ -De nouveaux contributeurs ont rejoint l'équipe et ont mis à jours les fichiers de langue :
+        fr    : 100%
+        it    : 98%
+        de    : 98%
+        nl    : 90%  => Nous avons besoin d'un nouveau contributeur pour reprendre ce travail
+        es    : 100%
+        pt    : 100% => Nouveau contributeur
+        ru    : 50%  => Nouveau contributeur
+        el    : 98%
+        cz    : 25%  => Nous avons besoin d'un nouveau contributeur pour reprendre ce travail
+        zh_tw : 50%  => Nouveau contributeur
 
 English version / New features :
--Activate the new encoding engine for the Theora (. Ogg), Flash 2005 and WEBM (libav 0.8.x) and flash 2005 (libav 9.x)
+-Actives new encoding engine for many formats
+-Changes in render dialog : box no longer closes when selecting inconsistent parameters
+-Improves responsiveness of "Cancel" button in the render dialog box stop current render
+-Adds display of music title on the slide in the timeline
 
-LIBAV 0.8.x
-                                                Compilation             Son     Video   VLC GStreamer
-    old-divx-3gp        00:29/15.9/3151476      00:26/17.9  3226577     ko      ok      ok
-    old-h264.3gp        00:28/16.8/2496214      ko
-    old-h264p.3gp       00:28/16.7/2733147      ko
-    old-divx-wav.avi    00:29/16.2/6816896      00:26/17.9  6814028     ko      ok      ko  ok
-    old-h264-aac.avi    00:29/16.2/2893036      ko
-    old-mp2-mp2.avi     00:28/16.6/3378420      00:26/17.9  3795600     ko      ok      ko  ok
-    old-h264-aac.mkv    00:28/16.8/2861343      ko
-    old-lossless.mkv    00:27/17.3/13773965     ko
-    old-mjpeg.avi       00:29/16.0/17629396
-    old-mp4.mp4         00:28/16.8/2871731      00:25/18.8/4634472
-ok  old-flv2005.flv     00:29/15.8/4112254      00:26/17.8  4109566     ok      ok      ok  ok
-    old-h264.flv        00:28/16.9/2877903
-ok  old-webm.webm       00:29/12.1/5030581      00:39/12.0/3787118      ok      ok      ok  ok
-ok  old-theora.ogv      00:36/13.1/2576057      00:30/15.6/2575427      ok      ok      ok  ok
+-Evolution of supported languages​​:
+ -Adds support for Taiwanese (-lang = zh_tw) and languages ​​with a sub code
+ -New contributors have joined the team and have to day language files:
+     fr    : 100%
+     it    : 98%
+     de    : 98%
+     nl    : 90%  => We need a new contributor to resume this work
+     es    : 100%
+     pt    : 100% => New contributor
+     ru    : 50%  => New contributor
+     el    : 98%
+     cz    : 25%  => We need a new contributor to resume this work
+     zh_tw : 50%  => New contributor

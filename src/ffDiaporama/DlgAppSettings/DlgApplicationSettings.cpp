@@ -102,9 +102,6 @@ void DlgApplicationSettings::DoInitDialog() {
     // Video options
     ui->Crop1088To1080CB->setChecked(ApplicationConfig->Crop1088To1080);
     ui->DeinterlaceCB->setChecked(ApplicationConfig->Deinterlace);
-    #ifndef VIDEO_LIBAVFILTER
-    ui->DeinterlaceCB->setEnabled(false);
-    #endif
 
     //********************************
     // Project TAB
@@ -211,14 +208,14 @@ void DlgApplicationSettings::DoInitDialog() {
     //********************************
 
     // Init format container combo
-    for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) {
+    for (int i=0;i<VFORMAT_NBR;i++) if (FORMATDEF[i].IsFind) {
         ui->FileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
         if (i==ApplicationConfig->DefaultFormat) ui->FileFormatCB->setCurrentIndex(ui->FileFormatCB->count()-1);
     }
     if (ui->FileFormatCB->currentIndex()<0) ui->FileFormatCB->setCurrentIndex(0);
 
     // Init format container combo for soundtrack export
-    for (int i=0;i<NBR_AUDIOFORMATDEF;i++) if (AUDIOFORMATDEF[i].IsFind) {
+    for (int i=0;i<NBR_AFORMAT;i++) if (AUDIOFORMATDEF[i].IsFind) {
         ui->SoundtrackFileFormatCB->addItem(AUDIOFORMATDEF[i].LongName,QVariant(i));
         if (i==ApplicationConfig->DefaultSoundtrackFormat) ui->SoundtrackFileFormatCB->setCurrentIndex(ui->SoundtrackFileFormatCB->count()-1);
     }
@@ -358,7 +355,7 @@ QStringList DlgApplicationSettings::StringToSortedStringList(QString String) {
 //====================================================================================================================
 // Call when user click on Ok button
 
-void DlgApplicationSettings::DoAccept() {
+bool DlgApplicationSettings::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DoAccept");
 
     // Application options part
@@ -431,7 +428,7 @@ void DlgApplicationSettings::DoAccept() {
         CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("DlgApplicationSettings","Language selection"),
             QApplication::translate("DlgApplicationSettings","Language must be empty or an ISO 639 language code (3 characters)\nSee help for more details!"));
         ui->LanguageED->setFocus();
-        return;
+        return false;
     }
     ApplicationConfig->DefaultNameProjectName   =ui->DefaultNameProjectNameCB->currentIndex();
     ApplicationConfig->DefaultStandard          =ui->StandardCombo->currentIndex();
@@ -471,6 +468,7 @@ void DlgApplicationSettings::DoAccept() {
     i=0;
     while ((i<ApplicationConfig->DeviceModelList.RenderDeviceModel.count())&&(Text!=ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceName)) i++;
     if ((i<ApplicationConfig->DeviceModelList.RenderDeviceModel.count())&&(Text==ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceName)) ApplicationConfig->DefaultForTheWEBModel=ApplicationConfig->DeviceModelList.RenderDeviceModel[i]->DeviceIndex;
+    return true;
 }
 
 //====================================================================================================================

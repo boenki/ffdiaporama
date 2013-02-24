@@ -58,7 +58,7 @@ public:
 
     // function to be overloaded
     virtual void            DoInitDialog();                             // Initialise dialog
-    virtual void            DoAccept();                                 // Call when user click on Ok button
+    virtual bool            DoAccept();                                 // Call when user click on Ok button
     virtual void            DoRejet() { /* Nothing to do */ }           // Call when user click on Cancel button
     virtual void            PrepareGlobalUndo();                        // Initiale Undo
     virtual void            DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button

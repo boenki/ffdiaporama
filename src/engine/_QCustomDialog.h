@@ -69,7 +69,7 @@ public:
 
     // Abstract function : need to be overloaded
     virtual void    DoInitDialog()=0;           // Initialise dialog
-    virtual void    DoAccept()=0;               // Call when user click on Ok button
+    virtual bool    DoAccept()=0;               // Call when user click on Ok button
     virtual void    DoRejet()=0;                // Call when user click on Cancel button
     virtual void    PrepareGlobalUndo()=0;      // Initiale Undo
     virtual void    DoGlobalUndo()=0;           // Apply Undo : call when user click on Cancel button

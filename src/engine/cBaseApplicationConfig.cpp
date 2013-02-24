@@ -332,6 +332,20 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     Crop1088To1080          = true;                                                         // Automaticaly crop video from 1088 lines to 1080 (CANON)
     Deinterlace             = false;
     Smoothing               = true;                                                         // True do smoothing in preview
+    RememberLastDirectories =true;
+    ShowHiddenFilesAndDir   =false;
+    ShowMntDrive            =false;
+    ShowFoldersFirst        =true;
+    CurrentFilter           =OBJECTTYPE_MANAGED;
+    CurrentMode             =DISPLAY_ICON100;
+    DisplayFileName         =true;
+    MinimumEXIFHeight       =100;
+    Image_ThumbWidth        =300;
+    Image_ThumbHeight       =200;
+    Music_ThumbWidth        =200;
+    Music_ThumbHeight       =200;
+    Video_ThumbWidth        =162;
+    Video_ThumbHeight       =216;
 
     //*********************************************************************
     // Search plateforme and define specific value depending on plateforme
@@ -378,87 +392,38 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     if (ApplicationGroupName==ApplicationName) App->setApplicationName(ApplicationName+QString(" ")+ApplicationVersion);
         else App->setApplicationName(ApplicationGroupName+QString(" ")+ApplicationName+QString(" ")+ApplicationVersion);
 
+    //************************************
     // Prepare lists of allowed extension
     //************************************
-    // List of all file extension allowed for video
-    AllowVideoExtension.append("avi");     AllowVideoExtension.append("AVI");
-    AllowVideoExtension.append("mov");     AllowVideoExtension.append("MOV");
-    AllowVideoExtension.append("mpg");     AllowVideoExtension.append("MPG");
-    AllowVideoExtension.append("mpeg");    AllowVideoExtension.append("MPEG");
-    AllowVideoExtension.append("m4v");     AllowVideoExtension.append("M4V");
-    AllowVideoExtension.append("mkv");     AllowVideoExtension.append("MKV");
-    AllowVideoExtension.append("mp4");     AllowVideoExtension.append("MP4");
-    AllowVideoExtension.append("flv");     AllowVideoExtension.append("FLV");
-    AllowVideoExtension.append("3gp");     AllowVideoExtension.append("3GP");
-    AllowVideoExtension.append("ogv");     AllowVideoExtension.append("OGV");
-    AllowVideoExtension.append("webm");    AllowVideoExtension.append("WEBM");
-    AllowVideoExtension.append("dv");      AllowVideoExtension.append("DV");
-    AllowVideoExtension.append("wmv");     AllowVideoExtension.append("WMV");
-    #ifdef LIBAV_AVCHD
-    AllowVideoExtension.append("mts");     AllowVideoExtension.append("MTS");
-    AllowVideoExtension.append("m2ts");    AllowVideoExtension.append("M2TS");
-    #endif
-    // List of all file extension allowed for image
-    AllowImageExtension.append("bmp");     AllowImageExtension.append("BMP");
-    AllowImageExtension.append("gif");     AllowImageExtension.append("GIF");
-    AllowImageExtension.append("jpg");     AllowImageExtension.append("JPG");
-    AllowImageExtension.append("jpeg");    AllowImageExtension.append("JPEG");
-    AllowImageExtension.append("png");     AllowImageExtension.append("PNG");
-    AllowImageExtension.append("pbm");     AllowImageExtension.append("PBM");
-    AllowImageExtension.append("pgm");     AllowImageExtension.append("PGM");
-    AllowImageExtension.append("ppm");     AllowImageExtension.append("PPM");
-    AllowImageExtension.append("tiff");    AllowImageExtension.append("TIFF");
-    AllowImageExtension.append("tif");     AllowImageExtension.append("TIF");
-    AllowImageExtension.append("xbm");     AllowImageExtension.append("XBM");
-    AllowImageExtension.append("xpm");     AllowImageExtension.append("XPM");
-    AllowImageExtension.append("svg");     AllowImageExtension.append("SVG");
-    // List of all file extension allowed for musique
-    AllowMusicExtension.append("wav");     AllowMusicExtension.append("WAV");
-    AllowMusicExtension.append("aac");     AllowMusicExtension.append("AAC");
-    AllowMusicExtension.append("adts");    AllowMusicExtension.append("ADTS");
-    AllowMusicExtension.append("ac3");     AllowMusicExtension.append("AC3");
-    AllowMusicExtension.append("mp2");     AllowMusicExtension.append("MP2");
-    AllowMusicExtension.append("mp3");     AllowMusicExtension.append("MP3");
-    AllowMusicExtension.append("mp4");     AllowMusicExtension.append("MP4");
-    AllowMusicExtension.append("m4a");     AllowMusicExtension.append("M4A");
-    AllowMusicExtension.append("m4b");     AllowMusicExtension.append("M4B");
-    AllowMusicExtension.append("m4p");     AllowMusicExtension.append("M4P");
-    AllowMusicExtension.append("3g2");     AllowMusicExtension.append("3G2");
-    AllowMusicExtension.append("3ga");     AllowMusicExtension.append("3GA");
-    AllowMusicExtension.append("3gp");     AllowMusicExtension.append("3GP");
-    AllowMusicExtension.append("ogg");     AllowMusicExtension.append("OGG");
-    AllowMusicExtension.append("oga");     AllowMusicExtension.append("OGA");
-    AllowMusicExtension.append("spx");     AllowMusicExtension.append("SPX");
-    AllowMusicExtension.append("wma");     AllowMusicExtension.append("WMA");
-    AllowMusicExtension.append("flac");    AllowMusicExtension.append("FLAC");
+    int c;
+    AllowVideoExtension=AllowVideoExtensions.split("#"); c=AllowVideoExtension.count();  for (int i=0;i<c;i++) AllowVideoExtension.append(AllowVideoExtension[i].toUpper());
+    AllowImageExtension=AllowImageExtensions.split("#"); c=AllowImageExtension.count();  for (int i=0;i<c;i++) AllowImageExtension.append(AllowImageExtension[i].toUpper());
+    AllowMusicExtension=AllowMusicExtensions.split("#"); c=AllowMusicExtension.count();  for (int i=0;i<c;i++) AllowMusicExtension.append(AllowMusicExtension[i].toUpper());
 
-    // set value of external tools path (depending on operating system)
-    PathEXIV2                   = "exiv2";                       // FileName of exiv2 (with path) : Linux version
-    RememberLastDirectories     = true;                         // If true, Remember all directories for future use
+    //************************************
+    // set default values for path
+    //************************************
     #ifdef Q_OS_WIN
         LastMediaPath           = WINDOWS_PICTURES;             // Last folder use for image/video
         LastMusicPath           = WINDOWS_MUSIC;                // Last folder use for music
+        LastProjectPath         = WINDOWS_DOCUMENTS;            // Last folder use for project
+        LastRenderVideoPath     = WINDOWS_VIDEO;                // Last folder use for render video
+        LastCaptureImage        = WINDOWS_PICTURES;             // Last folder use for captured image
+        CurrentPath             = WINDOWS_DOCUMENTS;
+        if (LastRenderVideoPath=="") LastRenderVideoPath=WINDOWS_DOCUMENTS;
     #endif
     #ifdef Q_WS_X11
         LastMediaPath           = QDir::home().absolutePath();  // Last folder use for image/video
         LastMusicPath           = QDir::home().absolutePath();  // Last folder use for music
+        LastProjectPath         = QDir::home().absolutePath();  // Last folder use for project
+        LastRenderVideoPath     = QDir::home().absolutePath();  // Last folder use for render video
+        LastCaptureImage        = QDir::home().absolutePath();  // Last folder use for captured image
+        CurrentPath             ="~";   // User home folder
     #endif
 
-    // MMFiler specific options
-    ShowHiddenFilesAndDir   =false;
-    ShowMntDrive            =false;
-    ShowFoldersFirst        =true;
-    CurrentFilter           =OBJECTTYPE_MANAGED;
-    CurrentMode             =DISPLAY_ICON100;
-    DisplayFileName         =true;
-    MinimumEXIFHeight       =100;
-    Image_ThumbWidth        =300;
-    Image_ThumbHeight       =200;
-    Music_ThumbWidth        =200;
-    Music_ThumbHeight       =200;
-    Video_ThumbWidth        =162;
-    Video_ThumbHeight       =216;
-
+    //************************************
+    // set language
+    //************************************
     // First thing to do is to load ForceLanguage from USERCONFIGFILE and install translator to fix text codec !
     QFile           file(UserConfigFile);
     QDomDocument    domDocument;
@@ -477,10 +442,19 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
         }
     }
     // Search system language
-    CurrentLanguage=QLocale::system().name().left(2);
-    if (ForceLanguage!="") CurrentLanguage=ForceLanguage;
+    QString CurrentSubLanguage;
+    if (ForceLanguage!="") {
+        CurrentSubLanguage=ForceLanguage.toLower();
+        CurrentLanguage   =ForceLanguage.left(2).toLower();
+    } else {
+        CurrentLanguage   =QLocale::system().name().left(2).toLower();
+        CurrentSubLanguage=QLocale::system().name().toLower();
+    }
+    // Search if language user sub-language code
+    if (QFileInfo(QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentSubLanguage+QString(".qm")).exists())
+        CurrentLanguage=CurrentSubLanguage;
 
-    // Validate if system locale is supported and if not force use of "en"
+    // Validate if system locale is supported and if not : force use of "en"
     if ((CurrentLanguage!="en")&&(!QFileInfo(QString("locale")+QDir().separator()+ApplicationName+QString("_")+CurrentLanguage+QString(".qm")).exists())) {
         ToLog(LOGMSG_INFORMATION,QString("Language \"%1\" not found : switch to english").arg(CurrentLanguage));
         CurrentLanguage="en";

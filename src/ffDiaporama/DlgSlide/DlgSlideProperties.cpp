@@ -576,9 +576,10 @@ void DlgSlideProperties::keyReleaseEvent(QKeyEvent *event) {
 //====================================================================================================================
 // Call when user click on Ok button
 
-void DlgSlideProperties::DoAccept() {
+bool DlgSlideProperties::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DoAccept");
     InRefreshControls=true;
+    return true;
 }
 
 void DlgSlideProperties::OKPrevious() {

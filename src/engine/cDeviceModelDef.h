@@ -71,9 +71,8 @@ extern "C" {
 
     // include for libavfilter
     #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(2,13,0)       // For all
-        #define VIDEO_LIBAVFILTER
         #if LIBAVCODEC_VERSION_INT > AV_VERSION_INT(53,8,0)
-        #include "libavfilter/avfilter.h"
+            #include "libavfilter/avfilter.h"
         #endif
         #include "libavfilter/avfiltergraph.h"
         #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,23,0)    // From 2.13 to 2.23
@@ -98,22 +97,37 @@ extern "C" {
     #endif
 }
 
-// LIBAV 0.8 = LIBAVUTIL from 51.22 + LIBAVCODEC from 53.35 to 54.24 + LIBAVFORMAT from 53.21 to 54.20
-#if ( LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(51,22,0) && LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(53,35,0) && LIBAVFORMAT_VERSION_INT >= AV_VERSION_INT(53,21,0) )
+#if ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,0,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,31,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(54,19,0)))
+    #define LIBAV_09
+#elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,22,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(53,35,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(53,21,0)))
+    #define LIBAV_08
+#elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,7,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(53,6,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(53,3,0)))
+    #define LIBAV_07
+#endif
 
-    #define LIBAV_08                            // LIBAV 0.8
-    #define LIBAV_FFMPEG                        // FFMPEG binary encoder support
-    #define LIBAV_AVCONV                        // AVCONV binary encoder support
-    #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
-    #define LIBAV_AVCHD                         // Support for AVCHD format (.mts)
-
-// LIBAV 0.7 = LIBAVUTIL from 51.7 to 51.21 + LIBAVCODEC from 53.6 to 53.34 + LIBAVFORMAT from 53.3 to 53.20
-#elif ( LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(51,7,0) && LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(53,6,0) && LIBAVFORMAT_VERSION_INT >= AV_VERSION_INT(53,3,0) )
-
-    #define LIBAV_07                            // LIBAV 0.7
-    #define LIBAV_FFMPEG                        // FFMPEG binary encoder support
-    #define LIBAV_TAGCHAPTERS                   // Support for TAG & CHAPTERS
-
+#if !defined(FF_API_CODEC_ID)
+    #define AV_CODEC_ID_NONE        CODEC_ID_NONE
+    #define AV_CODEC_ID_MJPEG       CODEC_ID_MJPEG
+    #define AV_CODEC_ID_MPEG2VIDEO  CODEC_ID_MPEG2VIDEO
+    #define AV_CODEC_ID_MPEG4       CODEC_ID_MPEG4
+    #define AV_CODEC_ID_H264        CODEC_ID_H264
+    #define AV_CODEC_ID_VP8         CODEC_ID_VP8
+    #define AV_CODEC_ID_FLV1        CODEC_ID_FLV1
+    #define AV_CODEC_ID_THEORA      CODEC_ID_THEORA
+    #define AV_CODEC_ID_WMV1        CODEC_ID_WMV1
+    #define AV_CODEC_ID_WMV2        CODEC_ID_WMV2
+    #define AV_CODEC_ID_WMV3        CODEC_ID_WMV3
+    #define AV_CODEC_ID_PCM_S16LE   CODEC_ID_PCM_S16LE
+    #define AV_CODEC_ID_MP3         CODEC_ID_MP3
+    #define AV_CODEC_ID_AAC         CODEC_ID_AAC
+    #define AV_CODEC_ID_AC3         CODEC_ID_AC3
+    #define AV_CODEC_ID_VORBIS      CODEC_ID_VORBIS
+    #define AV_CODEC_ID_MP2         CODEC_ID_MP2
+    #define AV_CODEC_ID_AMR_WB      CODEC_ID_AMR_WB
+    #define AV_CODEC_ID_AMR_NB      CODEC_ID_AMR_NB
+    #define AV_CODEC_ID_FLAC        CODEC_ID_FLAC
+    #define AV_CODEC_ID_WMAV1       CODEC_ID_WMAV1
+    #define AV_CODEC_ID_WMAV2       CODEC_ID_WMAV2
 #endif
 
 //****************************************************************************************************************************************************************
@@ -216,6 +230,7 @@ extern struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF];
 //============================================
 // Audio codec definitions
 //============================================
+
 struct sAudioCodecDef {
     bool    IsFind,IsRead;                                      // true if codec is supported for write,read by installed version of libav
     int     Codec_id;                                           // libav codec id
@@ -226,6 +241,7 @@ struct sAudioCodecDef {
     char    PossibleBitrate6CH[200];                            // list of possible compression bit rate in 5.1/6 chanels mode (define by this application)
     char    Default[10];                                        // prefered compression bit rate
     char    PossibleFrequency[200];                             // list of possible audio frequency
+    int     PreferedAudioContainer;                             // If use alone : preferred AFORMAT_ID
 };
 #define NBR_AUDIOCODECDEF   11
 extern struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF];
@@ -259,11 +275,21 @@ struct sFormatDef {
     char    PossibleFrequency[200];                             // list of possible audio frequency
     char    DefaultAudioFreq[10];                               // prefered audio frequency
 };
-#define NBR_FORMATDEF   11
-extern struct sFormatDef FORMATDEF[NBR_FORMATDEF];
+extern struct sFormatDef FORMATDEF[VFORMAT_NBR];
 
-#define NBR_AUDIOFORMATDEF   9
-extern struct sFormatDef AUDIOFORMATDEF[NBR_AUDIOFORMATDEF];
+enum AFORMAT_ID {
+    AFORMAT_3GP,
+    AFORMAT_AC3,
+    AFORMAT_AAC,
+    AFORMAT_FLAC,
+    AFORMAT_MP4,
+    AFORMAT_MP2,
+    AFORMAT_MP3,
+    AFORMAT_OGG,
+    AFORMAT_WAV,
+    NBR_AFORMAT     // Last of the list !
+};
+extern struct sFormatDef AUDIOFORMATDEF[NBR_AFORMAT];
 
 //============================================
 // Device model class definition
@@ -325,5 +351,13 @@ public:
     virtual void    TranslatRenderType();
     virtual bool    Initffmpeg(QString &BinaryEncoderPath);
 };
+
+//============================================
+// Allowed file extensions for reading
+//============================================
+
+extern QString AllowVideoExtensions;       // List of all file extension allowed for video
+extern QString AllowImageExtensions;       // List of all file extension allowed for image
+extern QString AllowMusicExtensions;       // List of all file extension allowed for musique
 
 #endif // CDEVICEMODELDEF_H
