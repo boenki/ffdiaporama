@@ -152,12 +152,6 @@ public:
     // Drive list for browser
     cDriveList              *DriveList;
 
-    // Last directories
-    QString                 LastProjectPath;                            // Last folder use for project
-    QString                 LastRenderVideoPath;                        // Last folder use for render video
-    QString                 LastCaptureImage;                           // Last folder use for captured image
-    QString                 CurrentPath;                                // Currently shown path in browser widget
-
     // Preferences
     bool                    SDLAudioOldMode;                            // If true SDL audio use old mode sample instead byte
     bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide

@@ -258,7 +258,6 @@ public:
     AVFrame                 *FrameBufferYUV;
     bool                    FrameBufferYUVReady;        // true if FrameBufferYUV is ready to convert
     int64_t                 FrameBufferYUVPosition;     // If FrameBufferYUV is ready to convert then keep FrameBufferYUV position
-    qlonglong               start_time;                 // At first seek 0, keep the AVFormatContext value
 
     // Audio part
     AVFormatContext         *ffmpegAudioFile;           // LibAVFormat context
@@ -269,7 +268,7 @@ public:
     int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
 
     // Audio resampling
-    #ifndef USELIBAVRESAMPLE
+    #ifdef LIBAV_08
     ReSampleContext         *RSC;
     #else
     AVAudioResampleContext  *RSC;
@@ -303,7 +302,7 @@ public:
 
     virtual void            CloseResampler();
     virtual void            CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleFormat RSC_InSampleFmt,AVSampleFormat RSC_OutSampleFmt,int RSC_InSampleRate,int RSC_OutSampleRate
-                                               #ifdef USELIBAVRESAMPLE
+                                               #ifdef LIBAV_09
                                                    ,uint64_t RSC_InChannelLayout,uint64_t RSC_OutChannelLayout
                                                #endif
                                           );
@@ -311,26 +310,24 @@ public:
     //*********************
     // video filters part
     //*********************
-    #ifdef VIDEO_LIBAVFILTER
-        AVFilterGraph           *VideoFilterGraph;
-        AVFilterContext         *VideoFilterIn;
-        AVFilterContext         *VideoFilterOut;
-        QString                 m_filters;
-        QString                 m_filters_next;
+    AVFilterGraph           *VideoFilterGraph;
+    AVFilterContext         *VideoFilterIn;
+    AVFilterContext         *VideoFilterOut;
+    QString                 m_filters;
+    QString                 m_filters_next;
 
-        enum EFilterFlags {
-            FILTER_NONE                 = 0x0,
-            FILTER_DEINTERLACE_YADIF    = 0x1,
-            FILTER_DEINTERLACE_ANY      = 0xf,
-            FILTER_DEINTERLACE_FLAGGED  = 0x10,
-            FILTER_DEINTERLACE_HALFED   = 0x20
-        };
+    enum EFilterFlags {
+        FILTER_NONE                 = 0x0,
+        FILTER_DEINTERLACE_YADIF    = 0x1,
+        FILTER_DEINTERLACE_ANY      = 0xf,
+        FILTER_DEINTERLACE_FLAGGED  = 0x10,
+        FILTER_DEINTERLACE_HALFED   = 0x20
+    };
 
-        virtual unsigned int    SetFilters(unsigned int flags);
-        virtual int             VideoFilter_Open(QString Filters);
-        virtual void            VideoFilter_Close();
-        virtual int             VideoFilter_Process();
-    #endif
+    virtual unsigned int    SetFilters(unsigned int flags);
+    virtual int             VideoFilter_Open(QString Filters);
+    virtual void            VideoFilter_Close();
+    virtual int             VideoFilter_Process();
 };
 
 //*********************************************************************************************************************************************

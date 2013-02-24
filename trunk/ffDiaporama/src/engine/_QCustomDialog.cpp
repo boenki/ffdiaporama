@@ -144,8 +144,8 @@ void QCustomDialog::accept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::accept");
 
     SaveWindowState();  // Save Window size and position
-    DoAccept();         // call overloaded function
-    done(0);            // Close dialog
+    if (DoAccept())     // call overloaded function
+        done(0);        // Close dialog
 }
 
 //====================================================================================================================

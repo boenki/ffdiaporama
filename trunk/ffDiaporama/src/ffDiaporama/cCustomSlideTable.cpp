@@ -499,6 +499,19 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
             Painter->drawPolygon(Table,3);
         }
 
+        if ((CurMusic)&&(OwnerObjectMusic==ItemIndex)) {
+            QString Artist=CurMusic->GetInformationValue("artist");
+            QString Title=CurMusic->GetInformationValue("title");
+            QString MusicName=((Artist!="")&&(Title!="")?Artist+"\n"+Title:QFileInfo(CurMusic->FileName).baseName());
+            Pen.setWidth(1);
+            Pen.setStyle(Qt::SolidLine);
+            Pen.setColor(Qt::black);
+            Painter->setPen(Pen);
+            Painter->drawText(QRectF(TransitionSize+4+1,ThumbHeight-4-24+1,ThumbWidth-8-TransitionSize,24),MusicName,Qt::AlignLeft|Qt::AlignVCenter);
+            Pen.setColor(Qt::white);
+            Painter->setPen(Pen);
+            Painter->drawText(QRectF(TransitionSize+4,ThumbHeight-4-24,ThumbWidth-8-TransitionSize,24),MusicName,Qt::AlignLeft|Qt::AlignVCenter);
+        }
         // Draw separated line
         Pen.setWidth(1);
         Pen.setStyle(Qt::DotLine);

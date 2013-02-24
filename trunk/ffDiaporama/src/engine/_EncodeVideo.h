@@ -28,6 +28,14 @@
 #include "../ffDiaporama/_Diaporama.h"
 #include "../ffDiaporama/_ApplicationDefinitions.h"
 
+#define SUPPORTED_COMBINATION       0
+#define UNSUPPORTED_COMBINATION     1
+#define INVALID_COMBINATION         2
+
+int CheckEncoderCapabilities(VFORMAT_ID FormatId,CodecID VideoCodec,CodecID AudioCodec);
+
+//************************************************
+
 class cEncodeVideo {
 public:
     cDiaporama          *Diaporama;
@@ -62,7 +70,7 @@ public:
     int                 AudioChannels,AudioBitrate,AudioSampleRate;
     AVFrame             *AudioFrame;
     uint8_t             *AudioResamplerBuffer;          // Buffer for sampled audio
-    #ifdef USELIBAVRESAMPLE
+    #ifdef LIBAV_09
     AVAudioResampleContext  *AudioResampler;            // Audio resampler
     #else
     ReSampleContext         *AudioResampler;            // Audio resampler

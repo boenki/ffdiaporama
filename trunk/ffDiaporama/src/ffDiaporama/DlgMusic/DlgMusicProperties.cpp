@@ -93,7 +93,7 @@ void DlgMusicProperties::DoGlobalUndo() {
 
 //====================================================================================================================
 
-void DlgMusicProperties::DoAccept() {
+bool DlgMusicProperties::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::DoAccept");
     DiaporamaObject->MusicReduceFactor=double(ui->VolumeReductionFactorCB->currentText().toInt())/100;
     // Get Music volume for each file of the playlist
@@ -104,6 +104,7 @@ void DlgMusicProperties::DoAccept() {
             DiaporamaObject->MusicList[CurIndex].Volume=double(Volume.toInt())/100;
         }
     } else DiaporamaObject->MusicList.clear();
+    return true;
 }
 
 //====================================================================================================================

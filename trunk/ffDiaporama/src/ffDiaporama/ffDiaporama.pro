@@ -47,7 +47,8 @@ TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_ru.ts \
     ../../locale/ffDiaporama_el.ts \
     ../../locale/ffDiaporama_uk.ts \
-    ../../locale/ffDiaporama_cz.ts
+    ../../locale/ffDiaporama_cz.ts \
+    ../../locale/ffDiaporama_zh_tw.ts
 
 SOURCES +=  _ApplicationDefinitions.cpp \
             _Diaporama.cpp \

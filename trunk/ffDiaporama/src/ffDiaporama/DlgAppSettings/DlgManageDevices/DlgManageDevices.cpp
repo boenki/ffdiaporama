@@ -61,7 +61,7 @@ void DlgManageDevices::DoInitDialog() {
     ui->DBDeviceTypeCB->addItem(QIcon(ICON_FORTHEWEB),DeviceModelList->TranslatedRenderType[3]);
     //ui->DBDeviceTypeCB->addItem(QIcon(ICON_LOSSLESS),DeviceModelList->TranslatedRenderType[4]);       // No entry for Lossless mode !
     ui->DBDeviceTypeCB->setCurrentIndex(0);
-    for (int i=0;i<NBR_FORMATDEF;i++) if (FORMATDEF[i].IsFind) ui->DBFileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
+    for (int i=0;i<VFORMAT_NBR;i++) if (FORMATDEF[i].IsFind) ui->DBFileFormatCB->addItem(FORMATDEF[i].LongName,QVariant(i));
     ui->DBFileFormatCB->setCurrentIndex(-1);
     DBFillTableDevice(0);
     DBImageSizeCombo(0);
@@ -98,10 +98,11 @@ DlgManageDevices::~DlgManageDevices() {
 //====================================================================================================================
 // Call when user click on Ok button
 
-void DlgManageDevices::DoAccept() {
+bool DlgManageDevices::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DoAccept");
 
     AskApplyDBChange();
+    return true;
 }
 
 //====================================================================================================================

@@ -2222,12 +2222,12 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 
         //==============> Music track part
 
-        if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)) {
+        if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject_MusicTrack->SamplingRate)) {
             if (Info->FrameDuration>Info->CurrentObject_MusicTrack->List.count()*Info->CurrentObject_MusicTrack->WantedDuration*1000)
                 ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
             //PrepareMusicBloc(PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
         }
-        if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack)) {
+        if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->SamplingRate)) {
             if (Info->FrameDuration>Info->TransitObject_MusicTrack->List.count()*Info->TransitObject_MusicTrack->WantedDuration*1000)
                 ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
             //PrepareMusicBloc(PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);

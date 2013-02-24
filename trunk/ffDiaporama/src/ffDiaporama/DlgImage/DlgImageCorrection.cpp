@@ -174,10 +174,6 @@ void DlgImageCorrection::DoInitDialog() {
         connect(ui->StartPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditStartPos(QTime)));
         connect(ui->EndPosEd,SIGNAL(timeChanged(QTime)),this,SLOT(s_EditEndPos(QTime)));
         connect(ui->VideoPlayer,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
-
-        #ifndef VIDEO_LIBAVFILTER
-        ui->DeinterlaceBt->setEnabled(false);
-        #endif
     }
 
     // Init combo box Background form
@@ -515,10 +511,11 @@ void DlgImageCorrection::showEvent(QShowEvent *ev) {
 
 //====================================================================================================================
 
-void DlgImageCorrection::DoAccept() {
+bool DlgImageCorrection::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DoAccept");
 
     if (BackgroundForm) *BackgroundForm=ui->InteractiveZone->BackgroundForm;    // not do this for background
+    return true;
 }
 
 //====================================================================================================================

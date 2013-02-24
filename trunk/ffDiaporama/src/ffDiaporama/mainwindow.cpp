@@ -393,12 +393,8 @@ MainWindow::~MainWindow() {
     delete ui;
 
     // Close some libav additionnals
-    #ifdef LIBAV_08
-        #if defined(VIDEO_LIBAVFILTER)
-            avfilter_uninit();
-        #endif
-        avformat_network_deinit();
-    #endif
+    avfilter_uninit();
+    avformat_network_deinit();
 }
 
 //====================================================================================================================

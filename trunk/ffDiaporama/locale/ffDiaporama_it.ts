@@ -938,14 +938,6 @@ Inquadratura:</translation>
         <translation>Versione LIBAVFILTER:%1.%2.%3.%4</translation>
     </message>
     <message>
-        <source>Support for TAG and CHAPTERS</source>
-        <translation>Supporto per TAG e CAPITOLI</translation>
-    </message>
-    <message>
-        <source>Support for AVCHD video</source>
-        <translation>Supporto per video AVCHD</translation>
-    </message>
-    <message>
         <source>Audio Codecs</source>
         <translation>Codec Audio</translation>
     </message>
@@ -967,6 +959,10 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>Application architecture: 64 bits</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBAV general version:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2327,6 +2323,10 @@ Vuoi sovrascriverlo?</translation>
     <message>
         <source>soundtrack</source>
         <comment>Default name for rendering</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Incorrect codec combination!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
