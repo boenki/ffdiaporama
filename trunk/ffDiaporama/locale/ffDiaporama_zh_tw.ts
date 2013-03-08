@@ -83,10 +83,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video decoding and encoding engines are based on libav or ffmpeg</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Image effects are based on fmt_filters and QImageBlitz</source>
         <translation type="unfinished"></translation>
     </message>
@@ -96,6 +92,14 @@
     </message>
     <message>
         <source>Texturemate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video decoding and encoding engines are based on libav</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Windows version use dll build from zeranoe</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -654,14 +658,6 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Use thread for pipe operations</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Advanced option :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Frequency :</source>
         <translation type="unfinished"></translation>
     </message>
@@ -812,14 +808,6 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
         <translation>無損潤算</translation>
     </message>
     <message>
-        <source>Unable to determine %1 version</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>%1 not found - critical - application will stop !</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Operating system version: %1 - %2 Core/CPU</source>
         <translation type="unfinished"></translation>
     </message>
@@ -913,10 +901,6 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
     </message>
     <message>
         <source>AltiVec extension %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>encoder version:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2053,18 +2037,6 @@ Move the current selected file a notch down</source>
         <translation>音訊格式：</translation>
     </message>
     <message>
-        <source>Audio track - Total progression</source>
-        <translation>音訊軌段 - 總計進度</translation>
-    </message>
-    <message>
-        <source>Video track - Current slide progression</source>
-        <translation>視訊軌段 - 目前的投影片進度</translation>
-    </message>
-    <message>
-        <source>Video track - Total progression</source>
-        <translation>視訊軌段 - 總計進度</translation>
-    </message>
-    <message>
         <source>fps</source>
         <translation>影格/秒</translation>
     </message>
@@ -2222,21 +2194,8 @@ Do you want to overwrite it ?</source>
         <translation>編碼音效</translation>
     </message>
     <message>
-        <source>Error</source>
-        <comment>Error message</comment>
-        <translation>錯誤</translation>
-    </message>
-    <message>
         <source> - Estimated time left : </source>
         <translation> - 估計的剩餘時間：</translation>
-    </message>
-    <message>
-        <source>Closing encoder</source>
-        <translation>關閉編碼器</translation>
-    </message>
-    <message>
-        <source>Up the video to leave room for controls</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select the file type to use for the rendering</source>
@@ -2244,10 +2203,6 @@ Do you want to overwrite it ?</source>
     </message>
     <message>
         <source>Select the type of equipment</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>HTML5 :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2276,25 +2231,6 @@ Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start encoder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error starting encoder</source>
-        <comment>Error message</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error closing encoder</source>
-        <comment>Error message</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error exiting encoder</source>
-        <comment>Error message</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Incorrect codec combination!</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2303,13 +2239,24 @@ Do you want to overwrite it ?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Error sending image to encoder</source>
-        <comment>Error message</comment>
+        <source>Job canceled!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Encoder error</source>
-        <comment>Error message</comment>
+        <source>Job error!
+Please contact ffDiaporama team</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current slide progression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total progression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Encoding video</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4087,10 +4034,6 @@ Image geometry in this file is not the same than the current project</source>
     <message>
         <source>Want to save the project before closing?</source>
         <translation>要在關閉之前儲存專案？</translation>
-    </message>
-    <message>
-        <source>Configuration not correct!</source>
-        <translation>組態無法修正！</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>

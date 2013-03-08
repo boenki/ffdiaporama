@@ -2225,12 +2225,10 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject_MusicTrack->SamplingRate)) {
             if (Info->FrameDuration>Info->CurrentObject_MusicTrack->List.count()*Info->CurrentObject_MusicTrack->WantedDuration*1000)
                 ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
-            //PrepareMusicBloc(PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack);
         }
         if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->SamplingRate)) {
             if (Info->FrameDuration>Info->TransitObject_MusicTrack->List.count()*Info->TransitObject_MusicTrack->WantedDuration*1000)
                 ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
-            //PrepareMusicBloc(PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack);
         }
 
         //==============> Image part
@@ -2472,7 +2470,7 @@ void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
         }
         if ((i<CurrentCell-1)||(i>CurrentCell+1)) {
             for (int j=0;j<List[i]->ObjectComposition.List.count();j++)
-                if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->ffmpegVideoFile!=NULL))
+                if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->LibavVideoFile!=NULL))
                     List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CloseCodecAndFile();
         }
     }

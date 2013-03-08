@@ -233,7 +233,6 @@ void DlgApplicationSettings::DoInitDialog() {
     SoundtrackFileFormatCombo(-1);  // For first initialisation : ChangeIndex=-1
 
     ui->LanguageED->setText(ApplicationConfig->DefaultLanguage);
-    ui->PipeThreadCB->setChecked(ApplicationConfig->PipeThread);
     ui->DefaultNameProjectNameCB->setCurrentIndex(ApplicationConfig->DefaultNameProjectName);
 
     connect(ui->StandardCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
@@ -421,7 +420,6 @@ bool DlgApplicationSettings::DoAccept() {
     }
 
     // RenderDefault part
-    ApplicationConfig->PipeThread=ui->PipeThreadCB->isChecked();
     ApplicationConfig->DefaultLanguage =ui->LanguageED->text();
     if (ApplicationConfig->DefaultLanguage=="") ApplicationConfig->DefaultLanguage="und";
     if (ApplicationConfig->DefaultLanguage.length()!=3) {

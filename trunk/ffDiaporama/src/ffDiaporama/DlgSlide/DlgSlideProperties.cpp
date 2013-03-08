@@ -551,7 +551,7 @@ void DlgSlideProperties::RestoreWindowState() {
 void DlgSlideProperties::keyReleaseEvent(QKeyEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::keyReleaseEvent");
 
-    if ((focusWidget()==ui->BlockTable)||(focusWidget()==ui->InteractiveZone)) {
+    if ((focusWidget()==ui->BlockTable)||(focusWidget()==ui->InteractiveZone)||(focusWidget()==ui->ShotTable)) {
         if (event->modifiers()==Qt::ControlModifier) {
             switch (event->key()) {
                 case Qt::Key_C      : s_BlockTable_Copy();                      break;
@@ -888,7 +888,7 @@ void DlgSlideProperties::RefreshStyleControls() {
                 ui->FramingStyleCB->Y=CurrentCompoObject->BackgroundBrush->Y;
                 ui->FramingStyleCB->ZoomFactor=CurrentCompoObject->BackgroundBrush->ZoomFactor;
                 ui->FramingStyleCB->AspectRatio=CurrentCompoObject->BackgroundBrush->AspectRatio;
-                ui->FramingStyleCB->PrepareFramingStyleTable(true,FILTERFRAMING_IMAGE|FILTERFRAMING_PROJECT,CurrentCompoObject->BackgroundBrush,CachedImage,CurrentCompoObject->BackgroundForm,ProjectGeometry);
+                ui->FramingStyleCB->PrepareFramingStyleTable(true,FILTERFRAMING_ALL/*FILTERFRAMING_IMAGE|FILTERFRAMING_PROJECT*/,CurrentCompoObject->BackgroundBrush,CachedImage,CurrentCompoObject->BackgroundForm,ProjectGeometry);
                 delete CachedImage;
             }
             ui->FramingStyleCB->SetCurrentFraming(CurrentCompoObject->BackgroundBrush->GetCurrentFramingStyle(ProjectGeometry));
@@ -1965,13 +1965,13 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
             if (IsValide) {
                 // Check if file have at least one sound track compatible
                 if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(!(
-                    (CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
-                    (CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
+                    (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
+                    (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
                 ))) {
                     ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
                     IsValide=false;
                 }
-                if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->ffmpegAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
+                if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
                     ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
                     IsValide=false;
                 }
@@ -2942,7 +2942,9 @@ void DlgSlideProperties::s_BlockShapeStyleBT() {
         CurrentCompoObject->ApplyBlockShapeStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.GetStyleDef(Item));
         RefreshBlockTable(CurrentCompoObjectNbr);
     }
+    InRefreshControls=true;
     RefreshStyleControls();
+    InRefreshControls=false;
 }
 
 //====================================================================================================================

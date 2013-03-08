@@ -33,6 +33,10 @@ unix {
         DEFINES += USELIBAVRESAMPLE
         LIBS    += -lavresample                                             #------ conditionnaly include libavresample
     }
+    exists(/usr/include/libswresample/swresample.h) {
+        DEFINES += USELIBSWRESAMPLE
+        LIBS    += -lswresample                                                 #------ conditionnaly include libswresample
+    }
 }
 
 win32 {
@@ -66,6 +70,10 @@ win32 {
     exists("F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include\\libavresample\\avresample.h") {
         DEFINES += USELIBAVRESAMPLE
         LIBS    += -lavresample                                                 #------ conditionnaly include libavresample
+    }
+    exists("F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include\\libswresample\\swresample.h") {
+        DEFINES += USELIBSWRESAMPLE
+        LIBS    += -lswresample                                                 #------ conditionnaly include libswresample
     }
 }
 

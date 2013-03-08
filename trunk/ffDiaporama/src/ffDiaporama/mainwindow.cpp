@@ -149,7 +149,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Register all formats and codecs for libavformat/libavcodec/etc ...
     screen.showMessage(QApplication::translate("MainWindow","Starting libav..."),Qt::AlignHCenter|Qt::AlignBottom);
-    if (!ApplicationConfig->DeviceModelList.Initffmpeg(ApplicationConfig->BinaryEncoderPath)) exit(1);
+    if (!ApplicationConfig->DeviceModelList.InitLibav()) exit(1);
 
     // Register background library
     screen.showMessage(QApplication::translate("MainWindow","Loading background library..."),Qt::AlignHCenter|Qt::AlignBottom);
@@ -376,10 +376,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     SetModifyFlag(false);           // Setup title window and do first RefreshControls();
     s_Event_ClipboardChanged();     // Setup clipboard button state
 
-    if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(LATENCY,this,SLOT(s_Action_DlgCheckConfig())); else {
-        QString Status;
-        if (!Checkffmpeg(Status,ApplicationConfig)) QTimer::singleShot(LATENCY,this,SLOT(s_Action_DlgCheckConfig()));
-    }
+    if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(LATENCY,this,SLOT(s_Action_DlgCheckConfig()));
 }
 
 //====================================================================================================================
@@ -781,12 +778,6 @@ void MainWindow::s_Action_DlgCheckConfig() {
     DlgCheckConfig Dlg(HELPFILE_DlgCheckConfig,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
-
-    QString Status;
-    if (!Checkffmpeg(Status,ApplicationConfig)) {
-        CustomMessageBox(this,QMessageBox::Critical,APPLICATION_NAME,QApplication::translate("MainWindow","Configuration not correct!"));
-        close();
-    }
 }
 
 //====================================================================================================================
@@ -1968,15 +1959,15 @@ void MainWindow::s_Action_DoAddFile() {
 
         // if file is a video then check if file have at least one sound track compatible
         if (Continue && IsValide && (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(!(
-                (((cVideoFile *)MediaFile)->ffmpegAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
-                (((cVideoFile *)MediaFile)->ffmpegAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
+                (((cVideoFile *)MediaFile)->LibavAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
+                (((cVideoFile *)MediaFile)->LibavAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
             ))) {
             ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
             if (MediaFile) delete MediaFile;
         }
 
-        if (Continue && IsValide && (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(((cVideoFile *)MediaFile)->ffmpegAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->channels>2)) {
+        if (Continue && IsValide && (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(((cVideoFile *)MediaFile)->LibavAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->channels>2)) {
             ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
             if (MediaFile) delete MediaFile;

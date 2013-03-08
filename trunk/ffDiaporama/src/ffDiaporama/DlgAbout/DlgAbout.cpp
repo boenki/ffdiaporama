@@ -62,8 +62,8 @@ void DlgAbout::DoInitDialog() {
     ui->ApplicationNameLabel->setText(BaseApplicationConfig->ApplicationVersion);
     ui->tabWidget->setCurrentIndex(0);
     connect(ui->QtWebSiteBT,SIGNAL(clicked()),this,SLOT(WQtWebSite()));
+    connect(ui->ZeranoeWebSiteBT,SIGNAL(clicked()),this,SLOT(ZeranoeWebSite()));
     connect(ui->LibAVWebSiteBT,SIGNAL(clicked()),this,SLOT(LibAVWebSite()));
-    connect(ui->ffMPEGWebSiteBT,SIGNAL(clicked()),this,SLOT(ffMPEGWebSite()));
     connect(ui->SDLWebSiteBT,SIGNAL(clicked()),this,SLOT(SDLWebSite()));
     connect(ui->EXIV2WebSiteBT,SIGNAL(clicked()),this,SLOT(EXIV2WebSite()));
     connect(ui->FMTFWebSiteBT,SIGNAL(clicked()),this,SLOT(FMTFWebSite()));
@@ -83,15 +83,16 @@ void DlgAbout::WQtWebSite() {
 
 //====================================================================================================================
 
-void DlgAbout::ffMPEGWebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::ffMPEGWebSite");
+void DlgAbout::ZeranoeWebSite() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::ZeranoeWebSite");
 
-    QDesktopServices::openUrl(QUrl("http://ffmpeg.org/index.html"));
+    QDesktopServices::openUrl(QUrl("http://ffmpeg.zeranoe.com/builds/"));
 }
+
 //====================================================================================================================
 
 void DlgAbout::LibAVWebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::ffMPEGWebSite");
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::LibavWebSite");
 
     QDesktopServices::openUrl(QUrl("http://libav.org/index.html"));
 }

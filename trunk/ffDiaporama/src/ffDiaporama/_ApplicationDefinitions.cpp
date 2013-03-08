@@ -149,11 +149,9 @@ void cApplicationConfig::InitValues() {
     DefaultLossLess             = 0;                        // Default Lossless imagesize
 
     #ifdef Q_OS_WIN
-        PipeThread              = true;                         // if true, use thread for pipe operation
         SDLAudioOldMode         = false;                        // If true SDL audio use old mode sample instead byte
     #endif
     #ifdef Q_WS_X11
-        PipeThread              = false;                        // if true, use thread for pipe operation
         SDLAudioOldMode         = true;                         // If true SDL audio use old mode sample instead byte
     #endif
 
@@ -320,7 +318,6 @@ void cApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     domDocument.appendChild(Element);
 
     Element=Document.createElement("RenderDefault");
-    Element.setAttribute("PipeThread",                  PipeThread?"1":"0");
     Element.setAttribute("DefaultNameProjectName",      DefaultNameProjectName?"1":"0");
     Element.setAttribute("Format",                      DefaultFormat);
     Element.setAttribute("VideoCodec",                  DefaultVideoCodec);
@@ -480,7 +477,6 @@ bool cApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfigFile
     }
     if ((domDocument.elementsByTagName("RenderDefault").length()>0)&&(domDocument.elementsByTagName("RenderDefault").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("RenderDefault").item(0).toElement();
-        if (Element.hasAttribute("PipeThread"))                     PipeThread                  =Element.attribute("PipeThread")=="1";
         if (Element.hasAttribute("DefaultNameProjectName"))         DefaultNameProjectName      =Element.attribute("DefaultNameProjectName")=="1";
         if (Element.hasAttribute("Format"))                         DefaultFormat               =Element.attribute("Format").toInt();
         if (Element.hasAttribute("VideoCodec"))                     DefaultVideoCodec           =Element.attribute("VideoCodec");

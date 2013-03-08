@@ -3,7 +3,6 @@
 ffDiaporama use these third party libraries :
     fmt_filters <http://ksquirrel.sourceforge.net/subprojects.php>
     QImageBlitz <http://qimageblitz.sourceforge.net/>
-    ffmpeg <http://www.ffmpeg.org/>
     libav <http://libav.org/>
     libexiv2 <http://www.exiv2.org/>
     taglib <http://developer.kde.org/~wheeler/taglib.html>

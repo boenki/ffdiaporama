@@ -211,7 +211,6 @@ public:
     int                     DefaultForTheWEBType;                       // Default ForTheWEB Type
     int                     DefaultForTheWEBModel;                      // Default ForTheWEB Model
     int                     DefaultLossLess;                            // Default Lossless imagesize
-    bool                    PipeThread;                                 // if true, use thread for pipe operation
 
     QStringList             RecentFile;                                 // Recent project files
 

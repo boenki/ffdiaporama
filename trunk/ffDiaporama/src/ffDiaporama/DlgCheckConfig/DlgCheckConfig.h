@@ -37,10 +37,6 @@ namespace Ui {
     class DlgCheckConfig;
 }
 
-//bool    CheckExiv2(QString &StatusStr,cBaseApplicationConfig *BaseApplicationConfig);
-bool    Checkffmpeg(QString &StatusStr,cBaseApplicationConfig *BaseApplicationConfig);
-
-
 class DlgCheckConfig : public QCustomDialog {
 Q_OBJECT
 public:
