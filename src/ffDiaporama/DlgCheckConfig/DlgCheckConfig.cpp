@@ -31,55 +31,6 @@
 
 //====================================================================================================================
 
-bool Checkffmpeg(QString &StatusStr,cBaseApplicationConfig *BaseApplicationConfig) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:Checkffmpeg");
-
-    bool        ffmpegOK=true;
-    QProcess    Process;
-    #ifdef Q_OS_WIN
-    QString     ffmpegCommand="\""+BaseApplicationConfig->BinaryEncoderPath+"\"";
-    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    QString     ffmpegCommand=BaseApplicationConfig->BinaryEncoderPath;
-    #endif
-
-    //Process.setProcessChannelMode(QProcess::MergedChannels);
-
-    Process.start(ffmpegCommand,QString("-version").split(";"));
-    if (!Process.waitForStarted(-1)) {
-        ToLog(LOGMSG_CRITICAL,QString("Impossible to start %1").arg(BaseApplicationConfig->BinaryEncoderPath));
-        ffmpegOK=false;
-    }
-    if (ffmpegOK && !Process.waitForFinished()) {
-        Process.kill();
-        ToLog(LOGMSG_CRITICAL,QString("Error during %1 process").arg(BaseApplicationConfig->BinaryEncoderPath));
-        ffmpegOK=false;
-    }
-    if (ffmpegOK && (Process.exitStatus()<0)) {
-        ToLog(LOGMSG_CRITICAL,QString("%1 return error %2").arg(BaseApplicationConfig->BinaryEncoderPath).arg(Process.exitStatus()));
-        ffmpegOK=false;
-    }
-    if (ffmpegOK) {
-        QString     Info=QString().fromLocal8Bit(Process.readAllStandardOutput())+
-                         QString().fromLocal8Bit(Process.readAllStandardError());
-        if (Info.indexOf(QString("%1 version ").arg(BaseApplicationConfig->BinaryEncoderPath)>=0)) {
-            StatusStr=Info.mid(Info.indexOf(QString("%1 version ").arg(BaseApplicationConfig->BinaryEncoderPath))+QString(QString("%1 version ").arg(BaseApplicationConfig->BinaryEncoderPath)).length());
-            StatusStr=StatusStr.left(StatusStr.indexOf("\n"));
-            if (StatusStr.indexOf(QString(char(13)))>0) StatusStr=StatusStr.left(StatusStr.indexOf(QString(char(13))));
-            StatusStr=BaseApplicationConfig->BinaryEncoderPath+" "+StatusStr;
-        } else {
-            StatusStr=QApplication::translate("DlgCheckConfig","Unable to determine %1 version").arg(BaseApplicationConfig->BinaryEncoderPath);
-            //ffmpegOK=false;
-        }
-    } else StatusStr=QApplication::translate("DlgCheckConfig","%1 not found - critical - application will stop !").arg(BaseApplicationConfig->BinaryEncoderPath);
-
-    Process.terminate();
-    Process.close();
-
-    return ffmpegOK;
-}
-
-//====================================================================================================================
-
 DlgCheckConfig::DlgCheckConfig(QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgCheckConfig) {
 
@@ -186,10 +137,8 @@ void DlgCheckConfig::DoInitDialog() {
     Status=Info.haveExtension(BlitzCPUInfo::AltiVec);    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","AltiVec extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
-    // libav/ffmpeg
-    ui->ListWidget->addItem(new QListWidgetItem("libav/ffmpeg"));
-    Status=Checkffmpeg(StatusStr,BaseApplicationConfig);
-    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","encoder version:")+StatusStr));
+    // libav
+    ui->ListWidget->addItem(new QListWidgetItem("libav"));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAV general version:")+
                                             #if defined(LIBAV_08)
                                                 "0.8.x"

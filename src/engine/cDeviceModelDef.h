@@ -65,8 +65,12 @@ extern "C" {
     #include <libavformat/avformat.h>
     #include <libavformat/avio.h>
 
-    #ifdef USELIBAVRESAMPLE
+    #if defined(USELIBAVRESAMPLE)
         #include "libavresample/avresample.h"
+        #define RESAMPLE_MAX_CHANNELS AVRESAMPLE_MAX_CHANNELS
+    #elif defined(USELIBSWRESAMPLE)
+        #include "libswresample/swresample.h"
+        #define RESAMPLE_MAX_CHANNELS SWR_CH_MAX
     #endif
 
     // include for libavfilter
@@ -299,7 +303,7 @@ class cDeviceModelDef {
 public:
     bool    FromGlobalConf;                                     // true if device model is defined in global config file
     bool    FromUserConf;                                       // true if device model is defined in user config file
-    bool    IsFind;                                             // true if device model format is supported by installed version of ffmpeg
+    bool    IsFind;                                             // true if device model format is supported by installed version of Libav
     int     DeviceIndex;                                        // Device number index key
     QString DeviceName;                                         // long name for the device model
     int     DeviceType;                                         // device type
@@ -349,7 +353,7 @@ public:
     virtual bool    LoadFromXML(QDomElement domDocument,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile);
 
     virtual void    TranslatRenderType();
-    virtual bool    Initffmpeg(QString &BinaryEncoderPath);
+    virtual bool    InitLibav();
 };
 
 //============================================
@@ -359,5 +363,6 @@ public:
 extern QString AllowVideoExtensions;       // List of all file extension allowed for video
 extern QString AllowImageExtensions;       // List of all file extension allowed for image
 extern QString AllowMusicExtensions;       // List of all file extension allowed for musique
+extern QMutex  Mutex;
 
 #endif // CDEVICEMODELDEF_H

@@ -567,18 +567,14 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
     // Add image to the list if it's not full
     if ((FileInfo)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareVideo.isRunning())) {
-
         LastPosition=PreviousFrame->CurrentObject_InObjectTime;
         cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),NULL,int(double(1000)/WantedFPS));
         NewFrame->CurrentObject_StartTime   =0;
         ThreadPrepareVideo.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,NewFrame->CurrentObject_InObjectTime));
-
     } else if (((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
-
         LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
         cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),Diaporama,double(1000)/WantedFPS);
         ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true,true));
-
     }
 
     // if TimerTick update the preview
@@ -629,7 +625,6 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     // Do Assembly
     QFutureWatcher<void> ThreadAssembly;
     ThreadAssembly.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::StartThreadAssembly,ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,ui->MovieFrame->width(),ui->MovieFrame->height()));
-    //Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,ui->MovieFrame->width(),ui->MovieFrame->height());
 
     if ((SoundWanted)&&(Frame->CurrentObject)) {
         // Calc number of packet to mix

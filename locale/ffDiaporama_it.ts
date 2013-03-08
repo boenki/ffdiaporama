@@ -87,16 +87,20 @@
         <translation>Gli effetti immagini sono basati su fmt_filter e QImageBlitz</translation>
     </message>
     <message>
-        <source>Video decoding and encoding engines are based on libav or ffmpeg</source>
-        <translation>I motori di codifica e decodifica video sono basati su libav i ffmpeg</translation>
-    </message>
-    <message>
         <source>Texturemate</source>
-        <translation type="unfinished"></translation>
+        <translation>Texturemate</translation>
     </message>
     <message>
         <source>Copyright (C) 2011-2013 Dominique Levray</source>
-        <translation type="unfinished">Copyright (C) 2011-2012 Dominique Levray {2011-2013 ?}</translation>
+        <translation>Copyright (C) 2011-2013 Dominique Levray</translation>
+    </message>
+    <message>
+        <source>Video decoding and encoding engines are based on libav</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Windows version use dll build from zeranoe</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -656,32 +660,24 @@ Inquadratura:</translation>
         <translation>Animazione immagine:</translation>
     </message>
     <message>
-        <source>Use thread for pipe operations</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sound sample rate :</source>
-        <translation type="unfinished"></translation>
+        <translation>Frequenza campionamento suono :</translation>
     </message>
     <message>
         <source>Hz (Reduce this value for slow computer)</source>
-        <translation type="unfinished"></translation>
+        <translation>Hz (Ridurre questo valore per computer lenti)</translation>
     </message>
     <message>
         <source>Default soundtrack rendering options</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Advanced option :</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni predefinite per il rendering della colonna sonora</translation>
     </message>
     <message>
         <source>Frequency :</source>
-        <translation type="unfinished"></translation>
+        <translation>Frequenza :</translation>
     </message>
     <message>
         <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation type="unfinished">Seleziona il bit rate da usare per l&apos;audio durante il rendering.</translation>
+        <translation>Seleziona il bit rate da usare per l&apos;audio durante il rendering.</translation>
     </message>
 </context>
 <context>
@@ -826,18 +822,6 @@ Inquadratura:</translation>
         <translation>Generazione lossless</translation>
     </message>
     <message>
-        <source>Unable to determine %1 version</source>
-        <translation>Impossibile determinare la versione %1</translation>
-    </message>
-    <message>
-        <source>%1 not found - critical - application will stop !</source>
-        <translation>%1 non trovato - critico - l&apos;applicazione sarà fermata !</translation>
-    </message>
-    <message>
-        <source>encoder version:</source>
-        <translation>versione codificatore:</translation>
-    </message>
-    <message>
         <source>Operating system version: %1 - %2 Core/CPU</source>
         <translation>Versione sistema operativo: %1 - %2 Core/CPU</translation>
     </message>
@@ -951,102 +935,102 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>Search path set to: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Percorso ricerca impostato su: %1</translation>
     </message>
     <message>
         <source>Application architecture: 32 bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Architettura applicazione: 32 bit</translation>
     </message>
     <message>
         <source>Application architecture: 64 bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Architettura applicazione: 64 bit</translation>
     </message>
     <message>
         <source>LIBAV general version:</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBAV versione generale:</translation>
     </message>
 </context>
 <context>
     <name>DlgFileExplorer</name>
     <message>
         <source>Adjust display mode and file filtering</source>
-        <translation type="unfinished">Agiusta la modalità di visualizzazione e il filtro sui file</translation>
+        <translation>Agiusta modalità visualizzazione e filtro su file</translation>
     </message>
     <message>
         <source>Change to upper folder</source>
-        <translation type="unfinished">Cambia la cartella superiore</translation>
+        <translation>Cambia alla cartella superiore</translation>
     </message>
     <message>
         <source>Change to previous folder</source>
-        <translation type="unfinished">Cambia la cartella precedente</translation>
+        <translation>Cambia alla cartella precedente</translation>
     </message>
     <message>
         <source>Refresh folder table</source>
-        <translation type="unfinished">Aggiorna la tabella cartella</translation>
+        <translation>Aggiorna tabella cartella</translation>
     </message>
     <message>
         <source>Use or manage favorite path</source>
-        <translation type="unfinished">Utilizza o gestisci il path preferiti</translation>
+        <translation>Utilizza o gestisci path preferiti</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">Annulla (&amp;C)</translation>
+        <translation>Annulla (&amp;C)</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri la pagina di aiuto di questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Aiuto(&amp;H)</translation>
     </message>
     <message>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
     <message>
         <source>Add to favorite</source>
-        <translation type="unfinished">Aggiungi ai favoriti</translation>
+        <translation>Aggiungi ai favoriti</translation>
     </message>
     <message>
         <source>Add current path to favorite</source>
-        <translation type="unfinished">Aggiungi il path corrente ai preferiti</translation>
+        <translation>Aggiungi il percorso corrente ai preferiti</translation>
     </message>
     <message>
         <source>Manage favorites</source>
-        <translation type="unfinished">Gestione preferiti</translation>
+        <translation>Gestione preferiti</translation>
     </message>
     <message>
         <source>Manage favorites (rename or remove)</source>
-        <translation type="unfinished">Gestione preferiti (rinomina o rimuovi)</translation>
+        <translation>Gestione preferiti (rinomina o rimuovi)</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished">Apri</translation>
+        <translation>Apri</translation>
     </message>
     <message>
         <source>Open file with system associated application</source>
-        <translation type="unfinished">Aprire il file con l&apos;applicazione associata del sistema</translation>
+        <translation>Aprire il file con l&apos;applicazione associata al sistema</translation>
     </message>
     <message>
         <source>Properties</source>
-        <translation type="unfinished">Propietà</translation>
+        <translation>Propietà</translation>
     </message>
     <message>
         <source>Display information on file</source>
-        <translation type="unfinished">Visualizza informazioni file</translation>
+        <translation>Visualizza informazioni sul file</translation>
     </message>
 </context>
 <context>
@@ -2110,18 +2094,6 @@ Sposta il file corrente selezionato una tacca giù</translation>
         <translation>Formato audio :</translation>
     </message>
     <message>
-        <source>Audio track - Total progression</source>
-        <translation>Traccia audio - Progressione complessiva</translation>
-    </message>
-    <message>
-        <source>Video track - Current slide progression</source>
-        <translation>Traccia video - Progressione diapositiva corrente</translation>
-    </message>
-    <message>
-        <source>Video track - Total progression</source>
-        <translation>Traccia video - Progressione complessiva</translation>
-    </message>
-    <message>
         <source>Elapsed time :</source>
         <translation>Tempo trascorso :</translation>
     </message>
@@ -2239,17 +2211,8 @@ Vuoi sovrascriverlo?</translation>
         <translation>Codifica suono</translation>
     </message>
     <message>
-        <source>Error</source>
-        <comment>Error message</comment>
-        <translation>Errore</translation>
-    </message>
-    <message>
         <source> - Estimated time left : </source>
         <translation> - Tempo stimato rimanente :</translation>
-    </message>
-    <message>
-        <source>Closing encoder</source>
-        <translation>Chiusura codifica</translation>
     </message>
     <message>
         <source>Job completed successfully!</source>
@@ -2272,61 +2235,45 @@ Vuoi sovrascriverlo?</translation>
         <translation>Selezionare il tipo di file utilizzato per il rendering</translation>
     </message>
     <message>
-        <source>Start encoder</source>
-        <translation>Avvia codifica</translation>
-    </message>
-    <message>
-        <source>Error starting encoder</source>
-        <comment>Error message</comment>
-        <translation>Errore avvio codifica</translation>
-    </message>
-    <message>
-        <source>Error sending image to encoder</source>
-        <comment>Error message</comment>
-        <translation>Errore nell&apos;invio immagine al codificatore</translation>
-    </message>
-    <message>
-        <source>Error closing encoder</source>
-        <comment>Error message</comment>
-        <translation>Errore chiusura codifica</translation>
-    </message>
-    <message>
-        <source>Error exiting encoder</source>
-        <comment>Error message</comment>
-        <translation>Errore uscita codifica</translation>
-    </message>
-    <message>
         <source>Render lossless video</source>
         <translation>Genera video senza perdita</translation>
     </message>
     <message>
-        <source>HTML5 :</source>
-        <translation>HTML5 :</translation>
-    </message>
-    <message>
-        <source>Up the video to leave room for controls</source>
-        <translation>Sull&apos; video per lasciare spazio per i controlli</translation>
-    </message>
-    <message>
         <source>Export soundtrack</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Encoder error</source>
-        <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Esporta traccia sonora</translation>
     </message>
     <message>
         <source>Frequency :</source>
-        <translation type="unfinished"></translation>
+        <translation>Frequenza :</translation>
     </message>
     <message>
         <source>soundtrack</source>
         <comment>Default name for rendering</comment>
-        <translation type="unfinished"></translation>
+        <translation>traccia sonora</translation>
     </message>
     <message>
         <source>Incorrect codec combination!</source>
+        <translation>Combinazione codec incorretta!</translation>
+    </message>
+    <message>
+        <source>Current slide progression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Total progression</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Encoding video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Job canceled!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Job error!
+Please contact ffDiaporama team</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3099,23 +3046,23 @@ blocco</translation>
     </message>
     <message>
         <source>Clip-Art :</source>
-        <translation type="unfinished"></translation>
+        <translation>Clip-Art :</translation>
     </message>
     <message>
         <source>Add simple text block</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi blocco testo semplice</translation>
     </message>
     <message>
         <source>Add a new simple text block</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi un nuovo blocco testo semplice</translation>
     </message>
     <message>
         <source>Add ClipArt text block</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi blocco testo ClipArt</translation>
     </message>
     <message>
         <source>Add a new ClipArt text block</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi un nuovo blocco testo ClipArt</translation>
     </message>
 </context>
 <context>
@@ -4129,10 +4076,6 @@ la geometria dell&apos;immagine nel file non è uguale a quella del progetto cor
         <translation>Un nuovo rilascio di ffDiaporama è disponibile sul sito WEB. Per favore aggiornalo da http://ffdiaporama.tuxfamily.org !</translation>
     </message>
     <message>
-        <source>Configuration not correct!</source>
-        <translation>Configurazione non corretta!</translation>
-    </message>
-    <message>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Visita il sito Web ffDiaporama per usare il forum,&lt;br&gt;consulta il tutorials e conosci le ultime novità:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -4597,36 +4540,37 @@ Sei sicuro che è vuota?</translation>
     </message>
     <message>
         <source>Latest version number of ffDiaporama is indeterminable</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;ultimo numero di versione di ffDiaporama è indeterminabile</translation>
     </message>
     <message>
         <source>Slide: xx/xxx</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva xx/xxx</translation>
     </message>
     <message>
         <source>Chapter: xx/xxx</source>
-        <translation type="unfinished"></translation>
+        <translation>Capitolo: xx/xxx</translation>
     </message>
     <message>
         <source>Slide: </source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva :</translation>
     </message>
     <message>
         <source>Chapter: </source>
-        <translation type="unfinished"></translation>
+        <translation>Capitolo: </translation>
     </message>
     <message>
         <source>Your version of ffDiaporama is up to day</source>
-        <translation type="unfinished"></translation>
+        <translation>La tua versione di ffDiaporama è aggiornata</translation>
     </message>
     <message>
         <source>Loading text frame  library...</source>
-        <translation type="unfinished"></translation>
+        <translation>Caricamento libreria cornici testo...</translation>
     </message>
     <message>
         <source>Export
 Soundtrack</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta
+traccia audio</translation>
     </message>
 </context>
 <context>
@@ -5122,99 +5066,99 @@ Soundtrack</source>
     </message>
     <message>
         <source>Vertical Binoculars</source>
-        <translation type="unfinished"></translation>
+        <translation>Binocoli Verticali</translation>
     </message>
     <message>
         <source>Vertical Trinoculars</source>
-        <translation type="unfinished"></translation>
+        <translation>Trinocoli Verticali</translation>
     </message>
     <message>
         <source>Trapezoid Down-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Trapezoidale Basso-Destra</translation>
     </message>
     <message>
         <source>Trapezoid Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Trapezoidale Alto</translation>
     </message>
     <message>
         <source>Trapezoid Down-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Trapezoidale Basso-Sinistra</translation>
     </message>
     <message>
         <source>Trapezoid Right-Down</source>
-        <translation type="unfinished"></translation>
+        <translation>trapezoidale Destro-Basso</translation>
     </message>
     <message>
         <source>Trapezoid Left-Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Trapezoidale Sinistro-Basso</translation>
     </message>
     <message>
         <source>Keyhole</source>
-        <translation type="unfinished"></translation>
+        <translation>Buco Serratura</translation>
     </message>
     <message>
         <source>Horizontal Binoculars</source>
-        <translation type="unfinished"></translation>
+        <translation>Binocolo Orizzontale</translation>
     </message>
     <message>
         <source>Horizontal Trinoculars</source>
-        <translation type="unfinished"></translation>
+        <translation>Trinocolo Orizzontale</translation>
     </message>
     <message>
         <source>Trapezoid Up-Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Trapezoidale Alto-Destra</translation>
     </message>
     <message>
         <source>Trapezoid Down</source>
-        <translation type="unfinished"></translation>
+        <translation>trapezoidale Basso</translation>
     </message>
     <message>
         <source>Trapezoid Up-Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Trapezoidale Alto-Sinistra</translation>
     </message>
     <message>
         <source>Trapezoid Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Trapezoidale Sinistra</translation>
     </message>
     <message>
         <source>Trapezoid Right</source>
-        <translation type="unfinished"></translation>
+        <translation>trapezoidale Destra</translation>
     </message>
     <message>
         <source>Plus</source>
-        <translation type="unfinished"></translation>
+        <translation>Più</translation>
     </message>
     <message>
         <source>Four oculars</source>
-        <translation type="unfinished"></translation>
+        <translation>Quattro oculari</translation>
     </message>
     <message>
         <source>Parallelogram Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Parallelogramma Sinistro</translation>
     </message>
     <message>
         <source>Parallelogram Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Parallelogramma Destro</translation>
     </message>
     <message>
         <source>Parallelogram Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Parallelogramma Alto</translation>
     </message>
     <message>
         <source>Parallelogram Down</source>
-        <translation type="unfinished"></translation>
+        <translation>Parallelogramma Basso</translation>
     </message>
     <message>
         <source>Trapezoid Right-Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Trapezoidale Destra-Alto</translation>
     </message>
     <message>
         <source>Trapezoid Left-Up</source>
-        <translation type="unfinished"></translation>
+        <translation>Trapezoidale Sinistro-Alto</translation>
     </message>
     <message>
         <source>Hourglass</source>
-        <translation type="unfinished"></translation>
+        <translation>Clessidra</translation>
     </message>
 </context>
 <context>
@@ -5338,7 +5282,7 @@ Soundtrack</source>
     <message>
         <source>Vector image</source>
         <comment>File type</comment>
-        <translation type="unfinished"></translation>
+        <translation>Immagine vettoriale</translation>
     </message>
 </context>
 <context>

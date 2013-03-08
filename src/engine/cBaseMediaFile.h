@@ -35,7 +35,7 @@
 #include <QtSvg>
 
 // Include some common various class
-#include "cDeviceModelDef.h"                // Contains ffmpeg include
+#include "cDeviceModelDef.h"                // Contains Libav include
 #include "cSoundBlockList.h"
 #include "cCustomIcon.h"
 
@@ -237,7 +237,7 @@ public:
 
 class cVideoFile : public cBaseMediaFile {
 public:
-    bool                    IsOpen;                     // True if ffmpeg open on this file
+    bool                    IsOpen;                     // True if Libav open on this file
     bool                    MusicOnly;                  // True if object is a music only file
     bool                    IsVorbis;                   // True if vorbis version must be use instead of MP3/WAV version
     bool                    IsMTS;                      // True if file is a MTS file
@@ -245,22 +245,22 @@ public:
     QTime                   EndPos;                     // End position
     QString                 Container;                  // Container type (get from file extension)
     QTime                   Duration;                   // Duration of the video
-    double                  dEndFileCachePos;           // Position of the cache image of last image of the video
     QString                 VideoCodecInfo;
     QString                 AudioCodecInfo;
     int                     NbrChapters;                // Number of chapters in the file
 
     // Video part
-    AVFormatContext         *ffmpegVideoFile;           // LibAVFormat context
+    AVFormatContext         *LibavVideoFile;           // LibAVFormat context
     AVCodec                 *VideoDecoderCodec;         // Associated LibAVCodec for video stream
     int                     VideoStreamNumber;          // Number of the video stream
     int                     VideoTrackNbr;              // Number of video stream in file
     AVFrame                 *FrameBufferYUV;
     bool                    FrameBufferYUVReady;        // true if FrameBufferYUV is ready to convert
     int64_t                 FrameBufferYUVPosition;     // If FrameBufferYUV is ready to convert then keep FrameBufferYUV position
+    QImage                  LastImage;                  // Keep last image return
 
     // Audio part
-    AVFormatContext         *ffmpegAudioFile;           // LibAVFormat context
+    AVFormatContext         *LibavAudioFile;           // LibAVFormat context
     AVCodec                 *AudioDecoderCodec;         // Associated LibAVCodec for audio stream
     int                     AudioStreamNumber;          // Number of the audio stream
     int                     AudioTrackNbr;              // Number of audio stream in file
@@ -268,10 +268,14 @@ public:
     int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
 
     // Audio resampling
-    #ifdef LIBAV_08
+    #if defined(LIBAV_08)
     ReSampleContext         *RSC;
-    #else
+    #elif defined(USELIBSWRESAMPLE)
+    SwrContext              *RSC;
+    #elif defined(USELIBAVRESAMPLE)
     AVAudioResampleContext  *RSC;
+    #endif
+    #if defined(LIBAV_09)
     uint64_t                RSC_InChannelLayout,RSC_OutChannelLayout;
     #endif
     int                     RSC_InChannels,RSC_OutChannels;
@@ -292,6 +296,8 @@ public:
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();
 
+    virtual int             getThreadFlags(CodecID codecId);
+
     virtual bool            OpenCodecAndFile();
     virtual void            CloseCodecAndFile();
 
@@ -307,6 +313,7 @@ public:
                                                #endif
                                           );
 
+    #if !defined(USELIBSWRESAMPLE)
     //*********************
     // video filters part
     //*********************
@@ -328,6 +335,7 @@ public:
     virtual int             VideoFilter_Open(QString Filters);
     virtual void            VideoFilter_Close();
     virtual int             VideoFilter_Process();
+    #endif
 };
 
 //*********************************************************************************************************************************************

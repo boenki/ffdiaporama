@@ -46,11 +46,7 @@ public:
     int             Extend;                         // amout of padding (top and bottom) for cinema mode with DVD
     int             VideoCodecIndex;                // Index of video codec
     int             AudioCodecIndex;                // Index of audio codec
-    double          FPS;
-    qlonglong       NbrFrame;                       // Number of frame to generate
-    QTime           StartTime;                      // Time the process start
-    QTime           LastCheckTime;                  // Last time the loop start
-    qlonglong       RenderedFrame;
+
     bool            IsDestFileOpen;                 // true if encoding is started
 
     QString         OutputFileName;                 // filename with path for the last rendering file
@@ -66,11 +62,7 @@ public:
     int             Standard;                       // Last standard use for rendering
 
     QString         Language;
-    QString         TempAudioFileName;
-    QString         TempMETAFileName;
-    int             FromSlide,ToSlide;
 
-    int             ExtendH,ExtendV;
     int             W,H;
 
     explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
@@ -83,14 +75,11 @@ public:
     virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
     virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
 
-    // threaded funtion
-    void SavePPM(cDiaporamaObjectInfo *Frame,QProcess *Process,bool *Continue);
 
 protected:
     virtual void    reject();
 
 private slots:
-    void            SwitchToRenderMode();
     void            ProjectProperties();
     void            InitImageSizeCombo(int);
     void            SelectDestinationFile();
@@ -103,19 +92,12 @@ private slots:
     void            SetZoneToAll();
     void            SetZoneToPartial();
     void            s_IncludeSound();
-    void            s_HTML5UPVideo();
-    void            s_TimerEvent();
 
 signals:
     void            SetModifyFlag();
 
 private:
     Ui::DlgRenderVideo *ui;
-
-    QString         AdjustMETA(QString Text,bool AddBreak=true);
-
-    bool            ComputeVideoPart(QString &vCodec);
-    bool            ComputeTAGPart(  QString &aTAG,bool WithChapters);
 
     QStringList     StringToSortedStringList(QString String);
 };

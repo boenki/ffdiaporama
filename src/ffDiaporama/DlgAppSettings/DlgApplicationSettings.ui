@@ -73,7 +73,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>911</width>
+            <width>492</width>
             <height>456</height>
            </rect>
           </property>
@@ -542,7 +542,7 @@ of ffDiaporama will be saved to be reused the next time you use ffDiaporama</str
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>911</width>
+            <width>508</width>
             <height>1059</height>
            </rect>
           </property>
@@ -2074,9 +2074,9 @@ Coordinates:</string>
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-151</y>
+            <y>0</y>
             <width>911</width>
-            <height>566</height>
+            <height>541</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -2086,6 +2086,16 @@ Coordinates:</string>
            <property name="spacing">
             <number>4</number>
            </property>
+           <item row="6" column="0">
+            <widget class="QLabel" name="label_31">
+             <property name="text">
+              <string>For the WEB :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
            <item row="4" column="1">
             <widget class="QComboBox" name="SmartphoneTypeCB">
              <property name="toolTip">
@@ -2101,16 +2111,6 @@ when you click the &quot;Player and Smartphone&quot; button in the &quot;Render 
              </property>
              <property name="sizeAdjustPolicy">
               <enum>QComboBox::AdjustToMinimumContentsLength</enum>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="label_31">
-             <property name="text">
-              <string>For the WEB :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
             </widget>
            </item>
@@ -2324,7 +2324,7 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
              </item>
             </widget>
            </item>
-           <item row="36" column="0" colspan="2">
+           <item row="35" column="0" colspan="2">
             <widget class="QLabel" name="label_16">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
@@ -2350,6 +2350,19 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
              </property>
             </widget>
            </item>
+           <item row="41" column="0">
+            <spacer name="verticalSpacer">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
            <item row="32" column="0">
             <widget class="QLabel" name="label_22">
              <property name="text">
@@ -2362,19 +2375,6 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
               <cstring>AudioFormatCB</cstring>
              </property>
             </widget>
-           </item>
-           <item row="42" column="0">
-            <spacer name="verticalSpacer">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
            </item>
            <item row="31" column="1">
             <widget class="QComboBox" name="VideoBitRateCB">
@@ -2509,14 +2509,14 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
              </property>
             </widget>
            </item>
-           <item row="39" column="1">
+           <item row="38" column="1">
             <widget class="QComboBox" name="SoundtrackAudioFormatCB">
              <property name="toolTip">
               <string>Select the default audio codec to use for the rendering</string>
              </property>
             </widget>
            </item>
-           <item row="38" column="0">
+           <item row="37" column="0">
             <widget class="QLabel" name="label_52">
              <property name="text">
               <string>File format :</string>
@@ -2529,7 +2529,7 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
              </property>
             </widget>
            </item>
-           <item row="39" column="0">
+           <item row="38" column="0">
             <widget class="QLabel" name="label_53">
              <property name="text">
               <string>Audio codec :</string>
@@ -2542,33 +2542,7 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
              </property>
             </widget>
            </item>
-           <item row="35" column="1">
-            <widget class="QCheckBox" name="PipeThreadCB">
-             <property name="text">
-              <string>Use thread for pipe operations</string>
-             </property>
-            </widget>
-           </item>
-           <item row="35" column="0">
-            <widget class="QLabel" name="label_51">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Advanced option :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>AudioBitRateCB</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="38" column="1">
+           <item row="37" column="1">
             <widget class="QComboBox" name="SoundtrackFileFormatCB">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -2581,7 +2555,7 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
              </property>
             </widget>
            </item>
-           <item row="40" column="0">
+           <item row="39" column="0">
             <widget class="QLabel" name="label_54">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -2600,7 +2574,7 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
              </property>
             </widget>
            </item>
-           <item row="40" column="1">
+           <item row="39" column="1">
             <widget class="QComboBox" name="SoundtrackAudioBitRateCB">
              <property name="toolTip">
               <string>Select the default bit rate to use for audio during the rendering</string>
@@ -2610,7 +2584,7 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
              </property>
             </widget>
            </item>
-           <item row="41" column="0">
+           <item row="40" column="0">
             <widget class="QLabel" name="AudioFreqLabel">
              <property name="text">
               <string>Frequency :</string>
@@ -2620,7 +2594,7 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
              </property>
             </widget>
            </item>
-           <item row="41" column="1">
+           <item row="40" column="1">
             <widget class="QComboBox" name="SoundtrackAudioFreqCB">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
@@ -2822,7 +2796,6 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
   <tabstop>VideoBitRateCB</tabstop>
   <tabstop>AudioFormatCB</tabstop>
   <tabstop>AudioBitRateCB</tabstop>
-  <tabstop>PipeThreadCB</tabstop>
   <tabstop>SoundtrackFileFormatCB</tabstop>
   <tabstop>SoundtrackAudioFormatCB</tabstop>
   <tabstop>SoundtrackAudioBitRateCB</tabstop>

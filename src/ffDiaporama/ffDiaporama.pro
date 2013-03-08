@@ -245,6 +245,6 @@ FORMS    += mainwindow.ui \
     INSTALLS 		+= luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake luma
 
     General.path        = $$PREFIX/share/$$APPFOLDER
-    General.files       = ../../*.xml ../../*.txt ../../*.rtf ../../*.ffpreset
+    General.files       = ../../*.xml ../../*.txt ../../*.rtf
     INSTALLS 		+= General
 #}
