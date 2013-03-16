@@ -64,12 +64,25 @@ extern "C" {
     #include <libavformat/avformat.h>
     #include <libavformat/avio.h>
 
-    #if defined(USELIBAVRESAMPLE)
-        #include "libavresample/avresample.h"
-        #define RESAMPLE_MAX_CHANNELS AVRESAMPLE_MAX_CHANNELS
-    #elif defined(USELIBSWRESAMPLE)
-        #include "libswresample/swresample.h"
-        #define RESAMPLE_MAX_CHANNELS SWR_CH_MAX
+    #if ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,0,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,31,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(54,19,0)))
+        #define LIBAV_09
+        #if defined(USELIBAVRESAMPLE)
+            #include "libavresample/avresample.h"
+            #define RESAMPLE_MAX_CHANNELS AVRESAMPLE_MAX_CHANNELS
+        #elif defined(USELIBSWRESAMPLE)
+            #include "libswresample/swresample.h"
+            #define RESAMPLE_MAX_CHANNELS SWR_CH_MAX
+        #endif
+    #elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,22,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(53,35,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(53,21,0)))
+        #define LIBAV_08
+        #if defined(USELIBAVRESAMPLE)
+            #undef USELIBAVRESAMPLE
+        #endif
+        #if defined(USELIBSWRESAMPLE)
+            #undef USELIBSWRESAMPLE
+        #endif
+    #elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,7,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(53,6,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(53,3,0)))
+        #define LIBAV_07
     #endif
 
     // include for libavfilter
@@ -99,14 +112,6 @@ extern "C" {
         #endif
     #endif
 }
-
-#if ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,0,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,31,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(54,19,0)))
-    #define LIBAV_09
-#elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,22,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(53,35,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(53,21,0)))
-    #define LIBAV_08
-#elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,7,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(53,6,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(53,3,0)))
-    #define LIBAV_07
-#endif
 
 #if !defined(FF_API_CODEC_ID)
     #define AV_CODEC_ID_NONE        CODEC_ID_NONE
