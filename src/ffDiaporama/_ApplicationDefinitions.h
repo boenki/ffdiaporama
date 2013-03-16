@@ -23,9 +23,9 @@
 
 // Basic inclusions (common to all files)
 #include "../engine/_GlobalDefines.h"
-#include "../engine/cDriveList.h"
 
 // Include some common various class
+#include "../engine/cDriveList.h"
 #include "../engine/cBaseApplicationConfig.h"
 #include "../engine/cDeviceModelDef.h"
 #include "../engine/cBrushDefinition.h"

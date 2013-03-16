@@ -22,20 +22,10 @@
 #define QCUSTOMFOLDERTREE_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
 #include "_QCustomDialog.h"
 
-// Include some additional standard class
-#include <QWidget>
-#include <QTreeWidget>
-#include <QTreeWidgetItem>
-#include <QString>
-#include <QIcon>
-#include <QAction>
-#include <QImage>
-
 // Include some common various class
-#include "cDriveList.h"
+#include "../engine/cDriveList.h"
 
 class QCustomFolderTree : public QTreeWidget {
 Q_OBJECT

@@ -22,24 +22,30 @@
 #define _QCUSTOMDIALOG_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include "../engine/_GlobalDefines.h"
 
 // Include some additional standard class
-#include <QShowEvent>
-#include <QString>
+#include <QAction>
+#include <QComboBox>
 #include <QDialog>
 #include <QDomDocument>
-#include <QPushButton>
 #include <QDesktopServices>
-#include <QTableWidgetItem>
-#include <QTableWidgetItem>
+#include <QHeaderView>
 #include <QIcon>
+#include <QImage>
 #include <QLineEdit>
 #include <QMessageBox>
-#include <QComboBox>
+#include <QPushButton>
+#include <QShowEvent>
+#include <QString>
+#include <QStyledItemDelegate>
+#include <QTableWidget>
+#include <QTableWidgetItem>
+#include <QTreeWidget>
+#include <QWidget>
 
 // Include some common various class
-#include "cBaseApplicationConfig.h"
+#include "../engine/cBaseApplicationConfig.h"
 
 class QCustomDialog : public QDialog {
 Q_OBJECT

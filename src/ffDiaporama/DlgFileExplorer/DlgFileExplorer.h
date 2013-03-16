@@ -2,8 +2,7 @@
 #define DLGFILEEXPLORER_H
 
 // Basic inclusions (common to all files)
-#include "../../engine/_GlobalDefines.h"
-#include "../../engine/_QCustomDialog.h"
+#include "../../CustomCtrl/_QCustomDialog.h"
 #include "../../engine/cDriveList.h"
 
 #include "../_ApplicationDefinitions.h"

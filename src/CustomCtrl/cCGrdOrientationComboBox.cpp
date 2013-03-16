@@ -19,7 +19,6 @@
    ====================================================================== */
 
 #include "cCGrdOrientationComboBox.h"
-#include <QHeaderView>
 
 #define MAXGRADIENTORIENTATION  9
 

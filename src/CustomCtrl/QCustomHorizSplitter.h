@@ -24,12 +24,11 @@
 // This class handle a standard horizontal QSplitter with 2 children. Only second child is expanding when splitter is resizing
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include "_QCustomDialog.h"
 
 // Include some additional standard class
 #include <QSplitter>
 #include <QResizeEvent>
-#include <QWidget>
 
 class QCustomHorizSplitter : public QSplitter {
 Q_OBJECT

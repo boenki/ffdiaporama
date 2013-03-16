@@ -4,13 +4,19 @@
 #       xxx could be /usr, /usr/local or /opt
 #--------------------------------------------------------------
 
-QT           += core gui xml network svg
-#win32:CONFIG += console
-CONFIG       += thread
+greaterThan(QT_MAJOR_VERSION, 4): {
+    # QT5 version
+    QT += widgets xml network svg
+} else: {
+    # QT4 version
+    QT += core gui xml network svg
+}
+
 QMAKE_STRIP  = echo
 APPFOLDER    = ffDiaporama
 TARGET       = ffDiaporama
 TEMPLATE     = app
+CONFIG       += thread
 DEFINES      += HAVE_CONFIG_H               # specific for TAGLib
 DEFINES      += TAGLIB_STATIC               # specific for TAGLib
 
@@ -30,7 +36,86 @@ isEmpty(PREFIX) {
 #--------------------------------------------------------------
 # DEFINES BUILD DIRECTORIES, COMMON INCLUDES AND COMMON LIBS
 #--------------------------------------------------------------
-include(../common.pri)
+
+DEFINES +=SHARE_DIR=\\\"$$PREFIX\\\"
+
+unix {
+    CONFIG(release, debug|release) {
+        DESTDIR         += ../../../build
+        OBJECTS_DIR     += ../../../build/src/$$TARGET
+        MOC_DIR         += ../../../build/src/$$TARGET
+        RCC_DIR         += ../../../build/src/$$TARGET
+        UI_DIR          += ../../../build/src/$$TARGET
+        UI_HEADERS_DIR  += ../../../build/src/$$TARGET
+        UI_SOURCES_DIR  += ../../../build/src/$$TARGET
+    }
+    CONFIG(debug, debug|release) {
+        DESTDIR         += ../../../debugbuild
+        OBJECTS_DIR     += ../../../debugbuild/src/$$TARGET
+        MOC_DIR         += ../../../debugbuild/src/$$TARGET
+        RCC_DIR         += ../../../debugbuild/src/$$TARGET
+        UI_DIR          += ../../../debugbuild/src/$$TARGET
+        UI_HEADERS_DIR  += ../../../debugbuild/src/$$TARGET
+        UI_SOURCES_DIR  += ../../../debugbuild/src/$$TARGET
+        INCLUDEPATH     += ../../../debugbuild/src/$$TARGET
+        DEFINES         += DEBUG_MODE
+    }
+
+    INCLUDEPATH += /usr/include/ffmpeg/                                     # Specific for Fedora
+
+    exists(/usr/include/libswresample/swresample.h) {
+        DEFINES += USELIBSWRESAMPLE
+        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
+    } else:exists(/usr/include/libavresample/avresample.h) {
+        DEFINES += USELIBAVRESAMPLE
+        LIBS    += -lavresample                                             #------ conditionnaly include libavresample
+    }
+
+} else:win32 {
+
+    CONFIG(release, debug|release) {
+        DESTDIR         += ..\\..\\..\\winbuild
+        OBJECTS_DIR     += ..\\..\\..\\winbuild\\src\\$$TARGET
+        MOC_DIR         += ..\\..\\..\\winbuild\\src\\$$TARGET
+        RCC_DIR         += ..\\..\\..\\winbuild\\src\\$$TARGET
+        UI_DIR          += ..\\..\\..\\winbuild\\src\\$$TARGET
+        UI_HEADERS_DIR  += ..\\..\\..\\winbuild\\src\\$$TARGET
+        UI_SOURCES_DIR  += ..\\..\\..\\winbuild\\src\\$$TARGET
+    }
+    CONFIG(debug, debug|release) {
+        DESTDIR         += ..\\..\\..\\windebugbuild
+        OBJECTS_DIR     += ..\\..\\..\\windebugbuild\\src\\$$TARGET
+        MOC_DIR         += ..\\..\\..\\windebugbuild\\src\\$$TARGET
+        RCC_DIR         += ..\\..\\..\\windebugbuild\\src\\$$TARGET
+        UI_DIR          += ..\\..\\..\\windebugbuild\\src\\$$TARGET
+        UI_HEADERS_DIR  += ..\\..\\..\\windebugbuild\\src\\$$TARGET
+        UI_SOURCES_DIR  += ..\\..\\..\\windebugbuild\\src\\$$TARGET
+        DEFINES         += DEBUG_MODE
+        INCLUDEPATH     += F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include
+        LIBS            += -L"F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\lib"
+    }
+
+    INCLUDEPATH += .                                                        #------ I don't know why, but windows need this !
+    LIBS        += -lgdi32 -lkernel32 -luser32 -lshell32 -ladvapi32         #------ Windows GDI libs link
+
+    exists("F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include\\libswresample\\swresample.h") {
+        DEFINES += USELIBSWRESAMPLE
+        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
+    } else:exists("F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include\\libavresample\\avresample.h") {
+        DEFINES += USELIBAVRESAMPLE
+        LIBS    += -lavresample                                             #------ conditionnaly include libavresample
+    }
+}
+
+#---- Libs for windows and linux
+LIBS        += -ltag                                                        #------ TAGlib
+LIBS	    += -lSDL                                                        #------ SDL
+LIBS        += -lexiv2                                                      #------ Exiv2
+LIBS        += -lqimageblitz                                                #------ QImageBlitz
+LIBS        += -lavformat -lavcodec -lavutil -lswscale -lavfilter           #------ libav
+
+#--------------------------------------------------------------
+# PROJECT FILES
 #--------------------------------------------------------------
 
 # Ressource files
@@ -38,6 +123,7 @@ win32:RC_FILE    += ../../ffDiaporama.rc
 unix:OTHER_FILES += ../../ffDiaporama.rc
 RESOURCES        += ../../RSCffDiaporama.qrc
 
+# Translation files
 TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_it.ts \
     ../../locale/ffDiaporama_de.ts \
@@ -50,6 +136,7 @@ TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_cz.ts \
     ../../locale/ffDiaporama_zh_tw.ts
 
+# Source files
 SOURCES +=  _ApplicationDefinitions.cpp \
             _Diaporama.cpp \
             wgt_QVideoPlayer.cpp \
@@ -93,26 +180,27 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../engine/cSoundBlockList.cpp \
             ../engine/cBaseMediaFile.cpp \
             ../engine/_SDL_Support.cpp \
-            ../engine/_QCustomDialog.cpp \
             ../engine/cBrushDefinition.cpp \
             ../engine/cCustomIcon.cpp \
-            ../engine/QCustomHorizSplitter.cpp \
-            ../engine/QCustomFolderTree.cpp \
-            ../engine/QCustomFolderTable.cpp \
             ../engine/cDriveList.cpp \
             ../engine/_Transition.cpp \
             ../engine/_SpeedWave.cpp \
             ../engine/_Shape.cpp \
             ../engine/cTextFrame.cpp \
             ../engine/_EncodeVideo.cpp \
+            ../CustomCtrl/_QCustomDialog.cpp \
             ../CustomCtrl/cCColorComboBox.cpp \
             ../CustomCtrl/cCBrushComboBox.cpp \
             ../CustomCtrl/cCGrdOrientationComboBox.cpp \
             ../CustomCtrl/cCFramingComboBox.cpp \
             ../CustomCtrl/cCShapeComboBox.cpp \
             ../CustomCtrl/cBackgroundComboBox.cpp \
+            ../CustomCtrl/QCustomFolderTable.cpp \
+            ../CustomCtrl/QCustomHorizSplitter.cpp \
+            ../CustomCtrl/QCustomFolderTree.cpp \
             ../CustomCtrl/cCTexteFrameComboBox.cpp
 
+# Header files
 HEADERS  += \
             _ApplicationDefinitions.h \
             _Diaporama.h \
@@ -156,26 +244,27 @@ HEADERS  += \
             ../engine/cSoundBlockList.h \
             ../engine/cBaseMediaFile.h \
             ../engine/_SDL_Support.h \
-            ../engine/_QCustomDialog.h \
             ../engine/cBrushDefinition.h \
             ../engine/cCustomIcon.h \
-            ../engine/QCustomHorizSplitter.h \
-            ../engine/QCustomFolderTree.h \
-            ../engine/QCustomFolderTable.h \
             ../engine/cDriveList.h \
             ../engine/_Transition.h \
             ../engine/_SpeedWave.h \
             ../engine/_Shape.h \
             ../engine/cTextFrame.h \
             ../engine/_EncodeVideo.h \
+            ../CustomCtrl/_QCustomDialog.h \
             ../CustomCtrl/cCColorComboBox.h \
             ../CustomCtrl/cCBrushComboBox.h \
             ../CustomCtrl/cCGrdOrientationComboBox.h \
             ../CustomCtrl/cCFramingComboBox.h \
             ../CustomCtrl/cCShapeComboBox.h \
             ../CustomCtrl/cBackgroundComboBox.h \
+            ../CustomCtrl/QCustomFolderTable.h \
+            ../CustomCtrl/QCustomHorizSplitter.h \
+            ../CustomCtrl/QCustomFolderTree.h \
             ../CustomCtrl/cCTexteFrameComboBox.h
 
+# Forms files
 FORMS    += mainwindow.ui \
             wgt_QVideoPlayer.ui \
             DlgRenderVideo/DlgRenderVideo.ui \
@@ -199,52 +288,52 @@ FORMS    += mainwindow.ui \
             DlgSlide/DlgSlideDuration.ui \
             DlgFileExplorer/DlgFileExplorer.ui
 
-# Installation on linux systems
-#unix {
-    message("Install to : $$PREFIX")
+#--------------------------------------------------------------
+# INSTALLATION
+#--------------------------------------------------------------
+message("Install to : $$PREFIX")
 
-    TARGET.path          = $$PREFIX/bin
-    TARGET.files         = $$DESTDIR/$$TARGET
-    INSTALLS 		+= TARGET
+TARGET.path         = $$PREFIX/bin
+TARGET.files        = $$DESTDIR/$$TARGET
+INSTALLS 	    += TARGET
 
-    ico.path            = $$PREFIX/share/icons/hicolor/32x32/apps
-    ico.files           = ../../ffdiaporama.png
-    INSTALLS 		+= ico
+ico.path            = $$PREFIX/share/icons/hicolor/32x32/apps
+ico.files           = ../../ffdiaporama.png
+INSTALLS 	    += ico
 
-    desktop.path        = $$PREFIX/share/applications
-    desktop.files       = ../../ffDiaporama.desktop
-    INSTALLS 		+= desktop
+desktop.path        = $$PREFIX/share/applications
+desktop.files       = ../../ffDiaporama.desktop
+INSTALLS 	    += desktop
 
-    mimefile.path       = $$PREFIX/share/mime/packages
-    mimefile.files      = ../../ffDiaporama-mime.xml
-    INSTALLS 		+= mimefile
+mimefile.path       = $$PREFIX/share/mime/packages
+mimefile.files      = ../../ffDiaporama-mime.xml
+INSTALLS 	    += mimefile
 
-    translation.path    = $$PREFIX/share/$$APPFOLDER/locale
-    translation.files   = ../../locale/ffDiaporama_* \
-                          ../../locale/qt_*
-    INSTALLS 		+= translation
+translation.path    = $$PREFIX/share/$$APPFOLDER/locale
+translation.files   = ../../locale/ffDiaporama_* \
+                      ../../locale/qt_*
+INSTALLS 	    += translation
 
-    background.path     = $$PREFIX/share/$$APPFOLDER/background
-    background.files    = ../../background/*.*
-    INSTALLS 		+= background
+background.path     = $$PREFIX/share/$$APPFOLDER/background
+background.files    = ../../background/*.*
+INSTALLS 	    += background
 
-    luma.path           = $$PREFIX/share/$$APPFOLDER/luma
-    luma.files          = ../../luma/*.*
-    luma_Bar.path       = $$PREFIX/share/$$APPFOLDER/luma/Bar
-    luma_Bar.files      = ../../luma/Bar/*.*
-    luma_Box.path       = $$PREFIX/share/$$APPFOLDER/luma/Box
-    luma_Box.files      = ../../luma/Box/*.*
-    luma_Center.path    = $$PREFIX/share/$$APPFOLDER/luma/Center
-    luma_Center.files   = ../../luma/Center/*.*
-    luma_Checker.path   = $$PREFIX/share/$$APPFOLDER/luma/Checker
-    luma_Checker.files  = ../../luma/Checker/*.*
-    luma_Clock.path     = $$PREFIX/share/$$APPFOLDER/luma/Clock
-    luma_Clock.files    = ../../luma/Clock/*.*
-    luma_Snake.path     = $$PREFIX/share/$$APPFOLDER/luma/Snake
-    luma_Snake.files    = ../../luma/Snake/*.*
-    INSTALLS 		+= luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake luma
+luma.path           = $$PREFIX/share/$$APPFOLDER/luma
+luma.files          = ../../luma/*.*
+luma_Bar.path       = $$PREFIX/share/$$APPFOLDER/luma/Bar
+luma_Bar.files      = ../../luma/Bar/*.*
+luma_Box.path       = $$PREFIX/share/$$APPFOLDER/luma/Box
+luma_Box.files      = ../../luma/Box/*.*
+luma_Center.path    = $$PREFIX/share/$$APPFOLDER/luma/Center
+luma_Center.files   = ../../luma/Center/*.*
+luma_Checker.path   = $$PREFIX/share/$$APPFOLDER/luma/Checker
+luma_Checker.files  = ../../luma/Checker/*.*
+luma_Clock.path     = $$PREFIX/share/$$APPFOLDER/luma/Clock
+luma_Clock.files    = ../../luma/Clock/*.*
+luma_Snake.path     = $$PREFIX/share/$$APPFOLDER/luma/Snake
+luma_Snake.files    = ../../luma/Snake/*.*
+INSTALLS 	    += luma_Bar luma_Box luma_Center luma_Checker luma_Clock luma_Snake luma
 
-    General.path        = $$PREFIX/share/$$APPFOLDER
-    General.files       = ../../*.xml ../../*.txt ../../*.rtf
-    INSTALLS 		+= General
-#}
+General.path        = $$PREFIX/share/$$APPFOLDER
+General.files       = ../../*.xml ../../*.txt ../../*.rtf
+INSTALLS            += General

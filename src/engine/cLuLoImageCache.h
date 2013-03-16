@@ -32,7 +32,7 @@
 // Include some common various class
 #include "cCustomIcon.h"
 
-#define PREVIEWMAXHEIGHT    1080         // Max height for preview image
+#define PREVIEWMAXHEIGHT    720         // Max height for preview image
 
 //===================================================
 

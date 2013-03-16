@@ -22,11 +22,8 @@
 #define CCSHAPECOMBOBOX_H
 
 // Basic inclusions (common to all files)
-#include "../engine/_GlobalDefines.h"
+#include "_QCustomDialog.h"
 #include "../engine/_Shape.h"
-
-#include <QComboBox>
-#include <QStyledItemDelegate>
 
 //******************************************************************************************************************
 // Custom Frame shape ComboBox

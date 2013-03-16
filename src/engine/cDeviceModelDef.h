@@ -23,7 +23,6 @@
 
 // Basic inclusions (common to all files)
 #include "_GlobalDefines.h"
-#include "_QCustomDialog.h"
 
 // Include some additional standard class
 #include <QString>

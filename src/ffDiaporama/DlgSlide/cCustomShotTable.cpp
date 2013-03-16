@@ -76,6 +76,10 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     if (RedColor) Duration=ParentTable->DiaporamaObject->GetDuration()-Position;
 
     // draw shot
+    if (ParentTable->DiaporamaObject->Thumbnail) {
+        delete ParentTable->DiaporamaObject->Thumbnail;
+        ParentTable->DiaporamaObject->Thumbnail=NULL;
+    }
     ParentTable->DiaporamaObject->DrawThumbnail(Width,Height,&TempPainter,0,0,index.column());
 
     // Draw selected box (if needed)

@@ -257,14 +257,14 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSo
     QBrush  *Br=NULL;
 
     switch (BrushType) {
-        case BRUSHTYPE_NOBRUSH :        Br=new QBrush(Qt::NoBrush);                                                                                             break;
-        case BRUSHTYPE_SOLID :          Br=new QBrush(QColor(ColorD),Qt::SolidPattern);                                                                         break;
-        case BRUSHTYPE_PATTERN :        Br=new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));                                                          break;
-        case BRUSHTYPE_GRADIENT2 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);                       break;
-        case BRUSHTYPE_GRADIENT3 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);                       break;
-        case BRUSHTYPE_IMAGELIBRARY :   Br=GetLibraryBrush(Rect);                                                                                               break;
+        case BRUSHTYPE_NOBRUSH :        Br=new QBrush(Qt::NoBrush);                                                                               break;
+        case BRUSHTYPE_SOLID :          Br=new QBrush(QColor(ColorD),Qt::SolidPattern);                                                           break;
+        case BRUSHTYPE_PATTERN :        Br=new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));                                            break;
+        case BRUSHTYPE_GRADIENT2 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);         break;
+        case BRUSHTYPE_GRADIENT3 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);         break;
+        case BRUSHTYPE_IMAGELIBRARY :   Br=GetLibraryBrush(Rect);                                                                                 break;
         case BRUSHTYPE_IMAGEDISK :      Br=GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage,PctDone,PreviousBrush,UseBrushCache);    break;
-        default :                       Br=new QBrush(Qt::NoBrush);                                                                                             break;
+        default :                       Br=new QBrush(Qt::NoBrush);                                                                               break;
     }
     return Br;
 }
@@ -330,7 +330,6 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 // Adjust values depending on PctDone and previous Filter (if exist)
                 if (PreviousBrush) {
                     if (((PreviousBrush->OnOffFilter & FilterNormalize)==0)&&(PreviousBrush->Contrast!=TheContrast))    TheContrast     =PreviousBrush->Contrast+(TheContrast-PreviousBrush->Contrast)*PctDone;
-                    if (PreviousBrush->AspectRatio!=TheAspectRatio)                                                     TheAspectRatio  =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
                     if (PreviousBrush->X!=TheXFactor)                                                                   TheXFactor      =PreviousBrush->X+(TheXFactor-PreviousBrush->X)*PctDone;
                     if (PreviousBrush->Y!=TheYFactor)                                                                   TheYFactor      =PreviousBrush->Y+(TheYFactor-PreviousBrush->Y)*PctDone;
                     if (PreviousBrush->ZoomFactor!=TheZoomFactor)                                                       TheZoomFactor   =PreviousBrush->ZoomFactor+(TheZoomFactor-PreviousBrush->ZoomFactor)*PctDone;
@@ -345,20 +344,21 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                     if (PreviousBrush->Implode!=TheImplode)                                                             TheImplode      =PreviousBrush->Implode+(TheImplode-PreviousBrush->Implode)*PctDone;
                     if (PreviousBrush->WaveAmp!=TheWaveAmp)                                                             TheWaveAmp      =PreviousBrush->WaveAmp+(TheWaveAmp-PreviousBrush->WaveAmp)*PctDone;
                     if (PreviousBrush->WaveFreq!=TheWaveFreq)                                                           TheWaveFreq     =PreviousBrush->WaveFreq+(TheWaveFreq-PreviousBrush->WaveFreq)*PctDone;
+                    //if (PreviousBrush->AspectRatio!=TheAspectRatio)                                                     TheAspectRatio  =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
 
                     if ((PreviousBrush->OnOffFilter!=TheOnOffFilter)||
                         (PreviousBrush->GaussBlurSharpenSigma!=GaussBlurSharpenSigma)||
                         (PreviousBrush->QuickBlurSharpenSigma!=QuickBlurSharpenSigma)||
                         (PreviousBrush->BlurSharpenRadius!=BlurSharpenRadius)||
                         (PreviousBrush->TypeBlurSharpen!=TypeBlurSharpen)
-                       )ProgressifOnOffFilter=true;
+                       ) ProgressifOnOffFilter=true;
                 }
 
                 // Prepare values from sourceimage size
-                double   RealImageW=RenderImage->width();
-                double   RealImageH=RenderImage->height();
-                double   Hyp       =round(sqrt(RealImageW*RealImageW+RealImageH*RealImageH));
-                double   HypPixel  =Hyp*TheZoomFactor;
+                qreal    RealImageW=RenderImage->width();
+                qreal    RealImageH=RenderImage->height();
+                qreal    Hyp       =round(sqrt(RealImageW*RealImageW+RealImageH*RealImageH));
+                qreal    HypPixel  =Hyp*TheZoomFactor;
 
                 // Expand canvas
                 QImage   NewRenderImage(Hyp,Hyp,QImage::Format_ARGB32_Premultiplied);
@@ -384,8 +384,9 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 }
 
                 // Get part we need and scaled it to destination size
-                NewRenderImage=NewRenderImage.copy(Hyp*TheXFactor,Hyp*TheYFactor,HypPixel,HypPixel*TheAspectRatio)
-                                    .scaled(Rect.width(),Rect.width()*TheAspectRatio,Qt::IgnoreAspectRatio,
+                TheAspectRatio=qreal(HypPixel*Rect.height())/qreal(Rect.width());
+                NewRenderImage=NewRenderImage.copy(Hyp*TheXFactor,Hyp*TheYFactor,HypPixel,/*HypPixel**/TheAspectRatio)
+                                    .scaled(Rect.width(),/*Rect.width()*TheAspectRatio*/Rect.height(),Qt::IgnoreAspectRatio,
                                     ApplicationConfig->Smoothing?Qt::SmoothTransformation:Qt::FastTransformation);
 
                 // Apply correction filters to DestImage

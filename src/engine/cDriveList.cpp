@@ -18,9 +18,9 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtCore>
+#include "cDriveList.h"
+
 #include <QtDebug>
-#include <QtGui/QApplication>
 #include <QFileInfoList>
 #include <QFileInfo>
 #include <QDir>
@@ -31,9 +31,6 @@
     #include <QSettings>
     #include <lmcons.h>
 #endif
-
-#include "cBaseApplicationConfig.h"
-#include "cDriveList.h"
 
 QString PersonalFolder="";
 

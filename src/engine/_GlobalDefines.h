@@ -41,6 +41,13 @@
 //============================================
 #include <QtCore>
 #include <QApplication>
+#include <QtDebug>
+
+#if QT_VERSION >= 0x050000
+// Qt5 code
+#else
+// Qt4 code
+#endif
 
 // Global values
 extern QString CurrentAppName;                                  // Application name (including devel, beta, ...)

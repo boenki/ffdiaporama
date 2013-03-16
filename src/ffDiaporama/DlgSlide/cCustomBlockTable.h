@@ -22,14 +22,11 @@
 #define CCUSTOMBLOCKTABLE_H
 
 // Basic inclusions (common to all files)
-#include "../../engine/_GlobalDefines.h"
-#include "../../engine/_QCustomDialog.h"
+#include "../../CustomCtrl/_QCustomDialog.h"
 
 // Specific inclusions
 #include "../_Diaporama.h"
 #include "../_ApplicationDefinitions.h"
-
-#include <QTableWidget>
 
 class cCustomBlockTable : public QTableWidget {
 Q_OBJECT

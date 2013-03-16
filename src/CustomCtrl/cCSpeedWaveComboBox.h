@@ -22,10 +22,8 @@
 #define CCSPEEDWAVECOMBOBOX_H
 
 // Basic inclusions (common to all files)
-#include "../engine/_GlobalDefines.h"
+#include "_QCustomDialog.h"
 #include "../engine/_SpeedWave.h"
-
-#include <QComboBox>
 
 class cCSpeedWaveComboBox : public QComboBox {
 Q_OBJECT

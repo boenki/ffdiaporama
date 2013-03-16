@@ -19,7 +19,6 @@
    ====================================================================== */
 
 #include "cBackgroundComboBox.h"
-#include <QHeaderView>
 
 #define IMAGEHEIGHT  56
 #define NBRCOLUMN    4

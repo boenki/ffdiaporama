@@ -888,7 +888,7 @@ void DlgSlideProperties::RefreshStyleControls() {
                 ui->FramingStyleCB->Y=CurrentCompoObject->BackgroundBrush->Y;
                 ui->FramingStyleCB->ZoomFactor=CurrentCompoObject->BackgroundBrush->ZoomFactor;
                 ui->FramingStyleCB->AspectRatio=CurrentCompoObject->BackgroundBrush->AspectRatio;
-                ui->FramingStyleCB->PrepareFramingStyleTable(true,FILTERFRAMING_ALL/*FILTERFRAMING_IMAGE|FILTERFRAMING_PROJECT*/,CurrentCompoObject->BackgroundBrush,CachedImage,CurrentCompoObject->BackgroundForm,ProjectGeometry);
+                ui->FramingStyleCB->PrepareFramingStyleTable(true,/*FILTERFRAMING_ALL*/FILTERFRAMING_IMAGE|FILTERFRAMING_PROJECT,CurrentCompoObject->BackgroundBrush,CachedImage,CurrentCompoObject->BackgroundForm,ProjectGeometry);
                 delete CachedImage;
             }
             ui->FramingStyleCB->SetCurrentFraming(CurrentCompoObject->BackgroundBrush->GetCurrentFramingStyle(ProjectGeometry));
@@ -2218,7 +2218,7 @@ void DlgSlideProperties::s_BlockTable_Paste() {
 void DlgSlideProperties::s_BlockTable_MoveBlockUp() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_MoveBlockUp");
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,ui->BlockTable,true);
-
+    s_BlockTable_SelectionChanged(); // Refresh selection
     if (BlockSelectMode!=SELECTMODE_ONE) return;
     if (CurrentCompoObjectNbr<1) return;
     CompositionList->List.swap(CurrentCompoObjectNbr,CurrentCompoObjectNbr-1);
@@ -2230,7 +2230,7 @@ void DlgSlideProperties::s_BlockTable_MoveBlockUp() {
 void DlgSlideProperties::s_BlockTable_MoveBlockDown() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_MoveBlockDown");
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_CHBLOCKORDER,ui->BlockTable,true);
-
+    s_BlockTable_SelectionChanged(); // Refresh selection
     if (BlockSelectMode!=SELECTMODE_ONE) return;
     if (CurrentCompoObjectNbr>=CompositionList->List.count()-1) return;
     CompositionList->List.swap(CurrentCompoObjectNbr+1,CurrentCompoObjectNbr);
@@ -2293,24 +2293,34 @@ void DlgSlideProperties::s_BlockTable_AlignRight() {
     RefreshControls(true);
 }
 
+struct SortBlock {
+    int   Index;
+    qreal Position;
+};
+
 void DlgSlideProperties::s_BlockTable_DistributeHoriz() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_DistributeHoriz");
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
 
-    // 1st step : compute available space
-    qreal   SpaceW   =ui->InteractiveZone->Sel_W;
-    qreal   CurrentX =ui->InteractiveZone->Sel_X;
-    int     NbrBlocks=0;
+    // 1st step : compute available space and create list
+    QList<SortBlock> List;
+    qreal           SpaceW   =ui->InteractiveZone->Sel_W;
+    qreal           CurrentX =ui->InteractiveZone->Sel_X;
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         SpaceW=SpaceW-CompositionList->List[i]->w;
-        NbrBlocks++;
+        List.append((SortBlock){i,CompositionList->List[i]->x});
     }
-    SpaceW=SpaceW/qreal(NbrBlocks-1);
+    SpaceW=SpaceW/qreal(List.count()-1);
 
-    // 2nd step : move blocks
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
-        CompositionList->List[i]->x=CurrentX;
-        CurrentX=CurrentX+CompositionList->List[i]->w+SpaceW;
+    // 2nd step : sort blocks
+    for (int i=0;i<List.count();i++)
+        for (int j=0;j<List.count()-1;j++)
+            if (List[j].Position>List[j+1].Position) List.swap(j,j+1);
+
+    // Last step : move blocks
+    for (int i=0;i<List.count();i++) {
+        CompositionList->List[List[i].Index]->x=CurrentX;
+        CurrentX=CurrentX+CompositionList->List[List[i].Index]->w+SpaceW;
     }
 
     RefreshControls(true);
@@ -2320,20 +2330,25 @@ void DlgSlideProperties::s_BlockTable_DistributeVert() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_DistributeVert");
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
 
-    // 1st step : compute available space
+    // 1st step : compute available space and create list
+    QList<SortBlock> List;
     qreal   SpaceH   =ui->InteractiveZone->Sel_H;
     qreal   CurrentY =ui->InteractiveZone->Sel_Y;
-    int     NbrBlocks=0;
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         SpaceH=SpaceH-CompositionList->List[i]->h;
-        NbrBlocks++;
+        List.append((SortBlock){i,CompositionList->List[i]->y});
     }
-    SpaceH=SpaceH/qreal(NbrBlocks-1);
+    SpaceH=SpaceH/qreal(List.count()-1);
 
-    // 2nd step : move blocks
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
-        CompositionList->List[i]->y=CurrentY;
-        CurrentY=CurrentY+CompositionList->List[i]->h+SpaceH;
+    // 2nd step : sort blocks
+    for (int i=0;i<List.count();i++)
+        for (int j=0;j<List.count()-1;j++)
+            if (List[j].Position>List[j+1].Position) List.swap(j,j+1);
+
+    // Last step : move blocks
+    for (int i=0;i<List.count();i++) {
+        CompositionList->List[List[i].Index]->y=CurrentY;
+        CurrentY=CurrentY+CompositionList->List[List[i].Index]->h+SpaceH;
     }
 
     RefreshControls(true);
@@ -2887,7 +2902,8 @@ void DlgSlideProperties::s_BlockSettings_IntZoneTransformBlocks(qreal Move_X,qre
 
         CompositionList->List[i]->x=RSel_X+Move_X+(CompositionList->List[i]->x-RSel_X)*RatioScale_X;
         CompositionList->List[i]->y=RSel_Y+Move_Y+(CompositionList->List[i]->y-RSel_Y)*RatioScale_Y;
-        CompositionList->List[i]->w=CompositionList->List[i]->w*RatioScale_X;                           if (CompositionList->List[i]->w<0.002) CompositionList->List[i]->w=0.002;
+        CompositionList->List[i]->w=CompositionList->List[i]->w*RatioScale_X;
+        if (CompositionList->List[i]->w<0.002) CompositionList->List[i]->w=0.002;
         if (CompositionList->List[i]->BackgroundBrush->LockGeometry) CompositionList->List[i]->h=((CompositionList->List[i]->w*DisplayW)*CompositionList->List[i]->BackgroundBrush->AspectRatio)/DisplayH;
             else CompositionList->List[i]->h=CompositionList->List[i]->h*RatioScale_Y;
         if (CompositionList->List[i]->h<0.002) CompositionList->List[i]->h=0.002;
@@ -2939,12 +2955,10 @@ void DlgSlideProperties::s_BlockShapeStyleBT() {
     QString Item        =((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.PopupCollectionMenu(this,BaseApplicationConfig,ActualStyle);
     ui->BlockShapeStyleBT->setDown(false);
     if (Item!="") {
+        InRefreshControls=true;
         CurrentCompoObject->ApplyBlockShapeStyle(((cApplicationConfig *)BaseApplicationConfig)->StyleBlockShapeCollection.GetStyleDef(Item));
         RefreshBlockTable(CurrentCompoObjectNbr);
     }
-    InRefreshControls=true;
-    RefreshStyleControls();
-    InRefreshControls=false;
 }
 
 //====================================================================================================================
@@ -2960,7 +2974,7 @@ void DlgSlideProperties::s_ChangeFramingStyle() {
     int AutoCompo=CurrentCompoObject->GetAutoCompoSize(CurrentSlide->Parent->ImageGeometry);
 
     CurrentBrush->ApplyAutoFraming(ui->FramingStyleCB->GetCurrentFraming(),ProjectGeometry);
-    CurrentCompoObject->ApplyAutoCompoSize(AutoCompo,CurrentSlide->Parent->ImageGeometry);
+    CurrentCompoObject->ApplyAutoCompoSize(AutoCompo,CurrentSlide->Parent->ImageGeometry,false);
     //if (CurrentCompoObject->h>(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH) CurrentCompoObject->h=(CurrentCompoObject->w*DisplayW*CurrentBrush->AspectRatio)/DisplayH;
     //    else CurrentCompoObject->w=(CurrentCompoObject->h*DisplayH/CurrentBrush->AspectRatio)/DisplayW;
 

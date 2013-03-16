@@ -71,7 +71,7 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="712"/>
         <source>Windows version use dll build from zeranoe</source>
-        <translation type="unfinished"></translation>
+        <translation>Versión de Windows que usa dll desde zeranoe</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="258"/>
@@ -86,7 +86,7 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="428"/>
         <source>Video decoding and encoding engines are based on libav</source>
-        <translation type="unfinished"></translation>
+        <translation>Motores de decodificación y codificación basados en libav</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAbout/DlgAbout.ui" line="404"/>
@@ -2769,12 +2769,12 @@ Mover el archivo seleccionado actualmente un nivel arriba</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="755"/>
         <source>Current slide progression</source>
-        <translation type="unfinished"></translation>
+        <translation>Progreso de diapositiva actual</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="810"/>
         <source>Total progression</source>
-        <translation type="unfinished"></translation>
+        <translation>Progreso total</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="979"/>
@@ -2897,18 +2897,19 @@ Do you want to overwrite it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="933"/>
         <source>Encoding video</source>
-        <translation type="unfinished"></translation>
+        <translation>Codificando video</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="988"/>
         <source>Job canceled!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Trabajo cancelado!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="989"/>
         <source>Job error!
 Please contact ffDiaporama team</source>
-        <translation type="unfinished"></translation>
+        <translation>¡Error de trabajo!
+Por favor, contacta con ele equipo de ffDiaporama</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="899"/>
@@ -5328,7 +5329,7 @@ y Ayuda</translation>
     </message>
     <message>
         <location filename="../src/engine/cBaseApplicationConfig.cpp" line="513"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="561"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="569"/>
         <source>Read configuration file</source>
         <translation>Leyendo archivo de configuración</translation>
     </message>
@@ -5348,7 +5349,7 @@ y Ayuda</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2047"/>
-        <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1970"/>
+        <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1972"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1518"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1522"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1533"/>
@@ -5367,7 +5368,7 @@ y Ayuda</translation>
     </message>
     <message>
         <location filename="../src/engine/cBaseApplicationConfig.cpp" line="515"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="571"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="579"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
@@ -5375,7 +5376,7 @@ y Ayuda</translation>
     </message>
     <message>
         <location filename="../src/engine/cBaseApplicationConfig.cpp" line="523"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="576"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="584"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
@@ -5383,7 +5384,7 @@ y Ayuda</translation>
     </message>
     <message>
         <location filename="../src/engine/cBaseApplicationConfig.cpp" line="533"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="583"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="591"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
@@ -5391,14 +5392,14 @@ y Ayuda</translation>
     </message>
     <message>
         <location filename="../src/engine/cBaseApplicationConfig.cpp" line="654"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="630"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="638"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
         <translation>Error al crear el archivo de configuración</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1384"/>
+        <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1386"/>
         <source>Title</source>
         <comment>Default slide name when no file</comment>
         <translatorcomment>Título, por defecto, cuando no hay archivo</translatorcomment>
@@ -5411,8 +5412,8 @@ y Ayuda</translation>
         <translation>Guardando archivo de proyecto ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1970"/>
-        <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1971"/>
+        <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1972"/>
+        <location filename="../src/ffDiaporama/_Diaporama.cpp" line="1973"/>
         <source>Error creating data file</source>
         <comment>Error message</comment>
         <translatorcomment>Mensaje de error</translatorcomment>
@@ -5993,19 +5994,19 @@ Si continúas, se corre el riesgo de perder datos!
         <translation>Seleccione el archivo de destino</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SDL_Support.cpp" line="74"/>
-        <location filename="../src/engine/_SDL_Support.cpp" line="128"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="73"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="127"/>
         <source>Error during startup</source>
         <translation>Error al iniciar</translation>
     </message>
     <message>
-        <location filename="../src/engine/_SDL_Support.cpp" line="75"/>
-        <location filename="../src/engine/_SDL_Support.cpp" line="129"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="74"/>
+        <location filename="../src/engine/_SDL_Support.cpp" line="128"/>
         <source>Error during initialisation of sound system. Check your configuration and try again</source>
         <translation>Error al iniciar el sistema de sonido. Comprobar la configuración e intentarr otra vez</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="704"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="712"/>
         <source>ffDiaporama initialisation</source>
         <translation>Iniciando ffDiaporama</translation>
     </message>
@@ -6013,276 +6014,276 @@ Si continúas, se corre el riesgo de perder datos!
 <context>
     <name>QCustomFolderTable</name>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="297"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="317"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="361"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="539"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="567"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="578"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="586"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="613"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="294"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="314"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="358"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="536"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="564"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="575"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="583"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="610"/>
         <source>File</source>
         <comment>Column header</comment>
         <translation>Archivo</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="300"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="318"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="362"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="540"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="297"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="315"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="359"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="537"/>
         <source>File Type</source>
         <comment>Column header</comment>
         <translation>Tipo de Archivo</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="319"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="363"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="541"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="568"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="579"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="587"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="614"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="316"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="360"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="538"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="565"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="576"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="584"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="611"/>
         <source>File Size</source>
         <comment>Column header</comment>
         <translation>Tamaño de Archivo</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="320"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="364"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="542"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="569"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="580"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="588"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="615"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="317"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="361"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="539"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="566"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="577"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="585"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="612"/>
         <source>File Date</source>
         <comment>Column header</comment>
         <translation>Fecha de Archivo</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="321"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="365"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="543"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="570"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="589"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="616"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="318"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="362"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="540"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="567"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="586"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="613"/>
         <source>Duration</source>
         <comment>Column header</comment>
         <translation>Duración</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="322"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="366"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="545"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="581"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="591"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="319"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="363"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="542"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="578"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="588"/>
         <source>Image Size</source>
         <comment>Column header</comment>
         <translation>Tamaño de Imagen</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="323"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="367"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="546"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="582"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="592"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="320"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="364"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="543"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="579"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="589"/>
         <source>Image Format</source>
         <comment>Column header</comment>
         <translation>Formato de Imagen</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="324"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="369"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="547"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="583"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="593"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="321"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="366"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="544"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="580"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="590"/>
         <source>Image Geometry</source>
         <comment>Column header</comment>
         <translation>Geometría de Imagen</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="325"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="370"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="548"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="594"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="322"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="367"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="545"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="591"/>
         <source>Video Codec</source>
         <comment>Column header</comment>
         <translation>Codec de Video</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="326"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="371"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="549"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="595"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="323"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="368"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="546"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="592"/>
         <source>Frame Rate</source>
         <comment>Column header</comment>
         <translation>Velocidad de Cuadros</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="327"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="372"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="550"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="596"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="324"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="369"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="547"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="593"/>
         <source>Video Bitrate</source>
         <comment>Column header</comment>
         <translation>Video Bitrate</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="328"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="373"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="551"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="597"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="325"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="370"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="548"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="594"/>
         <source>Audio Language</source>
         <comment>Column header</comment>
         <translation>Idioma de Audio</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="329"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="374"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="552"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="598"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="617"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="326"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="371"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="549"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="595"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="614"/>
         <source>Audio Codec</source>
         <comment>Column header</comment>
         <translation>Codec de Audio</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="330"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="375"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="553"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="599"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="618"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="327"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="372"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="550"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="596"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="615"/>
         <source>Audio Channels</source>
         <comment>Column header</comment>
         <translation>Canales de Audio</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="331"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="376"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="554"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="600"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="619"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="328"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="373"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="551"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="597"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="616"/>
         <source>Audio Bitrate</source>
         <comment>Column header</comment>
         <translation>Audio Bitrate</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="332"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="377"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="555"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="601"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="620"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="329"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="374"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="552"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="598"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="617"/>
         <source>Audio Frequency</source>
         <comment>Column header</comment>
         <translation>Frecuencia de Audio</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="333"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="378"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="556"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="571"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="602"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="621"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="330"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="375"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="553"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="568"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="599"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="618"/>
         <source>Title</source>
         <comment>Column header</comment>
         <translation>Título</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="334"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="379"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="557"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="603"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="622"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="331"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="376"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="554"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="600"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="619"/>
         <source>Artist</source>
         <comment>Column header</comment>
         <translation>Artista</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="335"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="380"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="558"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="573"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="604"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="623"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="332"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="377"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="555"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="570"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="601"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="620"/>
         <source>Album</source>
         <comment>Column header</comment>
         <translation>Album</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="336"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="381"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="559"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="574"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="605"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="624"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="333"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="378"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="556"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="571"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="602"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="621"/>
         <source>Year</source>
         <comment>Column header</comment>
         <translation>Año</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="337"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="382"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="560"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="606"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="625"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="334"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="379"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="557"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="603"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="622"/>
         <source>Track</source>
         <comment>Column header</comment>
         <translation>Pista</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="338"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="383"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="561"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="607"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="626"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="335"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="380"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="558"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="604"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="623"/>
         <source>Genre</source>
         <comment>Column header</comment>
         <translation>Género</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="339"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="384"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="562"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="608"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="336"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="381"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="559"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="605"/>
         <source>Comment</source>
         <comment>Column header</comment>
         <translation>Comentario</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="340"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="385"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="563"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="575"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="609"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="337"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="382"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="560"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="572"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="606"/>
         <source>Composer</source>
         <comment>Column header</comment>
         <translation>Compositor</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="341"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="386"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="564"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="610"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="338"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="383"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="561"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="607"/>
         <source>Encoder</source>
         <comment>Column header</comment>
         <translation>Encoder</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="342"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="368"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="544"/>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="590"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="339"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="365"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="541"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="587"/>
         <source>Chapters</source>
         <comment>Column header</comment>
         <translation>Capítulos</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="572"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="569"/>
         <source>Author</source>
         <comment>Column header</comment>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTable.cpp" line="833"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTable.cpp" line="830"/>
         <source>Reading directory content (%1)</source>
         <translation>Leyendo contenido de directorio (%1)</translation>
     </message>
@@ -6314,64 +6315,64 @@ Si continúas, se corre el riesgo de perder datos!
         <translation>Tb</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTree.cpp" line="103"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="99"/>
         <source>Refresh all</source>
         <translation>Refrescar todo</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTree.cpp" line="104"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="100"/>
         <source>Refresh from here</source>
         <translation>Refrescar aquí</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTree.cpp" line="105"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="101"/>
         <source>Create new subfolder</source>
         <translation>Crear nueva subcarpeta</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTree.cpp" line="106"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="102"/>
         <source>Remove folder</source>
         <translation>Eliminar carpeta</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTree.cpp" line="107"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="103"/>
         <source>Rename folder</source>
         <translation>Renombrar carpeta</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTree.cpp" line="122"/>
-        <location filename="../src/engine/QCustomFolderTree.cpp" line="134"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="118"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="130"/>
         <source>Create folder</source>
         <translation>Crear carpeta</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTree.cpp" line="122"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="118"/>
         <source>Folder:</source>
         <translation>Carpeta:</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTree.cpp" line="133"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="129"/>
         <source>Error %1:</source>
         <translation>Error %1:</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTree.cpp" line="135"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="131"/>
         <source>Impossible to create folder !</source>
         <translation>¡Imposible crear carpeta !</translation>
     </message>
     <message>
-        <location filename="../src/engine/QCustomFolderTree.cpp" line="397"/>
-        <location filename="../src/engine/cDriveList.cpp" line="359"/>
+        <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="393"/>
+        <location filename="../src/engine/cDriveList.cpp" line="356"/>
         <source>System files</source>
         <translation>Archivos del Sistema</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDriveList.cpp" line="97"/>
+        <location filename="../src/engine/cDriveList.cpp" line="94"/>
         <source>Empty drive...</source>
         <translation>Unidad vacía...</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDriveList.cpp" line="330"/>
+        <location filename="../src/engine/cDriveList.cpp" line="327"/>
         <source>Personal folder</source>
         <translation>Carpeta personal</translation>
     </message>
@@ -6945,19 +6946,19 @@ Si continúas, se corre el riesgo de perder datos!
         <translation>La imagen no tiene metadatos EXIF %1</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1680"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1682"/>
         <source>Video</source>
         <comment>File type</comment>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1679"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1681"/>
         <source>Music</source>
         <comment>File type</comment>
         <translation>Música</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1418"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1420"/>
         <source>Mono</source>
         <comment>Audio channels mode</comment>
         <translation>Mono</translation>
@@ -6979,7 +6980,7 @@ Si continúas, se corre el riesgo de perder datos!
         <translation>ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseMediaFile.cpp" line="1419"/>
+        <location filename="../src/engine/cBaseMediaFile.cpp" line="1421"/>
         <source>Stereo</source>
         <comment>Audio channels mode</comment>
         <translation>Estéreo</translation>
@@ -6999,98 +7000,98 @@ Si continúas, se corre el riesgo de perder datos!
 <context>
     <name>cDeviceModelList</name>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="678"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="686"/>
         <source>Advanced</source>
         <comment>Device database type</comment>
         <translation>Avanzado</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="679"/>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="683"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="687"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="691"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
         <translation>Smartphone</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="680"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="688"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
         <translation>Sistema Multimedia</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="681"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="689"/>
         <source>For the WEB</source>
         <comment>Device database type</comment>
         <translation>Para la WEB</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="682"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="690"/>
         <source>Lossless</source>
         <comment>Device database type</comment>
         <translation>Lossless</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="684"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="692"/>
         <source>Portable Player</source>
         <comment>Device database type</comment>
         <translation>Reproductor portátil</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="685"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="693"/>
         <source>Netbook/NetPC</source>
         <comment>Device database type</comment>
         <translation>Netbook/NetPC</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="686"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="694"/>
         <source>Handheld game console</source>
         <comment>Device database type</comment>
         <translation>Consola de juegos portátil</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="687"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="695"/>
         <source>Tablet computer</source>
         <comment>Device database type</comment>
         <translation>Tablet PC</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="688"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="696"/>
         <source>Multimedia hard drive and gateway</source>
         <comment>Device database type</comment>
         <translation>Disco duro multimedia y pasarela</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="689"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="697"/>
         <source>Player</source>
         <comment>Device database type</comment>
         <translation>Reproductor</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="690"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="698"/>
         <source>ADSL Box</source>
         <comment>Device database type</comment>
         <translation>ADSL Box</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="691"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="699"/>
         <source>Game console</source>
         <comment>Device database type</comment>
         <translation>Consola de Juegos</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="692"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="700"/>
         <source>SWF Flash Player</source>
         <comment>Device database type</comment>
         <translation>Reproductor SWF Flash</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="693"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="701"/>
         <source>Video-sharing and social WebSite</source>
         <comment>Device database type</comment>
         <translation>Intercambio de videos y Web Social</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDeviceModelDef.cpp" line="694"/>
+        <location filename="../src/engine/cDeviceModelDef.cpp" line="702"/>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>

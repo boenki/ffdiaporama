@@ -18,9 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include <QtCore>
-#include <QtDebug>
-#include <QtGui/QApplication>
+#include "QCustomFolderTree.h"
+
 #include <QFileInfoList>
 #include <QDir>
 #include <QFile>
@@ -36,9 +35,6 @@
     #include <QSettings>
     #include <QPixmapCache>
 #endif
-
-#include "cBaseApplicationConfig.h"
-#include "QCustomFolderTree.h"
 
 #define TAG "<to expand>"
 

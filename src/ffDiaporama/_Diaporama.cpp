@@ -18,8 +18,8 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "../engine/_QCustomDialog.h"
 // Specific inclusions
+#include "../CustomCtrl/_QCustomDialog.h"
 #include "_Diaporama.h"
 #include "_ApplicationDefinitions.h"
 #include "mainwindow.h"
@@ -599,7 +599,7 @@ int cCompositionObject::GetAutoCompoSize(int ffDProjectGeometry) {
 
 //====================================================================================================================
 
-void cCompositionObject::ApplyAutoCompoSize(int AutoCompoStyle,int ffDProjectGeometry) {
+void cCompositionObject::ApplyAutoCompoSize(int AutoCompoStyle,int ffDProjectGeometry,bool AllowMove) {
     int   ImageType         =BackgroundBrush->GetImageType();
 
     // Calc screen size
@@ -645,10 +645,12 @@ void cCompositionObject::ApplyAutoCompoSize(int AutoCompoStyle,int ffDProjectGeo
     }
 
     // Apply destination size to Composition object
-    w           =DestWidth/ScreenWidth;
-    h           =DestHeight/ScreenHeight;
-    x           =((ScreenWidth-DestWidth)/2)/ScreenWidth;
-    y           =((ScreenHeight-DestHeight)/2)/ScreenHeight;
+    w=DestWidth/ScreenWidth;
+    h=DestHeight/ScreenHeight;
+    if (AllowMove) {
+        x=((ScreenWidth-DestWidth)/2)/ScreenWidth;
+        y=((ScreenHeight-DestHeight)/2)/ScreenHeight;
+    }
     RotateZAxis =0;
     RotateXAxis =0;
     RotateYAxis =0;

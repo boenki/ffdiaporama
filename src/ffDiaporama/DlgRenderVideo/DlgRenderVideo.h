@@ -22,8 +22,7 @@
 #define DLGRENDERVIDEO_H
 
 // Basic inclusions (common to all files)
-#include "../../engine/_GlobalDefines.h"
-#include "../../engine/_QCustomDialog.h"
+#include "../../CustomCtrl/_QCustomDialog.h"
 #include "../../engine/_EncodeVideo.h"
 
 // Specific inclusions

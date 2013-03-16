@@ -22,11 +22,7 @@
 #define DLGCHECKCONFIG_H
 
 // Basic inclusions (common to all files)
-#include "../../engine/_GlobalDefines.h"
-#include "../../engine/_QCustomDialog.h"
-
-// Include some additional standard class
-#include <QString>
+#include "../../CustomCtrl/_QCustomDialog.h"
 
 // Include some common various class
 #include "../../engine/cBaseApplicationConfig.h"
