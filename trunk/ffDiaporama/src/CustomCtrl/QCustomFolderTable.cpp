@@ -1143,7 +1143,7 @@ void QCustomFolderTable::DoScanMediaList() {
 
     // Parse all items to update them
     QFuture<void> DoScanMedia = QtConcurrent::map(IndexList,ScanMedia);
-    DoScanMedia.waitForFinished();
+    if (DoScanMedia.isRunning()) DoScanMedia.waitForFinished();
 
     // compute CurrentShowDuration
     for (int ItemIndex=0;(ItemIndex<MediaList.count())&&(!StopAllEvent)&&(!StopScanMediaList);ItemIndex++) {

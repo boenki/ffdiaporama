@@ -2126,7 +2126,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
 
         // Compute each item of the collection
         QFuture<void> DoCompute = QtConcurrent::map(PreparedBrushList,ComputeCompositionObjectContext);
-        DoCompute.waitForFinished();
+        if (DoCompute.isRunning()) DoCompute.waitForFinished();
 
         // Draw collection
         for (int j=0;j<CurShot->ShotComposition.List.count();j++)

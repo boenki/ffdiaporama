@@ -1082,7 +1082,9 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
             ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: PacketSound==NULL"));
             Continue=false;
         } else {
-            #if defined(USELIBAVRESAMPLE)
+            #if defined(LIBAV_08)
+                DestPacket=(uint8_t *)PacketSound;
+            #elif defined(USELIBAVRESAMPLE)
                 // LIBAV 9 => Convert sample format (is needed)
                 if ((AudioResampler!=NULL)&&(AudioResamplerBuffer!=NULL)) {
                     DestPacket=AudioResamplerBuffer;
