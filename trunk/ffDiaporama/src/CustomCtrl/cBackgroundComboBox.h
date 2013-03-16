@@ -22,11 +22,8 @@
 #define CBACKGROUNDCOMBOBOX_H
 
 // Basic inclusions (common to all files)
-#include "../engine/_GlobalDefines.h"
+#include "_QCustomDialog.h"
 #include "../engine/cBrushDefinition.h"
-
-#include <QComboBox>
-#include <QStyledItemDelegate>
 
 //******************************************************************************************************************
 // Custom QAbstractItemDelegate for Brush ComboBox

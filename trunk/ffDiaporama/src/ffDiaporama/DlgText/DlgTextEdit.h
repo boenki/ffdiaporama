@@ -22,15 +22,10 @@
 #define DLGTEXTEDIT_H
 
 // Basic inclusions (common to all files)
-#include "../../engine/_GlobalDefines.h"
-#include "../../engine/_QCustomDialog.h"
-#include "../../engine/cBaseApplicationConfig.h"
+#include "../../CustomCtrl/_QCustomDialog.h"
 
 // Include some additional standard class
-#include <QDialog>
-#include <QComboBox>
 #include <QFont>
-#include <QString>
 
 // Specific inclusions
 #include "../_Diaporama.h"

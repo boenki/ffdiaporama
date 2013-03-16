@@ -204,7 +204,7 @@ public:
 
     // Style managment functions
     int         GetAutoCompoSize(int ffDProjectGeometry);
-    void        ApplyAutoCompoSize(int AutoCompoStyle,int ffDProjectGeometry);
+    void        ApplyAutoCompoSize(int AutoCompoStyle,int ffDProjectGeometry,bool AllowMove=true);
 
     QString     GetCoordinateStyle();
     void        ApplyCoordinateStyle(QString StyleDef);

@@ -36,9 +36,9 @@
 #include <QFileDialog>
 #include <QScrollBar>
 
-#include "../engine/QCustomFolderTree.h"
-#include "../engine/QCustomFolderTable.h"
-#include "../engine/QCustomHorizSplitter.h"
+#include "../CustomCtrl/QCustomFolderTree.h"
+#include "../CustomCtrl/QCustomFolderTable.h"
+#include "../CustomCtrl/QCustomHorizSplitter.h"
 #include "../engine/cTextFrame.h"
 
 #include "DlgInfoFile/DlgInfoFile.h"
@@ -2281,7 +2281,7 @@ void MainWindow::s_Event_SaveImageEvent() {
             if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
             if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
             cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Diaporama->CurrentPosition,Diaporama,1);
-            Diaporama->LoadSources(Frame,Width,Height,false,0);
+            Diaporama->LoadSources(Frame,Width,Height,false,true);
             Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,Width,Height);
             Frame->RenderedImage->save(OutputFileName,0,100);
             delete Frame;

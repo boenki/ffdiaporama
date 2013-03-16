@@ -21,8 +21,6 @@
 #include "cCColorComboBox.h"
 #include <QColorDialog>
 #include <QPainter>
-#include <QTableWidget>
-#include <QHeaderView>
 
 //******************************************************************************************************************
 // Custom Color ComboBox ITEM

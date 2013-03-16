@@ -26,9 +26,6 @@
 #include <QDir>
 #include <QFile>
 
-#include <QHeaderView>
-#include <QTableWidgetItem>
-#include <QStyledItemDelegate>
 #include <QPainter>
 #include <QModelIndex>
 #include <QModelIndexList>
@@ -1149,7 +1146,7 @@ void QCustomFolderTable::DoScanMediaList() {
     DoScanMedia.waitForFinished();
 
     // compute CurrentShowDuration
-    for (int ItemIndex=0;(ItemIndex<MediaList.count())&&(!StopAllEvent);ItemIndex++) {
+    for (int ItemIndex=0;(ItemIndex<MediaList.count())&&(!StopAllEvent)&&(!StopScanMediaList);ItemIndex++) {
         if ((MediaList[ItemIndex]->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[ItemIndex]->ObjectType==OBJECTTYPE_VIDEOFILE)) CurrentShowDuration=CurrentShowDuration+QTime(0,0,0,0).msecsTo(((cVideoFile *)MediaList[ItemIndex])->Duration);
             else if (MediaList[ItemIndex]->ObjectType==OBJECTTYPE_FFDFILE)                                                      CurrentShowDuration=CurrentShowDuration+((cffDProjectFile *)MediaList[ItemIndex])->Duration;
     }

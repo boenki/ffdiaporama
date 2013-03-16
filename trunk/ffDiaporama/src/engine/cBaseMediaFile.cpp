@@ -22,7 +22,7 @@
 #include "cBaseApplicationConfig.h"
 
 // Include some additional standard class
-#include "_QCustomDialog.h"
+#include "../CustomCtrl/_QCustomDialog.h"
 #include <QFileDialog>
 #include <QPainter>
 
@@ -899,7 +899,7 @@ void cImageFile::GetFullInformationFromFile() {
         catch( Exiv2::Error& /*e*/ ) {
             ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
         }
-        if (ExifOk) {
+        if ((ExifOk)&&(ImageFile->good())) {
             ImageFile->readMetadata();
             // Read data
             Exiv2::ExifData &exifData = ImageFile->exifData();

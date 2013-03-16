@@ -46,8 +46,9 @@ int main(int argc, char* argv[]) {
         QApplication::setStyle("Cleanlooks");
     #endif
 
-    int zero=0;
-    QApplication app(zero,NULL);
+    int zero=1;
+    char * WM_NAME[]={"ffDiaporama"};
+    QApplication app(zero,WM_NAME);
 
     QString AutoLoad="";
     QString ForceLanguage="";

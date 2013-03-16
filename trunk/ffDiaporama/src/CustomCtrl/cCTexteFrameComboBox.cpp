@@ -19,7 +19,6 @@
    ====================================================================== */
 
 #include "cCTexteFrameComboBox.h"
-#include <QHeaderView>
 
 #define ICONSIZE    64
 #define NBRCOLUMN   8

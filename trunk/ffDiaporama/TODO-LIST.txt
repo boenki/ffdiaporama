@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 24/02/2013
+* Dernier commit le : 08/03/2013
 **************************************************
 
 TODO :
@@ -44,68 +44,43 @@ WIP : Work in progress
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-Note for ffmpeg users :
-    With ffmpeg, video deinterlacing seems automatic.
-    So the deinterlacing options are totally disabled, even if they are still present in dialogs
 
 French version / Correction de bug :
-    -Corrige le bug lié à l'anamorphisme des videos 16/9 stockée en 640x480 (SESTAY:852x480 au lieu de 853x480)
-    -Corrige des problemes de déplacement dans les fichiers vidéos (seek)
-    -Désactive la zone language quand l'inclusion du son est déselectionné dans la boite de génération de vidéo
-    -Corrige l'affichage des informations quand on décoche l'inclusion du son dans la boite de génération de vidéo
-    -Corrige plusieurs plantages aléatoires sous Windows liés au multi-thread lors du parcours de répertoire avec le browser
-    -A cause d'un trop grand nombre de problèmes avec libav 9.x sous windows, bascule les dll du paquets Windows sur celles de ffmpeg/libav 9 (Zeranoe)
-    -Corrige le bug de repositionnement des blocs à la position par défaut lors de la sélection d'un style dans la boite slide
-    -Corrige le bug d'inactivité du raccourcie suppr dans la boite slide quand la sélection porte sur un plan
+-Corrige le bug de compilation avec le paquet ffmpeg d'ArchLinux [BOENKY]
+-Corrige le bug d'affichage du 1er plan dans la boite d'édition des diapositives
+-Corrige le bug de changement aléatoire de plan selon la sélection [SESTAY]
+-Corrige un bug dans le browser multmédia qui bouclait parfois de façon infini
+-Corrige un bug dans la boite de dialogue d'édition des diapositives pour les fonctions de distribution horizontal et vertical :
+    => Les blocs ne sont plus repositionnés en fonction de leur ordre d'apparition mais bien de leur position
+-Corrige le bug de positionnement de la vidéo en cours lors de la capture d'une image
+-Corrige un bug dans la boite de dialogue d'édition des diapositives : Le changement de style de recadrage ne déplace plus le bloc
+-Corrige le bug sur les formes libres : La modification de la largeur ne génère plus de modification systématique de la hauteur [SESTAY]
+-Force un WM_CLASS(String) pour la fenêtre principal pour résoudre un probleme avec "Cairo dock"
 
 English version / Bug fixes :
-    -Fixed bug related to anamorphism 16/9 videos stored 640x480 (SESTAY: 852x480 instead of 853x480)
-    -Fixes problems in moving video files (seek)
-    -Disable language area when the sound inclusion is deselected in the render dialog
-    -Corrects the display of information when uncheck the inclusion of sound in the render dialog
-    -Fixes several random crashes on Windows related to multi-thread when browsing directories with the browser
-    -Because of too many problems with libav 9.x on Windows, switch dll used on Windows packages to ffmpeg/libav 9(Zeranoe) version
-    -Fixed bug of positioning blocks to default position when you select a style in the slide dialog
-    -Fixed bug of inactif del shortcut in slide dialog when the selection is a shot
+-Fixed compilation bug when compiling with ffmpeg package on ArchLinux [BOENKY]
+-Fixed bug of display first shot edit slide dialog
+-Fixed the bug of random shot change depdending on selection [SESTAY]
+-Fixed a bug in the browser that buckled Multmedia sometimes in infinite
+-Fixed a bug in the edit slide dialog for horizontal and vertical distribution functions:
+     => The blocks are repositioned according to their order of appearance instead of their position
+-Fixed bug of positioning the current video when capturing an image
+-Fixed a bug in the edit slide dialog: The framming style change does not move the block
+-Fixes bug of free forms: Changing the width no longer generates systematic change of the height [SESTAY]
+-Force a WM_CLASS(String) to the main window to solve a probleme with "Cairo dock"
 
 French version / Nouveautés :
-    -Pour limiter les problèmes, retire le codec audio AAC des AVI et le codec video divx/xvid des MKV
-    -Bascule tous les formats restant vers le nouveau moteur d'encodage (supprime l'ancien moteur)
-        => Pour libav 0.8.x, tous semble ok
-        => Pour libav 9.x, certains problèmes subsistent :
-            Error reading AAC channels in all file (read as mono)
-            VLC+MKV error with h264 PQ and HQ preset
-            webm error
-            theora error/warning on reading (on first keyframe + read timestamp)
-        => Pour ffmpeg/libav 9.x, certains problèmes subsistent :
-            Error reading AAC channels in adts file
-    -Nettoie le code pour ne plus embarquer de preset ni chercher des encodeurs externes
-    -Retire l'option concernant l'utilisation des threads pour les opérations de pipe de la boite de configuration (ancien encoder)
-    -Retire l'option de positionnement en haut dans le cas d'export en mode HTML5 (trop compliqué pour pas grand chose)
-    -Change l'extension des fichiers adts en .aac (plus conforme au standard)
+-Accélère les boites de dialogues et l'affichage de la preview en réduisant un peu la qualité des images affichées
 
 English version / New features :
-    -To minimize problems, removes AAC audio codec in AVI and divx/xvid video codec in MKV
-    -Switches all remaining formats to the new encoding engine (remove the old engine)
-        => For libav 0.8.x, all seems ok
-        => For libav 9.x, some problems remain:
-            Error reading AAC channels in all file (read as mono)
-            VLC+MKV error with h264 PQ and HQ preset
-            webm error
-            theora error/warning on reading (on first keyframe + read timestamp)
-        => For ffmpeg/libav 9.x, all seems ok
-            Error reading AAC channels in adts file
-     -Cleans the code to no longer include preset and external encoders
-     -Removes the option for the use of threads for pipe operations in the configuration dialog (old encoding)
-     -Removes the option of positioning up in the case of export in HTML5 mode (too complicated for not much)
-     -Change the file extension of ADTS file to .aac (more standard compliant)
+-Accelerates display in dialogs and preview by reducing the quality of displayed images
 
 Translation/Traductions :
     EN    - 100% - 1272/1272
     FR    - 100% - 1272/1272
-    IT    -  99% - 1265/1272
-    ES    -  99% - 1265/1272
-    PT    -  99% - 1263/1272
+    PT    - 100% - 1272/1272 - Updated 11/03/2013
+    IT    - 100% - 1272/1272 - Updated 13/03/2013
+    ES    - 100% - 1272/1272 - Updated 13/03/2013
     DE    -  93% - 1192/1272
     NL    -  86% - 1098/1272
     RU    -  60% -  762/1272

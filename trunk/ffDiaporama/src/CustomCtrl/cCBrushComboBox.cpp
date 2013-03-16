@@ -19,7 +19,6 @@
    ====================================================================== */
 
 #include "cCBrushComboBox.h"
-#include <QHeaderView>
 
 #define MAXBRUSHPATTERN  12
 

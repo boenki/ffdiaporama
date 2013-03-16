@@ -1023,18 +1023,18 @@ font-size: 11px;
   <customwidget>
    <class>QCustomFolderTree</class>
    <extends>QTreeWidget</extends>
-   <header>../engine/QCustomFolderTree.h</header>
+   <header>../CustomCtrl/QCustomFolderTree.h</header>
   </customwidget>
   <customwidget>
    <class>QCustomHorizSplitter</class>
    <extends>QSplitter</extends>
-   <header>../engine/QCustomHorizSplitter.h</header>
+   <header>../CustomCtrl/QCustomHorizSplitter.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>QCustomFolderTable</class>
    <extends>QTableWidget</extends>
-   <header>../engine/QCustomFolderTable.h</header>
+   <header>../CustomCtrl/QCustomFolderTable.h</header>
   </customwidget>
  </customwidgets>
  <resources>

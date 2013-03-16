@@ -96,11 +96,11 @@
     </message>
     <message>
         <source>Video decoding and encoding engines are based on libav</source>
-        <translation type="unfinished"></translation>
+        <translation>Motore di codifica e decodifica video è basato su libav</translation>
     </message>
     <message>
         <source>Windows version use dll build from zeranoe</source>
-        <translation type="unfinished"></translation>
+        <translation>La versione Windows utilizza la dll fatta da zeranoe</translation>
     </message>
 </context>
 <context>
@@ -407,7 +407,7 @@
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -415,7 +415,7 @@
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -704,11 +704,11 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto (&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -779,7 +779,7 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -986,7 +986,7 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -994,7 +994,7 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -1085,7 +1085,7 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -1093,7 +1093,7 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto (&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -1422,7 +1422,7 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -1509,7 +1509,7 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -1517,7 +1517,7 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -1625,7 +1625,7 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -1633,7 +1633,7 @@ Inquadratura:</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto (&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -1703,7 +1703,7 @@ Per favore seleziona un altro nome!</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -1711,7 +1711,7 @@ Per favore seleziona un altro nome!</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto (&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -1894,7 +1894,7 @@ Per favore seleziona un&apos;altro nome!</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -1902,7 +1902,7 @@ Per favore seleziona un&apos;altro nome!</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -2123,7 +2123,7 @@ Sposta il file corrente selezionato una tacca giù</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -2131,7 +2131,7 @@ Sposta il file corrente selezionato una tacca giù</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto (&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -2257,24 +2257,25 @@ Vuoi sovrascriverlo?</translation>
     </message>
     <message>
         <source>Current slide progression</source>
-        <translation type="unfinished"></translation>
+        <translation>Progresso diapositiva corrente</translation>
     </message>
     <message>
         <source>Total progression</source>
-        <translation type="unfinished"></translation>
+        <translation>Progressione totale</translation>
     </message>
     <message>
         <source>Encoding video</source>
-        <translation type="unfinished"></translation>
+        <translation>Codifica video</translation>
     </message>
     <message>
         <source>Job canceled!</source>
-        <translation type="unfinished"></translation>
+        <translation>Lavori cancellati!</translation>
     </message>
     <message>
         <source>Job error!
 Please contact ffDiaporama team</source>
-        <translation type="unfinished"></translation>
+        <translation>Lavori in errore!
+Per favore contatta il team ffDiaporama</translation>
     </message>
 </context>
 <context>
@@ -2321,7 +2322,7 @@ Please contact ffDiaporama team</source>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -2329,7 +2330,7 @@ Please contact ffDiaporama team</source>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -2360,7 +2361,7 @@ Please contact ffDiaporama team</source>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -2368,7 +2369,7 @@ Please contact ffDiaporama team</source>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto (&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -2523,7 +2524,7 @@ Please contact ffDiaporama team</source>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -2531,7 +2532,7 @@ Please contact ffDiaporama team</source>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -3177,7 +3178,7 @@ blocco</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -3185,7 +3186,7 @@ blocco</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -3328,7 +3329,7 @@ blocco</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -3336,7 +3337,7 @@ blocco</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto (&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -3423,7 +3424,7 @@ blocco</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -3431,7 +3432,7 @@ blocco</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -3521,7 +3522,7 @@ blocco</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation>Annulla (&amp;C)</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Open help page describing this dialog box</source>
@@ -3529,7 +3530,7 @@ blocco</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>Aiuto(&amp;H)</translation>
+        <translation>&amp;Aiuto</translation>
     </message>
     <message>
         <source>F1</source>

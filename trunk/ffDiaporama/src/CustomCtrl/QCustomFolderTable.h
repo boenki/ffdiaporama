@@ -22,17 +22,14 @@
 #define QCUSTOMFOLDERTABLE_H
 
 // Basic inclusions (common to all files)
-#include "_GlobalDefines.h"
+#include "_QCustomDialog.h"
 
 // Include some additional standard class
-#include <QWidget>
-#include <QTableWidget>
-#include <QString>
 #include <QFutureWatcher>
 
 // Include some common various class
-#include "cBaseApplicationConfig.h"
-#include "cBaseMediaFile.h"
+#include "../engine/cBaseApplicationConfig.h"
+#include "../engine/cBaseMediaFile.h"
 
 class QCustomFolderTable : public QTableWidget {
 Q_OBJECT

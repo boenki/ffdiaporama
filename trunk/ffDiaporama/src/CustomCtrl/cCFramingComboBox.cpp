@@ -19,7 +19,6 @@
    ====================================================================== */
 
 #include "cCFramingComboBox.h"
-#include <QHeaderView>
 
 //******************************************************************************************************************
 // Custom QAbstractItemDelegate for AutoFraming ComboBox

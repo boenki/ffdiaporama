@@ -22,9 +22,7 @@
 #define CCCOLORCOMBOBOX_H
 
 // Basic inclusions (common to all files)
-#include "../engine/_GlobalDefines.h"
-#include <QComboBox>
-#include <QStyledItemDelegate>
+#include "_QCustomDialog.h"
 
 //******************************************************************************************************************
 // Custom QAbstractItemDelegate for Color ComboBox

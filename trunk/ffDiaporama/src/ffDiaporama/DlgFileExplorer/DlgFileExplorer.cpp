@@ -20,8 +20,8 @@
 
 #include "DlgFileExplorer.h"
 #include "ui_DlgFileExplorer.h"
-#include "../../engine/QCustomFolderTable.h"
-#include "../../engine/QCustomFolderTree.h"
+#include "../../CustomCtrl/QCustomFolderTable.h"
+#include "../../CustomCtrl/QCustomFolderTree.h"
 #include "../DlgInfoFile/DlgInfoFile.h"
 #include "../DlgManageFavorite/DlgManageFavorite.h"
 

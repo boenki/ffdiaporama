@@ -19,9 +19,7 @@
    ====================================================================== */
 
 #include "cCShapeComboBox.h"
-#include <QHeaderView>
 #include <QPainter>
-#include <QTableWidget>
 #include <QKeyEvent>
 #include "../ffDiaporama/_Diaporama.h"
 
