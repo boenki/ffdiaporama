@@ -52,7 +52,7 @@ public:
     int                     DefaultSpeedWave;
 
     explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int *BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,int ImageGeometry,int DefaultSpeedWave,
-                                QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+                                int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgImageCorrection();
 
     // function to be overloaded

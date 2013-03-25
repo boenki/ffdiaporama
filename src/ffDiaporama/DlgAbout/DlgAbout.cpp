@@ -25,7 +25,7 @@
 
 //====================================================================================================================
 
-DlgAbout::DlgAbout(QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+DlgAbout::DlgAbout(int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgAbout) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::DlgAbout");
 

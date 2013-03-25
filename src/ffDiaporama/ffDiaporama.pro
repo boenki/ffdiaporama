@@ -69,6 +69,8 @@ unix {
     } else:exists(/usr/include/libavresample/avresample.h) {
         DEFINES += USELIBAVRESAMPLE
         LIBS    += -lavresample                                             #------ conditionnaly include libavresample
+    } else {
+        LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV_08
     }
 
 } else:win32 {
@@ -104,11 +106,12 @@ unix {
     } else:exists("F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include\\libavresample\\avresample.h") {
         DEFINES += USELIBAVRESAMPLE
         LIBS    += -lavresample                                             #------ conditionnaly include libavresample
+    } else {
+        LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV_08
     }
 }
 
 #---- Libs for windows and linux
-LIBS        += -ltag                                                        #------ TAGlib
 LIBS	    += -lSDL                                                        #------ SDL
 LIBS        += -lexiv2                                                      #------ Exiv2
 LIBS        += -lqimageblitz                                                #------ QImageBlitz

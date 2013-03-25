@@ -423,12 +423,15 @@ QString AllowMusicExtensions="wav#aac#adts#ac3#mp2#mp3#mp4#m4a#m4b#m4p#3g2#3ga#3
 
 //====================================================================================================================
 QString Previous;
+int     LastLibAvMessageLevel=0;
+
 void LibAVLogCallback(void */*ptr*/, int level, const char *fmt, va_list vargs) {
 //    if (level>AVLOGLEVEL) return;
     // Crash if this is send !
     if (QString(fmt)==QString("rate control settings\n  %*s%u\n  %*s%u\n  %*s%u\n  %*s%u\n  %*s%d\n  %*s%p(%zu)\n  %*s%u\n")) return;
 
     char    Buf[16384*10];
+    int     MessageLevel=0;
     vsprintf(Buf,fmt,vargs);
     while ((strlen(Buf)>0)&&(Buf[strlen(Buf)-1]==32)) Buf[strlen(Buf)-1]=0;
     if (strlen(Buf)>0) {
@@ -439,10 +442,12 @@ void LibAVLogCallback(void */*ptr*/, int level, const char *fmt, va_list vargs) 
             while ((strlen(Buf)>0)&&((Buf[strlen(Buf)-1]==10)||(Buf[strlen(Buf)-1]==13))) Buf[strlen(Buf)-1]=0;
             DisplayMsg=QString("LIBAV: ")+Previous+QString(Buf);
             Previous  ="";
-            if (level>=AV_LOG_DEBUG)            ToLog(LOGMSG_DEBUGTRACE,DisplayMsg,"internal",true);
-                else if (level>=AV_LOG_INFO)    ToLog(LOGMSG_INFORMATION,DisplayMsg,"internal",true);
-                else if (level>=AV_LOG_WARNING) ToLog(LOGMSG_WARNING,DisplayMsg,"internal",true);
-                else                            ToLog(LOGMSG_CRITICAL,DisplayMsg,"internal",true);
+            if (level>=AV_LOG_DEBUG)            MessageLevel=LOGMSG_DEBUGTRACE;
+                else if (level>=AV_LOG_INFO)    MessageLevel=LOGMSG_INFORMATION;
+                else if (level>=AV_LOG_WARNING) MessageLevel=LOGMSG_WARNING;
+                else                            MessageLevel=LOGMSG_CRITICAL;
+            ToLog(MessageLevel,DisplayMsg,"internal",true);
+            if (LastLibAvMessageLevel<MessageLevel) LastLibAvMessageLevel=MessageLevel;
         } else Previous=Previous+QString(Buf);
     }
 }

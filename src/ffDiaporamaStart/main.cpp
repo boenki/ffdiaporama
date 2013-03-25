@@ -1,4 +1,8 @@
+//============================================
+// Activate standard stdint macro
+//============================================
 #include <windows.h>
+#include <winbase.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <direct.h>
@@ -12,10 +16,18 @@
 
 int main(int argc, char *argv[]) {
     WCHAR   wFile[512],wParam[512],wFolder[512];
-    char    Param[2048],Folder[2048],ConfFile[2048];
-	int		ForceSSE=0;
+    char    Param[2048],Folder[2048];
+
+    OSVERSIONINFO Version;
+    memset(&Version,0,sizeof(Version));
+    Version.dwOSVersionInfoSize=sizeof(Version);
+    GetVersionEx(&Version);
+    // Windows XP=5.1.2600 / Windows Vista=6.0.6000 / Windows 7 = 6.1.7600
+    bool IsWindowsXP=(Version.dwMajorVersion==5)&&(Version.dwMinorVersion>=1);
+    int  ForceSSE=IsWindowsXP?1:0;
 
     printf("Starting ffDiaporamaStart\n\n");
+
 
     // Software to start
     swprintf(wFile,L"%S","ffDiaporama.exe");
@@ -29,27 +41,8 @@ int main(int argc, char *argv[]) {
     }
     printf("Current folder: %s\n\n",Folder);
 
-	// try to read config file
-    /*sprintf(ConfFile,"%s\\ffDSSE.ini",Folder);
-    std::ifstream ConfigSSEFile;
-	ConfigSSEFile.open(ConfFile);
-	if (ConfigSSEFile.is_open()) {
-        printf("Loading config file: %s\n\n",ConfFile);
-		while (!ConfigSSEFile.eof()) {
-			char ToRead[2048];
-			ConfigSSEFile>>ToRead;
-			if (strcmp(ToRead,"SSE=1")==0) 			ForceSSE=1;
-				else if (strcmp(ToRead,"SSE=2")==0) ForceSSE=2;
-				else if (strcmp(ToRead,"SSE=3")==0) ForceSSE=3;
-				else if (strcmp(ToRead,"SSE=4")==0) ForceSSE=4;
-		}
-	}
-    ConfigSSEFile.close();*/
-
 	// if no config file, try to detect processor extensions
-	if (ForceSSE==0) {
-		if (BlitzCPUInfo::haveExtension(BlitzCPUInfo::SSE2) || BlitzCPUInfo::haveExtension(BlitzCPUInfo::AMD3DNOW)) ForceSSE=2;
-	}
+    if ((ForceSSE==0)&&(BlitzCPUInfo::haveExtension(BlitzCPUInfo::SSE2) || BlitzCPUInfo::haveExtension(BlitzCPUInfo::AMD3DNOW))) ForceSSE=2;
 	if (ForceSSE==0) ForceSSE=1;
 	
     // add folders to system path

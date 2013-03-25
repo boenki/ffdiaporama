@@ -23,7 +23,7 @@
 
 //====================================================================================================================
 
-DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
+DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgInfoFile) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgInfoFile::DlgInfoFile");

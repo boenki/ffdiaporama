@@ -68,7 +68,7 @@ public:
     QAbstractButton         *HelpBt;
     QAbstractButton         *UndoBt;
 
-    explicit        QCustomDialog(QString HelpURL,cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit        QCustomDialog(int HelpURLIndex,cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
                     ~QCustomDialog();
 
     virtual void    InitDialog();

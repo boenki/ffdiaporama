@@ -59,7 +59,7 @@ enum {
 
 //====================================================================================================================
 
-DlgTextEdit::DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *TheCurrentTextItem,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
+DlgTextEdit::DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *TheCurrentTextItem,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
                          cStyleCollection *TheStyleTextCollection,cStyleCollection *TheStyleTextBackgroundCollection,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTextEdit) {
 

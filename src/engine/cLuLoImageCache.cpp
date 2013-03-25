@@ -82,13 +82,6 @@ cLuLoImageCacheObject::~cLuLoImageCacheObject() {
 
 //===============================================================================
 
-QString cLuLoImageCacheObject::CachedFilteredImage() {
-    QString CachedFile=FileName;
-    return CachedFile.replace("."+QFileInfo(CachedFile).suffix(),"_ffd.jpg");
-}
-
-//===============================================================================
-
 QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCacheObject::ValidateCacheRenderImage");
     LuLoImageCache->FreeMemoryToMaxValue();
@@ -100,7 +93,7 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
             // Load image from disk
             ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
             if (QFileInfo(FileName).suffix().toLower()=="svg") {
-                qDebug()<<"SVG";
+                //qDebug()<<"SVG";
             }
             QImageReader Img(FileName);
             CacheRenderImage=new QImage(Img.read());
@@ -186,56 +179,54 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
 
     if (CachePreviewImage==NULL) {
 
-        if ((FilterString=="")||((FilterString!="")&&(QFileInfo(CachedFilteredImage()).exists()))) {
+        // ValidateCacheRenderImage();
 
-            ValidateCacheRenderImage();
-
-            // if CacheRenderImage exist then copy it
-            if ((CacheRenderImage)&&(!CacheRenderImage->isNull())) {
-                if (CacheRenderImage->height()<=PREVIEWMAXHEIGHT) CachePreviewImage=CacheRenderImage; else {
-                    CachePreviewImage=new QImage(CacheRenderImage->copy());
-                    // If image size>PREVIEWMAXHEIGHT, reduce Cache Image
-                    if ((CachePreviewImage)&&(!CachePreviewImage->isNull())&&(CachePreviewImage->height()>PREVIEWMAXHEIGHT*2))  {
-                        QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                        delete CachePreviewImage;
-                        CachePreviewImage=NewImage;
-                    }
+        // if CacheRenderImage exist then copy it
+        if ((CacheRenderImage)&&(!CacheRenderImage->isNull())) {
+            if (CacheRenderImage->height()<=PREVIEWMAXHEIGHT) CachePreviewImage=CacheRenderImage; else {
+                CachePreviewImage=new QImage(CacheRenderImage->copy());
+                // If image size>PREVIEWMAXHEIGHT, reduce Cache Image
+                if ((CachePreviewImage)&&(!CachePreviewImage->isNull())&&(CachePreviewImage->height()>PREVIEWMAXHEIGHT*2))  {
+                    QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                    delete CachePreviewImage;
+                    CachePreviewImage=NewImage;
                 }
             }
-
         } else {
-
-            // Search LuLoImageCache collection to find image without filter
-            cLuLoImageCacheObject *UnfilteredObject=LuLoImageCache->FindObject(FileName,ModifDateTime,ImageOrientation,Smoothing,true);
-
-            if (UnfilteredObject) {
-
-                if ((UnfilteredObject->CachePreviewImage)&&(!UnfilteredObject->CachePreviewImage->isNull())) {
-
-                    // Get a copy of image without filter
-                    CachePreviewImage=new QImage(UnfilteredObject->CachePreviewImage->copy());
-
-                } else {
-
-                    // Get a copy of render image without filter
-                    QImage *UnfilteredImage=UnfilteredObject->ValidateCacheRenderImage();
-                    if ((UnfilteredImage==NULL)||(UnfilteredImage->isNull()))
-                        ToLog(LOGMSG_CRITICAL,"Error in cLuLoImageCacheObject::ValidateCachePreviewImage() : UnfilteredObject->ValidateCacheRenderImage() return NULL");
-                        else CachePreviewImage=new QImage(UnfilteredImage->copy());
-
-                    // If image size>PREVIEWMAXHEIGHT, reduce Cache Image
-                    if ((CachePreviewImage)&&(!CachePreviewImage->isNull())&&(CachePreviewImage->height()>PREVIEWMAXHEIGHT*2))  {
-                        QImage *NewImage=new QImage(CachePreviewImage->scaledToHeight(PREVIEWMAXHEIGHT,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
-                        delete CachePreviewImage;
-                        CachePreviewImage=NewImage;
-                    }
-
+            // if no CacheRenderImage then load image directly at correct size
+            QImageReader Img(FileName);
+            if (Img.canRead()) {
+                QSize Size =Img.size();
+                if (((ImageOrientation==8)||(ImageOrientation==6))&&(Size.width()>PREVIEWMAXHEIGHT)) {
+                    Size.setHeight((qreal(Size.height())/qreal(Size.width()))*PREVIEWMAXHEIGHT);
+                    Size.setWidth(PREVIEWMAXHEIGHT);
+                    Img.setScaledSize(Size);
+                } else if ((ImageOrientation!=8)&&(ImageOrientation!=6)&&(Size.height()>PREVIEWMAXHEIGHT)) {
+                    Size.setWidth((qreal(Size.width())/qreal(Size.height()))*PREVIEWMAXHEIGHT);
+                    Size.setHeight(PREVIEWMAXHEIGHT);
+                    Img.setScaledSize(Size);
                 }
-
-            } else {
-                ToLog(LOGMSG_CRITICAL,"Error in cLuLoImageCacheObject::ValidateCacheRenderImage() : LuLoImageCache->FindObject return NULL");
+                CachePreviewImage=new QImage(Img.read());
+                if (ImageOrientation==8) {          // Rotating image anti-clockwise by 90 degrees...'
+                    QMatrix matrix;
+                    matrix.rotate(-90);
+                    QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                    delete CachePreviewImage;
+                    CachePreviewImage=NewImage;
+                } else if (ImageOrientation==3) {   // Rotating image clockwise by 180 degrees...'
+                    QMatrix matrix;
+                    matrix.rotate(180);
+                    QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                    delete CachePreviewImage;
+                    CachePreviewImage=NewImage;
+                } else if (ImageOrientation==6) {   // Rotating image clockwise by 90 degrees...'
+                    QMatrix matrix;
+                    matrix.rotate(90);
+                    QImage *NewImage=new QImage(CachePreviewImage->transformed(matrix,Smoothing?Qt::SmoothTransformation:Qt::FastTransformation));
+                    delete CachePreviewImage;
+                    CachePreviewImage=NewImage;
+                }
             }
-
         }
 
         // If error

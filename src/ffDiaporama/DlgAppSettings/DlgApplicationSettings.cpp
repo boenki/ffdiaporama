@@ -32,7 +32,7 @@
 #define ICON_GLOBALCONF                     ":/img/db.png"
 #define ICON_USERCONF                       ":/img/db_update.png"
 
-DlgApplicationSettings::DlgApplicationSettings(QString HelpURL,cApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
+DlgApplicationSettings::DlgApplicationSettings(int HelpURL,cApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgApplicationSettings) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DlgApplicationSettings");

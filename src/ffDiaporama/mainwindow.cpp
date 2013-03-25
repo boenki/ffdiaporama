@@ -653,26 +653,6 @@ void MainWindow::s_Event_NetworkReply(QNetworkReply* reply) {
 
 //====================================================================================================================
 
-void MainWindow::OpenHelp(QString HelpFile) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::OpenHelp");
-
-    if (HelpFile.startsWith(("file://"))) {
-        QDesktopServices::openUrl(QUrl(HelpFile));
-    } else if (HelpFile.startsWith(("http://"))) {
-        QString HelpPath;
-        if ((ApplicationConfig->CurrentLanguage!="fr")&&(ApplicationConfig->CurrentLanguage!="es")&&(ApplicationConfig->CurrentLanguage!="it")&&(ApplicationConfig->CurrentLanguage!="en")) HelpPath=HelpFile.replace("<local>","en");
-            else HelpPath=HelpFile.replace("<local>",ApplicationConfig->CurrentLanguage);
-        QDesktopServices::openUrl(QUrl(HelpPath));
-    } else {
-        QString HelpPath;
-        if ((ApplicationConfig->CurrentLanguage!="fr")&&(ApplicationConfig->CurrentLanguage!="es")&&(ApplicationConfig->CurrentLanguage!="it")&&(ApplicationConfig->CurrentLanguage!="en")) HelpPath=WIKI_CMS_PATH+HelpFile+"&lang=en";
-            else HelpPath=WIKI_CMS_PATH+HelpFile+"&lang="+ApplicationConfig->CurrentLanguage;
-        QDesktopServices::openUrl(QUrl(HelpPath));
-    }
-}
-
-//====================================================================================================================
-
 void MainWindow::RefreshControls() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::RefreshControls");
     bool IsMultipleSelection=ui->timeline->IsMultipleSelection();
@@ -765,7 +745,7 @@ void MainWindow::s_Action_About() {
 
     ui->Action_About_BT->setDown(false);
     ui->Action_About_BT_2->setDown(false);
-    DlgAbout Dlg("",ApplicationConfig,ApplicationConfig->DlgAboutWSP,this);
+    DlgAbout Dlg(0,ApplicationConfig,ApplicationConfig->DlgAboutWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 }
@@ -787,7 +767,7 @@ void MainWindow::s_Action_Documentation() {
 
     ui->ActionDocumentation_BT->setDown(false);
     ui->ActionDocumentation_BT_2->setDown(false);
-    QDesktopServices::openUrl(QUrl(QString(HELPFILE_INDEX).replace("<local>",ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
+    QDesktopServices::openUrl(QUrl(QString(HELPFILE_DEF).arg(HELPFILE_WIKIINDEX).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
 }
 
 //====================================================================================================================
@@ -796,7 +776,7 @@ void MainWindow::s_Action_NewFunctions() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_NewFunctions");
 
     ui->ActionNewFunctions_BT->setDown(false);
-    QDesktopServices::openUrl(QUrl(QString(HELPFILE_NEWS).replace("<local>",ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
+    QDesktopServices::openUrl(QUrl(QString(HELPFILE_DEF).arg(HELPFILE_NEWS).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
 }
 
 //====================================================================================================================
@@ -1112,8 +1092,7 @@ void MainWindow::DoTimelineSelectionChanged() {
 
 void MainWindow::s_Action_OpenTABHelpLink(const QString Link) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_OpenTABHelpLink");
-
-    OpenHelp(Link);
+    QDesktopServices::openUrl(QUrl(Link));
 }
 
 void MainWindow::s_Event_ToolbarChanged(int MenuIndex) {
@@ -1124,13 +1103,16 @@ void MainWindow::s_Event_ToolbarChanged(int MenuIndex) {
     QString Html;
     switch (MenuIndex) {
     case 0: Html=QApplication::translate("MainWindow","<html><body>Select a project to open or to create a new project<br>"\
-                                         "To discover ffDiaporama:<br><a href=\"%1\">Consult the WIKI</a></body></html>").arg(HELPFILE_WIKIINDEX);
+                                         "To discover ffDiaporama:<br><a href=\"%1\">Consult the WIKI</a></body></html>").
+                                         arg(QString(HELPFILE_DEF).arg(HELPFILE_WIKIINDEX).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage)));
             break;
     case 1: Html=QApplication::translate("MainWindow","<html><body>Add empty slides or slides based on photos or videos<br>"\
-                                         "To discover how to build your slide show and to animate slides:<br><a href=\"%1\">Discover the principles of functioning of ffDiaporama</a></body></html>").arg(HELPFILE_PRINCIPLESINDEX);
+                                         "To discover how to build your slide show and to animate slides:<br><a href=\"%1\">Discover the principles of functioning of ffDiaporama</a></body></html>").
+                                         arg(QString(HELPFILE_DEF).arg(HELPFILE_PRINCIPLESINDEX).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage)));
             break;
     case 2: Html=QApplication::translate("MainWindow","<html><body>Select the equipment type that you plan to use for your video<br>"\
-                                         "To discover how to render videos:<br><a href=\"%1\">Consult the rendering videos WIKI page</a></body></html>").arg(HELPFILE_RENDERINDEX);
+                                         "To discover how to render videos:<br><a href=\"%1\">Consult the rendering videos WIKI page</a></body></html>").
+                                         arg(QString(HELPFILE_DEF).arg(HELPFILE_RENDERINDEX).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage)));
             break;
     case 3: Html=QApplication::translate("MainWindow","<html><body>Visit the ffDiaporama Web site to use the forum,<br>"\
                 "consult tutorials and learn the lastest news:<br><a href=\"http://ffdiaporama.tuxfamily.org\">http://ffdiaporama.tuxfamily.org</a></body></html>");
@@ -1428,7 +1410,7 @@ void MainWindow::s_Action_Open() {
 
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
                         false,false,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",
-                        QApplication::translate("MainWindow","Open project"),NULL,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("MainWindow","Open project"),0,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
@@ -1746,7 +1728,7 @@ void MainWindow::s_Action_AddFile() {
 
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,OBJECTTYPE_MANAGED,
                         true,true,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-                        QApplication::translate("MainWindow","Add files"),NULL,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("MainWindow","Add files"),0,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
 
@@ -1959,15 +1941,15 @@ void MainWindow::s_Action_DoAddFile() {
 
         // if file is a video then check if file have at least one sound track compatible
         if (Continue && IsValide && (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(!(
-                (((cVideoFile *)MediaFile)->LibavAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
-                (((cVideoFile *)MediaFile)->LibavAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
+                (((cVideoFile *)MediaFile)->LibavFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
+                (((cVideoFile *)MediaFile)->LibavFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
             ))) {
             ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
             if (MediaFile) delete MediaFile;
         }
 
-        if (Continue && IsValide && (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(((cVideoFile *)MediaFile)->LibavAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->channels>2)) {
+        if (Continue && IsValide && (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(((cVideoFile *)MediaFile)->LibavFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->channels>2)) {
             ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
             if (MediaFile) delete MediaFile;
@@ -2042,7 +2024,7 @@ void MainWindow::s_Action_DoAddFile() {
             //*****************************************************
             // Try to load an image to ensure all is ok
             //*****************************************************
-            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(/*true*/false):
+            QImage *Image=(CurrentBrush->Image?CurrentBrush->Image->ImageAt(true):
                            CurrentBrush->Video?CurrentBrush->Video->ImageAt(true,0,NULL,CurrentBrush->Deinterlace,1,false,false):
                            NULL);
 
@@ -2177,7 +2159,7 @@ void MainWindow::s_Action_AddProject() {
 
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
                         true,true,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",
-                        QApplication::translate("MainWindow","Add a sub project"),NULL,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("MainWindow","Add a sub project"),0,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     CancelAction=false;

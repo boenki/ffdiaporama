@@ -76,10 +76,10 @@ int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title
 
 //====================================================================================================================
 
-QCustomDialog::QCustomDialog(QString HelpURL,cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):QDialog(parent) {
+QCustomDialog::QCustomDialog(int HelpURLIndex,cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):QDialog(parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::QCustomDialog");
 
-    this->HelpURL               =HelpURL;
+    this->HelpURL               =HelpURLIndex?QString(HELPFILE_DEF).arg(HelpURLIndex).arg(BaseApplicationConfig->GetValideWEBLanguage(BaseApplicationConfig->CurrentLanguage)):"";
     this->BaseApplicationConfig =BaseApplicationConfig;
     this->DlgWSP                =DlgWSP;
     Undo                        =NULL;

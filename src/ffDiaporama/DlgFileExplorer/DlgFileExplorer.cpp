@@ -28,7 +28,7 @@
 #define LATENCY 5
 
 DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,
-                QString StartupPath,QString BoxTitle,QString HelpURL,
+                QString StartupPath,QString TheBoxTitle,int HelpURL,
                 cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
                 QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgFileExplorer) {
 
@@ -46,6 +46,7 @@ DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowM
     HelpBt      =ui->HelpBT;
     UndoBt      =NULL;
 
+    BoxTitle    =TheBoxTitle;
     setWindowTitle(BoxTitle);
 
     // Initialise integrated browser
@@ -388,6 +389,22 @@ void DlgFileExplorer::s_Browser_RefreshHere() {
         delete DlgWorkingTaskDialog;
         DlgWorkingTaskDialog=NULL;
     }
+}
+
+//====================================================================================================================
+
+bool DlgFileExplorer::DoAccept() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_OpenFolder");
+    QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
+    bool HaveFolder=false;
+    for (int i=0;i<MediaList.count();i++) if (MediaList[i]->ObjectType==OBJECTTYPE_FOLDER) HaveFolder=true;
+    if (MediaList.count()==0) return false;
+    if (!HaveFolder) return true; else if (MediaList.count()==1) {
+        s_Browser_OpenFolder();
+        return false;
+    }
+    CustomMessageBox(this,QMessageBox::Information,BoxTitle,QApplication::translate("DlgFileExplorer","The selection can't include folders."),QMessageBox::Ok,QMessageBox::Ok);
+    return false;
 }
 
 //====================================================================================================================

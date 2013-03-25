@@ -23,7 +23,7 @@
 
 //====================================================================================================================
 
-DlgSlideDuration::DlgSlideDuration(qlonglong Duration,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+DlgSlideDuration::DlgSlideDuration(qlonglong Duration,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgSlideDuration) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideDuration::DlgSlideDuration");
     ui->setupUi(this);

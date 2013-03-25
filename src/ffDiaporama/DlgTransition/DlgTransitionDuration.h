@@ -33,7 +33,7 @@ Q_OBJECT
 public:
     qlonglong Duration;
 
-    explicit DlgTransitionDuration(qlonglong Duration,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgTransitionDuration(qlonglong Duration,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgTransitionDuration();
 
     // function to be overloaded

@@ -40,7 +40,7 @@
 
 //====================================================================================================================
 
-DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaObject,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgBackgroundProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::DlgBackgroundProperties");
     ui->setupUi(this);
@@ -311,7 +311,7 @@ void DlgBackgroundProperties::s_SelectFile() {
     QString     NewFile="";
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE,OBJECTTYPE_IMAGEFILE,
                         false,false,((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories?((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath:"",
-                        QApplication::translate("DlgBackgroundProperties","Select a file"),NULL,DiaporamaObject->Parent->ApplicationConfig,DiaporamaObject->Parent->ApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("DlgBackgroundProperties","Select a file"),0,DiaporamaObject->Parent->ApplicationConfig,DiaporamaObject->Parent->ApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();

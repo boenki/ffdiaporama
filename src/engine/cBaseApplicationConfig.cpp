@@ -222,8 +222,8 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
     ConfigFileRootName      =TheConfigFileRootName;        // Name of root node in the config xml file
 
     if (ApplicationVersion.startsWith(ApplicationName)) ApplicationVersion.mid(ApplicationVersion.indexOf(ApplicationName)+ApplicationName.length()+1);
-    if (ApplicationGroupName!=ApplicationName) ToLog(LOGMSG_INFORMATION,QString("Starting %1 %2 %3").arg(ApplicationGroupName).arg(ApplicationName).arg(ApplicationVersion));
-        else ToLog(LOGMSG_INFORMATION,QString("Starting %1 %2").arg(ApplicationGroupName).arg(ApplicationVersion));
+    if (ApplicationGroupName!=ApplicationName) ToLog(LOGMSG_INFORMATION,QString("Starting %1 %2 %3 (%4)").arg(ApplicationGroupName).arg(ApplicationName).arg(ApplicationVersion).arg(CurrentAppVersion));
+        else ToLog(LOGMSG_INFORMATION,QString("Starting %1 %2 (%3)").arg(ApplicationGroupName).arg(ApplicationVersion).arg(CurrentAppVersion));
 }
 
 //====================================================================================================================

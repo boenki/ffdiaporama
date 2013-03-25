@@ -14,7 +14,7 @@ public:
     int *RulerDef;
     int SavRuler;
 
-    explicit DlgRulerDef(int *RulerDef,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgRulerDef(int *RulerDef,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgRulerDef();
 
     // function to be overloaded

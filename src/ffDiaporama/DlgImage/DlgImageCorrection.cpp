@@ -70,7 +70,7 @@ enum UNDOACTION_ID {
 
 DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *TheBackgroundForm,cBrushDefinition *TheCurrentBrush,
                                        int TheVideoPosition,int TheImageGeometry,int TheDefaultSpeedWave,
-                                       QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+                                       int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
                                        QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgImageCorrection) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DlgImageCorrection");
@@ -746,7 +746,7 @@ void DlgImageCorrection::s_ChangeFile() {
     DlgFileExplorer Dlg(CurrentBrush->Image?FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE:FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_VIDEOFILE,
                         CurrentBrush->Image?OBJECTTYPE_IMAGEFILE:OBJECTTYPE_VIDEOFILE,
                         false,false,ActualFilePath,
-                        ffDText(ffDSection_CommonInfoMsg,0),NULL,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgFileExplorerWSP,this);
+                        ffDText(ffDSection_CommonInfoMsg,0),0,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
@@ -775,13 +775,13 @@ void DlgImageCorrection::s_ChangeFile() {
         if (CurrentBrush->Video->GetInformationFromFile(NewBrushFileName,NULL,NULL)&&(CurrentBrush->Video->OpenCodecAndFile())) {
             // Check if file have at least one sound track compatible
             if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(!(
-                (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
-                (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
+                (CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
+                (CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
             ))) {
                 ErrorMessage=ErrorMessage+"\n"+ffDText(ffDSection_CommonErrorMsg,1);
                 IsValide=false;
             }
-            if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
+            if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
                 ErrorMessage=ErrorMessage+"\n"+ffDText(ffDSection_CommonErrorMsg,2);
                 IsValide=false;
             }

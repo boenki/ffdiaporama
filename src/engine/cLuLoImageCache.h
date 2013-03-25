@@ -65,7 +65,6 @@ public:
 
     QImage      *ValidateCacheRenderImage();
     QImage      *ValidateCachePreviewImage();
-    QString     CachedFilteredImage();
 };
 
 //===================================================

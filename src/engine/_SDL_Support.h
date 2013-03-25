@@ -44,7 +44,7 @@ public:
     explicit cSDLSoundBlockList();
 
     virtual int16_t *DetachFirstPacket();
-    virtual void    AppendPacket(int16_t *PacketToAdd);
+    virtual void    AppendPacket(int64_t Position,int16_t *PacketToAdd);
 };
 
 // SDL global define values

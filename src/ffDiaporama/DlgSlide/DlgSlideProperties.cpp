@@ -123,7 +123,7 @@ enum UNDOACTION_ID {
 // DlgSlideProperties : Slide Dialog
 //********************************************************************************************************************************
 
-DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgSlideProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DlgSlideProperties");
 
@@ -144,8 +144,6 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,QString
     ui->BlockTable->CurrentSlide        =DiaporamaObject;
     ui->InteractiveZone->BlockTable     =ui->BlockTable;
     ui->InteractiveZone->MagneticRuler  =((cApplicationConfig *)BaseApplicationConfig)->SlideRuler;
-
-    MAXCACHEIMAGE=30;   // We hope that there is not more than 30 shots !
 }
 
 //====================================================================================================================
@@ -154,7 +152,6 @@ DlgSlideProperties::~DlgSlideProperties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::~DlgSlideProperties");
     InRefreshControls=true; // To ensure no controls will change during delete
     delete ui;
-    MAXCACHEIMAGE=1;
     CurrentSlide->Parent->CloseUnusedLibAv(CurrentSlide->Parent->CurrentCol);
 }
 
@@ -1884,7 +1881,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     QStringList FileList;
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,
                         OBJECTTYPE_MANAGED,true,false,((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories?((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath:"",
-                        QApplication::translate("MainWindow","Add files"),NULL,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgFileExplorerWSP,this);
+                        QApplication::translate("MainWindow","Add files"),0,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     if (FileList.count()==0) return;
@@ -1965,13 +1962,13 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
             if (IsValide) {
                 // Check if file have at least one sound track compatible
                 if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(!(
-                    (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
-                    (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
+                    (CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
+                    (CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
                 ))) {
                     ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
                     IsValide=false;
                 }
-                if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
+                if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
                     ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
                     IsValide=false;
                 }

@@ -40,7 +40,7 @@ public:
     cStyleCollection    *Collection;
     cStyleCollection    *UndoCollection;
 
-    explicit DlgManageStyle(cStyleCollection *Collection,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgManageStyle(cStyleCollection *Collection,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgManageStyle();
 
     void        PopulateList(QString StyleToActivate);

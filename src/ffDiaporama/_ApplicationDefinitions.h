@@ -50,33 +50,28 @@
 #define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Devel/BUILDVERSION.txt"
 
 // Dialogbox help file
-#define WIKI_CMS_PATH                       "http://ffdiaporama.tuxfamily.org/?page_id="
-#define HELPFILE_WIKIINDEX                  7550
-#define HELPFILE_PRINCIPLESINDEX            7554
-#define HELPFILE_RENDERINDEX                7596
-#define HELPFILE_INDEX                      "http://ffdiaporama.tuxfamily.org/?page_id=7550&lang=<local>"
-#define HELPFILE_PRINCIPLES                 "http://ffdiaporama.tuxfamily.org/?page_id=7554&lang=<local>"
-#define HELPFILE_DEVICES                    "http://ffdiaporama.tuxfamily.org/?page_id=7598&lang=<local>"
-#define HELPFILE_DlgTextEdit                "http://ffdiaporama.tuxfamily.org/?page_id=7621&lang=<local>"
-#define HELPFILE_DlgSlideProperties         "http://ffdiaporama.tuxfamily.org/?page_id=7606&lang=<local>"
-#define HELPFILE_DlgBackgroundProperties    "http://ffdiaporama.tuxfamily.org/?page_id=7613&lang=<local>"
-#define HELPFILE_DlgImageCorrection         "http://ffdiaporama.tuxfamily.org/?page_id=7611&lang=<local>"
-#define HELPFILE_DlgManageStyle             "http://ffdiaporama.tuxfamily.org/?page_id=7623&lang=<local>"
-#define HELPFILE_DlgMusicProperties         "http://ffdiaporama.tuxfamily.org/?page_id=7615&lang=<local>"
-#define HELPFILE_DlgRenderVideo             "http://ffdiaporama.tuxfamily.org/?page_id=7627&lang=<local>"
-#define HELPFILE_DlgTransitionProperties    "http://ffdiaporama.tuxfamily.org/?page_id=7617&lang=<local>"
-#define HELPFILE_DlgCheckConfig             "http://ffdiaporama.tuxfamily.org/?page_id=7604&lang=<local>"
-#define HELPFILE_DlgApplicationSettings     "http://ffdiaporama.tuxfamily.org/?page_id=7602&lang=<local>"
-#define HELPFILE_DlgManageDevices           "http://ffdiaporama.tuxfamily.org/?page_id=7609&lang=<local>"
-#define HELPFILE_DlgffDPjrProperties        "http://ffdiaporama.tuxfamily.org/?page_id=7625&lang=<local>"
-#define HELPFILE_DlgInfoFile                "http://ffdiaporama.tuxfamily.org/?page_id=7641&lang=<local>"
-
-#define HELPFILE_DlgVideoEdit               "http://ffdiaporama.tuxfamily.org/?page_id=7619&lang=<local>"
-#define HELPFILE_DlgSlideDuration           ""
-#define HELPFILE_DlgTransitionDuration      ""
-#define HELPFILE_DlgRulerDef                ""                                                                  // No page for that !
-#define HELPFILE_DlgManageFavorite          ""                                                                  // No page for that !
-#define HELPFILE_NEWS                       "http://ffdiaporama.tuxfamily.org/?cat=5&lang=<local>"
+#define HELPFILE_NEWS                       5
+#define HELPFILE_WIKIINDEX                  8386
+#define HELPFILE_PRINCIPLESINDEX            8388    // How ffDiaporama works
+#define HELPFILE_RENDERINDEX                8466    // Rendering videos
+#define HELPFILE_DlgApplicationSettings     8406    // Change ffDiaporama's settings
+#define HELPFILE_DlgCheckConfig             8409    // Check configuration
+#define HELPFILE_DlgSlideProperties         8486    // Modifying slides
+#define HELPFILE_DlgManageDevices           8411    // Manage device's profiles
+#define HELPFILE_DlgImageCorrection         8413    // Reframe and correct images or videos
+#define HELPFILE_DlgBackgroundProperties    8415    // Define slide's background
+#define HELPFILE_DlgMusicProperties         8417    // Define music track
+#define HELPFILE_DlgTransitionProperties    8419    // Define transitions
+#define HELPFILE_DlgVideoEdit               8421    // Cut a video
+#define HELPFILE_DlgTextEdit                8423    // Defining the properties of a text block
+#define HELPFILE_DlgManageStyle             8425    // Managing styles
+#define HELPFILE_DlgffDPjrProperties        8427    // Defining the project properties
+#define HELPFILE_DlgRenderVideo             8429    // Rendering the video
+#define HELPFILE_DlgInfoFile                8443    // Display the properties of a multimedia file
+#define HELPFILE_DlgSlideDuration           0       // No page for that !
+#define HELPFILE_DlgTransitionDuration      0       // No page for that !
+#define HELPFILE_DlgRulerDef                0       // No page for that !
+#define HELPFILE_DlgManageFavorite          0       // No page for that !
 
 // Define styles name used in xml file
 #define STYLENAME_TEXTSTYLE                 "TextStyleCollection"

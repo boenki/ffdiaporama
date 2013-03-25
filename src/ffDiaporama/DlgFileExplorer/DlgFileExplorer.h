@@ -16,17 +16,18 @@ class DlgFileExplorer : public QCustomDialog {
 Q_OBJECT
 public:
     QString                 CurrentPath;
+    QString                 BoxTitle;
     DlgWorkingTask          *DlgWorkingTaskDialog;
     bool                    CancelAction;
     int                     CurrentDriveCheck;
 
     explicit                DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,QString StartupPath,QString BoxTitle,
-                                            QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+                                            int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     virtual                 ~DlgFileExplorer();
     
     // function to be overloaded
     virtual void            DoInitDialog();                             // Initialise dialog
-    virtual bool            DoAccept()          {return true;}          // Call when user click on Ok button
+    virtual bool            DoAccept();                                 // Call when user click on Ok button
     virtual void            DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
     virtual void            PrepareGlobalUndo();                        // Initiale Undo
     virtual void            DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button

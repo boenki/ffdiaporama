@@ -30,7 +30,7 @@
 
 //====================================================================================================================
 
-DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgRenderVideo) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::DlgRenderVideo");
 
