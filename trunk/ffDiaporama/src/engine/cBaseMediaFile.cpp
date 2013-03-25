@@ -29,8 +29,11 @@
 // Include some additional standard class
 #include "cBaseMediaFile.h"
 #include "cLuLoImageCache.h"
+#include "../../src/ffDiaporama/_ApplicationDefinitions.h"
 
 #define FFD_APPLICATION_ROOTNAME    "Project"           // Name of root node in the project xml file
+
+#define MaxAudioLenDecoded AVCODEC_MAX_AUDIO_FRAME_SIZE*4
 
 #ifndef INT64_MAX
     #define 	INT64_MAX   0x7fffffffffffffffLL
@@ -47,6 +50,11 @@
 #define VC_PICTURE      0x00000004
 #define VC_USERDATA     0x00000008
 #define VC_FLUSHED      0x00000010
+
+//#define PIXFMT      PIX_FMT_BGRA
+//#define QTPIXFMT    QImage::Format_ARGB32_Premultiplied
+#define PIXFMT      PIX_FMT_RGB24
+#define QTPIXFMT    QImage::Format_RGB888
 
 //****************************************************************************************************************************************************************
 
@@ -104,103 +112,104 @@ bool gm_decode_base64(uchar *buffer,uint &len) {
     return true;
 }
 
-QImage *GetEmbededImage(QString FileName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:GetEmbededImage");
+#ifdef LIBAV_08
+    QImage *GetEmbededImage(QString FileName) {
+        ToLog(LOGMSG_DEBUGTRACE,"IN:GetEmbededImage");
 
-    // Try to get embeded image
-    QImage *Image=new QImage();
+        // Try to get embeded image
+        QImage *Image=new QImage();
 
-    //*********** MP3
-    if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="mp3")) {
-        TagLib::MPEG::File MP3File(TagLib::FileName(FileName.toLocal8Bit()));
-        if (MP3File.ID3v2Tag()) {
-            TagLib::ID3v2::FrameList l=MP3File.ID3v2Tag()->frameListMap()["APIC"];
-            if (!l.isEmpty()) {
-                TagLib::ID3v2::AttachedPictureFrame *pic=static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
-                if (pic) Image->loadFromData((const uchar *)pic->picture().data(),pic->picture().size());
-            }
-        }
-    }
-    //*********** FLAC
-    #ifdef TAGLIBWITHFLAC
-    if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="flac")) {
-        TagLib::FLAC::File                      FLACFile(TagLib::FileName(FileName.toLocal8Bit()));
-        TagLib::List<TagLib::FLAC::Picture *>   PictList=FLACFile.pictureList();
-
-        // Search PreferedPic : the one with the type lesser
-        TagLib::FLAC::Picture *PreferedPic=NULL;
-        if (!PictList.isEmpty()) for (uint i=0;i<PictList.size();i++) {
-            TagLib::FLAC::Picture *Pic=PictList[i];
-            if ((Pic!=NULL)&&((PreferedPic==NULL)||(PreferedPic->type()>Pic->type()))) PreferedPic=Pic;
-        }
-        if (PreferedPic) Image->loadFromData((const uchar *)PreferedPic->data().data(),PreferedPic->data().size());
-    }
-    #endif
-    //*********** OGG
-    if ((Image->isNull())&&((QFileInfo(FileName).suffix().toLower()=="ogg")||(QFileInfo(FileName).suffix().toLower()=="oga"))) {
-        TagLib::Vorbis::File OggFile(TagLib::FileName(FileName.toLocal8Bit()));
-        if ((OggFile.tag())&&(OggFile.tag()->contains(TagLib::String("COVERART")))) {
-            const TagLib::StringList &CoverList=OggFile.tag()->fieldListMap()["COVERART"];
-            for (TagLib::StringList::ConstIterator it=CoverList.begin();it!=CoverList.end();it++) {
-                const TagLib::ByteVector &Vector=(*it).data(TagLib::String::UTF8);
-                if ((Image->isNull())&&(Vector.size())) {
-                    uint  len    =Vector.size();
-                    uchar *buffer=(uchar *)malloc(len);
-                    memcpy(buffer,Vector.data(),len);
-                    if (gm_decode_base64(buffer,len))
-                        Image->loadFromData((const uchar *)buffer,len);
-                    free(buffer);
+        //*********** MP3
+        if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="mp3")) {
+            TagLib::MPEG::File MP3File(TagLib::FileName(FileName.toLocal8Bit()));
+            if (MP3File.ID3v2Tag()) {
+                TagLib::ID3v2::FrameList l=MP3File.ID3v2Tag()->frameListMap()["APIC"];
+                if (!l.isEmpty()) {
+                    TagLib::ID3v2::AttachedPictureFrame *pic=static_cast<TagLib::ID3v2::AttachedPictureFrame *>(l.front());
+                    if (pic) Image->loadFromData((const uchar *)pic->picture().data(),pic->picture().size());
                 }
+            }
+        }
+        //*********** FLAC
+        #ifdef TAGLIBWITHFLAC
+        if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="flac")) {
+            TagLib::FLAC::File                      FLACFile(TagLib::FileName(FileName.toLocal8Bit()));
+            TagLib::List<TagLib::FLAC::Picture *>   PictList=FLACFile.pictureList();
 
+            // Search PreferedPic : the one with the type lesser
+            TagLib::FLAC::Picture *PreferedPic=NULL;
+            if (!PictList.isEmpty()) for (uint i=0;i<PictList.size();i++) {
+                TagLib::FLAC::Picture *Pic=PictList[i];
+                if ((Pic!=NULL)&&((PreferedPic==NULL)||(PreferedPic->type()>Pic->type()))) PreferedPic=Pic;
             }
+            if (PreferedPic) Image->loadFromData((const uchar *)PreferedPic->data().data(),PreferedPic->data().size());
         }
-    }
-    //*********** MP4/M4A => don't work with M4V or MP4 video
-    #ifdef TAGLIBWITHMP4
-    if ((Image->isNull())&&(/*(QFileInfo(FileName).suffix().toLower()=="mp4")||*/(QFileInfo(FileName).suffix().toLower()=="m4a")||(QFileInfo(FileName).suffix().toLower()=="m4v"))) {
-        TagLib::MP4::File MP4File(TagLib::FileName(FileName.toLocal8Bit()));
-        if ((MP4File.tag())&&(MP4File.tag()->itemListMap().contains("covr"))) {
-            TagLib::MP4::CoverArtList coverArtList = MP4File.tag()->itemListMap()["covr"].toCoverArtList();
-            if (coverArtList.size()!= 0) {
-                TagLib::MP4::CoverArt ca = coverArtList.front();
-                Image->loadFromData((const uchar *) ca.data().data(),ca.data().size());
-            }
-        }
-    }
-    #endif
-    //*********** ASF/WMA //////////////////// A FINIR ! ///////////// CA A PAS L'AIR DE MARCHER !
-    #ifdef TAGLIBWITHASF
-    if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="wma")) {
-        TagLib::ASF::File ASFFile(TagLib::FileName(TagLib::FileName(FileName.toLocal8Bit())));
-        /*
-        TagLib::ASF::Tag* asfTag = dynamic_cast<TagLib::ASF::Tag*>(ASFFile.tag());
-        TagLib::ASF::AttributeListMap& attrListMap = asfTag->attributeListMap();
-        for (TagLib::ASF::AttributeListMap::Iterator it=attrListMap.begin();it!=attrListMap.end();++it) {
+        #endif
+        //*********** OGG
+        if ((Image->isNull())&&((QFileInfo(FileName).suffix().toLower()=="ogg")||(QFileInfo(FileName).suffix().toLower()=="oga"))) {
+            TagLib::Vorbis::File OggFile(TagLib::FileName(FileName.toLocal8Bit()));
+            if ((OggFile.tag())&&(OggFile.tag()->contains(TagLib::String("COVERART")))) {
+                const TagLib::StringList &CoverList=OggFile.tag()->fieldListMap()["COVERART"];
+                for (TagLib::StringList::ConstIterator it=CoverList.begin();it!=CoverList.end();it++) {
+                    const TagLib::ByteVector &Vector=(*it).data(TagLib::String::UTF8);
+                    if ((Image->isNull())&&(Vector.size())) {
+                        uint  len    =Vector.size();
+                        uchar *buffer=(uchar *)malloc(len);
+                        memcpy(buffer,Vector.data(),len);
+                        if (gm_decode_base64(buffer,len))
+                            Image->loadFromData((const uchar *)buffer,len);
+                        free(buffer);
+                    }
 
-            TagLib::ASF::AttributeList& attrList = (*it).second;
-            for (TagLib::ASF::AttributeList::Iterator ait = attrList.begin();ait != attrList.end();++ait) {
-                //qDebug()<< QString().fromStdString((*ait).toString().toCString());
+                }
             }
         }
-        */
-        #ifdef TAGLIBWITHASFPICTURE
-        if ((ASFFile.tag())&&(ASFFile.tag()->attributeListMap().contains("WM/Picture"))) {
-            const TagLib::ASF::AttributeList &attrList=ASFFile.tag()->attributeListMap()["WM/Picture"];
-            if (!attrList.isEmpty()) {
-                    TagLib::ASF::Picture pic = attrList[0].toPicture();
-                    if (pic.isValid()) Image->loadFromData((const uchar *)pic.picture().data(),pic.picture().size());
+        //*********** MP4/M4A => don't work with M4V or MP4 video
+        #ifdef TAGLIBWITHMP4
+        if ((Image->isNull())&&(/*(QFileInfo(FileName).suffix().toLower()=="mp4")||*/(QFileInfo(FileName).suffix().toLower()=="m4a")||(QFileInfo(FileName).suffix().toLower()=="m4v"))) {
+            TagLib::MP4::File MP4File(TagLib::FileName(FileName.toLocal8Bit()));
+            if ((MP4File.tag())&&(MP4File.tag()->itemListMap().contains("covr"))) {
+                TagLib::MP4::CoverArtList coverArtList = MP4File.tag()->itemListMap()["covr"].toCoverArtList();
+                if (coverArtList.size()!= 0) {
+                    TagLib::MP4::CoverArt ca = coverArtList.front();
+                    Image->loadFromData((const uchar *) ca.data().data(),ca.data().size());
+                }
             }
         }
         #endif
-    }
-    #endif
-    //***********
-    if (!Image->isNull()) return Image; else {
-        delete Image;
-        return NULL;
-    }
-}
+        //*********** ASF/WMA //////////////////// A FINIR ! ///////////// CA A PAS L'AIR DE MARCHER !
+        #ifdef TAGLIBWITHASF
+        if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="wma")) {
+            TagLib::ASF::File ASFFile(TagLib::FileName(TagLib::FileName(FileName.toLocal8Bit())));
+            /*
+            TagLib::ASF::Tag* asfTag = dynamic_cast<TagLib::ASF::Tag*>(ASFFile.tag());
+            TagLib::ASF::AttributeListMap& attrListMap = asfTag->attributeListMap();
+            for (TagLib::ASF::AttributeListMap::Iterator it=attrListMap.begin();it!=attrListMap.end();++it) {
 
+                TagLib::ASF::AttributeList& attrList = (*it).second;
+                for (TagLib::ASF::AttributeList::Iterator ait = attrList.begin();ait != attrList.end();++ait) {
+                    //qDebug()<< QString().fromStdString((*ait).toString().toCString());
+                }
+            }
+            */
+            #ifdef TAGLIBWITHASFPICTURE
+            if ((ASFFile.tag())&&(ASFFile.tag()->attributeListMap().contains("WM/Picture"))) {
+                const TagLib::ASF::AttributeList &attrList=ASFFile.tag()->attributeListMap()["WM/Picture"];
+                if (!attrList.isEmpty()) {
+                        TagLib::ASF::Picture pic = attrList[0].toPicture();
+                        if (pic.isValid()) Image->loadFromData((const uchar *)pic.picture().data(),pic.picture().size());
+                }
+            }
+            #endif
+        }
+        #endif
+        //***********
+        if (!Image->isNull()) return Image; else {
+            delete Image;
+            return NULL;
+        }
+    }
+#endif
 //*********************************************************************************************************************************************
 // Base class object
 //*********************************************************************************************************************************************
@@ -1063,18 +1072,21 @@ void cImageFile::GetFullInformationFromFile() {
         } else {
             QImageReader ImgReader(FileName);
             if (ImgReader.canRead()) {
+                QSize Size=ImgReader.size();
+                if ((Size.width()>100)||(Size.height()>100)) {
+                    if ((qreal(Size.height())/qreal(Size.width()))*100<=100) {
+                        Size.setHeight((qreal(Size.height())/qreal(Size.width()))*100);
+                        Size.setWidth(100);
+                    } else {
+                        Size.setWidth((qreal(Size.width())/qreal(Size.height()))*100);
+                        Size.setHeight(100);
+                    }
+                    ImgReader.setScaledSize(Size);
+                }
                 QImage Image=ImgReader.read();
                 if (Image.isNull()) ToLog(LOGMSG_CRITICAL,"QImageReader.read return error in GetFullInformationFromFile");
                     else LoadIcons(&Image);
             }
-            /*
-            QImage *LN_Image=ImageObject->ValidateCacheRenderImage();   // Get a link to render image in LuLoImageCache collection
-            if ((LN_Image==NULL)||(LN_Image->isNull())) {
-                ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : ValidateCacheRenderImage return NULL for thumbnail creation !");
-            } else {
-                LoadIcons(LN_Image);
-            }
-            */
         }
     }
 
@@ -1086,12 +1098,11 @@ void cImageFile::GetFullInformationFromFile() {
         if (ImageObject==NULL) {
             ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : FindObject return NULL for size computation !");
         } else {
-            QImage *LN_Image=ImageObject->ValidateCacheRenderImage();   // Get a link to render image in LuLoImageCache collection
-            if ((LN_Image==NULL)||(LN_Image->isNull())) {
-                ToLog(LOGMSG_CRITICAL,"Error in cImageFile::GetFullInformationFromFile : ValidateCacheRenderImage return NULL for size computation !");
-            } else {
-                ImageWidth =LN_Image->width();
-                ImageHeight=LN_Image->height();
+            QImageReader Img(FileName);
+            if (Img.canRead()) {
+                QSize Size =Img.size();
+                ImageWidth =Size.width();
+                ImageHeight=Size.height();
                 InformationList.append(QString("Photo.PixelXDimension")+QString("##")+QString("%1").arg(ImageWidth));
                 InformationList.append(QString("Photo.PixelYDimension")+QString("##")+QString("%1").arg(ImageHeight));
                 IsInformationValide=true;
@@ -1213,9 +1224,9 @@ QImage *cImageFile::ImageAt(bool PreviewMode) {
     CLASS cVideoFile
 *************************************************************************************************************************************/
 
-cImageInCache::cImageInCache(qlonglong Position,QImage *Image) {
+cImageInCache::cImageInCache(qlonglong Position,QImage Image) {
     this->Position=Position;
-    this->Image   =Image->copy();
+    this->Image   =Image;
 }
 
 cVideoFile::cVideoFile(int TheWantedObjectType,cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile(ApplicationConfig) {
@@ -1234,7 +1245,7 @@ void cVideoFile::Reset(int TheWantedObjectType) {
 
     // Video part
     IsMTS                   =false;
-    LibavVideoFile          =NULL;
+    LibavFile          =NULL;
     VideoDecoderCodec       =NULL;
     VideoStreamNumber       =0;
     FrameBufferYUV          =NULL;
@@ -1246,7 +1257,7 @@ void cVideoFile::Reset(int TheWantedObjectType) {
     NbrChapters             =0;
 
     // Audio part
-    LibavAudioFile          =NULL;
+    LibavFile          =NULL;
     AudioDecoderCodec       =NULL;
     LastAudioReadedPosition =-1;
     IsVorbis                =false;
@@ -1273,6 +1284,10 @@ void cVideoFile::Reset(int TheWantedObjectType) {
     VideoFilterIn           =NULL;
     VideoFilterOut          =NULL;
     #endif
+
+    // Stats
+    PicImage=0;
+    PicDelta=-1;
 }
 
 //====================================================================================================================
@@ -1300,21 +1315,21 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Open file and get a LibAVFormat context and an associated LibAVCodec decoder
     //*********************************************************************************************************
-    if (avformat_open_input(&LibavVideoFile,FileName.toLocal8Bit(),NULL,NULL)!=0) {
-        LibavVideoFile=NULL;
+    if (avformat_open_input(&LibavFile,FileName.toLocal8Bit(),NULL,NULL)!=0) {
+        LibavFile=NULL;
         Mutex.unlock();
         return;
     }
-    InformationList.append(QString("Short Format##")+QString(LibavVideoFile->iformat->name));
-    InformationList.append(QString("Long Format##")+QString(LibavVideoFile->iformat->long_name));
-    LibavVideoFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
+    InformationList.append(QString("Short Format##")+QString(LibavFile->iformat->name));
+    InformationList.append(QString("Long Format##")+QString(LibavFile->iformat->long_name));
+    LibavFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
 
     //*********************************************************************************************************
     // Search stream in file
     //*********************************************************************************************************
-    if (avformat_find_stream_info(LibavVideoFile,NULL)<0) {
-        avformat_close_input(&LibavVideoFile);
-        LibavVideoFile=NULL;
+    if (avformat_find_stream_info(LibavFile,NULL)<0) {
+        avformat_close_input(&LibavFile);
+        LibavFile=NULL;
         Continu=false;
     }
 
@@ -1323,7 +1338,7 @@ void cVideoFile::GetFullInformationFromFile() {
         // Get metadata
         //*********************************************************************************************************
         AVDictionaryEntry *tag=NULL;
-        while ((tag=av_dict_get(LibavVideoFile->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
+        while ((tag=av_dict_get(LibavFile->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
             QString Value=QString().fromUtf8(tag->value);
             #ifdef Q_OS_WIN
             Value.replace(char(13),"\n");
@@ -1336,15 +1351,15 @@ void cVideoFile::GetFullInformationFromFile() {
         // Get chapters
         //*********************************************************************************************************
         NbrChapters=0;
-        for (uint i=0;i<LibavVideoFile->nb_chapters;i++) {
-            AVChapter   *ch=LibavVideoFile->chapters[i];
+        for (uint i=0;i<LibavFile->nb_chapters;i++) {
+            AVChapter   *ch=LibavFile->chapters[i];
             QString     ChapterNum=QString("%1").arg(NbrChapters);
             while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
             qlonglong Start=double(ch->start)*(double(av_q2d(ch->time_base))*1000);     // Lib AV use 1/1 000 000 000 sec and we want msec !
             qlonglong End  =double(ch->end)*(double(av_q2d(ch->time_base))*1000);       // Lib AV use 1/1 000 000 000 sec and we want msec !
 
             // Special case if it's first chapter and start!=0 => add a chapter 0
-            if ((NbrChapters==0)&&(LibavVideoFile->chapters[i]->start>0)) {
+            if ((NbrChapters==0)&&(LibavFile->chapters[i]->start>0)) {
                 InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).toString("hh:mm:ss.zzz"));
                 InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
                 InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
@@ -1371,7 +1386,7 @@ void cVideoFile::GetFullInformationFromFile() {
         int         hh,mm,ss;
         qlonglong   ms;
 
-        ms=LibavVideoFile->duration;
+        ms=LibavFile->duration;//-LibavFile->start_time;
         ms=ms/1000;
 
         ss=ms/1000;
@@ -1388,15 +1403,15 @@ void cVideoFile::GetFullInformationFromFile() {
         //*********************************************************************************************************
         // Get information from track
         //*********************************************************************************************************
-        for (int Track=0;Track<(int)LibavVideoFile->nb_streams;Track++) {
+        for (int Track=0;Track<(int)LibavFile->nb_streams;Track++) {
 
             // Find codec
-            AVCodec *Codec=avcodec_find_decoder(LibavVideoFile->streams[Track]->codec->codec_id);
+            AVCodec *Codec=avcodec_find_decoder(LibavFile->streams[Track]->codec->codec_id);
 
             //*********************************************************************************************************
             // Audio track
             //*********************************************************************************************************
-            if (LibavVideoFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_AUDIO) {
+            if (LibavFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_AUDIO) {
                 // Keep this as default track
                 if (AudioStreamNumber==-1) AudioStreamNumber=Track;
 
@@ -1409,47 +1424,37 @@ void cVideoFile::GetFullInformationFromFile() {
                 InformationList.append(TrackNum+QString("Track")+QString("##")+QString("%1").arg(Track));
                 if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
 
-                // Channels
+                // Channels and Sample format
                 QString SampleFMT="";
-                switch (LibavVideoFile->streams[Track]->codec->sample_fmt) {
-                    case AV_SAMPLE_FMT_U8 : SampleFMT="-U8";    break;
-                    case AV_SAMPLE_FMT_S16: SampleFMT="-S16";    break;
-                    case AV_SAMPLE_FMT_S32: SampleFMT="-S32";    break;
-                    default               : SampleFMT="-?";      break;
+                switch (LibavFile->streams[Track]->codec->sample_fmt) {
+                    case AV_SAMPLE_FMT_U8  : SampleFMT="-U8";   InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits");          break;
+                    case AV_SAMPLE_FMT_S16 : SampleFMT="-S16";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits");           break;
+                    case AV_SAMPLE_FMT_S32 : SampleFMT="-S32";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits");           break;
+                    case AV_SAMPLE_FMT_FLT : SampleFMT="-FLT";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float");                    break;
+                    case AV_SAMPLE_FMT_DBL : SampleFMT="-DBL";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double");                   break;
+                    case AV_SAMPLE_FMT_U8P : SampleFMT="-U8P";  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits, planar");  break;
+                    case AV_SAMPLE_FMT_S16P: SampleFMT="-S16P"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits, planar");   break;
+                    case AV_SAMPLE_FMT_S32P: SampleFMT="-S32P"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits, planar");   break;
+                    case AV_SAMPLE_FMT_FLTP: SampleFMT="-FLTP"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float, planar");            break;
+                    case AV_SAMPLE_FMT_DBLP: SampleFMT="-DBLP"; InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double, planar");           break;
+                    default                : SampleFMT="-?";    InformationList.append(TrackNum+QString("Sample format")+QString("##")+"Unknown");                  break;
                 }
-                if (LibavVideoFile->streams[Track]->codec->channels==1)        InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Mono","Audio channels mode")+SampleFMT);
-                else if (LibavVideoFile->streams[Track]->codec->channels==2)   InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Stereo","Audio channels mode")+SampleFMT);
-                else                                                       InformationList.append(TrackNum+QString("Channels")+QString("##")+QString("%1").arg(LibavVideoFile->streams[Track]->codec->channels)+SampleFMT);
+                if (LibavFile->streams[Track]->codec->channels==1)      InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Mono","Audio channels mode")+SampleFMT);
+                else if (LibavFile->streams[Track]->codec->channels==2) InformationList.append(TrackNum+QString("Channels")+QString("##")+QApplication::translate("cBaseMediaFile","Stereo","Audio channels mode")+SampleFMT);
+                else                                                         InformationList.append(TrackNum+QString("Channels")+QString("##")+QString("%1").arg(LibavFile->streams[Track]->codec->channels)+SampleFMT);
 
                 // Frequency
-                if (int(LibavVideoFile->streams[Track]->codec->sample_rate/1000)*1000>0) {
-                    if (int(LibavVideoFile->streams[Track]->codec->sample_rate/1000)*1000==LibavVideoFile->streams[Track]->codec->sample_rate)
-                         InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(int(LibavVideoFile->streams[Track]->codec->sample_rate/1000))+"Khz");
-                    else InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(double(LibavVideoFile->streams[Track]->codec->sample_rate)/1000,8,'f',1).trimmed()+"Khz");
+                if (int(LibavFile->streams[Track]->codec->sample_rate/1000)*1000>0) {
+                    if (int(LibavFile->streams[Track]->codec->sample_rate/1000)*1000==LibavFile->streams[Track]->codec->sample_rate)
+                         InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(int(LibavFile->streams[Track]->codec->sample_rate/1000))+"Khz");
+                    else InformationList.append(TrackNum+QString("Frequency")+QString("##")+QString("%1").arg(double(LibavFile->streams[Track]->codec->sample_rate)/1000,8,'f',1).trimmed()+"Khz");
                 }
 
                 // Bitrate
-                if (int(LibavVideoFile->streams[Track]->codec->bit_rate/1000)>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(LibavVideoFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
-
-                // Sample format
-                switch (LibavVideoFile->streams[Track]->codec->sample_fmt) {
-                    case AV_SAMPLE_FMT_U8: 	 InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits"); break;
-                    case AV_SAMPLE_FMT_S16:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits"); break;
-                    case AV_SAMPLE_FMT_S32:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits"); break;
-                    case AV_SAMPLE_FMT_FLT:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float"); break;
-                    case AV_SAMPLE_FMT_DBL:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double"); break;
-                    #ifdef AV_SAMPLE_FMT_U8P
-                    case AV_SAMPLE_FMT_U8P:  InformationList.append(TrackNum+QString("Sample format")+QString("##")+"unsigned 8 bits, planar"); break;
-                    case AV_SAMPLE_FMT_S16P: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 16 bits, planar"); break;
-                    case AV_SAMPLE_FMT_S32P: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"signed 32 bits, planar"); break;
-                    case AV_SAMPLE_FMT_FLTP: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"float, planar"); break;
-                    case AV_SAMPLE_FMT_DBLP: InformationList.append(TrackNum+QString("Sample format")+QString("##")+"double, planar"); break;
-                    #endif
-                    default:                 InformationList.append(TrackNum+QString("Sample format")+QString("##")+"Unknown"); break;
-                }
+                if (int(LibavFile->streams[Track]->codec->bit_rate/1000)>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(LibavFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
 
                 // Stream metadata
-                while ((tag=av_dict_get(LibavVideoFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
+                while ((tag=av_dict_get(LibavFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX))) {
                     // OGV container affect TAG to audio stream !
                     QString Key=QString().fromUtf8(tag->key).toLower();
                     if ((FileName.toLower().endsWith(".ogv"))&&((Key=="title")||(Key=="artist")||(Key=="album")||(Key=="comment")||(Key=="date")||(Key=="composer")||(Key=="encoder")))
@@ -1469,7 +1474,7 @@ void cVideoFile::GetFullInformationFromFile() {
             //*********************************************************************************************************
             // Video track
             //*********************************************************************************************************
-            } else if (!MusicOnly && (LibavVideoFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_VIDEO)) {
+            } else if (!MusicOnly && (LibavFile->streams[Track]->codec->codec_type==AVMEDIA_TYPE_VIDEO)) {
                 // Compute TrackNum
                 QString TrackNum=QString("%1").arg(VideoTrackNbr);
                 while (TrackNum.length()<3) TrackNum="0"+TrackNum;
@@ -1480,17 +1485,17 @@ void cVideoFile::GetFullInformationFromFile() {
                 if (Codec) InformationList.append(TrackNum+QString("Codec")+QString("##")+QString(Codec->name));
 
                 // Bitrate
-                if (LibavVideoFile->streams[Track]->codec->bit_rate>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(LibavVideoFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
+                if (LibavFile->streams[Track]->codec->bit_rate>0) InformationList.append(TrackNum+QString("Bitrate")+QString("##")+QString("%1").arg(int(LibavFile->streams[Track]->codec->bit_rate/1000))+"Kb/s");
 
                 // Frame rate
-                if (int(double(LibavVideoFile->streams[Track]->avg_frame_rate.num)/double(LibavVideoFile->streams[Track]->avg_frame_rate.den))>0) {
-                    if (int(double(LibavVideoFile->streams[Track]->avg_frame_rate.num)/double(LibavVideoFile->streams[Track]->avg_frame_rate.den))==double(LibavVideoFile->streams[Track]->avg_frame_rate.num)/double(LibavVideoFile->streams[Track]->avg_frame_rate.den))
-                         InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(int(double(LibavVideoFile->streams[Track]->avg_frame_rate.num)/double(LibavVideoFile->streams[Track]->avg_frame_rate.den)))+" FPS");
-                    else InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(double(double(LibavVideoFile->streams[Track]->avg_frame_rate.num)/double(LibavVideoFile->streams[Track]->avg_frame_rate.den)),8,'f',3).trimmed()+" FPS");
+                if (int(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den))>0) {
+                    if (int(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den))==double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den))
+                         InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(int(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den)))+" FPS");
+                    else InformationList.append(TrackNum+QString("Frame rate")+QString("##")+QString("%1").arg(double(double(LibavFile->streams[Track]->avg_frame_rate.num)/double(LibavFile->streams[Track]->avg_frame_rate.den)),8,'f',3).trimmed()+" FPS");
                 }
 
                 // Stream metadata
-                while ((tag=av_dict_get(LibavVideoFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
+                while ((tag=av_dict_get(LibavFile->streams[Track]->metadata,"",tag,AV_DICT_IGNORE_SUFFIX)))
                     InformationList.append(TrackNum+QString(tag->key)+QString("##")+QString().fromUtf8(tag->value));
 
                 // Ensure language exist (Note : AVI ‘AttachedPictureFrame’and FLV container own language at container level instead of track level)
@@ -1510,40 +1515,40 @@ void cVideoFile::GetFullInformationFromFile() {
 
                     VideoStreamNumber=Track;
                     IsMTS=(FileName.endsWith(".mts",Qt::CaseInsensitive) || FileName.endsWith(".m2ts",Qt::CaseInsensitive));
-                    LibavVideoFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
-                    LibavVideoFile->streams[VideoStreamNumber]->discard=AVDISCARD_DEFAULT;  // Setup STREAM options
+                    LibavFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
+                    LibavFile->streams[VideoStreamNumber]->discard=AVDISCARD_DEFAULT;  // Setup STREAM options
 
                     // Find the decoder for the video stream and open it
-                    VideoDecoderCodec=avcodec_find_decoder(LibavVideoFile->streams[VideoStreamNumber]->codec->codec_id);
+                    VideoDecoderCodec=avcodec_find_decoder(LibavFile->streams[VideoStreamNumber]->codec->codec_id);
 
                     // Setup decoder options
-                    LibavVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
-                    LibavVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
-                    LibavVideoFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
-                    LibavVideoFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
-                    LibavVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
-                    LibavVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
-                    LibavVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-                    LibavVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
-                    LibavVideoFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
-                    LibavVideoFile->streams[VideoStreamNumber]->codec->thread_type      =getThreadFlags(LibavVideoFile->streams[VideoStreamNumber]->codec->codec_id);
+                    LibavFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
+                    LibavFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
+                    LibavFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
+                    LibavFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
+                    LibavFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
+                    LibavFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
+                    LibavFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
+                    LibavFile->streams[VideoStreamNumber]->codec->error_concealment=3;
+                    LibavFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
+                    LibavFile->streams[VideoStreamNumber]->codec->thread_type      =getThreadFlags(LibavFile->streams[VideoStreamNumber]->codec->codec_id);
 
                     // Hack to correct wrong frame rates that seem to be generated by some codecs
-                    if (LibavVideoFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && LibavVideoFile->streams[VideoStreamNumber]->codec->time_base.den==1) LibavVideoFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
+                    if (LibavFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && LibavFile->streams[VideoStreamNumber]->codec->time_base.den==1) LibavFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
 
-                    if (avcodec_open2(LibavVideoFile->streams[VideoStreamNumber]->codec,VideoDecoderCodec,NULL)>=0) {
+                    if (avcodec_open2(LibavFile->streams[VideoStreamNumber]->codec,VideoDecoderCodec,NULL)>=0) {
                         // Get Aspect Ratio
 
-                        AspectRatio=double(LibavVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.num)/double(LibavVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.den);
+                        AspectRatio=double(LibavFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.num)/double(LibavFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.den);
 
-                        if (LibavVideoFile->streams[VideoStreamNumber]->sample_aspect_ratio.num!=0)
-                            AspectRatio=double(LibavVideoFile->streams[VideoStreamNumber]->sample_aspect_ratio.num)/double(LibavVideoFile->streams[VideoStreamNumber]->sample_aspect_ratio.den);
+                        if (LibavFile->streams[VideoStreamNumber]->sample_aspect_ratio.num!=0)
+                            AspectRatio=double(LibavFile->streams[VideoStreamNumber]->sample_aspect_ratio.num)/double(LibavFile->streams[VideoStreamNumber]->sample_aspect_ratio.den);
 
                         if (AspectRatio==0) AspectRatio=1;
 
                         // Special case for DVD mode video without PAR
-                        if ((AspectRatio==1)&&(LibavVideoFile->streams[VideoStreamNumber]->codec->coded_width==720)&&((LibavVideoFile->streams[VideoStreamNumber]->codec->coded_height==576)||(LibavVideoFile->streams[VideoStreamNumber]->codec->coded_height==480)))
-                            AspectRatio=double((LibavVideoFile->streams[VideoStreamNumber]->codec->coded_height/3)*4)/720;
+                        if ((AspectRatio==1)&&(LibavFile->streams[VideoStreamNumber]->codec->coded_width==720)&&((LibavFile->streams[VideoStreamNumber]->codec->coded_height==576)||(LibavFile->streams[VideoStreamNumber]->codec->coded_height==480)))
+                            AspectRatio=double((LibavFile->streams[VideoStreamNumber]->codec->coded_height/3)*4)/720;
 
                         // Try to load one image to be sure we can make something with this file
                         // and use this first image as thumbnail (if no jukebox thumbnail)
@@ -1556,7 +1561,7 @@ void cVideoFile::GetFullInformationFromFile() {
                                 FrameBufferYUVReady    = false;
                                 FrameBufferYUVPosition = 0;
 
-                                AVStream    *VideoStream    =LibavVideoFile->streams[VideoStreamNumber];
+                                AVStream    *VideoStream    =LibavFile->streams[VideoStreamNumber];
                                 AVPacket    *StreamPacket   =NULL;
                                 bool        Continue        =true;
                                 bool        IsVideoFind     =false;
@@ -1567,7 +1572,7 @@ void cVideoFile::GetFullInformationFromFile() {
                                     StreamPacket=new AVPacket();
                                     av_init_packet(StreamPacket);
                                     StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
-                                    if (av_read_frame(LibavVideoFile,StreamPacket)==0) {
+                                    if (av_read_frame(LibavFile,StreamPacket)==0) {
                                         if (StreamPacket->stream_index==VideoStreamNumber) {
                                             int FrameDecoded=0;
                                             if (avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket)<0)
@@ -1600,7 +1605,7 @@ void cVideoFile::GetFullInformationFromFile() {
 
                                 if ((!IsVideoFind)&&(!Img)) {
                                     ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return black frame").arg(Position));
-                                    Img=new QImage(LibavVideoFile->streams[VideoStreamNumber]->codec->width,LibavVideoFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
+                                    Img=new QImage(LibavFile->streams[VideoStreamNumber]->codec->width,LibavFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
                                     Img->fill(0);
                                 }
                             } else ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::OpenCodecAndFile : Impossible to allocate FrameBufferYUV");
@@ -1641,14 +1646,63 @@ void cVideoFile::GetFullInformationFromFile() {
                 // Next
                 VideoTrackNbr++;
             }
+            //*********************************************************************************************************
+            // Thumbnails (since lavf 54.2.0 - avformat.h)
+            //*********************************************************************************************************
+            #ifdef LIBAV_09
+            if (LibavFile->streams[Track]->disposition & AV_DISPOSITION_ATTACHED_PIC) {
+                AVStream *ThumbStream=LibavFile->streams[Track];
+                AVPacket pkt         =ThumbStream->attached_pic;
+                int      FrameDecoded=0;
+                AVFrame  *FrameYUV   =avcodec_alloc_frame();
+                if (FrameYUV) {
+
+                    AVCodec *ThumbDecoderCodec=avcodec_find_decoder(ThumbStream->codec->codec_id);
+
+                    // Setup decoder options
+                    ThumbStream->codec->debug_mv         =0;                    // Debug level (0=nothing)
+                    ThumbStream->codec->debug            =0;                    // Debug level (0=nothing)
+                    ThumbStream->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
+                    ThumbStream->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
+                    ThumbStream->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
+                    ThumbStream->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
+                    ThumbStream->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
+                    ThumbStream->codec->error_concealment=3;
+                    ThumbStream->codec->thread_count     =getCpuCount();
+                    ThumbStream->codec->thread_type      =getThreadFlags(ThumbStream->codec->codec_id);
+                    if (avcodec_open2(ThumbStream->codec,ThumbDecoderCodec,NULL)>=0) {
+                        if ((avcodec_decode_video2(ThumbStream->codec,FrameYUV,&FrameDecoded,&pkt)>=0)&&(FrameDecoded>0)) {
+                            int     W       =FrameYUV->width;
+                            int     H       =FrameYUV->height;
+                            QImage  Thumbnail(W,H,QTPIXFMT);
+                            AVFrame *FrameRGB=avcodec_alloc_frame();
+                            if ((FrameRGB)&&(!Thumbnail.isNull())) {
+                                avpicture_fill((AVPicture *)FrameRGB,Thumbnail.bits(),PIXFMT,W,H);
+                                struct SwsContext *img_convert_ctx=sws_getContext(FrameYUV->width,FrameYUV->height,(PixelFormat)FrameYUV->format,W,H,PIXFMT,SWS_FAST_BILINEAR,NULL,NULL,NULL);
+                                if (img_convert_ctx!=NULL) {
+                                    int ret = sws_scale(img_convert_ctx,FrameYUV->data,FrameYUV->linesize,0,FrameYUV->height,FrameRGB->data,FrameRGB->linesize);
+                                    if (ret>0) {
+                                        // sws_scaler truncate the width of the images to a multiple of 8. So cut resulting image to comply a multiple of 8
+                                        Thumbnail=Thumbnail.copy(0,0,(Thumbnail.width()/8)*8,Thumbnail.height());
+                                        LoadIcons(&Thumbnail);
+                                    }
+                                    sws_freeContext(img_convert_ctx);
+                                }
+                            }
+                            if (FrameRGB) avcodec_free_frame(&FrameRGB);
+                        }
+                        avcodec_close(ThumbStream->codec);
+                    }
+                }
+                if (FrameYUV) avcodec_free_frame(&FrameYUV);
+            }
+            #endif
         }
 
-        //*********************************************************************************************************
-        // Produce thumbnail
-        //*********************************************************************************************************
-
         IsInformationValide=true;
-        // If it's an audio file, try to get embeded image
+
+        #ifdef LIBAV_08
+        // If it's an audio file, try to get embeded image with taglib
         if ((IsIconNeeded)&&(Icon16.isNull())&&(ObjectType==OBJECTTYPE_MUSICFILE)) {
             QImage *Img=GetEmbededImage(FileName);
             if (Img) {
@@ -1656,6 +1710,8 @@ void cVideoFile::GetFullInformationFromFile() {
                 delete Img;
             }
         }
+        #endif
+
         // if no icon then load default for type
         if ((IsIconNeeded)&&(Icon16.isNull()))
                 LoadIcons(ObjectType==OBJECTTYPE_VIDEOFILE?&ApplicationConfig->DefaultVIDEOIcon:&ApplicationConfig->DefaultMUSICIcon);
@@ -1766,267 +1822,28 @@ void cVideoFile::CloseCodecAndFile() {
 
     // Close the video codec
     if (VideoDecoderCodec!=NULL) {
-        avcodec_close(LibavVideoFile->streams[VideoStreamNumber]->codec);
+        avcodec_close(LibavFile->streams[VideoStreamNumber]->codec);
         VideoDecoderCodec=NULL;
-    }
-
-    // Close the video file
-    if (LibavVideoFile!=NULL) {
-        avformat_close_input(&LibavVideoFile);
-        LibavVideoFile=NULL;
     }
 
     // Close the audio codec
     if (AudioDecoderCodec!=NULL) {
-        avcodec_close(LibavAudioFile->streams[AudioStreamNumber]->codec);
+        avcodec_close(LibavFile->streams[AudioStreamNumber]->codec);
         AudioDecoderCodec=NULL;
     }
-    // Close the audio file
-    if (LibavAudioFile!=NULL) {
-        avformat_close_input(&LibavAudioFile);
-        LibavAudioFile=NULL;
+
+    // Close the libav file
+    if (LibavFile!=NULL) {
+        avformat_close_input(&LibavFile);
+        LibavFile=NULL;
     }
 
     if (FrameBufferYUV!=NULL) {
-        av_free(FrameBufferYUV);
+        avcodec_free_frame(&FrameBufferYUV);
         FrameBufferYUV=NULL;
     }
     FrameBufferYUVReady=false;
     IsOpen=false;
-    Mutex.unlock();
-}
-
-//====================================================================================================================
-// Read an audio frame from current stream
-//====================================================================================================================
-
-void cVideoFile::ReadAudioFrame(qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadAudioFrame");
-
-    if (Volume==0) return;
-
-    // Ensure file was previously open and all is ok
-    if ((SoundTrackBloc==NULL)||(AudioStreamNumber==-1)||(LibavAudioFile->streams[AudioStreamNumber]==NULL)||(LibavAudioFile==NULL)||(AudioDecoderCodec==NULL)) return;
-
-    // Ensure Position is not > EndPosition
-    if (Position>QTime(0,0,0,0).msecsTo(DontUseEndPos?Duration:EndPos)) return;
-
-    Mutex.lock();
-
-    Position*=1000; // Change position unit to AV_TIMEBASE Unit
-    double dPosition=double(Position)/AV_TIME_BASE;                                         // Position in double format
-
-    AVStream        *AudioStream        =LibavAudioFile->streams[AudioStreamNumber];
-    int64_t         DstSampleSize       =(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels);
-    int64_t         MaxAudioLenDecoded  =AVCODEC_MAX_AUDIO_FRAME_SIZE*4;
-    int64_t         AudioLenDecoded     =0;
-    uint8_t         *BufferForDecoded   =(uint8_t *)av_malloc(MaxAudioLenDecoded);
-    double          AudioLengthWanted   =5*(double(SoundTrackBloc->WantedDuration)/1000);    // frames in advance !
-
-    bool            Continue        =true;
-    double          FramePosition   =dPosition;
-    double          FrameDuration   =0;
-
-    // Cac difftime between asked position and previous end decoded position
-    qlonglong Diff=(qlonglong(SoundTrackBloc->SoundPacketSize*SoundTrackBloc->List.count()+SoundTrackBloc->CurrentTempSize)/DstSampleSize)*1000/SoundTrackBloc->SamplingRate;
-    qlonglong DiffTimePosition=(LastAudioReadedPosition-Diff)-(dPosition*1000);
-
-    if (DiffTimePosition<0) DiffTimePosition=-DiffTimePosition;
-
-    // Calc if we need to seek to a position
-    if ((Position==0)||(DiffTimePosition>1500)) {// Allow 1,5 sec diff (rounded double !)
-        // Seek to nearest previous key frame
-        int64_t seek_target=av_rescale_q(Position,AV_TIME_BASE_Q,LibavAudioFile->streams[AudioStreamNumber]->time_base);
-
-        if (av_seek_frame(LibavAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
-            // Try in AVSEEK_FLAG_ANY mode
-            if (av_seek_frame(LibavAudioFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
-                ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadAudioFrame : Seek error");
-            }
-        }
-        SoundTrackBloc->ClearList();      // Clear soundtrack list
-        FramePosition=-1;
-        // Flush buffers
-        avcodec_flush_buffers(LibavAudioFile->streams[AudioStreamNumber]->codec);
-    }
-
-    // ******************
-    // Prepare resampler
-    // ******************
-    bool ResamplingContinue=((Position!=0)&&(DiffTimePosition>=0)&&(DiffTimePosition<500));
-    bool NeedResampling=((AudioStream->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||(AudioStream->codec->channels!=SoundTrackBloc->Channels)||(AudioStream->codec->sample_rate!=SoundTrackBloc->SamplingRate));
-    if (NeedResampling) {
-        if (!ResamplingContinue) CloseResampler();
-        CheckResampler(AudioStream->codec->channels,SoundTrackBloc->Channels,
-                       AudioStream->codec->sample_fmt,SoundTrackBloc->SampleFormat,
-                       AudioStream->codec->sample_rate,SoundTrackBloc->SamplingRate
-                       #ifdef LIBAV_09
-                       ,AudioStream->codec->channel_layout
-                       ,av_get_default_channel_layout(SoundTrackBloc->Channels)
-                       #endif
-                       );
-    }
-
-    //*************************************************************************************************************************************
-    // Decoding process : Get StreamPacket until AudioLenDecoded>=AudioDataWanted or we have reach the end of file
-    //*************************************************************************************************************************************
-
-    while (Continue) {
-
-        AVPacket *AudioPacket=new AVPacket();
-        av_init_packet(AudioPacket);
-        int err=av_read_frame(LibavAudioFile,AudioPacket);
-        if (err<0) {
-            // if error in av_read_frame(...) then may be we have reach the end of file !
-            Continue=false;
-            #if defined(LIBAV_08) || defined(USELIBSWRESAMPLE)
-            if (err!=-541478725) {
-            #else
-            if (err!=-1606004923) {
-            #endif
-                char Buf[2048];
-                av_strerror(err,Buf,2048);
-                ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::ReadAudioFrame : av_read_frame error: ")+QString(Buf));
-            }
-        } else {
-            if ((AudioPacket->stream_index==AudioStreamNumber)&&(AudioPacket->size>0)) {
-
-                AVPacket PacketTemp;
-                av_init_packet(&PacketTemp);
-                PacketTemp.data=AudioPacket->data;
-                PacketTemp.size=AudioPacket->size;
-
-                if (AudioPacket->pts!=(int64_t)AV_NOPTS_VALUE) {
-                    FramePosition=double(AudioPacket->pts)*double(av_q2d(AudioStream->time_base))-double(LibavAudioFile->start_time)/AV_TIME_BASE;
-                } else FramePosition=-1;
-
-                // NOTE: the audio packet can contain several NbrFrames
-                if (FramePosition!=-1) while (PacketTemp.size>0) {
-
-                    AVFrame *Frame   =avcodec_alloc_frame();
-                    int     got_frame;
-                    int     Len=avcodec_decode_audio4(AudioStream->codec,Frame,&got_frame,&PacketTemp);
-                    if (Len<0) {
-                        // if decode error then data are not good : replace them with null sound
-                        //SizeDecoded=int64_t(LastAudioFrameDuration*double(SoundTrackBloc->SamplingRate))*DstSampleSize;
-                        //memset(BufferForDecoded+AudioLenDecoded,0,SizeDecoded);
-                        //AudioLenDecoded+=SizeDecoded;
-                        //qDebug()<<"    =>Make NULL Audio frame"<<SizeDecoded<<"bytes added - Buffer:"<<AudioLenDecoded<<"/"<<MaxAudioLenDecoded;
-                        // if error, we skip the frame and exit the while loop
-                        PacketTemp.size=0;
-                    } else if (got_frame>0) {
-                        #if defined(LIBAV_08)
-                        int SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
-                        #elif defined(USELIBAVRESAMPLE)
-                        int SizeDecoded=av_samples_get_buffer_size(NULL,AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,0);
-                        #elif defined(USELIBSWRESAMPLE)
-                        int SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
-                        #endif
-
-                        uint8_t *Data    =Frame->data[0];
-                        int     NbrSample=Frame->nb_samples;
-
-                        // ==========> Resampling
-                        if ((NeedResampling)&&(RSC!=NULL)) {
-                            #if defined(LIBAV_08)
-                                Data=(uint8_t *)av_malloc(MaxAudioLenDecoded);
-                                NbrSample=audio_resample(RSC,(short int*)Data,(short int*)Frame->data[0],NbrSample);
-                                SizeDecoded=NbrSample*DstSampleSize;
-                            #elif defined(USELIBAVRESAMPLE)
-                                Data=Frame->data[0];
-                                uint8_t *in_data[RESAMPLE_MAX_CHANNELS]={0};
-                                int     in_linesize=0;
-                                if (av_samples_fill_arrays(in_data,&in_linesize,(uint8_t *)Frame->data[0],AudioStream->codec->channels,NbrSample,AudioStream->codec->sample_fmt,1)<0) {
-                                    ToLog(LOGMSG_CRITICAL,QString("failed in_data fill arrays"));
-                                } else {
-                                    uint8_t *out_data[RESAMPLE_MAX_CHANNELS]={0};
-                                    int     out_linesize=0;
-                                    int     out_samples=avresample_available(RSC)+av_rescale_rnd(avresample_get_delay(RSC)+NbrSample,SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,AV_ROUND_UP);
-                                    if (av_samples_alloc(&Data,&out_linesize,SoundTrackBloc->Channels,out_samples,SoundTrackBloc->SampleFormat,1)<0) {
-                                        ToLog(LOGMSG_CRITICAL,QString("av_samples_alloc failed"));
-                                    } else {
-                                        if (av_samples_fill_arrays(out_data,&out_linesize,Data,SoundTrackBloc->Channels,out_samples,SoundTrackBloc->SampleFormat,1)<0) {
-                                            ToLog(LOGMSG_CRITICAL,QString("failed out_data fill arrays"));
-                                            Continue=false;
-                                        } else {
-                                            NbrSample=avresample_convert(RSC,out_data,out_linesize,out_samples,in_data,in_linesize,NbrSample);
-                                            SizeDecoded=NbrSample*DstSampleSize;
-                                        }
-                                    }
-                                }
-                            #elif defined(USELIBSWRESAMPLE)
-                                Data=(uint8_t *)av_malloc(MaxAudioLenDecoded);
-                                uint8_t *out[]={Data};
-                                NbrSample=swr_convert(RSC,out,MaxAudioLenDecoded/DstSampleSize,(const uint8_t **)Frame->data,NbrSample);
-                                SizeDecoded=NbrSample*DstSampleSize;
-                            #endif
-                        }
-                        //==========> End resampling
-
-                        // Adjust FrameDuration with real NbrSample
-                        FrameDuration=double(NbrSample)/double(SoundTrackBloc->SamplingRate);
-
-                        // If wanted position <= CurrentPosition+Packet duration then add this packet to the queue
-                        if ((FramePosition+FrameDuration)>=dPosition) {
-                            int64_t Delta=0;
-                            // if dPosition start in the midle of the pack, then calculate delta
-                            if ((!ResamplingContinue)&&(dPosition>FramePosition)) {
-                                Delta=round((dPosition-FramePosition)*SoundTrackBloc->SamplingRate)*DstSampleSize;
-                                if (Delta<0) Delta=0;
-                            }
-                            // Append decoded data to BufferForDecoded buffer
-                            if (Delta<SizeDecoded) {
-                                memcpy(BufferForDecoded+AudioLenDecoded,Data+Delta,SizeDecoded-Delta);
-                                AudioLenDecoded+=(SizeDecoded-Delta);
-                            }
-                        }
-
-                        if (Data!=Frame->data[0]) av_free(Data);
-
-                        PacketTemp.data        +=Len;
-                        PacketTemp.size        -=Len;
-                        FramePosition           =FramePosition+FrameDuration;
-                        LastAudioReadedPosition =int(FramePosition*1000);    // Keep NextPacketPosition for determine next time if we need to seek
-                    }
-                    av_free(Frame);
-                }
-            }
-
-            // Check if we need to continue loop
-            Continue=FramePosition<dPosition+AudioLengthWanted;
-        }
-        // Continue with a new one
-        if (AudioPacket!=NULL) {
-            av_free_packet(AudioPacket);
-            delete AudioPacket;
-            AudioPacket=NULL;
-        }
-    }
-
-    //**********************************************************************
-    // Transfert data from BufferForDecoded to Buffer using audio_resample
-    //**********************************************************************
-    if (AudioLenDecoded>0) {
-        if (Volume!=1) {
-            // Adjust volume
-            int16_t *Buf1=(int16_t*)BufferForDecoded;
-            int32_t mix;
-            for (int j=0;j<AudioLenDecoded/4;j++) {
-                // Left channel : Adjust if necessary (16 bits)
-                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                // Right channel : Adjust if necessary (16 bits)
-                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-            }
-        }
-        // Append data to SoundTrackBloc
-        SoundTrackBloc->AppendData((int16_t*)BufferForDecoded,AudioLenDecoded);
-    }
-
-    // Now ensure SoundTrackBloc have correct wanted packet (if no then add nullsound)
-    //while (SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS) SoundTrackBloc->AppendNullSoundPacket();
-
-    if (BufferForDecoded) av_free(BufferForDecoded);
-
     Mutex.unlock();
 }
 
@@ -2114,8 +1931,13 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
             av_opt_set_int(RSC,"in_sample_rate",        RSC_InSampleRate,    0);
             av_opt_set_int(RSC,"out_channel_layout",    RSC_OutChannelLayout,0);
             av_opt_set_int(RSC,"out_sample_rate",       RSC_OutSampleRate,   0);
+            #if (LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,9,100))
             av_opt_set_sample_fmt(RSC,"in_sample_fmt",  RSC_InSampleFmt,     0);
             av_opt_set_sample_fmt(RSC,"out_sample_fmt", RSC_OutSampleFmt,    0);
+            #else
+            av_opt_set_int(RSC,"in_sample_fmt",         RSC_InSampleFmt,     0);
+            av_opt_set_int(RSC,"out_sample_fmt",        RSC_OutSampleFmt,    0);
+            #endif
             if ((RSC)&&(swr_init(RSC)<0)) {
                 ToLog(LOGMSG_CRITICAL,QString("CheckResampler: swr_init failed"));
                 if (RSC) {
@@ -2160,13 +1982,13 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
         VideoFilterGraph->scale_sws_opts = av_strdup("flags=4");
 
         QString args=QString("%1:%2:%3:%4:%5:%6:%7")
-            .arg(LibavVideoFile->streams[VideoStreamNumber]->codec->width)
-            .arg(LibavVideoFile->streams[VideoStreamNumber]->codec->height)
-            .arg(LibavVideoFile->streams[VideoStreamNumber]->codec->pix_fmt)
-            .arg(LibavVideoFile->streams[VideoStreamNumber]->codec->time_base.num)
-            .arg(LibavVideoFile->streams[VideoStreamNumber]->codec->time_base.den)
-            .arg(LibavVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.num)
-            .arg(LibavVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.den);
+            .arg(LibavFile->streams[VideoStreamNumber]->codec->width)
+            .arg(LibavFile->streams[VideoStreamNumber]->codec->height)
+            .arg(LibavFile->streams[VideoStreamNumber]->codec->pix_fmt)
+            .arg(LibavFile->streams[VideoStreamNumber]->codec->time_base.num)
+            .arg(LibavFile->streams[VideoStreamNumber]->codec->time_base.den)
+            .arg(LibavFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.num)
+            .arg(LibavFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio.den);
 
         #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)    // from 2.13 to 2.60
 
@@ -2281,7 +2103,7 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
         #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,60,0)             // from 2.13 to 2.60
 
             #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,23,0)         // from 2.13 to 2.23
-            int Ret=av_vsrc_buffer_add_frame(VideoFilterIn,FrameBufferYUV,FrameBufferYUV->pts,LibavVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio);
+            int Ret=av_vsrc_buffer_add_frame(VideoFilterIn,FrameBufferYUV,FrameBufferYUV->pts,LibavFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio);
             if (Ret<0) {
                 ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::VideoFilter_Process : av_vsrc_buffer_add_frame"));
                 return VC_ERROR;
@@ -2402,82 +2224,264 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
 #endif
 
 //====================================================================================================================
+
+void cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position) {
+    if (Position<0) Position=0;
+
+    // Seek to nearest previous key frame on video track (if video)
+    if (VideoStream) {
+        int64_t seek_target=av_rescale_q(Position,AV_TIME_BASE_Q,VideoStream->time_base);
+        if (av_seek_frame(LibavFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
+            // Try in AVSEEK_FLAG_ANY mode
+            if (av_seek_frame(LibavFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
+                ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadFrame : Seek error");
+            }
+        }
+        /*
+        AVPacket *StreamPacket=new AVPacket();
+        av_init_packet(StreamPacket);
+        while ((av_read_frame(LibavFile,StreamPacket)>=0)&&(
+               (StreamPacket->stream_index!=VideoStreamNumber)||((StreamPacket->flags & AV_PKT_FLAG_KEY)!=AV_PKT_FLAG_KEY)));
+        av_free_packet(StreamPacket);
+        */
+
+    // else seek au audio track
+    } else if (AudioStream) {
+        int64_t seek_target=av_rescale_q(Position,AV_TIME_BASE_Q,AudioStream->time_base);
+        if (av_seek_frame(LibavFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
+            // Try in AVSEEK_FLAG_ANY mode
+            if (av_seek_frame(LibavFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
+                ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadAudioFrame : Seek error");
+            }
+        }
+    }
+
+    // Flush LibAV buffers
+    for (unsigned int i=0;i<LibavFile->nb_streams;i++)  {
+        AVCodecContext *codec_context = LibavFile->streams[i]->codec;
+        if (codec_context && codec_context->codec) avcodec_flush_buffers(codec_context);
+    }
+
+    if (AudioStream) CloseResampler();
+    #if !defined(USELIBSWRESAMPLE)
+    if (VideoStream) VideoFilter_Close();
+    #endif
+}
+
+//====================================================================================================================
+
+uint8_t *cVideoFile::Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSampleSize) {
+    uint8_t *Data=NULL;
+    #if defined(LIBAV_08)
+        Data=(uint8_t *)av_malloc(MaxAudioLenDecoded);
+        if (Data) *SizeDecoded=audio_resample(RSC,(short int*)Data,(short int*)Frame->data[0],Frame->nb_samples)*DstSampleSize;
+    #elif defined(USELIBAVRESAMPLE)
+        uint8_t *in_data[RESAMPLE_MAX_CHANNELS]={0};
+        int     in_linesize=0;
+        Data=Frame->data[0];
+        if (av_samples_fill_arrays(in_data,&in_linesize,(uint8_t *)Frame->data[0],AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,1)<0) {
+            ToLog(LOGMSG_CRITICAL,QString("failed in_data fill arrays"));
+        } else {
+            uint8_t *out_data[RESAMPLE_MAX_CHANNELS]={0};
+            int     out_linesize=0;
+            int     out_samples=avresample_available(RSC)+av_rescale_rnd(avresample_get_delay(RSC)+Frame->nb_samples,SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,AV_ROUND_UP);
+            if (av_samples_alloc(&Data,&out_linesize,SoundTrackBloc->Channels,out_samples,SoundTrackBloc->SampleFormat,1)<0) {
+                ToLog(LOGMSG_CRITICAL,QString("av_samples_alloc failed"));
+            } else if (av_samples_fill_arrays(out_data,&out_linesize,Data,SoundTrackBloc->Channels,out_samples,SoundTrackBloc->SampleFormat,1)<0) {
+                ToLog(LOGMSG_CRITICAL,QString("failed out_data fill arrays"));
+                else *SizeDecoded=avresample_convert(RSC,out_data,out_linesize,out_samples,in_data,in_linesize,Frame->nb_samples)*DstSampleSize;
+            }
+        }
+    #elif defined(USELIBSWRESAMPLE)
+        Data=(uint8_t *)av_malloc(MaxAudioLenDecoded);
+        uint8_t *out[]={Data};
+        if (Data) *SizeDecoded=swr_convert(RSC,out,MaxAudioLenDecoded/DstSampleSize,(const uint8_t **)Frame->data,Frame->nb_samples)*DstSampleSize;
+    #endif
+    return Data;
+}
+
+//====================================================================================================================
 // Read a video frame from current stream
 //====================================================================================================================
 
-#define MAXELEMENTSINOBJECTLIST 500
-int MAXCACHEIMAGE=1;
-
-QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadVideoFrame");
+// Remark: Position must use AV_TIMEBASE Unit
+QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadFrame");
 
     // Ensure file was previously open
-    if (((LibavVideoFile==NULL)||(VideoDecoderCodec==NULL))&&(!OpenCodecAndFile())) return NULL;
+    if ((!IsOpen)&&(!OpenCodecAndFile())) return NULL;
 
-    Position*=1000; // Change position unit to AV_TIMEBASE Unit
-    double dPosition=double(Position)/AV_TIME_BASE;                                         // Position in double format
-    double dEndFile =double(QTime(0,0,0,0).msecsTo(DontUseEndPos?Duration:EndPos))/1000;    // End File Position in double format
+    // Ensure file have an end file Position
+    double dEndFile=double(QTime(0,0,0,0).msecsTo(DontUseEndPos?Duration:EndPos))/1000;
     if (dEndFile==0) {
-        ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadVideoFrame : dEndFile=0 ?????");
+        ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadFrame : dEndFile=0 ?????");
         return NULL;
     }
+    if (Position<0) Position=0;
 
-    // Ensure Position is not > EndPosition, in that case, change Position to lastposition
+    AVStream *AudioStream =((AudioStreamNumber>=0)&&SoundTrackBloc?LibavFile->streams[AudioStreamNumber]:NULL);
+    AVStream *VideoStream =((!MusicOnly)&&(!ForceSoundOnly)&&(VideoStreamNumber>=0)?LibavFile->streams[VideoStreamNumber]:NULL);
+    int64_t  DstSampleSize=SoundTrackBloc?(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels):0;
+    int64_t  FPSSize      =SoundTrackBloc?SoundTrackBloc->SoundPacketSize*SoundTrackBloc->NbrPacketForFPS:0;
+    int64_t  FPSDuration  =FPSSize?(double(FPSSize)/(SoundTrackBloc->Channels*SoundTrackBloc->SampleBytes*SoundTrackBloc->SamplingRate))*AV_TIME_BASE:0;
+
+    if (!FPSDuration) {
+        if (PreviewMode) FPSDuration=double(AV_TIME_BASE)/((cApplicationConfig *)ApplicationConfig)->PreviewFPS;
+            else FPSDuration=double(VideoStream->r_frame_rate.den*AV_TIME_BASE)/double(VideoStream->r_frame_rate.num);
+    }
+    // If position >= end of file : disable audio
+    double dPosition=double(Position)/AV_TIME_BASE;
     if ((dPosition>0)&&(dPosition>=dEndFile)) {
-        Position=QTime(0,0,0,0).msecsTo(EndPos);
+        AudioStream=NULL; // Disable audio
+        // Check if last image is ready and correspond to end of file
+        if ((!LastImage.isNull())&&(FrameBufferYUVReady)&&(FrameBufferYUVPosition>=dEndFile*AV_TIME_BASE-FPSDuration)) return new QImage(LastImage);
+        // If not then change Position to end file - a FPS to prepare a last image
+        Position=dEndFile*AV_TIME_BASE-FPSDuration;
         dPosition=double(Position)/AV_TIME_BASE;
     }
 
-    for (int i=0;i<CacheImage.count();i++) if (CacheImage.at(i).Position==Position) return new QImage(CacheImage.at(i).Image.copy());
+    //================================================
 
-    // Allocate structure for YUV image
-    if (FrameBufferYUV==NULL) FrameBufferYUV=avcodec_alloc_frame();
-    if (FrameBufferYUV==NULL) return NULL;
+    QImage   *RetImage         =NULL;
+    AVPacket *StreamPacket     =NULL;
+    bool     Continue          =true;
+    double   FrameDuration     =0;
+    bool     NeedResampling    =false;
+    int64_t  AudioLenWanted    =0;
+    int64_t  AudioLenDecoded   =0;
+    double   FramePosition     =dPosition;
+    bool     ResamplingContinue=(Position!=0);
 
-    QImage    *RetImage    =NULL;
-    AVStream  *VideoStream =LibavVideoFile->streams[VideoStreamNumber];
-    AVPacket  *StreamPacket=NULL;
+    // Allocate structures
+    if (VideoStream) {
+        if (FrameBufferYUV==NULL) FrameBufferYUV=avcodec_alloc_frame();
+        if (FrameBufferYUV==NULL) return NULL;
+    }
+    if (AudioStream) {
+        NeedResampling=((AudioStream->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
+                        (AudioStream->codec->channels!=SoundTrackBloc->Channels)||
+                        (AudioStream->codec->sample_rate!=SoundTrackBloc->SamplingRate));
+    }
 
-    // Calc difftime between asked position and previous end decoded position
-    qlonglong DiffTimePosition=-1;
-    if (FrameBufferYUVReady) DiffTimePosition=Position-FrameBufferYUVPosition;
-
+    //*************************************************************************************************************************************
     Mutex.lock();
+    //*************************************************************************************************************************************
+    // SEEK
+    //*************************************************************************************************************************************
+
+    // Compute difftime between asked position and previous end decoded position
+    int64_t DiffTimePosition=-1000000;
+    if (AudioStream) {
+        int64_t CurSize=SoundTrackBloc->SoundPacketSize*SoundTrackBloc->List.count()+SoundTrackBloc->CurrentTempSize;
+        int64_t CurDur =double(CurSize*AV_TIME_BASE)/(SoundTrackBloc->SamplingRate*DstSampleSize);
+        if ((Position>=SoundTrackBloc->CurrentPosition)&&(Position<=SoundTrackBloc->CurrentPosition+CurDur)) {
+            int64_t UsableSize=CurSize-((double(Position-SoundTrackBloc->CurrentPosition)/AV_TIME_BASE)*SoundTrackBloc->SamplingRate*DstSampleSize);
+            AudioLenWanted  =UsableSize<FPSSize?FPSSize-UsableSize:0;
+            DiffTimePosition=0;
+        } else {
+            AudioLenWanted=FPSSize;
+            if (Position<SoundTrackBloc->CurrentPosition) DiffTimePosition=-1;
+                else DiffTimePosition=LastAudioReadedPosition-Position;
+        }
+    } else
+        if (FrameBufferYUVReady)
+            DiffTimePosition=Position-FrameBufferYUVPosition;
 
     // Calc if we need to seek to a position
-    if ((Position==0)||(DiffTimePosition<0)||(DiffTimePosition>1500000)) { // Allow 1,5 sec diff
-        // Seek to nearest previous key frame
-        int64_t seek_target=av_rescale_q(Position/*+LibavVideoFile->start_time*/,AV_TIME_BASE_Q,LibavVideoFile->streams[VideoStreamNumber]->time_base);
-
-        if (av_seek_frame(LibavVideoFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
-            // Try in AVSEEK_FLAG_ANY mode
-            if (av_seek_frame(LibavVideoFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
-                ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadVideoFrame : Seek error");
-            }
+    if ((Position==0)||(DiffTimePosition<0/*-1000*/)||(DiffTimePosition>1500000)) {// Allow 1,5 sec diff (rounded double !)
+        SeekFile(VideoStream,AudioStream,Position-FPSDuration*(Deinterlace?2:1)); // Always seek one FPS before to ensure eventual filter have time to init
+        FramePosition=Position/AV_TIME_BASE;
+        if (VideoStream) {
+            FrameBufferYUVReady   =false;
+            FrameBufferYUVPosition=0;
+            CacheImage.clear();
         }
-        FrameBufferYUVReady    = false;
-        FrameBufferYUVPosition = 0;
-        // Flush buffers
-        avcodec_flush_buffers(LibavVideoFile->streams[VideoStreamNumber]->codec);
+        if (AudioStream) {
+            SoundTrackBloc->ClearList();      // Clear soundtrack list
+            AudioLenWanted    =SoundTrackBloc->SoundPacketSize*SoundTrackBloc->NbrPacketForFPS;
+            ResamplingContinue=false;
+        }
+    }
 
+    // Prepare resampler
+    if (NeedResampling) {
+        if (!ResamplingContinue) CloseResampler();
+        CheckResampler(AudioStream->codec->channels,SoundTrackBloc->Channels,
+                       AudioStream->codec->sample_fmt,SoundTrackBloc->SampleFormat,
+                       AudioStream->codec->sample_rate,SoundTrackBloc->SamplingRate
+                       #ifdef LIBAV_09
+                       ,AudioStream->codec->channel_layout
+                       ,av_get_default_channel_layout(SoundTrackBloc->Channels)
+                       #endif
+                       );
+    }
+
+    bool IsVideoFind=false;
+    int  i=0;
+    while (i<CacheImage.count()) {
+        if ((CacheImage[i].Position>=Position-FPSDuration)&&(CacheImage[i].Position<=Position+FPSDuration)) IsVideoFind=true;
+        i++;
     }
 
     //*************************************************************************************************************************************
     // Decoding process : Get StreamPacket until endposition is reach (if sound is wanted) or until image is ok (if image only is wanted)
     //*************************************************************************************************************************************
-    bool    Continue        =true;
-    bool    IsVideoFind     =false;
-    double  FrameTimeBase   =av_q2d(VideoStream->time_base);;
-    double  FramePosition   =0;
+
+    bool ByPassFirstImage=(Deinterlace)&&(CacheImage.count()==0);
+    bool DontRetryReading=false;
+
+    // Check if we need to continue loop
+    Continue=Continue && (
+                ((VideoStream)&&(!IsVideoFind))||
+                ((AudioStream)&&(AudioLenDecoded<AudioLenWanted))
+             );
 
     while (Continue) {
+
         StreamPacket=new AVPacket();
         av_init_packet(StreamPacket);
         StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
 
-        if (av_read_frame(LibavVideoFile,StreamPacket)==0) {
+        if (av_read_frame(LibavFile,StreamPacket)<0) {
 
-            if (StreamPacket->stream_index==VideoStreamNumber) {
+            //************************
+            // If error reading frame
+            //************************
+            if (AudioLenWanted>AudioLenDecoded) {
+                uint8_t *BufferForDecoded=(uint8_t *)av_malloc(AudioLenWanted-AudioLenDecoded);
+                memset(BufferForDecoded,0,AudioLenWanted-AudioLenDecoded);
+                SoundTrackBloc->AppendData(int64_t(dEndFile*AV_TIME_BASE),(int16_t*)BufferForDecoded,AudioLenWanted-AudioLenDecoded);
+                av_free(BufferForDecoded);
+                AudioLenDecoded=AudioLenWanted;
+            }
+            if ((!LastImage.isNull())&&(FrameBufferYUVReady)&&(FrameBufferYUVPosition>=(dEndFile-1.5)*AV_TIME_BASE)) {
+                RetImage=new QImage(LastImage);
+                Continue=false;
+            } else {
+                // Seek FPSDuration before and modify var to try to loop again
+                SeekFile(VideoStream,AudioStream,Position-FPSDuration);
+                if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))) EndPos=QTime(0,0,0).addMSecs(FramePosition*1000);
+                dEndFile               =FramePosition;
+                //Duration               =QTime(0,0,0).addMSecs(FramePosition*1000);
+                Position               =FramePosition-FPSDuration;
+                dPosition              =double(Position)/AV_TIME_BASE;
+                FramePosition          =Position;
+                FrameBufferYUVReady    =false;
+                FrameBufferYUVPosition =0;
+            }
+
+        } else {
+
+            int64_t FramePts=StreamPacket->pts!=(int64_t)AV_NOPTS_VALUE?StreamPacket->pts:StreamPacket->dts;
+            double  TimeBase=double(LibavFile->streams[StreamPacket->stream_index]->time_base.den)/double(LibavFile->streams[StreamPacket->stream_index]->time_base.num);
+            FramePosition=(double(FramePts)/TimeBase)-(double(LibavFile->start_time)/AV_TIME_BASE);
+
+            if ((VideoStream)&&(StreamPacket->stream_index==VideoStreamNumber)) {
+
+                //******************************************************************
+                // VIDEO PART
+                //******************************************************************
+
                 #if !defined(USELIBSWRESAMPLE) && (LIBAVFILTER_VERSION_INT>=AV_VERSION_INT(3,1,0))
                 if (FrameBufferYUV->opaque) {
                     avfilter_unref_buffer((AVFilterBufferRef *)FrameBufferYUV->opaque);
@@ -2486,47 +2490,140 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
                 #endif
 
                 int FrameDecoded=0;
-                if (avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket)<0)
-                    ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadVideoFrame : avcodec_decode_video2 return an error");
-
-                if (FrameDecoded>0) {
-                    int64_t pts=AV_NOPTS_VALUE;
-                    if ((FrameBufferYUV->pkt_dts==(int64_t)AV_NOPTS_VALUE)&&(FrameBufferYUV->pkt_pts!=(int64_t)AV_NOPTS_VALUE)) pts = FrameBufferYUV->pkt_pts; else pts = FrameBufferYUV->pkt_dts;
-                    if (pts==(int64_t)AV_NOPTS_VALUE) pts = 0;
-                    FramePosition=double(pts)*FrameTimeBase-double(LibavVideoFile->start_time)/AV_TIME_BASE;
-
-                    // Create image
-                    if ((FramePosition>=dPosition)||(FramePosition>=dEndFile)) {
-
-                        //*****************************************************************************************************************
-                        // Video filter part
-                        //*****************************************************************************************************************
-                        #if !defined(USELIBSWRESAMPLE)
-                        if ((VideoFilterGraph==NULL)&&(Deinterlace)) {
-                            SetFilters(FILTER_DEINTERLACE_YADIF);
-                            m_filters=m_filters_next;
-                            VideoFilter_Open(m_filters);
-                        } else if ((VideoFilterGraph!=NULL)&&(!Deinterlace)) VideoFilter_Close();
-                        if ((VideoFilterGraph)&&(Deinterlace)) VideoFilter_Process();
-                        #endif
-                        //*****************************************************************************************************************
-                        FrameBufferYUVReady   =true;                            // Keep actual value for FrameBufferYUV
-                        FrameBufferYUVPosition=int(FramePosition*AV_TIME_BASE); // Keep actual value for FrameBufferYUV
-                        RetImage              =ConvertYUVToRGB(PreviewMode);    // Create RetImage from YUV Buffer
-                        IsVideoFind           =(RetImage!=NULL);
+                LastLibAvMessageLevel=0;    // Clear LastLibAvMessageLevel : some decoder dont return error but display errors messages !
+                int Error=avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket);
+                if ((Error<0)||(LastLibAvMessageLevel==LOGMSG_CRITICAL)) {
+                    if ((!DontRetryReading)&&(Position>FPSDuration)) {
+                        ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadFrame : error avcodec_decode_video2 return an error. Try to read before.");
+                        SeekFile(VideoStream,AudioStream,Position-2*FPSDuration);
+                        DontRetryReading=true;
+                    } else ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadFrame : avcodec_decode_video2 return an error");
+                } else if (FrameDecoded>0) {
+                    int64_t pts=FrameBufferYUV->pkt_pts;
+                    if (pts==(int64_t)AV_NOPTS_VALUE) {
+                        if (FrameBufferYUV->pkt_dts!=(int64_t)AV_NOPTS_VALUE) pts=FrameBufferYUV->pkt_dts;
+                            else pts=0;
                     }
 
+                    #if !defined(USELIBSWRESAMPLE)
+                    // Video filter part
+                    if ((VideoFilterGraph==NULL)&&(Deinterlace)) {
+                        SetFilters(FILTER_DEINTERLACE_YADIF);
+                        m_filters=m_filters_next;
+                        VideoFilter_Open(m_filters);
+                    } else if ((VideoFilterGraph!=NULL)&&(!Deinterlace)) VideoFilter_Close();
+                    if ((VideoFilterGraph)&&(Deinterlace)) VideoFilter_Process();
+                    #endif
+
+                    // Create image
+                    if (FramePosition>=dPosition) {
+                        if (ByPassFirstImage) {
+                            ByPassFirstImage=false;
+                        } else {
+                            FrameBufferYUVReady   =true;                                // Keep actual value for FrameBufferYUV
+                            FrameBufferYUVPosition=int64_t(FramePosition*AV_TIME_BASE); // Keep actual value for FrameBufferYUV
+                            int i=0;
+                            while ((i<CacheImage.count())&&(!((CacheImage[i].Position>FrameBufferYUVPosition-FPSDuration)&&(CacheImage[i].Position<FrameBufferYUVPosition+FPSDuration)))) i++;
+                            if ((i<CacheImage.count())&&(((CacheImage[i].Position>FrameBufferYUVPosition-FPSDuration)&&(CacheImage[i].Position<FrameBufferYUVPosition+FPSDuration)))) {
+                                // An image is already in the cache
+                            } else {
+                                //qDebug()<<"Append image @"<<double(FrameBufferYUVPosition)/AV_TIME_BASE;
+                                CacheImage.append(cImageInCache(FrameBufferYUVPosition,*ConvertYUVToRGB(PreviewMode)));
+                                IsVideoFind=true;
+                            }
+                        }
+                    }
                 }
 
-            }
-            // Check if we need to continue loop
-            Continue=(IsVideoFind==false)&&(FramePosition<dEndFile);
+            } else if ((AudioStream)&&(StreamPacket->stream_index==AudioStreamNumber)&&(StreamPacket->size>0)) {
 
-        } else {
-            // if error in av_read_frame(...) then may be we have reach the end of file !
-            Continue=false;
-            if (!LastImage.isNull()) RetImage=new QImage(LastImage);    // return latest image decoded
+                //******************************************************************
+                // AUDIO PART
+                //******************************************************************
+
+                AVPacket PacketTemp;
+                av_init_packet(&PacketTemp);
+                PacketTemp.data=StreamPacket->data;
+                PacketTemp.size=StreamPacket->size;
+
+                // NOTE: the audio packet can contain several NbrFrames
+                if (FramePosition!=-1) {
+                    while ((Continue)&&(PacketTemp.size>0)) {
+                        AVFrame *Frame=avcodec_alloc_frame();
+                        int     got_frame;
+                        int     Len=avcodec_decode_audio4(AudioStream->codec,Frame,&got_frame,&PacketTemp);
+                        if (Len<0) {
+                            // if error, we skip the frame and exit the while loop
+                            PacketTemp.size=0;
+                            Continue=false;
+                        } else if (got_frame>0) {
+
+                            // Get data (resample if needed)
+                            int64_t SizeDecoded=0;
+                            uint8_t *Data      =NULL;
+                            if ((NeedResampling)&&(RSC!=NULL)) {
+                                Data=Resample(Frame,&SizeDecoded,DstSampleSize);
+                            } else {
+                                Data=Frame->data[0];
+                                #if defined(LIBAV_08)
+                                SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
+                                #elif defined(USELIBAVRESAMPLE)
+                                SizeDecoded=av_samples_get_buffer_size(NULL,AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,0);
+                                #elif defined(USELIBSWRESAMPLE)
+                                SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
+                                #endif
+                            }
+                            Continue=(Data!=NULL);
+
+                            if (Continue) {
+                                // Adjust FrameDuration with real Nbr Sample
+                                FrameDuration=double(SizeDecoded)/SoundTrackBloc->SamplingRate*DstSampleSize;
+
+                                // If wanted position <= CurrentPosition+Packet duration then add this packet to the queue
+                                if ((FramePosition+FrameDuration)>=dPosition) {
+                                    int64_t Delta=0;
+                                    // if dPosition start in the midle of the pack, then calculate delta
+                                    if (dPosition>FramePosition) {
+                                        Delta=round((dPosition-FramePosition)*SoundTrackBloc->SamplingRate)*DstSampleSize;
+                                        if (Delta<0) Delta=0;
+                                    }
+                                    // Append decoded data to SoundTrackBloc
+                                    if (SizeDecoded>Delta) {
+                                        SizeDecoded-=Delta;
+                                        // Adjust volume if master volume <>1
+                                        if (Volume!=1) {
+                                            int16_t *Buf1=(int16_t*)Data+Delta;
+                                            int32_t mix;
+                                            for (int j=0;j<SizeDecoded/4;j++) {
+                                                // Left channel : Adjust if necessary (16 bits)
+                                                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+                                                // Right channel : Adjust if necessary (16 bits)
+                                                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+                                            }
+                                        }
+                                        SoundTrackBloc->AppendData(Position,(int16_t*)Data+Delta,SizeDecoded);
+                                        AudioLenDecoded+=SizeDecoded;
+                                    }
+                                }
+                                PacketTemp.data+=Len;
+                                PacketTemp.size-=Len;
+                                FramePosition  =FramePosition+FrameDuration;
+                            }
+
+                            LastAudioReadedPosition =int64_t(FramePosition*AV_TIME_BASE);    // Keep NextPacketPosition for determine next time if we need to seek
+                            if (Data!=Frame->data[0]) av_free(Data);
+                        }
+                        avcodec_free_frame(&Frame);
+                    }
+                }
+            }
         }
+
+        // Check if we need to continue loop
+        Continue=Continue && (
+                    ((VideoStream)&&(!IsVideoFind))||
+                    ((AudioStream)&&(AudioLenDecoded<AudioLenWanted))
+                 );
 
         // Continue with a new one
         if (StreamPacket!=NULL) {
@@ -2536,24 +2633,47 @@ QImage *cVideoFile::ReadVideoFrame(bool PreviewMode,qlonglong Position,bool Dont
         }
     }
 
-    if ((!IsVideoFind)&&(!RetImage)) {
-        ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return black frame").arg(Position));
-        RetImage =new QImage(LibavVideoFile->streams[VideoStreamNumber]->codec->width,LibavVideoFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
-        RetImage->fill(0);
-    } else if (PreviewMode) {
-        while (CacheImage.count()>=MAXCACHEIMAGE) CacheImage.removeFirst();
-        CacheImage.append(cImageInCache(Position,RetImage));
+    //*************************************************************************************************************************************
+    Mutex.unlock();
+    //*************************************************************************************************************************************
+
+    if (VideoStream) {
+        int64_t NearestDelta=-1;
+        int     NearestIndex=-1;
+
+        for (int i=0;i<CacheImage.count();i++) if ((NearestDelta==-1)||(abs(CacheImage[i].Position-Position)<NearestDelta)) {
+            NearestDelta=abs(CacheImage[i].Position-Position);
+            NearestIndex=i;
+        }
+
+        if (PicImage<CacheImage.count())             PicImage=CacheImage.count();
+        if ((PicDelta==-1)||(PicDelta<NearestDelta)) PicDelta=NearestDelta;
+
+        if (NearestIndex!=-1) {
+            RetImage=new QImage(CacheImage[NearestIndex].Image);
+            ToLog(LOGMSG_DEBUGTRACE,QString("Use image @%1 for %2 - Delta:%3/Max delta:%4 - Image in cache:%5/Max:%6")
+                  .arg(double(CacheImage[NearestIndex].Position)/AV_TIME_BASE).arg(double(Position)/AV_TIME_BASE)
+                  .arg(double(NearestDelta)/AV_TIME_BASE).arg(double(PicDelta)/AV_TIME_BASE)
+                  .arg(CacheImage.count()).arg(PicImage)
+            );
+        }
+
+        if (!RetImage) {
+            ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return black frame").arg(Position));
+            RetImage =new QImage(LibavFile->streams[VideoStreamNumber]->codec->width,LibavFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);
+            RetImage->fill(0);
+        }
+        int     i=0;
+        while (i<CacheImage.count()) {
+            if (CacheImage[i].Position<Position-500000) CacheImage.removeAt(i);
+                else i++;
+        }
     }
 
-    Mutex.unlock();
     return RetImage;
 }
 
 //====================================================================================================================
-//#define PIXFMT      PIX_FMT_BGRA
-//#define QTPIXFMT    QImage::Format_ARGB32_Premultiplied
-#define PIXFMT      PIX_FMT_RGB24
-#define QTPIXFMT    QImage::Format_RGB888
 
 QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ConvertYUVToRGB");
@@ -2605,7 +2725,7 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
         }
 
         // free FrameBufferRGB because we don't need it in the future
-        av_free(FrameBufferRGB);
+        avcodec_free_frame(&FrameBufferRGB);
     }
 
 
@@ -2624,22 +2744,13 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,cSoundBlockList 
     if (!IsOpen) OpenCodecAndFile();
 
     // Load a video frame
-    QImage *LoadedImage=NULL;
+    QImage *LoadedImage=ReadFrame(PreviewMode,Position*1000,DontUseEndPos,Deinterlace,SoundTrackBloc,Volume,ForceSoundOnly);
 
-    if ((SoundTrackBloc)&&(SoundTrackBloc->NbrPacketForFPS)&&(SoundTrackBloc->List.count()<SoundTrackBloc->NbrPacketForFPS))
-        ReadAudioFrame(Position,SoundTrackBloc,Volume,DontUseEndPos);
-
-    if ((!MusicOnly)&&(!ForceSoundOnly)) {
-        LoadedImage=ReadVideoFrame(PreviewMode,Position,DontUseEndPos,Deinterlace);
-        if (LoadedImage) {
-
-            // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
-            if ((PreviewMode)&&(ImageHeight>PREVIEWMAXHEIGHT)) {
-                QImage *NewImage=new QImage(LoadedImage->scaledToHeight(PREVIEWMAXHEIGHT));
-                delete LoadedImage;
-                LoadedImage =NewImage;
-            }
-        }
+    // If preview mode and image size > PreviewMaxHeight, reduce Cache Image
+    if ((LoadedImage)&&(PreviewMode)&&(ImageHeight>PREVIEWMAXHEIGHT)) {
+        QImage *NewImage=new QImage(LoadedImage->scaledToHeight(PREVIEWMAXHEIGHT));
+        delete LoadedImage;
+        LoadedImage =NewImage;
     }
 
     return LoadedImage;
@@ -2672,26 +2783,30 @@ bool cVideoFile::OpenCodecAndFile() {
     // Clean memory if a previous file was loaded
     CloseCodecAndFile();
 
-    //**********************************
     Mutex.lock();
 
+    //**********************************
+    // Open LibavFile
+    //**********************************
+
+    // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
+    if (avformat_open_input(&LibavFile,FileName.toLocal8Bit(),NULL,NULL)!=0) {
+        Mutex.unlock();
+        return false;
+    }
+    LibavFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
+    if (avformat_find_stream_info(LibavFile,NULL)<0) {
+        avformat_close_input(&LibavFile);
+        Mutex.unlock();
+        return false;
+    }
+
+    //**********************************
     // Open audio stream
+    //**********************************
     if (AudioStreamNumber!=-1) {
-        // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
-        if (avformat_open_input(&LibavAudioFile,FileName.toLocal8Bit(),NULL,NULL)!=0) {
-            Mutex.unlock();
-            return false;
-        }
 
-        AVStream *AudioStream=LibavAudioFile->streams[AudioStreamNumber];
-
-        LibavAudioFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
-
-        if (avformat_find_stream_info(LibavAudioFile,NULL)<0) {
-            avformat_close_input(&LibavAudioFile);
-            Mutex.unlock();
-            return false;
-        }
+        AVStream *AudioStream=LibavFile->streams[AudioStreamNumber];
 
         // Setup STREAM options
         AudioStream->discard=AVDISCARD_DEFAULT;
@@ -2719,47 +2834,36 @@ bool cVideoFile::OpenCodecAndFile() {
         IsVorbis=(strcmp(AudioDecoderCodec->name,"vorbis")==0);
     }
 
+    //**********************************
     // Open video stream
+    //**********************************
     if ((VideoStreamNumber!=-1)&&(!MusicOnly)) {
 
-        // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
-        if (avformat_open_input(&LibavVideoFile,FileName.toLocal8Bit(),NULL,NULL)!=0) {
-            Mutex.unlock();
-            return false;
-        }
-
-        LibavVideoFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
-
-        if (avformat_find_stream_info(LibavVideoFile,NULL)<0) {
-            avformat_close_input(&LibavVideoFile);
-            Mutex.unlock();
-            return false;
-        }
+        AVStream *VideoStream=LibavFile->streams[VideoStreamNumber];
 
         // Setup STREAM options
-        LibavVideoFile->streams[VideoStreamNumber]->discard=AVDISCARD_DEFAULT;
+        VideoStream->discard=AVDISCARD_DEFAULT;
 
         // Find the decoder for the video stream and open it
-        VideoDecoderCodec=avcodec_find_decoder(LibavVideoFile->streams[VideoStreamNumber]->codec->codec_id);
+        VideoDecoderCodec=avcodec_find_decoder(VideoStream->codec->codec_id);
 
         // Setup decoder options
-        LibavVideoFile->streams[VideoStreamNumber]->codec->debug_mv         =0;                    // Debug level (0=nothing)
-        LibavVideoFile->streams[VideoStreamNumber]->codec->debug            =0;                    // Debug level (0=nothing)
-        LibavVideoFile->streams[VideoStreamNumber]->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
-        LibavVideoFile->streams[VideoStreamNumber]->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
-        LibavVideoFile->streams[VideoStreamNumber]->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
-        LibavVideoFile->streams[VideoStreamNumber]->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
-        LibavVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
-        LibavVideoFile->streams[VideoStreamNumber]->codec->error_concealment=3;
-        LibavVideoFile->streams[VideoStreamNumber]->codec->thread_count     =getCpuCount();
-        LibavVideoFile->streams[VideoStreamNumber]->codec->thread_type      =getThreadFlags(LibavVideoFile->streams[VideoStreamNumber]->codec->codec_id);
-        //LibavVideoFile->streams[VideoStreamNumber]->codec->skip_loop_filter =AVDISCARD_BIDIR;
+        VideoStream->codec->debug_mv         =0;                    // Debug level (0=nothing)
+        VideoStream->codec->debug            =0;                    // Debug level (0=nothing)
+        VideoStream->codec->workaround_bugs  =1;                    // Work around bugs in encoders which sometimes cannot be detected automatically : 1=autodetection
+        VideoStream->codec->idct_algo        =FF_IDCT_AUTO;         // IDCT algorithm, 0=auto
+        VideoStream->codec->skip_frame       =AVDISCARD_DEFAULT;    // ???????
+        VideoStream->codec->skip_idct        =AVDISCARD_DEFAULT;    // ???????
+        VideoStream->codec->skip_loop_filter =AVDISCARD_DEFAULT;    // ???????
+        VideoStream->codec->error_concealment=3;
+        VideoStream->codec->thread_count     =getCpuCount();
+        VideoStream->codec->thread_type      =getThreadFlags(VideoStream->codec->codec_id);
 
         // Hack to correct wrong frame rates that seem to be generated by some codecs
-        if (LibavVideoFile->streams[VideoStreamNumber]->codec->time_base.num>1000 && LibavVideoFile->streams[VideoStreamNumber]->codec->time_base.den==1)
-            LibavVideoFile->streams[VideoStreamNumber]->codec->time_base.den=1000;
+        if (VideoStream->codec->time_base.num>1000 && VideoStream->codec->time_base.den==1)
+            VideoStream->codec->time_base.den=1000;
 
-        if ((VideoDecoderCodec==NULL)||(avcodec_open2(LibavVideoFile->streams[VideoStreamNumber]->codec,VideoDecoderCodec,NULL)<0)) {
+        if ((VideoDecoderCodec==NULL)||(avcodec_open2(VideoStream->codec,VideoDecoderCodec,NULL)<0)) {
             Mutex.unlock();
             return false;
         }

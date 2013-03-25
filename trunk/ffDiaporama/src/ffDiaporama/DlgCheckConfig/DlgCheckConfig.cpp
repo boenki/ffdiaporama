@@ -31,7 +31,7 @@
 
 //====================================================================================================================
 
-DlgCheckConfig::DlgCheckConfig(QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
+DlgCheckConfig::DlgCheckConfig(int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgCheckConfig) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgCheckConfig::DlgCheckConfig");
@@ -100,6 +100,7 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_YELLOW),StatusStr));
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
+    #ifdef LIBAV_08
     // taglib
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","TAGLib version:")+QString("%1.%2.%3").arg(TAGLIB_MAJOR_VERSION).arg(TAGLIB_MINOR_VERSION).arg(TAGLIB_PATCH_VERSION)));
     #ifdef TAGLIBWITHFLAC
@@ -124,6 +125,7 @@ void DlgCheckConfig::DoInitDialog() {
     StatusStr=QApplication::translate("DlgCheckConfig","TAGLib support for M4A/MP4")+" "+(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"));
     ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_YELLOW),StatusStr));
     ui->ListWidget->addItem(new QListWidgetItem(""));
+    #endif
 
     // QImageBlitz
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","QImageBlitz")));

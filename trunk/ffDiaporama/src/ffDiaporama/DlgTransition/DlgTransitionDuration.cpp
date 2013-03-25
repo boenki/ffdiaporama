@@ -23,7 +23,7 @@
 
 //====================================================================================================================
 
-DlgTransitionDuration::DlgTransitionDuration(qlonglong Duration,QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+DlgTransitionDuration::DlgTransitionDuration(qlonglong Duration,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTransitionDuration) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionDuration::DlgTransitionDuration");
     ui->setupUi(this);

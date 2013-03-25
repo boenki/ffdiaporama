@@ -1988,16 +1988,15 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 //============================================================================================
 void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:PrepareMusicBloc");
-
     if (Column>=List.count()) {
-        for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
+        for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket(Position);
         return;
     }
 
     qlonglong     StartPosition=0;
     cMusicObject  *CurMusic=GetMusicObject(Column,StartPosition); // Get current music file from column and position
     if (CurMusic==NULL) {
-        for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket();
+        for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket(Position);
         return;
     }
 
@@ -2030,7 +2029,7 @@ void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position
         if (Factor!=1.0) for (int i=0;i<MusicTrack->NbrPacketForFPS;i++) MusicTrack->ApplyVolume(i,Factor);
     }
     // Ensure we have enought data
-    while (MusicTrack->List.count()<MusicTrack->NbrPacketForFPS) MusicTrack->AppendNullSoundPacket();
+    //while (MusicTrack->List.count()<MusicTrack->NbrPacketForFPS) MusicTrack->AppendNullSoundPacket();
 }
 
 //============================================================================================
@@ -2224,14 +2223,11 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 
         //==============> Music track part
 
-        if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject_MusicTrack->SamplingRate)) {
-            if (Info->FrameDuration>Info->CurrentObject_MusicTrack->List.count()*Info->CurrentObject_MusicTrack->WantedDuration*1000)
-                ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
-        }
-        if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->SamplingRate)) {
-            if (Info->FrameDuration>Info->TransitObject_MusicTrack->List.count()*Info->TransitObject_MusicTrack->WantedDuration*1000)
-                ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
-        }
+        if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
+            ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
+
+        if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack))
+            ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
 
         //==============> Image part
 
@@ -2287,7 +2283,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     // Special case to clear music buffer if not transition and music of CurrentObject is in pause mode
     if ((!Info->IsTransition)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject->MusicPause)&&(Info->CurrentObject_MusicTrack->List.count()>0)) {
         Info->CurrentObject_MusicTrack->ClearList();
-        for (int i=0;i<Info->CurrentObject_MusicTrack->NbrPacketForFPS;i++) Info->CurrentObject_MusicTrack->AppendNullSoundPacket();
+        for (int i=0;i<Info->CurrentObject_MusicTrack->NbrPacketForFPS;i++) Info->CurrentObject_MusicTrack->AppendNullSoundPacket(Info->CurrentObject_StartTime+Info->CurrentObject_InObjectTime);
     }
 
     // Soundtrack mix with fade in/fade out
@@ -2300,23 +2296,18 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
         }
         // Ensure this track have enough data
         while (Info->CurrentObject_SoundTrackMontage->List.count()<Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS)
-            Info->CurrentObject_SoundTrackMontage->AppendNullSoundPacket();
-
-        int MaxPacket=0;
-        MaxPacket=Info->CurrentObject_SoundTrackMontage->List.count();
-        if ((Info->TransitObject_SoundTrackMontage)&&(MaxPacket>Info->TransitObject_SoundTrackMontage->List.count())) MaxPacket=Info->TransitObject_SoundTrackMontage->List.count();
-        if (MaxPacket>Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS) MaxPacket=Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS;
+            Info->CurrentObject_SoundTrackMontage->AppendNullSoundPacket(Info->CurrentObject_StartTime+Info->CurrentObject_InObjectTime);
 
         // Mix current and transit SoundTrackMontage (if needed)
         // @ the end: only current SoundTrackMontage exist !
-        for (int i=0;i<MaxPacket;i++) {
+        for (int i=0;i<Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS;i++) {
             // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the TransitObject_SoundTrackMontage
             int16_t *Paquet=Info->TransitObject_SoundTrackMontage?Info->TransitObject_SoundTrackMontage->DetachFirstPacket():NULL;
             int32_t mix;
             int16_t *Buf1=Info->CurrentObject_SoundTrackMontage->List[i];
             int     Max=Info->CurrentObject_SoundTrackMontage->SoundPacketSize/(Info->CurrentObject_SoundTrackMontage->SampleBytes*Info->CurrentObject_SoundTrackMontage->Channels);
 
-            double  FadeAdjust   =sin(1.5708*double(Info->CurrentObject_InObjectTime+(double(i)/double(MaxPacket))*double(Info->FrameDuration))/double(Info->TransitionDuration));
+            double  FadeAdjust   =sin(1.5708*double(Info->CurrentObject_InObjectTime+(double(i)/double(Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS))*double(Info->FrameDuration))/double(Info->TransitionDuration));
             double  FadeAdjust2  =1-FadeAdjust;
 
             int16_t *Buf2=(Paquet!=NULL)?Paquet:NULL;
@@ -2366,19 +2357,19 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     // Mix current and transit music
     // @ the end: only current music exist !
     // add fade out of previous music track (if needed)
-    if ((Info->IsTransition)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->List.count()>0)) {
-        int MaxPacket=0;
-        MaxPacket=Info->CurrentObject_MusicTrack->List.count();
-        if ((MaxPacket>Info->TransitObject_MusicTrack->List.count())) MaxPacket=Info->TransitObject_MusicTrack->List.count();
-        if (MaxPacket>Info->CurrentObject_MusicTrack->NbrPacketForFPS) MaxPacket=Info->CurrentObject_MusicTrack->NbrPacketForFPS;
-
-        // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
-        for (int i=0;i<MaxPacket;i++) {
+    // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
+    if ((Info->IsTransition)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->List.count()>0))
+        for (int i=0;i<Info->CurrentObject_MusicTrack->NbrPacketForFPS;i++) {
             int16_t *Paquet=Info->TransitObject_MusicTrack->DetachFirstPacket();
+            // Ensure paquet exist, elsewhere create one and init it to 0 (silence)
+            if (!Paquet) {
+                Paquet=(int16_t *)av_malloc(Info->TransitObject_MusicTrack->SoundPacketSize+8);
+                memset((uint8_t *)Paquet,0,Info->TransitObject_MusicTrack->SoundPacketSize+8);
+            }
             int32_t mix;
             int16_t *Buf1=Info->CurrentObject_MusicTrack->List[i];
             int     Max=Info->CurrentObject_MusicTrack->SoundPacketSize/(Info->CurrentObject_MusicTrack->SampleBytes*Info->CurrentObject_MusicTrack->Channels);
-            double  FadeAdjust   =sin(1.5708*double(Info->CurrentObject_InObjectTime+(double(i)/double(MaxPacket))*double(Info->FrameDuration))/double(Info->TransitionDuration));
+            double  FadeAdjust   =sin(1.5708*double(Info->CurrentObject_InObjectTime+(double(i)/double(Info->CurrentObject_MusicTrack->NbrPacketForFPS))*double(Info->FrameDuration))/double(Info->TransitionDuration));
             double  FadeAdjust2  =1-FadeAdjust;
 
             int16_t *Buf2=(Paquet!=NULL)?Paquet:NULL;
@@ -2412,7 +2403,6 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 }
             }
         }
-    }
 }
 
 //============================================================================================
@@ -2467,12 +2457,13 @@ void cDiaporama::LoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMo
 void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
     // Parse all unused slide to close unused libav buffer, codec, ...
     for (int i=0;i<List.count();i++) {
-        for (int j=0;j<List[i]->ObjectComposition.List.count();j++) if (List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL) {
-            while (List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CacheImage.count()>MAXCACHEIMAGE) List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CacheImage.removeFirst();
-        }
+        /*for (int j=0;j<List[i]->ObjectComposition.List.count();j++) {
+            if (List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)
+                List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CacheImage.clear();
+        }*/
         if ((i<CurrentCell-1)||(i>CurrentCell+1)) {
             for (int j=0;j<List[i]->ObjectComposition.List.count();j++)
-                if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->LibavVideoFile!=NULL))
+                if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->LibavFile!=NULL))
                     List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CloseCodecAndFile();
         }
     }

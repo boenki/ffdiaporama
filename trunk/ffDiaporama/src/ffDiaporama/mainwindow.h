@@ -82,7 +82,6 @@ public:
     ~MainWindow();
     void    InitWindow(QString ForceLanguage,QApplication *App);
 
-    void    OpenHelp(QString HelpFile);
     void    RefreshControls();
     void    SetModifyFlag(bool IsModify);
     void    AddObjectToTimeLine(int CurIndex);

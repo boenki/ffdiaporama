@@ -36,7 +36,7 @@ namespace Ui {
 class DlgCheckConfig : public QCustomDialog {
 Q_OBJECT
 public:
-    explicit        DlgCheckConfig(QString HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit        DlgCheckConfig(int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
                     ~DlgCheckConfig();
 
     // function to be overloaded

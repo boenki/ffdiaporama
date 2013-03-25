@@ -1032,6 +1032,10 @@ Inquadratura:</translation>
         <source>Display information on file</source>
         <translation>Visualizza informazioni sul file</translation>
     </message>
+    <message>
+        <source>The selection can&apos;t include folders.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgImageCorrection</name>

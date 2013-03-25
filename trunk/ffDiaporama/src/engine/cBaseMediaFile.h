@@ -52,41 +52,43 @@
     #include <exiv2/image.hpp>
 #endif
 
-//****************************************************************************************************************************************************************
-// TAGLIB PART
-//****************************************************************************************************************************************************************
+#ifdef LIBAV_08
+    //****************************************************************************************************************************************************************
+    // TAGLIB PART only if LIBAV_08 because since LIBAV_09, thumbnails are reading using libav
+    //****************************************************************************************************************************************************************
 
-#include <taglib/fileref.h>
-#include <taglib/tbytevector.h>
-#include <taglib/id3v2tag.h>
-#include <taglib/id3v2frame.h>
-#include <taglib/id3v2header.h>
-#include <taglib/id3v2framefactory.h>
-#include <taglib/attachedpictureframe.h>
-#include <taglib/mpegfile.h>
-#include <taglib/flacfile.h>
-#include <taglib/mp4file.h>
-#include <taglib/vorbisfile.h>
-#include <taglib/oggflacfile.h>
-#include <taglib/asffile.h>
-#include <taglib/mp4tag.h>
-#include <taglib/mp4item.h>
-#include <taglib/mp4coverart.h>
+    #include <taglib/fileref.h>
+    #include <taglib/tbytevector.h>
+    #include <taglib/id3v2tag.h>
+    #include <taglib/id3v2frame.h>
+    #include <taglib/id3v2header.h>
+    #include <taglib/id3v2framefactory.h>
+    #include <taglib/attachedpictureframe.h>
+    #include <taglib/mpegfile.h>
+    #include <taglib/flacfile.h>
+    #include <taglib/mp4file.h>
+    #include <taglib/vorbisfile.h>
+    #include <taglib/oggflacfile.h>
+    #include <taglib/asffile.h>
+    #include <taglib/mp4tag.h>
+    #include <taglib/mp4item.h>
+    #include <taglib/mp4coverart.h>
 
-#if (TAGLIB_MAJOR_VERSION>=1) && (TAGLIB_MINOR_VERSION>=7)
-    #define TAGLIBWITHFLAC
-#endif
-#ifdef TAGLIB_WITH_ASF
-    #if (TAGLIB_WITH_ASF>=1)
-        #define TAGLIBWITHASF
-        #if (TAGLIB_MAJOR_VERSION>=1) && (TAGLIB_MINOR_VERSION>=7)
-            #define TAGLIBWITHASFPICTURE
+    #if (TAGLIB_MAJOR_VERSION>=1) && (TAGLIB_MINOR_VERSION>=7)
+        #define TAGLIBWITHFLAC
+    #endif
+    #ifdef TAGLIB_WITH_ASF
+        #if (TAGLIB_WITH_ASF>=1)
+            #define TAGLIBWITHASF
+            #if (TAGLIB_MAJOR_VERSION>=1) && (TAGLIB_MINOR_VERSION>=7)
+                #define TAGLIBWITHASFPICTURE
+            #endif
         #endif
     #endif
-#endif
-#ifdef TAGLIB_WITH_MP4
-    #if (TAGLIB_WITH_MP4>=1)
-        #define TAGLIBWITHMP4
+    #ifdef TAGLIB_WITH_MP4
+        #if (TAGLIB_WITH_MP4>=1)
+            #define TAGLIBWITHMP4
+        #endif
     #endif
 #endif
 
@@ -232,7 +234,7 @@ class cImageInCache {
 public:
     qlonglong   Position;
     QImage      Image;
-    cImageInCache(qlonglong Position,QImage *Image);
+    cImageInCache(qlonglong Position,QImage Image);
 };
 
 class cVideoFile : public cBaseMediaFile {
@@ -248,9 +250,9 @@ public:
     QString                 VideoCodecInfo;
     QString                 AudioCodecInfo;
     int                     NbrChapters;                // Number of chapters in the file
+    AVFormatContext         *LibavFile;                 // LibAVFormat context
 
     // Video part
-    AVFormatContext         *LibavVideoFile;           // LibAVFormat context
     AVCodec                 *VideoDecoderCodec;         // Associated LibAVCodec for video stream
     int                     VideoStreamNumber;          // Number of the video stream
     int                     VideoTrackNbr;              // Number of video stream in file
@@ -258,14 +260,17 @@ public:
     bool                    FrameBufferYUVReady;        // true if FrameBufferYUV is ready to convert
     int64_t                 FrameBufferYUVPosition;     // If FrameBufferYUV is ready to convert then keep FrameBufferYUV position
     QImage                  LastImage;                  // Keep last image return
+    QList<cImageInCache>    CacheImage;
 
     // Audio part
-    AVFormatContext         *LibavAudioFile;           // LibAVFormat context
     AVCodec                 *AudioDecoderCodec;         // Associated LibAVCodec for audio stream
     int                     AudioStreamNumber;          // Number of the audio stream
     int                     AudioTrackNbr;              // Number of audio stream in file
-
     int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
+
+    // Stats
+    int                     PicImage;
+    int64_t                 PicDelta;
 
     // Audio resampling
     #if defined(LIBAV_08)
@@ -281,8 +286,6 @@ public:
     int                     RSC_InChannels,RSC_OutChannels;
     int                     RSC_InSampleRate,RSC_OutSampleRate;
     AVSampleFormat          RSC_InSampleFmt,RSC_OutSampleFmt;
-
-    QList<cImageInCache>    CacheImage;
 
     explicit                cVideoFile(int WantedObjectType,cBaseApplicationConfig *ApplicationConfig);
                             ~cVideoFile();
@@ -302,16 +305,17 @@ public:
     virtual void            CloseCodecAndFile();
 
     virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,bool DontUseEndPos);
-    virtual QImage          *ReadVideoFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace);
-    virtual void            ReadAudioFrame(qlonglong Position,cSoundBlockList *SoundTrackBloc,double Volume,bool DontUseEndPos);      // MP3 and WAV
+    virtual QImage          *ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly);
     virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
 
+    virtual void            SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position);
     virtual void            CloseResampler();
     virtual void            CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleFormat RSC_InSampleFmt,AVSampleFormat RSC_OutSampleFmt,int RSC_InSampleRate,int RSC_OutSampleRate
                                                #ifdef LIBAV_09
                                                    ,uint64_t RSC_InChannelLayout,uint64_t RSC_OutChannelLayout
                                                #endif
                                           );
+    virtual uint8_t         *Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSampleSize);
 
     #if !defined(USELIBSWRESAMPLE)
     //*********************

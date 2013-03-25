@@ -44,7 +44,7 @@ void SDLAudioCallback(void *,Uint8 *stream,int len) {
             memcpy(SDLBuf+SDLBufSize,Packet,MixedMusic.SoundPacketSize);
             SDLBufSize+=MixedMusic.SoundPacketSize;
         } else {
-            ToLog(LOGMSG_DEBUGTRACE,"SDLAudioCallback: Not enought data to play sound");
+            ToLog(LOGMSG_DEBUGTRACE,QString("SDLAudioCallback: Not enought data to play sound %1/%2").arg(SDLBufSize).arg(len));
             return;
         }
     }
@@ -147,7 +147,10 @@ int16_t *cSDLSoundBlockList::DetachFirstPacket() {
 
     int16_t *Ret=NULL;
     SDL_LockAudio();
-    if (List.count()>0) Ret=(int16_t *)List.takeFirst();
+    if (List.count()>0) {
+        Ret=(int16_t *)List.takeFirst();
+        CurrentPosition+=(double(SoundPacketSize)/(SampleBytes*Channels*SamplingRate))*AV_TIME_BASE;
+    }
     SDL_UnlockAudio();
     return Ret;
 }
@@ -155,10 +158,11 @@ int16_t *cSDLSoundBlockList::DetachFirstPacket() {
 //====================================================================================================================
 // Append a packet to the end of the list -> SDL Version
 //====================================================================================================================
-void cSDLSoundBlockList::AppendPacket(int16_t *PacketToAdd) {
+void cSDLSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSDLSoundBlockList::AppendPacket");
 
     SDL_LockAudio();
+    if (List.count()==0) CurrentPosition=Position;
     List.append(PacketToAdd);
     SDL_UnlockAudio();
 }

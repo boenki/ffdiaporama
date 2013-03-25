@@ -1018,6 +1018,10 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
         <source>Display information on file</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The selection can&apos;t include folders.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgImageCorrection</name>

@@ -64,7 +64,7 @@ extern "C" {
     #include <libavformat/avformat.h>
     #include <libavformat/avio.h>
 
-    #if ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,0,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,31,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(54,19,0)))
+    #if ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,73,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(54,31,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(54,19,0)))
         #define LIBAV_09
         #if defined(USELIBAVRESAMPLE)
             #include "libavresample/avresample.h"
@@ -136,6 +136,10 @@ extern "C" {
     #define AV_CODEC_ID_FLAC        CODEC_ID_FLAC
     #define AV_CODEC_ID_WMAV1       CODEC_ID_WMAV1
     #define AV_CODEC_ID_WMAV2       CODEC_ID_WMAV2
+#endif
+
+#if !defined(avcodec_free_frame)
+    #define avcodec_free_frame  av_freep
 #endif
 
 //****************************************************************************************************************************************************************
@@ -364,9 +368,15 @@ public:
 // Allowed file extensions for reading
 //============================================
 
-extern QString AllowVideoExtensions;       // List of all file extension allowed for video
-extern QString AllowImageExtensions;       // List of all file extension allowed for image
-extern QString AllowMusicExtensions;       // List of all file extension allowed for musique
-extern QMutex  Mutex;
+extern QString AllowVideoExtensions;        // List of all file extension allowed for video
+extern QString AllowImageExtensions;        // List of all file extension allowed for image
+extern QString AllowMusicExtensions;        // List of all file extension allowed for musique
+
+//============================================
+// Various
+//============================================
+
+extern QMutex  Mutex;                       // Mutex used to control multithreaded operations for LIBAV
+extern int     LastLibAvMessageLevel;       // Last level of message received from LIBAV
 
 #endif // CDEVICEMODELDEF_H

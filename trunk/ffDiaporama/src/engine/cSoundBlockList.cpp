@@ -28,6 +28,7 @@ cSoundBlockList::cSoundBlockList() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::cSoundBlockList");
 
     CurrentTempSize     =0;                                                                 // Amount of data in the TempData buffer
+    CurrentPosition     =0;
     SoundPacketSize     =MAXSOUNDPACKETSIZE;                                                // Size of a packet (depending on FPS)
     TempData            =(uint8_t *)av_malloc(SoundPacketSize+8);                           // Buffer for stocking temporary data (when decoding data are less than a packet)
     Channels            =2;                                                                 // Number of channels
@@ -55,10 +56,10 @@ cSoundBlockList::~cSoundBlockList() {
 void cSoundBlockList::SetFPS(double TheWantedDuration,int TheChannels,int64_t TheSamplingRate,enum AVSampleFormat TheSampleFormat) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFPS");
 
+    ClearList();
     SamplingRate   =TheSamplingRate;
     SampleFormat   =TheSampleFormat;
     Channels       =TheChannels;
-
     WantedDuration =TheWantedDuration;
     NbrPacketForFPS=1;
     dDuration      =double(WantedDuration)/1000;
@@ -82,6 +83,7 @@ void cSoundBlockList::SetFPS(double TheWantedDuration,int TheChannels,int64_t Th
 void cSoundBlockList::SetFrameSize(int FrameSize,int TheChannels,int64_t TheSamplingRate,enum AVSampleFormat TheSampleFormat) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFrameSize");
 
+    ClearList();
     SamplingRate   =TheSamplingRate;
     SampleFormat   =TheSampleFormat;
     SoundPacketSize=FrameSize;
@@ -107,6 +109,7 @@ void cSoundBlockList::ClearList() {
         if (Packet) av_free(Packet);
     }
     CurrentTempSize=0;
+    CurrentPosition=0;
 }
 
 //====================================================================================================================
@@ -116,32 +119,34 @@ int16_t *cSoundBlockList::DetachFirstPacket() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::DetachFirstPacket");
 
     int16_t *Ret=NULL;
-    if (List.count()>0) Ret=(int16_t *)List.takeFirst();
+    if (List.count()>0) {
+        Ret=(int16_t *)List.takeFirst();
+        CurrentPosition+=(double(SoundPacketSize)/(SampleBytes*Channels*SamplingRate))*AV_TIME_BASE;
+    }
     return Ret;
 }
 
 //====================================================================================================================
 // Append a packet to the end of the list
 //====================================================================================================================
-void cSoundBlockList::AppendPacket(int16_t *PacketToAdd) {
+void cSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendPacket");
-
+    if (List.count()==0) CurrentPosition=Position;
     List.append(PacketToAdd);
 }
 
 //====================================================================================================================
 // Append a packet of null sound to the end of the list
 //====================================================================================================================
-void cSoundBlockList::AppendNullSoundPacket() {
+void cSoundBlockList::AppendNullSoundPacket(int64_t Position) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendNullSoundPacket");
-
-    AppendPacket(NULL);
+    AppendPacket(Position,NULL);
 }
 
 //====================================================================================================================
 // Append data to the list creating packet as necessary and filling TempData
 //====================================================================================================================
-void cSoundBlockList::AppendData(int16_t *Data,int64_t DataLen) {
+void cSoundBlockList::AppendData(int64_t Position,int16_t *Data,int64_t DataLen) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendData");
 
     uint8_t *CurData=(uint8_t *)Data;
@@ -167,7 +172,8 @@ void cSoundBlockList::AppendData(int16_t *Data,int64_t DataLen) {
                 DataLen-=SoundPacketSize;
                 CurData+=SoundPacketSize;
             }
-            AppendPacket((int16_t *)Packet);
+            AppendPacket(Position,(int16_t *)Packet);
+            Position+=(double(SoundPacketSize/2*Channels)/double(SamplingRate))*AV_TIME_BASE;
         }
     }
     if (DataLen>0) {                                            // Store a partial packet in temp buffer
@@ -181,13 +187,13 @@ void cSoundBlockList::AppendData(int16_t *Data,int64_t DataLen) {
 // Append a packet to the end of the list by mixing 2 packet
 // Note : the 2 packet are free during process
 //====================================================================================================================
-void cSoundBlockList::MixAppendPacket(int16_t *PacketA,int16_t *PacketB) {
+void cSoundBlockList::MixAppendPacket(int64_t Position,int16_t *PacketA,int16_t *PacketB) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::MixAppendPacket");
 
     int32_t mix;
-    if ((PacketA==NULL)&&(PacketB==NULL))           AppendNullSoundPacket();
-        else if ((PacketA!=NULL)&&(PacketB==NULL))  AppendPacket(PacketA);
-        else if ((PacketA==NULL)&&(PacketB!=NULL))  AppendPacket(PacketB);
+    if ((PacketA==NULL)&&(PacketB==NULL))           AppendNullSoundPacket(Position);
+        else if ((PacketA!=NULL)&&(PacketB==NULL))  AppendPacket(Position,PacketA);
+        else if ((PacketA==NULL)&&(PacketB!=NULL))  AppendPacket(Position,PacketB);
         else {
             // Mix the 2 sources buffer using the first buffer as destination
             int16_t *Buf1=PacketA;
@@ -199,7 +205,7 @@ void cSoundBlockList::MixAppendPacket(int16_t *PacketA,int16_t *PacketB) {
                 mix=*(Buf1)+*(Buf2++);  if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;     *(Buf1++)=int16_t(mix);
             }
             av_free(PacketB); // Free the second buffer
-            AppendPacket(PacketA);
+            AppendPacket(Position,PacketA);
     }
 }
 

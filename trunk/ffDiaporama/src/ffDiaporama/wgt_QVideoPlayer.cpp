@@ -535,7 +535,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     Flag_InTimer=true;
     TimerTick=!TimerTick;
 
-    int LastPosition=0;
+    int64_t LastPosition=0,NextPosition=0;
 
     if (ResetPositionWanted) {
         MixedMusic.ClearList();                         // Free sound buffers
@@ -546,39 +546,41 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     // If no image in the list then create the first
     if (ImageList.List.count()==0) {
 
+        if (FileInfo) LastPosition=ActualPosition;
+            else      LastPosition=Diaporama->CurrentPosition;
+        NextPosition=LastPosition+int(double(1000)/WantedFPS);
+
         // If no image in the list then prepare a first frame
         if (FileInfo) {
-            LastPosition=ActualPosition;
-            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,LastPosition+int(double(1000)/WantedFPS),NULL,int(double(1000)/WantedFPS));
+
+            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,NextPosition,NULL,int(double(1000)/WantedFPS));
             NewFrame->CurrentObject_StartTime   =0;
             PrepareVideoFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
         } else {
-            LastPosition=Diaporama->CurrentPosition;
-            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,LastPosition+int(double(1000)/WantedFPS),Diaporama,double(1000)/WantedFPS);
+            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,NextPosition,Diaporama,double(1000)/WantedFPS);
             PrepareImage(NewFrame,true,true);
         }
-
     }
 
     cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
 
     if (FileInfo) LastPosition=PreviousFrame->CurrentObject_InObjectTime;
         else if (Diaporama) LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
+    NextPosition=LastPosition+int(double(1000)/WantedFPS);
 
     // Add image to the list if it's not full
     if ((FileInfo)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareVideo.isRunning())) {
-        LastPosition=PreviousFrame->CurrentObject_InObjectTime;
-        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),NULL,int(double(1000)/WantedFPS));
+        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,NULL,int(double(1000)/WantedFPS));
         NewFrame->CurrentObject_StartTime   =0;
         ThreadPrepareVideo.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,NewFrame->CurrentObject_InObjectTime));
     } else if (((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
-        LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
-        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,LastPosition+int(double(1000)/WantedFPS),Diaporama,double(1000)/WantedFPS);
+        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/WantedFPS);
         ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true,true));
     }
 
     // if TimerTick update the preview
-    if ((TimerTick)&&(ui->CustomRuller!=NULL)) s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
+    if ((TimerTick)&&(ui->CustomRuller!=NULL))
+        s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
 
     ui->BufferState->setValue(ImageList.List.count());
     if (ImageList.List.count()<2)
@@ -626,17 +628,11 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     QFutureWatcher<void> ThreadAssembly;
     ThreadAssembly.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::StartThreadAssembly,ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,ui->MovieFrame->width(),ui->MovieFrame->height()));
 
-    if ((SoundWanted)&&(Frame->CurrentObject)) {
-        // Calc number of packet to mix
-        int MaxPacket=Frame->CurrentObject_MusicTrack->List.count();
-        if ((Frame->CurrentObject_SoundTrackMontage)&&
-            (Frame->CurrentObject_SoundTrackMontage->List.count()>0)&&
-            (MaxPacket>Frame->CurrentObject_SoundTrackMontage->List.count())) MaxPacket=Frame->CurrentObject_SoundTrackMontage->List.count();
-        if (MaxPacket>MixedMusic.NbrPacketForFPS) MaxPacket=MixedMusic.NbrPacketForFPS;
-
-        // Append mixed musique to the queue
-        for (int j=0;j<MaxPacket;j++) MixedMusic.MixAppendPacket(Frame->CurrentObject_MusicTrack->DetachFirstPacket(),(Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
-    }
+    // Append mixed musique to the queue
+    if ((SoundWanted)&&(Frame->CurrentObject)) for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++)
+        MixedMusic.MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,
+                                   Frame->CurrentObject_MusicTrack->DetachFirstPacket(),
+                                   (Frame->CurrentObject_SoundTrackMontage!=NULL)?Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket():NULL);
 
     if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
 

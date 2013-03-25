@@ -47,33 +47,35 @@ int main(int argc, char* argv[]) {
     #endif
 
     int zero=1;
-    char * WM_NAME[]={"ffDiaporama"};
+    char * WM_NAME[]={(char *)"ffDiaporama"};
     QApplication app(zero,WM_NAME);
 
     QString AutoLoad="";
     QString ForceLanguage="";
-
+    int     FuturLogMsgLevel=LogMsgLevel;
     // Parse parameters to find ForceLanguage and AutoLoad
     for (int i=1;i<argc;i++) {
         QString Param=QString(argv[i]).toLower();
         if (Param.startsWith("-lang="))             ForceLanguage=Param.mid(QString("-lang=").length());
-        else if (Param.startsWith("-loglevel="))    LogMsgLevel  =Param.mid(QString("-loglevel=").length()).toInt();
+        else if (Param.startsWith("-loglevel="))    FuturLogMsgLevel=Param.mid(QString("-loglevel=").length()).toInt();
         else                                        AutoLoad=QString().fromLocal8Bit(argv[i]);
     }
 
     // Log Level part
-    switch (LogMsgLevel) {
-        case 1 : std::cout << QString("Set LogLevel to DEBUGTRACE\n").toLocal8Bit().constData();    break;
-        case 2 : std::cout << QString("Set LogLevel to INFORMATION\n").toLocal8Bit().constData();   break;
-        case 3 : std::cout << QString("Set LogLevel to WARNING\n").toLocal8Bit().constData();       break;
-        case 4 : std::cout << QString("Set LogLevel to CRITICAL\n").toLocal8Bit().constData();      break;
-        default :std::cout << QString("Incorrect LogLevel\n").toLocal8Bit().constData();            LogMsgLevel=2;   exit(1);    break;
+    if ((FuturLogMsgLevel<1)||(FuturLogMsgLevel>4)) FuturLogMsgLevel=2;
+
+    switch (FuturLogMsgLevel) {
+        case 1 : ToLog(LOGMSG_INFORMATION,"Set LogLevel to DEBUGTRACE");    break;
+        case 2 : ToLog(LOGMSG_INFORMATION,"Set LogLevel to INFORMATION");   break;
+        case 3 : ToLog(LOGMSG_INFORMATION,"Set LogLevel to WARNING");       break;
+        case 4 :
+        default: ToLog(LOGMSG_INFORMATION,"Set LogLevel to CRITICAL");      break;
     }
 
     // Start GUI
     MainWindow w;
     w.InitWindow(ForceLanguage,&app);
-
+    LogMsgLevel=FuturLogMsgLevel;
     if (w.ApplicationConfig->RestoreWindow && w.ApplicationConfig->MainWinState) w.showMaximized(); else w.show();
 
     if (AutoLoad!="") {

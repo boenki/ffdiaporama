@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 08/03/2013
+* Dernier commit le : 16/03/2013
 **************************************************
 
 TODO :
@@ -44,43 +44,36 @@ WIP : Work in progress
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+Switch to BETA 1
 
 French version / Correction de bug :
--Corrige le bug de compilation avec le paquet ffmpeg d'ArchLinux [BOENKY]
--Corrige le bug d'affichage du 1er plan dans la boite d'édition des diapositives
--Corrige le bug de changement aléatoire de plan selon la sélection [SESTAY]
--Corrige un bug dans le browser multmédia qui bouclait parfois de façon infini
--Corrige un bug dans la boite de dialogue d'édition des diapositives pour les fonctions de distribution horizontal et vertical :
-    => Les blocs ne sont plus repositionnés en fonction de leur ordre d'apparition mais bien de leur position
--Corrige le bug de positionnement de la vidéo en cours lors de la capture d'une image
--Corrige un bug dans la boite de dialogue d'édition des diapositives : Le changement de style de recadrage ne déplace plus le bloc
--Corrige le bug sur les formes libres : La modification de la largeur ne génère plus de modification systématique de la hauteur [SESTAY]
--Force un WM_CLASS(String) pour la fenêtre principal pour résoudre un probleme avec "Cairo dock"
+-Corrige les problèmes de son parasites durant la lecture et les mauvais enchainement des musiques
+-Corrige un bug dans la boite de sélection de fichier : Clicker sur OK quand un répertoire est sélectionné ouvre le répertoire au lieu de fermer la boite
 
 English version / Bug fixes :
--Fixed compilation bug when compiling with ffmpeg package on ArchLinux [BOENKY]
--Fixed bug of display first shot edit slide dialog
--Fixed the bug of random shot change depdending on selection [SESTAY]
--Fixed a bug in the browser that buckled Multmedia sometimes in infinite
--Fixed a bug in the edit slide dialog for horizontal and vertical distribution functions:
-     => The blocks are repositioned according to their order of appearance instead of their position
--Fixed bug of positioning the current video when capturing an image
--Fixed a bug in the edit slide dialog: The framming style change does not move the block
--Fixes bug of free forms: Changing the width no longer generates systematic change of the height [SESTAY]
--Force a WM_CLASS(String) to the main window to solve a probleme with "Cairo dock"
+-Fixes sound noise during playback and bad music chaining
+-Fixes a bug in the file selection dialog: Click on OK when a directory is selected opens the folder instead of closing the dialog
 
 French version / Nouveautés :
--Accélère les boites de dialogues et l'affichage de la preview en réduisant un peu la qualité des images affichées
+-Remplace Taglib par les nouvelles fonctions de libav 9 pour la lecture des thumbnails des fichiers audio (une librairie de moins)
+-Modifie le starter pour forcer l'utilisation du SSE1 sur les machines Windows/XP
+-Bascule tous les boutons d'aide vers les pages WEB de la série 1.6
+-Optimise la lecture des images lors de la prévisualisation
+-Optimise la création des vignettes pour les images sans exif-preview
 
 English version / New features :
--Accelerates display in dialogs and preview by reducing the quality of displayed images
+-Replaces Taglib with new libav 9 functions for reading thumbnails of audio files (a lib of less)
+-Modify starter to force the use of SSE1 version on computer using Windows/XP
+-Modify all help buttons to link to 1.6 WIKI help pages
+-Optimizes image playback when previewing
+-Optimizes the creation of thumbnails for images without exif-preview
 
 Translation/Traductions :
     EN    - 100% - 1272/1272
     FR    - 100% - 1272/1272
-    PT    - 100% - 1272/1272 - Updated 11/03/2013
-    IT    - 100% - 1272/1272 - Updated 13/03/2013
-    ES    - 100% - 1272/1272 - Updated 13/03/2013
+    PT    - 100% - 1272/1272 - Updated 19/03/2013
+    IT    - 100% - 1272/1272
+    ES    - 100% - 1272/1272
     DE    -  93% - 1192/1272
     NL    -  86% - 1098/1272
     RU    -  60% -  762/1272
