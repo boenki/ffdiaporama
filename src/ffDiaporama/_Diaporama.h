@@ -321,8 +321,6 @@ public:
     int                 CurrentObject_CurrentShotType;          // Type of the current shot : Static/Mobil/Video
     qlonglong           CurrentObject_ShotDuration;             // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     double              CurrentObject_PCTDone;                  // PCT achevement for static shot
-    QImage              *CurrentObject_SourceImage;             // Current image loaded for image or video or created for title
-    bool                CurrentObject_FreeSourceImage;          // True if allow to delete CurrentObject_SourceImage during destructor
     int                 CurrentObject_BackgroundIndex;          // Object number containing current background definition
     QBrush              *CurrentObject_BackgroundBrush;         // Current background brush
     bool                CurrentObject_FreeBackgroundBrush;      // True if allow to delete CurrentObject_BackgroundBrush during destructor
@@ -351,8 +349,6 @@ public:
     int                 TransitObject_CurrentShotType;          // Type of the current shot : Static/Mobil/Video
     qlonglong           TransitObject_ShotDuration;             // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
     double              TransitObject_PCTDone;                  // PCT achevement for static shot
-    QImage              *TransitObject_SourceImage;             // Current image loaded for image or video or created for title
-    bool                TransitObject_FreeSourceImage;          // True if allow to delete TransitObject_SourceImage during destructor
     int                 TransitObject_BackgroundIndex;          // Object number containing current background definition
     QBrush              *TransitObject_BackgroundBrush;         // Current background brush
     bool                TransitObject_FreeBackgroundBrush;      // True if allow to delete TransitObject_BackgroundBrush during destructor
@@ -423,10 +419,6 @@ public:
 
     // Memory
     void                    CloseUnusedLibAv(int CurrentCell);
-
-    // Threaded functions
-    void LoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos);
-    void LoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos);
 
 private:
     void                PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode,bool AddStartPos);

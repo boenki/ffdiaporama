@@ -118,7 +118,7 @@ private:
     QString         AdjustMETA(QString Text);
 
     void            EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue);
-    void            EncodeVideo(cSoundBlockList *ToEncodeMusic,QList<QImage *>*ImageList,bool &Continue);
+    void            EncodeVideo(QImage *ImageList,bool &Continue);
 };
 
 #endif // _ENCODEVIDEO_H

@@ -817,7 +817,6 @@ bool cEncodeVideo::DoEncode() {
 
     bool                    Continue=true;
     cSoundBlockList         RenderMusic,ToEncodeMusic;
-    QList<QImage *>         ImageList;
     cDiaporamaObjectInfo    *PreviousFrame=NULL;
     cDiaporamaObjectInfo    *Frame        =NULL;
     qlonglong               RenderedFrame =0;
@@ -946,7 +945,24 @@ bool cEncodeVideo::DoEncode() {
     if (SlideProgressBar)   SlideProgressBar->setMaximum(ToSlide-FromSlide);
     if (TotalProgressBar)   TotalProgressBar->setMaximum(NbrFrame);
 
-    //QFutureWatcher<void> ThreadEncodeVideo;
+    // Prepare a DefaultSourceImage to not create it for each frame
+    QImage DefaultSourceImage;
+    if ((InternalWidth!=0)&&(InternalHeight!=0)) {
+        // create an empty transparent image
+        DefaultSourceImage=QImage(InternalWidth,InternalHeight,QImage::Format_ARGB32_Premultiplied);
+        QPainter PT;
+        PT.begin(&DefaultSourceImage);
+        PT.setCompositionMode(QPainter::CompositionMode_Source);
+        PT.fillRect(QRect(0,0,InternalWidth,InternalHeight),Qt::transparent);
+        PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        PT.end();
+    } else {
+        // Create a very small image to have a ptr
+        DefaultSourceImage=QImage(5,5,QImage::Format_ARGB32_Premultiplied);
+    }
+
+    QFutureWatcher<void> ThreadEncodeVideo;
+    QFutureWatcher<void> ThreadEncodeAudio;
     for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
         // Give time to interface!
         QApplication::processEvents();
@@ -994,10 +1010,13 @@ bool cEncodeVideo::DoEncode() {
         Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,InternalWidth,InternalHeight); // Make final assembly
 
         // Ensure previous threaded encoding was ended before continuing
-        //if (ThreadEncodeVideo.isRunning()) ThreadEncodeVideo.waitForFinished();
+        if ((AudioStream)&&(AudioFrame)&&(ThreadEncodeAudio.isRunning()))                        ThreadEncodeAudio.waitForFinished();
+        if ((VideoStream)&&(VideoFrameConverter)&&(VideoFrame)&&(ThreadEncodeVideo.isRunning())) ThreadEncodeVideo.waitForFinished();
 
         // Prepare data
         if ((Continue)&&(AudioStream)) {
+            QTime a;
+            a.start();
 
             // mix audio data
             for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++)
@@ -1032,9 +1051,15 @@ bool cEncodeVideo::DoEncode() {
 
         // Write data to disk
         if (Continue) {
-            if (VideoStream) ImageList.append(new QImage(Frame->RenderedImage->convertToFormat(QTPIXFMT)));
-            //ThreadEncodeVideo.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeVideo,&ToEncodeMusic,&ImageList,&Continue));
-            EncodeVideo(&ToEncodeMusic,&ImageList,Continue);
+            if ((AudioStream)&&(AudioFrame)) {
+                ThreadEncodeAudio.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeMusic,&ToEncodeMusic,Continue));
+                //EncodeMusic(ToEncodeMusic,Continue);
+            }
+            if ((VideoStream)&&(VideoFrameConverter)&&(VideoFrame)) {
+                QImage *Image=((PreviousFrame)&&(Frame->RenderedImage==PreviousFrame->RenderedImage))?NULL:new QImage(Frame->RenderedImage->convertToFormat(QTPIXFMT));
+                ThreadEncodeVideo.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeVideo,Image,Continue));
+                //EncodeVideo(Image,Continue);
+            }
         }
 
         // Calculate next position
@@ -1049,7 +1074,8 @@ bool cEncodeVideo::DoEncode() {
         Continue=Continue && !StopProcessWanted;
     }
 
-    //if (ThreadEncodeVideo.isRunning()) ThreadEncodeVideo.waitForFinished();
+    if ((AudioStream)&&(AudioFrame)&&(ThreadEncodeAudio.isRunning()))                        ThreadEncodeAudio.waitForFinished();
+    if ((VideoStream)&&(VideoFrameConverter)&&(VideoFrame)&&(ThreadEncodeVideo.isRunning())) ThreadEncodeVideo.waitForFinished();
 
     // refresh display
     if (!StopProcessWanted) DisplayProgress(RenderedFrame,-1,Column,0);  // Set All to 100%
@@ -1059,7 +1085,6 @@ bool cEncodeVideo::DoEncode() {
     if (Frame!=NULL)         delete Frame;
 
     CloseEncoder();
-
     return Continue;
 }
 
@@ -1067,7 +1092,9 @@ bool cEncodeVideo::DoEncode() {
 
 void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::EncodeMusic");
-    Mutex.lock();
+
+    QTime a;
+    a.start();
 
     int     errcode;
     int64_t DestNbrSamples=ToEncodeMusic->SoundPacketSize/(ToEncodeMusic->Channels*av_get_bytes_per_sample(ToEncodeMusic->SampleFormat));
@@ -1178,7 +1205,9 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
 
                         // write the compressed frame in the media file
                         pkt.stream_index=AudioStream->index;
+                        Mutex.lock();
                         errcode=av_interleaved_write_frame(Container,&pkt);
+                        Mutex.unlock();
                         if (errcode!=0) {
                             char Buf[2048];
                             av_strerror(errcode,Buf,2048);
@@ -1209,19 +1238,14 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
         AudioResamplerBuffer=NULL;
         #endif
     }
-    avcodec_flush_buffers(AudioStream->codec);
-    Mutex.unlock();
 }
 
 //*************************************************************************************************************************************************
 
-void cEncodeVideo::EncodeVideo(cSoundBlockList *ToEncodeMusic,QList<QImage *>*ImageList,bool &Continue) {
+void cEncodeVideo::EncodeVideo(QImage *Image,bool &Continue) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::EncodeVideo");
-    if ((AudioStream)&&(AudioFrame)) EncodeMusic(ToEncodeMusic,Continue);
 
-    Mutex.lock();
-    if ((VideoStream)&&(ImageList->count()>0)&&(VideoFrameConverter)&&(VideoFrame)) {
-        QImage *Image=ImageList->takeFirst();
+    if (Image) {
         avcodec_get_frame_defaults(VideoFrame);
         if (avpicture_fill(
             (AVPicture *)VideoFrame,            // Frame to prepare
@@ -1231,12 +1255,8 @@ void cEncodeVideo::EncodeVideo(cSoundBlockList *ToEncodeMusic,QList<QImage *>*Im
             VideoStream->codec->height          // The height of the image in pixels
         )!=VideoFrameBufSize) {
             ToLog(LOGMSG_CRITICAL,"EncodeVideo-EncodeVideo: avpicture_fill() failed for VideoFrameBuf");
-            Mutex.unlock();
             return;
         }
-
-        if ((VideoFrameNbr%VideoStream->codec->gop_size)==0) VideoFrame->pict_type=AV_PICTURE_TYPE_I;
-        VideoFrame->pts=VideoFrameNbr;
 
         // Apply ExtendV
         if ((Continue)&&(!StopProcessWanted)&&(Image->height()!=VideoStream->codec->height)) {
@@ -1272,62 +1292,65 @@ void cEncodeVideo::EncodeVideo(cSoundBlockList *ToEncodeMusic,QList<QImage *>*Im
                 Continue=false;
             }
         }
+    }
 
-        if (Image) delete Image;
+    if ((VideoFrameNbr%VideoStream->codec->gop_size)==0) VideoFrame->pict_type=AV_PICTURE_TYPE_I;
+        else VideoFrame->pict_type=(AVPictureType)0;
+    VideoFrame->pts=VideoFrameNbr;
 
-        if ((Continue)&&(!StopProcessWanted)) {
+    if ((Continue)&&(!StopProcessWanted)) {
 
-            AVPacket pkt;
-            av_init_packet(&pkt);
-            pkt.size=0;
-            pkt.data=NULL;
+        AVPacket pkt;
+        av_init_packet(&pkt);
+        pkt.size=0;
+        pkt.data=NULL;
 
-            #ifdef LIBAV_08
-            int out_size=avcodec_encode_video(VideoStream->codec,VideoEncodeBuffer,VideoEncodeBufferSize,VideoFrame);
-            if (out_size<0) {
-                ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: avcodec_encode_video failed"));
-                Continue=false;
-            } else if (out_size>0) {
-                pkt.data=VideoEncodeBuffer;
-                pkt.size=out_size;
-                if (VideoStream->codec->coded_frame && VideoStream->codec->coded_frame->pts!=(int64_t)AV_NOPTS_VALUE)
-                    pkt.pts=av_rescale_q(VideoStream->codec->coded_frame->pts,VideoStream->codec->time_base,VideoStream->time_base);
-            #else
-            int got_packet=0;
-            int errcode=avcodec_encode_video2(VideoStream->codec,&pkt,VideoFrame,&got_packet);
+        #ifdef LIBAV_08
+        int out_size=avcodec_encode_video(VideoStream->codec,VideoEncodeBuffer,VideoEncodeBufferSize,VideoFrame);
+        if (out_size<0) {
+            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: avcodec_encode_video failed"));
+            Continue=false;
+        } else if (out_size>0) {
+            pkt.data=VideoEncodeBuffer;
+            pkt.size=out_size;
+            if (VideoStream->codec->coded_frame && VideoStream->codec->coded_frame->pts!=(int64_t)AV_NOPTS_VALUE)
+                pkt.pts=av_rescale_q(VideoStream->codec->coded_frame->pts,VideoStream->codec->time_base,VideoStream->time_base);
+        #else
+        int got_packet=0;
+        int errcode=avcodec_encode_video2(VideoStream->codec,&pkt,VideoFrame,&got_packet);
+        if (errcode!=0) {
+            char Buf[2048];
+            av_strerror(errcode,Buf,2048);
+            ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: avcodec_encode_video2 failed")+QString(Buf));
+            Continue=false;
+        } else if (got_packet) {
+            if (pkt.dts!=(int64_t)AV_NOPTS_VALUE) pkt.dts=av_rescale_q(pkt.dts,VideoStream->codec->time_base,VideoStream->time_base);
+            if (pkt.pts!=(int64_t)AV_NOPTS_VALUE) pkt.pts=av_rescale_q(pkt.pts,VideoStream->codec->time_base,VideoStream->time_base);
+        #endif
+
+            pkt.stream_index=VideoStream->index;
+            if (VideoStream->codec->coded_frame && VideoStream->codec->coded_frame->key_frame) pkt.flags|=AV_PKT_FLAG_KEY;
+
+            // write the compressed frame in the media file
+            Mutex.lock();
+            int errcode=av_interleaved_write_frame(Container,&pkt);
+            Mutex.unlock();
             if (errcode!=0) {
                 char Buf[2048];
                 av_strerror(errcode,Buf,2048);
-                ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: avcodec_encode_video2 failed")+QString(Buf));
+                ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: av_interleaved_write_frame failed: ")+QString(Buf));
                 Continue=false;
-            } else if (got_packet) {
-                if (pkt.dts!=(int64_t)AV_NOPTS_VALUE) pkt.dts=av_rescale_q(pkt.dts,VideoStream->codec->time_base,VideoStream->time_base);
-                if (pkt.pts!=(int64_t)AV_NOPTS_VALUE) pkt.pts=av_rescale_q(pkt.pts,VideoStream->codec->time_base,VideoStream->time_base);
-            #endif
-
-                pkt.stream_index=VideoStream->index;
-                if (VideoStream->codec->coded_frame && VideoStream->codec->coded_frame->key_frame) pkt.flags|=AV_PKT_FLAG_KEY;
-
-                // write the compressed frame in the media file
-                int errcode=av_interleaved_write_frame(Container,&pkt);
-                if (errcode!=0) {
-                    char Buf[2048];
-                    av_strerror(errcode,Buf,2048);
-                    ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: av_interleaved_write_frame failed: ")+QString(Buf));
-                    Continue=false;
-                }
-            }
-
-            LastVideoPts+=IncreasingVideoPts;
-            VideoFrameNbr++;
-            //ToLog(LOGMSG_INFORMATION,QString("Video:  Stream:%1 - Frame:%2 - PTS:%3").arg(VideoStream->index).arg(VideoFrameNbr).arg(LastVideoPts));
-
-            if ((VideoFrame->extended_data)&&(VideoFrame->extended_data!=VideoFrame->data)) {
-                av_free(VideoFrame->extended_data);
-                VideoFrame->extended_data=NULL;
             }
         }
-        avcodec_flush_buffers(VideoStream->codec);
+
+        LastVideoPts+=IncreasingVideoPts;
+        VideoFrameNbr++;
+        //ToLog(LOGMSG_INFORMATION,QString("Video:  Stream:%1 - Frame:%2 - PTS:%3").arg(VideoStream->index).arg(VideoFrameNbr).arg(LastVideoPts));
+
+        if ((VideoFrame->extended_data)&&(VideoFrame->extended_data!=VideoFrame->data)) {
+            av_free(VideoFrame->extended_data);
+            VideoFrame->extended_data=NULL;
+        }
     }
-    Mutex.unlock();
+    if (Image) delete Image;
 }

@@ -31,6 +31,8 @@
 #include <QTextCharFormat>
 #include <QTextBlockFormat>
 
+int64_t TotalLoadSources=0,TotalAssembly=0,TotalLoadSound=0;
+
 // Composition parameters
 #define SCALINGTEXTFACTOR                   700     // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
 
@@ -2045,7 +2047,12 @@ void ComputeCompositionObjectContext(cCompositionObjectContext &PreparedBrush) {
 void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurrentObject,bool PreviewMode,bool AddStartPos) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:PrepareImage");
 
-    bool                SoundOnly           =((W==0)&&(H==0));                     // W and H = 0 when producing sound track in render process
+    bool SoundOnly=((W==0)&&(H==0));  // W and H = 0 when producing sound track in render process
+
+    // return immediatly if we have image
+    if (((!SoundOnly)&&(IsCurrentObject)&&(Info->CurrentObject_PreparedImage!=NULL)) ||
+        ((!SoundOnly)&&(!IsCurrentObject)&&(Info->TransitObject_PreparedImage!=NULL))) return;
+
     qlonglong           Duration            =IsCurrentObject?Info->CurrentObject_ShotDuration:Info->TransitObject_ShotDuration;
     cDiaporamaShot      *CurShot            =IsCurrentObject?Info->CurrentObject_CurrentShot:Info->TransitObject_CurrentShot;
     cDiaporamaObject    *CurObject          =IsCurrentObject?Info->CurrentObject:Info->TransitObject;
@@ -2056,8 +2063,8 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     cDiaporamaShot      *PreviousShot       =(ShotNumber>0?List[ObjectNumber]->List[ShotNumber-1]:NULL);
     QImage              *Image              =NULL;
 
-    // Parse all shot objects to create SoundTrackMontage
     if (SoundOnly) {
+        // if sound only then parse all shot objects to create SoundTrackMontage
         for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
             if ((CurShot->ShotComposition.List[j]->BackgroundBrush->Video)&&(CurShot->ShotComposition.List[j]->BackgroundBrush->SoundVolume!=0)) {
 
@@ -2081,64 +2088,44 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
                 CurShot->ShotComposition.List[j]->DrawCompositionObject(NULL,double(H)/double(1080),0,0,true,VideoPosition+StartPosToAdd,SoundTrackMontage,1,1,NULL,false,CurShot->StaticDuration,true);
             }
         }
-        return;
-    }
 
-    // !SoundOnly : return immediatly if we have image
-    if ((IsCurrentObject)&&(Info->CurrentObject_PreparedImage!=NULL)) return;
+    } else {
 
-    // Special case for transition image of first slide
-    if (!IsCurrentObject) {
-        if (Info->TransitObject_PreparedImage!=NULL) return;    // return immediatly if we have image
-        if (Info->TransitObject_SourceImage==NULL) {
-            Info->TransitObject_PreparedImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-            QPainter P;
-            P.begin(Info->TransitObject_PreparedImage);
-            P.setCompositionMode(QPainter::CompositionMode_Source);
-            P.fillRect(QRect(0,0,W,H),Qt::transparent);
-            P.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            P.end();
-            return;
+        Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+        if ((!Image)||(Image->isNull())) return;
+
+        // Prepare a transparent image
+        QPainter P;
+        P.begin(Image);
+        P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+        P.setCompositionMode(QPainter::CompositionMode_Source);
+        P.fillRect(0,0,W,H,Qt::transparent);
+        P.setCompositionMode(QPainter::CompositionMode_SourceOver);
+
+        if (List.count()>0) {
+            QList<cCompositionObjectContext> PreparedBrushList;
+
+            // Construct collection
+            for (int j=0;j<CurShot->ShotComposition.List.count();j++)
+                PreparedBrushList.append(cCompositionObjectContext(j,PreviewMode,IsCurrentObject,Info,W,H,CurShot,PreviousShot,SoundTrackMontage,AddStartPos,Duration));
+
+            // Compute each item of the collection
+            QFuture<void> DoCompute = QtConcurrent::map(PreparedBrushList,ComputeCompositionObjectContext);
+            if (DoCompute.isRunning()) DoCompute.waitForFinished();
+
+            // Draw collection
+            for (int j=0;j<CurShot->ShotComposition.List.count();j++)
+                CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),W,H,PreparedBrushList[j].PreviewMode,PreparedBrushList[j].VideoPosition+PreparedBrushList[j].StartPosToAdd,
+                                                                        PreparedBrushList[j].SoundTrackMontage,
+                                                                        PreparedBrushList[j].BlockPctDone,PreparedBrushList[j].ImagePctDone,
+                                                                        PreparedBrushList[j].PrevCompoObject,false,Duration,
+                                                                        true,false,0,0,0,0,false,&PreparedBrushList[j]);
+            PreparedBrushList.clear();
         }
+        P.end();
+
+        if (IsCurrentObject) Info->CurrentObject_PreparedImage=Image; else Info->TransitObject_PreparedImage=Image;
     }
-
-    Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-    if ((!Image)||(Image->isNull())) {
-        if (IsCurrentObject) Info->CurrentObject_PreparedImage=NULL; else Info->TransitObject_PreparedImage=NULL;
-        return;
-    }
-
-    // Prepare a transparent image
-    QPainter P;
-    P.begin(Image);
-    P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-    P.setCompositionMode(QPainter::CompositionMode_Source);
-    P.fillRect(0,0,W,H,Qt::transparent);
-    P.setCompositionMode(QPainter::CompositionMode_SourceOver);
-
-    if (List.count()>0) {
-        QList<cCompositionObjectContext> PreparedBrushList;
-
-        // Construct collection
-        for (int j=0;j<CurShot->ShotComposition.List.count();j++)
-            PreparedBrushList.append(cCompositionObjectContext(j,PreviewMode,IsCurrentObject,Info,W,H,CurShot,PreviousShot,SoundTrackMontage,AddStartPos,Duration));
-
-        // Compute each item of the collection
-        QFuture<void> DoCompute = QtConcurrent::map(PreparedBrushList,ComputeCompositionObjectContext);
-        if (DoCompute.isRunning()) DoCompute.waitForFinished();
-
-        // Draw collection
-        for (int j=0;j<CurShot->ShotComposition.List.count();j++)
-            CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),W,H,PreparedBrushList[j].PreviewMode,PreparedBrushList[j].VideoPosition+PreparedBrushList[j].StartPosToAdd,
-                                                                    PreparedBrushList[j].SoundTrackMontage,
-                                                                    PreparedBrushList[j].BlockPctDone,PreparedBrushList[j].ImagePctDone,
-                                                                    PreparedBrushList[j].PrevCompoObject,false,Duration,
-                                                                    true,false,0,0,0,0,false,&PreparedBrushList[j]);
-        PreparedBrushList.clear();
-    }
-    P.end();
-
-    if (IsCurrentObject) Info->CurrentObject_PreparedImage=Image; else Info->TransitObject_PreparedImage=Image;
 }
 
 //=============================================================================================================================
@@ -2157,7 +2144,6 @@ void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H) {
 
         P.begin(Image);
         P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-        P.fillRect(0,0,W,H,Qt::black);  // Always start with a black frame
 
         // Draw background
         if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
@@ -2169,7 +2155,7 @@ void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H) {
             }
             if (Info->CurrentObject_PreparedBackground) {
                 Opacity=ComputePCT(Info->CurrentObject->GetSpeedWave(),Info->TransitionPCTDone);
-                P.setOpacity(Opacity);
+                if (Info->TransitObject) P.setOpacity(Opacity);
                 P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
             }
             P.setOpacity(1);
@@ -2177,6 +2163,7 @@ void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H) {
             if (Info->CurrentObject_PreparedBackground) P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
                 else P.fillRect(QRect(0,0,W,H),Qt::black);
         }
+
         // Add prepared images and transition
         if ((Info->IsTransition)&&(Info->CurrentObject_PreparedImage!=NULL)) {
             if (Info->TransitObject_PreparedImage==NULL) {
@@ -2199,6 +2186,7 @@ void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H) {
 
 void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:LoadSources");
+    if (!Info->CurrentObject) return;
 
     QFutureWatcher<void> ThreadPrepareCurrentMusicBloc;
     QFutureWatcher<void> ThreadPrepareTransitMusicBloc;
@@ -2206,76 +2194,73 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     // W and H = 0 when producing sound track in render process
     bool SoundOnly=((W==0)&&(H==0));
 
-    if (Info->CurrentObject==NULL) {
-        // Special for preview if no object
-        // create an empty transparent image
-        if (!SoundOnly) {
-            Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-            QPainter PT;
-            PT.begin(Info->CurrentObject_SourceImage);
-            PT.setCompositionMode(QPainter::CompositionMode_Source);
-            PT.fillRect(QRect(0,0,W,H),Qt::transparent);
-            PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
-            PT.end();
-        } else Info->CurrentObject_SourceImage=new QImage(5,5,QImage::Format_ARGB32_Premultiplied); // Create a very small image to have a ptr !
+    //==============> Music track part
 
-    } else {
+    if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
+        ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
 
-        //==============> Music track part
+    if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack))
+        ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
 
-        if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack))
-            ThreadPrepareCurrentMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->CurrentObject_Number,Info->CurrentObject_InObjectTime,Info->CurrentObject_MusicTrack));
+    //==============> Image part
 
-        if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack))
-            ThreadPrepareTransitMusicBloc.setFuture(QtConcurrent::run(this,&cDiaporama::PrepareMusicBloc,PreviewMode,Info->TransitObject_Number,Info->TransitObject_InObjectTime,Info->TransitObject_MusicTrack));
-
-        //==============> Image part
-
-        // Transition Object if a previous was not keep !
+    // Transition Object if a previous was not keep !
+    if (Info->IsTransition) {
         if (Info->TransitObject) {
-            LoadTransitVideoImage(Info,PreviewMode,W,H,AddStartPos);
+            PrepareImage(Info,W,H,false,PreviewMode,AddStartPos);
             #ifdef Q_OS_WIN
             QApplication::processEvents();  //==============> Special case for windows because of windows threading method
             #endif
+        } else if (!Info->TransitObject_PreparedImage) {
+            Info->TransitObject_PreparedImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+            QPainter P;
+            P.begin(Info->TransitObject_PreparedImage);
+            P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+            //P.setCompositionMode(QPainter::CompositionMode_Source);
+            P.fillRect(0,0,W,H,Qt::black);//Qt::transparent);
+            //P.setCompositionMode(QPainter::CompositionMode_SourceOver);
+            P.end();
         }
+    }
 
-        // Load Source image
-        LoadSourceVideoImage(Info,PreviewMode,W,H,AddStartPos);
-        #ifdef Q_OS_WIN
-        QApplication::processEvents();  //==============> Special case for windows because of windows threading method
-        #endif
+    // Load Source image
+    PrepareImage(Info,W,H,true,PreviewMode,AddStartPos);
+    #ifdef Q_OS_WIN
+    QApplication::processEvents();  //==============> Special case for windows because of windows threading method
+    #endif
 
-        //==============> Background part
+    //==============> Background part
 
-        if (!SoundOnly) {
-            // Search background context for CurrentObject if a previous was not keep !
-            if (Info->CurrentObject_BackgroundBrush==NULL) {
-                if ((Info->CurrentObject_BackgroundIndex>=List.count())||(List[Info->CurrentObject_BackgroundIndex]->BackgroundType==false))
-                         Info->CurrentObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
-                    else Info->CurrentObject_BackgroundBrush=List[Info->CurrentObject_BackgroundIndex]->BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL,1,NULL);
-                Info->CurrentObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-                QPainter P;
-                P.begin(Info->CurrentObject_PreparedBackground);
-                if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush);
-                    else                                 P.fillRect(QRect(0,0,W,H),QBrush(Qt::black));
-                P.end();
-            }
-            // same job for Transition Object if a previous was not keep !
-            if ((Info->TransitObject)&&(Info->TransitObject_BackgroundBrush==NULL)) {
-                if ((Info->TransitObject_BackgroundIndex>=List.count())||(List[Info->TransitObject_BackgroundIndex]->BackgroundType==false))
-                         Info->TransitObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
-                    else Info->TransitObject_BackgroundBrush=List[Info->TransitObject_BackgroundIndex]->BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL,1,NULL);
-                Info->TransitObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-                QPainter P;
-                P.begin(Info->TransitObject_PreparedBackground);
-                if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush);
-                    else                                 P.fillRect(QRect(0,0,W,H),QBrush(Qt::black));
-                P.end();
-            }
+    if (!SoundOnly) {
+        // Search background context for CurrentObject if a previous was not keep !
+        if (Info->CurrentObject_BackgroundBrush==NULL) {
+            if ((Info->CurrentObject_BackgroundIndex>=List.count())||(List[Info->CurrentObject_BackgroundIndex]->BackgroundType==false))
+                     Info->CurrentObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
+                else Info->CurrentObject_BackgroundBrush=List[Info->CurrentObject_BackgroundIndex]->BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL,1,NULL);
+            Info->CurrentObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+            QPainter P;
+            P.begin(Info->CurrentObject_PreparedBackground);
+            if (Info->CurrentObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->CurrentObject_BackgroundBrush);
+                else                                 P.fillRect(QRect(0,0,W,H),QBrush(Qt::black));
+            P.end();
+        }
+        // same job for Transition Object if a previous was not keep !
+        if ((Info->TransitObject)&&(Info->TransitObject_BackgroundBrush==NULL)) {
+            if ((Info->TransitObject_BackgroundIndex>=List.count())||(List[Info->TransitObject_BackgroundIndex]->BackgroundType==false))
+                     Info->TransitObject_BackgroundBrush=new QBrush(Qt::black);   // If no background definition @ first object
+                else Info->TransitObject_BackgroundBrush=List[Info->TransitObject_BackgroundIndex]->BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,0,NULL,1,NULL);
+            Info->TransitObject_PreparedBackground=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
+            QPainter P;
+            P.begin(Info->TransitObject_PreparedBackground);
+            if (Info->TransitObject_BackgroundBrush) P.fillRect(QRect(0,0,W,H),*Info->TransitObject_BackgroundBrush);
+                else                                 P.fillRect(QRect(0,0,W,H),QBrush(Qt::black));
+            P.end();
         }
     }
 
     //==============> Mixing of music and soundtrack
+    QTime b;
+    b.start();
 
     if (ThreadPrepareCurrentMusicBloc.isRunning()) ThreadPrepareCurrentMusicBloc.waitForFinished();
     if (ThreadPrepareTransitMusicBloc.isRunning()) ThreadPrepareTransitMusicBloc.waitForFinished();
@@ -2406,54 +2391,6 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 }
 
 //============================================================================================
-
-void cDiaporama::LoadSourceVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:LoadSourceVideoImage");
-
-    // W and H = 0 when producing sound track in render process
-    if ((W!=0)&&(H!=0)) {
-        // Title mode : create an empty transparent image
-        Info->CurrentObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-        QPainter PT;
-        PT.begin(Info->CurrentObject_SourceImage);
-        PT.setCompositionMode(QPainter::CompositionMode_Source);
-        PT.fillRect(QRect(0,0,W,H),Qt::transparent);
-        PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        PT.end();
-    } else {
-        // Create a very small image to have a ptr
-        Info->CurrentObject_SourceImage=new QImage(5,5,QImage::Format_ARGB32_Premultiplied);
-    }
-    // Prepare images for Current Object
-    PrepareImage(Info,W,H,true,PreviewMode,AddStartPos);
-
-}
-
-//============================================================================================
-
-void cDiaporama::LoadTransitVideoImage(cDiaporamaObjectInfo *Info,bool PreviewMode,int W,int H,bool AddStartPos) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:LoadTransitVideoImage");
-
-    // W and H = 0 when producing sound track in render process
-    if ((W!=0)&&(H!=0)) {
-        // create an empty transparent image
-        Info->TransitObject_SourceImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-        QPainter PT;
-        PT.begin(Info->TransitObject_SourceImage);
-        PT.setCompositionMode(QPainter::CompositionMode_Source);
-        PT.fillRect(QRect(0,0,W,H),Qt::transparent);
-        PT.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        PT.end();
-    } else {
-        // Create a very small image to have a ptr
-        Info->TransitObject_SourceImage=new QImage(5,5,QImage::Format_ARGB32_Premultiplied);
-    }
-    // Prepare images for Transit Object
-    PrepareImage(Info,W,H,false,PreviewMode,AddStartPos);
-}
-
-
-//============================================================================================
 void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
     // Parse all unused slide to close unused libav buffer, codec, ...
     for (int i=0;i<List.count();i++) {
@@ -2493,8 +2430,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     CurrentObject_CurrentShotType       =PreviousFrame->CurrentObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
     CurrentObject_ShotDuration          =PreviousFrame->CurrentObject_ShotDuration;        // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     CurrentObject_PCTDone               =PreviousFrame->CurrentObject_PCTDone;
-    CurrentObject_SourceImage           =PreviousFrame->CurrentObject_SourceImage;          // Source image
-    CurrentObject_FreeSourceImage       =false;                                             // True if allow to delete CurrentObject_SourceImage during destructor
     CurrentObject_BackgroundIndex       =PreviousFrame->CurrentObject_BackgroundIndex;      // Object number containing current background definition
     CurrentObject_BackgroundBrush       =PreviousFrame->CurrentObject_BackgroundBrush;      // Current background brush
     CurrentObject_FreeBackgroundBrush   =false;                                             // True if allow to delete CurrentObject_BackgroundBrush during destructor
@@ -2518,10 +2453,8 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     TransitObject_ShotSequenceNumber    =PreviousFrame->TransitObject_ShotSequenceNumber;   // Number of the shot sequence in the current object
     TransitObject_CurrentShot           =PreviousFrame->TransitObject_CurrentShot;          // Link to the current shot in the current object
     TransitObject_CurrentShotType       =PreviousFrame->TransitObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
-    TransitObject_ShotDuration         =PreviousFrame->TransitObject_ShotDuration;        // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
+    TransitObject_ShotDuration          =PreviousFrame->TransitObject_ShotDuration;         // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
     TransitObject_PCTDone               =PreviousFrame->TransitObject_PCTDone;
-    TransitObject_SourceImage           =PreviousFrame->TransitObject_SourceImage;          // Source image
-    TransitObject_FreeSourceImage       =false;                                             // True if allow to delete TransitObject_SourceImage during destructor
     TransitObject_BackgroundIndex       =PreviousFrame->TransitObject_BackgroundIndex;      // Object number containing current background definition
     TransitObject_BackgroundBrush       =PreviousFrame->TransitObject_BackgroundBrush;      // Current background brush
     TransitObject_FreeBackgroundBrush   =false;                                             // True if allow to delete TransitObject_BackgroundBrush during destructor
@@ -2555,8 +2488,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     CurrentObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
     CurrentObject_ShotDuration          =0;                 // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
     CurrentObject_PCTDone               =0;                 // PCT achevement for static shot
-    CurrentObject_SourceImage           =NULL;              // Source image
-    CurrentObject_FreeSourceImage       =true;              // True if allow to delete CurrentObject_SourceImage during destructor
     CurrentObject_BackgroundIndex       =0;                 // Object number containing current background definition
     CurrentObject_BackgroundBrush       =NULL;              // Current background brush
     CurrentObject_FreeBackgroundBrush   =true;              // True if allow to delete CurrentObject_BackgroundBrush during destructor
@@ -2582,8 +2513,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
     TransitObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
     TransitObject_ShotDuration          =0;                 // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
     TransitObject_PCTDone               =0;                 // PCT achevement for static shot
-    TransitObject_SourceImage           =NULL;              // Source image
-    TransitObject_FreeSourceImage       =true;              // True if allow to delete TransitObject_SourceImage during destructor
     TransitObject_BackgroundIndex       =0;                 // Object number containing current background definition
     TransitObject_BackgroundBrush       =NULL;              // Current background brush
     TransitObject_FreeBackgroundBrush   =true;              // True if allow to delete TransitObject_BackgroundBrush during destructor
@@ -2729,22 +2658,6 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
             if (PreviousFrame->TransitObject_FreePreparedBackground && ((PreviousFrame->TransitObject_PreparedBackground==CurrentObject_PreparedBackground)||(PreviousFrame->TransitObject_PreparedBackground==TransitObject_PreparedBackground)||(PreviousFrame->TransitObject_PreparedBackground==PreviousFrame->CurrentObject_PreparedBackground)))
                 PreviousFrame->TransitObject_FreePreparedBackground=false;
 
-            //************ SourceImage
-            if ((PreviousFrame->CurrentObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
-                CurrentObject_SourceImage=PreviousFrame->CurrentObject_SourceImage;                     // Use the same image source
-                PreviousFrame->CurrentObject_FreeSourceImage=false;                                     // Set tag to not delete previous source image
-            }
-            // SourceImage of transition Object
-            if (TransitObject) {
-                if ((PreviousFrame->CurrentObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->CurrentObject_Number==TransitObject_Number)) {
-                    TransitObject_SourceImage=PreviousFrame->CurrentObject_SourceImage;                 // Use the same image source
-                    PreviousFrame->CurrentObject_FreeSourceImage=false;                                 // Set tag to not delete previous source image
-                } else if ((PreviousFrame->TransitObject_CurrentShotType!=SHOTTYPE_VIDEO)&&(PreviousFrame->TransitObject_Number==TransitObject_Number)) {
-                        TransitObject_SourceImage=PreviousFrame->TransitObject_SourceImage;             // Use the same image source
-                        PreviousFrame->TransitObject_FreeSourceImage=false;                             // Set tag to not delete previous source image
-                }
-            }
-
             //************ SoundTrackMontage
             if ((PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
                 CurrentObject_SoundTrackMontage=PreviousFrame->CurrentObject_SoundTrackMontage;         // Use the same SoundTrackMontage
@@ -2876,10 +2789,6 @@ cDiaporamaObjectInfo::~cDiaporamaObjectInfo() {
         delete CurrentObject_PreparedBackground;
         CurrentObject_PreparedBackground=NULL;
     }
-    if ((CurrentObject_FreeSourceImage)&&(CurrentObject_SourceImage)) {
-        delete CurrentObject_SourceImage;
-        CurrentObject_SourceImage=NULL;
-    }
     if ((CurrentObject_FreeSoundTrackMontage)&&(CurrentObject_SoundTrackMontage)) {
         delete CurrentObject_SoundTrackMontage;
         CurrentObject_SoundTrackMontage=NULL;
@@ -2901,10 +2810,6 @@ cDiaporamaObjectInfo::~cDiaporamaObjectInfo() {
     if ((TransitObject_FreePreparedBackground)&&(TransitObject_PreparedBackground)) {
         delete TransitObject_PreparedBackground;
         TransitObject_PreparedBackground=NULL;
-    }
-    if ((TransitObject_FreeSourceImage)&&(TransitObject_SourceImage)) {
-        delete TransitObject_SourceImage;
-        TransitObject_SourceImage=NULL;
     }
     if ((TransitObject_FreeSoundTrackMontage)&&(TransitObject_SoundTrackMontage)) {
         delete TransitObject_SoundTrackMontage;
