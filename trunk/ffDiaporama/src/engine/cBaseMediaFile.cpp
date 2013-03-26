@@ -2321,13 +2321,17 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEn
 
     AVStream *AudioStream =((AudioStreamNumber>=0)&&SoundTrackBloc?LibavFile->streams[AudioStreamNumber]:NULL);
     AVStream *VideoStream =((!MusicOnly)&&(!ForceSoundOnly)&&(VideoStreamNumber>=0)?LibavFile->streams[VideoStreamNumber]:NULL);
+
+    if ((!AudioStream)&&(!VideoStream)) return NULL;
+
     int64_t  DstSampleSize=SoundTrackBloc?(SoundTrackBloc->SampleBytes*SoundTrackBloc->Channels):0;
     int64_t  FPSSize      =SoundTrackBloc?SoundTrackBloc->SoundPacketSize*SoundTrackBloc->NbrPacketForFPS:0;
     int64_t  FPSDuration  =FPSSize?(double(FPSSize)/(SoundTrackBloc->Channels*SoundTrackBloc->SampleBytes*SoundTrackBloc->SamplingRate))*AV_TIME_BASE:0;
 
     if (!FPSDuration) {
         if (PreviewMode) FPSDuration=double(AV_TIME_BASE)/((cApplicationConfig *)ApplicationConfig)->PreviewFPS;
-            else FPSDuration=double(VideoStream->r_frame_rate.den*AV_TIME_BASE)/double(VideoStream->r_frame_rate.num);
+            else if (VideoStream) FPSDuration=double(VideoStream->r_frame_rate.den*AV_TIME_BASE)/double(VideoStream->r_frame_rate.num);
+            else FPSDuration=double(AV_TIME_BASE)/double(SoundTrackBloc->SamplingRate);
     }
     // If position >= end of file : disable audio
     double dPosition=double(Position)/AV_TIME_BASE;
