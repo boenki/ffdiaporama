@@ -29,7 +29,6 @@
 // Include some additional standard class
 #include "cBaseMediaFile.h"
 #include "cLuLoImageCache.h"
-#include "../../src/ffDiaporama/_ApplicationDefinitions.h"
 
 #define FFD_APPLICATION_ROOTNAME    "Project"           // Name of root node in the project xml file
 
@@ -294,7 +293,7 @@ bool cBaseMediaFile::GetInformationFromFile(QString GivenFileName,QStringList *A
         else {
             QString NewFileName=QFileDialog::getOpenFileName(ApplicationConfig->TopLevelWindow,QApplication::translate("cBaseMediaFile","Select another file for ")+QFileInfo(FileName).fileName(),
                ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-               ApplicationConfig->GetFilterForMediaFile(ObjectType==OBJECTTYPE_IMAGEFILE?cBaseApplicationConfig::IMAGEFILE:ObjectType==OBJECTTYPE_VIDEOFILE?cBaseApplicationConfig::VIDEOFILE:cBaseApplicationConfig::MUSICFILE));
+               ApplicationConfig->GetFilterForMediaFile(ObjectType==OBJECTTYPE_IMAGEFILE?IMAGEFILE:ObjectType==OBJECTTYPE_VIDEOFILE?VIDEOFILE:MUSICFILE));
             if (NewFileName!="") {
                 if (AliasList) AliasList->append(FileName+"####"+NewFileName);
                 FileName=NewFileName;
@@ -992,17 +991,19 @@ void cImageFile::GetFullInformationFromFile() {
                                     QImage *NewImage=new QImage(Icon->copy(0,Delta/2,Icon->width(),Icon->height()-Delta));
                                     delete Icon;
                                     Icon=NewImage;
+                                    // if preview Icon have a really small size, then don't use it
+                                    if (Icon->width()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
                                 } else {
                                     int RealWidth=int((double(Icon->height())*double(ImageWidth))/double(ImageHeight));
                                     int Delta     =Icon->width()-RealWidth;
                                     QImage *NewImage=new QImage(Icon->copy(Delta/2,0,Icon->width()-Delta,Icon->height()));
                                     delete Icon;
                                     Icon=NewImage;
+                                    // if preview Icon have a really small size, then don't use it
+                                    if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
                                 }
                             }
 
-                            // if preview Icon have a really small size, then don't use it
-                            if (Icon->height()>=ApplicationConfig->MinimumEXIFHeight) LoadIcons(Icon);
                         }
                         delete Icon;
                     }
@@ -1073,7 +1074,7 @@ void cImageFile::GetFullInformationFromFile() {
             QImageReader ImgReader(FileName);
             if (ImgReader.canRead()) {
                 QSize Size=ImgReader.size();
-                if ((Size.width()>100)||(Size.height()>100)) {
+                if ((Size.width()>=100)||(Size.height()>=100)) {
                     if ((qreal(Size.height())/qreal(Size.width()))*100<=100) {
                         Size.setHeight((qreal(Size.height())/qreal(Size.width()))*100);
                         Size.setWidth(100);
@@ -2137,7 +2138,7 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
                 FrameBufferYUV->top_field_first  = VideoFilterOut->inputs[0]->cur_buf->video->top_field_first;
 
                 memcpy(FrameBufferYUV->linesize, VideoFilterOut->inputs[0]->cur_buf->linesize, 4*sizeof(int));
-                memcpy(FrameBufferYUV->data    , VideoFilterOut->inputs[0]->cur_buf->data    , 4*sizeof(uint8_t*));
+                memcpy(FrameBufferYUV->data    , VideoFilterOut->inputs[0]->cur_buf->data    , 4*sizeof(u_int8_t*));
             }
 
         #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,0,0)             // from 2.60 to 3.0
@@ -2163,7 +2164,7 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
                 FrameBufferYUV->interlaced_frame=m_pBufferRef->video->interlaced;
                 FrameBufferYUV->top_field_first =m_pBufferRef->video->top_field_first;
                 memcpy(FrameBufferYUV->linesize,m_pBufferRef->linesize,4*sizeof(int));
-                memcpy(FrameBufferYUV->data,    m_pBufferRef->data,    4*sizeof(uint8_t*));
+                memcpy(FrameBufferYUV->data,    m_pBufferRef->data,    4*sizeof(u_int8_t*));
                 NbrFrames--;
                 if (m_pBufferRef) {
                     avfilter_unref_buffer(m_pBufferRef);
@@ -2194,7 +2195,7 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
                 FrameBufferYUV->interlaced_frame=m_pBufferRef->video->interlaced;
                 FrameBufferYUV->top_field_first =m_pBufferRef->video->top_field_first;
                 memcpy(FrameBufferYUV->linesize,m_pBufferRef->linesize,4*sizeof(int));
-                memcpy(FrameBufferYUV->data,    m_pBufferRef->data,    4*sizeof(uint8_t*));
+                memcpy(FrameBufferYUV->data,    m_pBufferRef->data,    4*sizeof(u_int8_t*));
                 NbrFrames--;
                 if (m_pBufferRef) {
                     avfilter_unref_buffer(m_pBufferRef);
@@ -2270,21 +2271,21 @@ void cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Po
 
 //====================================================================================================================
 
-uint8_t *cVideoFile::Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSampleSize) {
-    uint8_t *Data=NULL;
+u_int8_t *cVideoFile::Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSampleSize) {
+    u_int8_t *Data=NULL;
     #if defined(LIBAV_08)
-        Data=(uint8_t *)av_malloc(MaxAudioLenDecoded);
+        Data=(u_int8_t *)av_malloc(MaxAudioLenDecoded);
         if (Data) *SizeDecoded=audio_resample(RSC,(short int*)Data,(short int*)Frame->data[0],Frame->nb_samples)*DstSampleSize;
     #elif defined(USELIBAVRESAMPLE)
-        uint8_t *in_data[RESAMPLE_MAX_CHANNELS]={0};
+        u_int8_t *in_data[RESAMPLE_MAX_CHANNELS]={0};
         int     in_linesize=0;
         Data=Frame->data[0];
-        if (av_samples_fill_arrays(in_data,&in_linesize,(uint8_t *)Frame->data[0],AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,1)<0) {
+        if (av_samples_fill_arrays(in_data,&in_linesize,(u_int8_t *)Frame->data[0],AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,1)<0) {
             ToLog(LOGMSG_CRITICAL,QString("failed in_data fill arrays"));
         } else {
-            uint8_t *out_data[RESAMPLE_MAX_CHANNELS]={0};
-            int     out_linesize=0;
-            int     out_samples=avresample_available(RSC)+av_rescale_rnd(avresample_get_delay(RSC)+Frame->nb_samples,SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,AV_ROUND_UP);
+            u_int8_t *out_data[RESAMPLE_MAX_CHANNELS]={0};
+            int      out_linesize=0;
+            int      out_samples=avresample_available(RSC)+av_rescale_rnd(avresample_get_delay(RSC)+Frame->nb_samples,SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,AV_ROUND_UP);
             if (av_samples_alloc(&Data,&out_linesize,SoundTrackBloc->Channels,out_samples,SoundTrackBloc->SampleFormat,1)<0) {
                 ToLog(LOGMSG_CRITICAL,QString("av_samples_alloc failed"));
             } else if (av_samples_fill_arrays(out_data,&out_linesize,Data,SoundTrackBloc->Channels,out_samples,SoundTrackBloc->SampleFormat,1)<0) {
@@ -2293,9 +2294,9 @@ uint8_t *cVideoFile::Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSampleS
             }
         }
     #elif defined(USELIBSWRESAMPLE)
-        Data=(uint8_t *)av_malloc(MaxAudioLenDecoded);
-        uint8_t *out[]={Data};
-        if (Data) *SizeDecoded=swr_convert(RSC,out,MaxAudioLenDecoded/DstSampleSize,(const uint8_t **)Frame->data,Frame->nb_samples)*DstSampleSize;
+        Data=(u_int8_t *)av_malloc(MaxAudioLenDecoded);
+        u_int8_t *out[]={Data};
+        if (Data) *SizeDecoded=swr_convert(RSC,out,MaxAudioLenDecoded/DstSampleSize,(const u_int8_t **)Frame->data,Frame->nb_samples)*DstSampleSize;
     #endif
     return Data;
 }
@@ -2329,7 +2330,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEn
     int64_t  FPSDuration  =FPSSize?(double(FPSSize)/(SoundTrackBloc->Channels*SoundTrackBloc->SampleBytes*SoundTrackBloc->SamplingRate))*AV_TIME_BASE:0;
 
     if (!FPSDuration) {
-        if (PreviewMode) FPSDuration=double(AV_TIME_BASE)/((cApplicationConfig *)ApplicationConfig)->PreviewFPS;
+        if (PreviewMode) FPSDuration=double(AV_TIME_BASE)/((cBaseApplicationConfig *)ApplicationConfig)->PreviewFPS;
             else if (VideoStream) FPSDuration=double(VideoStream->r_frame_rate.den*AV_TIME_BASE)/double(VideoStream->r_frame_rate.num);
             else FPSDuration=double(AV_TIME_BASE)/double(SoundTrackBloc->SamplingRate);
     }
@@ -2452,7 +2453,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEn
             // If error reading frame
             //************************
             if (AudioLenWanted>AudioLenDecoded) {
-                uint8_t *BufferForDecoded=(uint8_t *)av_malloc(AudioLenWanted-AudioLenDecoded);
+                u_int8_t *BufferForDecoded=(u_int8_t *)av_malloc(AudioLenWanted-AudioLenDecoded);
                 memset(BufferForDecoded,0,AudioLenWanted-AudioLenDecoded);
                 SoundTrackBloc->AppendData(int64_t(dEndFile*AV_TIME_BASE),(int16_t*)BufferForDecoded,AudioLenWanted-AudioLenDecoded);
                 av_free(BufferForDecoded);
@@ -2563,8 +2564,8 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEn
                         } else if (got_frame>0) {
 
                             // Get data (resample if needed)
-                            int64_t SizeDecoded=0;
-                            uint8_t *Data      =NULL;
+                            int64_t  SizeDecoded=0;
+                            u_int8_t *Data      =NULL;
                             if ((NeedResampling)&&(RSC!=NULL)) {
                                 Data=Resample(Frame,&SizeDecoded,DstSampleSize);
                             } else {

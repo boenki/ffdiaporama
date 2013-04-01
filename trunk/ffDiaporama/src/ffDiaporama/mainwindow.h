@@ -23,16 +23,15 @@
 
 // Basic inclusions (common to all files)
 #include "../engine/_GlobalDefines.h"
+#include "../engine/_SDL_Support.h"
+#include "../engine/cBaseApplicationConfig.h"
+#include "../engine/_Diaporama.h"
 
 // Include some common various class
-#include "../engine/_SDL_Support.h"
 #include "DlgWorkingTask/DlgWorkingTask.h"
 
 #include <QNetworkReply>
 #include <QTreeWidgetItem>
-
-// Specific inclusions
-#include "_Diaporama.h"
 
 namespace Ui {
     class MainWindow;
@@ -45,7 +44,7 @@ Q_OBJECT
 public:
     bool                    IsFirstInitDone;                // true when first show window was done
     bool                    FLAGSTOPITEMSELECTION;          // Flag to stop Item Selection process in the timeline
-    cApplicationConfig      *ApplicationConfig;
+    cBaseApplicationConfig  *ApplicationConfig;
     cDiaporama              *Diaporama;
     int                     LastCount;
     QString                 InternetBUILDVERSION;
@@ -224,7 +223,5 @@ private:
 
     Ui::MainWindow *ui;
 };
-
-extern MainWindow  *GlobalMainWindow;
 
 #endif // MAINWINDOW_H

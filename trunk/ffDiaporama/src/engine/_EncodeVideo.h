@@ -25,8 +25,7 @@
 #include "_GlobalDefines.h"
 
 // Specific inclusions
-#include "../ffDiaporama/_Diaporama.h"
-#include "../ffDiaporama/_ApplicationDefinitions.h"
+#include "_Diaporama.h"
 
 #define SUPPORTED_COMBINATION       0
 #define UNSUPPORTED_COMBINATION     1
@@ -61,10 +60,10 @@ public:
     int                 InternalWidth,InternalHeight,ExtendV;
     AVFrame             *VideoFrame;
     struct SwsContext   *VideoFrameConverter;           // Converter from QImage to YUV image
-    uint8_t             *VideoEncodeBuffer;             // Buffer for encoded image
+    u_int8_t            *VideoEncodeBuffer;             // Buffer for encoded image
     int                 VideoEncodeBufferSize;          // Buffer for encoded image
     int64_t             VideoFrameBufSize;
-    uint8_t             *VideoFrameBuf;
+    u_int8_t            *VideoFrameBuf;
 
     // Audio parameters & buffers
     int                 AudioChannels;
@@ -77,7 +76,7 @@ public:
     int64_t             AudioFrameNbr;
     AVStream            *AudioStream;
     AVFrame             *AudioFrame;
-    uint8_t             *AudioResamplerBuffer;          // Buffer for sampled audio
+    u_int8_t            *AudioResamplerBuffer;          // Buffer for sampled audio
     int                 AudioResamplerBufferSize;
     #if defined(LIBAV_08)
     ReSampleContext         *AudioResampler;            // Audio resampler

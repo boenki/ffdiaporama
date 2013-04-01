@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 25/03/2013
+* Dernier commit le : 27/03/2013
 **************************************************
 
 TODO :
@@ -37,6 +37,10 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
                         C'est une solution provisoire car l'idéal est de décharger la mémoire si nécessaire et recharger les thumbnails au besoin
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
+
+Bug plannar et opensuse sur MP3 et AC3 (11/10/2012<LIBAVCODEC 54.31.0)
+
+----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
 NF  : New Feature
 WIP : Work in progress
@@ -44,18 +48,27 @@ WIP : Work in progress
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
+Code cleaning +
 
 French version / Correction de bug :
--Corrige le plantage lors des générations avancées sans piste son [regression beta 1]
+-Corrige le bug d'affichage des vignettes dans l'explorateur multimédia quand les images sont en géométrie 2:1 et supérieur
+-Corrige le bug d'affichage des n° de diapo dans la fenetre de génération quand la génération ne commence pas à la 1ere diapo.
+-Corrige le bug de mauvais anamorphisme des images lors des générations en mode DVD [régression]
+-Corrige le bug d'inactivité du bouton "up" dans l'explorateur multimédia quand le répertoire en cours est sous system de fichier "/" [Linux]
+-Corrige le bug sur la valeur de compression audio pour les codec AMR dans la boite device (la valeur sauvegardée n'est pas réaffichée)
 
 English version / Bug fixes :
--Fix crash when advance rendering without audio track [regression beta 1]
+-Fixed bug for displaying thumbnails in the browser when media images are 2:1 or higher geometry
+-Fixed display bug of slide number in the render dialog when the render does not start at first slide.
+-Fixed bug of bad anamorphism of images in render using DVD mode [regression]
+-Fixed bug of inactivity of "up" button in the multimedia file explorer when the current directory is in the file system "/" [Linux]
+-Fixed the bug on the value of audio compression for codec AMR in device dialog (the value stored is not redisplayed)
 
 French version / Nouveautés :
--Active les threads et optimise les calculs d'image fixe pour accélérer l'encodage
+-Ajoute la sélection de la valeur par défaut pour la fréquence audio à utiliser lors des générations de film en mode avancé dans la boite de dialog d'option de l'application
 
 English version / New features :
--Active threads and optimizes calculations of fixed image to accelerate the rendering
+-Adds selection of the default value for audio frequency to use when render movie using advanced mode in application option dialog
 
 Translation/Traductions :
     EN    - 100% - 1272/1272

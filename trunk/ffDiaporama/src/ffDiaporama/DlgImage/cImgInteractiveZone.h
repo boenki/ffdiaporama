@@ -22,7 +22,7 @@
 #define CIMGINTERACTIVEZONE_H
 
 #include "../../engine/_GlobalDefines.h"
-#include "../_Diaporama.h"
+#include "../../engine/_Diaporama.h"
 
 #include <QWidget>
 

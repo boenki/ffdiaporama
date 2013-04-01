@@ -728,10 +728,10 @@ void Transition_Luma(cLumaList *LumaList,int TransitionSubType,double PCT,QImage
                         LumaList->List[TransitionSubType].OriginalLuma.scaled(ImageB->size(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation).convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
         // Apply PCTDone to luma mask
-        uint8_t limit     =uint8_t(PCT*double(0xff))+1;
-        uint32_t *LumaData=(uint32_t *)Luma.bits();
-        uint32_t *ImgData =(uint32_t *)Img.bits();
-        uint32_t *ImgData2=(uint32_t *)ImageA->bits();
+        u_int8_t  limit    =u_int8_t(PCT*double(0xff))+1;
+        u_int32_t *LumaData=(u_int32_t *)Luma.bits();
+        u_int32_t *ImgData =(u_int32_t *)Img.bits();
+        u_int32_t *ImgData2=(u_int32_t *)ImageA->bits();
 
         for (int i=0;i<DestImageWith*DestImageHeight;i++) {
             if (((*LumaData++)& 0xff)>limit) *ImgData=*ImgData2;

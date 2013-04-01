@@ -64,8 +64,8 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Display adjustement
-    int     FontFactor=((((cApplicationConfig *)ParentTable->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*10;
-    int     RowHeight =48+((((cApplicationConfig *)ParentTable->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3;
+    int     FontFactor=((((cBaseApplicationConfig *)ParentTable->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*10;
+    int     RowHeight =48+((((cBaseApplicationConfig *)ParentTable->ApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3;
 
     if (!ParentTable->CompositionList->List[index.row()]->IsVisible) Painter->setOpacity(0.5);
 

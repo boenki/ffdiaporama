@@ -17,18 +17,11 @@
     with this program; if not, write to the Free Software Foundation, Inc.,
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
-
-#ifdef Q_OS_WIN
-#include <windows.h>
-#include <winbase.h>
-#endif
-
 #include <QMenu>
 #include <QAction>
 #include <QMessageBox>
 
-#include "DlgManageStyle/DlgManageStyle.h"
-#include "_ApplicationDefinitions.h"
+#include "../../src/ffDiaporama/DlgManageStyle/DlgManageStyle.h"
 
 #define ICON_FRAMING_CUSTOM                 ":/img/action_cancel.png"
 #define ICON_FRAMING_FULL                   ":/img/AdjustWH.png"
@@ -267,16 +260,16 @@ void cStyleCollection::SaveToXML(QDomElement &root) {
 
 //************************************************
 
-void cStyleCollection::LoadFromXML(QDomElement root,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile) {
+void cStyleCollection::LoadFromXML(QDomElement root,LoadConfigFileType TypeConfigFile) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::LoadFromXML");
 
     if ((root.elementsByTagName(CollectionName).length()>0)&&(root.elementsByTagName(CollectionName).item(0).isElement()==true)) {
         QDomElement Element=root.elementsByTagName(CollectionName).item(0).toElement();
         int i=0;
         while ((Element.elementsByTagName(CollectionName+QString("Item_%1").arg(i)).length()>0)&&(root.elementsByTagName(CollectionName+QString("Item_%1").arg(i)).item(0).isElement()==true)) {
-            if (TypeConfigFile==cBaseApplicationConfig::GLOBALCONFIGFILE) {
+            if (TypeConfigFile==GLOBALCONFIGFILE) {
                 // Reading from global config file : append device
-                Collection.append(cStyleCollectionItem(TypeConfigFile==cBaseApplicationConfig::GLOBALCONFIGFILE,i,"",""));
+                Collection.append(cStyleCollectionItem(TypeConfigFile==GLOBALCONFIGFILE,i,"",""));
                 Collection[i].LoadFromXML(Element,QString(CollectionName+QString("Item_%1").arg(i)),false,false);
                 Collection[i].BckStyleName=Collection[i].StyleName;
 
@@ -451,7 +444,7 @@ void cStyleCollection::CreateNewStyle(QWidget *ParentWindow,QString ActualStyleD
 void cStyleCollection::ManageExistingStyle(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::ManageExistingStyle");
 
-    DlgManageStyle Dlg(this,HELPFILE_DlgManageStyle,(cApplicationConfig *)BaseApplicationConfig,((cApplicationConfig *)BaseApplicationConfig)->DlgManageStyleWSP,ParentWindow);
+    DlgManageStyle Dlg(this,HELPFILE_DlgManageStyle,(cBaseApplicationConfig *)BaseApplicationConfig,BaseApplicationConfig->DlgManageStyleWSP,ParentWindow);
     Dlg.InitDialog();
     Dlg.exec();
 }

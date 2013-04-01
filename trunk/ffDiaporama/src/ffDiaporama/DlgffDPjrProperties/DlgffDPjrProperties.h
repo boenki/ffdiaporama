@@ -23,9 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "../../CustomCtrl/_QCustomDialog.h"
-
-// Include some common various class
-#include "_Diaporama.h"
+#include "../../engine/_Diaporama.h"
 
 namespace Ui {
     class DlgffDPjrProperties;

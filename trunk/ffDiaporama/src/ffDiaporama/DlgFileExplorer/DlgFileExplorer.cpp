@@ -51,19 +51,19 @@ DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowM
 
     // Initialise integrated browser
     ui->FolderTable->AllowedFilter          =AllowedFilter;
-    ui->FolderTable->ShowHiddenFilesAndDir  =((cApplicationConfig *)BaseApplicationConfig)->ShowHiddenFilesAndDir;
-    ui->FolderTable->DisplayFileName        =((cApplicationConfig *)BaseApplicationConfig)->DisplayFileName;
+    ui->FolderTable->ShowHiddenFilesAndDir  =BaseApplicationConfig->ShowHiddenFilesAndDir;
+    ui->FolderTable->DisplayFileName        =BaseApplicationConfig->DisplayFileName;
 
-    ui->FolderTree->ApplicationConfig       =((cApplicationConfig *)BaseApplicationConfig);
-    ui->FolderTable->ApplicationConfig      =((cApplicationConfig *)BaseApplicationConfig);
+    ui->FolderTree->ApplicationConfig       =BaseApplicationConfig;
+    ui->FolderTable->ApplicationConfig      =BaseApplicationConfig;
 
     ui->FolderTree->IsRemoveAllowed         =false;
     ui->FolderTree->IsRenameAllowed         =false;
     ui->FolderTree->IsCreateFolderAllowed   =false;
 
-    ((cApplicationConfig *)BaseApplicationConfig)->DriveList->UpdateDriveList();
-    ui->FolderTree->InitDrives(((cApplicationConfig *)BaseApplicationConfig)->DriveList);
-    ui->FolderTable->SetMode(((cApplicationConfig *)BaseApplicationConfig)->CurrentMode,CurrentFilter);
+    BaseApplicationConfig->DriveList->UpdateDriveList();
+    ui->FolderTree->InitDrives();
+    ui->FolderTable->SetMode(BaseApplicationConfig->CurrentMode,CurrentFilter);
 
     ui->FolderTable->setDragDropMode(AllowDragDrop?QAbstractItemView::DragOnly:QAbstractItemView::NoDragDrop);
     ui->FolderTable->setSelectionMode(AllowMultipleSelection?QAbstractItemView::ExtendedSelection:QAbstractItemView::SingleSelection);
@@ -107,7 +107,7 @@ void DlgFileExplorer::DoInitDialog() {
 
     if (CurrentPath!="") ui->FolderTree->SetSelectItemByPath(ui->FolderTree->RealPathToTreePath(CurrentPath));
     if ((CurrentPath=="")||(ui->FolderTree->GetCurrentFolderPath()!=CurrentPath)) {
-        CurrentPath=((cApplicationConfig *)BaseApplicationConfig)->CurrentPath;
+        CurrentPath=BaseApplicationConfig->CurrentPath;
         ui->FolderTree->SetSelectItemByPath(CurrentPath);
     }
 }
@@ -149,12 +149,12 @@ void DlgFileExplorer::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,Q
 
     ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(current,true),false);
     ui->CurrentPathED->setText(CurrentPath);
-    ui->FolderIcon->setPixmap(((cApplicationConfig *)BaseApplicationConfig)->DriveList->GetFolderIcon(CurrentPath).pixmap(16,16));
+    ui->FolderIcon->setPixmap(BaseApplicationConfig->DriveList->GetFolderIcon(CurrentPath).pixmap(16,16));
 
     QString Path=CurrentPath;
     #ifdef Q_OS_WIN
-        Path.replace("%HOMEDRIVE%%HOMEPATH%",((cApplicationConfig *)BaseApplicationConfig)->DriveList->List[0].Path,Qt::CaseInsensitive);
-        Path.replace("%USERPROFILE%",((cApplicationConfig *)BaseApplicationConfig)->DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path.replace("%HOMEDRIVE%%HOMEPATH%",BaseApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
+        Path.replace("%USERPROFILE%",BaseApplicationConfig->DriveList->List[0].Path,Qt::CaseInsensitive);
         Path=AdjustDirForOS(Path);
         if (QDir(Path).canonicalPath()!="") Path=QDir(Path).canonicalPath(); // Resolved eventual .lnk files
     #endif
@@ -167,7 +167,7 @@ void DlgFileExplorer::s_Browser_FolderTreeItemChanged(QTreeWidgetItem *current,Q
 
 void DlgFileExplorer::DoBrowserRefreshFolderInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_FolderTreeItemChanged");
-    ((cApplicationConfig *)BaseApplicationConfig)->DriveList->UpdateDriveList();   // To update free space on drive
+    BaseApplicationConfig->DriveList->UpdateDriveList();   // To update free space on drive
     cDriveDesc *HDD=ui->FolderTree->SearchRealDrive(CurrentPath);
     if (HDD) {
         // If scan in progress
@@ -278,23 +278,23 @@ void DlgFileExplorer::DoBrowserRefreshSelectedFileInfo() {
         if (ObjectTypes.count()==1) {
             switch (ObjectTypes[0]) {
                 case OBJECTTYPE_MUSICFILE :
-                    ui->FileIcon->setPixmap(QPixmap().fromImage(((cApplicationConfig *)BaseApplicationConfig)->DefaultMUSICIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+                    ui->FileIcon->setPixmap(QPixmap().fromImage(BaseApplicationConfig->DefaultMUSICIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
                     ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 audio files").arg(MediaList.count()));
                     break;
                 case OBJECTTYPE_VIDEOFILE :
-                    ui->FileIcon->setPixmap(QPixmap().fromImage(((cApplicationConfig *)BaseApplicationConfig)->DefaultVIDEOIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+                    ui->FileIcon->setPixmap(QPixmap().fromImage(BaseApplicationConfig->DefaultVIDEOIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
                     ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 video files").arg(MediaList.count()));
                     break;
                 case OBJECTTYPE_IMAGEFILE :
-                    ui->FileIcon->setPixmap(QPixmap().fromImage(((cApplicationConfig *)BaseApplicationConfig)->DefaultIMAGEIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+                    ui->FileIcon->setPixmap(QPixmap().fromImage(BaseApplicationConfig->DefaultIMAGEIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
                     ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 image files").arg(MediaList.count()));
                     break;
                 case OBJECTTYPE_FFDFILE   :
-                    ui->FileIcon->setPixmap(QPixmap().fromImage(((cApplicationConfig *)BaseApplicationConfig)->DefaultFFDIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+                    ui->FileIcon->setPixmap(QPixmap().fromImage(BaseApplicationConfig->DefaultFFDIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
                     ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 ffDiaporama project files").arg(MediaList.count()));
                     break;
                 case OBJECTTYPE_FOLDER    :
-                    ui->FileIcon->setPixmap(QPixmap().fromImage(((cApplicationConfig *)BaseApplicationConfig)->DefaultFOLDERIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
+                    ui->FileIcon->setPixmap(QPixmap().fromImage(BaseApplicationConfig->DefaultFOLDERIcon.Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
                     ui->FileInfo1a->setText(QApplication::translate("MainWindow","%1 folders").arg(MediaList.count()));
                     break;
                 default:
@@ -342,9 +342,9 @@ void DlgFileExplorer::s_Browser_RefreshAll() {
         delete DlgWorkingTaskDialog;
         DlgWorkingTaskDialog=NULL;
     }
-    DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Refresh All"),&CancelAction,((cApplicationConfig *)BaseApplicationConfig),this);
+    DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Refresh All"),&CancelAction,BaseApplicationConfig,this);
     DlgWorkingTaskDialog->InitDialog();
-    DlgWorkingTaskDialog->SetMaxValue(((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count()+2,0);
+    DlgWorkingTaskDialog->SetMaxValue(BaseApplicationConfig->DriveList->List.count()+2,0);
     DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive list"));
     QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDriveList()));
     DlgWorkingTaskDialog->exec();
@@ -356,9 +356,9 @@ void DlgFileExplorer::s_Browser_RefreshDriveList() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_RefreshDriveList");
     // Refresh drive list
     ui->FolderTree->RefreshDriveList();
-    DlgWorkingTaskDialog->SetMaxValue(((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count()+2,0);
-    DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(((cApplicationConfig *)BaseApplicationConfig)->DriveList->List[CurrentDriveCheck].Label));
-    DlgWorkingTaskDialog->DisplayProgress(1+((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count()-CurrentDriveCheck);
+    DlgWorkingTaskDialog->SetMaxValue(BaseApplicationConfig->DriveList->List.count()+2,0);
+    DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(BaseApplicationConfig->DriveList->List[CurrentDriveCheck].Label));
+    DlgWorkingTaskDialog->DisplayProgress(1+BaseApplicationConfig->DriveList->List.count()-CurrentDriveCheck);
     QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDrive()));
 }
 
@@ -366,11 +366,11 @@ void DlgFileExplorer::s_Browser_RefreshDriveList() {
 
 void DlgFileExplorer::s_Browser_RefreshDrive() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_RefreshDrive");
-    if (CurrentDriveCheck<((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count()) ui->FolderTree->RefreshItemByPath(ui->FolderTree->DriveList->List[CurrentDriveCheck].Label,true);
+    if (CurrentDriveCheck<BaseApplicationConfig->DriveList->List.count()) ui->FolderTree->RefreshItemByPath(BaseApplicationConfig->DriveList->List[CurrentDriveCheck].Label,true);
     CurrentDriveCheck++;
-    if ((!CancelAction)&&(CurrentDriveCheck<((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count())) {
-        DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(((cApplicationConfig *)BaseApplicationConfig)->DriveList->List[CurrentDriveCheck].Label));
-        DlgWorkingTaskDialog->DisplayProgress(1+((cApplicationConfig *)BaseApplicationConfig)->DriveList->List.count()-CurrentDriveCheck);
+    if ((!CancelAction)&&(CurrentDriveCheck<BaseApplicationConfig->DriveList->List.count())) {
+        DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(BaseApplicationConfig->DriveList->List[CurrentDriveCheck].Label));
+        DlgWorkingTaskDialog->DisplayProgress(1+BaseApplicationConfig->DriveList->List.count()-CurrentDriveCheck);
         QTimer::singleShot(LATENCY,this,SLOT(s_Browser_RefreshDrive()));
     } else {
         DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update current folder"));
@@ -472,7 +472,7 @@ void DlgFileExplorer::s_Browser_Properties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_Properties");
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
     if (Media) {
-        DlgInfoFile Dlg(Media,HELPFILE_DlgInfoFile,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgInfoFileWSP,this);
+        DlgInfoFile Dlg(Media,HELPFILE_DlgInfoFile,BaseApplicationConfig,BaseApplicationConfig->DlgInfoFileWSP,this);
         Dlg.InitDialog();
         Dlg.exec();
     }
@@ -486,8 +486,8 @@ void DlgFileExplorer::s_Browser_Favorite() {
 
     ContextMenu->addAction(ui->actionAddToFavorite);
     ContextMenu->addSeparator();
-    for (int i=0;i<((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites.count();i++) {
-        QStringList Texts=((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites[i].split("###");
+    for (int i=0;i<BaseApplicationConfig->BrowserFavorites.count();i++) {
+        QStringList Texts=BaseApplicationConfig->BrowserFavorites[i].split("###");
         QAction *Action=new QAction(QIcon(":/img/favorite.png"),QString("%1 [%2]").arg(Texts[0]).arg(Texts[1]),this);
         Action->setIconVisibleInMenu(true);
         Action->setFont(QFont("Sans Serif",9));
@@ -518,39 +518,39 @@ void DlgFileExplorer::s_Browser_AddToFavorite() {
         if (Ok && !Text.isEmpty()) {
 
             int i=0;
-            while ((i<((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites.count())&&(!((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites[i].startsWith(Text+"###"))) i++;
-            if ((i<((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites.count())&&(((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites[i].startsWith(Text+"###"))) {
+            while ((i<BaseApplicationConfig->BrowserFavorites.count())&&(!BaseApplicationConfig->BrowserFavorites[i].startsWith(Text+"###"))) i++;
+            if ((i<BaseApplicationConfig->BrowserFavorites.count())&&(BaseApplicationConfig->BrowserFavorites[i].startsWith(Text+"###"))) {
                 if (CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add to favorite"),
                                           QApplication::translate("MainWindow","A favorite with this name already exists.\nDo you want to overwrite it?"),
                                           QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)
-                    ((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites[i]=Text+"###"+CurrentPath;
+                    BaseApplicationConfig->BrowserFavorites[i]=Text+"###"+CurrentPath;
                 else Continue=true;
 
             } else {
 
                 int i=0;
-                while ((i<((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites.count())&&(!((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites[i].endsWith("###"+CurrentPath))) i++;
-                if ((i<((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites.count())&&(((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites[i].endsWith("###"+CurrentPath))) {
+                while ((i<BaseApplicationConfig->BrowserFavorites.count())&&(!BaseApplicationConfig->BrowserFavorites[i].endsWith("###"+CurrentPath))) i++;
+                if ((i<BaseApplicationConfig->BrowserFavorites.count())&&(BaseApplicationConfig->BrowserFavorites[i].endsWith("###"+CurrentPath))) {
                     if (CustomMessageBox(this,QMessageBox::Question,QApplication::translate("MainWindow","Add to favorite"),
                                               QApplication::translate("MainWindow","A favorite with for this path already exists.\nDo you want to overwrite it?"),
                                               QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)
-                        ((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites[i]=Text+"###"+CurrentPath;
+                        BaseApplicationConfig->BrowserFavorites[i]=Text+"###"+CurrentPath;
                     else Continue=true;
 
                 } else {
-                    ((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites.append(Text+"###"+CurrentPath);
+                    BaseApplicationConfig->BrowserFavorites.append(Text+"###"+CurrentPath);
                 }
             }
         }
     }
-    ((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites.sort();
+    BaseApplicationConfig->BrowserFavorites.sort();
 }
 
 //====================================================================================================================
 
 void DlgFileExplorer::s_Browser_ManageFavorite() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_ManageFavorite");
-    DlgManageFavorite Dlg(&((cApplicationConfig *)BaseApplicationConfig)->BrowserFavorites,HELPFILE_DlgManageFavorite,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgManageFavoriteWSP,this);
+    DlgManageFavorite Dlg(&BaseApplicationConfig->BrowserFavorites,HELPFILE_DlgManageFavorite,BaseApplicationConfig,BaseApplicationConfig->DlgManageFavoriteWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 }
@@ -573,12 +573,12 @@ void DlgFileExplorer::s_Browser_ChangeDisplayMode() {
     ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_DATA.png"),   QApplication::translate("MainWindow","Details view"),ACTIONTYPE_DISPLAYMODE|DISPLAY_DATA,       true,ui->FolderTable->CurrentMode==DISPLAY_DATA));
     ContextMenu->addAction(CreateMenuAction(QIcon(":/img/DISPLAY_JUKEBOX.png"),QApplication::translate("MainWindow","Icon view"),   ACTIONTYPE_DISPLAYMODE|DISPLAY_ICON100,    true,ui->FolderTable->CurrentMode==DISPLAY_ICON100));
     ContextMenu->addSeparator();
-    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_UNMANAGED)!=0) ContextMenu->addAction(CreateMenuAction(((cApplicationConfig *)BaseApplicationConfig)->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","All files"),                 ACTIONTYPE_FILTERMODE|OBJECTTYPE_UNMANAGED,true,ui->FolderTable->CurrentFilter==OBJECTTYPE_UNMANAGED));
-    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_MANAGED)!=0)   ContextMenu->addAction(CreateMenuAction(((cApplicationConfig *)BaseApplicationConfig)->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","Managed files"),             ACTIONTYPE_FILTERMODE|OBJECTTYPE_MANAGED,  true,ui->FolderTable->CurrentFilter==OBJECTTYPE_MANAGED));
-    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_IMAGEFILE)!=0) ContextMenu->addAction(CreateMenuAction(((cApplicationConfig *)BaseApplicationConfig)->DefaultIMAGEIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Image files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_IMAGEFILE,true,ui->FolderTable->CurrentFilter==OBJECTTYPE_IMAGEFILE));
-    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_VIDEOFILE)!=0) ContextMenu->addAction(CreateMenuAction(((cApplicationConfig *)BaseApplicationConfig)->DefaultVIDEOIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Video files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_VIDEOFILE,true,ui->FolderTable->CurrentFilter==OBJECTTYPE_VIDEOFILE));
-    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_MUSICFILE)!=0) ContextMenu->addAction(CreateMenuAction(((cApplicationConfig *)BaseApplicationConfig)->DefaultMUSICIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Music files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_MUSICFILE,true,ui->FolderTable->CurrentFilter==OBJECTTYPE_MUSICFILE));
-    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_FFDFILE)!=0)   ContextMenu->addAction(CreateMenuAction(((cApplicationConfig *)BaseApplicationConfig)->DefaultFFDIcon.GetIcon(cCustomIcon::ICON16),  QApplication::translate("MainWindow","ffDiaporama project files"), ACTIONTYPE_FILTERMODE|OBJECTTYPE_FFDFILE,  true,ui->FolderTable->CurrentFilter==OBJECTTYPE_FFDFILE));
+    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_UNMANAGED)!=0) ContextMenu->addAction(CreateMenuAction(BaseApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","All files"),                 ACTIONTYPE_FILTERMODE|OBJECTTYPE_UNMANAGED,true,ui->FolderTable->CurrentFilter==OBJECTTYPE_UNMANAGED));
+    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_MANAGED)!=0)   ContextMenu->addAction(CreateMenuAction(BaseApplicationConfig->DefaultFILEIcon.GetIcon(cCustomIcon::ICON16), QApplication::translate("MainWindow","Managed files"),             ACTIONTYPE_FILTERMODE|OBJECTTYPE_MANAGED,  true,ui->FolderTable->CurrentFilter==OBJECTTYPE_MANAGED));
+    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_IMAGEFILE)!=0) ContextMenu->addAction(CreateMenuAction(BaseApplicationConfig->DefaultIMAGEIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Image files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_IMAGEFILE,true,ui->FolderTable->CurrentFilter==OBJECTTYPE_IMAGEFILE));
+    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_VIDEOFILE)!=0) ContextMenu->addAction(CreateMenuAction(BaseApplicationConfig->DefaultVIDEOIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Video files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_VIDEOFILE,true,ui->FolderTable->CurrentFilter==OBJECTTYPE_VIDEOFILE));
+    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_MUSICFILE)!=0) ContextMenu->addAction(CreateMenuAction(BaseApplicationConfig->DefaultMUSICIcon.GetIcon(cCustomIcon::ICON16),QApplication::translate("MainWindow","Music files"),               ACTIONTYPE_FILTERMODE|OBJECTTYPE_MUSICFILE,true,ui->FolderTable->CurrentFilter==OBJECTTYPE_MUSICFILE));
+    if ((ui->FolderTable->AllowedFilter&FILTERALLOW_OBJECTTYPE_FFDFILE)!=0)   ContextMenu->addAction(CreateMenuAction(BaseApplicationConfig->DefaultFFDIcon.GetIcon(cCustomIcon::ICON16),  QApplication::translate("MainWindow","ffDiaporama project files"), ACTIONTYPE_FILTERMODE|OBJECTTYPE_FFDFILE,  true,ui->FolderTable->CurrentFilter==OBJECTTYPE_FFDFILE));
     ContextMenu->addSeparator();
     if (ui->FolderTable->ShowHiddenFilesAndDir) ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_KO.png"),  QApplication::translate("MainWindow","Hide hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_HIDEHIDDEN,  true,false));
         else                   ContextMenu->addAction(CreateMenuAction(QIcon(":/img/Visible_OK.png"),  QApplication::translate("MainWindow","Show hidden files and folders"), ACTIONTYPE_ONOFFOPTIONS|ONOFFOPTIONS_SHOWHIDDEN,  true,false));

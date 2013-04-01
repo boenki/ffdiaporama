@@ -202,7 +202,9 @@ void DlgManageDevices::DBSelectionChanged() {
         ui->DBVideoFormatCB->setCurrentIndex(ui->DBVideoFormatCB->findText(VIDEOCODECDEF[Device->VideoCodec].LongName));
         ui->DBAudioFormatCB->setCurrentIndex(ui->DBAudioFormatCB->findText(AUDIOCODECDEF[Device->AudioCodec].LongName));
         QString VideoBitRateStr=QString("%1").arg(Device->VideoBitrate); if (VideoBitRateStr.endsWith("000")) VideoBitRateStr=VideoBitRateStr.left(VideoBitRateStr.length()-3)+"k";
-        QString AudioBitRateStr=QString("%1").arg(Device->AudioBitrate); if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
+        QString AudioBitRateStr=QString("%1").arg(Device->AudioBitrate);
+        if (AudioBitRateStr.endsWith("000")) AudioBitRateStr=AudioBitRateStr.left(AudioBitRateStr.length()-3)+"k";
+            else AudioBitRateStr=QString("%1.%2k").arg(Device->AudioBitrate/1000).arg((Device->AudioBitrate%1000)/10);
         ui->DBVideoBitRateCB->setCurrentIndex(ui->DBVideoBitRateCB->findText(VideoBitRateStr));
         ui->DBAudioBitRateCB->setCurrentIndex(ui->DBAudioBitRateCB->findText(AudioBitRateStr));
     }

@@ -31,7 +31,7 @@
 #include <QtXml/QDomElement>
 
 // Include some common various class
-#include "cBaseApplicationConfig.h"
+//#include "cBaseApplicationConfig.h"
 
 //****************************************************************************************************************************************************************
 // LIBAV inclusion
@@ -349,16 +349,16 @@ public:
 
 class cDeviceModelList {
 public:
-    QList<cDeviceModelDef *>    RenderDeviceModel;                          // List of known rendering device model
-    QStringList                 TranslatedRenderType;                       // Translated render device type
-    QStringList                 TranslatedRenderSubtype[4];                 // Translated render device subtype
+    QList<cDeviceModelDef *>    RenderDeviceModel;              // List of known rendering device model
+    QStringList                 TranslatedRenderType;           // Translated render device type
+    QStringList                 TranslatedRenderSubtype[4];     // Translated render device subtype
 
     cDeviceModelList();
     virtual         ~cDeviceModelList();
 
-    virtual bool    LoadConfigurationFile(QString ConfigFileName,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile);
+    virtual bool    LoadConfigurationFile(QString ConfigFileName,LoadConfigFileType TypeConfigFile);
     virtual bool    SaveConfigurationFile(QString ConfigFileName);
-    virtual bool    LoadFromXML(QDomElement domDocument,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile);
+    virtual bool    LoadFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile);
 
     virtual void    TranslatRenderType();
     virtual bool    InitLibav();
@@ -368,15 +368,15 @@ public:
 // Allowed file extensions for reading
 //============================================
 
-extern QString AllowVideoExtensions;        // List of all file extension allowed for video
-extern QString AllowImageExtensions;        // List of all file extension allowed for image
-extern QString AllowMusicExtensions;        // List of all file extension allowed for musique
+extern QString AllowVideoExtensions;                            // List of all file extension allowed for video
+extern QString AllowImageExtensions;                            // List of all file extension allowed for image
+extern QString AllowMusicExtensions;                            // List of all file extension allowed for musique
 
 //============================================
 // Various
 //============================================
 
-extern QMutex  Mutex;                       // Mutex used to control multithreaded operations for LIBAV
-extern int     LastLibAvMessageLevel;       // Last level of message received from LIBAV
+extern QMutex  Mutex;                                           // Mutex used to control multithreaded operations for LIBAV
+extern int     LastLibAvMessageLevel;                           // Last level of message received from LIBAV
 
 #endif // CDEVICEMODELDEF_H

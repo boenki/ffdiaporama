@@ -151,7 +151,7 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
             if (Icon->isNull()) Icon=ParentTable->MediaList[ItemIndex]->GetDefaultTypeIcon(cCustomIcon::ICON100);
 
             // Draw Icon
-            if (Icon->height()<=LOWQUALITYITEMHEIGHT) {
+            if ((Icon->height()<=LOWQUALITYITEMHEIGHT)&&(Icon->width()<=LOWQUALITYITEMHEIGHT)) {
                 QImage NewIcon=Icon->scaledToHeight(Icon->height()*2,Qt::SmoothTransformation);
                 NewIcon=Blitz::sharpen(NewIcon);
                 addX=(option.rect.width()-NewIcon.width())/2;
@@ -814,9 +814,13 @@ QString QCustomFolderTable::BrowseToUpperPath() {
         if ((Path.length()==2)&&(Path.at(1)==':')) return "";    // if it's a drive !
         #endif
         QStringList PathList=Path.split(QDir::separator());
+        #ifdef Q_OS_WIN
         Path="";
+        #else
+        if ((PathList.count()>0)&&(PathList[0]=="")) Path="/"; else Path="";
+        #endif
         for (int i=0;i<PathList.count()-1;i++) {
-            if (Path!="") Path=Path+QDir::separator();
+            if ((Path!="")&&(!Path.endsWith(QDir::separator()))) Path=Path+QDir::separator();
             Path=Path+PathList[i];
         }
     }

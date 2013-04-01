@@ -25,9 +25,6 @@
 #include "../../CustomCtrl/_QCustomDialog.h"
 #include "../../engine/_EncodeVideo.h"
 
-// Specific inclusions
-#include "../_Diaporama.h"
-
 namespace Ui {
     class DlgRenderVideo;
 }

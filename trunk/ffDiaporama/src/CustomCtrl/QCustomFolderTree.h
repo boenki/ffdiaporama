@@ -31,14 +31,13 @@ class QCustomFolderTree : public QTreeWidget {
 Q_OBJECT
 public:
     cBaseApplicationConfig  *ApplicationConfig;
-    cDriveList              *DriveList;
     explicit                QCustomFolderTree(QWidget *parent=0);
     bool                    IsRemoveAllowed;
     bool                    IsRenameAllowed;
     bool                    IsCreateFolderAllowed;
 
     // Public utility functions
-    virtual void        InitDrives(cDriveList *TheDriveList);
+    virtual void        InitDrives();
     virtual QString     GetFolderPath(const QTreeWidgetItem *current,bool TreeMode);
     virtual QString     GetCurrentFolderPath();
     virtual void        SetSelectItemByPath(QString Path);

@@ -18,7 +18,6 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "../_ApplicationDefinitions.h"
 #include "../DlgffDPjrProperties/DlgffDPjrProperties.h"
 
 #include "DlgRenderVideo.h"
@@ -106,7 +105,7 @@ void DlgRenderVideo::DoInitDialog() {
                  QApplication::translate("DlgRenderVideo","movie","Default name for rendering"));
         OutputFileFormat    = Diaporama->ApplicationConfig->DefaultFormat;
         AudioCodec          = Diaporama->ApplicationConfig->DefaultAudioCodec;
-        AudioFrequency      = 48000;
+        AudioFrequency      = Diaporama->ApplicationConfig->DefaultFreq;
         AudioBitRate        = Diaporama->ApplicationConfig->DefaultAudioBitRate;
     }
 
@@ -271,7 +270,7 @@ void DlgRenderVideo::DoInitDialog() {
 void DlgRenderVideo::ProjectProperties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::ProjectProperties");
 
-    DlgffDPjrProperties Dlg(false,Diaporama,HELPFILE_DlgffDPjrProperties,BaseApplicationConfig,((cApplicationConfig *)BaseApplicationConfig)->DlgffDPjrPropertiesWSP,this);
+    DlgffDPjrProperties Dlg(false,Diaporama,HELPFILE_DlgffDPjrProperties,BaseApplicationConfig,BaseApplicationConfig->DlgffDPjrPropertiesWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) emit SetModifyFlag();
 }

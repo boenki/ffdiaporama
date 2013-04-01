@@ -29,9 +29,8 @@
 #include <QIcon>
 #include <QList>
 
-// Include some common various class
-#include "cBaseApplicationConfig.h"
-#include "cDriveList.h"
+// this class will be define later
+class cBaseApplicationConfig;
 
 // class to handle one drive
 class cDriveDesc {

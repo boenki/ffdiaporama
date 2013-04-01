@@ -23,8 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "../../CustomCtrl/_QCustomDialog.h"
-
-#include "../_StyleDefinitions.h"
+#include "../../engine/_StyleDefinitions.h"
 
 //=====================
 // Manage style dialog

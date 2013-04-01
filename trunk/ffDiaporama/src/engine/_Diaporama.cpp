@@ -19,11 +19,9 @@
    ====================================================================== */
 
 // Specific inclusions
-#include "../CustomCtrl/_QCustomDialog.h"
 #include "_Diaporama.h"
-#include "_ApplicationDefinitions.h"
-#include "mainwindow.h"
-#include "../engine/cTextFrame.h"
+#include "../CustomCtrl/_QCustomDialog.h"
+#include "../ffDiaporama/mainwindow.h"
 
 #include <QAbstractTextDocumentLayout>
 #include <QTextDocument>
@@ -537,7 +535,7 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         } else {
             bool ModifyFlag;
             IsOk=BackgroundBrush->LoadFromXML(Element,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag);  // Brush of the background of the form
-            if (ModifyFlag) GlobalMainWindow->SetModifyFlag(true);
+            if (ModifyFlag) ((MainWindow *)ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
         }
 
         // Ensure unvisible video have no sound !
@@ -847,9 +845,9 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
     // if not set by style then compute Aspect Ratio
     if (RecalcAspectRatio) {
         double DisplayW=1920,DisplayH=1080;
-        if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_4_3)        { DisplayW=1440; DisplayH=1080; }
-        else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
-        else if (GlobalMainWindow->Diaporama->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
+        if (((MainWindow *)ApplicationConfig->TopLevelWindow)->Diaporama->ImageGeometry==GEOMETRY_4_3)        { DisplayW=1440; DisplayH=1080; }
+        else if (((MainWindow *)ApplicationConfig->TopLevelWindow)->Diaporama->ImageGeometry==GEOMETRY_16_9)  { DisplayW=1920; DisplayH=1080; }
+        else if (((MainWindow *)ApplicationConfig->TopLevelWindow)->Diaporama->ImageGeometry==GEOMETRY_40_17) { DisplayW=1920; DisplayH=816;  }
         BackgroundBrush->AspectRatio =(h*DisplayH)/(w*DisplayW);
     }
 }
@@ -1237,12 +1235,12 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 delete Painter;
 
                 // 1st step : construct ImgShadow as a mask from ShadowImg
-                QImage  ImgShadow   =ShadowImg.copy();
-                Uint8   *Data       =ImgShadow.bits();
-                QColor  SColor      =QColor(FormShadowColor);
-                Uint8   R           =SColor.red();
-                Uint8   G           =SColor.green();
-                Uint8   B           =SColor.blue();
+                QImage      ImgShadow   =ShadowImg.copy();
+                u_int8_t    *Data       =ImgShadow.bits();
+                QColor      SColor      =QColor(FormShadowColor);
+                u_int8_t    R           =SColor.red();
+                u_int8_t    G           =SColor.green();
+                u_int8_t    B           =SColor.blue();
 
                 for (int i=0;i<(width-1)*(height-1);i++) {
                   if (*(Data+3)!=0) {
@@ -1303,7 +1301,7 @@ void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
 //====================================================================================================================
 
-bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList) {
+bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionList:LoadFromXML");
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
@@ -1315,7 +1313,7 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         TypeComposition=Element.attribute("TypeComposition").toInt();
         int CompositionNumber=Element.attribute("CompositionNumber").toInt();
         for (int i=0;i<CompositionNumber;i++) {
-            cCompositionObject *CompositionObject=new cCompositionObject(TypeComposition,0,GlobalMainWindow->ApplicationConfig);    // IndexKey will be load from XML
+            cCompositionObject *CompositionObject=new cCompositionObject(TypeComposition,0,((MainWindow *)ApplicationConfig->TopLevelWindow)->ApplicationConfig);    // IndexKey will be load from XML
             if (!CompositionObject->LoadFromXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ObjectComposition,AliasList,true)) {
                 //IsOk=false;
                 delete CompositionObject;
@@ -1335,7 +1333,7 @@ cDiaporamaShot::cDiaporamaShot(cDiaporamaObject *DiaporamaObject) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaShot:cDiaporamaShot");
 
     Parent                          = DiaporamaObject;
-    StaticDuration                  = GlobalMainWindow->ApplicationConfig->FixedDuration;    // Duration (in msec) of the static part animation
+    StaticDuration                  = ((MainWindow *)Parent->Parent->ApplicationConfig->TopLevelWindow)->ApplicationConfig->FixedDuration;    // Duration (in msec) of the static part animation
     ShotComposition.TypeComposition = COMPOSITIONTYPE_SHOT;
 }
 
@@ -1367,7 +1365,8 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
         StaticDuration=Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
-        ShotComposition.LoadFromXML(Element,"ShotComposition",PathForRelativPath,ObjectComposition,AliasList);      // Composition list for this object
+        // Composition list for this object
+        ShotComposition.LoadFromXML(Element,"ShotComposition",PathForRelativPath,ObjectComposition,AliasList,Parent->Parent->ApplicationConfig);
         return true;
     }
     return false;
@@ -1613,8 +1612,8 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
             bool    ModifyFlag;
             if (!BackgroundBrush->LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
-            if (IsOk && ModifyFlag) GlobalMainWindow->SetModifyFlag(true);
-            if (ModifyFlag) GlobalMainWindow->SetModifyFlag(true);
+            if (IsOk && ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
+            if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
         }
         // Transition properties
         if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
@@ -1633,15 +1632,15 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         MusicReduceFactor =Element.attribute("MusicReduceFactor").toDouble();       // factor for volume reduction if MusicReduceVolume is true
         int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
         for (int i=0;i<MusicNumber;i++) {
-            cMusicObject *MusicObject=new cMusicObject(GlobalMainWindow->ApplicationConfig);
+            cMusicObject *MusicObject=new cMusicObject(((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->ApplicationConfig);
             bool ModifyFlag=false;
             if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
             MusicList.append(*MusicObject);
-            if (ModifyFlag) GlobalMainWindow->SetModifyFlag(true);
+            if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
         }
 
         // Global blocks composition table
-        IsOk=ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath,NULL,AliasList);         // ObjectComposition
+        IsOk=ObjectComposition.LoadFromXML(Element,"ObjectComposition",PathForRelativPath,NULL,AliasList,Parent->ApplicationConfig);         // ObjectComposition
 
         // Shots definitions
         int ShotNumber=Element.attribute("ShotNumber").toInt();
@@ -1685,7 +1684,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 //
 //*********************************************************************************************************************************************
 
-cDiaporama::cDiaporama(cApplicationConfig *TheApplicationConfig) {
+cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:cDiaporama");
 
     ApplicationConfig           = TheApplicationConfig;
@@ -2131,51 +2130,47 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
 //=============================================================================================================================
 // Function use directly or with thread to make assembly of background and images and make mix (sound & music) when transition
 //=============================================================================================================================
-void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H) {
+void cDiaporama::DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H,QImage::Format QTFMT) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DoAssembly");
 
-    if (Info->RenderedImage!=NULL) return;    // return immediatly if we have image
-    bool SoundOnly=((W==0)&&(H==0));
+    if ((Info->RenderedImage!=NULL)||((W==0)&&(H==0))) return;    // return immediatly if we already have image or if sound only
 
-    // Prepare image
-    if (!SoundOnly) {
-        QImage   *Image=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
-        QPainter P;
+    QImage   *Image=new QImage(W,H,QTFMT);
+    QPainter P;
 
-        P.begin(Image);
-        P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
+    P.begin(Image);
+    P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
 
-        // Draw background
-        if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
-            double Opacity;
-            if ((Info->TransitObject)&&(Info->TransitObject_PreparedBackground)) {
-                Opacity=1-ComputePCT(Info->CurrentObject->GetSpeedWave(),Info->TransitionPCTDone);
-                P.setOpacity(Opacity);
-                P.drawImage(0,0,*Info->TransitObject_PreparedBackground);
-            }
-            if (Info->CurrentObject_PreparedBackground) {
-                Opacity=ComputePCT(Info->CurrentObject->GetSpeedWave(),Info->TransitionPCTDone);
-                if (Info->TransitObject) P.setOpacity(Opacity);
-                P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
-            }
-            P.setOpacity(1);
-        } else {
-            if (Info->CurrentObject_PreparedBackground) P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
-                else P.fillRect(QRect(0,0,W,H),Qt::black);
+    // Draw background
+    if ((Info->IsTransition)&&((Info->CurrentObject_Number==0)||(Info->CurrentObject_BackgroundIndex!=Info->TransitObject_BackgroundIndex))) {
+        double Opacity;
+        if ((Info->TransitObject)&&(Info->TransitObject_PreparedBackground)) {
+            Opacity=1-ComputePCT(Info->CurrentObject->GetSpeedWave(),Info->TransitionPCTDone);
+            P.setOpacity(Opacity);
+            P.drawImage(0,0,*Info->TransitObject_PreparedBackground);
         }
-
-        // Add prepared images and transition
-        if ((Info->IsTransition)&&(Info->CurrentObject_PreparedImage!=NULL)) {
-            if (Info->TransitObject_PreparedImage==NULL) {
-                Info->TransitObject_PreparedImage=new QImage(Info->CurrentObject_PreparedImage->width(),Info->CurrentObject_PreparedImage->height(),QImage::Format_ARGB32_Premultiplied);
-                Info->TransitObject_PreparedImage->fill(0);
-                Info->TransitObject_FreePreparedImage=true;
-            }
-            DoTransition(Info->TransitionFamilly,Info->TransitionSubType,PCT,Info->TransitObject_PreparedImage,Info->CurrentObject_PreparedImage,&P,W,H);
-        } else if (Info->CurrentObject_PreparedImage!=NULL) P.drawImage(0,0,*Info->CurrentObject_PreparedImage);
-        P.end();
-        Info->RenderedImage=Image;
+        if (Info->CurrentObject_PreparedBackground) {
+            Opacity=ComputePCT(Info->CurrentObject->GetSpeedWave(),Info->TransitionPCTDone);
+            if (Info->TransitObject) P.setOpacity(Opacity);
+            P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
+        }
+        P.setOpacity(1);
+    } else {
+        if (Info->CurrentObject_PreparedBackground) P.drawImage(0,0,*Info->CurrentObject_PreparedBackground);
+            else P.fillRect(QRect(0,0,W,H),Qt::black);
     }
+
+    // Add prepared images and transition
+    if ((Info->IsTransition)&&(Info->CurrentObject_PreparedImage!=NULL)) {
+        if (Info->TransitObject_PreparedImage==NULL) {
+            Info->TransitObject_PreparedImage=new QImage(Info->CurrentObject_PreparedImage->width(),Info->CurrentObject_PreparedImage->height(),QImage::Format_ARGB32_Premultiplied);
+            Info->TransitObject_PreparedImage->fill(0);
+            Info->TransitObject_FreePreparedImage=true;
+        }
+        DoTransition(Info->TransitionFamilly,Info->TransitionSubType,PCT,Info->TransitObject_PreparedImage,Info->CurrentObject_PreparedImage,&P,W,H);
+    } else if (Info->CurrentObject_PreparedImage!=NULL) P.drawImage(0,0,*Info->CurrentObject_PreparedImage);
+    P.end();
+    Info->RenderedImage=Image;
 }
 
 //============================================================================================
@@ -2349,7 +2344,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
             // Ensure paquet exist, elsewhere create one and init it to 0 (silence)
             if (!Paquet) {
                 Paquet=(int16_t *)av_malloc(Info->TransitObject_MusicTrack->SoundPacketSize+8);
-                memset((uint8_t *)Paquet,0,Info->TransitObject_MusicTrack->SoundPacketSize+8);
+                memset((u_int8_t *)Paquet,0,Info->TransitObject_MusicTrack->SoundPacketSize+8);
             }
             int32_t mix;
             int16_t *Buf1=Info->CurrentObject_MusicTrack->List[i];

@@ -140,13 +140,10 @@ TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_zh_tw.ts
 
 # Source files
-SOURCES +=  _ApplicationDefinitions.cpp \
-            _Diaporama.cpp \
-            wgt_QVideoPlayer.cpp \
+SOURCES +=  wgt_QVideoPlayer.cpp \
             mainwindow.cpp \
             main.cpp \
             cCustomSlideTable.cpp \
-            _StyleDefinitions.cpp \
             DlgRenderVideo/DlgRenderVideo.cpp \
             DlgManageStyle/DlgManageStyle.cpp \
             DlgAbout/DlgAbout.cpp \
@@ -191,6 +188,8 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../engine/_Shape.cpp \
             ../engine/cTextFrame.cpp \
             ../engine/_EncodeVideo.cpp \
+            ../engine/_StyleDefinitions.cpp \
+            ../engine/_Diaporama.cpp \
             ../CustomCtrl/_QCustomDialog.cpp \
             ../CustomCtrl/cCColorComboBox.cpp \
             ../CustomCtrl/cCBrushComboBox.cpp \
@@ -204,11 +203,7 @@ SOURCES +=  _ApplicationDefinitions.cpp \
             ../CustomCtrl/cCTexteFrameComboBox.cpp
 
 # Header files
-HEADERS  += \
-            _ApplicationDefinitions.h \
-            _Diaporama.h \
-            _StyleDefinitions.h \
-            wgt_QVideoPlayer.h \
+HEADERS  += wgt_QVideoPlayer.h \
             cCustomSlideTable.h \
             mainwindow.h \
             DlgRenderVideo/DlgRenderVideo.h \
@@ -255,6 +250,8 @@ HEADERS  += \
             ../engine/_Shape.h \
             ../engine/cTextFrame.h \
             ../engine/_EncodeVideo.h \
+            ../engine/_StyleDefinitions.h \
+            ../engine/_Diaporama.h \
             ../CustomCtrl/_QCustomDialog.h \
             ../CustomCtrl/cCColorComboBox.h \
             ../CustomCtrl/cCBrushComboBox.h \
