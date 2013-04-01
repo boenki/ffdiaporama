@@ -315,7 +315,7 @@ public:
                                                    ,uint64_t RSC_InChannelLayout,uint64_t RSC_OutChannelLayout
                                                #endif
                                           );
-    virtual uint8_t         *Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSampleSize);
+    virtual u_int8_t        *Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSampleSize);
 
     #if !defined(USELIBSWRESAMPLE)
     //*********************

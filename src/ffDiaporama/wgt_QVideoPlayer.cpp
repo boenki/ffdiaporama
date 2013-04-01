@@ -303,6 +303,7 @@ bool wgt_QVideoPlayer::InitDiaporamaPlay(cDiaporama *Diaporama) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::InitDiaporamaPlay");
 
     if (Diaporama==NULL) return false;
+    ApplicationConfig   =Diaporama->ApplicationConfig;
     this->Diaporama     =Diaporama;
     WantedFPS           =Diaporama->ApplicationConfig->PreviewFPS;
     ImageList.Diaporama =Diaporama;
@@ -417,8 +418,8 @@ void wgt_QVideoPlayer::s_SliderReleased() {
 
 void wgt_QVideoPlayer::s_SliderMoved(int Value) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_SliderMoved");
-    if (GlobalMainWindow->InPlayerUpdate) return;
-    GlobalMainWindow->InPlayerUpdate=true;
+    if (((MainWindow *)ApplicationConfig->TopLevelWindow)->InPlayerUpdate) return;
+    ((MainWindow *)ApplicationConfig->TopLevelWindow)->InPlayerUpdate=true;
 
     if (ResetPositionWanted) SetPlayerToPause();
 
@@ -448,7 +449,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             if (Diaporama) {
                 if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
                     Diaporama->CurrentCol=Frame->CurrentObject_Number;
-                    GlobalMainWindow->SetTimelineCurrentCell(Frame->CurrentObject_Number);
+                    ((MainWindow *)ApplicationConfig->TopLevelWindow)->SetTimelineCurrentCell(Frame->CurrentObject_Number);
 
                     // Update slider mark
                     if (Diaporama->List.count()>0)
@@ -500,7 +501,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
                 if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=true;    // Ensure mainwindow no modify player widget position
                 Diaporama->CurrentCol=Frame->CurrentObject_Number;
-                GlobalMainWindow->SetTimelineCurrentCell(Frame->CurrentObject_Number);
+                ((MainWindow *)ApplicationConfig->TopLevelWindow)->SetTimelineCurrentCell(Frame->CurrentObject_Number);
                 if (FLAGSTOPITEMSELECTION!=NULL) *FLAGSTOPITEMSELECTION=false;
 
                 // Update slider mark
@@ -521,7 +522,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
         }
         QApplication::restoreOverrideCursor();
     }
-    GlobalMainWindow->InPlayerUpdate=false;
+    ((MainWindow *)ApplicationConfig->TopLevelWindow)->InPlayerUpdate=false;
 }
 
 //============================================================================================

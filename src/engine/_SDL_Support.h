@@ -32,7 +32,7 @@ extern "C" {
 #include "cSoundBlockList.h"
 
 // Functions to manage SDL library
-void SDLAudioCallback(void *,Uint8 *stream,int len);
+void SDLAudioCallback(void *,u_int8_t *stream,int len);
 void SDLFirstInit(double WantedDuration,bool SDLAncMode,int64_t SamplingRate);
 void SDLLastClose();
 void SDLSetFPS(double WantedDuration,bool SDLAncMode,int64_t SamplingRate);

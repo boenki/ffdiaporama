@@ -21,7 +21,7 @@
 #include "cCShapeComboBox.h"
 #include <QPainter>
 #include <QKeyEvent>
-#include "../ffDiaporama/_Diaporama.h"
+#include "../engine/_Diaporama.h"
 
 //******************************************************************************************************************
 // Custom QAbstractItemDelegate for AutoFraming ComboBox

@@ -91,8 +91,9 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *T
     BackgroundForm  =TheBackgroundForm;
     IsVideo         =(CurrentBrush->Video!=NULL);
     DefaultSpeedWave=TheDefaultSpeedWave;
-    ui->InteractiveZone->MagneticRuler=((cApplicationConfig *)BaseApplicationConfig)->FramingRuler;
+    ui->InteractiveZone->MagneticRuler=ApplicationConfig->FramingRuler;
     ui->InteractiveZone->InitCachedImage(TheCompoObject,(BackgroundForm!=NULL)?(*TheBackgroundForm):1,TheCurrentBrush,TheVideoPosition);
+    ui->VideoPlayer->ApplicationConfig=ApplicationConfig;
 }
 
 //====================================================================================================================
@@ -137,7 +138,7 @@ void DlgImageCorrection::DoInitDialog() {
 
     ImageGeometry=IsVideo?qreal(CurrentBrush->Video->ImageHeight)/qreal(CurrentBrush->Video->ImageWidth):qreal(CurrentBrush->Image->ImageHeight)/qreal(CurrentBrush->Image->ImageWidth);
     ImageGeometry=QString("%1").arg(ImageGeometry,0,'e').toDouble();  // Rounded to same number as style managment
-    ui->RulersBT->setIcon(QIcon(((cApplicationConfig *)BaseApplicationConfig)->FramingRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
+    ui->RulersBT->setIcon(QIcon(BaseApplicationConfig->FramingRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
 
     ui->RotateED->setMinimum(-180);
     ui->RotateED->setMaximum(180);
@@ -272,7 +273,7 @@ void DlgImageCorrection::MakeFormIcon(QComboBox *UICB) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::MakeFormIcon");
 
     for (int i=0;i<UICB->count();i++) {
-        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,((cApplicationConfig *)BaseApplicationConfig));
+        cCompositionObject Object(COMPOSITIONTYPE_BACKGROUND,0,BaseApplicationConfig);
         Object.x                        =0;
         Object.y                        =0;
         Object.w                        =1;
@@ -366,7 +367,7 @@ void DlgImageCorrection::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
         CurrentBrush->Deinterlace    =root.attribute("Deinterlace")=="1";
     }
     if (BrushFileName!=((CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName)) {
-        ((cApplicationConfig *)BaseApplicationConfig)->ImagesCache.RemoveVideoObject(BrushFileName);
+        BaseApplicationConfig->ImagesCache.RemoveVideoObject(BrushFileName);
         if (CurrentBrush->Image) {
             CurrentBrush->Image->Reset();
             CurrentBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL);
@@ -395,7 +396,7 @@ void DlgImageCorrection::RestoreWindowState() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::RestoreWindowState");
     QCustomDialog::RestoreWindowState();
     if ((IsVideo)&&(!ui->VideoPlayer->IsValide)) {
-        ui->VideoPlayer->StartPlay(CurrentBrush->Video,((cApplicationConfig *)BaseApplicationConfig)->PreviewFPS);
+        ui->VideoPlayer->StartPlay(CurrentBrush->Video,BaseApplicationConfig->PreviewFPS);
         ui->EndPosEd->setMaximumTime(CurrentBrush->Video->Duration);
         RefreshControls();
     }
@@ -746,7 +747,7 @@ void DlgImageCorrection::s_ChangeFile() {
     DlgFileExplorer Dlg(CurrentBrush->Image?FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE:FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_VIDEOFILE,
                         CurrentBrush->Image?OBJECTTYPE_IMAGEFILE:OBJECTTYPE_VIDEOFILE,
                         false,false,ActualFilePath,
-                        ffDText(ffDSection_CommonInfoMsg,0),0,((cApplicationConfig *)BaseApplicationConfig),((cApplicationConfig *)BaseApplicationConfig)->DlgFileExplorerWSP,this);
+                        ffDText(ffDSection_CommonInfoMsg,0),0,BaseApplicationConfig,BaseApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
@@ -755,12 +756,12 @@ void DlgImageCorrection::s_ChangeFile() {
 
     if (NewFile=="") return;
     AppendPartialUndo(UNDOACTION_EDITZONE_FILE,ui->InteractiveZone,true);
-    if (((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories) ((cApplicationConfig *)BaseApplicationConfig)->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
+    if (BaseApplicationConfig->RememberLastDirectories) BaseApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
     QString NewBrushFileName=QFileInfo(NewFile).absoluteFilePath();
     QString OldBrushFileName=CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
 
-    ((cApplicationConfig *)BaseApplicationConfig)->ImagesCache.RemoveVideoObject(OldBrushFileName);
+    BaseApplicationConfig->ImagesCache.RemoveVideoObject(OldBrushFileName);
     if (!IsVideo) {
         // Image
         CurrentBrush->Image->Reset();
@@ -806,7 +807,7 @@ void DlgImageCorrection::s_ChangeFile() {
         if (IsVideo) {
             ui->TabWidget->setCurrentIndex(1);
             ui->VideoPlayer->SeekPlayer(0);
-            ui->VideoPlayer->StartPlay(CurrentBrush->Video,((cApplicationConfig *)BaseApplicationConfig)->PreviewFPS);
+            ui->VideoPlayer->StartPlay(CurrentBrush->Video,BaseApplicationConfig->PreviewFPS);
             ui->EndPosEd->setMaximumTime(CurrentBrush->Video->Duration);
         }
     }
@@ -1036,9 +1037,9 @@ void DlgImageCorrection::s_BlurSharpenRadiusReset() {
 
 void DlgImageCorrection::s_RulersBT() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_RulersBT");
-    ((cApplicationConfig *)BaseApplicationConfig)->FramingRuler=!((cApplicationConfig *)BaseApplicationConfig)->FramingRuler;
-    ui->InteractiveZone->MagneticRuler=((cApplicationConfig *)BaseApplicationConfig)->FramingRuler;
-    ui->RulersBT->setIcon(QIcon(((cApplicationConfig *)BaseApplicationConfig)->FramingRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
+    BaseApplicationConfig->FramingRuler=!BaseApplicationConfig->FramingRuler;
+    ui->InteractiveZone->MagneticRuler=BaseApplicationConfig->FramingRuler;
+    ui->RulersBT->setIcon(QIcon(BaseApplicationConfig->FramingRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
     ui->InteractiveZone->RefreshDisplay();
 }
 
@@ -1329,13 +1330,13 @@ void DlgImageCorrection::s_Event_SaveImageEvent() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_Event_SaveImageEvent");
     if (!IsVideo) return;
     ui->VideoPlayer->SetPlayerToPause();
-    QString OutputFileName=((cApplicationConfig *)BaseApplicationConfig)->LastCaptureImage;
+    QString OutputFileName=BaseApplicationConfig->LastCaptureImage;
     QString Filter="JPG (*.jpg)";
     if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
     OutputFileName=OutputFileName+QApplication::translate("MainWindow","Capture image");
     OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"PNG (*.png);;JPG (*.jpg)",&Filter);
     if (OutputFileName!="") {
-        if (((cApplicationConfig *)BaseApplicationConfig)->RememberLastDirectories) ((cApplicationConfig *)BaseApplicationConfig)->LastCaptureImage=QFileInfo(OutputFileName).absolutePath();     // Keep folder for next use
+        if (BaseApplicationConfig->RememberLastDirectories) BaseApplicationConfig->LastCaptureImage=QFileInfo(OutputFileName).absolutePath();     // Keep folder for next use
         if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
         if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
 

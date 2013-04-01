@@ -28,14 +28,14 @@
 bool                SDLIsAudioOpen=false;           // true if SDL work at least one time
 SDL_AudioSpec       AudioSpec;                      // SDL param bloc
 cSDLSoundBlockList  MixedMusic;                     // Sound to play
-Uint8               SDLBuf[MAXSOUNDPACKETSIZE*2];
+u_int8_t            SDLBuf[MAXSOUNDPACKETSIZE*2];
 int32_t             SDLBufSize=0;
 
 //*********************************************************************************************************************************************
 // SDL Audio Call Back
 //*********************************************************************************************************************************************
 
-void SDLAudioCallback(void *,Uint8 *stream,int len) {
+void SDLAudioCallback(void *,u_int8_t *stream,int len) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SDLAudioCallback");
     SDLIsAudioOpen=true;
     while (SDLBufSize<len) {

@@ -20,7 +20,7 @@
 
 #include "../DlgCheckConfig/DlgCheckConfig.h"
 #include "DlgManageDevices/DlgManageDevices.h"
-#include "_Diaporama.h"
+#include "../../engine/_Diaporama.h"
 
 #include "DlgApplicationSettings.h"
 #include "ui_DlgApplicationSettings.h"
@@ -32,7 +32,7 @@
 #define ICON_GLOBALCONF                     ":/img/db.png"
 #define ICON_USERCONF                       ":/img/db_update.png"
 
-DlgApplicationSettings::DlgApplicationSettings(int HelpURL,cApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
+DlgApplicationSettings::DlgApplicationSettings(int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
     :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgApplicationSettings) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DlgApplicationSettings");
@@ -439,13 +439,14 @@ bool DlgApplicationSettings::DoAccept() {
     if (Codec>=0) ApplicationConfig->DefaultAudioCodec=AUDIOCODECDEF[ui->AudioFormatCB->itemData(Codec).toInt()].ShortName; else ApplicationConfig->DefaultAudioCodec="";
     QString BitRate=ui->VideoBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultVideoBitRate=BitRate.toInt();
     BitRate        =ui->AudioBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultAudioBitRate=BitRate.toInt();
+    QString Freq   =ui->AudioFreqCB->currentText();     ApplicationConfig->DefaultFreq=Freq.toInt();
 
     ApplicationConfig->DefaultSoundtrackFormat  =ui->SoundtrackFileFormatCB->currentIndex();
     if (ApplicationConfig->DefaultSoundtrackFormat>=0) ApplicationConfig->DefaultSoundtrackFormat=ui->SoundtrackFileFormatCB->itemData(ApplicationConfig->DefaultSoundtrackFormat).toInt(); else ApplicationConfig->DefaultSoundtrackFormat=0;
     Codec=ui->SoundtrackAudioFormatCB->currentIndex();
     if (Codec>=0) ApplicationConfig->DefaultSoundtrackAudioCodec=AUDIOCODECDEF[ui->SoundtrackAudioFormatCB->itemData(Codec).toInt()].ShortName; else ApplicationConfig->DefaultSoundtrackAudioCodec="";
     BitRate=ui->SoundtrackAudioBitRateCB->currentText();  if (BitRate.endsWith("k")) BitRate=BitRate.left(BitRate.length()-1);    ApplicationConfig->DefaultSoundtrackBitRate=BitRate.toInt();
-    QString Freq=ui->SoundtrackAudioFreqCB->currentText(); ApplicationConfig->DefaultSoundtrackFreq=Freq.toInt();
+    Freq=ui->SoundtrackAudioFreqCB->currentText(); ApplicationConfig->DefaultSoundtrackFreq=Freq.toInt();
 
     ApplicationConfig->DefaultSmartphoneType    =ui->SmartphoneTypeCB->itemData(ui->SmartphoneTypeCB->currentIndex()).toInt();
     ApplicationConfig->DefaultMultimediaType    =ui->MMSystemTypeCB->itemData(ui->MMSystemTypeCB->currentIndex()).toInt();
@@ -774,13 +775,20 @@ void DlgApplicationSettings::InitAudioBitRateCB(int ChangeIndex) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::InitAudioBitRateCB");
 
     ui->AudioBitRateCB->clear();
+    ui->AudioFreqCB->clear();
+
     int CurrentCodec=ui->AudioFormatCB->currentIndex();
     if (CurrentCodec>=0) {
         CurrentCodec=ui->AudioFormatCB->itemData(CurrentCodec).toInt();
 
-        bool        IsFindBitRate=false;
+        int         CurrentFormat   =ui->FileFormatCB->itemData(ui->FileFormatCB->currentIndex()).toInt();
+        bool        IsFindBitRate   =false;
+        bool        IsFindFreq      =false;
         QStringList ListBitRate     =StringToSortedStringList(AUDIOCODECDEF[CurrentCodec].PossibleBitrate2CH);
+        QStringList ListFreq        =StringToSortedStringList(AUDIOCODECDEF[CurrentCodec].PossibleFrequency);
+        QStringList ListAllowedFreq =StringToSortedStringList(AUDIOFORMATDEF[CurrentFormat].PossibleFrequency);
 
+        // Fill AudioBitRateCB
         for (int i=0;i<ListBitRate.count();i++) {
             ui->AudioBitRateCB->addItem(ListBitRate[i]);
             if ((ChangeIndex==-1)&&(ListBitRate[i]==QString("%1k").arg(ApplicationConfig->DefaultAudioBitRate))) {
@@ -791,7 +799,22 @@ void DlgApplicationSettings::InitAudioBitRateCB(int ChangeIndex) {
         if (!IsFindBitRate) ui->AudioBitRateCB->setCurrentIndex(ui->AudioBitRateCB->findText(AUDIOCODECDEF[CurrentCodec].Default));
         ui->AudioBitRateCB->setEnabled(ui->AudioBitRateCB->count()>1);
 
-    } else ui->AudioBitRateCB->setEnabled(false);
+        // Fill AudioFreqCB (only if freq in ListFreq and in ListFreqAllowed)
+        for (int i=0;i<ListFreq.count();i++) if (ListAllowedFreq.indexOf(ListFreq[i])!=-1) {
+            ui->AudioFreqCB->addItem(ListFreq[i]);
+            if ((ChangeIndex==-1)&&(ListFreq[i]==QString("%1").arg(ApplicationConfig->DefaultFreq))) {
+                ui->AudioFreqCB->setCurrentIndex(ui->AudioFreqCB->count()-1);
+                IsFindFreq=true;
+            }
+        }
+        if (!IsFindFreq) ui->AudioFreqCB->setCurrentIndex(ui->AudioFreqCB->findText(AUDIOFORMATDEF[CurrentFormat].DefaultAudioFreq));
+        if ((ui->AudioFreqCB->currentIndex()==-1)&&(ui->AudioFreqCB->count()>0)) ui->AudioFreqCB->setCurrentIndex(0);
+        ui->AudioFreqCB->setEnabled(ui->AudioFreqCB->count()>0);
+
+    } else {
+        ui->AudioBitRateCB->setEnabled(false);
+        ui->AudioFreqCB->setEnabled(false);
+    }
 }
 
 //====================================================================================================================

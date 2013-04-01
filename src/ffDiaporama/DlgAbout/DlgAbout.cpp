@@ -21,8 +21,6 @@
 #include "DlgAbout.h"
 #include "ui_DlgAbout.h"
 
-#include "../_ApplicationDefinitions.h"
-
 //====================================================================================================================
 
 DlgAbout::DlgAbout(int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):

@@ -23,12 +23,10 @@
 
 // Basic inclusions (common to all files)
 #include "../../CustomCtrl/_QCustomDialog.h"
+#include "../../engine/_Diaporama.h"
 
 // Include some additional standard class
 #include <QFont>
-
-// Specific inclusions
-#include "../_Diaporama.h"
 
 namespace Ui {
     class DlgTextEdit;

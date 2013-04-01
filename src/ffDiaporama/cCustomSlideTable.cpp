@@ -708,7 +708,7 @@ void cCustomSlideTable::dropEvent(QDropEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dropEvent");
 
     IsDragOn=DRAGMODE_NOACTION;
-    GlobalMainWindow->FileList.clear();
+    ((MainWindow *)ApplicationConfig->TopLevelWindow)->FileList.clear();
 
     QList<QUrl> urlList;
     QString     fName;
@@ -719,11 +719,11 @@ void cCustomSlideTable::dropEvent(QDropEvent *event) {
         for (int i=0;i<urlList.count();i++) {
             fName = urlList[i].toLocalFile();                               // convert first QUrl to local path
             info.setFile(fName);                                            // information about file
-            if (info.isFile()) GlobalMainWindow->FileList.append(fName);    // append file
+            if (info.isFile()) ((MainWindow *)ApplicationConfig->TopLevelWindow)->FileList.append(fName);    // append file
         }
     }
     event->acceptProposedAction();
-    if (GlobalMainWindow->FileList.count()>0) emit DoAddDragAndDropFile();
+    if (((MainWindow *)ApplicationConfig->TopLevelWindow)->FileList.count()>0) emit DoAddDragAndDropFile();
 }
 
 //====================================================================================================================
@@ -947,7 +947,7 @@ void cCustomSlideTable::AddObjectToTimeLine(int CurIndex) {
 
     // Adjust current sel
     if ((Diaporama->CurrentCol<0)||(Diaporama->CurrentCol==CurIndex)) Diaporama->CurrentCol=CurIndex;
-    GlobalMainWindow->AdjustRuller();
+    ((MainWindow *)ApplicationConfig->TopLevelWindow)->AdjustRuller();
 }
 
 //====================================================================================================================
@@ -961,7 +961,7 @@ void cCustomSlideTable::ResetDisplay(int Selected) {
 
     if (NbrX*NbrY<Diaporama->List.count()) NbrY++;
 
-    GlobalMainWindow->FLAGSTOPITEMSELECTION=true;
+    ((MainWindow *)ApplicationConfig->TopLevelWindow)->FLAGSTOPITEMSELECTION=true;
     setUpdatesEnabled(false);
 
     // Clear selection
@@ -978,7 +978,7 @@ void cCustomSlideTable::ResetDisplay(int Selected) {
         setRowCount(1);                             setRowHeight(0,ThumbHeight);
         setColumnCount(Diaporama->List.count());    for (int i=0;i<columnCount();i++) setColumnWidth(i,ThumbWidth);
     }
-    GlobalMainWindow->FLAGSTOPITEMSELECTION=false;
+    ((MainWindow *)ApplicationConfig->TopLevelWindow)->FLAGSTOPITEMSELECTION=false;
     if (Selected>=0) {
         int row=columnCount()>0?Selected/columnCount():0;
         int col=Selected-row*columnCount();

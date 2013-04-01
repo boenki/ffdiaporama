@@ -19,6 +19,7 @@
    ====================================================================== */
 
 #include "cDriveList.h"
+#include "cBaseApplicationConfig.h"
 
 #include <QtDebug>
 #include <QFileInfoList>

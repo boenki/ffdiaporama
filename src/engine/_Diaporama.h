@@ -22,18 +22,19 @@
 #define CDIAPORAMA_H
 
 // Basic inclusions (common to all files)
-#include "../engine/_GlobalDefines.h"
-#include "../engine/_Transition.h"
+#include "_GlobalDefines.h"
+#include "_Transition.h"
 
 // Include some additional standard class
-#include "../engine/cBaseMediaFile.h"
-#include "../engine/cBrushDefinition.h"
+#include "cBaseApplicationConfig.h"
+#include "cBaseMediaFile.h"
+#include "cBrushDefinition.h"
+#include "cTextFrame.h"
+#include "_SDL_Support.h"
 
 // Specific inclusions
 class cDiaporama;
 class cDiaporamaObject;
-
-#include "_ApplicationDefinitions.h"
 
 // Object type definition
 #define DIAPORAMAOBJECTTYPE_EMPTY           0
@@ -235,7 +236,7 @@ public:
     ~cCompositionList();
 
     void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
-    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList);
+    bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig);
 };
 
 //*********************************************************************************************************************************************
@@ -373,7 +374,7 @@ public:
 //*********************************************************************************************************************************************
 class cDiaporama {
 public:
-    cApplicationConfig      *ApplicationConfig;
+    cBaseApplicationConfig  *ApplicationConfig;
     cffDProjectFile         *ProjectInfo;
     int                     CurrentCol;             // Current position in the timeline (column)
     qlonglong               CurrentPosition;        // Current position in the timeline (msec)
@@ -397,7 +398,7 @@ public:
     // slides objects
     QList<cDiaporamaObject *> List;                   // list of all media object
 
-    cDiaporama(cApplicationConfig *ApplicationConfig);
+    cDiaporama(cBaseApplicationConfig *ApplicationConfig);
     ~cDiaporama();
     int                     GetHeightForWidth(int WantedWith);
     int                     GetWidthForHeight(int WantedHeight);
@@ -415,7 +416,7 @@ public:
     // Thread functions
     void                    PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack);
     void                    LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool PreviewMode,bool AddStartPos);
-    void                    DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H);
+    void                    DoAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H,QImage::Format QTFMT=QImage::Format_ARGB32_Premultiplied);
 
     // Memory
     void                    CloseUnusedLibAv(int CurrentCell);

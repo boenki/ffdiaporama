@@ -47,6 +47,50 @@
 // Include some common various class
 #include "../engine/cBaseApplicationConfig.h"
 
+//**********************************************************************************
+// Dialogbox help file number
+//**********************************************************************************
+
+#define HELPFILE_NEWS                       5
+#define HELPFILE_WIKIINDEX                  8386
+#define HELPFILE_PRINCIPLESINDEX            8388    // How ffDiaporama works
+#define HELPFILE_RENDERINDEX                8466    // Rendering videos
+#define HELPFILE_DlgApplicationSettings     8406    // Change ffDiaporama's settings
+#define HELPFILE_DlgCheckConfig             8409    // Check configuration
+#define HELPFILE_DlgSlideProperties         8486    // Modifying slides
+#define HELPFILE_DlgManageDevices           8411    // Manage device's profiles
+#define HELPFILE_DlgImageCorrection         8413    // Reframe and correct images or videos
+#define HELPFILE_DlgBackgroundProperties    8415    // Define slide's background
+#define HELPFILE_DlgMusicProperties         8417    // Define music track
+#define HELPFILE_DlgTransitionProperties    8419    // Define transitions
+#define HELPFILE_DlgVideoEdit               8421    // Cut a video
+#define HELPFILE_DlgTextEdit                8423    // Defining the properties of a text block
+#define HELPFILE_DlgManageStyle             8425    // Managing styles
+#define HELPFILE_DlgffDPjrProperties        8427    // Defining the project properties
+#define HELPFILE_DlgRenderVideo             8429    // Rendering the video
+#define HELPFILE_DlgInfoFile                8443    // Display the properties of a multimedia file
+#define HELPFILE_DlgSlideDuration           0       // No page for that !
+#define HELPFILE_DlgTransitionDuration      0       // No page for that !
+#define HELPFILE_DlgRulerDef                0       // No page for that !
+#define HELPFILE_DlgManageFavorite          0       // No page for that !
+
+//**********************************************************************************
+// name of default icons
+//**********************************************************************************
+
+#define ICON_GEOMETRY_LOCKED                ":/img/Geometry_Lock.png"
+#define ICON_GEOMETRY_UNLOCKED              ":/img/Geometry_Unlock.png"
+#define ICON_GEOMETRY_PROJECT               ":/img/Geometry_ProjectLock.png"
+
+//**********************************************************************************
+// Display coordinates unit
+//**********************************************************************************
+
+#define DISPLAYUNIT_PERCENT                 0
+#define DISPLAYUNIT_PIXELS                  1
+
+//**********************************************************************************
+
 class QCustomDialog : public QDialog {
 Q_OBJECT
 public:
@@ -104,7 +148,7 @@ private slots:
     void            DoPartialUndo();
 };
 
-//*********************************************************
+//**********************************************************************************
 
 class QNullTableWidgetItem : public QTableWidgetItem {
 public:

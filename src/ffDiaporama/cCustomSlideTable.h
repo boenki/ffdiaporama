@@ -23,9 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "../engine/_GlobalDefines.h"
-
-// Specific inclusions
-#include "_Diaporama.h"
+#include "../engine/_Diaporama.h"
 
 #include <QTableWidget>
 #include <QMouseEvent>
@@ -47,7 +45,7 @@ Q_OBJECT
 public:
     bool                PartitionMode;
     cDiaporama          *Diaporama;                 // Link to current diaporama
-    cApplicationConfig  *ApplicationConfig;         // Link to current application config
+    cBaseApplicationConfig  *ApplicationConfig;         // Link to current application config
 
     // Drag & drop operation
     int                 DragItemSource;

@@ -23,9 +23,7 @@
 
 // Basic inclusions (common to all files)
 #include "../engine/_GlobalDefines.h"
-
-// Specific inclusions
-#include "_Diaporama.h"
+#include "../engine/_Diaporama.h"
 
 #include <QLabel>
 
@@ -72,34 +70,35 @@ signals:
 class wgt_QVideoPlayer : public QWidget {
 Q_OBJECT
 public:
-    bool                *FLAGSTOPITEMSELECTION; // Flag to stop Item Selection process in the timeline
+    bool                    *FLAGSTOPITEMSELECTION; // Flag to stop Item Selection process in the timeline
 
-    bool                Deinterlace;            // Add a YADIF filter to deinterlace video (on/off)
-    cVideoFile          *FileInfo;              // Link to the file wrapper object when DlgVideoDialogBox
-    cDiaporama          *Diaporama;             // Link to the Diaporama hierarchy when preview
+    bool                    Deinterlace;            // Add a YADIF filter to deinterlace video (on/off)
+    cVideoFile              *FileInfo;              // Link to the file wrapper object when DlgVideoDialogBox
+    cDiaporama              *Diaporama;             // Link to the Diaporama hierarchy when preview
+    cBaseApplicationConfig  *ApplicationConfig;
 
-    int                 ActualPosition;         // Current position (in msec)
-    QTime               tDuration;              // Duration of the video
-    double              WantedFPS;
+    int                     ActualPosition;         // Current position (in msec)
+    QTime                   tDuration;              // Duration of the video
+    double                  WantedFPS;
 
-    cImageList          ImageList;              // Collection of bufered image
+    cImageList              ImageList;              // Collection of bufered image
 
-    bool                IsValide;               // if true then object if fuly initialise
-    bool                IsInit;                 // if true then player was first started
-    bool                ResetPositionWanted;
-    QTime               StartPos;               // Start position
-    QTime               EndPos;                 // End position
-    QIcon               IconPlay;               // Icon : "images/player_play.png"
-    QIcon               IconPause;              // Icon : "images/player_pause.png"
-    bool                DisplayMSec;            // if True, display millisecondes instead of secondes
-    bool                PlayerPlayMode;        // Is MPlayer currently play mode
-    bool                PlayerPauseMode;       // Is MPlayer currently plause mode
-    QTimer              Timer;
-    bool                IsSliderProcess;        // true is slider is currently moving by user
-    bool                PreviousPause;          // Flag to keep pause state before slider process
-    QTime               LastTimeCheck;          // time save for plaing diaporama
-    bool                Flag_InTimer;           // true if timer event is in progress
-    bool                TimerTick;              // To use timer 1 time for 2 call
+    bool                    IsValide;               // if true then object if fuly initialise
+    bool                    IsInit;                 // if true then player was first started
+    bool                    ResetPositionWanted;
+    QTime                   StartPos;               // Start position
+    QTime                   EndPos;                 // End position
+    QIcon                   IconPlay;               // Icon : "images/player_play.png"
+    QIcon                   IconPause;              // Icon : "images/player_pause.png"
+    bool                    DisplayMSec;            // if True, display millisecondes instead of secondes
+    bool                    PlayerPlayMode;        // Is MPlayer currently play mode
+    bool                    PlayerPauseMode;       // Is MPlayer currently plause mode
+    QTimer                  Timer;
+    bool                    IsSliderProcess;        // true is slider is currently moving by user
+    bool                    PreviousPause;          // Flag to keep pause state before slider process
+    QTime                   LastTimeCheck;          // time save for plaing diaporama
+    bool                    Flag_InTimer;           // true if timer event is in progress
+    bool                    TimerTick;              // To use timer 1 time for 2 call
 
     // Thread controls
     QFutureWatcher<void> ThreadPrepareVideo;

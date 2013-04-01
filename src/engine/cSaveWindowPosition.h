@@ -32,6 +32,9 @@
 #include <QtXml/QDomElement>
 #include <QWidget>
 #include <QString>
+#include <QSplitter>
+
+//====================================================================================================================
 
 class cSaveWindowPosition {
 public:
@@ -50,6 +53,20 @@ public:
     virtual void    SaveToXML(QDomElement &domDocument);
     virtual void    OverloadedSaveToXML(QDomElement &domDocument);
     virtual void    LoadFromXML(QDomElement domDocument);
+    virtual void    OverloadedLoadFromXML(QDomElement domDocument);
+};
+
+//====================================================================================================================
+
+class cSaveWinWithSplitterPos : public cSaveWindowPosition {
+public:
+    QString SplitterTop;
+
+    explicit        cSaveWinWithSplitterPos(QString WindowName,bool &RestoreWindow,bool IsMainWindow);
+    virtual         ~cSaveWinWithSplitterPos() {}
+    virtual void    ApplyToWindow(QWidget *Window,QSplitter *Top);
+    virtual void    SaveWindowState(QWidget *Window,QSplitter *Top);
+    virtual void    OverloadedSaveToXML(QDomElement &domDocument);
     virtual void    OverloadedLoadFromXML(QDomElement domDocument);
 };
 

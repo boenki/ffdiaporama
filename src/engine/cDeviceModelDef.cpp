@@ -563,7 +563,7 @@ cDeviceModelList::~cDeviceModelList() {
 
 //====================================================================================================================
 
-bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile) {
+bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,LoadConfigFileType TypeConfigFile) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::LoadConfigurationFile");
 
     // Compute FileName
@@ -599,7 +599,7 @@ bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,cBaseApplica
     }
 
     if (LoadFromXML(root,TypeConfigFile)) {
-        if (TypeConfigFile==cBaseApplicationConfig::USERCONFIGFILE) TranslatRenderType();
+        if (TypeConfigFile==USERCONFIGFILE) TranslatRenderType();
         return true;
     }
     return false;
@@ -651,16 +651,16 @@ bool cDeviceModelList::SaveConfigurationFile(QString ConfigFileName) {
 
 //====================================================================================================================
 
-bool cDeviceModelList::LoadFromXML(QDomElement domDocument,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile) {
+bool cDeviceModelList::LoadFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDeviceModelList::LoadFromXML");
 
     if ((domDocument.elementsByTagName("RenderingDeviceModel").length()>0)&&(domDocument.elementsByTagName("RenderingDeviceModel").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("RenderingDeviceModel").item(0).toElement();
         int i=0;
         while ((Element.elementsByTagName("Device_"+QString("%1").arg(i)).length()>0)&&(domDocument.elementsByTagName("Device_"+QString("%1").arg(i)).item(0).isElement()==true)) {
-            if (TypeConfigFile==cBaseApplicationConfig::GLOBALCONFIGFILE) {
+            if (TypeConfigFile==GLOBALCONFIGFILE) {
                 // Reading from global config file : append device
-                RenderDeviceModel.append(new cDeviceModelDef(TypeConfigFile==cBaseApplicationConfig::GLOBALCONFIGFILE,i));
+                RenderDeviceModel.append(new cDeviceModelDef(TypeConfigFile==GLOBALCONFIGFILE,i));
                 RenderDeviceModel[i]->LoadFromXML(Element,QString("Device_"+QString("%1").arg(i)),false);
             } else {
                 // Reading from user config file : search if device already exist, then load it else append a new one

@@ -18,8 +18,6 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#include "_StyleDefinitions.h"
-#include "_ApplicationDefinitions.h"
 #include "cCustomSlideTable.h"
 
 #include "mainwindow.h"
@@ -56,8 +54,6 @@
 #include "DlgManageFavorite/DlgManageFavorite.h"
 #include "DlgFileExplorer/DlgFileExplorer.h"
 
-MainWindow  *GlobalMainWindow=NULL;
-
 #define LATENCY 5
 
 //====================================================================================================================
@@ -81,10 +77,9 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
         file.close();
     }
 
-    ApplicationConfig       =new cApplicationConfig(this);
+    ApplicationConfig       =new cBaseApplicationConfig(this,ALLOWEDWEBLANGUAGE,APPLICATION_NAME,APPLICATION_NAME,CurrentAppName,CONFIGFILEEXT,CONFIGFILE_ROOTNAME);
     CurrentThreadId         =this->thread()->currentThreadId();
     InternetBUILDVERSION    ="";
-    GlobalMainWindow        =this;
     IsFirstInitDone         =false;        // true when first show window was done
     FLAGSTOPITEMSELECTION   =false;        // Flag to stop Item Selection process for delete and move of object
     InPlayerUpdate          =false;
@@ -216,7 +211,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->FolderTree->IsCreateFolderAllowed   =true;
     ui->FolderTable->ApplicationConfig      =ApplicationConfig;
     ApplicationConfig->DriveList->UpdateDriveList();
-    ui->FolderTree->InitDrives(ApplicationConfig->DriveList);
+    ui->FolderTree->InitDrives();
     ui->FolderTable->SetMode(ApplicationConfig->CurrentMode,ApplicationConfig->CurrentFilter);
     ui->FolderTable->ShowHiddenFilesAndDir  =ApplicationConfig->ShowHiddenFilesAndDir;
     ui->FolderTable->DisplayFileName        =ApplicationConfig->DisplayFileName;
@@ -309,10 +304,10 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->timeline,SIGNAL(itemSelectionChanged()),this,SLOT(s_Event_TimelineSelectionChanged()));
     connect(ui->timeline,SIGNAL(DragMoveItem()),this,SLOT(s_Event_TimelineDragMoveItem()));
     connect(ui->timeline,SIGNAL(DoAddDragAndDropFile()),this,SLOT(s_Event_TimelineAddDragAndDropFile()));
-    connect(ui->timeline,SIGNAL(EditBackground()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnBackground()));
-    connect(ui->timeline,SIGNAL(EditMediaObject()),     GlobalMainWindow,SLOT(s_Event_DoubleClickedOnObject()));
-    connect(ui->timeline,SIGNAL(EditTransition()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnTransition()));
-    connect(ui->timeline,SIGNAL(EditMusicTrack()),      GlobalMainWindow,SLOT(s_Event_DoubleClickedOnMusic()));
+    connect(ui->timeline,SIGNAL(EditBackground()),((MainWindow *)ApplicationConfig->TopLevelWindow),SLOT(s_Event_DoubleClickedOnBackground()));
+    connect(ui->timeline,SIGNAL(EditMediaObject()),((MainWindow *)ApplicationConfig->TopLevelWindow),SLOT(s_Event_DoubleClickedOnObject()));
+    connect(ui->timeline,SIGNAL(EditTransition()),((MainWindow *)ApplicationConfig->TopLevelWindow),SLOT(s_Event_DoubleClickedOnTransition()));
+    connect(ui->timeline,SIGNAL(EditMusicTrack()),((MainWindow *)ApplicationConfig->TopLevelWindow),SLOT(s_Event_DoubleClickedOnMusic()));
     connect(ui->PartitionBT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToPlayerMode()));
     connect(ui->Partition2BT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToPartitionMode()));
     connect(ui->Partition3BT,SIGNAL(released()),this,SLOT(s_Action_ChWindowDisplayMode_ToBrowserMode()));
@@ -1481,7 +1476,7 @@ void MainWindow::DoOpenFile() {
             QApplication::translate("MainWindow","Impossible to open file ")+ProjectFileName+"\n"+QApplication::translate("MainWindow","Do you want to select another file ?"),
             QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)!=QMessageBox::Yes) Continue=false; else {
 
-            QString NewFileName=QFileDialog::getOpenFileName(GlobalMainWindow,QApplication::translate("MainWindow","Select another file for ")+QFileInfo(ProjectFileName).fileName(),
+            QString NewFileName=QFileDialog::getOpenFileName(((MainWindow *)ApplicationConfig->TopLevelWindow),QApplication::translate("MainWindow","Select another file for ")+QFileInfo(ProjectFileName).fileName(),
                ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",QString("ffDiaporama (*.ffd)"));
             if (NewFileName!="") {
                 ProjectFileName=NewFileName;
@@ -2818,7 +2813,7 @@ void MainWindow::s_Browser_RefreshDriveList() {
 
 void MainWindow::s_Browser_RefreshDrive() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_RefreshDrive");
-    if (CurrentDriveCheck<ApplicationConfig->DriveList->List.count()) ui->FolderTree->RefreshItemByPath(ui->FolderTree->DriveList->List[CurrentDriveCheck].Label,true);
+    if (CurrentDriveCheck<ApplicationConfig->DriveList->List.count()) ui->FolderTree->RefreshItemByPath(ApplicationConfig->DriveList->List[CurrentDriveCheck].Label,true);
     CurrentDriveCheck++;
     if ((!CancelAction)&&(CurrentDriveCheck<ApplicationConfig->DriveList->List.count())) {
         DlgWorkingTaskDialog->DisplayText(QApplication::translate("MainWindow","update drive (%1)").arg(ApplicationConfig->DriveList->List[CurrentDriveCheck].Label));

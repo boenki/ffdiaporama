@@ -37,7 +37,7 @@ public:
     int                 SoundPacketSize;            // Size of a packet (depending on FPS)
     int                 NbrPacketForFPS;            // Number of packet for FPS
     QList<int16_t *>    List;                       // List of sound packet
-    uint8_t             *TempData;                  // Buffer for stocking temporary data (when decoding data are less than a packet)
+    u_int8_t            *TempData;                  // Buffer for stocking temporary data (when decoding data are less than a packet)
     int64_t             CurrentTempSize;            // Amount of data in the TempData buffer
     int64_t             CurrentPosition;
 

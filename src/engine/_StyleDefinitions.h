@@ -22,15 +22,24 @@
 #define _STYLEDEFINITIONS_H
 
 // Basic inclusions (common to all files)
-#include "../engine/_GlobalDefines.h"
+#include "_GlobalDefines.h"
+#include "cDeviceModelDef.h"
 
 // Include some additional standard class
 #include <QComboBox>
 
-// Include some common various class
-#include "../engine/cBaseApplicationConfig.h"
-#include "../engine/cDeviceModelDef.h"
-#include "../engine/cBaseMediaFile.h"
+//============================================
+// Define styles name used in xml file
+//============================================
+
+#define STYLENAME_TEXTSTYLE                 "TextStyleCollection"
+#define STYLENAME_BACKGROUNDSTYLE           "TextBackgroundStyleCollection"
+#define STYLENAME_COORDINATESTYLE           "StyleCoordinateCollection"
+#define STYLENAME_BLOCKSHAPESTYLE           "StyleBlockShapeCollection"
+
+// this class is define later
+class cBaseApplicationConfig;
+//#include "cBaseMediaFile.h"
 
 //============================================
 // Style collection item definition
@@ -53,9 +62,9 @@ public:
     cStyleCollectionItem(cStyleCollectionItem *Item);
     ~cStyleCollectionItem();
 
-    void    SaveToXML(QDomElement &domDocument,QString ElementName);
-    bool    LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile,bool MustCheck);
-    QString GetFilteredPart();
+    void                SaveToXML(QDomElement &domDocument,QString ElementName);
+    bool                LoadFromXML(QDomElement domDocument,QString ElementName,bool IsUserConfigFile,bool MustCheck);
+    QString             GetFilteredPart();
 };
 
 //============================================
@@ -73,28 +82,25 @@ public:
     cStyleCollection();
     ~cStyleCollection();
 
-    void    SaveToXML(QDomElement &root);
-    void    LoadFromXML(QDomElement root,cBaseApplicationConfig::LoadConfigFileType TypeConfigFile);
-    void    SetProjectGeometryFilter(int Geometry);
-    void    SetImageGeometryFilter(int ProjectGeometry,int ImageGeometry);
-    void    SortList();
-    QString GetStyleName(QString StyleDef);
-    QString GetStyleDef(QString StyleName);
-    void    FillCollectionCB(QComboBox *CB,QString ActualStyleName);
-    QString PopupCollectionMenu(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig,QString ActualStyleDef);
-    void    UpdateExistingStyle(QString StyleName,QString ActualStyleDef);
-    void    CreateNewStyle(QWidget *ParentWindow,QString ActualStyleDef);
-    void    ManageExistingStyle(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig);
-    void    StringToStringList(QString String,QStringList &List);
-    void    StringDefToStringList(QString String,QStringList &List);
-    void    DoTranslateCollection();
-
-    // Configuration option
-    QString DecodeString(QString String);
-    QString EncodeString(QComboBox *CB,int ProjectGeometry,int ImageGeometry);
-
-    cStyleCollection *PrepUndo();
-    void    ApplyUndo(cStyleCollection *UndoCollection);
+    void                SaveToXML(QDomElement &root);
+    void                LoadFromXML(QDomElement root,LoadConfigFileType TypeConfigFile);
+    void                SetProjectGeometryFilter(int Geometry);
+    void                SetImageGeometryFilter(int ProjectGeometry,int ImageGeometry);
+    void                SortList();
+    QString             GetStyleName(QString StyleDef);
+    QString             GetStyleDef(QString StyleName);
+    void                FillCollectionCB(QComboBox *CB,QString ActualStyleName);
+    QString             PopupCollectionMenu(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig,QString ActualStyleDef);
+    void                UpdateExistingStyle(QString StyleName,QString ActualStyleDef);
+    void                CreateNewStyle(QWidget *ParentWindow,QString ActualStyleDef);
+    void                ManageExistingStyle(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig);
+    void                StringToStringList(QString String,QStringList &List);
+    void                StringDefToStringList(QString String,QStringList &List);
+    void                DoTranslateCollection();
+    QString             DecodeString(QString String);
+    QString             EncodeString(QComboBox *CB,int ProjectGeometry,int ImageGeometry);
+    cStyleCollection    *PrepUndo();
+    void                ApplyUndo(cStyleCollection *UndoCollection);
 };
 
 #endif // _STYLEDEFINITIONS_H

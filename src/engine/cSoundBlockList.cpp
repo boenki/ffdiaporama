@@ -30,7 +30,7 @@ cSoundBlockList::cSoundBlockList() {
     CurrentTempSize     =0;                                                                 // Amount of data in the TempData buffer
     CurrentPosition     =0;
     SoundPacketSize     =MAXSOUNDPACKETSIZE;                                                // Size of a packet (depending on FPS)
-    TempData            =(uint8_t *)av_malloc(SoundPacketSize+8);                           // Buffer for stocking temporary data (when decoding data are less than a packet)
+    TempData            =(u_int8_t *)av_malloc(SoundPacketSize+8);                           // Buffer for stocking temporary data (when decoding data are less than a packet)
     Channels            =2;                                                                 // Number of channels
     SamplingRate        =48000;                                                             // Sampling rate (frequency)
     SampleBytes         =2;                                                                 // 16 bits : Size of a sample
@@ -74,7 +74,7 @@ void cSoundBlockList::SetFPS(double TheWantedDuration,int TheChannels,int64_t Th
         av_free(TempData);
         TempData=NULL;
     }
-    TempData=(uint8_t *)av_malloc(SoundPacketSize+8);
+    TempData=(u_int8_t *)av_malloc(SoundPacketSize+8);
 }
 
 //====================================================================================================================
@@ -95,7 +95,7 @@ void cSoundBlockList::SetFrameSize(int FrameSize,int TheChannels,int64_t TheSamp
         av_free(TempData);
         TempData=NULL;
     }
-    TempData=(uint8_t *)av_malloc(SoundPacketSize+8);
+    TempData=(u_int8_t *)av_malloc(SoundPacketSize+8);
 }
 
 //====================================================================================================================
@@ -149,13 +149,13 @@ void cSoundBlockList::AppendNullSoundPacket(int64_t Position) {
 void cSoundBlockList::AppendData(int64_t Position,int16_t *Data,int64_t DataLen) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendData");
 
-    uint8_t *CurData=(uint8_t *)Data;
+    u_int8_t *CurData=(u_int8_t *)Data;
     // Cut data to Packet
     while ((DataLen+CurrentTempSize>=SoundPacketSize)) {
         #ifdef LIBAV_08
-            uint8_t *Packet=(uint8_t *)av_malloc(SoundPacketSize+8);
+            u_int8_t *Packet=(u_int8_t *)av_malloc(SoundPacketSize+8);
         #else
-            uint8_t *Packet=NULL;
+            u_int8_t *Packet=NULL;
             int     out_linesize=0;
             av_samples_alloc(&Packet,&out_linesize,Channels,SoundPacketSize+8,SampleFormat,1);
         #endif

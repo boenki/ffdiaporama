@@ -24,8 +24,6 @@
 // Basic inclusions (common to all files)
 #include "../../CustomCtrl/_QCustomDialog.h"
 
-#include "../_ApplicationDefinitions.h"
-
 namespace Ui {
     class DlgApplicationSettings;
 }
@@ -33,14 +31,14 @@ namespace Ui {
 class DlgApplicationSettings : public QCustomDialog {
 Q_OBJECT
 public:
-    cApplicationConfig  *ApplicationConfig;
+    cBaseApplicationConfig  *ApplicationConfig;
     bool                IsDeviceChanged;
     int                 CurrentDevice;
     int                 CurrentDeviceIndex;
     QComboBox           *CB_SL[NBR_IMAGETYPE][2];
     QComboBox           *CB_BA[NBR_IMAGETYPE][2];
 
-    explicit DlgApplicationSettings(int HelpURL,cApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit DlgApplicationSettings(int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgApplicationSettings();
 
     // function to be overloaded

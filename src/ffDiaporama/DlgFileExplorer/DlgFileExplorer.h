@@ -4,8 +4,6 @@
 // Basic inclusions (common to all files)
 #include "../../CustomCtrl/_QCustomDialog.h"
 #include "../../engine/cDriveList.h"
-
-#include "../_ApplicationDefinitions.h"
 #include "../DlgWorkingTask/DlgWorkingTask.h"
 
 namespace Ui {

@@ -570,7 +570,7 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
 
     // Create VideoFrameConverter
     VideoFrameConverter=sws_getContext(
-        VideoStream->codec->width,VideoStream->codec->height,PIXFMT,                        // Src Widht,Height,Format
+        InternalWidth,VideoStream->codec->height,PIXFMT,                                    // Src Widht,Height,Format
         VideoStream->codec->width,VideoStream->codec->height,VideoStream->codec->pix_fmt,   // Destination Width,Height,Format
         SWS_BICUBIC,                                                                        // flags
         NULL,NULL,NULL);                                                                    // src Filter,dst Filter,param
@@ -581,7 +581,7 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
 
     #ifdef LIBAV_08
     // Create VideoEncodeBuffer
-    VideoEncodeBuffer=(uint8_t *)av_malloc(VideoEncodeBufferSize);
+    VideoEncodeBuffer=(u_int8_t *)av_malloc(VideoEncodeBufferSize);
     if (!VideoEncodeBuffer) {
         ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: av_malloc() failed for VideoEncodeBuffer");
         return false;
@@ -595,7 +595,7 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
         return false;
     } else {
         VideoFrameBufSize=avpicture_get_size(VideoStream->codec->pix_fmt,VideoStream->codec->width,VideoStream->codec->height);
-        VideoFrameBuf   =(uint8_t *)av_malloc(VideoFrameBufSize);
+        VideoFrameBuf   =(u_int8_t *)av_malloc(VideoFrameBufSize);
         if ((!VideoFrameBufSize)||(!VideoFrameBuf)) {
             ToLog(LOGMSG_CRITICAL,"EncodeVideo-OpenVideoStream: av_malloc() failed for VideoFrameBuf");
             return false;
@@ -852,7 +852,7 @@ bool cEncodeVideo::DoEncode() {
     LastCheckTime       =StartTime;                                     // Display control : last time the loop start
     qlonglong Position  =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
     int ColumnStart     =-1;                                            // Render start position of current object
-    int Column          =-1;                                            // Render current object
+    int Column          =FromSlide-1;                                     // Render current object
 
     // Init Resampler (if needed)
     if (AudioStream) {
@@ -860,7 +860,7 @@ bool cEncodeVideo::DoEncode() {
             if ((AudioStream->codec->sample_fmt!=RenderMusic.SampleFormat)||(AudioStream->codec->channels!=RenderMusic.Channels)||(AudioSampleRate!=RenderMusic.SamplingRate)) {
                 if (!AudioResamplerBuffer) {
                     AudioResamplerBufferSize=AVCODEC_MAX_AUDIO_FRAME_SIZE*ToEncodeMusic.Channels;
-                    AudioResamplerBuffer=(uint8_t *)av_malloc(AudioResamplerBufferSize);
+                    AudioResamplerBuffer=(u_int8_t *)av_malloc(AudioResamplerBufferSize);
                     if (!AudioResamplerBuffer) {
                         ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: AudioResamplerBuffer allocation failed"));
                         Continue=false;
@@ -881,16 +881,6 @@ bool cEncodeVideo::DoEncode() {
             }
         #elif defined(USELIBSWRESAMPLE)
             if ((AudioStream->codec->sample_fmt!=RenderMusic.SampleFormat)||(AudioStream->codec->channels!=RenderMusic.Channels)||(AudioSampleRate!=RenderMusic.SamplingRate)) {
-/*                if (!AudioResamplerBuffer) {
-//                    AudioResamplerBufferSize=AVCODEC_MAX_AUDIO_FRAME_SIZE*ToEncodeMusic.Channels;
-//                    AudioResamplerBuffer=(uint8_t *)av_malloc(AudioResamplerBufferSize);
-                    int out_linesize=0;
-                    AudioResamplerBufferSize=av_samples_alloc(&AudioResamplerBuffer,&out_linesize,ToEncodeMusic.Channels,AVCODEC_MAX_AUDIO_FRAME_SIZE,ToEncodeMusic.SampleFormat,1);
-                    if (AudioResamplerBufferSize<=0) {
-                        ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: AudioResamplerBuffer allocation failed"));
-                        Continue=false;
-                    }
-                }*/
                 if (!AudioResampler) {
                     AudioResampler=swr_alloc();
                     av_opt_set_int(AudioResampler,"in_channel_layout",     av_get_default_channel_layout(ToEncodeMusic.Channels),0);
@@ -1007,7 +997,7 @@ bool cEncodeVideo::DoEncode() {
 
         // Prepare frame (if W=H=0 then soundonly)
         Diaporama->LoadSources(Frame,InternalWidth,InternalHeight,false,true);                                        // Load source images
-        Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,InternalWidth,InternalHeight); // Make final assembly
+        Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,InternalWidth,InternalHeight,QTPIXFMT); // Make final assembly
 
         // Ensure previous threaded encoding was ended before continuing
         if ((AudioStream)&&(AudioFrame)&&(ThreadEncodeAudio.isRunning()))                        ThreadEncodeAudio.waitForFinished();
@@ -1026,9 +1016,9 @@ bool cEncodeVideo::DoEncode() {
 
             // Transfert RenderMusic data to EncodeMusic data
             while ((Continue)&&(RenderMusic.List.count()>0)) {
-                uint8_t *PacketSound=(uint8_t *)RenderMusic.DetachFirstPacket();
+                u_int8_t *PacketSound=(u_int8_t *)RenderMusic.DetachFirstPacket();
                 if (PacketSound==NULL) {
-                    PacketSound=(uint8_t *)av_malloc(RenderMusic.SoundPacketSize+4);
+                    PacketSound=(u_int8_t *)av_malloc(RenderMusic.SoundPacketSize+4);
                     memset(PacketSound,0,RenderMusic.SoundPacketSize);
                 }
                 #if defined(LIBAV_08)
@@ -1056,7 +1046,7 @@ bool cEncodeVideo::DoEncode() {
                 //EncodeMusic(ToEncodeMusic,Continue);
             }
             if ((VideoStream)&&(VideoFrameConverter)&&(VideoFrame)) {
-                QImage *Image=((PreviousFrame)&&(Frame->RenderedImage==PreviousFrame->RenderedImage))?NULL:new QImage(Frame->RenderedImage->convertToFormat(QTPIXFMT));
+                QImage *Image=((PreviousFrame)&&(Frame->RenderedImage==PreviousFrame->RenderedImage))?NULL:Frame->RenderedImage/*new QImage(Frame->RenderedImage->convertToFormat(QTPIXFMT))*/;
                 ThreadEncodeVideo.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeVideo,Image,Continue));
                 //EncodeVideo(Image,Continue);
             }
@@ -1096,12 +1086,12 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
     QTime a;
     a.start();
 
-    int     errcode;
-    int64_t DestNbrSamples=ToEncodeMusic->SoundPacketSize/(ToEncodeMusic->Channels*av_get_bytes_per_sample(ToEncodeMusic->SampleFormat));
-    int     DestSampleSize=AudioStream->codec->channels*av_get_bytes_per_sample(AudioStream->codec->sample_fmt);
-    uint8_t *DestPacket   =NULL;
-    int16_t *PacketSound  =NULL;
-    int64_t DestPacketSize=DestNbrSamples*DestSampleSize;
+    int         errcode;
+    int64_t     DestNbrSamples=ToEncodeMusic->SoundPacketSize/(ToEncodeMusic->Channels*av_get_bytes_per_sample(ToEncodeMusic->SampleFormat));
+    int         DestSampleSize=AudioStream->codec->channels*av_get_bytes_per_sample(AudioStream->codec->sample_fmt);
+    u_int8_t    *DestPacket   =NULL;
+    int16_t     *PacketSound  =NULL;
+    int64_t     DestPacketSize=DestNbrSamples*DestSampleSize;
 
     // Flush audio frame of ToEncodeMusic
     while ((Continue)&&(ToEncodeMusic->List.count()>0)&&(!StopProcessWanted)) {
@@ -1111,15 +1101,15 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
             Continue=false;
         } else {
             #if defined(LIBAV_08)
-                DestPacket=(uint8_t *)PacketSound;
+                DestPacket=(u_int8_t *)PacketSound;
             #elif defined(USELIBAVRESAMPLE)
                 // LIBAV 9 => Convert sample format (is needed)
                 if ((AudioResampler!=NULL)&&(AudioResamplerBuffer!=NULL)) {
                     DestPacket=AudioResamplerBuffer;
-                    uint8_t *in_data[RESAMPLE_MAX_CHANNELS]={0},*out_data[RESAMPLE_MAX_CHANNELS]={0};
-                    int     in_linesize=0,out_linesize=0;
-                    int     out_samples=avresample_available(AudioResampler)+av_rescale_rnd(avresample_get_delay(AudioResampler)+DestNbrSamples,AudioStream->codec->sample_rate,ToEncodeMusic->SamplingRate,AV_ROUND_UP);
-                    if (av_samples_fill_arrays(in_data,&in_linesize,(uint8_t *)PacketSound,ToEncodeMusic->Channels,DestNbrSamples,ToEncodeMusic->SampleFormat,1)<0) {
+                    u_int8_t *in_data[RESAMPLE_MAX_CHANNELS]={0},*out_data[RESAMPLE_MAX_CHANNELS]={0};
+                    int      in_linesize=0,out_linesize=0;
+                    int      out_samples=avresample_available(AudioResampler)+av_rescale_rnd(avresample_get_delay(AudioResampler)+DestNbrSamples,AudioStream->codec->sample_rate,ToEncodeMusic->SamplingRate,AV_ROUND_UP);
+                    if (av_samples_fill_arrays(in_data,&in_linesize,(u_int8_t *)PacketSound,ToEncodeMusic->Channels,DestNbrSamples,ToEncodeMusic->SampleFormat,1)<0) {
                         ToLog(LOGMSG_CRITICAL,QString("failed in_data fill arrays"));
                         Continue=false;
                     } else {
@@ -1135,7 +1125,7 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
                         }
                     }
                     DestPacket=out_data[0];
-                } else DestPacket=(uint8_t *)PacketSound;
+                } else DestPacket=(u_int8_t *)PacketSound;
             #elif defined(USELIBSWRESAMPLE)
                 if (AudioResampler!=NULL) {
                     int out_samples=av_rescale_rnd(swr_get_delay(AudioResampler,ToEncodeMusic->SamplingRate)+DestNbrSamples,AudioStream->codec->sample_rate,ToEncodeMusic->SamplingRate,AV_ROUND_UP);
@@ -1144,9 +1134,9 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
                         ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: AudioResamplerBuffer allocation failed"));
                         Continue=false;
                     }
-                    uint8_t *in_data[RESAMPLE_MAX_CHANNELS]={0},*out_data[RESAMPLE_MAX_CHANNELS]={0};
+                    u_int8_t *in_data[RESAMPLE_MAX_CHANNELS]={0},*out_data[RESAMPLE_MAX_CHANNELS]={0};
                     int     in_linesize=0,out_linesize=0;
-                    if (av_samples_fill_arrays(in_data,&in_linesize,(uint8_t *)PacketSound,ToEncodeMusic->Channels,DestNbrSamples,ToEncodeMusic->SampleFormat,0)<0) {
+                    if (av_samples_fill_arrays(in_data,&in_linesize,(u_int8_t *)PacketSound,ToEncodeMusic->Channels,DestNbrSamples,ToEncodeMusic->SampleFormat,0)<0) {
                         ToLog(LOGMSG_CRITICAL,QString("failed in_data fill arrays"));
                         Continue=false;
                     } else {
@@ -1154,17 +1144,17 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
                             ToLog(LOGMSG_CRITICAL,QString("failed out_data fill arrays"));
                             Continue=false;
                         } else {
-                            DestPacketSize=swr_convert(AudioResampler,out_data,out_samples,(const uint8_t **)in_data,DestNbrSamples)*DestSampleSize;
+                            DestPacketSize=swr_convert(AudioResampler,out_data,out_samples,(const u_int8_t **)in_data,DestNbrSamples)*DestSampleSize;
                             if (DestPacketSize<=0) {
                                 ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: swr_convert failed"));
                                 Continue=false;
                             }
-                            DestPacket=(uint8_t *)out_data[0];
+                            DestPacket=(u_int8_t *)out_data[0];
                         }
                     }
-                } else DestPacket=(uint8_t *)PacketSound;
+                } else DestPacket=(u_int8_t *)PacketSound;
             #else
-                DestPacket=(uint8_t *)PacketSound;
+                DestPacket=(u_int8_t *)PacketSound;
             #endif
 
             if (Continue) {
@@ -1178,7 +1168,7 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
                 #endif
 
                 // fill buffer
-                errcode=avcodec_fill_audio_frame(AudioFrame,AudioStream->codec->channels,AudioStream->codec->sample_fmt,(const uint8_t*)DestPacket,DestPacketSize,1);
+                errcode=avcodec_fill_audio_frame(AudioFrame,AudioStream->codec->channels,AudioStream->codec->sample_fmt,(const u_int8_t*)DestPacket,DestPacketSize,1);
                 if (errcode>=0) {
                     // Init packet
                     AVPacket pkt;
@@ -1242,8 +1232,10 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
 
 //*************************************************************************************************************************************************
 
-void cEncodeVideo::EncodeVideo(QImage *Image,bool &Continue) {
+void cEncodeVideo::EncodeVideo(QImage *SrcImage,bool &Continue) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::EncodeVideo");
+
+    QImage *Image=SrcImage;
 
     if (Image) {
         avcodec_get_frame_defaults(VideoFrame);
@@ -1257,25 +1249,22 @@ void cEncodeVideo::EncodeVideo(QImage *Image,bool &Continue) {
             ToLog(LOGMSG_CRITICAL,"EncodeVideo-EncodeVideo: avpicture_fill() failed for VideoFrameBuf");
             return;
         }
-
         // Apply ExtendV
         if ((Continue)&&(!StopProcessWanted)&&(Image->height()!=VideoStream->codec->height)) {
-            QImage *NewImage=new QImage(VideoStream->codec->width,VideoStream->codec->height,QTPIXFMT);
+            Image=new QImage(InternalWidth,VideoStream->codec->height,QTPIXFMT);
             QPainter P;
-            P.begin(NewImage);
-            P.fillRect(QRect(0,0,NewImage->width(),NewImage->height()),Qt::black);
-            P.drawImage(0,(NewImage->height()-Image->height())/2,*Image);
+            P.begin(Image);
+            P.fillRect(QRect(0,0,Image->width(),Image->height()),Qt::black);
+            P.drawImage(0,(SrcImage->height()-SrcImage->height())/2,*SrcImage);
             P.end();
-            delete Image;
-            Image=NewImage;
         }
 
         // Now, convert image
         if ((Continue)&&(!StopProcessWanted)) {
             #ifdef USELIBSWRESAMPLE
-            uint8_t *data={(uint8_t *)Image->bits()};
+            u_int8_t *data={(u_int8_t *)Image->bits()};
             #else
-            uint8_t *data=(uint8_t *)Image->bits();
+            u_int8_t *data=(u_int8_t *)Image->bits();
             #endif
             int LineSize=Image->bytesPerLine();
             int Ret=sws_scale(
@@ -1352,5 +1341,5 @@ void cEncodeVideo::EncodeVideo(QImage *Image,bool &Continue) {
             VideoFrame->extended_data=NULL;
         }
     }
-    if (Image) delete Image;
+    if ((Image)&&(Image!=SrcImage)) delete Image;
 }

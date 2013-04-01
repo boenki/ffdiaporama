@@ -49,13 +49,6 @@
 // Qt4 code
 #endif
 
-// Global values
-extern QString CurrentAppName;                                  // Application name (including devel, beta, ...)
-extern QString CurrentAppVersion;                               // Application version read from BUILDVERSION.txt
-
-// URL to link to help page
-#define HELPFILE_DEF "http://ffdiaporama.tuxfamily.org/?page_id=%1&lang=%2"
-
 //====================================================================
 // For windows, windows.h and winbase.h must be included after QtCore
 //====================================================================
@@ -64,6 +57,32 @@ extern QString CurrentAppVersion;                               // Application v
     #include <winbase.h>
     extern bool IsWindowsXP;    // True if OS is Windows/XP
 #endif
+
+//====================================================================
+
+// Note : Application version and revision are in BUILDVERSION.txt
+// Syntax for BUILDVERSION.txt is : <Version MAJOR.MINOR[.SUB|_beta_VERSION|_devel]>
+#define APPLICATION_NAME                    "ffDiaporama"
+#define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
+#define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
+#define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
+
+// Application version : url to file on internet
+//#define BUILDVERSION_WEBURL                    "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
+#define BUILDVERSION_WEBURL                     "http://ffdiaporama.tuxfamily.org/Devel/BUILDVERSION.txt"
+
+// Global values
+extern QString CurrentAppName;              // Application name (including devel, beta, ...)
+extern QString CurrentAppVersion;           // Application version read from BUILDVERSION.txt
+
+// URL to link to help page
+#define HELPFILE_DEF                        "http://ffdiaporama.tuxfamily.org/?page_id=%1&lang=%2"
+#define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de;nl"
+
+//====================================================================
+
+enum    FilterFile          {ALLFILE,IMAGEFILE,VIDEOFILE,MUSICFILE};
+enum    LoadConfigFileType  {USERCONFIGFILE,GLOBALCONFIGFILE};
 
 //====================================================================
 // Internal log defines and functions

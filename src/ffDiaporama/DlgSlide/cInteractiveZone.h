@@ -21,9 +21,6 @@
 #ifndef CINTERACTIVEZONE_H
 #define CINTERACTIVEZONE_H
 
-#include "../../engine/_GlobalDefines.h"
-#include "../_Diaporama.h"
-#include "../_ApplicationDefinitions.h"
 #include "cCustomBlockTable.h"
 
 #include <QWidget>
