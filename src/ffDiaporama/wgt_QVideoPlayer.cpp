@@ -491,7 +491,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
         } else if (Diaporama) {
 
             // Create a frame from actual position
-            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Value,Diaporama,double(1000)/WantedFPS);
+            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Value,Diaporama,double(1000)/WantedFPS,true);
             PrepareImage(Frame,false,true);         // This will add frame to the ImageList
             Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
             // Display frame
@@ -554,11 +554,11 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         // If no image in the list then prepare a first frame
         if (FileInfo) {
 
-            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,NextPosition,NULL,int(double(1000)/WantedFPS));
+            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,NextPosition,NULL,int(double(1000)/WantedFPS),true);
             NewFrame->CurrentObject_StartTime   =0;
             PrepareVideoFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
         } else {
-            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,NextPosition,Diaporama,double(1000)/WantedFPS);
+            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,NextPosition,Diaporama,double(1000)/WantedFPS,true);
             PrepareImage(NewFrame,true,true);
         }
     }
@@ -571,11 +571,11 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
     // Add image to the list if it's not full
     if ((FileInfo)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareVideo.isRunning())) {
-        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,NULL,int(double(1000)/WantedFPS));
+        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,NULL,int(double(1000)/WantedFPS),true);
         NewFrame->CurrentObject_StartTime   =0;
         ThreadPrepareVideo.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,NewFrame->CurrentObject_InObjectTime));
     } else if (((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
-        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/WantedFPS);
+        cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/WantedFPS,true);
         ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true,true));
     }
 

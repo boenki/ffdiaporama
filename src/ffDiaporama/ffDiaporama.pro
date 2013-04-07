@@ -34,65 +34,37 @@ isEmpty(PREFIX) {
 }
 
 #--------------------------------------------------------------
-# DEFINES BUILD DIRECTORIES, COMMON INCLUDES AND COMMON LIBS
+# DEFINES $$DESTDIR DIRECTORIES, COMMON INCLUDES AND COMMON LIBS
 #--------------------------------------------------------------
 
 DEFINES +=SHARE_DIR=\\\"$$PREFIX\\\"
 
+DESTDIR         += ../..
+OBJECTS_DIR     += $$DESTDIR
+MOC_DIR         += $$DESTDIR
+RCC_DIR         += $$DESTDIR
+UI_DIR          += $$DESTDIR
+UI_HEADERS_DIR  += $$DESTDIR
+UI_SOURCES_DIR  += $$DESTDIR
+INCLUDEPATH     += $$DESTDIR
+
 unix {
-    CONFIG(release, debug|release) {
-        DESTDIR         += ../../../build
-        OBJECTS_DIR     += ../../../build/src/$$TARGET
-        MOC_DIR         += ../../../build/src/$$TARGET
-        RCC_DIR         += ../../../build/src/$$TARGET
-        UI_DIR          += ../../../build/src/$$TARGET
-        UI_HEADERS_DIR  += ../../../build/src/$$TARGET
-        UI_SOURCES_DIR  += ../../../build/src/$$TARGET
-    }
-    CONFIG(debug, debug|release) {
-        DESTDIR         += ../../../debugbuild
-        OBJECTS_DIR     += ../../../debugbuild/src/$$TARGET
-        MOC_DIR         += ../../../debugbuild/src/$$TARGET
-        RCC_DIR         += ../../../debugbuild/src/$$TARGET
-        UI_DIR          += ../../../debugbuild/src/$$TARGET
-        UI_HEADERS_DIR  += ../../../debugbuild/src/$$TARGET
-        UI_SOURCES_DIR  += ../../../debugbuild/src/$$TARGET
-        INCLUDEPATH     += ../../../debugbuild/src/$$TARGET
-        DEFINES         += DEBUG_MODE
-    }
 
     INCLUDEPATH += /usr/include/ffmpeg/                                     # Specific for Fedora
 
-    exists(/usr/include/libswresample/swresample.h) {
-        DEFINES += USELIBSWRESAMPLE
-        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
-    } else:exists(/usr/include/libavresample/avresample.h) {
+    exists(/usr/include/libavresample/avresample.h) {
         DEFINES += USELIBAVRESAMPLE
         LIBS    += -lavresample                                             #------ conditionnaly include libavresample
+    } else:exists(/usr/include/libswresample/swresample.h) {
+        DEFINES += USELIBSWRESAMPLE
+        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
     } else {
         LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV_08
     }
 
 } else:win32 {
 
-    CONFIG(release, debug|release) {
-        DESTDIR         += ..\\..\\..\\winbuild
-        OBJECTS_DIR     += ..\\..\\..\\winbuild\\src\\$$TARGET
-        MOC_DIR         += ..\\..\\..\\winbuild\\src\\$$TARGET
-        RCC_DIR         += ..\\..\\..\\winbuild\\src\\$$TARGET
-        UI_DIR          += ..\\..\\..\\winbuild\\src\\$$TARGET
-        UI_HEADERS_DIR  += ..\\..\\..\\winbuild\\src\\$$TARGET
-        UI_SOURCES_DIR  += ..\\..\\..\\winbuild\\src\\$$TARGET
-    }
     CONFIG(debug, debug|release) {
-        DESTDIR         += ..\\..\\..\\windebugbuild
-        OBJECTS_DIR     += ..\\..\\..\\windebugbuild\\src\\$$TARGET
-        MOC_DIR         += ..\\..\\..\\windebugbuild\\src\\$$TARGET
-        RCC_DIR         += ..\\..\\..\\windebugbuild\\src\\$$TARGET
-        UI_DIR          += ..\\..\\..\\windebugbuild\\src\\$$TARGET
-        UI_HEADERS_DIR  += ..\\..\\..\\windebugbuild\\src\\$$TARGET
-        UI_SOURCES_DIR  += ..\\..\\..\\windebugbuild\\src\\$$TARGET
-        DEFINES         += DEBUG_MODE
         INCLUDEPATH     += F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include
         LIBS            += -L"F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\lib"
     }

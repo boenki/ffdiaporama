@@ -286,7 +286,7 @@ void QCustomFolderTree::s_itemExpanded(QTreeWidgetItem *item) {
             if (Directorys[k].isDir()) {
                 #ifdef Q_OS_WIN
                 if (IsPersonalFolder)
-                    CurItem->addChild(CreateItem(Directorys[k].fileName(),PersonalFolder+QDir::separator()+Directorys[k].fileName(),DriveList->GetFolderIcon(Directorys[k].absoluteFilePath())));
+                    CurItem->addChild(CreateItem(Directorys[k].fileName(),PersonalFolder+QDir::separator()+Directorys[k].fileName(),ApplicationConfig->DriveList->GetFolderIcon(Directorys[k].absoluteFilePath())));
                 else
                 #endif
                 CurItem->addChild(CreateItem(Directorys[k].fileName(),Directorys[k].absoluteFilePath(),ApplicationConfig->DriveList->GetFolderIcon(Directorys[k].absoluteFilePath())));

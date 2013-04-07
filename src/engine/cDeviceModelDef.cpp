@@ -362,12 +362,12 @@ struct sVideoCodecDef VIDEOCODECDEF[NBR_VIDEOCODECDEF]={
         "",                                                                                             // PossibleBitrate
         {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
     },{
-        false,false,AV_CODEC_ID_WMV2,VCODEC_WMV2,VCODECST_WMV2,                                            // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,AV_CODEC_ID_WMV2,VCODEC_WMV2,VCODECST_WMV2,                                         // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "wmv2","Windows Media Video 8",                                                                 // ShortName[50], LongName[200]
         "",                                                                                             // PossibleBitrate
         {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
     },{
-        false,false,AV_CODEC_ID_WMV3,VCODEC_WMV3,VCODECST_WMV3,                                            // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
+        false,false,AV_CODEC_ID_WMV3,VCODEC_WMV3,VCODECST_WMV3,                                         // IsFind,Codec_id,FFD_VCODEC,FFD_VCODECST
         "wmv3","Windows Media Video 9",                                                                 // ShortName[50], LongName[200]
         "",                                                                                             // PossibleBitrate
         {{""},{""}}                                                                                     // DefaultBitrate[2][NBR_SIZEDEF]
@@ -381,25 +381,25 @@ struct sAudioCodecDef AUDIOCODECDEF[NBR_AUDIOCODECDEF]={
     {false,false, AV_CODEC_ID_AC3,      "ac3",               "AC-3 (Dolby Digital)",                 "64k#80k#96k#112k#128k#144k#160k#192k#224k#256k#320k#384k",                       true,"224k#256k#320k#384k#448k#500k#512k#576k#640k","160k", "32000#44100#48000",AFORMAT_AC3},
     {false,false, AV_CODEC_ID_VORBIS,   "vorbis",            "OGG (Vorbis)",                         "64k#96k#128k#192k#256k#500k",                                                    false,"",                                           "128k", "8000#11025#12000#16000#22050#24000#32000#44100#48000",AFORMAT_OGG},
     {false,false, AV_CODEC_ID_MP2,      "mp2",               "MP2 (MPEG-1 Audio Layer II)",          "64k#96k#128k#192k#256k#500k",                                                    false,"",                                           "128k", "16000#22050#24000#32000#44100#48000",AFORMAT_MP2},
-    {false,false, AV_CODEC_ID_AMR_WB,   "libvo_amrwbenc",    "Adaptive Multi-Rate (AMR) Wide-Band",  "6.60k#8.85k#12.65k#14.25k#15.85k#18.25k#19.85k#23.05k#23.85k",                   false,"",                                           "6.60k","16000",AFORMAT_3GP},
+    {false,false, AV_CODEC_ID_AMR_WB,   "libvo_amrwbenc",    "Adaptive Multi-Rate (AMR) Wide-Band",  "6.60k#8.85k#12.65k#14.25k#15.85k#18.25k#19.85k#23.05k#23.85k",                   false,"",                                           "8.85k","16000",AFORMAT_3GP},
     {false,false, AV_CODEC_ID_FLAC,     "flac",              "FLAC (Free Lossless Audio Codec)",     "",                                                                               false,"",                                           "",     "8000#11025#12000#16000#22050#24000#32000#44100#48000",AFORMAT_FLAC},
-    {false,false, AV_CODEC_ID_AMR_NB,   "libopencore_amrnb", "Adaptive Multi-Rate (AMR) NB",         "4.75k#5.15k#5.90k#6.70k#7.40k#7.95k#10.20k#12.20k",                              false,"",                                           "4.75k","8000",AFORMAT_3GP},
+    {false,false, AV_CODEC_ID_AMR_NB,   "libopencore_amrnb", "Adaptive Multi-Rate (AMR) NB",         "4.75k#5.15k#5.90k#6.70k#7.40k#7.95k#10.20k#12.20k",                              false,"",                                           "6.70k","8000",AFORMAT_3GP},
     {false,false, AV_CODEC_ID_WMAV1,    "wmav1",             "Windows Media Audio 1",                "",                                                                               false,"",                                           "",     "8000#11025#12000#16000#22050#24000#32000#44100#48000",-1},
     {false,false, AV_CODEC_ID_WMAV2,    "wmav2",             "Windows Media Audio 2",                "",                                                                               false,"",                                           "",     "8000#11025#12000#16000#22050#24000#32000#44100#48000",-1}
 };
 
 struct sFormatDef FORMATDEF[VFORMAT_NBR]={
-    {false,false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264HQ#H264PQ",              "libvo_amrwbenc#libopencore_amrnb", "8000#16000","8000"},
-    {false,false, "avi",      "avi",  "AVI file format",              "MJPEG#MPEG#MPEG4#H264HQ#H264PQ",   "pcm_s16le#mp2#libmp3lame#ac3#libvorbis#vorbis", "8000#11025#12000#16000#22050#24000#32000#44100#48000","48000"},
-    {false,false, "matroska", "mkv",  "MKV Matroska file format",     "H264HQ#H264PQ#THEORA#LIBTHEORA#X264LL#MJPEG","pcm_s16le#libmp3lame#libfaac#aac#libvo_aacenc#ac3#libvorbis#vorbis#flac", "8000#11025#12000#16000#22050#24000#32000#44100#48000","48000"},
-    {false,false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                            "pcm_s16le", "8000#11025#12000#16000#22050#24000#32000#44100#48000","48000"},
-    {false,false, "mp4",      "mp4",  "MP4 file format",              "MPEG4#H264HQ#H264PQ",              "libmp3lame#libfaac#aac#libvo_aacenc", "8000#11025#12000#16000#22050#24000#32000#44100#48000","48000"},
-    {false,false, "mpegts",   "mpg",  "MPEG file format",             "MPEG",                             "mp2#ac3", "8000#11025#12000#16000#22050#24000#32000#44100#48000","48000"},
-    {false,false, "webm",     "webm", "WEBM file format",             "VP8",                              "libvorbis#vorbis", "8000#11025#12000#16000#22050#24000#32000#44100#48000","48000"},
-    {false,false, "flv",      "flv",  "FLV Flash file format 2005",   "H263",                             "libmp3lame", "44100","44100"},
-    {false,false, "flv",      "flv",  "FLV Flash file format 2008",   "H264HQ#H264PQ",                    "libfaac#aac#libvo_aacenc", "44100","44100"},
-    {false,false, "ogg",      "ogv",  "OGV Ogg/Theroa file format",   "THEORA#LIBTHEORA",                 "libvorbis#vorbis", "8000#11025#12000#16000#22050#24000#32000#44100#48000","48000"},
-    {false,false, "asf",      "wmv",  "ASF/Window Media Video format","",                                 "", "",""}
+    {false,false, "3gp",      "3gp",  "3GP file format",              "MPEG4#H264PQ",                "libvo_amrwbenc#libopencore_amrnb",                                                "8000#16000",                                           "8000"},
+    {false,false, "avi",      "avi",  "AVI file format",              "MPEG4#H264HQ#H264PQ",         "pcm_s16le#libmp3lame#ac3",                                                    "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},
+    {false,false, "matroska", "mkv",  "MKV Matroska file format",     "H264HQ#H264PQ",               "pcm_s16le#libmp3lame#libfaac#aac#libvo_aacenc#ac3#libvorbis#vorbis",              "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},
+    {false,false, "mjpeg",    "avi",  "MJPEG video",                  "MJPEG",                       "pcm_s16le",                                                                       "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},
+    {false,false, "mp4",      "mp4",  "MP4 file format",              "MPEG4#H264HQ#H264PQ",         "libmp3lame#libfaac#aac#libvo_aacenc",                                             "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},
+    {false,false, "mpegts",   "mpg",  "MPEG file format",             "MPEG",                        "mp2#ac3",                                                                         "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},
+    {false,false, "webm",     "webm", "WEBM file format",             "VP8",                         "libvorbis#vorbis",                                                                "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},
+    {false,false, "flv",      "flv",  "FLV Flash file format 2005",   "H263",                        "libmp3lame",                                                                      "44100",                                                "44100"},
+    {false,false, "flv",      "flv",  "FLV Flash file format 2008",   "H264HQ#H264PQ",               "libfaac#aac#libvo_aacenc",                                                        "44100",                                                "44100"},
+    {false,false, "ogg",      "ogv",  "OGV Ogg/Theroa file format",   "THEORA#LIBTHEORA",            "libvorbis#vorbis",                                                                "8000#11025#12000#16000#22050#24000#32000#44100#48000", "48000"},
+    {false,false, "asf",      "wmv",  "ASF/Window Media Video format","",                            "",                                                                                "",                                                     ""}
 };
 
 struct sFormatDef AUDIOFORMATDEF[NBR_AFORMAT]={

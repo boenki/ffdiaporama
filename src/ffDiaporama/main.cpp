@@ -39,6 +39,10 @@ int main(int argc, char* argv[]) {
     SetLFHeap();
     #endif
 
+    #ifdef Q_OS_WIN
+    QThread::currentThread()->setPriority(QThread::HighestPriority);
+    #endif
+
     SetWorkingPath(argv,APPLICATION_NAME,CONFIGFILEEXT);
     #ifdef Q_OS_LINUX
         if (SearchRasterMode(APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");

@@ -22,23 +22,31 @@ Criticité   Etat    Enoncé
 Normal      -       Bug sur le text scalling en render DVD
 
 Basse       NF      Etudier la transposition des cadres de sélection quand rotation dans la boite slide
+
 Basse       -       Pouvoir réduire ffD pendant la génération de film sous Windows
+
 Basse       -       Ajouter des boutons KeyFrame précédente et suivante dans la boite cut-vidéo
+
 Basse       WIP     Pouvoir activer/désactiver le clipping des textes dans les formes
                     =>  Tout est pret maintenant : il ne reste plus qu'à ajouter l'option dans la boite texte et dans les fichiers de données
+
 Basse       WIP     Pouvoir déplacer le centre de rotation des formes
                     =>  La fonction de dessin des formes permet maintenant un traitement plein écran
                         Reste à faire :
                             - Ajouter le centre de rotation quand la forme est sélectionnée et pouvoir le déplacer dans la zone interactive et dans la boite slide
                             - Ajouter la position du centre de rotation dans les fichiers de données
                             - Prendre en compte le centre de rotation dans la foction de dessin des formes
+
 Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers dans les répertoires à browser
                         Pour le moment, j'ai réduit la qualité des thumbnails quand plus de 100 images (division par 4)
                         C'est une solution provisoire car l'idéal est de décharger la mémoire si nécessaire et recharger les thumbnails au besoin
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 
-Bug plannar et opensuse sur MP3 et AC3 (11/10/2012<LIBAVCODEC 54.31.0)
+Bug openSUSE :
+    mpeg : mp2+mp2 ou mp2+AC3
+    avi  : divx+mp3
+    webm : ko
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
@@ -57,6 +65,9 @@ French version / Correction de bug :
 -Corrige le bug d'inactivité du bouton "up" dans l'explorateur multimédia quand le répertoire en cours est sous system de fichier "/" [Linux]
 -Corrige le bug sur la valeur de compression audio pour les codec AMR dans la boite device (la valeur sauvegardée n'est pas réaffichée)
 
+-Corrige un crash lors de l'encodage sans son
+-Corrige le bug d'encadage du son en mono (format AMR) [openSUSE]
+
 English version / Bug fixes :
 -Fixed bug for displaying thumbnails in the browser when media images are 2:1 or higher geometry
 -Fixed display bug of slide number in the render dialog when the render does not start at first slide.
@@ -64,11 +75,18 @@ English version / Bug fixes :
 -Fixed bug of inactivity of "up" button in the multimedia file explorer when the current directory is in the file system "/" [Linux]
 -Fixed the bug on the value of audio compression for codec AMR in device dialog (the value stored is not redisplayed)
 
+-Fixed crash when encoding video without sound
+-Fixed bug of encoding sound to mono (AMR format) [openSUSE]
+
 French version / Nouveautés :
 -Ajoute la sélection de la valeur par défaut pour la fréquence audio à utiliser lors des générations de film en mode avancé dans la boite de dialog d'option de l'application
 
+-Réduit les combinaisons possibles pour l'encodage avancé (trop de travail pour maintenir tout ça pour trop peu d'intérèt)
+
 English version / New features :
 -Adds selection of the default value for audio frequency to use when render movie using advanced mode in application option dialog
+
+-Reduce number of possible combination for advance render (too much work to keep it all for too little interest)
 
 Translation/Traductions :
     EN    - 100% - 1272/1272

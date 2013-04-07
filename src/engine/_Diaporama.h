@@ -364,7 +364,7 @@ public:
     cMusicObject        *TransitObject_MusicObject;             // Ref to the current playing music
 
     cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame);
-    cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int TimePosition,cDiaporama *Diaporama,double FrameDuration);
+    cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int TimePosition,cDiaporama *Diaporama,double FrameDuration,bool WantSound);
     ~cDiaporamaObjectInfo();
     bool IsShotStatic(cDiaporamaObject *Object,int ShotNumber);
 };

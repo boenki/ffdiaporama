@@ -114,7 +114,7 @@ void DlgTransitionProperties::DoInitDialog() {
     TimePosition=DiaporamaObject->Parent->GetObjectStartPosition(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject));
 
     // Retrieve object information and create PreviousFrame
-    PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);
+    PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS,false);
     DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true,true);                       // Load background and image
 
     // Set old values
@@ -285,7 +285,7 @@ void DlgTransitionProperties::s_ChTransitionCB(int) {
     TimePosition=DiaporamaObject->Parent->GetObjectStartPosition(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject));
 
     // Retrieve object information and create PreviousFrame
-    PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);
+    PreviousFrame=new cDiaporamaObjectInfo(NULL,TimePosition,DiaporamaObject->Parent,double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS,false);
     DiaporamaObject->Parent->LoadSources(PreviousFrame,W,H,true,true);                       // Load background and image
 
     // Set old values
