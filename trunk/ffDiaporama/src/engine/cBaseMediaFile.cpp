@@ -1932,6 +1932,8 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
             av_opt_set_int(RSC,"in_sample_rate",        RSC_InSampleRate,    0);
             av_opt_set_int(RSC,"out_channel_layout",    RSC_OutChannelLayout,0);
             av_opt_set_int(RSC,"out_sample_rate",       RSC_OutSampleRate,   0);
+            av_opt_set_int(RSC,"in_channel_count",      RSC_InChannels,      0);
+            av_opt_set_int(RSC,"out_channel_count",     RSC_OutChannels,     0);
             #if (LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,9,100))
             av_opt_set_sample_fmt(RSC,"in_sample_fmt",  RSC_InSampleFmt,     0);
             av_opt_set_sample_fmt(RSC,"out_sample_fmt", RSC_OutSampleFmt,    0);
@@ -2280,17 +2282,18 @@ u_int8_t *cVideoFile::Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSample
         u_int8_t *in_data[RESAMPLE_MAX_CHANNELS]={0};
         int     in_linesize=0;
         Data=Frame->data[0];
-        if (av_samples_fill_arrays(in_data,&in_linesize,(u_int8_t *)Frame->data[0],AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,1)<0) {
+        if (av_samples_fill_arrays(in_data,&in_linesize,(u_int8_t *)Frame->data[0],RSC_InChannels,Frame->nb_samples,RSC_InSampleFmt,1)<0) {
             ToLog(LOGMSG_CRITICAL,QString("failed in_data fill arrays"));
         } else {
             u_int8_t *out_data[RESAMPLE_MAX_CHANNELS]={0};
             int      out_linesize=0;
-            int      out_samples=avresample_available(RSC)+av_rescale_rnd(avresample_get_delay(RSC)+Frame->nb_samples,SoundTrackBloc->SamplingRate,AudioStream->codec->sample_rate,AV_ROUND_UP);
-            if (av_samples_alloc(&Data,&out_linesize,SoundTrackBloc->Channels,out_samples,SoundTrackBloc->SampleFormat,1)<0) {
+            int      out_samples=avresample_available(RSC)+av_rescale_rnd(avresample_get_delay(RSC)+Frame->nb_samples,RSC_OutSampleRate,RSC_InSampleRate,AV_ROUND_UP);
+            if (av_samples_alloc(&Data,&out_linesize,RSC_OutChannels,out_samples,RSC_OutSampleFmt,1)<0) {
                 ToLog(LOGMSG_CRITICAL,QString("av_samples_alloc failed"));
-            } else if (av_samples_fill_arrays(out_data,&out_linesize,Data,SoundTrackBloc->Channels,out_samples,SoundTrackBloc->SampleFormat,1)<0) {
+            } else if (av_samples_fill_arrays(out_data,&out_linesize,Data,RSC_OutChannels,out_samples,RSC_OutSampleFmt,1)<0) {
                 ToLog(LOGMSG_CRITICAL,QString("failed out_data fill arrays"));
-                else *SizeDecoded=avresample_convert(RSC,out_data,out_linesize,out_samples,in_data,in_linesize,Frame->nb_samples)*DstSampleSize;
+            } else {
+                *SizeDecoded=avresample_convert(RSC,(void **)out_data,out_linesize,out_samples,(void **)in_data,in_linesize,Frame->nb_samples)*DstSampleSize;
             }
         }
     #elif defined(USELIBSWRESAMPLE)

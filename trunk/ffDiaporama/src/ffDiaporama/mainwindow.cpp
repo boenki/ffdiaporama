@@ -2257,7 +2257,7 @@ void MainWindow::s_Event_SaveImageEvent() {
             if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastCaptureImage=QFileInfo(OutputFileName).absolutePath();     // Keep folder for next use
             if ((Filter.toLower().indexOf("png")!=-1)&&(!OutputFileName.endsWith(".png"))) OutputFileName=OutputFileName+".png";
             if ((Filter.toLower().indexOf("jpg")!=-1)&&(!OutputFileName.endsWith(".jpg"))) OutputFileName=OutputFileName+".jpg";
-            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Diaporama->CurrentPosition,Diaporama,1);
+            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Diaporama->CurrentPosition,Diaporama,1,false);
             Diaporama->LoadSources(Frame,Width,Height,false,true);
             Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,Width,Height);
             Frame->RenderedImage->save(OutputFileName,0,100);

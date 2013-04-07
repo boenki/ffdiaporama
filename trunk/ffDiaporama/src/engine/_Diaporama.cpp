@@ -2203,26 +2203,18 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     if (Info->IsTransition) {
         if (Info->TransitObject) {
             PrepareImage(Info,W,H,false,PreviewMode,AddStartPos);
-            #ifdef Q_OS_WIN
-            QApplication::processEvents();  //==============> Special case for windows because of windows threading method
-            #endif
         } else if (!Info->TransitObject_PreparedImage) {
             Info->TransitObject_PreparedImage=new QImage(W,H,QImage::Format_ARGB32_Premultiplied);
             QPainter P;
             P.begin(Info->TransitObject_PreparedImage);
             P.setRenderHints(QPainter::Antialiasing|QPainter::TextAntialiasing|QPainter::SmoothPixmapTransform|QPainter::HighQualityAntialiasing|QPainter::NonCosmeticDefaultPen);
-            //P.setCompositionMode(QPainter::CompositionMode_Source);
             P.fillRect(0,0,W,H,Qt::black);//Qt::transparent);
-            //P.setCompositionMode(QPainter::CompositionMode_SourceOver);
             P.end();
         }
     }
 
     // Load Source image
     PrepareImage(Info,W,H,true,PreviewMode,AddStartPos);
-    #ifdef Q_OS_WIN
-    QApplication::processEvents();  //==============> Special case for windows because of windows threading method
-    #endif
 
     //==============> Background part
 
@@ -2257,8 +2249,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
     QTime b;
     b.start();
 
-    if (ThreadPrepareCurrentMusicBloc.isRunning()) ThreadPrepareCurrentMusicBloc.waitForFinished();
-    if (ThreadPrepareTransitMusicBloc.isRunning()) ThreadPrepareTransitMusicBloc.waitForFinished();
+    if ((Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(ThreadPrepareCurrentMusicBloc.isRunning())) ThreadPrepareCurrentMusicBloc.waitForFinished();
+    if ((Info->TransitObject)&&(Info->TransitObject_MusicTrack)&&(ThreadPrepareTransitMusicBloc.isRunning())) ThreadPrepareTransitMusicBloc.waitForFinished();
 
     // Special case to clear music buffer if not transition and music of CurrentObject is in pause mode
     if ((!Info->IsTransition)&&(Info->CurrentObject)&&(Info->CurrentObject_MusicTrack)&&(Info->CurrentObject->MusicPause)&&(Info->CurrentObject_MusicTrack->List.count()>0)) {
@@ -2465,7 +2457,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
 }
 
 
-cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int TimePosition,cDiaporama *Diaporama,double TheFrameDuration) {
+cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int TimePosition,cDiaporama *Diaporama,double TheFrameDuration,bool WantSound) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo");
 
     //==============> Pre-initialise all values
@@ -2616,8 +2608,8 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
 
         // Search music objects
         qlonglong StartPosition;
-        if (CurrentObject!=NULL) CurrentObject_MusicObject=Diaporama->GetMusicObject(CurrentObject_Number,StartPosition);
-        if (TransitObject!=NULL) TransitObject_MusicObject=Diaporama->GetMusicObject(TransitObject_Number,StartPosition);
+        if ((WantSound)&&(CurrentObject!=NULL)) CurrentObject_MusicObject=Diaporama->GetMusicObject(CurrentObject_Number,StartPosition);
+        if ((WantSound)&&(TransitObject!=NULL)) TransitObject_MusicObject=Diaporama->GetMusicObject(TransitObject_Number,StartPosition);
 
         //==============> Try to re-use values from PreviousFrame
         if ((CurrentObject)&&(PreviousFrame)) {
@@ -2654,12 +2646,12 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 PreviousFrame->TransitObject_FreePreparedBackground=false;
 
             //************ SoundTrackMontage
-            if ((PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
+            if ((WantSound)&&(PreviousFrame->CurrentObject_Number==CurrentObject_Number)) {
                 CurrentObject_SoundTrackMontage=PreviousFrame->CurrentObject_SoundTrackMontage;         // Use the same SoundTrackMontage
                 PreviousFrame->CurrentObject_FreeSoundTrackMontage=false;                               // Set tag to not delete previous SoundTrackMontage
             }
             // SoundTrackMontage of transition Object
-            if (TransitObject) {
+            if ((WantSound)&&(TransitObject)) {
                 if ((PreviousFrame->CurrentObject_Number==TransitObject_Number)) {
                     TransitObject_SoundTrackMontage=PreviousFrame->CurrentObject_SoundTrackMontage;     // Use the same SoundTrackMontage
                     PreviousFrame->CurrentObject_FreeSoundTrackMontage=false;                           // Set tag to not delete previous SoundTrackMontage
@@ -2670,12 +2662,12 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
             }
 
             //************ Music
-            if ((PreviousFrame->CurrentObject_MusicObject==CurrentObject_MusicObject)) {
+            if ((WantSound)&&(PreviousFrame->CurrentObject_MusicObject==CurrentObject_MusicObject)) {
                 CurrentObject_MusicTrack=PreviousFrame->CurrentObject_MusicTrack;                       // Use the same Music track
                 PreviousFrame->CurrentObject_FreeMusicTrack=false;                                      // Set tag to not delete previous SoundTrackMontage
             }
             // Music of transition Object
-            if (TransitObject) {
+            if ((WantSound)&&(TransitObject)) {
                 if ((PreviousFrame->CurrentObject_MusicObject==TransitObject_MusicObject)) {
                     TransitObject_MusicTrack=PreviousFrame->CurrentObject_MusicTrack;                   // Use the same SoundTrackMontage
                     PreviousFrame->CurrentObject_FreeMusicTrack=false;                                  // Set tag to not delete previous SoundTrackMontage
@@ -2690,9 +2682,9 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 }
             }
             // Definitively check PreviousFrame to know if we realy need to free MusicObject
-            if (PreviousFrame->CurrentObject_FreeMusicTrack && ((PreviousFrame->CurrentObject_MusicTrack==CurrentObject_MusicTrack)||(PreviousFrame->CurrentObject_MusicTrack==TransitObject_MusicTrack)))
+            if ((WantSound)&&(PreviousFrame->CurrentObject_FreeMusicTrack)&&((PreviousFrame->CurrentObject_MusicTrack==CurrentObject_MusicTrack)||(PreviousFrame->CurrentObject_MusicTrack==TransitObject_MusicTrack)))
                 PreviousFrame->CurrentObject_FreeMusicTrack=false;
-            if (PreviousFrame->TransitObject_FreeMusicTrack && ((PreviousFrame->TransitObject_MusicTrack==CurrentObject_MusicTrack)||(PreviousFrame->TransitObject_MusicTrack==TransitObject_MusicTrack)||(PreviousFrame->TransitObject_MusicTrack==PreviousFrame->CurrentObject_MusicTrack)))
+            if ((WantSound)&&(PreviousFrame->TransitObject_FreeMusicTrack)&&((PreviousFrame->TransitObject_MusicTrack==CurrentObject_MusicTrack)||(PreviousFrame->TransitObject_MusicTrack==TransitObject_MusicTrack)||(PreviousFrame->TransitObject_MusicTrack==PreviousFrame->CurrentObject_MusicTrack)))
                 PreviousFrame->TransitObject_FreeMusicTrack=false;
 
             //************ PreparedImage & RenderedImage

@@ -56,7 +56,14 @@
     #include <windows.h>
     #include <winbase.h>
     extern bool IsWindowsXP;    // True if OS is Windows/XP
+
+    // These type are undefined under Windows with mingw 4.4
+    typedef unsigned char       u_int8_t;
+    typedef unsigned short      u_int16_t;
+    typedef unsigned            u_int32_t;
+    typedef unsigned long long  u_int64_t;
 #endif
+
 
 //====================================================================
 

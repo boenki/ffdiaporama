@@ -457,7 +457,7 @@ void DlgRenderVideo::FileFormatCombo(int) {
         // Set current selection
         if (ui->VideoFormatCB->findText(ToSelect)!=-1) ui->VideoFormatCB->setCurrentIndex(ui->VideoFormatCB->findText(ToSelect));
             else ui->VideoFormatCB->setCurrentIndex(0);
-        ui->VideoFormatCB->setEnabled(ui->VideoFormatCB->count()>0);
+        ui->VideoFormatCB->setEnabled(ui->VideoFormatCB->count()>1);
 
         AllowedCodec=FORMATDEF[CurrentFormat].PossibleAudioCodec;
 
@@ -500,7 +500,7 @@ void DlgRenderVideo::FileFormatCombo(int) {
     // Set current selection
     if (ui->AudioFormatCB->findText(ToSelect)!=-1) ui->AudioFormatCB->setCurrentIndex(ui->AudioFormatCB->findText(ToSelect));
         else ui->AudioFormatCB->setCurrentIndex(0);
-    ui->AudioFormatCB->setEnabled((ui->AudioFormatCB->count()>0)&&(ui->IncludeSoundCB->isChecked()));
+    ui->AudioFormatCB->setEnabled((ui->AudioFormatCB->count()>1)&&(ui->IncludeSoundCB->isChecked()));
 }
 
 //====================================================================================================================

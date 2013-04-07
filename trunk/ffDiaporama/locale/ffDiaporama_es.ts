@@ -1341,7 +1341,7 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="406"/>
         <source>The selection can&apos;t include folders.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">La selección no puede incluir carpetas.</translation>
     </message>
 </context>
 <context>
