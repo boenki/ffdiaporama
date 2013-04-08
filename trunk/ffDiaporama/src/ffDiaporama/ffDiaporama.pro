@@ -39,7 +39,10 @@ isEmpty(PREFIX) {
 
 DEFINES +=SHARE_DIR=\\\"$$PREFIX\\\"
 
-DESTDIR         += ../..
+DESTDIR+= ../../../build$$system(echo $BUILDENV)
+message("BUILD FOLDER="$$DESTDIR)
+
+
 OBJECTS_DIR     += $$DESTDIR
 MOC_DIR         += $$DESTDIR
 RCC_DIR         += $$DESTDIR
