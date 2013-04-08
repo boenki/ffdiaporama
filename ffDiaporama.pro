@@ -17,11 +17,19 @@ OTHER_FILES += TODO-LIST.txt \          # Developpement file
     ffDiaporama.desktop                 # Desktop (menu icon) entry for ffDiaporama installed in /usr
 
 CONFIG(release, debug|release) {
-    DESTDIR+=build
+    DESTDIR += ../build
 }
 
 CONFIG(debug, debug|release) {
-    DESTDIR+=debugbuild
-    DEFINES+=DEBUG_MODE
+    DESTDIR +=../debugbuild
+    DEFINES +=DEBUG_MODE
 }
+
+OBJECTS_DIR     += $$DESTDIR
+MOC_DIR         += $$DESTDIR
+RCC_DIR         += $$DESTDIR
+UI_DIR          += $$DESTDIR
+UI_HEADERS_DIR  += $$DESTDIR
+UI_SOURCES_DIR  += $$DESTDIR
+INCLUDEPATH     += $$DESTDIR
 
