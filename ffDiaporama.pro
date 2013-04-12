@@ -16,6 +16,8 @@ OTHER_FILES += TODO-LIST.txt \          # Developpement file
     ffDiaporama.url \                   # URL file to be install on windows system
     ffDiaporama.desktop                 # Desktop (menu icon) entry for ffDiaporama installed in /usr
 
+system(export BUILDENV="")
+
 CONFIG(release, debug|release) {
     DESTDIR += ../build
 }

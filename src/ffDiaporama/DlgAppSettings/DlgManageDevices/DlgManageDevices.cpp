@@ -42,7 +42,6 @@ DlgManageDevices::DlgManageDevices(cDeviceModelList *DeviceModelList,int HelpURL
     ui->setupUi(this);
     CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
-    HelpBt  =ui->HelpBT;
 
     IsDeviceChanged     =false;
     CurrentDevice       =-1;

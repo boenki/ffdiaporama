@@ -42,7 +42,6 @@ DlgApplicationSettings::DlgApplicationSettings(int HelpURL,cBaseApplicationConfi
     ui->setupUi(this);
     CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
-    HelpBt  =ui->HelpBT;
 
     IsDeviceChanged     =false;
     CurrentDevice       =-1;
@@ -293,9 +292,6 @@ void DlgApplicationSettings::DoInitDialog() {
     ChangeForTheWTypeCB(0);
 
     // Define handler
-    connect(ui->CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
-    connect(ui->OkBt,SIGNAL(clicked()),this,SLOT(accept()));
-    connect(ui->HelpBT,SIGNAL(clicked()),this,SLOT(doHelp()));
     connect(ui->CheckConfigBT,SIGNAL(clicked()),this,SLOT(s_CheckConfig()));
     connect(ui->DBManageDevicesBT,SIGNAL(clicked()),this,SLOT(s_ManageDevices()));
     connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(TabChanged(int)));
@@ -501,7 +497,7 @@ void DlgApplicationSettings::DoGlobalUndo() {
 
 void DlgApplicationSettings::s_CheckConfig() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::s_CheckConfig");
-    DlgCheckConfig Dlg(HELPFILE_DlgCheckConfig,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
+    DlgCheckConfig Dlg(0,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 }
@@ -510,7 +506,7 @@ void DlgApplicationSettings::s_CheckConfig() {
 
 void DlgApplicationSettings::s_ManageDevices() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::s_ManageDevices");
-    DlgManageDevices Dlg(&ApplicationConfig->DeviceModelList,HELPFILE_DlgManageDevices,ApplicationConfig,ApplicationConfig->DlgManageDevicesWSP,this);
+    DlgManageDevices Dlg(&ApplicationConfig->DeviceModelList,0,ApplicationConfig,ApplicationConfig->DlgManageDevicesWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 }

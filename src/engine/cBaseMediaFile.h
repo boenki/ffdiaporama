@@ -306,9 +306,10 @@ public:
 
     virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,bool DontUseEndPos);
     virtual QImage          *ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly);
-    virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
+    virtual int             DecodeVideoFrame(AVStream *VideoStream,AVStream *AudioStream,AVPacket *StreamPacket,bool Deinterlace,bool *DontRetryReading,int64_t Position,int64_t FPSDuration);
+    virtual QImage          ConvertYUVToRGB(bool PreviewMode);
 
-    virtual void            SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position);
+    virtual void            SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position,bool Deinterlace);
     virtual void            CloseResampler();
     virtual void            CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleFormat RSC_InSampleFmt,AVSampleFormat RSC_OutSampleFmt,int RSC_InSampleRate,int RSC_OutSampleRate
                                                #ifdef LIBAV_09
@@ -317,7 +318,6 @@ public:
                                           );
     virtual u_int8_t        *Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSampleSize);
 
-    #if !defined(USELIBSWRESAMPLE)
     //*********************
     // video filters part
     //*********************
@@ -339,7 +339,6 @@ public:
     virtual int             VideoFilter_Open(QString Filters);
     virtual void            VideoFilter_Close();
     virtual int             VideoFilter_Process();
-    #endif
 };
 
 //*********************************************************************************************************************************************

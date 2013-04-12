@@ -38,8 +38,6 @@ DlgCheckConfig::DlgCheckConfig(int HelpURL,cBaseApplicationConfig *ApplicationCo
 
     ui->setupUi(this);
     OkBt    =ui->OKBT;
-    //CancelBt=;
-    HelpBt  =ui->HelpBT;
 }
 
 //====================================================================================================================

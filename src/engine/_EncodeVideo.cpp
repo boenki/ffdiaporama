@@ -1050,7 +1050,7 @@ bool cEncodeVideo::DoEncode() {
                 //EncodeMusic(ToEncodeMusic,Continue);
             }
             if ((VideoStream)&&(VideoFrameConverter)&&(VideoFrame)) {
-                QImage *Image=((PreviousFrame)&&(Frame->RenderedImage==PreviousFrame->RenderedImage))?NULL:Frame->RenderedImage/*new QImage(Frame->RenderedImage->convertToFormat(QTPIXFMT))*/;
+                QImage *Image=((PreviousFrame)&&(Frame->RenderedImage==PreviousFrame->RenderedImage))?NULL:Frame->RenderedImage;
                 ThreadEncodeVideo.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeVideo,Image,Continue));
                 //EncodeVideo(Image,Continue);
             }
@@ -1125,7 +1125,11 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
                             ToLog(LOGMSG_CRITICAL,QString("failed out_data fill arrays"));
                             Continue=false;
                         } else {
+                            #if (LIBAVRESAMPLE_VERSION_INT<AV_VERSION_INT(1,0,0))
                             DestPacketSize=avresample_convert(AudioResampler,(void **)out_data,out_linesize,out_samples,(void **)in_data,in_linesize,DestNbrSamples)*DestSampleSize;
+                            #else
+                            DestPacketSize=avresample_convert(AudioResampler,out_data,out_linesize,out_samples,in_data,in_linesize,DestNbrSamples)*DestSampleSize;
+                            #endif
                             if (DestPacketSize<=0) {
                                 ToLog(LOGMSG_CRITICAL,QString("Error in avresample_convert"));
                                 Continue=false;
