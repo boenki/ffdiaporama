@@ -750,7 +750,7 @@ void MainWindow::s_Action_About() {
 void MainWindow::s_Action_DlgCheckConfig() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_DlgCheckConfig");
 
-    DlgCheckConfig Dlg(HELPFILE_DlgCheckConfig,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
+    DlgCheckConfig Dlg(0,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 }
@@ -1280,7 +1280,7 @@ void MainWindow::s_Action_ChangeApplicationSettings() {
     ui->ActionConfiguration_BT->setDown(false);
     ui->ActionConfiguration_BT_2->setDown(false);
 
-    DlgApplicationSettings Dlg(HELPFILE_DlgApplicationSettings,ApplicationConfig,ApplicationConfig->DlgApplicationSettingsWSP,this);
+    DlgApplicationSettings Dlg(0,ApplicationConfig,ApplicationConfig->DlgApplicationSettingsWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         ToStatusBar(QApplication::translate("MainWindow","Saving configuration file and applying new configuration ..."));
@@ -2013,7 +2013,10 @@ void MainWindow::s_Action_DoAddFile() {
                     CurrentBrush->Video->StartPos=QTime().fromString(Start);
                     CurrentBrush->Video->EndPos  =QTime().fromString(End);
                     DiaporamaObject->SlideName   =MediaFile->GetInformationValue(ChapterStr+"title");
-                } else CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
+                } else {
+                    CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
+                    if (CurrentBrush->Video->LibavFile->start_time>0) CurrentBrush->Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(CurrentBrush->Video->LibavFile->start_time)/AV_TIME_BASE)*1000));
+                }
             }
 
             //*****************************************************

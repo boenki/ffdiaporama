@@ -39,9 +39,18 @@ isEmpty(PREFIX) {
 
 DEFINES +=SHARE_DIR=\\\"$$PREFIX\\\"
 
-DESTDIR+= ../../../build$$system(echo $BUILDENV)
-message("BUILD FOLDER="$$DESTDIR)
+unix {
+    DESTDIR+= ../../../build$$system(echo $BUILDENV)
+} else:win32 {
+    CONFIG(release, debug|release) {
+        DESTDIR+= ../../../build_windows
+    }
+    CONFIG(debug, debug|release) {
+        DESTDIR+=../../../debugbuild_windows
+    }
+}
 
+message("BUILD FOLDER="$$DESTDIR)
 
 OBJECTS_DIR     += $$DESTDIR
 MOC_DIR         += $$DESTDIR

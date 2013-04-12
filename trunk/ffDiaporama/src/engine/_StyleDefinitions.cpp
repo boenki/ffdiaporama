@@ -444,7 +444,7 @@ void cStyleCollection::CreateNewStyle(QWidget *ParentWindow,QString ActualStyleD
 void cStyleCollection::ManageExistingStyle(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::ManageExistingStyle");
 
-    DlgManageStyle Dlg(this,HELPFILE_DlgManageStyle,(cBaseApplicationConfig *)BaseApplicationConfig,BaseApplicationConfig->DlgManageStyleWSP,ParentWindow);
+    DlgManageStyle Dlg(this,0,(cBaseApplicationConfig *)BaseApplicationConfig,BaseApplicationConfig->DlgManageStyleWSP,ParentWindow);
     Dlg.InitDialog();
     Dlg.exec();
 }

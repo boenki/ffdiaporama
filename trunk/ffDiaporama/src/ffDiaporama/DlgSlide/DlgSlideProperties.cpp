@@ -1979,6 +1979,7 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
             } else {
                 if (ModifyFlag) emit SetModifyFlag();
                 CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
+                if (CurrentBrush->Video->LibavFile->start_time>0) CurrentBrush->Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(CurrentBrush->Video->LibavFile->start_time)/AV_TIME_BASE)*1000));
                 //CurrentSlide->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
             }
             break;

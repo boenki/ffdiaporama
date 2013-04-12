@@ -410,18 +410,6 @@
         <translation>&amp;Annulla</translation>
     </message>
     <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>Apri la pagina di aiuto di questa finestra di dialogo</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
-    </message>
-    <message>
         <source>Language selection</source>
         <translation>Selezione lingua</translation>
     </message>
@@ -444,70 +432,12 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Modifica opzioni (quando si aggiungono oggetti)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for new text block&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Opzioni predefinite per il nuovo blocco testo&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for new image or video block (when adding block in slide dialog)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Opzioni predefinite per nuovi blocchi immagini o video (quando si aggiungono blocchi nella finestra diapositiva)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Project options (default values)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Opzioni progetto (valori predefiniti)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Remember size and position of windows</source>
         <translation>Ricorda dimensione e posizione delle finestre</translation>
-    </message>
-    <message>
-        <source>If this box is checked, the size and position of all windows and dialogue boxes
-of ffDiaporama will be saved to be reused the next time you use ffDiaporama</source>
-        <translation>Se questo cella è selezionata, la dimensione e posizione di tutte le finestre 
-di ffDiaporama saranno salvate per essere riutilizzate la prossima volta che si utilizza ffDiaporama</translation>
-    </message>
-    <message>
-        <source>Define the number of frames per second which will be generated to show the preview</source>
-        <translation>Definisce il numero dei frames per secondo che verrà denerato per mostrare l&apos;anteprima</translation>
-    </message>
-    <message>
-        <source>Select the position where new objects are placed on the timeline during insertion</source>
-        <translation>Seleziona la posizione dove i nuovi oggetti saranno posizionati sulla linea temporale durante il loro inserimento</translation>
-    </message>
-    <message>
-        <source>If this box is checked, a confirmation dialog is displayed every time you remove an object</source>
-        <translation>Se questa casella è selezionata, una finestra di conferma sarà visualizzata ogni volta che si rimuove un oggetto</translation>
-    </message>
-    <message>
-        <source>Select the unit of coordinates which will be used in the properties dialog box</source>
-        <translation>Seleziona l&apos;unità delle coordinate che si utilizzeranno nella finestra delle propietà</translation>
-    </message>
-    <message>
-        <source>If this box is checked, the folders that you use for images, videos, projects, music and the movie
-generations will be saved to be reused the next time you use ffDiaporama</source>
-        <translation>Se questa casella è selezionata, la cartella che si utilizza per la generazione delle immagini, video, progetto, musica e 
-filmati sarà salvata per essere riutilizzata la prossima volta che si utilizza ffDiaporama</translation>
-    </message>
-    <message>
-        <source>If this box is checked, files will be sorted by last number when you select multiple files in Add file</source>
-        <translation>Se questa casella è selezionata, i file saranno ordinati per l&apos;ultimo numero quando si selezionano più file in Aggiungi file</translation>
-    </message>
-    <message>
-        <source>Select the image geometry to be used for the creation of new projects</source>
-        <translation>Selezionare la geometria immagine che sarà usata per la creazione di un nuovo progetto</translation>
-    </message>
-    <message>
-        <source>Define the default duration of slides during their creation,
-this is by definition the first shot of each slide</source>
-        <translation>Definire la durata predefinita delle diapositive durante la loro creazione,
-questo è per definire il primo scatto per ogni diapositiva</translation>
-    </message>
-    <message>
-        <source>Define the default duration of following shots within a slide</source>
-        <translation>Definire la durata predefinita degli scatti seguenti all&apos;interno di una diapositiva</translation>
-    </message>
-    <message>
-        <source>Select the playback profile to be used for transitions and animations</source>
-        <translation>Selezionare il profilo di riproduzione da utilizzare per le transizioni e animazioni</translation>
     </message>
     <message>
         <source>Set the default type of transition to be inserted between slides to:
@@ -676,8 +606,230 @@ Inquadratura:</translation>
         <translation>Frequenza :</translation>
     </message>
     <message>
-        <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation>Seleziona il bit rate da usare per l&apos;audio durante il rendering.</translation>
+        <source>The Application options tab allows to define the general behavior of ffDiaporama.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option allows you to adjust the positions occupied by new objects inserted into the timeline.
+- If Insert after the current selected object is selected, then the new slides will be created after the current slide.
+- If Append to the end of the project is selected, then the new slides will be created at the end of the project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiapora to your hardware.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>If the Automatically crop 1920×1088 video to 1920×1080 is checked then video images are automatically cropped.
+Remark: Some manufacturers produce FullHD videos 1920×1088 rather than 1920×1080. They make it to accelerate the encoding which is faster with a multiple of 16 lines. But this size is not 16:9. To keep the whole image, not only the image is deformed to fit into the screen but besides black bands appear on the sides. To avoid all these problems, by checking this box, these videos are truncated to be returned to the 1920×1080 sizes. Then 4 lines are cut at the top and bottom.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the image smoothing effect will be applied to the images during the preview.
+Remark: This effect consumes lots of resources and can result in slow preview on small machines. Unchecking this box allows then to keep a fluid preview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option allows to select the unit for the coordinates which will be used in the properties dialog.
+ You can choose:
+ - Percentage: Coordinates (X, Y, Width and Height) are expressed in percentages
+ - Pixel: Coordinates (X, Y, Width and Height) are expressed in pixels relative to a screen in 1080p mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If the Activate deinterlace filter when add new MTS videos is checked, deinterlace filter will automatically be activated for all .mts videos added to the project.
+Remark: Some manufacturers produce videos using interlaced mode. They make it to accelerate the encoding. The problem is it deforms the image on which moved lines appear. For more information on interlaced video, see Wikipedia page on interlaced video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the number of images per second which will be generated to show the preview.
+Note: the higher this number, the more smooth the preview will be. On the other hand, more computer resources will be required. Reduce this number on slow computers or if the gauge for your multimedia reader is frequently in the red zone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the graphic system &quot;raster&quot; is used instead of the default graphic system. This option is used only at application start up.
+The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, a confirmation prompt will be displayed every time you remove an object:
+- A slide from the main window
+-A shot or block from the slide properties dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option allows you to adjust the way files are sorted when you select several files in Add file.
+- If this box is checked, files will be added in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040
+- If this box is unchecked, files are added in alphabetical order.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the sizes and the positions of all windows and dialogs will be saved and reused the next time you use ffDiaporama.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the frequency of the sound generated to show the preview.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Project options tab allows to define the options by default of the current project and for the new projects.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sets the default speed curve for the blocks animations of new projects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to Select the geometric constraint applied to the new text blocks.
+- Unlock: The shape of the block is free
+- Lock to project geometry: The shape of the block has the same shape as the image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selects the image geometry to be used for the creation of projects. Three geometries are available :
+- 4:3 : Corresponds to an old TV with (almost) square screen
+- 16:9 : Corresponds to a modern TV with rectangular screen
+- 2.35:1 : Corresponds to the Cinema format (on a TV, this format will use black strips at the top and below.)
+
+Note: the geometry of a project is defined once and for all when it is created. It is not possible to modify it afterwards.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined the automatic filling method to use for the title&apos;s project properties:
+- No automatic filling : You will have to define manually the title
+- Fill with project name when project save : The title will take the same name as the .ffd file
+- Fill with project folder name when project save : The title will take the same name as the folder in witch is save the .ffd file
+
+Note: this field is limited to 30 characters to remain compatible with jukebox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sets the default speed curve for the image effects animations of new projects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to select, for every project geometry, the style of the location applied to the new text blocks.
+This style defines the size, the coordinates, the rotations and the geometrical constraint.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the default duration of further shots.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Framing styles define how to crop the image to make it compatible with the block in which is displayed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The positioning styles define the the size, coordinates, rotations and geometric constraint to apply to blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to select the characters style applied to the text of the blocks.
+This style defines the font, its size, its color and the shadow effects applied to the text.
+Remark: This setting apply to all image formats.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Allows to select the style of the shape applied to the new text blocks.
+This style defines the shape (rectangle, circle, …), the border, the opaqueness and the shadow effect applied to the block.
+Remark: This setting apply to all image formats.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to select the characters style applied to the new text blocks.
+This style defines the font, its size, its color and the shadow effects applied to the text.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the default value for the field Language</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the default value for the field Author (often so called Artist by Jukebox)
+Note: this field is limited to 30 characters to remain compatible with jukebox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sets the default speed wave for the transitions of new projects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the default duration of the first shot for slides during their creation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Allows to select the style of the shape to applied to the new text blocks.
+This style defines the shape (rectangle, circle, …), the border, the opaqueness and the shadow effect applied to the block.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to select the style of background applied to the new text blocks.
+This style defines the transparency of the block and its filling.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This group of settings applies to the new text blocks created in slide dialogue by means of the &lt;img src=&quot;:/img/add_text.png&quot;/&gt; button.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default options for new text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default options for new image or video block (when adding block in slide dialog)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Rendering options Tab allows to define the options used by default during the generation of videos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option allows to select the name which will be proposed by default during the rendering of videos.
+This option can be applied only if the project was saved at first.
+
+Use project name as video name: If the project name is assembly.ffd, then assembly will be the proposed name
+
+Use project folder&apos;s name as video name: If the project name is assembly.ffd and is saved in the My holidays 2011 directory, then My holidays 2011 will be the proposed name
+
+Use title project as video name: Use the title defined in the project properties as the name of video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the default frequency to use for audio during the rendering.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog box allows you to define options for the application.
+It consists of following 3 tabs:
+- The Application options tab allows to define the general behavior of ffDiaporama.
+- The Project options tab allows to define the options by default of the current project and for the new projects.
+- The Rendering options Tab allows to define the options used by default during the generation of videos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to open the Check configuration dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to open the Manage device dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This group of settings applies to the new image or video blocks created in slide dialogue by means of the &lt;img src=&quot;:/img/add_image.png&quot;/&gt; button.&lt;br/&gt;&lt;br/&gt;For every image format and every project geometry select the style of location to applied to the new blocks. &lt;br/&gt;- Framing styles define how to crop the image to make it compatible with the block in which is displayed.&lt;br/&gt;- The positioning styles define the the size, coordinates, rotations and geometric constraint to apply to blocks.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This group of settings applies to the new image or video blocks created from the main window by means of the &lt;img src=&quot;:/img/add_image.png&quot;/&gt; button.&lt;br&gt;&lt;br&gt;For every image format and every project geometry select the style of location to applied to the new blocks. &lt;br&gt;- Framing styles define how to crop the image to make it compatible with the block in which is displayed.&lt;br&gt;- The positioning styles define the the size, coordinates, rotations and geometric constraint to apply to blocks.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -766,24 +918,8 @@ Inquadratura:</translation>
         <translation>Controlla configurazione all&apos;avvio</translation>
     </message>
     <message>
-        <source>Accept modification and exit dialog box</source>
-        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
-    </message>
-    <message>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
-    </message>
-    <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>Apre la pagina di aiuto che descrive questa finestra di dialogo</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
     </message>
     <message>
         <source>available</source>
@@ -948,6 +1084,30 @@ Inquadratura:</translation>
     <message>
         <source>LIBAV general version:</source>
         <translation>LIBAV versione generale:</translation>
+    </message>
+    <message>
+        <source>Here are listed the components used and their status:
+
+Red: The component does not work properly
+
+Green: The component works perfectly
+
+Yellow: The component works partially
+- For a codec: Only reading is available (not encoding)
+- For a library: The version is old</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows to check external tools configuration and libraries used by ffDiaporama.
+It is especially useful for the Linux users and for those who compiles the application.
+The most common shown errors concern the supported formats, codec and library versions.
+
+To solve the problems you will have to install additional packages on your computer then make ffDiaporama from source and verify again the configuration.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close dialog box</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1516,18 +1676,6 @@ Inquadratura:</translation>
         <translation>&amp;Annulla</translation>
     </message>
     <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>Apri la pagina di aiuto di questa finestra di dialogo</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
-    </message>
-    <message>
         <source>Apply modification</source>
         <translation>Applica modifiche</translation>
     </message>
@@ -1544,32 +1692,12 @@ Inquadratura:</translation>
         <translation>Categoria dispositivi :</translation>
     </message>
     <message>
-        <source>Select the device category to be shown in the list</source>
-        <translation>Seleziona la categoria dispositivo da visualizzare nella lista</translation>
-    </message>
-    <message>
         <source>Type</source>
         <translation>Tipo</translation>
     </message>
     <message>
-        <source>Create a new equipment profile and add it to the database</source>
-        <translation>Creare un nuovo profilo dispositivo e aggiungilo al database</translation>
-    </message>
-    <message>
-        <source>Delete current equipment profile</source>
-        <translation>Cancella il profilo del dispositivo corrente</translation>
-    </message>
-    <message>
         <source>Cancel the modifications that you made on a predefined equipment profile in the ffDiaporama database</source>
         <translation>Annulla le modifiche fatte sul profilo dispositivo predefinito nel batabase ffDiaporama</translation>
-    </message>
-    <message>
-        <source>Select the type of equipment where this device profile is to be placed</source>
-        <translation>Selezionare il tipo di attrezzatura in cui questo profilo dispositivo deve essere collocato</translation>
-    </message>
-    <message>
-        <source>Enter here a name for this device profile (free text field)</source>
-        <translation>Inserire quì un nome per questo profilo dispositivo (campo di testo libero)</translation>
     </message>
     <message>
         <source>Select the file type to use for the rendering</source>
@@ -1598,6 +1726,34 @@ Inquadratura:</translation>
     <message>
         <source>Select the bit rate to use for audio during the rendering</source>
         <translation>Selezionare il bit rate da utilizzare per l&apos;audio durante il rendering</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The device type zone allows you to select the type of equipment to be shown in the list.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This list shows the categories and the device types present in the database.&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db.png&quot;/&gt; Devices preceded by this icon are defined in the default database.&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db_update.png&quot;/&gt; Devices preceded by this icon are those that you defined yourself, or those from the default database that you have modified.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Allows you to create a new device which will be added to the database.&lt;/p&gt;&lt;p&gt;The creation of a new device is made in 3 steps:&lt;/p&gt;&lt;p&gt;1- You must first create a device&lt;/p&gt;&lt;p&gt;2- You define the various parameters&lt;/p&gt;&lt;p&gt;3- You click the &amp;quot;Apply modifications&amp;quot; button to register the parameters&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Allows you to delete a device.&lt;/p&gt;&lt;p&gt;Note that you can delete only devices which you created – those shown with the &lt;img src=&quot;:/img/db_update.png&quot;/&gt; icon&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Allows you to select the category in which the equipment is classified&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Enter here the name of the device (free text entry field)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This dialog box allows you to modify the equipment profiles database.&lt;/p&gt;&lt;p&gt;The database is actually composed of two parts:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db.png&quot;/&gt; The default database (supplied with ffDiaporama). These devices are registered in the global ffDiaporama configuration file.&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db_update.png&quot;/&gt; The devices which you modify or add. These are registered in your personal configuration file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1669,10 +1825,6 @@ Per favore seleziona un altro nome!</translation>
         <translation>Rinomina stile</translation>
     </message>
     <message>
-        <source>Remove style</source>
-        <translation>Rimuovi stile</translation>
-    </message>
-    <message>
         <source>Manage style</source>
         <comment>Dialog title</comment>
         <translation>Gestire stile</translation>
@@ -1684,10 +1836,6 @@ Per favore seleziona un altro nome!</translation>
     <message>
         <source>Remove</source>
         <translation>Rimuovi</translation>
-    </message>
-    <message>
-        <source>Cancel the modifications that you made on a standard style</source>
-        <translation>Cancella le modifiche fatte sullo stile predefinito</translation>
     </message>
     <message>
         <source>Reset to default</source>
@@ -1708,18 +1856,6 @@ Per favore seleziona un altro nome!</translation>
     <message>
         <source>&amp;Cancel</source>
         <translation>&amp;Annulla</translation>
-    </message>
-    <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>Apri la pagina di aiuto di questa finestra di dialogo</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
     </message>
     <message>
         <source>Custom style</source>
@@ -1816,6 +1952,30 @@ Vuoi sovrascriverlo?</translation>
 Please select another name!</source>
         <translation>Uno stile con questo nome già esiste.
 Per favore seleziona un&apos;altro nome!</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The existing styles appear with an icon which has various meanings:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db.png&quot;/&gt; for a standard style&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db_update.png&quot;/&gt; for a standard style you modified or for a custom style&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to rename the selected style.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to remove the personalized style.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Manage style dialog allows several things.
+Rename existing style
+Remove custom style
+Reset a standard style (that you modified) has its default values.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to delete the customizations of a standard style and thus to return it to the default values for this style.
+It concerns as well the name of the style as the associated settings.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

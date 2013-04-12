@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 27/03/2013
+* Dernier commit le : 08/04/2013
 **************************************************
 
 TODO :
@@ -42,13 +42,6 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
                         C'est une solution provisoire car l'idéal est de décharger la mémoire si nécessaire et recharger les thumbnails au besoin
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
-
-Bug openSUSE :
-    mpeg : mp2+mp2 ou mp2+AC3
-    avi  : divx+mp3
-    webm : ko
-
------------ ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
 NF  : New Feature
 WIP : Work in progress
@@ -56,37 +49,30 @@ WIP : Work in progress
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-Code cleaning +
 
 French version / Correction de bug :
--Corrige le bug d'affichage des vignettes dans l'explorateur multimédia quand les images sont en géométrie 2:1 et supérieur
--Corrige le bug d'affichage des n° de diapo dans la fenetre de génération quand la génération ne commence pas à la 1ere diapo.
--Corrige le bug de mauvais anamorphisme des images lors des générations en mode DVD [régression]
--Corrige le bug d'inactivité du bouton "up" dans l'explorateur multimédia quand le répertoire en cours est sous system de fichier "/" [Linux]
--Corrige le bug sur la valeur de compression audio pour les codec AMR dans la boite device (la valeur sauvegardée n'est pas réaffichée)
-
--Corrige un crash lors de l'encodage sans son
--Corrige le bug d'encadage du son en mono (format AMR) [openSUSE]
+-Corrige un bug de compilation sous ArchLinux avec ffmpeg 1.2
+-Corrige le problème d'images sautillantes dans la lecture et l'encodage des vidéos
+-Corrige le problème de memory leak dans la lecture des videos [regression beta 3]
 
 English version / Bug fixes :
--Fixed bug for displaying thumbnails in the browser when media images are 2:1 or higher geometry
--Fixed display bug of slide number in the render dialog when the render does not start at first slide.
--Fixed bug of bad anamorphism of images in render using DVD mode [regression]
--Fixed bug of inactivity of "up" button in the multimedia file explorer when the current directory is in the file system "/" [Linux]
--Fixed the bug on the value of audio compression for codec AMR in device dialog (the value stored is not redisplayed)
-
--Fixed crash when encoding video without sound
--Fixed bug of encoding sound to mono (AMR format) [openSUSE]
+-Fixed a compilation error on ArchLinux with ffmpeg 1.2
+-Fixed the problem of bouncy images in video playback and rendering
+-Fixed a memory leak error reading videos [beta 3 regression]
 
 French version / Nouveautés :
--Ajoute la sélection de la valeur par défaut pour la fréquence audio à utiliser lors des générations de film en mode avancé dans la boite de dialog d'option de l'application
-
--Réduit les combinaisons possibles pour l'encodage avancé (trop de travail pour maintenir tout ça pour trop peu d'intérèt)
+-Déplace les informations des pages d'aide des boites de dialogues suivantes, directement sous forme de tooltips dans les boites de dialogue (et supprime les pages correspondantes sur le site WEB)
+    -Configurer ffDiaporama
+    -Gérer les équipements
+    -Gerer les styles
+    -Vérifier la configuration
 
 English version / New features :
--Adds selection of the default value for audio frequency to use when render movie using advanced mode in application option dialog
-
--Reduce number of possible combination for advance render (too much work to keep it all for too little interest)
+-Move information from help pages directly as tooltips in dialogs (and remove the corresponding help pages on the website) for the following dialogs
+    -Application options
+    -Check configuration
+    -Manage Style
+    -Manage devices
 
 Translation/Traductions :
     EN    - 100% - 1272/1272
