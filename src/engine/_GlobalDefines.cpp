@@ -22,8 +22,9 @@
 #include <iostream>
 #include "_GlobalDefines.h"
 
-QString CurrentAppName;                                  // Application name (including devel, beta, ...)
-QString CurrentAppVersion;                               // Application version read from BUILDVERSION.txt
+QString CurrentAppName;                         // Application name (including devel, beta, ...)
+QString CurrentAppVersion;                      // Application version read from BUILDVERSION.txt
+double  ScreenFontAdjust=1;                     // System Font adjustement
 
 //======================================================================
 // Internal log defines and functions

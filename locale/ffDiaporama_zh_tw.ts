@@ -692,15 +692,6 @@ Note: the geometry of a project is defined once and for all when it is created. 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Defined the automatic filling method to use for the title&apos;s project properties:
-- No automatic filling : You will have to define manually the title
-- Fill with project name when project save : The title will take the same name as the .ffd file
-- Fill with project folder name when project save : The title will take the same name as the folder in witch is save the .ffd file
-
-Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sets the default speed curve for the image effects animations of new projects</source>
         <translation type="unfinished"></translation>
     </message>
@@ -820,6 +811,15 @@ It consists of following 3 tabs:
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This group of settings applies to the new image or video blocks created from the main window by means of the &lt;img src=&quot;:/img/add_image.png&quot;/&gt; button.&lt;br&gt;&lt;br&gt;For every image format and every project geometry select the style of location to applied to the new blocks. &lt;br&gt;- Framing styles define how to crop the image to make it compatible with the block in which is displayed.&lt;br&gt;- The positioning styles define the the size, coordinates, rotations and geometric constraint to apply to blocks.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Defines the automatic filling method to use for the title&apos;s project properties:
+- No automatic filling : You will have to define manually the title
+- Fill with project name when project save : The title will take the same name as the .ffd file
+- Fill with project folder name when project save : The title will take the same name as the folder where the file .ffd is saved
+
+Note: this field is limited to 30 characters to remain compatible with jukebox</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgBackgroundProperties</name>
@@ -846,14 +846,6 @@ It consists of following 3 tabs:
     <message>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>求助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
     </message>
     <message>
         <source>Solid brush</source>
@@ -894,6 +886,77 @@ It consists of following 3 tabs:
     <message>
         <source>Ctrl+Z</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this option is selected, the slide will have no background definition  but will use the same background as the previous slide:
+- If the previous slide does not have a background definition either, the check continues backwards until a slide is found which does have a background definition.
+- If no previous slide has a background definition, then a black frame will be used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this option is selected, the slide will have its own background definition.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select an image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a brush type in the following list:
+- Solid brush: Allow to selects a plain color.
+- Gradient 2 colors: Allow to select a gradient from 2 colors
+- Gradient 3 colors: Allow to select a gradient from 3 colors
+- Image from library: Allow to select a predefined background
+- Image disk: Allow to select a photo or an image from a file on the disk.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the image isn&apos;t deformed and you can open the Image framing dialog to select a part of the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Opens the Image framing dialog to select a part of the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select the gradient orientation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to define the position (in percentage) of the 3rd gradient color.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select the first color.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select the second color.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select the last color.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the image fills the screen, even if it has to be deformed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a photo or an image from a file on the disk.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The &quot;Background properties&quot; dialog allows you to define settings for the background of the slide.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">取消修改然後離開對話方塊</translation>
     </message>
 </context>
 <context>
@@ -1096,6 +1159,18 @@ To solve the problems you will have to install additional packages on your compu
     </message>
     <message>
         <source>Close dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBAVUTIL version:%1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBAVRESAMPLE version:%1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBSWRESAMPLE version:%1.%2.%3.%4</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1989,10 +2064,6 @@ It concerns as well the name of the style as the associated settings.</source>
         <translation>定義這張投影片的音量</translation>
     </message>
     <message>
-        <source>Set music to pause during this slide</source>
-        <translation>設定音樂在這張投影片期間暫停</translation>
-    </message>
-    <message>
         <source>Set to pause</source>
         <translation>設定為暫停</translation>
     </message>
@@ -2003,14 +2074,6 @@ It concerns as well the name of the style as the associated settings.</source>
     <message>
         <source>Start a new playlist from this slide</source>
         <translation>從這張投影片起開始新的播放清單</translation>
-    </message>
-    <message>
-        <source>Add a file to the playlist</source>
-        <translation>加入檔案到播放清單</translation>
-    </message>
-    <message>
-        <source>Remove the current selected file</source>
-        <translation>移除目前已選的檔案</translation>
     </message>
     <message>
         <source>Total playlist duration : </source>
@@ -2049,18 +2112,6 @@ It concerns as well the name of the style as the associated settings.</source>
         <translation>取消(&amp;C)</translation>
     </message>
     <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>開啟描述這個對話方塊的說明頁面</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>求助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
-    </message>
-    <message>
         <source>Add music files</source>
         <translation>加入音樂檔案</translation>
     </message>
@@ -2079,21 +2130,47 @@ It concerns as well the name of the style as the associated settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Set reduced volume level during this slide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You can start a new playlist from this slide</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Change the order in which the music files will be played:
-Move the current selected file a notch up</source>
+        <source>Specifies that from now on, the sound volume is reduced.
+This option is particularly useful, for example, to reduce the sound of the music during the play of a video.
+Remark: This volume reduction is applied only for the selected slide.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Change the order in which the music files will be played:
-Move the current selected file a notch down</source>
+        <source>Pauses the current play list.
+Remark: This pause is applied only for the selected slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adds a file to the playlist.
+A file selection dialog appears, allowing you to select a file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Removes the current selected file from the playlist</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changes the order in which the music files will be played.
+Moves the currently selected file one step up.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changes the order in which the music files will be played.
+Moves the currently selected file one step down</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The music files are listed in the order in which they will be played, from top to bottom.
+The Volume column defines the &quot; Master volume &quot; for the file.
+This volume is independent of any reductions in the volume that you define in the upper part of the dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Music properties dialog allows you to specify the music track.&lt;/p&gt;&lt;p&gt;The main functional principle for music tracks is that as long as you do not change the settings, the previous settings apply. So, if:&lt;br/&gt;- Slide 1 – Defines a play list&lt;br/&gt;- Slide 2 – Contains no settings&lt;br/&gt;- Slide 3 – Contains no settings&lt;br/&gt;- Slide 4 – Defines a play list&lt;br/&gt;- Slide 5 – Contains no settings&lt;/p&gt;&lt;p&gt;Then:&lt;br/&gt;- Slide 2 and 3 continue to play the play list defined in slide 1&lt;br/&gt;- Slide 5 continues to play the play list define in slide 4&lt;/p&gt;&lt;p&gt;Available settings for the music track :&lt;br/&gt;- Continue current playlist: Continues to play the play list defined by a previous slide&lt;br/&gt;- Start a new playlist: Allows you to create a new playlist. If a list defined in a previous slide, is still playing, it is stopped with a fade-out effect (progressive decline of the sound volume up to complete stop).&lt;/p&gt;&lt;p&gt;Remark:&lt;/p&gt;&lt;p&gt;The fade in/out effects and the increase/decrease of volume take place during the entering slide transitions. Consequently:&lt;br/&gt;- They last for the same time as the entering transition.&lt;br/&gt;- If a slide has an entering transition set to &amp;quot;No transition&amp;quot;, the sound effect is not progressive but instantaneous.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

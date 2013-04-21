@@ -65,7 +65,9 @@
      <item row="1" column="0">
       <widget class="QRadioButton" name="SameMusicReduceVolumeRD">
        <property name="toolTip">
-        <string>Set reduced volume level during this slide</string>
+        <string>Specifies that from now on, the sound volume is reduced.
+This option is particularly useful, for example, to reduce the sound of the music during the play of a video.
+Remark: This volume reduction is applied only for the selected slide.</string>
        </property>
        <property name="text">
         <string>Change volume level to :</string>
@@ -152,7 +154,8 @@
      <item row="2" column="0" colspan="3">
       <widget class="QRadioButton" name="SameMusicPauseRD">
        <property name="toolTip">
-        <string>Set music to pause during this slide</string>
+        <string>Pauses the current play list.
+Remark: This pause is applied only for the selected slide</string>
        </property>
        <property name="text">
         <string>Set to pause</string>
@@ -201,7 +204,8 @@
      <item>
       <widget class="QToolButton" name="AddMusicBt">
        <property name="toolTip">
-        <string>Add a file to the playlist</string>
+        <string>Adds a file to the playlist.
+A file selection dialog appears, allowing you to select a file</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -215,7 +219,7 @@
      <item>
       <widget class="QToolButton" name="RemoveMusicBt">
        <property name="toolTip">
-        <string>Remove the current selected file</string>
+        <string>Removes the current selected file from the playlist</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -229,8 +233,8 @@
      <item>
       <widget class="QToolButton" name="UpMusicBt">
        <property name="toolTip">
-        <string>Change the order in which the music files will be played:
-Move the current selected file a notch up</string>
+        <string>Changes the order in which the music files will be played.
+Moves the currently selected file one step up.</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -244,8 +248,8 @@ Move the current selected file a notch up</string>
      <item>
       <widget class="QToolButton" name="DownMusicBt">
        <property name="toolTip">
-        <string>Change the order in which the music files will be played:
-Move the current selected file a notch down</string>
+        <string>Changes the order in which the music files will be played.
+Moves the currently selected file one step down</string>
        </property>
        <property name="text">
         <string notr="true"/>
@@ -283,6 +287,11 @@ Move the current selected file a notch down</string>
    </item>
    <item>
     <widget class="QTableWidget" name="PlayListTable">
+     <property name="toolTip">
+      <string>The music files are listed in the order in which they will be played, from top to bottom.
+The Volume column defines the &quot; Master volume &quot; for the file.
+This volume is independent of any reductions in the volume that you define in the upper part of the dialog</string>
+     </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
@@ -362,6 +371,28 @@ Move the current selected file a notch down</string>
       <number>4</number>
      </property>
      <item>
+      <widget class="QToolButton" name="HelpToolTips">
+       <property name="toolTip">
+        <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Music properties dialog allows you to specify the music track.&lt;/p&gt;&lt;p&gt;The main functional principle for music tracks is that as long as you do not change the settings, the previous settings apply. So, if:&lt;br/&gt;- Slide 1 – Defines a play list&lt;br/&gt;- Slide 2 – Contains no settings&lt;br/&gt;- Slide 3 – Contains no settings&lt;br/&gt;- Slide 4 – Defines a play list&lt;br/&gt;- Slide 5 – Contains no settings&lt;/p&gt;&lt;p&gt;Then:&lt;br/&gt;- Slide 2 and 3 continue to play the play list defined in slide 1&lt;br/&gt;- Slide 5 continues to play the play list define in slide 4&lt;/p&gt;&lt;p&gt;Available settings for the music track :&lt;br/&gt;- Continue current playlist: Continues to play the play list defined by a previous slide&lt;br/&gt;- Start a new playlist: Allows you to create a new playlist. If a list defined in a previous slide, is still playing, it is stopped with a fade-out effect (progressive decline of the sound volume up to complete stop).&lt;/p&gt;&lt;p&gt;Remark:&lt;/p&gt;&lt;p&gt;The fade in/out effects and the increase/decrease of volume take place during the entering slide transitions. Consequently:&lt;br/&gt;- They last for the same time as the entering transition.&lt;br/&gt;- If a slide has an entering transition set to &amp;quot;No transition&amp;quot;, the sound effect is not progressive but instantaneous.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QToolButton {
+	background-color: transparent;
+	border: none; 
+    font-size: 9px;
+}
+</string>
+       </property>
+       <property name="text">
+        <string notr="true">?</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../RSCffDiaporama.qrc">
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -399,23 +430,6 @@ Move the current selected file a notch down</string>
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="HelpBT">
-       <property name="toolTip">
-        <string>Open help page describing this dialog box</string>
-       </property>
-       <property name="text">
-        <string>&amp;Help</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F1</string>
        </property>
       </widget>
      </item>

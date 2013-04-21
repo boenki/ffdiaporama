@@ -30,9 +30,8 @@ DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,int 
     ui->setupUi(this);
     OkBt    =ui->OKBT;
     CancelBt=ui->CancelBt;
-    HelpBt  =ui->HelpBT;
 
-    DiaporamaObject = TheDiaporamaObject;
+    DiaporamaObject=TheDiaporamaObject;
 }
 
 //====================================================================================================================

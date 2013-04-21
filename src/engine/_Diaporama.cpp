@@ -2339,7 +2339,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 memset((u_int8_t *)Paquet,0,Info->TransitObject_MusicTrack->SoundPacketSize+8);
             }
             int32_t mix;
-            int16_t *Buf1=Info->CurrentObject_MusicTrack->List[i];
+            int16_t *Buf1=(i<Info->CurrentObject_MusicTrack->List.count())?Info->CurrentObject_MusicTrack->List[i]:NULL;
             int     Max=Info->CurrentObject_MusicTrack->SoundPacketSize/(Info->CurrentObject_MusicTrack->SampleBytes*Info->CurrentObject_MusicTrack->Channels);
             double  FadeAdjust   =sin(1.5708*double(Info->CurrentObject_InObjectTime+(double(i)/double(Info->CurrentObject_MusicTrack->NbrPacketForFPS))*double(Info->FrameDuration))/double(Info->TransitionDuration));
             double  FadeAdjust2  =1-FadeAdjust;
@@ -2361,7 +2361,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 if (Paquet) av_free(Paquet);
             } else if ((Buf1==NULL)&&(Buf2!=NULL)) {
                 // swap buf1 and buf2
-                Info->CurrentObject_MusicTrack->List[i]=Buf2;
+                if (i<Info->CurrentObject_MusicTrack->List.count()) Info->CurrentObject_MusicTrack->List[i]=Buf2;
+                    else Info->CurrentObject_MusicTrack->List.append(Buf2);
                 // Apply Fade to Buf2
                 for (int j=0;j<Max;j++) {
                     // Left channel : Adjust if necessary (16 bits)
@@ -2381,10 +2382,6 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
     // Parse all unused slide to close unused libav buffer, codec, ...
     for (int i=0;i<List.count();i++) {
-        /*for (int j=0;j<List[i]->ObjectComposition.List.count();j++) {
-            if (List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)
-                List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CacheImage.clear();
-        }*/
         if ((i<CurrentCell-1)||(i>CurrentCell+1)) {
             for (int j=0;j<List[i]->ObjectComposition.List.count();j++)
                 if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->LibavFile!=NULL))
