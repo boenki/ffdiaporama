@@ -154,7 +154,6 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVFILTER version:%1.%2.%3.%4").arg(LIBAVFILTER_VERSION_MAJOR).arg(LIBAVFILTER_VERSION_MINOR).arg(LIBAVFILTER_VERSION_MICRO).arg(avfilter_version())));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBSWSCALE version:%1.%2.%3.%4") .arg(LIBSWSCALE_VERSION_MAJOR) .arg(LIBSWSCALE_VERSION_MINOR) .arg(LIBSWSCALE_VERSION_MICRO) .arg(swscale_version())));
     #if defined(LIBAV_08)
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVRESAMPLE version:%1.%2.%3.%4") .arg(LIBAVRESAMPLE_VERSION_MAJOR) .arg(LIBAVRESAMPLE_VERSION_MINOR) .arg(LIBAVRESAMPLE_VERSION_MICRO).arg(avresample_version())));
     #elif defined(LIBAV_09)
         #if defined(USELIBAVRESAMPLE)
         ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVRESAMPLE version:%1.%2.%3.%4") .arg(LIBAVRESAMPLE_VERSION_MAJOR) .arg(LIBAVRESAMPLE_VERSION_MINOR) .arg(LIBAVRESAMPLE_VERSION_MICRO).arg(avresample_version())));
