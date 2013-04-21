@@ -118,7 +118,7 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     #ifdef Q_OS_WIN
     font.setPointSizeF(double(110+FontFactor)/double(TempPainter.fontMetrics().boundingRect("0").height()));                  // Scale font
     #else
-    font.setPointSizeF(double(140+FontFactor)/double(TempPainter.fontMetrics().boundingRect("0").height()));                  // Scale font
+    font.setPointSizeF((double(140+FontFactor)/double(TempPainter.fontMetrics().boundingRect("0").height()))*ScreenFontAdjust);// Scale font
     #endif
     TempPainter.setFont(font);
     Pen.setWidth(1);

@@ -40,6 +40,11 @@
        <verstretch>0</verstretch>
       </sizepolicy>
      </property>
+     <property name="toolTip">
+      <string>If this option is selected, the slide will have no background definition  but will use the same background as the previous slide:
+- If the previous slide does not have a background definition either, the check continues backwards until a slide is found which does have a background definition.
+- If no previous slide has a background definition, then a black frame will be used.</string>
+     </property>
      <property name="text">
       <string>Same background as preceding object</string>
      </property>
@@ -52,6 +57,9 @@
        <horstretch>0</horstretch>
        <verstretch>0</verstretch>
       </sizepolicy>
+     </property>
+     <property name="toolTip">
+      <string>If this option is selected, the slide will have its own background definition.</string>
      </property>
      <property name="text">
       <string>Select a new background</string>
@@ -86,6 +94,32 @@
       <item>
        <widget class="QWidget" name="scrollArea" native="true">
         <layout class="QGridLayout" name="gridLayout_2">
+         <item row="1" column="0">
+          <widget class="QLabel" name="FirstColorLabel">
+           <property name="text">
+            <string notr="true"/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/color.png</pixmap>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="1">
+          <spacer name="verticalSpacer">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="BrushTypeLabel">
            <property name="text">
@@ -100,224 +134,6 @@
           </widget>
          </item>
          <item row="3" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="cCGrdOrientationComboBox" name="OrientationCombo">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>48</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>48</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>64</width>
-               <height>16</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSlider" name="IntermPosSlider">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>65</width>
-               <height>0</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>65</width>
-               <height>16777215</height>
-              </size>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="value">
-              <number>10</number>
-             </property>
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QSpinBox" name="IntermPosED">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="suffix">
-              <string notr="true">%</string>
-             </property>
-             <property name="minimum">
-              <number>1</number>
-             </property>
-             <property name="value">
-              <number>10</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="OrientationSpacer">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="7" column="1">
-          <widget class="QRadioButton" name="FullFillRB">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Full filling (deform image)</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QLabel" name="FirstColorLabel">
-           <property name="text">
-            <string notr="true"/>
-           </property>
-           <property name="pixmap">
-            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/color.png</pixmap>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="BrushTypeCombo"/>
-         </item>
-         <item row="6" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
-           <property name="spacing">
-            <number>2</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QRadioButton" name="KeepRatioRB">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string>Keep aspect ratio</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="ImageEditCorrectBT">
-             <property name="text">
-              <string notr="true"/>
-             </property>
-             <property name="icon">
-              <iconset resource="../../../RSCffDiaporama.qrc">
-               <normaloff>:/img/EditImage.png</normaloff>:/img/EditImage.png</iconset>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="cCBrushComboBox" name="PatternBrushCombo">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>48</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>48</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="editable">
-              <bool>false</bool>
-             </property>
-             <property name="iconSize">
-              <size>
-               <width>64</width>
-               <height>16</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="PatternSpacer">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="4" column="1">
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <property name="spacing">
             <number>0</number>
@@ -339,6 +155,9 @@
                <height>68</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Allows you to select an image.</string>
+             </property>
             </widget>
            </item>
            <item>
@@ -356,133 +175,53 @@
            </item>
           </layout>
          </item>
-         <item row="2" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="cCColorComboBox" name="FirstColorCombo">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>48</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>48</width>
-               <height>24</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="cCColorComboBox" name="IntermColorCombo">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>48</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>48</width>
-               <height>24</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="cCColorComboBox" name="FinalColorCombo">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="minimumSize">
-              <size>
-               <width>48</width>
-               <height>24</height>
-              </size>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>48</width>
-               <height>24</height>
-              </size>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="FirstColorSpacer">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string notr="true"/>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="5" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <property name="spacing">
-            <number>0</number>
-           </property>
-           <property name="margin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QLineEdit" name="ImageFileED">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="text">
-              <string notr="true"/>
-             </property>
-             <property name="readOnly">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QToolButton" name="ImageFileBT">
-             <property name="text">
-              <string notr="true">...</string>
-             </property>
-             <property name="icon">
-              <iconset resource="../../../RSCffDiaporama.qrc">
-               <normaloff>:/img/FolderOpen.png</normaloff>:/img/FolderOpen.png</iconset>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
          <item row="4" column="0">
+          <widget class="QLabel" name="ImageFileLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>24</width>
+             <height>24</height>
+            </size>
+           </property>
+           <property name="text">
+            <string notr="true"/>
+           </property>
+           <property name="pixmap">
+            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/object_image.png</pixmap>
+           </property>
+           <property name="scaledContents">
+            <bool>true</bool>
+           </property>
+           <property name="alignment">
+            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="BrushTypeCombo">
+           <property name="toolTip">
+            <string>Allows you to select a brush type in the following list:
+- Solid brush: Allow to selects a plain color.
+- Gradient 2 colors: Allow to select a gradient from 2 colors
+- Gradient 3 colors: Allow to select a gradient from 3 colors
+- Image from library: Allow to select a predefined background
+- Image disk: Allow to select a photo or an image from a file on the disk.</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_2">
            <property name="spacing">
             <number>0</number>
@@ -527,54 +266,7 @@
            </item>
           </layout>
          </item>
-         <item row="5" column="0">
-          <widget class="QLabel" name="ImageFileLabel">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="minimumSize">
-            <size>
-             <width>24</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="maximumSize">
-            <size>
-             <width>24</width>
-             <height>24</height>
-            </size>
-           </property>
-           <property name="text">
-            <string notr="true"/>
-           </property>
-           <property name="pixmap">
-            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/object_image.png</pixmap>
-           </property>
-           <property name="scaledContents">
-            <bool>true</bool>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="PatternLabel">
-           <property name="text">
-            <string notr="true"/>
-           </property>
-           <property name="pixmap">
-            <pixmap resource="../../../RSCffDiaporama.qrc">:/img/pattern_fill.png</pixmap>
-           </property>
-           <property name="alignment">
-            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
+         <item row="2" column="0">
           <widget class="QLabel" name="OrientationLabel">
            <property name="text">
             <string notr="true"/>
@@ -587,18 +279,309 @@
            </property>
           </widget>
          </item>
-         <item row="8" column="1">
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+         <item row="5" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <property name="spacing">
+            <number>2</number>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
+           <property name="margin">
+            <number>0</number>
            </property>
-          </spacer>
+           <item>
+            <widget class="QRadioButton" name="KeepRatioRB">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>If this box is checked, the image isn't deformed and you can open the Image framing dialog to select a part of the image.</string>
+             </property>
+             <property name="text">
+              <string>Keep aspect ratio</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="ImageEditCorrectBT">
+             <property name="toolTip">
+              <string>Opens the Image framing dialog to select a part of the image.</string>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../RSCffDiaporama.qrc">
+               <normaloff>:/img/EditImage.png</normaloff>:/img/EditImage.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="2" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_3">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="cCGrdOrientationComboBox" name="OrientationCombo">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>48</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>48</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Allows you to select the gradient orientation.</string>
+             </property>
+             <property name="iconSize">
+              <size>
+               <width>64</width>
+               <height>16</height>
+              </size>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSlider" name="IntermPosSlider">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>65</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>65</width>
+               <height>16777215</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Allows you to define the position (in percentage) of the 3rd gradient color.</string>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="value">
+              <number>10</number>
+             </property>
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QSpinBox" name="IntermPosED">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Allows you to define the position (in percentage) of the 3rd gradient color.</string>
+             </property>
+             <property name="suffix">
+              <string notr="true">%</string>
+             </property>
+             <property name="minimum">
+              <number>1</number>
+             </property>
+             <property name="value">
+              <number>10</number>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="OrientationSpacer">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="cCColorComboBox" name="FirstColorCombo">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>48</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>48</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Allows you to select the first color.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="cCColorComboBox" name="IntermColorCombo">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>48</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>48</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Allows you to select the second color.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="cCColorComboBox" name="FinalColorCombo">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>48</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="maximumSize">
+              <size>
+               <width>48</width>
+               <height>24</height>
+              </size>
+             </property>
+             <property name="toolTip">
+              <string>Allows you to select the last color.</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLabel" name="FirstColorSpacer">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="6" column="1">
+          <widget class="QRadioButton" name="FullFillRB">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="toolTip">
+            <string>If this box is checked, the image fills the screen, even if it has to be deformed.</string>
+           </property>
+           <property name="text">
+            <string>Full filling (deform image)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <layout class="QHBoxLayout" name="horizontalLayout_4">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="margin">
+            <number>0</number>
+           </property>
+           <item>
+            <widget class="QLineEdit" name="ImageFileED">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="text">
+              <string notr="true"/>
+             </property>
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QToolButton" name="ImageFileBT">
+             <property name="toolTip">
+              <string>Allows you to select a photo or an image from a file on the disk.</string>
+             </property>
+             <property name="text">
+              <string notr="true">...</string>
+             </property>
+             <property name="icon">
+              <iconset resource="../../../RSCffDiaporama.qrc">
+               <normaloff>:/img/FolderOpen.png</normaloff>:/img/FolderOpen.png</iconset>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -625,6 +608,28 @@
       <number>4</number>
      </property>
      <item>
+      <widget class="QToolButton" name="HelpToolTips">
+       <property name="toolTip">
+        <string>The &quot;Background properties&quot; dialog allows you to define settings for the background of the slide.</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QToolButton {
+	background-color: transparent;
+	border: none; 
+    font-size: 9px;
+}
+</string>
+       </property>
+       <property name="text">
+        <string notr="true">?</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../RSCffDiaporama.qrc">
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -639,6 +644,9 @@
      </item>
      <item>
       <widget class="QPushButton" name="OKBT">
+       <property name="toolTip">
+        <string>Accept modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Ok</string>
        </property>
@@ -692,26 +700,15 @@
      </item>
      <item>
       <widget class="QPushButton" name="CancelBt">
+       <property name="toolTip">
+        <string>Cancel modification and exit dialog box</string>
+       </property>
        <property name="text">
         <string>&amp;Cancel</string>
        </property>
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="HelpBT">
-       <property name="text">
-        <string>&amp;Help</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F1</string>
        </property>
       </widget>
      </item>
@@ -724,11 +721,6 @@
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCColorComboBox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cCBrushComboBox</class>
-   <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCBrushComboBox.h</header>
   </customwidget>
   <customwidget>
    <class>cCGrdOrientationComboBox</class>

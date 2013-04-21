@@ -85,9 +85,9 @@ void QCustomRuller::paintEvent(QPaintEvent *) {
     QFont       font= QApplication::font();
     Painter.setFont(font);
     #ifdef Q_OS_WIN
-    font.setPointSizeF(double(90)/double(Painter.fontMetrics().boundingRect("0").height()));                  // Scale font
+    font.setPointSizeF(double(90)/double(Painter.fontMetrics().boundingRect("0").height()));                    // Scale font
     #else
-    font.setPointSizeF(double(110)/double(Painter.fontMetrics().boundingRect("0").height()));                  // Scale font
+    font.setPointSizeF((double(110)/double(Painter.fontMetrics().boundingRect("0").height()))*ScreenFontAdjust);// Scale font
     #endif
     Painter.setFont(font);
 

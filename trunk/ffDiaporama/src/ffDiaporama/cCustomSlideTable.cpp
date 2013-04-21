@@ -333,7 +333,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         #ifdef Q_OS_WIN
         font.setPointSizeF(double(110+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
         #else
-        font.setPointSizeF(double(140+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()));                  // Scale font
+        font.setPointSizeF((double(140+FontFactor)/double(Painter->fontMetrics().boundingRect("0").height()))*ScreenFontAdjust);// Scale font
         #endif
         Painter->setFont(font);
 
@@ -362,8 +362,8 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
             Painter->setPen(Pen);
             Painter->drawText(QRectF(TransitionSize+3+BarWidth, ThumbHeight/4+2-1,                      NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
             Painter->drawText(QRectF(TransitionSize+3+BarWidth, ThumbHeight/4+2-1+NewThumbHeight-16,    NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(2,                         ThumbHeight/4+2-1+34,                  32,                          16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(BackThumbWidth+2,          (ThumbHeight/4-16)/2,                  ThumbWidth-BackThumbWidth-4, 16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(2,                         ThumbHeight/4+2-1+34,                   32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+            Painter->drawText(QRectF(BackThumbWidth+2,          (ThumbHeight/4-16)/2,                   ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
         } else {
             Pen.setColor(Qt::black);
             Painter->setPen(Pen);

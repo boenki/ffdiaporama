@@ -114,6 +114,10 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     QPen        Pen;
 
     P.begin(&LogoImg);
+
+    int Size=P.fontMetrics().boundingRect("0").height();
+    ScreenFontAdjust=double(Size)/double(16);
+
     QTO.setAlignment(Qt::AlignRight|Qt::AlignTop);
     QTO.setWrapMode(QTextOption::NoWrap);
     QTO.setTextDirection(Qt::LeftToRight);
@@ -771,7 +775,7 @@ void MainWindow::s_Action_NewFunctions() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_NewFunctions");
 
     ui->ActionNewFunctions_BT->setDown(false);
-    QDesktopServices::openUrl(QUrl(QString(HELPFILE_DEF).arg(HELPFILE_NEWS).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
+    QDesktopServices::openUrl(QUrl(QString(HELPFILE_CAT).arg(HELPFILE_NEWS).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
 }
 
 //====================================================================================================================
@@ -969,7 +973,7 @@ void MainWindow::s_Event_DoubleClickedOnBackground() {
         QTimer::singleShot(LATENCY,this,SLOT(s_Event_DoubleClickedOnBackground()));
         return;
     }
-    DlgBackgroundProperties Dlg(Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgBackgroundProperties,ApplicationConfig,ApplicationConfig->DlgBackgroundPropertiesWSP,this);
+    DlgBackgroundProperties Dlg(Diaporama->List[Diaporama->CurrentCol],0,ApplicationConfig,ApplicationConfig->DlgBackgroundPropertiesWSP,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_Event_RefreshDisplay()));
     if (Dlg.exec()==0) {
@@ -1000,7 +1004,7 @@ void MainWindow::s_Event_DoubleClickedOnMusic() {
         return;
     }
 
-    DlgMusicProperties Dlg(Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgMusicProperties,ApplicationConfig,ApplicationConfig->DlgMusicPropertiesWSP,this);
+    DlgMusicProperties Dlg(Diaporama->List[Diaporama->CurrentCol],0,ApplicationConfig,ApplicationConfig->DlgMusicPropertiesWSP,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     if (Dlg.exec()==0) {
@@ -1072,8 +1076,8 @@ void MainWindow::DoTimelineSelectionChanged() {
                 (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(0);
                 (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SetStartEndPos(0,0,-1,0,-1,0);
             }
-            Diaporama->CloseUnusedLibAv(Diaporama->CurrentCol);
         }
+        Diaporama->CloseUnusedLibAv(Diaporama->CurrentCol);
         RefreshControls();
         ui->timeline->repaint();
         if (OldCurrentCol!=Diaporama->CurrentCol) UpdateChapterInfo();
@@ -2603,7 +2607,6 @@ void MainWindow::AdjustRuller() {
     }
     ui->timeline->repaint();
     (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->CurrentPosition);
-    Diaporama->CloseUnusedLibAv(Diaporama->CurrentCol);
     RefreshControls();
 }
 

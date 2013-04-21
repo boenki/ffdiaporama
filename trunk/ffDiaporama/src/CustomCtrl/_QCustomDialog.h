@@ -57,8 +57,6 @@
 #define HELPFILE_RENDERINDEX                8466    // Rendering videos
 #define HELPFILE_DlgSlideProperties         8486    // Modifying slides
 #define HELPFILE_DlgImageCorrection         8413    // Reframe and correct images or videos
-#define HELPFILE_DlgBackgroundProperties    8415    // Define slide's background
-#define HELPFILE_DlgMusicProperties         8417    // Define music track
 #define HELPFILE_DlgTransitionProperties    8419    // Define transitions
 #define HELPFILE_DlgVideoEdit               8421    // Cut a video
 #define HELPFILE_DlgTextEdit                8423    // Defining the properties of a text block

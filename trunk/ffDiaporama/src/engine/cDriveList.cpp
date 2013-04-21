@@ -106,8 +106,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
         if (!Process.waitForStarted()) {
             ToLog(LOGMSG_CRITICAL,"Impossible to execute df");
             IsOk=false;
-        }
-        if (IsOk && !Process.waitForFinished()) {
+        } else if (!Process.waitForFinished()) {
             Process.kill();
             ToLog(LOGMSG_CRITICAL,"Error during mount df");
             IsOk=false;

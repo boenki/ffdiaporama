@@ -63,7 +63,6 @@ private slots:
     void            s_IntermPosED(int);
 
     // Handler for custom color/brush/pattern/gradient combo box index change
-    void            s_ChIndexPatternBrushCombo(int);
     void            s_ChIndexGradientOrientationCombo(int);
     void            s_ChIndexGradientFirstColorCombo(int);
     void            s_ChIndexGradientFinalColorCombo(int);

@@ -233,8 +233,9 @@ extern int MAXCACHEIMAGE;
 class cImageInCache {
 public:
     qlonglong   Position;
-    QImage      Image;
-    cImageInCache(qlonglong Position,QImage Image);
+    QImage      *Image;
+    cImageInCache(qlonglong Position,QImage *Image);
+    ~cImageInCache();
 };
 
 class cVideoFile : public cBaseMediaFile {
@@ -260,17 +261,13 @@ public:
     bool                    FrameBufferYUVReady;        // true if FrameBufferYUV is ready to convert
     int64_t                 FrameBufferYUVPosition;     // If FrameBufferYUV is ready to convert then keep FrameBufferYUV position
     QImage                  LastImage;                  // Keep last image return
-    QList<cImageInCache>    CacheImage;
+    QList<cImageInCache *>  CacheImage;
 
     // Audio part
     AVCodec                 *AudioDecoderCodec;         // Associated LibAVCodec for audio stream
     int                     AudioStreamNumber;          // Number of the audio stream
     int                     AudioTrackNbr;              // Number of audio stream in file
     int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
-
-    // Stats
-    int                     PicImage;
-    int64_t                 PicDelta;
 
     // Audio resampling
     #if defined(LIBAV_08)
@@ -307,7 +304,7 @@ public:
     virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,bool DontUseEndPos);
     virtual QImage          *ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly);
     virtual int             DecodeVideoFrame(AVStream *VideoStream,AVStream *AudioStream,AVPacket *StreamPacket,bool Deinterlace,bool *DontRetryReading,int64_t Position,int64_t FPSDuration);
-    virtual QImage          ConvertYUVToRGB(bool PreviewMode);
+    virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
 
     virtual void            SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position,bool Deinterlace);
     virtual void            CloseResampler();
@@ -324,6 +321,8 @@ public:
     AVFilterGraph           *VideoFilterGraph;
     AVFilterContext         *VideoFilterIn;
     AVFilterContext         *VideoFilterOut;
+    AVFilterInOut           *outputs;
+    AVFilterInOut           *inputs;
     QString                 m_filters;
     QString                 m_filters_next;
 

@@ -76,7 +76,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>492</width>
+            <width>664</width>
             <height>456</height>
            </rect>
           </property>
@@ -577,7 +577,7 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>-415</y>
+            <y>0</y>
             <width>664</width>
             <height>1091</height>
            </rect>
@@ -897,10 +897,10 @@ Note: the geometry of a project is defined once and for all when it is created. 
            <item row="2" column="2">
             <widget class="QComboBox" name="DefaultTitleCB">
              <property name="toolTip">
-              <string>Defined the automatic filling method to use for the title's project properties:
+              <string>Defines the automatic filling method to use for the title's project properties:
 - No automatic filling : You will have to define manually the title
 - Fill with project name when project save : The title will take the same name as the .ffd file
-- Fill with project folder name when project save : The title will take the same name as the folder in witch is save the .ffd file
+- Fill with project folder name when project save : The title will take the same name as the folder where the file .ffd is saved
 
 Note: this field is limited to 30 characters to remain compatible with jukebox</string>
              </property>
@@ -2357,7 +2357,7 @@ This style defines the transparency of the block and its filling.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>383</width>
+            <width>664</width>
             <height>569</height>
            </rect>
           </property>
