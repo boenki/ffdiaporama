@@ -33,7 +33,7 @@ Q_OBJECT
 public:
     qlonglong Duration;
 
-    explicit DlgSlideDuration(qlonglong Duration,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgSlideDuration(qlonglong Duration,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgSlideDuration();
 
     // function to be overloaded

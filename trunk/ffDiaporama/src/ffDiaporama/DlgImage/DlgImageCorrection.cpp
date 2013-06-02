@@ -70,8 +70,8 @@ enum UNDOACTION_ID {
 
 DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *TheBackgroundForm,cBrushDefinition *TheCurrentBrush,
                                        int TheVideoPosition,int TheImageGeometry,int TheDefaultSpeedWave,
-                                       int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-                                       QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgImageCorrection) {
+                                       cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+                                       QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgImageCorrection) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DlgImageCorrection");
 
@@ -79,7 +79,7 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *T
 
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
-    HelpBt          =ui->HelpBT;
+    HelpTT          =ui->HelpTT;
     UndoBt          =ui->UndoBT;
     UndoReloadImage =false;
     FLAGSTOPED      =false;
@@ -94,6 +94,8 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *T
     ui->InteractiveZone->MagneticRuler=ApplicationConfig->FramingRuler;
     ui->InteractiveZone->InitCachedImage(TheCompoObject,(BackgroundForm!=NULL)?(*TheBackgroundForm):1,TheCurrentBrush,TheVideoPosition);
     ui->VideoPlayer->ApplicationConfig=ApplicationConfig;
+    ui->SeekLeftBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaSkipBackward));
+    ui->SeekRightBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_MediaSkipForward));
 }
 
 //====================================================================================================================
@@ -747,7 +749,7 @@ void DlgImageCorrection::s_ChangeFile() {
     DlgFileExplorer Dlg(CurrentBrush->Image?FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE:FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_VIDEOFILE,
                         CurrentBrush->Image?OBJECTTYPE_IMAGEFILE:OBJECTTYPE_VIDEOFILE,
                         false,false,ActualFilePath,
-                        ffDText(ffDSection_CommonInfoMsg,0),0,BaseApplicationConfig,BaseApplicationConfig->DlgFileExplorerWSP,this);
+                        ffDText(ffDSection_CommonInfoMsg,0),BaseApplicationConfig,BaseApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();

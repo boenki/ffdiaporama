@@ -28,9 +28,9 @@
 #define LATENCY 5
 
 DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,
-                QString StartupPath,QString TheBoxTitle,int HelpURL,
+                QString StartupPath,QString TheBoxTitle,
                 cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-                QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgFileExplorer) {
+                QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgFileExplorer) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::DlgFileExplorer");
 
@@ -43,7 +43,7 @@ DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowM
     ui->setupUi(this);
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
-    HelpBt      =ui->HelpBT;
+    //HelpBt      =ui->HelpBT;
     UndoBt      =NULL;
 
     BoxTitle    =TheBoxTitle;
@@ -63,8 +63,12 @@ DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowM
 
     BaseApplicationConfig->DriveList->UpdateDriveList();
     ui->FolderTree->InitDrives();
-    ui->FolderTable->SetMode(BaseApplicationConfig->CurrentMode,CurrentFilter);
 
+    ui->RefreshBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_BrowserReload));
+    ui->UpFolderBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_FileDialogToParent));
+    ui->PreviousFolderBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowBack));
+
+    ui->FolderTable->SetMode(BaseApplicationConfig->CurrentMode,CurrentFilter);
     ui->FolderTable->setDragDropMode(AllowDragDrop?QAbstractItemView::DragOnly:QAbstractItemView::NoDragDrop);
     ui->FolderTable->setSelectionMode(AllowMultipleSelection?QAbstractItemView::ExtendedSelection:QAbstractItemView::SingleSelection);
 }
@@ -472,7 +476,7 @@ void DlgFileExplorer::s_Browser_Properties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_Properties");
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
     if (Media) {
-        DlgInfoFile Dlg(Media,HELPFILE_DlgInfoFile,BaseApplicationConfig,BaseApplicationConfig->DlgInfoFileWSP,this);
+        DlgInfoFile Dlg(Media,BaseApplicationConfig,BaseApplicationConfig->DlgInfoFileWSP,this);
         Dlg.InitDialog();
         Dlg.exec();
     }
@@ -550,7 +554,7 @@ void DlgFileExplorer::s_Browser_AddToFavorite() {
 
 void DlgFileExplorer::s_Browser_ManageFavorite() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_ManageFavorite");
-    DlgManageFavorite Dlg(&BaseApplicationConfig->BrowserFavorites,HELPFILE_DlgManageFavorite,BaseApplicationConfig,BaseApplicationConfig->DlgManageFavoriteWSP,this);
+    DlgManageFavorite Dlg(&BaseApplicationConfig->BrowserFavorites,BaseApplicationConfig,BaseApplicationConfig->DlgManageFavoriteWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 }

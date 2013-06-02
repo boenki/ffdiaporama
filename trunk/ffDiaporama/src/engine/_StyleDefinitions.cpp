@@ -347,6 +347,9 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,cBaseApplica
     QAction *ActionCreate=new QAction(QApplication::translate("DlgManageStyle","Create new style"),ParentWindow);       ActionCreate->setFont(QFont("Sans Serif",9));
     QAction *ActionManage=new QAction(QApplication::translate("DlgManageStyle","Manage existing style"),ParentWindow);  ActionManage->setFont(QFont("Sans Serif",9));
 
+    ContextMenu->setFont(QFont("Sans Serif",9));
+    ActionCreate->setFont(QFont("Sans Serif",9));
+    ActionManage->setFont(QFont("Sans Serif",9));
     UpdateMenu->setTitle(QApplication::translate("DlgManageStyle","Update existing style"));
     UpdateMenu->setFont(QFont("Sans Serif",9));
 
@@ -359,6 +362,7 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,cBaseApplica
         QAction *NormalAction=new QAction(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item,ParentWindow);
         NormalAction->setIconVisibleInMenu(true);
         NormalAction->setFont(QFont("Sans Serif",9));
+        NormalAction->setToolTip(QApplication::translate("DlgManageStyle","Select this style"));
         if (Collection[i].StyleDef==ActualStyleDef) {
             NormalAction->setText("*"+NormalAction->text());
             IsStyleFound=true;
@@ -367,7 +371,7 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,cBaseApplica
         QAction *UpdateAction=new QAction(Collection[i].FromUserConf?QIcon(ICON_USERCONF):QIcon(ICON_GLOBALCONF),Item,ParentWindow);
         UpdateAction->setIconVisibleInMenu(true);
         UpdateAction->setFont(QFont("Sans Serif",9));
-        UpdateAction->setToolTip(QApplication::translate("DlgManageStyle","Update style"));
+        UpdateAction->setToolTip(QApplication::translate("DlgManageStyle","Update this style"));
         UpdateMenu->addAction(UpdateAction);
     }
 
@@ -385,7 +389,7 @@ QString cStyleCollection::PopupCollectionMenu(QWidget *ParentWindow,cBaseApplica
     if (Ret!=NULL) {
         if (Ret==ActionCreate)                                                              CreateNewStyle(ParentWindow,ActualStyleDef);
         else if (Ret==ActionManage)                                                         ManageExistingStyle(ParentWindow,BaseApplicationConfig);
-        else if (Ret->toolTip()==QApplication::translate("DlgManageStyle","Update style"))  UpdateExistingStyle((GeometryFilter?ActiveFilter:"")+Ret->text(),ActualStyleDef);
+        else if (Ret->toolTip()==QApplication::translate("DlgManageStyle","Update this style"))  UpdateExistingStyle((GeometryFilter?ActiveFilter:"")+Ret->text(),ActualStyleDef);
         else Item=/*(GeometryFilter?ActiveFilter:"")+*/Ret->text();
     }
     delete ContextMenu;
@@ -444,7 +448,7 @@ void cStyleCollection::CreateNewStyle(QWidget *ParentWindow,QString ActualStyleD
 void cStyleCollection::ManageExistingStyle(QWidget *ParentWindow,cBaseApplicationConfig *BaseApplicationConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::ManageExistingStyle");
 
-    DlgManageStyle Dlg(this,0,(cBaseApplicationConfig *)BaseApplicationConfig,BaseApplicationConfig->DlgManageStyleWSP,ParentWindow);
+    DlgManageStyle Dlg(this,(cBaseApplicationConfig *)BaseApplicationConfig,BaseApplicationConfig->DlgManageStyleWSP,ParentWindow);
     Dlg.InitDialog();
     Dlg.exec();
 }

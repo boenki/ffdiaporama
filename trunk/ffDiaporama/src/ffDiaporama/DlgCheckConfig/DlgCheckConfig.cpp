@@ -31,13 +31,14 @@
 
 //====================================================================================================================
 
-DlgCheckConfig::DlgCheckConfig(int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
-    :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgCheckConfig) {
+DlgCheckConfig::DlgCheckConfig(cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
+    :QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgCheckConfig) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgCheckConfig::DlgCheckConfig");
 
     ui->setupUi(this);
     OkBt    =ui->OKBT;
+    HelpTT  =ui->HelpTT;
 }
 
 //====================================================================================================================

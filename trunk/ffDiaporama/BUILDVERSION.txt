@@ -1,1 +1,1 @@
-Version 1.6_beta_5 20130421
+Version 1.6_beta_6 20130602

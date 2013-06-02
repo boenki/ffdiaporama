@@ -147,23 +147,6 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="HelpBT">
-       <property name="toolTip">
-        <string>Open help page describing this dialog box</string>
-       </property>
-       <property name="text">
-        <string>&amp;Help</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F1</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>

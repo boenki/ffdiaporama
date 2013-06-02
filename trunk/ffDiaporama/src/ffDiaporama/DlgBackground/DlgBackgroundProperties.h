@@ -35,7 +35,7 @@ public:
     cDiaporamaObject    *DiaporamaObject;
     bool                StopMAJSpinbox;
 
-    explicit DlgBackgroundProperties(cDiaporamaObject *DiaporamaObject,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgBackgroundProperties(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgBackgroundProperties();
 
     void        RefreshControls();

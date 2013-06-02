@@ -1100,7 +1100,7 @@ QCustomFolderTable *CurrentTable=NULL;
 
 void ScanMedia(const int &ItemIndex) {
     if ((!CurrentTable)||CurrentTable->StopScanMediaList || CurrentTable->StopAllEvent ||
-        (ItemIndex>CurrentTable->MediaList.count())) return;
+        (ItemIndex>=CurrentTable->MediaList.count())) return;
 
     if (!CurrentTable->MediaList[ItemIndex]->IsInformationValide) {
 

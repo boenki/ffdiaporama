@@ -208,6 +208,12 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->actionSet_transition_duration->setIconVisibleInMenu(true);
     ui->actionRandomize_transition->setIconVisibleInMenu(true);
 
+    ui->ActionDocumentation_BT->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton));
+    ui->ActionDocumentation_BT_2->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton));
+    ui->RefreshBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_BrowserReload));
+    ui->UpFolderBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_FileDialogToParent));
+    ui->PreviousFolderBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_ArrowBack));
+
     // Initialise integrated browser
     ui->FolderTree->ApplicationConfig       =ApplicationConfig;
     ui->FolderTree->IsRemoveAllowed         =true;
@@ -487,6 +493,7 @@ void MainWindow::UpdateChapterInfo() {
 //====================================================================================================================
 
 void MainWindow::SetTimelineHeight() {
+    int H;
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::SetTimelineHeight");
     switch (ApplicationConfig->WindowDisplayMode) {
         case DISPLAYWINDOWMODE_PLAYER:
@@ -505,7 +512,9 @@ void MainWindow::SetTimelineHeight() {
             ui->preview->setVisible(true);
             ui->preview->setFixedHeight(this->geometry().height()-ui->ToolBoxNormal->height()-ui->timeline->height()-ui->StatusBar_General->height());
             ui->preview->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
-            ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()-ui->preview->GetButtonBarHeight()));
+            H=ui->preview->height();
+            if (H>ApplicationConfig->MaxPreviewHeight+ui->preview->GetButtonBarHeight()) H=ApplicationConfig->MaxPreviewHeight+ui->preview->GetButtonBarHeight();
+            ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(H));
             break;
         case DISPLAYWINDOWMODE_PARTITION:
             ApplicationConfig->PartitionMode=true;
@@ -744,7 +753,7 @@ void MainWindow::s_Action_About() {
 
     ui->Action_About_BT->setDown(false);
     ui->Action_About_BT_2->setDown(false);
-    DlgAbout Dlg(0,ApplicationConfig,ApplicationConfig->DlgAboutWSP,this);
+    DlgAbout Dlg(ApplicationConfig,ApplicationConfig->DlgAboutWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 }
@@ -754,7 +763,7 @@ void MainWindow::s_Action_About() {
 void MainWindow::s_Action_DlgCheckConfig() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_DlgCheckConfig");
 
-    DlgCheckConfig Dlg(0,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
+    DlgCheckConfig Dlg(ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 }
@@ -902,7 +911,7 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
     bool DoneAgain=true;
     while (DoneAgain) {
         DoneAgain=false;
-        DlgSlideProperties Dlg(Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgSlideProperties,ApplicationConfig,ApplicationConfig->DlgSlidePropertiesWSP,this);
+        DlgSlideProperties Dlg(Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,ApplicationConfig->DlgSlidePropertiesWSP,this);
         Dlg.InitDialog();
         connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
         int Ret=Dlg.exec();
@@ -949,7 +958,7 @@ void MainWindow::s_Event_DoubleClickedOnTransition() {
         return;
     }
 
-    DlgTransitionProperties Dlg(false,Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgTransitionProperties,ApplicationConfig,ApplicationConfig->DlgTransitionPropertiesWSP,this);
+    DlgTransitionProperties Dlg(false,Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,ApplicationConfig->DlgTransitionPropertiesWSP,this);
     Dlg.InitDialog();
     int Ret=Dlg.exec();
     if (Ret==0) {
@@ -973,7 +982,7 @@ void MainWindow::s_Event_DoubleClickedOnBackground() {
         QTimer::singleShot(LATENCY,this,SLOT(s_Event_DoubleClickedOnBackground()));
         return;
     }
-    DlgBackgroundProperties Dlg(Diaporama->List[Diaporama->CurrentCol],0,ApplicationConfig,ApplicationConfig->DlgBackgroundPropertiesWSP,this);
+    DlgBackgroundProperties Dlg(Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,ApplicationConfig->DlgBackgroundPropertiesWSP,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_Event_RefreshDisplay()));
     if (Dlg.exec()==0) {
@@ -1004,7 +1013,7 @@ void MainWindow::s_Event_DoubleClickedOnMusic() {
         return;
     }
 
-    DlgMusicProperties Dlg(Diaporama->List[Diaporama->CurrentCol],0,ApplicationConfig,ApplicationConfig->DlgMusicPropertiesWSP,this);
+    DlgMusicProperties Dlg(Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,ApplicationConfig->DlgMusicPropertiesWSP,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     if (Dlg.exec()==0) {
@@ -1107,7 +1116,7 @@ void MainWindow::s_Event_ToolbarChanged(int MenuIndex) {
             break;
     case 1: Html=QApplication::translate("MainWindow","<html><body>Add empty slides or slides based on photos or videos<br>"\
                                          "To discover how to build your slide show and to animate slides:<br><a href=\"%1\">Discover the principles of functioning of ffDiaporama</a></body></html>").
-                                         arg(QString(HELPFILE_DEF).arg(HELPFILE_PRINCIPLESINDEX).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage)));
+                                         arg(QString(HELPFILE_DEF).arg(HELPFILE_WIKIINDEX).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage)));
             break;
     case 2: Html=QApplication::translate("MainWindow","<html><body>Select the equipment type that you plan to use for your video<br>"\
                                          "To discover how to render videos:<br><a href=\"%1\">Consult the rendering videos WIKI page</a></body></html>").
@@ -1139,7 +1148,7 @@ void MainWindow::s_Action_RenderVideo() {
     ui->ActionRender_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgRenderVideo Dlg(*Diaporama,EXPORTMODE_ADVANCED,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    DlgRenderVideo Dlg(*Diaporama,EXPORTMODE_ADVANCED,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
     Dlg.exec();
@@ -1159,7 +1168,7 @@ void MainWindow::s_Action_RenderSmartphone() {
     ui->ActionSmartphone_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgRenderVideo Dlg(*Diaporama,MODE_SMARTPHONE,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    DlgRenderVideo Dlg(*Diaporama,MODE_SMARTPHONE,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
     Dlg.exec();
@@ -1179,7 +1188,7 @@ void MainWindow::s_Action_RenderMultimedia() {
     ui->ActionMultimedia_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgRenderVideo Dlg(*Diaporama,MODE_MULTIMEDIASYS,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    DlgRenderVideo Dlg(*Diaporama,MODE_MULTIMEDIASYS,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
     Dlg.exec();
@@ -1199,7 +1208,7 @@ void MainWindow::s_Action_RenderForTheWEB() {
     ui->ActionForTheWEB_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgRenderVideo Dlg(*Diaporama,MODE_FORTHEWEB,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    DlgRenderVideo Dlg(*Diaporama,MODE_FORTHEWEB,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
     Dlg.exec();
@@ -1219,7 +1228,7 @@ void MainWindow::s_Action_RenderLossLess() {
     ui->ActionLossLess_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgRenderVideo Dlg(*Diaporama,MODE_LOSSLESS,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    DlgRenderVideo Dlg(*Diaporama,MODE_LOSSLESS,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
     Dlg.exec();
@@ -1239,7 +1248,7 @@ void MainWindow::s_Action_RenderSoundTrack() {
     ui->ActionSoundtrack_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgRenderVideo Dlg(*Diaporama,MODE_SOUNDTRACK,HELPFILE_DlgRenderVideo,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
+    DlgRenderVideo Dlg(*Diaporama,MODE_SOUNDTRACK,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
     Dlg.exec();
@@ -1263,7 +1272,7 @@ void MainWindow::s_Action_ProjectProperties() {
     ui->Action_PrjProperties_BT_2->setDown(false);
 
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
-    DlgffDPjrProperties Dlg(false,Diaporama,HELPFILE_DlgffDPjrProperties,ApplicationConfig,ApplicationConfig->DlgffDPjrPropertiesWSP,this);
+    DlgffDPjrProperties Dlg(false,Diaporama,ApplicationConfig,ApplicationConfig->DlgffDPjrPropertiesWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) SetModifyFlag(true);
 }
@@ -1284,9 +1293,10 @@ void MainWindow::s_Action_ChangeApplicationSettings() {
     ui->ActionConfiguration_BT->setDown(false);
     ui->ActionConfiguration_BT_2->setDown(false);
 
-    DlgApplicationSettings Dlg(0,ApplicationConfig,ApplicationConfig->DlgApplicationSettingsWSP,this);
+    DlgApplicationSettings Dlg(ApplicationConfig,ApplicationConfig->DlgApplicationSettingsWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
+        SetTimelineHeight();
         ToStatusBar(QApplication::translate("MainWindow","Saving configuration file and applying new configuration ..."));
         QTimer::singleShot(LATENCY,this,SLOT(DoChangeApplicationSettings()));
         ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
@@ -1328,7 +1338,7 @@ void MainWindow::s_Action_New() {
 
     // Ask user for project option
     cDiaporama *NewDiaporama=new cDiaporama(ApplicationConfig);
-    DlgffDPjrProperties Dlg(true,NewDiaporama,HELPFILE_DlgffDPjrProperties,ApplicationConfig,ApplicationConfig->DlgffDPjrPropertiesWSP,this);
+    DlgffDPjrProperties Dlg(true,NewDiaporama,ApplicationConfig,ApplicationConfig->DlgffDPjrPropertiesWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         while (ApplicationConfig->ImagesCache.List.count()>0) delete ApplicationConfig->ImagesCache.List.takeLast();
@@ -1409,7 +1419,7 @@ void MainWindow::s_Action_Open() {
 
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
                         false,false,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",
-                        QApplication::translate("MainWindow","Open project"),0,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("MainWindow","Open project"),ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
@@ -1727,7 +1737,7 @@ void MainWindow::s_Action_AddFile() {
 
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,OBJECTTYPE_MANAGED,
                         true,true,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastMediaPath:"",
-                        QApplication::translate("MainWindow","Add files"),0,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("MainWindow","Add files"),ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
 
@@ -2161,7 +2171,7 @@ void MainWindow::s_Action_AddProject() {
 
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_FFDFILE,OBJECTTYPE_FFDFILE,
                         true,true,ApplicationConfig->RememberLastDirectories?ApplicationConfig->LastProjectPath:"",
-                        QApplication::translate("MainWindow","Add a sub project"),0,ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("MainWindow","Add a sub project"),ApplicationConfig,ApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     CancelAction=false;
@@ -2932,7 +2942,7 @@ void MainWindow::s_Browser_AddToFavorite() {
 
 void MainWindow::s_Browser_ManageFavorite() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_ManageFavorite");
-    DlgManageFavorite Dlg(&ApplicationConfig->BrowserFavorites,HELPFILE_DlgManageFavorite,ApplicationConfig,ApplicationConfig->DlgManageFavoriteWSP,this);
+    DlgManageFavorite Dlg(&ApplicationConfig->BrowserFavorites,ApplicationConfig,ApplicationConfig->DlgManageFavoriteWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 }
@@ -3210,7 +3220,7 @@ void MainWindow::s_Browser_Properties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Browser_Properties");
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
     if (Media) {
-        DlgInfoFile Dlg(Media,HELPFILE_DlgInfoFile,ApplicationConfig,ApplicationConfig->DlgInfoFileWSP,this);
+        DlgInfoFile Dlg(Media,ApplicationConfig,ApplicationConfig->DlgInfoFileWSP,this);
         Dlg.InitDialog();
         Dlg.exec();
     }
@@ -3343,7 +3353,7 @@ void MainWindow::s_ActionMultiple_SetFirstShotDuration() {
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
     ui->timeline->CurrentSelectionList(&SlideList);
 
-    DlgSlideDuration Dlg(Diaporama->List[Diaporama->CurrentCol]->List[0]->StaticDuration,HELPFILE_DlgSlideDuration,ApplicationConfig,ApplicationConfig->DlgSlideDurationWSP,this);
+    DlgSlideDuration Dlg(Diaporama->List[Diaporama->CurrentCol]->List[0]->StaticDuration,ApplicationConfig,ApplicationConfig->DlgSlideDurationWSP,this);
     Dlg.InitDialog();
     int Ret=Dlg.exec();
     if (Ret==0) {
@@ -3428,7 +3438,7 @@ void MainWindow::s_ActionMultiple_SelectTransition() {
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
     ui->timeline->CurrentSelectionList(&SlideList);
 
-    DlgTransitionProperties Dlg(true,Diaporama->List[Diaporama->CurrentCol],HELPFILE_DlgTransitionProperties,ApplicationConfig,ApplicationConfig->DlgTransitionPropertiesWSP,this);
+    DlgTransitionProperties Dlg(true,Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,ApplicationConfig->DlgTransitionPropertiesWSP,this);
     Dlg.InitDialog();
     int Ret=Dlg.exec();
     if (Ret==0) {
@@ -3456,7 +3466,7 @@ void MainWindow::s_ActionMultiple_SetTransitionDuration() {
     if ((Current<0)||(Current>=Diaporama->List.count())) return;
     ui->timeline->CurrentSelectionList(&SlideList);
 
-    DlgTransitionDuration Dlg(Diaporama->List[Diaporama->CurrentCol]->TransitionDuration,HELPFILE_DlgTransitionDuration,ApplicationConfig,ApplicationConfig->DlgTransitionDurationWSP,this);
+    DlgTransitionDuration Dlg(Diaporama->List[Diaporama->CurrentCol]->TransitionDuration,ApplicationConfig,ApplicationConfig->DlgTransitionDurationWSP,this);
     Dlg.InitDialog();
     int Ret=Dlg.exec();
     if (Ret==0) {

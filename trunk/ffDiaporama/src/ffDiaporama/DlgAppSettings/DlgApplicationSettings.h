@@ -38,7 +38,7 @@ public:
     QComboBox           *CB_SL[NBR_IMAGETYPE][2];
     QComboBox           *CB_BA[NBR_IMAGETYPE][2];
 
-    explicit DlgApplicationSettings(int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit DlgApplicationSettings(cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgApplicationSettings();
 
     // function to be overloaded

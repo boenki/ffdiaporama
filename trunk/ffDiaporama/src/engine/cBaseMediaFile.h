@@ -306,7 +306,7 @@ public:
     virtual int             DecodeVideoFrame(AVStream *VideoStream,AVStream *AudioStream,AVPacket *StreamPacket,bool Deinterlace,bool *DontRetryReading,int64_t Position,int64_t FPSDuration);
     virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
 
-    virtual void            SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position,bool Deinterlace);
+    virtual bool            SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position,bool Deinterlace);
     virtual void            CloseResampler();
     virtual void            CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleFormat RSC_InSampleFmt,AVSampleFormat RSC_OutSampleFmt,int RSC_InSampleRate,int RSC_OutSampleRate
                                                #ifdef LIBAV_09

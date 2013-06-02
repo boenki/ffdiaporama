@@ -282,19 +282,19 @@ void cBaseApplicationConfig::PreloadSystemIcons() {
         DefaultFOLDERIcon.LoadIcons(GetIconForFileOrDir("%SystemRoot%\\system32\\shell32.dll",3));
     }
     #endif
-    if (DefaultCDROMIcon.Icon16.isNull())   DefaultCDROMIcon.LoadIconsFromIMG(  "cdrom.png");
-    if (DefaultHDDIcon.Icon16.isNull())     DefaultHDDIcon.LoadIconsFromIMG(    "hdd.png");
+    if (DefaultCDROMIcon.Icon16.isNull())   DefaultCDROMIcon.LoadIcons(QApplication::style()->standardIcon(QStyle::SP_DriveDVDIcon));   //.LoadIconsFromIMG(  "cdrom.png");
+    if (DefaultHDDIcon.Icon16.isNull())     DefaultHDDIcon.LoadIcons(QApplication::style()->standardIcon(QStyle::SP_DriveHDIcon));      //.LoadIconsFromIMG(    "hdd.png");
     if (DefaultUSBIcon.Icon16.isNull())     DefaultUSBIcon.LoadIconsFromIMG(    "usb.png");
-    if (DefaultREMOTEIcon.Icon16.isNull())  DefaultREMOTEIcon.LoadIconsFromIMG( "hdd-lan.png");
-    if (DefaultFOLDERIcon.Icon16.isNull())  DefaultFOLDERIcon.LoadIconsFromIMG( "directory.png");
+    if (DefaultREMOTEIcon.Icon16.isNull())  DefaultREMOTEIcon.LoadIcons(QApplication::style()->standardIcon(QStyle::SP_DriveNetIcon));  //.LoadIconsFromIMG( "hdd-lan.png");
+    if (DefaultFOLDERIcon.Icon16.isNull())  DefaultFOLDERIcon.LoadIcons(QApplication::style()->standardIcon(QStyle::SP_DirIcon));       //.LoadIconsFromIMG( "directory.png");
     if (DefaultDelayedIcon.Icon16.isNull()) DefaultDelayedIcon.LoadIconsFromIMG("delayed.png");
     if (DefaultFFDIcon.Icon16.isNull())     DefaultFFDIcon.LoadIconsFromIMG(    "ffDiaporama.png");
     if (DefaultThumbIcon.Icon16.isNull())   DefaultThumbIcon.LoadIconsFromIMG(  "Thumbnails.png");
     if (DefaultIMAGEIcon.Icon16.isNull())   DefaultIMAGEIcon.LoadIconsFromIMG(  "image.png");
     if (DefaultVIDEOIcon.Icon16.isNull())   DefaultVIDEOIcon.LoadIconsFromIMG(  "video.png");
     if (DefaultMUSICIcon.Icon16.isNull())   DefaultMUSICIcon.LoadIconsFromIMG(  "audio.png");
-    if (DefaultUSERIcon.Icon16.isNull())    DefaultUSERIcon.LoadIconsFromIMG(   "folder_home.png");
-    if (DefaultFILEIcon.Icon16.isNull())    DefaultFILEIcon.LoadIconsFromIMG(   "file.png");
+    if (DefaultUSERIcon.Icon16.isNull())    DefaultUSERIcon.LoadIcons(QApplication::style()->standardIcon(QStyle::SP_DirHomeIcon));     //.LoadIconsFromIMG(   "folder_home.png");
+    if (DefaultFILEIcon.Icon16.isNull())    DefaultFILEIcon.LoadIcons(QApplication::style()->standardIcon(QStyle::SP_FileIcon));        //.LoadIconsFromIMG(   "file.png");
     VideoMask_120=QImage(":/img/VideoMask_120x180.png");
     VideoMask_150=QImage(":/img/VideoMask_150x200.png");
     VideoMask_162=QImage(":/img/VideoMask_162x216.png");
@@ -340,23 +340,23 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::InitConfigurationValues");
 
     // Initialise all variables and set them default value
-    ParentWindow            = NULL;
-    StartingPath            = AdjustDirForOS(QDir::currentPath());
-    this->ForceLanguage     = ForceLanguage;
-    MainWinState            = false;                                                        // WindowsSettings-ismaximized
-    RestoreWindow           = true;                                                         // if true then restore windows size and position
-    MainWinWSP              = new cSaveWindowPosition("MainWindow",RestoreWindow,true);     // MainWindow - Window size and position
+    ParentWindow            =NULL;
+    StartingPath            =AdjustDirForOS(QDir::currentPath());
+    this->ForceLanguage     =ForceLanguage;
+    MainWinState            =false;                                                        // WindowsSettings-ismaximized
+    RestoreWindow           =true;                                                         // if true then restore windows size and position
+    MainWinWSP              =new cSaveWindowPosition("MainWindow",RestoreWindow,true);     // MainWindow - Window size and position
     #ifdef Q_OS_LINUX
-        RasterMode          = true;                                                         // Enable or disable raster mode [Linux only]
-        CheckConfigAtStartup= true;
+        RasterMode          =true;                                                         // Enable or disable raster mode [Linux only]
+        CheckConfigAtStartup=true;
     #endif
     #ifdef Q_OS_WIN
-        CheckConfigAtStartup= false;
+        CheckConfigAtStartup=false;
     #endif
-    MemCacheMaxValue        = 512*1024*1024;                                                // 512 Mb for image cache
-    Crop1088To1080          = true;                                                         // Automaticaly crop video from 1088 lines to 1080 (CANON)
-    Deinterlace             = false;
-    Smoothing               = true;                                                         // True do smoothing in preview
+    MemCacheMaxValue        =512*1024*1024;                                                // 512 Mb for image cache
+    Crop1088To1080          =true;                                                         // Automaticaly crop video from 1088 lines to 1080 (CANON)
+    Deinterlace             =false;
+    Smoothing               =true;                                                         // True do smoothing in preview
     RememberLastDirectories =true;
     ShowHiddenFilesAndDir   =false;
     ShowMntDrive            =false;
@@ -713,6 +713,8 @@ void cBaseApplicationConfig::InitValues() {
     TimelineHeight              = TIMELINEMINHEIGH;         // Initial height of the timeline
     PreviewFPS                  = 12.5;                     // Preview FrameRate
     PreviewSamplingRate         = 44100;                    // Preview sound audio rate
+    MaxPreviewHeight            = 720;
+    MaxVideoPreviewHeight       = 360;
     NoShotDuration              = 6000;                     // Default duration for fixed image when is alone (no shot)
     FixedDuration               = 3000;                     // Default duration for fixed image (msec)
     ImageGeometry               = GEOMETRY_16_9;            // Project image geometry for image rendering
@@ -839,6 +841,8 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultFraming",              DefaultFraming);
     Element.setAttribute("PreviewFPS",                  (QString("%1").arg(PreviewFPS,0,'f')));
     Element.setAttribute("PreviewSamplingRate",         (QString("%1").arg(PreviewSamplingRate)));
+    Element.setAttribute("MaxPreviewHeight",            MaxPreviewHeight);
+    Element.setAttribute("MaxVideoPreviewHeight",       MaxVideoPreviewHeight);
     Element.setAttribute("RandomTransition",            RandomTransition?"1":"0");
     Element.setAttribute("DefaultTransitionFamilly",    DefaultTransitionFamilly);
     Element.setAttribute("DefaultTransitionSubType",    DefaultTransitionSubType);
@@ -987,6 +991,8 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (Element.hasAttribute("DefaultFraming"))             DefaultFraming              =Element.attribute("DefaultFraming").toInt();
         if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS                  =Element.attribute("PreviewFPS").toDouble();
         if (Element.hasAttribute("PreviewSamplingRate"))        PreviewSamplingRate         =Element.attribute("PreviewSamplingRate").toLong();
+        if (Element.hasAttribute("MaxPreviewHeight"))           MaxPreviewHeight            =Element.attribute("MaxPreviewHeight").toInt();
+        if (Element.hasAttribute("MaxVideoPreviewHeight"))      MaxVideoPreviewHeight       =Element.attribute("MaxVideoPreviewHeight").toInt();
         if (Element.hasAttribute("RandomTransition"))           RandomTransition            =Element.attribute("RandomTransition")=="1";
         if (Element.hasAttribute("DefaultTransitionFamilly"))   DefaultTransitionFamilly    =Element.attribute("DefaultTransitionFamilly").toInt();
         if (Element.hasAttribute("DefaultTransitionSubType"))   DefaultTransitionSubType    =Element.attribute("DefaultTransitionSubType").toInt();

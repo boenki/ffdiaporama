@@ -47,7 +47,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -77,7 +77,7 @@
             <x>0</x>
             <y>0</y>
             <width>664</width>
-            <height>456</height>
+            <height>516</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -87,65 +87,6 @@
            <property name="spacing">
             <number>4</number>
            </property>
-           <item row="15" column="0">
-            <widget class="QLabel" name="label_34">
-             <property name="text">
-              <string>Coordinates unit :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="18" column="0">
-            <widget class="QLabel" name="label_33">
-             <property name="text">
-              <string>Object deletion :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="19" column="0">
-            <widget class="QLabel" name="label_99">
-             <property name="text">
-              <string>Video cropping :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="16" column="1">
-            <widget class="QComboBox" name="AppendObjectCB">
-             <property name="toolTip">
-              <string>This option allows you to adjust the positions occupied by new objects inserted into the timeline.
-- If Insert after the current selected object is selected, then the new slides will be created after the current slide.
-- If Append to the end of the project is selected, then the new slides will be created at the end of the project.</string>
-             </property>
-             <item>
-              <property name="text">
-               <string>Insert after current object</string>
-              </property>
-             </item>
-             <item>
-              <property name="text">
-               <string>Append at project end</string>
-              </property>
-             </item>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QCheckBox" name="SDLAudioModeCB">
-             <property name="toolTip">
-              <string>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</string>
-             </property>
-             <property name="text">
-              <string>SDL Audio use old mode</string>
-             </property>
-            </widget>
-           </item>
            <item row="5" column="0" colspan="2">
             <layout class="QHBoxLayout" name="horizontalLayout_16">
              <item>
@@ -200,31 +141,121 @@
              </item>
             </layout>
            </item>
-           <item row="2" column="0" colspan="2">
-            <widget class="QCheckBox" name="RememberLastDirectoriesCH">
+           <item row="13" column="0">
+            <widget class="QLabel" name="label_7">
+             <property name="text">
+              <string>Sound sample rate :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>PreviewFrameRateCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="21" column="0">
+            <widget class="QLabel" name="label_99">
+             <property name="text">
+              <string>Video cropping :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="26" column="0">
+            <spacer name="verticalSpacer_2">
+             <property name="orientation">
+              <enum>Qt::Vertical</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>20</width>
+               <height>40</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item row="18" column="1">
+            <widget class="QComboBox" name="AppendObjectCB">
              <property name="toolTip">
-              <string>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</string>
+              <string>This option allows you to adjust the positions occupied by new objects inserted into the timeline.
+- If Insert after the current selected object is selected, then the new slides will be created after the current slide.
+- If Append to the end of the project is selected, then the new slides will be created at the end of the project.</string>
              </property>
-             <property name="text">
-              <string>Remember last used folders</string>
-             </property>
+             <item>
+              <property name="text">
+               <string>Insert after current object</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Append at project end</string>
+              </property>
+             </item>
             </widget>
            </item>
-           <item row="0" column="0" colspan="2">
-            <widget class="QLabel" name="label_3">
-             <property name="font">
-              <font>
-               <weight>75</weight>
-               <bold>true</bold>
-               <underline>true</underline>
-              </font>
+           <item row="10" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_15">
+             <property name="spacing">
+              <number>2</number>
              </property>
-             <property name="text">
-              <string>Application options</string>
-             </property>
-            </widget>
+             <item>
+              <widget class="QComboBox" name="MaxPreviewHeightCB">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Defines the maximum height of the preview player of the main window in &quot;Preview mode&quot;.
+Note: the higher this number, the more smooth the preview will be. On the other hand, more computer resources will be required. Reduce this number on slow computers or if the gauge for your multimedia reader is frequently in the red zone.</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string notr="true">1080</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">720</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">540</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">360</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">270</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_58">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>(Reduce this value for slow computer)</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
-           <item row="19" column="1">
+           <item row="21" column="1">
             <widget class="QCheckBox" name="Crop1088To1080CB">
              <property name="toolTip">
               <string>If the Automatically crop 1920×1088 video to 1920×1080 is checked then video images are automatically cropped.
@@ -235,7 +266,7 @@ Remark: Some manufacturers produce FullHD videos 1920×1088 rather than 1920×10
              </property>
             </widget>
            </item>
-           <item row="10" column="1">
+           <item row="12" column="1">
             <widget class="QCheckBox" name="SmoothImageDuringPreviewCB">
              <property name="toolTip">
               <string>If this box is checked, the image smoothing effect will be applied to the images during the preview.
@@ -246,27 +277,7 @@ Remark: This effect consumes lots of resources and can result in slow preview on
              </property>
             </widget>
            </item>
-           <item row="17" column="0">
-            <widget class="QLabel" name="label_26">
-             <property name="text">
-              <string>Multiple file insertion :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="10" column="0">
-            <widget class="QLabel" name="label_42">
-             <property name="text">
-              <string>Image smoothing :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="15" column="1">
+           <item row="17" column="1">
             <widget class="QComboBox" name="UnitCB">
              <property name="toolTip">
               <string>This option allows to select the unit for the coordinates which will be used in the properties dialog.
@@ -286,14 +297,118 @@ Remark: This effect consumes lots of resources and can result in slow preview on
              </item>
             </widget>
            </item>
-           <item row="20" column="1">
-            <widget class="QCheckBox" name="DeinterlaceCB">
+           <item row="18" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Object position :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>AppendObjectCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="19" column="0">
+            <widget class="QLabel" name="label_26">
+             <property name="text">
+              <string>Multiple file insertion :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="13" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_6">
+             <property name="spacing">
+              <number>2</number>
+             </property>
+             <item>
+              <widget class="QComboBox" name="PreviewAudioRateCB">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="toolTip">
+                <string>Defines the frequency of the sound generated to show the preview.</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string notr="true">22050</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">44100</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">48000</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_50">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="text">
+                <string>Hz (Reduce this value for slow computer)</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item row="10" column="0">
+            <widget class="QLabel" name="label_57">
+             <property name="text">
+              <string>Max preview height :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>PreviewFrameRateCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="17" column="0">
+            <widget class="QLabel" name="label_34">
+             <property name="text">
+              <string>Coordinates unit :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QCheckBox" name="SDLAudioModeCB">
              <property name="toolTip">
-              <string>If the Activate deinterlace filter when add new MTS videos is checked, deinterlace filter will automatically be activated for all .mts videos added to the project.
-Remark: Some manufacturers produce videos using interlaced mode. They make it to accelerate the encoding. The problem is it deforms the image on which moved lines appear. For more information on interlaced video, see Wikipedia page on interlaced video.</string>
+              <string>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</string>
              </property>
              <property name="text">
-              <string>Activate deinterlace filter when add new MTS videos</string>
+              <string>SDL Audio use old mode</string>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0" colspan="2">
+            <widget class="QCheckBox" name="RasterModeCB">
+             <property name="toolTip">
+              <string>If this box is checked, the graphic system &quot;raster&quot; is used instead of the default graphic system. This option is used only at application start up.
+The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</string>
+             </property>
+             <property name="text">
+              <string>Enable &quot;raster&quot; Graphics System (Need application restart)</string>
              </property>
             </widget>
            </item>
@@ -373,7 +488,20 @@ Note: the higher this number, the more smooth the preview will be. On the other 
              </item>
             </layout>
            </item>
-           <item row="20" column="0">
+           <item row="9" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Frame rate :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>PreviewFrameRateCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="22" column="0">
             <widget class="QLabel" name="label_100">
              <property name="text">
               <string>Video deinterlacing :</string>
@@ -383,7 +511,31 @@ Note: the higher this number, the more smooth the preview will be. On the other 
              </property>
             </widget>
            </item>
-           <item row="14" column="0" colspan="2">
+           <item row="1" column="0" colspan="2">
+            <widget class="QCheckBox" name="RestoreWindowCH">
+             <property name="toolTip">
+              <string>If this box is checked, the sizes and the positions of all windows and dialogs will be saved and reused the next time you use ffDiaporama.</string>
+             </property>
+             <property name="text">
+              <string>Remember size and position of windows</string>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0" colspan="2">
+            <widget class="QLabel" name="label_3">
+             <property name="font">
+              <font>
+               <weight>75</weight>
+               <bold>true</bold>
+               <underline>true</underline>
+              </font>
+             </property>
+             <property name="text">
+              <string>Application options</string>
+             </property>
+            </widget>
+           </item>
+           <item row="16" column="0" colspan="2">
             <widget class="QLabel" name="label">
              <property name="font">
               <font>
@@ -400,56 +552,17 @@ Note: the higher this number, the more smooth the preview will be. On the other 
              </property>
             </widget>
            </item>
-           <item row="3" column="0" colspan="2">
-            <widget class="QCheckBox" name="RasterModeCB">
-             <property name="toolTip">
-              <string>If this box is checked, the graphic system &quot;raster&quot; is used instead of the default graphic system. This option is used only at application start up.
-The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</string>
-             </property>
+           <item row="12" column="0">
+            <widget class="QLabel" name="label_42">
              <property name="text">
-              <string>Enable &quot;raster&quot; Graphics System (Need application restart)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="18" column="1">
-            <widget class="QCheckBox" name="AskUserToRemove">
-             <property name="toolTip">
-              <string>If this box is checked, a confirmation prompt will be displayed every time you remove an object:
-- A slide from the main window
--A shot or block from the slide properties dialog box</string>
-             </property>
-             <property name="text">
-              <string>Ask user confirmation to remove slide, object or shot</string>
-             </property>
-            </widget>
-           </item>
-           <item row="16" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Object position :</string>
+              <string>Image smoothing :</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
              </property>
-             <property name="buddy">
-              <cstring>AppendObjectCB</cstring>
-             </property>
             </widget>
            </item>
-           <item row="9" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Frame rate :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>PreviewFrameRateCB</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="17" column="1">
+           <item row="19" column="1">
             <widget class="QCheckBox" name="SortFileCB">
              <property name="toolTip">
               <string>This option allows you to adjust the way files are sorted when you select several files in Add file.
@@ -461,33 +574,53 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
              </property>
             </widget>
            </item>
-           <item row="24" column="0">
-            <spacer name="verticalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item row="1" column="0" colspan="2">
-            <widget class="QCheckBox" name="RestoreWindowCH">
+           <item row="2" column="0" colspan="2">
+            <widget class="QCheckBox" name="RememberLastDirectoriesCH">
              <property name="toolTip">
-              <string>If this box is checked, the sizes and the positions of all windows and dialogs will be saved and reused the next time you use ffDiaporama.</string>
+              <string>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</string>
              </property>
              <property name="text">
-              <string>Remember size and position of windows</string>
+              <string>Remember last used folders</string>
+             </property>
+            </widget>
+           </item>
+           <item row="20" column="0">
+            <widget class="QLabel" name="label_33">
+             <property name="text">
+              <string>Object deletion :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="22" column="1">
+            <widget class="QCheckBox" name="DeinterlaceCB">
+             <property name="toolTip">
+              <string>If the Activate deinterlace filter when add new MTS videos is checked, deinterlace filter will automatically be activated for all .mts videos added to the project.
+Remark: Some manufacturers produce videos using interlaced mode. They make it to accelerate the encoding. The problem is it deforms the image on which moved lines appear. For more information on interlaced video, see Wikipedia page on interlaced video.</string>
+             </property>
+             <property name="text">
+              <string>Activate deinterlace filter when add new MTS videos</string>
+             </property>
+            </widget>
+           </item>
+           <item row="20" column="1">
+            <widget class="QCheckBox" name="AskUserToRemove">
+             <property name="toolTip">
+              <string>If this box is checked, a confirmation prompt will be displayed every time you remove an object:
+- A slide from the main window
+-A shot or block from the slide properties dialog box</string>
+             </property>
+             <property name="text">
+              <string>Ask user confirmation to remove slide, object or shot</string>
              </property>
             </widget>
            </item>
            <item row="11" column="0">
-            <widget class="QLabel" name="label_7">
+            <widget class="QLabel" name="label_59">
              <property name="text">
-              <string>Sound sample rate :</string>
+              <string>Max video preview height :</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
@@ -498,12 +631,12 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
             </widget>
            </item>
            <item row="11" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
+            <layout class="QHBoxLayout" name="horizontalLayout_17">
              <property name="spacing">
               <number>2</number>
              </property>
              <item>
-              <widget class="QComboBox" name="PreviewAudioRateCB">
+              <widget class="QComboBox" name="MaxVideoPreviewHeightCB">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -511,27 +644,38 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Defines the frequency of the sound generated to show the preview.</string>
+                <string>Sets the maximum height of videos used for the preview.
+Beyond this height, the videos are automatically reduced for creating images.</string>
                </property>
                <item>
                 <property name="text">
-                 <string notr="true">22050</string>
+                 <string notr="true">1080</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string notr="true">44100</string>
+                 <string notr="true">720</string>
                 </property>
                </item>
                <item>
                 <property name="text">
-                 <string notr="true">48000</string>
+                 <string notr="true">540</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">360</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string notr="true">270</string>
                 </property>
                </item>
               </widget>
              </item>
              <item>
-              <widget class="QLabel" name="label_50">
+              <widget class="QLabel" name="label_60">
                <property name="sizePolicy">
                 <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
                  <horstretch>0</horstretch>
@@ -539,7 +683,7 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
                 </sizepolicy>
                </property>
                <property name="text">
-                <string>Hz (Reduce this value for slow computer)</string>
+                <string>(Reduce this value for slow computer)</string>
                </property>
               </widget>
              </item>
@@ -578,8 +722,8 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>664</width>
-            <height>1091</height>
+            <width>512</width>
+            <height>1073</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -927,29 +1071,33 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
               <number>2</number>
              </property>
              <item>
-              <widget class="QToolButton" name="HelpToolTips_3">
-               <property name="font">
-                <font>
-                 <pointsize>-1</pointsize>
-                </font>
+              <widget class="QLabel" name="HelpTT2">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
                </property>
                <property name="toolTip">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This group of settings applies to the new image or video blocks created from the main window by means of the &lt;img src=&quot;:/img/add_image.png&quot;/&gt; button.&lt;br&gt;&lt;br&gt;For every image format and every project geometry select the style of location to applied to the new blocks. &lt;br&gt;- Framing styles define how to crop the image to make it compatible with the block in which is displayed.&lt;br&gt;- The positioning styles define the the size, coordinates, rotations and geometric constraint to apply to blocks.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
-               <property name="styleSheet">
-                <string notr="true">QToolButton {
-	background-color: transparent;
-	border: none; 
-    font-size: 9px;
-}
-</string>
-               </property>
                <property name="text">
-                <string notr="true">?</string>
+                <string notr="true"/>
                </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
+               <property name="textFormat">
+                <enum>Qt::AutoText</enum>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
+               </property>
+               <property name="scaledContents">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -2228,29 +2376,33 @@ This style defines the transparency of the block and its filling.</string>
               <number>2</number>
              </property>
              <item>
-              <widget class="QToolButton" name="HelpToolTips_2">
-               <property name="font">
-                <font>
-                 <pointsize>-1</pointsize>
-                </font>
+              <widget class="QLabel" name="HelpTT1">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
                </property>
                <property name="toolTip">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This group of settings applies to the new text blocks created in slide dialogue by means of the &lt;img src=&quot;:/img/add_text.png&quot;/&gt; button.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
-               <property name="styleSheet">
-                <string notr="true">QToolButton {
-	background-color: transparent;
-	border: none; 
-    font-size: 9px;
-}
-</string>
-               </property>
                <property name="text">
-                <string notr="true">?</string>
+                <string notr="true"/>
                </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
+               <property name="textFormat">
+                <enum>Qt::AutoText</enum>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
+               </property>
+               <property name="scaledContents">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -2279,29 +2431,33 @@ This style defines the transparency of the block and its filling.</string>
               <number>2</number>
              </property>
              <item>
-              <widget class="QToolButton" name="HelpToolTips_4">
-               <property name="font">
-                <font>
-                 <pointsize>-1</pointsize>
-                </font>
+              <widget class="QLabel" name="HelpTT3">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16</width>
+                 <height>16</height>
+                </size>
                </property>
                <property name="toolTip">
                 <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This group of settings applies to the new image or video blocks created in slide dialogue by means of the &lt;img src=&quot;:/img/add_image.png&quot;/&gt; button.&lt;br/&gt;&lt;br/&gt;For every image format and every project geometry select the style of location to applied to the new blocks. &lt;br/&gt;- Framing styles define how to crop the image to make it compatible with the block in which is displayed.&lt;br/&gt;- The positioning styles define the the size, coordinates, rotations and geometric constraint to apply to blocks.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
                </property>
-               <property name="styleSheet">
-                <string notr="true">QToolButton {
-	background-color: transparent;
-	border: none; 
-    font-size: 9px;
-}
-</string>
-               </property>
                <property name="text">
-                <string notr="true">?</string>
+                <string notr="true"/>
                </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
+               <property name="textFormat">
+                <enum>Qt::AutoText</enum>
+               </property>
+               <property name="pixmap">
+                <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
+               </property>
+               <property name="scaledContents">
+                <bool>true</bool>
                </property>
               </widget>
              </item>
@@ -2357,7 +2513,7 @@ This style defines the transparency of the block and its filling.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>664</width>
+            <width>383</width>
             <height>569</height>
            </rect>
           </property>
@@ -2943,12 +3099,7 @@ Use title project as video name: Use the title defined in the project properties
       <number>4</number>
      </property>
      <item>
-      <widget class="QToolButton" name="HelpToolTips">
-       <property name="font">
-        <font>
-         <pointsize>-1</pointsize>
-        </font>
-       </property>
+      <widget class="QLabel" name="HelpTT">
        <property name="toolTip">
         <string>This dialog box allows you to define options for the application.
 It consists of following 3 tabs:
@@ -2956,20 +3107,14 @@ It consists of following 3 tabs:
 - The Project options tab allows to define the options by default of the current project and for the new projects.
 - The Rendering options Tab allows to define the options used by default during the generation of videos.</string>
        </property>
-       <property name="styleSheet">
-        <string notr="true">QToolButton {
-	background-color: transparent;
-	border: none; 
-    font-size: 9px;
-}
-</string>
-       </property>
        <property name="text">
-        <string notr="true">?</string>
+        <string notr="true"/>
        </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
        </property>
       </widget>
      </item>

@@ -97,8 +97,9 @@ public:
     bool                    IsSliderProcess;        // true is slider is currently moving by user
     bool                    PreviousPause;          // Flag to keep pause state before slider process
     QTime                   LastTimeCheck;          // time save for plaing diaporama
-    bool                    Flag_InTimer;           // true if timer event is in progress
     bool                    TimerTick;              // To use timer 1 time for 2 call
+
+    QMutex                  Mutex;
 
     // Thread controls
     QFutureWatcher<void> ThreadPrepareVideo;

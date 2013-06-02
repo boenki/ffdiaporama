@@ -35,7 +35,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="TabProject">
       <attribute name="title">
@@ -64,7 +64,7 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>295</width>
+            <width>380</width>
             <height>326</height>
            </rect>
           </property>
@@ -133,6 +133,9 @@
                  <height>16777215</height>
                 </size>
                </property>
+               <property name="toolTip">
+                <string>The language of the audio track (ISO 639 standard – 3 characters).</string>
+               </property>
                <property name="text">
                 <string>und</string>
                </property>
@@ -164,7 +167,21 @@
             </widget>
            </item>
            <item row="7" column="1">
-            <widget class="QTableWidget" name="ChapterTable"/>
+            <widget class="QTableWidget" name="ChapterTable">
+             <property name="toolTip">
+              <string>Chapters defined in the project are listed for consultation. To modify chapters use modify slide dialog.
+
+The following fields appear:
+-#: The chapter number
+-Slide: Slide number in wich chapter is defined
+-Title: Chapter title
+-Start: Chapter start position
+-End: Chapter end position
+-Duration: Chapter duration
+
+Remark: Video formats do not support all the chapters in the same way.</string>
+             </property>
+            </widget>
            </item>
            <item row="4" column="1">
             <widget class="QSpinBox" name="YearED">
@@ -173,6 +190,10 @@
                <horstretch>0</horstretch>
                <verstretch>0</verstretch>
               </sizepolicy>
+             </property>
+             <property name="toolTip">
+              <string>Year (4 numbers)
+Remark: This field is different from &quot;timestamp&quot; field.</string>
              </property>
              <property name="minimum">
               <number>1970</number>
@@ -187,6 +208,9 @@
            </item>
            <item row="3" column="1">
             <widget class="QLineEdit" name="AlbumED">
+             <property name="toolTip">
+              <string>The album of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters).</string>
+             </property>
              <property name="maxLength">
               <number>30</number>
              </property>
@@ -194,6 +218,10 @@
            </item>
            <item row="2" column="1">
             <widget class="QLineEdit" name="AuthorED">
+             <property name="toolTip">
+              <string>The name of the author of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters).
+Remark: This field is often shown by indexing system and jukeboxes under the term Artist.</string>
+             </property>
              <property name="maxLength">
               <number>30</number>
              </property>
@@ -201,6 +229,9 @@
            </item>
            <item row="1" column="1">
             <widget class="QLineEdit" name="TitleED">
+             <property name="toolTip">
+              <string>The title of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters).</string>
+             </property>
              <property name="maxLength">
               <number>30</number>
              </property>
@@ -218,6 +249,10 @@
            </item>
            <item row="6" column="1">
             <widget class="QPlainTextEdit" name="CommentED">
+             <property name="toolTip">
+              <string>A free comment which can spread out on several lines.
+Remark: numerous indexing systems or jukeboxes will read only the 1st line.</string>
+             </property>
              <property name="lineWrapMode">
               <enum>QPlainTextEdit::NoWrap</enum>
              </property>
@@ -236,7 +271,8 @@
            <item row="0" column="1">
             <widget class="QComboBox" name="GeometryCombo">
              <property name="toolTip">
-              <string>Select the image geometry to be used for the creation of new projects</string>
+              <string>This field allows you to select the geometry to be used for the project.
+Note: This field is only editable when the dialog box is opened for creating a new project. Subsequently, it is not possible to change this value.</string>
              </property>
              <property name="currentIndex">
               <number>0</number>
@@ -324,8 +360,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>383</width>
-            <height>271</height>
+            <width>180</width>
+            <height>107</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -412,7 +448,8 @@
              <item>
               <widget class="cCSpeedWaveComboBox" name="TransitionSpeedWaveCB">
                <property name="toolTip">
-                <string>Select the playback profile to be used for transitions and animations</string>
+                <string>Defined default speed curve for transitions.
+This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</string>
                </property>
                <property name="currentIndex">
                 <number>-1</number>
@@ -442,7 +479,8 @@
              <item>
               <widget class="cCSpeedWaveComboBox" name="BlockSpeedWaveCB">
                <property name="toolTip">
-                <string>Select the playback profile to be used for transitions and animations</string>
+                <string>Defined default speed curve for block animations.
+This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</string>
                </property>
                <property name="currentIndex">
                 <number>-1</number>
@@ -472,7 +510,8 @@
              <item>
               <widget class="cCSpeedWaveComboBox" name="ImageSpeedWaveCB">
                <property name="toolTip">
-                <string>Select the playback profile to be used for transitions and animations</string>
+                <string>Defined default speed curve for image animations.
+This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</string>
                </property>
                <property name="currentIndex">
                 <number>-1</number>
@@ -515,6 +554,35 @@
       <number>4</number>
      </property>
      <item>
+      <widget class="QLabel" name="HelpTT">
+       <property name="toolTip">
+        <string>This dialog allows you to define the information which qualifies the project.
+This information will then be registered in the form of TAGs in the rendered video files.
+
+Remark:
+
+The properties of the project are a partial implementation of the MPEG-7 standard on the descriptors of multimedia contents.
+These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by jukeboxes.
+
+Some fields are automatically filled and do not appear in this dialog:
+-Timestamp: Date and time of generation of the video.
+-Composer: Contains the version of ffDiaporama with which the video was produced.
+-Encoder: Contains the version of libavformat (ffmpeg) with which the video was produced.
+
+For more compatibility with indexing systems and jukeboxes, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -552,23 +620,6 @@
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="HelpBT">
-       <property name="toolTip">
-        <string>Open help page describing this dialog box</string>
-       </property>
-       <property name="text">
-        <string>&amp;Help</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F1</string>
        </property>
       </widget>
      </item>

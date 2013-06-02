@@ -44,7 +44,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-57</y>
         <width>422</width>
         <height>538</height>
        </rect>
@@ -160,6 +160,9 @@
            </item>
            <item row="3" column="2">
             <widget class="QLabel" name="FileCreatedValue">
+             <property name="toolTip">
+              <string>The date and the hour of creation of the file on the disk (when you transferred it since the camera).</string>
+             </property>
              <property name="text">
               <string notr="true">&lt;filedate&gt;</string>
              </property>
@@ -174,6 +177,9 @@
            </item>
            <item row="4" column="2">
             <widget class="QLabel" name="FileModifyValue">
+             <property name="toolTip">
+              <string>The date and the hour of the last modification of the file (when the photo was taken or when you modified it with an image editor).</string>
+             </property>
              <property name="text">
               <string notr="true">&lt;filedate&gt;</string>
              </property>
@@ -189,6 +195,17 @@
           <font>
            <pointsize>8</pointsize>
           </font>
+         </property>
+         <property name="toolTip">
+          <string>This zone contains a board listing every video track present in the file.
+For every track, the following information is shown:
+- #:			Track number
+- Image size:		The size of the images of the video track in number of points by number of line
+- Image format:		The size of the images of the video track in million of pixels
+- Image geometry:	The image geometry of the video track (4:3, 16:9, etc.)
+- Codec:			The video codec used for compressed the images
+- Frame rate:		The number of images per second of the video
+- Bitrate:			The video compression ratio (when available)</string>
          </property>
         </widget>
        </item>
@@ -233,6 +250,17 @@
           <font>
            <pointsize>8</pointsize>
           </font>
+         </property>
+         <property name="toolTip">
+          <string>This zone contains a table listing every audio track present in the file.
+For every track, the following information is shown:
+- #:		Track number
+- Language:	The language in which is the audio track (generally cameras and camcorders indicate und for undefine)
+- Codec:		The audio codec used for compressed the sound
+- Channels:	The number of audio channels (1=mono, 2=stereo, etc.)
+- Bitrate:		The audio compression ratio (when available)
+- Frequency:	The frequency of sampling used by the audio track
+- Title:		A title (when available)</string>
          </property>
         </widget>
        </item>
@@ -338,6 +366,15 @@
            <pointsize>8</pointsize>
           </font>
          </property>
+         <property name="toolTip">
+          <string>This zone appears only for files containing chapters. it contains a table listing every chapter present in the file.
+For every chapter, the following information is shown:
+- #:		Chapter number
+- Title:		The title of the chapter
+- Start:		The temporal position of the beginning of the chapter
+- End:		The temporal position of the end of the chapter
+- Duration:	The duration of the chapter</string>
+         </property>
         </widget>
        </item>
        <item row="9" column="1">
@@ -346,6 +383,22 @@
           <font>
            <pointsize>8</pointsize>
           </font>
+         </property>
+         <property name="toolTip">
+          <string>For an image:
+Show the EXIF information supplied by the camera.
+This zone can contain several hundreds of lines according to what the camera supplies.
+
+For a video:
+Show information on the video.
+At least the information about the duration of the video will be shown, but a lot of other information can appear according to what is available in the file, such as:
+- Creation_time:	Date and time of creation of the video
+- Title:		Title field of the TAG ID3v2 of the video
+- Artist:		Artist field of the TAG ID3v2 of the video
+- Album:		Album field of the TAG ID3v2 of the video
+- Date:		Date field of the TAG ID3v2 of the video
+- Comment:	Comment field of the TAG ID3v2 of the video
+- Composer:	The software with which the video was created</string>
          </property>
          <property name="horizontalScrollMode">
           <enum>QAbstractItemView::ScrollPerPixel</enum>
@@ -404,6 +457,22 @@
       <number>4</number>
      </property>
      <item>
+      <widget class="QLabel" name="HelpTT">
+       <property name="toolTip">
+        <string>This dialog allows to obtain detailed information on a multimedia file.</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -430,23 +499,6 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="HelpBT">
-       <property name="toolTip">
-        <string>Open help page describing this dialog box</string>
-       </property>
-       <property name="text">
-        <string>&amp;Help</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F1</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>
@@ -458,7 +510,6 @@
   <tabstop>ChapterTable</tabstop>
   <tabstop>tableWidget</tabstop>
   <tabstop>OkBt</tabstop>
-  <tabstop>HelpBT</tabstop>
  </tabstops>
  <resources>
   <include location="../../../RSCffDiaporama.qrc"/>

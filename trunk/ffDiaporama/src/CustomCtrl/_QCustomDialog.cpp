@@ -22,6 +22,7 @@
 #include <QHeaderView>
 #include <QInputDialog>
 #include <QDialogButtonBox>
+#include <QLabel>
 
 //====================================================================================================================
 
@@ -76,19 +77,19 @@ int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title
 
 //====================================================================================================================
 
-QCustomDialog::QCustomDialog(int HelpURLIndex,cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):QDialog(parent) {
+QCustomDialog::QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):QDialog(parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::QCustomDialog");
 
-    this->HelpURL               =HelpURLIndex?QString(HELPFILE_DEF).arg(HelpURLIndex).arg(BaseApplicationConfig->GetValideWEBLanguage(BaseApplicationConfig->CurrentLanguage)):"";
     this->BaseApplicationConfig =BaseApplicationConfig;
     this->DlgWSP                =DlgWSP;
     Undo                        =NULL;
     OkBt                        =NULL;
     CancelBt                    =NULL;
-    HelpBt                      =NULL;
     UndoBt                      =NULL;
+    HelpTT                      =NULL;
 
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
+    setAttribute(Qt::WA_AlwaysShowToolTips);
 }
 
 //====================================================================================================================
@@ -109,13 +110,21 @@ void QCustomDialog::InitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::InitDialog");
 
     // Define handler for standard buttons
-    if (OkBt)       connect(OkBt,SIGNAL(clicked()),this,SLOT(accept()));
-    if (CancelBt)   connect(CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
-    if (UndoBt)     connect(UndoBt,SIGNAL(clicked()),this,SLOT(DoPartialUndo()));
+    if (OkBt) {
+        OkBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogOkButton));
+        connect(OkBt,SIGNAL(clicked()),this,SLOT(accept()));
+    }
+    if (CancelBt) {
+        CancelBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogCancelButton));
+        connect(CancelBt,SIGNAL(clicked()),this,SLOT(reject()));
+    }
+    if (UndoBt) {
+        UndoBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogResetButton));
+        connect(UndoBt,SIGNAL(clicked()),this,SLOT(DoPartialUndo()));
+    }
 
-    if (HelpBt) {
-        if (HelpURL!="") connect(HelpBt,SIGNAL(clicked()),this,SLOT(doHelp()));
-            else HelpBt->setVisible(false);
+    if (HelpTT) {
+        HelpTT->setPixmap(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton).pixmap(HelpTT->size()));
     }
 
     // Restore window size and position
@@ -128,14 +137,16 @@ void QCustomDialog::InitDialog() {
     DoInitDialog();
 
     if (UndoBt) UndoBt->setEnabled(UndoDataList.count()>0);
+
+    toolTipTowhatsThis(this);
 }
 
 //====================================================================================================================
+// Function use to duplicate toolTip properties of all child object to whatsThis properties
 
-void QCustomDialog::doHelp() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::Help");
-
-    if (HelpURL!="") QDesktopServices::openUrl(QUrl(HelpURL.replace("<local>",BaseApplicationConfig->GetValideWEBLanguage(BaseApplicationConfig->CurrentLanguage))));
+void QCustomDialog::toolTipTowhatsThis(QObject *StartObj) {
+    if (StartObj->property("toolTip").toString()!="") StartObj->setProperty("whatsThis",StartObj->property("toolTip"));
+    for (int i=0;i<StartObj->children().count();i++) toolTipTowhatsThis(StartObj->children().at(i));
 }
 
 //====================================================================================================================

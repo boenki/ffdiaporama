@@ -125,27 +125,21 @@ It concerns as well the name of the style as the associated settings.</string>
       <number>4</number>
      </property>
      <item>
-      <widget class="QToolButton" name="HelpToolTips">
+      <widget class="QLabel" name="HelpTT">
        <property name="toolTip">
         <string>The Manage style dialog allows several things.
 Rename existing style
 Remove custom style
 Reset a standard style (that you modified) has its default values.</string>
        </property>
-       <property name="styleSheet">
-        <string notr="true">QToolButton {
-	background-color: transparent;
-	border: none; 
-    font-size: 9px;
-}
-</string>
-       </property>
        <property name="text">
-        <string notr="true">?</string>
+        <string notr="true"/>
        </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
        </property>
       </widget>
      </item>

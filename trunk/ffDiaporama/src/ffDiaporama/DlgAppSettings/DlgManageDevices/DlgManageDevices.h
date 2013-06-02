@@ -45,7 +45,7 @@ public:
     QComboBox           *CB_SL_CLIPARTST[3];
     QComboBox           *CB_BA_CLIPARTST[3];
 
-    explicit DlgManageDevices(cDeviceModelList *DeviceModelList,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit DlgManageDevices(cDeviceModelList *DeviceModelList,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgManageDevices();
 
     // function to be overloaded

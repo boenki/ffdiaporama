@@ -59,6 +59,7 @@ private:
     bool                IsReadOnlyDrive(QString Folder);
     void                DeleteChildItem(QTreeWidgetItem *Item);
     QAction             *CreateMenuAction(QString RessourceNameIcon,QString Text,int Data,bool Checkable,bool IsCheck);
+    QAction             *CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck);
 
 signals:
     void                ActionRemoveFolder();

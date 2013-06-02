@@ -44,7 +44,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-138</y>
+        <y>0</y>
         <width>604</width>
         <height>450</height>
        </rect>
@@ -72,6 +72,11 @@
              <verstretch>0</verstretch>
             </sizepolicy>
            </property>
+           <property name="toolTip">
+            <string>Defines the value of the Language field.
+This value is used by players to indicate in which language is the audio track.
+This value is on 3 characters and follows the ISO 639 recommendation.</string>
+           </property>
            <property name="text">
             <string>und</string>
            </property>
@@ -98,7 +103,7 @@
        <item row="10" column="1">
         <widget class="QComboBox" name="ImageSizeCombo">
          <property name="toolTip">
-          <string>Select the image resolution to use for the rendering.</string>
+          <string>Select the image format to be used to render the video from the displayed list.</string>
          </property>
          <property name="currentIndex">
           <number>-1</number>
@@ -182,6 +187,9 @@
          </item>
          <item>
           <widget class="QComboBox" name="GeometryCombo">
+           <property name="toolTip">
+            <string>Show the geometry of the project.</string>
+           </property>
            <property name="currentIndex">
             <number>0</number>
            </property>
@@ -315,7 +323,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>Select the audio codec to use for the rendering.</string>
+          <string>Select the audio codec to be used to render the video from the displayed list.</string>
          </property>
         </widget>
        </item>
@@ -334,7 +342,7 @@
           </size>
          </property>
          <property name="toolTip">
-          <string>Select the video codec to use for the rendering.</string>
+          <string>Select the video codec to be used to render the video from the displayed list.</string>
          </property>
         </widget>
        </item>
@@ -362,7 +370,7 @@
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>Select the bit rate to use for video during the rendering.</string>
+            <string>Select the video compression ratio from the displayed list.</string>
            </property>
           </widget>
          </item>
@@ -420,7 +428,7 @@
           </sizepolicy>
          </property>
          <property name="toolTip">
-          <string>Select the file type to use for the rendering</string>
+          <string>Select the type of file to be used to render the video from the displayed list.</string>
          </property>
         </widget>
        </item>
@@ -441,6 +449,10 @@
          </property>
          <item row="0" column="0" colspan="5">
           <widget class="QRadioButton" name="RenderZoneAllBt">
+           <property name="toolTip">
+            <string>The rendering can be made on the whole project or only on a part.
+By checking the option All slides to render the video of the whole project.</string>
+           </property>
            <property name="text">
             <string>All slides</string>
            </property>
@@ -448,13 +460,22 @@
          </item>
          <item row="1" column="0">
           <widget class="QRadioButton" name="RenderZoneFromBt">
+           <property name="toolTip">
+            <string>The rendering can be made on the whole project or only on a part.
+By checking the option From and then entering the numbers of the start and end slides to generate a video of only a part of the project.</string>
+           </property>
            <property name="text">
             <string>From</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QSpinBox" name="RenderZoneFromED"/>
+          <widget class="QSpinBox" name="RenderZoneFromED">
+           <property name="toolTip">
+            <string>The rendering can be made on the whole project or only on a part.
+By checking the option From and then entering the numbers of the start and end slides to generate a video of only a part of the project.</string>
+           </property>
+          </widget>
          </item>
          <item row="1" column="2">
           <widget class="QLabel" name="RenderZoneTo">
@@ -464,7 +485,12 @@
           </widget>
          </item>
          <item row="1" column="3">
-          <widget class="QSpinBox" name="RenderZoneToED"/>
+          <widget class="QSpinBox" name="RenderZoneToED">
+           <property name="toolTip">
+            <string>The rendering can be made on the whole project or only on a part.
+By checking the option From and then entering the numbers of the start and end slides to generate a video of only a part of the project.</string>
+           </property>
+          </widget>
          </item>
          <item row="1" column="4">
           <spacer name="horizontalSpacer">
@@ -483,6 +509,9 @@
        </item>
        <item row="13" column="1">
         <widget class="QCheckBox" name="IncludeSoundCB">
+         <property name="toolTip">
+          <string>If this box is checked then the sound track will be included in the video.</string>
+         </property>
          <property name="text">
           <string>Include sound in the video</string>
          </property>
@@ -506,7 +535,7 @@
          <item>
           <widget class="QToolButton" name="DestinationFilePathBT">
            <property name="toolTip">
-            <string>Select the destination file path</string>
+            <string>Click on this button to select graphically a file and a directory.</string>
            </property>
            <property name="text">
             <string notr="true"/>
@@ -533,7 +562,7 @@
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>Select the bit rate to use for audio during the rendering.</string>
+            <string>Select the video compression ratio from the displayed list.</string>
            </property>
           </widget>
          </item>
@@ -944,9 +973,40 @@
       <number>4</number>
      </property>
      <item>
+      <widget class="QLabel" name="HelpTT">
+       <property name="toolTip">
+        <string>This dialog allows you to render the project as a video file.</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_5">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QPushButton" name="ProjectPropertiesBt">
        <property name="toolTip">
-        <string>Edit project properties</string>
+        <string>This button allows you to open project properties dialog.
+It allows you to adjust the properties before generating the video.
+Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by jukeboxes.</string>
        </property>
        <property name="text">
         <string>&amp;Properties</string>
@@ -998,23 +1058,6 @@
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="HelpBT">
-       <property name="toolTip">
-        <string>Open help page describing this dialog box</string>
-       </property>
-       <property name="text">
-        <string>&amp;Help</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F1</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>
@@ -1027,7 +1070,6 @@
   <tabstop>DeviceModelCB</tabstop>
   <tabstop>OkBt</tabstop>
   <tabstop>CancelBt</tabstop>
-  <tabstop>HelpBT</tabstop>
   <tabstop>SelectDestScroll</tabstop>
  </tabstops>
  <resources>

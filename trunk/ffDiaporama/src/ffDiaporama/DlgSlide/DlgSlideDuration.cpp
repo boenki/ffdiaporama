@@ -23,13 +23,13 @@
 
 //====================================================================================================================
 
-DlgSlideDuration::DlgSlideDuration(qlonglong Duration,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgSlideDuration) {
+DlgSlideDuration::DlgSlideDuration(qlonglong Duration,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgSlideDuration) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideDuration::DlgSlideDuration");
     ui->setupUi(this);
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
-    HelpBt          =ui->HelpBT;
+    HelpTT          =ui->HelpTT;
     this->Duration  =Duration;
 }
 

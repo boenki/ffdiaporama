@@ -29,14 +29,14 @@
 
 //====================================================================================================================
 
-DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgRenderVideo) {
+DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgRenderVideo) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::DlgRenderVideo");
 
     ui->setupUi(this);
     OkBt                =ui->OkBt;
     CancelBt            =ui->CancelBt;
-    HelpBt              =ui->HelpBT;
+    HelpTT              =ui->HelpTT;
     Diaporama           =&TheDiaporama;
     ExportMode          =TheExportMode;
     IsDestFileOpen      =false;
@@ -270,7 +270,7 @@ void DlgRenderVideo::DoInitDialog() {
 void DlgRenderVideo::ProjectProperties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::ProjectProperties");
 
-    DlgffDPjrProperties Dlg(false,Diaporama,HELPFILE_DlgffDPjrProperties,BaseApplicationConfig,BaseApplicationConfig->DlgffDPjrPropertiesWSP,this);
+    DlgffDPjrProperties Dlg(false,Diaporama,BaseApplicationConfig,BaseApplicationConfig->DlgffDPjrPropertiesWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) emit SetModifyFlag();
 }
@@ -892,7 +892,6 @@ bool DlgRenderVideo::DoAccept() {
         // Disable unwanted buttons
         ui->OkBt->setEnabled(false);
         ui->ProjectPropertiesBt->setEnabled(false);
-        ui->HelpBT->setEnabled(false);
 
         // Switch cancel button mode
         ui->CancelBt->setToolTip(QApplication::translate("DlgRenderVideo","Stop rendering process and exit dialog box"));

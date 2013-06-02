@@ -62,7 +62,7 @@ public:
     bool                    InDisplayDuration;
     bool                    NoPrepUndo;
 
-    explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     virtual                 ~DlgSlideProperties();
 
     // function to be overloaded

@@ -32,8 +32,8 @@
 
 //====================================================================================================================
 
-DlgManageDevices::DlgManageDevices(cDeviceModelList *DeviceModelList,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
-    :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgManageDevices) {
+DlgManageDevices::DlgManageDevices(cDeviceModelList *DeviceModelList,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
+    :QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgManageDevices) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DlgManageDevices");
 
@@ -42,6 +42,7 @@ DlgManageDevices::DlgManageDevices(cDeviceModelList *DeviceModelList,int HelpURL
     ui->setupUi(this);
     CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
+    HelpTT  =ui->HelpTT;
 
     IsDeviceChanged     =false;
     CurrentDevice       =-1;

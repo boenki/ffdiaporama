@@ -137,11 +137,10 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     Diaporama               = NULL;
     WantedFPS               = 12.5;
     IsValide                = false;
-    Flag_InTimer            = false;
     IsInit                  = false;
     DisplayMSec             = true;                                 // add msec to display
-    IconPause               = QIcon(ICON_PLAYERPLAY);
-    IconPlay                = QIcon(ICON_PLAYERPAUSE);
+    IconPause               = QApplication::style()->standardIcon(QStyle::SP_MediaPlay);    //QIcon(ICON_PLAYERPLAY);
+    IconPlay                = QApplication::style()->standardIcon(QStyle::SP_MediaPause);   //QIcon(ICON_PLAYERPAUSE);
     PlayerPlayMode          = false;                                // Is player currently play mode
     PlayerPauseMode         = false;                                // Is player currently plause mode
     IsSliderProcess         = false;
@@ -245,6 +244,7 @@ void wgt_QVideoPlayer::Resize() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int HeightBT=ui->VideoPlayerPlayPauseBT->height();
     int TheHeight=height()-HeightBT;
+    if (TheHeight>ApplicationConfig->MaxPreviewHeight) TheHeight=ApplicationConfig->MaxPreviewHeight;
     int TheWidth =0;
     int ToSet    =0;
 
@@ -363,10 +363,11 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
 
 void wgt_QVideoPlayer::SetPlayerToPause() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::SetPlayerToPause");
-    if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
-    if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
     if (!(PlayerPlayMode && !PlayerPauseMode)) return;
     Timer.stop();                                   // Stop Timer
+    if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
+    if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
+    Mutex.lock();
     if (SDL_GetAudioStatus()==SDL_AUDIO_PLAYING) SDL_PauseAudio(1);
     MixedMusic.ClearList();                         // Free sound buffers
     ImageList.ClearList();                          // Free ImageList
@@ -375,6 +376,7 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
     ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
     ui->BufferState->setValue(0);
     SDLFlushBuffers();
+    Mutex.unlock();
 }
 
 //============================================================================================
@@ -443,7 +445,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();
 
             // Display frame
-            if (Frame->RenderedImage) ui->MovieFrame->SetImage(Frame->RenderedImage);
+            if (Frame->RenderedImage) ui->MovieFrame->SetImage(Frame->RenderedImage->scaledToHeight(ui->MovieFrame->height()));
 
             // If Diaporama mode and needed, set Diaporama to another object
             if (Diaporama) {
@@ -495,7 +497,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             PrepareImage(Frame,false,true);         // This will add frame to the ImageList
             Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
             // Display frame
-            ui->MovieFrame->SetImage(Frame->RenderedImage);
+            ui->MovieFrame->SetImage(Frame->RenderedImage->scaledToHeight(ui->MovieFrame->height()));
 
             // If needed, set Diaporama to another object
             if (Diaporama->CurrentCol!=Frame->CurrentObject_Number) {
@@ -530,10 +532,12 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 //============================================================================================
 void wgt_QVideoPlayer::s_TimerEvent() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_TimerEvent");
-    if ((Flag_InTimer==true)||(IsSliderProcess))    return;     // No re-entrance
+
+    if (IsSliderProcess)                            return;     // No re-entrance
     if (!(PlayerPlayMode && !PlayerPauseMode))      return;     // Only if play mode
 
-    Flag_InTimer=true;
+    if (!Mutex.tryLock()) return;
+
     TimerTick=!TimerTick;
 
     int64_t LastPosition=0,NextPosition=0;
@@ -579,6 +583,8 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true,true));
     }
 
+    Mutex.unlock();
+
     // if TimerTick update the preview
     if ((TimerTick)&&(ui->CustomRuller!=NULL))
         s_SliderMoved(ImageList.GetFirstImage()->CurrentObject_StartTime+ImageList.GetFirstImage()->CurrentObject_InObjectTime);
@@ -590,8 +596,6 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: yellow;\n}");
     else if (ImageList.List.count()<=BUFFERING_NBR_FRAME)
         ui->BufferState->setStyleSheet("QProgressBar:horizontal {\nborder: 0px;\nborder-radius: 0px;\nbackground: black;\npadding-top: 1px;\npadding-bottom: 2px;\npadding-left: 1px;\npadding-right: 1px;\n}\nQProgressBar::chunk:horizontal {\nbackground: green;\n}");
-
-    Flag_InTimer=false;
 }
 
 //============================================================================================
@@ -623,11 +627,14 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
     }
 
     // Ensure background, image and soundtrack is ready
-    Diaporama->LoadSources(Frame,ui->MovieFrame->width(),ui->MovieFrame->height(),true,AddStartPos);
+    qreal Ratio=qreal(ui->MovieFrame->width())/qreal(ui->MovieFrame->height());
+    int H=ApplicationConfig->MaxPreviewHeight/2;
+    int W=int(H*Ratio);
+    Diaporama->LoadSources(Frame,W,H,true,AddStartPos);
 
     // Do Assembly
     QFutureWatcher<void> ThreadAssembly;
-    ThreadAssembly.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::StartThreadAssembly,ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,ui->MovieFrame->width(),ui->MovieFrame->height()));
+    ThreadAssembly.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::StartThreadAssembly,ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H));
 
     // Append mixed musique to the queue
     if ((SoundWanted)&&(Frame->CurrentObject)) for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++)

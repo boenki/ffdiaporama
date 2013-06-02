@@ -34,7 +34,7 @@ public:
     QStringList    *Collection;
     QStringList    UndoCollection;
 
-    explicit DlgManageFavorite(QStringList *Collection,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgManageFavorite(QStringList *Collection,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgManageFavorite();
 
     void            PopulateList(QString ActiveName);

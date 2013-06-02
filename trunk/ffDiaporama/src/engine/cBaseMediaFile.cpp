@@ -2201,8 +2201,8 @@ int cVideoFile::VideoFilter_Process() {
 
 //====================================================================================================================
 
-void cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position,bool Deinterlace) {
-
+bool cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position,bool Deinterlace) {
+    bool ret=true;
     int64_t FPSDuration=int64_t((VideoStream?(double(VideoStream->r_frame_rate.den*AV_TIME_BASE)/double(VideoStream->r_frame_rate.num)):
                                 (AudioStream?(double(AudioStream->r_frame_rate.den*AV_TIME_BASE)/double(AudioStream->r_frame_rate.num))*AV_TIME_BASE:
                                  0)));
@@ -2214,10 +2214,16 @@ void cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Po
         while (CacheImage.count()>0) delete(CacheImage.takeLast());
 
         int64_t seek_target=av_rescale_q(Position,AV_TIME_BASE_Q,VideoStream->time_base);
-        if (av_seek_frame(LibavFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
+        if (seek_target<0) seek_target=0;
+        if (avformat_seek_file(LibavFile,VideoStreamNumber,INT64_MIN,seek_target,INT64_MAX,AVSEEK_FLAG_BACKWARD)<0) {
             // Try in AVSEEK_FLAG_ANY mode
-            if (av_seek_frame(LibavFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
-                ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadFrame : Seek error");
+            if (avformat_seek_file(LibavFile,VideoStreamNumber,INT64_MIN,seek_target,INT64_MAX,AVSEEK_FLAG_BACKWARD|AVSEEK_FLAG_ANY)<0) {
+                // Try with default stream if exist
+                int DefaultStream=av_find_default_stream_index(LibavFile);
+                if ((Position>0)||(DefaultStream<0)||(avformat_seek_file(LibavFile,DefaultStream,INT64_MIN,0,INT64_MAX,AVSEEK_FLAG_BACKWARD|AVSEEK_FLAG_BYTE)<0)) {
+                    ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadFrame : Seek error");
+                    ret=false;
+                }
             }
         }
         // Flush LibAV buffers
@@ -2259,15 +2265,24 @@ void cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Po
                 }
 
             } else Continue=false;
+
+            if (StreamPacket!=NULL) {
+                av_free_packet(StreamPacket); // Free the StreamPacket that was allocated by previous call to av_read_frame
+                delete StreamPacket;
+                StreamPacket=NULL;
+            }
+
         }
 
     // else seek au audio track
     } else if (AudioStream) {
         int64_t seek_target=av_rescale_q(Position,AV_TIME_BASE_Q,AudioStream->time_base);
+        if (seek_target<0) seek_target=0;
         if (av_seek_frame(LibavFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
             // Try in AVSEEK_FLAG_ANY mode
             if (av_seek_frame(LibavFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
                 ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadAudioFrame : Seek error");
+                ret=false;
             }
         }
         // Flush LibAV buffers
@@ -2282,6 +2297,7 @@ void cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Po
         if (VideoStream) VideoFilter_Close();
         #endif
     }
+    return ret;
 }
 
 //====================================================================================================================
@@ -2414,9 +2430,11 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEn
 
     // Calc if we need to seek to a position
     if ((Position==0)||(DiffTimePosition<0/*-1000*/)||(DiffTimePosition>1500000)) {// Allow 1,5 sec diff (rounded double !)
+        if (Position<0) Position=0;
         SeekFile(VideoStream,AudioStream,Position,Deinterlace); // Always seek one FPS before to ensure eventual filter have time to init
         FramePosition=Position/AV_TIME_BASE;
         if (VideoStream) {
+            while (CacheImage.count()>0) delete(CacheImage.takeLast());
             FrameBufferYUVReady   =false;
             FrameBufferYUVPosition=0;
         }
@@ -2482,14 +2500,18 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEn
                 RetImage=new QImage(LastImage);
                 Continue=false;
             } else {
+                if (Position<FPSDuration) {
+                    Position=FPSDuration;
+                    FramePosition=double(Position)/AV_TIME_BASE;
+                }
                 // Seek FPSDuration before and modify var to try to loop again
-                SeekFile(VideoStream,AudioStream,Position-FPSDuration,Deinterlace);
+                Continue=SeekFile(VideoStream,AudioStream,Position-FPSDuration,Deinterlace);
                 if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))) EndPos=QTime(0,0,0).addMSecs(FramePosition*1000);
                 dEndFile               =FramePosition;
                 //Duration               =QTime(0,0,0).addMSecs(FramePosition*1000);
                 Position               =FramePosition-FPSDuration;
                 dPosition              =double(Position)/AV_TIME_BASE;
-                FramePosition          =Position;
+                FramePosition          =dPosition;
                 FrameBufferYUVReady    =false;
                 FrameBufferYUVPosition =0;
             }
@@ -2648,7 +2670,7 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEn
 //==============================================
 
 int cVideoFile::DecodeVideoFrame(AVStream *VideoStream,AVStream *AudioStream,AVPacket *StreamPacket,bool Deinterlace,bool *DontRetryReading,int64_t Position,int64_t FPSDuration) {
-    if (FrameBufferYUV->opaque) {
+    if ((FrameBufferYUV)&&(FrameBufferYUV->opaque)) {
         avfilter_unref_buffer((AVFilterBufferRef *)FrameBufferYUV->opaque);
         FrameBufferYUV->opaque=NULL;
     }
@@ -2662,6 +2684,10 @@ int cVideoFile::DecodeVideoFrame(AVStream *VideoStream,AVStream *AudioStream,AVP
             SeekFile(VideoStream,AudioStream,Position-2*FPSDuration,Deinterlace);
             *DontRetryReading=true;
         } else ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadFrame : avcodec_decode_video2 return an error");
+        #if !defined(USELIBSWRESAMPLE)
+        // Close video filter
+        if (VideoStream) VideoFilter_Close();
+        #endif
         return -1;
     } else if (FrameDecoded>0) {
         // Video filter part
@@ -2685,7 +2711,16 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
     int H=FrameBufferYUV->height;
 
     // Reduce image size for preview mode
-    if (PreviewMode && (H>576)) { if ((H==1088)&&(W=1920)) { H=542; W=960; } else { W=540*(double(W)/double(H)); H=540; } }    // H=540
+    /*if (PreviewMode && (H>576)) {
+        if ((H==1088)&&(W=1920)) {
+            W=960;
+            H=542;
+        } else {
+            W=540*(double(W)/double(H));
+            H=540;
+        }
+    }    // H=540
+    */
 
     LastImage=QImage(W,H,QTPIXFMT);
     AVFrame *FrameBufferRGB =avcodec_alloc_frame();  // Allocate structure for RGB image
@@ -2735,8 +2770,10 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
                 );
             }
             if (ret>0) {
-                if      ((ApplicationConfig->Crop1088To1080)&&(LastImage.height()==1088)&&(LastImage.width()==1920))  LastImage=LastImage.copy(0,4,1920,1080);
-                else if ((ApplicationConfig->Crop1088To1080)&&(LastImage.height()==542)&&(LastImage.width()==960))    LastImage=LastImage.copy(0,2,960,540);
+                // Auto crop image if 1088 format
+                if ((ApplicationConfig->Crop1088To1080)&&(LastImage.height()==1088)&&(LastImage.width()==1920))  LastImage=LastImage.copy(0,4,1920,1080);
+                // Reduce image size for preview mode
+                if ((PreviewMode)&&(LastImage.height()>ApplicationConfig->MaxVideoPreviewHeight)) LastImage=LastImage.scaledToHeight(ApplicationConfig->MaxVideoPreviewHeight);
             }
             sws_freeContext(img_convert_ctx);
         }
@@ -2796,7 +2833,6 @@ bool cVideoFile::OpenCodecAndFile() {
     //**********************************
     // Open LibavFile
     //**********************************
-
     // if file exist then Open video file and get a LibAVFormat context and an associated LibAVCodec decoder
     if (avformat_open_input(&LibavFile,FileName.toLocal8Bit(),NULL,NULL)!=0) {
         Mutex.unlock();

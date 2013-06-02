@@ -35,7 +35,7 @@ public:
     cDiaporama *ffdProject;
     bool       IsPrjCreate;
 
-    explicit DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgffDPjrProperties();
 
     // function to be overloaded

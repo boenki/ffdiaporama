@@ -2388,6 +2388,7 @@ void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
                     List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CloseCodecAndFile();
         }
     }
+    ApplicationConfig->ImagesCache.FreeMemoryToMaxValue();
 }
 //*********************************************************************************************************************************************
 // Class object for rendering

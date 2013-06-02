@@ -50,7 +50,13 @@
         </sizepolicy>
        </property>
        <property name="toolTip">
-        <string>Select a transition family</string>
+        <string>Allows you to select a transition family.
+- No transition: The new slide immediately replaces the old one. (Note that this also deactivates Background transitions and Sound fades so the playlist of the new slide immediately replaces that of the old one)
+- Basic/Dissolve effect: The slide appears gradually, with gradually increasing opacity.
+- Zoom: The new slide appears by getting bigger while the old slide disappears with a dissolve effect.
+- Slide: The new slide glides onto the old slide which disappears with a dissolve effect.
+-Push: The new slide takes the place of the old slide by pushing it aside.
+-LUMA transition: The animation is based on a luminance mask : the darker the points in the mask, the faster the corresponding points in the new slide replace those in the old slide.</string>
        </property>
       </widget>
      </item>
@@ -71,7 +77,11 @@
       </widget>
      </item>
      <item>
-      <widget class="cCSpeedWaveComboBox" name="SpeedWaveCB"/>
+      <widget class="cCSpeedWaveComboBox" name="SpeedWaveCB">
+       <property name="toolTip">
+        <string>Allows you to select a speed curve to apply to the transition.</string>
+       </property>
+      </widget>
      </item>
      <item>
       <widget class="QLabel" name="label_2">
@@ -98,7 +108,8 @@
         </sizepolicy>
        </property>
        <property name="toolTip">
-        <string>Define the animation duration</string>
+        <string>Allows you to define the duration of the animation.
+The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</string>
        </property>
        <item>
         <property name="text">
@@ -153,6 +164,9 @@
    </item>
    <item>
     <widget class="QTableWidget" name="TransitionTable">
+     <property name="toolTip">
+      <string>Allows you to select a transition.</string>
+     </property>
      <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
@@ -224,6 +238,22 @@
       <number>4</number>
      </property>
      <item>
+      <widget class="QLabel" name="HelpTT">
+       <property name="toolTip">
+        <string>This dialog allows you to define the entering transition for a slide.</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -261,23 +291,6 @@
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="HelpBT">
-       <property name="toolTip">
-        <string>Open help page describing this dialog box</string>
-       </property>
-       <property name="text">
-        <string>&amp;Help</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F1</string>
        </property>
       </widget>
      </item>
