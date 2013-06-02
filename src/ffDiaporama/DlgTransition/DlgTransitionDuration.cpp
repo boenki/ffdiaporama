@@ -23,13 +23,13 @@
 
 //====================================================================================================================
 
-DlgTransitionDuration::DlgTransitionDuration(qlonglong Duration,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTransitionDuration) {
+DlgTransitionDuration::DlgTransitionDuration(qlonglong Duration,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTransitionDuration) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionDuration::DlgTransitionDuration");
     ui->setupUi(this);
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
-    HelpBt          =ui->HelpBT;
+    HelpTT          =ui->HelpTT;
     this->Duration  =Duration;
 }
 

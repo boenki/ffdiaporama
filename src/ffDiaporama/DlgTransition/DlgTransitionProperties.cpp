@@ -46,13 +46,13 @@ public:
 
 //====================================================================================================================
 
-DlgTransitionProperties::DlgTransitionProperties(bool IsMultiple,cDiaporamaObject *TheDiaporamaObject,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTransitionProperties) {
+DlgTransitionProperties::DlgTransitionProperties(bool IsMultiple,cDiaporamaObject *TheDiaporamaObject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTransitionProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionProperties::DlgTransitionProperties");
     ui->setupUi(this);
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
-    HelpBt          =ui->HelpBT;
+    HelpTT          =ui->HelpTT;
     DiaporamaObject =TheDiaporamaObject;
     this->IsMultiple=IsMultiple;
 }

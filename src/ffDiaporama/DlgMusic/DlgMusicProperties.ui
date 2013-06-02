@@ -371,24 +371,18 @@ This volume is independent of any reductions in the volume that you define in th
       <number>4</number>
      </property>
      <item>
-      <widget class="QToolButton" name="HelpToolTips">
+      <widget class="QLabel" name="HelpTT">
        <property name="toolTip">
         <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Music properties dialog allows you to specify the music track.&lt;/p&gt;&lt;p&gt;The main functional principle for music tracks is that as long as you do not change the settings, the previous settings apply. So, if:&lt;br/&gt;- Slide 1 – Defines a play list&lt;br/&gt;- Slide 2 – Contains no settings&lt;br/&gt;- Slide 3 – Contains no settings&lt;br/&gt;- Slide 4 – Defines a play list&lt;br/&gt;- Slide 5 – Contains no settings&lt;/p&gt;&lt;p&gt;Then:&lt;br/&gt;- Slide 2 and 3 continue to play the play list defined in slide 1&lt;br/&gt;- Slide 5 continues to play the play list define in slide 4&lt;/p&gt;&lt;p&gt;Available settings for the music track :&lt;br/&gt;- Continue current playlist: Continues to play the play list defined by a previous slide&lt;br/&gt;- Start a new playlist: Allows you to create a new playlist. If a list defined in a previous slide, is still playing, it is stopped with a fade-out effect (progressive decline of the sound volume up to complete stop).&lt;/p&gt;&lt;p&gt;Remark:&lt;/p&gt;&lt;p&gt;The fade in/out effects and the increase/decrease of volume take place during the entering slide transitions. Consequently:&lt;br/&gt;- They last for the same time as the entering transition.&lt;br/&gt;- If a slide has an entering transition set to &amp;quot;No transition&amp;quot;, the sound effect is not progressive but instantaneous.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
        </property>
-       <property name="styleSheet">
-        <string notr="true">QToolButton {
-	background-color: transparent;
-	border: none; 
-    font-size: 9px;
-}
-</string>
-       </property>
        <property name="text">
-        <string notr="true">?</string>
+        <string notr="true"/>
        </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
        </property>
       </widget>
      </item>

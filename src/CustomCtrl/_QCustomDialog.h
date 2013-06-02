@@ -53,20 +53,7 @@
 
 #define HELPFILE_NEWS                       5
 #define HELPFILE_WIKIINDEX                  8386
-#define HELPFILE_PRINCIPLESINDEX            8388    // How ffDiaporama works
-#define HELPFILE_RENDERINDEX                8466    // Rendering videos
-#define HELPFILE_DlgSlideProperties         8486    // Modifying slides
-#define HELPFILE_DlgImageCorrection         8413    // Reframe and correct images or videos
-#define HELPFILE_DlgTransitionProperties    8419    // Define transitions
-#define HELPFILE_DlgVideoEdit               8421    // Cut a video
-#define HELPFILE_DlgTextEdit                8423    // Defining the properties of a text block
-#define HELPFILE_DlgffDPjrProperties        8427    // Defining the project properties
-#define HELPFILE_DlgRenderVideo             8429    // Rendering the video
-#define HELPFILE_DlgInfoFile                8443    // Display the properties of a multimedia file
-#define HELPFILE_DlgSlideDuration           0       // No page for that !
-#define HELPFILE_DlgTransitionDuration      0       // No page for that !
-#define HELPFILE_DlgRulerDef                0       // No page for that !
-#define HELPFILE_DlgManageFavorite          0       // No page for that !
+#define HELPFILE_RENDERINDEX                8386    // Rendering videos
 
 //**********************************************************************************
 // name of default icons
@@ -96,17 +83,16 @@ public:
 
     QList<sUndoData>  UndoDataList;
 
-    QString                 HelpURL;
     cBaseApplicationConfig  *BaseApplicationConfig;
     cSaveWindowPosition     *DlgWSP;
     QDomDocument            *Undo;                          // Save object before modification for cancel button
     QStringList             UndoData;
     QAbstractButton         *OkBt;
     QAbstractButton         *CancelBt;
-    QAbstractButton         *HelpBt;
     QAbstractButton         *UndoBt;
+    QLabel                  *HelpTT;
 
-    explicit        QCustomDialog(int HelpURLIndex,cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit        QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
                     ~QCustomDialog();
 
     virtual void    InitDialog();
@@ -127,6 +113,8 @@ public:
     virtual void    PreparePartialUndo(int,QDomElement) {}     // To be overloaded
     virtual void    ApplyPartialUndo(int,QDomElement)   {}     // To be overloaded
 
+    virtual void    toolTipTowhatsThis(QObject *StartObj);
+
 protected:
     virtual void    accept();
     virtual void    reject();
@@ -138,7 +126,6 @@ protected:
     virtual void                SetCBIndex(QComboBox *CB,int ItemData);                             // Utility function use to set current index in a combobox base on an itemdata
 
 private slots:
-    void            doHelp();
     void            DoPartialUndo();
 };
 

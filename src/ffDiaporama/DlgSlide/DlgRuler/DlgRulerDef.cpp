@@ -10,8 +10,8 @@
 #define RULER_VERT_SCREENCENTER     0x0040
 #define RULER_VERT_UNSELECTED       0x0080
 
-DlgRulerDef::DlgRulerDef(int *RulerDef,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgRulerDef) {
+DlgRulerDef::DlgRulerDef(int *RulerDef,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgRulerDef) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRulerDef::DlgRulerDef");
 
@@ -19,7 +19,7 @@ DlgRulerDef::DlgRulerDef(int *RulerDef,int HelpURL,cBaseApplicationConfig *Appli
     ui->setupUi(this);
     OkBt    =ui->OKBT;
     CancelBt=ui->CancelBt;
-    HelpBt  =ui->HelpBT;
+    HelpTT  =ui->HelpTT;
 }
 
 //====================================================================================================================

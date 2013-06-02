@@ -32,8 +32,8 @@
 #define ICON_GLOBALCONF                     ":/img/db.png"
 #define ICON_USERCONF                       ":/img/db_update.png"
 
-DlgApplicationSettings::DlgApplicationSettings(int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
-    :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgApplicationSettings) {
+DlgApplicationSettings::DlgApplicationSettings(cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
+    :QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgApplicationSettings) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DlgApplicationSettings");
 
@@ -42,6 +42,7 @@ DlgApplicationSettings::DlgApplicationSettings(int HelpURL,cBaseApplicationConfi
     ui->setupUi(this);
     CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
+    HelpTT  =ui->HelpTT;
 
     IsDeviceChanged     =false;
     CurrentDevice       =-1;
@@ -53,6 +54,10 @@ DlgApplicationSettings::DlgApplicationSettings(int HelpURL,cBaseApplicationConfi
 
 void DlgApplicationSettings::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DoInitDialog");
+
+    ui->HelpTT1->setPixmap(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton).pixmap(ui->HelpTT1->size()));
+    ui->HelpTT2->setPixmap(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton).pixmap(ui->HelpTT2->size()));
+    ui->HelpTT3->setPixmap(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton).pixmap(ui->HelpTT3->size()));
 
     //********************************
     // Application TAB
@@ -91,6 +96,8 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->PreviewFrameRateCB->setCurrentIndex(ui->PreviewFrameRateCB->findText(FPS));
     ui->PreviewAudioRateCB->setCurrentIndex(ui->PreviewAudioRateCB->findText(ASR));
     ui->SmoothImageDuringPreviewCB->setChecked(ApplicationConfig->Smoothing);
+    ui->MaxPreviewHeightCB->setCurrentIndex(ui->MaxPreviewHeightCB->findText(QString("%1").arg(ApplicationConfig->MaxPreviewHeight)));
+    ui->MaxVideoPreviewHeightCB->setCurrentIndex(ui->MaxVideoPreviewHeightCB->findText(QString("%1").arg(ApplicationConfig->MaxVideoPreviewHeight)));
 
     // Editor options
     ui->UnitCB->setCurrentIndex(ApplicationConfig->DisplayUnit);
@@ -365,6 +372,8 @@ bool DlgApplicationSettings::DoAccept() {
     ApplicationConfig->Smoothing                =ui->SmoothImageDuringPreviewCB->isChecked();
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
     ApplicationConfig->PreviewSamplingRate      =ui->PreviewAudioRateCB->currentText().toLong();
+    ApplicationConfig->MaxPreviewHeight         =ui->MaxPreviewHeightCB->currentText().toInt();
+    ApplicationConfig->MaxVideoPreviewHeight    =ui->MaxVideoPreviewHeightCB->currentText().toInt();
 
     switch (ui->MemCacheProfilCB->currentIndex()) {
         case 3  : ApplicationConfig->MemCacheMaxValue=qlonglong(2048*qlonglong(1024*1024));    break;
@@ -497,7 +506,7 @@ void DlgApplicationSettings::DoGlobalUndo() {
 
 void DlgApplicationSettings::s_CheckConfig() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::s_CheckConfig");
-    DlgCheckConfig Dlg(0,ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
+    DlgCheckConfig Dlg(ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 }
@@ -506,7 +515,7 @@ void DlgApplicationSettings::s_CheckConfig() {
 
 void DlgApplicationSettings::s_ManageDevices() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::s_ManageDevices");
-    DlgManageDevices Dlg(&ApplicationConfig->DeviceModelList,0,ApplicationConfig,ApplicationConfig->DlgManageDevicesWSP,this);
+    DlgManageDevices Dlg(&ApplicationConfig->DeviceModelList,ApplicationConfig,ApplicationConfig->DlgManageDevicesWSP,this);
     Dlg.InitDialog();
     Dlg.exec();
 }

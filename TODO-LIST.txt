@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.6 - Trunk
 *
-* Dernier commit le : 12/04/2013
+* Dernier commit le : 22/04/2013
 **************************************************
 
 TODO :
@@ -41,6 +41,8 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
                         Pour le moment, j'ai réduit la qualité des thumbnails quand plus de 100 images (division par 4)
                         C'est une solution provisoire car l'idéal est de décharger la mémoire si nécessaire et recharger les thumbnails au besoin
 
+dlgmanagefavorite et dlgfileexplorer à finir !
+
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
 NF  : New Feature
@@ -54,37 +56,68 @@ switch version to
     ffmpeg 1.0.6 for opensuse
     ffmpeg 1.2.0 for windows
 
-
 French version / Correction de bug :
--Corrige un memory leak dans la lecture des vidéos qui provoquait des crash en prévisualisation et en génération de vidéo
--Ajuste la taille des polices de caractères utilisées pour l'affichage des vignettes sur les systèmes KDE
--Refait fonctionner le filtre de désentrelacement sous Windows
+-Corrige le bug de détermination du label pour les médias montés dans /media/<users>/ au lieu de /media/ dans l'explorateur [certains linux]
+-Corrige des erreurs de police de caractères dans les menus de gestion des styles
+-Corrige une boucle infinie qui intervient parfois lors d'erreur de seek durant la lecture de video
+-Corrige un problème de retour au debut de la video dans les fichiers .mts
+-Force des libérations de mémoire dans les projets contenant uniquement des vidéos
+-Corrige un problème de fuite de mémoire qui intervennait parfois lors des retry de lecture sur les fichiers vidéo contenant des flux
+-Corrige l'absence de progressivité pour les filtres Fusain et Peinture à l'huile
 
 English version / Bug fixes :
--Fix a memory leak in the video playback that caused crash in preview and render
--Adjusts the size of the font used to display thumbnails on KDE systems
--Operates the deinterlace filter on Windows
+-Fixes label determination error for medias mounted in /media/<users>/ instead of /media/ in browser [some linux]
+-Fixes font errors in manage style menus
+-Fixes an infinite loop which sometimes occurs during seek error during playback video
+-Fixes a return to beginning error for .mts file
+-Forces releases of memory in projects containing only videos
+-Fixes a memory leak that sometimes happens during retry on video playback for files containing stream
+-Fixes the lack of progressivity for Charcoal and Oil filters
 
 French version / Nouveautés :
--Déplace les informations des pages d'aide des boites de dialogues suivantes, directement sous forme de tooltips dans les boites de dialogue (et supprime les pages correspondantes sur le site WEB)
-    -Réglage de la piste musical
-    -Propriétés du fond d'écran
--Modification de la boite de propriété de fond d'écran pour afficher le fond utilisé quand on sélectionne l'option "comme le précédent"
+- Ajoute les raccourcies claviers dans le menu contextuel des diapositives de la fenêtre principale
+- Remplace certains icones ffDiaporama par leurs équivalents systèmes
+- Poursuite du déplacement des informations des pages d’aide des boites de dialogues directement sous forme de tooltips pour les boites :
+    - Réglage des transitions entrantes
+    - Réglage de la durée des transitions pour une série de diapositive
+    - Réglage de la durée du premier plan d'une série de diapositive
+    - Réglage des guides
+    - Propriétés du projet
+    - Informations sur les fichiers multimédia
+    - Générer la vidéo
+    - Editer un bloc de texte
+    - Recadrer les images et les vidéos
+    - Editer des diapositives
+- Réduit la qualité de la preview pour améliorer sa fluidité
+- Ajoute 2 options dans la boite d'option pour définir les hauteurs max de la preview en mode "Preview" et des vidéos en mode preview
 
 English version / New features :
--Move information from help pages directly as tooltips in dialogs (and remove the corresponding help pages on the website) for the following dialogs
-    -Sound track settings
-    -Background properties
--Modify background properties dialog to display used background when "same as precedent" option is selected
+- Adds keyboards shortcur in the contextual menu of slides of the main window
+- Replace some ffDiaporama icons with their systems equivalent
+- Further movement of information from WEB WIKI pages directly as tooltips for the boxes:
+    - Enterring slide transition Settings
+    - Define transition duration for a set of slide
+    - Define the duration of the first shot of a set of slide
+    - Rulers settings
+    - Project properties
+    - Information on multimedia files
+    - Render the movie
+    - Edit text
+    - Image framing
+    - Slide properties
+- Reduces the quality of the preview to improve its fluidity
+- Adds two options in the option dialog to set max height of the preview in "Preview" mode and video height for preview videos
 
-Translation/Traductions :
-    EN    - 100% - 1272/1272
-    FR    - 100% - 1272/1272
-    PT    - 100% - 1272/1272
-    IT    - 100% - 1272/1272
-    ES    - 100% - 1272/1272
-    DE    -  93% - 1192/1272
-    NL    -  86% - 1098/1272
-    RU    -  60% -  762/1272
-    ZH-TW -  46% -  593/1272
-    CZ    -  13% -  169/1272
+Translation/Traductions (1373 sentences):
+    EN    - 100% - 1373
+    FR    - 100% - 1373
+
+    PT    -  99% - 1368
+    IT    -  92% - 1264
+    DE    -  92% - 1264
+    ES    -  89% - 1219
+    EL    -  77% - 1052
+    NL    -  70% - 960
+    RU    -  59% - 810
+    ZH-TW -  37% - 513
+    CZ    -  12% - 163

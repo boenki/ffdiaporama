@@ -158,7 +158,9 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
 
         // Get drive type
         if ((Path!="")&&(Device!="")) {
-            if (Device.startsWith("/dev/sr") || Device.startsWith("/dev/scd")) {
+            if (Path=="/") {
+                IconDrive   =QApplication::style()->standardIcon(QStyle::SP_ComputerIcon).pixmap(16,16).toImage();
+            } else if (Device.startsWith("/dev/sr") || Device.startsWith("/dev/scd")) {
                 IconDrive   =ApplicationConfig->DefaultCDROMIcon.GetIcon(cCustomIcon::ICON16)->copy();
                 IsReadOnly  =true;
             } else {
@@ -216,10 +218,13 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
             if (IconDrive.isNull()) IconDrive=ApplicationConfig->DefaultHDDIcon.GetIcon(cCustomIcon::ICON16)->copy();
         }
 
+
         Path.replace("\\","/");
         if (Alias!="") Label=Alias; else if ((Path.length()>2)&&(Path.mid(1).indexOf("/")!=-1)) {
-            Label=Path.mid(1).mid(Path.mid(1).indexOf("/")+1);
-            if (Label.endsWith("/")) Label=Label.left(Label.indexOf("/"));
+            Label=Path;
+            if (Label.endsWith("/")) Label=Label.left(Label.length()-QString("/").length());
+            // On some linux, removeable media are mounted in /media/<user>/ instead of /media/
+            while (Label.indexOf("/")!=-1) Label=Label.mid(Label.indexOf("/")+QString("/").length());
         }
     #endif
 

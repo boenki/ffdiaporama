@@ -59,16 +59,16 @@ enum {
 
 //====================================================================================================================
 
-DlgTextEdit::DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *TheCurrentTextItem,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
+DlgTextEdit::DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *TheCurrentTextItem,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
                          cStyleCollection *TheStyleTextCollection,cStyleCollection *TheStyleTextBackgroundCollection,QWidget *parent):
-    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTextEdit) {
+    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTextEdit) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::DlgTextEdit");
 
     ui->setupUi(this);
     OkBt                            =ui->OKBT;
     CancelBt                        =ui->CancelBt;
-    HelpBt                          =ui->HelpBT;
+    HelpTT                          =ui->HelpTT;
     UndoBt                          =ui->UndoBT;
     this->Diaporama                 =Diaporama;
     CurrentTextItem                 =TheCurrentTextItem;

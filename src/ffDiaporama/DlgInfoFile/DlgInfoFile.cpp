@@ -23,8 +23,8 @@
 
 //====================================================================================================================
 
-DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
-    :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgInfoFile) {
+DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
+    :QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgInfoFile) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgInfoFile::DlgInfoFile");
 
@@ -33,7 +33,7 @@ DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,int HelpURL,cBaseApplicationC
     ui->setupUi(this);
     //CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
-    HelpBt  =ui->HelpBT;
+    HelpTT  =ui->HelpTT;
 }
 
 //====================================================================================================================

@@ -38,7 +38,7 @@ Q_OBJECT
 public:
     cBaseMediaFile *MediaFile;
 
-    explicit DlgInfoFile(cBaseMediaFile *MediaFile,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit DlgInfoFile(cBaseMediaFile *MediaFile,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgInfoFile();
 
     // function to be overloaded

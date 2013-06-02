@@ -56,7 +56,7 @@ Yellow: The component works partially
       <number>4</number>
      </property>
      <item>
-      <widget class="QToolButton" name="HelpToolTips">
+      <widget class="QLabel" name="HelpTT">
        <property name="toolTip">
         <string>This dialog allows to check external tools configuration and libraries used by ffDiaporama.
 It is especially useful for the Linux users and for those who compiles the application.
@@ -64,20 +64,14 @@ The most common shown errors concern the supported formats, codec and library ve
 
 To solve the problems you will have to install additional packages on your computer then make ffDiaporama from source and verify again the configuration.</string>
        </property>
-       <property name="styleSheet">
-        <string notr="true">QToolButton {
-	background-color: transparent;
-	border: none; 
-    font-size: 9px;
-}
-</string>
-       </property>
        <property name="text">
-        <string notr="true">?</string>
+        <string notr="true"/>
        </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
        </property>
       </widget>
      </item>

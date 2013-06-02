@@ -20,7 +20,7 @@ public:
     int                     CurrentDriveCheck;
 
     explicit                DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,QString StartupPath,QString BoxTitle,
-                                            int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+                                            cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     virtual                 ~DlgFileExplorer();
     
     // function to be overloaded

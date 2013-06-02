@@ -96,7 +96,7 @@ QToolButton:pressed {
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>2</number>
+         <number>3</number>
         </property>
         <widget class="QWidget" name="TabFile">
          <property name="font">
@@ -2650,8 +2650,8 @@ and help</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>402</width>
-           <height>293</height>
+           <width>403</width>
+           <height>291</height>
           </rect>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_4">
@@ -4084,6 +4084,9 @@ font-size: 11px;
      <pointsize>9</pointsize>
     </font>
    </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
   </action>
   <action name="actionCut">
    <property name="icon">
@@ -4103,6 +4106,9 @@ font-size: 11px;
      <italic>false</italic>
     </font>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+X</string>
+   </property>
   </action>
   <action name="actionCopy">
    <property name="icon">
@@ -4121,6 +4127,9 @@ font-size: 11px;
      <pointsize>9</pointsize>
     </font>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
+   </property>
   </action>
   <action name="actionPaste">
    <property name="icon">
@@ -4138,6 +4147,9 @@ font-size: 11px;
      <family>Sans Serif</family>
      <pointsize>9</pointsize>
     </font>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
    </property>
   </action>
   <action name="actionAddTitle">

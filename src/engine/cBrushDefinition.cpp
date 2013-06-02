@@ -432,8 +432,8 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                         if ((PreviousBrush->OnOffFilter & FilterEdge)!=0)       PreviousImage=Blitz::edge(PreviousImage);
                         if ((PreviousBrush->OnOffFilter & FilterAntialias)!=0)  PreviousImage=Blitz::antialias(PreviousImage);
                         if ((PreviousBrush->OnOffFilter & FilterNormalize)!=0)  Blitz::normalize(PreviousImage);
-                        if ((OnOffFilter & FilterCharcoal)!=0)                  PreviousImage=Blitz::charcoal(PreviousImage);
-                        if ((OnOffFilter & FilterOil)!=0)                       PreviousImage=Blitz::oilPaint(PreviousImage);
+                        if ((PreviousBrush->OnOffFilter & FilterCharcoal)!=0)   PreviousImage=Blitz::charcoal(PreviousImage);
+                        if ((PreviousBrush->OnOffFilter & FilterOil)!=0)        PreviousImage=Blitz::oilPaint(PreviousImage);
 
                         // Mix images
                         QPainter P;

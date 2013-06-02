@@ -125,6 +125,11 @@
            <verstretch>0</verstretch>
           </sizepolicy>
          </property>
+         <property name="toolTip">
+          <string>The progress bar allows you to set the video display to a specific position.
+Remark : The length of the ruler is increased in proportion to the duration of the video.
+The blue part represents the part of the video which is selected (which will be used in the assembly).</string>
+         </property>
          <property name="orientation">
           <enum>Qt::Horizontal</enum>
          </property>

@@ -23,8 +23,8 @@
 
 //====================================================================================================================
 
-DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
-    :QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgffDPjrProperties) {
+DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
+    :QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgffDPjrProperties) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DlgffDPjrProperties");
 
@@ -34,7 +34,7 @@ DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject
 
     CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
-    HelpBt  =ui->HelpBT;
+    HelpTT  =ui->HelpTT;
 }
 
 //====================================================================================================================

@@ -252,7 +252,9 @@ text</string>
          </font>
         </property>
         <property name="toolTip">
-         <string>Add a new block of type image or video.</string>
+         <string>Add one or several new blocks of images or video. A file selection dialog appears allowing you to select files.
+
+Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the configuration dialog).</string>
         </property>
         <property name="text">
          <string>Add
@@ -487,7 +489,11 @@ information</string>
          </sizepolicy>
         </property>
         <property name="toolTip">
-         <string>Start a new chapter from this slide</string>
+         <string>Start a new chapter from this slide. (If this box is checked, the slide will mark the beginning of a new chapter.)
+
+Remarks :
+- The name of the chapter will be the name of the slide.
+- With the exception of the 1st chapter of the video which cannot be deactivated, is always positioned on the 1st slide and always begins at 0, chapters begin after the enterring transition.</string>
         </property>
         <property name="text">
          <string>Start chapter from here</string>
@@ -513,6 +519,9 @@ information</string>
       </item>
       <item>
        <widget class="QLabel" name="SlideDurationLabel">
+        <property name="toolTip">
+         <string>The total slide duration is displayed here. This duration takes into account possible adjustments for minimal duration of the shot.</string>
+        </property>
         <property name="text">
          <string notr="true">00:00:00.000</string>
         </property>
@@ -556,6 +565,17 @@ information</string>
            <width>16777215</width>
            <height>80</height>
           </size>
+         </property>
+         <property name="toolTip">
+          <string>The shots table shows the shots as thumbnails, in the order in which they will be played (from left to right).
+
+For each shot, the thumbnail shows:
+- The shot duration (At the top of the thumbnail)
+- The temporal position of the shot at the end of its duration (At the bottom right of the thumbnail)
+- An image representing the shot at the end of its duration
+
+Remark :
+- The order of the shots can be changed by using Drag &amp; Drop.</string>
          </property>
          <property name="verticalScrollBarPolicy">
           <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -654,7 +674,16 @@ information</string>
              </font>
             </property>
             <property name="toolTip">
-             <string>Define the duration for the current selected shot</string>
+             <string>Indicate here the duration of the currently selected shot
+
+For the last shot of the slide, there is a minimum duration.
+
+The following rules are used to calculate the minimum duration of the shot:
+- The total slide duration cannot be lower than the sum of the durations of the entering transition of the slide plus that of the transition to the following slide.
+- The total slide duration must permit complete play of the longest video sequence (time of breaks is taken into account).
+- The total slide duration cannot be lower than 1:30 second
+
+If you specify a duration lower than the minimum calculated duration for the shot, it is this minimum duration that will be used in place of the value which you specified.</string>
             </property>
             <property name="maximumDateTime">
              <datetime>
@@ -775,6 +804,50 @@ information</string>
               <property name="acceptDrops">
                <bool>true</bool>
               </property>
+              <property name="toolTip">
+               <string>The blocks table lists, from top to bottom, the present blocks in the slide.
+
+Remarks:
+- The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.
+- The order of the blocks is defined shot by shot.
+
+Blocks are shown on 3 columns:
+- The first column contains or:
+  - A text icon￼ if the block is a title.
+  - A thumbnail if the block is an image or a video.
+  - Possibly, one transformation￼ icon appears on the thumbnail if the image or the video have a transformation filter.
+
+- The second column contains icons giving the state of the blocks for the current shot:
+  - A lock icon if the properties of the block are locked during this shot or and unlock icon if they are unlocked. (Remark: This information does not appear for the 1st shot.)
+  - A sound icon if the video has the sound during this shot. This information appears only for the video blocks.
+  - An eye icon if the block is visible during this shot or ￼a crossed eye icon if the block is hidden.
+
+- The third column indicates:
+  - If the block is a title: the text of the block
+  - If the block is an image: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and a summary of EXIF information on the image.
+  - If the block is a video: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and the duration of the video.
+
+Remarks:
+- Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
+- Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
+- Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.
+- To select a block: click the block
+- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
+- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
+
+- The blocks with locked properties are shown on a grey bottom.
+- The selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.
+
+- To change the blocks order, use Drag &amp; Drop or up￼ and down arrow functions of the contextual menu.
+- It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.
+
+- All blocks, whether title, image or video, possess a text element.
+
+- During the insertion of a new block (Add title, Add file or Paste), the block is inserted:
+  - In visible mode for the current shot and for all the following shots.
+  - In hidden mode for the shots located before the current shot.
+  - Always in the last position in the list of blocks (in the foreground).</string>
+              </property>
               <property name="lineWidth">
                <number>1</number>
               </property>
@@ -883,7 +956,7 @@ information</string>
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>0</y>
+              <y>-588</y>
               <width>272</width>
               <height>800</height>
              </rect>
@@ -933,7 +1006,9 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of rotations around the Y axis that is to be made during this shot</string>
+                  <string>Define the number of rotations around the X axis that is to be made during this shot.
+
+Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</string>
                  </property>
                  <property name="minimum">
                   <number>-20</number>
@@ -967,7 +1042,9 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of rotations around the Y axis that is to be made during this shot</string>
+                  <string>Define the number of rotations around the X axis that is to be made during this shot.
+
+Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1011,6 +1088,9 @@ information</string>
                 <font>
                  <pointsize>9</pointsize>
                 </font>
+               </property>
+               <property name="toolTip">
+                <string>Allows you to select a pre-defined block size</string>
                </property>
               </widget>
              </item>
@@ -1075,7 +1155,11 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Scroll text from bottom to top</string>
+                  <string>Scroll text from bottom to top.
+
+Remark: To make animations of text, you have to create at least 2 shots then:
+-Define values for zoom and scrolling for the 1st shot
+-Define different values for zoom and scrolling for the 2nd</string>
                  </property>
                  <property name="minimum">
                   <number>-100</number>
@@ -1106,7 +1190,11 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Scroll text from bottom to top</string>
+                  <string>Scroll text from bottom to top.
+
+Remark: To make animations of text, you have to create at least 2 shots then:
+-Define values for zoom and scrolling for the 1st shot
+-Define different values for zoom and scrolling for the 2nd</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1170,7 +1258,9 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of rotations around the Z axis that is to be made during this shot</string>
+                  <string>Define the number of rotations around the Z axis that is to be made during this shot.
+
+Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</string>
                  </property>
                  <property name="minimum">
                   <number>-20</number>
@@ -1204,7 +1294,9 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of rotations around the Z axis that is to be made during this shot</string>
+                  <string>Define the number of rotations around the Z axis that is to be made during this shot.
+
+Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1265,7 +1357,9 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of rotations around the X axis that is to be made during this shot</string>
+                  <string>Define the number of rotations around the Y axis that is to be made during this shot.
+
+Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</string>
                  </property>
                  <property name="minimum">
                   <number>-20</number>
@@ -1299,7 +1393,9 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the number of rotations around the X axis that is to be made during this shot</string>
+                  <string>Define the number of rotations around the Y axis that is to be made during this shot.
+
+Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1416,7 +1512,8 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define X position of current block</string>
+                  <string>Represents the horizontal offset of the block from the left.
+This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1472,7 +1569,8 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define Y position of current block</string>
+                  <string>Represents the vertical offset of the block from the top.
+This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1602,7 +1700,8 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define width of current block</string>
+                  <string>Represents the width of the block.
+This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1658,7 +1757,8 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define height of current block</string>
+                  <string>Represents the height of the block.
+This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1699,7 +1799,10 @@ information</string>
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define the thickness of the border</string>
+                  <string>Defines the thickness of the border.
+
+Remark: This value is defined as 1/1080 of the height of the screen.
+A value of 10 corresponds to 10 points on a 1920×1080 FullHD screen, but only to 6 points on a 1280×720 screen.</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1771,6 +1874,9 @@ color: #000000;
                  <family>Sans Serif</family>
                  <pointsize>9</pointsize>
                 </font>
+               </property>
+               <property name="toolTip">
+                <string>This settings group deals with style management.</string>
                </property>
                <property name="text">
                 <string notr="true">StyleName</string>
@@ -1873,6 +1979,11 @@ color: #000000;
                  <pointsize>9</pointsize>
                 </font>
                </property>
+               <property name="toolTip">
+                <string>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks)
+
+Remark: To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog.</string>
+               </property>
               </widget>
              </item>
              <item row="34" column="1">
@@ -1898,7 +2009,11 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Scroll text from left to right</string>
+                  <string>Scroll text from left to right.
+
+Remark: To make animations of text, you have to create at least 2 shots then:
+-Define values for zoom and scrolling for the 1st shot
+-Define different values for zoom and scrolling for the 2nd</string>
                  </property>
                  <property name="minimum">
                   <number>-100</number>
@@ -1929,7 +2044,11 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Scroll text from left to right</string>
+                  <string>Scroll text from left to right.
+
+Remark: To make animations of text, you have to create at least 2 shots then:
+-Define values for zoom and scrolling for the 1st shot
+-Define different values for zoom and scrolling for the 2nd</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -2256,6 +2375,13 @@ color: #000000;
                  <pointsize>9</pointsize>
                 </font>
                </property>
+               <property name="toolTip">
+                <string>The block animations define which animations will run during the current shot.
+
+You can define different animations for every shot!
+- Multiple rotations: This animation allows to turn a block several times during the shot.
+- Dissolve: This animation dissolves between the block and a transparent zone according to the settings.</string>
+               </property>
               </widget>
              </item>
              <item row="32" column="0" colspan="2">
@@ -2449,6 +2575,10 @@ color: #000000;
                    <pointsize>9</pointsize>
                   </font>
                  </property>
+                 <property name="toolTip">
+                  <string>Allows you to select a reframing style for the image.
+It has the same effect as selecting a style in the Image framing and correction dialog.</string>
+                 </property>
                 </widget>
                </item>
                <item>
@@ -2457,6 +2587,14 @@ color: #000000;
                   <font>
                    <pointsize>9</pointsize>
                   </font>
+                 </property>
+                 <property name="toolTip">
+                  <string>Allows you to select the geometrical constraints to be applied to the block.
+
+Three type of constraint are available:
+- No constraint is applied to the selection rectangle.
+- Lock selection rectangle to the actual geometry. It has no meaning until you have defined a shape in &quot;no constraint&quot; mode.
+- Lock selection rectangle to the same geometry as the project, such that, if you place the image in full screen, the reframed part will correspond to the whole screen.</string>
                  </property>
                 </widget>
                </item>
@@ -2563,6 +2701,11 @@ color: #000000;
                  <pointsize>9</pointsize>
                 </font>
                </property>
+               <property name="toolTip">
+                <string>Appear: The block will appear during the shot
+Disappear: The block will disappear during the shot
+Blink: The block will blink during the shot (appear then disappear). 4 speeds are proposed (from slow to very fast).</string>
+               </property>
               </widget>
              </item>
              <item row="10" column="0">
@@ -2607,7 +2750,11 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define a zoom value for the text</string>
+                  <string>Define a zoom value for the text.
+
+Remark: To make animations of text, you have to create at least 2 shots then:
+-Define values for zoom and scrolling for the 1st shot
+-Define different values for zoom and scrolling for the 2nd</string>
                  </property>
                  <property name="minimum">
                   <number>0</number>
@@ -2638,7 +2785,11 @@ color: #000000;
                   </font>
                  </property>
                  <property name="toolTip">
-                  <string>Define a zoom value for the text</string>
+                  <string>Define a zoom value for the text.
+
+Remark: To make animations of text, you have to create at least 2 shots then:
+-Define values for zoom and scrolling for the 1st shot
+-Define different values for zoom and scrolling for the 2nd</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -2716,7 +2867,9 @@ color: #000000;
                 </font>
                </property>
                <property name="toolTip">
-                <string>Select in which corner the shadow will be positioned (or no shadow)</string>
+                <string>Select in which corner the shadow will be positioned (or no shadow).
+
+Remark: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied.</string>
                </property>
               </widget>
              </item>
@@ -2735,7 +2888,11 @@ color: #000000;
                 </font>
                </property>
                <property name="toolTip">
-                <string>Select a shape for the current block</string>
+                <string>Allows you to select a shape for the block.
+
+The selected shape will be used as:
+- A fusion mask for the images and the videos.
+- A cutting zone for texts.</string>
                </property>
                <property name="styleSheet">
                 <string notr="true">QComboBox QAbstractItemView {
@@ -2785,7 +2942,7 @@ color: #000000;
                 </font>
                </property>
                <property name="toolTip">
-                <string>Select a shape for the current block</string>
+                <string>Select a clip-art</string>
                </property>
                <property name="styleSheet">
                 <string notr="true">QComboBox QAbstractItemView {
@@ -2836,6 +2993,70 @@ color: #000000;
       <number>0</number>
      </property>
      <item>
+      <widget class="QLabel" name="HelpTT">
+       <property name="toolTip">
+        <string>This dialog allows you to define settings for the slides.
+
+This dialog includes numerous zones:
+-On the top: The toolbar allows to launch the main slide editing commands.
+-On the left: The slide settings zone, the shots table and the interactive.
+-On the right: The blocks table and the blocks settings zone.
+
+Place the mouse over each area for more information.
+
+Remark on block properties locking:
+The properties locking is available only from the 2nd shot.
+- When the block properties are locked, the modifications made to the block in the preceding shot are echoed in the current shot.
+- It defines as well the coordinates, forms and animations properties as the properties defined in the editing dialog of text, image or video.
+
+Remark on the interactive area:
+You can move and interactively re-size blocks within the selected shot.
+- Selected blocks are shown with a frame. (It allows to differentiate them from other graphic elements of the slide).
+- Control handles (small square) are shown on sides and on corners of the selection frame.
+- Rulers are displayed to facilitate the work with the mouse.
+
+Using the mouse:
+- To select a block: click the block
+- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
+- To select a block under another block : Click the block to be selected by pushing both SHIFT and CTRL keys.
+- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
+- To modify the size of the blocks of the selection: Click one of the handles of the selection and, while keeping the button of the mouse pressed, move the mouse.
+- To move the blocks of the selection: Click one of the blocks of the selection and, while keeping the button of the mouse pressed, move the mouse.
+
+Using the keyboard:
+- To move the blocks of the selection, use the arrow keys.
+- To change the size of the blocks of the selection, use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle.
+
+Remarks:
+- A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
+- A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
+- A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_2">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QPushButton" name="TVMarginsBT">
        <property name="font">
         <font>
@@ -2844,7 +3065,7 @@ color: #000000;
         </font>
        </property>
        <property name="toolTip">
-        <string>Enable or disable rulers corresponding to the margins of television sets</string>
+        <string>Allows you to open the rulers settings dialog.</string>
        </property>
        <property name="text">
         <string>Rulers</string>
@@ -2911,29 +3132,17 @@ color: #000000;
       </widget>
      </item>
      <item>
-      <widget class="QLabel" name="label_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
+      <spacer name="horizontalSpacer_3">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
        </property>
-       <property name="minimumSize">
+       <property name="sizeHint" stdset="0">
         <size>
-         <width>20</width>
-         <height>0</height>
+         <width>40</width>
+         <height>20</height>
         </size>
        </property>
-       <property name="maximumSize">
-        <size>
-         <width>20</width>
-         <height>16777215</height>
-        </size>
-       </property>
-       <property name="text">
-        <string notr="true"/>
-       </property>
-      </widget>
+      </spacer>
      </item>
      <item>
       <widget class="QPushButton" name="UndoBT">
@@ -2963,23 +3172,6 @@ color: #000000;
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QPushButton" name="HelpBT">
-       <property name="toolTip">
-        <string>Open help page describing this dialog box</string>
-       </property>
-       <property name="text">
-        <string>&amp;Help</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F1</string>
        </property>
       </widget>
      </item>
@@ -3067,7 +3259,8 @@ color: #000000;
     <string>Visible</string>
    </property>
    <property name="toolTip">
-    <string>Make the active block visible</string>
+    <string>Make the active block visible.
+Note: Hidden video blocks are automatically paused</string>
    </property>
    <property name="font">
     <font>
@@ -3375,6 +3568,9 @@ color: #000000;
      <pointsize>9</pointsize>
     </font>
    </property>
+   <property name="shortcut">
+    <string>Del</string>
+   </property>
   </action>
   <action name="actionMoveLeft">
    <property name="icon">
@@ -3601,7 +3797,6 @@ color: #000000;
   <tabstop>ShadowEffectCB</tabstop>
   <tabstop>OKBT</tabstop>
   <tabstop>CancelBt</tabstop>
-  <tabstop>HelpBT</tabstop>
  </tabstops>
  <resources>
   <include location="../../../RSCffDiaporama.qrc"/>

@@ -37,13 +37,13 @@
 // Manage style dialog
 //============================================================================================================================
 
-DlgManageFavorite::DlgManageFavorite(QStringList *TheCollection,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgManageFavorite) {
+DlgManageFavorite::DlgManageFavorite(QStringList *TheCollection,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgManageFavorite) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageFavorite::DlgManageFavorite");
     ui->setupUi(this);
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
-    HelpBt      =ui->HelpBT;
+    //HelpTT      =ui->HelpTT;
     Collection  =TheCollection;
 }
 

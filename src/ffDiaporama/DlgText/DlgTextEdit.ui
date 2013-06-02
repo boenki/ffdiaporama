@@ -38,7 +38,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="TextTab">
       <attribute name="title">
@@ -73,6 +73,9 @@
              <height>24</height>
             </size>
            </property>
+           <property name="toolTip">
+            <string>Allows you to access the text styles menu.</string>
+           </property>
            <property name="text">
             <string notr="true"/>
            </property>
@@ -94,7 +97,8 @@
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>Select font family</string>
+            <string>Allows you to select the font to be used.
+This setting applies to the current selection.</string>
            </property>
           </widget>
          </item>
@@ -107,7 +111,8 @@
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>Select font size</string>
+            <string>Allows you to select the font size.
+This setting applies to the paragraphs of the current selection.</string>
            </property>
           </widget>
          </item>
@@ -120,7 +125,8 @@
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>Select font color</string>
+            <string>Allows you to select the font color.
+This setting applies to the paragraphs of the current selection.</string>
            </property>
            <property name="editable">
             <bool>false</bool>
@@ -161,7 +167,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Bullet list</string>
+            <string>Allows you to establish (or to remove) a bullet list. This setting applies to the paragraphs of the current selection.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -196,7 +202,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Numbered list</string>
+            <string>Allows you to establish (or to remove) a numbered list. This setting applies to the paragraphs of the current selection.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -250,7 +256,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Align left</string>
+            <string>Horizontal alignment: left. This setting applies to the paragraph in which the cursor is.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -285,7 +291,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Align justify</string>
+            <string>Horizontal alignment: justified. This setting applies to the paragraph in which the cursor is.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -317,7 +323,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Align center</string>
+            <string>Horizontal alignment: centered. This setting applies to the paragraph in which the cursor is.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -349,7 +355,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Align right</string>
+            <string>Horizontal alignment: right. This setting applies to the paragraph in which the cursor is.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -392,7 +398,8 @@
          <item>
           <widget class="QComboBox" name="fontEffectCB">
            <property name="toolTip">
-            <string>Select font effect (outerline, shadow)</string>
+            <string>Allows you to select a font effect (outerline, shadow).
+Remark: This setting applies to the block (to the whole text).</string>
            </property>
            <property name="sizeAdjustPolicy">
             <enum>QComboBox::AdjustToContents</enum>
@@ -408,7 +415,8 @@
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>Select outerline/shadow color</string>
+            <string>Allows you to select the outerline or shadow color.
+Remark: This setting applies to the block (to the whole text).</string>
            </property>
           </widget>
          </item>
@@ -446,7 +454,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Set text to Bold</string>
+            <string>Sets bold characters. This setting applies to the current selection.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -478,7 +486,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Set text to Italic</string>
+            <string>Sets characters to italics. This setting applies to the current selection.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -507,7 +515,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Set text to Underline</string>
+            <string>Underlines the characters. This setting applies to the current selection.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -536,7 +544,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Set text to superscript</string>
+            <string>Puts the characters to super. This setting applies to the current selection.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -565,7 +573,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Set text to subscript</string>
+            <string>Puts the characters to sub. This setting applies to the current selection.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -613,7 +621,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Increase indent</string>
+            <string>Move the paragraph of a notch towards the right (indent). This setting applies to the paragraph in which is the cursor.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -642,7 +650,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>decrease indent</string>
+            <string>Move the paragraph of a notch towards the left (unindent). This setting applies to the paragraph in which is the cursor.</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -690,7 +698,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Align top</string>
+            <string>Vertical alignment: top. This setting applies to the block (to the whole text).</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -722,7 +730,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Align in the middle</string>
+            <string>Vertical alignment: middle. This setting applies to the block (to the whole text).</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -754,7 +762,7 @@
             </size>
            </property>
            <property name="toolTip">
-            <string>Align bottom</string>
+            <string>Vertical alignment: bottom. This setting applies to the block (to the whole text).</string>
            </property>
            <property name="text">
             <string notr="true">...</string>
@@ -823,8 +831,8 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>462</width>
-            <height>214</height>
+            <width>470</width>
+            <height>211</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout">
@@ -868,6 +876,9 @@ p, li { white-space: pre-wrap; }
                <height>24</height>
               </size>
              </property>
+             <property name="toolTip">
+              <string>Allows you to access the background text styles menu.</string>
+             </property>
              <property name="text">
               <string notr="true"/>
              </property>
@@ -889,7 +900,14 @@ p, li { white-space: pre-wrap; }
               </sizepolicy>
              </property>
              <property name="toolTip">
-              <string>Define the background brush type for the shape</string>
+              <string>Allows you to define a background brush for the shape.
+The following options are available:
+No brush 		The shape will have no background and will thus be totally transparent.
+Solid brush 		Allows you to select a plain color.
+Pattern brush 		Allows you to select a hatched brush.
+Gradient 2 colors 	Allows you to select a gradient of 2 colors.
+Gradient 3 colors 	Allows you to select a gradient of 3 colors.
+Image from library 	Allows you to select an image from the library.</string>
              </property>
             </widget>
            </item>
@@ -929,7 +947,8 @@ p, li { white-space: pre-wrap; }
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Define the color (or first color for a gradient brush)</string>
+                <string>If background brush is Solid, Pattern or Gradient brush, then this line appears and allows you to select a color.
+(Depending on the brush you select, there will be one, two or three selectable colors.)</string>
                </property>
               </widget>
              </item>
@@ -961,7 +980,8 @@ p, li { white-space: pre-wrap; }
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Define the second gradient brush color </string>
+                <string>If background brush is Solid, Pattern or Gradient brush, then this line appears and allows you to select a color.
+(Depending on the brush you select, there will be one, two or three selectable colors.)</string>
                </property>
               </widget>
              </item>
@@ -993,7 +1013,8 @@ p, li { white-space: pre-wrap; }
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Define the third gradient brush color </string>
+                <string>If background brush is Solid, Pattern or Gradient brush, then this line appears and allows you to select a color.
+(Depending on the brush you select, there will be one, two or three selectable colors.)</string>
                </property>
               </widget>
              </item>
@@ -1052,7 +1073,7 @@ p, li { white-space: pre-wrap; }
               </size>
              </property>
              <property name="toolTip">
-              <string>Select the pattern</string>
+              <string>If background brush is Pattern brush, then this line appears and allows you to select a pattern.</string>
              </property>
              <property name="editable">
               <bool>false</bool>
@@ -1101,7 +1122,8 @@ p, li { white-space: pre-wrap; }
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Define orientation of the gradient brush</string>
+                <string>If background brush is Gradient, then this line appears and allows you to select the gradient orientation.
+If the Gradient has 3 colors, additional controls allow to define the position (in percentage) of the 3rd gradient color.</string>
                </property>
                <property name="iconSize">
                 <size>
@@ -1120,7 +1142,8 @@ p, li { white-space: pre-wrap; }
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Define position of the second color in the gradient brush</string>
+                <string>If background brush is Gradient, then this line appears and allows you to select the gradient orientation.
+If the Gradient has 3 colors, additional controls allow to define the position (in percentage) of the 3rd gradient color.</string>
                </property>
                <property name="minimum">
                 <number>1</number>
@@ -1147,7 +1170,8 @@ p, li { white-space: pre-wrap; }
                 </font>
                </property>
                <property name="toolTip">
-                <string>Define position of the second color in the gradient brush</string>
+                <string>If background brush is Gradient, then this line appears and allows you to select the gradient orientation.
+If the Gradient has 3 colors, additional controls allow to define the position (in percentage) of the 3rd gradient color.</string>
                </property>
                <property name="buttonSymbols">
                 <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1250,7 +1274,7 @@ p, li { white-space: pre-wrap; }
               </size>
              </property>
              <property name="toolTip">
-              <string>Select an image among that present in the library</string>
+              <string>If background brush is Image from library, then this line appears and allows you to select an image.</string>
              </property>
             </widget>
            </item>
@@ -1324,6 +1348,10 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="3" column="3">
         <widget class="QSpinBox" name="PosXEd">
+         <property name="toolTip">
+          <string>Represents the horizontal position of the margins relative to the top-left corner of the block.
+This value is expressed in % of the width of the block.</string>
+         </property>
          <property name="suffix">
           <string notr="true">%</string>
          </property>
@@ -1334,6 +1362,9 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="0" column="0" colspan="7">
         <widget class="QRadioButton" name="ShapeDefaultBT">
+         <property name="toolTip">
+          <string>Allows you to use predefined margins for the shape of the block.In general, these margins ensure that the text is contained in the form.</string>
+         </property>
          <property name="text">
           <string>Default margins</string>
          </property>
@@ -1341,6 +1372,9 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="1" column="0" colspan="7">
         <widget class="QRadioButton" name="FullShapeBT">
+         <property name="toolTip">
+          <string>Allows you to use margins corresponding to the entire form, in fact, the selection rectangle shape regardless of the design.</string>
+         </property>
          <property name="text">
           <string>Full Shape</string>
          </property>
@@ -1348,6 +1382,9 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="2" column="0" colspan="7">
         <widget class="QRadioButton" name="CustomBT">
+         <property name="toolTip">
+          <string>Allows you to use custom margins.</string>
+         </property>
          <property name="text">
           <string>Custom</string>
          </property>
@@ -1443,6 +1480,10 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="3" column="6">
         <widget class="QSpinBox" name="PosYEd">
+         <property name="toolTip">
+          <string>Represents the vertical position of the margins relative to the top-left corner of the block.
+This value is expressed in % of the height of the block.</string>
+         </property>
          <property name="suffix">
           <string notr="true">%</string>
          </property>
@@ -1453,6 +1494,10 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="4" column="6">
         <widget class="QSpinBox" name="HeightEd">
+         <property name="toolTip">
+          <string>Represents the height of the margins.
+This value is expressed in % of the height of the block.</string>
+         </property>
          <property name="suffix">
           <string notr="true">%</string>
          </property>
@@ -1463,6 +1508,10 @@ p, li { white-space: pre-wrap; }
        </item>
        <item row="4" column="3">
         <widget class="QSpinBox" name="WidthEd">
+         <property name="toolTip">
+          <string>Represents the width of the margins.
+This value is expressed in % of the width of the block.</string>
+         </property>
          <property name="suffix">
           <string notr="true">%</string>
          </property>
@@ -1490,6 +1539,24 @@ p, li { white-space: pre-wrap; }
      <property name="margin">
       <number>0</number>
      </property>
+     <item>
+      <widget class="QLabel" name="HelpTT">
+       <property name="toolTip">
+        <string>This dialog allows you to modify the text within a block.
+Remark: The modifications made to the text properties will apply to all shots of the slide.
+To understand indeed the differences between the properties which apply to all shots and those who apply only to the current shot, consult: How ffDiaporama work.</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
+       </property>
+      </widget>
+     </item>
      <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
@@ -1573,23 +1640,6 @@ p, li { white-space: pre-wrap; }
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="HelpBT">
-       <property name="toolTip">
-        <string>Open help page describing this dialog box</string>
-       </property>
-       <property name="text">
-        <string>&amp;Help</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F1</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>
@@ -1630,7 +1680,6 @@ p, li { white-space: pre-wrap; }
   <tabstop>PosYEd</tabstop>
   <tabstop>HeightEd</tabstop>
   <tabstop>CancelBt</tabstop>
-  <tabstop>HelpBT</tabstop>
   <tabstop>tabWidget</tabstop>
   <tabstop>TextStyleBT</tabstop>
   <tabstop>fontStyleCB</tabstop>

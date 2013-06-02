@@ -123,14 +123,14 @@ enum UNDOACTION_ID {
 // DlgSlideProperties : Slide Dialog
 //********************************************************************************************************************************
 
-DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,int HelpURL,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(HelpURL,ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgSlideProperties) {
+DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgSlideProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DlgSlideProperties");
 
     ui->setupUi(this);
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
-    HelpBt      =ui->HelpBT;
+    HelpTT      =ui->HelpTT;
     UndoBt      =ui->UndoBT;
     CurrentShot =NULL;
 
@@ -1167,7 +1167,7 @@ void DlgSlideProperties::s_RefreshSceneImage() {
 void DlgSlideProperties::s_TVMarginsBt() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_TVMarginsBt");
 
-    DlgRulerDef Dlg(&ui->InteractiveZone->MagneticRuler,HELPFILE_DlgRulerDef,BaseApplicationConfig,BaseApplicationConfig->DlgRulerDef,this);
+    DlgRulerDef Dlg(&ui->InteractiveZone->MagneticRuler,BaseApplicationConfig,BaseApplicationConfig->DlgRulerDef,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
@@ -1881,7 +1881,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     QStringList FileList;
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,
                         OBJECTTYPE_MANAGED,true,false,BaseApplicationConfig->RememberLastDirectories?BaseApplicationConfig->LastMediaPath:"",
-                        QApplication::translate("MainWindow","Add files"),0,BaseApplicationConfig,BaseApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("MainWindow","Add files"),BaseApplicationConfig,BaseApplicationConfig->DlgFileExplorerWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     if (FileList.count()==0) return;
@@ -2373,7 +2373,7 @@ void DlgSlideProperties::s_BlockSettings_TextEditor() {
 
     ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
     ui->InteractiveZone->RefreshDisplay();
-    DlgTextEdit Dlg(CurrentSlide->Parent,CurrentCompoObject,HELPFILE_DlgTextEdit,BaseApplicationConfig,BaseApplicationConfig->DlgTextEditWSP,
+    DlgTextEdit Dlg(CurrentSlide->Parent,CurrentCompoObject,BaseApplicationConfig,BaseApplicationConfig->DlgTextEditWSP,
                     &BaseApplicationConfig->StyleTextCollection,&BaseApplicationConfig->StyleTextBackgroundCollection,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
@@ -2401,7 +2401,7 @@ void DlgSlideProperties::s_BlockSettings_Information() {
         else if (CurrentCompoObject->BackgroundBrush->Video!=NULL)   Media=CurrentCompoObject->BackgroundBrush->Video;
 
     if (Media) {
-        DlgInfoFile Dlg(Media,HELPFILE_DlgInfoFile,BaseApplicationConfig,BaseApplicationConfig->DlgInfoFileWSP,this);
+        DlgInfoFile Dlg(Media,BaseApplicationConfig,BaseApplicationConfig->DlgInfoFileWSP,this);
         Dlg.InitDialog();
         Dlg.exec();
     }
@@ -2431,7 +2431,7 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
     bool UpdateSlideName=(CurrentSlide->SlideName==FileName);
 
     DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,CurrentSlide->Parent->ImageGeometry,CurrentSlide->Parent->ImageAnimSpeedWave,
-                           HELPFILE_DlgImageCorrection,BaseApplicationConfig,BaseApplicationConfig->DlgImageCorrectionWSP,this);
+                           BaseApplicationConfig,BaseApplicationConfig->DlgImageCorrectionWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FramingCB_CurrentBrush   =NULL; // To force a refresh of ui->FramingCB !

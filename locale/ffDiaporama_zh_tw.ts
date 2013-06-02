@@ -820,6 +820,28 @@ It consists of following 3 tabs:
 Note: this field is limited to 30 characters to remain compatible with jukebox</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Defines the maximum height of the preview player of the main window in &quot;Preview mode&quot;.
+Note: the higher this number, the more smooth the preview will be. On the other hand, more computer resources will be required. Reduce this number on slow computers or if the gauge for your multimedia reader is frequently in the red zone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(Reduce this value for slow computer)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max preview height :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max video preview height :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sets the maximum height of videos used for the preview.
+Beyond this height, the videos are automatically reduced for creating images.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgBackgroundProperties</name>
@@ -1296,10 +1318,6 @@ To solve the problems you will have to install additional packages on your compu
         <translation>重置為零</translation>
     </message>
     <message>
-        <source>F1</source>
-        <translation>F1</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>採納修改然後離開對話方塊</translation>
     </message>
@@ -1318,14 +1336,6 @@ To solve the problems you will have to install additional packages on your compu
     <message>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
-    </message>
-    <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>開啟描述這個對話方塊的說明頁面</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>求助(&amp;H)</translation>
     </message>
     <message>
         <source>Unlock</source>
@@ -1444,14 +1454,6 @@ To solve the problems you will have to install additional packages on your compu
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Define the horizontal position from the left (X)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Define the vertical position from the top of the image ( Y )</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Equalize</source>
         <translation type="unfinished">均化</translation>
     </message>
@@ -1538,10 +1540,6 @@ To solve the problems you will have to install additional packages on your compu
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Enable or disable rulers corresponding to the margins of television sets.</source>
-        <translation type="unfinished">啟用或停用相應於電視機邊距的尺規。</translation>
-    </message>
-    <message>
         <source>Rulers</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1591,6 +1589,160 @@ To solve the problems you will have to install additional packages on your compu
     </message>
     <message>
         <source>Custom size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to define the beginning and end of a video sequence.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the deinterlace filter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to:
+- Change image framing (select a part of the image),
+- Rotate image (change or restore the orientation portrait/landscape)
+- Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust value for frequency of wave transformation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the charcoal filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust value for implode transformation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the oilpaint filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust value for amplitude of wave transformation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to define the width.
+This value is expressed as a percentage (%) of the original width of the image.
+Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to define the height.
+This value is expressed as a percentage (%) of the original height of the image.
+Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Adjust value for swirl transformation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the blur/sharpen algorythm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the emboss filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the edge filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a framing from a list of predefined framings.
+According to the image format, various choices will be proposed to you.
+
+The framings are classified in different categories:
+
+- Lock on the project geometry: 
+Lock the image framing selection rectangle to the same geometry as the project.
+If you place the image in full screen, the reframed part will correspond to the whole screen.
+
+- Lock on the image geometry:
+Lock the image framing selection rectangle to the same geometry as the image.
+
+- No constraint:
+No constraint is applied to the image framing selection rectangle.
+
+- Lock on this geometry:
+Lock image framing selection rectangle to the actual geometry.
+This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the negative filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to define the horizontal position from the left (X).
+This position is expressed as a percentage (%) of the width of the image.
+Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to define the vertical position from the top of the image ( Y ).
+This position is expressed as a percentage (%) of the height of the image.
+Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the normalize filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
+Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
+ 
+With the mouse:
+- Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
+- Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.
+
+With the keyboard:
+- Use the arrows to move the part of the image which will be kept.
+- Use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle, to change the size of the part of the image which will be kept.
+
+Remark: 
+When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
+For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog box allows you to:
+- Change image framing (select a part of the image),
+- Rotate image (change or restore the orientation portrait/landscape)
+- Correct image (change the color and/or exposure parameters) but also applying graphical filters.
+- Define the beginning and end of a video sequence.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to enable or disable the magnetic rulers.
+When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined speed curve for image animations.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1645,16 +1797,67 @@ To solve the problems you will have to install additional packages on your compu
         <translation>確定(&amp;O)</translation>
     </message>
     <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>開啟描述這個對話方塊的說明頁面</translation>
+        <source>The date and the hour of creation of the file on the disk (when you transferred it since the camera).</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Help</source>
-        <translation>求助(&amp;H)</translation>
+        <source>The date and the hour of the last modification of the file (when the photo was taken or when you modified it with an image editor).</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>F1</source>
-        <translation>F1</translation>
+        <source>This dialog allows to obtain detailed information on a multimedia file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This zone contains a board listing every video track present in the file.
+For every track, the following information is shown:
+- #:			Track number
+- Image size:		The size of the images of the video track in number of points by number of line
+- Image format:		The size of the images of the video track in million of pixels
+- Image geometry:	The image geometry of the video track (4:3, 16:9, etc.)
+- Codec:			The video codec used for compressed the images
+- Frame rate:		The number of images per second of the video
+- Bitrate:			The video compression ratio (when available)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This zone contains a table listing every audio track present in the file.
+For every track, the following information is shown:
+- #:		Track number
+- Language:	The language in which is the audio track (generally cameras and camcorders indicate und for undefine)
+- Codec:		The audio codec used for compressed the sound
+- Channels:	The number of audio channels (1=mono, 2=stereo, etc.)
+- Bitrate:		The audio compression ratio (when available)
+- Frequency:	The frequency of sampling used by the audio track
+- Title:		A title (when available)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This zone appears only for files containing chapters. it contains a table listing every chapter present in the file.
+For every chapter, the following information is shown:
+- #:		Chapter number
+- Title:		The title of the chapter
+- Start:		The temporal position of the beginning of the chapter
+- End:		The temporal position of the end of the chapter
+- Duration:	The duration of the chapter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For an image:
+Show the EXIF information supplied by the camera.
+This zone can contain several hundreds of lines according to what the camera supplies.
+
+For a video:
+Show information on the video.
+At least the information about the duration of the video will be shown, but a lot of other information can appear according to what is available in the file, such as:
+- Creation_time:	Date and time of creation of the video
+- Title:		Title field of the TAG ID3v2 of the video
+- Artist:		Artist field of the TAG ID3v2 of the video
+- Album:		Album field of the TAG ID3v2 of the video
+- Date:		Date field of the TAG ID3v2 of the video
+- Comment:	Comment field of the TAG ID3v2 of the video
+- Composer:	The software with which the video was created</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1860,18 +2063,6 @@ To solve the problems you will have to install additional packages on your compu
         <translation type="unfinished">取消(&amp;C)</translation>
     </message>
     <message>
-        <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">開啟描述這個對話方塊的說明頁面</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation type="unfinished">求助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation type="unfinished">F1</translation>
-    </message>
-    <message>
         <source>New favorite name:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1993,10 +2184,6 @@ Please select another name!</source>
         <translation>更新現有樣式</translation>
     </message>
     <message>
-        <source>Update style</source>
-        <translation>更新樣式</translation>
-    </message>
-    <message>
         <source>Style name:</source>
         <translation>樣式名稱：</translation>
     </message>
@@ -2038,6 +2225,14 @@ Reset a standard style (that you modified) has its default values.</source>
     <message>
         <source>Allows to delete the customizations of a standard style and thus to return it to the default values for this style.
 It concerns as well the name of the style as the associated settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select this style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Update this style</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2197,32 +2392,12 @@ This volume is independent of any reductions in the volume that you define in th
         <translation>目的檔案路徑</translation>
     </message>
     <message>
-        <source>Select the destination file path</source>
-        <translation>選取目的檔案路徑</translation>
-    </message>
-    <message>
         <source>Select the video standard to use, PAL or NTSC.</source>
         <translation>選取要使用的視訊標準，PAL 或 NTSC。</translation>
     </message>
     <message>
-        <source>Select the image resolution to use for the rendering.</source>
-        <translation>選取圖像解析度以用於潤算。</translation>
-    </message>
-    <message>
-        <source>Select the video codec to use for the rendering.</source>
-        <translation>選取視訊編碼解碼器以用於潤算。</translation>
-    </message>
-    <message>
         <source>Bit rate :</source>
         <translation>位元速率：</translation>
-    </message>
-    <message>
-        <source>Select the bit rate to use for video during the rendering.</source>
-        <translation>選取位元速率以在潤算期間用於視訊。</translation>
-    </message>
-    <message>
-        <source>Select the audio codec to use for the rendering.</source>
-        <translation>選取音訊編碼解碼器以用於潤算。</translation>
     </message>
     <message>
         <source>Select the bit rate to use for audio during the rendering.</source>
@@ -2295,18 +2470,6 @@ This volume is independent of any reductions in the volume that you define in th
     <message>
         <source>Cancel modification or rendering process and exit dialog box</source>
         <translation>取消修改或潤算程序然後離開對話方塊</translation>
-    </message>
-    <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>開啟描述這個對話方塊的說明頁面</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>求助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
     </message>
     <message>
         <source>Old TV (4:3)</source>
@@ -2442,19 +2605,11 @@ Do you want to overwrite it ?</source>
         <translation> - 估計的剩餘時間：</translation>
     </message>
     <message>
-        <source>Select the file type to use for the rendering</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Select the type of equipment</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Frequency :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Edit project properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2501,6 +2656,64 @@ Please contact ffDiaporama team</source>
     </message>
     <message>
         <source>Encoding video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the value of the Language field.
+This value is used by players to indicate in which language is the audio track.
+This value is on 3 characters and follows the ISO 639 recommendation.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the image format to be used to render the video from the displayed list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show the geometry of the project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the audio codec to be used to render the video from the displayed list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the video codec to be used to render the video from the displayed list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the video compression ratio from the displayed list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the type of file to be used to render the video from the displayed list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The rendering can be made on the whole project or only on a part.
+By checking the option All slides to render the video of the whole project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The rendering can be made on the whole project or only on a part.
+By checking the option From and then entering the numbers of the start and end slides to generate a video of only a part of the project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked then the sound track will be included in the video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on this button to select graphically a file and a directory.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to render the project as a video file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This button allows you to open project properties dialog.
+It allows you to adjust the properties before generating the video.
+Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by jukeboxes.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2551,16 +2764,44 @@ Please contact ffDiaporama team</source>
         <translation type="unfinished">取消(&amp;C)</translation>
     </message>
     <message>
-        <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">開啟描述這個對話方塊的說明頁面</translation>
+        <source>This dialog allows you to enable or disable rulers.
+When a ruler is activated, the mouse is attracted towards this ruler.
+This is valid as well for the movements of blocks as for the resizing (movements of the handles).</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Help</source>
-        <translation type="unfinished">求助(&amp;H)</translation>
+        <source>Enable or disable ruler for the horizontal edges of the screen.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <source>Enable or disable ruler for the vertical edges of the screen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable or disable ruler for the horizontal TV margins.
+In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are defined on 90% in width and 90% in height, for all the project geometries.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable or disable ruler for the vertical TV margins.
+In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are defined on 90% in width and 90% in height, for all the project geometries.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable or disable ruler for the horizontal center of the screen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable or disable ruler for the vertical center of the screen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable or disable horizontal rulers of the center, of the top edge, of the bottom edge, of the left edge and of the right edge of each objects which are not a part of the selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enable or disable vertical rulers of the center, of the top edge, of the bottom edge, of the left edge and of the right edge of each objects which are not a part of the selection.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2571,10 +2812,6 @@ Please contact ffDiaporama team</source>
     </message>
     <message>
         <source>First shot duration :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Define the duration for the current selected shots</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2598,16 +2835,12 @@ Please contact ffDiaporama team</source>
         <translation type="unfinished">取消(&amp;C)</translation>
     </message>
     <message>
-        <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">開啟描述這個對話方塊的說明頁面</translation>
+        <source>Define the duration of the first shot.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&amp;Help</source>
-        <translation type="unfinished">求助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <source>This dialog allows you to define the duration of the fist shot of a set of slides.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -2623,10 +2856,6 @@ Please contact ffDiaporama team</source>
     <message>
         <source>Ctrl+Ins</source>
         <translation>Ctrl+Ins</translation>
-    </message>
-    <message>
-        <source>Add a new block of type image or video.</source>
-        <translation>加入新的圖像或視訊類型區塊。</translation>
     </message>
     <message>
         <source>Ins</source>
@@ -2677,10 +2906,6 @@ Please contact ffDiaporama team</source>
         <translation>下一張</translation>
     </message>
     <message>
-        <source>F1</source>
-        <translation>F1</translation>
-    </message>
-    <message>
         <source>Opacity :</source>
         <translation>濁度：</translation>
     </message>
@@ -2725,22 +2950,6 @@ Please contact ffDiaporama team</source>
         <translation>形狀：</translation>
     </message>
     <message>
-        <source>Define width of current block</source>
-        <translation>定義目前區塊的寬度</translation>
-    </message>
-    <message>
-        <source>Define height of current block</source>
-        <translation>定義目前區塊的高度</translation>
-    </message>
-    <message>
-        <source>Define X position of current block</source>
-        <translation>定義目前區塊的 X 位置</translation>
-    </message>
-    <message>
-        <source>Define Y position of current block</source>
-        <translation>定義目前區塊的 Y 位置</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>採納修改然後離開對話方塊</translation>
     </message>
@@ -2755,14 +2964,6 @@ Please contact ffDiaporama team</source>
     <message>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
-    </message>
-    <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>開啟描述這個對話方塊的說明頁面</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>求助(&amp;H)</translation>
     </message>
     <message>
         <source>Shadow upper left</source>
@@ -2857,10 +3058,6 @@ information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start a new chapter from this slide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Start chapter from here</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2869,28 +3066,8 @@ information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Define the duration for the current selected shot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Define the number of rotations around the Y axis that is to be made during this shot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Reset to zero</source>
         <translation type="unfinished">重置為零</translation>
-    </message>
-    <message>
-        <source>Scroll text from bottom to top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Define the number of rotations around the Z axis that is to be made during this shot</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Define the number of rotations around the X axis that is to be made during this shot</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block shape :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -2902,10 +3079,6 @@ information</source>
     </message>
     <message>
         <source>Define the angle of rotation about the z-axis (expressed in degrees)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Define the thickness of the border</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2922,10 +3095,6 @@ information</source>
     </message>
     <message>
         <source>Select the color of the shadow</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Scroll text from left to right</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2969,27 +3138,11 @@ information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Define a zoom value for the text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Reset to 100%</source>
         <translation type="unfinished">重置為 100%</translation>
     </message>
     <message>
-        <source>Select in which corner the shadow will be positioned (or no shadow)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Select a shape for the current block</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Clip-Art :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Enable or disable rulers corresponding to the margins of television sets</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3038,10 +3191,6 @@ information</source>
     </message>
     <message>
         <source>Visible</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Make the active block visible</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3284,104 +3433,277 @@ information</source>
         <source>Duration:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Add one or several new blocks of images or video. A file selection dialog appears allowing you to select files.
+
+Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the configuration dialog).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start a new chapter from this slide. (If this box is checked, the slide will mark the beginning of a new chapter.)
+
+Remarks :
+- The name of the chapter will be the name of the slide.
+- With the exception of the 1st chapter of the video which cannot be deactivated, is always positioned on the 1st slide and always begins at 0, chapters begin after the enterring transition.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The total slide duration is displayed here. This duration takes into account possible adjustments for minimal duration of the shot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The shots table shows the shots as thumbnails, in the order in which they will be played (from left to right).
+
+For each shot, the thumbnail shows:
+- The shot duration (At the top of the thumbnail)
+- The temporal position of the shot at the end of its duration (At the bottom right of the thumbnail)
+- An image representing the shot at the end of its duration
+
+Remark :
+- The order of the shots can be changed by using Drag &amp; Drop.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Indicate here the duration of the currently selected shot
+
+For the last shot of the slide, there is a minimum duration.
+
+The following rules are used to calculate the minimum duration of the shot:
+- The total slide duration cannot be lower than the sum of the durations of the entering transition of the slide plus that of the transition to the following slide.
+- The total slide duration must permit complete play of the longest video sequence (time of breaks is taken into account).
+- The total slide duration cannot be lower than 1:30 second
+
+If you specify a duration lower than the minimum calculated duration for the shot, it is this minimum duration that will be used in place of the value which you specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>The blocks table lists, from top to bottom, the present blocks in the slide.
+
+Remarks:
+- The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.
+- The order of the blocks is defined shot by shot.
+
+Blocks are shown on 3 columns:
+- The first column contains or:
+  - A text icon￼ if the block is a title.
+  - A thumbnail if the block is an image or a video.
+  - Possibly, one transformation￼ icon appears on the thumbnail if the image or the video have a transformation filter.
+
+- The second column contains icons giving the state of the blocks for the current shot:
+  - A lock icon if the properties of the block are locked during this shot or and unlock icon if they are unlocked. (Remark: This information does not appear for the 1st shot.)
+  - A sound icon if the video has the sound during this shot. This information appears only for the video blocks.
+  - An eye icon if the block is visible during this shot or ￼a crossed eye icon if the block is hidden.
+
+- The third column indicates:
+  - If the block is a title: the text of the block
+  - If the block is an image: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and a summary of EXIF information on the image.
+  - If the block is a video: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and the duration of the video.
+
+Remarks:
+- Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
+- Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
+- Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.
+- To select a block: click the block
+- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
+- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
+
+- The blocks with locked properties are shown on a grey bottom.
+- The selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.
+
+- To change the blocks order, use Drag &amp; Drop or up￼ and down arrow functions of the contextual menu.
+- It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.
+
+- All blocks, whether title, image or video, possess a text element.
+
+- During the insertion of a new block (Add title, Add file or Paste), the block is inserted:
+  - In visible mode for the current shot and for all the following shots.
+  - In hidden mode for the shots located before the current shot.
+  - Always in the last position in the list of blocks (in the foreground).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the number of rotations around the X axis that is to be made during this shot.
+
+Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a pre-defined block size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scroll text from bottom to top.
+
+Remark: To make animations of text, you have to create at least 2 shots then:
+-Define values for zoom and scrolling for the 1st shot
+-Define different values for zoom and scrolling for the 2nd</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the number of rotations around the Z axis that is to be made during this shot.
+
+Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the number of rotations around the Y axis that is to be made during this shot.
+
+Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the horizontal offset of the block from the left.
+This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the vertical offset of the block from the top.
+This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the width of the block.
+This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the height of the block.
+This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>Defines the thickness of the border.
+
+Remark: This value is defined as 1/1080 of the height of the screen.
+A value of 10 corresponds to 10 points on a 1920×1080 FullHD screen, but only to 6 points on a 1280×720 screen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This settings group deals with style management.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks)
+
+Remark: To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scroll text from left to right.
+
+Remark: To make animations of text, you have to create at least 2 shots then:
+-Define values for zoom and scrolling for the 1st shot
+-Define different values for zoom and scrolling for the 2nd</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The block animations define which animations will run during the current shot.
+
+You can define different animations for every shot!
+- Multiple rotations: This animation allows to turn a block several times during the shot.
+- Dissolve: This animation dissolves between the block and a transparent zone according to the settings.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a reframing style for the image.
+It has the same effect as selecting a style in the Image framing and correction dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select the geometrical constraints to be applied to the block.
+
+Three type of constraint are available:
+- No constraint is applied to the selection rectangle.
+- Lock selection rectangle to the actual geometry. It has no meaning until you have defined a shape in &quot;no constraint&quot; mode.
+- Lock selection rectangle to the same geometry as the project, such that, if you place the image in full screen, the reframed part will correspond to the whole screen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Appear: The block will appear during the shot
+Disappear: The block will disappear during the shot
+Blink: The block will blink during the shot (appear then disappear). 4 speeds are proposed (from slow to very fast).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define a zoom value for the text.
+
+Remark: To make animations of text, you have to create at least 2 shots then:
+-Define values for zoom and scrolling for the 1st shot
+-Define different values for zoom and scrolling for the 2nd</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select in which corner the shadow will be positioned (or no shadow).
+
+Remark: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a shape for the block.
+
+The selected shape will be used as:
+- A fusion mask for the images and the videos.
+- A cutting zone for texts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a clip-art</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define settings for the slides.
+
+This dialog includes numerous zones:
+-On the top: The toolbar allows to launch the main slide editing commands.
+-On the left: The slide settings zone, the shots table and the interactive.
+-On the right: The blocks table and the blocks settings zone.
+
+Place the mouse over each area for more information.
+
+Remark on block properties locking:
+The properties locking is available only from the 2nd shot.
+- When the block properties are locked, the modifications made to the block in the preceding shot are echoed in the current shot.
+- It defines as well the coordinates, forms and animations properties as the properties defined in the editing dialog of text, image or video.
+
+Remark on the interactive area:
+You can move and interactively re-size blocks within the selected shot.
+- Selected blocks are shown with a frame. (It allows to differentiate them from other graphic elements of the slide).
+- Control handles (small square) are shown on sides and on corners of the selection frame.
+- Rulers are displayed to facilitate the work with the mouse.
+
+Using the mouse:
+- To select a block: click the block
+- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
+- To select a block under another block : Click the block to be selected by pushing both SHIFT and CTRL keys.
+- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
+- To modify the size of the blocks of the selection: Click one of the handles of the selection and, while keeping the button of the mouse pressed, move the mouse.
+- To move the blocks of the selection: Click one of the blocks of the selection and, while keeping the button of the mouse pressed, move the mouse.
+
+Using the keyboard:
+- To move the blocks of the selection, use the arrow keys.
+- To change the size of the blocks of the selection, use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle.
+
+Remarks:
+- A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
+- A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
+- A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to open the rulers settings dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Make the active block visible.
+Note: Hidden video blocks are automatically paused</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgTextEdit</name>
     <message>
         <source>Edit text</source>
         <translation>編輯文字</translation>
-    </message>
-    <message>
-        <source>Select font family</source>
-        <translation>選取字族</translation>
-    </message>
-    <message>
-        <source>Select font size</source>
-        <translation>選取字型尺寸</translation>
-    </message>
-    <message>
-        <source>Select font color</source>
-        <translation>選取字型顏色</translation>
-    </message>
-    <message>
-        <source>Select font effect (outerline, shadow)</source>
-        <translation>選取字型效果 (外框、陰影)</translation>
-    </message>
-    <message>
-        <source>Select outerline/shadow color</source>
-        <translation>選取外框/陰影顏色</translation>
-    </message>
-    <message>
-        <source>Set text to Bold</source>
-        <translation>設定文字為粗體</translation>
-    </message>
-    <message>
-        <source>Set text to Italic</source>
-        <translation>設定文字為斜體</translation>
-    </message>
-    <message>
-        <source>Set text to Underline</source>
-        <translation>設定文字加底線</translation>
-    </message>
-    <message>
-        <source>Align left</source>
-        <translation>靠左對齊</translation>
-    </message>
-    <message>
-        <source>Align center</source>
-        <translation>置中對齊</translation>
-    </message>
-    <message>
-        <source>Align justify</source>
-        <translation>對齊調整</translation>
-    </message>
-    <message>
-        <source>Align right</source>
-        <translation>靠右對齊</translation>
-    </message>
-    <message>
-        <source>Align top</source>
-        <translation>對齊頂端</translation>
-    </message>
-    <message>
-        <source>Align in the middle</source>
-        <translation>對齊中間</translation>
-    </message>
-    <message>
-        <source>Align bottom</source>
-        <translation>對齊底部</translation>
-    </message>
-    <message>
-        <source>Define the background brush type for the shape</source>
-        <translation>定義形狀的背景筆刷類型</translation>
-    </message>
-    <message>
-        <source>Define the color (or first color for a gradient brush)</source>
-        <translation>定義顏色 (或梯度筆刷的第一顏色)</translation>
-    </message>
-    <message>
-        <source>Define the second gradient brush color </source>
-        <translation>定義第二梯度筆刷顏色 </translation>
-    </message>
-    <message>
-        <source>Define the third gradient brush color </source>
-        <translation>定義第三梯度筆刷顏色 </translation>
-    </message>
-    <message>
-        <source>Select the pattern</source>
-        <translation>選取胚騰</translation>
-    </message>
-    <message>
-        <source>Define orientation of the gradient brush</source>
-        <translation>定義梯度筆刷的方向</translation>
-    </message>
-    <message>
-        <source>Define position of the second color in the gradient brush</source>
-        <translation>定義梯度筆刷中第二顏色的位置</translation>
-    </message>
-    <message>
-        <source>Select an image among that present in the library</source>
-        <translation>選取呈現在圖庫中的圖像</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
@@ -3398,18 +3720,6 @@ information</source>
     <message>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
-    </message>
-    <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>開啟描述這個對話方塊的說明頁面</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>求助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
     </message>
     <message>
         <source>No effect</source>
@@ -3464,30 +3774,6 @@ information</source>
         <translation type="unfinished">文字</translation>
     </message>
     <message>
-        <source>Bullet list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Numbered list</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set text to superscript</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Set text to subscript</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Increase indent</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>decrease indent</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Background</source>
         <translation type="unfinished">背景</translation>
     </message>
@@ -3521,6 +3807,170 @@ information</source>
     </message>
     <message>
         <source>Ctrl+Z</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to access the text styles menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select the font size.
+This setting applies to the paragraphs of the current selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select the font color.
+This setting applies to the paragraphs of the current selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to establish (or to remove) a bullet list. This setting applies to the paragraphs of the current selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to establish (or to remove) a numbered list. This setting applies to the paragraphs of the current selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontal alignment: left. This setting applies to the paragraph in which the cursor is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontal alignment: justified. This setting applies to the paragraph in which the cursor is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontal alignment: centered. This setting applies to the paragraph in which the cursor is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Horizontal alignment: right. This setting applies to the paragraph in which the cursor is.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a font effect (outerline, shadow).
+Remark: This setting applies to the block (to the whole text).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select the outerline or shadow color.
+Remark: This setting applies to the block (to the whole text).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sets bold characters. This setting applies to the current selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sets characters to italics. This setting applies to the current selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Underlines the characters. This setting applies to the current selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Puts the characters to super. This setting applies to the current selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Puts the characters to sub. This setting applies to the current selection.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move the paragraph of a notch towards the right (indent). This setting applies to the paragraph in which is the cursor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move the paragraph of a notch towards the left (unindent). This setting applies to the paragraph in which is the cursor.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vertical alignment: top. This setting applies to the block (to the whole text).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vertical alignment: middle. This setting applies to the block (to the whole text).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Vertical alignment: bottom. This setting applies to the block (to the whole text).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to access the background text styles menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to define a background brush for the shape.
+The following options are available:
+No brush 		The shape will have no background and will thus be totally transparent.
+Solid brush 		Allows you to select a plain color.
+Pattern brush 		Allows you to select a hatched brush.
+Gradient 2 colors 	Allows you to select a gradient of 2 colors.
+Gradient 3 colors 	Allows you to select a gradient of 3 colors.
+Image from library 	Allows you to select an image from the library.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If background brush is Solid, Pattern or Gradient brush, then this line appears and allows you to select a color.
+(Depending on the brush you select, there will be one, two or three selectable colors.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If background brush is Pattern brush, then this line appears and allows you to select a pattern.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If background brush is Gradient, then this line appears and allows you to select the gradient orientation.
+If the Gradient has 3 colors, additional controls allow to define the position (in percentage) of the 3rd gradient color.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If background brush is Image from library, then this line appears and allows you to select an image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the horizontal position of the margins relative to the top-left corner of the block.
+This value is expressed in % of the width of the block.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to use predefined margins for the shape of the block.In general, these margins ensure that the text is contained in the form.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to use margins corresponding to the entire form, in fact, the selection rectangle shape regardless of the design.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to use custom margins.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the vertical position of the margins relative to the top-left corner of the block.
+This value is expressed in % of the height of the block.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the height of the margins.
+This value is expressed in % of the height of the block.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the width of the margins.
+This value is expressed in % of the width of the block.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to modify the text within a block.
+Remark: The modifications made to the text properties will apply to all shots of the slide.
+To understand indeed the differences between the properties which apply to all shots and those who apply only to the current shot, consult: How ffDiaporama work.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select the font to be used.
+This setting applies to the current selection.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3559,16 +4009,8 @@ information</source>
         <translation type="unfinished">取消(&amp;C)</translation>
     </message>
     <message>
-        <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">開啟描述這個對話方塊的說明頁面</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation type="unfinished">求助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <source>This dialog allows you to define the transition duration for a set of slides.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3576,10 +4018,6 @@ information</source>
     <message>
         <source>Transition properties</source>
         <translation>轉換性質</translation>
-    </message>
-    <message>
-        <source>Select a transition family</source>
-        <translation>選取轉換家族</translation>
     </message>
     <message>
         <source>None and basic</source>
@@ -3626,10 +4064,6 @@ information</source>
         <translation>光度-蛇形</translation>
     </message>
     <message>
-        <source>Define the animation duration</source>
-        <translation>定義動畫持續時間</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>採納修改然後離開對話方塊</translation>
     </message>
@@ -3644,18 +4078,6 @@ information</source>
     <message>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
-    </message>
-    <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>開啟描述這個對話方塊的說明頁面</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>求助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
     </message>
     <message>
         <source>Transition type:</source>
@@ -3675,6 +4097,33 @@ information</source>
     </message>
     <message>
         <source>Select a transition for a set of slides</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a transition family.
+- No transition: The new slide immediately replaces the old one. (Note that this also deactivates Background transitions and Sound fades so the playlist of the new slide immediately replaces that of the old one)
+- Basic/Dissolve effect: The slide appears gradually, with gradually increasing opacity.
+- Zoom: The new slide appears by getting bigger while the old slide disappears with a dissolve effect.
+- Slide: The new slide glides onto the old slide which disappears with a dissolve effect.
+-Push: The new slide takes the place of the old slide by pushing it aside.
+-LUMA transition: The animation is based on a luminance mask : the darker the points in the mask, the faster the corresponding points in the new slide replace those in the old slide.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a speed curve to apply to the transition.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to define the duration of the animation.
+The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a transition.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define the entering transition for a slide.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3744,18 +4193,6 @@ information</source>
         <translation>取消(&amp;C)</translation>
     </message>
     <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>開啟描述這個對話方塊的說明頁面</translation>
-    </message>
-    <message>
-        <source>&amp;Help</source>
-        <translation>求助(&amp;H)</translation>
-    </message>
-    <message>
-        <source>F1</source>
-        <translation>F1</translation>
-    </message>
-    <message>
         <source>#;Slide;Title;Start;End;Duration</source>
         <comment>Column headers</comment>
         <translation>#;投影片;標題;開始;結束;持續時間</translation>
@@ -3767,10 +4204,6 @@ information</source>
     <message>
         <source>Project geometry:</source>
         <translation type="unfinished">專案位置與尺寸：</translation>
-    </message>
-    <message>
-        <source>Select the image geometry to be used for the creation of new projects</source>
-        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Old TV (4:3)</source>
@@ -3805,15 +4238,89 @@ information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Select the playback profile to be used for transitions and animations</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>New project</source>
         <translation type="unfinished">新專案</translation>
     </message>
     <message>
         <source>Create project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>The language of the audio track (ISO 639 standard – 3 characters).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year (4 numbers)
+Remark: This field is different from &quot;timestamp&quot; field.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The album of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The title of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A free comment which can spread out on several lines.
+Remark: numerous indexing systems or jukeboxes will read only the 1st line.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This field allows you to select the geometry to be used for the project.
+Note: This field is only editable when the dialog box is opened for creating a new project. Subsequently, it is not possible to change this value.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined default speed curve for transitions.
+This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined default speed curve for block animations.
+This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined default speed curve for image animations.
+This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define the information which qualifies the project.
+This information will then be registered in the form of TAGs in the rendered video files.
+
+Remark:
+
+The properties of the project are a partial implementation of the MPEG-7 standard on the descriptors of multimedia contents.
+These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by jukeboxes.
+
+Some fields are automatically filled and do not appear in this dialog:
+-Timestamp: Date and time of generation of the video.
+-Composer: Contains the version of ffDiaporama with which the video was produced.
+-Encoder: Contains the version of libavformat (ffmpeg) with which the video was produced.
+
+For more compatibility with indexing systems and jukeboxes, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapters defined in the project are listed for consultation. To modify chapters use modify slide dialog.
+
+The following fields appear:
+-#: The chapter number
+-Slide: Slide number in wich chapter is defined
+-Title: Chapter title
+-Start: Chapter start position
+-End: Chapter end position
+-Duration: Chapter duration
+
+Remark: Video formats do not support all the chapters in the same way.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The name of the author of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters).
+Remark: This field is often shown by indexing system and jukeboxes under the term Artist.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4787,6 +5294,22 @@ Are you sure it is empty?</source>
         <source>Impossible to rename file!</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Del</source>
+        <translation type="unfinished">Del</translation>
+    </message>
+    <message>
+        <source>Ctrl+X</source>
+        <translation type="unfinished">Ctrl+X</translation>
+    </message>
+    <message>
+        <source>Ctrl+C</source>
+        <translation type="unfinished">Ctrl+C</translation>
+    </message>
+    <message>
+        <source>Ctrl+V</source>
+        <translation type="unfinished">Ctrl+V</translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -5593,6 +6116,12 @@ Are you sure it is empty?</source>
     <message>
         <source>Save this image of the movie</source>
         <extracomment>Tooltip in dialog box</extracomment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The progress bar allows you to set the video display to a specific position.
+Remark : The length of the ruler is increased in proportion to the duration of the video.
+The blue part represents the part of the video which is selected (which will be used in the assembly).</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

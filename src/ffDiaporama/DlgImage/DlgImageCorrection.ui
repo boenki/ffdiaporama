@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>748</width>
+    <width>746</width>
     <height>450</height>
    </rect>
   </property>
@@ -52,6 +52,12 @@
         </attribute>
         <attribute name="title">
          <string notr="true"/>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Allows you to:
+- Change image framing (select a part of the image),
+- Rotate image (change or restore the orientation portrait/landscape)
+- Correct image (change the color and/or exposure parameters) but also applying graphical filters.</string>
         </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout_13">
          <property name="spacing">
@@ -193,9 +199,9 @@
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-659</y>
+              <y>-74</y>
               <width>332</width>
-              <height>1009</height>
+              <height>1014</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -245,7 +251,7 @@
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Adjust blur/sharpen radius</string>
+                <string>Adjust value for frequency of wave transformation</string>
                </property>
                <property name="buttonSymbols">
                 <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -294,6 +300,9 @@
              </item>
              <item row="63" column="2" colspan="3">
               <widget class="QCheckBox" name="FilterOnOff_CharcoalCB">
+               <property name="toolTip">
+                <string>Allows you to activate the charcoal filter.</string>
+               </property>
                <property name="text">
                 <string>Charcoal</string>
                </property>
@@ -368,6 +377,9 @@
              </item>
              <item row="29" column="2" colspan="3">
               <widget class="QCheckBox" name="FilterOnOff_GrayCB">
+               <property name="toolTip">
+                <string>Allows you to activate the grayscale (black &amp; white) filter.</string>
+               </property>
                <property name="text">
                 <string>Grayscale</string>
                </property>
@@ -402,7 +414,7 @@
                 </size>
                </property>
                <property name="toolTip">
-                <string>Adjust blue channel</string>
+                <string>Adjust value for implode transformation</string>
                </property>
                <property name="minimum">
                 <number>-100</number>
@@ -423,6 +435,9 @@
              </item>
              <item row="64" column="2" colspan="3">
               <widget class="QCheckBox" name="FilterOnOff_OilCB">
+               <property name="toolTip">
+                <string>Allows you to activate the oilpaint filter.</string>
+               </property>
                <property name="text">
                 <string>Oilpaint</string>
                </property>
@@ -830,7 +845,7 @@ color: #000000;
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Adjust blur/sharpen radius</string>
+                <string>Adjust blur/sharpen sigma</string>
                </property>
                <property name="buttonSymbols">
                 <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -879,6 +894,9 @@ color: #000000;
              </item>
              <item row="47" column="2" colspan="3">
               <widget class="QCheckBox" name="FilterOnOff_DespeckleCB">
+               <property name="toolTip">
+                <string>Allows you to activate the despeckle (Noise reduction) filter.</string>
+               </property>
                <property name="text">
                 <string>Despeckle</string>
                </property>
@@ -973,7 +991,7 @@ color: #000000;
                   </size>
                  </property>
                  <property name="toolTip">
-                  <string>Adjust blur/sharpen sigma</string>
+                  <string>Adjust value for frequency of wave transformation</string>
                  </property>
                  <property name="minimum">
                   <number>0</number>
@@ -1111,19 +1129,6 @@ color: #000000;
                </property>
               </widget>
              </item>
-             <item row="0" column="0" colspan="5">
-              <widget class="QLabel" name="label_14">
-               <property name="font">
-                <font>
-                 <italic>true</italic>
-                 <underline>true</underline>
-                </font>
-               </property>
-               <property name="text">
-                <string>Framing and form:</string>
-               </property>
-              </widget>
-             </item>
              <item row="54" column="0" colspan="5">
               <widget class="QLabel" name="label_26">
                <property name="font">
@@ -1146,7 +1151,7 @@ color: #000000;
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Adjust blur/sharpen radius</string>
+                <string>Adjust value for amplitude of wave transformation</string>
                </property>
                <property name="buttonSymbols">
                 <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1253,6 +1258,11 @@ color: #000000;
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="toolTip">
+                  <string>Allows you to define the width.
+This value is expressed as a percentage (%) of the original width of the image.
+Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</string>
+                 </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
                  </property>
@@ -1293,6 +1303,11 @@ color: #000000;
                    <horstretch>0</horstretch>
                    <verstretch>0</verstretch>
                   </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Allows you to define the height.
+This value is expressed as a percentage (%) of the original height of the image.
+Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1429,7 +1444,7 @@ color: #000000;
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Adjust blue channel</string>
+                <string>Adjust value for swirl transformation</string>
                </property>
                <property name="buttonSymbols">
                 <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1673,6 +1688,9 @@ color: #000000;
                    <verstretch>0</verstretch>
                   </sizepolicy>
                  </property>
+                 <property name="toolTip">
+                  <string>Select the blur/sharpen algorythm</string>
+                 </property>
                  <item>
                   <property name="text">
                    <string>Fast</string>
@@ -1721,7 +1739,7 @@ color: #000000;
                 </sizepolicy>
                </property>
                <property name="toolTip">
-                <string>Adjust blue channel</string>
+                <string>Adjust value for implode transformation</string>
                </property>
                <property name="buttonSymbols">
                 <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -1810,6 +1828,9 @@ color: #000000;
              </item>
              <item row="59" column="2" colspan="3">
               <widget class="QCheckBox" name="FilterOnOff_EmbossCB">
+               <property name="toolTip">
+                <string>Allows you to activate the emboss filter.</string>
+               </property>
                <property name="text">
                 <string>Emboss</string>
                </property>
@@ -1817,6 +1838,9 @@ color: #000000;
              </item>
              <item row="60" column="2" colspan="3">
               <widget class="QCheckBox" name="FilterOnOff_EdgeCB">
+               <property name="toolTip">
+                <string>Allows you to activate the edge filter.</string>
+               </property>
                <property name="text">
                 <string>Edge</string>
                </property>
@@ -1998,10 +2022,34 @@ color: #000000;
               </widget>
              </item>
              <item row="6" column="2" colspan="3">
-              <widget class="cCFramingComboBox" name="FramingStyleCB"/>
+              <widget class="cCFramingComboBox" name="FramingStyleCB">
+               <property name="toolTip">
+                <string>Allows you to select a framing from a list of predefined framings.
+According to the image format, various choices will be proposed to you.
+
+The framings are classified in different categories:
+
+- Lock on the project geometry: 
+Lock the image framing selection rectangle to the same geometry as the project.
+If you place the image in full screen, the reframed part will correspond to the whole screen.
+
+- Lock on the image geometry:
+Lock the image framing selection rectangle to the same geometry as the image.
+
+- No constraint:
+No constraint is applied to the image framing selection rectangle.
+
+- Lock on this geometry:
+Lock image framing selection rectangle to the actual geometry.
+This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</string>
+               </property>
+              </widget>
              </item>
              <item row="58" column="2" colspan="3">
               <widget class="QCheckBox" name="FilterOnOff_NegativeCB">
+               <property name="toolTip">
+                <string>Allows you to activate the negative filter.</string>
+               </property>
                <property name="text">
                 <string>Negative</string>
                </property>
@@ -2071,7 +2119,7 @@ color: #000000;
                   </size>
                  </property>
                  <property name="toolTip">
-                  <string>Adjust blur/sharpen sigma</string>
+                  <string>Adjust value for amplitude of wave transformation</string>
                  </property>
                  <property name="minimum">
                   <number>-100</number>
@@ -2109,7 +2157,9 @@ color: #000000;
                   </sizepolicy>
                  </property>
                  <property name="toolTip">
-                  <string>Define the horizontal position from the left (X)</string>
+                  <string>Allows you to define the horizontal position from the left (X).
+This position is expressed as a percentage (%) of the width of the image.
+Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -2150,7 +2200,9 @@ color: #000000;
                   </sizepolicy>
                  </property>
                  <property name="toolTip">
-                  <string>Define the vertical position from the top of the image ( Y )</string>
+                  <string>Allows you to define the vertical position from the top of the image ( Y ).
+This position is expressed as a percentage (%) of the height of the image.
+Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</string>
                  </property>
                  <property name="buttonSymbols">
                   <enum>QAbstractSpinBox::PlusMinus</enum>
@@ -2199,6 +2251,9 @@ color: #000000;
              </item>
              <item row="30" column="2" colspan="3">
               <widget class="QCheckBox" name="FilterOnOff_EqualizeCB">
+               <property name="toolTip">
+                <string>Allows you to activate the equalize (Histogram equalization) filter.</string>
+               </property>
                <property name="text">
                 <string>Equalize</string>
                </property>
@@ -2309,6 +2364,9 @@ color: #000000;
              </item>
              <item row="48" column="2" colspan="3">
               <widget class="QCheckBox" name="FilterOnOff_AntialiasCB">
+               <property name="toolTip">
+                <string>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</string>
+               </property>
                <property name="text">
                 <string>Antialias</string>
                </property>
@@ -2594,6 +2652,9 @@ color: #000000;
              </item>
              <item row="21" column="2" colspan="3">
               <widget class="QCheckBox" name="FilterOnOff_NormalizeCB">
+               <property name="toolTip">
+                <string>Allows you to activate the normalize filter.</string>
+               </property>
                <property name="text">
                 <string>Automatic contrast (normalize)</string>
                </property>
@@ -2628,7 +2689,7 @@ color: #000000;
                 </size>
                </property>
                <property name="toolTip">
-                <string>Adjust blue channel</string>
+                <string>Adjust value for swirl transformation</string>
                </property>
                <property name="minimum">
                 <number>-360</number>
@@ -2677,7 +2738,72 @@ color: #000000;
               </widget>
              </item>
              <item row="13" column="2" colspan="3">
-              <widget class="cCSpeedWaveComboBox" name="SpeedWaveCB"/>
+              <widget class="cCSpeedWaveComboBox" name="SpeedWaveCB">
+               <property name="toolTip">
+                <string>Defined speed curve for image animations.</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0" colspan="5">
+              <layout class="QHBoxLayout" name="horizontalLayout_6">
+               <item>
+                <widget class="QLabel" name="HelpTT1">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="maximumSize">
+                  <size>
+                   <width>16</width>
+                   <height>16</height>
+                  </size>
+                 </property>
+                 <property name="toolTip">
+                  <string>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
+Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
+ 
+With the mouse:
+- Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
+- Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.
+
+With the keyboard:
+- Use the arrows to move the part of the image which will be kept.
+- Use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle, to change the size of the part of the image which will be kept.
+
+Remark: 
+When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
+For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</string>
+                 </property>
+                 <property name="text">
+                  <string notr="true"/>
+                 </property>
+                 <property name="textFormat">
+                  <enum>Qt::AutoText</enum>
+                 </property>
+                 <property name="pixmap">
+                  <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
+                 </property>
+                 <property name="scaledContents">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_14">
+                 <property name="font">
+                  <font>
+                   <italic>true</italic>
+                   <underline>true</underline>
+                  </font>
+                 </property>
+                 <property name="text">
+                  <string>Framing and form:</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
            </widget>
@@ -2692,6 +2818,9 @@ color: #000000;
         </attribute>
         <attribute name="title">
          <string notr="true"/>
+        </attribute>
+        <attribute name="toolTip">
+         <string>Allows you to define the beginning and end of a video sequence.</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_3">
          <property name="spacing">
@@ -2927,6 +3056,9 @@ color: #000000;
            </item>
            <item>
             <widget class="QCheckBox" name="DeinterlaceBt">
+             <property name="toolTip">
+              <string>Allows you to activate the deinterlace filter</string>
+             </property>
              <property name="text">
               <string>Deinterlace video</string>
              </property>
@@ -2953,6 +3085,39 @@ color: #000000;
       <number>2</number>
      </property>
      <item>
+      <widget class="QLabel" name="HelpTT">
+       <property name="toolTip">
+        <string>This dialog box allows you to:
+- Change image framing (select a part of the image),
+- Rotate image (change or restore the orientation portrait/landscape)
+- Correct image (change the color and/or exposure parameters) but also applying graphical filters.
+- Define the beginning and end of a video sequence.</string>
+       </property>
+       <property name="text">
+        <string notr="true"/>
+       </property>
+       <property name="textFormat">
+        <enum>Qt::AutoText</enum>
+       </property>
+       <property name="pixmap">
+        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="horizontalSpacer_6">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>40</width>
+         <height>20</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="QPushButton" name="RulersBT">
        <property name="font">
         <font>
@@ -2961,7 +3126,8 @@ color: #000000;
         </font>
        </property>
        <property name="toolTip">
-        <string>Enable or disable rulers corresponding to the margins of television sets.</string>
+        <string>Allows you to enable or disable the magnetic rulers.
+When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</string>
        </property>
        <property name="text">
         <string>Rulers</string>
@@ -3058,28 +3224,17 @@ color: #000000;
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="HelpBT">
-       <property name="toolTip">
-        <string>Open help page describing this dialog box</string>
-       </property>
-       <property name="text">
-        <string>&amp;Help</string>
-       </property>
-       <property name="icon">
-        <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
-       </property>
-       <property name="shortcut">
-        <string>F1</string>
-       </property>
-      </widget>
-     </item>
     </layout>
    </item>
   </layout>
  </widget>
  <customwidgets>
+  <customwidget>
+   <class>wgt_QVideoPlayer</class>
+   <extends>QWidget</extends>
+   <header>wgt_QVideoPlayer.h</header>
+   <container>1</container>
+  </customwidget>
   <customwidget>
    <class>cCSpeedWaveComboBox</class>
    <extends>QComboBox</extends>
@@ -3101,12 +3256,6 @@ color: #000000;
    <header>DlgImage/cImgInteractiveZone.h</header>
    <container>1</container>
   </customwidget>
-  <customwidget>
-   <class>wgt_QVideoPlayer</class>
-   <extends>QWidget</extends>
-   <header>wgt_QVideoPlayer.h</header>
-   <container>1</container>
-  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>RotateLeftBT</tabstop>
@@ -3114,7 +3263,6 @@ color: #000000;
   <tabstop>RotateRightBT</tabstop>
   <tabstop>OKBT</tabstop>
   <tabstop>CancelBt</tabstop>
-  <tabstop>HelpBT</tabstop>
  </tabstops>
  <resources>
   <include location="../../../RSCffDiaporama.qrc"/>

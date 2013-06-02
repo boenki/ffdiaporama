@@ -90,14 +90,24 @@ QAction *QCustomFolderTree::CreateMenuAction(QString RessourceNameIcon,QString T
     return Action;
 }
 
+QAction *QCustomFolderTree::CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck) {
+    QAction *Action=new QAction(Icon,Text,this);
+    Action->setIconVisibleInMenu(true);
+    Action->setCheckable(Checkable);
+    Action->setFont(QFont("Sans Serif",9));
+    if (Checkable) Action->setChecked(IsCheck);
+    Action->setData(QVariant(Data));
+    return Action;
+}
+
 void QCustomFolderTree::s_ContextMenu(const QPoint) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::s_ContextMenu");
 
     QMenu   *ContextMenu=new QMenu(this);
-    ContextMenu->addAction(CreateMenuAction(":/img/Refresh.png",QApplication::translate("QCustomFolderTree","Refresh all"),1,false,false));
-    ContextMenu->addAction(CreateMenuAction(":/img/Refresh.png",QApplication::translate("QCustomFolderTree","Refresh from here"),2,false,false));
-    if (IsCreateFolderAllowed)  ContextMenu->addAction(CreateMenuAction(":/img/AddFolder.png",QApplication::translate("QCustomFolderTree","Create new subfolder"),3,false,false));
-    if (IsRemoveAllowed)        ContextMenu->addAction(CreateMenuAction(":/img/trash.png",QApplication::translate("QCustomFolderTree","Remove folder"),4,false,false));
+    ContextMenu->addAction(CreateMenuAction(QApplication::style()->standardIcon(QStyle::SP_BrowserReload),QApplication::translate("QCustomFolderTree","Refresh all"),1,false,false));       //":/img/Refresh.png"
+    ContextMenu->addAction(CreateMenuAction(QApplication::style()->standardIcon(QStyle::SP_BrowserReload),QApplication::translate("QCustomFolderTree","Refresh from here"),2,false,false)); //":/img/Refresh.png"
+    if (IsCreateFolderAllowed)  ContextMenu->addAction(CreateMenuAction(QApplication::style()->standardIcon(QStyle::SP_FileDialogNewFolder),QApplication::translate("QCustomFolderTree","Create new subfolder"),3,false,false));
+    if (IsRemoveAllowed)        ContextMenu->addAction(CreateMenuAction(QApplication::style()->standardIcon(QStyle::SP_TrashIcon),QApplication::translate("QCustomFolderTree","Remove folder"),4,false,false));   //":/img/trash.png"
     if (IsRenameAllowed)        ContextMenu->addAction(CreateMenuAction(":/img/action_edit.png",QApplication::translate("QCustomFolderTree","Rename folder"),5,false,false));
     QAction *Action=ContextMenu->exec(QCursor::pos());
     if (Action) {
