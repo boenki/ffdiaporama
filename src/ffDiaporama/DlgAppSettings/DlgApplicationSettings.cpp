@@ -96,7 +96,6 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->PreviewFrameRateCB->setCurrentIndex(ui->PreviewFrameRateCB->findText(FPS));
     ui->PreviewAudioRateCB->setCurrentIndex(ui->PreviewAudioRateCB->findText(ASR));
     ui->SmoothImageDuringPreviewCB->setChecked(ApplicationConfig->Smoothing);
-    ui->MaxPreviewHeightCB->setCurrentIndex(ui->MaxPreviewHeightCB->findText(QString("%1").arg(ApplicationConfig->MaxPreviewHeight)));
     ui->MaxVideoPreviewHeightCB->setCurrentIndex(ui->MaxVideoPreviewHeightCB->findText(QString("%1").arg(ApplicationConfig->MaxVideoPreviewHeight)));
 
     // Editor options
@@ -372,7 +371,6 @@ bool DlgApplicationSettings::DoAccept() {
     ApplicationConfig->Smoothing                =ui->SmoothImageDuringPreviewCB->isChecked();
     ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
     ApplicationConfig->PreviewSamplingRate      =ui->PreviewAudioRateCB->currentText().toLong();
-    ApplicationConfig->MaxPreviewHeight         =ui->MaxPreviewHeightCB->currentText().toInt();
     ApplicationConfig->MaxVideoPreviewHeight    =ui->MaxVideoPreviewHeightCB->currentText().toInt();
 
     switch (ui->MemCacheProfilCB->currentIndex()) {

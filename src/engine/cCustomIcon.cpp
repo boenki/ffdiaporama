@@ -296,7 +296,8 @@ void cCustomIcon::LoadIcons(QIcon Icon) {
 
     Icon16 =Icon.pixmap(16,16).toImage();
     Icon100=Icon.pixmap(100,100).toImage();
-    if ((Icon100.height()<100)&&(Icon100.width()<100)) {
+    //if ((Icon100.height()<100)&&(Icon100.width()<100)) {
+    if (((Icon100.height()<100)&&(Icon100.width()<100))||(Icon100.height()>100)||(Icon100.width()>100)) {
         if (Icon100.height()>Icon100.width()) Icon100=Icon100.scaledToHeight(100,Qt::SmoothTransformation);
             else Icon100=Icon100.scaledToWidth(100,Qt::SmoothTransformation);
     }

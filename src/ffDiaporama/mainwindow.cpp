@@ -493,7 +493,6 @@ void MainWindow::UpdateChapterInfo() {
 //====================================================================================================================
 
 void MainWindow::SetTimelineHeight() {
-    int H;
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::SetTimelineHeight");
     switch (ApplicationConfig->WindowDisplayMode) {
         case DISPLAYWINDOWMODE_PLAYER:
@@ -512,9 +511,7 @@ void MainWindow::SetTimelineHeight() {
             ui->preview->setVisible(true);
             ui->preview->setFixedHeight(this->geometry().height()-ui->ToolBoxNormal->height()-ui->timeline->height()-ui->StatusBar_General->height());
             ui->preview->setSizePolicy(QSizePolicy::Fixed,QSizePolicy::Expanding);
-            H=ui->preview->height();
-            if (H>ApplicationConfig->MaxPreviewHeight+ui->preview->GetButtonBarHeight()) H=ApplicationConfig->MaxPreviewHeight+ui->preview->GetButtonBarHeight();
-            ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(H));
+            ui->preview->setFixedWidth(Diaporama->GetWidthForHeight(ui->preview->height()));
             break;
         case DISPLAYWINDOWMODE_PARTITION:
             ApplicationConfig->PartitionMode=true;

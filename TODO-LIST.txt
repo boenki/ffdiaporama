@@ -57,67 +57,23 @@ switch version to
     ffmpeg 1.2.0 for windows
 
 French version / Correction de bug :
--Corrige le bug de détermination du label pour les médias montés dans /media/<users>/ au lieu de /media/ dans l'explorateur [certains linux]
--Corrige des erreurs de police de caractères dans les menus de gestion des styles
--Corrige une boucle infinie qui intervient parfois lors d'erreur de seek durant la lecture de video
--Corrige un problème de retour au debut de la video dans les fichiers .mts
--Force des libérations de mémoire dans les projets contenant uniquement des vidéos
--Corrige un problème de fuite de mémoire qui intervennait parfois lors des retry de lecture sur les fichiers vidéo contenant des flux
--Corrige l'absence de progressivité pour les filtres Fusain et Peinture à l'huile
 
 English version / Bug fixes :
--Fixes label determination error for medias mounted in /media/<users>/ instead of /media/ in browser [some linux]
--Fixes font errors in manage style menus
--Fixes an infinite loop which sometimes occurs during seek error during playback video
--Fixes a return to beginning error for .mts file
--Forces releases of memory in projects containing only videos
--Fixes a memory leak that sometimes happens during retry on video playback for files containing stream
--Fixes the lack of progressivity for Charcoal and Oil filters
 
 French version / Nouveautés :
-- Ajoute les raccourcies claviers dans le menu contextuel des diapositives de la fenêtre principale
-- Remplace certains icones ffDiaporama par leurs équivalents systèmes
-- Poursuite du déplacement des informations des pages d’aide des boites de dialogues directement sous forme de tooltips pour les boites :
-    - Réglage des transitions entrantes
-    - Réglage de la durée des transitions pour une série de diapositive
-    - Réglage de la durée du premier plan d'une série de diapositive
-    - Réglage des guides
-    - Propriétés du projet
-    - Informations sur les fichiers multimédia
-    - Générer la vidéo
-    - Editer un bloc de texte
-    - Recadrer les images et les vidéos
-    - Editer des diapositives
-- Réduit la qualité de la preview pour améliorer sa fluidité
-- Ajoute 2 options dans la boite d'option pour définir les hauteurs max de la preview en mode "Preview" et des vidéos en mode preview
 
 English version / New features :
-- Adds keyboards shortcur in the contextual menu of slides of the main window
-- Replace some ffDiaporama icons with their systems equivalent
-- Further movement of information from WEB WIKI pages directly as tooltips for the boxes:
-    - Enterring slide transition Settings
-    - Define transition duration for a set of slide
-    - Define the duration of the first shot of a set of slide
-    - Rulers settings
-    - Project properties
-    - Information on multimedia files
-    - Render the movie
-    - Edit text
-    - Image framing
-    - Slide properties
-- Reduces the quality of the preview to improve its fluidity
-- Adds two options in the option dialog to set max height of the preview in "Preview" mode and video height for preview videos
 
 Translation/Traductions (1373 sentences):
-    EN    - 100% - 1373
-    FR    - 100% - 1373
+EN    - 100% - 1373
+FR    - 100% - 1373
 
-    PT    -  99% - 1368
-    IT    -  92% - 1264
-    DE    -  92% - 1264
-    ES    -  89% - 1219
-    EL    -  77% - 1052
-    NL    -  70% - 960
-    RU    -  59% - 810
-    ZH-TW -  37% - 513
-    CZ    -  12% - 163
+PT    -  99% - 1368
+IT    -  92% - 1264
+DE    -  92% - 1264
+ES    -  89% - 1219
+EL    -  77% - 1052
+NL    -  70% - 960
+RU    -  59% - 810
+ZH-TW -  37% - 513
+CZ    -  12% - 163

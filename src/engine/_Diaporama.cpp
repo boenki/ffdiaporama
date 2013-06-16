@@ -75,8 +75,8 @@ void cCompositionObjectContext::Compute() {
     if (ImageSpeedWave==SPEEDWAVE_PROJECTDEFAULT) ImageSpeedWave=CurShot->Parent->Parent->ImageAnimSpeedWave;
 
     Object      =CurShot->ShotComposition.List[ObjectNumber];
-    BlockPctDone=ComputePCT(BlockSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);;
-    ImagePctDone=ComputePCT(ImageSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);;
+    BlockPctDone=ComputePCT(BlockSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
+    ImagePctDone=ComputePCT(ImageSpeedWave,IsCurrentObject?Info->CurrentObject_PCTDone:Info->TransitObject_PCTDone);
 
     // Get PrevCompoObject to enable animation from previous shot
     if (PreviousShot) {
@@ -2113,12 +2113,13 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
             if (DoCompute.isRunning()) DoCompute.waitForFinished();
 
             // Draw collection
-            for (int j=0;j<CurShot->ShotComposition.List.count();j++)
+            for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
                 CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),W,H,PreparedBrushList[j].PreviewMode,PreparedBrushList[j].VideoPosition+PreparedBrushList[j].StartPosToAdd,
                                                                         PreparedBrushList[j].SoundTrackMontage,
                                                                         PreparedBrushList[j].BlockPctDone,PreparedBrushList[j].ImagePctDone,
                                                                         PreparedBrushList[j].PrevCompoObject,false,Duration,
                                                                         true,false,0,0,0,0,false,&PreparedBrushList[j]);
+            }
             PreparedBrushList.clear();
         }
         P.end();
@@ -2539,6 +2540,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
                 CurrentObject=NULL;
             }
         } else CurrentObject=Diaporama->List[CurrentObject_Number];
+
         CurrentObject_InObjectTime=TimePosition-CurrentObject_StartTime;
 
         // Now calculate wich sequence in the current object is

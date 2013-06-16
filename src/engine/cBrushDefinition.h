@@ -165,6 +165,8 @@ public:
 
     // Image correction part
     QImage                  ApplyFilter(QImage Image);
+    QImage                  ApplyFilters(QImage NewRenderImage,double TheBrightness,double TheContrast,double TheGamma,double TheRed,double TheGreen,double TheBlue,double TheDesat,bool ProgressifOnOffFilter,cBrushDefinition *PreviousBrush,double PctDone);
+
 
     // Utility functions used to draw thumbnails of image
     QImage                  *ImageToWorkspace(QImage *SrcImage,int WantedSize,qreal &maxw,qreal &maxh,qreal &minw,qreal &minh,qreal &x1,qreal &x2,qreal &x3,qreal &x4,qreal &y1,qreal &y2,qreal &y3,qreal &y4);

@@ -67,6 +67,9 @@ unix {
     exists(/usr/include/libavresample/avresample.h) {
         DEFINES += USELIBAVRESAMPLE
         LIBS    += -lavresample                                             #------ conditionnaly include libavresample
+    } else:exists(/usr/include/ffmpeg/libswresample/swresample.h) {         #------ Specific for Fedora
+        DEFINES += USELIBSWRESAMPLE
+        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
     } else:exists(/usr/include/libswresample/swresample.h) {
         DEFINES += USELIBSWRESAMPLE
         LIBS    += -lswresample                                             #------ conditionnaly include libswresample

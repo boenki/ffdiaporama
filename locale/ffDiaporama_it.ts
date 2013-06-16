@@ -622,10 +622,6 @@ Inquadratura:</translation>
         <translation>se questa casella è selezionata, verrà usata la vecchia modalità per SDL Audio. Questa opzione è utile in qualche distribuzione Linux che utilizza ancora il vecchio pacchetto SDL (Per esempio: Ubuntu 10.10 e 11.04, Fedora 14 e 15, ecc.).</translation>
     </message>
     <message>
-        <source>Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiapora to your hardware.</source>
-        <translation>Definisce la quantità di memoria utilizzata da ffDiaporama. Questo parametro è importante perchè permette di adattare ffDiaporama al propio hardware.</translation>
-    </message>
-    <message>
         <source>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</source>
         <translation>Se questa casella è selezionata, le directory per immagini, video, progetti, musica e la generazione del filmato verranno salvati e riutilizzati la prossima volta che si utilizza ffDiaporama.</translation>
     </message>
@@ -879,16 +875,7 @@ Nota: questo campo è limitato a 30 caratteri per rimanere compatibile con jukeb
 </translation>
     </message>
     <message>
-        <source>Defines the maximum height of the preview player of the main window in &quot;Preview mode&quot;.
-Note: the higher this number, the more smooth the preview will be. On the other hand, more computer resources will be required. Reduce this number on slow computers or if the gauge for your multimedia reader is frequently in the red zone.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>(Reduce this value for slow computer)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Max preview height :</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiaporama to your hardware.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -898,6 +885,10 @@ Note: the higher this number, the more smooth the preview will be. On the other 
     <message>
         <source>Sets the maximum height of videos used for the preview.
 Beyond this height, the videos are automatically reduced for creating images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(Reduce this value for slow computer)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1673,63 +1664,70 @@ Per risolvere i problemi si dovranno installare i pacchetti aggiuntivi sul vostr
 - Change image framing (select a part of the image),
 - Rotate image (change or restore the orientation portrait/landscape)
 - Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di:
+- Cambiare inquadratura immagine (selezionare una parte dell&apos;immagine),
+- Ruotare immagine (cambiare o ripristinare l&apos;orientamento verticale/orizzontale)
+- Correggere immagine (cabiare il colore e/o parametri esposizione) ma anche applicare filtri grafici.</translation>
     </message>
     <message>
         <source>Adjust value for frequency of wave transformation</source>
-        <translation type="unfinished"></translation>
+        <translation>Regolare il valore per la frequenza di trasformazione dell&apos;onda</translation>
     </message>
     <message>
         <source>Allows you to activate the charcoal filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di attivare il filtro carbone.</translation>
     </message>
     <message>
         <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di attivare il filtro scala di grigi (bianco &amp; nero).</translation>
     </message>
     <message>
         <source>Adjust value for implode transformation</source>
-        <translation type="unfinished"></translation>
+        <translation>Regolare il valore della trasformazione implodere</translation>
     </message>
     <message>
         <source>Allows you to activate the oilpaint filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di attivare il filtro di pittura a olio.</translation>
     </message>
     <message>
         <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di attivare il filtro smacchia (Riduzione del rumore).</translation>
     </message>
     <message>
         <source>Adjust value for amplitude of wave transformation</source>
-        <translation type="unfinished"></translation>
+        <translation>Regolare il valore di ampiezza della trasformazione onda</translation>
     </message>
     <message>
         <source>Allows you to define the width.
 This value is expressed as a percentage (%) of the original width of the image.
 Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di definire la dimensione.
+Questo valore è espresso come una percentuale (%) della dimensione originale dell&apos;immagine.
+Esempio: se dimensione=33 %,l&apos;immagine ri-incorniciata rappreseterà 1/3 dell&apos;originale.</translation>
     </message>
     <message>
         <source>Allows you to define the height.
 This value is expressed as a percentage (%) of the original height of the image.
 Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di definire l&apos;altezza.
+Questo valore è espresso come una percentuale (%) della dimensione originale dell&apos;immagine.
+Esempio: se Altezza=33 %,l&apos;immagine ri-incorniciata rappreseterà 1/3 dell&apos;originale.</translation>
     </message>
     <message>
         <source>Adjust value for swirl transformation</source>
-        <translation type="unfinished"></translation>
+        <translation>Regolare il valore della trasformazione vortice</translation>
     </message>
     <message>
         <source>Select the blur/sharpen algorythm</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare l&apos;algoritmo di sfocatura/nitidezza</translation>
     </message>
     <message>
         <source>Allows you to activate the emboss filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di attivare il filtro rilievo.</translation>
     </message>
     <message>
         <source>Allows you to activate the edge filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di attivare il filtro bordo.</translation>
     </message>
     <message>
         <source>Allows you to select a framing from a list of predefined framings.
@@ -1750,39 +1748,60 @@ No constraint is applied to the image framing selection rectangle.
 - Lock on this geometry:
 Lock image framing selection rectangle to the actual geometry.
 This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di selezionare una inquadratura da un elenco di inquadrature predefinite.
+Secondo il formato immagine, vi saranno proposte varie scelte.
+
+Le inquadrature sono classificate in diverse categorie:
+
+- Bloccare sulla geometria del progetto:
+Bloccare il rettangolo dell&apos;inquadratura immagine di selezione per la stessa geometria del progetto.
+Se si posiziona l&apos;immagine a schermo intero, la parte ri-inquadrata sarà conforme a tutto lo schermo.
+
+- Bloccare sulla geometria dell&apos;immagine:
+Bloccare il rettangolo dell&apos;inquadratura immagine di selezione per la stessa geometria dell&apos;immagine.
+
+- Nessun vincolo:
+Nessun vincolo viene applicato all&apos; inquadratura immagine selezione rettangolo.
+
+- Bloccare su questa geometria:
+Blocca l&apos; inquadratura immagine rettangolo di selezione per la geometria reale.
+Questo ha senso solo quando una forma è stata definita &quot;senza vincolo di&quot; modalità.</translation>
     </message>
     <message>
         <source>Allows you to activate the negative filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di attivare il filtro negativo.</translation>
     </message>
     <message>
         <source>Allows you to define the horizontal position from the left (X).
 This position is expressed as a percentage (%) of the width of the image.
 Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di definire la posizione orizzontale da sinistra (X).
+Questa posizione è espressa come percentuale (%) della larghezza dell&apos;immagine.
+Esempio: se X=25 %, allora il primo quarto a sinistra dell&apos;immagine viene eliminata.</translation>
     </message>
     <message>
         <source>Allows you to define the vertical position from the top of the image ( Y ).
 This position is expressed as a percentage (%) of the height of the image.
 Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di definire la posizione verticale dalla parte superiore dell&apos;immagine (Y).
+Questa posizione è espressa come percentuale (%) della altezza dell&apos;immagine.
+Esempio: se Y=25 % del primo trimestre nella parte superiore dell&apos;immagine è eliminato.</translation>
     </message>
     <message>
         <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di attivare il filtro equalizza (equalizzazione dell&apos;istogramma).</translation>
     </message>
     <message>
         <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di attivare il filtro antialias (riducendo al minimo gli artefatti di distorsione).</translation>
     </message>
     <message>
         <source>Allows you to activate the normalize filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di attivare il filtro normalizzare.</translation>
     </message>
     <message>
         <source>Defined speed curve for image animations.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce la curva di velocità per le animazioni immagini.</translation>
     </message>
     <message utf8="true">
         <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
@@ -1799,15 +1818,28 @@ With the keyboard:
 Remark: 
 When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
 For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
-        <translation type="unfinished"></translation>
+        <translation>È possibile utilizzare il pulsanti + e - in ogni campo di input per modificare le impostazioni o immettere direttamente i valori per i cinque parametri.
+In alternativa, è possibile utilizzare la zona interattiva per impostare l&apos;inquadratura con il mouse o la tastiera.
+ 
+Con il mouse:
+- Premere uno dei manici e, con il pulsante del mouse, trascinare il mouse per modificare la dimensione (per aumentare o diminuire la parte dell&apos;immagine da conservare).
+- Clicca l&apos;immagine e, con il tasto del mouse, trascinare il mouse per modificare la parte dell&apos;immagine che verrà mantenuta.
+
+Con la tastiera:
+- Utilizzare le frecce per spostare la parte dell&apos;immagine che verrà mantenuta.
+- Utilizzare MAIUSC + frecce per spostare la maniglia in alto a sinistra o CTRL + frecce per spostare la maniglia nell&apos;angolo in basso a destra, per modificare le dimensioni della parte dell&apos;immagine che verrà mantenuta.
+
+Osservazioni:
+Quando l&apos;immagine non corrisponde alla geometria del video da produrre, zone trasparenti appaiono.
+Per esempio: un&apos;immagine 4:03 utilizzato in un progetto 16:9 vengono visualizzate per impostazione predefinita con una zona trasparente su ogni lato.</translation>
     </message>
     <message>
         <source>Allows you to define the beginning and end of a video sequence.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di definire l&apos;inizio e la fine di una sequenza video.</translation>
     </message>
     <message>
         <source>Allows you to activate the deinterlace filter</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di attivare il filtro di deinterlacciamento</translation>
     </message>
     <message>
         <source>This dialog box allows you to:
@@ -1815,12 +1847,17 @@ For example: an 4:3 image used in a 16:9 project will be shown by default with a
 - Rotate image (change or restore the orientation portrait/landscape)
 - Correct image (change the color and/or exposure parameters) but also applying graphical filters.
 - Define the beginning and end of a video sequence.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa finestra consente di:
+- Cambiare inquadratura immagine (selezionare una parte dell&apos;immagine),
+- Ruotare immagine (cambiare o ripristinare l&apos;orientamento verticale/orizzontale)
+- Correggere immagine (cabiare il colore e/o parametri esposizione) ma anche applicare filtri grafici.
+- Definisce l&apos;inizio e la fine di una sequenza video.</translation>
     </message>
     <message>
         <source>Allows you to enable or disable the magnetic rulers.
 When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di abilitare o disabilitare i righelli magnetici.
+Quando i righelli sono attivati, il mouse si aggancerà automaticamente ai bordi della foto, facilitando l&apos;inquadratura.</translation>
     </message>
 </context>
 <context>
@@ -2117,7 +2154,7 @@ Dispositivi preceduti da questa icona sono definiti nel database predefinito.&lt
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Allows you to create a new device which will be added to the database.&lt;/p&gt;&lt;p&gt;The creation of a new device is made in 3 steps:&lt;/p&gt;&lt;p&gt;1- You must first create a device&lt;/p&gt;&lt;p&gt;2- You define the various parameters&lt;/p&gt;&lt;p&gt;3- You click the &amp;quot;Apply modifications&amp;quot; button to register the parameters&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Consente di creare un nuovo dispositivo che verrà aggiunto al database.&lt;/p&gt;&lt;p&gt;La creazione di un nuovo dispositivo è realizzato in 3 passi:&lt;/p&gt;&lt;p&gt;1- E&apos; necessario prima creare un dispositivo&lt;/p&gt;&lt;p&gt;2- Bisogna definire i vari parametri&lt;/p&gt;&lt;p&gt;3- Clic sul pulsante Applica per registrare le modifiche ai parametri&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Consente di creare un nuovo dispositivo che verrà aggiunto al database.&lt;/p&gt;&lt;p&gt;La creazione di un nuovo dispositivo è realizzato in 3 passi:&lt;/p&gt;&lt;p&gt;1- E&apos; necessario prima creare un dispositivo&lt;/p&gt;&lt;p&gt;2- Bisogna definire i vari parametri&lt;/p&gt;&lt;p&gt;3- Cliccare il pulsante &amp;quot;Applica modifiche&amp;quot; per registrare le modifiche ai parametri&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message utf8="true">
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Allows you to delete a device.&lt;/p&gt;&lt;p&gt;Note that you can delete only devices which you created – those shown with the &lt;img src=&quot;:/img/db_update.png&quot;/&gt; icon&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -2347,11 +2384,11 @@ Essa riguarda anche il nome dello stile come impostazioni associate.</translatio
     </message>
     <message>
         <source>Select this style</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona questo stile</translation>
     </message>
     <message>
         <source>Update this style</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica questo stile</translation>
     </message>
 </context>
 <context>
@@ -2906,37 +2943,39 @@ Questo è valido anche per i movimenti dei blocchi come per il ridimensionamento
     </message>
     <message>
         <source>Enable or disable ruler for the horizontal edges of the screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attivare o disattivare il righello per i bordi orizzontali dello schermo.</translation>
     </message>
     <message>
         <source>Enable or disable ruler for the vertical edges of the screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attivare o disattivare il righello per i bordi verticali dello schermo.</translation>
     </message>
     <message>
         <source>Enable or disable ruler for the horizontal TV margins.
 In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are defined on 90% in width and 90% in height, for all the project geometries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attivare o disattivare il righello per i margini TV orizzontali.
+In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e sono definiti sul 90% in larghezza e 90% in altezza, per tutte le forme geometriche di progetto.</translation>
     </message>
     <message>
         <source>Enable or disable ruler for the vertical TV margins.
 In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are defined on 90% in width and 90% in height, for all the project geometries.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attivare o disattivare il righello per i margini TV verticali.
+In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e sono definiti sul 90% in larghezza e 90% in altezza, per tutte le forme geometriche di progetto.</translation>
     </message>
     <message>
         <source>Enable or disable ruler for the horizontal center of the screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attivare o disattivare il righello per il centro orizzontale dello schermo.</translation>
     </message>
     <message>
         <source>Enable or disable ruler for the vertical center of the screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Attivare o disattivare il righello per il centro verticale dello schermo.</translation>
     </message>
     <message>
         <source>Enable or disable horizontal rulers of the center, of the top edge, of the bottom edge, of the left edge and of the right edge of each objects which are not a part of the selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilitare o disabilitare i righelli orizzontale del centro, del bordo superiore, del bordo inferiore, del bordo sinistro e del bordo destro di ogni oggetto che non fanno parte della selezione.</translation>
     </message>
     <message>
         <source>Enable or disable vertical rulers of the center, of the top edge, of the bottom edge, of the left edge and of the right edge of each objects which are not a part of the selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Abilitare o disabilitare righelli verticale del centro, del bordo superiore, del bordo inferiore, del bordo sinistro e del bordo destro di ogni oggetti che non sono una parte della selezione.</translation>
     </message>
 </context>
 <context>
@@ -3579,7 +3618,9 @@ blocco</translation>
         <source>Add one or several new blocks of images or video. A file selection dialog appears allowing you to select files.
 
 Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the configuration dialog).</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi uno o più nuovi blocchi di immagini o video. Una finestra di dialogo di selezione file viene visualizzata che consente di selezionare i file.
+
+Nota: in caso di selezione multipla, i file vengono aggiunti in ordine alfabetico dei nomi dei file o nell&apos;ordine digitale di scatti (in base all&apos;opzione selezionata nella finestra di configurazione).</translation>
     </message>
     <message>
         <source>Start a new chapter from this slide. (If this box is checked, the slide will mark the beginning of a new chapter.)
@@ -3587,11 +3628,15 @@ Note: in case of multiple selection, files are added in the alphabetical order o
 Remarks :
 - The name of the chapter will be the name of the slide.
 - With the exception of the 1st chapter of the video which cannot be deactivated, is always positioned on the 1st slide and always begins at 0, chapters begin after the enterring transition.</source>
-        <translation type="unfinished"></translation>
+        <translation>Avviare un nuovo capitolo di questa diapositiva. (Se questa casella è selezionata, la diapositiva segnerà l&apos;inizio di un nuovo capitolo.)
+
+Osservazioni:
+- Il nome del capitolo sarà il nome della diapositiva.
+- Con l&apos;eccezione del primo capitolo del video che non può essere disattivato, viene sempre posizionato sulla prima slitta e inizia sempre a 0, i capitoli iniziano dopo la transizione entrante.</translation>
     </message>
     <message>
         <source>The total slide duration is displayed here. This duration takes into account possible adjustments for minimal duration of the shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>La durata totale della diapositiva viene visualizzata qui. Tale durata tiene conto delle eventuali rettifiche per la durata minima del fotogramma.</translation>
     </message>
     <message>
         <source>The shots table shows the shots as thumbnails, in the order in which they will be played (from left to right).
@@ -3603,7 +3648,15 @@ For each shot, the thumbnail shows:
 
 Remark :
 - The order of the shots can be changed by using Drag &amp; Drop.</source>
-        <translation type="unfinished"></translation>
+        <translation>La tabella mostra gli scatti come miniature, nell&apos;ordine in cui queste vengono riprodotte (da sinistra a destra).
+
+Per ogni scatto, la miniatura mostra:
+- La durata della ripresa (Nella parte superiore della miniatura)
+- La posizione temporale del fotogramma alla fine della sua durata (In basso a destra della miniatura)
+- Un&apos;immagine che rappresenta lo scatto al termine della sua durata
+
+Osservazioni:
+- L&apos;ordine degli scatti può essere modificata utilizzando il Drag &amp; Drop.</translation>
     </message>
     <message>
         <source>Indicate here the duration of the currently selected shot
@@ -3616,7 +3669,16 @@ The following rules are used to calculate the minimum duration of the shot:
 - The total slide duration cannot be lower than 1:30 second
 
 If you specify a duration lower than the minimum calculated duration for the shot, it is this minimum duration that will be used in place of the value which you specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Indicare qui la durata dello scatto selezionato
+
+Per l&apos;ultimo fotogramma della slitta, c&apos;è una durata minima.
+
+Le seguenti regole vengono utilizzati per calcolare la durata minima del fotogramma:
+- La durata totale della diapositiva non può essere inferiore alla somma delle durate della transizione entranti della slitta, più la transizione della seguente diapositiva.
+- La durata totale della diapositiva deve consentire la riproduzione completa della sequenza video più lunga (tempo di pausa viene considerato).
+- La durata totale della diapositiva non può essere inferiore a 1:30 secondi
+
+Se si specifica una durata inferiore alla durata minima calcolata per lo scatto, è questa durata minima che verrà utilizzata al posto del valore che avete specificato.</translation>
     </message>
     <message utf8="true">
         <source>The blocks table lists, from top to bottom, the present blocks in the slide.
@@ -3661,17 +3723,60 @@ Remarks:
   - In visible mode for the current shot and for all the following shots.
   - In hidden mode for the shots located before the current shot.
   - Always in the last position in the list of blocks (in the foreground).</source>
-        <translation type="unfinished"></translation>
+        <translation>La tabella riporta i blocchi, dall&apos;alto verso il basso, i presenti blocchi nella diapositiva.
+
+Osservazioni:
+- L&apos;ordine dei blocchi è importante! Il primo blocco (in cima all&apos;elenco) è coperto dal secondo blocco che è anche coperto dal blocco successivo e così via.
+- L&apos;ordine dei blocchi è definito inquadratura per inquadratura.
+
+I blocchi vengono visualizzati su 3 colonne:
+- La prima colonna contiene o:
+  - Una icona testo￼ se il blocco è un titolo.
+  - Una miniatura se il blocco è un&apos;immagine o un video.
+  - Eventualmente, una icona di trasformazione  apparirà sulla miniatura se l&apos;immagine o il video hanno un filtro di trasformazione.
+
+- La seconda colonna contiene le icone che danno lo stato dei blocchi per lo scatto corrente:
+  - L&apos;icona di blocco se le proprietà del blocco vengono bloccate durante questo filmato o l&apos;icona di sblocco se sono sbloccate. (Nota:. Questa informazione non viene visualizzata per il 1° scatto)
+  - L&apos;icona del suono se il video ha il suono durante questo fotogramma. Questa informazione viene visualizzata solo per i blocchi video.
+  - Un&apos;icona occhio se il blocco è visibile in questo filmato o ￼ un&apos;icona occhio barrato se il blocco è nascosto.
+
+- La terza colonna indica:
+  - Se il blocco è un titolo: il testo del blocco
+  - Se il blocco è un&apos;immagine: Il nome file, la larghezza x l&apos;altezza dell&apos;immagine in pixel (il formato dell&apos;immagine - la geometria dell&apos;immagine) e una sintesi delle informazioni EXIF ​​sull&apos;immagine.
+  - Se il blocco è un video: Il nome file, la larghezza x l&apos;altezza dell&apos;immagine in pixel (il formato dell&apos;immagine - la geometria dell&apos;immagine) e la durata del video.
+
+Osservazioni:
+- Fare doppio clic su un blocco si apre l&apos;editor di blocco associato con il tipo di blocco (per un blocco di testo questo sarà l&apos;editor di testo, per un blocco immagine sarà la finestra di riformulazione, ecc)
+- Fare clic destro su un blocco quando la selezione include solo un singolo blocco si apre un menu contestuale che propone i comandi di modifica per un blocco.
+- Fare clic destro su un blocco quando la selezione comprende più blocchi si apre un menu contestuale che propone i comandi di modifica per più blocchi.
+- Per selezionare un blocco: clicca il blocco
+- Per selezionare più blocchi: Seleziona un primo blocco facendo clic su di esso e poi, cliccando su gli altri blocchi da selezionare premendo il tasto MAIUSC o il tasto CTRL.
+- Per deselezionare un blocco in una selezione multipla: Fare clic con sul blocco premendo il tasto MAIUSC o il tasto CTRL.
+
+- I blocchi con proprietà bloccate sono visualizzati su un fondo grigio.
+- I blocchi selezionati vengono visualizzati su un fondo rosso se il focus è sul tavolo blocchi o su un fondo blu se il focus è su un altro elemento.
+
+- Per cambiare l&apos;ordine blocchi, utilizzare il Drag &amp; Drop o le funzioni freccia su e giù del menu contestuale.
+- E &apos;possibile aggiungere i file direttamente nella tabella blocchi utilizzando il Drag and Drop con il file explorer.
+
+- Tutti i blocchi, se il titolo, un&apos;immagine o un video, in possesso di un elemento di testo.
+
+- Durante l&apos;inserimento di un nuovo blocco (Aggiungi titolo, Aggiungi file o Incolla), è inserito il blocco:
+  - In modalità visibile per lo scatto corrente e per tutti i seguenti.
+  - In modalità nascosta per lo scatto situato prima di quello corrente.
+  - Sempre in ultima posizione nella lista dei blocchi (in primo piano).</translation>
     </message>
     <message>
         <source>Define the number of rotations around the X axis that is to be made during this shot.
 
 Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce il numero di rotazioni attorno all&apos;asse X che deve essere effettuato durante il fotogramma.
+
+Osservazione: il senso di rotazione è definito dal segno, in modo +5 darà 5 rotazioni in una direzione mentre -5 darà 5 rotazioni nell&apos;altra direzione.</translation>
     </message>
     <message>
         <source>Allows you to select a pre-defined block size</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di selezionare una dimensione del blocco predefinito</translation>
     </message>
     <message>
         <source>Scroll text from bottom to top.
@@ -3679,56 +3784,73 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
 Remark: To make animations of text, you have to create at least 2 shots then:
 -Define values for zoom and scrolling for the 1st shot
 -Define different values for zoom and scrolling for the 2nd</source>
-        <translation type="unfinished"></translation>
+        <translation>Scorri testo dal basso in alto.
+
+Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quindi:
+-Definire i valori di zoom e scorrimento per il 1 ° scatto
+-Definire valori diversi per lo zoom e lo scorrimento per il 2 °</translation>
     </message>
     <message>
         <source>Define the number of rotations around the Z axis that is to be made during this shot.
 
 Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definire il numero di rotazioni attorno all&apos;asse Z, che deve essere effettuato durante questo filmato.
+
+Osservazione: il senso di rotazione è definito dal segno, in modo +5 darà 5 rotazioni in una direzione mentre -5 darà 5 rotazioni nell&apos;altra direzione.</translation>
     </message>
     <message>
         <source>Define the number of rotations around the Y axis that is to be made during this shot.
 
 Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definire il numero di rotazioni attorno all&apos;asse Y che deve essere effettuato durante questo filmato.
+
+Osservazione: il senso di rotazione è definito dal segno, in modo +5 darà 5 rotazioni in una direzione mentre -5 darà 5 rotazioni nell&apos;altra direzione.</translation>
     </message>
     <message>
         <source>Represents the horizontal offset of the block from the left.
 This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rappresenta l&apos;offset orizzontale del blocco da sinistra.
+Questa posizione è definita come percentuale (%) della larghezza totale dell&apos;immagine o in pixel (per uno schermo 1080p) secondo l&apos;unità definita nella finestra di configurazione.</translation>
     </message>
     <message>
         <source>Represents the vertical offset of the block from the top.
 This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rappresenta l&apos;offset verticale del blocco dall&apos;alto.
+Questa posizione è definita come percentuale (%) dell&apos;altezza totale dell&apos;immagine o in pixel (per uno schermo 1080p) secondo l&apos;unità definita nella finestra di configurazione.</translation>
     </message>
     <message>
         <source>Represents the width of the block.
 This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rappresenta la larghezza del blocco.
+Questo valore è definito come percentuale (%) della larghezza totale dell&apos;immagine o in pixel (per uno schermo 1080p) secondo l&apos;unità definita nella finestra di dialogo di configurazione.</translation>
     </message>
     <message>
         <source>Represents the height of the block.
 This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rappresenta l&apos;altezza del blocco.
+Questo valore è definito come percentuale (%) dell&apos;altezza totale dell&apos;immagine o in pixel (per uno schermo 1080p) secondo l&apos;unità definita nella finestra di configurazione.</translation>
     </message>
     <message utf8="true">
         <source>Defines the thickness of the border.
 
 Remark: This value is defined as 1/1080 of the height of the screen.
 A value of 10 corresponds to 10 points on a 1920×1080 FullHD screen, but only to 6 points on a 1280×720 screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce lo spessore del bordo.
+
+Nota: Questo valore è definito come 1/1080 della altezza dello schermo.
+Un valore di 10 corrisponde a 10 punti su uno schermo 1920×1080 FullHD, ma solo a 6 punti su uno schermo 1280×720.</translation>
     </message>
     <message>
         <source>This settings group deals with style management.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questo gruppo si occupa di gestione delle impostazioni di stile.</translation>
     </message>
     <message>
         <source>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks)
 
 Remark: To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di selezionare una curva di velocità per il blocco animazioni (movimento, ridimensionamento e rotazione di blocchi, l&apos;animazione di testo e blocchi)
+
+Nota: Per modificare la curva di velocità per l&apos;animazione dell&apos;immagine (effetto grafico e cornici), modificare l&apos;immagine o il video e selezionare una velocità nell&apos;elaborazione di immagini e finestra di correzione.</translation>
     </message>
     <message>
         <source>Scroll text from left to right.
@@ -3736,7 +3858,11 @@ Remark: To change the velocity curve for image animation (graphic effect and fra
 Remark: To make animations of text, you have to create at least 2 shots then:
 -Define values for zoom and scrolling for the 1st shot
 -Define different values for zoom and scrolling for the 2nd</source>
-        <translation type="unfinished"></translation>
+        <translation>Il testo scorre da sinistra a destra.
+
+Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quindi:
+-Definire i valori di zoom e scorrimento per il 1° scatto
+-Definire valori diversi per lo zoom e lo scorrimento per il 2°</translation>
     </message>
     <message>
         <source>The block animations define which animations will run during the current shot.
@@ -3744,12 +3870,17 @@ Remark: To make animations of text, you have to create at least 2 shots then:
 You can define different animations for every shot!
 - Multiple rotations: This animation allows to turn a block several times during the shot.
 - Dissolve: This animation dissolves between the block and a transparent zone according to the settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il blocco animazioni definiscono quali animazioni verranno eseguite durante lo scatto corrente.
+
+È possibile definire le animazioni diverse per ogni scatto!
+- Molteplici rotazioni: Questa animazione permette di trasformare un blocco più volte durante il fotogramma.
+- Sciogliere: Questa animazione dissolve tra il blocco e una zona trasparente in base alle impostazioni.</translation>
     </message>
     <message>
         <source>Allows you to select a reframing style for the image.
 It has the same effect as selecting a style in the Image framing and correction dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di selezionare uno stile di riformulazione per l&apos;immagine.
+Ha lo stesso effetto selezionando uno stile della riformulazione immagine e la finestra di correzione.</translation>
     </message>
     <message>
         <source>Allows you to select the geometrical constraints to be applied to the block.
@@ -3758,13 +3889,20 @@ Three type of constraint are available:
 - No constraint is applied to the selection rectangle.
 - Lock selection rectangle to the actual geometry. It has no meaning until you have defined a shape in &quot;no constraint&quot; mode.
 - Lock selection rectangle to the same geometry as the project, such that, if you place the image in full screen, the reframed part will correspond to the whole screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di selezionare i vincoli geometrici da applicare al blocco.
+
+Tre tipi di vincoli sono disponibili:
+- Nessun vincolo viene applicato al rettangolo di selezione.
+- Blocco selezione rettangolo per la geometria reale. Non ha senso fino a quando non si definisce una forma in modalità &quot;-nessun vincolo&quot;.
+- Bloccare il rettangolo di selezione per la stessa geometria del progetto, in modo tale che, se si posiziona l&apos;immagine a schermo intero, la parte ri-inquadrata sarà conforme a tutto lo schermo.</translation>
     </message>
     <message>
         <source>Appear: The block will appear during the shot
 Disappear: The block will disappear during the shot
 Blink: The block will blink during the shot (appear then disappear). 4 speeds are proposed (from slow to very fast).</source>
-        <translation type="unfinished"></translation>
+        <translation>Appare: Il blocco verrà visualizzato durante il fotogramma
+Scomparire: Il blocco scompare durante il fotogramma
+Pulsante: il blocco lampeggia durante il fotogramma (apparirà poi scompariranno). 4 velocità sono proposte (da lento al molto veloce).</translation>
     </message>
     <message>
         <source>Define a zoom value for the text.
@@ -3772,13 +3910,19 @@ Blink: The block will blink during the shot (appear then disappear). 4 speeds ar
 Remark: To make animations of text, you have to create at least 2 shots then:
 -Define values for zoom and scrolling for the 1st shot
 -Define different values for zoom and scrolling for the 2nd</source>
-        <translation type="unfinished"></translation>
+        <translation>Definire un valore di zoom per il testo.
+
+Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quindi:
+-Definire i valori di zoom e scorrimento per il 1° scatto
+-Definire valori diversi per lo zoom e lo scorrimento per il 2°</translation>
     </message>
     <message>
         <source>Select in which corner the shadow will be positioned (or no shadow).
 
 Remark: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare in quale angolo sarà posizionata l&apos;ombra (o nessuna ombra).
+
+Osservazione: la posizione dell&apos;ombra è indipendente alla rotazione del blocco: l&apos;angolo destro inferiore è sempre inferiore destro, qualunque rotazione viene applicata.</translation>
     </message>
     <message>
         <source>Allows you to select a shape for the block.
@@ -3786,11 +3930,15 @@ Remark: the position of the shadow is independent of rotation of the block: the 
 The selected shape will be used as:
 - A fusion mask for the images and the videos.
 - A cutting zone for texts.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di selezionare una forma per il blocco.
+
+La forma selezionata verrà utilizzato come:
+- Una maschera di fusione per le immagini ed i video.
+- Una zona di taglio per i testi.</translation>
     </message>
     <message>
         <source>Select a clip-art</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona una clip-art</translation>
     </message>
     <message>
         <source>This dialog allows you to define settings for the slides.
@@ -3829,16 +3977,52 @@ Remarks:
 - A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
 - A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
 - A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa finestra di dialogo consente di definire le impostazioni per le diapositive.
+
+Questa finestra di dialogo include numerose zone:
+-In alto: La barra degli strumenti permette di lanciare i principali comandi di modifica di diapositive.
+-A sinistra: La zona impostazioni di presentazione, la tavola scatti e l&apos;interattivo.
+-A destra: La tabella blocchi e la zona impostazioni blocchi.
+
+Posizionare il mouse su ogni zona per ulteriori informazioni.
+
+Osservazioni sulle proprietà del blocco di chiusura:
+Le propietà di bloccaggio sono disponibile solo dal 2° scatto.
+- Quando le proprietà del blocco sono bloccate, le modifiche apportate al blocco nella ripresa precedente fanno eco nella ripresa attuale.
+- Si definiscono così le coordinate, le forme e le proprietà animazioni come le proprietà definite nella finestra di dialogo di modifica testo, immagine o video.
+
+Osservazioni sull&apos;area interattiva:
+È possibile spostare, interagire e ri-dimensionare all&apos;interno della ripresa selezionata.
+- Blocchi selezionati vengono visualizzati con una cornice. (Permette di differenziarli da altri elementi grafici della diapositiva).
+- Manopole di comando (piccoli quadrati) sono indicati sui lati e agli angoli della cornice di selezione.
+- I righelli vengono visualizzati per facilitare il lavoro con il mouse.
+
+Con il mouse:
+- Per selezionare un blocco: clicca il blocco
+- Per selezionare più blocchi: Seleziona un primo blocco facendo clic su di esso e poi, cliccando su gli altri blocchi da selezionare premendo il tasto MAIUSC o il tasto CTRL.
+- Per selezionare un blocco sotto un altro blocco: Fare clic sui blocchi selezionati premendo entrambi i tasti MAIUSC e CTRL.
+- Per deselezionare un blocco in una selezione multipla: Fare clic sul blocco premendo il tasto MAIUSC o il tasto CTRL.
+- Per modificare la dimensione dei blocchi della selezione: Fare clic su una delle maniglie di selezione e, tenendo premuto il pulsante del mouse, spostare il mouse.
+- Per spostare i blocchi della selezione: Fare clic su uno dei blocchi della selezione e, tenendo premuto il tasto del mouse, muovere il mouse.
+
+Utilizzando la tastiera:
+- Per spostare i blocchi della selezione, utilizzare i tasti freccia.
+- Per modificare la dimensione dei blocchi della selezione, utilizzare MAIUSC + frecce per spostare la maniglia in alto a sinistra o CTRL + frecce per spostare la maniglia in basso a destra.
+
+Osservazioni:
+- Un doppio clic su un blocco si apre la modifica di blocco associato con il tipo di blocco (per un blocco di testo questo sarà la modifica del testo, per un blocco immagine sarà la finestra di riformulazione, ecc)
+- Un clic destro su un blocco quando la selezione include solo un singolo blocco si apre un menu contestuale che propone i comandi di modifica per un blocco.
+- Un clic destro su un blocco quando la selezione comprende più blocchi si apre un menu contestuale che propone i comandi di modifica per più blocchi.</translation>
     </message>
     <message>
         <source>Allows you to open the rulers settings dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di aprire la finestra di dialogo delle impostazioni righelli.</translation>
     </message>
     <message>
         <source>Make the active block visible.
 Note: Hidden video blocks are automatically paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Rende il  blocco attivo visibile.
+Nota: i blocchi di video nascosti vengono messi in pausa automaticamente</translation>
     </message>
 </context>
 <context>
@@ -3953,100 +4137,105 @@ Note: Hidden video blocks are automatically paused</source>
     </message>
     <message>
         <source>Allows you to access the text styles menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente l&apos;accesso al menu stili testo.</translation>
     </message>
     <message>
         <source>Allows you to select the font to be used.
 This setting applies to the current selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di selezionare il tipo di carattere da utilizzare.
+Questa impostazione si applica alla selezione corrente.</translation>
     </message>
     <message>
         <source>Allows you to select the font size.
 This setting applies to the paragraphs of the current selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di selezionare la dimensione del carattere.
+Questa impostazione si applica ai paragrafi della selezione corrente.</translation>
     </message>
     <message>
         <source>Allows you to select the font color.
 This setting applies to the paragraphs of the current selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di selezionare il colore del carattere.
+Questa impostazione si applica ai paragrafi della selezione corrente.</translation>
     </message>
     <message>
         <source>Allows you to establish (or to remove) a bullet list. This setting applies to the paragraphs of the current selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permette di stabilire (o di rimuovere) un elenco puntato. Questa impostazione si applica ai paragrafi della selezione corrente.</translation>
     </message>
     <message>
         <source>Allows you to establish (or to remove) a numbered list. This setting applies to the paragraphs of the current selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permette di stabilire (o di rimuovere) un elenco numerato. Questa impostazione si applica ai paragrafi della selezione corrente.</translation>
     </message>
     <message>
         <source>Horizontal alignment: left. This setting applies to the paragraph in which the cursor is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Allineamento orizzontale: a sinistra. Questa impostazione si applica al paragrafo in cui si trova il cursore.</translation>
     </message>
     <message>
         <source>Horizontal alignment: justified. This setting applies to the paragraph in which the cursor is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Allineamento orizzontale: giustificato. Questa impostazione si applica al paragrafo in cui si trova il cursore.</translation>
     </message>
     <message>
         <source>Horizontal alignment: centered. This setting applies to the paragraph in which the cursor is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Allineamento orizzontale: centrato. Questa impostazione si applica al paragrafo in cui si trova il cursore.</translation>
     </message>
     <message>
         <source>Horizontal alignment: right. This setting applies to the paragraph in which the cursor is.</source>
-        <translation type="unfinished"></translation>
+        <translation>Allineamento orizzontale: destro. Questa impostazione si applica al paragrafo in cui si trova il cursore.</translation>
     </message>
     <message>
         <source>Allows you to select a font effect (outerline, shadow).
 Remark: This setting applies to the block (to the whole text).</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di selezionare un effetto carattere (contorno, ombra).
+Nota: questa impostazione si applica al blocco (per il testo completo).</translation>
     </message>
     <message>
         <source>Allows you to select the outerline or shadow color.
 Remark: This setting applies to the block (to the whole text).</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di selezionare il bordo o il colore dell&apos;ombra.
+Nota: questa impostazione si applica al blocco (per il testo completo).</translation>
     </message>
     <message>
         <source>Sets bold characters. This setting applies to the current selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta caratteri in grassetto. Questa impostazione si applica alla selezione corrente.</translation>
     </message>
     <message>
         <source>Sets characters to italics. This setting applies to the current selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di impostare i caratteri in corsivo. Questa impostazione si applica alla selezione corrente.</translation>
     </message>
     <message>
         <source>Underlines the characters. This setting applies to the current selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sottolinea i caratteri. Questa impostazione si applica alla selezione corrente.</translation>
     </message>
     <message>
         <source>Puts the characters to super. This setting applies to the current selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mette i caratteri in alto. Questa impostazione si applica alla selezione corrente.</translation>
     </message>
     <message>
         <source>Puts the characters to sub. This setting applies to the current selection.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mette i caratteri in basso. Questa impostazione si applica alla selezione corrente.</translation>
     </message>
     <message>
         <source>Move the paragraph of a notch towards the right (indent). This setting applies to the paragraph in which is the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spostare il paragrafo di una tacca verso destra (indentato). Questa impostazione si applica al paragrafo in cui è il cursore.</translation>
     </message>
     <message>
         <source>Move the paragraph of a notch towards the left (unindent). This setting applies to the paragraph in which is the cursor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Spostare il paragrafo di una tacca verso sinistra (non indentato). Questa impostazione si applica al paragrafo in cui è il cursore.</translation>
     </message>
     <message>
         <source>Vertical alignment: top. This setting applies to the block (to the whole text).</source>
-        <translation type="unfinished"></translation>
+        <translation>Allineamento verticale: alto. Questa impostazione si applica al blocco (per tutto il testo).</translation>
     </message>
     <message>
         <source>Vertical alignment: middle. This setting applies to the block (to the whole text).</source>
-        <translation type="unfinished"></translation>
+        <translation>Allineamento verticale: medio. Questa impostazione si applica al blocco (per tutto il testo).</translation>
     </message>
     <message>
         <source>Vertical alignment: bottom. This setting applies to the block (to the whole text).</source>
-        <translation type="unfinished"></translation>
+        <translation>Allineamento verticale: in basso. Questa impostazione si applica al blocco (per tutto il testo).</translation>
     </message>
     <message>
         <source>Allows you to access the background text styles menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di accedere al menu sfondo stili di testo.</translation>
     </message>
     <message>
         <source>Allows you to define a background brush for the shape.
@@ -4057,63 +4246,78 @@ Pattern brush 		Allows you to select a hatched brush.
 Gradient 2 colors 	Allows you to select a gradient of 2 colors.
 Gradient 3 colors 	Allows you to select a gradient of 3 colors.
 Image from library 	Allows you to select an image from the library.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di definire un pennello di sfondo per la forma.
+Sono disponibili le seguenti opzioni:
+Nessun pennello 		La forma non avrà alcuno sfondo e sarà quindi totalmente trasparente.
+Pennello solido 			Consente di selezionare un colore a tinta unita.
+Tipo pennello 			Consente di selezionare un pennello tratteggiato.
+Gradiente 2 colori 		Consente di selezionare un gradiente di due colori.
+Gradient 3 colori 		Consente di selezionare un gradiente di 3 colori.
+Immagine da libreria 		Consente di selezionare un&apos;immagine dalla libreria.</translation>
     </message>
     <message>
         <source>If background brush is Solid, Pattern or Gradient brush, then this line appears and allows you to select a color.
 (Depending on the brush you select, there will be one, two or three selectable colors.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Se il pennello di sfondo è solido, tratteggiato o sfumaturo, allora questa linea appare e permette di selezionare un colore.
+(A seconda del pennello selezionato, ci saranno uno, due o tre colori selezionabili.)</translation>
     </message>
     <message>
         <source>If background brush is Pattern brush, then this line appears and allows you to select a pattern.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se il pennello sfondo è un modello, allora questa linea appare e consente di selezionare uno.</translation>
     </message>
     <message>
         <source>If background brush is Gradient, then this line appears and allows you to select the gradient orientation.
 If the Gradient has 3 colors, additional controls allow to define the position (in percentage) of the 3rd gradient color.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se il pennello di sfondo è Gradiente, allora questa linea appare e consente di selezionare l&apos;orientamento del gradiente.
+Se il gradiente ha 3 colori, ulteriori controlli permettono di definire la posizione (in percentuale) del 3° colore gradiente.</translation>
     </message>
     <message>
         <source>If background brush is Image from library, then this line appears and allows you to select an image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se il pennello sfondo è Immagine dalla libreria, allora questa linea appare e permette di selezionare un&apos;immagine.</translation>
     </message>
     <message>
         <source>Represents the horizontal position of the margins relative to the top-left corner of the block.
 This value is expressed in % of the width of the block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rappresenta la posizione orizzontale dei margini relativi nell&apos;angolo superiore sinistro del blocco.
+Questo valore è espresso in% della larghezza del blocco.</translation>
     </message>
     <message>
         <source>Allows you to use predefined margins for the shape of the block.In general, these margins ensure that the text is contained in the form.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di utilizzare i margini predefiniti per la forma del block.In generale, questi margini garantiscono che il testo è contenuto nel modulo.</translation>
     </message>
     <message>
         <source>Allows you to use margins corresponding to the entire form, in fact, the selection rectangle shape regardless of the design.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di utilizzare i margini corrispondenti a tutta la forma, di fatto, la forma del rettangolo di selezione indipendentemente dal disegno.</translation>
     </message>
     <message>
         <source>Allows you to use custom margins.</source>
-        <translation type="unfinished"></translation>
+        <translation>Consente di utilizzare i margini personalizzati.</translation>
     </message>
     <message>
         <source>Represents the vertical position of the margins relative to the top-left corner of the block.
 This value is expressed in % of the height of the block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rappresenta la posizione verticale dei margini relativi nell&apos;angolo superiore sinistro del blocco.
+Questo valore è espresso in% dell&apos; altezza del blocco.</translation>
     </message>
     <message>
         <source>Represents the height of the margins.
 This value is expressed in % of the height of the block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rappresenta l&apos;altezza dei margini.
+Questo valore è espresso in% della altezza del blocco.</translation>
     </message>
     <message>
         <source>Represents the width of the margins.
 This value is expressed in % of the width of the block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Rappresenta la larghezza dei margini.
+Questo valore è espresso in% della larghezza del blocco.</translation>
     </message>
     <message>
         <source>This dialog allows you to modify the text within a block.
 Remark: The modifications made to the text properties will apply to all shots of the slide.
 To understand indeed the differences between the properties which apply to all shots and those who apply only to the current shot, consult: How ffDiaporama work.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa finestra di dialogo consente di modificare il testo all&apos;interno di un blocco.
+Nota: Le modifiche apportate alle proprietà del testo si applicano a tutti i fotogrammi della diapositiva.
+Per capire davvero le differenze tra le proprietà che si applicano a tutti i colpi e quelli che valgono solo per il colpo corrente, consultare: Come lavora ffDiaporama.</translation>
     </message>
 </context>
 <context>
@@ -6306,7 +6510,9 @@ traccia audio</translation>
         <source>The progress bar allows you to set the video display to a specific position.
 Remark : The length of the ruler is increased in proportion to the duration of the video.
 The blue part represents the part of the video which is selected (which will be used in the assembly).</source>
-        <translation type="unfinished"></translation>
+        <translation>La barra di avanzamento consente di impostare la visualizzazione del video a una posizione specifica.
+Osservazione: La lunghezza del righello aumenta in proporzione alla durata del video.
+La parte blu rappresenta la parte del video che viene selezionata (che verrà utilizzato nel montaggio).</translation>
     </message>
 </context>
 </TS>
