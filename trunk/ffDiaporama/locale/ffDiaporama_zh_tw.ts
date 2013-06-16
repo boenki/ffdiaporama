@@ -609,10 +609,6 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiapora to your hardware.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -821,16 +817,7 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Defines the maximum height of the preview player of the main window in &quot;Preview mode&quot;.
-Note: the higher this number, the more smooth the preview will be. On the other hand, more computer resources will be required. Reduce this number on slow computers or if the gauge for your multimedia reader is frequently in the red zone.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>(Reduce this value for slow computer)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Max preview height :</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -840,6 +827,10 @@ Note: the higher this number, the more smooth the preview will be. On the other 
     <message>
         <source>Sets the maximum height of videos used for the preview.
 Beyond this height, the videos are automatically reduced for creating images.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiaporama to your hardware.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

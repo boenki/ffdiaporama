@@ -244,7 +244,6 @@ void wgt_QVideoPlayer::Resize() {
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int HeightBT=ui->VideoPlayerPlayPauseBT->height();
     int TheHeight=height()-HeightBT;
-    if (TheHeight>ApplicationConfig->MaxPreviewHeight) TheHeight=ApplicationConfig->MaxPreviewHeight;
     int TheWidth =0;
     int ToSet    =0;
 
@@ -561,7 +560,9 @@ void wgt_QVideoPlayer::s_TimerEvent() {
             cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,NextPosition,NULL,int(double(1000)/WantedFPS),true);
             NewFrame->CurrentObject_StartTime   =0;
             PrepareVideoFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
+
         } else {
+
             cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,NextPosition,Diaporama,double(1000)/WantedFPS,true);
             PrepareImage(NewFrame,true,true);
         }
@@ -570,15 +571,16 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
 
     if (FileInfo) LastPosition=PreviousFrame->CurrentObject_InObjectTime;
-        else if (Diaporama) LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
-    NextPosition=LastPosition+int(double(1000)/WantedFPS);
+    else if (Diaporama) LastPosition=PreviousFrame->CurrentObject_StartTime+PreviousFrame->CurrentObject_InObjectTime;
 
     // Add image to the list if it's not full
     if ((FileInfo)&&(ImageList.List.count()<BUFFERING_NBR_FRAME)&&(!ThreadPrepareVideo.isRunning())) {
+        NextPosition=LastPosition+int(double(1000)/WantedFPS);
         cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,NULL,int(double(1000)/WantedFPS),true);
         NewFrame->CurrentObject_StartTime   =0;
         ThreadPrepareVideo.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareVideoFrame,NewFrame,NewFrame->CurrentObject_InObjectTime));
     } else if (((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
+        NextPosition=LastPosition+int(double(1000)/WantedFPS);
         cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/WantedFPS,true);
         ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,NewFrame,true,true));
     }
@@ -628,7 +630,7 @@ void wgt_QVideoPlayer::PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted
 
     // Ensure background, image and soundtrack is ready
     qreal Ratio=qreal(ui->MovieFrame->width())/qreal(ui->MovieFrame->height());
-    int H=ApplicationConfig->MaxPreviewHeight/2;
+    int H=ui->MovieFrame->height();
     int W=int(H*Ratio);
     Diaporama->LoadSources(Frame,W,H,true,AddStartPos);
 

@@ -713,7 +713,6 @@ void cBaseApplicationConfig::InitValues() {
     TimelineHeight              = TIMELINEMINHEIGH;         // Initial height of the timeline
     PreviewFPS                  = 12.5;                     // Preview FrameRate
     PreviewSamplingRate         = 44100;                    // Preview sound audio rate
-    MaxPreviewHeight            = 720;
     MaxVideoPreviewHeight       = 360;
     NoShotDuration              = 6000;                     // Default duration for fixed image when is alone (no shot)
     FixedDuration               = 3000;                     // Default duration for fixed image (msec)
@@ -841,7 +840,6 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultFraming",              DefaultFraming);
     Element.setAttribute("PreviewFPS",                  (QString("%1").arg(PreviewFPS,0,'f')));
     Element.setAttribute("PreviewSamplingRate",         (QString("%1").arg(PreviewSamplingRate)));
-    Element.setAttribute("MaxPreviewHeight",            MaxPreviewHeight);
     Element.setAttribute("MaxVideoPreviewHeight",       MaxVideoPreviewHeight);
     Element.setAttribute("RandomTransition",            RandomTransition?"1":"0");
     Element.setAttribute("DefaultTransitionFamilly",    DefaultTransitionFamilly);
@@ -991,7 +989,6 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (Element.hasAttribute("DefaultFraming"))             DefaultFraming              =Element.attribute("DefaultFraming").toInt();
         if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS                  =Element.attribute("PreviewFPS").toDouble();
         if (Element.hasAttribute("PreviewSamplingRate"))        PreviewSamplingRate         =Element.attribute("PreviewSamplingRate").toLong();
-        if (Element.hasAttribute("MaxPreviewHeight"))           MaxPreviewHeight            =Element.attribute("MaxPreviewHeight").toInt();
         if (Element.hasAttribute("MaxVideoPreviewHeight"))      MaxVideoPreviewHeight       =Element.attribute("MaxVideoPreviewHeight").toInt();
         if (Element.hasAttribute("RandomTransition"))           RandomTransition            =Element.attribute("RandomTransition")=="1";
         if (Element.hasAttribute("DefaultTransitionFamilly"))   DefaultTransitionFamilly    =Element.attribute("DefaultTransitionFamilly").toInt();

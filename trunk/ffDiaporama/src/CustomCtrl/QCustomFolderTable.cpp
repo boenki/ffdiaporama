@@ -1096,43 +1096,6 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
 }
 
 //====================================================================================================================
-QCustomFolderTable *CurrentTable=NULL;
-
-void ScanMedia(const int &ItemIndex) {
-    if ((!CurrentTable)||CurrentTable->StopScanMediaList || CurrentTable->StopAllEvent ||
-        (ItemIndex>=CurrentTable->MediaList.count())) return;
-
-    if (!CurrentTable->MediaList[ItemIndex]->IsInformationValide) {
-
-        CurrentTable->MediaList[ItemIndex]->IsIconNeeded=true;
-        CurrentTable->MediaList[ItemIndex]->GetFullInformationFromFile(); // Get full information
-
-        #if defined(Q_OS_WIN32) || defined(Q_OS_LINUX32)
-        // Reduce quality of thumbnails to reduce memory used when huge number of files in folder
-        if ((CurrentTable->MediaList.count()>=LOWQUALITYITEMNBR)&&
-            (!CurrentTable->MediaList[ItemIndex]->Icon100.isNull())&&
-            (CurrentTable->MediaList[ItemIndex]->Icon100.height()>LOWQUALITYITEMHEIGHT))
-            CurrentTable->MediaList[ItemIndex]->Icon100=CurrentTable->MediaList[ItemIndex]->Icon100.scaledToHeight(CurrentTable->MediaList[ItemIndex]->Icon100.height()/2,Qt::SmoothTransformation);
-        #endif
-
-        // Update display
-        if (CurrentTable->CurrentMode==DISPLAY_DATA) {
-            for (int Col=0;Col<CurrentTable->columnCount();Col++) CurrentTable->update(CurrentTable->model()->index(ItemIndex,Col));
-        } else {
-            int Row=ItemIndex/CurrentTable->columnCount();
-            int Col=ItemIndex-Row*CurrentTable->columnCount();
-            CurrentTable->update(CurrentTable->model()->index(Row,Col));
-        }
-    }
-    if ((CurrentTable->MediaList[ItemIndex]->ObjectType==OBJECTTYPE_MUSICFILE)||
-        (CurrentTable->MediaList[ItemIndex]->ObjectType==OBJECTTYPE_VIDEOFILE))
-            CurrentTable->CurrentShowDuration=CurrentTable->CurrentShowDuration+
-                    QTime(0,0,0,0).msecsTo(((cVideoFile *)CurrentTable->MediaList[ItemIndex])->Duration);
-
-        else if (CurrentTable->MediaList[ItemIndex]->ObjectType==OBJECTTYPE_FFDFILE)
-            CurrentTable->CurrentShowDuration=CurrentTable->CurrentShowDuration+
-                    ((cffDProjectFile *)CurrentTable->MediaList[ItemIndex])->Duration;
-}
 
 void QCustomFolderTable::DoScanMediaList() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::DoScanMediaList");
@@ -1140,19 +1103,33 @@ void QCustomFolderTable::DoScanMediaList() {
     InScanMediaFunction=true;
     CurrentShowDuration=0;
 
-    // Create a list with item index
-    QList<int> IndexList;
-    for (int ItemIndex=0;ItemIndex<MediaList.count();ItemIndex++) IndexList.append(ItemIndex);
-    CurrentTable=this;
+    for (int ItemIndex=0;(ItemIndex<MediaList.count())&&(!StopScanMediaList)&&(!StopAllEvent);ItemIndex++) {
+        if (!MediaList[ItemIndex]->IsInformationValide) {
 
-    // Parse all items to update them
-    QFuture<void> DoScanMedia = QtConcurrent::map(IndexList,ScanMedia);
-    if (DoScanMedia.isRunning()) DoScanMedia.waitForFinished();
+            MediaList[ItemIndex]->IsIconNeeded=true;
+            MediaList[ItemIndex]->GetFullInformationFromFile(); // Get full information
 
-    // compute CurrentShowDuration
-    for (int ItemIndex=0;(ItemIndex<MediaList.count())&&(!StopAllEvent)&&(!StopScanMediaList);ItemIndex++) {
-        if ((MediaList[ItemIndex]->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[ItemIndex]->ObjectType==OBJECTTYPE_VIDEOFILE)) CurrentShowDuration=CurrentShowDuration+QTime(0,0,0,0).msecsTo(((cVideoFile *)MediaList[ItemIndex])->Duration);
-            else if (MediaList[ItemIndex]->ObjectType==OBJECTTYPE_FFDFILE)                                                      CurrentShowDuration=CurrentShowDuration+((cffDProjectFile *)MediaList[ItemIndex])->Duration;
+            #if defined(Q_OS_WIN32) || defined(Q_OS_LINUX32)
+            // Reduce quality of thumbnails to reduce memory used when huge number of files in folder
+            if ((MediaList.count()>=LOWQUALITYITEMNBR)&&
+                (!MediaList[ItemIndex]->Icon100.isNull())&&
+                (MediaList[ItemIndex]->Icon100.height()>LOWQUALITYITEMHEIGHT))
+                MediaList[ItemIndex]->Icon100=MediaList[ItemIndex]->Icon100.scaledToHeight(MediaList[ItemIndex]->Icon100.height()/2,Qt::SmoothTransformation);
+            #endif
+
+            // Update display
+            if (CurrentMode==DISPLAY_DATA) {
+                for (int Col=0;Col<columnCount();Col++) update(model()->index(ItemIndex,Col));
+            } else {
+                int Row=ItemIndex/columnCount();
+                int Col=ItemIndex-Row*columnCount();
+                update(model()->index(Row,Col));
+            }
+        }
+        if ((MediaList[ItemIndex]->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[ItemIndex]->ObjectType==OBJECTTYPE_VIDEOFILE))
+                CurrentShowDuration=CurrentShowDuration+QTime(0,0,0,0).msecsTo(((cVideoFile *)MediaList[ItemIndex])->Duration);
+            else if (MediaList[ItemIndex]->ObjectType==OBJECTTYPE_FFDFILE)
+                CurrentShowDuration=CurrentShowDuration+((cffDProjectFile *)MediaList[ItemIndex])->Duration;
     }
 
     // Clear ScanMediaListProgress flag to inform that scan is done

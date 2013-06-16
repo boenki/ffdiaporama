@@ -275,7 +275,6 @@ public:
     // Preview setting
     double                  PreviewFPS;                                 // Preview FrameRate
     int64_t                 PreviewSamplingRate;                        // Sampling rate (frequency) for preview
-    int                     MaxPreviewHeight;
     int                     MaxVideoPreviewHeight;
 
     // Last directories
