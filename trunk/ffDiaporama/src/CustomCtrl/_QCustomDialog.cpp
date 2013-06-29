@@ -145,7 +145,10 @@ void QCustomDialog::InitDialog() {
 // Function use to duplicate toolTip properties of all child object to whatsThis properties
 
 void QCustomDialog::toolTipTowhatsThis(QObject *StartObj) {
-    if (StartObj->property("toolTip").toString()!="") StartObj->setProperty("whatsThis",StartObj->property("toolTip"));
+    if (StartObj->property("toolTip").toString()!="") {
+        StartObj->setProperty("whatsThis",StartObj->property("toolTip").toString());
+        if (BaseApplicationConfig->DisableTooltips) StartObj->setProperty("toolTip","");
+    }
     for (int i=0;i<StartObj->children().count();i++) toolTipTowhatsThis(StartObj->children().at(i));
 }
 
@@ -200,14 +203,21 @@ void QCustomDialog::DoInitTableWidget(QTableWidget *Table,QString TableColumns) 
     Table->horizontalHeader()->setStretchLastSection(false);
     Table->horizontalHeader()->setSortIndicatorShown(false);
     Table->horizontalHeader()->setCascadingSectionResizes(false);
-    Table->horizontalHeader()->setClickable(false);
     Table->horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
-    Table->horizontalHeader()->setMovable(false);
-    Table->horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
     Table->verticalHeader()->hide();
     Table->verticalHeader()->setStretchLastSection(false);
     Table->verticalHeader()->setSortIndicatorShown(false);
+    #if QT_VERSION >= 0x050000
+    Table->horizontalHeader()->setSectionsClickable(false);
+    Table->horizontalHeader()->setSectionsMovable(false);
+    Table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
+    Table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
+    #else
+    Table->horizontalHeader()->setClickable(false);
+    Table->horizontalHeader()->setMovable(false);
+    Table->horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
     Table->verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
+    #endif
     Table->setShowGrid(true);                  // Ensure grid display
     Table->setWordWrap(false);                 // Ensure no word wrap
     Table->setTextElideMode(Qt::ElideNone);    // Ensure no line ellipsis (...)
@@ -233,12 +243,20 @@ QTableWidgetItem *QCustomDialog::CreateItem(QString ItemText,int Alignment,QBrus
 void QCustomDialog::DoResizeColumnsTableWidget(QTableWidget *Table) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::DoResizeColumnsTableWidget");
 
+    #if QT_VERSION >= 0x050000
+    Table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    #else
     Table->horizontalHeader()->setResizeMode(QHeaderView::Fixed);
+    #endif
     Table->setVisible(false);                      // To ensure all items of all columns are used to compute size
     Table->resizeColumnsToContents();              // Resize column widht
     Table->resizeRowsToContents();                 // Resize row height
     Table->setVisible(true);                       // To allow display
+    #if QT_VERSION >= 0x050000
+    Table->horizontalHeader()->setSectionResizeMode(QHeaderView::Interactive);
+    #else
     Table->horizontalHeader()->setResizeMode(QHeaderView::Interactive);
+    #endif
 }
 
 //====================================================================================================================

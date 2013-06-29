@@ -34,6 +34,7 @@
 // Base object for sound manipulation
 class cSoundBlockList {
 public:
+    bool                Adjusted;
     int                 SoundPacketSize;            // Size of a packet (depending on FPS)
     int                 NbrPacketForFPS;            // Number of packet for FPS
     QList<int16_t *>    List;                       // List of sound packet
@@ -61,6 +62,7 @@ public:
     virtual void    SetFrameSize(int FrameSize,int Channels,int64_t SamplingRate,enum AVSampleFormat SampleFormat);     // Prepare and calculate values for a frame size
     virtual void    ApplyVolume(int PacketNumber,double VolumeFactor);                                                  // Adjust volume
     virtual void    AppendPacket(int64_t Position,int16_t *PacketToAdd);                                                // Append a packet to the end of the list
+    virtual void    AdjustSoundPosition(int64_t SoundPosition,int64_t VideoPosition);                                   // Synchronise sound and video by adding null sound to catch VideoPosition
 };
 
 #endif // CSOUNDBLOCKLIST_H

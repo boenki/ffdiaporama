@@ -66,6 +66,7 @@ void DlgApplicationSettings::DoInitDialog() {
     // Application options
     ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
     ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
+    ui->DisableTooltipsCB->setChecked(ApplicationConfig->DisableTooltips);
     #ifdef Q_OS_WIN
         ui->RasterModeCB->setVisible(false);
         ui->SDLAudioModeCB->setVisible(false);
@@ -369,9 +370,10 @@ bool DlgApplicationSettings::DoAccept() {
 
     // Preview Options part
     ApplicationConfig->Smoothing                =ui->SmoothImageDuringPreviewCB->isChecked();
-    ApplicationConfig->PreviewFPS               =ui->PreviewFrameRateCB->currentText().toDouble();
+    ApplicationConfig->PreviewFPS               =GetDoubleValue(ui->PreviewFrameRateCB->currentText());
     ApplicationConfig->PreviewSamplingRate      =ui->PreviewAudioRateCB->currentText().toLong();
     ApplicationConfig->MaxVideoPreviewHeight    =ui->MaxVideoPreviewHeightCB->currentText().toInt();
+    ApplicationConfig->DisableTooltips          =ui->DisableTooltipsCB->isChecked();
 
     switch (ui->MemCacheProfilCB->currentIndex()) {
         case 3  : ApplicationConfig->MemCacheMaxValue=qlonglong(2048*qlonglong(1024*1024));    break;
@@ -388,7 +390,7 @@ bool DlgApplicationSettings::DoAccept() {
     ApplicationConfig->Crop1088To1080               =ui->Crop1088To1080CB->isChecked();
     ApplicationConfig->Deinterlace                  =ui->DeinterlaceCB->isChecked();
 
-    ApplicationConfig->DefaultTransitionDuration    =int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
+    ApplicationConfig->DefaultTransitionDuration    =int(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
     ApplicationConfig->RandomTransition             =ui->RandomTransitionRD->isChecked();
     ApplicationConfig->DefaultTransitionSubType     =(ui->NoTransitionRD->isChecked()?0:1);
     ApplicationConfig->DefaultTransitionFamilly     =0;

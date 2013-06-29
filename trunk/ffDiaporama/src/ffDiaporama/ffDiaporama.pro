@@ -6,19 +6,19 @@
 
 greaterThan(QT_MAJOR_VERSION, 4): {
     # QT5 version
-    QT += widgets xml network svg
+    QT += widgets concurrent
 } else: {
     # QT4 version
-    QT += core gui xml network svg
+    CONFIG += thread
 }
 
+QT          += core gui xml network svg
 QMAKE_STRIP  = echo
 APPFOLDER    = ffDiaporama
 TARGET       = ffDiaporama
 TEMPLATE     = app
-CONFIG       += thread
-DEFINES      += HAVE_CONFIG_H               # specific for TAGLib
-DEFINES      += TAGLIB_STATIC               # specific for TAGLib
+DEFINES     += HAVE_CONFIG_H               # specific for TAGLib
+DEFINES     += TAGLIB_STATIC               # specific for TAGLib
 
 unix {
     HARDWARE_PLATFORM = $$system(uname -i)
@@ -40,27 +40,6 @@ isEmpty(PREFIX) {
 DEFINES +=SHARE_DIR=\\\"$$PREFIX\\\"
 
 unix {
-    DESTDIR+= ../../../build$$system(echo $BUILDENV)
-} else:win32 {
-    CONFIG(release, debug|release) {
-        DESTDIR+= ../../../build_windows
-    }
-    CONFIG(debug, debug|release) {
-        DESTDIR+=../../../debugbuild_windows
-    }
-}
-
-message("BUILD FOLDER="$$DESTDIR)
-
-OBJECTS_DIR     += $$DESTDIR
-MOC_DIR         += $$DESTDIR
-RCC_DIR         += $$DESTDIR
-UI_DIR          += $$DESTDIR
-UI_HEADERS_DIR  += $$DESTDIR
-UI_SOURCES_DIR  += $$DESTDIR
-INCLUDEPATH     += $$DESTDIR
-
-unix {
 
     INCLUDEPATH += /usr/include/ffmpeg/                                     # Specific for Fedora
 
@@ -80,28 +59,20 @@ unix {
 } else:win32 {
 
     CONFIG(debug, debug|release) {
-        INCLUDEPATH     += F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include
-        LIBS            += -L"F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\lib"
+        INCLUDEPATH += "..\\..\\..\\Win64\\include"
+        LIBS        += -L"..\\..\\..\\Win64\\lib"
     }
 
     INCLUDEPATH += .                                                        #------ I don't know why, but windows need this !
     LIBS        += -lgdi32 -lkernel32 -luser32 -lshell32 -ladvapi32         #------ Windows GDI libs link
 
-    exists("F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include\\libswresample\\swresample.h") {
-        DEFINES += USELIBSWRESAMPLE
-        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
-    } else:exists("F:\\Dev\\ffDiaporama\\trunk\\msysenv\\32bitsse2\\include\\libavresample\\avresample.h") {
-        DEFINES += USELIBAVRESAMPLE
-        LIBS    += -lavresample                                             #------ conditionnaly include libavresample
-    } else {
-        LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV_08
-    }
+    DEFINES += USELIBSWRESAMPLE
+    LIBS    += -lswresample                                             #------ conditionnaly include libswresample
 }
 
 #---- Libs for windows and linux
 LIBS	    += -lSDL                                                        #------ SDL
 LIBS        += -lexiv2                                                      #------ Exiv2
-LIBS        += -lqimageblitz                                                #------ QImageBlitz
 LIBS        += -lavformat -lavcodec -lavutil -lswscale -lavfilter           #------ libav
 
 #--------------------------------------------------------------
@@ -122,9 +93,19 @@ TRANSLATIONS += ../../locale/ffDiaporama_fr.ts \
     ../../locale/ffDiaporama_pt.ts \
     ../../locale/ffDiaporama_ru.ts \
     ../../locale/ffDiaporama_el.ts \
-    ../../locale/ffDiaporama_uk.ts \
     ../../locale/ffDiaporama_cz.ts \
     ../../locale/ffDiaporama_zh_tw.ts
+
+OTHER_FILES += ../../TODO-LIST.txt \          # Developpement file
+    ../../BUILDVERSION.txt \                  # Developpement file
+    ../../ffDiaporama-mime.xml \              # MIME definition of .ffd type
+    ../../ffDiaporama.xml \                   # Default configuration options for ffDiaporama
+    ../../Devices.xml \                       # Shared default configuration options for devices management
+    ../../licences.txt \                      # Licence file
+    ../../licences.rtf \                      # Licence file
+    ../../authors.txt \                       # Authoring file for ffDiaporama
+    ../../ffDiaporama.url \                   # URL file to be install on windows system
+    ../../ffDiaporama.desktop                 # Desktop (menu icon) entry for ffDiaporama installed in /usr
 
 # Source files
 SOURCES +=  wgt_QVideoPlayer.cpp \
@@ -156,8 +137,6 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             DlgTransition/DlgTransitionDuration.cpp \
             DlgSlide/DlgSlideDuration.cpp \
             DlgFileExplorer/DlgFileExplorer.cpp \
-            ../fmt_filters/fmt_filters.cpp \
-            ../CustomCtrl/cCSpeedWaveComboBox.cpp \
             ../engine/_GlobalDefines.cpp \
             ../engine/QCustomRuller.cpp \
             ../engine/cSaveWindowPosition.cpp \
@@ -167,6 +146,7 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             ../engine/cSoundBlockList.cpp \
             ../engine/cBaseMediaFile.cpp \
             ../engine/_SDL_Support.cpp \
+            ../engine/_ImageFilters.cpp \
             ../engine/cBrushDefinition.cpp \
             ../engine/cCustomIcon.cpp \
             ../engine/cDriveList.cpp \
@@ -180,6 +160,7 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             ../CustomCtrl/_QCustomDialog.cpp \
             ../CustomCtrl/cCColorComboBox.cpp \
             ../CustomCtrl/cCBrushComboBox.cpp \
+            ../CustomCtrl/cCSpeedWaveComboBox.cpp \
             ../CustomCtrl/cCGrdOrientationComboBox.cpp \
             ../CustomCtrl/cCFramingComboBox.cpp \
             ../CustomCtrl/cCShapeComboBox.cpp \
@@ -218,8 +199,6 @@ HEADERS  += wgt_QVideoPlayer.h \
             DlgTransition/DlgTransitionDuration.h \
             DlgSlide/DlgSlideDuration.h \
             DlgFileExplorer/DlgFileExplorer.h \
-            ../CustomCtrl/cCSpeedWaveComboBox.h \
-            ../fmt_filters/fmt_filters.h \
             ../engine/QCustomRuller.h \
             ../engine/cSaveWindowPosition.h \
             ../engine/cBaseApplicationConfig.h \
@@ -229,6 +208,7 @@ HEADERS  += wgt_QVideoPlayer.h \
             ../engine/cSoundBlockList.h \
             ../engine/cBaseMediaFile.h \
             ../engine/_SDL_Support.h \
+            ../engine/_ImageFilters.h \
             ../engine/cBrushDefinition.h \
             ../engine/cCustomIcon.h \
             ../engine/cDriveList.h \
@@ -242,6 +222,7 @@ HEADERS  += wgt_QVideoPlayer.h \
             ../CustomCtrl/_QCustomDialog.h \
             ../CustomCtrl/cCColorComboBox.h \
             ../CustomCtrl/cCBrushComboBox.h \
+            ../CustomCtrl/cCSpeedWaveComboBox.h \
             ../CustomCtrl/cCGrdOrientationComboBox.h \
             ../CustomCtrl/cCFramingComboBox.h \
             ../CustomCtrl/cCShapeComboBox.h \
@@ -281,7 +262,7 @@ FORMS    += mainwindow.ui \
 message("Install to : $$PREFIX")
 
 TARGET.path         = $$PREFIX/bin
-TARGET.files        = $$DESTDIR/$$TARGET
+TARGET.files        = $$TARGET
 INSTALLS 	    += TARGET
 
 ico.path            = $$PREFIX/share/icons/hicolor/32x32/apps

@@ -21,6 +21,8 @@
 #include "cBrushDefinition.h"
 #include <QtSvg>
 
+#include "_ImageFilters.h"
+
 //============================================
 // Global static
 //============================================
@@ -229,8 +231,6 @@ cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,
     Desat                   =0;
     Swirl                   =0;
     Implode                 =0;
-    WaveAmp                 =0;
-    WaveFreq                =15;
     OnOffFilter             =0;
     ImageSpeedWave          =SPEEDWAVE_PROJECTDEFAULT;
 }
@@ -275,48 +275,49 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSo
 QImage cBrushDefinition::ApplyFilters(QImage NewRenderImage,double TheBrightness,double TheContrast,double TheGamma,double TheRed,double TheGreen,double TheBlue,double TheDesat,
                                       bool ProgressifOnOffFilter,cBrushDefinition *PreviousBrush,double PctDone) {
     if ((TheBrightness!=0)||(TheContrast!=0)||(TheGamma!=1)||(TheRed!=0)||(TheGreen!=0)||(TheBlue!=0)) {
-        fmt_filters::image img(NewRenderImage.bits(),NewRenderImage.width(),NewRenderImage.height());
-        if (TheBrightness!=0)                                           fmt_filters::brightness(img,TheBrightness);
-        if (TheContrast!=0)                                             fmt_filters::contrast(img,TheContrast);
-        if (TheGamma!=1)                                                fmt_filters::gamma(img,TheGamma);
-        if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))                   fmt_filters::colorize(img,TheRed,TheGreen,TheBlue);
+        if (TheBrightness!=0)                                           FltBrightness(NewRenderImage,TheBrightness);
+        if (TheContrast!=0)                                             FltContrast(NewRenderImage,TheContrast);
+        if (TheGamma!=1)                                                FltGamma(NewRenderImage,TheGamma);
+        if ((TheRed!=0)||(TheGreen!=0)||(TheBlue!=0))                   FltColorize(NewRenderImage,TheRed,TheGreen,TheBlue);
     }
-    if (TheDesat!=0) Blitz::desaturate(NewRenderImage,TheDesat);
+    if (TheDesat!=0) FltDesaturate(NewRenderImage,TheDesat);
 
     if ((ProgressifOnOffFilter)||(GaussBlurSharpenSigma!=0)||(QuickBlurSharpenSigma!=0)||(OnOffFilter!=0)) {
         QImage PreviousImage=NewRenderImage.copy();
+
         // Apply previous filter to image
-        if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma<0))        NewRenderImage=Blitz::gaussianBlur(NewRenderImage,BlurSharpenRadius,-GaussBlurSharpenSigma);
-        if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma>0))        NewRenderImage=Blitz::gaussianSharpen(NewRenderImage,BlurSharpenRadius,GaussBlurSharpenSigma);
-        if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma<0))        NewRenderImage=Blitz::blur(NewRenderImage,-QuickBlurSharpenSigma);
-        if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma>0))        NewRenderImage=Blitz::sharpen(NewRenderImage,QuickBlurSharpenSigma);
-        if ((OnOffFilter & FilterDespeckle)!=0)                     Blitz::despeckle(NewRenderImage);
-        if ((OnOffFilter & FilterEqualize)!=0)                      Blitz::equalize(NewRenderImage);
-        if ((OnOffFilter & FilterGray)!=0)                          Blitz::grayscale(NewRenderImage,false);
-        if ((OnOffFilter & FilterNegative)!=0)                      Blitz::invert(NewRenderImage,QImage::InvertRgb);
-        if ((OnOffFilter & FilterEmboss)!=0)                        NewRenderImage=Blitz::emboss(NewRenderImage,0,1,Blitz::High);
-        if ((OnOffFilter & FilterEdge)!=0)                          NewRenderImage=Blitz::edge(NewRenderImage);
-        if ((OnOffFilter & FilterAntialias)!=0)                     NewRenderImage=Blitz::antialias(NewRenderImage);
-        if ((OnOffFilter & FilterNormalize)!=0)                     Blitz::normalize(NewRenderImage);
-        if ((OnOffFilter & FilterCharcoal)!=0)                      NewRenderImage=Blitz::charcoal(NewRenderImage);
-        if ((OnOffFilter & FilterOil)!=0)                           NewRenderImage=Blitz::oilPaint(NewRenderImage);
+        if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma<0))        FltGaussianBlur(NewRenderImage,BlurSharpenRadius,-GaussBlurSharpenSigma);
+        if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma>0))        FltGaussianSharpen(NewRenderImage,BlurSharpenRadius,GaussBlurSharpenSigma);
+        if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma<0))        FltBlur(NewRenderImage,-QuickBlurSharpenSigma);
+        if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma>0))        FltSharpen(NewRenderImage,QuickBlurSharpenSigma);
+        if ((OnOffFilter & FilterDespeckle)!=0)                     FltDespeckle(NewRenderImage);
+        if ((OnOffFilter & FilterEqualize)!=0)                      FltEqualize(NewRenderImage);
+        if ((OnOffFilter & FilterGray)!=0)                          FltGrayscale(NewRenderImage);
+        if ((OnOffFilter & FilterNegative)!=0)                      NewRenderImage.invertPixels(QImage::InvertRgb);
+        if ((OnOffFilter & FilterEmboss)!=0)                        FltEmboss(NewRenderImage,0,1);
+        if ((OnOffFilter & FilterEdge)!=0)                          FltEdge(NewRenderImage);
+        if ((OnOffFilter & FilterAntialias)!=0)                     FltAntialias(NewRenderImage);
+        if ((OnOffFilter & FilterNormalize)!=0)                     FltAutoContrast(NewRenderImage);
+        if ((OnOffFilter & FilterCharcoal)!=0)                      FltCharcoal(NewRenderImage);
+        if ((OnOffFilter & FilterOil)!=0)                           FltOilPaint(NewRenderImage);
 
         if (ProgressifOnOffFilter) {
+
             // Apply previous filter to copied image
-            if ((PreviousBrush->TypeBlurSharpen==1)&&(PreviousBrush->GaussBlurSharpenSigma<0))    PreviousImage=Blitz::gaussianBlur(PreviousImage,PreviousBrush->BlurSharpenRadius,-PreviousBrush->GaussBlurSharpenSigma);
-            if ((PreviousBrush->TypeBlurSharpen==1)&&(PreviousBrush->GaussBlurSharpenSigma>0))    PreviousImage=Blitz::gaussianSharpen(PreviousImage,PreviousBrush->BlurSharpenRadius,PreviousBrush->GaussBlurSharpenSigma);
-            if ((PreviousBrush->TypeBlurSharpen==0)&&(PreviousBrush->QuickBlurSharpenSigma<0))    PreviousImage=Blitz::blur(PreviousImage,-PreviousBrush->QuickBlurSharpenSigma);
-            if ((PreviousBrush->TypeBlurSharpen==0)&&(PreviousBrush->QuickBlurSharpenSigma>0))    PreviousImage=Blitz::sharpen(PreviousImage,PreviousBrush->QuickBlurSharpenSigma);
-            if ((PreviousBrush->OnOffFilter & FilterDespeckle)!=0)  Blitz::despeckle(PreviousImage);
-            if ((PreviousBrush->OnOffFilter & FilterEqualize)!=0)   Blitz::equalize(PreviousImage);
-            if ((PreviousBrush->OnOffFilter & FilterGray)!=0)       Blitz::grayscale(PreviousImage,false);
-            if ((PreviousBrush->OnOffFilter & FilterNegative)!=0)   Blitz::invert(PreviousImage,QImage::InvertRgb);
-            if ((PreviousBrush->OnOffFilter & FilterEmboss)!=0)     PreviousImage=Blitz::emboss(PreviousImage,0,1,Blitz::High);
-            if ((PreviousBrush->OnOffFilter & FilterEdge)!=0)       PreviousImage=Blitz::edge(PreviousImage);
-            if ((PreviousBrush->OnOffFilter & FilterAntialias)!=0)  PreviousImage=Blitz::antialias(PreviousImage);
-            if ((PreviousBrush->OnOffFilter & FilterNormalize)!=0)  Blitz::normalize(PreviousImage);
-            if ((PreviousBrush->OnOffFilter & FilterCharcoal)!=0)   PreviousImage=Blitz::charcoal(PreviousImage);
-            if ((PreviousBrush->OnOffFilter & FilterOil)!=0)        PreviousImage=Blitz::oilPaint(PreviousImage);
+            if ((PreviousBrush->TypeBlurSharpen==1)&&(PreviousBrush->GaussBlurSharpenSigma<0))  FltGaussianBlur(PreviousImage,PreviousBrush->BlurSharpenRadius,-PreviousBrush->GaussBlurSharpenSigma);
+            if ((PreviousBrush->TypeBlurSharpen==1)&&(PreviousBrush->GaussBlurSharpenSigma>0))  FltGaussianSharpen(PreviousImage,PreviousBrush->BlurSharpenRadius,PreviousBrush->GaussBlurSharpenSigma);
+            if ((PreviousBrush->TypeBlurSharpen==0)&&(PreviousBrush->QuickBlurSharpenSigma<0))  FltBlur(PreviousImage,-PreviousBrush->QuickBlurSharpenSigma);
+            if ((PreviousBrush->TypeBlurSharpen==0)&&(PreviousBrush->QuickBlurSharpenSigma>0))  FltSharpen(PreviousImage,PreviousBrush->QuickBlurSharpenSigma);
+            if ((PreviousBrush->OnOffFilter & FilterDespeckle)!=0)                              FltDespeckle(PreviousImage);
+            if ((PreviousBrush->OnOffFilter & FilterEqualize)!=0)                               FltEqualize(PreviousImage);
+            if ((PreviousBrush->OnOffFilter & FilterGray)!=0)                                   FltGrayscale(PreviousImage);
+            if ((PreviousBrush->OnOffFilter & FilterNegative)!=0)                               PreviousImage.invertPixels(QImage::InvertRgb);
+            if ((PreviousBrush->OnOffFilter & FilterEmboss)!=0)                                 FltEmboss(PreviousImage,0,1);
+            if ((PreviousBrush->OnOffFilter & FilterEdge)!=0)                                   FltEdge(PreviousImage);
+            if ((PreviousBrush->OnOffFilter & FilterAntialias)!=0)                              FltAntialias(PreviousImage);
+            if ((PreviousBrush->OnOffFilter & FilterNormalize)!=0)                              FltAutoContrast(PreviousImage);
+            if ((PreviousBrush->OnOffFilter & FilterCharcoal)!=0)                               FltCharcoal(PreviousImage);
+            if ((PreviousBrush->OnOffFilter & FilterOil)!=0)                                    FltOilPaint(PreviousImage);
 
             // Mix images
             QPainter P;
@@ -376,8 +377,6 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
         double TheDesat             =Desat;
         double TheSwirl             =Swirl;
         double TheImplode           =Implode;
-        double TheWaveAmp           =WaveAmp;
-        double TheWaveFreq          =WaveFreq;
         double TheAspectRatio       =AspectRatio;
         int    TheOnOffFilter       =OnOffFilter;
         bool   ProgressifOnOffFilter=false;
@@ -397,8 +396,6 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
             if (PreviousBrush->Desat!=TheDesat)                                                                 TheDesat        =PreviousBrush->Desat+(TheDesat-PreviousBrush->Desat)*PctDone;
             if (PreviousBrush->Swirl!=TheSwirl)                                                                 TheSwirl        =PreviousBrush->Swirl+(TheSwirl-PreviousBrush->Swirl)*PctDone;
             if (PreviousBrush->Implode!=TheImplode)                                                             TheImplode      =PreviousBrush->Implode+(TheImplode-PreviousBrush->Implode)*PctDone;
-            if (PreviousBrush->WaveAmp!=TheWaveAmp)                                                             TheWaveAmp      =PreviousBrush->WaveAmp+(TheWaveAmp-PreviousBrush->WaveAmp)*PctDone;
-            if (PreviousBrush->WaveFreq!=TheWaveFreq)                                                           TheWaveFreq     =PreviousBrush->WaveFreq+(TheWaveFreq-PreviousBrush->WaveFreq)*PctDone;
             //if (PreviousBrush->AspectRatio!=TheAspectRatio)                                                     TheAspectRatio  =PreviousBrush->AspectRatio+(TheAspectRatio-PreviousBrush->AspectRatio)*PctDone;
 
             if ((PreviousBrush->OnOffFilter!=TheOnOffFilter)||
@@ -463,9 +460,8 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
 
                 // Apply correction filters to DestImage (if it's a video and it's PreviewMode, then filter was apply before)
                 if (!((Video)&&(PreviewMode)))          NewRenderImage=ApplyFilters(NewRenderImage,TheBrightness,TheContrast,TheGamma,TheRed,TheGreen,TheBlue,TheDesat,ProgressifOnOffFilter,PreviousBrush,PctDone);
-                if (TheSwirl!=0)                        NewRenderImage=Blitz::swirl(NewRenderImage,-TheSwirl);
-                if (TheImplode!=0)                      NewRenderImage=Blitz::implode(NewRenderImage,TheImplode);
-                if ((TheWaveAmp!=0)&&(TheWaveFreq!=0))  NewRenderImage=Blitz::wave(NewRenderImage,NewRenderImage.height()*(TheWaveAmp/100),NewRenderImage.width()/(TheWaveFreq/10)).convertToFormat(QImage::Format_ARGB32_Premultiplied);
+                if (TheSwirl!=0)                        FltSwirl(NewRenderImage,-TheSwirl);
+                if (TheImplode!=0)                      FltImplode(NewRenderImage,TheImplode);
                 if (!NewRenderImage.isNull())           Ret=new QBrush(NewRenderImage.scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
             }
 
@@ -501,29 +497,27 @@ QImage cBrushDefinition::ApplyFilter(QImage Image) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::ApplyFilter");
 
     if (Image.isNull()) return Image;
-    fmt_filters::image img(Image.bits(),Image.width(),Image.height());
-    if (Brightness!=0)                                          fmt_filters::brightness(img,Brightness);
-    if ((Contrast!=0)&&((OnOffFilter & FilterNormalize)==0))    fmt_filters::contrast(img,Contrast);
-    if (Gamma!=1)                                               fmt_filters::gamma(img,Gamma);
-    if ((Red!=0)||(Green!=0)||(Blue!=0))                        fmt_filters::colorize(img,Red,Green,Blue);
-    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma<0))        Image=Blitz::blur(Image,-QuickBlurSharpenSigma);
-    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma>0))        Image=Blitz::sharpen(Image,QuickBlurSharpenSigma);
-    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma<0))        Image=Blitz::gaussianBlur(Image,BlurSharpenRadius,-GaussBlurSharpenSigma);
-    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma>0))        Image=Blitz::gaussianSharpen(Image,BlurSharpenRadius,GaussBlurSharpenSigma);
-    if ((OnOffFilter & FilterDespeckle)!=0)                     Blitz::despeckle(Image);
-    if ((OnOffFilter & FilterEqualize)!=0)                      Blitz::equalize(Image);
-    if ((OnOffFilter & FilterGray)!=0)                          Blitz::grayscale(Image,false);
-    if ((OnOffFilter & FilterNegative)!=0)                      Blitz::invert(Image,QImage::InvertRgb);
-    if ((OnOffFilter & FilterEmboss)!=0)                        Image=Blitz::emboss(Image,0,1,Blitz::High);
-    if ((OnOffFilter & FilterEdge)!=0)                          Image=Blitz::edge(Image);
-    if ((OnOffFilter & FilterAntialias)!=0)                     Image=Blitz::antialias(Image);
-    if ((OnOffFilter & FilterNormalize)!=0)                     Blitz::normalize(Image);
-    if ((OnOffFilter & FilterCharcoal)!=0)                      Image=Blitz::charcoal(Image);
-    if ((OnOffFilter & FilterOil)!=0)                           Image=Blitz::oilPaint(Image);
-    if (Desat!=0)                                               Blitz::desaturate(Image,Desat);
-    if (Swirl!=0)                                               Image=Blitz::swirl(Image,-Swirl);
-    if (Implode!=0)                                             Image=Blitz::implode(Image,Implode);
-    if ((WaveAmp!=0)&&(WaveFreq!=0))                            Image=Blitz::wave(Image,Image.height()*(WaveAmp/100),Image.width()/(WaveFreq/10));
+    if (Brightness!=0)                                          FltBrightness(Image,Brightness);
+    if ((Contrast!=0)&&((OnOffFilter & FilterNormalize)==0))    FltContrast(Image,Contrast);
+    if (Gamma!=1)                                               FltGamma(Image,Gamma);
+    if ((Red!=0)||(Green!=0)||(Blue!=0))                        FltColorize(Image,Red,Green,Blue);
+    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma<0))        FltBlur(Image,-QuickBlurSharpenSigma);
+    if ((TypeBlurSharpen==0)&&(QuickBlurSharpenSigma>0))        FltSharpen(Image,QuickBlurSharpenSigma);
+    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma<0))        FltGaussianBlur(Image,BlurSharpenRadius,-GaussBlurSharpenSigma);
+    if ((TypeBlurSharpen==1)&&(GaussBlurSharpenSigma>0))        FltGaussianSharpen(Image,BlurSharpenRadius,GaussBlurSharpenSigma);
+    if ((OnOffFilter & FilterDespeckle)!=0)                     FltDespeckle(Image);
+    if ((OnOffFilter & FilterEqualize)!=0)                      FltEqualize(Image);
+    if ((OnOffFilter & FilterGray)!=0)                          FltGrayscale(Image);
+    if ((OnOffFilter & FilterNegative)!=0)                      Image.invertPixels(QImage::InvertRgb);
+    if ((OnOffFilter & FilterEmboss)!=0)                        FltEmboss(Image,0,1);
+    if ((OnOffFilter & FilterEdge)!=0)                          FltEdge(Image);
+    if ((OnOffFilter & FilterAntialias)!=0)                     FltAntialias(Image);
+    if ((OnOffFilter & FilterNormalize)!=0)                     FltAutoContrast(Image);
+    if ((OnOffFilter & FilterCharcoal)!=0)                      FltCharcoal(Image);
+    if ((OnOffFilter & FilterOil)!=0)                           FltOilPaint(Image);
+    if (Desat!=0)                                               FltDesaturate(Image,Desat);
+    if (Swirl!=0)                                               FltSwirl(Image,-Swirl);
+    if (Implode!=0)                                             FltImplode(Image,Implode);
     return Image;
 }
 
@@ -607,8 +601,6 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
     Desat                   =BrushToCopy->Desat;
     Swirl                   =BrushToCopy->Swirl;
     Implode                 =BrushToCopy->Implode;
-    WaveAmp                 =BrushToCopy->WaveAmp;
-    WaveFreq                =BrushToCopy->WaveFreq;
     OnOffFilter             =BrushToCopy->OnOffFilter;
     ImageSpeedWave          =BrushToCopy->ImageSpeedWave;
 }
@@ -689,8 +681,6 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     CorrectElement.setAttribute("Desat",                Desat);
     CorrectElement.setAttribute("Swirl",                Swirl);
     CorrectElement.setAttribute("Implode",              Implode);
-    CorrectElement.setAttribute("WaveAmp",              WaveAmp);
-    CorrectElement.setAttribute("WaveFreq",             WaveFreq);
     CorrectElement.setAttribute("OnOffFilter",          OnOffFilter);
     CorrectElement.setAttribute("ImageSpeedWave",       ImageSpeedWave);
     Element.appendChild(CorrectElement);
@@ -717,7 +707,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 break;
             case BRUSHTYPE_GRADIENT3    :
                 ColorIntermed       =Element.attribute("ColorIntermed");                // Intermediate Color
-                Intermediate        =Element.attribute("Intermediate").toDouble();      // Intermediate position of 2nd color (in %)
+                Intermediate        =GetDoubleValue(Element,"Intermediate");            // Intermediate position of 2nd color (in %)
             case BRUSHTYPE_GRADIENT2    :
                 ColorF              =Element.attribute("ColorF");                       // Last Color
                 GradientOrientation =Element.attribute("GradientOrientation").toInt();  // 0=Radial, 1=Up-Left, 2=Up, 3=Up-right, 4=Right, 5=bt-right, 6=bottom, 7=bt-Left, 8=Left
@@ -761,7 +751,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                         Video->StartPos =QTime().fromString(Element.attribute("StartPos"));                         // Start position (video only)
                         Video->EndPos   =QTime().fromString(Element.attribute("EndPos"));                           // End position (video only)
                     } else {
-                        SoundVolume=Element.attribute("SoundVolume").toDouble();                                    // Volume of soundtrack (for video only)
+                        SoundVolume=GetDoubleValue(Element,"SoundVolume");                                          // Volume of soundtrack (for video only)
                         Deinterlace=Element.attribute("Deinterlace")=="1";                                          // Add a YADIF filter to deinterlace video (on/off) (for video only)
                     }
                 } else if (Image!=NULL) {
@@ -769,9 +759,9 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                         // Old Image transformation (for compatibility with version prio to 1.5)
                         if ((Element.elementsByTagName("ImageTransformation").length()>0)&&(Element.elementsByTagName("ImageTransformation").item(0).isElement()==true)) {
                             QDomElement SubElement=Element.elementsByTagName("ImageTransformation").item(0).toElement();
-                            if (SubElement.hasAttribute("BlurSigma"))      GaussBlurSharpenSigma=  SubElement.attribute("BlurSigma").toDouble();
-                            if (SubElement.hasAttribute("BlurRadius"))     BlurSharpenRadius= SubElement.attribute("BlurRadius").toDouble();
-                            if (SubElement.hasAttribute("OnOffFilter"))    OnOffFilter=SubElement.attribute("OnOffFilter").toInt();
+                            if (SubElement.hasAttribute("BlurSigma"))      GaussBlurSharpenSigma=GetDoubleValue(SubElement,"BlurSigma");
+                            if (SubElement.hasAttribute("BlurRadius"))     BlurSharpenRadius    =GetDoubleValue(SubElement,"BlurRadius");
+                            if (SubElement.hasAttribute("OnOffFilter"))    OnOffFilter          =SubElement.attribute("OnOffFilter").toInt();
                             if (GaussBlurSharpenSigma!=0) TypeBlurSharpen=1;
                         }
                     }
@@ -783,27 +773,25 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         if ((Element.elementsByTagName("ImageCorrection").length()>0)&&(Element.elementsByTagName("ImageCorrection").item(0).isElement()==true)) {
             QDomElement CorrectElement=Element.elementsByTagName("ImageCorrection").item(0).toElement();
 
-            if (CorrectElement.hasAttribute("X"))                       X                       =CorrectElement.attribute("X").toDouble();                      // X position (in %) relative to up/left corner
-            if (CorrectElement.hasAttribute("Y"))                       Y                       =CorrectElement.attribute("Y").toDouble();                      // Y position (in %) relative to up/left corner
-            if (CorrectElement.hasAttribute("ZoomFactor"))              ZoomFactor              =CorrectElement.attribute("ZoomFactor").toDouble();             // Zoom factor (in %)
-            if (CorrectElement.hasAttribute("ImageRotation"))           ImageRotation           =CorrectElement.attribute("ImageRotation").toDouble();          // Image rotation (in °)
+            if (CorrectElement.hasAttribute("X"))                       X                       =GetDoubleValue(CorrectElement,"X");                      // X position (in %) relative to up/left corner
+            if (CorrectElement.hasAttribute("Y"))                       Y                       =GetDoubleValue(CorrectElement,"Y");                      // Y position (in %) relative to up/left corner
+            if (CorrectElement.hasAttribute("ZoomFactor"))              ZoomFactor              =GetDoubleValue(CorrectElement,"ZoomFactor");             // Zoom factor (in %)
+            if (CorrectElement.hasAttribute("ImageRotation"))           ImageRotation           =GetDoubleValue(CorrectElement,"ImageRotation");          // Image rotation (in °)
             if (CorrectElement.hasAttribute("Brightness"))              Brightness              =CorrectElement.attribute("Brightness").toInt();
             if (CorrectElement.hasAttribute("Contrast"))                Contrast                =CorrectElement.attribute("Contrast").toInt();
-            if (CorrectElement.hasAttribute("Gamma"))                   Gamma                   =CorrectElement.attribute("Gamma").toDouble();
+            if (CorrectElement.hasAttribute("Gamma"))                   Gamma                   =GetDoubleValue(CorrectElement,"Gamma");
             if (CorrectElement.hasAttribute("Red"))                     Red                     =CorrectElement.attribute("Red").toInt();
             if (CorrectElement.hasAttribute("Green"))                   Green                   =CorrectElement.attribute("Green").toInt();
             if (CorrectElement.hasAttribute("Blue"))                    Blue                    =CorrectElement.attribute("Blue").toInt();
-            if (CorrectElement.hasAttribute("AspectRatio"))             AspectRatio             =CorrectElement.attribute("AspectRatio").toDouble();
+            if (CorrectElement.hasAttribute("AspectRatio"))             AspectRatio             =GetDoubleValue(CorrectElement,"AspectRatio");
             if (CorrectElement.hasAttribute("FullFilling"))             FullFilling             =CorrectElement.attribute("FullFilling").toInt()==1;
-            if (CorrectElement.hasAttribute("TypeBlurSharpen"))         TypeBlurSharpen         =CorrectElement.attribute("TypeBlurSharpen").toDouble();
-            if (CorrectElement.hasAttribute("GaussBlurSharpenSigma"))   GaussBlurSharpenSigma   =CorrectElement.attribute("GaussBlurSharpenSigma").toDouble();
-            if (CorrectElement.hasAttribute("BlurSharpenRadius"))       BlurSharpenRadius       =CorrectElement.attribute("BlurSharpenRadius").toDouble();
+            if (CorrectElement.hasAttribute("TypeBlurSharpen"))         TypeBlurSharpen         =GetDoubleValue(CorrectElement,"TypeBlurSharpen");
+            if (CorrectElement.hasAttribute("GaussBlurSharpenSigma"))   GaussBlurSharpenSigma   =GetDoubleValue(CorrectElement,"GaussBlurSharpenSigma");
+            if (CorrectElement.hasAttribute("BlurSharpenRadius"))       BlurSharpenRadius       =GetDoubleValue(CorrectElement,"BlurSharpenRadius");
             if (CorrectElement.hasAttribute("QuickBlurSharpenSigma"))   QuickBlurSharpenSigma   =CorrectElement.attribute("QuickBlurSharpenSigma").toInt();
-            if (CorrectElement.hasAttribute("Desat"))                   Desat                   =CorrectElement.attribute("Desat").toDouble();
-            if (CorrectElement.hasAttribute("Swirl"))                   Swirl                   =CorrectElement.attribute("Swirl").toDouble();
-            if (CorrectElement.hasAttribute("Implode"))                 Implode                 =CorrectElement.attribute("Implode").toDouble();
-            if (CorrectElement.hasAttribute("WaveAmp"))                 WaveAmp                 =CorrectElement.attribute("WaveAmp").toDouble();
-            if (CorrectElement.hasAttribute("WaveFreq"))                WaveFreq                =CorrectElement.attribute("WaveFreq").toDouble();
+            if (CorrectElement.hasAttribute("Desat"))                   Desat                   =GetDoubleValue(CorrectElement,"Desat");
+            if (CorrectElement.hasAttribute("Swirl"))                   Swirl                   =GetDoubleValue(CorrectElement,"Swirl");
+            if (CorrectElement.hasAttribute("Implode"))                 Implode                 =GetDoubleValue(CorrectElement,"Implode");
             if (CorrectElement.hasAttribute("OnOffFilter"))             OnOffFilter             =CorrectElement.attribute("OnOffFilter").toInt();
             if (CorrectElement.hasAttribute("ImageSpeedWave"))          ImageSpeedWave          =CorrectElement.attribute("ImageSpeedWave").toInt();
 

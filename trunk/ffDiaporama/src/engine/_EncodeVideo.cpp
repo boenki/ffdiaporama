@@ -172,7 +172,7 @@ void cEncodeVideo::CloseEncoder() {
         AudioFrame=NULL;
     }
     if (AudioResampler) {
-        #ifdef LIBAV_08
+        #if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
             audio_resample_close(AudioResampler);
             AudioResampler=NULL;
         #else
@@ -853,7 +853,7 @@ bool cEncodeVideo::DoEncode() {
 
     // Init Resampler (if needed)
     if (AudioStream) {
-        #if defined(LIBAV_08)
+        #if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
             if ((AudioStream->codec->sample_fmt!=RenderMusic.SampleFormat)||(AudioStream->codec->channels!=RenderMusic.Channels)||(AudioSampleRate!=RenderMusic.SamplingRate)) {
                 if (!AudioResamplerBuffer) {
                     AudioResamplerBufferSize=AVCODEC_MAX_AUDIO_FRAME_SIZE*ToEncodeMusic.Channels;
@@ -1025,7 +1025,7 @@ bool cEncodeVideo::DoEncode() {
                     PacketSound=(u_int8_t *)av_malloc(RenderMusic.SoundPacketSize+4);
                     memset(PacketSound,0,RenderMusic.SoundPacketSize);
                 }
-                #if defined(LIBAV_08)
+                #if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
                     // LIBAV 0.8 => ToEncodeMusic must have exactly AudioStream->codec->frame_size data
                     if ((AudioResampler!=NULL)&&(AudioResamplerBuffer!=NULL)) {
                         int64_t DestNbrSamples=RenderMusic.SoundPacketSize/(RenderMusic.Channels*av_get_bytes_per_sample(RenderMusic.SampleFormat));
@@ -1108,7 +1108,7 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
             ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: PacketSound==NULL"));
             Continue=false;
         } else {
-            #if defined(LIBAV_08)
+            #if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
                 DestPacket=(u_int8_t *)PacketSound;
             #elif defined(USELIBAVRESAMPLE)
                 // LIBAV 9 => Convert sample format (is needed)

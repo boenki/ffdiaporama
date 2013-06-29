@@ -237,6 +237,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // We have finish with the SplashScreen
     screen.hide();
+    toolTipTowhatsThis(this);
 
     connect(ui->TABTooltip,SIGNAL(linkActivated(const QString)),this,SLOT(s_Action_OpenTABHelpLink(const QString)));
     connect(ui->ToolBoxNormal,SIGNAL(currentChanged(int)),this,SLOT(s_Event_ToolbarChanged(int)));
@@ -254,7 +255,6 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->ActionSave_as_BT,SIGNAL(released()),this,SLOT(s_Action_SaveAs()));                          connect(ui->ActionSave_as_BT_2,SIGNAL(released()),this,SLOT(s_Action_SaveAs()));
     connect(ui->Action_PrjProperties_BT,SIGNAL(released()),this,SLOT(s_Action_ProjectProperties()));        connect(ui->Action_PrjProperties_BT_2,SIGNAL(released()),this,SLOT(s_Action_ProjectProperties()));
     connect(ui->ActionConfiguration_BT,SIGNAL(released()),this,SLOT(s_Action_ChangeApplicationSettings())); connect(ui->ActionConfiguration_BT_2,SIGNAL(released()),this,SLOT(s_Action_ChangeApplicationSettings()));
-    connect(ui->Action_Exit_BT,SIGNAL(released()),this,SLOT(s_Action_Exit()));                              connect(ui->Action_Exit_BT_2,SIGNAL(released()),this,SLOT(s_Action_Exit()));
 
     // Project menu
     connect(ui->ActionAdd_BT,SIGNAL(released()),this,SLOT(s_Action_AddFile()));
@@ -283,6 +283,14 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->actionPaste,SIGNAL(triggered()),this,SLOT(s_Action_PasteFromClipboard()));
     connect(ui->ActionEdit_BT,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));
     connect(ui->ActionEdit_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_EditObject()));
+
+    // Exit button
+    connect(ui->Action_Exit_BT,SIGNAL(released()),this,SLOT(s_Action_Exit()));
+    connect(ui->Action_Exit_BT_2,SIGNAL(released()),this,SLOT(s_Action_Exit()));
+    connect(ui->Action_Exit_BT_3,SIGNAL(released()),this,SLOT(s_Action_Exit()));
+    connect(ui->Action_Exit_BT_4,SIGNAL(released()),this,SLOT(s_Action_Exit()));
+    connect(ui->Action_Exit_BT_5,SIGNAL(released()),this,SLOT(s_Action_Exit()));
+
 
     connect(QApplication::clipboard(),SIGNAL(dataChanged()),this,SLOT(s_Event_ClipboardChanged()));
 
@@ -382,6 +390,18 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     s_Event_ClipboardChanged();     // Setup clipboard button state
 
     if (ApplicationConfig->CheckConfigAtStartup) QTimer::singleShot(LATENCY,this,SLOT(s_Action_DlgCheckConfig()));
+}
+
+//====================================================================================================================
+// Function use to duplicate toolTip properties of all child object to whatsThis properties
+
+void MainWindow::toolTipTowhatsThis(QObject *StartObj) {
+    if (StartObj->property("toolTip").toString()!="") {
+        StartObj->setProperty("whatsThis",StartObj->property("toolTip").toString());
+        if (ApplicationConfig->DisableTooltips) StartObj->setProperty("toolTip","");
+    } else if ((!ApplicationConfig->DisableTooltips)&&(StartObj->property("toolTip").toString()=="")&&(StartObj->property("whatsThis").toString()!=""))
+        StartObj->setProperty("toolTip",StartObj->property("whatsThis").toString());
+    for (int i=0;i<StartObj->children().count();i++) toolTipTowhatsThis(StartObj->children().at(i));
 }
 
 //====================================================================================================================
@@ -1297,6 +1317,7 @@ void MainWindow::s_Action_ChangeApplicationSettings() {
         ToStatusBar(QApplication::translate("MainWindow","Saving configuration file and applying new configuration ..."));
         QTimer::singleShot(LATENCY,this,SLOT(DoChangeApplicationSettings()));
         ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
+        toolTipTowhatsThis(this);
     }
 }
 

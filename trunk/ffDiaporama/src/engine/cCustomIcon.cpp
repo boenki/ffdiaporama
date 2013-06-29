@@ -49,7 +49,7 @@
             return image;
 
         // Get bitmap bits
-        uchar *data = (uchar *) qMalloc(bmi.bmiHeader.biSizeImage);
+        uchar *data = (uchar *)malloc(bmi.bmiHeader.biSizeImage);
 
         if (GetDIBits(hdc, bitmap, 0, h, data, &bmi, DIB_RGB_COLORS)) {
             // Create image and copy data into image.
@@ -61,7 +61,7 @@
         } else {
             ToLog(LOGMSG_CRITICAL,"qt_fromWinHBITMAP(), failed to get bitmap bits");
         }
-        qFree(data);
+        free(data);
 
         return image;
     }

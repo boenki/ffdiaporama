@@ -47,11 +47,17 @@ void DlgMusicProperties::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::DoInitDialog");
 
     // Init embeded widgets
-    ui->PlayListTable->horizontalHeader()->setResizeMode(0,QHeaderView::ResizeToContents);
-    ui->PlayListTable->horizontalHeader()->setResizeMode(1,QHeaderView::ResizeToContents);
-    ui->PlayListTable->horizontalHeader()->setResizeMode(2,QHeaderView::ResizeToContents);
-    ui->PlayListTable->horizontalHeader()->setResizeMode(3,QHeaderView::ResizeToContents);
-
+    #if QT_VERSION >= 0x050000
+        ui->PlayListTable->horizontalHeader()->setSectionResizeMode(0,QHeaderView::ResizeToContents);
+        ui->PlayListTable->horizontalHeader()->setSectionResizeMode(1,QHeaderView::ResizeToContents);
+        ui->PlayListTable->horizontalHeader()->setSectionResizeMode(2,QHeaderView::ResizeToContents);
+        ui->PlayListTable->horizontalHeader()->setSectionResizeMode(3,QHeaderView::ResizeToContents);
+    #else
+        ui->PlayListTable->horizontalHeader()->setResizeMode(0,QHeaderView::ResizeToContents);
+        ui->PlayListTable->horizontalHeader()->setResizeMode(1,QHeaderView::ResizeToContents);
+        ui->PlayListTable->horizontalHeader()->setResizeMode(2,QHeaderView::ResizeToContents);
+        ui->PlayListTable->horizontalHeader()->setResizeMode(3,QHeaderView::ResizeToContents);
+    #endif
     RefreshControl(true);
 
     // Define handler
@@ -176,7 +182,11 @@ void DlgMusicProperties::RefreshControl(bool RefreshList) {
                 InternalCB->setCurrentIndex(InternalCB->findText(QString("%1%").arg(int(DiaporamaObject->MusicList[CurIndex].Volume*100))));
                 ui->PlayListTable->setCellWidget(j,2,InternalCB);
                 Item=new QTableWidgetItem(QFileInfo(DiaporamaObject->MusicList[CurIndex].FileName).path());     Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,3,Item);
-                ui->PlayListTable->verticalHeader()->setResizeMode(j,QHeaderView::ResizeToContents);
+                #if QT_VERSION >= 0x050000
+                    ui->PlayListTable->verticalHeader()->setSectionResizeMode(j,QHeaderView::ResizeToContents);
+                #else
+                    ui->PlayListTable->verticalHeader()->setResizeMode(j,QHeaderView::ResizeToContents);
+                #endif
             }
         }
 
@@ -251,8 +261,11 @@ void DlgMusicProperties::s_AddMusic() {
             InternalCB->setCurrentIndex(InternalCB->findText(QString("%1%").arg(int(DiaporamaObject->MusicList[CurIndex].Volume*100))));
             ui->PlayListTable->setCellWidget(j,2,InternalCB);
             Item=new QTableWidgetItem(QFileInfo(DiaporamaObject->MusicList[CurIndex].FileName).path());     Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,3,Item);
-
-            ui->PlayListTable->verticalHeader()->setResizeMode(j,QHeaderView::ResizeToContents);
+            #if QT_VERSION >= 0x050000
+                ui->PlayListTable->verticalHeader()->setSectionResizeMode(j,QHeaderView::ResizeToContents);
+            #else
+                ui->PlayListTable->verticalHeader()->setResizeMode(j,QHeaderView::ResizeToContents);
+            #endif
             CurIndex++;
         } else {
             CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("DlgMusicProperties","Error","Error message"),

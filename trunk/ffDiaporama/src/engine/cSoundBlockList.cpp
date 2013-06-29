@@ -36,6 +36,7 @@ cSoundBlockList::cSoundBlockList() {
     SampleBytes         =2;                                                                 // 16 bits : Size of a sample
     dDuration           =double(SoundPacketSize)/double(Channels*SampleBytes*SamplingRate); // Duration of a packet
     NbrPacketForFPS     =1;                                                                 // Number of packet for FPS
+    Adjusted            =false;
 }
 
 //====================================================================================================================
@@ -141,6 +142,44 @@ void cSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
 void cSoundBlockList::AppendNullSoundPacket(int64_t Position) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendNullSoundPacket");
     AppendPacket(Position,NULL);
+}
+
+//====================================================================================================================
+// Synchronise sound and video by adding null sound to catch VideoPosition
+//====================================================================================================================
+void cSoundBlockList::AdjustSoundPosition(int64_t SoundPosition,int64_t VideoPosition) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AdjustSoundPosition");
+    if ((CurrentTempSize+SoundPacketSize*List.count())==0) {
+        if (SoundPosition>VideoPosition) {
+            int64_t Delay=int64_t((qreal(SoundPosition-VideoPosition)/1000000)*SamplingRate)*SampleBytes*Channels;
+            u_int8_t *NullData=(u_int8_t *)av_malloc(Delay+8);
+            memset(NullData,0,Delay);
+            AppendData(VideoPosition,(int16_t *)NullData,Delay);
+            av_free(NullData);
+        }
+    } else if (CurrentPosition>VideoPosition) {
+        u_int8_t *OldPacket=(u_int8_t *)av_malloc(List.count()*SoundPacketSize+CurrentTempSize+8);
+        u_int8_t *CurOldPacket=OldPacket;
+        int64_t  CurSize=0;
+        int64_t  OldPosition=CurrentPosition;
+        while (!List.isEmpty()) {
+            u_int8_t *Packet=(u_int8_t *)List.takeFirst();
+            memcpy(CurOldPacket,Packet,SoundPacketSize);
+            av_free(Packet);
+            CurOldPacket+=SoundPacketSize;
+            CurSize+=SoundPacketSize;
+        }
+        if (CurrentTempSize) {
+            memcpy(CurOldPacket,TempData,CurrentTempSize);
+            CurSize+=CurrentTempSize;
+            CurrentTempSize=0;
+        }
+        CurrentPosition=-1;
+        AdjustSoundPosition(OldPosition,VideoPosition);
+        AppendData(SoundPosition,(int16_t *)OldPacket,CurSize);
+        av_free(OldPacket);
+    }
+    Adjusted=true;
 }
 
 //====================================================================================================================

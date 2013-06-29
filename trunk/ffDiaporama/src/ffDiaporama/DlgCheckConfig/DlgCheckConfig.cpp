@@ -62,7 +62,8 @@ void DlgCheckConfig::DoInitDialog() {
     // ffDiaporama
     ui->ListWidget->addItem(new QListWidgetItem(QString("ffDiaporama:%1").arg(BaseApplicationConfig->ApplicationVersion)));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Operating system version: %1 - %2 Core/CPU").arg(BaseApplicationConfig->Plateforme).arg(getCpuCount())));
-    #if defined(Q_OS_WIN32) || defined(Q_OS_LINUX32)
+
+    #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32))
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Application architecture: 32 bits")));
     #else
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Application architecture: 64 bits")));
@@ -80,6 +81,8 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","SDL version:%1.%2.%3-Licence=GPL version 2.1 or later").arg(SDL_MAJOR_VERSION).arg(SDL_MINOR_VERSION).arg(SDL_PATCHLEVEL)));
     // fmt_filters
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","fmt_filters version:0.6.4-Licence=LGPL")));
+    // qimageblitz
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","qimageblitz version:0.6.6-Licence=LGPL")));
     // QT
     ui->ListWidget->addItem(new QListWidgetItem(""));
     ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","QT version: %1").arg(qVersion())));
@@ -125,18 +128,6 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_YELLOW),StatusStr));
     ui->ListWidget->addItem(new QListWidgetItem(""));
     #endif
-
-    // QImageBlitz
-    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","QImageBlitz")));
-    BlitzCPUInfo    Info;
-    Status=Info.haveExtension(BlitzCPUInfo::MMX);        ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","MMX extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
-    Status=Info.haveExtension(BlitzCPUInfo::IntegerSSE); ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","IntegerSSE extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
-    Status=Info.haveExtension(BlitzCPUInfo::SSE);        ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","SSE extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
-    Status=Info.haveExtension(BlitzCPUInfo::SSE2);       ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","SSE2 extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
-    Status=Info.haveExtension(BlitzCPUInfo::AMD3DNOW);   ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","AMD3DNOW extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
-    Status=Info.haveExtension(BlitzCPUInfo::AMD3DNOW2);  ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","AMD3DNOW2 extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
-    Status=Info.haveExtension(BlitzCPUInfo::AltiVec);    ui->ListWidget->addItem(new QListWidgetItem(Status?QIcon(ICON_GREEN):QIcon(ICON_RED),QApplication::translate("DlgCheckConfig","AltiVec extension %1").arg(Status?QApplication::translate("DlgCheckConfig","available"):QApplication::translate("DlgCheckConfig","not available"))));
-    ui->ListWidget->addItem(new QListWidgetItem(""));
 
     // libav
     ui->ListWidget->addItem(new QListWidgetItem("libav"));

@@ -139,8 +139,8 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     IsValide                = false;
     IsInit                  = false;
     DisplayMSec             = true;                                 // add msec to display
-    IconPause               = QApplication::style()->standardIcon(QStyle::SP_MediaPlay);    //QIcon(ICON_PLAYERPLAY);
-    IconPlay                = QApplication::style()->standardIcon(QStyle::SP_MediaPause);   //QIcon(ICON_PLAYERPAUSE);
+    IconPause               = QIcon(ICON_PLAYERPLAY);               // QApplication::style()->standardIcon(QStyle::SP_MediaPlay)
+    IconPlay                = QIcon(ICON_PLAYERPAUSE);              // QApplication::style()->standardIcon(QStyle::SP_MediaPause)
     PlayerPlayMode          = false;                                // Is player currently play mode
     PlayerPauseMode         = false;                                // Is player currently plause mode
     IsSliderProcess         = false;

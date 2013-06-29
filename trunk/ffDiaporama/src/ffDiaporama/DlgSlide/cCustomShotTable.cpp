@@ -158,8 +158,13 @@ cCustomShotTable::cCustomShotTable(QWidget *parent):QTableWidget(parent) {
     IsDragOn        =0;
     DiaporamaObject =NULL;
 
+    #if QT_VERSION >= 0x050000
+    horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    #else
     horizontalHeader()->setResizeMode(QHeaderView::Fixed);
     verticalHeader()->setResizeMode(QHeaderView::Fixed);
+    #endif
     setSelectionBehavior(QAbstractItemView::SelectItems);
     setSelectionMode(QAbstractItemView::SingleSelection);
 

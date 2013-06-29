@@ -32,7 +32,12 @@
 #include <QTime>
 #include <QDateTime>
 #include <QImage>
-#include <QtSvg>
+
+#if QT_VERSION >= 0x050000
+    #include <QtSvg/QtSvg>
+#else
+    #include <QtSvg>
+#endif
 
 // Include some common various class
 #include "cDeviceModelDef.h"                // Contains Libav include
@@ -52,7 +57,7 @@
     #include <exiv2/image.hpp>
 #endif
 
-#ifdef LIBAV_08
+#if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
     //****************************************************************************************************************************************************************
     // TAGLIB PART only if LIBAV_08 because since LIBAV_09, thumbnails are reading using libav
     //****************************************************************************************************************************************************************
@@ -274,8 +279,10 @@ public:
     ReSampleContext         *RSC;
     #elif defined(USELIBSWRESAMPLE)
     SwrContext              *RSC;
-    #elif defined(USELIBAVRESAMPLE)
+    #elif defined(LIBAV_09) //#elif defined(USELIBAVRESAMPLE)
     AVAudioResampleContext  *RSC;
+    #else
+    ReSampleContext         *RSC;
     #endif
     #if defined(LIBAV_09)
     uint64_t                RSC_InChannelLayout,RSC_OutChannelLayout;

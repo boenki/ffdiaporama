@@ -136,10 +136,10 @@ void DlgImageCorrection::DoInitDialog() {
         case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
 
     }
-    ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+    ProjectGeometry=GetDoubleValue(QString("%1").arg(ProjectGeometry,0,'e'));  // Rounded to same number as style managment
 
     ImageGeometry=IsVideo?qreal(CurrentBrush->Video->ImageHeight)/qreal(CurrentBrush->Video->ImageWidth):qreal(CurrentBrush->Image->ImageHeight)/qreal(CurrentBrush->Image->ImageWidth);
-    ImageGeometry=QString("%1").arg(ImageGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+    ImageGeometry=GetDoubleValue(QString("%1").arg(ImageGeometry,0,'e'));  // Rounded to same number as style managment
     ui->RulersBT->setIcon(QIcon(BaseApplicationConfig->FramingRuler?QString(ICON_RULER_ON):QString(ICON_RULER_OFF)));
 
     ui->RotateED->setMinimum(-180);
@@ -229,12 +229,6 @@ void DlgImageCorrection::DoInitDialog() {
     connect(ui->ImplodeSlider,SIGNAL(valueChanged(int)),this,SLOT(s_ImplodeSliderMoved(int)));
     connect(ui->ImplodeValue,SIGNAL(valueChanged(int)),this,SLOT(s_ImplodeSliderMoved(int)));
     connect(ui->ImplodeResetBT,SIGNAL(clicked()),this,SLOT(s_ImplodeReset()));
-    connect(ui->WaveAmpSlider,SIGNAL(valueChanged(int)),this,SLOT(s_WaveAmpSliderMoved(int)));
-    connect(ui->WaveAmpValue,SIGNAL(valueChanged(int)),this,SLOT(s_WaveAmpSliderMoved(int)));
-    connect(ui->WaveAmpResetBT,SIGNAL(clicked()),this,SLOT(s_WaveAmpReset()));
-    connect(ui->WaveFreqSlider,SIGNAL(valueChanged(int)),this,SLOT(s_WaveFreqSliderMoved(int)));
-    connect(ui->WaveFreqValue,SIGNAL(valueChanged(int)),this,SLOT(s_WaveFreqSliderMoved(int)));
-    connect(ui->WaveFreqResetBT,SIGNAL(clicked()),this,SLOT(s_WaveFreqReset()));
 
     connect(ui->FilterOnOff_GrayCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Gray_Changed(int)));
     connect(ui->FilterOnOff_EqualizeCB,SIGNAL(stateChanged(int)),this,SLOT(s_OnOffFilter_Equalize_Changed(int)));
@@ -329,7 +323,7 @@ void DlgImageCorrection::DoGlobalUndo() {
     if (IsVideo) {
         CurrentBrush->Video->StartPos=QTime().fromString(root.attribute("StartPos"));
         CurrentBrush->Video->EndPos  =QTime().fromString(root.attribute("EndPos"));
-        CurrentBrush->SoundVolume    =root.attribute("SoundVolume").toDouble();
+        CurrentBrush->SoundVolume    =GetDoubleValue(root,"SoundVolume");
         CurrentBrush->Deinterlace    =root.attribute("Deinterlace")=="1";
     }
     if (UndoReloadImage) {
@@ -365,7 +359,7 @@ void DlgImageCorrection::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
     if (IsVideo) {
         CurrentBrush->Video->StartPos=QTime().fromString(root.attribute("StartPos"));
         CurrentBrush->Video->EndPos  =QTime().fromString(root.attribute("EndPos"));
-        CurrentBrush->SoundVolume    =root.attribute("SoundVolume").toDouble();
+        CurrentBrush->SoundVolume    =GetDoubleValue(root,"SoundVolume");
         CurrentBrush->Deinterlace    =root.attribute("Deinterlace")=="1";
     }
     if (BrushFileName!=((CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName)) {
@@ -379,7 +373,7 @@ void DlgImageCorrection::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
         }
         // Redo initialisation of controls
         ImageGeometry=CurrentBrush->Video!=NULL?qreal(CurrentBrush->Video->ImageHeight)/qreal(CurrentBrush->Video->ImageWidth):qreal(CurrentBrush->Image->ImageHeight)/qreal(CurrentBrush->Image->ImageWidth);
-        ImageGeometry=QString("%1").arg(ImageGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+        ImageGeometry=GetDoubleValue(QString("%1").arg(ImageGeometry,0,'e'));  // Rounded to same number as style managment
         ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
         ui->InteractiveZone->RefreshDisplay();
         int OldFramingStyle=CurrentFramingStyle;
@@ -478,20 +472,6 @@ void DlgImageCorrection::s_SwirlReset() {
 void DlgImageCorrection::s_ImplodeReset() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_ImplodeReset");
     s_ImplodeSliderMoved(0);
-}
-
-//====================================================================================================================
-
-void DlgImageCorrection::s_WaveAmpReset() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_WaveAmpReset");
-    s_WaveAmpSliderMoved(0);
-}
-
-//====================================================================================================================
-
-void DlgImageCorrection::s_WaveFreqReset() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_WaveFreqReset");
-    s_WaveFreqSliderMoved(15);
 }
 
 //====================================================================================================================
@@ -701,8 +681,6 @@ void DlgImageCorrection::RefreshControls() {
     // Image distorsion
     ui->SwirlSlider->setValue(int(CurrentBrush->Swirl));            ui->SwirlValue->setValue(int(CurrentBrush->Swirl));
     ui->ImplodeSlider->setValue(int(CurrentBrush->Implode*100));    ui->ImplodeValue->setValue(int(CurrentBrush->Implode*100));
-    ui->WaveAmpSlider->setValue(int(CurrentBrush->WaveAmp));        ui->WaveAmpValue->setValue(int(CurrentBrush->WaveAmp));
-    ui->WaveFreqSlider->setValue(int(CurrentBrush->WaveFreq));      ui->WaveFreqValue->setValue(int(CurrentBrush->WaveFreq));
 
     // Speed wave
     if (DefaultSpeedWave!=SPEEDWAVE_DISABLE) ui->SpeedWaveCB->SetCurrentValue(CurrentBrush->ImageSpeedWave);
@@ -797,7 +775,7 @@ void DlgImageCorrection::s_ChangeFile() {
     if (IsValide) {
         // Redo initialisation of controls
         ImageGeometry=IsVideo?qreal(CurrentBrush->Video->ImageHeight)/qreal(CurrentBrush->Video->ImageWidth):qreal(CurrentBrush->Image->ImageHeight)/qreal(CurrentBrush->Image->ImageWidth);
-        ImageGeometry=QString("%1").arg(ImageGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+        ImageGeometry=GetDoubleValue(QString("%1").arg(ImageGeometry,0,'e'));  // Rounded to same number as style managment
         ui->InteractiveZone->InitCachedImage(ui->InteractiveZone->CompoObject,ui->InteractiveZone->BackgroundForm,ui->InteractiveZone->CurrentBrush,ui->InteractiveZone->VideoPosition);
         ui->InteractiveZone->RefreshDisplay();
         int OldFramingStyle=CurrentFramingStyle;
@@ -1179,32 +1157,6 @@ void DlgImageCorrection::s_ImplodeSliderMoved(int Value) {
     CurrentBrush->Implode=double(Value)/100;
     ui->ImplodeSlider->setValue(int(CurrentBrush->Implode*100));
     ui->ImplodeValue->setValue(int(CurrentBrush->Implode*100));
-    ui->InteractiveZone->RefreshDisplay();
-    UpdateFramingStyleCB();
-}
-
-//====================================================================================================================
-
-void DlgImageCorrection::s_WaveAmpSliderMoved(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_WaveAmpSliderMoved");
-    if (FLAGSTOPED) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_BLUE,ui->InteractiveZone,false);
-    CurrentBrush->WaveAmp=double(Value);
-    ui->WaveAmpSlider->setValue(int(CurrentBrush->WaveAmp));
-    ui->WaveAmpValue->setValue(int(CurrentBrush->WaveAmp));
-    ui->InteractiveZone->RefreshDisplay();
-    UpdateFramingStyleCB();
-}
-
-//====================================================================================================================
-
-void DlgImageCorrection::s_WaveFreqSliderMoved(int Value) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::s_WaveFreqSliderMoved");
-    if (FLAGSTOPED) return;
-    AppendPartialUndo(UNDOACTION_EDITZONE_BLUE,ui->InteractiveZone,false);
-    CurrentBrush->WaveFreq=double(Value);
-    ui->WaveFreqSlider->setValue(int(CurrentBrush->WaveFreq));
-    ui->WaveFreqValue->setValue(int(CurrentBrush->WaveFreq));
     ui->InteractiveZone->RefreshDisplay();
     UpdateFramingStyleCB();
 }

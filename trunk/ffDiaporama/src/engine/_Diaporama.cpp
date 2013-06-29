@@ -422,14 +422,14 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         if (Element.hasAttribute("SameAsPrevShot"))             SameAsPrevShot  =Element.attribute("SameAsPrevShot")=="1";
 
         // Attribut of the object
-        if (Element.hasAttribute("x"))                          x               =Element.attribute("x").toDouble();                     // Position x
-        if (Element.hasAttribute("y"))                          y               =Element.attribute("y").toDouble();                     // Position x
-        if (Element.hasAttribute("w"))                          w               =Element.attribute("w").toDouble();                     // size width
-        if (Element.hasAttribute("h"))                          h               =Element.attribute("h").toDouble();                     // size height
+        if (Element.hasAttribute("x"))                          x               =GetDoubleValue(Element,"x");                           // Position x
+        if (Element.hasAttribute("y"))                          y               =GetDoubleValue(Element,"y");                           // Position x
+        if (Element.hasAttribute("w"))                          w               =GetDoubleValue(Element,"w");                           // size width
+        if (Element.hasAttribute("h"))                          h               =GetDoubleValue(Element,"h");                           // size height
         if (Element.hasAttribute("BackgroundTransparent"))      Opacity         =Element.attribute("BackgroundTransparent").toInt();    // Style Opacity of the background of the form
-        if (Element.hasAttribute("RotateZAxis"))                RotateZAxis     =Element.attribute("RotateZAxis").toDouble();           // Rotation from Z axis
-        if (Element.hasAttribute("RotateXAxis"))                RotateXAxis     =Element.attribute("RotateXAxis").toDouble();           // Rotation from X axis
-        if (Element.hasAttribute("RotateYAxis"))                RotateYAxis     =Element.attribute("RotateYAxis").toDouble();           // Rotation from Y axis
+        if (Element.hasAttribute("RotateZAxis"))                RotateZAxis     =GetDoubleValue(Element,"RotateZAxis");                 // Rotation from Z axis
+        if (Element.hasAttribute("RotateXAxis"))                RotateXAxis     =GetDoubleValue(Element,"RotateXAxis");                 // Rotation from X axis
+        if (Element.hasAttribute("RotateYAxis"))                RotateYAxis     =GetDoubleValue(Element,"RotateYAxis");                 // Rotation from Y axis
 
         if (Element.hasAttribute("BlockSpeedWave"))             BlockSpeedWave  =Element.attribute("BlockSpeedWave").toInt();           // Block speed wave
 
@@ -491,10 +491,10 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         if (Element.hasAttribute("TxtScrollX"))                 TxtScrollX          =Element.attribute("TxtScrollX").toInt();               // Scrolling X for text
         if (Element.hasAttribute("TxtScrollY"))                 TxtScrollY          =Element.attribute("TxtScrollY").toInt();               // Scrolling Y for text
         if (Element.hasAttribute("TMType"))                     TMType              =Element.attribute("TMType").toInt();                   // Text margins type
-        if (Element.hasAttribute("TMx"))                        TMx                 =Element.attribute("TMx").toDouble();                   // Text margins
-        if (Element.hasAttribute("TMy"))                        TMy                 =Element.attribute("TMy").toDouble();                   // Text margins
-        if (Element.hasAttribute("TMw"))                        TMw                 =Element.attribute("TMw").toDouble();                   // Text margins
-        if (Element.hasAttribute("TMh"))                        TMh                 =Element.attribute("TMh").toDouble();                   // Text margins
+        if (Element.hasAttribute("TMx"))                        TMx                 =GetDoubleValue(Element,"TMx");                         // Text margins
+        if (Element.hasAttribute("TMy"))                        TMy                 =GetDoubleValue(Element,"TMy");                         // Text margins
+        if (Element.hasAttribute("TMw"))                        TMw                 =GetDoubleValue(Element,"TMw");                         // Text margins
+        if (Element.hasAttribute("TMh"))                        TMh                 =GetDoubleValue(Element,"TMh");                         // Text margins
 
         // Shap part
         if (Element.hasAttribute("BackgroundForm"))             BackgroundForm      =Element.attribute("BackgroundForm").toInt();           // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
@@ -798,7 +798,7 @@ void cCompositionObject::ApplyBackgroundStyle(QString StyleDef) {
         else if (List[i].startsWith("ColorD:"))                 BackgroundBrush->ColorD              =List[i].mid(QString("ColorD:").length());
         else if (List[i].startsWith("ColorF:"))                 BackgroundBrush->ColorF              =List[i].mid(QString("ColorF:").length());
         else if (List[i].startsWith("ColorIntermed:"))          BackgroundBrush->ColorIntermed       =List[i].mid(QString("ColorIntermed:").length());
-        else if (List[i].startsWith("Intermediate:"))           BackgroundBrush->Intermediate        =List[i].mid(QString("Intermediate:").length()).toDouble();
+        else if (List[i].startsWith("Intermediate:"))           BackgroundBrush->Intermediate        =GetDoubleValue(List[i].mid(QString("Intermediate:").length()));
         else if (List[i].startsWith("BrushImage:"))             BackgroundBrush->BrushImage          =List[i].mid(QString("BrushImage:").length());
     }
 }
@@ -834,13 +834,13 @@ void cCompositionObject::ApplyCoordinateStyle(QString StyleDef) {
 
     // Apply Style
     for (int i=0;i<List.count();i++) {
-        if      (List[i].startsWith("X:"))              x               =List[i].mid(QString("X:").length()).toDouble();
-        else if (List[i].startsWith("Y:"))              y               =List[i].mid(QString("Y:").length()).toDouble();
-        else if (List[i].startsWith("W:"))              w               =List[i].mid(QString("W:").length()).toDouble();
-        else if (List[i].startsWith("H:"))              h               =List[i].mid(QString("H:").length()).toDouble();
-        else if (List[i].startsWith("RotateZAxis:"))    RotateZAxis     =List[i].mid(QString("RotateZAxis:").length()).toDouble();
-        else if (List[i].startsWith("RotateXAxis:"))    RotateXAxis     =List[i].mid(QString("RotateXAxis:").length()).toDouble();
-        else if (List[i].startsWith("RotateYAxis:"))    RotateYAxis     =List[i].mid(QString("RotateYAxis:").length()).toDouble();
+        if      (List[i].startsWith("X:"))              x               =GetDoubleValue(List[i].mid(QString("X:").length()));
+        else if (List[i].startsWith("Y:"))              y               =GetDoubleValue(List[i].mid(QString("Y:").length()));
+        else if (List[i].startsWith("W:"))              w               =GetDoubleValue(List[i].mid(QString("W:").length()));
+        else if (List[i].startsWith("H:"))              h               =GetDoubleValue(List[i].mid(QString("H:").length()));
+        else if (List[i].startsWith("RotateZAxis:"))    RotateZAxis     =GetDoubleValue(List[i].mid(QString("RotateZAxis:").length()));
+        else if (List[i].startsWith("RotateXAxis:"))    RotateXAxis     =GetDoubleValue(List[i].mid(QString("RotateXAxis:").length()));
+        else if (List[i].startsWith("RotateYAxis:"))    RotateYAxis     =GetDoubleValue(List[i].mid(QString("RotateYAxis:").length()));
     }
     // if not set by style then compute Aspect Ratio
     if (RecalcAspectRatio) {
@@ -1629,7 +1629,7 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         MusicType         =Element.attribute("MusicType")=="1";                     // Music type : false=same as precedent - true=new playlist definition
         MusicPause        =Element.attribute("MusicPause")=="1";                    // true if music is pause during this object
         MusicReduceVolume =Element.attribute("MusicReduceVolume")=="1";             // true if volume if reduce by MusicReduceFactor
-        MusicReduceFactor =Element.attribute("MusicReduceFactor").toDouble();       // factor for volume reduction if MusicReduceVolume is true
+        MusicReduceFactor =GetDoubleValue(Element,"MusicReduceFactor");             // factor for volume reduction if MusicReduceVolume is true
         int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
         for (int i=0;i<MusicNumber;i++) {
             cMusicObject *MusicObject=new cMusicObject(((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->ApplicationConfig);
@@ -2752,8 +2752,6 @@ bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber)
                 (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Desat                  !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Desat)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Swirl                  !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Swirl)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->Implode                !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->Implode)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->WaveAmp                !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->WaveAmp)||
-                (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->WaveFreq               !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->WaveFreq)||
                 (Object->List[ShotNumber]->ShotComposition.List[i]->BackgroundBrush->OnOffFilter            !=Object->List[ShotNumber-1]->ShotComposition.List[i]->BackgroundBrush->OnOffFilter))
                 IsStatic=false;
         }

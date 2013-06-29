@@ -21,6 +21,15 @@
 #ifndef _GLOBALDEFINES_H
 #define _GLOBALDEFINES_H
 
+// Remove unwanted warnings when using MSVC
+#ifndef _DEPRECATION_DISABLE                /* One time only */
+    #define _DEPRECATION_DISABLE            /* Disable deprecation true */
+    #if (_MSC_VER >= 1400)                  /* Check version */
+        #pragma warning(disable: 4996)      /* Disable deprecation */
+        #pragma warning(disable: 4005)      /* Disable warning on macro redefinition */
+    #endif                                  /* #if defined(NMEA_WIN) && (_MSC_VER >= 1400) */
+#endif                                      /* #ifndef _DEPRECATION_DISABLE */
+
 /* ======================================================================
     THIS FILE MUST ABSOLUTELY BE REFERENCED AT FIRST IN ALL .h FILES OF
     THE PROJECT
@@ -37,14 +46,26 @@
 #include <stdint.h>             // Include stdint with macro activated
 
 //============================================
+// Specific for MSVC
+//============================================
+
+#ifdef _MSC_VER
+    #define snprintf    _snprintf_s
+    #define AVRCAST                     // MSC doesn't allow CAST in struct constant definition
+#else
+    #define AVRCAST (AVRational)        // mingw need CAST in struct constant definition
+#endif
+
+//============================================
 // Minimum QT inclusions needed by all files
 //============================================
 #include <QtCore>
 #include <QApplication>
 #include <QtDebug>
+#include <QDomElement>
 
 #if QT_VERSION >= 0x050000
-// Qt5 code
+    #include <QtConcurrent>
 #else
 // Qt4 code
 #endif
@@ -118,6 +139,8 @@ void    PostEvent(int EventType,QString EventParam="");
 void    ToLog(int MessageType,QString Message,QString Source="internal",bool AddBreak=true);
 QString ito2a(int val);
 QString ito3a(int val);
+double  GetDoubleValue(QDomElement CorrectElement,QString Name);    // Load a double value from an XML element
+double GetDoubleValue(QString sValue);                              // Load a double value from a string
 
 //====================================================================
 // VARIOUS

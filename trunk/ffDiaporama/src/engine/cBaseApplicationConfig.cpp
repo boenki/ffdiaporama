@@ -146,10 +146,11 @@ bool SetWorkingPath(char * const argv[],QString ApplicationName,QString ConfigFi
     #endif
 
     if (!CheckFolder(FileToTest,QDir::currentPath())
-        //&&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationGroupName))
+        #ifdef Q_OS_WIN
+        &&(!CheckFolder(FileToTest,QString("..\\..\\..\\..\\")+ApplicationName))
+        #endif
         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationName))
         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()))
-        //&&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+ApplicationGroupName))
         &&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+ApplicationName))
        ) {
         ToLog(LOGMSG_INFORMATION,QString("Critical error : Impossible to find global configuration file (%1%2)").arg(ApplicationName).arg(ConfigFileExt));
@@ -345,6 +346,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     this->ForceLanguage     =ForceLanguage;
     MainWinState            =false;                                                        // WindowsSettings-ismaximized
     RestoreWindow           =true;                                                         // if true then restore windows size and position
+    DisableTooltips         =false;
     MainWinWSP              =new cSaveWindowPosition("MainWindow",RestoreWindow,true);     // MainWindow - Window size and position
     #ifdef Q_OS_LINUX
         RasterMode          =true;                                                         // Enable or disable raster mode [Linux only]
@@ -525,7 +527,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
 
 //====================================================================================================================
 
-bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication */*App*/) {
+bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfigFile,QApplication * /*App*/) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::LoadConfigurationValues"+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
 
     QFile           file(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile);
@@ -568,6 +570,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
             if (Element.hasAttribute("RasterMode"))                             RasterMode              =Element.attribute("RasterMode")=="1";
             #endif
             if (Element.hasAttribute("RestoreWindow"))                          RestoreWindow           =Element.attribute("RestoreWindow")=="1";
+            if (Element.hasAttribute("DisableTooltips"))                        DisableTooltips         =Element.attribute("DisableTooltips")=="1";
             if (Element.hasAttribute("Crop1088To1080"))                         Crop1088To1080          =Element.attribute("Crop1088To1080")!="0";
             if (Element.hasAttribute("Deinterlace"))                            Deinterlace             =Element.attribute("Deinterlace")!="0";
             if (Element.hasAttribute("Smoothing"))                              Smoothing               =Element.attribute("Smoothing")=="1";
@@ -645,6 +648,7 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     Element.setAttribute("RasterMode",              RasterMode?"1":"0");
     #endif
     Element.setAttribute("RestoreWindow",           RestoreWindow?"1":"0");
+    Element.setAttribute("DisableTooltips",         DisableTooltips?"1":"0");
     Element.setAttribute("ForceLanguage",           ForceLanguage);
     Element.setAttribute("Crop1088To1080",          Crop1088To1080?"1":"0");
     Element.setAttribute("Deinterlace",             Deinterlace?"1":"0");
@@ -987,7 +991,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (TimelineHeight<TIMELINEMINHEIGH) TimelineHeight=TIMELINEMINHEIGH;
         if (TimelineHeight>TIMELINEMAXHEIGH) TimelineHeight=TIMELINEMAXHEIGH;
         if (Element.hasAttribute("DefaultFraming"))             DefaultFraming              =Element.attribute("DefaultFraming").toInt();
-        if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS                  =Element.attribute("PreviewFPS").toDouble();
+        if (Element.hasAttribute("PreviewFPS"))                 PreviewFPS                  =GetDoubleValue(Element,"PreviewFPS");
         if (Element.hasAttribute("PreviewSamplingRate"))        PreviewSamplingRate         =Element.attribute("PreviewSamplingRate").toLong();
         if (Element.hasAttribute("MaxVideoPreviewHeight"))      MaxVideoPreviewHeight       =Element.attribute("MaxVideoPreviewHeight").toInt();
         if (Element.hasAttribute("RandomTransition"))           RandomTransition            =Element.attribute("RandomTransition")=="1";

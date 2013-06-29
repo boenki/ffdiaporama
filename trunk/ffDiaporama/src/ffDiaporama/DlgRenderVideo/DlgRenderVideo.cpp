@@ -28,6 +28,17 @@
 #include <QFutureWatcher>
 
 //====================================================================================================================
+// Because of MSVC ....
+//====================================================================================================================
+
+AVRational MakeAVRational(int num,int den) {
+    AVRational AVR;
+    AVR.num=num;
+    AVR.den=den;
+    return AVR;
+}
+
+//====================================================================================================================
 
 DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgRenderVideo) {
@@ -919,7 +930,7 @@ bool DlgRenderVideo::DoAccept() {
 
             Mutex.lock();
             Continue=Encoder.OpenEncoder(Diaporama,OutputFileName,FromSlide,ToSlide,
-                                    false,AV_CODEC_ID_NONE,NULL,0,0,0,0,0,(AVRational){1,1},0,
+                                    false,AV_CODEC_ID_NONE,NULL,0,0,0,0,0,MakeAVRational(1,1),0,
                                     true,AudioCodecIndex,2,AudioBitRate,AudioFrequency,Language);
             Mutex.unlock();
 
@@ -947,17 +958,17 @@ bool DlgRenderVideo::DoAccept() {
 
                     case STANDARD_PAL :
                         switch (Diaporama->ImageGeometry) {
-                            case GEOMETRY_4_3:      Final_W=720;  Final_H=576;  Internal_W=768;  Internal_H=576;  PixelAspectRatio=(AVRational){16,15};     break;
-                            case GEOMETRY_16_9:     Final_W=720;  Final_H=576;  Internal_W=1024; Internal_H=576;  PixelAspectRatio=(AVRational){64,45};     break;
-                            case GEOMETRY_40_17:    Final_W=720;  Final_H=436;  Internal_W=1024; Internal_H=436;  PixelAspectRatio=(AVRational){64,45};     break;
+                            case GEOMETRY_4_3:      Final_W=720;  Final_H=576;  Internal_W=768;  Internal_H=576;  PixelAspectRatio=MakeAVRational(16,15);     break;
+                            case GEOMETRY_16_9:     Final_W=720;  Final_H=576;  Internal_W=1024; Internal_H=576;  PixelAspectRatio=MakeAVRational(64,45);     break;
+                            case GEOMETRY_40_17:    Final_W=720;  Final_H=436;  Internal_W=1024; Internal_H=436;  PixelAspectRatio=MakeAVRational(64,45);     break;
                         }
                         Ext_H=576-Final_H;
                         break;
                     case STANDARD_NTSC:
                         switch (Diaporama->ImageGeometry) {
-                            case GEOMETRY_4_3:      Final_W=720;  Final_H=480;  Internal_W=640;  Internal_H=480;  PixelAspectRatio=(AVRational){8,9};       break;
-                            case GEOMETRY_16_9:     Final_W=720;  Final_H=480;  Internal_W=854;  Internal_H=480;  PixelAspectRatio=(AVRational){32,27};     break;
-                            case GEOMETRY_40_17:    Final_W=720;  Final_H=306;  Internal_W=854;  Internal_H=306;  PixelAspectRatio=(AVRational){32,27};     break;
+                            case GEOMETRY_4_3:      Final_W=720;  Final_H=480;  Internal_W=640;  Internal_H=480;  PixelAspectRatio=MakeAVRational(8,9);       break;
+                            case GEOMETRY_16_9:     Final_W=720;  Final_H=480;  Internal_W=854;  Internal_H=480;  PixelAspectRatio=MakeAVRational(32,27);     break;
+                            case GEOMETRY_40_17:    Final_W=720;  Final_H=306;  Internal_W=854;  Internal_H=306;  PixelAspectRatio=MakeAVRational(32,27);     break;
                         }
                         Ext_H=480-Final_H;
                         break;
@@ -968,7 +979,7 @@ bool DlgRenderVideo::DoAccept() {
                 Final_H     =DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize].Height;
                 Internal_W  =Final_W;
                 Internal_H  =Final_H;
-                PixelAspectRatio=(AVRational){1,1};
+                PixelAspectRatio=MakeAVRational(1,1);
             }
 
             Mutex.lock();
