@@ -123,11 +123,32 @@ void PostEvent(int EventType,QString EventParam) {
 
 //====================================================================================================================
 
+double GetDoubleValue(QDomElement CorrectElement,QString Name) {
+    QString sValue=CorrectElement.attribute(Name);
+    bool    IsOk=true;
+    double  dValue=sValue.toDouble(&IsOk);
+    if (!IsOk) {
+        sValue=sValue.replace(",",".");
+        dValue=sValue.toDouble(&IsOk);
+    }
+    return dValue;
+}
+
+double GetDoubleValue(QString sValue) {
+    bool    IsOk=true;
+    double  dValue=sValue.toDouble(&IsOk);
+    if (!IsOk) {
+        sValue=sValue.replace(",",".");
+        dValue=sValue.toDouble(&IsOk);
+    }
+    return dValue;
+}
+
+//====================================================================================================================
+
 bool PreviousBreak=true;
 
 void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
-    if ((MessageType!=LOGMSG_DEBUGTRACE)&&(EventReceiver!=NULL)) PostEvent(EVENT_GeneralLogChanged,QString("%1###:###%2###:###%3").arg((int)MessageType).arg(Message).arg(Source));
-
     QString DateTime=QTime::currentTime().toString("hh:mm:ss.zzz");
 
     if ((MessageType>=LogMsgLevel)&&(PreviousBreak)) {
@@ -137,11 +158,22 @@ void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
         if (Message.endsWith(char(13))) Message=Message.left(Message.length()-QString(char(13)).length());
         if (Message.endsWith(char(10))) Message=Message.left(Message.length()-QString(char(10)).length());
         #endif
-        switch (MessageType) {
-            case LOGMSG_DEBUGTRACE:    std::cout << QString("["+DateTime+":DEBUG]\t" +Message+(AddBreak?"\n":"")).toLocal8Bit().constData() << std::flush;    break;
-            case LOGMSG_INFORMATION:   std::cout << QString("["+DateTime+":INFO]\t"+Message+(AddBreak?"\n":"")).toLocal8Bit().constData() << std::flush;    break;
-            case LOGMSG_WARNING:       std::cout << QString("["+DateTime+":WARNING]\t"    +Message+(AddBreak?"\n":"")).toLocal8Bit().constData() << std::flush;    break;
-            case LOGMSG_CRITICAL:      std::cout << QString("["+DateTime+":ERROR]\t"      +Message+(AddBreak?"\n":"")).toLocal8Bit().constData() << std::flush;    break;
+        QString MSG="";
+        if (Message!="LIBAV: No accelerated colorspace conversion found from yuv422p to rgb24.") {
+            switch (MessageType) {
+                case LOGMSG_DEBUGTRACE:    MSG=QString("["+DateTime+":DEBUG]\t"     +Message+(AddBreak?"\n":""));  break;
+                case LOGMSG_INFORMATION:   MSG=QString("["+DateTime+":INFO]\t"      +Message+(AddBreak?"\n":""));  break;
+                case LOGMSG_WARNING:       MSG=QString("["+DateTime+":WARNING]\t"   +Message+(AddBreak?"\n":""));  break;
+                case LOGMSG_CRITICAL:      MSG=QString("["+DateTime+":ERROR]\t"     +Message+(AddBreak?"\n":""));  break;
+            }
+        }
+        if (!MSG.isEmpty()) {
+            if ((MessageType!=LOGMSG_DEBUGTRACE)&&(EventReceiver!=NULL)) PostEvent(EVENT_GeneralLogChanged,QString("%1###:###%2###:###%3").arg((int)MessageType).arg(Message).arg(Source));
+            std::cout << MSG.toLocal8Bit().constData() << std::flush;
+            #ifdef Q_OS_WIN
+            if (MSG.endsWith("\n")) MSG=MSG.left(MSG.indexOf("\n"));
+            qDebug()<<MSG;
+            #endif
         }
     } else if (MessageType>=LogMsgLevel) {
         std::cout << Message.toLocal8Bit().constData() << std::flush;

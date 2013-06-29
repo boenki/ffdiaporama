@@ -173,7 +173,7 @@ bool DlgTransitionProperties::DoAccept() {
 
     DiaporamaObject->TransitionFamilly  =ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
     DiaporamaObject->TransitionSubType  =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
-    DiaporamaObject->TransitionDuration =qlonglong(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
+    DiaporamaObject->TransitionDuration =qlonglong(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
     DiaporamaObject->TransitionSpeedWave=ui->SpeedWaveCB->GetCurrentValue();
     return true;
 }
@@ -279,7 +279,7 @@ void DlgTransitionProperties::s_ChTransitionCB(int) {
     // Change Object settings to force a transition
     DiaporamaObject->TransitionFamilly  =1;
     DiaporamaObject->TransitionSubType  =0;
-    DiaporamaObject->TransitionDuration =int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
+    DiaporamaObject->TransitionDuration =int(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
 
     // Retrieve time information
     TimePosition=DiaporamaObject->Parent->GetObjectStartPosition(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject));
@@ -299,7 +299,7 @@ void DlgTransitionProperties::s_ChTransitionCB(int) {
     // Adjust Transition
     PreviousFrame->TransitionFamilly =ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
     PreviousFrame->TransitionSubType =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
-    PreviousFrame->TransitionDuration=int(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
+    PreviousFrame->TransitionDuration=int(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
 
     // Restart timer
     Timer.start(double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS);   // Re-start timer for animation
@@ -314,7 +314,7 @@ void DlgTransitionProperties::s_TimerEvent() {
     int CurCol=0;
     int CurRow=0;
     AnimationTime+=double(1000)/DiaporamaObject->Parent->ApplicationConfig->PreviewFPS;
-    if (AnimationTime>int(ui->TransitionDurationCB->currentText().toDouble()*double(1000))) AnimationTime=0;
+    if (AnimationTime>int(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000))) AnimationTime=0;
 
     // Create a frame object base on PreviousFrame
     cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame);

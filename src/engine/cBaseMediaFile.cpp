@@ -892,6 +892,7 @@ void cImageFile::GetFullInformationFromFile() {
     bool                ExifOk=false;
 
     if (!IsVectorImg) {
+
         // ******************************************************************************************************
         // Try to load EXIF information using library exiv2
         // ******************************************************************************************************
@@ -904,7 +905,7 @@ void cImageFile::GetFullInformationFromFile() {
             #endif
             ExifOk=true;
         }
-        catch( Exiv2::Error& /*e*/ ) {
+        catch( Exiv2::Error& ) {
             ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
         }
         if ((ExifOk)&&(ImageFile->good())) {
@@ -941,11 +942,12 @@ void cImageFile::GetFullInformationFromFile() {
             // Get size information
             ImageWidth =ImageFile->pixelWidth();
             ImageHeight=ImageFile->pixelHeight();
-            /*if (GetInformationValue("Photo.PixelXDimension")!="")       ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
-                else if (GetInformationValue("Image.ImageWidth")!="")   ImageWidth =GetInformationValue("Image.ImageWidth").toInt();            // TIFF Version
-            if (GetInformationValue("Photo.PixelYDimension")!="")       ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
-                else if (GetInformationValue("Image.ImageLength")!="")  ImageHeight=GetInformationValue("Image.ImageLength").toInt();           // TIFF Version
-            */
+
+            //if (GetInformationValue("Photo.PixelXDimension")!="")       ImageWidth =GetInformationValue("Photo.PixelXDimension").toInt();
+            //    else if (GetInformationValue("Image.ImageWidth")!="")   ImageWidth =GetInformationValue("Image.ImageWidth").toInt();            // TIFF Version
+            //if (GetInformationValue("Photo.PixelYDimension")!="")       ImageHeight=GetInformationValue("Photo.PixelYDimension").toInt();
+            //    else if (GetInformationValue("Image.ImageLength")!="")  ImageHeight=GetInformationValue("Image.ImageLength").toInt();           // TIFF Version
+
             // switch ImageWidth and ImageHeight if image was rotated
             if ((ImageOrientation==6)||(ImageOrientation==8)) {
                 int IW=ImageWidth;
@@ -1012,6 +1014,7 @@ void cImageFile::GetFullInformationFromFile() {
             }
             #endif
         }
+
     } else {
         // Vector image file
         QSvgRenderer SVGImg(FileName);
@@ -1314,7 +1317,9 @@ void cVideoFile::GetFullInformationFromFile() {
     //*********************************************************************************************************
     // Open file and get a LibAVFormat context and an associated LibAVCodec decoder
     //*********************************************************************************************************
-    if (avformat_open_input(&LibavFile,FileName.toLocal8Bit(),NULL,NULL)!=0) {
+    char filename[512];
+    strcpy(filename,FileName.toLocal8Bit());
+    if (avformat_open_input(&LibavFile,filename,NULL,NULL)!=0) {
         LibavFile=NULL;
         Mutex.unlock();
         return;
@@ -1862,6 +1867,8 @@ void cVideoFile::CloseResampler() {
             avresample_free(&RSC);
         #elif defined(USELIBSWRESAMPLE)
             swr_free(&RSC);
+        #else
+            audio_resample_close(RSC);
         #endif
         RSC=NULL;
     }
@@ -1951,6 +1958,16 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
                 }
             }
             if (!RSC) ToLog(LOGMSG_CRITICAL,QString("CheckResampler: swr_alloc_set_opts failed"));
+        #else
+            RSC=av_audio_resample_init(    // Context for resampling audio data
+                RSC_OutChannels,RSC_InChannels,             // output_channels, input_channels
+                RSC_OutSampleRate,RSC_InSampleRate,         // output_rate, input_rate
+                RSC_OutSampleFmt,RSC_InSampleFmt,           // sample_fmt_out, sample_fmt_in
+                0,                                          // filter_length
+                0,                                          // log2_phase_count
+                1,                                          // linear
+                0);                                         // cutoff
+            if (!RSC) ToLog(LOGMSG_CRITICAL,QString("CheckResampler: av_audio_resample_init failed"));
         #endif
     }
 }
@@ -2333,6 +2350,9 @@ u_int8_t *cVideoFile::Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSample
         Data=(u_int8_t *)av_malloc(MaxAudioLenDecoded);
         u_int8_t *out[]={Data};
         if (Data) *SizeDecoded=swr_convert(RSC,out,MaxAudioLenDecoded/DstSampleSize,(const u_int8_t **)Frame->data,Frame->nb_samples)*DstSampleSize;
+    #else
+        Data=(u_int8_t *)av_malloc(MaxAudioLenDecoded);
+        if (Data) *SizeDecoded=audio_resample(RSC,(short int*)Data,(short int*)Frame->data[0],Frame->nb_samples)*DstSampleSize;
     #endif
     return Data;
 }
@@ -2559,74 +2579,66 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEn
                 PacketTemp.size=StreamPacket->size;
 
                 // NOTE: the audio packet can contain several NbrFrames
-                if (FramePosition!=-1) {
-                    while ((Continue)&&(PacketTemp.size>0)) {
-                        AVFrame *Frame=avcodec_alloc_frame();
-                        int     got_frame;
-                        int     Len=avcodec_decode_audio4(AudioStream->codec,Frame,&got_frame,&PacketTemp);
-                        if (Len<0) {
-                            // if error, we skip the frame and exit the while loop
-                            PacketTemp.size=0;
-                            Continue=false;
-                        } else if (got_frame>0) {
+                while ((Continue)&&(PacketTemp.size>0)) {
+                    AVFrame *Frame=avcodec_alloc_frame();
+                    int     got_frame;
+                    int     Len=avcodec_decode_audio4(AudioStream->codec,Frame,&got_frame,&PacketTemp);
+                    if (Len<0) {
+                        // if error, we skip the frame and exit the while loop
+                        PacketTemp.size=0;
+                        Continue=false;
+                    } else if (got_frame>0) {
 
-                            // Get data (resample if needed)
-                            int64_t  SizeDecoded=0;
-                            u_int8_t *Data      =NULL;
-                            if ((NeedResampling)&&(RSC!=NULL)) {
-                                Data=Resample(Frame,&SizeDecoded,DstSampleSize);
-                            } else {
-                                Data=Frame->data[0];
-                                #if defined(LIBAV_08)
-                                SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
-                                #elif defined(USELIBAVRESAMPLE)
-                                SizeDecoded=av_samples_get_buffer_size(NULL,AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,0);
-                                #elif defined(USELIBSWRESAMPLE)
-                                SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
-                                #endif
-                            }
-                            Continue=(Data!=NULL);
+                        // Get data (resample if needed)
+                        int64_t  pts=((qreal(AudioStream->cur_pkt.pts)*qreal(AudioStream->time_base.num))/qreal(AudioStream->time_base.den))*1000000;
+                        FramePosition=qreal(pts)/1000000;
 
-                            if (Continue) {
-                                // Adjust FrameDuration with real Nbr Sample
-                                FrameDuration=double(SizeDecoded)/SoundTrackBloc->SamplingRate*DstSampleSize;
-
-                                // If wanted position <= CurrentPosition+Packet duration then add this packet to the queue
-                                if ((FramePosition+FrameDuration)>=dPosition) {
-                                    int64_t Delta=0;
-                                    // if dPosition start in the midle of the pack, then calculate delta
-                                    if (dPosition>FramePosition) {
-                                        Delta=round((dPosition-FramePosition)*SoundTrackBloc->SamplingRate)*DstSampleSize;
-                                        if (Delta<0) Delta=0;
-                                    }
-                                    // Append decoded data to SoundTrackBloc
-                                    if (SizeDecoded>Delta) {
-                                        SizeDecoded-=Delta;
-                                        // Adjust volume if master volume <>1
-                                        if (Volume!=1) {
-                                            int16_t *Buf1=(int16_t*)Data+Delta;
-                                            int32_t mix;
-                                            for (int j=0;j<SizeDecoded/4;j++) {
-                                                // Left channel : Adjust if necessary (16 bits)
-                                                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                                                // Right channel : Adjust if necessary (16 bits)
-                                                mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                                            }
-                                        }
-                                        SoundTrackBloc->AppendData(Position,(int16_t*)Data+Delta,SizeDecoded);
-                                        AudioLenDecoded+=SizeDecoded;
-                                    }
-                                }
-                                PacketTemp.data+=Len;
-                                PacketTemp.size-=Len;
-                                FramePosition  =FramePosition+FrameDuration;
-                            }
-
-                            LastAudioReadedPosition =int64_t(FramePosition*AV_TIME_BASE);    // Keep NextPacketPosition for determine next time if we need to seek
-                            if (Data!=Frame->data[0]) av_free(Data);
+                        int64_t  SizeDecoded=0;
+                        u_int8_t *Data      =NULL;
+                        if ((NeedResampling)&&(RSC!=NULL)) {
+                            Data=Resample(Frame,&SizeDecoded,DstSampleSize);
+                        } else {
+                            Data=Frame->data[0];
+                            #if defined(LIBAV_08)
+                            SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
+                            #elif defined(USELIBAVRESAMPLE)
+                            SizeDecoded=av_samples_get_buffer_size(NULL,AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,0);
+                            #elif defined(USELIBSWRESAMPLE)
+                            SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
+                            #endif
                         }
-                        avcodec_free_frame(&Frame);
+                        Continue=(Data!=NULL);
+
+                        if (Continue) {
+                            // Adjust FrameDuration with real Nbr Sample
+                            FrameDuration=double(SizeDecoded)/SoundTrackBloc->SamplingRate*DstSampleSize;
+
+                            // Adjust volume if master volume <>1
+                            if (Volume!=1) {
+                                int16_t *Buf1=(int16_t*)Data;
+                                int32_t mix;
+                                for (int j=0;j<SizeDecoded/4;j++) {
+                                    // Left channel : Adjust if necessary (16 bits)
+                                    mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+                                    // Right channel : Adjust if necessary (16 bits)
+                                    mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+                                }
+                            }
+                            // Sync audio/video (if it was not done before)
+                            if ((!CacheImage.isEmpty())&&(!SoundTrackBloc->Adjusted))
+                                SoundTrackBloc->AdjustSoundPosition(pts>0?pts:Position,CacheImage.first()->Position);
+                            // Append decoded data to SoundTrackBloc
+                            SoundTrackBloc->AppendData(Position,(int16_t*)Data,SizeDecoded);
+                            AudioLenDecoded+=SizeDecoded;
+                            PacketTemp.data+=Len;
+                            PacketTemp.size-=Len;
+                            FramePosition  =FramePosition+FrameDuration;
+                        }
+
+                        LastAudioReadedPosition =int64_t(FramePosition*AV_TIME_BASE);    // Keep NextPacketPosition for determine next time if we need to seek
+                        if (Data!=Frame->data[0]) av_free(Data);
                     }
+                    avcodec_free_frame(&Frame);
                 }
             }
         }
@@ -2967,7 +2979,7 @@ bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QStri
         if (LoadMedia(FileName,AliasList,ModifyFlag)) {
             StartPos=QTime().fromString(Element.attribute("StartPos"));
             EndPos  =QTime().fromString(Element.attribute("EndPos"));
-            Volume  =Element.attribute("Volume").toDouble();
+            Volume  =GetDoubleValue(Element,"Volume");
             return true;
         } else return false;
     } else return false;

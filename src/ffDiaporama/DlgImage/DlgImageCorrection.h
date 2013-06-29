@@ -109,10 +109,6 @@ private slots:
     void            s_SwirlReset();
     void            s_ImplodeSliderMoved(int Value);
     void            s_ImplodeReset();
-    void            s_WaveAmpSliderMoved(int Value);
-    void            s_WaveAmpReset();
-    void            s_WaveFreqSliderMoved(int Value);
-    void            s_WaveFreqReset();
 
     // BlurSharpen
     void            s_BlurSharpenTypeChanged(int);

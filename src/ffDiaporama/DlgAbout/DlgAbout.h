@@ -41,18 +41,6 @@ public:
     virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
     virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
 
-private slots:
-    void    WQtWebSite();
-    void    ZeranoeWebSite();
-    void    LibAVWebSite();
-    void    SDLWebSite();
-    void    EXIV2WebSite();
-    void    FMTFWebSite();
-    void    QIBWebSite();
-    void    CrystalWebSite();
-    void    CC2WebSite();
-    void    TAGLibWebSite();
-
 private:
     Ui::DlgAbout *ui;
 };

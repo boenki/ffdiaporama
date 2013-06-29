@@ -142,6 +142,12 @@ extern "C" {
     #define avcodec_free_frame  av_freep
 #endif
 
+// Remove error with MSVC and AV_TIME_BASE_Q
+#ifdef _MSC_VER
+    #undef AV_TIME_BASE_Q
+    extern AVRational AV_TIME_BASE_Q;
+#endif
+
 //****************************************************************************************************************************************************************
 
 #define CONFIGFILENAME      "Devices"

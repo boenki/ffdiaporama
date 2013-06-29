@@ -156,7 +156,11 @@ void DlgInfoFile::DoInitDialog() {
 
         //**************** Additionnals
         ui->tableWidget->setUpdatesEnabled(false);
+        #if QT_VERSION >= 0x050000
+        ui->tableWidget->verticalHeader()->setSectionResizeMode(QHeaderView::ResizeToContents);
+        #else
         ui->tableWidget->verticalHeader()->setResizeMode(QHeaderView::ResizeToContents);
+        #endif
         for (int i=0;i<MediaFile->InformationList.count();i++)
           if ((!((QString)MediaFile->InformationList[i]).startsWith("Chapter_"))
               &&(!((QString)MediaFile->InformationList[i]).startsWith("Video_"))

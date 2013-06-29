@@ -84,6 +84,8 @@ public:
     SwrContext              *AudioResampler;
     #elif defined(USELIBAVRESAMPLE)
     AVAudioResampleContext  *AudioResampler;
+    #else
+    ReSampleContext         *AudioResampler;            // Audio resampler
     #endif
 
     // Progress display settings

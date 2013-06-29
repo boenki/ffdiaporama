@@ -179,7 +179,7 @@ void DlgSlideProperties::DoInitDialog() {
 
     }
     ProjectGeometry=DisplayH/DisplayW;
-    ProjectGeometry=QString("%1").arg(ProjectGeometry,0,'e').toDouble();  // Rounded to same number as style managment
+    ProjectGeometry=GetDoubleValue(QString("%1").arg(ProjectGeometry,0,'e'));  // Rounded to same number as style managment
     ui->BlockTable->ProjectGeometry=ProjectGeometry;
 
     //******************************
@@ -708,13 +708,13 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                 case UNDOACTION_EDITZONE_ROTATEZ:
                 case UNDOACTION_EDITZONE_ROTATEX:
                 case UNDOACTION_EDITZONE_ROTATEY:
-                    if (SubElement.hasAttribute("x"))      CompositionList->List[i]->x          =SubElement.attribute("x").toDouble();
-                    if (SubElement.hasAttribute("y"))      CompositionList->List[i]->y          =SubElement.attribute("y").toDouble();
-                    if (SubElement.hasAttribute("w"))      CompositionList->List[i]->w          =SubElement.attribute("w").toDouble();
-                    if (SubElement.hasAttribute("h"))      CompositionList->List[i]->h          =SubElement.attribute("h").toDouble();
-                    if (SubElement.hasAttribute("RZAxis")) CompositionList->List[i]->RotateZAxis=SubElement.attribute("RZAxis").toDouble();
-                    if (SubElement.hasAttribute("RXAxis")) CompositionList->List[i]->RotateXAxis=SubElement.attribute("RXAxis").toDouble();
-                    if (SubElement.hasAttribute("RYAxis")) CompositionList->List[i]->RotateYAxis=SubElement.attribute("RYAxis").toDouble();
+                    if (SubElement.hasAttribute("x"))      CompositionList->List[i]->x          =GetDoubleValue(SubElement,"x");
+                    if (SubElement.hasAttribute("y"))      CompositionList->List[i]->y          =GetDoubleValue(SubElement,"y");
+                    if (SubElement.hasAttribute("w"))      CompositionList->List[i]->w          =GetDoubleValue(SubElement,"w");
+                    if (SubElement.hasAttribute("h"))      CompositionList->List[i]->h          =GetDoubleValue(SubElement,"h");
+                    if (SubElement.hasAttribute("RZAxis")) CompositionList->List[i]->RotateZAxis=GetDoubleValue(SubElement,"RZAxis");
+                    if (SubElement.hasAttribute("RXAxis")) CompositionList->List[i]->RotateXAxis=GetDoubleValue(SubElement,"RXAxis");
+                    if (SubElement.hasAttribute("RYAxis")) CompositionList->List[i]->RotateYAxis=GetDoubleValue(SubElement,"RYAxis");
                     break;
                 case UNDOACTION_EDITZONE_SHAPEOPACITY:      if (SubElement.hasAttribute("BackgroundTransparent"))   CompositionList->List[i]->Opacity=                      SubElement.attribute("BackgroundTransparent").toInt();  break;
                 case UNDOACTION_EDITZONE_SHAPEFORM:         if (SubElement.hasAttribute("BackgroundForm"))          CompositionList->List[i]->BackgroundForm=               SubElement.attribute("BackgroundForm").toInt();         break;
@@ -738,7 +738,7 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                 case UNDOACTION_EDITZONE_SLIDENAME:         if (SubElement.hasAttribute("SlideName"))               CurrentSlide->SlideName=                                SubElement.attribute("SlideName");                      ui->SlideNameED->setText(CurrentSlide->SlideName);              break;
                 case UNDOACTION_EDITZONE_SHOTDURATION:      if (SubElement.hasAttribute("StaticDuration"))          CurrentShot->StaticDuration=                            SubElement.attribute("StaticDuration").toLongLong();    s_ShotTable_DisplayDuration();                                  break;
                 case UNDOACTION_BLOCKTABLE_VISIBLESTATE:    if (SubElement.hasAttribute("IsVisible"))               CompositionList->List[i]->IsVisible=                    SubElement.attribute("IsVisible")=="1";                 break;
-                case UNDOACTION_BLOCKTABLE_SOUNDSTATE:      if (SubElement.hasAttribute("SoundVolume"))             CompositionList->List[i]->BackgroundBrush->SoundVolume= SubElement.attribute("SoundVolume").toDouble();         break;
+                case UNDOACTION_BLOCKTABLE_SOUNDSTATE:      if (SubElement.hasAttribute("SoundVolume"))             CompositionList->List[i]->BackgroundBrush->SoundVolume= GetDoubleValue(SubElement,"SoundVolume");               break;
 
                 case UNDOACTION_BLOCKTABLE_EDITVIDEO:       CompositionList->List[i]->BackgroundBrush->LoadFromXML(SubElement,"BRUSH","",NULL,NULL);   break;
 
@@ -2297,6 +2297,13 @@ struct SortBlock {
     qreal Position;
 };
 
+SortBlock MakeSortBlock(int Index,qreal Position) {
+    SortBlock SB;
+    SB.Index=Index;
+    SB.Position=Position;
+    return SB;
+}
+
 void DlgSlideProperties::s_BlockTable_DistributeHoriz() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_BlockTable_DistributeHoriz");
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_ARRANGEBLOCK,ui->InteractiveZone,true);
@@ -2307,7 +2314,7 @@ void DlgSlideProperties::s_BlockTable_DistributeHoriz() {
     qreal           CurrentX =ui->InteractiveZone->Sel_X;
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         SpaceW=SpaceW-CompositionList->List[i]->w;
-        List.append((SortBlock){i,CompositionList->List[i]->x});
+        List.append(MakeSortBlock(i,CompositionList->List[i]->x));
     }
     SpaceW=SpaceW/qreal(List.count()-1);
 
@@ -2335,7 +2342,7 @@ void DlgSlideProperties::s_BlockTable_DistributeVert() {
     qreal   CurrentY =ui->InteractiveZone->Sel_Y;
     for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
         SpaceH=SpaceH-CompositionList->List[i]->h;
-        List.append((SortBlock){i,CompositionList->List[i]->y});
+        List.append(MakeSortBlock(i,CompositionList->List[i]->y));
     }
     SpaceH=SpaceH/qreal(List.count()-1);
 

@@ -220,6 +220,7 @@ private:
     QAction *CreateMenuAction(QIcon Icon,QString Text,int Data,bool Checkable,bool IsCheck);
     bool    s_Browser_InRemoveFolder(QString FolderPath);
     void    UpdateChapterInfo();
+    void    toolTipTowhatsThis(QObject *StartObj);
 
     Ui::MainWindow *ui;
 };

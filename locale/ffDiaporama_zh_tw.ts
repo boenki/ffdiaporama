@@ -47,30 +47,6 @@
         <translation>鳴謝</translation>
     </message>
     <message>
-        <source>WEB site &amp; licence :</source>
-        <translation>網站 &amp; 授權：</translation>
-    </message>
-    <message>
-        <source>Many icons are from the Crystal Project</source>
-        <translation>許多圖示來自 Crystal 專案</translation>
-    </message>
-    <message>
-        <source>Sound engine for preview is based on SDL - Simple DirectMedia Layer</source>
-        <translation>用於預覽的音效引擎基於 SDL - 簡單的 DirectMedia 層</translation>
-    </message>
-    <message>
-        <source>Image exif decoding is based on Exiv2 - Image metadata library and tools</source>
-        <translation>圖像 exif 解碼基於 Exiv2 - 圖像後設資料圖庫和工具</translation>
-    </message>
-    <message>
-        <source>Other images and graphical material are using Creative Common Licence  2</source>
-        <translation>其他圖像和圖形材料使用 Creative 共同授權 2</translation>
-    </message>
-    <message>
-        <source>C.C. WEB site :</source>
-        <translation>C.C. 網站：</translation>
-    </message>
-    <message>
         <source>&amp;Ok</source>
         <translation>確定(&amp;O)</translation>
     </message>
@@ -79,27 +55,7 @@
         <translation type="unfinished">著作權©2011-2012 Dominique Levray {2011-2013 ?}</translation>
     </message>
     <message>
-        <source>This application was developed using Open Source version of Qt 4.8 SDK</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Image effects are based on fmt_filters and QImageBlitz</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>TAG management based on TAGLib</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Texturemate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Video decoding and encoding engines are based on libav</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Windows version use dll build from zeranoe</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -833,6 +789,14 @@ Beyond this height, the videos are automatically reduced for creating images.</s
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiaporama to your hardware.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>If this box is checked, tooltips will no longer appear in dialog boxes (only what&apos;s this will be available).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable tooltips in dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgBackgroundProperties</name>
@@ -1084,38 +1048,6 @@ Beyond this height, the videos are automatically reduced for creating images.</s
     </message>
     <message>
         <source>Translation file loaded: %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>QImageBlitz</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>MMX extension %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>IntegerSSE extension %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SSE extension %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>SSE2 extension %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>AMD3DNOW extension %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>AMD3DNOW2 extension %1</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>AltiVec extension %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

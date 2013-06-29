@@ -47,44 +47,8 @@
         <translation>Crediti</translation>
     </message>
     <message>
-        <source>WEB site &amp; licence :</source>
-        <translation>Web site &amp; licenza :</translation>
-    </message>
-    <message>
-        <source>Sound engine for preview is based on SDL - Simple DirectMedia Layer</source>
-        <translation>Motore sonoro per l&apos;anteprima è basato su SDL - Simple DirectMedia Layer</translation>
-    </message>
-    <message>
-        <source>Image exif decoding is based on Exiv2 - Image metadata library and tools</source>
-        <translation>Decodifica exif delle immagini è basata su Exiv2 - libreria metadati immagine e programmi</translation>
-    </message>
-    <message>
-        <source>Other images and graphical material are using Creative Common Licence  2</source>
-        <translation>Altre immagini e materiale grafico usano Creative Common Licenza 2</translation>
-    </message>
-    <message>
-        <source>C.C. WEB site :</source>
-        <translation>C.C. WEB site :</translation>
-    </message>
-    <message>
-        <source>Many icons are from the Crystal Project</source>
-        <translation>Molte icone sono del progetto Crystal</translation>
-    </message>
-    <message>
         <source>&amp;Ok</source>
         <translation>&amp;Ok</translation>
-    </message>
-    <message>
-        <source>This application was developed using Open Source version of Qt 4.8 SDK</source>
-        <translation>Quest&apos;applicazione è stata sviluppata utilizzando la versione Open Source di Qt 4.8 SDK</translation>
-    </message>
-    <message>
-        <source>TAG management based on TAGLib</source>
-        <translation>Gestione TAG basata su TAGLib</translation>
-    </message>
-    <message>
-        <source>Image effects are based on fmt_filters and QImageBlitz</source>
-        <translation>Gli effetti immagini sono basati su fmt_filter e QImageBlitz</translation>
     </message>
     <message>
         <source>Texturemate</source>
@@ -93,14 +57,6 @@
     <message>
         <source>Copyright (C) 2011-2013 Dominique Levray</source>
         <translation>Copyright (C) 2011-2013 Dominique Levray</translation>
-    </message>
-    <message>
-        <source>Video decoding and encoding engines are based on libav</source>
-        <translation>Motore di codifica e decodifica video è basato su libav</translation>
-    </message>
-    <message>
-        <source>Windows version use dll build from zeranoe</source>
-        <translation>La versione Windows utilizza la dll fatta da zeranoe</translation>
     </message>
 </context>
 <context>
@@ -891,6 +847,14 @@ Beyond this height, the videos are automatically reduced for creating images.</s
         <source>(Reduce this value for slow computer)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>If this box is checked, tooltips will no longer appear in dialog boxes (only what&apos;s this will be available).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable tooltips in dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgBackgroundProperties</name>
@@ -1138,38 +1102,6 @@ Beyond this height, the videos are automatically reduced for creating images.</s
     <message>
         <source>Translation file loaded: %1</source>
         <translation>File traduzione caricato: %1</translation>
-    </message>
-    <message>
-        <source>QImageBlitz</source>
-        <translation>QImageBlitz</translation>
-    </message>
-    <message>
-        <source>MMX extension %1</source>
-        <translation>Estenzione MMX %1</translation>
-    </message>
-    <message>
-        <source>IntegerSSE extension %1</source>
-        <translation>Estenzione IntegerSSE %1</translation>
-    </message>
-    <message>
-        <source>SSE extension %1</source>
-        <translation>Estenzione SSE %1</translation>
-    </message>
-    <message>
-        <source>SSE2 extension %1</source>
-        <translation>Estenzione SSE2 %1</translation>
-    </message>
-    <message>
-        <source>AMD3DNOW extension %1</source>
-        <translation>Estenzione AMD3DNOW %1</translation>
-    </message>
-    <message>
-        <source>AMD3DNOW2 extension %1</source>
-        <translation>Estenzione AMD3DNOW2 %1</translation>
-    </message>
-    <message>
-        <source>AltiVec extension %1</source>
-        <translation>Estenzione AltiVec %1</translation>
     </message>
     <message>
         <source>LIBAVCODEC version:%1.%2.%3.%4</source>

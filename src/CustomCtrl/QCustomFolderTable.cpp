@@ -29,10 +29,11 @@
 #include <QPainter>
 #include <QModelIndex>
 #include <QModelIndexList>
-#include <qimageblitz/qimageblitz.h>
 
 #include "QCustomFolderTable.h"
 #include "QCustomFolderTree.h"
+
+#include "../engine/_ImageFilters.h"
 
 #define FILETABLESTATE_FILETOCHEK   1
 #define FileToCheckIcon             ":/img/player_time.png"
@@ -153,7 +154,7 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
             // Draw Icon
             if ((Icon->height()<=LOWQUALITYITEMHEIGHT)&&(Icon->width()<=LOWQUALITYITEMHEIGHT)) {
                 QImage NewIcon=Icon->scaledToHeight(Icon->height()*2,Qt::SmoothTransformation);
-                NewIcon=Blitz::sharpen(NewIcon);
+                FltSharpen(NewIcon,3);
                 addX=(option.rect.width()-NewIcon.width())/2;
                 if (ParentTable->DisplayFileName) addY=(option.rect.height()-NewIcon.height()-DISPLAYFILENAMEHEIGHT)/3;
                     else addY=(option.rect.height()-NewIcon.height())/2;
@@ -248,7 +249,7 @@ QCustomFolderTable::~QCustomFolderTable() {
     StopAllEvent=true;
     EnsureThreadIsStopped();
     // Clear MediaList
-    while (!MediaList.isEmpty()>0) {
+    while (!MediaList.isEmpty()) {
         cBaseMediaFile *Item=MediaList.takeLast();
         delete Item;
     }
@@ -501,15 +502,23 @@ void QCustomFolderTable::SetMode(int Mode,int Filter) {
 
     horizontalHeader()->setSortIndicatorShown(false);
     horizontalHeader()->setCascadingSectionResizes(false);
-    horizontalHeader()->setClickable(false);
-    horizontalHeader()->setMovable(false);
     horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
-    horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
 
     verticalHeader()->setStretchLastSection(false);
     verticalHeader()->setSortIndicatorShown(false);
     verticalHeader()->hide();
+
+    #if QT_VERSION >= 0x050000
+    horizontalHeader()->setSectionsClickable(false);
+    horizontalHeader()->setSectionsMovable(false);
+    horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
+    verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
+    #else
+    horizontalHeader()->setClickable(false);
+    horizontalHeader()->setMovable(false);
+    horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
     verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
+    #endif
 
     setItemDelegate(IconDelegate);
 
@@ -870,7 +879,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     // if new Path, clear actual MediaList
     if (Path!=CurrentPath) {
         // Clear MediaList
-        while (!MediaList.isEmpty()>0) delete MediaList.takeLast();
+        while (!MediaList.isEmpty()) delete MediaList.takeLast();
         // Keep current path
         CurrentPath=Path;
     }
@@ -1075,7 +1084,11 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
     if (CurrentMode==DISPLAY_DATA) {
 
         insertRow(Row);
+        #if QT_VERSION >= 0x050000
+        verticalHeader()->setSectionResizeMode(Row,QHeaderView::Fixed);
+        #else
         verticalHeader()->setResizeMode(Row,QHeaderView::Fixed);
+        #endif
         setRowHeight(Row,GetHeightForIcon()+2);
 
     } else {
@@ -1085,7 +1098,11 @@ void QCustomFolderTable::AppendMediaToTable(cBaseMediaFile *MediaObject) {
         // Check if we need to create a new line
         if (CurrentDisplayItem/NbrCol==rowCount()) {
             insertRow(Row);
+            #if QT_VERSION >= 0x050000
+            verticalHeader()->setSectionResizeMode(Row,QHeaderView::Fixed);
+            #else
             verticalHeader()->setResizeMode(Row,QHeaderView::Fixed);
+            #endif
             setRowHeight(Row,GetHeightForIcon());
         } else {
             Row--;

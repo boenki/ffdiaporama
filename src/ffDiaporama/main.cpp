@@ -28,8 +28,12 @@
 
 #include "mainwindow.h"
 #include <QTranslator>
+#include <QtDebug>
 
 int main(int argc, char* argv[]) {
+
+    qDebug()<<"QT Version:"<<qVersion();
+
     #ifdef Q_OS_WIN
     // Check Windows version and :
     //      If <Windows/XP then exit application
@@ -45,7 +49,10 @@ int main(int argc, char* argv[]) {
 
     SetWorkingPath(argv,APPLICATION_NAME,CONFIGFILEEXT);
     #ifdef Q_OS_LINUX
-        if (SearchRasterMode(APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
+        #if QT_VERSION >= 0x050000
+        #else
+            if (SearchRasterMode(APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
+        #endif
     #else
         QApplication::setStyle("Cleanlooks");
     #endif

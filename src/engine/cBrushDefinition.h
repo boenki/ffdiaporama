@@ -32,13 +32,6 @@
 #include <QtXml/QDomDocument>
 #include <QtXml/QDomElement>
 
-// Include qimageblitz lib
-#include <qimageblitz/qimageblitz.h>
-#include <qimageblitz/blitzcpu.h>
-
-// Include fmt_filters lib
-#include "../fmt_filters/fmt_filters.h"
-
 // Include some common various class
 #include "_SpeedWave.h"
 #include "_Shape.h"
@@ -144,7 +137,6 @@ public:
     double                  GaussBlurSharpenSigma,BlurSharpenRadius;       // Blur/Sharpen parameters
     int                     TypeBlurSharpen,QuickBlurSharpenSigma;
     double                  Desat,Swirl,Implode;        // Filter parameters
-    double                  WaveAmp,WaveFreq;           // Filter parameters
 
     int                     OnOffFilter;                // On-Off filter = combination of Despeckle, Equalize, Gray and Negative;
     int                     ImageSpeedWave;

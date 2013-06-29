@@ -55,7 +55,7 @@ void DlgTransitionDuration::DoInitDialog() {
 
 bool DlgTransitionDuration::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionDuration::DoAccept");
-    Duration=qlonglong(ui->TransitionDurationCB->currentText().toDouble()*double(1000));
+    Duration=qlonglong(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
     return true;
 }
 

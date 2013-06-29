@@ -55,97 +55,16 @@ void DlgAbout::DoInitDialog() {
     } else {
         ui->tabWidget->removeTab(2);
     }
+    QFile File2("authors.txt");
+    if (File2.open(QIODevice::ReadOnly|QIODevice::Text)) {
+        QString Text=File2.readAll();
+        ui->CreditsED->setText(Text);
+        File2.close();
+    } else {
+        ui->tabWidget->removeTab(1);
+    }
 
     ui->ApplicationReleaseLabel->setText(CurrentAppVersion);
     ui->ApplicationNameLabel->setText(BaseApplicationConfig->ApplicationVersion);
     ui->tabWidget->setCurrentIndex(0);
-    connect(ui->QtWebSiteBT,SIGNAL(clicked()),this,SLOT(WQtWebSite()));
-    connect(ui->ZeranoeWebSiteBT,SIGNAL(clicked()),this,SLOT(ZeranoeWebSite()));
-    connect(ui->LibAVWebSiteBT,SIGNAL(clicked()),this,SLOT(LibAVWebSite()));
-    connect(ui->SDLWebSiteBT,SIGNAL(clicked()),this,SLOT(SDLWebSite()));
-    connect(ui->EXIV2WebSiteBT,SIGNAL(clicked()),this,SLOT(EXIV2WebSite()));
-    connect(ui->FMTFWebSiteBT,SIGNAL(clicked()),this,SLOT(FMTFWebSite()));
-    connect(ui->QIBWebSiteBT,SIGNAL(clicked()),this,SLOT(QIBWebSite()));
-    connect(ui->CrystalWebSiteBT,SIGNAL(clicked()),this,SLOT(CrystalWebSite()));
-    connect(ui->CC2WebSiteBT,SIGNAL(clicked()),this,SLOT(CC2WebSite()));
-    connect(ui->TAGLibWebSiteBT,SIGNAL(clicked()),this,SLOT(TAGLibWebSite()));
-}
-
-//====================================================================================================================
-
-void DlgAbout::WQtWebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::WQtWebSite");
-
-    QDesktopServices::openUrl(QUrl("http://qt.digia.com/product/"));
-}
-
-//====================================================================================================================
-
-void DlgAbout::ZeranoeWebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::ZeranoeWebSite");
-
-    QDesktopServices::openUrl(QUrl("http://ffmpeg.zeranoe.com/builds/"));
-}
-
-//====================================================================================================================
-
-void DlgAbout::LibAVWebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::LibavWebSite");
-
-    QDesktopServices::openUrl(QUrl("http://libav.org/index.html"));
-}
-
-//====================================================================================================================
-
-void DlgAbout::EXIV2WebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::EXIV2WebSite");
-
-    QDesktopServices::openUrl(QUrl("http://www.exiv2.org/"));
-}
-
-//====================================================================================================================
-
-void DlgAbout::FMTFWebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::FMTFWebSite");
-
-    QDesktopServices::openUrl(QUrl("http://ksquirrel.sourceforge.net/subprojects.php"));
-}
-
-//====================================================================================================================
-
-void DlgAbout::QIBWebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::QIBWebSite");
-
-    QDesktopServices::openUrl(QUrl("http://qimageblitz.sourceforge.net/"));
-}
-
-//====================================================================================================================
-
-void DlgAbout::CrystalWebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::CrystalWebSite");
-
-    QDesktopServices::openUrl(QUrl("http://www.everaldo.com/crystal/"));
-}
-
-//====================================================================================================================
-
-void DlgAbout::CC2WebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::CC2WebSite");
-
-    QDesktopServices::openUrl(QUrl("http://creativecommons.org/"));
-}
-
-//====================================================================================================================
-void DlgAbout::SDLWebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::SDLWebSite");
-
-    QDesktopServices::openUrl(QUrl("http://www.libsdl.org/"));
-}
-
-//====================================================================================================================
-
-void DlgAbout::TAGLibWebSite() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::TAGLibWebSite");
-
-    QDesktopServices::openUrl(QUrl("http://developer.kde.org/~wheeler/taglib.html"));
 }

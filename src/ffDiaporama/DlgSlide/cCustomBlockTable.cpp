@@ -146,7 +146,6 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
         (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Desat!=0)||
         (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Swirl!=0)||
         (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->Implode!=0)||
-        (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->WaveAmp!=0)||
         (ParentTable->CompositionList->List[index.row()]->BackgroundBrush->OnOffFilter!=0)
        ) Painter->drawImage(QRectF(option.rect.x()+1,option.rect.y()+RowHeight/2,24,24),QImage(ICON_HAVEFILTER));
 
@@ -267,17 +266,25 @@ cCustomBlockTable::cCustomBlockTable(QWidget *parent):QTableWidget(parent) {
 
     horizontalHeader()->setSortIndicatorShown(false);
     horizontalHeader()->setCascadingSectionResizes(false);
-    horizontalHeader()->setClickable(false);
-    horizontalHeader()->setMovable(false);
     horizontalHeader()->setDefaultAlignment(Qt::AlignLeft);
-    horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
     horizontalHeader()->hide();
     horizontalHeader()->setStretchLastSection(true);
 
     verticalHeader()->setStretchLastSection(false);
     verticalHeader()->setSortIndicatorShown(false);
     verticalHeader()->hide();
+
+#if QT_VERSION >= 0x050000
+    horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
+    verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
+    horizontalHeader()->setSectionsClickable(false);
+    horizontalHeader()->setSectionsMovable(false);
+#else
+    horizontalHeader()->setResizeMode(QHeaderView::Fixed);          //Fixed because ResizeToContents will be done after table filling
     verticalHeader()->setResizeMode(QHeaderView::Fixed);            // Fixed because ResizeToContents will be done after table filling
+    horizontalHeader()->setClickable(false);
+    horizontalHeader()->setMovable(false);
+#endif
 
     setSelectionBehavior(QAbstractItemView::SelectRows);
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);

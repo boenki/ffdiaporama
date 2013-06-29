@@ -20,6 +20,7 @@
 
 #include "_Transition.h"
 #include "cBrushDefinition.h"
+#include "_ImageFilters.h"
 
 // static global values
 cLumaList       LumaList_Bar;
@@ -264,18 +265,21 @@ void Transition_Basic(int TransitionSubType,double PCT,QImage *ImageA,QImage *Im
             if (PCT<0.5) {
                 ImgA =ImageA->scaledToHeight(DestImageHeight/4);
                 MaxRA=ImgA.width()/4; if (MaxRA>ImgA.height()/4) MaxRA=ImgA.height()/4;
-                WorkingPainter->drawImage(QRect(0,0,DestImageWith,DestImageHeight),Blitz::blur(ImgA,int(PCT*MaxRA)),QRect(0,0,ImgA.width(),ImgA.height()));
+                FltBlur(ImgA,int(PCT*MaxRA));
+                WorkingPainter->drawImage(QRect(0,0,DestImageWith,DestImageHeight),ImgA,QRect(0,0,ImgA.width(),ImgA.height()));
                 if (PCT>0.4) {
                     WorkingPainter->setOpacity((PCT-0.4)*5);
                     ImgB =ImageB->scaledToHeight(DestImageHeight/4);
                     MaxRB=ImgB.width()/4; if (MaxRB>ImgB.height()/4) MaxRB=ImgB.height()/4;
-                    WorkingPainter->drawImage(QRect(0,0,DestImageWith,DestImageHeight),Blitz::blur(ImgB,int((0.5-(PCT/2))*MaxRB)),QRect(0,0,ImgB.width(),ImgB.height()));
+                    FltBlur(ImgB,int((0.5-(PCT/2))*MaxRB));
+                    WorkingPainter->drawImage(QRect(0,0,DestImageWith,DestImageHeight),ImgB,QRect(0,0,ImgB.width(),ImgB.height()));
                     WorkingPainter->setOpacity(1);
                 }
             } else {
                 ImgB=ImageB->scaledToHeight(DestImageHeight/4);
                 MaxRB=ImgB.width()/4; if (MaxRB>ImgB.height()/4) MaxRB=ImgB.height()/4;
-                WorkingPainter->drawImage(QRect(0,0,DestImageWith,DestImageHeight),Blitz::blur(ImgB,int((0.5-(PCT/2))*MaxRB)),QRect(0,0,ImgB.width(),ImgB.height()));
+                FltBlur(ImgB,int((0.5-(PCT/2))*MaxRB));
+                WorkingPainter->drawImage(QRect(0,0,DestImageWith,DestImageHeight),ImgB,QRect(0,0,ImgB.width(),ImgB.height()));
                 if (PCT>0.6) WorkingPainter->setOpacity(1);
             }
             break;

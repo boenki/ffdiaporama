@@ -176,7 +176,6 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
                 (Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->Desat!=0)||
                 (Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->Swirl!=0)||
                 (Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->Implode!=0)||
-                (Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->WaveAmp!=0)||
                 (Object->List.at(shot)->ShotComposition.List[obj]->BackgroundBrush->OnOffFilter!=0)
                ) HaveFilter=true;
 
@@ -612,8 +611,13 @@ cCustomSlideTable::cCustomSlideTable(QWidget *parent):QTableWidget(parent) {
 
     setItemDelegate(new QCustomThumbItemDelegate(this));
 
-    horizontalHeader()->setResizeMode(QHeaderView::Fixed);
-    verticalHeader()->setResizeMode(QHeaderView::Fixed);
+    #if QT_VERSION >= 0x050000
+        horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+        verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    #else
+        horizontalHeader()->setResizeMode(QHeaderView::Fixed);
+        verticalHeader()->setResizeMode(QHeaderView::Fixed);
+    #endif
     setSelectionBehavior(QAbstractItemView::SelectItems);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 
