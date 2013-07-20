@@ -76,8 +76,6 @@ public:
 
     void                    RefreshStyleControls();
     void                    RefreshControls(bool UpdateInteractiveZone=true);
-    void                    AdjustApectRatio(cBrushDefinition *CurrentBrush,cCompositionObject *CurrentTextItem);
-    void                    s_Scene_DoubleClick();                      // User double click on a block in the scene widget
 
     // Utility functions
     cCompositionObject      *GetSelectedCompositionObject();                // Return selected CompositionObject
@@ -102,7 +100,7 @@ signals:
 private slots:
     void            s_Event_ClipboardChanged();
     void            s_RefreshSceneImage();
-    void            s_TVMarginsBt();
+    void            s_RulersBt();
 
     void            OKPrevious();
     void            OKNext();
@@ -122,7 +120,6 @@ private slots:
     void            s_ShotTable_RightClickEvent(QMouseEvent *);
 
     // Block table
-    void            s_Scene_SelectionChanged();                 // User select a block in the scene widget
     void            s_BlockTable_SelectionChanged();            // User select a block in the BlocTable widget
     void            s_BlockTable_StartSelectionChange();
     void            s_BlockTable_EndSelectionChange();

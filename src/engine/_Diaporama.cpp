@@ -20,6 +20,7 @@
 
 // Specific inclusions
 #include "_Diaporama.h"
+#include "_Variables.h"
 #include "../CustomCtrl/_QCustomDialog.h"
 #include "../ffDiaporama/mainwindow.h"
 
@@ -34,9 +35,31 @@ int64_t TotalLoadSources=0,TotalAssembly=0,TotalLoadSound=0;
 // Composition parameters
 #define SCALINGTEXTFACTOR                   700     // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
 
+#define DEFAULT_ROTATEZAXIS                 0
+#define DEFAULT_ROTATEXAXIS                 0
+#define DEFAULT_ROTATEYAXIS                 0
+#define DEFAULT_TXTZOOMLEVEL                100
+#define DEFAULT_TXTSCROLLX                  0
+#define DEFAULT_TXTSCROLLY                  0
+#define DEFAULT_BLOCKANIMTYPE               BLOCKANIMTYPE_NONE
+#define DEFAULT_TURNZAXIS                   0
+#define DEFAULT_TURNXAXIS                   0
+#define DEFAULT_TURNYAXIS                   0
+#define DEFAULT_DISSOLVE                    BLOCKANIMVALUE_APPEAR
+#define DEFAULT_BACKGROUNDFORM              1
+#define DEFAULT_SHAPE_PENSTYLE              Qt::SolidLine
+#define DEFAULT_SHAPE_SHADOW                0
+#define DEFAULT_SHAPE_SHADOWDISTANCE        5
+#define DEFAULT_TRANSITIONDURATION          1000
+#define DEFAULT_MUSICTYPE                   false
+#define DEFAULT_MUSICPAUSE                  false
+#define DEFAULT_MUSICREDUCEVOLUME           false
+#define DEFAULT_MUSICREDUCEFACTOR           0.2
+#define DEFAULT_STARTNEWCHAPTER             false
+
 cCompositionObjectContext::cCompositionObjectContext(int ObjectNumber,bool PreviewMode,bool IsCurrentObject,cDiaporamaObjectInfo *Info,double width,double height,
                                                      cDiaporamaShot *CurShot,cDiaporamaShot *PreviousShot,cSoundBlockList *SoundTrackMontage,bool AddStartPos,
-                                                     qlonglong ShotDuration) {
+                                                     int64_t ShotDuration) {
     this->NeedPreparedBrush =false;
     this->PrevCompoObject   =NULL;
     this->width             =width;
@@ -157,10 +180,10 @@ void cCompositionObjectContext::Compute() {
         //***********************************************************************************
         // Compute shape
         //***********************************************************************************
-        X=round(X);
-        Y=round(Y);
-        W=round(W/2)*2;
-        H=round(H/2)*2;
+        X=floor(X);
+        Y=floor(Y);
+        W=floor(W/2)*2;
+        H=floor(H/2)*2;
 
         //**********************************************************************************
         // Opacity and dissolve annimation
@@ -227,9 +250,9 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
     w                       = 0.5;
     h                       = 0.5;
 
-    RotateZAxis             = 0;                    // Rotation from Z axis
-    RotateXAxis             = 0;                    // Rotation from X axis
-    RotateYAxis             = 0;                    // Rotation from Y axis
+    RotateZAxis             = DEFAULT_ROTATEZAXIS;  // Rotation from Z axis
+    RotateXAxis             = DEFAULT_ROTATEXAXIS;  // Rotation from X axis
+    RotateYAxis             = DEFAULT_ROTATEYAXIS;  // Rotation from Y axis
 
     // Text part
     Text                    = "";                                               // Text of the object
@@ -244,29 +267,29 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
     HAlign                  = DEFAULT_FONT_HALIGN;                              // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
     VAlign                  = DEFAULT_FONT_VALIGN;                              // Vertical alignement : 0=up, 1=center, 2=bottom
     StyleText               = DEFAULT_FONT_TEXTEFFECT;                          // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
-    TxtZoomLevel            = 100;                                              // Zoom Level for text
-    TxtScrollX              = 0;                                                // Scrolling X for text
-    TxtScrollY              = 0;                                                // Scrolling Y for text
+    TxtZoomLevel            = DEFAULT_TXTZOOMLEVEL;                             // Zoom Level for text
+    TxtScrollX              = DEFAULT_TXTSCROLLX;                               // Scrolling X for text
+    TxtScrollY              = DEFAULT_TXTSCROLLY;                               // Scrolling Y for text
     TMType                  = TEXTMARGINS_SHAPEDEFAULT;
 
     // Shap part
-    BackgroundForm          = 1;                                                // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
+    BackgroundForm          = DEFAULT_BACKGROUNDFORM;                           // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
     Opacity                 = DEFAULT_SHAPE_OPACITY;                            // Style of the background of the form
     PenSize                 = DEFAULT_SHAPE_BORDERSIZE;                         // Width of the border of the form
-    PenStyle                = Qt::SolidLine;                                    // Style of the pen border of the form
+    PenStyle                = DEFAULT_SHAPE_PENSTYLE;                           // Style of the pen border of the form
     PenColor                = DEFAULT_SHAPE_BORDERCOLOR;                        // Color of the border of the form
     FormShadowColor         = DEFAULT_SHAPE_SHADOWCOLOR;                        // Color of the shadow of the form
-    FormShadow              = 0;                                                // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-    FormShadowDistance      = 5;                                                // Distance from form to shadow
+    FormShadow              = DEFAULT_SHAPE_SHADOW;                             // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+    FormShadowDistance      = DEFAULT_SHAPE_SHADOWDISTANCE;                     // Distance from form to shadow
 
     BlockSpeedWave          = SPEEDWAVE_PROJECTDEFAULT;
 
     // Block animation part
-    BlockAnimType           = BLOCKANIMTYPE_NONE;
-    TurnZAxis               = 0;                                                // Number of turn from Z axis
-    TurnXAxis               = 0;                                                // Number of turn from X axis
-    TurnYAxis               = 0;                                                // Number of turn from Y axis
-    Dissolve                = BLOCKANIMVALUE_APPEAR;
+    BlockAnimType           = DEFAULT_BLOCKANIMTYPE;
+    TurnZAxis               = DEFAULT_TURNZAXIS;                                                // Number of turn from Z axis
+    TurnXAxis               = DEFAULT_TURNXAXIS;                                                // Number of turn from X axis
+    TurnYAxis               = DEFAULT_TURNYAXIS;                                                // Number of turn from Y axis
+    Dissolve                = DEFAULT_DISSOLVE;
 
     // BackgroundBrush is initilise by object constructor except TypeComposition and key
     BackgroundBrush->TypeComposition = TypeComposition;
@@ -352,56 +375,61 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     Element.setAttribute("y",y);                                    // Position x
     Element.setAttribute("w",w);                                    // size width
     Element.setAttribute("h",h);                                    // size height
-    Element.setAttribute("RotateZAxis",RotateZAxis);                // Rotation from Z axis
-    Element.setAttribute("RotateXAxis",RotateXAxis);                // Rotation from X axis
-    Element.setAttribute("RotateYAxis",RotateYAxis);                // Rotation from Y axis
-    Element.setAttribute("BackgroundTransparent",Opacity);          // Opacity of the form
 
-    Element.setAttribute("BlockSpeedWave",BlockSpeedWave);          // Block speed wave
+    if (RotateZAxis!=DEFAULT_ROTATEZAXIS)                   Element.setAttribute("RotateZAxis",RotateZAxis);                // Rotation from Z axis
+    if (RotateXAxis!=DEFAULT_ROTATEXAXIS)                   Element.setAttribute("RotateXAxis",RotateXAxis);                // Rotation from X axis
+    if (RotateYAxis!=DEFAULT_ROTATEYAXIS)                   Element.setAttribute("RotateYAxis",RotateYAxis);                // Rotation from Y axis
+    if (Opacity!=DEFAULT_SHAPE_OPACITY)                     Element.setAttribute("BackgroundTransparent",Opacity);          // Opacity of the form
+    if (BlockSpeedWave!=SPEEDWAVE_PROJECTDEFAULT)           Element.setAttribute("BlockSpeedWave",BlockSpeedWave);          // Block speed wave
 
     // Block animation
-    Element.setAttribute("BlockAnimType",BlockAnimType);            // Block animation type
-    Element.setAttribute("TurnZAxis",TurnZAxis);                    // Number of turn from Z axis
-    Element.setAttribute("TurnXAxis",TurnXAxis);                    // Number of turn from X axis
-    Element.setAttribute("TurnYAxis",TurnYAxis);                    // Number of turn from Y axis
-    Element.setAttribute("Dissolve",Dissolve);                      // Dissolve value
+    if (BlockAnimType!=DEFAULT_BLOCKANIMTYPE)               Element.setAttribute("BlockAnimType",BlockAnimType);            // Block animation type
+    if (TurnZAxis!=DEFAULT_TURNZAXIS)                       Element.setAttribute("TurnZAxis",TurnZAxis);                    // Number of turn from Z axis
+    if (TurnXAxis!=DEFAULT_TURNXAXIS)                       Element.setAttribute("TurnXAxis",TurnXAxis);                    // Number of turn from X axis
+    if (TurnYAxis!=DEFAULT_TURNYAXIS)                       Element.setAttribute("TurnYAxis",TurnYAxis);                    // Number of turn from Y axis
+    if (Dissolve!=DEFAULT_DISSOLVE)                         Element.setAttribute("Dissolve",Dissolve);                      // Dissolve value
 
     // Text part
-    Element.setAttribute("TextClipArtName",TextClipArtName);        // ClipArt name (if text clipart mode)
+    if (!TextClipArtName.isEmpty())                         Element.setAttribute("TextClipArtName",TextClipArtName);        // ClipArt name (if text clipart mode)
     if ((!CheckTypeComposition)||(TypeComposition!=COMPOSITIONTYPE_SHOT)) {
         Element.setAttribute("Text",Text); // Text of the object
         if (Text!="") {
-            Element.setAttribute("FontName",FontName);                      // font name
-            Element.setAttribute("FontSize",FontSize);                      // font size
-            Element.setAttribute("FontColor",FontColor);                    // font color
-            Element.setAttribute("FontShadowColor",FontShadowColor);        // font shadow color
-            Element.setAttribute("IsBold",IsBold?"1":"0");                  // true if bold mode
-            Element.setAttribute("IsItalic",IsItalic?"1":"0");              // true if Italic mode
-            Element.setAttribute("IsUnderline",IsUnderline?"1":"0");        // true if Underline mode
-            Element.setAttribute("HAlign",HAlign);                          // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
-            Element.setAttribute("VAlign",VAlign);                          // Vertical alignement : 0=up, 1=center, 2=bottom
-            Element.setAttribute("StyleText",StyleText);                    // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
+            if (FontName!=DEFAULT_FONT_FAMILLY)             Element.setAttribute("FontName",FontName);                      // font name
+            if (FontSize!=DEFAULT_FONT_SIZE)                Element.setAttribute("FontSize",FontSize);                      // font size
+            if (FontColor!=DEFAULT_FONT_COLOR)              Element.setAttribute("FontColor",FontColor);                    // font color
+            if (FontShadowColor!=DEFAULT_FONT_SHADOWCOLOR)  Element.setAttribute("FontShadowColor",FontShadowColor);        // font shadow color
+            if (IsBold!=DEFAULT_FONT_ISBOLD)                Element.setAttribute("IsBold",IsBold?"1":"0");                  // true if bold mode
+            if (IsItalic!=DEFAULT_FONT_ISITALIC)            Element.setAttribute("IsItalic",IsItalic?"1":"0");              // true if Italic mode
+            if (IsUnderline!=DEFAULT_FONT_ISUNDERLINE)      Element.setAttribute("IsUnderline",IsUnderline?"1":"0");        // true if Underline mode
+            if (HAlign!=DEFAULT_FONT_HALIGN)                Element.setAttribute("HAlign",HAlign);                          // Horizontal alignement : 0=left, 1=center, 2=right, 3=justif
+            if (VAlign!=DEFAULT_FONT_VALIGN)                Element.setAttribute("VAlign",VAlign);                          // Vertical alignement : 0=up, 1=center, 2=bottom
+            if (StyleText!=DEFAULT_FONT_TEXTEFFECT)         Element.setAttribute("StyleText",StyleText);                    // Style : 0=normal, 1=outerline, 2=shadow up-left, 3=shadow up-right, 4=shadow bt-left, 5=shadow bt-right
         }
     }
 
     // Shot part of text part
-    Element.setAttribute("TxtZoomLevel",TxtZoomLevel);                      // Zoom Level for text
-    Element.setAttribute("TxtScrollX",TxtScrollX);                          // Scrolling X for text
-    Element.setAttribute("TxtScrollY",TxtScrollY);                          // Scrolling Y for text
-    Element.setAttribute("TMType",TMType);                                  // Text margins type
-    Element.setAttribute("TMx",TMx);                                        // Text margins
-    Element.setAttribute("TMy",TMy);                                        // Text margins
-    Element.setAttribute("TMw",TMw);                                        // Text margins
-    Element.setAttribute("TMh",TMh);                                        // Text margins
+    if (TxtZoomLevel!=DEFAULT_TXTZOOMLEVEL)                 Element.setAttribute("TxtZoomLevel",TxtZoomLevel);                      // Zoom Level for text
+    if (TxtScrollX!=DEFAULT_TXTSCROLLX)                     Element.setAttribute("TxtScrollX",TxtScrollX);                          // Scrolling X for text
+    if (TxtScrollY!=DEFAULT_TXTSCROLLY)                     Element.setAttribute("TxtScrollY",TxtScrollY);                          // Scrolling Y for text
+
+    // Text margins
+    if (TMType!=TEXTMARGINS_SHAPEDEFAULT)                   Element.setAttribute("TMType",TMType);                                  // Text margins type
+    if (TMType==TEXTMARGINS_CUSTOM) {
+        Element.setAttribute("TMx",TMx);
+        Element.setAttribute("TMy",TMy);
+        Element.setAttribute("TMw",TMw);
+        Element.setAttribute("TMh",TMh);
+    }
 
     // Shap part
-    Element.setAttribute("BackgroundForm",BackgroundForm);                  // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
-    Element.setAttribute("PenSize",PenSize);                                // Width of the border of the form
-    Element.setAttribute("PenStyle",PenStyle);                              // Style of the pen border of the form
-    Element.setAttribute("PenColor",PenColor);                              // Color of the border of the form
-    Element.setAttribute("FormShadow",FormShadow);                          // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
-    Element.setAttribute("FormShadowDistance",FormShadowDistance);          // Distance from form to shadow
-    Element.setAttribute("FormShadowColor",FormShadowColor);                // Shadow color
+    if (BackgroundForm!=DEFAULT_BACKGROUNDFORM)             Element.setAttribute("BackgroundForm",BackgroundForm);                  // Type of the form : 0=None, 1=Rectangle, 2=Ellipse
+    if (PenSize!=DEFAULT_SHAPE_BORDERSIZE)                  Element.setAttribute("PenSize",PenSize);                                // Width of the border of the form
+    if (PenStyle!=DEFAULT_SHAPE_PENSTYLE)                   Element.setAttribute("PenStyle",PenStyle);                              // Style of the pen border of the form
+    if (PenColor!=DEFAULT_SHAPE_BORDERCOLOR)                Element.setAttribute("PenColor",PenColor);                              // Color of the border of the form
+    if (FormShadow!=DEFAULT_SHAPE_SHADOW)                   Element.setAttribute("FormShadow",FormShadow);                          // 0=none, 1=shadow up-left, 2=shadow up-right, 3=shadow bt-left, 4=shadow bt-right
+    if (FormShadowDistance!=DEFAULT_SHAPE_SHADOWDISTANCE)   Element.setAttribute("FormShadowDistance",FormShadowDistance);          // Distance from form to shadow
+    if (FormShadowColor!=DEFAULT_SHAPE_SHADOWCOLOR)         Element.setAttribute("FormShadowColor",FormShadowColor);                // Shadow color
+
     BackgroundBrush->SaveToXML(Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath);    // Brush of the background of the form
 
     domDocument.appendChild(Element);
@@ -603,8 +631,8 @@ void cCompositionObject::ApplyAutoCompoSize(int AutoCompoStyle,int ffDProjectGeo
     int   ImageType         =BackgroundBrush->GetImageType();
 
     // Calc screen size
-    qreal ScreenWidth       =qreal(1920);
-    qreal ScreenHeight      =qreal(ffDProjectGeometry==GEOMETRY_4_3?1440:ffDProjectGeometry==GEOMETRY_16_9?1080:ffDProjectGeometry==GEOMETRY_40_17?816:1920);
+    qreal ScreenWidth       =qreal(ffDProjectGeometry==GEOMETRY_THUMBNAIL?600:1920);
+    qreal ScreenHeight      =qreal(ffDProjectGeometry==GEOMETRY_THUMBNAIL?800:ffDProjectGeometry==GEOMETRY_4_3?1440:ffDProjectGeometry==GEOMETRY_16_9?1080:ffDProjectGeometry==GEOMETRY_40_17?816:1920);
     //qreal ScreenGeometry    =ScreenHeight/ScreenWidth;
 
     // Calc real image size (if it's and image)
@@ -906,9 +934,9 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 //====================================================================================================================
 
 // ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
-void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,qlonglong Position,
-                                               cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PrevCompoObject,bool UseBrushCache,
-                                               qlonglong ShotDuration,bool EnableAnimation,
+void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter *DestPainter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,int64_t Position,
+                                               cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PrevCompoObject,
+                                               bool UseBrushCache,int64_t ShotDuration,bool EnableAnimation,
                                                bool Transfo,double NewX,double NewY,double NewW,double NewH,bool DisplayTextMargin,cCompositionObjectContext *PreparedBrush) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:DrawCompositionObject");
 
@@ -997,10 +1025,10 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             DestOpacity =(Opacity==1?0.75:Opacity==2?0.50:Opacity==3?0.25:1);
 
             if ((W>0)&&(H>0)) {
-                X=round(X);
-                Y=round(Y);
-                W=round(W/2)*2;
-                H=round(H/2)*2;
+                X=floor(X);
+                Y=floor(Y);
+                W=floor(W/2)*2;
+                H=floor(H/2)*2;
                 //**********************************************************************************
                 // Opacity and dissolve annimation
                 //**********************************************************************************
@@ -1062,7 +1090,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             // Prepare Transform Matrix
             //***********************************************************************************
 
-            QPointF     CenterF(round(ShapeRect.center().x()/2)*2,round(ShapeRect.center().y()/2)*2);
+            QPointF     CenterF(floor(ShapeRect.center().x()/2)*2,floor(ShapeRect.center().y()/2)*2);
             QTransform  Matrix;
             Matrix.translate(CenterF.x(),CenterF.y());                          // Translate to be sure we are on the center of the shape
             if (TheRotateZAxis!=0) Matrix.rotate(TheRotateZAxis,Qt::ZAxis);     // Standard axis
@@ -1148,6 +1176,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
             // Text part
             //**********************************************************************************
             if ((TheTxtZoomLevel>0)&&(Text!="")) {
+                QString         TheText=ResolveTextVariable(Object,Text);
 
                 double          FullMargin=((TMType==TEXTMARGINS_FULLSHAPE)||(TMType==TEXTMARGINS_CUSTOM))?0:double(PenSize)*ADJUST_RATIO/double(2);
                 QRectF          TextMargin;
@@ -1177,7 +1206,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                 Painter->setClipRect(TextMargin);
                 Painter->setClipping(true);         // Not sure is needed !
 
-                TextDocument.setHtml(Text);
+                TextDocument.setHtml(TheText);
                 TextDocument.setTextWidth(TextMargin.width()/PointSize);
 
                 QRectF  FmtBdRect(0,0,
@@ -1215,7 +1244,7 @@ void cCompositionObject::DrawCompositionObject(QPainter *DestPainter,double  ADJ
                     Painter->scale((TheTxtZoomLevel/100)*PointSize,(TheTxtZoomLevel/100)*PointSize);
                     TextDocument.documentLayout()->draw(Painter,Context);
                     Painter->restore();
-                    TextDocument.setHtml(Text);     // Restore Text Document
+                    TextDocument.setHtml(TheText);     // Restore Text Document
                 }
 
                 Painter->save();
@@ -1346,13 +1375,13 @@ cDiaporamaShot::~cDiaporamaShot() {
 
 //===============================================================
 
-void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
+void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaShot:SaveToXML");
 
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
-    Element.setAttribute("StaticDuration",StaticDuration);                                      // Duration (in msec) of the static part animation
+    if (!LimitedInfo) Element.setAttribute("StaticDuration",qlonglong(StaticDuration));                           // Duration (in msec) of the static part animation
     ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath,ForceAbsolutPath);   // Composition list for this object
     domDocument.appendChild(Element);
 }
@@ -1364,7 +1393,7 @@ bool cDiaporamaShot::LoadFromXML(QDomElement domDocument,QString ElementName,QSt
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
-        StaticDuration=Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
+        if (Element.hasAttribute("StaticDuration")) StaticDuration=Element.attribute("StaticDuration").toInt();           // Duration (in msec) of the static part animation
         // Composition list for this object
         ShotComposition.LoadFromXML(Element,"ShotComposition",PathForRelativPath,ObjectComposition,AliasList,Parent->Parent->ApplicationConfig);
         return true;
@@ -1383,22 +1412,21 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
 
     BackgroundBrush                         = new cBrushDefinition(Diaporama->ApplicationConfig,&BackgroundList);
     Parent                                  = Diaporama;
-    TypeObject                              = DIAPORAMAOBJECTTYPE_EMPTY;
     SlideName                               = QApplication::translate("MainWindow","Title","Default slide name when no file");
     NextIndexKey                            = 1;
 
     // Set default/initial value
-    StartNewChapter                         = false;                        // if true then start a new chapter from this slide
+    StartNewChapter                         = DEFAULT_STARTNEWCHAPTER;      // if true then start a new chapter from this slide
     BackgroundType                          = false;                        // Background type : false=same as precedent - true=new background definition
     BackgroundBrush->BrushType               = BRUSHTYPE_SOLID;
-    BackgroundBrush->ColorD                  = "#000000";                    // Background color
-    MusicType                               = false;                        // Music type : false=same as precedent - true=new playlist definition
-    MusicPause                              = false;                        // true if music is pause during this object
-    MusicReduceVolume                       = false;                        // true if volume if reduce by MusicReduceFactor
-    MusicReduceFactor                       = 0.2;                          // factor for volume reduction if MusicReduceVolume is true
+    BackgroundBrush->ColorD                  = "#000000";                   // Background color
+    MusicType                               = DEFAULT_MUSICTYPE;            // Music type : false=same as precedent - true=new playlist definition
+    MusicPause                              = DEFAULT_MUSICPAUSE;           // true if music is pause during this object
+    MusicReduceVolume                       = DEFAULT_MUSICREDUCEVOLUME;    // true if volume if reduce by MusicReduceFactor
+    MusicReduceFactor                       = DEFAULT_MUSICREDUCEFACTOR;    // factor for volume reduction if MusicReduceVolume is true
     TransitionFamilly                       = TRANSITIONFAMILLY_BASE;       // Transition familly
     TransitionSubType                       = 0;                            // Transition type in the familly
-    TransitionDuration                      = 1000;                         // Transition duration (in msec)
+    TransitionDuration                      = DEFAULT_TRANSITIONDURATION;   // Transition duration (in msec)
     TransitionSpeedWave                     = SPEEDWAVE_PROJECTDEFAULT;
     ObjectComposition.TypeComposition       = COMPOSITIONTYPE_OBJECT;
     Thumbnail                               = NULL;
@@ -1458,7 +1486,7 @@ void cDiaporamaObject::DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Pa
                     l=List[k]->ShotComposition.List.count();    // Stop loop
                 }
             }
-            List[ShotNumber]->ShotComposition.List[j]->DrawCompositionObject(&P,double(ThumbHeight)/1080,ThumbWidth,ThumbHeight,true,StartPosToAdd,NULL,0,0,NULL,false,List[ShotNumber]->StaticDuration,false);
+            List[ShotNumber]->ShotComposition.List[j]->DrawCompositionObject(this,&P,double(ThumbHeight)/1080,ThumbWidth,ThumbHeight,true,StartPosToAdd,NULL,0,0,NULL,false,List[ShotNumber]->StaticDuration,false);
         }
         P.end();
         if (ShotNumber==0) Thumbnail=Thumb;
@@ -1475,38 +1503,38 @@ int cDiaporamaObject::GetSpeedWave() {
 
 //===============================================================
 
-qlonglong cDiaporamaObject::GetTransitDuration() {
+int64_t cDiaporamaObject::GetTransitDuration() {
     if ((TransitionFamilly==0)&&(TransitionSubType==0)) return 0; else return TransitionDuration;
 }
 
-qlonglong cDiaporamaObject::GetCumulTransitDuration() {
+int64_t cDiaporamaObject::GetCumulTransitDuration() {
     //ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:GetCumulTransitDuration");   // Remove : Too much
 
     // Adjust duration to ensure transition will be full !
     int       ObjectIndex    =Parent->GetObjectIndex(this);
-    qlonglong TransitDuration=GetTransitDuration();
+    int64_t TransitDuration=GetTransitDuration();
     if (ObjectIndex<(Parent->List.count()-1)) TransitDuration+=Parent->List[ObjectIndex+1]->GetTransitDuration();
     return TransitDuration;
 }
 
 //===============================================================
 
-qlonglong cDiaporamaObject::GetDuration() {
+int64_t cDiaporamaObject::GetDuration() {
     //ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:GetDuration");       // Remove : Too much
 
-    qlonglong Duration=0;
+    int64_t Duration=0;
     for (int i=0;i<List.count();i++) Duration=Duration+List[i]->StaticDuration;
 
     // Adjust duration to ensure transition will be full !
-    qlonglong TransitDuration=GetCumulTransitDuration();
+    int64_t TransitDuration=GetCumulTransitDuration();
     if (Duration<TransitDuration) Duration=TransitDuration;
 
     // Calc minimum duration to ensure all video will be full !
     int MaxMovieDuration=0;
     for (int Block=0;Block<ObjectComposition.List.count();Block++) if ((ObjectComposition.List[Block]->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(ObjectComposition.List[Block]->BackgroundBrush->Video)) {
         int IndexKey              =ObjectComposition.List[Block]->IndexKey;
-        qlonglong WantedDuration  =ObjectComposition.List[Block]->BackgroundBrush->Video->StartPos.msecsTo(ObjectComposition.List[Block]->BackgroundBrush->Video->EndPos);
-        qlonglong CurrentDuration =0;
+        int64_t WantedDuration  =ObjectComposition.List[Block]->BackgroundBrush->Video->StartPos.msecsTo(ObjectComposition.List[Block]->BackgroundBrush->Video->EndPos);
+        int64_t CurrentDuration =0;
         for (int i=0;i<List.count();i++) {
             for (int j=0;j<List[i]->ShotComposition.List.count();j++) if (List[i]->ShotComposition.List[j]->IndexKey==IndexKey) {
                 if (List[i]->ShotComposition.List[j]->IsVisible) {
@@ -1527,56 +1555,136 @@ qlonglong cDiaporamaObject::GetDuration() {
 
 //===============================================================
 
+int cDiaporamaObject::ComputeChapterNumber() {
+    int Number=0;
+    for (int i=1;(i<Parent->List.count())&&(Parent->List[i]!=this);i++)
+         if (Parent->List[i]->StartNewChapter) Number++;
+    return Number;
+}
+
+//===============================================================
+
+int cDiaporamaObject::GetSlideNumber() {
+    int Number=0;
+    for (int i=0;(i<Parent->List.count())&&(Parent->List[i]!=this);i++) Number++;
+    return Number;
+}
+
+//===============================================================
+
+void cDiaporamaObject::LoadThumbnail(QString ThumbnailName) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:LoadThumbnail:LoadThumbnail");
+
+    QFile   file(ThumbnailName);
+    QString errorStr;
+    int     errorLine,errorColumn;
+
+    if (!file.open(QFile::ReadOnly | QFile::Text)) {
+        QString ErrorMsg=QApplication::translate("MainWindow","Error reading default thumbnail file","Error message")+"\n"+ThumbnailName;
+        CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),ErrorMsg,QMessageBox::Close);
+    } else {
+        QDomDocument domDocument;
+        if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
+            CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of default thumbnail file","Error message"),QMessageBox::Close);
+        } else {
+            QDomElement ProjectDocument=domDocument.documentElement();
+            if (ProjectDocument.tagName()!=THUMBMODEL_ROOTNAME) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","The file is not a valid thumbnail file","Error message"),QMessageBox::Close);
+                else LoadFromXML(ProjectDocument,"ProjectThumbnail","",NULL);
+        }
+        file.close();
+    }
+}
+
+//===============================================================
+
+bool cDiaporamaObject::SaveThumbnail(QString ThumbnailName) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:LoadThumbnail:SaveThumbnail");
+
+    QFile           file(ThumbnailName);
+    QDomDocument    domDocument(APPLICATION_NAME);
+    QDomElement     root;
+
+    // Create xml document and root
+    root=domDocument.createElement(THUMBMODEL_ROOTNAME);
+    domDocument.appendChild(root);
+    SaveToXML(root,"ProjectThumbnail",ThumbnailName,false);
+    // Write file to disk
+    if (!file.open(QFile::WriteOnly | QFile::Text)) {
+        CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error creating data file","Error message"),QMessageBox::Close);
+        return false;
+    } else {
+        // Save file now
+        QTextStream out(&file);
+        domDocument.save(out,4);
+        file.close();
+        return true;
+    }
+}
+
+//===============================================================
+
 void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:SaveToXML");
 
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
+    QDomElement     SubElement;
 
-    // Slide properties
-    Element.setAttribute("SlideName", SlideName);
-    Element.setAttribute("StartNewChapter", StartNewChapter?"1":"0");
     Element.setAttribute("NextIndexKey",    NextIndexKey);
 
-    // Background properties
-    QDomElement SubElement=DomDocument.createElement("Background");
-    SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                                        // Background type : false=same as precedent - true=new background definition
-    BackgroundBrush->SaveToXML(SubElement,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath);             // Background brush
-    Element.appendChild(SubElement);
+    if (ElementName=="ProjectThumbnail") {
 
-    // Transition properties
-    SubElement=DomDocument.createElement("Transition");
-    SubElement.setAttribute("TransitionFamilly",TransitionFamilly);                         // Transition familly
-    SubElement.setAttribute("TransitionSubType",TransitionSubType);                         // Transition type in the familly
-    SubElement.setAttribute("TransitionDuration",TransitionDuration);                       // Transition duration (in msec)
-    SubElement.setAttribute("TransitionSpeedWave",TransitionSpeedWave);                     // Transition speed wave
-    Element.appendChild(SubElement);
+        Element.setAttribute("ThumbnailName",Parent->ThumbnailName);
 
-    // Music properties
-    Element.setAttribute("MusicType",         MusicType?"1":"0");                           // Music type : false=same as precedent - true=new playlist definition
-    Element.setAttribute("MusicPause",        MusicPause?"1":"0");                          // true if music is pause during this object
-    Element.setAttribute("MusicReduceVolume", MusicReduceVolume?"1":"0");                   // true if volume if reduce by MusicReduceFactor
-    Element.setAttribute("MusicReduceFactor",QString("%1").arg(MusicReduceFactor,0,'f'));   // factor for volume reduction if MusicReduceVolume is true
-    Element.setAttribute("MusicNumber",       MusicList.count());                           // Number of file in the playlist
-    for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath);
+    } else {
+
+        // Slide properties
+        Element.setAttribute("SlideName", SlideName);
+        if (StartNewChapter!=DEFAULT_STARTNEWCHAPTER) Element.setAttribute("StartNewChapter", StartNewChapter?"1":"0");
+
+        // Background properties
+        SubElement=DomDocument.createElement("Background");
+        SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                                        // Background type : false=same as precedent - true=new background definition
+        BackgroundBrush->SaveToXML(SubElement,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath);             // Background brush
+        Element.appendChild(SubElement);
+
+        // Transition properties
+        SubElement=DomDocument.createElement("Transition");
+        SubElement.setAttribute("TransitionFamilly",TransitionFamilly);                         // Transition familly
+        SubElement.setAttribute("TransitionSubType",TransitionSubType);                         // Transition type in the familly
+        if (TransitionDuration!=DEFAULT_TRANSITIONDURATION) SubElement.setAttribute("TransitionDuration",qlonglong(TransitionDuration));            // Transition duration (in msec)
+        if (TransitionSpeedWave!=SPEEDWAVE_PROJECTDEFAULT)  SubElement.setAttribute("TransitionSpeedWave",TransitionSpeedWave);                     // Transition speed wave
+        Element.appendChild(SubElement);
+
+        // Music properties
+        if (MusicType!=DEFAULT_MUSICTYPE)                   Element.setAttribute("MusicType",         MusicType?"1":"0");                           // Music type : false=same as precedent - true=new playlist definition
+        if (MusicPause!=DEFAULT_MUSICPAUSE)                 Element.setAttribute("MusicPause",        MusicPause?"1":"0");                          // true if music is pause during this object
+        if (MusicReduceVolume!=DEFAULT_MUSICREDUCEVOLUME)   Element.setAttribute("MusicReduceVolume", MusicReduceVolume?"1":"0");                   // true if volume if reduce by MusicReduceFactor
+        if (MusicReduceFactor!=DEFAULT_MUSICREDUCEFACTOR)   Element.setAttribute("MusicReduceFactor",QString("%1").arg(MusicReduceFactor,0,'f'));   // factor for volume reduction if MusicReduceVolume is true
+        if (MusicList.count()>0) {
+            Element.setAttribute("MusicNumber",MusicList.count());                           // Number of file in the playlist
+            for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath);
+        }
+
+        if (Thumbnail) {
+            QByteArray ba;
+            QBuffer buf(&ba);
+            Thumbnail->save(&buf,"PNG");
+            QByteArray Compressed=qCompress(ba,1);
+            QByteArray Hexed     =Compressed.toHex();
+            Element.setAttribute("Thumbnail",QString(Hexed));
+            Element.setAttribute("ThumbWidth",Thumbnail->width());
+            Element.setAttribute("ThumbHeight",Thumbnail->height());
+        }
+    }
 
     // Global blocks composition table
-    ObjectComposition.SaveToXML(SubElement,"ObjectComposition",PathForRelativPath,ForceAbsolutPath);         // ObjectComposition
+    ObjectComposition.SaveToXML(Element,"ObjectComposition",PathForRelativPath,ForceAbsolutPath);         // ObjectComposition
 
     // Shots definitions
     Element.setAttribute("ShotNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath);
+    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,(ElementName=="ProjectThumbnail"));
 
-    if (Thumbnail) {
-        QByteArray ba;
-        QBuffer buf(&ba);
-        Thumbnail->save(&buf,"PNG");
-        QByteArray Compressed=qCompress(ba,1);
-        QByteArray Hexed     =Compressed.toHex();
-        Element.setAttribute("Thumbnail",QString(Hexed));
-        Element.setAttribute("ThumbWidth",Thumbnail->width());
-        Element.setAttribute("ThumbHeight",Thumbnail->height());
-    }
     domDocument.appendChild(Element);
 }
 
@@ -1593,50 +1701,70 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         // Load shot list
         List.clear();   // Remove default 1st shot create by constructor
 
-        // Slide properties
-        SlideName=Element.attribute("SlideName");
         NextIndexKey=Element.attribute("NextIndexKey").toInt();
-        if (Element.hasAttribute("StartNewChapter")) StartNewChapter=Element.attribute("StartNewChapter")=="1";
 
-        // Background properties
-        if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
-            if (BackgroundBrush->Image) {
-                delete BackgroundBrush->Image;
-                BackgroundBrush->Image=NULL;
+        if (ElementName=="ProjectThumbnail") {
+
+            if (Element.hasAttribute("ThumbnailName")) Parent->ThumbnailName=Element.attribute("ThumbnailName");
+
+        } else {
+
+            // Slide properties
+            SlideName=Element.attribute("SlideName");
+            if (Element.hasAttribute("StartNewChapter")) StartNewChapter=Element.attribute("StartNewChapter")=="1";
+
+            // Background properties
+            if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
+                if (BackgroundBrush->Image) {
+                    delete BackgroundBrush->Image;
+                    BackgroundBrush->Image=NULL;
+                }
+                if (BackgroundBrush->Video) {
+                    delete BackgroundBrush->Video;
+                    BackgroundBrush->Video=NULL;
+                }
+                QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
+                BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
+                bool    ModifyFlag;
+                if (!BackgroundBrush->LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
+                if (IsOk && ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
+                if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
             }
-            if (BackgroundBrush->Video) {
-                delete BackgroundBrush->Video;
-                BackgroundBrush->Video=NULL;
+            // Transition properties
+            if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
+                QDomElement SubElement=Element.elementsByTagName("Transition").item(0).toElement();
+                TransitionFamilly =SubElement.attribute("TransitionFamilly").toInt();                                                           // Transition familly
+                TransitionSubType =SubElement.attribute("TransitionSubType").toInt();                                                           // Transition type in the familly
+                if (SubElement.hasAttribute("TransitionDuration"))  TransitionDuration=SubElement.attribute("TransitionDuration").toInt();                                                          // Transition duration (in msec)
+                if (SubElement.hasAttribute("TransitionSpeedWave")) TransitionSpeedWave=SubElement.attribute("TransitionSpeedWave").toInt();    // Transition speed wave
+                Element.appendChild(SubElement);
             }
-            QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
-            BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
-            bool    ModifyFlag;
-            if (!BackgroundBrush->LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
-            if (IsOk && ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
-            if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
-        }
-        // Transition properties
-        if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
-            QDomElement SubElement=Element.elementsByTagName("Transition").item(0).toElement();
-            TransitionFamilly =SubElement.attribute("TransitionFamilly").toInt();                                                           // Transition familly
-            TransitionSubType =SubElement.attribute("TransitionSubType").toInt();                                                           // Transition type in the familly
-            TransitionDuration=SubElement.attribute("TransitionDuration").toInt();                                                          // Transition duration (in msec)
-            if (SubElement.hasAttribute("TransitionSpeedWave")) TransitionSpeedWave=SubElement.attribute("TransitionSpeedWave").toInt();    // Transition speed wave
-            Element.appendChild(SubElement);
-        }
-        // Music properties
-        MusicList.clear();
-        MusicType         =Element.attribute("MusicType")=="1";                     // Music type : false=same as precedent - true=new playlist definition
-        MusicPause        =Element.attribute("MusicPause")=="1";                    // true if music is pause during this object
-        MusicReduceVolume =Element.attribute("MusicReduceVolume")=="1";             // true if volume if reduce by MusicReduceFactor
-        MusicReduceFactor =GetDoubleValue(Element,"MusicReduceFactor");             // factor for volume reduction if MusicReduceVolume is true
-        int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
-        for (int i=0;i<MusicNumber;i++) {
-            cMusicObject *MusicObject=new cMusicObject(((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->ApplicationConfig);
-            bool ModifyFlag=false;
-            if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
-            MusicList.append(*MusicObject);
-            if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
+            // Music properties
+            MusicList.clear();
+            if (Element.hasAttribute("MusicType"))          MusicType         =Element.attribute("MusicType")=="1";                     // Music type : false=same as precedent - true=new playlist definition
+            if (Element.hasAttribute("MusicPause"))         MusicPause        =Element.attribute("MusicPause")=="1";                    // true if music is pause during this object
+            if (Element.hasAttribute("MusicReduceVolume"))  MusicReduceVolume =Element.attribute("MusicReduceVolume")=="1";             // true if volume if reduce by MusicReduceFactor
+            if (Element.hasAttribute("MusicReduceFactor"))  MusicReduceFactor =GetDoubleValue(Element,"MusicReduceFactor");             // factor for volume reduction if MusicReduceVolume is true
+            if (Element.hasAttribute("MusicNumber")) {
+                int MusicNumber   =Element.attribute("MusicNumber").toInt();                // Number of file in the playlist
+                for (int i=0;i<MusicNumber;i++) {
+                    cMusicObject *MusicObject=new cMusicObject(((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->ApplicationConfig);
+                    bool ModifyFlag=false;
+                    if (!MusicObject->LoadFromXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
+                    MusicList.append(*MusicObject);
+                    if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
+                }
+            }
+
+            if (Element.hasAttribute("Thumbnail")) {
+                int         ThumbWidth   =Element.attribute("ThumbWidth").toInt();
+                int         ThumbHeight  =Element.attribute("ThumbHeight").toInt();
+                Thumbnail=new QImage(ThumbWidth,ThumbHeight,QImage::Format_ARGB32_Premultiplied);
+                QByteArray  Compressed   =QByteArray::fromHex(Element.attribute("Thumbnail").toUtf8());
+                QByteArray  Decompressed =qUncompress(Compressed);
+                Thumbnail->loadFromData(Decompressed);
+            }
+
         }
 
         // Global blocks composition table
@@ -1648,15 +1776,6 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             cDiaporamaShot *imagesequence=new cDiaporamaShot(this);
             if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,&ObjectComposition,AliasList)) IsOk=false;
             List.append(imagesequence);
-        }
-
-        if (Element.hasAttribute("Thumbnail")) {
-            int         ThumbWidth   =Element.attribute("ThumbWidth").toInt();
-            int         ThumbHeight  =Element.attribute("ThumbHeight").toInt();
-            Thumbnail=new QImage(ThumbWidth,ThumbHeight,QImage::Format_ARGB32_Premultiplied);
-            QByteArray  Compressed   =QByteArray::fromHex(Element.attribute("Thumbnail").toUtf8());
-            QByteArray  Decompressed =qUncompress(Compressed);
-            Thumbnail->loadFromData(Decompressed);
         }
 
         //**** Compatibility with version prior to 1.5
@@ -1684,11 +1803,12 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
 //
 //*********************************************************************************************************************************************
 
-cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig) {
+cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig,bool LoadDefaultModel) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:cDiaporama");
 
     ApplicationConfig           = TheApplicationConfig;
     ProjectInfo                 = new cffDProjectFile(ApplicationConfig);
+    ProjectThumbnail            = new cDiaporamaObject(this);
     CurrentCol                  = -1;                                                               // Current selected item
     CurrentPosition             = -1;                                                               // Current position (msec)
     CurrentChapter              = -1;
@@ -1705,6 +1825,11 @@ cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig) {
     // Set default value
     DefineSizeAndGeometry(ApplicationConfig->ImageGeometry);                                // Default to 16:9
 
+    if (LoadDefaultModel) {
+        // Load default thumbnail
+        ThumbnailName=ApplicationConfig->DefaultThumbnailName;
+        ProjectThumbnail->LoadThumbnail(ApplicationConfig->ThumbnailModels->List[ApplicationConfig->ThumbnailModels->SearchModel(ApplicationConfig->DefaultThumbnailName)].FileName);
+    }
 }
 
 //====================================================================================================================
@@ -1715,6 +1840,10 @@ cDiaporama::~cDiaporama() {
     if (ProjectInfo) {
         delete ProjectInfo;
         ProjectInfo=NULL;
+    }
+    if (ProjectThumbnail) {
+        delete ProjectThumbnail;
+        ProjectThumbnail=NULL;
     }
     while (List.count()>0) delete List.takeLast();
 }
@@ -1735,8 +1864,9 @@ void cDiaporama::UpdateChapterInformation() {
     for (int i=0;i<List.count();i++) if ((i==0)||(List[i]->StartNewChapter)) {
         QString ChapterNum=QString("%1").arg(ProjectInfo->NbrChapters++); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
         int     NextChapter=i+1;
-        qlonglong Start   =GetObjectStartPosition(i)+(i>0?List[i]->GetTransitDuration():0)-GetObjectStartPosition(0);
-        qlonglong Duration=List[i]->GetDuration()-(i>0?List[i]->GetTransitDuration():0);
+        int64_t Start   =GetObjectStartPosition(i)+(i>0?List[i]->GetTransitDuration():0)-GetObjectStartPosition(0);
+        int64_t Duration=List[i]->GetDuration()-(i>0?List[i]->GetTransitDuration():0);
+        if (NextChapter<List.count()) Duration=Duration-List[NextChapter]->GetTransitDuration();
         while ((NextChapter<List.count())&&(!List[NextChapter]->StartNewChapter)) {
             Duration=Duration+List[NextChapter]->GetDuration();
             NextChapter++;
@@ -1804,44 +1934,44 @@ int cDiaporama::GetWidthForHeight(int WantedHeight) {
 
 //====================================================================================================================
 
-qlonglong cDiaporama::GetTransitionDuration(int index) {
+int64_t cDiaporama::GetTransitionDuration(int index) {
     //ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetTransitionDuration"); // Remove : too much
 
-    qlonglong Duration=0;
+    int64_t Duration=0;
     if ((index>=0)&&(List.count()>0)&&((index<List.count())&&(!((List[index]->TransitionFamilly==0)&&(List[index]->TransitionSubType==0))))) Duration=List[index]->TransitionDuration;
     return Duration;
 }
 
 //====================================================================================================================
 
-qlonglong cDiaporama::GetDuration() {
+int64_t cDiaporama::GetDuration() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetDuration");
 
-    qlonglong Duration=0;
+    int64_t Duration=0;
     for (int i=0;i<List.count();i++) Duration=Duration+((List[i]->GetDuration()-GetTransitionDuration(i+1)>=33)?List[i]->GetDuration()-GetTransitionDuration(i+1):33);
     return Duration;
 }
 
 //====================================================================================================================
 
-qlonglong cDiaporama::GetPartialDuration(int from,int to) {
+int64_t cDiaporama::GetPartialDuration(int from,int to) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetPartialDuration");
 
     if (from<0)             from=0;
     if (from>=List.count()) from=List.count()-1;
     if (to<0)               to=0;
     if (to>=List.count())   to=List.count()-1;
-    qlonglong Duration=0;
+    int64_t Duration=0;
     for (int i=from;i<=to;i++) Duration=Duration+((List[i]->GetDuration()-GetTransitionDuration(i+1)>=33)?List[i]->GetDuration()-GetTransitionDuration(i+1):33);
     return Duration;
 }
 
 //====================================================================================================================
 
-qlonglong cDiaporama::GetObjectStartPosition(int index) {
+int64_t cDiaporama::GetObjectStartPosition(int index) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetObjectStartPosition");
 
-    qlonglong Duration=0;
+    int64_t Duration=0;
     if ((index>=List.count())&&(List.count()>0)) {
         index=List.count()-1;
         Duration=List[index]->GetDuration();
@@ -1871,7 +2001,7 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
     Painter->save();
     Painter->translate(AddX,AddY);
     Painter->fillRect(QRect(0,0,Width,Height),QBrush(Qt::black));
-    if (List[Index]->BackgroundType) {
+    if ((Index>=0)&&(List[Index]->BackgroundType)) {
         QBrush *BR=List[Index]->BackgroundBrush->GetBrush(QRectF(0,0,Width,Height),true,0,NULL,1,NULL);
         Painter->fillRect(QRect(0,0,Width,Height),*BR);
         delete BR;
@@ -1881,7 +2011,7 @@ void cDiaporama::PrepareBackground(int Index,int Width,int Height,QPainter *Pain
 
 //====================================================================================================================
 
-cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,qlonglong &StartPosition,int *CountObject,int *IndexObject) {
+cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int64_t &StartPosition,int *CountObject,int *IndexObject) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetMusicObject");
 
     if (ObjectIndex>=List.count()) return NULL;
@@ -1959,6 +2089,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 
     // Save project properties
     ProjectInfo->SaveToXML(root);
+    ProjectThumbnail->SaveToXML(root,"ProjectThumbnail",ProjectFileName,false);
 
     // Save basic information on project
     Element=domDocument.createElement("Project");
@@ -1968,13 +2099,14 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
     Element.setAttribute("ObjectNumber",List.count());
     for (int i=0;i<List.count();i++) List[i]->SaveToXML(root,"Object-"+(QString("%1").arg(i,10)).trimmed(),ProjectFileName,false);
 
+    root.appendChild(Element);
+
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
         if (ParentWindow!=NULL) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error creating data file","Error message"),QMessageBox::Close);
             else                printf("%s\n",QApplication::translate("MainWindow","Error creating data file","Error message").toLocal8Bit().constData());
         return false;
     }
-    root.appendChild(Element);
 
     // Save file now
     QTextStream out(&file);
@@ -1987,14 +2119,14 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 // Function use directly or with thread to prepare an image number Column at given position
 // Note : Position is relative to the start of the Column object !
 //============================================================================================
-void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,qlonglong Position,cSoundBlockList *MusicTrack) {
+void cDiaporama::PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,cSoundBlockList *MusicTrack) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:PrepareMusicBloc");
     if (Column>=List.count()) {
         for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket(Position);
         return;
     }
 
-    qlonglong     StartPosition=0;
+    int64_t     StartPosition=0;
     cMusicObject  *CurMusic=GetMusicObject(Column,StartPosition); // Get current music file from column and position
     if (CurMusic==NULL) {
         for (int j=0;j<MusicTrack->NbrPacketForFPS;j++) MusicTrack->AppendNullSoundPacket(Position);
@@ -2052,7 +2184,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
     if (((!SoundOnly)&&(IsCurrentObject)&&(Info->CurrentObject_PreparedImage!=NULL)) ||
         ((!SoundOnly)&&(!IsCurrentObject)&&(Info->TransitObject_PreparedImage!=NULL))) return;
 
-    qlonglong           Duration            =IsCurrentObject?Info->CurrentObject_ShotDuration:Info->TransitObject_ShotDuration;
+    int64_t             Duration            =IsCurrentObject?Info->CurrentObject_ShotDuration:Info->TransitObject_ShotDuration;
     cDiaporamaShot      *CurShot            =IsCurrentObject?Info->CurrentObject_CurrentShot:Info->TransitObject_CurrentShot;
     cDiaporamaObject    *CurObject          =IsCurrentObject?Info->CurrentObject:Info->TransitObject;
     int                 CurTimePosition     =(IsCurrentObject?Info->CurrentObject_InObjectTime:Info->TransitObject_InObjectTime);
@@ -2068,11 +2200,11 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
             if ((CurShot->ShotComposition.List[j]->BackgroundBrush->Video)&&(CurShot->ShotComposition.List[j]->BackgroundBrush->SoundVolume!=0)) {
 
                 // Calc StartPosToAdd depending on AddStartPos
-                qlonglong StartPosToAdd=(AddStartPos?QTime(0,0,0,0).msecsTo(CurShot->ShotComposition.List[j]->BackgroundBrush->Video->StartPos):0);
+                int64_t StartPosToAdd=(AddStartPos?QTime(0,0,0,0).msecsTo(CurShot->ShotComposition.List[j]->BackgroundBrush->Video->StartPos):0);
 
                 // Calc VideoPosition depending on video set to pause (visible=off) in previous shot
-                qlonglong VideoPosition=0;
-                qlonglong ThePosition=0;
+                int64_t VideoPosition=0;
+                int64_t ThePosition=0;
                 int TheShot=0;
                 while ((TheShot<CurObject->List.count())&&(ThePosition+CurObject->List[TheShot]->StaticDuration<CurTimePosition)) {
                     for (int w=0;w<CurObject->List[TheShot]->ShotComposition.List.count();w++) if (CurObject->List[TheShot]->ShotComposition.List[w]->IndexKey==CurShot->ShotComposition.List[j]->IndexKey) {
@@ -2084,7 +2216,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
                 }
                 VideoPosition+=(CurTimePosition-ThePosition);
 
-                CurShot->ShotComposition.List[j]->DrawCompositionObject(NULL,double(H)/double(1080),0,0,true,VideoPosition+StartPosToAdd,SoundTrackMontage,1,1,NULL,false,CurShot->StaticDuration,true);
+                CurShot->ShotComposition.List[j]->DrawCompositionObject(CurObject,NULL,double(H)/double(1080),0,0,true,VideoPosition+StartPosToAdd,SoundTrackMontage,1,1,NULL,false,CurShot->StaticDuration,true);
             }
         }
 
@@ -2101,7 +2233,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
         P.fillRect(0,0,W,H,Qt::transparent);
         P.setCompositionMode(QPainter::CompositionMode_SourceOver);
 
-        if (List.count()>0) {
+        if (CurShot) {
             QList<cCompositionObjectContext> PreparedBrushList;
 
             // Construct collection
@@ -2114,7 +2246,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
 
             // Draw collection
             for (int j=0;j<CurShot->ShotComposition.List.count();j++) {
-                CurShot->ShotComposition.List[j]->DrawCompositionObject(&P,double(H)/double(1080),W,H,PreparedBrushList[j].PreviewMode,PreparedBrushList[j].VideoPosition+PreparedBrushList[j].StartPosToAdd,
+                CurShot->ShotComposition.List[j]->DrawCompositionObject(CurObject,&P,double(H)/double(1080),W,H,PreparedBrushList[j].PreviewMode,PreparedBrushList[j].VideoPosition+PreparedBrushList[j].StartPosToAdd,
                                                                         PreparedBrushList[j].SoundTrackMontage,
                                                                         PreparedBrushList[j].BlockPctDone,PreparedBrushList[j].ImagePctDone,
                                                                         PreparedBrushList[j].PrevCompoObject,false,Duration,
@@ -2456,7 +2588,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
 }
 
 
-cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int TimePosition,cDiaporama *Diaporama,double TheFrameDuration,bool WantSound) {
+cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int64_t TimePosition,cDiaporama *Diaporama,double TheFrameDuration,bool WantSound) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo");
 
     //==============> Pre-initialise all values
@@ -2607,7 +2739,7 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
         }
 
         // Search music objects
-        qlonglong StartPosition;
+        int64_t StartPosition;
         if ((WantSound)&&(CurrentObject!=NULL)) CurrentObject_MusicObject=Diaporama->GetMusicObject(CurrentObject_Number,StartPosition);
         if ((WantSound)&&(TransitObject!=NULL)) TransitObject_MusicObject=Diaporama->GetMusicObject(TransitObject_Number,StartPosition);
 

@@ -362,5 +362,8 @@
         <file>img/TextFrame/116.svg</file>
         <file>img/TextFrame/123.svg</file>
         <file>img/TextFrame/115.svg</file>
+        <file>img/MediaIcons/16x16/clipart.png</file>
+        <file>img/MediaIcons/48x48/clipart.png</file>
+        <file>img/MediaIcons/100x100/clipart.png</file>
     </qresource>
 </RCC>

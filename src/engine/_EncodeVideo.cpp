@@ -302,7 +302,8 @@ bool cEncodeVideo::OpenEncoder(cDiaporama *Diaporama,QString OutputFileName,int 
 
     } else {
         // If sound only, ensure FrameRate have a value
-        VideoFrameRate=(AVRational){1,25};
+        VideoFrameRate.num=1;
+        VideoFrameRate.den=25;
     }
 
     //=======================================
@@ -697,7 +698,7 @@ bool cEncodeVideo::PrepareTAG(QString Language) {
     av_dict_set(&Container->metadata,"artist",AdjustMETA(Diaporama->ProjectInfo->Author).toUtf8().constData(),0);
     av_dict_set(&Container->metadata,"album",AdjustMETA(Diaporama->ProjectInfo->Album).toUtf8().constData(),0);
     av_dict_set(&Container->metadata,"comment",AdjustMETA(Diaporama->ProjectInfo->Comment).toUtf8().constData(),0);
-    av_dict_set(&Container->metadata,"date",QString("%1").arg(Diaporama->ProjectInfo->Year).toUtf8().constData(),0);
+    av_dict_set(&Container->metadata,"date",QString("%1").arg(Diaporama->ProjectInfo->EventDate.year()).toUtf8().constData(),0);
     av_dict_set(&Container->metadata,"composer",QString(Diaporama->ApplicationConfig->ApplicationName+QString(" ")+Diaporama->ApplicationConfig->ApplicationVersion).toUtf8().constData(),0);
     av_dict_set(&Container->metadata,"creation_time",QDateTime::currentDateTime().toString("yyyy-MM-dd hh:mm:ss").toUtf8().constData(),0); // ISO 8601 format
 
@@ -769,7 +770,7 @@ void cEncodeVideo::InitDisplay() {
 
 //*************************************************************************************************************************************************
 
-void cEncodeVideo::DisplayProgress(qlonglong RenderedFrame,qlonglong Position,int Column,int ColumnStart) {
+void cEncodeVideo::DisplayProgress(int64_t RenderedFrame,int64_t Position,int Column,int ColumnStart) {
     int     DurationProcess =StartTime.msecsTo(QTime::currentTime());
     double  CalcFPS         =(double(RenderedFrame)/(double(DurationProcess)/1000));
     double  EstimDur        =double(NbrFrame-RenderedFrame)/CalcFPS;
@@ -816,7 +817,7 @@ bool cEncodeVideo::DoEncode() {
     cSoundBlockList         RenderMusic,ToEncodeMusic;
     cDiaporamaObjectInfo    *PreviousFrame=NULL;
     cDiaporamaObjectInfo    *Frame        =NULL;
-    qlonglong               RenderedFrame =0;
+    int64_t               RenderedFrame =0;
     int                     FrameSize     =0;
 
     IncreasingVideoPts=double(1000)/double(dFPS);
@@ -847,7 +848,7 @@ bool cEncodeVideo::DoEncode() {
     IncreasingAudioPts  =AudioStream?FrameSize*1000*AudioStream->codec->time_base.num/AudioStream->codec->time_base.den:0;
     StartTime           =QTime::currentTime();
     LastCheckTime       =StartTime;                                     // Display control : last time the loop start
-    qlonglong Position  =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
+    int64_t Position  =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
     int ColumnStart     =-1;                                            // Render start position of current object
     int Column          =FromSlide-1;                                     // Render current object
 
@@ -1172,9 +1173,12 @@ void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
 
             if (Continue) {
                 // Init AudioFrame
+                AVRational AVR;
                 avcodec_get_frame_defaults(AudioFrame);
+                AVR.num                     =1;
+                AVR.den                     =AudioStream->codec->sample_rate;
                 AudioFrame->nb_samples      =DestPacketSize/DestSampleSize;
-                AudioFrame->pts             =av_rescale_q(AudioFrame->nb_samples*AudioFrameNbr,(AVRational){1,AudioStream->codec->sample_rate},AudioStream->time_base);
+                AudioFrame->pts             =av_rescale_q(AudioFrame->nb_samples*AudioFrameNbr,AVR,AudioStream->time_base);
                 #ifdef LIBAV_09
                 AudioFrame->format          =AudioStream->codec->sample_fmt;
                 AudioFrame->channel_layout  =AudioStream->codec->channel_layout;

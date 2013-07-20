@@ -32,18 +32,24 @@ namespace Ui {
 class DlgffDPjrProperties : public QCustomDialog {
 Q_OBJECT
 public:
-    cDiaporama *ffdProject;
-    bool       IsPrjCreate;
+    cDiaporama          *ffdProject;
+    bool                IsPrjCreate;
 
     explicit DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgffDPjrProperties();
 
     // function to be overloaded
-    virtual void    DoInitDialog();                             // Initialise dialog
-    virtual bool    DoAccept();                                 // Call when user click on Ok button
-    virtual void    DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
-    virtual void    PrepareGlobalUndo() {/*Nothing to do*/}     // Initiale Undo
-    virtual void    DoGlobalUndo()      {/*Nothing to do*/}     // Apply Undo : call when user click on Cancel button
+    virtual void        DoInitDialog();                             // Initialise dialog
+    virtual bool        DoAccept();                                 // Call when user click on Ok button
+    virtual void        DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
+    virtual void        PrepareGlobalUndo();                        // Initiale Undo
+    virtual void        DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
+
+private slots:
+    void                EventDateChanged(const QDate &NewDate);
+    void                OverrideDateChanged(int);
+    void                EditThumb();
+    void                ThumbChanged();
 
 private:
     Ui::DlgffDPjrProperties *ui;

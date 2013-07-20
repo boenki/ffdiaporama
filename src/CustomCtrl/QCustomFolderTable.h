@@ -49,9 +49,9 @@ public:
     int                     CurrentTotalFilesNumber;
     int                     CurrentShowFilesNumber;
     int                     CurrentDisplayItem;
-    qlonglong               CurrentShowFolderSize;
-    qlonglong               CurrentTotalFolderSize;
-    qlonglong               CurrentShowDuration;
+    int64_t                 CurrentShowFolderSize;
+    int64_t                 CurrentTotalFolderSize;
+    int64_t                 CurrentShowDuration;
 
     // Thread controls
     QFutureWatcher<void>    ScanMediaList;

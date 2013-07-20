@@ -11,10 +11,11 @@ namespace Ui {
 class DlgRulerDef : public QCustomDialog {
 Q_OBJECT
 public:
-    int *RulerDef;
-    int SavRuler;
+    int     *RulerDef;
+    int     SavRuler;
+    bool    AllowTVMargins;
 
-    explicit DlgRulerDef(int *RulerDef,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgRulerDef(int *RulerDef,bool AllowTVMargins,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgRulerDef();
 
     // function to be overloaded

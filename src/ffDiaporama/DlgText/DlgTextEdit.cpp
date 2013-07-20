@@ -22,6 +22,7 @@
 #include "ui_DlgTextEdit.h"
 #include "cCustomTextEdit.h"
 #include "../../engine/cTextFrame.h"
+#include "../../engine/_Variables.h"
 
 #include <QTextCharFormat>
 #include <QTextList>
@@ -182,6 +183,9 @@ void DlgTextEdit::DoInitDialog() {
     connect(ui->IntermPosSlider,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
     connect(ui->IntermPosED,SIGNAL(valueChanged(int)),this,SLOT(s_IntermPosED(int)));
 
+    // Variables
+    connect(ui->InsTextVarBT,SIGNAL(pressed()),this,SLOT(s_InsTextVar()));
+
     // Style
     connect(ui->TextStyleBT,SIGNAL(pressed()),this,SLOT(s_TextStyleBT()));
     connect(ui->BackgroundStyleBT,SIGNAL(pressed()),this,SLOT(s_BackgroundStyleBT()));
@@ -313,10 +317,10 @@ void DlgTextEdit::RefreshControls() {
     ui->WidthEd->setEnabled(        CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
     ui->PosSize_Height->setEnabled( CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
     ui->HeightEd->setEnabled(       CurrentTextItem->TMType==TEXTMARGINS_CUSTOM);
-    ui->PosXEd->setValue(     round(CurrentTextItem->TMx*100));
-    ui->PosYEd->setValue(     round(CurrentTextItem->TMy*100));
-    ui->WidthEd->setValue(    round(CurrentTextItem->TMw*100));
-    ui->HeightEd->setValue(   round(CurrentTextItem->TMh*100));
+    ui->PosXEd->setValue(           floor(CurrentTextItem->TMx*100));
+    ui->PosYEd->setValue(           floor(CurrentTextItem->TMy*100));
+    ui->WidthEd->setValue(          floor(CurrentTextItem->TMw*100));
+    ui->HeightEd->setValue(         floor(CurrentTextItem->TMh*100));
 
     ui->textUp->setChecked(CurrentTextItem->VAlign==0);                 ui->textUp->setDown(CurrentTextItem->VAlign==0);
     ui->textVCenter->setChecked(CurrentTextItem->VAlign==1);            ui->textVCenter->setDown(CurrentTextItem->VAlign==1);
@@ -940,6 +944,23 @@ void DlgTextEdit::s_BackgroundStyleBT() {
         CurrentTextItem->ApplyBackgroundStyle(StyleTextBackgroundCollection->GetStyleDef(Item));
     }
     RefreshControls();
+}
+
+//====================================================================================================================
+// Handler for text variables
+//====================================================================================================================
+
+void DlgTextEdit::s_InsTextVar() {
+    ui->InsTextVarBT->setDown(false);
+    QString Var=PopupVariableMenu(this);
+    if (!Var.isEmpty()) {
+        QTextCursor     Cursor(ui->TextEdit->textCursor());
+        QTextCharFormat CurrentFormat=ui->TextEdit->currentCharFormat();
+        Cursor.insertText(Var,CurrentFormat);
+        CurrentTextItem->Text=ui->TextEdit->toHtml();
+        RefreshControls();
+        ui->TextEdit->setFocus();
+    }
 }
 
 //====================================================================================================================

@@ -27,6 +27,13 @@
 
 enum TRANSFOTYPE {NOTYETDEFINED,MOVEBLOCK,RESIZEUPLEFT,RESIZEDOWNLEFT,RESIZEUPRIGHT,RESIZEDOWNRIGHT,RESIZELEFT,RESIZERIGHT,RESIZEUP,RESIZEDOWN};
 
+struct SortBlock {
+    int   Index;
+    qreal Position;
+};
+
+SortBlock MakeSortBlock(int Index,qreal Position);
+
 class cInteractiveZone : public QWidget {
 Q_OBJECT
 public:
@@ -37,10 +44,11 @@ public:
 
     enum DISPLAYMODE {DisplayMode_BlockShape,DisplayMode_TextMargin} DisplayMode;
 
-    int                 MagneticRuler;
+    double              DisplayW,DisplayH;              // wanted size
+    int                 MagneticRuler;                  // rullers
     cCustomBlockTable   *BlockTable;
     cDiaporamaObject    *DiaporamaObject;
-    int                 CurrentShotNbr;                // Current shot number
+    int                 CurrentShotNbr;                 // Current shot number
     QImage              *BackgroundImage;
     QImage              *ForegroundImage;
     QRectF              SceneRect,ScreenRect;

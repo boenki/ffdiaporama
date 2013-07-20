@@ -98,6 +98,10 @@ bool cStyleCollectionItem::LoadFromXML(QDomElement domDocument,QString ElementNa
         if (IsUserConfigFile) FromUserConf=true;
         StyleName=Element.attribute("StyleName");
         StyleDef =Element.attribute("StyleDefinition");
+        #ifdef Q_OS_WIN
+        if (StyleDef.endsWith("###FontName:Serif"))        StyleDef.replace("###FontName:Serif","###FontName:Times New Roman");
+        if (StyleDef.endsWith("###FontName:Sans Serif"))   StyleDef.replace("###FontName:Sans Serif","###FontName:Arial");
+        #endif
 
         if (FromUserConf==false) {
             BckStyleName=StyleName;

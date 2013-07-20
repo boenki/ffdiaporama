@@ -23,7 +23,7 @@
 
 //====================================================================================================================
 
-DlgTransitionDuration::DlgTransitionDuration(qlonglong Duration,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
+DlgTransitionDuration::DlgTransitionDuration(int64_t Duration,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
     QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTransitionDuration) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionDuration::DlgTransitionDuration");
     ui->setupUi(this);
@@ -55,7 +55,7 @@ void DlgTransitionDuration::DoInitDialog() {
 
 bool DlgTransitionDuration::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionDuration::DoAccept");
-    Duration=qlonglong(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
+    Duration=int64_t(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
     return true;
 }
 

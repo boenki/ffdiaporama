@@ -38,6 +38,7 @@
 #include "../CustomCtrl/QCustomFolderTable.h"
 #include "../CustomCtrl/QCustomHorizSplitter.h"
 #include "../engine/cTextFrame.h"
+#include "../engine/_Variables.h"
 
 #include "DlgInfoFile/DlgInfoFile.h"
 #include "DlgCheckConfig/DlgCheckConfig.h"
@@ -152,30 +153,37 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Register background library
     screen.showMessage(QApplication::translate("MainWindow","Loading background library..."),Qt::AlignHCenter|Qt::AlignBottom);
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading background library..."));
     BackgroundList.ScanDisk("background",ApplicationConfig);
 
     // Register text frame library
     screen.showMessage(QApplication::translate("MainWindow","Loading text frame  library..."),Qt::AlignHCenter|Qt::AlignBottom);
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading text frame  library..."));
     TextFrameList.DoPreploadList();
 
     // Register non luma library
     screen.showMessage(QApplication::translate("MainWindow","Loading no-luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading no-luma transitions..."));
     RegisterNoLumaTransition();
 
     // Register luma library
     screen.showMessage(QApplication::translate("MainWindow","Loading luma transitions..."),Qt::AlignHCenter|Qt::AlignBottom);
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading luma transitions..."));
     RegisterLumaTransition();
 
     // Because now we have local installed, then we can translate drive name
+    screen.showMessage(QApplication::translate("MainWindow","Scan drives in computer..."),Qt::AlignHCenter|Qt::AlignBottom);
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Scan drives in computer..."));
     ApplicationConfig->DriveList=new cDriveList(ApplicationConfig);
+
+    // Register models
+    screen.showMessage(QApplication::translate("MainWindow","Register models..."),Qt::AlignHCenter|Qt::AlignBottom);
+    ApplicationConfig->ThumbnailModels=new cModelList(ApplicationConfig,ffd_MODELTYPE_THUMBNAIL);
 
     // Because now we have local installed, then we can translate collection style name
     ApplicationConfig->StyleTextCollection.DoTranslateCollection();
     ApplicationConfig->StyleTextBackgroundCollection.DoTranslateCollection();
     ApplicationConfig->StyleBlockShapeCollection.DoTranslateCollection();
-
-    AutoFramingDefInit();
-    ShapeFormDefinitionInit();
 
     ApplicationConfig->ImagesCache.MaxValue=ApplicationConfig->MemCacheMaxValue;
 
@@ -409,9 +417,10 @@ void MainWindow::toolTipTowhatsThis(QObject *StartObj) {
 MainWindow::~MainWindow() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::~MainWindow");
 
+    SDLLastClose();
+
     delete Diaporama;
     delete ApplicationConfig;
-    SDLLastClose();
     delete ui;
 
     // Close some libav additionnals
@@ -1291,7 +1300,16 @@ void MainWindow::s_Action_ProjectProperties() {
     if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
     DlgffDPjrProperties Dlg(false,Diaporama,ApplicationConfig,ApplicationConfig->DlgffDPjrPropertiesWSP,this);
     Dlg.InitDialog();
-    if (Dlg.exec()==0) SetModifyFlag(true);
+    if (Dlg.exec()==0) {
+        SetModifyFlag(true);
+        for (int i=0;i<Diaporama->List.count();i++)
+            if ((Diaporama->List[i]->Thumbnail)&&(IsObjectHaveVariables(Diaporama->List[i]))) {
+            delete Diaporama->List[i]->Thumbnail;
+            Diaporama->List[i]->Thumbnail=NULL;
+        }
+        (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol)-(Diaporama->GetTransitionDuration(Diaporama->CurrentCol)>0?1:0));
+        AdjustRuller();
+    }
 }
 
 //====================================================================================================================
@@ -1558,10 +1576,12 @@ void MainWindow::DoOpenFile() {
 
                 // Load project properties
                 Diaporama->ProjectInfo->LoadFromXML(CurrentLoadingProjectDocument);
+                Diaporama->ProjectThumbnail->LoadFromXML(CurrentLoadingProjectDocument,"ProjectThumbnail",QFileInfo(Diaporama->ProjectFileName).absolutePath(),&AliasList);
 
                 // Load project geometry and adjust timeline and preview geometry
                 QDomElement Element=CurrentLoadingProjectDocument.elementsByTagName("Project").item(0).toElement();
                 Diaporama->ImageGeometry   =Element.attribute("ImageGeometry").toInt();
+
                 Diaporama->DefineSizeAndGeometry(Diaporama->ImageGeometry);
                 SetTimelineHeight();
                 ui->timeline->SetTimelineHeight(ApplicationConfig->PartitionMode);
@@ -1715,7 +1735,6 @@ void MainWindow::s_Action_AddTitle() {
     DiaporamaObject->List[0]->Parent        =DiaporamaObject;
     DiaporamaObject->List[0]->StaticDuration=ApplicationConfig->NoShotDuration;
     DiaporamaObject->Parent                 =Diaporama;
-    DiaporamaObject->TypeObject             =DIAPORAMAOBJECTTYPE_EMPTY;
 
     if (Diaporama->ApplicationConfig->RandomTransition) {
         qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
@@ -2008,7 +2027,6 @@ void MainWindow::s_Action_DoAddFile() {
             DiaporamaObject->List[0]->Parent        =DiaporamaObject;
             DiaporamaObject->List[0]->StaticDuration=ApplicationConfig->NoShotDuration;
             DiaporamaObject->Parent                 =Diaporama;
-            DiaporamaObject->TypeObject             =DIAPORAMAOBJECTTYPE_EMPTY;
 
             // Create and append a composition block to the object list
             DiaporamaObject->ObjectComposition.List.append(new cCompositionObject(COMPOSITIONTYPE_OBJECT,DiaporamaObject->NextIndexKey,ApplicationConfig));
@@ -2678,14 +2696,14 @@ void MainWindow::DoBrowserRefreshFolderInfo() {
         // If scan is finished
         } else {
             // Ensure Used and Size fit in an _int32 value for QProgressBar
-            qlonglong Used=HDD->Used,Size=HDD->Size;
+            int64_t Used=HDD->Used,Size=HDD->Size;
             while (Used>1024*1024) { Used=Used/1024; Size=Size/1024; }
             ui->FolderPgr->setMaximum(Size);
             ui->FolderPgr->setValue(Used);
             ui->FolderPgr->setFormat(GetTextSize(HDD->Used)+"/"+GetTextSize(HDD->Size));
             ui->FolderPgr->setAlignment(Qt::AlignHCenter);
 
-            qlonglong   duration=ui->FolderTable->CurrentShowDuration;
+            int64_t   duration=ui->FolderTable->CurrentShowDuration;
             int         msec =duration % 1000;          duration=duration/1000;
             int         sec  =duration % 60;            duration=duration/60;
             int         mn   =duration % 60;            duration=duration/60;
@@ -2747,8 +2765,8 @@ void MainWindow::DoBrowserRefreshSelectedFileInfo() {
         bool    IsFind;
         QStringList FileExtensions;
         QList<int>  ObjectTypes;
-        qlonglong   TotalDuration=0;
-        qlonglong   TotalSize    =0;
+        int64_t   TotalDuration=0;
+        int64_t   TotalSize    =0;
 
         for (int i=0;i<MediaList.count();i++) {
             IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j])       IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
@@ -3375,7 +3393,7 @@ void MainWindow::s_ActionMultiple_SetFirstShotDuration() {
     Dlg.InitDialog();
     int Ret=Dlg.exec();
     if (Ret==0) {
-        qlonglong Duration=Dlg.Duration;
+        int64_t Duration=Dlg.Duration;
         for (int i=0;i<SlideList.count();i++) {
             Diaporama->List[SlideList[i]]->List[0]->StaticDuration=Duration;
         }
@@ -3462,7 +3480,7 @@ void MainWindow::s_ActionMultiple_SelectTransition() {
     if (Ret==0) {
         int         Familly =Diaporama->List[Diaporama->CurrentCol]->TransitionFamilly;
         int         SubType =Diaporama->List[Diaporama->CurrentCol]->TransitionSubType;
-        qlonglong   Duration=Diaporama->List[Diaporama->CurrentCol]->TransitionDuration;
+        int64_t   Duration=Diaporama->List[Diaporama->CurrentCol]->TransitionDuration;
         for (int i=0;i<SlideList.count();i++) {
             Diaporama->List[SlideList[i]]->TransitionFamilly    =Familly;
             Diaporama->List[SlideList[i]]->TransitionSubType    =SubType;
@@ -3488,7 +3506,7 @@ void MainWindow::s_ActionMultiple_SetTransitionDuration() {
     Dlg.InitDialog();
     int Ret=Dlg.exec();
     if (Ret==0) {
-        qlonglong Duration=Dlg.Duration;
+        int64_t Duration=Dlg.Duration;
         for (int i=0;i<SlideList.count();i++) {
             Diaporama->List[SlideList[i]]->TransitionDuration=Duration;
         }

@@ -63,6 +63,7 @@ void QCustomFolderTree::InitDrives() {
         if (HDD.Path.startsWith("/media/")
             ||(HDD.Path=="/")
             ||(HDD.Label==PersonalFolder)
+            ||(HDD.Label==QApplication::translate("QCustomFolderTree","Clipart"))
             ||(HDD.Path.startsWith("/mnt/")&&ApplicationConfig->ShowMntDrive)
         )
 #endif
@@ -631,6 +632,8 @@ void QCustomFolderTree::RefreshDriveList() {
     ApplicationConfig->DriveList->UpdateDriveList();
     int i=0;
     while (i<ApplicationConfig->DriveList->List.count()) {
+        if (ApplicationConfig->DriveList->List[i].Label==QApplication::translate("QCustomFolderTree","Clipart"))
+            ApplicationConfig->DriveList->List[i].Flag=1;
         if (ApplicationConfig->DriveList->List[i].Flag==0) {
             // Drive no longer exist
             int j=0;
@@ -644,10 +647,11 @@ void QCustomFolderTree::RefreshDriveList() {
             ApplicationConfig->DriveList->List.removeAt(i);                    // Delete from drive list
         } else if (ApplicationConfig->DriveList->List[i].Flag==1) {
             // Drive previously exist
-            #ifdef Q_WS_X11
+            #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
             if (ApplicationConfig->DriveList->List[i].Path.startsWith("/media/")
                 ||(ApplicationConfig->DriveList->List[i].Path=="/")
                 ||(ApplicationConfig->DriveList->List[i].Label==PersonalFolder)
+                ||(ApplicationConfig->DriveList->List[i].Label==QApplication::translate("QCustomFolderTree","Clipart"))
                 ||(ApplicationConfig->DriveList->List[i].Path.startsWith("/mnt/"))
             ) {
             #endif
@@ -655,7 +659,9 @@ void QCustomFolderTree::RefreshDriveList() {
                 while ((j<topLevelItemCount())&&(topLevelItem(j)->text(0)!=ApplicationConfig->DriveList->List[i].Label)) j++;
                 if ((j<topLevelItemCount())&&(topLevelItem(j)->text(0)==ApplicationConfig->DriveList->List[i].Label)) {
                     // if drive is not a /mnt/ drive and if we not continu to display them, then delete it
-                    if ((ApplicationConfig->DriveList->List[i].Path.startsWith("/mnt/"))&&(!ApplicationConfig->ShowMntDrive)) {
+                    if ((ApplicationConfig->DriveList->List[i].Path.startsWith("/mnt/"))&&
+                        (!ApplicationConfig->ShowMntDrive)&&
+                        (ApplicationConfig->DriveList->List[i].Label!=QApplication::translate("QCustomFolderTree","Clipart"))) {
                         QTreeWidgetItem *Item=takeTopLevelItem(j);
                         DeleteChildItem(Item);                      // Delete item in tree
                         delete Item;
@@ -665,7 +671,7 @@ void QCustomFolderTree::RefreshDriveList() {
                     if ((!ApplicationConfig->DriveList->List[i].Path.startsWith("/mnt/"))||(ApplicationConfig->ShowMntDrive))
                         addTopLevelItem(CreateItem(ApplicationConfig->DriveList->List[i].Label,ApplicationConfig->DriveList->List[i].Path,QIcon(QPixmap().fromImage(ApplicationConfig->DriveList->List[i].IconDrive))));
                 }
-            #ifdef Q_WS_X11
+            #if defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
             }
             #endif
             i++;

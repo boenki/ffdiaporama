@@ -65,9 +65,15 @@
 #include <QDomElement>
 
 #if QT_VERSION >= 0x050000
+
     #include <QtConcurrent>
-#else
-// Qt4 code
+
+#else   // Qt4 code
+
+    #ifdef Q_OS_WIN
+    void    SetLFHeap();
+    #endif
+
 #endif
 
 //====================================================================
@@ -94,16 +100,19 @@
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
+#define THUMBMODEL_ROOTNAME                 "Thumbnail"                           // Name of root node in the thumbnail xml files
+#define THUMBWITH                           600
+#define THUMBHEIGHT                         800
+#define THUMBGEOMETRY                       (double(THUMBWITH)/double(THUMBHEIGHT))
 
 // Application version : url to file on internet
-//#define BUILDVERSION_WEBURL                    "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
-#define BUILDVERSION_WEBURL                     "http://ffdiaporama.tuxfamily.org/Devel/BUILDVERSION.txt"
+//#define BUILDVERSION_WEBURL                "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
+#define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Devel/BUILDVERSION.txt"
 
 // Global values
 extern QString CurrentAppName;              // Application name (including devel, beta, ...)
 extern QString CurrentAppVersion;           // Application version read from BUILDVERSION.txt
 extern double  ScreenFontAdjust;            // System Font adjustement
-
 
 // URL to link to help page
 #define HELPFILE_CAT                        "http://ffdiaporama.tuxfamily.org/?cat=%1&lang=%2"
@@ -132,15 +141,12 @@ extern int          LogMsgLevel;                        // Level from wich debug
 extern QStringList  EventList;                          // Internal event queue
 extern QObject      *EventReceiver;                     // Windows wich receive event
 
-#ifdef Q_OS_WIN
-void    SetLFHeap();
-#endif
 void    PostEvent(int EventType,QString EventParam="");
 void    ToLog(int MessageType,QString Message,QString Source="internal",bool AddBreak=true);
 QString ito2a(int val);
 QString ito3a(int val);
 double  GetDoubleValue(QDomElement CorrectElement,QString Name);    // Load a double value from an XML element
-double GetDoubleValue(QString sValue);                              // Load a double value from a string
+double  GetDoubleValue(QString sValue);                             // Load a double value from a string
 
 //====================================================================
 // VARIOUS
@@ -161,5 +167,6 @@ enum ffDSection_ID {
 #define TEXTID(Section,Id) (Section*1000+Id)
 
 QString ffDText(ffDSection_ID SectionId,int TextId);
+QString AdjustDirForOS(QString Dir);                                                                                // Adjust separator in pathname depending on operating system
 
 #endif // _GLOBALDEFINES_H

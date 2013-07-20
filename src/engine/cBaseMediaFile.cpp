@@ -180,17 +180,6 @@ bool gm_decode_base64(uchar *buffer,uint &len) {
         #ifdef TAGLIBWITHASF
         if ((Image->isNull())&&(QFileInfo(FileName).suffix().toLower()=="wma")) {
             TagLib::ASF::File ASFFile(TagLib::FileName(TagLib::FileName(FileName.toLocal8Bit())));
-            /*
-            TagLib::ASF::Tag* asfTag = dynamic_cast<TagLib::ASF::Tag*>(ASFFile.tag());
-            TagLib::ASF::AttributeListMap& attrListMap = asfTag->attributeListMap();
-            for (TagLib::ASF::AttributeListMap::Iterator it=attrListMap.begin();it!=attrListMap.end();++it) {
-
-                TagLib::ASF::AttributeList& attrList = (*it).second;
-                for (TagLib::ASF::AttributeList::Iterator ait = attrList.begin();ait != attrList.end();++ait) {
-                    //qDebug()<< QString().fromStdString((*ait).toString().toCString());
-                }
-            }
-            */
             #ifdef TAGLIBWITHASFPICTURE
             if ((ASFFile.tag())&&(ASFFile.tag()->attributeListMap().contains("WM/Picture"))) {
                 const TagLib::ASF::AttributeList &attrList=ASFFile.tag()->attributeListMap()["WM/Picture"];
@@ -616,7 +605,9 @@ cffDProjectFile::cffDProjectFile(cBaseApplicationConfig *ApplicationConfig):cBas
     Title           ="";
     Author          ="";
     Album           ="";
-    Year            =QDate::currentDate().year();
+    OverrideDate    =false;
+    EventDate       =QDate::currentDate();
+    LongDate        =FormatLongDate();
     Comment         ="";
     Composer        ="";
     Duration        =0;
@@ -624,6 +615,17 @@ cffDProjectFile::cffDProjectFile(cBaseApplicationConfig *ApplicationConfig):cBas
     ffDRevision     ="";
     DefaultLanguage ="und";
     NbrChapters     =0;
+}
+
+//====================================================================================================================
+
+QString cffDProjectFile::FormatLongDate() {
+    QString Str;
+    if (!OverrideDate) {
+        Str=EventDate.toString(Qt::DefaultLocaleLongDate);
+        for (int i=0;i<Str.length();i++) if ((!i)||(Str[i-1]==' ')) Str[i]=QChar(Str[i]).toUpper();
+    } else Str=LongDate;
+    return Str;
 }
 
 //====================================================================================================================
@@ -651,10 +653,12 @@ void cffDProjectFile::SaveToXML(QDomElement &domDocument) {
     Element.setAttribute("Title",Title);
     Element.setAttribute("Author",Author);
     Element.setAttribute("Album",Album);
-    Element.setAttribute("Year",Year);
+    Element.setAttribute("LongDate",LongDate);
+    Element.setAttribute("EventDate",EventDate.toString(Qt::ISODate));
+    Element.setAttribute("OverrideDate",OverrideDate?1:0);
     Element.setAttribute("Comment",Comment);
     Element.setAttribute("Composer",Composer);
-    Element.setAttribute("Duration",Duration);
+    Element.setAttribute("Duration",qlonglong(Duration));
     Element.setAttribute("ffDRevision",ffDRevision);
     Element.setAttribute("DefaultLanguage",DefaultLanguage);
     Element.setAttribute("ChaptersNumber",NbrChapters);
@@ -680,23 +684,31 @@ bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
     if ((domDocument.elementsByTagName("ffDiaporamaProjectProperties").length()>0)&&(domDocument.elementsByTagName("ffDiaporamaProjectProperties").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("ffDiaporamaProjectProperties").item(0).toElement();
         if (Element.hasAttribute("Title")) {
-            Title   =Element.attribute("Title");
+            Title=Element.attribute("Title");
             InformationList.append(QString("title")+QString("##")+QString(Title));
         }
         if (Element.hasAttribute("Author")) {
-            Author  =Element.attribute("Author");
+            Author=Element.attribute("Author");
             InformationList.append(QString("artist")+QString("##")+QString(Author));
         }
         if (Element.hasAttribute("Album")) {
-            Album   =Element.attribute("Album");
+            Album=Element.attribute("Album");
             InformationList.append(QString("album")+QString("##")+QString(Album));
         }
-        if (Element.hasAttribute("Year")) {
-            Year    =Element.attribute("Year").toInt();
-            InformationList.append(QString("date")+QString("##")+QString("%1").arg(Year));
+        if (Element.hasAttribute("EventDate")) {
+            EventDate=EventDate.fromString(Element.attribute("EventDate"),Qt::ISODate);
+            InformationList.append(QString("EventDate")+QString("##")+EventDate.toString(Qt::SystemLocaleShortDate));
+        } else if (Element.hasAttribute("Year")) {
+            EventDate.setDate(Element.attribute("Year").toInt(),1,1);
+            InformationList.append(QString("EventDate")+QString("##")+EventDate.toString(Qt::SystemLocaleShortDate));
         }
+        if (Element.hasAttribute("OverrideDate")) OverrideDate=Element.attribute("OverrideDate")=="1";
+            else if (Element.hasAttribute("LongDate")) LongDate=Element.attribute("LongDate");
+        if (!OverrideDate) LongDate=FormatLongDate();
+        InformationList.append(QString("LongDate")+QString("##")+QString(LongDate));
+
         if (Element.hasAttribute("Comment")) {
-            Comment =Element.attribute("Comment");
+            Comment=Element.attribute("Comment");
             InformationList.append(QString("comment")+QString("##")+QString(Comment));
         }
         if (Element.hasAttribute("ffDRevision")) {
@@ -808,9 +820,9 @@ QString cffDProjectFile::GetTAGInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::GetTechInfo");
 
     QString Info=Title;
-    if (Album!="")      Info=Info+(Info!=""?" - ":"")+Album;
-    if (Info!="")       Info=Info+(Info!=""?" - ":"")+QString("%1").arg(Year);
-    if (Author!="")     Info=Info+(Info!=""?" - ":"")+Author;
+    if (LongDate!="")       Info=Info+(Info!=""?" - ":"")+LongDate; else Info=Info+(Info!=""?" - ":"")+EventDate.toString(Qt::SystemLocaleShortDate);
+    if (Album!="")          Info=Info+(Info!=""?" - ":"")+Album;
+    if (Author!="")         Info=Info+(Info!=""?" - ":"")+Author;
     return Info;
 }
 
@@ -1185,7 +1197,9 @@ QImage *cImageFile::LoadVectorImg() {
         Painter.setCompositionMode(QPainter::CompositionMode_Source);
         Painter.fillRect(QRect(0,0,Img->width(),Img->height()),Qt::transparent);
         Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        SVGImg.render(&Painter);
+        Painter.setClipping(true);
+        Painter.setClipRect(QRect(0,0,Img->width(),Img->height()));
+        SVGImg.render(&Painter,QRectF(0,0,Img->width(),Img->height()));
         Painter.end();
     }
     return Img;
@@ -1228,7 +1242,7 @@ QImage *cImageFile::ImageAt(bool PreviewMode) {
     CLASS cVideoFile
 *************************************************************************************************************************************/
 
-cImageInCache::cImageInCache(qlonglong Position,QImage *Image) {
+cImageInCache::cImageInCache(int64_t Position,QImage *Image) {
     this->Position=Position;
     this->Image   =Image;
 }
@@ -1359,8 +1373,8 @@ void cVideoFile::GetFullInformationFromFile() {
             AVChapter   *ch=LibavFile->chapters[i];
             QString     ChapterNum=QString("%1").arg(NbrChapters);
             while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
-            qlonglong Start=double(ch->start)*(double(av_q2d(ch->time_base))*1000);     // Lib AV use 1/1 000 000 000 sec and we want msec !
-            qlonglong End  =double(ch->end)*(double(av_q2d(ch->time_base))*1000);       // Lib AV use 1/1 000 000 000 sec and we want msec !
+            int64_t Start=double(ch->start)*(double(av_q2d(ch->time_base))*1000);     // Lib AV use 1/1 000 000 000 sec and we want msec !
+            int64_t End  =double(ch->end)*(double(av_q2d(ch->time_base))*1000);       // Lib AV use 1/1 000 000 000 sec and we want msec !
 
             // Special case if it's first chapter and start!=0 => add a chapter 0
             if ((NbrChapters==0)&&(LibavFile->chapters[i]->start>0)) {
@@ -1388,7 +1402,7 @@ void cVideoFile::GetFullInformationFromFile() {
         // Get information about duration
         //*********************************************************************************************************
         int         hh,mm,ss;
-        qlonglong   ms;
+        int64_t   ms;
 
         ms=LibavFile->duration;//-LibavFile->start_time;
         ms=ms/1000;
@@ -1556,7 +1570,7 @@ void cVideoFile::GetFullInformationFromFile() {
 
                         // Try to load one image to be sure we can make something with this file
                         // and use this first image as thumbnail (if no jukebox thumbnail)
-                        qlonglong   Position =0;
+                        int64_t   Position =0;
                         double      dEndFile =double(QTime(0,0,0,0).msecsTo(Duration))/1000;    // End File Position in double format
                         if (dEndFile!=0) {
                             // Allocate structure for YUV image
@@ -2362,7 +2376,7 @@ u_int8_t *cVideoFile::Resample(AVFrame *Frame,int64_t *SizeDecoded,int DstSample
 //====================================================================================================================
 
 // Remark: Position must use AV_TIMEBASE Unit
-QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly) {
+QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndPos,bool Deinterlace,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ReadFrame");
 
     // Ensure file was previously open
@@ -2558,7 +2572,10 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEn
                         }
                         FrameBufferYUVReady   =true;                                            // Keep actual value for FrameBufferYUV
                         FrameBufferYUVPosition=int64_t((double(pts)/TimeBase)*AV_TIME_BASE);    // Keep actual value for FrameBufferYUV
-                        CacheImage.append(new cImageInCache(FrameBufferYUVPosition,ConvertYUVToRGB(PreviewMode)));
+                        // Check if it's necessary to append this frame
+                        int64_t   MinNext=(CacheImage.isEmpty()?0:CacheImage.last()->Position)+(AV_TIME_BASE/ApplicationConfig->PreviewFPS);
+                        if ((!PreviewMode)||(CacheImage.isEmpty())||(MinNext<FrameBufferYUVPosition))
+                            CacheImage.append(new cImageInCache(FrameBufferYUVPosition,ConvertYUVToRGB(PreviewMode)));
 
                         // Count number of image > position
                         int Nbr=0;
@@ -2590,7 +2607,15 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEn
                     } else if (got_frame>0) {
 
                         // Get data (resample if needed)
-                        int64_t  pts=((qreal(AudioStream->cur_pkt.pts)*qreal(AudioStream->time_base.num))/qreal(AudioStream->time_base.den))*1000000;
+                        #if defined(LIBAV_09)
+                            int64_t pts=Frame->pkt_pts;
+                            if (pts==(int64_t)AV_NOPTS_VALUE) {
+                                if (Frame->pkt_dts!=(int64_t)AV_NOPTS_VALUE) pts=Frame->pkt_dts; else pts=0;
+                            }
+                            pts=int64_t((double(pts)/TimeBase)*AV_TIME_BASE);
+                        #else
+                            int64_t  pts=((qreal(AudioStream->cur_pkt.pts)*qreal(AudioStream->time_base.num))/qreal(AudioStream->time_base.den))*1000000;
+                        #endif
                         FramePosition=qreal(pts)/1000000;
 
                         int64_t  SizeDecoded=0;
@@ -2722,18 +2747,6 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
     int W=FrameBufferYUV->width*AspectRatio;    W-=(W%4);  // W must be a multiple of 4 ????
     int H=FrameBufferYUV->height;
 
-    // Reduce image size for preview mode
-    /*if (PreviewMode && (H>576)) {
-        if ((H==1088)&&(W=1920)) {
-            W=960;
-            H=542;
-        } else {
-            W=540*(double(W)/double(H));
-            H=540;
-        }
-    }    // H=540
-    */
-
     LastImage=QImage(W,H,QTPIXFMT);
     AVFrame *FrameBufferRGB =avcodec_alloc_frame();  // Allocate structure for RGB image
 
@@ -2801,7 +2814,7 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode) {
 
 //====================================================================================================================
 //DontUseEndPos default=false
-QImage *cVideoFile::ImageAt(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackBloc,bool Deinterlace,
+QImage *cVideoFile::ImageAt(bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackBloc,bool Deinterlace,
                             double Volume,bool ForceSoundOnly,bool DontUseEndPos) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:cVideoFile::ImageAt");

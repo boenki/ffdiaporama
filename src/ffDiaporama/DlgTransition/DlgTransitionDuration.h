@@ -31,9 +31,9 @@ namespace Ui {
 class DlgTransitionDuration : public QCustomDialog {
 Q_OBJECT
 public:
-    qlonglong Duration;
+    int64_t Duration;
 
-    explicit DlgTransitionDuration(qlonglong Duration,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgTransitionDuration(int64_t Duration,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgTransitionDuration();
 
     // function to be overloaded

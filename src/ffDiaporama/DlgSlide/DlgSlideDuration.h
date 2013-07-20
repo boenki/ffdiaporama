@@ -31,9 +31,9 @@ namespace Ui {
 class DlgSlideDuration : public QCustomDialog {
 Q_OBJECT
 public:
-    qlonglong Duration;
+    int64_t Duration;
 
-    explicit DlgSlideDuration(qlonglong Duration,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgSlideDuration(int64_t Duration,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgSlideDuration();
 
     // function to be overloaded

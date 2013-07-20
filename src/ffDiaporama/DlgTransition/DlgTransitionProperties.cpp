@@ -173,7 +173,7 @@ bool DlgTransitionProperties::DoAccept() {
 
     DiaporamaObject->TransitionFamilly  =ui->TransitionTypeCB->itemData(ui->TransitionTypeCB->currentIndex()).toInt();
     DiaporamaObject->TransitionSubType  =ui->TransitionTable->currentRow()*ui->TransitionTable->columnCount()+ui->TransitionTable->currentColumn();
-    DiaporamaObject->TransitionDuration =qlonglong(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
+    DiaporamaObject->TransitionDuration =int64_t(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000));
     DiaporamaObject->TransitionSpeedWave=ui->SpeedWaveCB->GetCurrentValue();
     return true;
 }

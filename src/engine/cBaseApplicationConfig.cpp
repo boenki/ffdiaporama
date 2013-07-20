@@ -87,7 +87,7 @@
 
 //====================================================================================================================
 
-QString GetTextSize(qlonglong Size) {
+QString GetTextSize(int64_t Size) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:GetTextSize");
 
     QString UnitStr="";
@@ -117,7 +117,7 @@ bool CheckFolder(QString FileToTest,QString PathToTest) {
     if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
     bool IsFound=QFileInfo(Path+FileToTest).exists();
     if (IsFound) QDir::setCurrent(Path);
-    ToLog(LOGMSG_INFORMATION,QString("Try to find datas in %1 %2").arg(Path+FileToTest).arg(IsFound));
+    ToLog(LOGMSG_INFORMATION,QString("Try to find datas in %1 %2").arg(AdjustDirForOS(Path)+FileToTest).arg(IsFound));
     return IsFound;
 }
 
@@ -135,7 +135,7 @@ bool CheckFolder(QString FileToTest,QString PathToTest) {
 bool SetWorkingPath(char * const argv[],QString ApplicationName,QString ConfigFileExt) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:SetWorkingPath");
     QString StartupDir=QFileInfo(argv[0]).absolutePath();
-    ToLog(LOGMSG_INFORMATION,"StartupDir "+StartupDir);
+    ToLog(LOGMSG_INFORMATION,"StartupDir "+AdjustDirForOS(StartupDir));
     QDir::setCurrent(StartupDir);
 
     QString FileToTest  =QString("%1%2").arg(ApplicationName).arg(ConfigFileExt);
@@ -146,17 +146,16 @@ bool SetWorkingPath(char * const argv[],QString ApplicationName,QString ConfigFi
     #endif
 
     if (!CheckFolder(FileToTest,QDir::currentPath())
-        #ifdef Q_OS_WIN
-        &&(!CheckFolder(FileToTest,QString("..\\..\\..\\..\\")+ApplicationName))
-        #endif
-        &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+ApplicationName))
-        &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()))
+        &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+QString("..")+QDir().separator()+QString("..")+QDir().separator()+QString("..")+QDir().separator()+ApplicationName))
+        &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+QString("..")+QDir().separator()+QString("..")+QDir().separator()+ApplicationName))
+        #ifdef Q_OS_LINUX
         &&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+ApplicationName))
+        #endif
        ) {
         ToLog(LOGMSG_INFORMATION,QString("Critical error : Impossible to find global configuration file (%1%2)").arg(ApplicationName).arg(ConfigFileExt));
         exit(1);
     }
-    ToLog(LOGMSG_INFORMATION,"Set working path to "+QDir::currentPath());
+    ToLog(LOGMSG_INFORMATION,"Set working path to "+AdjustDirForOS(QDir::currentPath()));
 
     return true;
 }
@@ -190,23 +189,6 @@ int getCpuCount() {
     return cpuCount;
 }
 
-//====================================================================================================================
-
-//functions used to adjust folder name depending on operating system
-QString AdjustDirForOS(QString Dir) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:AdjustDirForOS");
-
-    #ifdef Q_OS_WIN
-    Dir.replace("/","\\");
-    bool DoubleSlashBegin=Dir.startsWith("\\\\");
-    Dir.replace("\\\\","\\");
-    if (DoubleSlashBegin) Dir="\\"+Dir;
-    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
-    Dir.replace("\\","/");
-    #endif
-    return Dir;
-}
-
 //**********************************************************************************************************************
 // cBaseApplicationConfig
 //**********************************************************************************************************************
@@ -222,12 +204,13 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
     ConfigFileExt           =TheConfigFileExt;             // File extension of configuration files
     ConfigFileRootName      =TheConfigFileRootName;        // Name of root node in the config xml file
 
-    // Drivelist will be init by mainwindow init process
-    DriveList=NULL;
+    // Drivelist and models will be init by mainwindow init process
+    DriveList       =NULL;
+    ThumbnailModels =NULL;
 
     if (ApplicationVersion.startsWith(ApplicationName)) ApplicationVersion.mid(ApplicationVersion.indexOf(ApplicationName)+ApplicationName.length()+1);
-    if (ApplicationGroupName!=ApplicationName) ToLog(LOGMSG_INFORMATION,QString("Starting %1 %2 %3 (%4)").arg(ApplicationGroupName).arg(ApplicationName).arg(ApplicationVersion).arg(CurrentAppVersion));
-        else ToLog(LOGMSG_INFORMATION,QString("Starting %1 %2 (%3)").arg(ApplicationGroupName).arg(ApplicationVersion).arg(CurrentAppVersion));
+    if (ApplicationGroupName!=ApplicationName) ToLog(LOGMSG_INFORMATION,QString("Application version is %1 %2 %3 (%4)").arg(ApplicationGroupName).arg(ApplicationName).arg(ApplicationVersion).arg(CurrentAppVersion));
+        else ToLog(LOGMSG_INFORMATION,QString("Application version is %1 %2 (%3)").arg(ApplicationGroupName).arg(ApplicationVersion).arg(CurrentAppVersion));
 }
 
 //====================================================================================================================
@@ -255,9 +238,11 @@ cBaseApplicationConfig::~cBaseApplicationConfig() {
     delete DlgRulerDef;
     delete DlgManageFavoriteWSP;
     delete DlgFileExplorerWSP;
+    delete DlgImageComposerThumbWSP;
     delete MainWinWSP;
 
     delete DriveList;
+    delete ThumbnailModels;
 }
 
 //====================================================================================================================
@@ -294,6 +279,7 @@ void cBaseApplicationConfig::PreloadSystemIcons() {
     if (DefaultIMAGEIcon.Icon16.isNull())   DefaultIMAGEIcon.LoadIconsFromIMG(  "image.png");
     if (DefaultVIDEOIcon.Icon16.isNull())   DefaultVIDEOIcon.LoadIconsFromIMG(  "video.png");
     if (DefaultMUSICIcon.Icon16.isNull())   DefaultMUSICIcon.LoadIconsFromIMG(  "audio.png");
+    if (DefaultClipartIcon.Icon16.isNull()) DefaultClipartIcon.LoadIconsFromIMG("clipart.png");
     if (DefaultUSERIcon.Icon16.isNull())    DefaultUSERIcon.LoadIcons(QApplication::style()->standardIcon(QStyle::SP_DirHomeIcon));     //.LoadIconsFromIMG(   "folder_home.png");
     if (DefaultFILEIcon.Icon16.isNull())    DefaultFILEIcon.LoadIcons(QApplication::style()->standardIcon(QStyle::SP_FileIcon));        //.LoadIconsFromIMG(   "file.png");
     VideoMask_120=QImage(":/img/VideoMask_120x180.png");
@@ -537,9 +523,9 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
     int             errorLine,errorColumn;
     bool            IsOk=true;
 
-    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Read configuration file")+" "+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Read configuration file")+" "+AdjustDirForOS(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        ToLog(LOGMSG_WARNING,QApplication::translate("MainWindow","Error reading configuration file","Error message")+" "+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
+        ToLog(LOGMSG_WARNING,QApplication::translate("MainWindow","Error reading configuration file","Error message")+" "+AdjustDirForOS(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
         IsOk=false;
     }
 
@@ -547,7 +533,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
         QTextStream in(&file);
         in.setCodec("UTF-8");
         if (!domDocument.setContent(in.readAll(),true,&errorStr,&errorLine,&errorColumn)) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+AdjustDirForOS(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
             IsOk=false;
         }
 
@@ -557,7 +543,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
     if (IsOk) {
         root = domDocument.documentElement();
         if (root.tagName()!=ConfigFileRootName) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")+" "+(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")+" "+AdjustDirForOS(TypeConfigFile==USERCONFIGFILE?UserConfigFile:GlobalConfigFile));
             IsOk=false;
         }
     }
@@ -606,7 +592,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
 
         if ((domDocument.elementsByTagName("CacheMemory").length()>0)&&(domDocument.elementsByTagName("CacheMemory").item(0).isElement()==true)) {
             QDomElement Element=domDocument.elementsByTagName("CacheMemory").item(0).toElement();
-            if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue=qlonglong(Element.attribute("MemCacheMaxValue").toInt())*qlonglong(1024*1024);
+            if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue=int64_t(Element.attribute("MemCacheMaxValue").toInt())*int64_t(1024*1024);
         }
     }
 
@@ -679,7 +665,7 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     root.appendChild(Element);
 
     Element=domDocument.createElement("CacheMemory");
-    Element.setAttribute("MemCacheMaxValue",        MemCacheMaxValue/(1024*1024));
+    Element.setAttribute("MemCacheMaxValue",        qlonglong(MemCacheMaxValue/(1024*1024)));
     root.appendChild(Element);
 
     // Save windows size and position
@@ -708,7 +694,7 @@ void cBaseApplicationConfig::InitValues() {
     // Initialise all variables and set them default value
     WindowDisplayMode           = DISPLAYWINDOWMODE_PLAYER; // Mainwindow display mode
     PartitionMode               = false;                    // If true, partition mode is on (timeline with multiple row)
-    MemCacheMaxValue            = qlonglong(512*1024*1024);
+    MemCacheMaxValue            = int64_t(512*1024*1024);
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
     SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
@@ -722,12 +708,16 @@ void cBaseApplicationConfig::InitValues() {
     FixedDuration               = 3000;                     // Default duration for fixed image (msec)
     ImageGeometry               = GEOMETRY_16_9;            // Project image geometry for image rendering
     SlideRuler                  = RULER_DEFAULT;            // if true, ruler is on in slide properties dialog box
+    ThumbRuler                  = RULER_THUMB_DEFAULT;
     FramingRuler                = true;                     // if true, ruler is on in framing/correction dialog box
     DefaultTitleFilling         = 0;                        // Default Title filling mode
     DefaultAuthor               = "";                       // Default Author name
     DefaultTransitionSpeedWave  = SPEEDWAVE_SINQUARTER;     // Default Speed wave for transition
     DefaultBlockAnimSpeedWave   = SPEEDWAVE_LINEAR;         // Default Speed wave for block animation
     DefaultImageAnimSpeedWave   = SPEEDWAVE_LINEAR;         // Default Speed wave for image framing and correction animation
+    ID3V2Comptatibility         = false;                    // if true, ffd project properties field are limited to 30 characters
+    DefaultThumbnailName        = "Simple-1";
+    ShortDateFormat             = QApplication::translate("DlgApplicationSettings","MM/dd/yyyy","Default Date format : dd/MM/yyyy or MM/dd/yyyy or yyyy/MM/dd or dd.MM.yyyy and so on...");
 
     DefaultFormat               = 1;                        // Default format = avi
     DefaultNameProjectName      = true;                     // Use project name as default name for rendering
@@ -751,6 +741,7 @@ void cBaseApplicationConfig::InitValues() {
     DefaultForTheWEBType        = 0;                        // Default ForTheWEB Type
     DefaultForTheWEBModel       = 0;                        // Default ForTheWEB Model
     DefaultLossLess             = 0;                        // Default Lossless imagesize
+    DefaultExportThumbnail      = true;
 
     #ifdef Q_OS_WIN
         SDLAudioOldMode         = false;                        // If true SDL audio use old mode sample instead byte
@@ -764,26 +755,27 @@ void cBaseApplicationConfig::InitValues() {
     StyleTextBackgroundCollection.CollectionName=QString(STYLENAME_BACKGROUNDSTYLE);
     StyleBlockShapeCollection.CollectionName    =QString(STYLENAME_BLOCKSHAPESTYLE);
 
-    DlgBackgroundPropertiesWSP  =new cSaveWindowPosition("DlgBackgroundProperties",RestoreWindow,false);    // Dialog box "Background properties" - Window size and position
-    DlgMusicPropertiesWSP       =new cSaveWindowPosition("DlgMusicProperties",RestoreWindow,false);         // Dialog box "Music properties" - Window size and position
-    DlgApplicationSettingsWSP   =new cSaveWindowPosition("DlgApplicationSettings",RestoreWindow,false);     // Dialog box "Application settings" - Window size and position
-    DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);          // Dialog box "Render Video" - Window size and position
-    DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false); // Dialog box "Transition properties" - Window size and position
-    DlgTransitionDurationWSP    =new cSaveWindowPosition("DlgTransitionDurationWSP",RestoreWindow,false);   // Dialog box "Transition duration" - Window size and position
-    DlgSlidePropertiesWSP       =new cSaveWinWithSplitterPos("DlgSlidePropertiesWSP",RestoreWindow,false);  // Dialog box "Slide properties" - Window size and position
-    DlgSlideDurationWSP         =new cSaveWinWithSplitterPos("DlgSlideDurationWSP",RestoreWindow,false);    // Dialog box "Slide duration" - Window size and position
-    DlgImageTransformationWSP   =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);  // Dialog box "Image transformation" - Window size and position
-    DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);      // Dialog box "Image correction" - Window size and position
-    DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);             // Dialog box "Text editor" - Window size and position
-    DlgManageStyleWSP           =new cSaveWindowPosition("DlgManageStyleWSP",RestoreWindow,false);          // Dialog box "Manage style" - Window size and position
-    DlgCheckConfigWSP           =new cSaveWindowPosition("DlgCheckConfigWSP",RestoreWindow,false);          // Dialog box "Check configuration" - Window size and position
-    DlgManageDevicesWSP         =new cSaveWindowPosition("DlgManageDevicesWSP",RestoreWindow,false);        // Dialog box "Manage Devices" - Window size and position
-    DlgAboutWSP                 =new cSaveWindowPosition("DlgAboutWSP",RestoreWindow,false);                // Dialog box "About" - Window size and position
-    DlgffDPjrPropertiesWSP      =new cSaveWindowPosition("DlgffDPjrPropertiesWSP",RestoreWindow,false);     // Dialog box "Project properties" - Window size and position
-    DlgInfoFileWSP              =new cSaveWindowPosition("DlgInfoFileWSP",RestoreWindow,false);             // Dialog box "File Information" - Window size and position
-    DlgRulerDef                 =new cSaveWindowPosition("DlgRulerDef",RestoreWindow,false);                // Dialog box "Ruler properties" - Window size and position
-    DlgManageFavoriteWSP        =new cSaveWindowPosition("DlgManageFavoriteWSP",RestoreWindow,false);       // Dialog box "Manage favorite" - Window size and position
-    DlgFileExplorerWSP          =new cSaveWinWithSplitterPos("DlgFileExplorerWSP",RestoreWindow,false);     // Dialog box "File explorer" - Window size and position
+    DlgBackgroundPropertiesWSP  =new cSaveWindowPosition("DlgBackgroundProperties",RestoreWindow,false);
+    DlgMusicPropertiesWSP       =new cSaveWindowPosition("DlgMusicProperties",RestoreWindow,false);
+    DlgApplicationSettingsWSP   =new cSaveWindowPosition("DlgApplicationSettings",RestoreWindow,false);
+    DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);
+    DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false);
+    DlgTransitionDurationWSP    =new cSaveWindowPosition("DlgTransitionDurationWSP",RestoreWindow,false);
+    DlgSlidePropertiesWSP       =new cSaveWinWithSplitterPos("DlgSlidePropertiesWSP",RestoreWindow,false);
+    DlgSlideDurationWSP         =new cSaveWinWithSplitterPos("DlgSlideDurationWSP",RestoreWindow,false);
+    DlgImageTransformationWSP   =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);
+    DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);
+    DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);
+    DlgManageStyleWSP           =new cSaveWindowPosition("DlgManageStyleWSP",RestoreWindow,false);
+    DlgCheckConfigWSP           =new cSaveWindowPosition("DlgCheckConfigWSP",RestoreWindow,false);
+    DlgManageDevicesWSP         =new cSaveWindowPosition("DlgManageDevicesWSP",RestoreWindow,false);
+    DlgAboutWSP                 =new cSaveWindowPosition("DlgAboutWSP",RestoreWindow,false);
+    DlgffDPjrPropertiesWSP      =new cSaveWindowPosition("DlgffDPjrPropertiesWSP",RestoreWindow,false);
+    DlgInfoFileWSP              =new cSaveWindowPosition("DlgInfoFileWSP",RestoreWindow,false);
+    DlgRulerDef                 =new cSaveWindowPosition("DlgRulerDef",RestoreWindow,false);
+    DlgManageFavoriteWSP        =new cSaveWindowPosition("DlgManageFavoriteWSP",RestoreWindow,false);
+    DlgFileExplorerWSP          =new cSaveWinWithSplitterPos("DlgFileExplorerWSP",RestoreWindow,false);
+    DlgImageComposerThumbWSP    =new cSaveWinWithSplitterPos("DlgImageComposerThumbWSP",RestoreWindow,false);
 
     // Default new text block options
     DefaultBlock_Text_TextST    ="###GLOBALSTYLE###:0";
@@ -851,6 +843,7 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultTransitionDuration",   DefaultTransitionDuration);
     Element.setAttribute("AskUserToRemove",             AskUserToRemove?"1":"0");
     Element.setAttribute("DlgSlideRuler",               SlideRuler);
+    Element.setAttribute("ThumbRuler",                  ThumbRuler);
     Element.setAttribute("FramingRuler",                FramingRuler?"1":"0");
     domDocument.appendChild(Element);
 
@@ -868,6 +861,9 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultTransitionSpeedWave",  DefaultTransitionSpeedWave);
     Element.setAttribute("DefaultBlockAnimSpeedWave",   DefaultBlockAnimSpeedWave);
     Element.setAttribute("DefaultImageAnimSpeedWave",   DefaultImageAnimSpeedWave);
+    Element.setAttribute("ID3V2Comptatibility",         ID3V2Comptatibility?"1":"0");
+    Element.setAttribute("DefaultThumbnailName",        DefaultThumbnailName);
+    Element.setAttribute("ShortDateFormat",             ShortDateFormat);
 
     SubElement=Document.createElement("DefaultBlock_Text");
     SubElement.setAttribute("TextST",                   DefaultBlock_Text_TextST);
@@ -922,6 +918,8 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultForTheWEBType",        DefaultForTheWEBType);
     Element.setAttribute("DefaultForTheWEBModel",       DefaultForTheWEBModel);
     Element.setAttribute("DefaultLossLess",             DefaultLossLess);
+    Element.setAttribute("DefaultExportThumbnail",      DefaultExportThumbnail?"1":"0");
+
     domDocument.appendChild(Element);
 
     Element=Document.createElement("RecentFiles");
@@ -958,6 +956,7 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     DlgRulerDef->SaveToXML(domDocument);
     DlgManageFavoriteWSP->SaveToXML(domDocument);
     DlgFileExplorerWSP->SaveToXML(domDocument);
+    DlgImageComposerThumbWSP->SaveToXML(domDocument);
 }
 
 //====================================================================================================================
@@ -977,8 +976,8 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
     if ((domDocument.elementsByTagName("EditorOptions").length()>0)&&(domDocument.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("EditorOptions").item(0).toElement();
         if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue            =Element.attribute("MemCacheMaxValue").toLongLong();
-        #if defined(Q_OS_WIN32) || defined(Q_OS_LINUX32)
-        if (MemCacheMaxValue>qlonglong(512*1024*1024)) MemCacheMaxValue=qlonglong(512*1024*1024);
+        #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32))
+        if (MemCacheMaxValue>int64_t(512*1024*1024)) MemCacheMaxValue=int64_t(512*1024*1024);
         #endif
         if (Element.hasAttribute("SDLAudioOldMode"))            SDLAudioOldMode             =Element.attribute("SDLAudioOldMode")=="1";
         if (Element.hasAttribute("AppendObject"))               AppendObject                =Element.attribute("AppendObject")=="1";
@@ -1001,6 +1000,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (Element.hasAttribute("AskUserToRemove"))            AskUserToRemove             =Element.attribute("AskUserToRemove")!="0";
         if ((Element.hasAttribute("SlideRuler"))&&(Element.attribute("SlideRuler")!="0"))   SlideRuler=RULER_DEFAULT;
         if (Element.hasAttribute("DlgSlideRuler"))              SlideRuler                  =Element.attribute("DlgSlideRuler").toInt();
+        if (Element.hasAttribute("ThumbRuler"))                 ThumbRuler                  =Element.attribute("ThumbRuler").toInt();
         if (Element.hasAttribute("FramingRuler"))               FramingRuler                =Element.attribute("FramingRuler")!="0";
     }
 
@@ -1022,6 +1022,9 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (Element.hasAttribute("DefaultTransitionSpeedWave")) DefaultTransitionSpeedWave  =Element.attribute("DefaultTransitionSpeedWave").toInt();
         if (Element.hasAttribute("DefaultBlockAnimSpeedWave"))  DefaultBlockAnimSpeedWave   =Element.attribute("DefaultBlockAnimSpeedWave").toInt();
         if (Element.hasAttribute("DefaultImageAnimSpeedWave"))  DefaultImageAnimSpeedWave   =Element.attribute("DefaultImageAnimSpeedWave").toInt();
+        if (Element.hasAttribute("ID3V2Comptatibility"))        ID3V2Comptatibility         =Element.attribute("ID3V2Comptatibility")!="0";
+        if (Element.hasAttribute("DefaultThumbnailName"))       DefaultThumbnailName        =Element.attribute("DefaultThumbnailName");
+        if (Element.hasAttribute("ShortDateFormat"))            ShortDateFormat             =Element.attribute("ShortDateFormat");
 
         // Compatibility with version prior to 1.5
         if (Element.hasAttribute("SpeedWave")) {
@@ -1083,6 +1086,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (Element.hasAttribute("DefaultForTheWEBType"))           DefaultForTheWEBType        =Element.attribute("DefaultForTheWEBType").toInt();
         if (Element.hasAttribute("DefaultForTheWEBModel"))          DefaultForTheWEBModel       =Element.attribute("DefaultForTheWEBModel").toInt();
         if (Element.hasAttribute("DefaultLossLess"))                DefaultLossLess             =Element.attribute("DefaultLossLess").toInt();
+        if (Element.hasAttribute("DefaultExportThumbnail"))         DefaultExportThumbnail      =Element.attribute("DefaultExportThumbnail")=="1";
     }
 
     if ((domDocument.elementsByTagName("RecentFiles").length()>0)&&(domDocument.elementsByTagName("RecentFiles").item(0).isElement()==true)) {
@@ -1128,6 +1132,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
     DlgRulerDef->LoadFromXML(domDocument);
     DlgManageFavoriteWSP->LoadFromXML(domDocument);
     DlgFileExplorerWSP->LoadFromXML(domDocument);
+    DlgImageComposerThumbWSP->LoadFromXML(domDocument);
 
     return true;
 }

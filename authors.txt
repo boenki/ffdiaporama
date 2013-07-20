@@ -5,10 +5,11 @@ ffDiaporama use these third party libraries :
     fmt_filters <http://ksquirrel.sourceforge.net/subprojects.php>
     QImageBlitz <http://qimageblitz.sourceforge.net/>
     libav <http://libav.org/>
+    ffmpeg <http://www.ffmpeg.org/>
+    Windows ffmpeg binaries <zeranoe...>
     libexiv2 <http://www.exiv2.org/>
     taglib <http://developer.kde.org/~wheeler/taglib.html>
     libsdl <http://www.libsdl.org/>
-    ffmpeg <http://www.ffmpeg.org/>
 
 Logo & icons:
     Zouly <http://www.customxp.net/PngFactory/galerie-png-24105-Zouly.html>
@@ -17,33 +18,14 @@ Logo & icons:
     Nuvola <http://fr.wikipedia.org/wiki/Nuvola>
     OpenClipArts <http://openclipart.org/>
 
-English interface and WIKI translation:
-    Dominique LEVRAY <levray.dominique@bbox.fr>
-    Hazel R <http://www.linuxforums.org/forum/members/hazel.html>
-
-Spanish interface and WIKI translation:
-    Pepe Baeza <http://www.quesepuedehacerenlinux.net/search/label/ffdiaporama>
-
-Italian interface and WIKI translation:
-    Lino Fantasia <http://www.anxurweb.com/fine-dello-sviluppo-di-videoporama-benvenuto-ffdiaporama.html>
-
-Greec interface and WIKI translation:
-    Dimitrios Glentadakis <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=34>
-
-German interface and WIKI translation:
-    Thomas Böhmwalder <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=104>
-
-Interface Russian:
-    Mikhail Dureev <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=16>
-
-Interface Czech:
-    Bagicz
-
-Interface Dutch:
-    J.G. Visser <jgvnet@gmail.com>
-
-Interface Portuguese
-    José Venãncio Santos <http://jotavmultimedia.blogspot.fr/>
-
-Interface Taiwanese:
-    kentxchang
+Translation:
+    Czech: Bagicz
+    Dutch: J.G. Visser <jgvnet@gmail.com>
+    English: Dominique LEVRAY <levray.dominique@bbox.fr>
+    German: Thomas Böhmwalder <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=104> + Armin Ipfelkofer <a.ipfelkofer@gmx.net>
+    Greec: Dimitrios Glentadakis <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=34>
+    Italian: Lino Fantasia <http://www.anxurweb.com/fine-dello-sviluppo-di-videoporama-benvenuto-ffdiaporama.html>
+    Portuguese: José Venãncio Santos <http://jotavmultimedia.blogspot.fr/>
+    Russian: Vasily Polyakov <polyakov.ve@gmail.com> + Mikhail Dureev <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=16>
+    Spanish: Pepe Baeza <http://www.quesepuedehacerenlinux.net/search/label/ffdiaporama>
+    Taiwanese: kentxchang

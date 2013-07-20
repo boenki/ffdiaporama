@@ -32,11 +32,11 @@ class DlgApplicationSettings : public QCustomDialog {
 Q_OBJECT
 public:
     cBaseApplicationConfig  *ApplicationConfig;
-    bool                IsDeviceChanged;
-    int                 CurrentDevice;
-    int                 CurrentDeviceIndex;
-    QComboBox           *CB_SL[NBR_IMAGETYPE][2];
-    QComboBox           *CB_BA[NBR_IMAGETYPE][2];
+    bool                    IsDeviceChanged;
+    int                     CurrentDevice;
+    int                     CurrentDeviceIndex;
+    QComboBox               *CB_SL[NBR_IMAGETYPE][2];
+    QComboBox               *CB_BA[NBR_IMAGETYPE][2];
 
     explicit DlgApplicationSettings(cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
     ~DlgApplicationSettings();

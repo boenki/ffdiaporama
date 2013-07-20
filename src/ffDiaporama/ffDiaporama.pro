@@ -4,12 +4,14 @@
 #       xxx could be /usr, /usr/local or /opt
 #--------------------------------------------------------------
 
+CONFIG += qt thread
+
 greaterThan(QT_MAJOR_VERSION, 4): {
     # QT5 version
     QT += widgets concurrent
 } else: {
     # QT4 version
-    CONFIG += thread
+    #CONFIG += thread
 }
 
 QT          += core gui xml network svg
@@ -19,15 +21,6 @@ TARGET       = ffDiaporama
 TEMPLATE     = app
 DEFINES     += HAVE_CONFIG_H               # specific for TAGLib
 DEFINES     += TAGLIB_STATIC               # specific for TAGLib
-
-unix {
-    HARDWARE_PLATFORM = $$system(uname -i)
-    contains( HARDWARE_PLATFORM, x86_64 ) {
-        DEFINES+=Q_OS_LINUX64
-    } else {
-        DEFINES+=Q_OS_LINUX32
-    }
-}
 
 isEmpty(PREFIX) {
     PREFIX = /usr
@@ -40,6 +33,15 @@ isEmpty(PREFIX) {
 DEFINES +=SHARE_DIR=\\\"$$PREFIX\\\"
 
 unix {
+
+    HARDWARE_PLATFORM = $$system(uname -i)
+    contains(HARDWARE_PLATFORM,x86_64) {
+        DEFINES+=Q_OS_LINUX64
+        message("x86_64 build")
+    } else {
+        DEFINES+=Q_OS_LINUX32
+        message("x86 build")
+    }
 
     INCLUDEPATH += /usr/include/ffmpeg/                                     # Specific for Fedora
 
@@ -56,23 +58,160 @@ unix {
         LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV_08
     }
 
+    LIBS        += -lexiv2                                                  #------ Exiv2
+
 } else:win32 {
 
-    CONFIG(debug, debug|release) {
-        INCLUDEPATH += "..\\..\\..\\Win64\\include"
-        LIBS        += -L"..\\..\\..\\Win64\\lib"
+    contains(QMAKE_HOST.arch,x86_64) {
+        DEFINES+=Q_OS_WIN64
+        message("x86_64 build")
+        INCLUDEPATH += "../../../win_src/ffmpeg-1.2-win64-dev/include"
+        LIBS        += -L"../../../win_src/ffmpeg-1.2-win64-dev/lib"
+        LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x64"
+    } else {
+        DEFINES+=Q_OS_WIN32
+        message("x86 build")
+        INCLUDEPATH += "../../../win_src/ffmpeg-1.2-win32-dev/include"
+        LIBS        += -L"../../../win_src/ffmpeg-1.2-win32-dev/lib"
+        LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x86"
     }
 
-    INCLUDEPATH += .                                                        #------ I don't know why, but windows need this !
-    LIBS        += -lgdi32 -lkernel32 -luser32 -lshell32 -ladvapi32         #------ Windows GDI libs link
+    CONFIG      += console
+    DEFINES     += USELIBSWRESAMPLE
 
-    DEFINES += USELIBSWRESAMPLE
-    LIBS    += -lswresample                                             #------ conditionnaly include libswresample
+    INCLUDEPATH += .                                                        #------ I don't know why, but windows need this !
+    INCLUDEPATH += ../exiv2
+    INCLUDEPATH += "../../../win_src/exiv2-0.23/msvc64/include"
+    INCLUDEPATH += "../../../win_src/SDL-1.2.15/include"
+    INCLUDEPATH += "../../../win_src/msinttypes"
+
+    LIBS        += -lgdi32 -lkernel32 -luser32 -lshell32 -ladvapi32         #------ Windows GDI libs link
+    LIBS        += -lswresample                                             #------ conditionnaly include libswresample
+
+    SOURCES += \
+        ../../../win_src/exiv2-0.23/src/xmpsidecar.cpp \
+        ../../../win_src/exiv2-0.23/src/xmp.cpp \
+        ../../../win_src/exiv2-0.23/src/version.cpp \
+        ../../../win_src/exiv2-0.23/src/value.cpp \
+        ../../../win_src/exiv2-0.23/src/utils.cpp \
+        ../../../win_src/exiv2-0.23/src/types.cpp \
+        ../../../win_src/exiv2-0.23/src/tiffvisitor.cpp \
+        ../../../win_src/exiv2-0.23/src/tiffimage.cpp \
+        ../../../win_src/exiv2-0.23/src/tiffcomposite.cpp \
+        ../../../win_src/exiv2-0.23/src/tgaimage.cpp \
+        ../../../win_src/exiv2-0.23/src/tags.cpp \
+        ../../../win_src/exiv2-0.23/src/sonymn.cpp \
+        ../../../win_src/exiv2-0.23/src/sigmamn.cpp \
+        ../../../win_src/exiv2-0.23/src/samsungmn.cpp \
+        ../../../win_src/exiv2-0.23/src/rw2image.cpp \
+        ../../../win_src/exiv2-0.23/src/rafimage.cpp \
+        ../../../win_src/exiv2-0.23/src/psdimage.cpp \
+        ../../../win_src/exiv2-0.23/src/properties.cpp \
+        ../../../win_src/exiv2-0.23/src/preview.cpp \
+        ../../../win_src/exiv2-0.23/src/pngimage.cpp \
+        ../../../win_src/exiv2-0.23/src/pngchunk.cpp \
+        ../../../win_src/exiv2-0.23/src/pgfimage.cpp \
+        ../../../win_src/exiv2-0.23/src/pentaxmn.cpp \
+        ../../../win_src/exiv2-0.23/src/panasonicmn.cpp \
+        ../../../win_src/exiv2-0.23/src/orfimage.cpp \
+        ../../../win_src/exiv2-0.23/src/olympusmn.cpp \
+        ../../../win_src/exiv2-0.23/src/nikonmn.cpp \
+        ../../../win_src/exiv2-0.23/src/mrwimage.cpp \
+        ../../../win_src/exiv2-0.23/src/minoltamn.cpp \
+        ../../../win_src/exiv2-0.23/src/metadatum.cpp \
+        ../../../win_src/exiv2-0.23/src/makernote.cpp \
+        ../../../win_src/exiv2-0.23/src/localtime.c \
+        ../../../win_src/exiv2-0.23/src/jpgimage.cpp \
+        ../../../win_src/exiv2-0.23/src/jp2image.cpp \
+        ../../../win_src/exiv2-0.23/src/iptc.cpp \
+        ../../../win_src/exiv2-0.23/src/image.cpp \
+        ../../../win_src/exiv2-0.23/src/gifimage.cpp \
+        ../../../win_src/exiv2-0.23/src/getopt_win32.c \
+        ../../../win_src/exiv2-0.23/src/futils.cpp \
+        ../../../win_src/exiv2-0.23/src/fujimn.cpp \
+        ../../../win_src/exiv2-0.23/src/exif.cpp \
+        ../../../win_src/exiv2-0.23/src/error.cpp \
+        ../../../win_src/exiv2-0.23/src/epsimage.cpp \
+        ../../../win_src/exiv2-0.23/src/easyaccess.cpp \
+        ../../../win_src/exiv2-0.23/src/datasets.cpp \
+        ../../../win_src/exiv2-0.23/src/crwimage.cpp \
+        ../../../win_src/exiv2-0.23/src/cr2image.cpp \
+        ../../../win_src/exiv2-0.23/src/convert.cpp \
+        ../../../win_src/exiv2-0.23/src/canonmn.cpp \
+        ../../../win_src/exiv2-0.23/src/bmpimage.cpp \
+        ../../../win_src/exiv2-0.23/src/basicio.cpp
+
+    HEADERS += \
+        ../../../win_src/exiv2-0.23/src/xmpsidecar.hpp \
+        ../../../win_src/exiv2-0.23/src/xmp.hpp \
+        ../../../win_src/exiv2-0.23/src/version.hpp \
+        ../../../win_src/exiv2-0.23/src/value.hpp \
+        ../../../win_src/exiv2-0.23/src/utils.hpp \
+        ../../../win_src/exiv2-0.23/src/tzfile.h \
+        ../../../win_src/exiv2-0.23/src/types.hpp \
+        ../../../win_src/exiv2-0.23/src/timegm.h \
+        ../../../win_src/exiv2-0.23/src/tiffvisitor_int.hpp \
+        ../../../win_src/exiv2-0.23/src/tiffimage_int.hpp \
+        ../../../win_src/exiv2-0.23/src/tiffimage.hpp \
+        ../../../win_src/exiv2-0.23/src/tifffwd_int.hpp \
+        ../../../win_src/exiv2-0.23/src/tiffcomposite_int.hpp \
+        ../../../win_src/exiv2-0.23/src/tgaimage.hpp \
+        ../../../win_src/exiv2-0.23/src/tags_int.hpp \
+        ../../../win_src/exiv2-0.23/src/tags.hpp \
+        ../../../win_src/exiv2-0.23/src/sonymn_int.hpp \
+        ../../../win_src/exiv2-0.23/src/sigmamn_int.hpp \
+        ../../../win_src/exiv2-0.23/src/samsungmn_int.hpp \
+        ../../../win_src/exiv2-0.23/src/rw2image_int.hpp \
+        ../../../win_src/exiv2-0.23/src/rw2image.hpp \
+        ../../../win_src/exiv2-0.23/src/rcsid_int.hpp \
+        ../../../win_src/exiv2-0.23/src/rafimage.hpp \
+        ../../../win_src/exiv2-0.23/src/psdimage.hpp \
+        ../../../win_src/exiv2-0.23/src/properties.hpp \
+        ../../../win_src/exiv2-0.23/src/private.h \
+        ../../../win_src/exiv2-0.23/src/preview.hpp \
+        ../../../win_src/exiv2-0.23/src/pngimage.hpp \
+        ../../../win_src/exiv2-0.23/src/pngchunk_int.hpp \
+        ../../../win_src/exiv2-0.23/src/pgfimage.hpp \
+        ../../../win_src/exiv2-0.23/src/pentaxmn_int.hpp \
+        ../../../win_src/exiv2-0.23/src/panasonicmn_int.hpp \
+        ../../../win_src/exiv2-0.23/src/orfimage_int.hpp \
+        ../../../win_src/exiv2-0.23/src/orfimage.hpp \
+        ../../../win_src/exiv2-0.23/src/olympusmn_int.hpp \
+        ../../../win_src/exiv2-0.23/src/nikonmn_int.hpp \
+        ../../../win_src/exiv2-0.23/src/mrwimage.hpp \
+        ../../../win_src/exiv2-0.23/src/minoltamn_int.hpp \
+        ../../../win_src/exiv2-0.23/src/metadatum.hpp \
+        ../../../win_src/exiv2-0.23/src/metacopy.hpp \
+        ../../../win_src/exiv2-0.23/src/makernote_int.hpp \
+        ../../../win_src/exiv2-0.23/src/jpgimage.hpp \
+        ../../../win_src/exiv2-0.23/src/jp2image.hpp \
+        ../../../win_src/exiv2-0.23/src/iptc.hpp \
+        ../../../win_src/exiv2-0.23/src/image.hpp \
+        ../../../win_src/exiv2-0.23/src/i18n.h \
+        ../../../win_src/exiv2-0.23/src/gifimage.hpp \
+        ../../../win_src/exiv2-0.23/src/getopt_win32.h \
+        ../../../win_src/exiv2-0.23/src/futils.hpp \
+        ../../../win_src/exiv2-0.23/src/fujimn_int.hpp \
+        ../../../win_src/exiv2-0.23/src/exiv2app.hpp \
+        ../../../win_src/exiv2-0.23/src/exiv2.hpp \
+        ../../../win_src/exiv2-0.23/src/exif.hpp \
+        ../../../win_src/exiv2-0.23/src/error.hpp \
+        ../../../win_src/exiv2-0.23/src/epsimage.hpp \
+        ../../../win_src/exiv2-0.23/src/easyaccess.hpp \
+        ../../../win_src/exiv2-0.23/src/datasets.hpp \
+        ../../../win_src/exiv2-0.23/src/crwimage_int.hpp \
+        ../../../win_src/exiv2-0.23/src/crwimage.hpp \
+        ../../../win_src/exiv2-0.23/src/cr2image_int.hpp \
+        ../../../win_src/exiv2-0.23/src/cr2image.hpp \
+        ../../../win_src/exiv2-0.23/src/convert.hpp \
+        ../../../win_src/exiv2-0.23/src/canonmn_int.hpp \
+        ../../../win_src/exiv2-0.23/src/bmpimage.hpp \
+        ../../../win_src/exiv2-0.23/src/basicio.hpp \
+        ../exiv2/exv_msvc.h
 }
 
 #---- Libs for windows and linux
 LIBS	    += -lSDL                                                        #------ SDL
-LIBS        += -lexiv2                                                      #------ Exiv2
 LIBS        += -lavformat -lavcodec -lavutil -lswscale -lavfilter           #------ libav
 
 #--------------------------------------------------------------
@@ -127,7 +266,9 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             DlgSlide/cInteractiveZone.cpp \
             DlgSlide/cCustomShotTable.cpp \
             DlgSlide/DlgRuler/DlgRulerDef.cpp \
-    	    DlgText/cCustomTextEdit.cpp \
+            DlgSlide/DlgSlideDuration.cpp \
+            DlgSlide/DlgImageComposer.cpp \
+            DlgText/cCustomTextEdit.cpp \
             DlgText/DlgTextEdit.cpp \
             DlgCheckConfig/DlgCheckConfig.cpp \
             DlgInfoFile/DlgInfoFile.cpp \
@@ -135,7 +276,6 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             DlgManageFavorite/DlgManageFavorite.cpp \
             DlgWorkingTask/DlgWorkingTask.cpp \
             DlgTransition/DlgTransitionDuration.cpp \
-            DlgSlide/DlgSlideDuration.cpp \
             DlgFileExplorer/DlgFileExplorer.cpp \
             ../engine/_GlobalDefines.cpp \
             ../engine/QCustomRuller.cpp \
@@ -157,6 +297,8 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             ../engine/_EncodeVideo.cpp \
             ../engine/_StyleDefinitions.cpp \
             ../engine/_Diaporama.cpp \
+            ../engine/_Variables.cpp \
+            ../engine/_Model.cpp \
             ../CustomCtrl/_QCustomDialog.cpp \
             ../CustomCtrl/cCColorComboBox.cpp \
             ../CustomCtrl/cCBrushComboBox.cpp \
@@ -168,7 +310,8 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             ../CustomCtrl/QCustomFolderTable.cpp \
             ../CustomCtrl/QCustomHorizSplitter.cpp \
             ../CustomCtrl/QCustomFolderTree.cpp \
-            ../CustomCtrl/cCTexteFrameComboBox.cpp
+            ../CustomCtrl/cCTexteFrameComboBox.cpp \
+            ../CustomCtrl/cThumbnailComboBox.cpp
 
 # Header files
 HEADERS  += wgt_QVideoPlayer.h \
@@ -189,6 +332,8 @@ HEADERS  += wgt_QVideoPlayer.h \
             DlgSlide/cInteractiveZone.h \
             DlgSlide/cCustomShotTable.h \
             DlgSlide/DlgRuler/DlgRulerDef.h \
+            DlgSlide/DlgSlideDuration.h \
+            DlgSlide/DlgImageComposer.h \
             DlgText/cCustomTextEdit.h \
             DlgText/DlgTextEdit.h \
             DlgCheckConfig/DlgCheckConfig.h \
@@ -197,7 +342,6 @@ HEADERS  += wgt_QVideoPlayer.h \
             DlgManageFavorite/DlgManageFavorite.h \
             DlgWorkingTask/DlgWorkingTask.h \
             DlgTransition/DlgTransitionDuration.h \
-            DlgSlide/DlgSlideDuration.h \
             DlgFileExplorer/DlgFileExplorer.h \
             ../engine/QCustomRuller.h \
             ../engine/cSaveWindowPosition.h \
@@ -219,6 +363,8 @@ HEADERS  += wgt_QVideoPlayer.h \
             ../engine/_EncodeVideo.h \
             ../engine/_StyleDefinitions.h \
             ../engine/_Diaporama.h \
+            ../engine/_Variables.h \
+            ../engine/_Model.h \
             ../CustomCtrl/_QCustomDialog.h \
             ../CustomCtrl/cCColorComboBox.h \
             ../CustomCtrl/cCBrushComboBox.h \
@@ -230,7 +376,8 @@ HEADERS  += wgt_QVideoPlayer.h \
             ../CustomCtrl/QCustomFolderTable.h \
             ../CustomCtrl/QCustomHorizSplitter.h \
             ../CustomCtrl/QCustomFolderTree.h \
-            ../CustomCtrl/cCTexteFrameComboBox.h
+            ../CustomCtrl/cCTexteFrameComboBox.h \
+            ../CustomCtrl/cThumbnailComboBox.h
 
 # Forms files
 FORMS    += mainwindow.ui \
@@ -246,6 +393,7 @@ FORMS    += mainwindow.ui \
             DlgImage/DlgImageCorrection.ui \
             DlgSlide/DlgSlideProperties.ui \
             DlgSlide/DlgRuler/DlgRulerDef.ui \
+            DlgSlide/DlgImageComposer.ui \
             DlgText/DlgTextEdit.ui \
             DlgCheckConfig/DlgCheckConfig.ui \
             DlgInfoFile/DlgInfoFile.ui \
@@ -285,6 +433,22 @@ INSTALLS 	    += translation
 background.path     = $$PREFIX/share/$$APPFOLDER/background
 background.files    = ../../background/*.*
 INSTALLS 	    += background
+
+clipart.path        = $$PREFIX/share/$$APPFOLDER/clipart
+clipart.files       = ../../clipart/*.*
+ffdclipart.path     = $$PREFIX/share/$$APPFOLDER/clipart/ffDiaporama
+ffdclipart.files    = ../../clipart/ffDiaporama/*.*
+INSTALLS 	    += ffdclipart clipart
+
+model.path          = $$PREFIX/share/$$APPFOLDER/model
+model.files         = ../../model/*.*
+model_thumb.path    = $$PREFIX/share/$$APPFOLDER/model/Thumbnails
+model_thumb.files   = ../../model/Thumbnails/*.*
+model_tts.path      = $$PREFIX/share/$$APPFOLDER/model/TitleSlides
+model_tts.files     = ../../model/TitleSlides/*.*
+model_fat.path      = $$PREFIX/share/$$APPFOLDER/model/FanArts
+model_fat.files     = ../../model/FanArts/*.*
+INSTALLS 	    += model_thumb model_tts model_fat model
 
 luma.path           = $$PREFIX/share/$$APPFOLDER/luma
 luma.files          = ../../luma/*.*

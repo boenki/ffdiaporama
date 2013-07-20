@@ -21,6 +21,11 @@
 #include "DlgffDPjrProperties.h"
 #include "ui_DlgffDPjrProperties.h"
 
+#include "../../engine/cTextFrame.h"
+#include "../../CustomCtrl/cCTexteFrameComboBox.h"
+
+#include "../DlgSlide/DlgImageComposer.h"
+
 //====================================================================================================================
 
 DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
@@ -53,15 +58,23 @@ void DlgffDPjrProperties::DoInitDialog() {
     ui->GeometryCombo->setCurrentIndex(ffdProject->ImageGeometry);
     ui->GeometryCombo->setEnabled(IsPrjCreate);
     ui->TitleED->setText(ffdProject->ProjectInfo->Title);
+    ui->DateED->setText(ffdProject->ProjectInfo->LongDate);
+    ui->DateEdit->setDate(ffdProject->ProjectInfo->EventDate);
+    ui->DateEdit->setDisplayFormat(BaseApplicationConfig->ShortDateFormat);
+    ui->OverrideDateCB->setChecked(ffdProject->ProjectInfo->OverrideDate);
+    ui->DateED->setEnabled(ui->OverrideDateCB->isChecked());
     ui->AuthorED->setText(ffdProject->ProjectInfo->Author);
     ui->AlbumED->setText(ffdProject->ProjectInfo->Album);
-    ui->YearED->setValue(ffdProject->ProjectInfo->Year);
     ui->CommentED->setPlainText(ffdProject->ProjectInfo->Comment);
     ui->LanguageED->setText(ffdProject->ProjectInfo->DefaultLanguage);
     ui->TransitionSpeedWaveCB->SetCurrentValue(ffdProject->TransitionSpeedWave);
     ui->BlockSpeedWaveCB->SetCurrentValue(ffdProject->BlockAnimSpeedWave);
     ui->ImageSpeedWaveCB->SetCurrentValue(ffdProject->ImageAnimSpeedWave);
-
+    if (BaseApplicationConfig->ID3V2Comptatibility) {
+        ui->TitleED->setMaxLength(30);
+        ui->AuthorED->setMaxLength(30);
+        ui->AlbumED->setMaxLength(30);
+    }
     DoInitTableWidget(ui->ChapterTable,QApplication::translate("DlgffDPjrProperties","#;Slide;Title;Start;End;Duration","Column headers"));
     for (int i=0;i<ffdProject->ProjectInfo->NbrChapters;i++) {
         QString ChapterNum=QString("%1").arg(i); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
@@ -76,6 +89,17 @@ void DlgffDPjrProperties::DoInitDialog() {
         ui->ChapterTable->setItem(ui->ChapterTable->rowCount()-1,5,CreateItem(ffdProject->ProjectInfo->GetInformationValue(ChapterNum+"Duration"),Qt::AlignLeft|Qt::AlignVCenter,Background));
     }
     DoResizeColumnsTableWidget(ui->ChapterTable);
+
+    ui->ThumbCB->PrepareTable(BaseApplicationConfig->ThumbnailModels);
+    ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
+
+    // Define handler
+    connect(ui->DateEdit,SIGNAL(dateChanged(const QDate &)),this,SLOT(EventDateChanged(const QDate &)));
+    connect(ui->OverrideDateCB,SIGNAL(stateChanged(int)),this,SLOT(OverrideDateChanged(int)));
+    connect(ui->EditThumbBT,SIGNAL(clicked()),this,SLOT(EditThumb()));
+    connect(ui->ThumbCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(ThumbChanged()));
+
+    ThumbChanged();
 }
 
 //====================================================================================================================
@@ -83,7 +107,35 @@ void DlgffDPjrProperties::DoInitDialog() {
 DlgffDPjrProperties::~DlgffDPjrProperties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoInitDialog");
 
+    ffdProject->CloseUnusedLibAv(ffdProject->CurrentCol);
     delete ui;
+}
+
+//====================================================================================================================
+// Initiale Undo
+
+void DlgffDPjrProperties::PrepareGlobalUndo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::PrepareGlobalUndo");
+
+    // Save object before modification for cancel button
+    Undo=new QDomDocument(APPLICATION_NAME);
+    QDomElement root=Undo->createElement("UNDO-DLG"); // Create xml document and root
+    ffdProject->ProjectInfo->SaveToXML(root);
+    ffdProject->ProjectThumbnail->SaveToXML(root,"UNDO-DLG-ProjectThumbnail",ffdProject->ProjectFileName,true);
+    Undo->appendChild(root); // Add object to xml document
+}
+
+//====================================================================================================================
+// Apply Undo : call when user click on Cancel button
+
+void DlgffDPjrProperties::DoGlobalUndo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DoGlobalUndo");
+
+    QDomElement root=Undo->documentElement();
+    if (root.tagName()=="UNDO-DLG") {
+        ffdProject->ProjectInfo->LoadFromXML(root);
+        ffdProject->ProjectThumbnail->LoadFromXML(root,"UNDO-DLG-ProjectThumbnail","",NULL);
+    }
 }
 
 //====================================================================================================================
@@ -94,13 +146,109 @@ bool DlgffDPjrProperties::DoAccept() {
 
     if (IsPrjCreate) ffdProject->ImageGeometry=ui->GeometryCombo->currentIndex();
     ffdProject->ProjectInfo->Title          =ui->TitleED->text();
+    ffdProject->ProjectInfo->LongDate       =ui->DateED->text();
+    ffdProject->ProjectInfo->EventDate      =ui->DateEdit->date();
+    ffdProject->ProjectInfo->OverrideDate   =ui->OverrideDateCB->isChecked();
     ffdProject->ProjectInfo->Author         =ui->AuthorED->text();
     ffdProject->ProjectInfo->Album          =ui->AlbumED->text();
-    ffdProject->ProjectInfo->Year           =ui->YearED->value();
     ffdProject->ProjectInfo->Comment        =ui->CommentED->toPlainText();
     ffdProject->ProjectInfo->DefaultLanguage=ui->LanguageED->text();
     ffdProject->TransitionSpeedWave         =ui->TransitionSpeedWaveCB->GetCurrentValue();
     ffdProject->BlockAnimSpeedWave          =ui->BlockSpeedWaveCB->GetCurrentValue();
     ffdProject->ImageAnimSpeedWave          =ui->ImageSpeedWaveCB->GetCurrentValue();
+    ffdProject->ThumbnailName               =ui->ThumbCB->GetCurrentModel();
     return true;
+}
+
+//====================================================================================================================
+
+void DlgffDPjrProperties::EventDateChanged(const QDate &NewDate) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::EventDateChanged");
+    ffdProject->ProjectInfo->EventDate=NewDate;
+    if (!ffdProject->ProjectInfo->OverrideDate) {
+        ffdProject->ProjectInfo->LongDate =ffdProject->ProjectInfo->FormatLongDate();
+        ui->DateED->setText(ffdProject->ProjectInfo->LongDate);
+    }
+}
+
+//====================================================================================================================
+
+void DlgffDPjrProperties::OverrideDateChanged(int) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::OverrideDateChanged");
+    ffdProject->ProjectInfo->OverrideDate=ui->OverrideDateCB->isChecked();
+    if (!ffdProject->ProjectInfo->OverrideDate) {
+        ffdProject->ProjectInfo->LongDate=ffdProject->ProjectInfo->FormatLongDate();
+        ui->DateED->setText(ffdProject->ProjectInfo->LongDate);
+    }
+    ui->DateED->setEnabled(ui->OverrideDateCB->isChecked());
+}
+
+//====================================================================================================================
+
+void DlgffDPjrProperties::EditThumb() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::EditThumb");
+    ffdProject->ThumbnailName=ui->ThumbCB->GetCurrentModel();
+    int ThumbnailIndex=BaseApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName);
+    if (!BaseApplicationConfig->ThumbnailModels->List[ThumbnailIndex].IsCustom) {
+        QString Text=BaseApplicationConfig->ThumbnailModels->List[ThumbnailIndex].Name+"-"+QApplication::translate("DlgffDPjrProperties","custom");
+        bool    Ok   =true;
+        bool    Found=true;
+        while (Ok && Found) {
+            Found=false;
+            Text =CustomInputDialog(this,QApplication::translate("DlgffDPjrProperties","Create a custom thumbnail model"),QApplication::translate("MainWindow","Name:"),QLineEdit::Normal,Text,&Ok);
+
+            if (Ok && Text.isEmpty()) {
+                Ok=CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgffDPjrProperties","Create a custom thumbnail model"),
+                                                 QApplication::translate("DlgffDPjrProperties","Error: The name can't be empty\nRetry ?"),
+                                                 QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes;
+            } else if (Ok) {
+                for (int i=0;i<BaseApplicationConfig->ThumbnailModels->List.count();i++) if (BaseApplicationConfig->ThumbnailModels->List[i].Name.toUpper()==Text.toUpper()) {
+                    Ok=CustomMessageBox(this,QMessageBox::Question,QApplication::translate("DlgffDPjrProperties","Create a custom thumbnail model"),
+                                                     QApplication::translate("DlgffDPjrProperties","Error: This name is already used\nRetry ?"),
+                                                     QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes;
+                    Found=true;
+                }
+            }
+        }
+        if (Ok && !Found && !Text.isEmpty()) {
+            QString NewName=BaseApplicationConfig->ThumbnailModels->CustomModelPath;
+            if (!NewName.endsWith(QDir::separator())) NewName=NewName+QDir::separator();
+            NewName=NewName+Text+".thb";
+            if (ffdProject->ProjectThumbnail->SaveThumbnail(NewName)) {
+                ffdProject->ThumbnailName=Text;
+                BaseApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
+                ui->ThumbCB->PrepareTable(BaseApplicationConfig->ThumbnailModels);
+                ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
+                DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,BaseApplicationConfig->DlgImageComposerThumbWSP,this);
+                Dlg.InitDialog();
+                if ((Dlg.exec()==0)&&(ffdProject->ProjectThumbnail->SaveThumbnail(NewName))) {
+                    BaseApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
+                    ui->ThumbCB->PrepareTable(BaseApplicationConfig->ThumbnailModels);
+                    ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
+                }
+            }
+        }
+    } else {
+        QString NewName=BaseApplicationConfig->ThumbnailModels->CustomModelPath;
+        if (!NewName.endsWith(QDir::separator())) NewName=NewName+QDir::separator();
+        NewName=NewName+ffdProject->ThumbnailName+".thb";
+        DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,BaseApplicationConfig->DlgImageComposerThumbWSP,this);
+        Dlg.InitDialog();
+        if ((Dlg.exec()==0)&&(ffdProject->ProjectThumbnail->SaveThumbnail(NewName))) {
+            BaseApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
+            ui->ThumbCB->PrepareTable(BaseApplicationConfig->ThumbnailModels);
+            ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
+        }
+    }
+}
+
+//====================================================================================================================
+
+void DlgffDPjrProperties::ThumbChanged() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::ThumbChanged");
+    ffdProject->ThumbnailName=ui->ThumbCB->GetCurrentModel();
+    int ThumbnailIndex=BaseApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName);
+    if (BaseApplicationConfig->ThumbnailModels->List[ThumbnailIndex].IsCustom)
+         ui->EditThumbBT->setText(QApplication::translate("DlgffDPjrProperties","Edit this custom model"));
+    else ui->EditThumbBT->setText(QApplication::translate("DlgffDPjrProperties","Create a custom model based on this model"));
 }

@@ -33,7 +33,11 @@
     #include <lmcons.h>
 #endif
 
-QString PersonalFolder="";
+QString PersonalFolder  ="";
+QString ClipArtFolder   ="";
+QString ModelFolder     ="";
+QString CAF             ="";
+QString MFD             ="";
 
 //*******************************************************************************************************************************************************
 
@@ -57,6 +61,11 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
     }
 
     if (Alias==PersonalFolder) IconDrive=ApplicationConfig->DefaultUSERIcon.GetIcon(cCustomIcon::ICON16)->copy();
+    if (Label==QApplication::translate("QCustomFolderTree","Clipart")) {
+        Path=ClipArtFolder;
+        if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
+        IconDrive=ApplicationConfig->DefaultClipartIcon.GetIcon(cCustomIcon::ICON16)->copy();
+    }
 
     // Adjust path depending on Operating System
     #ifdef Q_OS_WIN
@@ -91,12 +100,13 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
             }
         } else {
             // Must be a CD/DVD ROM drive without disk
-            if (Label!=PersonalFolder)
+            if ((Label!=PersonalFolder)&&(Label!=QApplication::translate("QCustomFolderTree","Clipart")))
                 Label=Path+"["+QApplication::translate("QCustomFolderTree","Empty drive...")+"]";
         }
 
     #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
         bool        IsOk=true;
+
         QProcess    Process;
         Process.setProcessChannelMode(QProcess::MergedChannels);
 
@@ -218,7 +228,6 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
             if (IconDrive.isNull()) IconDrive=ApplicationConfig->DefaultHDDIcon.GetIcon(cCustomIcon::ICON16)->copy();
         }
 
-
         Path.replace("\\","/");
         if (Alias!="") Label=Alias; else if ((Path.length()>2)&&(Path.mid(1).indexOf("/")!=-1)) {
             Label=Path;
@@ -331,6 +340,13 @@ cDriveList::cDriveList(cBaseApplicationConfig *TheApplicationConfig) {
     #else
     PersonalFolder=QApplication::translate("QCustomFolderTree","Personal folder");
     #endif
+    ClipArtFolder=QDir::currentPath();
+    if (!ClipArtFolder.endsWith(QDir::separator())) ClipArtFolder=ClipArtFolder+QDir::separator();
+    ModelFolder=ClipArtFolder;
+    ClipArtFolder=ClipArtFolder+"clipart";
+    ModelFolder=ModelFolder+"model";
+    CAF=ClipArtFolder;  if (CAF.endsWith(QDir::separator())) CAF=CAF.lastIndexOf(CAF.length()-1);
+    MFD=ModelFolder;    if (MFD.endsWith(QDir::separator())) MFD=MFD.lastIndexOf(MFD.length()-1);
 }
 
 //====================================================================================================================
@@ -353,6 +369,7 @@ void cDriveList::UpdateDriveList() {
 
     for (int i=0;i<List.count();i++) List[i].Flag=0;
 
+    if (!SearchDrive(AdjustDirForOS(ClipArtFolder)))    List.append(cDriveDesc(AdjustDirForOS(ClipArtFolder),QApplication::translate("QCustomFolderTree","Clipart"),ApplicationConfig));
     if (!SearchDrive(AdjustDirForOS(QDir::homePath()))) List.append(cDriveDesc(QDir::homePath(),PersonalFolder,ApplicationConfig));
     #ifdef Q_OS_WIN
         foreach(QFileInfo drive,QDir::drives()) if (!SearchDrive(AdjustDirForOS(drive.filePath()))) List.append(cDriveDesc(drive.filePath(),"",ApplicationConfig));

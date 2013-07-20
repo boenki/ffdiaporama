@@ -31,40 +31,41 @@
 #include <QtDebug>
 
 int main(int argc, char* argv[]) {
-
-    qDebug()<<"QT Version:"<<qVersion();
-
-    #ifdef Q_OS_WIN
-    // Check Windows version and :
-    //      If <Windows/XP then exit application
-    //      If Windows/XP then swith to low fragmentation heap mode
-    //      If >Windows/XP then it's OK
-    // And attach stdio to console if application was started from a console
-    SetLFHeap();
-    #endif
-
-    #ifdef Q_OS_WIN
-    QThread::currentThread()->setPriority(QThread::HighestPriority);
-    #endif
+    ToLog(LOGMSG_INFORMATION,QString("QT Version:%1").arg(qVersion()));
 
     SetWorkingPath(argv,APPLICATION_NAME,CONFIGFILEEXT);
+    int     zero=1;
+    char    *WM_NAME[]={(char *)"ffDiaporama"};
+    QString AutoLoad="";
+    QString ForceLanguage="";
+    int     FuturLogMsgLevel=LogMsgLevel;
+
+    ToLog(LOGMSG_INFORMATION,"Start application ...");
+
     #ifdef Q_OS_LINUX
         #if QT_VERSION >= 0x050000
         #else
             if (SearchRasterMode(APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");
         #endif
-    #else
-        QApplication::setStyle("Cleanlooks");
+        QApplication app(zero,WM_NAME);
+    #elif defined(Q_OS_WIN)
+        #if QT_VERSION >= 0x050000
+            QApplication app(zero,WM_NAME);
+        #else
+            // Check Windows version and :
+            //      If <Windows/XP then exit application
+            //      If Windows/XP then swith to low fragmentation heap mode
+            //      If >Windows/XP then it's OK
+            // And attach stdio to console if application was started from a console
+            SetLFHeap();
+            QThread::currentThread()->setPriority(QThread::HighestPriority);
+            QApplication::setStyle("Cleanlooks");
+            QApplication app(zero,WM_NAME);
+        #endif
     #endif
 
-    int zero=1;
-    char * WM_NAME[]={(char *)"ffDiaporama"};
-    QApplication app(zero,WM_NAME);
-
-    QString AutoLoad="";
-    QString ForceLanguage="";
-    int     FuturLogMsgLevel=LogMsgLevel;
     // Parse parameters to find ForceLanguage and AutoLoad
+    ToLog(LOGMSG_INFORMATION,"Parse command line ...");
     for (int i=1;i<argc;i++) {
         QString Param=QString(argv[i]).toLower();
         if (Param.startsWith("-lang="))             ForceLanguage=Param.mid(QString("-lang=").length());
@@ -83,7 +84,11 @@ int main(int argc, char* argv[]) {
         default: ToLog(LOGMSG_INFORMATION,"Set LogLevel to CRITICAL");      break;
     }
 
+    AutoFramingDefInit();
+    ShapeFormDefinitionInit();
+
     // Start GUI
+    ToLog(LOGMSG_INFORMATION,"Start GUI ...");
     MainWindow w;
     w.InitWindow(ForceLanguage,&app);
     LogMsgLevel=FuturLogMsgLevel;
@@ -93,5 +98,7 @@ int main(int argc, char* argv[]) {
         w.FileForIO=AutoLoad;
         w.DoOpenFileParam();
     }
+
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Start ..."));
     return app.exec();
 }

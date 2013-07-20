@@ -82,6 +82,7 @@ public:
     double                  WantedFPS;
 
     cImageList              ImageList;              // Collection of bufered image
+    cSoundBlockList         Music;                  // Sound to play (in direct player mode)
 
     bool                    IsValide;               // if true then object if fuly initialise
     bool                    IsInit;                 // if true then player was first started

@@ -45,6 +45,7 @@
 #include "_StyleDefinitions.h"
 #include "_SpeedWave.h"
 #include "_Transition.h"
+#include "_Model.h"
 
 //============================================
 
@@ -52,7 +53,7 @@
 #define GEOMETRY_4_3                            0
 #define GEOMETRY_16_9                           1
 #define GEOMETRY_40_17                          2
-#define NBR_GEOMETRY_DEF                        3
+#define GEOMETRY_THUMBNAIL                      3
 
 // Define possible values for images geometry
 #define IMAGE_GEOMETRY_UNKNOWN                  0   // undefined image geometry
@@ -190,6 +191,7 @@
 #define RULER_VERT_SCREENCENTER     0x0040
 #define RULER_VERT_UNSELECTED       0x0080
 #define RULER_DEFAULT               RULER_HORIZ_SCREENBORDER|RULER_HORIZ_TVMARGIN|RULER_HORIZ_SCREENCENTER|RULER_HORIZ_UNSELECTED|RULER_VERT_SCREENBORDER|RULER_VERT_TVMARGIN|RULER_VERT_SCREENCENTER|RULER_VERT_UNSELECTED
+#define RULER_THUMB_DEFAULT         RULER_HORIZ_SCREENBORDER|RULER_HORIZ_SCREENCENTER|RULER_HORIZ_UNSELECTED|RULER_VERT_SCREENBORDER|RULER_VERT_SCREENCENTER|RULER_VERT_UNSELECTED
 
 //============================================
 
@@ -222,8 +224,7 @@
 //====================================================================================================================
 
 int     getCpuCount();                                                                                              // Retrieve number of processor
-QString AdjustDirForOS(QString Dir);                                                                                // Adjust separator in pathname depending on operating system
-QString GetTextSize(qlonglong Size);                                                                                // transform a size (_int64) in a string with apropriate unit (Gb/Tb...)
+QString GetTextSize(int64_t Size);                                                                                // transform a size (_int64) in a string with apropriate unit (Gb/Tb...)
 bool    CheckFolder(QString FileToTest,QString PathToTest);                                                         // Check if FileToTest exist in PathToTest and if yes the change current folder to PathToTest
 bool    SetWorkingPath(char * const argv[],QString ApplicationName,QString ConfigFileExt);    // Adjust current folder
 
@@ -251,7 +252,10 @@ public:
 
     // Image cache
     cLuLoImageCache         ImagesCache;                                // cLuLoImageCache List Object
-    qlonglong               MemCacheMaxValue;                           // Maximum value for image cache
+    int64_t                 MemCacheMaxValue;                           // Maximum value for image cache
+
+    // Models
+    cModelList              *ThumbnailModels;
 
     // Preferences
     bool                    RasterMode;                                 // Enable or disable raster mode [Linux only]
@@ -270,8 +274,9 @@ public:
     int                     DisplayUnit;                                // Display coordinates unit
     int                     DefaultFraming;                             // 0=Width, 1=Height
     int                     TimelineHeight;                             // Height of the timeline
-    int                     SlideRuler;                                 // if true, ruler is on in slide properties dialog box
-    bool                    FramingRuler;                               // if true, ruler is on in framing/correction dialog box
+    int                     SlideRuler;                                 // rulers for slide properties dialog box
+    int                     ThumbRuler;                                 // rulers for thumbnail tab in project properties dialog box
+    bool                    FramingRuler;                               // ruler for framing/correction dialog box
 
     // Preview setting
     double                  PreviewFPS;                                 // Preview FrameRate
@@ -323,6 +328,9 @@ public:
     int                     DefaultTransitionSpeedWave;                 // Default Speed wave for transition
     int                     DefaultBlockAnimSpeedWave;                  // Default Speed wave for block animation
     int                     DefaultImageAnimSpeedWave;                  // Default Speed wave for image framing and correction animation
+    bool                    ID3V2Comptatibility;
+    QString                 DefaultThumbnailName;                       // Default Thumbnail
+    QString                 ShortDateFormat;
 
     // Default transition
     bool                    RandomTransition;                           // if true randomize a transition
@@ -353,6 +361,7 @@ public:
     int                     DefaultForTheWEBType;                       // Default ForTheWEB Type
     int                     DefaultForTheWEBModel;                      // Default ForTheWEB Model
     int                     DefaultLossLess;                            // Default Lossless imagesize
+    bool                    DefaultExportThumbnail;
 
     QStringList             RecentFile;                                 // Recent project files
 
@@ -390,7 +399,7 @@ public:
 
     // Default systems icons
     cCustomIcon             DefaultCDROMIcon,DefaultHDDIcon,DefaultUSBIcon,DefaultREMOTEIcon;
-    cCustomIcon             DefaultUSERIcon,DefaultFOLDERIcon;
+    cCustomIcon             DefaultUSERIcon,DefaultFOLDERIcon,DefaultClipartIcon;
     cCustomIcon             DefaultFILEIcon,DefaultDelayedIcon;
     cCustomIcon             DefaultIMAGEIcon,DefaultThumbIcon;
     cCustomIcon             DefaultVIDEOIcon,DefaultMUSICIcon;
@@ -419,6 +428,7 @@ public:
     cSaveWinWithSplitterPos *DlgSlidePropertiesWSP;                     // Dialog box "Slide properties" - Window size and position
     cSaveWinWithSplitterPos *DlgSlideDurationWSP;                       // Dialog box "Slide duration" - Window size and position
     cSaveWinWithSplitterPos *DlgFileExplorerWSP;                        // Dialog box "File Explorer" - Window size and position
+    cSaveWinWithSplitterPos *DlgImageComposerThumbWSP;                  // Dialog box "Image composer for thumbnail" - Window size and position
     cSaveWindowPosition     *DlgImageTransformationWSP;                 // Dialog box "Image Transformation" - Window size and position
     cSaveWindowPosition     *DlgImageCorrectionWSP;                     // Dialog box "Image Correction" - Window size and position
     cSaveWindowPosition     *DlgTextEditWSP;                            // Dialog box "Text editor" - Window size and position
