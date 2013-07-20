@@ -150,6 +150,8 @@ wgt_QVideoPlayer::wgt_QVideoPlayer(QWidget *parent) : QWidget(parent),ui(new Ui:
     Deinterlace             = false;
 
     this->FileInfo      = FileInfo;
+    Music.SetFPS(MixedMusic.WantedDuration,MixedMusic.Channels,MixedMusic.SamplingRate,MixedMusic.SampleFormat);
+
     ui->CustomRuller->ActiveSlider(0);
     ui->CustomRuller->setSingleStep(25);
 
@@ -369,6 +371,7 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
     Mutex.lock();
     if (SDL_GetAudioStatus()==SDL_AUDIO_PLAYING) SDL_PauseAudio(1);
     MixedMusic.ClearList();                         // Free sound buffers
+    Music.ClearList();                              // Free sound buffers
     ImageList.ClearList();                          // Free ImageList
     PlayerPlayMode  = true;
     PlayerPauseMode = true;
@@ -543,6 +546,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
     if (ResetPositionWanted) {
         MixedMusic.ClearList();                         // Free sound buffers
+        Music.ClearList();                              // Free sound buffers
         ImageList.ClearList();                          // Free ImageList
         ResetPositionWanted=false;
     }
@@ -557,7 +561,7 @@ void wgt_QVideoPlayer::s_TimerEvent() {
         // If no image in the list then prepare a first frame
         if (FileInfo) {
 
-            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,NextPosition,NULL,int(double(1000)/WantedFPS),true);
+            cDiaporamaObjectInfo *NewFrame=new cDiaporamaObjectInfo(NULL,NextPosition,NULL,double(1000)/WantedFPS,true);
             NewFrame->CurrentObject_StartTime   =0;
             PrepareVideoFrame(NewFrame,NewFrame->CurrentObject_InObjectTime);
 
@@ -656,11 +660,12 @@ void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Info
 
 void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::PrepareVideoFrame");
-    QImage *Temp=FileInfo->ImageAt(true,Position,&MixedMusic,Deinterlace,1,false,true);
+    QImage *Temp=FileInfo->ImageAt(true,Position,&Music,Deinterlace,1,false,true);
     if (Temp) {
         QImage *Temp2=new QImage(Temp->scaledToHeight(ui->MovieFrame->height()));
         NewFrame->RenderedImage=Temp2;
         delete Temp;
+        for (int j=0;j<Music.NbrPacketForFPS;j++) MixedMusic.AppendPacket(Music.CurrentPosition,Music.DetachFirstPacket());
     }
     if (NewFrame->RenderedImage) ImageList.AppendImage(NewFrame);
         else delete NewFrame;

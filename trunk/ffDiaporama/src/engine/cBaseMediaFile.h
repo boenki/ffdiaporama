@@ -44,8 +44,6 @@
 #include "cSoundBlockList.h"
 #include "cCustomIcon.h"
 
-// Other third party library inclusions
-
 //****************************************************************************************************************************************************************
 // EXIV2 PART
 //****************************************************************************************************************************************************************
@@ -108,7 +106,7 @@ public:
     QString                 FileName;                       // filename
     QString                 ShortName;                      // filename without path
     QString                 FileExtension;                  // file extension
-    qlonglong               FileSize;                       // filesize
+    int64_t               FileSize;                       // filesize
     QString                 FileSizeText;                   // filesize in text mode
     QDateTime               CreatDateTime;                  // Original date/time
     QDateTime               ModifDateTime;                  // Last modified date/time
@@ -181,13 +179,15 @@ public:
 class cffDProjectFile : public cBaseMediaFile {
 public:
     // TAG values
-    QString     Title;              // 30 char
-    QString     Author;             // 30 char
-    QString     Album;              // 30 char
-    int         Year;               // Year - 4 digits
+    QString     Title;              // 30 or 200 char depending on ID3V2 compatibility option
+    QString     Author;             // 30 or 200 char depending on ID3V2 compatibility option
+    QString     Album;              // 30 or 200 char depending on ID3V2 compatibility option
+    QDate       EventDate;
+    bool        OverrideDate;
+    QString     LongDate;           // Project dates
     QString     Comment;            // Free text - free size
     QString     Composer;           // ffDiaporama version
-    qlonglong   Duration;           // (Duration in msec)
+    int64_t     Duration;           // (Duration in msec)
     int         NbrSlide;           // (Number of slide in project)
     QString     ffDRevision;        // ffD Application version (in reverse date format)
     QString     DefaultLanguage;    // Default Language (ISO 639 language code)
@@ -206,6 +206,7 @@ public:
 
     void                    SaveToXML(QDomElement &domDocument);
     bool                    LoadFromXML(QDomElement domDocument);
+    QString                 FormatLongDate();
 };
 
 //*********************************************************************************************************************************************
@@ -237,9 +238,9 @@ extern int MAXCACHEIMAGE;
 
 class cImageInCache {
 public:
-    qlonglong   Position;
+    int64_t   Position;
     QImage      *Image;
-    cImageInCache(qlonglong Position,QImage *Image);
+    cImageInCache(int64_t Position,QImage *Image);
     ~cImageInCache();
 };
 
@@ -308,8 +309,8 @@ public:
     virtual bool            OpenCodecAndFile();
     virtual void            CloseCodecAndFile();
 
-    virtual QImage          *ImageAt(bool PreviewMode,qlonglong Position,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,bool DontUseEndPos);
-    virtual QImage          *ReadFrame(bool PreviewMode,qlonglong Position,bool DontUseEndPos,bool Deinterlace,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly);
+    virtual QImage          *ImageAt(bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,bool DontUseEndPos);
+    virtual QImage          *ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndPos,bool Deinterlace,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly);
     virtual int             DecodeVideoFrame(AVStream *VideoStream,AVStream *AudioStream,AVPacket *StreamPacket,bool Deinterlace,bool *DontRetryReading,int64_t Position,int64_t FPSDuration);
     virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
 

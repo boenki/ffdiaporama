@@ -21,6 +21,7 @@
 #include "../DlgCheckConfig/DlgCheckConfig.h"
 #include "DlgManageDevices/DlgManageDevices.h"
 #include "../../engine/_Diaporama.h"
+#include "../mainwindow.h"
 
 #include "DlgApplicationSettings.h"
 #include "ui_DlgApplicationSettings.h"
@@ -74,16 +75,16 @@ void DlgApplicationSettings::DoInitDialog() {
         ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
     #endif
 
-    #if defined(Q_OS_WIN32) || defined(Q_OS_LINUX32)
-        if      (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
-        else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(512*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(1);
+    #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32))
+        if      (ApplicationConfig->MemCacheMaxValue<=int64_t(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
+        else if (ApplicationConfig->MemCacheMaxValue<=int64_t(512*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(1);
         else ui->MemCacheProfilCB->setCurrentIndex(2);
         ui->MemCacheProfilCB->removeItem(3);
         ui->MemCacheProfilCB->removeItem(2);
     #else
-        if      (ApplicationConfig->MemCacheMaxValue<=qlonglong(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
-        else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(512*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(1);
-        else if (ApplicationConfig->MemCacheMaxValue<=qlonglong(1024*1024*1024))    ui->MemCacheProfilCB->setCurrentIndex(2);
+        if      (ApplicationConfig->MemCacheMaxValue<=int64_t(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
+        else if (ApplicationConfig->MemCacheMaxValue<=int64_t(512*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(1);
+        else if (ApplicationConfig->MemCacheMaxValue<=int64_t(1024*1024*1024))    ui->MemCacheProfilCB->setCurrentIndex(2);
         else ui->MemCacheProfilCB->setCurrentIndex(3);
     #endif
 
@@ -104,6 +105,9 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->AppendObjectCB->setCurrentIndex(ApplicationConfig->AppendObject?1:0);
     ui->SortFileCB->setChecked(ApplicationConfig->SortFile);
     ui->AskUserToRemove->setChecked(ApplicationConfig->AskUserToRemove);
+
+    // Various options
+    ui->ShortDateFmtCB->setCurrentIndex(ui->ShortDateFmtCB->findText(ApplicationConfig->ShortDateFormat));
 
     // Video options
     ui->Crop1088To1080CB->setChecked(ApplicationConfig->Crop1088To1080);
@@ -129,6 +133,10 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->TransitionDurationCB->setCurrentIndex(ui->TransitionDurationCB->findText(Duration));
     ui->DefaultTitleCB->setCurrentIndex(ApplicationConfig->DefaultTitleFilling);
     ui->DefaultAuthorED->setText(ApplicationConfig->DefaultAuthor);
+    ui->ID3V2ComptatibilityCB->setChecked(ApplicationConfig->ID3V2Comptatibility);
+
+    ui->DefaultThumbCB->PrepareTable(ApplicationConfig->ThumbnailModels);
+    ui->DefaultThumbCB->SetCurrentModel(ApplicationConfig->DefaultThumbnailName);
 
     // New text block options
     ApplicationConfig->StyleTextCollection.             FillCollectionCB(ui->ST_Text_TextCB,        ApplicationConfig->StyleTextCollection.DecodeString(ApplicationConfig->DefaultBlock_Text_TextST));
@@ -240,6 +248,7 @@ void DlgApplicationSettings::DoInitDialog() {
 
     ui->LanguageED->setText(ApplicationConfig->DefaultLanguage);
     ui->DefaultNameProjectNameCB->setCurrentIndex(ApplicationConfig->DefaultNameProjectName);
+    ui->ExportThumbCB->setChecked(ApplicationConfig->DefaultExportThumbnail);
 
     connect(ui->StandardCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
     connect(ui->SizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
@@ -376,10 +385,10 @@ bool DlgApplicationSettings::DoAccept() {
     ApplicationConfig->DisableTooltips          =ui->DisableTooltipsCB->isChecked();
 
     switch (ui->MemCacheProfilCB->currentIndex()) {
-        case 3  : ApplicationConfig->MemCacheMaxValue=qlonglong(2048*qlonglong(1024*1024));    break;
-        case 2  : ApplicationConfig->MemCacheMaxValue=qlonglong(1024*qlonglong(1024*1024));    break;
-        case 1  : ApplicationConfig->MemCacheMaxValue=qlonglong(512*qlonglong(1024*1024));     break;
-        default : ApplicationConfig->MemCacheMaxValue=qlonglong(256*qlonglong(1024*1024));     break;
+        case 3  : ApplicationConfig->MemCacheMaxValue=int64_t(2048*int64_t(1024*1024));    break;
+        case 2  : ApplicationConfig->MemCacheMaxValue=int64_t(1024*int64_t(1024*1024));    break;
+        case 1  : ApplicationConfig->MemCacheMaxValue=int64_t(512*int64_t(1024*1024));     break;
+        default : ApplicationConfig->MemCacheMaxValue=int64_t(256*int64_t(1024*1024));     break;
     }
 
     // Editor Options part
@@ -405,6 +414,9 @@ bool DlgApplicationSettings::DoAccept() {
     ApplicationConfig->ImageGeometry                =ui->GeometryCombo->currentIndex();
     ApplicationConfig->DefaultTitleFilling          =ui->DefaultTitleCB->currentIndex();
     ApplicationConfig->DefaultAuthor                =ui->DefaultAuthorED->text();
+    ApplicationConfig->ID3V2Comptatibility          =ui->ID3V2ComptatibilityCB->isChecked();
+    ApplicationConfig->ShortDateFormat              =ui->ShortDateFmtCB->itemText(ui->ShortDateFmtCB->currentIndex());
+    ApplicationConfig->DefaultThumbnailName         =ui->DefaultThumbCB->GetCurrentModel();
 
     ApplicationConfig->DefaultBlock_Text_TextST     =ApplicationConfig->StyleTextCollection.EncodeString(ui->ST_Text_TextCB,-1,-1);
     ApplicationConfig->DefaultBlock_Text_BackGST    =ApplicationConfig->StyleTextBackgroundCollection.EncodeString(ui->ST_Text_BackgroundCB,-1,-1);
@@ -434,6 +446,7 @@ bool DlgApplicationSettings::DoAccept() {
         return false;
     }
     ApplicationConfig->DefaultNameProjectName   =ui->DefaultNameProjectNameCB->currentIndex();
+    ApplicationConfig->DefaultExportThumbnail   =ui->ExportThumbCB->isChecked();
     ApplicationConfig->DefaultStandard          =ui->StandardCombo->currentIndex();
     ApplicationConfig->DefaultImageSize         =ui->SizeCombo->itemData(ui->SizeCombo->currentIndex()).toInt();
     ApplicationConfig->DefaultFormat            =ui->FileFormatCB->currentIndex();

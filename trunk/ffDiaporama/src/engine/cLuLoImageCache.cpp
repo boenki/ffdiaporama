@@ -348,10 +348,10 @@ void cLuLoImageCache::RemoveImageObject(QString FileName) {
 
 //===============================================================================
 
-qlonglong cLuLoImageCache::MemoryUsed() {
+int64_t cLuLoImageCache::MemoryUsed() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::MemoryUsed");
 
-    qlonglong MemUsed=0;
+    int64_t MemUsed=0;
     for (int i=0;i<List.count();i++) {
         if (List[i]->CacheRenderImage)                                                              MemUsed=MemUsed+List[i]->CacheRenderImage->byteCount();
         if ((List[i]->CachePreviewImage)&&(List[i]->CachePreviewImage!=List[i]->CacheRenderImage))  MemUsed=MemUsed+List[i]->CachePreviewImage->byteCount();
@@ -365,8 +365,8 @@ void cLuLoImageCache::FreeMemoryToMaxValue() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::FreeMemoryToMaxValue");
 
     // 1st step : ensure used memory is less than max allowed
-    qlonglong Memory    =MemoryUsed();
-    qlonglong MaxMemory =MaxValue;
+    int64_t Memory    =MemoryUsed();
+    int64_t MaxMemory =MaxValue;
     #ifdef Q_OS_WIN
     if (IsWindowsXP) MaxMemory=180*1024*1024;
     #endif

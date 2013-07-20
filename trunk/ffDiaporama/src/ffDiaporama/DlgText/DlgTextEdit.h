@@ -78,6 +78,8 @@ private slots:
     void            s_IndentInBt();
     void            s_IndentOutBt();
 
+    void            s_InsTextVar();
+
     void            s_ListBt();
     void            s_ListNbrBt();
 

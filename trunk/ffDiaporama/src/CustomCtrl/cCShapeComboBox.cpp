@@ -156,7 +156,7 @@ void cCShapeComboBox::PrepareFrameShapeTable(bool ResetContent,int Filter,int Cu
             QPainter Painter;
             Painter.begin(&Image);
             Painter.fillRect(QRect(0,0,AutoFrameShapeComboBoxIMAGEWIDTH,AutoFrameShapeComboBoxIMAGEWIDTH),"#ffffff");
-            Object.DrawCompositionObject(&Painter,1,AutoFrameShapeComboBoxIMAGEWIDTH,AutoFrameShapeComboBoxIMAGEWIDTH,true,0,NULL,1,1,NULL,false,0,false);
+            Object.DrawCompositionObject(NULL,&Painter,1,AutoFrameShapeComboBoxIMAGEWIDTH,AutoFrameShapeComboBoxIMAGEWIDTH,true,0,NULL,1,1,NULL,false,0,false);
             Painter.end();
             FrameShapeTable.append(cFrameShapeTableItem(&Image,i));
         }
@@ -227,7 +227,7 @@ void cCShapeComboBox::MakeIcons() {
         QPainter Painter;
         Painter.begin(&Image);
         Painter.fillRect(QRect(0,0,this->iconSize().width(),this->iconSize().height()),"#ffffff");
-        Object.DrawCompositionObject(&Painter,1,this->iconSize().width(),this->iconSize().height(),true,0,NULL,1,1,NULL,false,0,false);
+        Object.DrawCompositionObject(NULL,&Painter,1,this->iconSize().width(),this->iconSize().height(),true,0,NULL,1,1,NULL,false,0,false);
         Painter.end();
         setItemIcon(((QTableWidget *)view())->currentRow(),QIcon(Image));
         setItemText(((QTableWidget *)view())->currentRow(),ShapeFormDefinition.at(FrameShapeTable.at(CurIndex).FrameStyle).Name);

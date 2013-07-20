@@ -88,8 +88,11 @@ QCustomDialog::QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,cSave
     UndoBt                      =NULL;
     HelpTT                      =NULL;
 
+    #ifdef Q_OS_WIN
+    #else
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
     setAttribute(Qt::WA_AlwaysShowToolTips);
+    #endif
 }
 
 //====================================================================================================================

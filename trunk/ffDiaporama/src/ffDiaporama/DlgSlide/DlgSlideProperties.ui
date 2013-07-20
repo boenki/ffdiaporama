@@ -32,7 +32,16 @@
    <property name="spacing">
     <number>0</number>
    </property>
-   <property name="margin">
+   <property name="leftMargin">
+    <number>8</number>
+   </property>
+   <property name="topMargin">
+    <number>8</number>
+   </property>
+   <property name="rightMargin">
+    <number>8</number>
+   </property>
+   <property name="bottomMargin">
     <number>8</number>
    </property>
    <item>
@@ -84,7 +93,16 @@ QToolButton:pressed {
       <property name="spacing">
        <number>2</number>
       </property>
-      <property name="margin">
+      <property name="leftMargin">
+       <number>0</number>
+      </property>
+      <property name="topMargin">
+       <number>0</number>
+      </property>
+      <property name="rightMargin">
+       <number>0</number>
+      </property>
+      <property name="bottomMargin">
        <number>0</number>
       </property>
       <item>
@@ -368,7 +386,7 @@ block</string>
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="InfoBlock">
+       <widget class="QToolButton" name="InfoBlockBT">
         <property name="minimumSize">
          <size>
           <width>56</width>
@@ -436,7 +454,16 @@ information</string>
       <property name="spacing">
        <number>2</number>
       </property>
-      <property name="margin">
+      <property name="leftMargin">
+       <number>2</number>
+      </property>
+      <property name="topMargin">
+       <number>2</number>
+      </property>
+      <property name="rightMargin">
+       <number>2</number>
+      </property>
+      <property name="bottomMargin">
        <number>2</number>
       </property>
       <item>
@@ -535,7 +562,16 @@ Remarks :
      <property name="spacing">
       <number>2</number>
      </property>
-     <property name="margin">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
       <number>0</number>
      </property>
      <item>
@@ -543,7 +579,16 @@ Remarks :
        <property name="spacing">
         <number>0</number>
        </property>
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -653,7 +698,16 @@ Remark :
           <property name="spacing">
            <number>2</number>
           </property>
-          <property name="margin">
+          <property name="leftMargin">
+           <number>2</number>
+          </property>
+          <property name="topMargin">
+           <number>2</number>
+          </property>
+          <property name="rightMargin">
+           <number>2</number>
+          </property>
+          <property name="bottomMargin">
            <number>2</number>
           </property>
           <item>
@@ -765,7 +819,16 @@ If you specify a duration lower than the minimum calculated duration for the sho
         <property name="spacing">
          <number>4</number>
         </property>
-        <property name="margin">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
          <number>0</number>
         </property>
         <item>
@@ -790,7 +853,16 @@ If you specify a duration lower than the minimum calculated duration for the sho
             <property name="spacing">
              <number>0</number>
             </property>
-            <property name="margin">
+            <property name="leftMargin">
+             <number>0</number>
+            </property>
+            <property name="topMargin">
+             <number>0</number>
+            </property>
+            <property name="rightMargin">
+             <number>0</number>
+            </property>
+            <property name="bottomMargin">
              <number>0</number>
             </property>
             <item>
@@ -956,9 +1028,9 @@ Remarks:
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-588</y>
-              <width>272</width>
-              <height>800</height>
+              <y>0</y>
+              <width>249</width>
+              <height>732</height>
              </rect>
             </property>
             <property name="sizePolicy">
@@ -988,7 +1060,16 @@ Remarks:
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -1137,7 +1218,16 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -1240,7 +1330,16 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -1339,7 +1438,16 @@ Remark: the rotation direction is defined by the sign, so +5 will give 5 rotatio
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -1593,7 +1701,16 @@ This position is defined as a percentage (%) of the total height of the image or
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -1682,7 +1799,16 @@ This position is defined as a percentage (%) of the total height of the image or
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -1781,7 +1907,16 @@ This value is defined as a percentage (%) of the total height of the image or in
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -1888,7 +2023,16 @@ color: #000000;
                <property name="spacing">
                 <number>2</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -1991,7 +2135,16 @@ Remark: To change the velocity curve for image animation (graphic effect and fra
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -2164,7 +2317,16 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -2286,7 +2448,16 @@ Remark: To make animations of text, you have to create at least 2 shots then:
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -2621,7 +2792,16 @@ Three type of constraint are available:
                <property name="spacing">
                 <number>2</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -2732,7 +2912,16 @@ Blink: The block will blink during the shot (appear then disappear). 4 speeds ar
                <property name="spacing">
                 <number>0</number>
                </property>
-               <property name="margin">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <property name="topMargin">
+                <number>0</number>
+               </property>
+               <property name="rightMargin">
+                <number>0</number>
+               </property>
+               <property name="bottomMargin">
                 <number>0</number>
                </property>
                <item>
@@ -2989,7 +3178,16 @@ color: #000000;
      <property name="spacing">
       <number>0</number>
      </property>
-     <property name="margin">
+     <property name="leftMargin">
+      <number>0</number>
+     </property>
+     <property name="topMargin">
+      <number>0</number>
+     </property>
+     <property name="rightMargin">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
       <number>0</number>
      </property>
      <item>
@@ -3057,7 +3255,7 @@ Remarks:
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="TVMarginsBT">
+      <widget class="QPushButton" name="RulersBT">
        <property name="font">
         <font>
          <family>Sans Serif</family>
@@ -3742,6 +3940,16 @@ Note: Hidden video blocks are automatically paused</string>
    <header>../CustomCtrl/cCSpeedWaveComboBox.h</header>
   </customwidget>
   <customwidget>
+   <class>cCFramingComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cCFramingComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCShapeComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cCShapeComboBox.h</header>
+  </customwidget>
+  <customwidget>
    <class>cCColorComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCColorComboBox.h</header>
@@ -3758,24 +3966,14 @@ Note: Hidden video blocks are automatically paused</string>
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>cCustomShotTable</class>
-   <extends>QTableWidget</extends>
-   <header>DlgSlide/cCustomShotTable.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cCFramingComboBox</class>
-   <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCFramingComboBox.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cCShapeComboBox</class>
-   <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCShapeComboBox.h</header>
-  </customwidget>
-  <customwidget>
    <class>cCTexteFrameComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCTexteFrameComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCustomShotTable</class>
+   <extends>QTableWidget</extends>
+   <header>DlgSlide/cCustomShotTable.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

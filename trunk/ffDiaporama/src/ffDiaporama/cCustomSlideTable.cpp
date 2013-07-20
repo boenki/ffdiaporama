@@ -349,43 +349,27 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         while (TransitionDuration.endsWith("0"))    TransitionDuration=TransitionDuration.left(TransitionDuration.length()-1);
         while (TransitionDuration.endsWith("."))    TransitionDuration=TransitionDuration.left(TransitionDuration.length()-1);
 
-        if (Object->TypeObject==DIAPORAMAOBJECTTYPE_VIDEO) {
-            Pen.setColor(Qt::black);
-            Painter->setPen(Pen);
-            Painter->drawText(QRectF(TransitionSize+3+BarWidth+1,ThumbHeight/4+2-1+1,                   NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(TransitionSize+3+BarWidth+1,ThumbHeight/4+2-1+1+NewThumbHeight-16, NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(2+1,                        ThumbHeight/4+2-1+34+1,                32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(BackThumbWidth+2+1,         (ThumbHeight/4-16)/2+1,                ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
+        Pen.setColor(Qt::black);
+        Painter->setPen(Pen);
+        Painter->drawText(QRectF(TransitionSize+3+1,        ThumbHeight/4+2-1+1,                    NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+        Painter->drawText(QRectF(TransitionSize+3+1,        ThumbHeight/4+2-1+1+NewThumbHeight-16,  NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+        Painter->drawText(QRectF(2+1,                       ThumbHeight/4+2-1+34+1,                 32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+        Painter->drawText(QRectF(BackThumbWidth+2+1,        (ThumbHeight/4-16)/2+1,                 ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
 
-            Pen.setColor(Qt::white);
-            Painter->setPen(Pen);
-            Painter->drawText(QRectF(TransitionSize+3+BarWidth, ThumbHeight/4+2-1,                      NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(TransitionSize+3+BarWidth, ThumbHeight/4+2-1+NewThumbHeight-16,    NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(2,                         ThumbHeight/4+2-1+34,                   32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(BackThumbWidth+2,          (ThumbHeight/4-16)/2,                   ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
-        } else {
-            Pen.setColor(Qt::black);
-            Painter->setPen(Pen);
-            Painter->drawText(QRectF(TransitionSize+3+1,        ThumbHeight/4+2-1+1,                    NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(TransitionSize+3+1,        ThumbHeight/4+2-1+1+NewThumbHeight-16,  NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(2+1,                       ThumbHeight/4+2-1+34+1,                 32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(BackThumbWidth+2+1,        (ThumbHeight/4-16)/2+1,                 ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
-
-            Pen.setColor(Qt::white);
-            Painter->setPen(Pen);
-            Painter->drawText(QRectF(TransitionSize+3,          ThumbHeight/4+2-1,                      NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(TransitionSize+3,          ThumbHeight/4+2-1+NewThumbHeight-16,    NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(2,                         ThumbHeight/4+2-1+34,                   32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-            Painter->drawText(QRectF(BackThumbWidth+2,          (ThumbHeight/4-16)/2,                   ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
-        }
+        Pen.setColor(Qt::white);
+        Painter->setPen(Pen);
+        Painter->drawText(QRectF(TransitionSize+3,          ThumbHeight/4+2-1,                      NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+        Painter->drawText(QRectF(TransitionSize+3,          ThumbHeight/4+2-1+NewThumbHeight-16,    NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+        Painter->drawText(QRectF(2,                         ThumbHeight/4+2-1+34,                   32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
+        Painter->drawText(QRectF(BackThumbWidth+2,          (ThumbHeight/4-16)/2,                   ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
 
         //==========================================================================================================================
         // Track MUSIC (last 1/4 height of the slide)
         //==========================================================================================================================
 
         int         CurrentCountObjet   =0;
-        qlonglong   StartPosition       =0;
-        qlonglong   NextStartPosition   =0;
+        int64_t   StartPosition       =0;
+        int64_t   NextStartPosition   =0;
         double      CurrentFactor       =Object->MusicPause?0:Object->MusicReduceVolume?Object->MusicReduceFactor:1;
         double      PreviousFactor      =0;
 
@@ -898,7 +882,6 @@ void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
 
 void cCustomSlideTable::mouseDoubleClickEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::mouseDoubleClickEvent");
-
     if (columnCount()==0) return;
     int ThumbWidth =columnWidth(0);
     int ThumbHeight=rowHeight(0);

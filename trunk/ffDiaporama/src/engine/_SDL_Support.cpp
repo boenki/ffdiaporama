@@ -145,12 +145,8 @@ cSDLSoundBlockList::cSDLSoundBlockList():cSoundBlockList() {
 int16_t *cSDLSoundBlockList::DetachFirstPacket() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSDLSoundBlockList::DetachFirstPacket");
 
-    int16_t *Ret=NULL;
     SDL_LockAudio();
-    if (List.count()>0) {
-        Ret=(int16_t *)List.takeFirst();
-        CurrentPosition+=(double(SoundPacketSize)/(SampleBytes*Channels*SamplingRate))*AV_TIME_BASE;
-    }
+    int16_t *Ret=cSoundBlockList::DetachFirstPacket();
     SDL_UnlockAudio();
     return Ret;
 }
@@ -162,7 +158,6 @@ void cSDLSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSDLSoundBlockList::AppendPacket");
 
     SDL_LockAudio();
-    if (List.count()==0) CurrentPosition=Position;
-    List.append(PacketToAdd);
+    cSoundBlockList::AppendPacket(Position,PacketToAdd);
     SDL_UnlockAudio();
 }

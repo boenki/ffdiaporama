@@ -37,8 +37,6 @@ namespace Ui {
     class MainWindow;
 }
 
-class DlgRenderVideo;
-
 class MainWindow : public QMainWindow {
 Q_OBJECT
 public:

@@ -797,6 +797,43 @@ Beyond this height, the videos are automatically reduced for creating images.</s
         <source>Disable tooltips in dialog box</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>For more compatibility with the standard id3v2, check this box to limit Title, Author and Album fields to 30 characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enhance id3v2 comptatibility</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Short date format :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MM/dd/yyyy</source>
+        <comment>Default Date format : dd/MM/yyyy or MM/dd/yyyy or yyyy/MM/dd or dd.MM.yyyy and so on...</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Various options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default thumbnail :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the model use as default thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked then a thumbnail file will be created with video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Join thumbnail to rendered file</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgBackgroundProperties</name>
@@ -1118,6 +1155,10 @@ To solve the problems you will have to install additional packages on your compu
         <source>LIBSWRESAMPLE version:%1.%2.%3.%4</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>qimageblitz version:0.6.6-Licence=LGPL</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgFileExplorer</name>
@@ -1204,6 +1245,504 @@ To solve the problems you will have to install additional packages on your compu
     <message>
         <source>The selection can&apos;t include folders.</source>
         <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>DlgImageComposer</name>
+    <message>
+        <source>Edit thumbnail model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add
+text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+Ins</source>
+        <translation type="unfinished">Ctrl+Ins</translation>
+    </message>
+    <message>
+        <source>Add one or several new blocks of images or video. A file selection dialog appears allowing you to select files.
+
+Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the configuration dialog).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add
+file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ins</source>
+        <translation type="unfinished">Ins</translation>
+    </message>
+    <message>
+        <source>Edit block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit
+block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange blocks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange
+block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display information on image or video file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Block
+information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to open the rulers settings dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rulers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>The blocks table lists, from top to bottom, the present blocks in the slide.
+
+Remarks:
+- The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.
+- The order of the blocks is defined shot by shot.
+
+Blocks are shown on 3 columns:
+- The first column contains or:
+  - A text icon￼ if the block is a title.
+  - A thumbnail if the block is an image or a video.
+  - Possibly, one transformation￼ icon appears on the thumbnail if the image or the video have a transformation filter.
+
+- The second column contains icons giving the state of the blocks for the current shot:
+  - A lock icon if the properties of the block are locked during this shot or and unlock icon if they are unlocked. (Remark: This information does not appear for the 1st shot.)
+  - A sound icon if the video has the sound during this shot. This information appears only for the video blocks.
+  - An eye icon if the block is visible during this shot or ￼a crossed eye icon if the block is hidden.
+
+- The third column indicates:
+  - If the block is a title: the text of the block
+  - If the block is an image: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and a summary of EXIF information on the image.
+  - If the block is a video: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and the duration of the video.
+
+Remarks:
+- Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
+- Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
+- Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.
+- To select a block: click the block
+- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
+- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
+
+- The blocks with locked properties are shown on a grey bottom.
+- The selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.
+
+- To change the blocks order, use Drag &amp; Drop or up￼ and down arrow functions of the contextual menu.
+- It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.
+
+- All blocks, whether title, image or video, possess a text element.
+
+- During the insertion of a new block (Add title, Add file or Paste), the block is inserted:
+  - In visible mode for the current shot and for all the following shots.
+  - In hidden mode for the shots located before the current shot.
+  - Always in the last position in the list of blocks (in the foreground).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Block coordinates :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the width of the block.
+This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the height of the block.
+This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the angle of rotation about the x-axis (expressed in degrees)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to zero</source>
+        <translation type="unfinished">重置為零</translation>
+    </message>
+    <message>
+        <source>Allows you to select a shape for the block.
+
+The selected shape will be used as:
+- A fusion mask for the images and the videos.
+- A cutting zone for texts.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the horizontal offset of the block from the left.
+This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the vertical offset of the block from the top.
+This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shape :</source>
+        <translation type="unfinished">形狀：</translation>
+    </message>
+    <message>
+        <source>Clip-Art :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select in which corner the shadow will be positioned (or no shadow).
+
+Remark: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the angle of rotation about the y-axis (expressed in degrees)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Border :</source>
+        <translation type="unfinished">邊框：</translation>
+    </message>
+    <message utf8="true">
+        <source>Defines the thickness of the border.
+
+Remark: This value is defined as 1/1080 of the height of the screen.
+A value of 10 corresponds to 10 points on a 1920×1080 FullHD screen, but only to 6 points on a 1280×720 screen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the color of the line to be used to draw the border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the type of line (solid, dotted line, etc.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shadow :</source>
+        <translation type="unfinished">陰影：</translation>
+    </message>
+    <message>
+        <source>Opacity :</source>
+        <translation type="unfinished">濁度：</translation>
+    </message>
+    <message>
+        <source>This settings group deals with style management.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the opaqueness of the block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the distance between the block and its shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the color of the shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the angle of rotation about the z-axis (expressed in degrees)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a clip-art</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block shape :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define a zoom value for the text.
+
+Remark: To make animations of text, you have to create at least 2 shots then:
+-Define values for zoom and scrolling for the 1st shot
+-Define different values for zoom and scrolling for the 2nd</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to 100%</source>
+        <translation type="unfinished">重置為 100%</translation>
+    </message>
+    <message>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Text option :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define the information which qualifies the project.
+This information will then be registered in the form of TAGs in the rendered video files.
+
+Remark:
+
+The properties of the project are a partial implementation of the MPEG-7 standard on the descriptors of multimedia contents.
+These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by jukeboxes.
+
+Some fields are automatically filled and do not appear in this dialog:
+-Timestamp: Date and time of generation of the video.
+-Composer: Contains the version of ffDiaporama with which the video was produced.
+-Encoder: Contains the version of libavformat (ffmpeg) with which the video was produced.
+
+For more compatibility with indexing systems and jukeboxes, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished">確定(&amp;O)</translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">取消(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Edit text</source>
+        <translation type="unfinished">編輯文字</translation>
+    </message>
+    <message>
+        <source>Define the properties of the text block</source>
+        <translation type="unfinished">定義文字區塊的性質</translation>
+    </message>
+    <message>
+        <source>Correct or reframe image</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define framing and correction of image or movie</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move to background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the order of blocks by moving the active block towards the background</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Move to foreground</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the order of blocks by moving the active block towards the foreground</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display detailed information on current block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy the current block to the ffDiaporama clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+C</source>
+        <translation type="unfinished">Ctrl+C</translation>
+    </message>
+    <message>
+        <source>Cut block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide</source>
+        <translation type="unfinished">複製目前的區塊到 ffDiaporama 剪貼簿並從投影片移除</translation>
+    </message>
+    <message>
+        <source>Ctrl+X</source>
+        <translation type="unfinished">Ctrl+X</translation>
+    </message>
+    <message>
+        <source>Remove</source>
+        <translation type="unfinished">移除</translation>
+    </message>
+    <message>
+        <source>Remove current block(s)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Del</source>
+        <translation type="unfinished">Del</translation>
+    </message>
+    <message>
+        <source>Paste block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste block from the ffDiaporama clipboard and insert it</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Ctrl+V</source>
+        <translation type="unfinished">Ctrl+V</translation>
+    </message>
+    <message>
+        <source>Align top</source>
+        <translation type="unfinished">對齊頂端</translation>
+    </message>
+    <message>
+        <source>Align blocks to the top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align blocks to the middle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align bottom</source>
+        <translation type="unfinished">對齊底部</translation>
+    </message>
+    <message>
+        <source>Align blocks to the bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align left</source>
+        <translation type="unfinished">靠左對齊</translation>
+    </message>
+    <message>
+        <source>Align blocks to the left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align center</source>
+        <translation type="unfinished">置中對齊</translation>
+    </message>
+    <message>
+        <source>Align blocks to the center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align right</source>
+        <translation type="unfinished">靠右對齊</translation>
+    </message>
+    <message>
+        <source>Align blocks to the right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new block of type image or video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>distribute horizontally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Place each block so as to have the same space between each</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>distribute vertically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add simple text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new simple text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add ClipArt text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new ClipArt text block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>None</source>
+        <translation type="unfinished">無</translation>
+    </message>
+    <message>
+        <source>Shadow upper left</source>
+        <translation type="unfinished">左上陰影</translation>
+    </message>
+    <message>
+        <source>Shadow upper right</source>
+        <translation type="unfinished">右上陰影</translation>
+    </message>
+    <message>
+        <source>Shadow bottom left</source>
+        <translation type="unfinished">左下陰影</translation>
+    </message>
+    <message>
+        <source>Shadow bottom right</source>
+        <translation type="unfinished">右下陰影</translation>
+    </message>
+    <message>
+        <source>Remove block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete this block?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove blocks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Are you sure you want to delete these blocks?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Text</source>
+        <comment>Default text value</comment>
+        <translation type="unfinished">文字</translation>
     </message>
 </context>
 <context>
@@ -2639,6 +3178,14 @@ It allows you to adjust the properties before generating the video.
 Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by jukeboxes.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>If this box is checked then a thumbnail file will be created with video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Join thumbnail to rendered file</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgRulerDef</name>
@@ -3896,6 +4443,10 @@ To understand indeed the differences between the properties which apply to all s
 This setting applies to the current selection.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Insert a text variable</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgTransitionDuration</name>
@@ -4076,10 +4627,6 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
         <translation>專輯：</translation>
     </message>
     <message>
-        <source>Year :</source>
-        <translation>年分：</translation>
-    </message>
-    <message>
         <source>Language :</source>
         <translation>語言：</translation>
     </message>
@@ -4145,10 +4692,6 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Options for speed wave&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Block animation:</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4170,19 +4713,6 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
     </message>
     <message utf8="true">
         <source>The language of the audio track (ISO 639 standard – 3 characters).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Year (4 numbers)
-Remark: This field is different from &quot;timestamp&quot; field.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The album of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The title of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4242,8 +4772,71 @@ Remark: Video formats do not support all the chapters in the same way.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The name of the author of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters).
+        <source>The album of the project (If the id3v2 compatibility option is set in option dialog, this fields is limited to 30 characters).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The name of the author of the project (If the id3v2 compatibility option is set in option dialog, this fields is limited to 30 characters).
 Remark: This field is often shown by indexing system and jukeboxes under the term Artist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The title of the project (If the id3v2 compatibility option is set in option dialog, this fields is limited to 30 characters).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The date of the event of the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event date :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Override date :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Options for speed wave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the model use as default thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thumbnail :</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Options for joined ressources</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>custom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create a custom thumbnail model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: The name can&apos;t be empty
+Retry ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error: This name is already used
+Retry ?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit this custom model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create a custom model based on this model</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5233,6 +5826,45 @@ Are you sure it is empty?</source>
         <source>Ctrl+V</source>
         <translation type="unfinished">Ctrl+V</translation>
     </message>
+    <message>
+        <source>Error reading default thumbnail file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error reading content of default thumbnail file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The file is not a valid thumbnail file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Register thumbnail models...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Register title slide models...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start ...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Scan drives in computer...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Register models...</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -5444,6 +6076,10 @@ Are you sure it is empty?</source>
     </message>
     <message>
         <source>Personal folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Clipart</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5850,6 +6486,121 @@ Are you sure it is empty?</source>
     </message>
 </context>
 <context>
+    <name>Variables</name>
+    <message>
+        <source>Select this variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project properties values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project date values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current slide values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapters values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter date values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Today date values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project slide count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Long date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Short date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month as number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of week</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current slide name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current slide number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter count</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama version</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>cBaseMediaFile</name>
     <message>
         <source>Impossible to open file </source>
@@ -6027,6 +6778,25 @@ Are you sure it is empty?</source>
         <source>HTML 5</source>
         <comment>Device database type</comment>
         <translation>HTML 5</translation>
+    </message>
+</context>
+<context>
+    <name>cModelList</name>
+    <message>
+        <source>Project title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project album</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project author</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project comment</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

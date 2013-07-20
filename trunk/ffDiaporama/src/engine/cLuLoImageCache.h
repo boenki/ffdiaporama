@@ -72,13 +72,13 @@ public:
 class cLuLoImageCache {
 public:
     QList<cLuLoImageCacheObject *>  List;           // Fifo list
-    qlonglong                       MaxValue;       // Max memory used
+    int64_t                       MaxValue;       // Max memory used
 
     cLuLoImageCache();
     ~cLuLoImageCache();
 
     void                    FreeMemoryToMaxValue();
-    qlonglong               MemoryUsed();
+    int64_t               MemoryUsed();
 
     // Find image object corresponding to FileName and filter
     cLuLoImageCacheObject   *FindObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop);

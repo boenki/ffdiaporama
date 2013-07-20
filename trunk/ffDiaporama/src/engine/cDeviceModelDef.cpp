@@ -576,7 +576,7 @@ bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,LoadConfigFi
     if (!FileName.endsWith(QDir::separator())) FileName=FileName+QDir::separator();
     FileName=FileName+CONFIGFILENAME+"."+QFileInfo(ConfigFileName).suffix();
 
-    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Read configuration file")+" "+FileName);
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Read configuration file")+" "+AdjustDirForOS(FileName));
 
     QFile           file(FileName);
     QDomDocument    domDocument;
@@ -586,19 +586,19 @@ bool cDeviceModelList::LoadConfigurationFile(QString ConfigFileName,LoadConfigFi
     bool            IsOk=true;
 
     if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        ToLog(LOGMSG_WARNING,QApplication::translate("MainWindow","Error reading configuration file","Error message")+" "+FileName);
+        ToLog(LOGMSG_WARNING,QApplication::translate("MainWindow","Error reading configuration file","Error message")+" "+AdjustDirForOS(FileName));
         IsOk=false;
     }
 
     if (IsOk && (!domDocument.setContent(&file,true,&errorStr,&errorLine,&errorColumn))) {
-        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+FileName);
+        ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading content of configuration file","Error message")+" "+AdjustDirForOS(FileName));
         IsOk=false;
     }
 
     if (IsOk) {
         root = domDocument.documentElement();
         if (root.tagName()!=CONFIGROOTNAME) {
-            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")+" "+FileName);
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","The file is not a valid configuration file","Error message")+" "+AdjustDirForOS(FileName));
             IsOk=false;
         }
     }

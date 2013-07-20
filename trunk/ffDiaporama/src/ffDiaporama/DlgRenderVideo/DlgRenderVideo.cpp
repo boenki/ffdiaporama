@@ -123,6 +123,8 @@ void DlgRenderVideo::DoInitDialog() {
     ui->IncludeSoundCB->setChecked(true);
     connect(ui->IncludeSoundCB,SIGNAL(clicked()),this,SLOT(s_IncludeSound()));
 
+    ui->ExportThumbCB->setChecked(Diaporama->ApplicationConfig->DefaultExportThumbnail);
+
     if (ExportMode==EXPORTMODE_ADVANCED) {
 
         ui->DeviceTypeLabel->setVisible(false);
@@ -990,6 +992,18 @@ bool DlgRenderVideo::DoAccept() {
             Continue=Continue && Encoder.DoEncode();
             Encoder.CloseEncoder();
 
+        }
+
+        if ((Continue)&&(ui->ExportThumbCB->isChecked())) {
+            QString              ThumbFileName      =OutputFileName.left(OutputFileName.lastIndexOf("."))+".jpg";
+            cDiaporamaObjectInfo *Frame=            new cDiaporamaObjectInfo(NULL,0,Diaporama,1,false);
+            Frame->CurrentObject                    =Diaporama->ProjectThumbnail;
+            Frame->CurrentObject_CurrentShot        =Diaporama->ProjectThumbnail->List[0];
+            Frame->CurrentObject_BackgroundBrush    =new QBrush(Qt::black,Qt::SolidPattern);
+            Frame->CurrentObject_FreeBackgroundBrush=true;
+            Diaporama->PrepareImage(Frame,THUMBWITH,THUMBHEIGHT,true,false,false);
+            Frame->CurrentObject_PreparedImage->save(ThumbFileName,0,100);
+            delete Frame;
         }
 
         // Inform user of success

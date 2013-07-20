@@ -66,10 +66,10 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     TempPainter.fillRect(QRectF(0,0,Width,Height),Transparent);
 
     // Calc start position of this shot
-    qlonglong Position=0; for (int i=1;i<=index.column();i++) Position=Position+ParentTable->DiaporamaObject->List[i-1]->StaticDuration;
+    int64_t Position=0; for (int i=1;i<=index.column();i++) Position=Position+ParentTable->DiaporamaObject->List[i-1]->StaticDuration;
 
     // Calc duration of this shot
-    qlonglong Duration=ParentTable->DiaporamaObject->List[index.column()]->StaticDuration;
+    int64_t Duration=ParentTable->DiaporamaObject->List[index.column()]->StaticDuration;
 
     // Define display color of duration (Red only if shot is the last and Position+Duration < DiaporamaObject's duration
     bool RedColor=((index.column()==ParentTable->DiaporamaObject->List.count()-1)&&(Position+Duration<ParentTable->DiaporamaObject->GetDuration()));

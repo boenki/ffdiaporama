@@ -840,7 +840,7 @@ QString QCustomFolderTable::BrowseToUpperPath() {
 
 void QCustomFolderTable::FillListFolder(QString Path) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::FillListFolder");
-    ToLog(LOGMSG_INFORMATION,QApplication::translate("QCustomFolderTable","Reading directory content (%1)").arg(Path));
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("QCustomFolderTable","Reading directory content (%1)").arg(AdjustDirForOS(Path)));
 
     if ((BrowsePathList.count()==0)||(BrowsePathList[BrowsePathList.count()-1]!=Path)) BrowsePathList.append(Path);
     while (BrowsePathList.count()>20) BrowsePathList.removeFirst(); // Not more than 20 path in the history !

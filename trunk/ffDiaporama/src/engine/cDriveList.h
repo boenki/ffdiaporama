@@ -37,9 +37,9 @@ class cDriveDesc {
 public:
     QString     Path;
     QString     Label;
-    qlonglong   Size;
-    qlonglong   Used;
-    qlonglong   Avail;
+    int64_t     Size;
+    int64_t     Used;
+    int64_t     Avail;
     QImage      IconDrive;
     QString     Device;         // Linux only : associated device path (/dev/...)
     bool        IsReadOnly;
@@ -65,5 +65,7 @@ private:
 };
 
 extern QString PersonalFolder;
+extern QString ClipArtFolder,CAF;
+extern QString ModelFolder,MFD;
 
 #endif // cDriveList_H

@@ -45,7 +45,7 @@ cTextFrameObject::cTextFrameObject(QString RessourceName,double TMx,double TMy,d
         Painter.setCompositionMode(QPainter::CompositionMode_Source);
         Painter.fillRect(QRect(0,0,ICONSIZE,ICONSIZE),Qt::transparent);
         Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-        SVGImg.render(&Painter);
+        SVGImg.render(&Painter,QRectF(0,0,ICONSIZE,ICONSIZE));
         Painter.end();
         Isvalide=true;
     }

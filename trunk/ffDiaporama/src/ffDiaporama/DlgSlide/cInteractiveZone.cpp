@@ -36,6 +36,13 @@
 
 #define MINVALUE                    0.002       // Never less than this value for width or height
 
+SortBlock MakeSortBlock(int Index,qreal Position) {
+    SortBlock SB;
+    SB.Index=Index;
+    SB.Position=Position;
+    return SB;
+}
+
 //====================================================================================================================
 
 cInteractiveZone::cInteractiveZone(QWidget *parent):QWidget(parent) {
@@ -60,6 +67,7 @@ cInteractiveZone::cInteractiveZone(QWidget *parent):QWidget(parent) {
     Move_Y          =0;
     Scale_X         =0;
     Scale_Y         =0;
+    CurrentShotNbr  =0;
     DisplayMode     =DisplayMode_BlockShape;
 }
 
@@ -113,18 +121,6 @@ QRectF cInteractiveZone::ApplyModifAndScaleFactors(int Block,QRectF Ref,bool App
     QPolygonF PolU(Pol.at(0));
     for (int i=1;i<Pol.count();i++) PolU=PolU.united(Pol.at(i));
     QRectF tmpRect=PolU.boundingRect();
-    /*if ((BlockTable->CompositionList->List[Block]->RotateXAxis!=0)||(BlockTable->CompositionList->List[Block]->RotateYAxis!=0)||(BlockTable->CompositionList->List[Block]->RotateZAxis!=0)) {
-        QPointF      Center=tmpRect.center();
-        QPainterPath Path;
-        QTransform   Matrix;
-        PolU.translate(-Center.x(),-Center.y());
-        Matrix.rotate(BlockTable->CompositionList->List[Block]->RotateXAxis,Qt::XAxis);
-        Matrix.rotate(BlockTable->CompositionList->List[Block]->RotateYAxis,Qt::YAxis);
-        Matrix.rotate(BlockTable->CompositionList->List[Block]->RotateZAxis,Qt::ZAxis);
-        Path.addPolygon(PolU);
-        tmpRect=Path.toFillPolygon(Matrix).boundingRect();
-        tmpRect.translate(Center);
-    }*/
 
     qreal  Decal_X      =(tmpRect.left()-NewX*Ref.width())/Ref.width();
     qreal  Decal_Y      =(tmpRect.top()-NewY*Ref.height())/Ref.height();
@@ -161,19 +157,15 @@ void cInteractiveZone::RefreshDisplay() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cInteractiveZone::RefreshDisplay");
     if ((!BlockTable)||(!BlockTable->CompositionList)) return;
 
-    double SW,SH;
-    GetForDisplayUnit(SW,SH);
-    ScreenRect=QRectF(0,0,SW,SH);
+    ScreenRect=QRectF(0,0,DisplayW,DisplayH);
 
     if (BlockTable->updatesEnabled()) {
         // Prepare BackgroundImage if not exist
         if (!BackgroundImage) {
             QPainter Painter;
-            double   xmax,ymax;
-            GetForDisplayUnit(xmax,ymax);
-            BackgroundImage=new QImage(xmax,ymax,QImage::Format_ARGB32_Premultiplied);
+            BackgroundImage=new QImage(DisplayW,DisplayH,QImage::Format_ARGB32_Premultiplied);
             Painter.begin(BackgroundImage);
-            DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),xmax,ymax,&Painter,0,0);
+            DiaporamaObject->Parent->PrepareBackground(DiaporamaObject->Parent->GetObjectIndex(DiaporamaObject),DisplayW,DisplayH,&Painter,0,0);
             Painter.end();
         }
 
@@ -209,7 +201,7 @@ void cInteractiveZone::RefreshDisplay() {
             } else StartVideoPos=0;
 
             QRectF NewRect=ApplyModifAndScaleFactors(i,SceneRect,false);
-            BlockTable->CompositionList->List[i]->DrawCompositionObject(&P,double(ForegroundImage->height())/double(1080),ForegroundImage->width(),ForegroundImage->height(),true,StartVideoPos,
+            BlockTable->CompositionList->List[i]->DrawCompositionObject(DiaporamaObject,&P,double(ForegroundImage->height())/double(1080),ForegroundImage->width(),ForegroundImage->height(),true,StartVideoPos,
                                                                         NULL,1,1,NULL,true,DiaporamaObject->List[CurrentShotNbr]->StaticDuration,false,
                                                                         (IsCapture)&&(TransfoType!=NOTYETDEFINED),NewRect.left()/SceneRect.width(),NewRect.top()/SceneRect.height(),NewRect.width()/SceneRect.width(),NewRect.height()/SceneRect.height(),
                                                                         (DisplayMode==DisplayMode_TextMargin)&&(BlockTable->CompositionList->List[i]->IsVisible)&&(IsSelected[i]));
@@ -246,19 +238,6 @@ void cInteractiveZone::paintEvent(QPaintEvent *) {
 
             QRectF FullRect     =QRectF(BlockTable->CompositionList->List[i]->x*ScreenRect.width(),BlockTable->CompositionList->List[i]->y*ScreenRect.height(),
                                         BlockTable->CompositionList->List[i]->w*ScreenRect.width(),BlockTable->CompositionList->List[i]->h*ScreenRect.height());
-
-            /*if ((BlockTable->CompositionList->List[i]->RotateXAxis!=0)||(BlockTable->CompositionList->List[i]->RotateYAxis!=0)||(BlockTable->CompositionList->List[i]->RotateZAxis!=0)) {
-                QPointF      Center=FullRect.center();
-                QPainterPath Path;
-                QTransform   Matrix;
-                FullRect.translate(-Center.x(),-Center.y());
-                Matrix.rotate(BlockTable->CompositionList->List[i]->RotateXAxis,Qt::XAxis);
-                Matrix.rotate(BlockTable->CompositionList->List[i]->RotateYAxis,Qt::YAxis);
-                Matrix.rotate(BlockTable->CompositionList->List[i]->RotateZAxis,Qt::ZAxis);
-                Path.addRect(FullRect);
-                FullRect=Path.toFillPolygon(Matrix).boundingRect();
-                FullRect.translate(Center);
-            }*/
 
             QRectF NewRect      =ApplyModifAndScaleFactors(i,SceneRect,true);
             QRectF NewRectScreen=ApplyModifAndScaleFactors(i,ScreenRect,true);

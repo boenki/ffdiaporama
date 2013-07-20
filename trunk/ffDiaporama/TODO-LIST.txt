@@ -41,7 +41,9 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
                         Pour le moment, j'ai réduit la qualité des thumbnails quand plus de 100 images (division par 4)
                         C'est une solution provisoire car l'idéal est de décharger la mémoire si nécessaire et recharger les thumbnails au besoin
 
-dlgmanagefavorite et dlgfileexplorer à finir !
+    dlgmanagefavorite et dlgfileexplorer à finir !
+    Pb de dédoublonnage des fichiers récents
+    Pb sur repertoire d'export par défaut sur Linux
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
@@ -59,16 +61,71 @@ switch version to
 French version / Correction de bug :
 -Corrige le problème de relecture des valeurs numériques avec chiffres après la virgule dans les fichiers .xml
  (problème de , au lieu de . lors des transferts de fichier .ffd d'une machine à une autre en fonction des paramètres internationnaux)
+-Corrige les problèmes Exiv2 sous Windows avec QT5
+-Corrige les problèmes de "tab order" dans la boite de dialogue de propriété du projet
+-Corrige les problèmes de mémoire sous Windows/64 bits avec QT 5 (Autorise jusqu'à 2Go de mémoire cache au lieu de seulement 512Ko)
+-Corrige les problèmes de son lors de la lecture de video avec ffmpeg 1.2 sous Windows avec QT5
+-Corrige les problèmes de son lors de la lecture de video avec QT 5 sous Windows dans la boite de dialogue video
+-Corrige l'affichage des chemins (path) sous Windows (affichage des logs et dans la boite de vérification de la configuration)
+-Corrige un bug dans la boite d'edition des diapositives (Le bouton ajouté fichier restait enfoncé lorsqu'il était clické)
+-Désactive les distributions horizontales et verticales quand le nombre d'objects selectionnés est <3
+-Corrige le nom de police pour le style de text par défaut afin qu'il s'affiche correctement dans la boite de dialogue d'édition texte sous Windows
+-Corrige une erreur dans le format des fichiers .ffd (l'arbre slot était sous l'arbre transition)
 
 English version / Bug fixes :
+-Fixed Exiv2 issues with Windows and QT5
+-Fixed issues in Project properties dialog : fix tab order
+-Fixed memory issues for Windows/64 bits and QT 5 (Allow up to 2Gb of cache memory instead of only 512Kb)
+-Fixed sound error reading video with ffmpeg 1.2 under Windows and QT5
+-Fixed sound error reading video with QT 5 under Windows when playback in video dialog
+-Fixed display path for Windows in some displays (logs and checkconfig dialog)
+-Fixed a bug in slide dialog (Add file button stay down when it was pressed)
+-Disable distribute horizontaly and verticaly actions when number of selected object <3
+-Fixed font name for default text style so font name is now correctly display in text dialog under Windows
+-Fixed a mistake in .ffd file format (slot tree was under transition tree)
 
 French version / Nouveautés :
 -Ajoute la prise en charge de QT5 (implique l'inclusion partielle de la librairie QImageBlitz dans le code source de ffDiaporama)
 -Ajoute une option dans la boite de configuration pour désactiver les tooltips
 -Place le bouton Quitter à droite de tous les onglets dans le menu
 -Modifie la boite A propos de... pour afficher les informations sous forme de texte et inclure les contributeurs dans le texte
+-Améliore la lecture des vidéos en mode prévisualisation (ignore les frames inutilisées)
+-Ajoute une option pour sélectionner le modele de vignette dans la boite d'édition des propriétés du projet et un bouton pour personnaliser la vignette
+-Crée une nouvelle boite de dialogue contenant un composeur d'image pour créer des modèles de vignettes de projet
+-Supprime les valeurs qui sont des valeurs par défaut dans les fichiers .ffd (reduction de la taille des fichiers)
+-Ajoute un premier jeux de variables <%variable%> utilisable en tant que texte
+-Ajoute une option dans la boite de dialogue d'options pour améliorer la compatibilité ID3v2. Par défaut, cette option n'est pas activée.
+ Si cette option n'est pas activée, les champs Titre, Album et Auteur des projets ffDiaporama sont limités à 200 caractères au lieu de 30 caractères.
+-Remplace la propriété Année par une date longue (limité à 200 caractères) et une date d'événement dans les propriétés du projet ffDiaporama.
+-Ajoute un Alias "clipart" dans l'explorateur de fichier multimédia.
+ Cet alias apparait comme premier "disque" dans l'arbre des répertoires et pointe vers un nouveau sous répertoire clipart de ffdiaporama et préremplie ce répertoire avec quelques éléments
+-Ajoute les options suivantes dans la boite d'option
+ -Sélection du format des dates courte
+ -Sélection du modèle de vignette à appliquer par défaut aux nouveaux projet
+ -Activation ou non par défaut de la génération des vignettes lors des générations de vidéos
+-Ajoute une option pour activer la génération de la vignette dans la boite de génération des vidéos
+-Ajoute un bouton dans la boite texte proposant la liste des variables de textes disponibles
 
 English version / New features :
+-Adds support to QT5 (involves the partial inclusion of qimageblitz library in the source code of ffDiaporama)
+-Adds an option in the configuration dialog box to disable tooltips
+-Place the Exit button to the right of all tabs in the menu
+-Changes the About box ... to display the information as text and include contributors in the text
+-Enhanced video playback in preview mode (ignore unneeded frame)
+-Adds an option to select the model of thumbnail in the project properties dialog and add a button to customize the thumbnail
+-Creates a new dialog box containing an image composer to create models of thumbnails project
+-Removed value that are default value in .ffd file (reduce file size)
+-Added a first set of variable like <%variable%> usable with text
+-Add an option in Option dialog to enhance id3v2 compatibility. Defaultly, this option is not set.
+ If this option is not set, Title, Album and Author field of ffDiaporama projects are limited to 200 characters instead of 30 characters.
+-Replace Year property with a long date (limited to 200 characters) and an event date fields to ffDiaporama project properties.
+-Adds Alias ​​"clipart" in the media file browser. This alias appears as the first "disk" in the directory tree and points to a new clipart folder under ffdiaporama and syringe this folder with some elements
+-Adds the following options in the option dialog
+  -Select short dates format
+  -Select thumbnail model to apply by default to new project
+  -Check or not thumbnail generation when generations of videos
+-Adds an option to enable the generation of the thumbnail in the render video dialog
+-Adds a button in the text dialog showing the list of available text variables
 
 Translation/Traductions (1373 sentences):
 EN    - 100% - 1373

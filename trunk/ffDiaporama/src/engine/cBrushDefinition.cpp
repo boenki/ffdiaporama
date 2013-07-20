@@ -23,6 +23,25 @@
 
 #include "_ImageFilters.h"
 
+#define DEFAULT_IMAGEROTATION   0
+#define DEFAULT_BRIGHTNESS      0
+#define DEFAULT_CONTRAST        0
+#define DEFAULT_GAMMA           1
+#define DEFAULT_RED             0
+#define DEFAULT_GREEN           0
+#define DEFAULT_BLUE            0
+#define DEFAULT_LOCKGEOMETRY    false
+#define DEFAULT_ASPECTRATIO     1
+#define DEFAULT_FULLFILLING     false
+#define DEFAULT_TYPEBLURSHARPEN 0
+#define DEFAULT_GBSSIGMA        0
+#define DEFAULT_GBSRADIUS       5
+#define DEFAULT_QBSSIGMA        0
+#define DEFAULT_DESAT           0
+#define DEFAULT_SWIRL           0
+#define DEFAULT_IMPLODE         0
+#define DEFAULT_ONOFFFILTER     0
+
 //============================================
 // Global static
 //============================================
@@ -211,27 +230,27 @@ cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,
     BackgroundList      =TheBackgroundList;
 
     // Image correction part
-    ImageRotation           =0;                             // Image rotation
+    ImageRotation           =DEFAULT_IMAGEROTATION;         // Image rotation
     X                       =0;                             // X position (in %) relative to up/left corner
     Y                       =0;                             // Y position (in %) relative to up/left corner
     ZoomFactor              =1;                             // Zoom factor (in %)
-    Brightness              =0;
-    Contrast                =0;
-    Gamma                   =1;
-    Red                     =0;
-    Green                   =0;
-    Blue                    =0;
-    LockGeometry            =false;
-    AspectRatio             =1;
-    FullFilling             =false;
-    GaussBlurSharpenSigma   =0;
-    BlurSharpenRadius       =5;
-    QuickBlurSharpenSigma   =0;
-    TypeBlurSharpen         =0; // 0=Quick, 1=Gaussian
-    Desat                   =0;
-    Swirl                   =0;
-    Implode                 =0;
-    OnOffFilter             =0;
+    Brightness              =DEFAULT_BRIGHTNESS;
+    Contrast                =DEFAULT_CONTRAST;
+    Gamma                   =DEFAULT_GAMMA;
+    Red                     =DEFAULT_RED;
+    Green                   =DEFAULT_GREEN;
+    Blue                    =DEFAULT_BLUE;
+    LockGeometry            =DEFAULT_LOCKGEOMETRY;
+    AspectRatio             =DEFAULT_ASPECTRATIO;
+    FullFilling             =DEFAULT_FULLFILLING;
+    GaussBlurSharpenSigma   =DEFAULT_GBSSIGMA;
+    BlurSharpenRadius       =DEFAULT_GBSRADIUS;
+    QuickBlurSharpenSigma   =DEFAULT_QBSSIGMA;
+    TypeBlurSharpen         =DEFAULT_TYPEBLURSHARPEN; // 0=Quick, 1=Gaussian
+    Desat                   =DEFAULT_DESAT;
+    Swirl                   =DEFAULT_SWIRL;
+    Implode                 =DEFAULT_IMPLODE;
+    OnOffFilter             =DEFAULT_ONOFFFILTER;
     ImageSpeedWave          =SPEEDWAVE_PROJECTDEFAULT;
 }
 
@@ -426,7 +445,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 // Prepare values from sourceimage size
                 qreal    RealImageW=RenderImage->width();
                 qreal    RealImageH=RenderImage->height();
-                qreal    Hyp       =round(sqrt(RealImageW*RealImageW+RealImageH*RealImageH));
+                qreal    Hyp       =floor(sqrt(RealImageW*RealImageW+RealImageH*RealImageH));
                 qreal    HypPixel  =Hyp*TheZoomFactor;
 
                 // Expand canvas
@@ -475,7 +494,9 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 Painter.setCompositionMode(QPainter::CompositionMode_Source);
                 Painter.fillRect(QRect(0,0,Rect.width(),Rect.height()),Qt::transparent);
                 Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
-                Image->VectorImage->render(&Painter);
+                Painter.setClipping(true);
+                Painter.setClipRect(QRect(0,0,Rect.width(),Rect.height()));
+                Image->VectorImage->render(&Painter,QRectF(0,0,Rect.width(),Rect.height()));
                 Painter.end();
                 Ret=new QBrush(Img);
             }
@@ -613,12 +634,18 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     QString         BrushFileName=(Image?Image->FileName:Video?Video->FileName:"");
+    QString         BFN;
 
-    if ((PathForRelativPath!="")&&((Image?Image->FileName:Video?Video->FileName:"")!="")) {
-        if (ForceAbsolutPath)
-            BrushFileName=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).absoluteFilePath(BrushFileName));
-        else
-            BrushFileName=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).relativeFilePath(BrushFileName));
+    if (BrushFileName.startsWith(ClipArtFolder))    BFN="<%CLIPARTFOLDER%>"+BrushFileName.mid(ClipArtFolder.length());
+    else if (BrushFileName.startsWith(ModelFolder)) BFN="<%MODELFOLDER%>"  +BrushFileName.mid(ModelFolder.length());
+    else {
+        BFN=BrushFileName;
+        if ((PathForRelativPath!="")&&(BFN!="")) {
+            if (ForceAbsolutPath)
+                BFN=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).absoluteFilePath(BFN));
+            else
+                BFN=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).relativeFilePath(BFN));
+        }
     }
     // Attribut of the object
     Element.setAttribute("TypeComposition",TypeComposition);
@@ -643,7 +670,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
         case BRUSHTYPE_IMAGEDISK :
             if (Video!=NULL) {
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
-                    Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
+                    Element.setAttribute("BrushFileName",BFN);                                              // File name if image from disk
                     Element.setAttribute("StartPos",Video->StartPos.toString("HH:mm:ss.zzz"));              // Start position (video only)
                     Element.setAttribute("EndPos",Video->EndPos.toString("HH:mm:ss.zzz"));                  // End position (video only)
                 } else {
@@ -652,7 +679,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
                 }
             } else if (Image!=NULL) {
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
-                    Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
+                    Element.setAttribute("BrushFileName",BFN);                                              // File name if image from disk
                     Element.setAttribute("ImageOrientation",Image->ImageOrientation);
                 }
             }
@@ -664,25 +691,25 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     CorrectElement.setAttribute("X",                    X);                 // X position (in %) relative to up/left corner
     CorrectElement.setAttribute("Y",                    Y);                 // Y position (in %) relative to up/left corner
     CorrectElement.setAttribute("ZoomFactor",           ZoomFactor);        // Zoom factor (in %)
-    CorrectElement.setAttribute("ImageRotation",        ImageRotation);     // Image rotation (in °)
-    CorrectElement.setAttribute("Brightness",           Brightness);
-    CorrectElement.setAttribute("Contrast",             Contrast);
-    CorrectElement.setAttribute("Gamma",                Gamma);
-    CorrectElement.setAttribute("Red",                  Red);
-    CorrectElement.setAttribute("Green",                Green);
-    CorrectElement.setAttribute("Blue",                 Blue);
-    CorrectElement.setAttribute("LockGeometry",         LockGeometry?1:0);
-    CorrectElement.setAttribute("AspectRatio",          AspectRatio);
-    CorrectElement.setAttribute("FullFilling",          FullFilling?1:0);
-    CorrectElement.setAttribute("TypeBlurSharpen",      TypeBlurSharpen);
-    CorrectElement.setAttribute("GaussBlurSharpenSigma",GaussBlurSharpenSigma);
-    CorrectElement.setAttribute("BlurSharpenRadius",    BlurSharpenRadius);
-    CorrectElement.setAttribute("QuickBlurSharpenSigma",QuickBlurSharpenSigma);
-    CorrectElement.setAttribute("Desat",                Desat);
-    CorrectElement.setAttribute("Swirl",                Swirl);
-    CorrectElement.setAttribute("Implode",              Implode);
-    CorrectElement.setAttribute("OnOffFilter",          OnOffFilter);
-    CorrectElement.setAttribute("ImageSpeedWave",       ImageSpeedWave);
+    if (ImageRotation!=DEFAULT_IMAGEROTATION)       CorrectElement.setAttribute("ImageRotation",        ImageRotation);     // Image rotation (in °)
+    if (Brightness!=DEFAULT_BRIGHTNESS)             CorrectElement.setAttribute("Brightness",           Brightness);
+    if (Contrast!=DEFAULT_CONTRAST)                 CorrectElement.setAttribute("Contrast",             Contrast);
+    if (Gamma!=DEFAULT_GAMMA)                       CorrectElement.setAttribute("Gamma",                Gamma);
+    if (Red!=DEFAULT_RED)                           CorrectElement.setAttribute("Red",                  Red);
+    if (Green!=DEFAULT_GREEN)                       CorrectElement.setAttribute("Green",                Green);
+    if (Blue!=DEFAULT_BLUE)                         CorrectElement.setAttribute("Blue",                 Blue);
+    if (LockGeometry!=DEFAULT_LOCKGEOMETRY)         CorrectElement.setAttribute("LockGeometry",         LockGeometry?1:0);
+    if (AspectRatio!=DEFAULT_ASPECTRATIO)           CorrectElement.setAttribute("AspectRatio",          AspectRatio);
+    if (FullFilling!=DEFAULT_FULLFILLING)           CorrectElement.setAttribute("FullFilling",          FullFilling?1:0);
+    if (TypeBlurSharpen!=DEFAULT_TYPEBLURSHARPEN)   CorrectElement.setAttribute("TypeBlurSharpen",      TypeBlurSharpen);
+    if (GaussBlurSharpenSigma!=DEFAULT_GBSSIGMA)    CorrectElement.setAttribute("GaussBlurSharpenSigma",GaussBlurSharpenSigma);
+    if (BlurSharpenRadius!=DEFAULT_GBSRADIUS)       CorrectElement.setAttribute("BlurSharpenRadius",    BlurSharpenRadius);
+    if (QuickBlurSharpenSigma!=DEFAULT_QBSSIGMA)    CorrectElement.setAttribute("QuickBlurSharpenSigma",QuickBlurSharpenSigma);
+    if (Desat!=DEFAULT_DESAT)                       CorrectElement.setAttribute("Desat",                Desat);
+    if (Swirl!=DEFAULT_SWIRL)                       CorrectElement.setAttribute("Swirl",                Swirl);
+    if (Implode!=DEFAULT_IMPLODE)                   CorrectElement.setAttribute("Implode",              Implode);
+    if (OnOffFilter!=DEFAULT_ONOFFFILTER)           CorrectElement.setAttribute("OnOffFilter",          OnOffFilter);
+    if (ImageSpeedWave!=SPEEDWAVE_PROJECTDEFAULT)   CorrectElement.setAttribute("ImageSpeedWave",       ImageSpeedWave);
     Element.appendChild(CorrectElement);
 
     domDocument.appendChild(Element);
@@ -720,9 +747,9 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             case BRUSHTYPE_IMAGEDISK :
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {
                     QString BrushFileName=Element.attribute("BrushFileName");                       // File name if image from disk
-                    if ((PathForRelativPath!="")&&(BrushFileName!=""))
-                        BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
-
+                    BrushFileName=BrushFileName.replace("<%CLIPARTFOLDER%>",CAF);
+                    BrushFileName=BrushFileName.replace("<%MODELFOLDER%>",MFD);
+                    if ((PathForRelativPath!="")&&(BrushFileName!="")) BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
                     bool IsValide=false;
                     QString Extension=QFileInfo(BrushFileName).suffix().toLower();
                     for (int i=0;i<ApplicationConfig->AllowImageExtension.count();i++) if (ApplicationConfig->AllowImageExtension[i]==Extension) {

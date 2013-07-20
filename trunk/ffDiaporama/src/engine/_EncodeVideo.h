@@ -43,7 +43,7 @@ public:
     // Container parameters & buffers
     QString             OutputFileName;
     int                 FromSlide,ToSlide;
-    qlonglong           NbrFrame;                       // Number of frame to generate
+    int64_t           NbrFrame;                       // Number of frame to generate
     AVFormatContext     *Container;
 
     // Video parameters & buffers
@@ -108,7 +108,7 @@ public:
 
 private:
     void            InitDisplay();
-    void            DisplayProgress(qlonglong RenderedFrame,qlonglong Position,int Column,int ColumnStart);
+    void            DisplayProgress(int64_t RenderedFrame,int64_t Position,int Column,int ColumnStart);
 
     int             getThreadFlags(CodecID codecId);
     bool            AddStream(AVStream **Stream,AVCodec **codec,const char *CodecName,AVMediaType Type);

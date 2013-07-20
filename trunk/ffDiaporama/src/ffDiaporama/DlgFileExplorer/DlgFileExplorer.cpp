@@ -185,14 +185,14 @@ void DlgFileExplorer::DoBrowserRefreshFolderInfo() {
         // If scan is finished
         } else {
             // Ensure Used and Size fit in an _int32 value for QProgressBar
-            qlonglong Used=HDD->Used,Size=HDD->Size;
+            int64_t Used=HDD->Used,Size=HDD->Size;
             while (Used>1024*1024) { Used=Used/1024; Size=Size/1024; }
             ui->FolderPgr->setMaximum(Size);
             ui->FolderPgr->setValue(Used);
             ui->FolderPgr->setFormat(GetTextSize(HDD->Used)+"/"+GetTextSize(HDD->Size));
             ui->FolderPgr->setAlignment(Qt::AlignHCenter);
 
-            qlonglong   duration=ui->FolderTable->CurrentShowDuration;
+            int64_t   duration=ui->FolderTable->CurrentShowDuration;
             int         msec =duration % 1000;          duration=duration/1000;
             int         sec  =duration % 60;            duration=duration/60;
             int         mn   =duration % 60;            duration=duration/60;
@@ -254,8 +254,8 @@ void DlgFileExplorer::DoBrowserRefreshSelectedFileInfo() {
         bool    IsFind;
         QStringList FileExtensions;
         QList<int>  ObjectTypes;
-        qlonglong   TotalDuration=0;
-        qlonglong   TotalSize    =0;
+        int64_t   TotalDuration=0;
+        int64_t   TotalSize    =0;
 
         for (int i=0;i<MediaList.count();i++) {
             IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j])       IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
