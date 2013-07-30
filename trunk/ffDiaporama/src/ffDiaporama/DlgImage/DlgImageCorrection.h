@@ -34,7 +34,7 @@ Q_OBJECT
 public:
     cBrushDefinition        *CurrentBrush;
     cCompositionObject      *CompoObject;
-    int                     ffDPrjGeometry;                 // Project image geometry define in ffDiaporama project
+    ffd_GEOMETRY            ffDPrjGeometry;                 // Project image geometry define in ffDiaporama project
     bool                    UndoReloadImage;                // True if image change and undo must reload it
     QString                 UndoBrushFileName;              // Name of previous file is undo
     bool                    FLAGSTOPED;                     // Flag to stop spin box during settings
@@ -48,7 +48,7 @@ public:
     bool                    StopMaj;
     int                     DefaultSpeedWave;
 
-    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int *BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,int ImageGeometry,int DefaultSpeedWave,
+    explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int *BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,ffd_GEOMETRY TheProjectGeometry,int DefaultSpeedWave,
                                 cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
     ~DlgImageCorrection();
 

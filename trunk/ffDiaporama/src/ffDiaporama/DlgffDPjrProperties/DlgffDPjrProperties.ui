@@ -636,15 +636,36 @@ This option sets the value of the velocity curves for use whenever the correspon
               </widget>
              </item>
              <item>
-              <widget class="QPushButton" name="EditThumbBT">
-               <property name="text">
-                <string notr="true">Edit this custom model</string>
+              <layout class="QVBoxLayout" name="verticalLayout_4">
+               <property name="spacing">
+                <number>0</number>
                </property>
-               <property name="icon">
-                <iconset resource="../../../RSCffDiaporama.qrc">
-                 <normaloff>:/img/action_edit.png</normaloff>:/img/action_edit.png</iconset>
-               </property>
-              </widget>
+               <item>
+                <widget class="QPushButton" name="AdminEditThumbBT">
+                 <property name="text">
+                  <string notr="true">Edit this custom model</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../../../RSCffDiaporama.qrc">
+                   <normaloff>:/img/action_edit.png</normaloff>:/img/action_edit.png</iconset>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="EditThumbBT">
+                 <property name="toolTip">
+                  <string>Customize the thumbnail only for this project (without creating a new thumbnail model)</string>
+                 </property>
+                 <property name="text">
+                  <string>Customize</string>
+                 </property>
+                 <property name="icon">
+                  <iconset resource="../../../RSCffDiaporama.qrc">
+                   <normaloff>:/img/action_edit.png</normaloff>:/img/action_edit.png</iconset>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
               <spacer name="horizontalSpacer_2">
@@ -673,6 +694,12 @@ This option sets the value of the velocity curves for use whenever the correspon
            </item>
            <item row="4" column="0" colspan="2">
             <widget class="QLabel" name="label_47">
+             <property name="minimumSize">
+              <size>
+               <width>0</width>
+               <height>30</height>
+              </size>
+             </property>
              <property name="font">
               <font>
                <weight>75</weight>

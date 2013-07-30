@@ -69,7 +69,7 @@ enum UNDOACTION_ID {
 };
 
 DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *TheBackgroundForm,cBrushDefinition *TheCurrentBrush,
-                                       int TheVideoPosition,int TheImageGeometry,int TheDefaultSpeedWave,
+                                       int TheVideoPosition,ffd_GEOMETRY TheProjectGeometry,int TheDefaultSpeedWave,
                                        cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
                                        QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgImageCorrection) {
 
@@ -85,7 +85,7 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *T
     FLAGSTOPED      =false;
     FLAGSTOPSPIN    =false;
     StopMaj         =false;
-    ffDPrjGeometry  =TheImageGeometry;
+    ffDPrjGeometry  =TheProjectGeometry;
     CurrentBrush    =TheCurrentBrush;
     CompoObject     =TheCompoObject;
     BackgroundForm  =TheBackgroundForm;
@@ -131,9 +131,10 @@ void DlgImageCorrection::DoInitDialog() {
     setWindowTitle(!IsVideo?ffDText(ffDSection_DlgImageCorrection,0):ffDText(ffDSection_DlgImageCorrection,1));
 
     switch (ffDPrjGeometry) {
-        case GEOMETRY_4_3   : ProjectGeometry=double(1440)/double(1920);  break;
-        case GEOMETRY_16_9  : ProjectGeometry=double(1080)/double(1920);  break;
-        case GEOMETRY_40_17 : ProjectGeometry=double(816)/double(1920);   break;
+        case GEOMETRY_4_3:      ProjectGeometry=double(1440)/double(1920);  break;
+        case GEOMETRY_40_17:    ProjectGeometry=double(816)/double(1920);   break;
+        case GEOMETRY_16_9:
+        default:                ProjectGeometry=double(1080)/double(1920);  break;
 
     }
     ProjectGeometry=GetDoubleValue(QString("%1").arg(ProjectGeometry,0,'e'));  // Rounded to same number as style managment

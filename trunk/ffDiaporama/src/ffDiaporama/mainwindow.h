@@ -145,6 +145,8 @@ private slots:
     // Actions Project menu
     void    s_Action_AddFile();
     void    s_Action_AddTitle();
+    void    s_Action_DoAddEmptyTitle();
+    void    s_Action_AddAutoTitleSlide();
     void    s_Action_AddProject();
     void    s_Action_DoAddFile();
     void    s_Action_DoAppendFile();

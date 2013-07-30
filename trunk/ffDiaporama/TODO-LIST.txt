@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.7 - Trunk
 *
-* Dernier commit le : 16/06/2013
+* Dernier commit le : 20/07/2013
 **************************************************
 
 TODO :
@@ -43,8 +43,7 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
 
     dlgmanagefavorite et dlgfileexplorer à finir !
     Pb de dédoublonnage des fichiers récents
-    Pb sur repertoire d'export par défaut sur Linux
-
+    "Closing credits"
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
 NF  : New Feature
@@ -59,73 +58,42 @@ switch version to
     ffmpeg 1.2.0 for Windows
 
 French version / Correction de bug :
--Corrige le problème de relecture des valeurs numériques avec chiffres après la virgule dans les fichiers .xml
- (problème de , au lieu de . lors des transferts de fichier .ffd d'une machine à une autre en fonction des paramètres internationnaux)
--Corrige les problèmes Exiv2 sous Windows avec QT5
--Corrige les problèmes de "tab order" dans la boite de dialogue de propriété du projet
--Corrige les problèmes de mémoire sous Windows/64 bits avec QT 5 (Autorise jusqu'à 2Go de mémoire cache au lieu de seulement 512Ko)
--Corrige les problèmes de son lors de la lecture de video avec ffmpeg 1.2 sous Windows avec QT5
--Corrige les problèmes de son lors de la lecture de video avec QT 5 sous Windows dans la boite de dialogue video
--Corrige l'affichage des chemins (path) sous Windows (affichage des logs et dans la boite de vérification de la configuration)
--Corrige un bug dans la boite d'edition des diapositives (Le bouton ajouté fichier restait enfoncé lorsqu'il était clické)
--Désactive les distributions horizontales et verticales quand le nombre d'objects selectionnés est <3
--Corrige le nom de police pour le style de text par défaut afin qu'il s'affiche correctement dans la boite de dialogue d'édition texte sous Windows
--Corrige une erreur dans le format des fichiers .ffd (l'arbre slot était sous l'arbre transition)
+-Corrige le bug d'absence de menu contextuel lors d'un click droit sur la table des blocs [boite d'édition des diapo]
+-Corrige le bug sur les undo (regression introduite lors de la compression des fichiers .ffd)
+-Utilise le répertoire de l'utilisateur au lieu de / comme répertoires par défaut sur Linux
+-Corrige les erreurs de compilation avec ffmpeg 2.0
 
 English version / Bug fixes :
--Fixed Exiv2 issues with Windows and QT5
--Fixed issues in Project properties dialog : fix tab order
--Fixed memory issues for Windows/64 bits and QT 5 (Allow up to 2Gb of cache memory instead of only 512Kb)
--Fixed sound error reading video with ffmpeg 1.2 under Windows and QT5
--Fixed sound error reading video with QT 5 under Windows when playback in video dialog
--Fixed display path for Windows in some displays (logs and checkconfig dialog)
--Fixed a bug in slide dialog (Add file button stay down when it was pressed)
--Disable distribute horizontaly and verticaly actions when number of selected object <3
--Fixed font name for default text style so font name is now correctly display in text dialog under Windows
--Fixed a mistake in .ffd file format (slot tree was under transition tree)
+-Fix bug of no contextual menu when right click on table blocks [edit slide dialog]
+-Fix bug on undo action (regression introduce when adding .ffd file compression)
+-Use personnal folder instead of / as default folder under Linux
+-Fix compilation errors with ffmpeg 2.0
 
 French version / Nouveautés :
--Ajoute la prise en charge de QT5 (implique l'inclusion partielle de la librairie QImageBlitz dans le code source de ffDiaporama)
--Ajoute une option dans la boite de configuration pour désactiver les tooltips
--Place le bouton Quitter à droite de tous les onglets dans le menu
--Modifie la boite A propos de... pour afficher les informations sous forme de texte et inclure les contributeurs dans le texte
--Améliore la lecture des vidéos en mode prévisualisation (ignore les frames inutilisées)
--Ajoute une option pour sélectionner le modele de vignette dans la boite d'édition des propriétés du projet et un bouton pour personnaliser la vignette
--Crée une nouvelle boite de dialogue contenant un composeur d'image pour créer des modèles de vignettes de projet
--Supprime les valeurs qui sont des valeurs par défaut dans les fichiers .ffd (reduction de la taille des fichiers)
--Ajoute un premier jeux de variables <%variable%> utilisable en tant que texte
--Ajoute une option dans la boite de dialogue d'options pour améliorer la compatibilité ID3v2. Par défaut, cette option n'est pas activée.
- Si cette option n'est pas activée, les champs Titre, Album et Auteur des projets ffDiaporama sont limités à 200 caractères au lieu de 30 caractères.
--Remplace la propriété Année par une date longue (limité à 200 caractères) et une date d'événement dans les propriétés du projet ffDiaporama.
--Ajoute un Alias "clipart" dans l'explorateur de fichier multimédia.
- Cet alias apparait comme premier "disque" dans l'arbre des répertoires et pointe vers un nouveau sous répertoire clipart de ffdiaporama et préremplie ce répertoire avec quelques éléments
--Ajoute les options suivantes dans la boite d'option
- -Sélection du format des dates courte
- -Sélection du modèle de vignette à appliquer par défaut aux nouveaux projet
- -Activation ou non par défaut de la génération des vignettes lors des générations de vidéos
--Ajoute une option pour activer la génération de la vignette dans la boite de génération des vidéos
--Ajoute un bouton dans la boite texte proposant la liste des variables de textes disponibles
+-Remplace la case à cochée "Démarre un nouveau chapitre" par un nouveau bouton "Chapitre" dans la barre de bouton [boite d'édition des diapo]
+-Ajoute une nouvelle boite de dialog de propriété du chapitre
+-Désactive la réduction de la qualité des vignettes lors du parcours de répertoire contenant de nombreux fichier sur Window-x64
+-Modifie le bouton "Ajouter titre" de la fenetre principale pour qu'il donne le choix entre Titre vide et Titre prédéfinie
+-Crée une nouvelle boite de dialog Ajout/Edition de Titre prédéfinie
+-Modifie la timeline pour que les diapositives de type Titre prédéfinie apparaissent avec un cadre vert et une icone Titre prédéfinie
+-Modifie la fonction d'édition de diapositive pour que quand il s'agit d'une diapositive de type Titre prédéfinie, ce soit la boite d'édition des Titre prédéfinie qui s'ouvre
+-Ajoute un bouton dans la boite de dialog de propriété du projet pour personnalisé la vignette sans créer de nouveau modele de vignette
+-Ajoute un bouton dans la boite de dialog d'édition des diapositives pour sauvegarder une diapo. en tant que modele de diapo
+-La première diapo ne marque plus obligatoire le démarrage d'un chapitre (si la 1ere diapo n'est pas un début de chapitre, un chapitre virtuel n°0 sera créé lors de la génération)
+-Ajoute un onblet dans la boite A propos de dans le cas ou l'extension ffDiaporama-Openclipart est présent
 
 English version / New features :
--Adds support to QT5 (involves the partial inclusion of qimageblitz library in the source code of ffDiaporama)
--Adds an option in the configuration dialog box to disable tooltips
--Place the Exit button to the right of all tabs in the menu
--Changes the About box ... to display the information as text and include contributors in the text
--Enhanced video playback in preview mode (ignore unneeded frame)
--Adds an option to select the model of thumbnail in the project properties dialog and add a button to customize the thumbnail
--Creates a new dialog box containing an image composer to create models of thumbnails project
--Removed value that are default value in .ffd file (reduce file size)
--Added a first set of variable like <%variable%> usable with text
--Add an option in Option dialog to enhance id3v2 compatibility. Defaultly, this option is not set.
- If this option is not set, Title, Album and Author field of ffDiaporama projects are limited to 200 characters instead of 30 characters.
--Replace Year property with a long date (limited to 200 characters) and an event date fields to ffDiaporama project properties.
--Adds Alias ​​"clipart" in the media file browser. This alias appears as the first "disk" in the directory tree and points to a new clipart folder under ffdiaporama and syringe this folder with some elements
--Adds the following options in the option dialog
-  -Select short dates format
-  -Select thumbnail model to apply by default to new project
-  -Check or not thumbnail generation when generations of videos
--Adds an option to enable the generation of the thumbnail in the render video dialog
--Adds a button in the text dialog showing the list of available text variables
+-Replace "Start new chapter" check box with a new button "Chapter" in the button bar [Slide edit dialog]
+-Add a new dialog box "Chapter properties"
+-Do not reduce thumbnails quality for huge folder on Window-x64
+-Modify the "Add title" buttun of the main window for it give choice between Empty slide au Predefined title slide
+-Create a new dialog for Add/Edit a Predefined title slide
+-Modify the timeline for Predefined title slide appears with a green frame and a Predefined title icon
+-Modify the Edit slide action for when it's a Predefined title slide it was the Predefined title slide edit dialog open instead of Edit slide dialog
+-Add a button in Project roperties dialog to customize thumbnail without create a new thumbnail model
+-Add a button in Slide edit dialog to save the slide as a model
+-The first slide no longer mandatory starting a chapter (if the first slide is not the beginning of a chapter, a virtual chapter No. 0 is created when rendering)
+-Add a tab in about dialog when ffDiaporama-Openclipart extension is installed
 
 Translation/Traductions (1373 sentences):
 EN    - 100% - 1373

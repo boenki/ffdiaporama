@@ -174,12 +174,15 @@ cCustomShotTable::cCustomShotTable(QWidget *parent):QTableWidget(parent) {
 
     setItemDelegate(new cShotTableItemDelegate(this));
     setRowCount(1);
+
+    setContextMenuPolicy(Qt::PreventContextMenu);
 }
 
 //====================================================================================================================
 
 void cCustomShotTable::mousePressEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomShotTable::mousePressEvent");
+
     QTableWidget::mousePressEvent(event);
     if ((IsDragOn==1)||(columnCount()==0)||(DiaporamaObject==NULL)) return;
     setCursor(Qt::ArrowCursor);

@@ -340,7 +340,7 @@ cDriveList::cDriveList(cBaseApplicationConfig *TheApplicationConfig) {
     #else
     PersonalFolder=QApplication::translate("QCustomFolderTree","Personal folder");
     #endif
-    ClipArtFolder=QDir::currentPath();
+    ClipArtFolder=AdjustDirForOS(QDir::currentPath());
     if (!ClipArtFolder.endsWith(QDir::separator())) ClipArtFolder=ClipArtFolder+QDir::separator();
     ModelFolder=ClipArtFolder;
     ClipArtFolder=ClipArtFolder+"clipart";

@@ -91,7 +91,7 @@ cBackgroundComboBox::cBackgroundComboBox(QWidget *parent):QComboBox(parent) {
 
 //========================================================================================================================
 
-void cBackgroundComboBox::PrepareTable(int ProjectGeometry,cBackgroundList *Table) {
+void cBackgroundComboBox::PrepareTable(ffd_GEOMETRY ProjectGeometry,cBackgroundList *Table) {
     BackgroundTable=Table;
     Geometry       =ProjectGeometry;
 

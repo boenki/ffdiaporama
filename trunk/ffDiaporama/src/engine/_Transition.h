@@ -102,7 +102,7 @@
         ~cLumaList();
 
         void    ScanDisk(QString Path,int TransitionFamilly);
-        void    SetGeometry(int Geometry);
+        void    SetGeometry(ffd_GEOMETRY Geometry);
     };
 
     // static global values

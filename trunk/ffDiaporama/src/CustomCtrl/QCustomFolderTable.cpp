@@ -867,6 +867,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     setRowCount(0);
 
     // Adjust given Path
+    if (Path.startsWith(QApplication::translate("QCustomFolderTree","Clipart"))) Path=ClipArtFolder+Path.mid(QApplication::translate("QCustomFolderTree","Clipart").length());
     #ifdef Q_OS_LINUX
     if (Path.startsWith("~")) Path=QDir::homePath()+Path.mid(1);
     #endif
@@ -1126,7 +1127,7 @@ void QCustomFolderTable::DoScanMediaList() {
             MediaList[ItemIndex]->IsIconNeeded=true;
             MediaList[ItemIndex]->GetFullInformationFromFile(); // Get full information
 
-            #if defined(Q_OS_WIN32) || defined(Q_OS_LINUX32)
+            #if (defined(Q_OS_WIN32) || defined(Q_OS_LINUX32)) && !defined(Q_OS_WIN64)
             // Reduce quality of thumbnails to reduce memory used when huge number of files in folder
             if ((MediaList.count()>=LOWQUALITYITEMNBR)&&
                 (!MediaList[ItemIndex]->Icon100.isNull())&&

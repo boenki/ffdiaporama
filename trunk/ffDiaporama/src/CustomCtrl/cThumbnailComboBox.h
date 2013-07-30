@@ -48,10 +48,10 @@ public:
     int                     CurrentSel;
     bool                    STOPMAJ;
     cThumbnailComboBoxItem  ItemDelegate;
-
+    cDiaporamaObject        *ProjectThumbnail;
 
     explicit            cThumbnailComboBox(QWidget *parent = 0);
-    void                PrepareTable(cModelList *Table);
+    void                PrepareTable(bool AllowCustomized,cModelList *Table);
     void                SetCurrentModel(QString ModelName);
     QString             GetCurrentModel();
     void                MakeIcons();

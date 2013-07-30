@@ -205,8 +205,15 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
     ConfigFileRootName      =TheConfigFileRootName;        // Name of root node in the config xml file
 
     // Drivelist and models will be init by mainwindow init process
-    DriveList       =NULL;
-    ThumbnailModels =NULL;
+    DriveList                   =NULL;
+    ThumbnailModels             =NULL;
+    ThumbnailModelsNextNumber   =0;
+
+    for (int geo=GEOMETRY_4_3;geo<=GEOMETRY_40_17;geo++) {
+        PrjTitleModelsNextNumber[geo]=0;    for (int Cat=0;Cat<MODELTYPE_PROJECTTITLE_CATNUMBER;Cat++)  PrjTitleModels[geo][Cat]=NULL;
+        CptTitleModelsNextNumber[geo]=0;    for (int Cat=0;Cat<MODELTYPE_CHAPTERTITLE_CATNUMBER;Cat++)  CptTitleModels[geo][Cat]=NULL;
+        CreditTitleModelsNextNumber[geo]=0; for (int Cat=0;Cat<MODELTYPE_CREDITTITLE_CATNUMBER;Cat++)   CreditTitleModels[geo][Cat]=NULL;
+    }
 
     if (ApplicationVersion.startsWith(ApplicationName)) ApplicationVersion.mid(ApplicationVersion.indexOf(ApplicationName)+ApplicationName.length()+1);
     if (ApplicationGroupName!=ApplicationName) ToLog(LOGMSG_INFORMATION,QString("Application version is %1 %2 %3 (%4)").arg(ApplicationGroupName).arg(ApplicationName).arg(ApplicationVersion).arg(CurrentAppVersion));
@@ -239,10 +246,17 @@ cBaseApplicationConfig::~cBaseApplicationConfig() {
     delete DlgManageFavoriteWSP;
     delete DlgFileExplorerWSP;
     delete DlgImageComposerThumbWSP;
+    delete DlgChapterWSP;
+    delete DlgAutoTitleWSP;
     delete MainWinWSP;
 
     delete DriveList;
     delete ThumbnailModels;
+    for (int geo=GEOMETRY_4_3;geo<=GEOMETRY_40_17;geo++) {
+        for (int cat=0;cat<MODELTYPE_PROJECTTITLE_CATNUMBER;cat++) delete PrjTitleModels[geo][cat];
+        for (int cat=0;cat<MODELTYPE_CHAPTERTITLE_CATNUMBER;cat++) delete CptTitleModels[geo][cat];
+        for (int cat=0;cat<MODELTYPE_CREDITTITLE_CATNUMBER;cat++)  delete CreditTitleModels[geo][cat];
+    }
 }
 
 //====================================================================================================================
@@ -363,16 +377,24 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     //*********************************************************************
     // Search plateforme and define specific value depending on plateforme
     //*********************************************************************
+
     #ifdef Q_OS_WIN
         switch (QSysInfo().WindowsVersion) {
-        case 0x0010 : Plateforme="Windows NT (operating system version 4.0)";   break;
-        case 0x0020 : Plateforme="Windows 2000 (operating system version 5.0)"; break;
-        case 0x0030 : Plateforme="Windows XP (operating system version 5.1)";   break;
-        case 0x0040 : Plateforme="Windows Server 2003, Windows Server 2003 R2, Windows Home Server, Windows XP Professional x64 Edition (operating system version 5.2)";    break;
-        case 0x0080 : Plateforme="Windows Vista, Windows Server 2008 (operating system version 6.0)";   break;
-        case 0x0090 : Plateforme="Windows 7, Windows Server 2008 R2 (operating system version 6.1)";    break;
-        default     : Plateforme="Unknown version"; break;
+            case 0x0010 : Plateforme="Windows NT";                                                      break;
+            case 0x0020 : Plateforme="Windows 2000";                                                    break;
+            case 0x0030 : Plateforme="Windows XP";                                                      break;
+            case 0x0040 : Plateforme="Windows Server 2003/2003 R2/Home Server/XP Professional x64";     break;
+            case 0x0080 : Plateforme="Windows Vista/Windows Server 2008";                               break;
+            case 0x0090 : Plateforme="Windows 7/Windows Server 2008 R2";                                break;
+            case 0x00a0 : Plateforme="Windows 8";                                                       break;
+            default     : Plateforme="Unknown version";                                                 break;
         }
+
+        #ifdef Q_OS_WIN64
+            Plateforme=Plateforme+" 64 bits";
+        #else
+            Plateforme=Plateforme+" 32 bits";
+        #endif
 
         // Load registry value for specific Windows Folder
         QSettings Settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Shell Folders",QSettings::NativeFormat);
@@ -382,8 +404,12 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
         WINDOWS_VIDEO    =Settings.value("My Video").toString();
         WINDOWS_DOCUMENTS=Settings.value("Personal").toString();
     #endif
-    #ifdef Q_WS_X11
-        Plateforme="Unix/Linux";
+    #ifdef Q_OS_LINUX
+        #ifdef Q_OS_LINUX64
+            Plateforme="Unix/Linux 64 bits";
+        #else
+            Plateforme="Unix/Linux 32 bits";
+        #endif
     #endif
 
     //*******************************************************
@@ -424,14 +450,13 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
         LastCaptureImage        = WINDOWS_PICTURES;             // Last folder use for captured image
         CurrentPath             = WINDOWS_DOCUMENTS;
         if (LastRenderVideoPath=="") LastRenderVideoPath=WINDOWS_DOCUMENTS;
-    #endif
-    #ifdef Q_WS_X11
+    #else
         LastMediaPath           = QDir::home().absolutePath();  // Last folder use for image/video
         LastMusicPath           = QDir::home().absolutePath();  // Last folder use for music
         LastProjectPath         = QDir::home().absolutePath();  // Last folder use for project
         LastRenderVideoPath     = QDir::home().absolutePath();  // Last folder use for render video
         LastCaptureImage        = QDir::home().absolutePath();  // Last folder use for captured image
-        CurrentPath             ="~";   // User home folder
+        CurrentPath             = "~";   // User home folder
     #endif
 
     //************************************
@@ -716,7 +741,7 @@ void cBaseApplicationConfig::InitValues() {
     DefaultBlockAnimSpeedWave   = SPEEDWAVE_LINEAR;         // Default Speed wave for block animation
     DefaultImageAnimSpeedWave   = SPEEDWAVE_LINEAR;         // Default Speed wave for image framing and correction animation
     ID3V2Comptatibility         = false;                    // if true, ffd project properties field are limited to 30 characters
-    DefaultThumbnailName        = "Simple-1";
+    DefaultThumbnailName        = "100000";
     ShortDateFormat             = QApplication::translate("DlgApplicationSettings","MM/dd/yyyy","Default Date format : dd/MM/yyyy or MM/dd/yyyy or yyyy/MM/dd or dd.MM.yyyy and so on...");
 
     DefaultFormat               = 1;                        // Default format = avi
@@ -775,6 +800,8 @@ void cBaseApplicationConfig::InitValues() {
     DlgRulerDef                 =new cSaveWindowPosition("DlgRulerDef",RestoreWindow,false);
     DlgManageFavoriteWSP        =new cSaveWindowPosition("DlgManageFavoriteWSP",RestoreWindow,false);
     DlgFileExplorerWSP          =new cSaveWinWithSplitterPos("DlgFileExplorerWSP",RestoreWindow,false);
+    DlgChapterWSP               =new cSaveWindowPosition("DlgChapterWSP",RestoreWindow,false);
+    DlgAutoTitleWSP             =new cSaveWindowPosition("DlgAutoTitleWSP",RestoreWindow,false);
     DlgImageComposerThumbWSP    =new cSaveWinWithSplitterPos("DlgImageComposerThumbWSP",RestoreWindow,false);
 
     // Default new text block options
@@ -862,7 +889,6 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultBlockAnimSpeedWave",   DefaultBlockAnimSpeedWave);
     Element.setAttribute("DefaultImageAnimSpeedWave",   DefaultImageAnimSpeedWave);
     Element.setAttribute("ID3V2Comptatibility",         ID3V2Comptatibility?"1":"0");
-    Element.setAttribute("DefaultThumbnailName",        DefaultThumbnailName);
     Element.setAttribute("ShortDateFormat",             ShortDateFormat);
 
     SubElement=Document.createElement("DefaultBlock_Text");
@@ -919,7 +945,11 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultForTheWEBModel",       DefaultForTheWEBModel);
     Element.setAttribute("DefaultLossLess",             DefaultLossLess);
     Element.setAttribute("DefaultExportThumbnail",      DefaultExportThumbnail?"1":"0");
+    domDocument.appendChild(Element);
 
+    Element=Document.createElement("Models");
+    Element.setAttribute("ThumbnailModelsIndex",        QString("%1").arg(ThumbnailModelsNextNumber));
+    Element.setAttribute("DefaultThumbnailName",        DefaultThumbnailName);
     domDocument.appendChild(Element);
 
     Element=Document.createElement("RecentFiles");
@@ -957,6 +987,8 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     DlgManageFavoriteWSP->SaveToXML(domDocument);
     DlgFileExplorerWSP->SaveToXML(domDocument);
     DlgImageComposerThumbWSP->SaveToXML(domDocument);
+    DlgChapterWSP->SaveToXML(domDocument);
+    DlgAutoTitleWSP->SaveToXML(domDocument);
 }
 
 //====================================================================================================================
@@ -1014,7 +1046,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
 
     if ((domDocument.elementsByTagName("ProjectDefault").length()>0)&&(domDocument.elementsByTagName("ProjectDefault").item(0).isElement()==true)) {
         QDomElement  Element=domDocument.elementsByTagName("ProjectDefault").item(0).toElement();
-        if (Element.hasAttribute("ImageGeometry"))              ImageGeometry               =Element.attribute("ImageGeometry").toInt();
+        if (Element.hasAttribute("ImageGeometry"))              ImageGeometry               =(ffd_GEOMETRY)Element.attribute("ImageGeometry").toInt();
         if (Element.hasAttribute("NoShotDuration"))             NoShotDuration              =Element.attribute("NoShotDuration").toInt();
         if (Element.hasAttribute("FixedDuration"))              FixedDuration               =Element.attribute("FixedDuration").toInt();
         if (Element.hasAttribute("DefaultTitleFilling"))        DefaultTitleFilling         =Element.attribute("DefaultTitleFilling").toInt();
@@ -1023,7 +1055,6 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (Element.hasAttribute("DefaultBlockAnimSpeedWave"))  DefaultBlockAnimSpeedWave   =Element.attribute("DefaultBlockAnimSpeedWave").toInt();
         if (Element.hasAttribute("DefaultImageAnimSpeedWave"))  DefaultImageAnimSpeedWave   =Element.attribute("DefaultImageAnimSpeedWave").toInt();
         if (Element.hasAttribute("ID3V2Comptatibility"))        ID3V2Comptatibility         =Element.attribute("ID3V2Comptatibility")!="0";
-        if (Element.hasAttribute("DefaultThumbnailName"))       DefaultThumbnailName        =Element.attribute("DefaultThumbnailName");
         if (Element.hasAttribute("ShortDateFormat"))            ShortDateFormat             =Element.attribute("ShortDateFormat");
 
         // Compatibility with version prior to 1.5
@@ -1089,6 +1120,12 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (Element.hasAttribute("DefaultExportThumbnail"))         DefaultExportThumbnail      =Element.attribute("DefaultExportThumbnail")=="1";
     }
 
+    if ((domDocument.elementsByTagName("Models").length()>0)&&(domDocument.elementsByTagName("Models").item(0).isElement()==true)) {
+        QDomElement Element=domDocument.elementsByTagName("Models").item(0).toElement();
+        if (Element.hasAttribute("DefaultThumbnailName"))           DefaultThumbnailName        =Element.attribute("DefaultThumbnailName");
+        if (Element.hasAttribute("ThumbnailModelsIndex"))           ThumbnailModelsNextNumber   =Element.attribute("ThumbnailModelsIndex").toLongLong();
+    }
+
     if ((domDocument.elementsByTagName("RecentFiles").length()>0)&&(domDocument.elementsByTagName("RecentFiles").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("RecentFiles").item(0).toElement();
         int i=0;
@@ -1133,6 +1170,8 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
     DlgManageFavoriteWSP->LoadFromXML(domDocument);
     DlgFileExplorerWSP->LoadFromXML(domDocument);
     DlgImageComposerThumbWSP->LoadFromXML(domDocument);
+    DlgChapterWSP->LoadFromXML(domDocument);
+    DlgAutoTitleWSP->LoadFromXML(domDocument);
 
     return true;
 }

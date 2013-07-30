@@ -100,10 +100,12 @@
 #define CONFIGFILEEXT                       ".xml"                                // File extension of configuration files
 #define CONFIGFILE_ROOTNAME                 "Configuration"                       // Name of root node in the config xml file
 #define APPLICATION_ROOTNAME                "Project"                             // Name of root node in the project xml file
+
+#define TITLEMODEL_ROOTNAME                 "Model"                               // Name of root node in the title model xml files
+#define TITLEMODEL_ELEMENTNAME              "TitleModel"                          // Name of element in the title model xml files
+
 #define THUMBMODEL_ROOTNAME                 "Thumbnail"                           // Name of root node in the thumbnail xml files
-#define THUMBWITH                           600
-#define THUMBHEIGHT                         800
-#define THUMBGEOMETRY                       (double(THUMBWITH)/double(THUMBHEIGHT))
+#define THUMBMODEL_ELEMENTNAME              "ProjectThumbnail"                    // Name of element in the thumbnail xml files
 
 // Application version : url to file on internet
 //#define BUILDVERSION_WEBURL                "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
@@ -117,7 +119,24 @@ extern double  ScreenFontAdjust;            // System Font adjustement
 // URL to link to help page
 #define HELPFILE_CAT                        "http://ffdiaporama.tuxfamily.org/?cat=%1&lang=%2"
 #define HELPFILE_DEF                        "http://ffdiaporama.tuxfamily.org/?page_id=%1&lang=%2"
-#define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de;nl"
+#define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de;nl;pt;ru"
+
+//====================================================================
+
+// Standard project geometry definition
+enum ffd_GEOMETRY {
+    GEOMETRY_4_3,
+    GEOMETRY_16_9,
+    GEOMETRY_40_17,
+    GEOMETRY_THUMBNAIL,
+    GEOMETRY_NONE
+};
+
+#define THUMBWITH                           600
+#define THUMBHEIGHT                         800
+#define THUMBGEOMETRY                       (double(THUMBWITH)/double(THUMBHEIGHT))
+#define THUMB_THUMBWITH                     600/10
+#define THUMB_THUMBHEIGHT                   800/10
 
 //====================================================================
 
@@ -143,10 +162,18 @@ extern QObject      *EventReceiver;                     // Windows wich receive 
 
 void    PostEvent(int EventType,QString EventParam="");
 void    ToLog(int MessageType,QString Message,QString Source="internal",bool AddBreak=true);
+
+//====================================================================
+// Various functions
+//====================================================================
+
 QString ito2a(int val);
 QString ito3a(int val);
 double  GetDoubleValue(QDomElement CorrectElement,QString Name);    // Load a double value from an XML element
 double  GetDoubleValue(QString sValue);                             // Load a double value from a string
+QString UpInitials(QString Source);
+QString FormatLongDate(QDate EventDate);
+QString AdjustDirForOS(QString Dir);                                // Adjust separator in pathname depending on operating system
 
 //====================================================================
 // VARIOUS
@@ -167,6 +194,5 @@ enum ffDSection_ID {
 #define TEXTID(Section,Id) (Section*1000+Id)
 
 QString ffDText(ffDSection_ID SectionId,int TextId);
-QString AdjustDirForOS(QString Dir);                                                                                // Adjust separator in pathname depending on operating system
 
 #endif // _GLOBALDEFINES_H

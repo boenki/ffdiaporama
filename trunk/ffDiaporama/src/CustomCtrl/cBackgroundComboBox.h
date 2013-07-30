@@ -46,14 +46,14 @@ Q_OBJECT
 public:
     cBackgroundList             *BackgroundTable;
     int                         CurrentSel;
-    int                         Geometry;
+    ffd_GEOMETRY                Geometry;
     bool                        STOPMAJ;
     int                         ImageWidth;
     cCBackgroundComboBoxItem    ItemDelegate;
 
 
     explicit            cBackgroundComboBox(QWidget *parent = 0);
-    void                PrepareTable(int ProjectGeometry,cBackgroundList *Table);
+    void                PrepareTable(ffd_GEOMETRY ProjectGeometry,cBackgroundList *Table);
     void                SetCurrentBackground(QString BackgroundName);
     QString             GetCurrentBackground();
     void                MakeIcons();

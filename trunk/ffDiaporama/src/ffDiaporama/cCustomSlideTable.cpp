@@ -52,6 +52,11 @@
 #define ICON_BLOCKPRESENCE                  ":/img/TimelineBlocks.png"              // FileName of icon representing blocks in the timeline
 #define ICON_HAVEFILTER                     ":/img/Transform.png"                   // FileName of icon representing block with filter in the timeline
 #define ICON_PLAYERPAUSE                    ":/img/player_pause.png"                // FileName of pause icon
+#define ICON_AUTOSLIDECHAPTER               ":/img/AutoTS.png"
+#define ICON_CHAPTER                        ":/img/Chapter.png"
+#define ICON_AUTOPROJECT                    ":/img/object_text.png"
+#define ICON_AUTOCHAPTER                    ":/img/Chapter_big.png"
+#define ICON_AUTOCREDIT                     ":/img/medal.png"
 
 //********************************************************************************************************
 // QCustomThumbItemDelegate
@@ -77,14 +82,14 @@ QCustomThumbItemDelegate::QCustomThumbItemDelegate(QObject *parent):QStyledItemD
 
 //===========================================================================================================================
 
-void DrawThumbnailsBox(int Xa,int Ya,int Width,int Height,QPainter *Painter,QImage *Icon) {
+void DrawThumbnailsBox(int Xa,int Ya,int Width,int Height,QPainter *Painter,QImage *Icon,bool IsAutoSlide=false) {
     QPen Pen;
     Pen.setWidth(1);
-    Pen.setColor(Qt::darkGray);
+    Pen.setColor(IsAutoSlide?Qt::darkGreen:Qt::darkGray);
     Painter->setPen(Pen);
     Painter->setBrush(Qt::NoBrush);
     Painter->drawRect(Xa-1,Ya-1,Width+4-1,Height+4-1);
-    Pen.setColor(Qt::white);
+    Pen.setColor(IsAutoSlide?Qt::green:Qt::white);
     Painter->setPen(Pen);
     Painter->drawRect(Xa-1,Ya-1,Width+2-1,Height+2-1);
     Pen.setColor(Qt::black);
@@ -158,6 +163,8 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         //==========================================================================================================================
         // Track OBJECT (second and third 1/4 height of the slide)
         //==========================================================================================================================
+
+        // Transition box
         DrawThumbnailsBox(2,ThumbHeight/4+2-1,32,32,Painter,IsTransition?IconList.GetIcon(Object->TransitionFamilly,Object->TransitionSubType):IconList.GetIcon(0,0));
 
         int     NewThumbWidth       = ThumbWidth-TransitionSize-6;
@@ -168,6 +175,11 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         bool    PreviousHaveSound   = false;
         double  PreviousSoundVolume = 0;
         bool    HaveFilter          =false;
+        QString SlideDuration       =QTime(0,0,0,0).addMSecs(Object->GetDuration()).toString("hh:mm:ss.zzz");
+        QString FileName            =Object->SlideName;
+        QString TransitionDuration  =QTime(0,0,0,0).addMSecs(Object->GetTransitDuration()).toString("ss.z");
+        QString SlideNumber         =QString("%1").arg(ItemIndex+1);
+        int     AutoTSNumber        =Object->GetAutoTSNumber();
 
         // Search it at least one block have filter
         for (int shot=0;shot<Object->List.count();shot++) for (int obj=0;obj<Object->List.at(shot)->ShotComposition.List.count();obj++)
@@ -235,7 +247,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
             // Display a thumb with no sound
             Painter->fillRect(TransitionSize+3,ThumbHeight/4+2-1,NewThumbWidth,NewThumbHeight,Transparent);     // Fill background with transparent image
             Object->DrawThumbnail(NewThumbWidth,NewThumbHeight,Painter,TransitionSize+3,ThumbHeight/4+1);       // Draw thumb
-            DrawThumbnailsBox(TransitionSize+3,ThumbHeight/4+2-1,NewThumbWidth,NewThumbHeight,Painter,NULL);    // Draw frame arround thumb
+            DrawThumbnailsBox(TransitionSize+3,ThumbHeight/4+2-1,NewThumbWidth,NewThumbHeight,Painter,NULL,AutoTSNumber!=-1);    // Draw frame arround thumb
             if (Object->ObjectComposition.List.count()>1)   Painter->drawImage(TransitionSize+3+8,                  2-1+ThumbHeight/4+8,    QImage(ICON_BLOCKPRESENCE));    // Add mark if multiple block
             if (Object->List.count()>1)                     Painter->drawImage(TransitionSize+3+NewThumbWidth-32,   2-1+ThumbHeight/4+8,    QImage(ICON_SHOTPRESENCE));     // Add mark if multiple shot
             if (HaveFilter)                                 Painter->drawImage(TransitionSize+3+NewThumbWidth-32,   2-1+ThumbHeight/4+32,   QImage(ICON_HAVEFILTER));       // Add mark if at least one block have filter
@@ -338,13 +350,11 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
 
         Pen.setWidth(1);
         Pen.setStyle(Qt::SolidLine);
-        QString SlideDuration=QTime(0,0,0,0).addMSecs(Object->GetDuration()).toString("hh:mm:ss.zzz");
-        QString FileName=Object->SlideName;
-        QString TransitionDuration=QTime(0,0,0,0).addMSecs(Object->GetTransitDuration()).toString("ss.z");
-        QString SlideNumber=QString("%1").arg(ItemIndex+1);
+
         // Chapter TAG
-        if (ItemIndex==0) Painter->drawImage(2,2,QImage(":/img/Chapter.png"));
-            else if (Object->StartNewChapter) Painter->drawImage(TransitionSize+3,2,QImage(":/img/Chapter.png"));
+        if (Object->StartNewChapter)        Painter->drawImage(TransitionSize+3,2,QImage(ICON_CHAPTER));
+
+        // Transition
         if (TransitionDuration[0]=='0')             TransitionDuration=TransitionDuration.right(TransitionDuration.length()-1);   // Cut first 0
         while (TransitionDuration.endsWith("0"))    TransitionDuration=TransitionDuration.left(TransitionDuration.length()-1);
         while (TransitionDuration.endsWith("."))    TransitionDuration=TransitionDuration.left(TransitionDuration.length()-1);
@@ -352,24 +362,33 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         Pen.setColor(Qt::black);
         Painter->setPen(Pen);
         Painter->drawText(QRectF(TransitionSize+3+1,        ThumbHeight/4+2-1+1,                    NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-        Painter->drawText(QRectF(TransitionSize+3+1,        ThumbHeight/4+2-1+1+NewThumbHeight-16,  NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+        if (AutoTSNumber==-1) Painter->drawText(QRectF(TransitionSize+3+1,ThumbHeight/4+2-1+1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
         Painter->drawText(QRectF(2+1,                       ThumbHeight/4+2-1+34+1,                 32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
         Painter->drawText(QRectF(BackThumbWidth+2+1,        (ThumbHeight/4-16)/2+1,                 ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
 
         Pen.setColor(Qt::white);
         Painter->setPen(Pen);
         Painter->drawText(QRectF(TransitionSize+3,          ThumbHeight/4+2-1,                      NewThumbWidth,              16),SlideDuration,Qt::AlignHCenter|Qt::AlignVCenter);
-        Painter->drawText(QRectF(TransitionSize+3,          ThumbHeight/4+2-1+NewThumbHeight-16,    NewThumbWidth,              16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
+        if (AutoTSNumber==-1) Painter->drawText(QRectF(TransitionSize+3,ThumbHeight/4+2-1+NewThumbHeight-16,NewThumbWidth,16),FileName,Qt::AlignHCenter|Qt::AlignVCenter);
         Painter->drawText(QRectF(2,                         ThumbHeight/4+2-1+34,                   32,                         16),TransitionDuration,Qt::AlignHCenter|Qt::AlignVCenter);
         Painter->drawText(QRectF(BackThumbWidth+2,          (ThumbHeight/4-16)/2,                   ThumbWidth-BackThumbWidth-4,16),SlideNumber,Qt::AlignHCenter|Qt::AlignVCenter);
+
+        if (AutoTSNumber!=-1) {
+            Painter->drawImage(TransitionSize+3  ,ThumbHeight/4+2-1+NewThumbHeight-16  ,QImage(ICON_AUTOSLIDECHAPTER));
+            switch (AutoTSNumber/100000) {
+                case 1: Painter->drawImage(ThumbWidth-26,ThumbHeight/4+2-1+NewThumbHeight-16,QImage(ICON_AUTOPROJECT)); break;
+                case 2: Painter->drawImage(ThumbWidth-26,ThumbHeight/4+2-1+NewThumbHeight-16,QImage(ICON_AUTOCHAPTER)); break;
+                case 3: Painter->drawImage(ThumbWidth-26,ThumbHeight/4+2-1+NewThumbHeight-16,QImage(ICON_AUTOCREDIT));  break;
+            }
+        }
 
         //==========================================================================================================================
         // Track MUSIC (last 1/4 height of the slide)
         //==========================================================================================================================
 
         int         CurrentCountObjet   =0;
-        int64_t   StartPosition       =0;
-        int64_t   NextStartPosition   =0;
+        int64_t     StartPosition       =0;
+        int64_t     NextStartPosition   =0;
         double      CurrentFactor       =Object->MusicPause?0:Object->MusicReduceVolume?Object->MusicReduceFactor:1;
         double      PreviousFactor      =0;
 

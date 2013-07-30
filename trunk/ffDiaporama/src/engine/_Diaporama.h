@@ -103,7 +103,7 @@ public:
     double                  width,height;
     bool                    PreviewMode;
     bool                    AddStartPos;
-    int64_t               VideoPosition,StartPosToAdd,ShotDuration;
+    int64_t                 VideoPosition,StartPosToAdd,ShotDuration;
     cSoundBlockList         *SoundTrackMontage;
     double                  BlockPctDone,ImagePctDone;
     cCompositionObject      *PrevCompoObject;
@@ -185,6 +185,7 @@ public:
     cCompositionObject(int TypeComposition,int IndexKey,cBaseApplicationConfig *TheApplicationConfig);
     ~cCompositionObject();
 
+    void        InitDefaultValues();
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
     void        DrawCompositionObject(cDiaporamaObject *Object,QPainter *Painter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,int64_t Position,
                                       cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PreviousCompositionObject,
@@ -256,9 +257,16 @@ public:
 class cDiaporamaObject {
 public:
     cDiaporama              *Parent;                    // Link to global object
-    bool                    StartNewChapter;            // if true then start a new chapter from this slide
     QString                 SlideName;                  // Display name of the slide
     QList<cDiaporamaShot *> List;                       // list of scene definition
+
+    // Chapter definition
+    bool                    StartNewChapter;            // if true then start a new chapter from this slide
+    QString                 ChapterName;                // Chapter name
+    bool                    OverrideProjectEventDate;   // if true then chapter date is different from project date
+    QDate                   ChapterEventDate;           // Chapter event date (if OverrideProjectEventDate is true)
+    bool                    OverrideChapterLongDate;    // if true then chapter long date is different from project long date
+    QString                 ChapterLongDate;            // Chapter long date (if OverrideChapterLongDate is true)
 
     // Background definition
     bool                    BackgroundType;             // Background type : false=same as precedent - true=new background definition
@@ -286,6 +294,7 @@ public:
     cDiaporamaObject(cDiaporama *Parent);
     ~cDiaporamaObject();
 
+    void                    InitDefaultValues();
     QString                 GetDisplayName();
     int64_t                 GetCumulTransitDuration();
     int64_t                 GetDuration();
@@ -294,10 +303,14 @@ public:
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList);
     int64_t                 GetTransitDuration();
     int                     GetSpeedWave();
-    void                    LoadThumbnail(QString ThumbnailName);
-    bool                    SaveThumbnail(QString ThumbnailName);
-    int                     ComputeChapterNumber();
+    int                     ComputeChapterNumber(cDiaporamaObject **Object=NULL);
     int                     GetSlideNumber();
+    int                     GetAutoTSNumber();
+
+    // Models part
+    void                    LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument domDocument);
+    bool                    SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName);
+    QString                 SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel);
 };
 
 //*********************************************************************************************************************************************
@@ -361,6 +374,7 @@ public:
     bool                TransitObject_FreeMusicTrack;           // True if allow to delete TransitObject_MusicTrack during destructor
     cMusicObject        *TransitObject_MusicObject;             // Ref to the current playing music
 
+    cDiaporamaObjectInfo();
     cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame);
     cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int64_t TimePosition,cDiaporama *Diaporama,double FrameDuration,bool WantSound);
     ~cDiaporamaObjectInfo();
@@ -389,7 +403,7 @@ public:
     QString                 ProjectFileName;        // Path and name of current file project
 
     // Output rendering values
-    int                     ImageGeometry;          // Project image geometry for image rendering
+    ffd_GEOMETRY            ImageGeometry;          // Project image geometry for image rendering
     int                     InternalWidth;          // Real width for image rendering
     int                     InternalHeight;         // Real height for image rendering
 
@@ -403,6 +417,7 @@ public:
 
     cDiaporama(cBaseApplicationConfig *ApplicationConfig,bool LoadDefaultModel=true);
     ~cDiaporama();
+
     int                     GetHeightForWidth(int WantedWith);
     int                     GetWidthForHeight(int WantedHeight);
     int                     GetObjectIndex(cDiaporamaObject *ObjectToFind);
@@ -412,9 +427,12 @@ public:
     int64_t                 GetTransitionDuration(int index);
     void                    PrepareBackground(int ObjectIndex,int Width,int Height,QPainter *Painter,int AddX,int AddY);
     cMusicObject            *GetMusicObject(int ObjectIndex,int64_t &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
-    void                    DefineSizeAndGeometry(int Geometry);                        // Init size and geometry
+    void                    DefineSizeAndGeometry(ffd_GEOMETRY Geometry);                        // Init size and geometry
     bool                    SaveFile(QWidget *ParentWindow);
+
+    void                    UpdateInformation();
     void                    UpdateChapterInformation();
+    void                    UpdateStatInformation();
 
     // Thread functions
     void                    PrepareMusicBloc(bool PreviewMode,int Column,int64_t Position,cSoundBlockList *MusicTrack);
@@ -428,5 +446,8 @@ public:
 };
 
 //****************************************************************************
+
+void ComputeCompositionObjectContext(cCompositionObjectContext &PreparedBrush);
+
 
 #endif // CDIAPORAMA_H

@@ -148,6 +148,8 @@ public:
                             cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,cBackgroundList *TheBackgroundList);
                             ~cBrushDefinition();
 
+    void                    InitDefaultValues();
+
     void                    CopyFromBrushDefinition(cBrushDefinition *BrushToCopy);
     void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag);

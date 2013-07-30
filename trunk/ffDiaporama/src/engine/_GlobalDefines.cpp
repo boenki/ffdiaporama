@@ -133,7 +133,8 @@ double GetDoubleValue(QDomElement CorrectElement,QString Name) {
     bool    IsOk=true;
     double  dValue=sValue.toDouble(&IsOk);
     if (!IsOk) {
-        sValue=sValue.replace(",",".");
+        for (int i=0;i<sValue.length();i++) if (sValue[i]==',') sValue[i]='.';
+        //sValue=sValue.replace(",",".");
         dValue=sValue.toDouble(&IsOk);
     }
     return dValue;
@@ -147,6 +148,20 @@ double GetDoubleValue(QString sValue) {
         dValue=sValue.toDouble(&IsOk);
     }
     return dValue;
+}
+
+//====================================================================================================================
+
+QString UpInitials(QString Source) {
+    for (int i=0;i<Source.length();i++)
+        if ((i==0)||(Source.at(i-1)==' ')) Source[i]=Source.at(i).toUpper();
+    return Source;
+}
+
+//====================================================================================================================
+
+QString FormatLongDate(QDate EventDate) {
+    return UpInitials(EventDate.toString(Qt::DefaultLocaleLongDate));
 }
 
 //====================================================================================================================
@@ -171,9 +186,8 @@ QString AdjustDirForOS(QString Dir) {
 bool PreviousBreak=true;
 
 void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
-    QString DateTime=QTime::currentTime().toString("hh:mm:ss.zzz");
-
     if ((MessageType>=LogMsgLevel)&&(PreviousBreak)) {
+        QString DateTime=QTime::currentTime().toString("hh:mm:ss.zzz");
         #ifdef Q_OS_WIN
         if (Message.endsWith("\n")) Message=Message.left(Message.length()-QString("\n").length());
         if (Message.endsWith(char(10))) Message=Message.left(Message.length()-QString(char(10)).length());
@@ -197,10 +211,10 @@ void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
             //qDebug()<<MSG;
             #endif
         }
+        PreviousBreak=((AddBreak)||(Message.endsWith("\n")));
     } else if (MessageType>=LogMsgLevel) {
         std::cout << Message.toLocal8Bit().constData() << std::flush;
     }
-    PreviousBreak=((AddBreak)||(Message.endsWith("\n")));
 }
 
 //====================================================================================================================

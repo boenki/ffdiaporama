@@ -27,9 +27,46 @@
 // Specific inclusions
 #include "_Diaporama.h"
 
-QString ResolveTextVariable(cDiaporamaObject *Object,QString SourceText);
-bool    IsTextHaveVariables(QString SourceText);
-bool    IsObjectHaveVariables(cDiaporamaObject *Object);
-QString PopupVariableMenu(QWidget *ParentWindow);
+class cVariableItem {
+public:
+    QString VarName;
+    QString Value;
+    cVariableItem(QString VarName);
+};
+
+class cVariable {
+public:
+    QList<cVariableItem> Variables;
+
+    cVariable();
+
+    QString ResolveTextVariable(cDiaporamaObject *Object,QString SourceText);
+    bool    IsTextHaveVariables(QString SourceText);
+    bool    IsObjectHaveVariables(cDiaporamaObject *Object);
+    QString PopupVariableMenu(QWidget *ParentWindow);
+};
+
+//*****************************************************
+
+class cHTMLConversionItem {
+public:
+    QString Normal;
+    QString HTML;
+    cHTMLConversionItem(QString Normal,QString HTML) {this->Normal=Normal; this->HTML=HTML;}
+};
+
+class cHTMLConversion {
+public:
+    QList<cHTMLConversionItem> List;
+
+    cHTMLConversion();
+
+    QString ToHTML(QString Source);
+    QString ToPlainText(QString Source);
+
+};
+
+extern cVariable        Variable;
+extern cHTMLConversion  HTMLConverter;
 
 #endif // _VARIABLES_H

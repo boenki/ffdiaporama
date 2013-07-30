@@ -159,6 +159,7 @@ void QCustomFolderTree::s_ContextMenu(const QPoint) {
 bool QCustomFolderTree::IsFolderHaveChild(QString FilePath) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QTreeWidgetItem::IsFolderHaveChild");
 
+    if (FilePath.startsWith(QApplication::translate("QCustomFolderTree","Clipart"))) FilePath=ClipArtFolder+FilePath.mid(QApplication::translate("QCustomFolderTree","Clipart").length());
     #ifdef Q_OS_LINUX
     if (FilePath.startsWith("~")) FilePath=QDir::homePath()+FilePath.mid(1);
     #endif
@@ -228,10 +229,11 @@ QString QCustomFolderTree::GetFolderPath(const QTreeWidgetItem *Item,bool TreeMo
             if (!TreeMode) {
                 // Search if text is a registered alias, then replace text with path
                 for (int i=0;i<ApplicationConfig->DriveList->List.count();i++) if (ApplicationConfig->DriveList->List[i].Label==RootStr) {
-                    if (RootStr!=PersonalFolder) RootStr=ApplicationConfig->DriveList->List[i].Path;
+                    if ((RootStr!=PersonalFolder)&&(RootStr!=QApplication::translate("QCustomFolderTree","Clipart"))) RootStr=ApplicationConfig->DriveList->List[i].Path;
                         #ifdef Q_OS_LINUX
-                            else RootStr="~";
+                        else if (RootStr==PersonalFolder) RootStr="~";
                         #endif
+                        else if (RootStr==QApplication::translate("QCustomFolderTree","Clipart")) RootStr=QApplication::translate("QCustomFolderTree","Clipart");
                 }
             }
             if (!RootStr.endsWith(QDir::separator())) RootStr=RootStr+QDir::separator();
@@ -273,6 +275,7 @@ void QCustomFolderTree::s_itemExpanded(QTreeWidgetItem *item) {
         QFileInfoList       Directorys;
         int                 i,k;
 
+        if (Folder.startsWith(QApplication::translate("QCustomFolderTree","Clipart"))) Folder=ClipArtFolder+Folder.mid(QApplication::translate("QCustomFolderTree","Clipart").length());
         #ifdef Q_OS_LINUX
             if (Folder.startsWith("~")) Folder=QDir::homePath()+Folder.mid(1);
         #endif
@@ -376,6 +379,7 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
     QString             CurrentFolder;
     QTreeWidgetItem     *Current=NULL;
 
+    //if (Path.startsWith(QApplication::translate("QCustomFolderTree","Clipart"))) Path=ClipArtFolder+Path.mid(QApplication::translate("QCustomFolderTree","Clipart").length());
     #ifdef Q_OS_LINUX
         if (Path.startsWith("~")) Path=PersonalFolder+Path.mid(1);
     #endif
@@ -429,6 +433,7 @@ void QCustomFolderTree::SetSelectItemByPath(QString Path) {
                 Current->removeChild(SubItem);
                 delete SubItem;
                 QString RealPath=CurrentFolder;
+                if (RealPath.startsWith(QApplication::translate("QCustomFolderTree","Clipart"))) RealPath=ClipArtFolder+RealPath.mid(QApplication::translate("QCustomFolderTree","Clipart").length());
                 #ifdef Q_OS_LINUX
                 if (RealPath.startsWith("~")) RealPath=QDir::homePath()+RealPath.mid(1);
                 #endif
@@ -474,7 +479,6 @@ public:
 void QCustomFolderTree::RefreshItemByPath(QString Path,bool RefreshAll,int Level) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::SetSelectedItemByPath");
     Path=AdjustDirForOS(Path);
-
     QString RealPath=Path;
     int     i,j;
 
@@ -502,6 +506,7 @@ void QCustomFolderTree::RefreshItemByPath(QString Path,bool RefreshAll,int Level
     #ifdef Q_OS_LINUX
     Path.replace("~",PersonalFolder);
     #endif
+    if (Path.startsWith(QApplication::translate("QCustomFolderTree","Clipart"))) Path=ClipArtFolder+Path.mid(QApplication::translate("QCustomFolderTree","Clipart").length());
 
     // Create a list with each part of the wanted Path
     while (PartPath.contains(QDir::separator())) {

@@ -49,12 +49,6 @@
 
 //============================================
 
-// Standard geometry definition
-#define GEOMETRY_4_3                            0
-#define GEOMETRY_16_9                           1
-#define GEOMETRY_40_17                          2
-#define GEOMETRY_THUMBNAIL                      3
-
 // Define possible values for images geometry
 #define IMAGE_GEOMETRY_UNKNOWN                  0   // undefined image geometry
 #define IMAGE_GEOMETRY_3_2                      1   // Standard 3:2 landscape image
@@ -256,6 +250,14 @@ public:
 
     // Models
     cModelList              *ThumbnailModels;
+    int64_t                 ThumbnailModelsNextNumber;
+
+    cModelList              *PrjTitleModels[3][MODELTYPE_PROJECTTITLE_CATNUMBER];
+    int64_t                 PrjTitleModelsNextNumber[3];
+    cModelList              *CptTitleModels[3][MODELTYPE_CHAPTERTITLE_CATNUMBER];
+    int64_t                 CptTitleModelsNextNumber[3];
+    cModelList              *CreditTitleModels[3][MODELTYPE_CREDITTITLE_CATNUMBER];
+    int64_t                 CreditTitleModelsNextNumber[3];
 
     // Preferences
     bool                    RasterMode;                                 // Enable or disable raster mode [Linux only]
@@ -320,7 +322,7 @@ public:
     sDefaultBlockCoord      DefaultBlockBA[NBR_IMAGETYPE];
 
     // Default project settings
-    int                     ImageGeometry;                              // Project image geometry for image rendering
+    ffd_GEOMETRY            ImageGeometry;                              // Project image geometry for image rendering
     int                     NoShotDuration;                             // Default duration for fixed image when is alone (no shot)
     int                     FixedDuration;                              // Default duration for fixed image
     QString                 DefaultAuthor;                              // Default Author name
@@ -440,6 +442,8 @@ public:
     cSaveWindowPosition     *DlgInfoFileWSP;                            // Dialog box "File Information" - Window size and position
     cSaveWindowPosition     *DlgRulerDef;                               // Dialog box "Ruler properties" - Window size and position
     cSaveWindowPosition     *DlgManageFavoriteWSP;                      // Dialog box "Manage favorite" - Window size and position
+    cSaveWindowPosition     *DlgChapterWSP;
+    cSaveWindowPosition     *DlgAutoTitleWSP;
     cSaveWindowPosition     *MainWinWSP;                                // MainWindow - Window size and position
 
     cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage,QString ApplicationGroupName,QString ApplicationName,QString ApplicationVersion,QString ConfigFileExt,QString ConfigFileRootName);

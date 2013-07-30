@@ -107,7 +107,11 @@ private slots:
 
     // Slide settings
     void            s_SlideSet_SlideNameChange(QString NewText);
-    void            s_SlideSet_NewChapter(int state);
+    void            s_SlideSet_ChapterInformation();
+    void            s_SlideSet_SaveModel();
+    void            s_SlideSet_SaveAsProjectTitleModel();
+    void            s_SlideSet_SaveAsCptTitleModels();
+    void            s_SlideSet_SaveAsCreditTitleModels();
 
     // Shot table & settings
     void            s_ShotTable_SelectionChanged();             // User select a shot in the ShotTable widget

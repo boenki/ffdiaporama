@@ -135,7 +135,7 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->DefaultAuthorED->setText(ApplicationConfig->DefaultAuthor);
     ui->ID3V2ComptatibilityCB->setChecked(ApplicationConfig->ID3V2Comptatibility);
 
-    ui->DefaultThumbCB->PrepareTable(ApplicationConfig->ThumbnailModels);
+    ui->DefaultThumbCB->PrepareTable(false,ApplicationConfig->ThumbnailModels);
     ui->DefaultThumbCB->SetCurrentModel(ApplicationConfig->DefaultThumbnailName);
 
     // New text block options
@@ -411,23 +411,23 @@ bool DlgApplicationSettings::DoAccept() {
 
     ApplicationConfig->NoShotDuration               =int(ui->NoShotED->value()*1000);
     ApplicationConfig->FixedDuration                =int(ui->StaticShotED->value()*1000);
-    ApplicationConfig->ImageGeometry                =ui->GeometryCombo->currentIndex();
+    ApplicationConfig->ImageGeometry                =(ffd_GEOMETRY)ui->GeometryCombo->currentIndex();
     ApplicationConfig->DefaultTitleFilling          =ui->DefaultTitleCB->currentIndex();
     ApplicationConfig->DefaultAuthor                =ui->DefaultAuthorED->text();
     ApplicationConfig->ID3V2Comptatibility          =ui->ID3V2ComptatibilityCB->isChecked();
     ApplicationConfig->ShortDateFormat              =ui->ShortDateFmtCB->itemText(ui->ShortDateFmtCB->currentIndex());
     ApplicationConfig->DefaultThumbnailName         =ui->DefaultThumbCB->GetCurrentModel();
 
-    ApplicationConfig->DefaultBlock_Text_TextST     =ApplicationConfig->StyleTextCollection.EncodeString(ui->ST_Text_TextCB,-1,-1);
-    ApplicationConfig->DefaultBlock_Text_BackGST    =ApplicationConfig->StyleTextBackgroundCollection.EncodeString(ui->ST_Text_BackgroundCB,-1,-1);
+    ApplicationConfig->DefaultBlock_Text_TextST     =ApplicationConfig->StyleTextCollection.EncodeString(ui->ST_Text_TextCB,GEOMETRY_NONE,-1);
+    ApplicationConfig->DefaultBlock_Text_BackGST    =ApplicationConfig->StyleTextBackgroundCollection.EncodeString(ui->ST_Text_BackgroundCB,GEOMETRY_NONE,-1);
     ApplicationConfig->DefaultBlock_AutoSizePos     =ui->ST_Text_CoordCB->itemData(ui->ST_Text_CoordCB->currentIndex()).toInt();
     ApplicationConfig->DefaultBlock_AutoLocking     =ui->ST_Text_LockingCB->itemData(ui->ST_Text_LockingCB->currentIndex()).toInt();
 
-    ApplicationConfig->DefaultBlock_Text_ShapeST    =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->ST_Text_ShapeCB,-1,-1);
-    ApplicationConfig->DefaultBlockSL_IMG_TextST    =ApplicationConfig->StyleTextCollection.EncodeString(ui->STBlockSL_IMG_TextCB,-1,-1);
-    ApplicationConfig->DefaultBlockSL_IMG_ShapeST   =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->STBlockSL_IMG_ShapeCB,-1,-1);
-    ApplicationConfig->DefaultBlockBA_IMG_TextST    =ApplicationConfig->StyleTextCollection.EncodeString(ui->STBlockBA_IMG_TextCB,-1,-1);
-    ApplicationConfig->DefaultBlockBA_IMG_ShapeST   =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->STBlockBA_IMG_ShapeCB,-1,-1);
+    ApplicationConfig->DefaultBlock_Text_ShapeST    =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->ST_Text_ShapeCB,GEOMETRY_NONE,-1);
+    ApplicationConfig->DefaultBlockSL_IMG_TextST    =ApplicationConfig->StyleTextCollection.EncodeString(ui->STBlockSL_IMG_TextCB,GEOMETRY_NONE,-1);
+    ApplicationConfig->DefaultBlockSL_IMG_ShapeST   =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->STBlockSL_IMG_ShapeCB,GEOMETRY_NONE,-1);
+    ApplicationConfig->DefaultBlockBA_IMG_TextST    =ApplicationConfig->StyleTextCollection.EncodeString(ui->STBlockBA_IMG_TextCB,GEOMETRY_NONE,-1);
+    ApplicationConfig->DefaultBlockBA_IMG_ShapeST   =ApplicationConfig->StyleBlockShapeCollection.EncodeString(ui->STBlockBA_IMG_ShapeCB,GEOMETRY_NONE,-1);
 
     for (int i=1;i<NBR_IMAGETYPE;i++) for (int j=0;j<1;j++) {
         ApplicationConfig->DefaultBlockSL[i].AutoFraming=CB_SL[i][0]->itemData(CB_SL[i][0]->currentIndex()).toInt();
