@@ -54,6 +54,7 @@
 #include "DlgAppSettings/DlgApplicationSettings.h"
 #include "DlgManageFavorite/DlgManageFavorite.h"
 #include "DlgFileExplorer/DlgFileExplorer.h"
+#include "DlgAutoTitleSlide/DlgAutoTitleSlide.h"
 
 #define LATENCY 5
 
@@ -95,6 +96,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
 void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::InitWindow");
+
     ApplicationConfig->InitConfigurationValues(ForceLanguage,App);
 
     QSplashScreen screen;
@@ -178,7 +180,23 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Register models
     screen.showMessage(QApplication::translate("MainWindow","Register models..."),Qt::AlignHCenter|Qt::AlignBottom);
-    ApplicationConfig->ThumbnailModels=new cModelList(ApplicationConfig,ffd_MODELTYPE_THUMBNAIL);
+    ApplicationConfig->ThumbnailModels=new cModelList(ApplicationConfig,ffd_MODELTYPE_THUMBNAIL,&ApplicationConfig->ThumbnailModelsNextNumber,GEOMETRY_THUMBNAIL,0,"");
+    int Cur;
+    for (int geo=GEOMETRY_4_3;geo<=GEOMETRY_40_17;geo++) {
+        Cur=0;
+        ApplicationConfig->PrjTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_PROJECTTITLE,&ApplicationConfig->PrjTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Simple titles without animation"));            Cur++;
+        ApplicationConfig->PrjTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_PROJECTTITLE,&ApplicationConfig->PrjTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Animated titles"));                            Cur++;
+        ApplicationConfig->PrjTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_PROJECTTITLE,&ApplicationConfig->PrjTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Titles dedicated to events"));                 Cur++;
+        ApplicationConfig->PrjTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_PROJECTTITLE,&ApplicationConfig->PrjTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,9,  QApplication::translate("cModelList","Custom titles"));
+        Cur=0;
+        ApplicationConfig->CptTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CHAPTERTITLE,&ApplicationConfig->CptTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Simple chapter titles without animation"));    Cur++;
+        ApplicationConfig->CptTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CHAPTERTITLE,&ApplicationConfig->CptTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Animated chapter titles"));                    Cur++;
+        ApplicationConfig->CptTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CHAPTERTITLE,&ApplicationConfig->CptTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Chapter titles dedicated to events"));         Cur++;
+        ApplicationConfig->CptTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CHAPTERTITLE,&ApplicationConfig->CptTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,9,  QApplication::translate("cModelList","Custom chapter titles"));
+        Cur=0;
+        ApplicationConfig->CreditTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CREDITTITLE,&ApplicationConfig->CreditTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Simple credit titles"));    Cur++;
+        ApplicationConfig->CreditTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CREDITTITLE,&ApplicationConfig->CreditTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,9,  QApplication::translate("cModelList","Custom credit titles"));
+    }
 
     // Because now we have local installed, then we can translate collection style name
     ApplicationConfig->StyleTextCollection.DoTranslateCollection();
@@ -215,6 +233,8 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->actionSelect_a_transition->setIconVisibleInMenu(true);
     ui->actionSet_transition_duration->setIconVisibleInMenu(true);
     ui->actionRandomize_transition->setIconVisibleInMenu(true);
+    ui->actionAddEmptySlide->setIconVisibleInMenu(true);
+    ui->actionAddAutoTitleSlide->setIconVisibleInMenu(true);
 
     ui->ActionDocumentation_BT->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton));
     ui->ActionDocumentation_BT_2->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton));
@@ -269,9 +289,11 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->ActionAdd_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddFile()));
     connect(ui->actionAddFiles,SIGNAL(triggered()),this,SLOT(s_Action_AddFile()));
 
-    connect(ui->ActionAddtitle_BT,SIGNAL(released()),this,SLOT(s_Action_AddTitle()));
-    connect(ui->ActionAddtitle_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddTitle()));
+    connect(ui->ActionAddtitle_BT,SIGNAL(pressed()),this,SLOT(s_Action_AddTitle()));
+    connect(ui->ActionAddtitle_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_AddTitle()));
     connect(ui->actionAddTitle,SIGNAL(triggered()),this,SLOT(s_Action_AddTitle()));
+    connect(ui->actionAddEmptySlide,SIGNAL(triggered()),this,SLOT(s_Action_DoAddEmptyTitle()));
+    connect(ui->actionAddAutoTitleSlide,SIGNAL(triggered()),this,SLOT(s_Action_AddAutoTitleSlide()));
 
     connect(ui->ActionAddProject_BT,SIGNAL(released()),this,SLOT(s_Action_AddProject()));
     connect(ui->ActionAddProject_BT_2,SIGNAL(released()),this,SLOT(s_Action_AddProject()));
@@ -424,7 +446,9 @@ MainWindow::~MainWindow() {
     delete ui;
 
     // Close some libav additionnals
+    #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
     avfilter_uninit();
+    #endif
     avformat_network_deinit();
 }
 
@@ -755,9 +779,8 @@ void MainWindow::SetModifyFlag(bool IsModify) {
                          (Diaporama->ProjectFileName!=""?Diaporama->ProjectFileName:QApplication::translate("MainWindow","<new project>","when project have no name define"))+
                          (Diaporama->IsModify?"*":""));
     RefreshControls();
+    Diaporama->UpdateInformation();
 }
-
-//====================================================================================================================
 
 void MainWindow::s_Event_SetModifyFlag() {
     SetModifyFlag(true);
@@ -769,7 +792,6 @@ void MainWindow::SetTimelineCurrentCell(int Cell) {
     int OldCurrentCol=Diaporama->CurrentCol;
     ui->timeline->SetCurrentCell(Cell);
     if (OldCurrentCol!=Diaporama->CurrentCol) UpdateChapterInfo();
-
 }
 
 //====================================================================================================================
@@ -937,15 +959,34 @@ void MainWindow::s_Event_DoubleClickedOnObject() {
     bool DoneAgain=true;
     while (DoneAgain) {
         DoneAgain=false;
-        DlgSlideProperties Dlg(Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,ApplicationConfig->DlgSlidePropertiesWSP,this);
-        Dlg.InitDialog();
-        connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
-        int Ret=Dlg.exec();
+        int Ret=0;
+        if (Diaporama->List[Diaporama->CurrentCol]->GetAutoTSNumber()==-1) {
+            DlgSlideProperties Dlg(Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,ApplicationConfig->DlgSlidePropertiesWSP,this);
+            Dlg.InitDialog();
+            connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+            Ret=Dlg.exec();
+        } else {
+            DlgAutoTitleSlide Dlg(false,Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,ApplicationConfig->DlgAutoTitleWSP,this);
+            Dlg.InitDialog();
+            connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+            Ret=Dlg.exec();
+        }
+        if (Ret==4) {
+            DlgSlideProperties Dlg(Diaporama->List[Diaporama->CurrentCol],ApplicationConfig,ApplicationConfig->DlgSlidePropertiesWSP,this);
+            Dlg.InitDialog();
+            connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+            Ret=Dlg.exec();
+        }
         if (Ret!=1) {
-            SetModifyFlag(true);
             if (Diaporama->List[Diaporama->CurrentCol]->Thumbnail) {
                 delete Diaporama->List[Diaporama->CurrentCol]->Thumbnail;
                 Diaporama->List[Diaporama->CurrentCol]->Thumbnail=NULL;
+            }
+            // Update thumbnails containing variables
+            for (int i=0;i<Diaporama->List.count();i++)
+                if ((Diaporama->List[i]->Thumbnail)&&(Variable.IsObjectHaveVariables(Diaporama->List[i]))) {
+                delete Diaporama->List[i]->Thumbnail;
+                Diaporama->List[i]->Thumbnail=NULL;
             }
             (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol)-(Diaporama->GetTransitionDuration(Diaporama->CurrentCol)>0?1:0));
             AdjustRuller();
@@ -1173,7 +1214,6 @@ void MainWindow::s_Action_RenderVideo() {
     ui->ActionRender_BT->setDown(false);
     ui->ActionRender_BT_2->setDown(false);
 
-    if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
     DlgRenderVideo Dlg(*Diaporama,EXPORTMODE_ADVANCED,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
@@ -1193,7 +1233,6 @@ void MainWindow::s_Action_RenderSmartphone() {
     ui->ActionSmartphone_BT->setDown(false);
     ui->ActionSmartphone_BT_2->setDown(false);
 
-    if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
     DlgRenderVideo Dlg(*Diaporama,MODE_SMARTPHONE,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
@@ -1213,7 +1252,6 @@ void MainWindow::s_Action_RenderMultimedia() {
     ui->ActionMultimedia_BT->setDown(false);
     ui->ActionMultimedia_BT_2->setDown(false);
 
-    if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
     DlgRenderVideo Dlg(*Diaporama,MODE_MULTIMEDIASYS,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
@@ -1233,7 +1271,6 @@ void MainWindow::s_Action_RenderForTheWEB() {
     ui->ActionForTheWEB_BT->setDown(false);
     ui->ActionForTheWEB_BT_2->setDown(false);
 
-    if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
     DlgRenderVideo Dlg(*Diaporama,MODE_FORTHEWEB,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
@@ -1253,7 +1290,6 @@ void MainWindow::s_Action_RenderLossLess() {
     ui->ActionLossLess_BT->setDown(false);
     ui->ActionLossLess_BT_2->setDown(false);
 
-    if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
     DlgRenderVideo Dlg(*Diaporama,MODE_LOSSLESS,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
@@ -1273,7 +1309,6 @@ void MainWindow::s_Action_RenderSoundTrack() {
     ui->ActionSoundtrack_BT->setDown(false);
     ui->ActionSoundtrack_BT_2->setDown(false);
 
-    if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
     DlgRenderVideo Dlg(*Diaporama,MODE_SOUNDTRACK,ApplicationConfig,ApplicationConfig->DlgRenderVideoWSP,this);
     connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
     Dlg.InitDialog();
@@ -1297,13 +1332,13 @@ void MainWindow::s_Action_ProjectProperties() {
     ui->Action_PrjProperties_BT->setDown(false);
     ui->Action_PrjProperties_BT_2->setDown(false);
 
-    if (Diaporama->IsModify) Diaporama->UpdateChapterInformation();
     DlgffDPjrProperties Dlg(false,Diaporama,ApplicationConfig,ApplicationConfig->DlgffDPjrPropertiesWSP,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         SetModifyFlag(true);
+        // Update thumbnails containing variables
         for (int i=0;i<Diaporama->List.count();i++)
-            if ((Diaporama->List[i]->Thumbnail)&&(IsObjectHaveVariables(Diaporama->List[i]))) {
+            if ((Diaporama->List[i]->Thumbnail)&&(Variable.IsObjectHaveVariables(Diaporama->List[i]))) {
             delete Diaporama->List[i]->Thumbnail;
             Diaporama->List[i]->Thumbnail=NULL;
         }
@@ -1402,7 +1437,7 @@ void MainWindow::s_Action_New() {
         RefreshControls();
         SetModifyFlag(false);
         resizeEvent(NULL);
-        UpdateChapterInfo();
+        Diaporama->UpdateInformation();
     }
 }
 
@@ -1580,7 +1615,7 @@ void MainWindow::DoOpenFile() {
 
                 // Load project geometry and adjust timeline and preview geometry
                 QDomElement Element=CurrentLoadingProjectDocument.elementsByTagName("Project").item(0).toElement();
-                Diaporama->ImageGeometry   =Element.attribute("ImageGeometry").toInt();
+                Diaporama->ImageGeometry   =(ffd_GEOMETRY)Element.attribute("ImageGeometry").toInt();
 
                 Diaporama->DefineSizeAndGeometry(Diaporama->ImageGeometry);
                 SetTimelineHeight();
@@ -1715,7 +1750,6 @@ void MainWindow::s_Action_SaveAs() {
 
 void MainWindow::s_Action_AddTitle() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_AddTitle");
-
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
@@ -1724,6 +1758,48 @@ void MainWindow::s_Action_AddTitle() {
     }
     ui->ActionAddtitle_BT->setDown(false);
     ui->ActionAddtitle_BT_2->setDown(false);
+    QMenu *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(ui->actionAddEmptySlide);
+    ContextMenu->addAction(ui->actionAddAutoTitleSlide);
+    ContextMenu->exec(QCursor::pos());
+    delete ContextMenu;
+}
+
+void MainWindow::s_Action_DoAddEmptyTitle() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_DoAddEmptyTitle");
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;
+    int CurIndex=Diaporama->List.count()!=0?SavedCurIndex+1:0;
+    if (SavedCurIndex==Diaporama->List.count()) SavedCurIndex--;
+
+    Diaporama->List.insert(CurIndex,new cDiaporamaObject(Diaporama));
+    cDiaporamaObject *DiaporamaObject       =Diaporama->List[CurIndex];
+    DiaporamaObject->List[0]->Parent        =DiaporamaObject;
+    DiaporamaObject->List[0]->StaticDuration=ApplicationConfig->NoShotDuration;
+
+    if (Diaporama->ApplicationConfig->RandomTransition) {
+        qsrand(QTime(0,0,0,0).msecsTo(QTime::currentTime()));
+        int Random=qrand();
+        Random=int(double(IconList.List.count())*(double(Random)/double(RAND_MAX)));
+        if (Random<IconList.List.count()) {
+            Diaporama->List[CurIndex]->TransitionFamilly=IconList.List[Random].TransitionFamilly;
+            Diaporama->List[CurIndex]->TransitionSubType=IconList.List[Random].TransitionSubType;
+        }
+    } else {
+        Diaporama->List[CurIndex]->TransitionFamilly=Diaporama->ApplicationConfig->DefaultTransitionFamilly;
+        Diaporama->List[CurIndex]->TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
+    }
+    Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
+    AddObjectToTimeLine(CurIndex);
+    ui->timeline->SetCurrentCell(SavedCurIndex+1);
+    SetModifyFlag(true);
+    AdjustRuller();
+    QApplication::restoreOverrideCursor();
+}
+
+void MainWindow::s_Action_AddAutoTitleSlide() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_AddAutoTitleSlide");
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
     int SavedCurIndex=ApplicationConfig->AppendObject?Diaporama->List.count():Diaporama->CurrentCol;
@@ -1749,10 +1825,38 @@ void MainWindow::s_Action_AddTitle() {
         Diaporama->List[CurIndex]->TransitionSubType=Diaporama->ApplicationConfig->DefaultTransitionSubType;
     }
     Diaporama->List[CurIndex]->TransitionDuration=Diaporama->ApplicationConfig->DefaultTransitionDuration;
+
     AddObjectToTimeLine(CurIndex);
     ui->timeline->SetCurrentCell(SavedCurIndex+1);
-    SetModifyFlag(true);
     AdjustRuller();
+
+    int Current=ui->timeline->CurrentSelected();
+    DlgAutoTitleSlide Dlg(true,Diaporama->List[Current],ApplicationConfig,ApplicationConfig->DlgAutoTitleWSP,this);
+    Dlg.InitDialog();
+    connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+    QApplication::restoreOverrideCursor();
+    int Ret=Dlg.exec();
+    if (Ret==4) {
+        DlgSlideProperties Dlg(Diaporama->List[Current],ApplicationConfig,ApplicationConfig->DlgSlidePropertiesWSP,this);
+        Dlg.InitDialog();
+        connect(&Dlg,SIGNAL(SetModifyFlag()),this,SLOT(s_Event_SetModifyFlag()));
+        Ret=Dlg.exec();
+    }
+    if (Ret!=0) {
+        delete Diaporama->List.takeAt(Current);
+        if (Current==Diaporama->List.count()) Current--;
+    }
+    // Update thumbnails containing variables
+    for (int i=0;i<Diaporama->List.count();i++)
+        if ((Diaporama->List[i]->Thumbnail)&&(Variable.IsObjectHaveVariables(Diaporama->List[i]))) {
+        delete Diaporama->List[i]->Thumbnail;
+        Diaporama->List[i]->Thumbnail=NULL;
+    }
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    ui->timeline->ResetDisplay(Current);    // FLAGSTOPITEMSELECTION is set to false by ResetDisplay
+    (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Current)+Diaporama->GetTransitionDuration(Current));
+    AdjustRuller();
+    ui->timeline->setUpdatesEnabled(true);
     QApplication::restoreOverrideCursor();
 }
 
@@ -1930,7 +2034,7 @@ void MainWindow::s_Action_DoAddFile() {
 
                 if ((IsOk)&&((CurrentAppendingRoot.elementsByTagName("Project").length()>0)&&(CurrentAppendingRoot.elementsByTagName("Project").item(0).isElement()==true))) {
                     QDomElement Element=CurrentAppendingRoot.elementsByTagName("Project").item(0).toElement();
-                    int TheImageGeometry   =Element.attribute("ImageGeometry").toInt();
+                    ffd_GEOMETRY TheImageGeometry   =(ffd_GEOMETRY)Element.attribute("ImageGeometry").toInt();
                     if (TheImageGeometry!=Diaporama->ImageGeometry) {
                         CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Impossible to import this file :\nImage geometry in this file is not the same than the current project","Error message"),QMessageBox::Close);
                         IsOk=false;
@@ -2185,7 +2289,6 @@ void MainWindow::s_Action_DoAddFile() {
     // Set title flag
     AdjustRuller();
     SetModifyFlag(true);
-    UpdateChapterInfo();
     QApplication::restoreOverrideCursor();
 }
 
@@ -2463,7 +2566,6 @@ void MainWindow::s_Action_RemoveObject() {
     SetModifyFlag(true);
     AdjustRuller();
     ui->timeline->setUpdatesEnabled(true);
-    UpdateChapterInfo();
     QApplication::restoreOverrideCursor();
 }
 
@@ -2597,7 +2699,6 @@ void MainWindow::s_Action_PasteFromClipboard() {
             ui->timeline->ResetDisplay(SavedCurIndex+1);
             AdjustRuller();
             ui->timeline->setUpdatesEnabled(true);
-            UpdateChapterInfo();
             QApplication::restoreOverrideCursor();
         }
     }
@@ -2654,6 +2755,7 @@ void MainWindow::AdjustRuller() {
     ui->timeline->repaint();
     (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->CurrentPosition);
     RefreshControls();
+    UpdateChapterInfo();
 }
 
 //====================================================================================================================
@@ -3394,9 +3496,10 @@ void MainWindow::s_ActionMultiple_SetFirstShotDuration() {
     int Ret=Dlg.exec();
     if (Ret==0) {
         int64_t Duration=Dlg.Duration;
-        for (int i=0;i<SlideList.count();i++) {
-            Diaporama->List[SlideList[i]]->List[0]->StaticDuration=Duration;
-        }
+        for (int i=0;i<SlideList.count();i++)
+            if (Diaporama->List[SlideList[i]]->GetAutoTSNumber()==-1) Diaporama->List[SlideList[i]]->List[0]->StaticDuration=Duration;
+                else ToLog(LOGMSG_INFORMATION,"Do not set First Shot Duration to automatic slide");
+
         SetModifyFlag(true);
         (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol));
         AdjustRuller();

@@ -22,6 +22,7 @@
 #include <QtSvg>
 
 #include "_ImageFilters.h"
+#include "_Variables.h"
 
 #define DEFAULT_IMAGEROTATION   0
 #define DEFAULT_BRIGHTNESS      0
@@ -213,21 +214,28 @@ int cBackgroundList::SearchImage(QString NameToFind) {
 cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,cBackgroundList *TheBackgroundList) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::cBrushDefinition");
 
-    TypeComposition     =COMPOSITIONTYPE_BACKGROUND;
-    BrushType           =BRUSHTYPE_SOLID;               // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors, 5=brush library, 6=image disk
-    PatternType         =Qt::Dense4Pattern;             // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
-    ColorD              ="#C0C0C0";                     // First Color
-    ColorIntermed       ="#777777";                     // Intermediate Color
-    ColorF              ="#000000";                     // Last Color
-    Intermediate        =0.1;                           // Intermediate position of 2nd color (in %)
-    GradientOrientation =6;                             // 1=Up-Left, 2=Up, 3=Up-right, ...
-    BrushImage          ="";                            // Image name if image from library
-    Image               =NULL;
-    Video               =NULL;
-    SoundVolume         =1;                             // Volume of soundtrack
-    Deinterlace         =false;                         // Add a YADIF filter to deinterlace video (on/off)
-    ApplicationConfig   =TheApplicationConfig;
-    BackgroundList      =TheBackgroundList;
+    TypeComposition         =COMPOSITIONTYPE_BACKGROUND;
+    BrushImage              ="";                            // Image name if image from library
+    Image                   =NULL;
+    Video                   =NULL;
+    ApplicationConfig       =TheApplicationConfig;
+    BackgroundList          =TheBackgroundList;
+
+    InitDefaultValues();
+}
+
+//====================================================================================================================
+
+void cBrushDefinition::InitDefaultValues() {
+    GradientOrientation     =6;                             // 1=Up-Left, 2=Up, 3=Up-right, ...
+    BrushType               =BRUSHTYPE_SOLID;               // 0=No brush !, 1=Solid one color, 2=Pattern, 3=Gradient 2 colors, 4=Gradient 3 colors, 5=brush library, 6=image disk
+    PatternType             =Qt::Dense4Pattern;             // Type of pattern when BrushType is Pattern (Qt::BrushStyle standard)
+    ColorD                  ="#C0C0C0";                     // First Color
+    ColorIntermed           ="#777777";                     // Intermediate Color
+    ColorF                  ="#000000";                     // Last Color
+    Intermediate            =0.1;                           // Intermediate position of 2nd color (in %)
+    SoundVolume             =1;                             // Volume of soundtrack
+    Deinterlace             =false;                         // Add a YADIF filter to deinterlace video (on/off)
 
     // Image correction part
     ImageRotation           =DEFAULT_IMAGEROTATION;         // Image rotation
@@ -255,6 +263,7 @@ cBrushDefinition::cBrushDefinition(cBaseApplicationConfig *TheApplicationConfig,
 }
 
 //====================================================================================================================
+
 cBrushDefinition::~cBrushDefinition() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::~cBrushDefinition");
 
@@ -636,8 +645,8 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     QString         BrushFileName=(Image?Image->FileName:Video?Video->FileName:"");
     QString         BFN;
 
-    if (BrushFileName.startsWith(ClipArtFolder))    BFN="<%CLIPARTFOLDER%>"+BrushFileName.mid(ClipArtFolder.length());
-    else if (BrushFileName.startsWith(ModelFolder)) BFN="<%MODELFOLDER%>"  +BrushFileName.mid(ModelFolder.length());
+    if (BrushFileName.startsWith(ClipArtFolder))    BFN="%CLIPARTFOLDER%"+BrushFileName.mid(ClipArtFolder.length());
+    else if (BrushFileName.startsWith(ModelFolder)) BFN="%MODELFOLDER%"  +BrushFileName.mid(ModelFolder.length());
     else {
         BFN=BrushFileName;
         if ((PathForRelativPath!="")&&(BFN!="")) {
@@ -720,6 +729,8 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::LoadFromXML");
 
+    InitDefaultValues();
+
     if (ModifyFlag) *ModifyFlag=false;
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
@@ -746,9 +757,10 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 break;
             case BRUSHTYPE_IMAGEDISK :
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {
-                    QString BrushFileName=Element.attribute("BrushFileName");                       // File name if image from disk
-                    BrushFileName=BrushFileName.replace("<%CLIPARTFOLDER%>",CAF);
-                    BrushFileName=BrushFileName.replace("<%MODELFOLDER%>",MFD);
+                    // File name if image from disk
+                    QString BrushFileName=HTMLConverter.ToPlainText(Element.attribute("BrushFileName"));
+                    BrushFileName=BrushFileName.replace("<%CLIPARTFOLDER%>",CAF);   BrushFileName=BrushFileName.replace("%CLIPARTFOLDER%",CAF);
+                    BrushFileName=BrushFileName.replace("<%MODELFOLDER%>",MFD);     BrushFileName=BrushFileName.replace("%MODELFOLDER%",MFD);
                     if ((PathForRelativPath!="")&&(BrushFileName!="")) BrushFileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(BrushFileName));
                     bool IsValide=false;
                     QString Extension=QFileInfo(BrushFileName).suffix().toLower();

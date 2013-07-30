@@ -27,37 +27,59 @@
 
 enum ffd_MODELTYPE {
     ffd_MODELTYPE_THUMBNAIL,
-    ffd_MODELTYPE_TITLESLIDE
+    ffd_MODELTYPE_PROJECTTITLE,
+    ffd_MODELTYPE_CHAPTERTITLE,
+    ffd_MODELTYPE_CREDITTITLE
 };
 
+// Number of categorie by type
+#define MODELTYPE_PROJECTTITLE_CATNUMBER    4
+#define MODELTYPE_CHAPTERTITLE_CATNUMBER    4
+#define MODELTYPE_CREDITTITLE_CATNUMBER     2
+
 class cBaseApplicationConfig;
+class cDiaporama;
+class cDiaporamaObject;
 class cModelList;
 class cModelListItem {
 public:
     cModelList      *Parent;
+    QDomDocument    Model;
     QString         Name;
     QString         FileName;
-    QImage          Thumbnail;
+    QSize           ThumbnailSize;
     bool            IsCustom;
+    int64_t         Duration;
 
-    cModelListItem(cModelList *Parent,QString FileName);
+    cModelListItem(cModelList *Parent,QString FileName,QSize ThumbnailSize);
     ~cModelListItem();
+
+    QDomDocument            LoadModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName);
+    QImage                  PrepareImage(int64_t Position,cDiaporamaObject *DiaporamaObjectToUse=NULL);
 };
 
 class cModelList {
 public:
     cBaseApplicationConfig  *ApplicationConfig;
     ffd_MODELTYPE           ModelType;
+    ffd_GEOMETRY            ProjectGeometry;
     QString                 StandardModelPath;
     QString                 CustomModelPath;
     QString                 ModelSuffix;
     QList<cModelListItem>   List;
+    QSize                   ThumbnailSize;
+    int64_t                 *NextNumber;
+    int                     DigitCategorie;
+    QString                 NameCategorie;
 
-    cModelList(cBaseApplicationConfig *ApplicationConfig,ffd_MODELTYPE ModelType);
+    cModelList(cBaseApplicationConfig *ApplicationConfig,ffd_MODELTYPE ModelType,int64_t *NextNumber,ffd_GEOMETRY ProjectGeometry,int DigitCategorie,QString NameCategorie);
     ~cModelList();
 
-    int     SearchModel(QString ModelName);
-    void    FillModelType(ffd_MODELTYPE ModelType);
+    int             SearchModel(QString ModelName);
+    void            FillModelType(ffd_MODELTYPE ModelType);
+    cModelListItem  *AppendCustomModel();
+    void            RemoveCustomModel();
+    QDomDocument    GetModelDocument(QString ModelName);
 };
 
 #endif // _MODEL_H

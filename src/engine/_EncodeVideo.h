@@ -31,7 +31,7 @@
 #define UNSUPPORTED_COMBINATION     1
 #define INVALID_COMBINATION         2
 
-int CheckEncoderCapabilities(VFORMAT_ID FormatId,CodecID VideoCodec,CodecID AudioCodec);
+int CheckEncoderCapabilities(VFORMAT_ID FormatId,AVCodecID VideoCodec,AVCodecID AudioCodec);
 
 //************************************************
 
@@ -110,7 +110,7 @@ private:
     void            InitDisplay();
     void            DisplayProgress(int64_t RenderedFrame,int64_t Position,int Column,int ColumnStart);
 
-    int             getThreadFlags(CodecID codecId);
+    int             getThreadFlags(AVCodecID ID);
     bool            AddStream(AVStream **Stream,AVCodec **codec,const char *CodecName,AVMediaType Type);
     bool            OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecSubId,AVRational VideoFrameRate,int ImageWidth,int ImageHeight,AVRational PixelAspectRatio,int VideoBitrate);
     bool            OpenAudioStream(sAudioCodecDef *AudioCodecDef,int &AudioChannels,int &AudioBitrate,int &AudioSampleRate,QString Language);

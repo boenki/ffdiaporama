@@ -23,7 +23,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>About</string>
+   <string notr="true">About</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
@@ -95,7 +95,7 @@
        <item>
         <widget class="QTabWidget" name="tabWidget">
          <property name="currentIndex">
-          <number>1</number>
+          <number>3</number>
          </property>
          <widget class="QWidget" name="tab_2">
           <attribute name="title">
@@ -263,8 +263,8 @@ This General Public License does not permit incorporating your program into prop
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>652</width>
-                <height>535</height>
+                <width>98</width>
+                <height>83</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_2">
@@ -303,6 +303,20 @@ This General Public License does not permit incorporating your program into prop
           <layout class="QVBoxLayout" name="verticalLayout_3">
            <item>
             <widget class="QTextEdit" name="TexturemateED">
+             <property name="readOnly">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </widget>
+         <widget class="QWidget" name="Openclipart">
+          <attribute name="title">
+           <string notr="true">Openclipart</string>
+          </attribute>
+          <layout class="QVBoxLayout" name="verticalLayout_6">
+           <item>
+            <widget class="QTextEdit" name="OpenclipartED">
              <property name="readOnly">
               <bool>true</bool>
              </property>

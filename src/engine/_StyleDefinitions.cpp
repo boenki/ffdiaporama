@@ -211,7 +211,7 @@ QString cStyleCollection::GetStyleDef(QString StyleName) {
 
 //************************************************
 
-void cStyleCollection::SetProjectGeometryFilter(int Geometry) {
+void cStyleCollection::SetProjectGeometryFilter(ffd_GEOMETRY Geometry) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::SetProjectGeometryFilter");
 
     SetImageGeometryFilter(Geometry,-1);
@@ -219,7 +219,7 @@ void cStyleCollection::SetProjectGeometryFilter(int Geometry) {
 
 //************************************************
 
-void cStyleCollection::SetImageGeometryFilter(int ProjectGeometry,int ImageGeometry) {
+void cStyleCollection::SetImageGeometryFilter(ffd_GEOMETRY ProjectGeometry,int ImageGeometry) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::SetImageGeometryFilter");
 
     if (ProjectGeometry==-1) {
@@ -492,7 +492,7 @@ QString cStyleCollection::DecodeString(QString String) {
 
 //************************************************
 
-QString cStyleCollection::EncodeString(QComboBox *CB,int ProjectGeometry,int ImageGeometry) {
+QString cStyleCollection::EncodeString(QComboBox *CB,ffd_GEOMETRY ProjectGeometry,int ImageGeometry) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cStyleCollection::EncodeString");
 
     QString CurStyleName=CB->currentText();

@@ -2842,7 +2842,7 @@ and help</string>
           <rect>
            <x>0</x>
            <y>0</y>
-           <width>407</width>
+           <width>411</width>
            <height>293</height>
           </rect>
          </property>
@@ -4735,6 +4735,27 @@ font-size: 11px;
      <family>Sans Serif</family>
      <pointsize>9</pointsize>
     </font>
+   </property>
+  </action>
+  <action name="actionAddEmptySlide">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/transparent.png</normaloff>:/img/transparent.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add an empty slide</string>
+   </property>
+   <property name="toolTip">
+    <string>Add an empty slide</string>
+   </property>
+  </action>
+  <action name="actionAddAutoTitleSlide">
+   <property name="icon">
+    <iconset resource="../../RSCffDiaporama.qrc">
+     <normaloff>:/img/AutoTS.png</normaloff>:/img/AutoTS.png</iconset>
+   </property>
+   <property name="text">
+    <string>Add a predefined title slide</string>
    </property>
   </action>
  </widget>

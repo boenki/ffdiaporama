@@ -106,7 +106,7 @@ public:
     QString                 FileName;                       // filename
     QString                 ShortName;                      // filename without path
     QString                 FileExtension;                  // file extension
-    int64_t               FileSize;                       // filesize
+    int64_t                 FileSize;                       // filesize
     QString                 FileSizeText;                   // filesize in text mode
     QDateTime               CreatDateTime;                  // Original date/time
     QDateTime               ModifDateTime;                  // Last modified date/time
@@ -195,6 +195,8 @@ public:
 
     explicit cffDProjectFile(cBaseApplicationConfig *ApplicationConfig);
 
+    void                    InitDefaultValues();
+
     virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
@@ -206,7 +208,6 @@ public:
 
     void                    SaveToXML(QDomElement &domDocument);
     bool                    LoadFromXML(QDomElement domDocument);
-    QString                 FormatLongDate();
 };
 
 //*********************************************************************************************************************************************
@@ -304,7 +305,7 @@ public:
     virtual QString         GetTechInfo();
     virtual QString         GetTAGInfo();
 
-    virtual int             getThreadFlags(CodecID codecId);
+    virtual int             getThreadFlags(AVCodecID ID);
 
     virtual bool            OpenCodecAndFile();
     virtual void            CloseCodecAndFile();

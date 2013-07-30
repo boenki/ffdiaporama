@@ -49,6 +49,7 @@ private slots:
     void                EventDateChanged(const QDate &NewDate);
     void                OverrideDateChanged(int);
     void                EditThumb();
+    void                AdminEditThumb();
     void                ThumbChanged();
 
 private:

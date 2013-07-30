@@ -952,7 +952,7 @@ void DlgTextEdit::s_BackgroundStyleBT() {
 
 void DlgTextEdit::s_InsTextVar() {
     ui->InsTextVarBT->setDown(false);
-    QString Var=PopupVariableMenu(this);
+    QString Var=Variable.PopupVariableMenu(this);
     if (!Var.isEmpty()) {
         QTextCursor     Cursor(ui->TextEdit->textCursor());
         QTextCharFormat CurrentFormat=ui->TextEdit->currentCharFormat();

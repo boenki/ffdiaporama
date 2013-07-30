@@ -297,6 +297,8 @@ cCustomBlockTable::cCustomBlockTable(QWidget *parent):QTableWidget(parent) {
     setDragDropOverwriteMode(false);
     setAcceptDrops(true);
     setDropIndicatorShown(true);
+
+    setContextMenuPolicy(Qt::PreventContextMenu);
 }
 
 //====================================================================================================================
@@ -321,27 +323,31 @@ void cCustomBlockTable::mouseDoubleClickEvent(QMouseEvent *ev) {
 void cCustomBlockTable::mousePressEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBlockTable::mousePressEvent");
     QTableWidget::mousePressEvent(event);
-    if ((IsDragOn)||(rowCount()==0)) return;
-    setCursor(Qt::ArrowCursor);
-    IsDragOn      =false;
-    DragItemSource=(event->pos().y()+verticalOffset())/rowHeight(0);
+    if (event->button()==Qt::RightButton) {
+        emit RightClickEvent(event);
+    } else {
+        if ((IsDragOn)||(rowCount()==0)) return;
+        setCursor(Qt::ArrowCursor);
+        IsDragOn      =false;
+        DragItemSource=(event->pos().y()+verticalOffset())/rowHeight(0);
 
-    QModelIndexList SelList=selectionModel()->selectedIndexes();
-    QList<bool>     IsSelected;
-    for (int i=0;i<rowCount();i++)      IsSelected.append(false);
-    for (int i=0;i<SelList.count();i++) IsSelected[SelList.at(i).row()]=true;
-    int NbrSelected =0;
-    int ObjectNbr   =-1;
-    for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
-        if (NbrSelected==0) ObjectNbr=i;
-        NbrSelected++;
-    }
-    if ((NbrSelected==1)&&(DragItemSource==ObjectNbr)) {
-        IsDragOn    =true;
-        DragItemDest=DragItemSource;
-        setCursor(Qt::ClosedHandCursor);
-        setUpdatesEnabled(false);
-        setUpdatesEnabled(true);
+        QModelIndexList SelList=selectionModel()->selectedIndexes();
+        QList<bool>     IsSelected;
+        for (int i=0;i<rowCount();i++)      IsSelected.append(false);
+        for (int i=0;i<SelList.count();i++) IsSelected[SelList.at(i).row()]=true;
+        int NbrSelected =0;
+        int ObjectNbr   =-1;
+        for (int i=0;i<IsSelected.count();i++) if (IsSelected[i]) {
+            if (NbrSelected==0) ObjectNbr=i;
+            NbrSelected++;
+        }
+        if ((NbrSelected==1)&&(DragItemSource==ObjectNbr)) {
+            IsDragOn    =true;
+            DragItemDest=DragItemSource;
+            setCursor(Qt::ClosedHandCursor);
+            setUpdatesEnabled(false);
+            setUpdatesEnabled(true);
+        }
     }
 }
 
@@ -375,7 +381,7 @@ void cCustomBlockTable::mouseReleaseEvent(QMouseEvent *event) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomBlockTable::mouseReleaseEvent");
 
     if (event->button()==Qt::RightButton) {
-        emit RightClickEvent(event);
+        //emit RightClickEvent(event);
     } else if (!IsDragOn) {
         QTableWidget::mouseReleaseEvent(event);
     } else {

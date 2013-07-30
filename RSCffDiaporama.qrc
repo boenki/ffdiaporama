@@ -365,5 +365,9 @@
         <file>img/MediaIcons/16x16/clipart.png</file>
         <file>img/MediaIcons/48x48/clipart.png</file>
         <file>img/MediaIcons/100x100/clipart.png</file>
+        <file>img/Chapter_big.png</file>
+        <file>img/AutoTS.png</file>
+        <file>img/db_menu_big.png</file>
+        <file>img/medal.png</file>
     </qresource>
 </RCC>

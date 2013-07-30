@@ -34,6 +34,7 @@
 #include "../DlgFileExplorer/DlgFileExplorer.h"
 
 #include "DlgRuler/DlgRulerDef.h"
+#include "../DlgChapter/DlgChapter.h"
 
 #include <QClipboard>
 #include <QMimeData>
@@ -99,7 +100,6 @@ enum UNDOACTION_ID {
     UNDOACTION_STYLE_COORDINATES,
     UNDOACTION_STYLE_SHAPE,
     UNDOACTION_STYLE_FRAMING,
-    UNDOACTION_EDITZONE_NEWCHAPTER,
     UNDOACTION_EDITZONE_SLIDENAME,
     UNDOACTION_EDITZONE_SHOTDURATION,
     UNDOACTION_SHOTTABLE_ADDSHOT,
@@ -116,7 +116,8 @@ enum UNDOACTION_ID {
     UNDOACTION_BLOCKTABLE_EDITIMAGE,
     UNDOACTION_BLOCKTABLE_VISIBLESTATE,
     UNDOACTION_BLOCKTABLE_SOUNDSTATE,
-    UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE
+    UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE,
+    UNDOACTION_BLOCKTABLE_EDITCHAPTERINFO
 };
 
 //********************************************************************************************************************************
@@ -173,17 +174,15 @@ void DlgSlideProperties::DoInitDialog() {
     ui->TextClipArtCB->PrepareTable();
 
     setWindowTitle(windowTitle()+" - "+QApplication::translate("DlgSlideProperties","Slide")+QString(" %1/%2").arg(CurrentSlide->Parent->CurrentCol+1).arg(CurrentSlide->Parent->List.count()));
-    ui->NewChapterCB->setChecked(CurrentSlide->StartNewChapter);
-    ui->NewChapterCB->setEnabled(CurrentSlide->Parent->CurrentCol!=0);
     ui->OKPreviousBT->setEnabled(CurrentSlide->Parent->CurrentCol>0);
     ui->OKNextBT->setEnabled(CurrentSlide->Parent->CurrentCol<CurrentSlide->Parent->List.count()-1);
     ui->RulersBT->setIcon(QIcon(QString(ui->InteractiveZone->MagneticRuler!=0?ICON_RULER_ON:ICON_RULER_OFF)));
 
     switch (CurrentSlide->Parent->ImageGeometry) {
-        case GEOMETRY_4_3   : DisplayW=1440;    DisplayH=1080;     break;
-        case GEOMETRY_16_9  : DisplayW=1920;    DisplayH=1080;     break;
-        case GEOMETRY_40_17 : DisplayW=1920;    DisplayH=816;      break;
-
+        case GEOMETRY_4_3:      DisplayW=1440;    DisplayH=1080;     break;
+        case GEOMETRY_40_17:    DisplayW=1920;    DisplayH=816;      break;
+        case GEOMETRY_16_9:
+        default:                DisplayW=1920;    DisplayH=1080;     break;
     }
     ProjectGeometry=DisplayH/DisplayW;
     ProjectGeometry=GetDoubleValue(QString("%1").arg(ProjectGeometry,0,'e'));  // Rounded to same number as style managment
@@ -297,6 +296,9 @@ void DlgSlideProperties::DoInitDialog() {
     ui->actionDistributeVert->setIconVisibleInMenu(true);
     ui->actionAddSimpleTextBlock->setIconVisibleInMenu(true);
     ui->actionAddClipArtTextBlock->setIconVisibleInMenu(true);
+    ui->actionSaveAsProjectTitleModel->setIconVisibleInMenu(true);
+    ui->actionSaveAsCptTitleModels->setIconVisibleInMenu(true);
+    ui->actionSaveAsCreditTitleModels->setIconVisibleInMenu(true);
 
     ui->ShotTable->setRowCount(1);
 
@@ -304,6 +306,10 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->OKPreviousBT,SIGNAL(clicked()),this,SLOT(OKPrevious()));
     connect(ui->OKNextBT,SIGNAL(clicked()),this,SLOT(OKNext()));
     connect(ui->RulersBT,SIGNAL(clicked()),this,SLOT(s_RulersBt()));
+    connect(ui->SaveModelBT,SIGNAL(pressed()),this,SLOT(s_SlideSet_SaveModel()));
+    connect(ui->actionSaveAsProjectTitleModel,SIGNAL(triggered()),this,SLOT(s_SlideSet_SaveAsProjectTitleModel()));
+    connect(ui->actionSaveAsCptTitleModels,SIGNAL(triggered()),this,SLOT(s_SlideSet_SaveAsCptTitleModels()));
+    connect(ui->actionSaveAsCreditTitleModels,SIGNAL(triggered()),this,SLOT(s_SlideSet_SaveAsCreditTitleModels()));
 
     connect(ui->actionCopy,SIGNAL(triggered()),this,SLOT(s_BlockTable_Copy()));
     connect(ui->actionCut,SIGNAL(triggered()),this,SLOT(s_BlockTable_Cut()));
@@ -328,7 +334,7 @@ void DlgSlideProperties::DoInitDialog() {
     connect(ui->actionDistributeVert,SIGNAL(triggered()),this,SLOT(s_BlockTable_DistributeVert()));
 
     connect(ui->SlideNameED,SIGNAL(textEdited(QString)),this,SLOT(s_SlideSet_SlideNameChange(QString)));
-    connect(ui->NewChapterCB,SIGNAL(stateChanged(int)),this,SLOT(s_SlideSet_NewChapter(int)));
+    connect(ui->ChapterBT,SIGNAL(clicked()),this,SLOT(s_SlideSet_ChapterInformation()));
     connect(ui->ShotDurationED,SIGNAL(timeChanged(QTime)),this,SLOT(s_ShotTable_DurationChange(QTime)));
 
     connect(ui->ArrangeBT,SIGNAL(pressed()),this,SLOT(s_BlockSettings_Arrange()));
@@ -583,6 +589,8 @@ void DlgSlideProperties::keyReleaseEvent(QKeyEvent *event) {
 bool DlgSlideProperties::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DoAccept");
     InRefreshControls=true;
+    CurrentSlide->Parent->UpdateChapterInformation();
+    emit(SetModifyFlag());
     return true;
 }
 
@@ -591,6 +599,8 @@ void DlgSlideProperties::OKPrevious() {
 
     InRefreshControls=true;
     SaveWindowState();  // Save Window size and position
+    CurrentSlide->Parent->UpdateChapterInformation();
+    emit(SetModifyFlag());
     done(2);            // Close the box
 }
 
@@ -599,6 +609,8 @@ void DlgSlideProperties::OKNext() {
 
     InRefreshControls=true;
     SaveWindowState();  // Save Window size and position
+    CurrentSlide->Parent->UpdateChapterInformation();
+    emit(SetModifyFlag());
     done(3);            // Close the box
 }
 
@@ -663,7 +675,6 @@ void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
             case UNDOACTION_EDITZONE_BLOCKANIMTURNZ:        SubElement.setAttribute("TurnZAxis",CompositionList->List[i]->TurnZAxis);                       break;
             case UNDOACTION_EDITZONE_BLOCKANIMTURNY:        SubElement.setAttribute("TurnYAxis",CompositionList->List[i]->TurnYAxis);                       break;
             case UNDOACTION_EDITZONE_BLOCKANIMDISSOLVE:     SubElement.setAttribute("Dissolve",CompositionList->List[i]->Dissolve);                         break;
-            case UNDOACTION_EDITZONE_NEWCHAPTER:            SubElement.setAttribute("StartNewChapter",CurrentSlide->StartNewChapter?"1":"0");               break;
             case UNDOACTION_EDITZONE_SLIDENAME:             SubElement.setAttribute("SlideName",CurrentSlide->SlideName);                                   break;
             case UNDOACTION_EDITZONE_SHOTDURATION:          SubElement.setAttribute("StaticDuration",qlonglong(CurrentShot->StaticDuration));               break;
             case UNDOACTION_BLOCKTABLE_VISIBLESTATE:        SubElement.setAttribute("IsVisible",CompositionList->List[i]->IsVisible?"1":"0");               break;
@@ -741,7 +752,6 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                 case UNDOACTION_EDITZONE_BLOCKANIMTURNZ:    if (SubElement.hasAttribute("TurnZAxis"))               CompositionList->List[i]->TurnZAxis=                    SubElement.attribute("TurnZAxis").toInt();              break;
                 case UNDOACTION_EDITZONE_BLOCKANIMTURNY:    if (SubElement.hasAttribute("TurnYAxis"))               CompositionList->List[i]->TurnYAxis=                    SubElement.attribute("TurnYAxis").toInt();              break;
                 case UNDOACTION_EDITZONE_BLOCKANIMDISSOLVE: if (SubElement.hasAttribute("Dissolve"))                CompositionList->List[i]->Dissolve=                     SubElement.attribute("Dissolve").toInt();               break;
-                case UNDOACTION_EDITZONE_NEWCHAPTER:        if (SubElement.hasAttribute("StartNewChapter"))         CurrentSlide->StartNewChapter=                          SubElement.attribute("StartNewChapter")=="1";           ui->NewChapterCB->setChecked(CurrentSlide->StartNewChapter);    break;
                 case UNDOACTION_EDITZONE_SLIDENAME:         if (SubElement.hasAttribute("SlideName"))               CurrentSlide->SlideName=                                SubElement.attribute("SlideName");                      ui->SlideNameED->setText(CurrentSlide->SlideName);              break;
                 case UNDOACTION_EDITZONE_SHOTDURATION:      if (SubElement.hasAttribute("StaticDuration"))          CurrentShot->StaticDuration=                            SubElement.attribute("StaticDuration").toLongLong();    s_ShotTable_DisplayDuration();                                  break;
                 case UNDOACTION_BLOCKTABLE_VISIBLESTATE:    if (SubElement.hasAttribute("IsVisible"))               CompositionList->List[i]->IsVisible=                    SubElement.attribute("IsVisible")=="1";                 break;
@@ -786,6 +796,7 @@ void DlgSlideProperties::ApplyPartialUndo(int ActionType,QDomElement root) {
                     break;
             }
         }
+        CurrentSlide->Parent->UpdateChapterInformation();
         ApplyToContexte(true);
         RefreshBlockTable(CurrentCompoObjectNbr);
         ui->ShotTable->setUpdatesEnabled(false);
@@ -1295,12 +1306,13 @@ void DlgSlideProperties::ApplyGlobalPropertiesToAllShots(cCompositionObject *Glo
 // SLIDE SETTINGS
 //====================================================================================================================
 
-void DlgSlideProperties::s_SlideSet_NewChapter(int) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_NewChapter");
-    if (InRefreshControls) return;  // No action if in control setup
-    AppendPartialUndo(UNDOACTION_EDITZONE_NEWCHAPTER,ui->NewChapterCB,true);
-
-    CurrentSlide->StartNewChapter=ui->NewChapterCB->isChecked();
+void DlgSlideProperties::s_SlideSet_ChapterInformation() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SlideNameChange");
+    AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITCHAPTERINFO,ui->InteractiveZone,true);
+    DlgChapter Dlg(CurrentSlide,BaseApplicationConfig,BaseApplicationConfig->DlgChapterWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()!=0) RemoveLastPartialUndo(); else CurrentSlide->Parent->UpdateChapterInformation();
+    RefreshControls(true);
 }
 
 //===================================================================================
@@ -1311,6 +1323,46 @@ void DlgSlideProperties::s_SlideSet_SlideNameChange(QString NewText) {
     AppendPartialUndo(UNDOACTION_EDITZONE_SLIDENAME,ui->SlideNameED,false);
 
     CurrentSlide->SlideName=NewText;
+}
+
+//===================================================================================
+
+void DlgSlideProperties::s_SlideSet_SaveModel() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SaveModel");
+    QMenu *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(ui->actionSaveAsProjectTitleModel);
+    ContextMenu->addAction(ui->actionSaveAsCptTitleModels);
+    ContextMenu->addAction(ui->actionSaveAsCreditTitleModels);
+    ContextMenu->exec(QCursor::pos());
+    delete ContextMenu;
+    ui->SaveModelBT->setDown(false);
+}
+
+//===================================================================================
+
+void DlgSlideProperties::s_SlideSet_SaveAsProjectTitleModel() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SaveAsProjectTitleModel");
+    CurrentSlide->SaveAsNewCustomModelFile(ffd_MODELTYPE_PROJECTTITLE);
+    CustomMessageBox(this,QMessageBox::Information,ui->actionSaveAsProjectTitleModel->text(),
+                     QApplication::translate("DlgSlideProperties","Slide added in Project title models collection","Information message"),QMessageBox::Close);
+}
+
+//===================================================================================
+
+void DlgSlideProperties::s_SlideSet_SaveAsCptTitleModels() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SaveAsCptTitleModels");
+    CurrentSlide->SaveAsNewCustomModelFile(ffd_MODELTYPE_CHAPTERTITLE);
+    CustomMessageBox(this,QMessageBox::Information,ui->actionSaveAsCptTitleModels->text(),
+                     QApplication::translate("DlgSlideProperties","Slide added in Chapter title models collection","Information message"),QMessageBox::Close);
+}
+
+//===================================================================================
+
+void DlgSlideProperties::s_SlideSet_SaveAsCreditTitleModels() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SaveAsCreditTitleModels");
+    CurrentSlide->SaveAsNewCustomModelFile(ffd_MODELTYPE_CREDITTITLE);
+    CustomMessageBox(this,QMessageBox::Information,ui->actionSaveAsCreditTitleModels->text(),
+                     QApplication::translate("DlgSlideProperties","Slide added in Credit title models collection","Information message"),QMessageBox::Close);
 }
 
 //====================================================================================================================

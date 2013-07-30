@@ -602,30 +602,28 @@ cffDProjectFile::cffDProjectFile(cBaseApplicationConfig *ApplicationConfig):cBas
 
     LoadIcons(&ApplicationConfig->DefaultFFDIcon);
     ObjectType      =OBJECTTYPE_FFDFILE;
-    Title           ="";
-    Author          ="";
-    Album           ="";
-    OverrideDate    =false;
-    EventDate       =QDate::currentDate();
-    LongDate        =FormatLongDate();
-    Comment         ="";
-    Composer        ="";
     Duration        =0;
     NbrSlide        =0;
-    ffDRevision     ="";
-    DefaultLanguage ="und";
     NbrChapters     =0;
+
+    InitDefaultValues();
 }
 
 //====================================================================================================================
 
-QString cffDProjectFile::FormatLongDate() {
-    QString Str;
-    if (!OverrideDate) {
-        Str=EventDate.toString(Qt::DefaultLocaleLongDate);
-        for (int i=0;i<Str.length();i++) if ((!i)||(Str[i-1]==' ')) Str[i]=QChar(Str[i]).toUpper();
-    } else Str=LongDate;
-    return Str;
+void cffDProjectFile::InitDefaultValues() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::InitDefaultValues");
+
+    Title           =QApplication::translate("cModelList","Project title");;
+    Author          =QApplication::translate("cModelList","Project author");
+    Album           =QApplication::translate("cModelList","Project album");
+    OverrideDate    =false;
+    EventDate       =QDate::currentDate();
+    LongDate        =(OverrideDate?LongDate:FormatLongDate(EventDate));
+    Comment         =QApplication::translate("cModelList","Project comment");
+    Composer        ="";
+    DefaultLanguage =ApplicationConfig->DefaultLanguage;
+    ffDRevision     ="";
 }
 
 //====================================================================================================================
@@ -680,6 +678,7 @@ void cffDProjectFile::SaveToXML(QDomElement &domDocument) {
 bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::LoadFromXML");
 
+    InitDefaultValues();
     bool IsOk=false;
     if ((domDocument.elementsByTagName("ffDiaporamaProjectProperties").length()>0)&&(domDocument.elementsByTagName("ffDiaporamaProjectProperties").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("ffDiaporamaProjectProperties").item(0).toElement();
@@ -697,14 +696,13 @@ bool cffDProjectFile::LoadFromXML(QDomElement domDocument) {
         }
         if (Element.hasAttribute("EventDate")) {
             EventDate=EventDate.fromString(Element.attribute("EventDate"),Qt::ISODate);
-            InformationList.append(QString("EventDate")+QString("##")+EventDate.toString(Qt::SystemLocaleShortDate));
+            InformationList.append(QString("EventDate")+QString("##")+EventDate.toString(ApplicationConfig->ShortDateFormat));
         } else if (Element.hasAttribute("Year")) {
             EventDate.setDate(Element.attribute("Year").toInt(),1,1);
-            InformationList.append(QString("EventDate")+QString("##")+EventDate.toString(Qt::SystemLocaleShortDate));
+            InformationList.append(QString("EventDate")+QString("##")+EventDate.toString(ApplicationConfig->ShortDateFormat));
         }
         if (Element.hasAttribute("OverrideDate")) OverrideDate=Element.attribute("OverrideDate")=="1";
-            else if (Element.hasAttribute("LongDate")) LongDate=Element.attribute("LongDate");
-        if (!OverrideDate) LongDate=FormatLongDate();
+        if (!OverrideDate) LongDate=FormatLongDate(EventDate); else if (Element.hasAttribute("LongDate")) LongDate=Element.attribute("LongDate");
         InformationList.append(QString("LongDate")+QString("##")+QString(LongDate));
 
         if (Element.hasAttribute("Comment")) {
@@ -820,7 +818,7 @@ QString cffDProjectFile::GetTAGInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cffDProjectFile::GetTechInfo");
 
     QString Info=Title;
-    if (LongDate!="")       Info=Info+(Info!=""?" - ":"")+LongDate; else Info=Info+(Info!=""?" - ":"")+EventDate.toString(Qt::SystemLocaleShortDate);
+    if (LongDate!="")       Info=Info+(Info!=""?" - ":"")+LongDate; else Info=Info+(Info!=""?" - ":"")+EventDate.toString(ApplicationConfig->ShortDateFormat);
     if (Album!="")          Info=Info+(Info!=""?" - ":"")+Album;
     if (Author!="")         Info=Info+(Info!=""?" - ":"")+Author;
     return Info;
@@ -2198,7 +2196,11 @@ int cVideoFile::VideoFilter_Process() {
         }
 
     #else
+        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
         int Ret=av_buffersrc_add_frame(VideoFilterIn,FrameBufferYUV,0);
+        #else
+        int Ret=av_buffersrc_add_frame(VideoFilterIn,FrameBufferYUV);
+        #endif
         if (Ret<0) {
             ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::VideoFilter_Process : av_buffersrc_add_frame"));
             return VC_ERROR;
@@ -2828,9 +2830,9 @@ QImage *cVideoFile::ImageAt(bool PreviewMode,int64_t Position,cSoundBlockList *S
 
 //====================================================================================================================
 
-int cVideoFile::getThreadFlags(CodecID codecId) {
+int cVideoFile::getThreadFlags(AVCodecID ID) {
     int Ret=0;
-    switch (codecId) {
+    switch (ID) {
         case CODEC_ID_PRORES:
         case CODEC_ID_MPEG1VIDEO:
         case CODEC_ID_DVVIDEO:

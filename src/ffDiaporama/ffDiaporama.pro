@@ -277,6 +277,8 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             DlgWorkingTask/DlgWorkingTask.cpp \
             DlgTransition/DlgTransitionDuration.cpp \
             DlgFileExplorer/DlgFileExplorer.cpp \
+            DlgChapter/DlgChapter.cpp \
+            DlgAutoTitleSlide/DlgAutoTitleSlide.cpp \
             ../engine/_GlobalDefines.cpp \
             ../engine/QCustomRuller.cpp \
             ../engine/cSaveWindowPosition.cpp \
@@ -311,7 +313,8 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             ../CustomCtrl/QCustomHorizSplitter.cpp \
             ../CustomCtrl/QCustomFolderTree.cpp \
             ../CustomCtrl/cCTexteFrameComboBox.cpp \
-            ../CustomCtrl/cThumbnailComboBox.cpp
+            ../CustomCtrl/cThumbnailComboBox.cpp \
+    ../CustomCtrl/cCustomTitleModelTable.cpp
 
 # Header files
 HEADERS  += wgt_QVideoPlayer.h \
@@ -343,6 +346,8 @@ HEADERS  += wgt_QVideoPlayer.h \
             DlgWorkingTask/DlgWorkingTask.h \
             DlgTransition/DlgTransitionDuration.h \
             DlgFileExplorer/DlgFileExplorer.h \
+            DlgChapter/DlgChapter.h \
+            DlgAutoTitleSlide/DlgAutoTitleSlide.h \
             ../engine/QCustomRuller.h \
             ../engine/cSaveWindowPosition.h \
             ../engine/cBaseApplicationConfig.h \
@@ -377,7 +382,8 @@ HEADERS  += wgt_QVideoPlayer.h \
             ../CustomCtrl/QCustomHorizSplitter.h \
             ../CustomCtrl/QCustomFolderTree.h \
             ../CustomCtrl/cCTexteFrameComboBox.h \
-            ../CustomCtrl/cThumbnailComboBox.h
+            ../CustomCtrl/cThumbnailComboBox.h \
+    ../CustomCtrl/cCustomTitleModelTable.h
 
 # Forms files
 FORMS    += mainwindow.ui \
@@ -402,7 +408,9 @@ FORMS    += mainwindow.ui \
             DlgWorkingTask/DlgWorkingTask.ui \
             DlgTransition/DlgTransitionDuration.ui \
             DlgSlide/DlgSlideDuration.ui \
-            DlgFileExplorer/DlgFileExplorer.ui
+            DlgFileExplorer/DlgFileExplorer.ui \
+            DlgChapter/DlgChapter.ui \
+            DlgAutoTitleSlide/DlgAutoTitleSlide.ui
 
 #--------------------------------------------------------------
 # INSTALLATION
@@ -444,11 +452,17 @@ model.path          = $$PREFIX/share/$$APPFOLDER/model
 model.files         = ../../model/*.*
 model_thumb.path    = $$PREFIX/share/$$APPFOLDER/model/Thumbnails
 model_thumb.files   = ../../model/Thumbnails/*.*
-model_tts.path      = $$PREFIX/share/$$APPFOLDER/model/TitleSlides
-model_tts.files     = ../../model/TitleSlides/*.*
+model_tts.path      = $$PREFIX/share/$$APPFOLDER/model/Titles
+model_tts.files     = ../../model/Titles/*.*
+model_tts43.path    = $$PREFIX/share/$$APPFOLDER/model/Titles/4_3
+model_tts43.files   = ../../model/Titles/4_3/*.*
+model_tts169.path   = $$PREFIX/share/$$APPFOLDER/model/Titles/16_9
+model_tts169.files  = ../../model/Titles/16_9/*.*
+model_tts4017.path  = $$PREFIX/share/$$APPFOLDER/model/Titles/40_17
+model_tts4017.files = ../../model/Titles/40_17/*.*
 model_fat.path      = $$PREFIX/share/$$APPFOLDER/model/FanArts
 model_fat.files     = ../../model/FanArts/*.*
-INSTALLS 	    += model_thumb model_tts model_fat model
+INSTALLS 	    += model_thumb model_tts model_tts43 model_tts169 model_tts4017 model_fat model
 
 luma.path           = $$PREFIX/share/$$APPFOLDER/luma
 luma.files          = ../../luma/*.*

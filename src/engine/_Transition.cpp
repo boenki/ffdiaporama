@@ -141,7 +141,7 @@ void cLumaList::ScanDisk(QString Path,int TransitionFamilly) {
 
 //====================================================================================================================
 
-void cLumaList::SetGeometry(int TheGeometry) {
+void cLumaList::SetGeometry(ffd_GEOMETRY TheGeometry) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLumaList::SetGeometry");
 
     if (Geometry==TheGeometry) return;

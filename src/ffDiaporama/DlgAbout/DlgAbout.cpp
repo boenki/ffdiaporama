@@ -46,8 +46,20 @@ DlgAbout::~DlgAbout() {
 
 void DlgAbout::DoInitDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::DoInitDialog");
-    QString FName=QString("background")+QDir::separator()+QString("texturemate")+QDir::separator()+QString("readme.txt");
-    QFile File(FName);
+    QString FName,Text;
+    QFile   File;
+
+    FName=QString("clipart")+QDir::separator()+QString("openclipart-0.18-svgonly-readme.txt");
+    File.setFileName(FName);
+    if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {
+        Text=File.readAll();
+        ui->OpenclipartED->setText(Text);
+        File.close();
+    } else {
+        ui->tabWidget->removeTab(3);
+    }
+    FName=QString("background")+QDir::separator()+QString("texturemate")+QDir::separator()+QString("readme.txt");
+    File.setFileName(FName);
     if (File.open(QIODevice::ReadOnly|QIODevice::Text)) {
         QString Text=File.readAll();
         ui->TexturemateED->setText(Text);

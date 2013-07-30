@@ -31,10 +31,6 @@
 <context>
     <name>DlgAbout</name>
     <message>
-        <source>About</source>
-        <translation>關於</translation>
-    </message>
-    <message>
         <source>Licence</source>
         <translation>授權</translation>
     </message>
@@ -836,6 +832,133 @@ Beyond this height, the videos are automatically reduced for creating images.</s
     </message>
 </context>
 <context>
+    <name>DlgAutoTitleSlide</name>
+    <message>
+        <source>Event date:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, you can enter a longtime different from that generated from the date of the chapter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter here a date, in a free format, for the chapter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a date for the chapter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Override date:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept modification and go to previous slide</source>
+        <translation type="unfinished">採納修改並前往上一張投影片</translation>
+    </message>
+    <message>
+        <source>Previous</source>
+        <translation type="unfinished">上一張</translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished">確定(&amp;O)</translation>
+    </message>
+    <message>
+        <source>Accept modification and go to next slide</source>
+        <translation type="unfinished">採納修改並前往下一張投影片</translation>
+    </message>
+    <message>
+        <source>Next</source>
+        <translation type="unfinished">下一張</translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">取消(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Chapter name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the date of the chapter is different from the date of the project.
+
+Remark: It is often useful to differentiate the date of the chapter of the date of the project.
+For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a predefined title slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit a predefined title slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide type:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Category:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Project properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This button allows you to convert this slide to a standard slide.
+Standard slide are fully customizable.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Convert to standard slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Please select a model first</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter here the title of the chapter (if the &quot;Chapter name different from slide name&quot; box is checked).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This button allows you to open project properties dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to select a model and define chapter information for this predefined slide.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter date different from project date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Credit title</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DlgBackgroundProperties</name>
     <message>
         <source>Background properties</source>
@@ -971,6 +1094,81 @@ Beyond this height, the videos are automatically reduced for creating images.</s
     <message>
         <source>Cancel modification and exit dialog box</source>
         <translation type="unfinished">取消修改然後離開對話方塊</translation>
+    </message>
+</context>
+<context>
+    <name>DlgChapter</name>
+    <message>
+        <source>Chapter properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start a new chapter from this slide. (If this box is checked, the slide will mark the beginning of a new chapter.)
+Remarks : This box cannot be deactivated for the first slide of the project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start a new chapter with this slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the date of the chapter is different from the date of the project.
+
+Remark: It is often useful to differentiate the date of the chapter of the date of the project.
+For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define settings for the chapter information of the slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Accept modification and exit dialog box</source>
+        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished">確定(&amp;O)</translation>
+    </message>
+    <message>
+        <source>Cancel modification and exit dialog box</source>
+        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">取消(&amp;C)</translation>
+    </message>
+    <message>
+        <source>Override date:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event date:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a date for the chapter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, you can enter a longtime different from that generated from the date of the chapter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter here a date, in a free format, for the chapter</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter date different from project date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter here the name of the chapter</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3520,15 +3718,7 @@ information</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Slide :</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Define a name for the slide. It is this name which will appear on the thumbnail in the main window timeline</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Start chapter from here</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3910,14 +4100,6 @@ Note: in case of multiple selection, files are added in the alphabetical order o
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Start a new chapter from this slide. (If this box is checked, the slide will mark the beginning of a new chapter.)
-
-Remarks :
-- The name of the chapter will be the name of the slide.
-- With the exception of the 1st chapter of the video which cannot be deactivated, is always positioned on the 1st slide and always begins at 0, chapters begin after the enterring transition.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The total slide duration is displayed here. This duration takes into account possible adjustments for minimal duration of the shot.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4166,6 +4348,55 @@ Remarks:
     <message>
         <source>Make the active block visible.
 Note: Hidden video blocks are automatically paused</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage chapter information for this slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter
+Information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide name:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save this slide as a model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save as
+model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Append to project title models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Append to chapter title models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide added in Project title models collection</source>
+        <comment>Information message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide added in Chapter title models collection</source>
+        <comment>Information message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Append to credit title models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide added in Credit title models collection</source>
+        <comment>Information message</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4814,29 +5045,19 @@ Options for joined ressources</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>custom</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Create a custom thumbnail model</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error: The name can&apos;t be empty
-Retry ?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error: This name is already used
-Retry ?</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Edit this custom model</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Create a custom model based on this model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Customize the thumbnail only for this project (without creating a new thumbnail model)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Customize</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5827,30 +6048,8 @@ Are you sure it is empty?</source>
         <translation type="unfinished">Ctrl+V</translation>
     </message>
     <message>
-        <source>Error reading default thumbnail file</source>
-        <comment>Error message</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Error reading content of default thumbnail file</source>
-        <comment>Error message</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The file is not a valid thumbnail file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Register thumbnail models...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Register title slide models...</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Name:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5863,6 +6062,20 @@ Are you sure it is empty?</source>
     </message>
     <message>
         <source>Register models...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a predefined title slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error creating model file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The file is not a valid title model file</source>
+        <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6599,6 +6812,114 @@ Are you sure it is empty?</source>
         <source>ffDiaporama version</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>%1 presents</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A %1 production</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project author as &lt;Author presents&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project author as &lt;A Author production&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number as &quot;Chapter NÂ°&quot;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content:</source>
+        <comment>Project statistics</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 slides (%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 chapters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%1 videos (%2)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%3 vector images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%4 photos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%5 text blocks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%6 automatic slides</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Musical content:</source>
+        <comment>Project statistics</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> - Â© %1 %2</source>
+        <comment>Project statistics-Music</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> - Â© %1</source>
+        <comment>Project statistics-Music</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> (Track %1 from Â«%2Â»)</source>
+        <comment>Project statistics-Music</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> (from Â«%1Â»)</source>
+        <comment>Project statistics-Music</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project done the %1:
+	Â·with Â«%2 (%3)Â»
+	Â·on a %4 (%5 Core/CPU) computer</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The end</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project made</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Musical content</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>cBaseMediaFile</name>
@@ -6796,6 +7117,91 @@ Are you sure it is empty?</source>
     </message>
     <message>
         <source>Project comment</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error reading default thumbnail file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error</source>
+        <comment>Error message</comment>
+        <translation type="unfinished">錯誤</translation>
+    </message>
+    <message>
+        <source>Error reading content of default thumbnail file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Register thumbnail models...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Register Project title slide models (%1)...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Register Chapter title slide models (%1)...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simple titles without animation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animated titles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Titles dedicated to events</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom titles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simple chapter titles without animation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animated chapter titles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter titles dedicated to events</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom chapter titles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error reading content of title model file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Register Credit title slide models (%1)...</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Simple credit titles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom credit titles</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error reading title model file</source>
+        <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>

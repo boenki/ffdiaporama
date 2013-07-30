@@ -56,6 +56,7 @@ int64_t TotalLoadSources=0,TotalAssembly=0,TotalLoadSound=0;
 #define DEFAULT_MUSICREDUCEVOLUME           false
 #define DEFAULT_MUSICREDUCEFACTOR           0.2
 #define DEFAULT_STARTNEWCHAPTER             false
+#define DEFAULT_CHAPTEROVERRIDE             false
 
 cCompositionObjectContext::cCompositionObjectContext(int ObjectNumber,bool PreviewMode,bool IsCurrentObject,cDiaporamaObjectInfo *Info,double width,double height,
                                                      cDiaporamaShot *CurShot,cDiaporamaShot *PreviousShot,cSoundBlockList *SoundTrackMontage,bool AddStartPos,
@@ -241,9 +242,16 @@ cCompositionObject::cCompositionObject(int TheTypeComposition,int TheIndexKey,cB
     ApplicationConfig       = TheApplicationConfig;
     TypeComposition         = TheTypeComposition;
     IndexKey                = TheIndexKey;
+    BackgroundBrush         = new cBrushDefinition(ApplicationConfig,&BackgroundList);  // ERROR : BackgroundList is global !
+    InitDefaultValues();
+}
+
+//*********************************************************************************************************************************************
+
+void cCompositionObject::InitDefaultValues() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject::InitDefaultValues");
     IsVisible               = true;
     SameAsPrevShot          = false;
-    BackgroundBrush         = new cBrushDefinition(ApplicationConfig,&BackgroundList);  // ERROR : BackgroundList is global !
 
     x                       = 0.25;         // Position (x,y) and size (width,height)
     y                       = 0.25;
@@ -439,6 +447,8 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
 
 bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:LoadFromXML");
+
+    InitDefaultValues();
 
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
@@ -1176,7 +1186,7 @@ void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter
             // Text part
             //**********************************************************************************
             if ((TheTxtZoomLevel>0)&&(Text!="")) {
-                QString         TheText=ResolveTextVariable(Object,Text);
+                QString         TheText=Variable.ResolveTextVariable(Object,Text);
 
                 double          FullMargin=((TMType==TEXTMARGINS_FULLSHAPE)||(TMType==TEXTMARGINS_CUSTOM))?0:double(PenSize)*ADJUST_RATIO/double(2);
                 QRectF          TextMargin;
@@ -1415,11 +1425,27 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
     SlideName                               = QApplication::translate("MainWindow","Title","Default slide name when no file");
     NextIndexKey                            = 1;
 
+    InitDefaultValues();
+
+    // Add an empty scene
+    List.append(new cDiaporamaShot(this));
+}
+
+//====================================================================================================================
+
+void cDiaporamaObject::InitDefaultValues() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:InitDefaultValues");
+
     // Set default/initial value
     StartNewChapter                         = DEFAULT_STARTNEWCHAPTER;      // if true then start a new chapter from this slide
+    ChapterName                             = QApplication::translate("cModelList","Chapter title");
+    OverrideProjectEventDate                = DEFAULT_CHAPTEROVERRIDE;
+    ChapterEventDate                        = Parent->ProjectInfo->EventDate;
+    OverrideChapterLongDate                 = DEFAULT_CHAPTEROVERRIDE;
+    ChapterLongDate                         = "";
     BackgroundType                          = false;                        // Background type : false=same as precedent - true=new background definition
-    BackgroundBrush->BrushType               = BRUSHTYPE_SOLID;
-    BackgroundBrush->ColorD                  = "#000000";                   // Background color
+    BackgroundBrush->BrushType              = BRUSHTYPE_SOLID;
+    BackgroundBrush->ColorD                 = "#000000";                    // Background color
     MusicType                               = DEFAULT_MUSICTYPE;            // Music type : false=same as precedent - true=new playlist definition
     MusicPause                              = DEFAULT_MUSICPAUSE;           // true if music is pause during this object
     MusicReduceVolume                       = DEFAULT_MUSICREDUCEVOLUME;    // true if volume if reduce by MusicReduceFactor
@@ -1430,9 +1456,6 @@ cDiaporamaObject::cDiaporamaObject(cDiaporama *Diaporama) {
     TransitionSpeedWave                     = SPEEDWAVE_PROJECTDEFAULT;
     ObjectComposition.TypeComposition       = COMPOSITIONTYPE_OBJECT;
     Thumbnail                               = NULL;
-
-    // Add an empty scene
-    List.append(new cDiaporamaShot(this));
 }
 
 //====================================================================================================================
@@ -1555,10 +1578,17 @@ int64_t cDiaporamaObject::GetDuration() {
 
 //===============================================================
 
-int cDiaporamaObject::ComputeChapterNumber() {
-    int Number=0;
-    for (int i=1;(i<Parent->List.count())&&(Parent->List[i]!=this);i++)
-         if (Parent->List[i]->StartNewChapter) Number++;
+int cDiaporamaObject::ComputeChapterNumber(cDiaporamaObject **Object) {
+    int i,Number=0;
+    if (Object) *Object=NULL;
+    for (i=0;(i<Parent->List.count())&&(Parent->List[i]!=this);i++) if ((i==0)||(Parent->List[i]->StartNewChapter)) {
+        if (Parent->List[i]->StartNewChapter) Number++;
+        if ((Object)&&(i<Parent->List.count())) *Object=Parent->List[i];
+    }
+    if ((i==0)||((i<Parent->List.count())&&(Parent->List[i]->StartNewChapter))) {
+        if ((i<Parent->List.count())&&(Parent->List[i]->StartNewChapter)) Number++;
+        if ((Object)&&(i<Parent->List.count())) *Object=Parent->List[i];
+    }
     return Number;
 }
 
@@ -1572,45 +1602,64 @@ int cDiaporamaObject::GetSlideNumber() {
 
 //===============================================================
 
-void cDiaporamaObject::LoadThumbnail(QString ThumbnailName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:LoadThumbnail:LoadThumbnail");
-
-    QFile   file(ThumbnailName);
-    QString errorStr;
-    int     errorLine,errorColumn;
-
-    if (!file.open(QFile::ReadOnly | QFile::Text)) {
-        QString ErrorMsg=QApplication::translate("MainWindow","Error reading default thumbnail file","Error message")+"\n"+ThumbnailName;
-        CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),ErrorMsg,QMessageBox::Close);
-    } else {
-        QDomDocument domDocument;
-        if (!domDocument.setContent(&file, true, &errorStr, &errorLine,&errorColumn)) {
-            CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error reading content of default thumbnail file","Error message"),QMessageBox::Close);
-        } else {
-            QDomElement ProjectDocument=domDocument.documentElement();
-            if (ProjectDocument.tagName()!=THUMBMODEL_ROOTNAME) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","The file is not a valid thumbnail file","Error message"),QMessageBox::Close);
-                else LoadFromXML(ProjectDocument,"ProjectThumbnail","",NULL);
-        }
-        file.close();
-    }
+int cDiaporamaObject::GetAutoTSNumber() {
+    if ((SlideName.length()==QString("<%AUTOTS_000000%>").length())&&(SlideName.startsWith("<%AUTOTS_"))&&(SlideName.endsWith("%>")))
+        return SlideName.mid(QString("<%AUTOTS_").length(),QString("000000").length()).toInt();
+        else return -1;
 }
 
 //===============================================================
 
-bool cDiaporamaObject::SaveThumbnail(QString ThumbnailName) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:LoadThumbnail:SaveThumbnail");
+void cDiaporamaObject::LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument domDocument) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:LoadModel");
 
-    QFile           file(ThumbnailName);
+    QString     ErrorMsg;
+    QDomElement ProjectDocument=domDocument.documentElement();
+    bool        IsOk=false;
+    switch (TypeModel) {
+        case ffd_MODELTYPE_THUMBNAIL:
+            IsOk=(ProjectDocument.tagName()==THUMBMODEL_ROOTNAME)&&(LoadFromXML(ProjectDocument,THUMBMODEL_ELEMENTNAME,"",NULL));
+            ErrorMsg=QApplication::translate("MainWindow","The file is not a valid thumbnail file","Error message");
+            break;
+        case ffd_MODELTYPE_PROJECTTITLE:
+        case ffd_MODELTYPE_CHAPTERTITLE:
+        case ffd_MODELTYPE_CREDITTITLE:
+            IsOk=(ProjectDocument.tagName()==TITLEMODEL_ROOTNAME)&&(LoadFromXML(ProjectDocument,TITLEMODEL_ELEMENTNAME,"",NULL));
+            ErrorMsg=QApplication::translate("MainWindow","The file is not a valid title model file","Error message");
+            break;
+    }
+    if (!IsOk) CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),ErrorMsg,QMessageBox::Close);
+}
+
+//===============================================================
+
+bool cDiaporamaObject::SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:SaveThumbnail");
+
+    QFile           file(ModelFileName);
     QDomDocument    domDocument(APPLICATION_NAME);
     QDomElement     root;
+    QString         RootName,ElementName;
 
     // Create xml document and root
-    root=domDocument.createElement(THUMBMODEL_ROOTNAME);
+    switch (TypeModel) {
+        case ffd_MODELTYPE_THUMBNAIL:
+            RootName=THUMBMODEL_ROOTNAME;
+            ElementName=THUMBMODEL_ELEMENTNAME;
+            break;
+        case ffd_MODELTYPE_PROJECTTITLE:
+        case ffd_MODELTYPE_CHAPTERTITLE:
+        case ffd_MODELTYPE_CREDITTITLE:
+            RootName=TITLEMODEL_ROOTNAME;
+            ElementName=TITLEMODEL_ELEMENTNAME;
+            break;
+    }
+    root=domDocument.createElement(RootName);
     domDocument.appendChild(root);
-    SaveToXML(root,"ProjectThumbnail",ThumbnailName,false);
+    SaveToXML(root,ElementName,ModelFileName,false);
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
-        CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error creating data file","Error message"),QMessageBox::Close);
+        CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error creating model file","Error message"),QMessageBox::Close);
         return false;
     } else {
         // Save file now
@@ -1619,6 +1668,31 @@ bool cDiaporamaObject::SaveThumbnail(QString ThumbnailName) {
         file.close();
         return true;
     }
+}
+
+//===============================================================
+
+QString cDiaporamaObject::SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:SaveAsNewCustomModelFile");
+
+    QString     NewName,Text;
+    cModelList  *ModelList;
+
+    switch (TypeModel) {
+        case ffd_MODELTYPE_THUMBNAIL:       ModelList=Parent->ApplicationConfig->ThumbnailModels;                                                           break;
+        case ffd_MODELTYPE_PROJECTTITLE:    ModelList=Parent->ApplicationConfig->PrjTitleModels[Parent->ImageGeometry][MODELTYPE_PROJECTTITLE_CATNUMBER-1]; break;
+        case ffd_MODELTYPE_CHAPTERTITLE:    ModelList=Parent->ApplicationConfig->CptTitleModels[Parent->ImageGeometry][MODELTYPE_CHAPTERTITLE_CATNUMBER-1]; break;
+        case ffd_MODELTYPE_CREDITTITLE:     ModelList=Parent->ApplicationConfig->CreditTitleModels[Parent->ImageGeometry][MODELTYPE_CREDITTITLE_CATNUMBER-1]; break;
+    }
+
+    NewName=ModelList->CustomModelPath; if (!NewName.endsWith(QDir::separator())) NewName=NewName+QDir::separator();
+    Text=QString("%1").arg(*ModelList->NextNumber);
+    (*ModelList->NextNumber)++;
+    NewName=NewName+Text+"."+ModelList->ModelSuffix;
+    SaveModelFile(TypeModel,NewName);
+    ModelList->FillModelType(TypeModel);
+    if (TypeModel==ffd_MODELTYPE_THUMBNAIL) Parent->ThumbnailName=Text;
+    return NewName;
 }
 
 //===============================================================
@@ -1632,21 +1706,23 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
     Element.setAttribute("NextIndexKey",    NextIndexKey);
 
-    if (ElementName=="ProjectThumbnail") {
+    if (ElementName==THUMBMODEL_ELEMENTNAME) {
 
-        Element.setAttribute("ThumbnailName",Parent->ThumbnailName);
+    } else if (ElementName==TITLEMODEL_ELEMENTNAME) {
 
     } else {
 
         // Slide properties
         Element.setAttribute("SlideName", SlideName);
-        if (StartNewChapter!=DEFAULT_STARTNEWCHAPTER) Element.setAttribute("StartNewChapter", StartNewChapter?"1":"0");
 
-        // Background properties
-        SubElement=DomDocument.createElement("Background");
-        SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                                        // Background type : false=same as precedent - true=new background definition
-        BackgroundBrush->SaveToXML(SubElement,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath);             // Background brush
-        Element.appendChild(SubElement);
+        // Chapter properties
+        if (StartNewChapter!=DEFAULT_STARTNEWCHAPTER)                                       Element.setAttribute("StartNewChapter",         StartNewChapter?"1":"0");
+        if (OverrideProjectEventDate!=DEFAULT_CHAPTEROVERRIDE)                              Element.setAttribute("OverrideProjectEventDate",OverrideProjectEventDate?"1":"0");
+        if (OverrideChapterLongDate!=DEFAULT_CHAPTEROVERRIDE)                               Element.setAttribute("OverrideChapterLongDate", OverrideChapterLongDate?"1":"0");
+        if (StartNewChapter && !ChapterName.isEmpty())                                      Element.setAttribute("ChapterName",             ChapterName);
+        if (OverrideChapterLongDate && !ChapterLongDate.isEmpty())                          Element.setAttribute("ChapterLongDate",         ChapterLongDate);
+        if (OverrideProjectEventDate && (ChapterEventDate!=Parent->ProjectInfo->EventDate)) Element.setAttribute("ChapterEventDate",        ChapterEventDate.toString(Qt::ISODate));
+
 
         // Transition properties
         SubElement=DomDocument.createElement("Transition");
@@ -1676,6 +1752,13 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
             Element.setAttribute("ThumbWidth",Thumbnail->width());
             Element.setAttribute("ThumbHeight",Thumbnail->height());
         }
+
+        // Background properties
+        SubElement=DomDocument.createElement("Background");
+        SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                                        // Background type : false=same as precedent - true=new background definition
+        BackgroundBrush->SaveToXML(SubElement,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath);             // Background brush
+        Element.appendChild(SubElement);
+
     }
 
     // Global blocks composition table
@@ -1683,7 +1766,7 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
     // Shots definitions
     Element.setAttribute("ShotNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,(ElementName=="ProjectThumbnail"));
+    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,(ElementName==THUMBMODEL_ELEMENTNAME));
 
     domDocument.appendChild(Element);
 }
@@ -1693,43 +1776,38 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:LoadFromXML");
 
+    if ((ElementName!=THUMBMODEL_ELEMENTNAME)&&(ElementName!=TITLEMODEL_ELEMENTNAME)) InitDefaultValues();
+
     if ((domDocument.elementsByTagName(ElementName).length()>0)&&(domDocument.elementsByTagName(ElementName).item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
         bool IsOk=true;
 
         // Load shot list
-        List.clear();   // Remove default 1st shot create by constructor
+        List.clear();
 
         NextIndexKey=Element.attribute("NextIndexKey").toInt();
 
-        if (ElementName=="ProjectThumbnail") {
+        if (ElementName==THUMBMODEL_ELEMENTNAME) {
 
-            if (Element.hasAttribute("ThumbnailName")) Parent->ThumbnailName=Element.attribute("ThumbnailName");
+        } else if (ElementName==TITLEMODEL_ELEMENTNAME) {
 
         } else {
 
             // Slide properties
             SlideName=Element.attribute("SlideName");
-            if (Element.hasAttribute("StartNewChapter")) StartNewChapter=Element.attribute("StartNewChapter")=="1";
+            if (Element.hasAttribute("StartNewChapter"))            StartNewChapter         =Element.attribute("StartNewChapter")=="1";
+            if (Element.hasAttribute("OverrideProjectEventDate"))   OverrideProjectEventDate=Element.attribute("OverrideProjectEventDate")=="1";
+            if (Element.hasAttribute("OverrideChapterLongDate"))    OverrideChapterLongDate =Element.attribute("OverrideChapterLongDate")=="1";
+            if (Element.hasAttribute("ChapterName"))                ChapterName             =Element.attribute("ChapterName");
+            if (Element.hasAttribute("ChapterLongDate"))            ChapterLongDate         =Element.attribute("ChapterLongDate");
+            if (Element.hasAttribute("ChapterEventDate"))           ChapterEventDate        =ChapterEventDate.fromString(Element.attribute("ChapterEventDate"),Qt::ISODate);
+            ChapterEventDate=OverrideProjectEventDate?ChapterEventDate:Parent->ProjectInfo->EventDate;
+            ChapterLongDate =OverrideProjectEventDate?OverrideChapterLongDate?ChapterLongDate:FormatLongDate(ChapterEventDate):Parent->ProjectInfo->LongDate;
 
-            // Background properties
-            if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
-                if (BackgroundBrush->Image) {
-                    delete BackgroundBrush->Image;
-                    BackgroundBrush->Image=NULL;
-                }
-                if (BackgroundBrush->Video) {
-                    delete BackgroundBrush->Video;
-                    BackgroundBrush->Video=NULL;
-                }
-                QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
-                BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
-                bool    ModifyFlag;
-                if (!BackgroundBrush->LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
-                if (IsOk && ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
-                if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
-            }
+            // Compatibility with version prior to 1.7
+            if ((Parent->ProjectInfo->ffDRevision<"20130725")&&((StartNewChapter)||(GetSlideNumber()==0))) ChapterName=SlideName;
+
             // Transition properties
             if ((Element.elementsByTagName("Transition").length()>0)&&(Element.elementsByTagName("Transition").item(0).isElement()==true)) {
                 QDomElement SubElement=Element.elementsByTagName("Transition").item(0).toElement();
@@ -1765,6 +1843,24 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 Thumbnail->loadFromData(Decompressed);
             }
 
+            // Background properties
+            if ((Element.elementsByTagName("Background").length()>0)&&(Element.elementsByTagName("Background").item(0).isElement()==true)) {
+                if (BackgroundBrush->Image) {
+                    delete BackgroundBrush->Image;
+                    BackgroundBrush->Image=NULL;
+                }
+                if (BackgroundBrush->Video) {
+                    delete BackgroundBrush->Video;
+                    BackgroundBrush->Video=NULL;
+                }
+                QDomElement SubElement=Element.elementsByTagName("Background").item(0).toElement();
+                BackgroundType  =SubElement.attribute("BackgroundType")=="1"; // Background type : false=same as precedent - true=new background definition
+                bool ModifyFlag;
+                if (!BackgroundBrush->LoadFromXML(SubElement,"BackgroundBrush",PathForRelativPath,AliasList,&ModifyFlag)) IsOk=false;
+                if (IsOk && ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
+                if (ModifyFlag) ((MainWindow *)Parent->ApplicationConfig->TopLevelWindow)->SetModifyFlag(true);
+            }
+
         }
 
         // Global blocks composition table
@@ -1792,7 +1888,6 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                 ObjectComposition.List.at(i)->BackgroundBrush->BlurSharpenRadius =5;
             }
         }
-
         return IsOk;
     } else return false;
 }
@@ -1828,7 +1923,8 @@ cDiaporama::cDiaporama(cBaseApplicationConfig *TheApplicationConfig,bool LoadDef
     if (LoadDefaultModel) {
         // Load default thumbnail
         ThumbnailName=ApplicationConfig->DefaultThumbnailName;
-        ProjectThumbnail->LoadThumbnail(ApplicationConfig->ThumbnailModels->List[ApplicationConfig->ThumbnailModels->SearchModel(ApplicationConfig->DefaultThumbnailName)].FileName);
+        int ModelIndex=ApplicationConfig->ThumbnailModels->SearchModel(ApplicationConfig->DefaultThumbnailName);
+        if ((ModelIndex>0)&&(ModelIndex<ApplicationConfig->ThumbnailModels->List.count())) ProjectThumbnail->LoadModelFromXMLData(ffd_MODELTYPE_THUMBNAIL,ApplicationConfig->ThumbnailModels->List[ModelIndex].Model);
     }
 }
 
@@ -1850,6 +1946,12 @@ cDiaporama::~cDiaporama() {
 
 //====================================================================================================================
 
+void cDiaporama::UpdateInformation() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:UpdateInformation");
+    UpdateChapterInformation();
+    UpdateStatInformation();
+}
+
 void cDiaporama::UpdateChapterInformation() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:UpdateChapterInformation");
 
@@ -1862,7 +1964,8 @@ void cDiaporama::UpdateChapterInformation() {
     ProjectInfo->NbrChapters=0;
     // Create new
     for (int i=0;i<List.count();i++) if ((i==0)||(List[i]->StartNewChapter)) {
-        QString ChapterNum=QString("%1").arg(ProjectInfo->NbrChapters++); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
+        if (List[i]->StartNewChapter) ProjectInfo->NbrChapters++;
+        QString ChapterNum=QString("%1").arg(ProjectInfo->NbrChapters); while (ChapterNum.length()<3) ChapterNum="0"+ChapterNum;
         int     NextChapter=i+1;
         int64_t Start   =GetObjectStartPosition(i)+(i>0?List[i]->GetTransitDuration():0)-GetObjectStartPosition(0);
         int64_t Duration=List[i]->GetDuration()-(i>0?List[i]->GetTransitDuration():0);
@@ -1876,13 +1979,99 @@ void cDiaporama::UpdateChapterInformation() {
         ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":Start"   +QString("##")+QTime(0,0,0,0).addMSecs(Start).toString("hh:mm:ss.zzz"));
         ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":End"     +QString("##")+QTime(0,0,0,0).addMSecs(Start+Duration).toString("hh:mm:ss.zzz"));
         ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":Duration"+QString("##")+QTime(0,0,0,0).addMSecs(Duration).toString("hh:mm:ss.zzz"));
-        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":title"+QString("##")+List[i]->SlideName);
+        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":title"   +QString("##")+(List[i]->StartNewChapter?List[i]->ChapterName:ProjectInfo->Title));
+        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":Date"    +QString("##")+(List[i]->OverrideProjectEventDate?List[i]->ChapterEventDate:ProjectInfo->EventDate).toString(ApplicationConfig->ShortDateFormat));
+        ProjectInfo->InformationList.append("Chapter_"+ChapterNum+":LongDate"+QString("##")+(List[i]->OverrideProjectEventDate?List[i]->OverrideChapterLongDate?List[i]->ChapterLongDate:FormatLongDate(List[i]->ChapterEventDate):ProjectInfo->LongDate));
+    }
+}
+
+/*class cComposerItem {
+public:
+    QString Composer;
+    int     Count;
+    cComposerItem(QString Composer) {this->Composer=Composer; Count=1; }
+};
+
+class cComposerCount {
+public:
+    QList<cComposerItem> List;
+    cComposerCount() {}
+    void Add(QString Composer) { for (int i=0;i<List.count();i++) if (List[i].Composer==Composer) List[i].Count++; else List.append(cComposerItem(Composer)); }
+};*/
+
+void cDiaporama::UpdateStatInformation() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:UpdateStatInformation");
+
+    QString Text;
+    for (int var=0;var<Variable.Variables.count();var++) {
+        if (Variable.Variables[var].VarName=="STP") {
+
+            // Parse all object to construct values
+            QTime           VideoDuration=QTime(0,0,0,0);
+            int             NbrVideo=0;
+            int             NbrVectorImg=0;
+            int             NbrImage=0;
+            int             NbrText=0;
+            int             NbrAutoSlide=0;
+            //cComposerCount  Composer;
+
+            for (int i=0;i<List.count();i++) {
+                if (List[i]->GetAutoTSNumber()==-1) {
+                    for (int j=0;j<List[i]->ObjectComposition.List.count();j++) {
+                        if (List[i]->ObjectComposition.List[j]->BackgroundBrush->Video) {
+                            NbrVideo++;
+                            VideoDuration=VideoDuration.addMSecs(QTime(0,0,0,0).msecsTo(List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->Duration));
+                        } else if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Image)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->Image->IsVectorImg)) {
+                            NbrVectorImg++;
+                        } else if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Image)&&(!List[i]->ObjectComposition.List[j]->BackgroundBrush->Image->IsVectorImg)) {
+                            NbrImage++;
+                            //Composer.Add(List[i]->ObjectComposition.List[j]->BackgroundBrush->Image->GetInformationValue("composer"));
+                        } else NbrText++;
+                    }
+                } else NbrAutoSlide++;
+            }
+
+            Text=QApplication::translate("Variables","Content:","Project statistics");
+            if (List.count())               Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%1 slides (%2)").arg(List.count()).arg(QTime(0,0,0,0).addMSecs(ProjectInfo->Duration).toString("hh:mm:ss.zzz"));
+            if (ProjectInfo->NbrChapters)   Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%1 chapters").arg(ProjectInfo->NbrChapters);
+            if (NbrVideo)                   Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%1 videos (%2)").arg(NbrVideo).arg(VideoDuration.toString("hh:mm:ss.zzz"));
+            if (NbrVectorImg)               Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%3 vector images").arg(NbrVectorImg);
+            if (NbrImage)                   Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%4 photos").arg(NbrImage);
+            if (NbrText)                    Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%5 text blocks").arg(NbrText);
+            if (NbrAutoSlide)               Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%6 automatic slides").arg(NbrAutoSlide);
+            //for (int j=0;j<Composer.List.count();j++) Variable.Variables[i].Value=Variable.Variables[i].Value+QString("    %1: %2<br>").arg(Composer.List[j].Composer).arg(Composer.List[j].Count);
+            Variable.Variables[var].Value=Text;
+
+        } else if (Variable.Variables[var].VarName=="STM") {
+
+            // Parse all object to construct values
+            Text=QApplication::translate("Variables","Musical content:","Project statistics");
+            for (int i=0;i<List.count();i++) if (List[i]->MusicType) for (int music=0;music<List[i]->MusicList.count();music++) {
+                QString TMusc =List[i]->MusicList[music].GetInformationValue("title");
+                QString Album =List[i]->MusicList[music].GetInformationValue("album");
+                QString Track =List[i]->MusicList[music].GetInformationValue("track");
+                QString Date  =List[i]->MusicList[music].GetInformationValue("date");
+                QString Artist=List[i]->MusicList[music].GetInformationValue("artist");
+
+                Text=Text+(Text.isEmpty()?"·":"\n·")+(!TMusc.isEmpty()?TMusc:List[i]->MusicList[music].ShortName);
+                if (!Artist.isEmpty()) {
+                    if (!Date.isEmpty())  Text=Text+QApplication::translate("Variables"," - © %1 %2","Project statistics-Music").arg(Date).arg(Artist);
+                        else              Text=Text+QApplication::translate("Variables"," - © %1",   "Project statistics-Music").arg(Artist);
+                }
+                if (!Album.isEmpty()) {
+                    if (!Track.isEmpty()) Text=Text+QApplication::translate("Variables"," (Track %1 from «%2»)","Project statistics-Music").arg(Track).arg(Album);
+                        else              Text=Text+QApplication::translate("Variables"," (from «%1»)",         "Project statistics-Music").arg(Album);
+                }
+            }
+            Variable.Variables[var].Value=Text;
+
+        }
     }
 }
 
 //====================================================================================================================
 
-void cDiaporama::DefineSizeAndGeometry(int Geometry) {
+void cDiaporama::DefineSizeAndGeometry(ffd_GEOMETRY Geometry) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:DefineSizeAndGeometry");
 
     ImageGeometry   =Geometry;
@@ -1895,10 +2084,9 @@ void cDiaporama::DefineSizeAndGeometry(int Geometry) {
     LumaList_Box.SetGeometry(ImageGeometry);
     LumaList_Snake.SetGeometry(ImageGeometry);
     switch (Geometry) {
-        case GEOMETRY_16_9:  ProjectInfo->ObjectGeometry=IMAGE_GEOMETRY_16_9;   break;
         case GEOMETRY_40_17: ProjectInfo->ObjectGeometry=IMAGE_GEOMETRY_40_17;  break;
-        case GEOMETRY_4_3:
-        default:             ProjectInfo->ObjectGeometry=IMAGE_GEOMETRY_4_3;    break;
+        case GEOMETRY_4_3:   ProjectInfo->ObjectGeometry=IMAGE_GEOMETRY_4_3;    break;
+        default:             ProjectInfo->ObjectGeometry=IMAGE_GEOMETRY_16_9;   break;
     }
 }
 
@@ -1910,9 +2098,9 @@ int cDiaporama::GetHeightForWidth(int WantedWith) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetHeightForWidth");
 
     switch (ImageGeometry) {
-        case GEOMETRY_4_3 :     return int(double(3)*(double(WantedWith)/double(4)));       break;
-        case GEOMETRY_16_9 :    return int(double(9)*(double(WantedWith)/double(16)));      break;
-        case GEOMETRY_40_17 :   return int(double(17)*(double(WantedWith)/double(40)));     break;
+        case GEOMETRY_4_3:      return int(double(3)*(double(WantedWith)/double(4)));       break;
+        case GEOMETRY_40_17:    return int(double(17)*(double(WantedWith)/double(40)));     break;
+        default:                return int(double(9)*(double(WantedWith)/double(16)));      break;
     }
     return 0;
 }
@@ -1925,9 +2113,9 @@ int cDiaporama::GetWidthForHeight(int WantedHeight) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:GetWidthForHeight");
 
     switch (ImageGeometry) {
-        case GEOMETRY_4_3 :     return int(double(4)*(double(WantedHeight)/double(3)));       break;
-        case GEOMETRY_16_9 :    return int(double(16)*(double(WantedHeight)/double(9)));      break;
-        case GEOMETRY_40_17 :   return int(double(40)*(double(WantedHeight)/double(17)));     break;
+        case GEOMETRY_4_3:      return int(double(4)*(double(WantedHeight)/double(3)));       break;
+        case GEOMETRY_40_17:    return int(double(40)*(double(WantedHeight)/double(17)));     break;
+        default:                return int(double(16)*(double(WantedHeight)/double(9)));      break;
     }
     return 0;
 }
@@ -2089,7 +2277,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 
     // Save project properties
     ProjectInfo->SaveToXML(root);
-    ProjectThumbnail->SaveToXML(root,"ProjectThumbnail",ProjectFileName,false);
+    ProjectThumbnail->SaveToXML(root,THUMBMODEL_ELEMENTNAME,ProjectFileName,false);
 
     // Save basic information on project
     Element=domDocument.createElement("Project");
@@ -2587,6 +2775,62 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) 
     TransitObject_MusicObject           =PreviousFrame->TransitObject_MusicObject;          // Ref to the current playing music
 }
 
+cDiaporamaObjectInfo::cDiaporamaObjectInfo() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo");
+
+    //==============> Pre-initialise all values
+    FrameDuration                       =0;
+    RenderedImage                       =NULL;              // Final image rendered
+    FreeRenderedImage                   =true;              // True if allow to delete RenderedImage during destructor
+
+    // Current object
+    CurrentObject_Number                =0;                 // Object number
+    CurrentObject_StartTime             =0;                 // Position (in msec) of the first frame relative to the diaporama
+    CurrentObject_InObjectTime          =0;                 // Position (in msec) in the object
+    CurrentObject                       =NULL;              // Link to the current object
+    CurrentObject_ShotSequenceNumber    =0;                 // Number of the shot sequence in the current object
+    CurrentObject_CurrentShot           =NULL;              // Link to the current shot in the current object
+    CurrentObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
+    CurrentObject_ShotDuration          =0;                 // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
+    CurrentObject_PCTDone               =0;                 // PCT achevement for static shot
+    CurrentObject_BackgroundIndex       =0;                 // Object number containing current background definition
+    CurrentObject_BackgroundBrush       =NULL;              // Current background brush
+    CurrentObject_FreeBackgroundBrush   =true;              // True if allow to delete CurrentObject_BackgroundBrush during destructor
+    CurrentObject_PreparedBackground    =NULL;              // Current image produce for background
+    CurrentObject_FreePreparedBackground=true;              // True if allow to delete CurrentObject_FreePreparedBackground during destructor
+    CurrentObject_SoundTrackMontage     =NULL;              // Sound for playing sound from montage track
+    CurrentObject_FreeSoundTrackMontage =true;              // True if allow to delete CurrentObject_SoundTrackMontage during destructor
+    CurrentObject_PreparedImage         =NULL;              // Current image prepared
+    CurrentObject_FreePreparedImage     =true;              // True if allow to delete CurrentObject_PreparedImage during destructor
+    CurrentObject_MusicTrack            =NULL;              // Sound for playing music from music track
+    CurrentObject_FreeMusicTrack        =true;              // True if allow to delete CurrentObject_MusicTrack during destructor
+    CurrentObject_MusicObject           =NULL;              // Ref to the current playing music
+
+    // Transitionnal object
+    IsTransition                        =false;             // True if transition in progress
+    TransitionPCTDone                   =0;                 // PCT achevement for transition
+    TransitObject_Number                =0;                 // Object number
+    TransitObject_StartTime             =0;                 // Position (in msec) of the first frame relative to the diaporama
+    TransitObject_InObjectTime          =0;                 // Position (in msec) in the object
+    TransitObject                       =NULL;              // Link to the current object
+    TransitObject_ShotSequenceNumber    =0;                 // Number of the shot sequence in the current object
+    TransitObject_CurrentShot           =NULL;              // Link to the current shot in the current object
+    TransitObject_CurrentShotType       =0;                 // Type of the current shot : Static/Mobil/Video
+    TransitObject_ShotDuration          =0;                 // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
+    TransitObject_PCTDone               =0;                 // PCT achevement for static shot
+    TransitObject_BackgroundIndex       =0;                 // Object number containing current background definition
+    TransitObject_BackgroundBrush       =NULL;              // Current background brush
+    TransitObject_FreeBackgroundBrush   =true;              // True if allow to delete TransitObject_BackgroundBrush during destructor
+    TransitObject_PreparedBackground    =NULL;              // Current image produce for background
+    TransitObject_FreePreparedBackground=true;              // True if allow to delete TransitObject_PreparedBackground during destructor
+    TransitObject_SoundTrackMontage     =NULL;              // Sound for playing sound from montage track
+    TransitObject_FreeSoundTrackMontage =true;              // True if allow to delete TransitObject_SoundTrackMontage during destructor
+    TransitObject_PreparedImage         =NULL;              // Current image prepared
+    TransitObject_FreePreparedImage     =true;              // True if allow to delete TransitObject_PreparedImage during destructor
+    TransitObject_MusicTrack            =NULL;              // Sound for playing music from music track
+    TransitObject_FreeMusicTrack        =true;              // True if allow to delete TransitObject_MusicTrack during destructor
+    TransitObject_MusicObject           =NULL;              // Ref to the current playing music
+}
 
 cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,int64_t TimePosition,cDiaporama *Diaporama,double TheFrameDuration,bool WantSound) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo");

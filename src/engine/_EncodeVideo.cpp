@@ -25,7 +25,7 @@
 
 //*************************************************************************************************************************************************
 
-int CheckEncoderCapabilities(VFORMAT_ID FormatId,CodecID VideoCodec,CodecID AudioCodec) {
+int CheckEncoderCapabilities(VFORMAT_ID FormatId,AVCodecID VideoCodec,AVCodecID AudioCodec) {
     if (VideoCodec==AV_CODEC_ID_NONE) return SUPPORTED_COMBINATION;
 
     int Ret=INVALID_COMBINATION;
@@ -215,9 +215,9 @@ void cEncodeVideo::CloseEncoder() {
 
 //*************************************************************************************************************************************************
 
-int cEncodeVideo::getThreadFlags(CodecID codecId) {
+int cEncodeVideo::getThreadFlags(AVCodecID ID) {
     int Ret=0;
-    switch (codecId) {
+    switch (ID) {
         case CODEC_ID_PRORES:
         case CODEC_ID_MPEG1VIDEO:
         case CODEC_ID_DVVIDEO:
@@ -720,7 +720,8 @@ bool cEncodeVideo::PrepareTAG(QString Language) {
             Chapter->time_base=VideoStream->time_base;
             Chapter->start    =av_rescale_q((Start-ts_off)*1000,AV_TIME_BASE_Q,VideoStream->time_base);
             Chapter->end      =av_rescale_q((End-ts_off)*1000,AV_TIME_BASE_Q,VideoStream->time_base);
-            av_dict_set(&Chapter->metadata,"title",Diaporama->List[i]->SlideName.toUtf8(),0);
+            QString CptName=Diaporama->List[i]->StartNewChapter?Diaporama->List[i]->ChapterName:Diaporama->ProjectInfo->Title;
+            av_dict_set(&Chapter->metadata,"title",CptName.toUtf8(),0);
             Container->chapters=(AVChapter **)av_realloc(Container->chapters,sizeof(AVChapter)*(Container->nb_chapters+1));
             Container->chapters[Container->nb_chapters]=Chapter;
             Container->nb_chapters++;

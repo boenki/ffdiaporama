@@ -366,9 +366,9 @@ void DlgRenderVideo::s_DeviceTypeCB(int) {
 
 void DlgRenderVideo::InitImageSizeCombo(int) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::InitImageSizeCombo");
-    int Geometry=(ExportMode!=MODE_LOSSLESS?ui->GeometryCombo->currentIndex():Diaporama->ImageGeometry);
-    int Standard=(ExportMode!=MODE_LOSSLESS?ui->StandardCombo->currentIndex():Diaporama->ApplicationConfig->DefaultStandard);
-    int ImageSize=ui->ImageSizeCombo->currentIndex();
+    ffd_GEOMETRY Geometry=(ExportMode!=MODE_LOSSLESS?(ffd_GEOMETRY)ui->GeometryCombo->currentIndex():Diaporama->ImageGeometry);
+    int          Standard=(ExportMode!=MODE_LOSSLESS?ui->StandardCombo->currentIndex():Diaporama->ApplicationConfig->DefaultStandard);
+    int          ImageSize=ui->ImageSizeCombo->currentIndex();
     ui->ImageSizeCombo->clear();
     QStringList List;
     for (int i=0;i<NBR_SIZEDEF;i++) if (ORDERIMAGENAME[Standard][i]!=0) List.append(QString("%1:%2#####%3").arg(DefImageFormat[Standard][Geometry][i].Name).arg(ORDERIMAGENAME[Standard][i]).arg(i));
@@ -885,7 +885,7 @@ bool DlgRenderVideo::DoAccept() {
         }
 
         // Ensure codec combination is correct
-        int  Capabilities=(ExportMode==MODE_SOUNDTRACK)?SUPPORTED_COMBINATION:CheckEncoderCapabilities((VFORMAT_ID)OutputFileFormat,(CodecID)VIDEOCODECDEF[VideoCodecIndex].Codec_id,(CodecID)AUDIOCODECDEF[AudioCodecIndex].Codec_id);
+        int  Capabilities=(ExportMode==MODE_SOUNDTRACK)?SUPPORTED_COMBINATION:CheckEncoderCapabilities((VFORMAT_ID)OutputFileFormat,(AVCodecID)VIDEOCODECDEF[VideoCodecIndex].Codec_id,(AVCodecID)AUDIOCODECDEF[AudioCodecIndex].Codec_id);
         if (Capabilities!=SUPPORTED_COMBINATION) {
             CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgRenderVideo","Render video"),QApplication::translate("DlgRenderVideo","Incorrect codec combination!"));
             return false;
@@ -961,16 +961,18 @@ bool DlgRenderVideo::DoAccept() {
                     case STANDARD_PAL :
                         switch (Diaporama->ImageGeometry) {
                             case GEOMETRY_4_3:      Final_W=720;  Final_H=576;  Internal_W=768;  Internal_H=576;  PixelAspectRatio=MakeAVRational(16,15);     break;
-                            case GEOMETRY_16_9:     Final_W=720;  Final_H=576;  Internal_W=1024; Internal_H=576;  PixelAspectRatio=MakeAVRational(64,45);     break;
                             case GEOMETRY_40_17:    Final_W=720;  Final_H=436;  Internal_W=1024; Internal_H=436;  PixelAspectRatio=MakeAVRational(64,45);     break;
+                            case GEOMETRY_16_9:
+                            default:                Final_W=720;  Final_H=576;  Internal_W=1024; Internal_H=576;  PixelAspectRatio=MakeAVRational(64,45);     break;
                         }
                         Ext_H=576-Final_H;
                         break;
                     case STANDARD_NTSC:
                         switch (Diaporama->ImageGeometry) {
                             case GEOMETRY_4_3:      Final_W=720;  Final_H=480;  Internal_W=640;  Internal_H=480;  PixelAspectRatio=MakeAVRational(8,9);       break;
-                            case GEOMETRY_16_9:     Final_W=720;  Final_H=480;  Internal_W=854;  Internal_H=480;  PixelAspectRatio=MakeAVRational(32,27);     break;
                             case GEOMETRY_40_17:    Final_W=720;  Final_H=306;  Internal_W=854;  Internal_H=306;  PixelAspectRatio=MakeAVRational(32,27);     break;
+                            case GEOMETRY_16_9:
+                            default:                Final_W=720;  Final_H=480;  Internal_W=854;  Internal_H=480;  PixelAspectRatio=MakeAVRational(32,27);     break;
                         }
                         Ext_H=480-Final_H;
                         break;

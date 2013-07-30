@@ -84,8 +84,8 @@ public:
 
     void                SaveToXML(QDomElement &root);
     void                LoadFromXML(QDomElement root,LoadConfigFileType TypeConfigFile);
-    void                SetProjectGeometryFilter(int Geometry);
-    void                SetImageGeometryFilter(int ProjectGeometry,int ImageGeometry);
+    void                SetProjectGeometryFilter(ffd_GEOMETRY Geometry);
+    void                SetImageGeometryFilter(ffd_GEOMETRY ProjectGeometry,int ImageGeometry);
     void                SortList();
     QString             GetStyleName(QString StyleDef);
     QString             GetStyleDef(QString StyleName);
@@ -98,7 +98,7 @@ public:
     void                StringDefToStringList(QString String,QStringList &List);
     void                DoTranslateCollection();
     QString             DecodeString(QString String);
-    QString             EncodeString(QComboBox *CB,int ProjectGeometry,int ImageGeometry);
+    QString             EncodeString(QComboBox *CB,ffd_GEOMETRY ProjectGeometry,int ImageGeometry);
     cStyleCollection    *PrepUndo();
     void                ApplyUndo(cStyleCollection *UndoCollection);
 };

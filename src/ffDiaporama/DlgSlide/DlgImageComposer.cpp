@@ -92,9 +92,10 @@ DlgImageComposer::DlgImageComposer(cDiaporama *ffdProject,cBaseApplicationConfig
     ui->InteractiveZone->DisplayW       =THUMBWITH;
     ui->InteractiveZone->DisplayH       =THUMBHEIGHT;
     switch (ffdProject->ImageGeometry) {
-        case GEOMETRY_4_3   : ProjectGeometry=1440/1080;     break;
-        case GEOMETRY_16_9  : ProjectGeometry=1920/1080;     break;
-        case GEOMETRY_40_17 : ProjectGeometry=1920/816;      break;
+        case GEOMETRY_4_3:      ProjectGeometry=1440/1080;     break;
+        case GEOMETRY_40_17:    ProjectGeometry=1920/816;      break;
+        case GEOMETRY_16_9:
+        default:                ProjectGeometry=1920/1080;     break;
 
     }
 }

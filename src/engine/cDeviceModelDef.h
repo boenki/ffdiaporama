@@ -75,6 +75,7 @@ extern "C" {
         #endif
     #elif ((LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(51,22,0))&&(LIBAVCODEC_VERSION_INT>=AV_VERSION_INT(53,35,0))&&(LIBAVFORMAT_VERSION_INT>=AV_VERSION_INT(53,21,0)))
         #define LIBAV_08
+        #define AVCodecID CodecID
         #if defined(USELIBAVRESAMPLE)
             #undef USELIBAVRESAMPLE
         #endif
@@ -112,6 +113,10 @@ extern "C" {
         #endif
     #endif
 }
+
+#ifndef AVCODEC_MAX_AUDIO_FRAME_SIZE
+    #define AVCODEC_MAX_AUDIO_FRAME_SIZE 192000
+#endif
 
 #if !defined(FF_API_CODEC_ID)
     #define AV_CODEC_ID_NONE        CODEC_ID_NONE
