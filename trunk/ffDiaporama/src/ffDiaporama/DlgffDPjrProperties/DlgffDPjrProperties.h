@@ -50,7 +50,9 @@ private slots:
     void                OverrideDateChanged(int);
     void                EditThumb();
     void                AdminEditThumb();
+    void                ExportThumb();
     void                ThumbChanged();
+    void                TabChanged(int);
 
 private:
     Ui::DlgffDPjrProperties *ui;

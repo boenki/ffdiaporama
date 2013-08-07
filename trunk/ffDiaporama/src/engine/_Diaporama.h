@@ -189,7 +189,7 @@ public:
     void        CopyFromCompositionObject(cCompositionObject *CompositionObjectToCopy);
     void        DrawCompositionObject(cDiaporamaObject *Object,QPainter *Painter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,int64_t Position,
                                       cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PreviousCompositionObject,
-                                      bool UseBrushCache,int64_t ShotDuration,bool EnableAnimation,
+                                      int64_t ShotDuration,bool EnableAnimation,
                                       bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0,
                                       bool DisplayTextMargin=false,cCompositionObjectContext *PreparedBrush=NULL);
 

@@ -49,6 +49,7 @@ public:
     bool                    STOPMAJ;
     cThumbnailComboBoxItem  ItemDelegate;
     cDiaporamaObject        *ProjectThumbnail;
+    cDiaporama              *Diaporama;         // Diaporama object to be use by prepare image (null for option dialog and fill for project dialog)
 
     explicit            cThumbnailComboBox(QWidget *parent = 0);
     void                PrepareTable(bool AllowCustomized,cModelList *Table);

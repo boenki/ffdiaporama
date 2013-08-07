@@ -20,7 +20,7 @@
 
 #include "cThumbnailComboBox.h"
 
-#define NBRCOLUMN    1
+#define NBRCOLUMN    4
 #define DECAL       10
 
 cThumbnailComboBoxItem::cThumbnailComboBoxItem(QObject *parent):QStyledItemDelegate(parent) {
@@ -32,18 +32,21 @@ void cThumbnailComboBoxItem::paint(QPainter *painter,const QStyleOptionViewItem 
     ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbnailComboBoxItem::paint");
     int CurIndex=index.row()*NBRCOLUMN+index.column();
 
-    if (option.state & QStyle::State_Selected)  painter->fillRect(option.rect,Qt::blue);
-        else                                    painter->fillRect(option.rect,Qt::white);
+    if ((CurIndex>=0)&&(CurIndex<ComboBox->ModelTable->List.count())) {
 
-    if ((CurIndex>=0)&&(CurIndex<ComboBox->ModelTable->List.count()))
+        if (option.state & QStyle::State_Selected)  painter->fillRect(option.rect,Qt::blue);
+            else                                    painter->fillRect(option.rect,Qt::white);
+
         painter->drawImage(option.rect.left()+DECAL,option.rect.top()+DECAL,
-                           ComboBox->ModelTable->List[CurIndex].PrepareImage(0,ComboBox->ModelTable->List[CurIndex].Name=="*"?ComboBox->ProjectThumbnail:NULL));
+                           ComboBox->ModelTable->List[CurIndex].PrepareImage(0,ComboBox->Diaporama,ComboBox->ModelTable->List[CurIndex].Name=="*"?ComboBox->ProjectThumbnail:NULL));
 
-    if (CurIndex==ComboBox->CurrentSel) {
-        painter->setPen(QPen(Qt::red));
-        painter->setBrush(QBrush(Qt::NoBrush));
-        painter->drawRect(option.rect.x()+3,option.rect.y()+3,option.rect.width()-6-1,option.rect.height()-6-1);
-    }
+        if (CurIndex==ComboBox->CurrentSel) {
+            painter->setPen(QPen(Qt::red));
+            painter->setBrush(QBrush(Qt::NoBrush));
+            painter->drawRect(option.rect.x()+3,option.rect.y()+3,option.rect.width()-6-1,option.rect.height()-6-1);
+        }
+
+    } else painter->fillRect(option.rect,Qt::white);
 }
 
 //========================================================================================================================
@@ -60,6 +63,7 @@ QSize cThumbnailComboBoxItem::sizeHint(const QStyleOptionViewItem &/*option*/,co
 cThumbnailComboBox::cThumbnailComboBox(QWidget *parent):QComboBox(parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cThumbnailComboBox::cThumbnailComboBox");
     ModelTable=NULL;
+    Diaporama =NULL;
     CurrentSel=-1;
     STOPMAJ   =false;
 
@@ -81,7 +85,7 @@ void cThumbnailComboBox::PrepareTable(bool AllowCustomized,cModelList *Table) {
     ModelTable=Table;
     this->view()->setFixedWidth((THUMB_THUMBWITH+DECAL*2)*NBRCOLUMN+18);
     setIconSize(QSize(THUMB_THUMBWITH,THUMB_THUMBHEIGHT));
-    setFixedSize(QSize((THUMB_THUMBWITH+DECAL*2)*NBRCOLUMN+18+4,THUMB_THUMBHEIGHT+DECAL*2+4));
+    setFixedSize(QSize((THUMB_THUMBWITH+DECAL*2)+18+4,THUMB_THUMBHEIGHT+DECAL*2+4));
 
     int CurIndex  =((QTableWidget *)view())->currentRow()*NBRCOLUMN+((QTableWidget *)view())->currentColumn();
     while (count()>0) removeItem(count()-1);
@@ -93,7 +97,7 @@ void cThumbnailComboBox::PrepareTable(bool AllowCustomized,cModelList *Table) {
     for (int i=0;i<NBRCOLUMN;i++) ((QTableWidget *)view())->setColumnWidth(i,THUMB_THUMBWITH+DECAL*2);
 
     for (int i=0;i<NbrRow;i++) {
-        addItem(QIcon(QPixmap().fromImage(ModelTable->List[i*NBRCOLUMN].PrepareImage(0,ModelTable->List[i*NBRCOLUMN].Name=="*"?ProjectThumbnail:NULL))),"");
+        addItem(QIcon(QPixmap().fromImage(ModelTable->List[i*NBRCOLUMN].PrepareImage(0,Diaporama,ModelTable->List[i*NBRCOLUMN].Name=="*"?ProjectThumbnail:NULL))),"");
         ((QTableWidget *)view())->setRowHeight(i,THUMB_THUMBHEIGHT+DECAL*2);
     }
 
@@ -142,7 +146,7 @@ void cThumbnailComboBox::MakeIcons() {
     int CurrentCol=((QTableWidget *)view())->currentColumn();
     if (CurrentCol<0) CurrentCol=0;
     int CurIndex=CurrentRow*NBRCOLUMN+CurrentCol;
-    if (CurIndex<ModelTable->List.count()) setItemIcon(CurrentRow,QIcon(QPixmap().fromImage(ModelTable->List[CurIndex].PrepareImage(0,ModelTable->List[CurIndex].Name=="*"?ProjectThumbnail:NULL))));
+    if (CurIndex<ModelTable->List.count()) setItemIcon(CurrentRow,QIcon(QPixmap().fromImage(ModelTable->List[CurIndex].PrepareImage(0,Diaporama,ModelTable->List[CurIndex].Name=="*"?ProjectThumbnail:NULL))));
 }
 
 //========================================================================================================================

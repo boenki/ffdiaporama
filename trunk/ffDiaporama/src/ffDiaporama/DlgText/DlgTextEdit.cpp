@@ -397,7 +397,7 @@ void DlgTextEdit::RefreshControls() {
     if (CurrentTextItem->BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) {
         Brush=new QBrush(Transparent);
     } else if (CurrentTextItem->TextClipArtName=="") {
-        Brush=CurrentTextItem->BackgroundBrush->GetBrush(QRectF(0,0,ui->TextEdit->width(),ui->TextEdit->height()),true,0,NULL,1,NULL,false);
+        Brush=CurrentTextItem->BackgroundBrush->GetBrush(QRectF(0,0,ui->TextEdit->width(),ui->TextEdit->height()),true,0,NULL,1,NULL);
     } else {
         Brush=new QBrush(TextFrameList.List[TextFrameList.SearchImage(CurrentTextItem->TextClipArtName)].BckColor,Qt::SolidPattern);
     }

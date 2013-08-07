@@ -57,7 +57,7 @@ void cCustomTitleModelItem::paint(QPainter *painter,const QStyleOptionViewItem &
     if ((CurIndex>=0)&&(CurIndex<Table->ModelTable->List.count())) {
 
         painter->drawImage(option.rect.left()+10,option.rect.top()+10,
-                           Table->ModelTable->List[CurIndex].PrepareImage((Table->TimerPosition % Table->ModelTable->List[CurIndex].Duration),Table->CurrentSlide));
+                           Table->ModelTable->List[CurIndex].PrepareImage((Table->TimerPosition % Table->ModelTable->List[CurIndex].Duration),NULL,Table->CurrentSlide));
 
         QString ModelDuration=QTime(0,0,0,0).addMSecs(Table->ModelTable->List[CurIndex].Duration).toString("mm:ss.zzz");
         int    FontFactor=((Table->ApplicationConfig->TimelineHeight-TIMELINEMINHEIGH)/20)*10;

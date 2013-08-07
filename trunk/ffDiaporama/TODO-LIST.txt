@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.7 - Trunk
 *
-* Dernier commit le : 20/07/2013
+* Dernier commit le : 30/07/2013
 **************************************************
 
 TODO :
@@ -43,7 +43,9 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
 
     dlgmanagefavorite et dlgfileexplorer à finir !
     Pb de dédoublonnage des fichiers récents
-    "Closing credits"
+
+    Modifier le fonctionnement si le user dit non à la recherche d'un fichier manquant : supprimer le bloc !
+
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
 NF  : New Feature
@@ -54,46 +56,51 @@ Changelog depuis le dernier SVN
 --------------------------------
 switch version to
     libav 0.8.6 for Ubuntu
-    ffmpeg 1.0.6 for openSuse
-    ffmpeg 1.2.0 for Windows
+    ffmpeg 2.0 for Windows / openSuse / Gentoo / ArchLinux
 
 French version / Correction de bug :
--Corrige le bug d'absence de menu contextuel lors d'un click droit sur la table des blocs [boite d'édition des diapo]
--Corrige le bug sur les undo (regression introduite lors de la compression des fichiers .ffd)
--Utilise le répertoire de l'utilisateur au lieu de / comme répertoires par défaut sur Linux
--Corrige les erreurs de compilation avec ffmpeg 2.0
+-Met à jours l'affichage des vignettes dans les combobox de sélection des boites projet et option de l'application
+-Corrige l'erreur de code de variable sur les valeurs de jour (PDY au lieu de PDD, CDY au lieu de CDD et TDY au lieu de TDD)
+-Force l'affichage des variables de mois et de jours à 2 chiffres
+-Corrige un bug dans la sauvegarde de la vignette personnalisé (dans le fichier projet)
+-Prend en compte les modifications effectuées sur le 1ere onglet lors du passage au 2eme onglet dans la boite projet
+-Corrige le bug de desynchronisation du son et des vidéos (après seek)
+-Corrige les problèmes de fuites de mémoire avec ffmpeg 2.0 lors de l'utilisation du filtre de désentrelacement (yadif)
+-Prend en compte le changement de type (i16->fltp) pour l'utilisation du codec aac avec ffmpeg 2.0
 
 English version / Bug fixes :
--Fix bug of no contextual menu when right click on table blocks [edit slide dialog]
--Fix bug on undo action (regression introduce when adding .ffd file compression)
--Use personnal folder instead of / as default folder under Linux
--Fix compilation errors with ffmpeg 2.0
+-Update display of thumbnails in thumbnails selection combobox in project and option dialogs
+-Fix error of variable name for day (PDY instead of PDD, CDY instead of CDD and TDY instead of TDD)
+-Force display of month and day variables to 2 digits
+-Fix a bug in save of custom thumbnail (in project file)
+-Take care of modifications done on first tab when switching to second tab in project option
+-Fix error of sync sound with video (after seek)
+-Fix memory leak with ffmpeg 2.0 when using deinterlace filter (yadif)
+-Change type (i16->fltp) for using aac codec with ffmpeg 2.0
 
 French version / Nouveautés :
--Remplace la case à cochée "Démarre un nouveau chapitre" par un nouveau bouton "Chapitre" dans la barre de bouton [boite d'édition des diapo]
--Ajoute une nouvelle boite de dialog de propriété du chapitre
--Désactive la réduction de la qualité des vignettes lors du parcours de répertoire contenant de nombreux fichier sur Window-x64
--Modifie le bouton "Ajouter titre" de la fenetre principale pour qu'il donne le choix entre Titre vide et Titre prédéfinie
--Crée une nouvelle boite de dialog Ajout/Edition de Titre prédéfinie
--Modifie la timeline pour que les diapositives de type Titre prédéfinie apparaissent avec un cadre vert et une icone Titre prédéfinie
--Modifie la fonction d'édition de diapositive pour que quand il s'agit d'une diapositive de type Titre prédéfinie, ce soit la boite d'édition des Titre prédéfinie qui s'ouvre
--Ajoute un bouton dans la boite de dialog de propriété du projet pour personnalisé la vignette sans créer de nouveau modele de vignette
--Ajoute un bouton dans la boite de dialog d'édition des diapositives pour sauvegarder une diapo. en tant que modele de diapo
--La première diapo ne marque plus obligatoire le démarrage d'un chapitre (si la 1ere diapo n'est pas un début de chapitre, un chapitre virtuel n°0 sera créé lors de la génération)
--Ajoute un onblet dans la boite A propos de dans le cas ou l'extension ffDiaporama-Openclipart est présent
+-Refait les starter pour les 2 versions de windows 32 et 64
+-Ajoute un bouton dans la boite projet pour exporter la vignette (par défaut sous le nom de folder.jpg dans le meme répertoire que le projet)
+-Redessine les boutons de gestion des vignettes dans la boite projet
+-Passe les combo box de vignettes à 3 colonnes dans les boites project et option
+-Modifie la variable Musique : S'il n'y a qu'un morceau, n'ajoute pas de saut de ligne
+-Reduit le bit rate vidéo pour l'export mp4 en mode "multimdedia hard drive or gateway" pour le 720p (5000 au lieu de 6000) et pour le 1080p (6000 au lieu de 8000)
+-Ajoute un bouton dans la boite d'option pour activer par défaut la génération d'un fichier .nfo pour XBMC lors de la génération des vidéos
+-Modifie les zones de saisie des dates longues personnalisées de 1 ligne à multi-ligne dans les boites d'édition des propriétés du projet et des chapitres
+-Ajoute une option dans la boite d'option pour proposer à l'utilisateur d'ouvrir la page web de téléchargement quand une nouvelle version est disponible
+-Utilise les nouvelles fonctions de ffmpeg 2.0 pour le traitement des filtres : suppression des alertes de deprecated
 
 English version / New features :
--Replace "Start new chapter" check box with a new button "Chapter" in the button bar [Slide edit dialog]
--Add a new dialog box "Chapter properties"
--Do not reduce thumbnails quality for huge folder on Window-x64
--Modify the "Add title" buttun of the main window for it give choice between Empty slide au Predefined title slide
--Create a new dialog for Add/Edit a Predefined title slide
--Modify the timeline for Predefined title slide appears with a green frame and a Predefined title icon
--Modify the Edit slide action for when it's a Predefined title slide it was the Predefined title slide edit dialog open instead of Edit slide dialog
--Add a button in Project roperties dialog to customize thumbnail without create a new thumbnail model
--Add a button in Slide edit dialog to save the slide as a model
--The first slide no longer mandatory starting a chapter (if the first slide is not the beginning of a chapter, a virtual chapter No. 0 is created when rendering)
--Add a tab in about dialog when ffDiaporama-Openclipart extension is installed
+-Done new starter for windows 32 and 64 version
+-Add a button in project dialog to export thumbnail (as default, use the name "folder.jpg" and propose the same folder as projcet)
+-Redraw thumbnails managment buttons in project dialog
+-Switch thumbnails combo box to 3 columns in project and option dialogs
+-Modify Music variable : If only 1 music then do not longer add a line break
+-Reduce video bit rate for default multimdedia hard drive or gateway mp4 export for 720p (5000 instead of 6000) and for 1080p (6000 instead of 8000)
+-Add a button in option dialog to defaultly activate production of a .nfo file for XBMC when render video
+-Modify text edit zones for custom long date from 1 line to multi-line in project properties and chapter properties dialog
+-Add a new option in option dialog to Offer to the user to open the download Web page when a new version is available
+-Use new ffmpeg 2.0 functions for filter processing: remove deprecated warning
 
 Translation/Traductions (1373 sentences):
 EN    - 100% - 1373

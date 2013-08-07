@@ -58,12 +58,9 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
       </widget>
      </item>
      <item>
-      <widget class="QLineEdit" name="ChapterDateED">
+      <widget class="QPlainTextEdit" name="ChapterDateED">
        <property name="toolTip">
         <string>Enter here a date, in a free format, for the chapter</string>
-       </property>
-       <property name="maxLength">
-        <number>200</number>
        </property>
       </widget>
      </item>
@@ -234,6 +231,16 @@ Remarks : This box cannot be deactivated for the first slide of the project.</st
    </item>
   </layout>
  </widget>
+ <tabstops>
+  <tabstop>StartNewChapterCB</tabstop>
+  <tabstop>ChapterNameED</tabstop>
+  <tabstop>OverrideProjectDateCB</tabstop>
+  <tabstop>ChapterEventDateED</tabstop>
+  <tabstop>ChapterDateED</tabstop>
+  <tabstop>OverrideDateCB</tabstop>
+  <tabstop>OKBT</tabstop>
+  <tabstop>CancelBt</tabstop>
+ </tabstops>
  <resources>
   <include location="../../../RSCffDiaporama.qrc"/>
  </resources>

@@ -351,9 +351,11 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     #ifdef Q_OS_LINUX
         RasterMode          =true;                                                         // Enable or disable raster mode [Linux only]
         CheckConfigAtStartup=true;
+        OpenWEBNewVersion   =false;
     #endif
     #ifdef Q_OS_WIN
         CheckConfigAtStartup=false;
+        OpenWEBNewVersion   =true;
     #endif
     MemCacheMaxValue        =512*1024*1024;                                                // 512 Mb for image cache
     Crop1088To1080          =true;                                                         // Automaticaly crop video from 1088 lines to 1080 (CANON)
@@ -580,6 +582,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
             #ifdef Q_OS_LINUX
             if (Element.hasAttribute("RasterMode"))                             RasterMode              =Element.attribute("RasterMode")=="1";
             #endif
+            if (Element.hasAttribute("OpenWEBNewVersion"))                      OpenWEBNewVersion       =Element.attribute("OpenWEBNewVersion")=="1";
             if (Element.hasAttribute("RestoreWindow"))                          RestoreWindow           =Element.attribute("RestoreWindow")=="1";
             if (Element.hasAttribute("DisableTooltips"))                        DisableTooltips         =Element.attribute("DisableTooltips")=="1";
             if (Element.hasAttribute("Crop1088To1080"))                         Crop1088To1080          =Element.attribute("Crop1088To1080")!="0";
@@ -658,6 +661,7 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     #ifdef Q_OS_LINUX
     Element.setAttribute("RasterMode",              RasterMode?"1":"0");
     #endif
+    Element.setAttribute("OpenWEBNewVersion",       OpenWEBNewVersion?"1":"0");
     Element.setAttribute("RestoreWindow",           RestoreWindow?"1":"0");
     Element.setAttribute("DisableTooltips",         DisableTooltips?"1":"0");
     Element.setAttribute("ForceLanguage",           ForceLanguage);
@@ -767,6 +771,7 @@ void cBaseApplicationConfig::InitValues() {
     DefaultForTheWEBModel       = 0;                        // Default ForTheWEB Model
     DefaultLossLess             = 0;                        // Default Lossless imagesize
     DefaultExportThumbnail      = true;
+    DefaultExportXBMCNfo        = true;
 
     #ifdef Q_OS_WIN
         SDLAudioOldMode         = false;                        // If true SDL audio use old mode sample instead byte
@@ -945,6 +950,7 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultForTheWEBModel",       DefaultForTheWEBModel);
     Element.setAttribute("DefaultLossLess",             DefaultLossLess);
     Element.setAttribute("DefaultExportThumbnail",      DefaultExportThumbnail?"1":"0");
+    Element.setAttribute("DefaultExportXBMCNfo",        DefaultExportXBMCNfo?"1":"0");
     domDocument.appendChild(Element);
 
     Element=Document.createElement("Models");
@@ -1118,6 +1124,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (Element.hasAttribute("DefaultForTheWEBModel"))          DefaultForTheWEBModel       =Element.attribute("DefaultForTheWEBModel").toInt();
         if (Element.hasAttribute("DefaultLossLess"))                DefaultLossLess             =Element.attribute("DefaultLossLess").toInt();
         if (Element.hasAttribute("DefaultExportThumbnail"))         DefaultExportThumbnail      =Element.attribute("DefaultExportThumbnail")=="1";
+        if (Element.hasAttribute("DefaultExportXBMCNfo"))           DefaultExportXBMCNfo        =Element.attribute("DefaultExportXBMCNfo")=="1";
     }
 
     if ((domDocument.elementsByTagName("Models").length()>0)&&(domDocument.elementsByTagName("Models").item(0).isElement()==true)) {

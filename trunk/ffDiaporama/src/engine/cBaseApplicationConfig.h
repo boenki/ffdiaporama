@@ -260,6 +260,7 @@ public:
     int64_t                 CreditTitleModelsNextNumber[3];
 
     // Preferences
+    bool                    OpenWEBNewVersion;                          // Offer to open the download Web page when a new version is available
     bool                    RasterMode;                                 // Enable or disable raster mode [Linux only]
     bool                    RestoreWindow;                              // If true, restore window state and position at startup
     bool                    DisableTooltips;                            // If true, tooltips are disable in dialog boxes
@@ -364,6 +365,7 @@ public:
     int                     DefaultForTheWEBModel;                      // Default ForTheWEB Model
     int                     DefaultLossLess;                            // Default Lossless imagesize
     bool                    DefaultExportThumbnail;
+    bool                    DefaultExportXBMCNfo;
 
     QStringList             RecentFile;                                 // Recent project files
 

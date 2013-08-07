@@ -108,8 +108,11 @@
 #define THUMBMODEL_ELEMENTNAME              "ProjectThumbnail"                    // Name of element in the thumbnail xml files
 
 // Application version : url to file on internet
-//#define BUILDVERSION_WEBURL                "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
+//#define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
+//#define DOWNLOADPAGE_NUMBER                 178
 #define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Devel/BUILDVERSION.txt"
+#define DOWNLOADPAGE_NUMBER                 3635
+
 
 // Global values
 extern QString CurrentAppName;              // Application name (including devel, beta, ...)
@@ -120,6 +123,7 @@ extern double  ScreenFontAdjust;            // System Font adjustement
 #define HELPFILE_CAT                        "http://ffdiaporama.tuxfamily.org/?cat=%1&lang=%2"
 #define HELPFILE_DEF                        "http://ffdiaporama.tuxfamily.org/?page_id=%1&lang=%2"
 #define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de;nl;pt;ru"
+
 
 //====================================================================
 

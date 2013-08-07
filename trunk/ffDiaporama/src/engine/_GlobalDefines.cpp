@@ -195,7 +195,11 @@ void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
         if (Message.endsWith(char(10))) Message=Message.left(Message.length()-QString(char(10)).length());
         #endif
         QString MSG="";
-        if (Message!="LIBAV: No accelerated colorspace conversion found from yuv422p to rgb24.") {
+        if ((Message!="LIBAV: No accelerated colorspace conversion found from yuv422p to rgb24.")&&
+            (Message!="LIBAV: Increasing reorder buffer to 1")&&
+            (!(Message.startsWith("LIBAV: mode:") && Message.contains("parity:") && (Message.contains("auto_enable:")||Message.contains("deint:"))))&&
+            (!(Message.startsWith("LIBAV: w:") && Message.contains("h:") && Message.contains("pixfmt:")))
+           ) {
             switch (MessageType) {
                 case LOGMSG_DEBUGTRACE:    MSG=QString("["+DateTime+":DEBUG]\t"     +Message+(AddBreak?"\n":""));  break;
                 case LOGMSG_INFORMATION:   MSG=QString("["+DateTime+":INFO]\t"      +Message+(AddBreak?"\n":""));  break;

@@ -279,20 +279,20 @@ cBrushDefinition::~cBrushDefinition() {
 
 //====================================================================================================================
 
-QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
+QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetBrush");
 
     QBrush  *Br=NULL;
 
     switch (BrushType) {
-        case BRUSHTYPE_NOBRUSH :        Br=new QBrush(Qt::NoBrush);                                                                               break;
-        case BRUSHTYPE_SOLID :          Br=new QBrush(QColor(ColorD),Qt::SolidPattern);                                                           break;
-        case BRUSHTYPE_PATTERN :        Br=new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));                                            break;
-        case BRUSHTYPE_GRADIENT2 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);         break;
-        case BRUSHTYPE_GRADIENT3 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);         break;
-        case BRUSHTYPE_IMAGELIBRARY :   Br=GetLibraryBrush(Rect);                                                                                 break;
-        case BRUSHTYPE_IMAGEDISK :      Br=GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage,PctDone,PreviousBrush,UseBrushCache);    break;
-        default :                       Br=new QBrush(Qt::NoBrush);                                                                               break;
+        case BRUSHTYPE_NOBRUSH :        Br=new QBrush(Qt::NoBrush);                                                                             break;
+        case BRUSHTYPE_SOLID :          Br=new QBrush(QColor(ColorD),Qt::SolidPattern);                                                         break;
+        case BRUSHTYPE_PATTERN :        Br=new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));                                          break;
+        case BRUSHTYPE_GRADIENT2 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);       break;
+        case BRUSHTYPE_GRADIENT3 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);       break;
+        case BRUSHTYPE_IMAGELIBRARY :   Br=GetLibraryBrush(Rect);                                                                               break;
+        case BRUSHTYPE_IMAGEDISK :      Br=GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage,PctDone,PreviousBrush);                break;
+        default :                       Br=new QBrush(Qt::NoBrush);                                                                             break;
     }
     return Br;
 }
@@ -363,7 +363,7 @@ QImage cBrushDefinition::ApplyFilters(QImage NewRenderImage,double TheBrightness
 
 //====================================================================================================================
 
-QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush,bool UseBrushCache) {
+QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetImageDiskBrush");
 
     // If not an image or a video or filename is empty then return
@@ -374,21 +374,8 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
 
     if (!SoundOnly) {
         QImage *RenderImage=NULL;
-        if (Video) {
-            // Only slide dialog set UseBrushCache to true => use LuloImageCache to Cache rendered image
-            if (UseBrushCache) {
-                QImage                *LN_Image=NULL;
-                cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(Video,Position,(!PreviewMode || ApplicationConfig->Smoothing),true);
-                if (PreviewMode) LN_Image=ImageObject->CachePreviewImage;
-                    else         LN_Image=ImageObject->CacheRenderImage;
-                if (LN_Image) RenderImage=new QImage(LN_Image->copy());
-                    else RenderImage=Video->ImageAt(PreviewMode,Position,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
-                if (!LN_Image) {
-                    if (PreviewMode)    ImageObject->CachePreviewImage=new QImage(RenderImage->copy());
-                        else            ImageObject->CacheRenderImage=new QImage(RenderImage->copy());
-                }
-            } else RenderImage=Video->ImageAt(PreviewMode,Position,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
-        } else if ((Image)&&(!Image->IsVectorImg)) RenderImage=Image->ImageAt(PreviewMode);
+        if ((Image)&&(!Image->IsVectorImg)) RenderImage=Image->ImageAt(PreviewMode);
+        else if (Video)                     RenderImage=Video->ImageAt(PreviewMode,Position,SoundTrackMontage,this->Deinterlace,this->SoundVolume,false,false);
 
         // Compute filters values
         QBrush *Ret                 =NULL;
@@ -435,7 +422,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
         }
 
         // Prepare image
-        if ( (!((Image!=NULL)&&(Image->IsVectorImg))) && (RenderImage)) {
+        if (RenderImage) {
             if (FullFilling) {
                 // Create brush image with distortion
                 Ret=new QBrush(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
@@ -493,7 +480,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int Pos
                 if (!NewRenderImage.isNull())           Ret=new QBrush(NewRenderImage.scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
             }
 
-        } else if (Image->IsVectorImg) {
+        } else if (Image && (Image->IsVectorImg)) {
             // Vector image file
             if (!Image->VectorImage) Image->VectorImage=new QSvgRenderer(Image->FileName);
             if ((Image->VectorImage)&&(Image->VectorImage->isValid())) {

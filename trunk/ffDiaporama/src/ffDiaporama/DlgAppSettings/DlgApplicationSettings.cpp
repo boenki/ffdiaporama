@@ -65,6 +65,7 @@ void DlgApplicationSettings::DoInitDialog() {
     //********************************
 
     // Application options
+    ui->OpenWEBNewVersionCH->setChecked(ApplicationConfig->OpenWEBNewVersion);
     ui->RememberLastDirectoriesCH->setChecked(ApplicationConfig->RememberLastDirectories);
     ui->RestoreWindowCH->setChecked(ApplicationConfig->RestoreWindow);
     ui->DisableTooltipsCB->setChecked(ApplicationConfig->DisableTooltips);
@@ -249,6 +250,7 @@ void DlgApplicationSettings::DoInitDialog() {
     ui->LanguageED->setText(ApplicationConfig->DefaultLanguage);
     ui->DefaultNameProjectNameCB->setCurrentIndex(ApplicationConfig->DefaultNameProjectName);
     ui->ExportThumbCB->setChecked(ApplicationConfig->DefaultExportThumbnail);
+    ui->ExportXBMCNfoCB->setChecked(ApplicationConfig->DefaultExportXBMCNfo);
 
     connect(ui->StandardCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(InitImageSizeCombo(int)));
     connect(ui->SizeCombo,SIGNAL(currentIndexChanged(int)),this,SLOT(FileFormatCombo(int)));
@@ -370,6 +372,7 @@ bool DlgApplicationSettings::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DoAccept");
 
     // Application options part
+    ApplicationConfig->OpenWEBNewVersion        =ui->OpenWEBNewVersionCH->isChecked();
     ApplicationConfig->RememberLastDirectories  =ui->RememberLastDirectoriesCH->isChecked();
     ApplicationConfig->RestoreWindow            =ui->RestoreWindowCH->isChecked();
     ApplicationConfig->SDLAudioOldMode          =ui->SDLAudioModeCB->isChecked();
@@ -447,6 +450,7 @@ bool DlgApplicationSettings::DoAccept() {
     }
     ApplicationConfig->DefaultNameProjectName   =ui->DefaultNameProjectNameCB->currentIndex();
     ApplicationConfig->DefaultExportThumbnail   =ui->ExportThumbCB->isChecked();
+    ApplicationConfig->DefaultExportXBMCNfo     =ui->ExportXBMCNfoCB->isChecked();
     ApplicationConfig->DefaultStandard          =ui->StandardCombo->currentIndex();
     ApplicationConfig->DefaultImageSize         =ui->SizeCombo->itemData(ui->SizeCombo->currentIndex()).toInt();
     ApplicationConfig->DefaultFormat            =ui->FileFormatCB->currentIndex();

@@ -186,12 +186,12 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
         Cur=0;
         ApplicationConfig->PrjTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_PROJECTTITLE,&ApplicationConfig->PrjTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Simple titles without animation"));            Cur++;
         ApplicationConfig->PrjTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_PROJECTTITLE,&ApplicationConfig->PrjTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Animated titles"));                            Cur++;
-        ApplicationConfig->PrjTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_PROJECTTITLE,&ApplicationConfig->PrjTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Titles dedicated to events"));                 Cur++;
+        //ApplicationConfig->PrjTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_PROJECTTITLE,&ApplicationConfig->PrjTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Titles dedicated to events"));                 Cur++;
         ApplicationConfig->PrjTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_PROJECTTITLE,&ApplicationConfig->PrjTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,9,  QApplication::translate("cModelList","Custom titles"));
         Cur=0;
         ApplicationConfig->CptTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CHAPTERTITLE,&ApplicationConfig->CptTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Simple chapter titles without animation"));    Cur++;
         ApplicationConfig->CptTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CHAPTERTITLE,&ApplicationConfig->CptTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Animated chapter titles"));                    Cur++;
-        ApplicationConfig->CptTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CHAPTERTITLE,&ApplicationConfig->CptTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Chapter titles dedicated to events"));         Cur++;
+        //ApplicationConfig->CptTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CHAPTERTITLE,&ApplicationConfig->CptTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Chapter titles dedicated to events"));         Cur++;
         ApplicationConfig->CptTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CHAPTERTITLE,&ApplicationConfig->CptTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,9,  QApplication::translate("cModelList","Custom chapter titles"));
         Cur=0;
         ApplicationConfig->CreditTitleModels[geo][Cur]=new cModelList(ApplicationConfig,ffd_MODELTYPE_CREDITTITLE,&ApplicationConfig->CreditTitleModelsNextNumber[geo],(ffd_GEOMETRY)geo,Cur,QApplication::translate("cModelList","Simple credit titles"));    Cur++;
@@ -370,8 +370,8 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->preview2,SIGNAL(DoubleClick()),this,SLOT(s_Event_DoubleClickedOnObject()));
 
     // Save image event
-    connect(ui->preview,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
-    connect(ui->preview2,SIGNAL(SaveImageEvent()),this,SLOT(s_Event_SaveImageEvent()));
+    connect(ui->preview,SIGNAL(SaveImageEvent()),this,SLOT(s_VideoPlayer_SaveImageEvent()));
+    connect(ui->preview2,SIGNAL(SaveImageEvent()),this,SLOT(s_VideoPlayer_SaveImageEvent()));
 
     // Browser event
     connect(ui->FolderTree,SIGNAL(currentItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)),this,SLOT(s_Browser_FolderTreeItemChanged(QTreeWidgetItem *,QTreeWidgetItem *)));
@@ -699,6 +699,12 @@ void MainWindow::s_Event_NetworkReply(QNetworkReply* reply) {
                 InternetBUILDVERSION=QApplication::translate("MainWindow","A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !");
                 ui->VersionBT->setIcon(QIcon(":/img/Red.png"));
                 ui->VersionBT->setToolTip(InternetBUILDVERSION);
+                if ((ApplicationConfig->OpenWEBNewVersion)&&
+                    (CustomMessageBox(this,QMessageBox::Question,"ffDiaporama",
+                                      QApplication::translate("MainWindow","A new ffDiaporama version is available from WEB site.\nDo you whant do download it now?"),
+                                      QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) {
+                    QDesktopServices::openUrl(QUrl(QString(HELPFILE_DEF).arg(DOWNLOADPAGE_NUMBER).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
+                }
             } else {
                 InternetBUILDVERSION="";
                 ui->VersionBT->setIcon(QIcon(":/img/Green.png"));
@@ -1219,6 +1225,7 @@ void MainWindow::s_Action_RenderVideo() {
     Dlg.InitDialog();
     Dlg.exec();
     AdjustRuller();
+    s_Browser_RefreshHere();
 }
 
 void MainWindow::s_Action_RenderSmartphone() {
@@ -1238,6 +1245,7 @@ void MainWindow::s_Action_RenderSmartphone() {
     Dlg.InitDialog();
     Dlg.exec();
     AdjustRuller();
+    s_Browser_RefreshHere();
 }
 
 void MainWindow::s_Action_RenderMultimedia() {
@@ -1257,6 +1265,7 @@ void MainWindow::s_Action_RenderMultimedia() {
     Dlg.InitDialog();
     Dlg.exec();
     AdjustRuller();
+    s_Browser_RefreshHere();
 }
 
 void MainWindow::s_Action_RenderForTheWEB() {
@@ -1276,6 +1285,7 @@ void MainWindow::s_Action_RenderForTheWEB() {
     Dlg.InitDialog();
     Dlg.exec();
     AdjustRuller();
+    s_Browser_RefreshHere();
 }
 
 void MainWindow::s_Action_RenderLossLess() {
@@ -1295,6 +1305,7 @@ void MainWindow::s_Action_RenderLossLess() {
     Dlg.InitDialog();
     Dlg.exec();
     AdjustRuller();
+    s_Browser_RefreshHere();
 }
 
 void MainWindow::s_Action_RenderSoundTrack() {
@@ -1314,6 +1325,7 @@ void MainWindow::s_Action_RenderSoundTrack() {
     Dlg.InitDialog();
     Dlg.exec();
     AdjustRuller();
+    s_Browser_RefreshHere();
 }
 
 //====================================================================================================================
@@ -1345,6 +1357,7 @@ void MainWindow::s_Action_ProjectProperties() {
         (ApplicationConfig->WindowDisplayMode==DISPLAYWINDOWMODE_PLAYER?ui->preview:ui->preview2)->SeekPlayer(Diaporama->GetObjectStartPosition(Diaporama->CurrentCol)+Diaporama->GetTransitionDuration(Diaporama->CurrentCol)-(Diaporama->GetTransitionDuration(Diaporama->CurrentCol)>0?1:0));
         AdjustRuller();
     }
+    s_Browser_RefreshHere();
 }
 
 //====================================================================================================================
@@ -2372,12 +2385,12 @@ void MainWindow::s_Action_DoUseAsPlayList(QStringList &MusicFileList,int Index) 
 
 //====================================================================================================================
 
-void MainWindow::s_Event_SaveImageEvent() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_SaveImageEvent");
+void MainWindow::s_VideoPlayer_SaveImageEvent() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_VideoPlayer_SaveImageEvent");
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
     if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
-        QTimer::singleShot(LATENCY,this,SLOT(s_Event_SaveImageEvent()));
+        QTimer::singleShot(LATENCY,this,SLOT(s_VideoPlayer_SaveImageEvent()));
         return;
     }
     QStringList Size;

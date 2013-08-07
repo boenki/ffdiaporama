@@ -2503,7 +2503,7 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
         }
 
         // Lulo object for image and video must be remove
-        if (CurrentCompoObject->BackgroundBrush->Video) BaseApplicationConfig->ImagesCache.RemoveVideoObject(CurrentCompoObject->BackgroundBrush->Video->FileName);
+        if (CurrentCompoObject->BackgroundBrush->Video) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileName);
             else if (CurrentCompoObject->BackgroundBrush->Image) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileName);
 
         ApplyToContexte(true);

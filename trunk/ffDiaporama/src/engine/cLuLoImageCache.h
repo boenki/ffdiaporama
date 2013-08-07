@@ -36,14 +36,10 @@
 
 //===================================================
 
-#define LULOOBJECT_IMAGE    0
-#define LULOOBJECT_VIDEO    1
-
 class cLuLoImageCache;
 
 class cLuLoImageCacheObject {
 public:
-    int             TypeObject;                             // One of the LULOOBJECT_ type
     QString         FileName;                               // Filename
     QDateTime       ModifDateTime;
     bool            Smoothing;                              // Smoothing
@@ -51,16 +47,11 @@ public:
     QImage          *CacheRenderImage;                      // Cache image (Full image mode)
     QString         FilterString;                           // Filter string                    [For LULOOBJECT_IMAGE]
     int             ImageOrientation;                       // Image orientation (EXIF)         [For LULOOBJECT_IMAGE]
-    int             Position;                               // Position in video                [For LULOOBJECT_VIDEO]
-    cCustomIcon     *Video;                                 // Video                            [For LULOOBJECT_VIDEO]
+    int64_t         Position;                               // Position in video                [For LULOOBJECT_VIDEO]
     cLuLoImageCache *LuLoImageCache;                        // Link to parent LuLoImageCache collection
 
     // Constructor for image file
     cLuLoImageCacheObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,QString FilterString,bool Smoothing,cLuLoImageCache *Parent);
-
-    // Constructor for video image
-    cLuLoImageCacheObject(cCustomIcon *Video,int Position,bool Smoothing,cLuLoImageCache *Parent);
-
     ~cLuLoImageCacheObject();
 
     QImage      *ValidateCacheRenderImage();
@@ -77,18 +68,10 @@ public:
     cLuLoImageCache();
     ~cLuLoImageCache();
 
-    void                    FreeMemoryToMaxValue();
-    int64_t               MemoryUsed();
-
-    // Find image object corresponding to FileName and filter
     cLuLoImageCacheObject   *FindObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop);
-
-    // Find video image object corresponding to FileName and position
-    cLuLoImageCacheObject   *FindObject(cCustomIcon *Video,int Position,bool Smoothing,bool SetAtTop);
-
-    // Special case for slide dialog : Remove all object  of this name
-    void                    RemoveVideoObject(QString FileName);
-    void                    RemoveImageObject(QString FileName);
+    void                    FreeMemoryToMaxValue();
+    int64_t                 MemoryUsed();
+    void                    RemoveImageObject(QString FileName);    // Special case for slide dialog : Remove all object  of this name
 };
 
 #endif // _cLuLoImageCACHE_H

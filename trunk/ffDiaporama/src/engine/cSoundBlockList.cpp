@@ -28,7 +28,7 @@ cSoundBlockList::cSoundBlockList() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::cSoundBlockList");
 
     CurrentTempSize     =0;                                                                 // Amount of data in the TempData buffer
-    CurrentPosition     =0;
+    CurrentPosition     =-1;
     SoundPacketSize     =MAXSOUNDPACKETSIZE;                                                // Size of a packet (depending on FPS)
     TempData            =(u_int8_t *)av_malloc(SoundPacketSize+8);                           // Buffer for stocking temporary data (when decoding data are less than a packet)
     Channels            =2;                                                                 // Number of channels
@@ -56,6 +56,9 @@ cSoundBlockList::~cSoundBlockList() {
 //====================================================================================================================
 void cSoundBlockList::SetFPS(double TheWantedDuration,int TheChannels,int64_t TheSamplingRate,enum AVSampleFormat TheSampleFormat) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::SetFPS");
+
+    // Adjust value for 6 FPS (because rounded value make seek of audio files)
+    if ((TheWantedDuration>166)&&(TheWantedDuration<167)) TheWantedDuration=166;
 
     ClearList();
     SamplingRate   =TheSamplingRate;
@@ -110,7 +113,7 @@ void cSoundBlockList::ClearList() {
         if (Packet) av_free(Packet);
     }
     CurrentTempSize=0;
-    CurrentPosition=0;
+    CurrentPosition=-1;
 }
 
 //====================================================================================================================
@@ -132,7 +135,8 @@ int16_t *cSoundBlockList::DetachFirstPacket() {
 //====================================================================================================================
 void cSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendPacket");
-    if (List.count()==0) CurrentPosition=Position;
+    if (CurrentPosition==-1)
+        CurrentPosition=Position;
     List.append(PacketToAdd);
 }
 
