@@ -124,6 +124,7 @@ void DlgRenderVideo::DoInitDialog() {
     connect(ui->IncludeSoundCB,SIGNAL(clicked()),this,SLOT(s_IncludeSound()));
 
     ui->ExportThumbCB->setChecked(Diaporama->ApplicationConfig->DefaultExportThumbnail);
+    ui->ExportXBMCNfoCB->setChecked(Diaporama->ApplicationConfig->DefaultExportXBMCNfo);
 
     if (ExportMode==EXPORTMODE_ADVANCED) {
 
@@ -943,7 +944,7 @@ bool DlgRenderVideo::DoAccept() {
 
             ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding video"));
 
-            int         Final_W,Final_H,Internal_W,Internal_H,Ext_H;
+            int         Final_W=0,Final_H=0,Internal_W=0,Internal_H=0,Ext_H=0;
             AVRational  PixelAspectRatio;
 
             // Special case for SD-DVD format (anamorphous)
@@ -996,16 +997,39 @@ bool DlgRenderVideo::DoAccept() {
 
         }
 
+        QString ThumbFileName="";
         if ((Continue)&&(ui->ExportThumbCB->isChecked())) {
-            QString              ThumbFileName      =OutputFileName.left(OutputFileName.lastIndexOf("."))+".jpg";
-            cDiaporamaObjectInfo *Frame=            new cDiaporamaObjectInfo(NULL,0,Diaporama,1,false);
-            Frame->CurrentObject                    =Diaporama->ProjectThumbnail;
-            Frame->CurrentObject_CurrentShot        =Diaporama->ProjectThumbnail->List[0];
-            Frame->CurrentObject_BackgroundBrush    =new QBrush(Qt::black,Qt::SolidPattern);
-            Frame->CurrentObject_FreeBackgroundBrush=true;
-            Diaporama->PrepareImage(Frame,THUMBWITH,THUMBHEIGHT,true,false,false);
-            Frame->CurrentObject_PreparedImage->save(ThumbFileName,0,100);
-            delete Frame;
+            ThumbFileName=OutputFileName.left(OutputFileName.lastIndexOf("."))+".jpg";
+            int Index=BaseApplicationConfig->ThumbnailModels->SearchModel(Diaporama->ThumbnailName);
+            if (Index>=0) {
+                QSize  ForcedThumbnailSize(THUMBWITH,THUMBHEIGHT);
+                QImage Image=BaseApplicationConfig->ThumbnailModels->List[Index].PrepareImage(0,Diaporama,Diaporama->ProjectThumbnail,&ForcedThumbnailSize);
+                Image.save(ThumbFileName,0,100);
+            }
+        }
+
+        if ((Continue)&&(ui->ExportXBMCNfoCB->isChecked())) {
+            QString XBMCNFOFileName=OutputFileName.left(OutputFileName.lastIndexOf("."))+".nfo";
+            QFile   file(XBMCNFOFileName);
+            QString Text;
+            Text=Text+QString("<movie>\n");
+            Text=Text+QString("  <title>%1</title>\n").arg(Diaporama->ProjectInfo->Title);
+            Text=Text+QString("  <sorttitle>%1</sorttitle>\n").arg(QFileInfo(OutputFileName).baseName());
+            Text=Text+QString("  <set>%1</set>\n").arg(Diaporama->ProjectInfo->Album);
+            Text=Text+QString("  <genre>%1</genre>\n").arg(Diaporama->ProjectInfo->Album);
+            Text=Text+QString("  <year>%1</year>\n").arg(Diaporama->ProjectInfo->EventDate.year());
+            Text=Text+QString("  <outline>%1</outline>\n").arg(Diaporama->ProjectInfo->Title);
+            Text=Text+QString("  <plot>%1</plot>\n").arg(Diaporama->ProjectInfo->Comment);
+            Text=Text+QString("  <director>%1</director>\n").arg(Diaporama->ProjectInfo->Author);
+            Text=Text+QString("  <credits>%1</credits>\n").arg(Diaporama->ProjectInfo->Author);
+            Text=Text+QString("  <runtime>%1</runtime>\n").arg(Diaporama->ProjectInfo->Duration>60000?Diaporama->ProjectInfo->Duration/60000:1);
+            if (!ThumbFileName.isEmpty()) Text=Text+QString("  <thumb>%1</thumb>\n").arg(QFileInfo(ThumbFileName).baseName()+".jpg");
+            Text=Text+QString("</movie>\n");
+            if (file.open(QIODevice::WriteOnly|QIODevice::Text)) {
+                QTextStream out(&file);
+                out<<Text;
+                file.close();
+            }
         }
 
         // Inform user of success

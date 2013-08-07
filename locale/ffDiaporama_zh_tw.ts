@@ -830,6 +830,18 @@ Beyond this height, the videos are automatically reduced for creating images.</s
         <source>Join thumbnail to rendered file</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Offer to open the download Web page when a new version is available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked then a XMBC .nfo file will be created with video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Join XBMC .nfo file to rendered file</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgAutoTitleSlide</name>
@@ -1266,10 +1278,6 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>SDL version:%1.%2.%3-Licence=GPL version 2.1 or later</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>fmt_filters version:0.6.4-Licence=LGPL</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1287,22 +1295,6 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     </message>
     <message>
         <source>LIBAV general version:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>LIBAVCODEC version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>LIBAVFORMAT version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>LIBSWSCALE version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>LIBAVFILTER version:%1.%2.%3.%4</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1342,19 +1334,39 @@ To solve the problems you will have to install additional packages on your compu
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>LIBAVUTIL version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>LIBAVRESAMPLE version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>LIBSWRESAMPLE version:%1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>qimageblitz version:0.6.6-Licence=LGPL</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>SDL version: %1.%2.%3-Licence=GPL version 2.1 or later</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBAVUTIL version: %1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBAVCODEC version: %1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBAVFORMAT version: %1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBAVFILTER version: %1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBSWSCALE version: %1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBAVRESAMPLE version: %1.%2.%3.%4</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>LIBSWRESAMPLE version: %1.%2.%3.%4</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3384,6 +3396,14 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <source>Join thumbnail to rendered file</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>If this box is checked then a XBMC .nfo file will be created with video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Join XBMC .nfo file to rendered file</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgRulerDef</name>
@@ -5045,19 +5065,48 @@ Options for joined ressources</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Edit this custom model</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Create a custom model based on this model</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Customize the thumbnail only for this project (without creating a new thumbnail model)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Customize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create a new model from this thumbnail or edit custom thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit custom
+thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Expor thumbnail to a jpeg file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export
+thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thumbnail successfully exported</source>
+        <comment>Information message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit
+custom model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create
+custom model</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6078,6 +6127,11 @@ Are you sure it is empty?</source>
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>A new ffDiaporama version is available from WEB site.
+Do you whant do download it now?</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -6875,22 +6929,7 @@ Are you sure it is empty?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> - Â© %1 %2</source>
-        <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> - Â© %1</source>
-        <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> (Track %1 from Â«%2Â»)</source>
-        <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> (from Â«%1Â»)</source>
         <comment>Project statistics-Music</comment>
         <translation type="unfinished"></translation>
     </message>
@@ -6918,6 +6957,16 @@ Are you sure it is empty?</source>
     </message>
     <message>
         <source>Musical content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> - Â© %1 (%2)</source>
+        <comment>Project statistics-Music</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> from Â«%1Â»</source>
+        <comment>Project statistics-Music</comment>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7159,10 +7208,6 @@ Are you sure it is empty?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Titles dedicated to events</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Custom titles</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7172,10 +7217,6 @@ Are you sure it is empty?</source>
     </message>
     <message>
         <source>Animated chapter titles</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Chapter titles dedicated to events</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

@@ -48,7 +48,7 @@ void DlgChapter::DoInitDialog() {
     ui->ChapterEventDateED->setDisplayFormat(BaseApplicationConfig->ShortDateFormat);
     ui->ChapterNameED->setText(CurrentSlide->ChapterName);
     ui->ChapterEventDateED->setDate(CurrentSlide->OverrideProjectEventDate?CurrentSlide->ChapterEventDate:CurrentSlide->Parent->ProjectInfo->EventDate);
-    ui->ChapterDateED->setText(CurrentSlide->OverrideProjectEventDate?CurrentSlide->OverrideChapterLongDate?CurrentSlide->ChapterLongDate:FormatLongDate(CurrentSlide->ChapterEventDate):CurrentSlide->Parent->ProjectInfo->LongDate);
+    ui->ChapterDateED->setPlainText(CurrentSlide->OverrideProjectEventDate?CurrentSlide->OverrideChapterLongDate?CurrentSlide->ChapterLongDate:FormatLongDate(CurrentSlide->ChapterEventDate):CurrentSlide->Parent->ProjectInfo->LongDate);
 
     connect(ui->StartNewChapterCB,    SIGNAL(stateChanged(int)),this,SLOT(StartNewChapterCBChanged(int)));
     connect(ui->OverrideProjectDateCB,SIGNAL(stateChanged(int)),this,SLOT(OverrideProjectDateChanged(int)));
@@ -112,7 +112,7 @@ bool DlgChapter::DoAccept() {
 
     CurrentSlide->ChapterName               =ui->ChapterNameED->text();
     CurrentSlide->ChapterEventDate          =CurrentSlide->OverrideProjectEventDate?ui->ChapterEventDateED->date():CurrentSlide->Parent->ProjectInfo->EventDate;
-    CurrentSlide->ChapterLongDate           =CurrentSlide->OverrideProjectEventDate?CurrentSlide->OverrideChapterLongDate?ui->ChapterDateED->text():FormatLongDate(CurrentSlide->ChapterEventDate):CurrentSlide->Parent->ProjectInfo->LongDate;
+    CurrentSlide->ChapterLongDate           =CurrentSlide->OverrideProjectEventDate?CurrentSlide->OverrideChapterLongDate?ui->ChapterDateED->toPlainText():FormatLongDate(CurrentSlide->ChapterEventDate):CurrentSlide->Parent->ProjectInfo->LongDate;
     return true;
 }
 
@@ -132,7 +132,7 @@ void DlgChapter::OverrideProjectDateChanged(int) {
     if (!CurrentSlide->OverrideProjectEventDate) {
         ui->ChapterEventDateED->setDate(CurrentSlide->Parent->ProjectInfo->EventDate);
         CurrentSlide->ChapterLongDate=FormatLongDate(CurrentSlide->Parent->ProjectInfo->EventDate);
-        ui->ChapterDateED->setText(CurrentSlide->ChapterLongDate);
+        ui->ChapterDateED->setPlainText(CurrentSlide->ChapterLongDate);
     }
     RefreshControl();
 }
@@ -144,7 +144,7 @@ void DlgChapter::OverrideDateCBChanged(int) {
     CurrentSlide->OverrideChapterLongDate=ui->OverrideDateCB->isChecked();
     if (!CurrentSlide->OverrideChapterLongDate) {
         CurrentSlide->ChapterLongDate=FormatLongDate(CurrentSlide->ChapterEventDate);
-        ui->ChapterDateED->setText(CurrentSlide->ChapterLongDate);
+        ui->ChapterDateED->setPlainText(CurrentSlide->ChapterLongDate);
     }
     RefreshControl();
 }
@@ -156,6 +156,6 @@ void DlgChapter::ChapterEventDateChanged(const QDate &NewDate) {
     CurrentSlide->ChapterEventDate=NewDate;
     if (!CurrentSlide->OverrideChapterLongDate) {
         CurrentSlide->ChapterLongDate=CurrentSlide->OverrideProjectEventDate?FormatLongDate(CurrentSlide->ChapterEventDate):CurrentSlide->Parent->ProjectInfo->LongDate;
-        ui->ChapterDateED->setText(CurrentSlide->ChapterLongDate);
+        ui->ChapterDateED->setPlainText(CurrentSlide->ChapterLongDate);
     }
 }

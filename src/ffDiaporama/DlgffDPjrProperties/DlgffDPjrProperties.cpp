@@ -40,6 +40,8 @@ DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject
     CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
     HelpTT  =ui->HelpTT;
+
+    ui->ThumbCB->Diaporama=ffdProject;
 }
 
 //====================================================================================================================
@@ -58,7 +60,7 @@ void DlgffDPjrProperties::DoInitDialog() {
     ui->GeometryCombo->setCurrentIndex(ffdProject->ImageGeometry);
     ui->GeometryCombo->setEnabled(IsPrjCreate);
     ui->TitleED->setText(ffdProject->ProjectInfo->Title);
-    ui->DateED->setText(ffdProject->ProjectInfo->LongDate);
+    ui->DateED->setPlainText(ffdProject->ProjectInfo->LongDate);
     ui->DateEdit->setDate(ffdProject->ProjectInfo->EventDate);
     ui->DateEdit->setDisplayFormat(BaseApplicationConfig->ShortDateFormat);
     ui->OverrideDateCB->setChecked(ffdProject->ProjectInfo->OverrideDate);
@@ -101,7 +103,9 @@ void DlgffDPjrProperties::DoInitDialog() {
     connect(ui->OverrideDateCB,SIGNAL(stateChanged(int)),this,SLOT(OverrideDateChanged(int)));
     connect(ui->AdminEditThumbBT,SIGNAL(clicked()),this,SLOT(AdminEditThumb()));
     connect(ui->EditThumbBT,SIGNAL(clicked()),this,SLOT(EditThumb()));
+    connect(ui->ExportThumbBT,SIGNAL(clicked()),this,SLOT(ExportThumb()));
     connect(ui->ThumbCB,SIGNAL(itemSelectionHaveChanged()),this,SLOT(ThumbChanged()));
+    connect(ui->tabWidget,SIGNAL(currentChanged(int)),this,SLOT(TabChanged(int)));
 
     ThumbChanged();
 }
@@ -150,7 +154,7 @@ bool DlgffDPjrProperties::DoAccept() {
 
     if (IsPrjCreate) ffdProject->ImageGeometry=(ffd_GEOMETRY)ui->GeometryCombo->currentIndex();
     ffdProject->ProjectInfo->Title          =ui->TitleED->text();
-    ffdProject->ProjectInfo->LongDate       =ui->DateED->text();
+    ffdProject->ProjectInfo->LongDate       =ui->DateED->toPlainText();
     ffdProject->ProjectInfo->EventDate      =ui->DateEdit->date();
     ffdProject->ProjectInfo->OverrideDate   =ui->OverrideDateCB->isChecked();
     ffdProject->ProjectInfo->Author         =ui->AuthorED->text();
@@ -171,7 +175,7 @@ void DlgffDPjrProperties::EventDateChanged(const QDate &NewDate) {
     ffdProject->ProjectInfo->EventDate=NewDate;
     if (!ffdProject->ProjectInfo->OverrideDate) {
         ffdProject->ProjectInfo->LongDate=FormatLongDate(ffdProject->ProjectInfo->EventDate);
-        ui->DateED->setText(ffdProject->ProjectInfo->LongDate);
+        ui->DateED->setPlainText(ffdProject->ProjectInfo->LongDate);
     }
 }
 
@@ -182,9 +186,31 @@ void DlgffDPjrProperties::OverrideDateChanged(int) {
     ffdProject->ProjectInfo->OverrideDate=ui->OverrideDateCB->isChecked();
     if (!ffdProject->ProjectInfo->OverrideDate) {
         ffdProject->ProjectInfo->LongDate=FormatLongDate(ffdProject->ProjectInfo->EventDate);
-        ui->DateED->setText(ffdProject->ProjectInfo->LongDate);
+        ui->DateED->setPlainText(ffdProject->ProjectInfo->LongDate);
     }
     ui->DateED->setEnabled(ui->OverrideDateCB->isChecked());
+}
+
+//====================================================================================================================
+// Export Thumb
+
+void DlgffDPjrProperties::ExportThumb() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::ExportThumb");
+    QString OutputFileName=QFileInfo(ffdProject->ProjectFileName).absolutePath();
+    if (!OutputFileName.endsWith(QDir::separator())) OutputFileName=OutputFileName+QDir::separator();
+    OutputFileName=OutputFileName+"folder.jpg";
+    QString Filter="JPG (*.jpg)";
+    OutputFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Select destination file"),OutputFileName,"JPG (*.jpg)",&Filter);
+    if (OutputFileName!="") {
+        int Index=BaseApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName);
+        if (Index>=0) {
+            QSize  ForcedThumbnailSize(THUMBWITH,THUMBHEIGHT);
+            QImage Image=BaseApplicationConfig->ThumbnailModels->List[Index].PrepareImage(0,ffdProject,ffdProject->ProjectThumbnail,&ForcedThumbnailSize);
+            if (Image.save(OutputFileName,0,100))
+                CustomMessageBox(this,QMessageBox::Information,QApplication::translate("DlgffDPjrProperties","Export thumbnail"),
+                                 QApplication::translate("DlgffDPjrProperties","Thumbnail successfully exported","Information message"),QMessageBox::Close);
+        }
+    }
 }
 
 //====================================================================================================================
@@ -250,6 +276,17 @@ void DlgffDPjrProperties::EditThumb() {
 
 //====================================================================================================================
 
+void DlgffDPjrProperties::TabChanged(int NewTab) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::TabChanged");
+
+    if (NewTab==1) {
+        ui->ThumbCB->MakeIcons();    // Refresh icons for curstom combo
+        DoAccept();
+    }
+}
+
+//====================================================================================================================
+
 void DlgffDPjrProperties::ThumbChanged() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::ThumbChanged");
     ffdProject->ThumbnailName=ui->ThumbCB->GetCurrentModel();
@@ -265,10 +302,10 @@ void DlgffDPjrProperties::ThumbChanged() {
     }
     if ((ThumbnailIndex<0)||(ThumbnailIndex>=BaseApplicationConfig->ThumbnailModels->List.count())) return;
     if (BaseApplicationConfig->ThumbnailModels->List[ThumbnailIndex].IsCustom) {
-        ui->AdminEditThumbBT->setText(QApplication::translate("DlgffDPjrProperties","Edit this custom model"));
+        ui->AdminEditThumbBT->setText(QApplication::translate("DlgffDPjrProperties","Edit\ncustom model"));
         ui->AdminEditThumbBT->setEnabled(BaseApplicationConfig->ThumbnailModels->List[ThumbnailIndex].Name!="*");
     } else {
-        ui->AdminEditThumbBT->setText(QApplication::translate("DlgffDPjrProperties","Create a custom model based on this model"));
+        ui->AdminEditThumbBT->setText(QApplication::translate("DlgffDPjrProperties","Create\ncustom model"));
         ui->AdminEditThumbBT->setEnabled(true);
     }
 }

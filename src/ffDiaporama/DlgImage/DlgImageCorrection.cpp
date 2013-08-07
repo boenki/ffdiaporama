@@ -364,7 +364,7 @@ void DlgImageCorrection::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
         CurrentBrush->Deinterlace    =root.attribute("Deinterlace")=="1";
     }
     if (BrushFileName!=((CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName)) {
-        BaseApplicationConfig->ImagesCache.RemoveVideoObject(BrushFileName);
+        BaseApplicationConfig->ImagesCache.RemoveImageObject(BrushFileName);
         if (CurrentBrush->Image) {
             CurrentBrush->Image->Reset();
             CurrentBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL);
@@ -742,7 +742,7 @@ void DlgImageCorrection::s_ChangeFile() {
     QString NewBrushFileName=QFileInfo(NewFile).absoluteFilePath();
     QString OldBrushFileName=CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
 
-    BaseApplicationConfig->ImagesCache.RemoveVideoObject(OldBrushFileName);
+    BaseApplicationConfig->ImagesCache.RemoveImageObject(OldBrushFileName);
     if (!IsVideo) {
         // Image
         CurrentBrush->Image->Reset();

@@ -638,8 +638,12 @@ bool cEncodeVideo::OpenAudioStream(sAudioCodecDef *AudioCodecDef,int &AudioChann
         av_dict_set(&opts,"ch_mode","-1",0);
     } else if (codec->id==AV_CODEC_ID_AAC) {
         //VideoStream->codec->profile=FF_PROFILE_AAC_MAIN;
-        if (QString(AUDIOCODECDEF[2].ShortName)=="aac")
+        if (QString(AUDIOCODECDEF[2].ShortName)=="aac") {
             AudioStream->codec->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
+            #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(55,18,0)   // since ffmpeg 2.0
+            AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLTP;
+            #endif
+        }
     } else if (codec->id==AV_CODEC_ID_MP2) {
 
     } else if (codec->id==AV_CODEC_ID_MP3) {

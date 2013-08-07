@@ -53,17 +53,30 @@ cModelListItem::cModelListItem(cModelList *Parent,QString FileName,QSize Thumbna
 
 //=============================================================================================================================
 
-QImage cModelListItem::PrepareImage(int64_t Position,cDiaporamaObject *DiaporamaObjectToUse) {
-    QImage               Thumb;
-    cDiaporama           *Diaporama      =DiaporamaObjectToUse?DiaporamaObjectToUse->Parent:NULL;
-    cDiaporamaObject     *DiaporamaObject=DiaporamaObjectToUse;
+QImage cModelListItem::PrepareImage(int64_t Position,cDiaporama *DiaporamaToUse,cDiaporamaObject *DiaporamaObjectToUse,QSize *ForcedThumbnailSize) {
+    QImage              Thumb;
+    cDiaporama          *Diaporama      =DiaporamaObjectToUse?DiaporamaObjectToUse->Parent:NULL;
+    cDiaporamaObject    *DiaporamaObject=DiaporamaObjectToUse;
 
     if (!Diaporama) {
         Diaporama=new cDiaporama(Parent->ApplicationConfig,false);
-        Diaporama->ProjectInfo->Title  =QApplication::translate("cModelList","Project title");
-        Diaporama->ProjectInfo->Album  =QApplication::translate("cModelList","Project album");
-        Diaporama->ProjectInfo->Author =QApplication::translate("cModelList","Project author");
-        Diaporama->ProjectInfo->Comment=QApplication::translate("cModelList","Project comment");
+        if (!DiaporamaToUse) {
+            Diaporama->ProjectInfo->Title  =QApplication::translate("cModelList","Project title");
+            Diaporama->ProjectInfo->Album  =QApplication::translate("cModelList","Project album");
+            Diaporama->ProjectInfo->Author =QApplication::translate("cModelList","Project author");
+            Diaporama->ProjectInfo->Comment=QApplication::translate("cModelList","Project comment");
+        } else {
+            Diaporama->ProjectInfo->Title       =DiaporamaToUse->ProjectInfo->Title;
+            Diaporama->ProjectInfo->Album       =DiaporamaToUse->ProjectInfo->Album;
+            Diaporama->ProjectInfo->Author      =DiaporamaToUse->ProjectInfo->Author;
+            Diaporama->ProjectInfo->Comment     =DiaporamaToUse->ProjectInfo->Comment;
+            Diaporama->ProjectInfo->EventDate   =DiaporamaToUse->ProjectInfo->EventDate;
+            Diaporama->ProjectInfo->OverrideDate=DiaporamaToUse->ProjectInfo->OverrideDate;
+            Diaporama->ProjectInfo->LongDate    =DiaporamaToUse->ProjectInfo->LongDate;
+            Diaporama->ProjectInfo->Duration    =DiaporamaToUse->ProjectInfo->Duration;
+            Diaporama->ProjectInfo->NbrSlide    =DiaporamaToUse->ProjectInfo->NbrSlide;
+            Diaporama->ProjectInfo->NbrChapters =DiaporamaToUse->ProjectInfo->NbrChapters;
+        }
     }
 
     if (!DiaporamaObject) {
@@ -112,7 +125,7 @@ QImage cModelListItem::PrepareImage(int64_t Position,cDiaporamaObject *Diaporama
 
     //**************** Draw image
 
-    Thumb=QImage(ThumbnailSize,QImage::Format_ARGB32_Premultiplied);
+    Thumb=QImage(ForcedThumbnailSize?*ForcedThumbnailSize:ThumbnailSize,QImage::Format_ARGB32_Premultiplied);
 
 
 //ICI:************** Ajouter le chargement du fond !!!!!!!
@@ -134,7 +147,8 @@ QImage cModelListItem::PrepareImage(int64_t Position,cDiaporamaObject *Diaporama
 
     // Construct collection
     for (int j=0;j<Info->CurrentObject_CurrentShot->ShotComposition.List.count();j++)
-        PreparedBrushList.append(cCompositionObjectContext(j,true,true,Info,ThumbnailSize.width(),ThumbnailSize.height(),Info->CurrentObject_CurrentShot,PreviousShot,NULL,0,0));
+        PreparedBrushList.append(cCompositionObjectContext(j,true,true,Info,Thumb.width(),Thumb.height(),
+                                                           Info->CurrentObject_CurrentShot,PreviousShot,NULL,0,0));
 
     // Compute each item of the collection
     QFuture<void> DoCompute = QtConcurrent::map(PreparedBrushList,ComputeCompositionObjectContext);
@@ -142,20 +156,20 @@ QImage cModelListItem::PrepareImage(int64_t Position,cDiaporamaObject *Diaporama
 
     // Draw collection
     for (int j=0;j<Info->CurrentObject_CurrentShot->ShotComposition.List.count();j++) {
-        Info->CurrentObject_CurrentShot->ShotComposition.List[j]->DrawCompositionObject(DiaporamaObject,&P,double(ThumbnailSize.height())/double(1080),
-            ThumbnailSize.width(),
-            ThumbnailSize.height(),
+        Info->CurrentObject_CurrentShot->ShotComposition.List[j]->DrawCompositionObject(DiaporamaObject,&P,double(Thumb.height())/double(1080),
+            Thumb.width(),
+            Thumb.height(),
             PreparedBrushList[j].PreviewMode,
             PreparedBrushList[j].VideoPosition+PreparedBrushList[j].StartPosToAdd,
             PreparedBrushList[j].SoundTrackMontage,
             PreparedBrushList[j].BlockPctDone,PreparedBrushList[j].ImagePctDone,
-            PreparedBrushList[j].PrevCompoObject,false,100,
+            PreparedBrushList[j].PrevCompoObject,100,
             true,false,0,0,0,0,false,&PreparedBrushList[j]);
     }
     PreparedBrushList.clear();
 
-    // Add custom model of customized icon is needed
-    if (IsCustom) {
+    // Add custom model of customized icon if needed
+    if (IsCustom && (!ForcedThumbnailSize)) {
         if (Name=="*")  P.drawImage(Thumb.width()-26,Thumb.height()-26,QImage(ICON_CUSTOMIZEDSLIDE));
             else        P.drawImage(Thumb.width()-26,Thumb.height()-26,QImage(ICON_CUSTOMMODEL));
     }
@@ -247,15 +261,6 @@ void cModelList::FillModelType(ffd_MODELTYPE ModelType) {
     CustomModelPath  =ApplicationConfig->UserConfigPath;    if (!CustomModelPath.endsWith(QDir::separator())) CustomModelPath=CustomModelPath+QDir::separator();
 
     switch (ModelType) {
-        case ffd_MODELTYPE_THUMBNAIL:
-            ToLog(LOGMSG_DEBUGTRACE,QApplication::translate("cModelList","Register thumbnail models..."));
-            StandardModelPath=StandardModelPath+"Thumbnails";
-            CustomModelPath  =CustomModelPath+"Thumbnails";
-            ModelSuffix      ="thb";
-            ThumbnailSize    =QSize(THUMB_THUMBWITH,THUMB_THUMBHEIGHT);
-            StartNumber      =100000;
-            EndNumber        =199999;
-            break;
         case ffd_MODELTYPE_PROJECTTITLE:
             ToLog(LOGMSG_DEBUGTRACE,QApplication::translate("cModelList","Register Project title slide models (%1)...").arg(GeoFolder));
             StandardModelPath=StandardModelPath+"Titles";
@@ -279,6 +284,16 @@ void cModelList::FillModelType(ffd_MODELTYPE ModelType) {
             ModelSuffix      ="tss";
             StartNumber      =QString(QString("3%1").arg(DigitCategorie)+"0000").toInt();
             EndNumber        =QString(QString("3%1").arg(DigitCategorie)+"9999").toInt();
+            break;
+        case ffd_MODELTYPE_THUMBNAIL:
+        default:
+            ToLog(LOGMSG_DEBUGTRACE,QApplication::translate("cModelList","Register thumbnail models..."));
+            StandardModelPath=StandardModelPath+"Thumbnails";
+            CustomModelPath  =CustomModelPath+"Thumbnails";
+            ModelSuffix      ="thb";
+            ThumbnailSize    =QSize(THUMB_THUMBWITH,THUMB_THUMBHEIGHT);
+            StartNumber      =100000;
+            EndNumber        =199999;
             break;
     }
     if (ModelType!=ffd_MODELTYPE_THUMBNAIL) switch (ProjectGeometry) {

@@ -95,6 +95,8 @@ public:
     bool                    PlayerPlayMode;        // Is MPlayer currently play mode
     bool                    PlayerPauseMode;       // Is MPlayer currently plause mode
     QTimer                  Timer;
+    QDateTime               PreviousTimerTick;
+    int                     TimerValue;
     bool                    IsSliderProcess;        // true is slider is currently moving by user
     bool                    PreviousPause;          // Flag to keep pause state before slider process
     QTime                   LastTimeCheck;          // time save for plaing diaporama
@@ -145,7 +147,6 @@ private slots:
 private:
     void    EnableWidget(bool State);
     void    PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted,bool AddStartPos);
-    void    PrepareMusicBloc(int Column,int Position);
     void    PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position);
 
     Ui::wgt_QVideoPlayer *ui;

@@ -1,6 +1,23 @@
-//============================================
-// Activate standard stdint macro
-//============================================
+/* ======================================================================
+    This file is part of ffDiaporama
+    ffDiaporama is a tools to make diaporama as video
+    Copyright (C) 2011-2013 Dominique Levray <levray.dominique@bbox.fr>
+
+    This program is free software; you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation; either version 2 of the License, or
+    (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License along
+    with this program; if not, write to the Free Software Foundation, Inc.,
+    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
+   ====================================================================== */
+
 #include <windows.h>
 #include <winbase.h>
 #include <stdio.h>
@@ -10,7 +27,6 @@
 #include <iostream>
 #include <fstream>
 #include <Shellapi.h>
-#include "blitzcpu.h"
 
 //*****************************************************************************************************************
 
@@ -18,71 +34,27 @@ int main(int argc, char *argv[]) {
     WCHAR   wFile[512],wParam[512],wFolder[512];
     char    Param[2048],Folder[2048];
 
-    OSVERSIONINFO Version;
-    memset(&Version,0,sizeof(Version));
-    Version.dwOSVersionInfoSize=sizeof(Version);
-    GetVersionEx(&Version);
-    // Windows XP=5.1.2600 / Windows Vista=6.0.6000 / Windows 7 = 6.1.7600
-    bool IsWindowsXP=(Version.dwMajorVersion==5)&&(Version.dwMinorVersion>=1);
-    int  ForceSSE=IsWindowsXP?1:0;
-
-    printf("Starting ffDiaporamaStart\n\n");
-
-
     // Software to start
-    swprintf(wFile,L"%S","ffDiaporama.exe");
+    swprintf(wFile,512,L"%S","ffDiaporama.exe");
 
     // compute current folder
-    strcpy(Folder,argv[0]);
+    strcpy_s(Folder,2048,argv[0]);
     if (strrchr(Folder,'\\')) *strrchr(Folder,'\\')=0;
     if (strlen(Folder)==0) {
         _getcwd(Folder,2048);
         if (strrchr(Folder,'\\')) *strrchr(Folder,'\\')=0;
     }
-    printf("Current folder: %s\n\n",Folder);
-
-	// if no config file, try to detect processor extensions
-    if ((ForceSSE==0)&&(BlitzCPUInfo::haveExtension(BlitzCPUInfo::SSE2) || BlitzCPUInfo::haveExtension(BlitzCPUInfo::AMD3DNOW))) ForceSSE=2;
-	if (ForceSSE==0) ForceSSE=1;
-	
-    // add folders to system path
-    char *CurPath=getenv("PATH");
-    if (CurPath==NULL) {
-        printf("Failed to get path environment variable !\n");
-        exit(1);
-    }
-    char *Path=(char*)malloc((strlen(CurPath)+4096)*sizeof(char));
-    if (Path==NULL) {
-        printf("Failed to allocate memory!\n");
-        exit(1);
-    }
-	switch (ForceSSE) {
-        case 1 : sprintf(Path,"PATH=%s;%s;%s\\32bitsse1",CurPath,Folder,Folder);	break;
-        case 2 : sprintf(Path,"PATH=%s;%s;%s\\32bitsse2",CurPath,Folder,Folder);	break;
-        //case 3 : sprintf(Path,"PATH=%s;%s\\32bit;%s\\32bit\\sse3",CurPath,Folder,Folder);	break;
-        //case 4 : sprintf(Path,"PATH=%s;%s\\32bit;%s\\32bit\\sse4",CurPath,Folder,Folder);	break;
-	}
-    _putenv(Path);
-    printf( "New PATH variable: %s\n\n",Path);
-    free(Path);
-
-	// compute new folder depending on processor flags
-	if (ForceSSE==1) {
-        printf("\nStarting 32bit sse1 version:%s\\32bitsse1\\ffDiaporama.exe\n",Folder);
-		swprintf(wFolder,L"%S\\32bitsse1",Folder);
-	} else {
-        printf("\nStarting 32bit sse2 version:%s\\32bitsse2\\ffDiaporama.exe\n",Folder);
-        swprintf(wFolder,L"%S\\32bitss2",Folder);
-	}
+    // compute new folder depending on processor flags
+    swprintf(wFolder,512,L"%S",Folder);
 
     // Get parameters
     Param[0]=0;
     for (int i=1;i<argc;i++) {
-        strcat(Param,"\"");
-        strcat(Param,argv[i]);
-        strcat(Param,"\" ");
+        strcat_s(Param,2048,"\"");
+        strcat_s(Param,2048,argv[i]);
+        strcat_s(Param,2048,"\" ");
     }
-    swprintf(wParam,L"%S",Param);
+    swprintf(wParam,512,L"%S",Param);
 
     ShellExecute(NULL,NULL,wFile,wParam,wFolder,SW_SHOWNORMAL);
     return 0;

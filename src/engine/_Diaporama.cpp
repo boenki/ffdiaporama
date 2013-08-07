@@ -946,7 +946,7 @@ void cCompositionObject::CopyFromCompositionObject(cCompositionObject *Compositi
 // ADJUST_RATIO=Adjustement ratio for pixel size (all size are given for full hd and adjust for real wanted size)
 void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter *DestPainter,double  ADJUST_RATIO,double width,double height,bool PreviewMode,int64_t Position,
                                                cSoundBlockList *SoundTrackMontage,double BlockPctDone,double ImagePctDone,cCompositionObject *PrevCompoObject,
-                                               bool UseBrushCache,int64_t ShotDuration,bool EnableAnimation,
+                                               int64_t ShotDuration,bool EnableAnimation,
                                                bool Transfo,double NewX,double NewY,double NewW,double NewH,bool DisplayTextMargin,cCompositionObjectContext *PreparedBrush) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:DrawCompositionObject");
 
@@ -1145,7 +1145,7 @@ void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter
                 if (BackgroundBrush->BrushType==BRUSHTYPE_NOBRUSH) Painter->setBrush(Qt::NoBrush); else {
 
                     // Create brush with filter and Ken Burns effect !
-                    QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL,UseBrushCache);
+                    QBrush *BR=BackgroundBrush->GetBrush(QRectF(0,0,W,H),PreviewMode,Position,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL);
                     if (BR) {
                         QTransform  MatrixBR;
                         // Avoid phantom lines for image brush
@@ -1679,10 +1679,11 @@ QString cDiaporamaObject::SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel) {
     cModelList  *ModelList;
 
     switch (TypeModel) {
-        case ffd_MODELTYPE_THUMBNAIL:       ModelList=Parent->ApplicationConfig->ThumbnailModels;                                                           break;
-        case ffd_MODELTYPE_PROJECTTITLE:    ModelList=Parent->ApplicationConfig->PrjTitleModels[Parent->ImageGeometry][MODELTYPE_PROJECTTITLE_CATNUMBER-1]; break;
-        case ffd_MODELTYPE_CHAPTERTITLE:    ModelList=Parent->ApplicationConfig->CptTitleModels[Parent->ImageGeometry][MODELTYPE_CHAPTERTITLE_CATNUMBER-1]; break;
-        case ffd_MODELTYPE_CREDITTITLE:     ModelList=Parent->ApplicationConfig->CreditTitleModels[Parent->ImageGeometry][MODELTYPE_CREDITTITLE_CATNUMBER-1]; break;
+        case ffd_MODELTYPE_PROJECTTITLE:    ModelList=Parent->ApplicationConfig->PrjTitleModels[Parent->ImageGeometry][MODELTYPE_PROJECTTITLE_CATNUMBER-1];     break;
+        case ffd_MODELTYPE_CHAPTERTITLE:    ModelList=Parent->ApplicationConfig->CptTitleModels[Parent->ImageGeometry][MODELTYPE_CHAPTERTITLE_CATNUMBER-1];     break;
+        case ffd_MODELTYPE_CREDITTITLE:     ModelList=Parent->ApplicationConfig->CreditTitleModels[Parent->ImageGeometry][MODELTYPE_CREDITTITLE_CATNUMBER-1];   break;
+        case ffd_MODELTYPE_THUMBNAIL:
+        default:                            ModelList=Parent->ApplicationConfig->ThumbnailModels;                                                               break;
     }
 
     NewName=ModelList->CustomModelPath; if (!NewName.endsWith(QDir::separator())) NewName=NewName+QDir::separator();
@@ -1707,6 +1708,8 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     Element.setAttribute("NextIndexKey",    NextIndexKey);
 
     if (ElementName==THUMBMODEL_ELEMENTNAME) {
+
+        Element.setAttribute("ThumbnailName", Parent->ThumbnailName);
 
     } else if (ElementName==TITLEMODEL_ELEMENTNAME) {
 
@@ -1789,6 +1792,8 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
         NextIndexKey=Element.attribute("NextIndexKey").toInt();
 
         if (ElementName==THUMBMODEL_ELEMENTNAME) {
+
+            if (Element.hasAttribute("ThumbnailName")) Parent->ThumbnailName=Element.attribute("ThumbnailName");
 
         } else if (ElementName==TITLEMODEL_ELEMENTNAME) {
 
@@ -2040,30 +2045,28 @@ void cDiaporama::UpdateStatInformation() {
             if (NbrText)                    Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%5 text blocks").arg(NbrText);
             if (NbrAutoSlide)               Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%6 automatic slides").arg(NbrAutoSlide);
             //for (int j=0;j<Composer.List.count();j++) Variable.Variables[i].Value=Variable.Variables[i].Value+QString("    %1: %2<br>").arg(Composer.List[j].Composer).arg(Composer.List[j].Count);
-            Variable.Variables[var].Value=Text;
+            Variable.Variables[var].Value=HTMLConverter.ToPlainText(Text);;
 
         } else if (Variable.Variables[var].VarName=="STM") {
 
             // Parse all object to construct values
+            QStringList MusicList;
             Text=QApplication::translate("Variables","Musical content:","Project statistics");
             for (int i=0;i<List.count();i++) if (List[i]->MusicType) for (int music=0;music<List[i]->MusicList.count();music++) {
                 QString TMusc =List[i]->MusicList[music].GetInformationValue("title");
                 QString Album =List[i]->MusicList[music].GetInformationValue("album");
-                QString Track =List[i]->MusicList[music].GetInformationValue("track");
                 QString Date  =List[i]->MusicList[music].GetInformationValue("date");
                 QString Artist=List[i]->MusicList[music].GetInformationValue("artist");
-
-                Text=Text+(Text.isEmpty()?"·":"\n·")+(!TMusc.isEmpty()?TMusc:List[i]->MusicList[music].ShortName);
+                QString SubText=(!TMusc.isEmpty()?TMusc:List[i]->MusicList[music].ShortName);
                 if (!Artist.isEmpty()) {
-                    if (!Date.isEmpty())  Text=Text+QApplication::translate("Variables"," - © %1 %2","Project statistics-Music").arg(Date).arg(Artist);
-                        else              Text=Text+QApplication::translate("Variables"," - © %1",   "Project statistics-Music").arg(Artist);
+                    if (!Date.isEmpty())  SubText=SubText+QApplication::translate("Variables"," - © %1 (%2)","Project statistics-Music").arg(Artist).arg(Date);
+                        else              SubText=SubText+QApplication::translate("Variables"," - © %1",     "Project statistics-Music").arg(Artist);
                 }
-                if (!Album.isEmpty()) {
-                    if (!Track.isEmpty()) Text=Text+QApplication::translate("Variables"," (Track %1 from «%2»)","Project statistics-Music").arg(Track).arg(Album);
-                        else              Text=Text+QApplication::translate("Variables"," (from «%1»)",         "Project statistics-Music").arg(Album);
-                }
+                if (!Album.isEmpty()) SubText=SubText+QApplication::translate("Variables"," from «%1»",       "Project statistics-Music").arg(Album);
+                MusicList.append(SubText);
             }
-            Variable.Variables[var].Value=Text;
+            for (int i=0;i<MusicList.count();i++) Text=Text+(MusicList.count()>1?"\n·":" ")+MusicList[i];
+            Variable.Variables[var].Value=HTMLConverter.ToPlainText(Text);
 
         }
     }
@@ -2437,7 +2440,7 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
                 CurShot->ShotComposition.List[j]->DrawCompositionObject(CurObject,&P,double(H)/double(1080),W,H,PreparedBrushList[j].PreviewMode,PreparedBrushList[j].VideoPosition+PreparedBrushList[j].StartPosToAdd,
                                                                         PreparedBrushList[j].SoundTrackMontage,
                                                                         PreparedBrushList[j].BlockPctDone,PreparedBrushList[j].ImagePctDone,
-                                                                        PreparedBrushList[j].PrevCompoObject,false,Duration,
+                                                                        PreparedBrushList[j].PrevCompoObject,Duration,
                                                                         true,false,0,0,0,0,false,&PreparedBrushList[j]);
             }
             PreparedBrushList.clear();

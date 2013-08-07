@@ -33,8 +33,8 @@ enum ffd_MODELTYPE {
 };
 
 // Number of categorie by type
-#define MODELTYPE_PROJECTTITLE_CATNUMBER    4
-#define MODELTYPE_CHAPTERTITLE_CATNUMBER    4
+#define MODELTYPE_PROJECTTITLE_CATNUMBER    3
+#define MODELTYPE_CHAPTERTITLE_CATNUMBER    3
 #define MODELTYPE_CREDITTITLE_CATNUMBER     2
 
 class cBaseApplicationConfig;
@@ -55,7 +55,7 @@ public:
     ~cModelListItem();
 
     QDomDocument            LoadModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName);
-    QImage                  PrepareImage(int64_t Position,cDiaporamaObject *DiaporamaObjectToUse=NULL);
+    QImage                  PrepareImage(int64_t Position,cDiaporama *Diaporama,cDiaporamaObject *DiaporamaObjectToUse,QSize *ForcedThumbnailSize=NULL);
 };
 
 class cModelList {

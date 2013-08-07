@@ -78,7 +78,7 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","The non-luma library contains %1 transitions").arg(IconList.List.count()-LumaListNbr)));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","The luma library contains %1 transitions").arg(LumaListNbr)));
     // SDL
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","SDL version:%1.%2.%3-Licence=GPL version 2.1 or later").arg(SDL_MAJOR_VERSION).arg(SDL_MINOR_VERSION).arg(SDL_PATCHLEVEL)));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","SDL version: %1.%2.%3-Licence=GPL version 2.1 or later").arg(SDL_MAJOR_VERSION).arg(SDL_MINOR_VERSION).arg(SDL_PATCHLEVEL)));
     // fmt_filters
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","fmt_filters version:0.6.4-Licence=LGPL")));
     // qimageblitz
@@ -91,7 +91,7 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(""));
 
     // exiv2
-    StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 version:")+QString("%1.%2.%3").arg(EXIV2_MAJOR_VERSION).arg(EXIV2_MINOR_VERSION).arg(EXIV2_PATCH_VERSION);
+    StatusStr=QApplication::translate("DlgCheckConfig","LibExiv2 version:")+QString(" %1.%2.%3").arg(EXIV2_MAJOR_VERSION).arg(EXIV2_MINOR_VERSION).arg(EXIV2_PATCH_VERSION);
     ui->ListWidget->addItem(new QListWidgetItem(StatusStr));
     #ifdef EXIV2WITHPREVIEW
     Status=true;
@@ -104,7 +104,7 @@ void DlgCheckConfig::DoInitDialog() {
 
     #ifdef LIBAV_08
     // taglib
-    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","TAGLib version:")+QString("%1.%2.%3").arg(TAGLIB_MAJOR_VERSION).arg(TAGLIB_MINOR_VERSION).arg(TAGLIB_PATCH_VERSION)));
+    ui->ListWidget->addItem(new QListWidgetItem(QApplication::translate("DlgCheckConfig","TAGLib version:")+QString(" %1.%2.%3").arg(TAGLIB_MAJOR_VERSION).arg(TAGLIB_MINOR_VERSION).arg(TAGLIB_PATCH_VERSION)));
     #ifdef TAGLIBWITHFLAC
     Status=true;
     #else
@@ -133,24 +133,24 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem("libav"));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAV general version:")+
                                             #if defined(LIBAV_08)
-                                                "0.8.x"
+                                                " 0.8.x"
                                             #elif defined(LIBAV_09)
-                                                "9.x"
+                                                " 9.x"
                                             #else
-                                                "error"
+                                                " error"
                                             #endif
                                                 ));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVUTIL version:%1.%2.%3.%4") .arg(LIBAVUTIL_VERSION_MAJOR) .arg(LIBAVUTIL_VERSION_MINOR) .arg(LIBAVUTIL_VERSION_MICRO) .arg(avutil_version())));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVCODEC version:%1.%2.%3.%4") .arg(LIBAVCODEC_VERSION_MAJOR) .arg(LIBAVCODEC_VERSION_MINOR) .arg(LIBAVCODEC_VERSION_MICRO) .arg(avcodec_version())));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVFORMAT version:%1.%2.%3.%4").arg(LIBAVFORMAT_VERSION_MAJOR).arg(LIBAVFORMAT_VERSION_MINOR).arg(LIBAVFORMAT_VERSION_MICRO).arg(avformat_version())));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVFILTER version:%1.%2.%3.%4").arg(LIBAVFILTER_VERSION_MAJOR).arg(LIBAVFILTER_VERSION_MINOR).arg(LIBAVFILTER_VERSION_MICRO).arg(avfilter_version())));
-    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBSWSCALE version:%1.%2.%3.%4") .arg(LIBSWSCALE_VERSION_MAJOR) .arg(LIBSWSCALE_VERSION_MINOR) .arg(LIBSWSCALE_VERSION_MICRO) .arg(swscale_version())));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVUTIL version: %1.%2.%3.%4") .arg(LIBAVUTIL_VERSION_MAJOR) .arg(LIBAVUTIL_VERSION_MINOR) .arg(LIBAVUTIL_VERSION_MICRO) .arg(avutil_version())));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVCODEC version: %1.%2.%3.%4") .arg(LIBAVCODEC_VERSION_MAJOR) .arg(LIBAVCODEC_VERSION_MINOR) .arg(LIBAVCODEC_VERSION_MICRO) .arg(avcodec_version())));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVFORMAT version: %1.%2.%3.%4").arg(LIBAVFORMAT_VERSION_MAJOR).arg(LIBAVFORMAT_VERSION_MINOR).arg(LIBAVFORMAT_VERSION_MICRO).arg(avformat_version())));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVFILTER version: %1.%2.%3.%4").arg(LIBAVFILTER_VERSION_MAJOR).arg(LIBAVFILTER_VERSION_MINOR).arg(LIBAVFILTER_VERSION_MICRO).arg(avfilter_version())));
+    ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBSWSCALE version: %1.%2.%3.%4") .arg(LIBSWSCALE_VERSION_MAJOR) .arg(LIBSWSCALE_VERSION_MINOR) .arg(LIBSWSCALE_VERSION_MICRO) .arg(swscale_version())));
     #if defined(LIBAV_08)
     #elif defined(LIBAV_09)
         #if defined(USELIBAVRESAMPLE)
-        ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVRESAMPLE version:%1.%2.%3.%4") .arg(LIBAVRESAMPLE_VERSION_MAJOR) .arg(LIBAVRESAMPLE_VERSION_MINOR) .arg(LIBAVRESAMPLE_VERSION_MICRO).arg(avresample_version())));
+        ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAVRESAMPLE version: %1.%2.%3.%4") .arg(LIBAVRESAMPLE_VERSION_MAJOR) .arg(LIBAVRESAMPLE_VERSION_MINOR) .arg(LIBAVRESAMPLE_VERSION_MICRO).arg(avresample_version())));
         #elif defined(USELIBSWRESAMPLE)
-        ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBSWRESAMPLE version:%1.%2.%3.%4") .arg(LIBSWRESAMPLE_VERSION_MAJOR) .arg(LIBSWRESAMPLE_VERSION_MINOR) .arg(LIBSWRESAMPLE_VERSION_MICRO).arg(swresample_version())));
+        ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBSWRESAMPLE version: %1.%2.%3.%4") .arg(LIBSWRESAMPLE_VERSION_MAJOR) .arg(LIBSWRESAMPLE_VERSION_MINOR) .arg(LIBSWRESAMPLE_VERSION_MICRO).arg(swresample_version())));
         #endif
     #endif
 

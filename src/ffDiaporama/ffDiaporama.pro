@@ -65,14 +65,14 @@ unix {
     contains(QMAKE_HOST.arch,x86_64) {
         DEFINES+=Q_OS_WIN64
         message("x86_64 build")
-        INCLUDEPATH += "../../../win_src/ffmpeg-1.2-win64-dev/include"
-        LIBS        += -L"../../../win_src/ffmpeg-1.2-win64-dev/lib"
+        INCLUDEPATH += "../../../win_src/ffmpeg-2.0-win64-dev/include"
+        LIBS        += -L"../../../win_src/ffmpeg-2.0-win64-dev/lib"
         LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x64"
     } else {
         DEFINES+=Q_OS_WIN32
         message("x86 build")
-        INCLUDEPATH += "../../../win_src/ffmpeg-1.2-win32-dev/include"
-        LIBS        += -L"../../../win_src/ffmpeg-1.2-win32-dev/lib"
+        INCLUDEPATH += "../../../win_src/ffmpeg-2.0-win32-dev/include"
+        LIBS        += -L"../../../win_src/ffmpeg-2.0-win32-dev/lib"
         LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x86"
     }
 

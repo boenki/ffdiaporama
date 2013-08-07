@@ -372,7 +372,7 @@ void cDriveList::UpdateDriveList() {
     if (!SearchDrive(AdjustDirForOS(ClipArtFolder)))    List.append(cDriveDesc(AdjustDirForOS(ClipArtFolder),QApplication::translate("QCustomFolderTree","Clipart"),ApplicationConfig));
     if (!SearchDrive(AdjustDirForOS(QDir::homePath()))) List.append(cDriveDesc(QDir::homePath(),PersonalFolder,ApplicationConfig));
     #ifdef Q_OS_WIN
-        foreach(QFileInfo drive,QDir::drives()) if (!SearchDrive(AdjustDirForOS(drive.filePath()))) List.append(cDriveDesc(drive.filePath(),"",ApplicationConfig));
+        foreach(QFileInfo drive,QDir::drives()) if ((!drive.filePath().startsWith("A:"))&&(!drive.filePath().startsWith("B:"))&&(!SearchDrive(AdjustDirForOS(drive.filePath())))) List.append(cDriveDesc(drive.filePath(),"",ApplicationConfig));
     #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
 
         if (!SearchDrive("/")) List.append(cDriveDesc("/",QApplication::translate("QCustomFolderTree","System files"),ApplicationConfig));

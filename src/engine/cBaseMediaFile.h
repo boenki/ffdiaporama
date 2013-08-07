@@ -312,10 +312,9 @@ public:
 
     virtual QImage          *ImageAt(bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackMontage,bool Deinterlace,double Volume,bool ForceSoundOnly,bool DontUseEndPos);
     virtual QImage          *ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndPos,bool Deinterlace,cSoundBlockList *SoundTrackBloc,double Volume,bool ForceSoundOnly);
-    virtual int             DecodeVideoFrame(AVStream *VideoStream,AVStream *AudioStream,AVPacket *StreamPacket,bool Deinterlace,bool *DontRetryReading,int64_t Position,int64_t FPSDuration);
-    virtual QImage          *ConvertYUVToRGB(bool PreviewMode);
+    virtual QImage          *ConvertYUVToRGB(bool PreviewMode,AVFrame *Frame);
 
-    virtual bool            SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position,bool Deinterlace);
+    virtual bool            SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Position);
     virtual void            CloseResampler();
     virtual void            CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleFormat RSC_InSampleFmt,AVSampleFormat RSC_OutSampleFmt,int RSC_InSampleRate,int RSC_OutSampleRate
                                                #ifdef LIBAV_09
@@ -330,23 +329,12 @@ public:
     AVFilterGraph           *VideoFilterGraph;
     AVFilterContext         *VideoFilterIn;
     AVFilterContext         *VideoFilterOut;
-    AVFilterInOut           *outputs;
-    AVFilterInOut           *inputs;
-    QString                 m_filters;
-    QString                 m_filters_next;
 
-    enum EFilterFlags {
-        FILTER_NONE                 = 0x0,
-        FILTER_DEINTERLACE_YADIF    = 0x1,
-        FILTER_DEINTERLACE_ANY      = 0xf,
-        FILTER_DEINTERLACE_FLAGGED  = 0x10,
-        FILTER_DEINTERLACE_HALFED   = 0x20
-    };
-
-    virtual unsigned int    SetFilters(unsigned int flags);
-    virtual int             VideoFilter_Open(QString Filters);
+    virtual int             VideoFilter_Open();
     virtual void            VideoFilter_Close();
-    virtual int             VideoFilter_Process();
+    #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
+        virtual int         VideoFilter_Process();
+    #endif
 };
 
 //*********************************************************************************************************************************************

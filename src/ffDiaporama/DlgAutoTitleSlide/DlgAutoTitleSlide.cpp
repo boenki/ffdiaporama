@@ -144,19 +144,15 @@ bool DlgAutoTitleSlide::DoAccept() {
     QString CurrentModel=ui->ModelTable->GetCurrentModel();
     if (!CurrentModel.isEmpty()) {
         CurrentSlide->SlideName=QString("<%AUTOTS_%1%>").arg(ui->ModelTable->GetCurrentModel());
-        if (OldName!=CurrentSlide->SlideName) {
-            CurrentSlide->LoadModelFromXMLData(ui->ModelTable->ModelTable->ModelType,
-                                               ui->ModelTable->ModelTable->List[ui->ModelTable->ModelTable->SearchModel(ui->ModelTable->GetCurrentModel())].Model);
-            emit SetModifyFlag();
-        }
-
+        CurrentSlide->LoadModelFromXMLData(ui->ModelTable->ModelTable->ModelType,
+                                           ui->ModelTable->ModelTable->List[ui->ModelTable->ModelTable->SearchModel(ui->ModelTable->GetCurrentModel())].Model);
         CurrentSlide->OverrideProjectEventDate=ui->OverrideProjectDateCB->isChecked();
         CurrentSlide->OverrideChapterLongDate =ui->OverrideDateCB->isChecked();
         CurrentSlide->ChapterName             =ui->ChapterNameED->text();
         if (CurrentSlide->OverrideProjectEventDate) CurrentSlide->ChapterEventDate=ui->ChapterEventDateED->date();
         if (CurrentSlide->OverrideChapterLongDate)  CurrentSlide->ChapterLongDate=ui->ChapterDateED->text();
-
         CurrentSlide->Parent->UpdateChapterInformation();
+        emit SetModifyFlag();
         return true;
     } else {
         CustomMessageBox(this,QMessageBox::Information,this->windowTitle(),

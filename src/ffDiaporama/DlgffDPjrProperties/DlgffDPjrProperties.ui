@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>608</width>
+    <width>712</width>
     <height>491</height>
    </rect>
   </property>
@@ -44,7 +44,7 @@
       </size>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>0</number>
      </property>
      <widget class="QWidget" name="TabProject">
       <attribute name="title">
@@ -82,8 +82,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>575</width>
-            <height>397</height>
+            <width>679</width>
+            <height>413</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -370,12 +370,9 @@ Remark: This field is often shown by indexing system and jukeboxes under the ter
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="DateED">
+              <widget class="QPlainTextEdit" name="DateED">
                <property name="toolTip">
                 <string>The date of the event of the project</string>
-               </property>
-               <property name="maxLength">
-                <number>200</number>
                </property>
               </widget>
              </item>
@@ -423,7 +420,7 @@ Remark: This field is often shown by indexing system and jukeboxes under the ter
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>575</width>
+            <width>679</width>
             <height>397</height>
            </rect>
           </property>
@@ -636,49 +633,200 @@ This option sets the value of the velocity curves for use whenever the correspon
               </widget>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_4">
-               <property name="spacing">
-                <number>0</number>
+              <widget class="QWidget" name="ThumbButtons" native="true">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
                </property>
-               <item>
-                <widget class="QPushButton" name="AdminEditThumbBT">
-                 <property name="text">
-                  <string notr="true">Edit this custom model</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
-                   <normaloff>:/img/action_edit.png</normaloff>:/img/action_edit.png</iconset>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="EditThumbBT">
-                 <property name="toolTip">
-                  <string>Customize the thumbnail only for this project (without creating a new thumbnail model)</string>
-                 </property>
-                 <property name="text">
-                  <string>Customize</string>
-                 </property>
-                 <property name="icon">
-                  <iconset resource="../../../RSCffDiaporama.qrc">
-                   <normaloff>:/img/action_edit.png</normaloff>:/img/action_edit.png</iconset>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
+               <property name="minimumSize">
                 <size>
-                 <width>40</width>
-                 <height>20</height>
+                 <width>0</width>
+                 <height>56</height>
                 </size>
                </property>
-              </spacer>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>56</height>
+                </size>
+               </property>
+               <property name="font">
+                <font>
+                 <pointsize>8</pointsize>
+                </font>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">QToolButton {
+	background-color: transparent;
+	border: none; 
+    font-size: 9px;
+}
+QToolButton:hover{ 
+    border: 2px solid #8f8f91;
+     border-radius: 6px;
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
+}
+QToolButton:pressed {
+    border: 2px solid #8f8f91;
+     border-radius: 6px;
+     background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                       stop: 0 #f6f7fa, stop: 1 #dadbde);
+ }
+</string>
+               </property>
+               <layout class="QHBoxLayout" name="horizontalLayout_18">
+                <property name="spacing">
+                 <number>2</number>
+                </property>
+                <property name="leftMargin">
+                 <number>0</number>
+                </property>
+                <property name="topMargin">
+                 <number>0</number>
+                </property>
+                <property name="rightMargin">
+                 <number>0</number>
+                </property>
+                <property name="bottomMargin">
+                 <number>0</number>
+                </property>
+                <item>
+                 <widget class="QToolButton" name="AdminEditThumbBT">
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>56</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>56</width>
+                    <height>56</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Create a new model from this thumbnail or edit custom thumbnail</string>
+                  </property>
+                  <property name="text">
+                   <string>Edit custom
+thumbnail</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../RSCffDiaporama.qrc">
+                    <normaloff>:/img/action_edit.png</normaloff>:/img/action_edit.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextUnderIcon</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="EditThumbBT">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>56</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>56</width>
+                    <height>56</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Customize the thumbnail only for this project (without creating a new thumbnail model)</string>
+                  </property>
+                  <property name="text">
+                   <string>Customize</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../RSCffDiaporama.qrc">
+                    <normaloff>:/img/action_edit.png</normaloff>:/img/action_edit.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextUnderIcon</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QToolButton" name="ExportThumbBT">
+                  <property name="sizePolicy">
+                   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                    <horstretch>0</horstretch>
+                    <verstretch>0</verstretch>
+                   </sizepolicy>
+                  </property>
+                  <property name="minimumSize">
+                   <size>
+                    <width>80</width>
+                    <height>56</height>
+                   </size>
+                  </property>
+                  <property name="maximumSize">
+                   <size>
+                    <width>56</width>
+                    <height>56</height>
+                   </size>
+                  </property>
+                  <property name="toolTip">
+                   <string>Expor thumbnail to a jpeg file</string>
+                  </property>
+                  <property name="text">
+                   <string>Export
+thumbnail</string>
+                  </property>
+                  <property name="icon">
+                   <iconset resource="../../../RSCffDiaporama.qrc">
+                    <normaloff>:/img/filesave.png</normaloff>:/img/filesave.png</iconset>
+                  </property>
+                  <property name="iconSize">
+                   <size>
+                    <width>24</width>
+                    <height>24</height>
+                   </size>
+                  </property>
+                  <property name="toolButtonStyle">
+                   <enum>Qt::ToolButtonTextUnderIcon</enum>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <spacer name="horizontalSpacer_6">
+                  <property name="orientation">
+                   <enum>Qt::Horizontal</enum>
+                  </property>
+                  <property name="sizeHint" stdset="0">
+                   <size>
+                    <width>40</width>
+                    <height>20</height>
+                   </size>
+                  </property>
+                 </spacer>
+                </item>
+               </layout>
+              </widget>
              </item>
             </layout>
            </item>
@@ -827,6 +975,9 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
   <tabstop>scrollArea</tabstop>
   <tabstop>GeometryCombo</tabstop>
   <tabstop>TitleED</tabstop>
+  <tabstop>DateEdit</tabstop>
+  <tabstop>DateED</tabstop>
+  <tabstop>OverrideDateCB</tabstop>
   <tabstop>AuthorED</tabstop>
   <tabstop>AlbumED</tabstop>
   <tabstop>LanguageED</tabstop>
@@ -836,6 +987,10 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
   <tabstop>TransitionSpeedWaveCB</tabstop>
   <tabstop>BlockSpeedWaveCB</tabstop>
   <tabstop>ImageSpeedWaveCB</tabstop>
+  <tabstop>ThumbCB</tabstop>
+  <tabstop>AdminEditThumbBT</tabstop>
+  <tabstop>EditThumbBT</tabstop>
+  <tabstop>ExportThumbBT</tabstop>
   <tabstop>OkBt</tabstop>
   <tabstop>CancelBt</tabstop>
  </tabstops>
