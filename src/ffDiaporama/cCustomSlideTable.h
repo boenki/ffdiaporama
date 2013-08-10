@@ -63,6 +63,8 @@ public:
     void        CleanAll();
     void        ResetDisplay(int Selected);
 
+    void        dokeyReleaseEvent(QKeyEvent *event);
+
 protected:
     virtual void dragEnterEvent(QDragEnterEvent *event);
     virtual void dragLeaveEvent(QDragLeaveEvent *event);

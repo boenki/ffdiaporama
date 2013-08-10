@@ -632,9 +632,13 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     QString         BrushFileName=(Image?Image->FileName:Video?Video->FileName:"");
     QString         BFN;
 
-    if (BrushFileName.startsWith(ClipArtFolder))    BFN="%CLIPARTFOLDER%"+BrushFileName.mid(ClipArtFolder.length());
-    else if (BrushFileName.startsWith(ModelFolder)) BFN="%MODELFOLDER%"  +BrushFileName.mid(ModelFolder.length());
-    else {
+    if ((AdjustDirForOS(BrushFileName).startsWith(ClipArtFolder))||(AdjustDirForOS(BrushFileName).startsWith(ModelFolder))) {
+        BFN="%CLIPARTFOLDER%"+AdjustDirForOS(BrushFileName).mid(ClipArtFolder.length());
+        BFN="%MODELFOLDER%"  +AdjustDirForOS(BrushFileName).mid(ModelFolder.length());
+        #ifdef Q_OS_WIN
+        BFN=BFN.replace("\\","/");  // Force Linux mode separator
+        #endif
+    } else {
         BFN=BrushFileName;
         if ((PathForRelativPath!="")&&(BFN!="")) {
             if (ForceAbsolutPath)

@@ -525,7 +525,8 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
         switch (VideoCodecSubId) {
             case VCODEC_H264HQ:     // High Quality H.264 AVC/MPEG-4 AVC
                 av_dict_set(&opts,"refs",    "3",          0);
-                av_dict_set(&opts,"vprofile","main",       0);
+                av_dict_set(&opts,"vprofile","main",       0);  // 2 versions to support differents libav/ffmpeg
+                av_dict_set(&opts,"profile", "main",       0);
                 av_dict_set(&opts,"tune",    "zerolatency",0);
                 BFrames=3;
                 MinRate=int(double(VideoBitrate)*0.9);
@@ -536,6 +537,7 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
             case VCODEC_H264PQ:     // Phone Quality H.264 AVC/MPEG-4 AVC
                 av_dict_set(&opts,"refs","3",           0);
                 av_dict_set(&opts,"vprofile","baseline",0);
+                av_dict_set(&opts,"profile", "baseline",0);     // 2 versions to support differents libav/ffmpeg
                 av_dict_set(&opts,"tune","fastdecode",  0);
                 MinRate=int(double(VideoBitrate)*0.9);
                 MaxRate=int(double(VideoBitrate)*1.1);

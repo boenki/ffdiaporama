@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.7 - Trunk
 *
-* Dernier commit le : 30/07/2013
+* Dernier commit le : 07/08/2013
 **************************************************
 
 TODO :
@@ -59,48 +59,22 @@ switch version to
     ffmpeg 2.0 for Windows / openSuse / Gentoo / ArchLinux
 
 French version / Correction de bug :
--Met à jours l'affichage des vignettes dans les combobox de sélection des boites projet et option de l'application
--Corrige l'erreur de code de variable sur les valeurs de jour (PDY au lieu de PDD, CDY au lieu de CDD et TDY au lieu de TDD)
--Force l'affichage des variables de mois et de jours à 2 chiffres
--Corrige un bug dans la sauvegarde de la vignette personnalisé (dans le fichier projet)
--Prend en compte les modifications effectuées sur le 1ere onglet lors du passage au 2eme onglet dans la boite projet
--Corrige le bug de desynchronisation du son et des vidéos (après seek)
--Corrige les problèmes de fuites de mémoire avec ffmpeg 2.0 lors de l'utilisation du filtre de désentrelacement (yadif)
--Prend en compte le changement de type (i16->fltp) pour l'utilisation du codec aac avec ffmpeg 2.0
+-Corrige l'erreur de profile video pour l'encodage en x264 avec ffmpeg 2.0 [Bug poupouneroot]
+-Corrige l'erreur de chemin du modèle de vignette dans la sauvegarde des fichiers .ffd sous Windows [Bug vasipo+Philippe21]
+-Corrige l'erreur d'inscription des projets en doublons dans la liste des projets récents sous Windows
+-Corrige un bug de prise en compte des touches flèches pour se déplacer dans la timeline + prend en compte ses touches même si le focus est sur le lecteur de prévisualisation [Bug JoergBe]
+-Corrige un probleme de compilation avec openSUSE : librairie déplacée [Bug William]
 
 English version / Bug fixes :
--Update display of thumbnails in thumbnails selection combobox in project and option dialogs
--Fix error of variable name for day (PDY instead of PDD, CDY instead of CDD and TDY instead of TDD)
--Force display of month and day variables to 2 digits
--Fix a bug in save of custom thumbnail (in project file)
--Take care of modifications done on first tab when switching to second tab in project option
--Fix error of sync sound with video (after seek)
--Fix memory leak with ffmpeg 2.0 when using deinterlace filter (yadif)
--Change type (i16->fltp) for using aac codec with ffmpeg 2.0
+-Fix video profil error when render usign x264 codec with ffmpeg 2.0 [Bug poupouneroot]
+-Fix path error for thumbnail in saved .ffd file for Windows [Bug vasipo+Philippe21]
+-Fix error of duplicate projects in recent project list on Windows
+-Fix error of not using arrow keys in timeline for moving from slide to slide + add use of arrow keys in timeline even if the focus is under preview window [Bug JoergBe]
+-Fix a compilation error on openSUSE: ffmpeg lib have moved to another folder [Bug William]
 
 French version / Nouveautés :
--Refait les starter pour les 2 versions de windows 32 et 64
--Ajoute un bouton dans la boite projet pour exporter la vignette (par défaut sous le nom de folder.jpg dans le meme répertoire que le projet)
--Redessine les boutons de gestion des vignettes dans la boite projet
--Passe les combo box de vignettes à 3 colonnes dans les boites project et option
--Modifie la variable Musique : S'il n'y a qu'un morceau, n'ajoute pas de saut de ligne
--Reduit le bit rate vidéo pour l'export mp4 en mode "multimdedia hard drive or gateway" pour le 720p (5000 au lieu de 6000) et pour le 1080p (6000 au lieu de 8000)
--Ajoute un bouton dans la boite d'option pour activer par défaut la génération d'un fichier .nfo pour XBMC lors de la génération des vidéos
--Modifie les zones de saisie des dates longues personnalisées de 1 ligne à multi-ligne dans les boites d'édition des propriétés du projet et des chapitres
--Ajoute une option dans la boite d'option pour proposer à l'utilisateur d'ouvrir la page web de téléchargement quand une nouvelle version est disponible
--Utilise les nouvelles fonctions de ffmpeg 2.0 pour le traitement des filtres : suppression des alertes de deprecated
 
 English version / New features :
--Done new starter for windows 32 and 64 version
--Add a button in project dialog to export thumbnail (as default, use the name "folder.jpg" and propose the same folder as projcet)
--Redraw thumbnails managment buttons in project dialog
--Switch thumbnails combo box to 3 columns in project and option dialogs
--Modify Music variable : If only 1 music then do not longer add a line break
--Reduce video bit rate for default multimdedia hard drive or gateway mp4 export for 720p (5000 instead of 6000) and for 1080p (6000 instead of 8000)
--Add a button in option dialog to defaultly activate production of a .nfo file for XBMC when render video
--Modify text edit zones for custom long date from 1 line to multi-line in project properties and chapter properties dialog
--Add a new option in option dialog to Offer to the user to open the download Web page when a new version is available
--Use new ffmpeg 2.0 functions for filter processing: remove deprecated warning
 
 Translation/Traductions (1373 sentences):
 EN    - 100% - 1373

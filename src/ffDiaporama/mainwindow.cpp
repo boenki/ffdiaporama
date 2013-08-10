@@ -503,7 +503,11 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event) {
     else if (event->key()==Qt::Key_F8)                  s_Event_DoubleClickedOnTransition();
     else Find=false;
 
-    if (!Find) QMainWindow::keyReleaseEvent(event);
+    if (!Find) {
+        if ((ui->preview->hasFocus())||(ui->preview2->hasFocus())||(ui->timeline->hasFocus()))
+            ui->timeline->dokeyReleaseEvent(event);
+        else QMainWindow::keyReleaseEvent(event);
+    }
 }
 
 //====================================================================================================================
@@ -1746,7 +1750,7 @@ void MainWindow::s_Action_SaveAs() {
         if (QFileInfo(Diaporama->ProjectFileName).suffix()!="ffd") Diaporama->ProjectFileName=Diaporama->ProjectFileName+".ffd";
         ApplicationConfig->LastProjectPath=QFileInfo(Diaporama->ProjectFileName).dir().absolutePath();
         // Manage Recent files list
-        for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (ApplicationConfig->RecentFile.at(i)==Diaporama->ProjectFileName) {
+        for (int i=0;i<ApplicationConfig->RecentFile.count();i++) if (ApplicationConfig->RecentFile.at(i)==AdjustDirForOS(Diaporama->ProjectFileName)) {
             ApplicationConfig->RecentFile.removeAt(i);
             break;
         }
