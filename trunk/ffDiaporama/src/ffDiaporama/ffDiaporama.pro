@@ -34,6 +34,8 @@ DEFINES +=SHARE_DIR=\\\"$$PREFIX\\\"
 
 unix {
 
+    CFLAGS += -W"Missing debug information for"
+
     HARDWARE_PLATFORM = $$system(uname -i)
     contains(HARDWARE_PLATFORM,x86_64) {
         DEFINES+=Q_OS_LINUX64
@@ -45,15 +47,18 @@ unix {
 
     INCLUDEPATH += /usr/include/ffmpeg/                                     # Specific for Fedora
 
-    exists(/usr/include/libavresample/avresample.h) {
-        DEFINES += USELIBAVRESAMPLE
-        LIBS    += -lavresample                                             #------ conditionnaly include libavresample
-    } else:exists(/usr/include/ffmpeg/libswresample/swresample.h) {         #------ Specific for Fedora
+    exists(/usr/include/ffmpeg/libswresample/swresample.h) {         #------ Specific for Fedora
+        DEFINES += USELIBSWRESAMPLE
+        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
+    } else:exists(/usr/include/libswresample/swresample.h) {                #------ Specific for openSUSE
         DEFINES += USELIBSWRESAMPLE
         LIBS    += -lswresample                                             #------ conditionnaly include libswresample
     } else:exists(/usr/include/libswresample/swresample.h) {
         DEFINES += USELIBSWRESAMPLE
         LIBS    += -lswresample                                             #------ conditionnaly include libswresample
+    } else:exists(/usr/include/libavresample/avresample.h) {
+        DEFINES += USELIBAVRESAMPLE
+        LIBS    += -lavresample                                             #------ conditionnaly include libavresample
     } else {
         LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV_08
     }

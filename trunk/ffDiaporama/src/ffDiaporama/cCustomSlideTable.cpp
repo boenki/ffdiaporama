@@ -621,13 +621,14 @@ cCustomSlideTable::cCustomSlideTable(QWidget *parent):QTableWidget(parent) {
         horizontalHeader()->setResizeMode(QHeaderView::Fixed);
         verticalHeader()->setResizeMode(QHeaderView::Fixed);
     #endif
-    setSelectionBehavior(QAbstractItemView::SelectItems);
-    setSelectionMode(QAbstractItemView::ExtendedSelection);
-
-    setDragDropMode(QAbstractItemView::DragDrop);
-    setDragDropOverwriteMode(false);
     setAcceptDrops(true);
-    setDropIndicatorShown(true);
+}
+
+//====================================================================================================================
+
+void cCustomSlideTable::dokeyReleaseEvent(QKeyEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::dokeyReleaseEvent");
+    QTableWidget::keyReleaseEvent(event);
 }
 
 //====================================================================================================================

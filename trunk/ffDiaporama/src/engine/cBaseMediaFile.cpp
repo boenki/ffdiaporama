@@ -1866,10 +1866,12 @@ void cVideoFile::CloseCodecAndFile() {
     }
 
     if (FrameBufferYUV!=NULL) {
+        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
         if (FrameBufferYUV->opaque) {
             avfilter_unref_buffer((AVFilterBufferRef *)FrameBufferYUV->opaque);
             FrameBufferYUV->opaque=NULL;
         }
+        #endif
         FREEFRAME(&FrameBufferYUV);
     }
     FrameBufferYUVReady=false;
@@ -2114,8 +2116,10 @@ int cVideoFile::VideoFilter_Open() {
     if ((result=avfilter_graph_parse(VideoFilterGraph,QString("yadif=1:-1").toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
     #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,17,0)
     if ((result=avfilter_graph_parse(VideoFilterGraph,QString("yadif=1:-1").toLocal8Bit().constData(),inputs,outputs,NULL))<0) {
+    #elif LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
+        if ((result=avfilter_graph_parse(VideoFilterGraph,QString("yadif=deint=interlaced:mode=send_frame:parity=auto").toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
     #else
-    if ((result=avfilter_graph_parse(VideoFilterGraph,QString("yadif=deint=interlaced:mode=send_frame:parity=auto").toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
+    if ((result=avfilter_graph_parse_ptr(VideoFilterGraph,QString("yadif=deint=interlaced:mode=send_frame:parity=auto").toLocal8Bit().constData(),&inputs,&outputs,NULL))<0) {
     #endif
         ToLog(LOGMSG_CRITICAL,QString("Error in cVideoFile::VideoFilter_Open : avfilter_graph_parse"));
         return result;
@@ -2618,10 +2622,12 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                 // VIDEO PART
                 //******************************************************************
 
+                #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
                 if ((FrameBufferYUV)&&(FrameBufferYUV->opaque)) {
                     avfilter_unref_buffer((AVFilterBufferRef *)FrameBufferYUV->opaque);
                     FrameBufferYUV->opaque=NULL;
                 }
+                #endif
 
                 int FrameDecoded=0;
                 LastLibAvMessageLevel=0;    // Clear LastLibAvMessageLevel : some decoder dont return error but display errors messages !
@@ -2850,6 +2856,7 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode,AVFrame *Frame) {
 
         if (img_convert_ctx!=NULL) {
             int ret;
+            #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
             if (Frame->opaque) {
                 AVFilterBufferRef *Buf=(AVFilterBufferRef *)Frame->opaque;
                 ret = sws_scale(
@@ -2861,7 +2868,9 @@ QImage *cVideoFile::ConvertYUVToRGB(bool PreviewMode,AVFrame *Frame) {
                     FrameBufferRGB->data,                                      // Destination buffer
                     FrameBufferRGB->linesize                                   // Destination Stride
                 );
-            } else {
+            } else
+            #endif
+            {
                 ret = sws_scale(
                     img_convert_ctx,                                           // libswscale converter
                     Frame->data,                                               // Source buffer
