@@ -84,9 +84,6 @@ int main(int argc, char* argv[]) {
         default: ToLog(LOGMSG_INFORMATION,"Set LogLevel to CRITICAL");      break;
     }
 
-    AutoFramingDefInit();
-    ShapeFormDefinitionInit();
-
     // Start GUI
     ToLog(LOGMSG_INFORMATION,"Start GUI ...");
     MainWindow w;

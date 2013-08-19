@@ -136,7 +136,9 @@ private slots:
     void    s_Action_Open();
     void    s_Action_OpenRecent();
     void    s_Action_Save();
+    void    s_Action_SaveAsBT();
     void    s_Action_SaveAs();
+    void    s_Action_Export();
     void    s_Action_ProjectProperties();
     void    s_Action_ChangeApplicationSettings();
     void    s_Action_DlgCheckConfig();

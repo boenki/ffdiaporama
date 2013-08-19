@@ -248,6 +248,7 @@ cBaseApplicationConfig::~cBaseApplicationConfig() {
     delete DlgImageComposerThumbWSP;
     delete DlgChapterWSP;
     delete DlgAutoTitleWSP;
+    delete DlgExportProjectWSP;
     delete MainWinWSP;
 
     delete DriveList;
@@ -273,7 +274,7 @@ QString cBaseApplicationConfig::GetValideWEBLanguage(QString Language) {
 void cBaseApplicationConfig::PreloadSystemIcons() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::PreloadSystemIcons");
 
-    ToLog(LOGMSG_INFORMATION,"Loading system icons...");
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading system icons..."));
     #ifdef Q_OS_WIN
     if (QSysInfo().WindowsVersion>=0x0090) { // At least Windows 7
         DefaultUSERIcon.LoadIcons(GetIconForFileOrDir("%SystemRoot%\\system32\\imageres.dll",117));
@@ -448,6 +449,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
         LastMediaPath           = WINDOWS_PICTURES;             // Last folder use for image/video
         LastMusicPath           = WINDOWS_MUSIC;                // Last folder use for music
         LastProjectPath         = WINDOWS_DOCUMENTS;            // Last folder use for project
+        LastExportPath          = WINDOWS_DOCUMENTS;            // Last folder use for project export
         LastRenderVideoPath     = WINDOWS_VIDEO;                // Last folder use for render video
         LastCaptureImage        = WINDOWS_PICTURES;             // Last folder use for captured image
         CurrentPath             = WINDOWS_DOCUMENTS;
@@ -456,6 +458,7 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
         LastMediaPath           = QDir::home().absolutePath();  // Last folder use for image/video
         LastMusicPath           = QDir::home().absolutePath();  // Last folder use for music
         LastProjectPath         = QDir::home().absolutePath();  // Last folder use for project
+        LastExportPath          = QDir::home().absolutePath();  // Last folder use for project
         LastRenderVideoPath     = QDir::home().absolutePath();  // Last folder use for render video
         LastCaptureImage        = QDir::home().absolutePath();  // Last folder use for captured image
         CurrentPath             = "~";   // User home folder
@@ -807,6 +810,7 @@ void cBaseApplicationConfig::InitValues() {
     DlgFileExplorerWSP          =new cSaveWinWithSplitterPos("DlgFileExplorerWSP",RestoreWindow,false);
     DlgChapterWSP               =new cSaveWindowPosition("DlgChapterWSP",RestoreWindow,false);
     DlgAutoTitleWSP             =new cSaveWindowPosition("DlgAutoTitleWSP",RestoreWindow,false);
+    DlgExportProjectWSP         =new cSaveWindowPosition("DlgExportProjectWSP",RestoreWindow,false);
     DlgImageComposerThumbWSP    =new cSaveWinWithSplitterPos("DlgImageComposerThumbWSP",RestoreWindow,false);
 
     // Default new text block options
@@ -851,6 +855,7 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     if ((domDocument.elementsByTagName("LastDirectories").length()>0)&&(domDocument.elementsByTagName("LastDirectories").item(0).isElement()==true)) {
         Element=domDocument.elementsByTagName("LastDirectories").item(0).toElement();
         Element.setAttribute("LastProjectPath",         LastProjectPath);
+        Element.setAttribute("LastExportPath",          LastExportPath);
         Element.setAttribute("LastRenderVideoPath",     LastRenderVideoPath);
         Element.setAttribute("LastCaptureImage",        LastCaptureImage);
         Element.setAttribute("CurrentBrowserPath",      CurrentPath);
@@ -995,6 +1000,7 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     DlgImageComposerThumbWSP->SaveToXML(domDocument);
     DlgChapterWSP->SaveToXML(domDocument);
     DlgAutoTitleWSP->SaveToXML(domDocument);
+    DlgExportProjectWSP->SaveToXML(domDocument);
 }
 
 //====================================================================================================================
@@ -1006,6 +1012,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
     if ((domDocument.elementsByTagName("LastDirectories").length()>0)&&(domDocument.elementsByTagName("LastDirectories").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("LastDirectories").item(0).toElement();
         if (Element.hasAttribute("LastProjectPath"))            LastProjectPath             =Element.attribute("LastProjectPath");
+        if (Element.hasAttribute("LastExportPath"))             LastExportPath              =Element.attribute("LastExportPath");
         if (Element.hasAttribute("LastRenderVideoPath"))        LastRenderVideoPath         =Element.attribute("LastRenderVideoPath");
         if (Element.hasAttribute("LastCaptureImage"))           LastCaptureImage            =Element.attribute("LastCaptureImage");
         if (Element.hasAttribute("CurrentBrowserPath"))         CurrentPath                 =Element.attribute("CurrentBrowserPath");
@@ -1179,6 +1186,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
     DlgImageComposerThumbWSP->LoadFromXML(domDocument);
     DlgChapterWSP->LoadFromXML(domDocument);
     DlgAutoTitleWSP->LoadFromXML(domDocument);
+    DlgExportProjectWSP->LoadFromXML(domDocument);
 
     return true;
 }

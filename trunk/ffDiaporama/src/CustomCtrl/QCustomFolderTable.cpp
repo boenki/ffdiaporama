@@ -723,8 +723,15 @@ void QCustomFolderTable::RefreshListFolder() {
                 MediaObject=new cImageFile(ApplicationConfig);
 
                 // Special case for folder Thumbnails
-                if (File->fileName()=="folder.jpg") MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
-                else if (File->suffix().toLower()=="jpg") {  // Special case for video Thumbnails
+                if (File->fileName()=="folder.jpg") {
+                    MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
+                } else if ((File->fileName().toLower().endsWith("-poster.jpg"))||(File->fileName().toLower().endsWith("-poster.png"))) {  // Special case for video xbmc poster Thumbnails
+                    // Search if a video with same name exist
+                    QString ToSearch=File->fileName().left(File->fileName().toLower().indexOf("-poster."));
+                    for (int i=0;i<Files.count();i++)
+                        if ((ApplicationConfig->AllowVideoExtension.contains(((QFileInfo)Files[i]).suffix().toLower()))&&
+                            (((QFileInfo)Files[i]).completeBaseName()==ToSearch)) MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
+                } else if (File->suffix().toLower()=="jpg") {  // Special case for video Thumbnails
                     // Search if a video with same name exist
                     for (int i=0;i<Files.count();i++)
                         if ((ApplicationConfig->AllowVideoExtension.contains(((QFileInfo)Files[i]).suffix().toLower()))&&
@@ -926,8 +933,15 @@ void QCustomFolderTable::FillListFolder(QString Path) {
             if (ApplicationConfig->AllowImageExtension.contains(File->suffix().toLower())) {
                 MediaObject=new cImageFile(ApplicationConfig);
                 // Special case for folder Thumbnails
-                if (File->fileName()=="folder.jpg") MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
-                else if (File->suffix().toLower()=="jpg") {  // Special case for video Thumbnails
+                if (File->fileName()=="folder.jpg") {
+                    MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
+                } else if ((File->fileName().toLower().endsWith("-poster.jpg"))||(File->fileName().toLower().endsWith("-poster.png"))) {  // Special case for video xbmc poster Thumbnails
+                    // Search if a video with same name exist
+                    QString ToSearch=File->fileName().left(File->fileName().toLower().indexOf("-poster."));
+                    for (int i=0;i<Files.count();i++)
+                        if ((ApplicationConfig->AllowVideoExtension.contains(((QFileInfo)Files[i]).suffix().toLower()))&&
+                            (((QFileInfo)Files[i]).completeBaseName()==ToSearch)) MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
+                } else if (File->suffix().toLower()=="jpg") {  // Special case for video Thumbnails
                     // Search if a video with same name exist
                     for (int i=0;i<Files.count();i++)
                         if ((ApplicationConfig->AllowVideoExtension.contains(((QFileInfo)Files[i]).suffix().toLower()))&&

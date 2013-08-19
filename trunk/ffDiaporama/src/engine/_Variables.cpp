@@ -71,7 +71,7 @@ cHTMLConversion::cHTMLConversion() {
     List.append(cHTMLConversionItem("ü","&uuml;"));     List.append(cHTMLConversionItem("Ü","&Uuml;"));
     List.append(cHTMLConversionItem("ß","&szlig;"));    List.append(cHTMLConversionItem("ÿ","&yuml;"));
     List.append(cHTMLConversionItem("´","&#180;"));     List.append(cHTMLConversionItem("`","&#96;"));
-    List.append(cHTMLConversionItem(" ","&nbsp;"));
+    //List.append(cHTMLConversionItem(" ","&nbsp;"));
     List.append(cHTMLConversionItem("\n","<br />"));
     List.append(cHTMLConversionItem("\t","&nbsp;&nbsp;&nbsp;&nbsp;"));
 }

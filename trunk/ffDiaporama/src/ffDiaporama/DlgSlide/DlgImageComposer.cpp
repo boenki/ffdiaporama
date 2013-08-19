@@ -410,7 +410,7 @@ void DlgImageComposer::PrepareGlobalUndo() {
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG"); // Create xml document and root
-    ffdProject->ProjectThumbnail->SaveToXML(root,"UNDO-DLG-ProjectThumbnail",ffdProject->ProjectFileName,true);
+    ffdProject->ProjectThumbnail->SaveToXML(root,"UNDO-DLG-ProjectThumbnail",ffdProject->ProjectFileName,true,NULL);
     Undo->appendChild(root); // Add object to xml document
 }
 
@@ -777,8 +777,8 @@ void DlgImageComposer::s_BlockTable_Copy() {
         QDomElement         Element=Object.createElement(QString("Block-%1").arg(BlockNum));
         cCompositionObject  *GlobalBlock=GetGlobalCompositionObject(CompositionList->List[i]->IndexKey);
 
-        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",ffdProject->ProjectFileName,true);                // Save global object
-        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",ffdProject->ProjectFileName,true);     // Save shot object
+        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",ffdProject->ProjectFileName,true,true,NULL);                // Save global object
+        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",ffdProject->ProjectFileName,true,true,NULL);     // Save shot object
         root.appendChild(Element);
         BlockNum++;
     }

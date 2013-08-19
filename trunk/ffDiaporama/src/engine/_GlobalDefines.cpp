@@ -197,6 +197,10 @@ void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
         QString MSG="";
         if ((Message!="LIBAV: No accelerated colorspace conversion found from yuv422p to rgb24.")&&
             (Message!="LIBAV: Increasing reorder buffer to 1")&&
+            (!Message.startsWith("LIBAV: Reference"))&&
+            (!Message.startsWith("LIBAV: error while decoding MB"))&&
+            (!Message.startsWith("LIBAV: left block unavailable for requested"))&&
+            (!Message.startsWith("LIBAV: max_analyze_duration reached"))&&
             (!(Message.startsWith("LIBAV: mode:") && Message.contains("parity:") && (Message.contains("auto_enable:")||Message.contains("deint:"))))&&
             (!(Message.startsWith("LIBAV: w:") && Message.contains("h:") && Message.contains("pixfmt:")))
            ) {

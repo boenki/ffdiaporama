@@ -29,6 +29,7 @@
 // Include some additional standard class
 #include "cBaseMediaFile.h"
 #include "cLuLoImageCache.h"
+#include "_Diaporama.h"
 
 #define FFD_APPLICATION_ROOTNAME    "Project"           // Name of root node in the project xml file
 
@@ -123,7 +124,7 @@ bool gm_decode_base64(uchar *buffer,uint &len) {
     return true;
 }
 
-#ifdef LIBAV_08
+#ifdef USETAGLIB
     QImage *GetEmbededImage(QString FileName) {
         ToLog(LOGMSG_DEBUGTRACE,"IN:GetEmbededImage");
 
@@ -210,6 +211,45 @@ bool gm_decode_base64(uchar *buffer,uint &len) {
         }
     }
 #endif
+
+
+//====================================================================================================================
+
+cReplaceObjectList::cReplaceObjectList() {
+}
+
+void cReplaceObjectList::SearchAppendObject(QString SourceFileName) {
+    int i=0;
+    while ((i<List.count())&&(List[i].SourceFileName!=SourceFileName)) i++;
+    if ((i<List.count())&&(List[i].SourceFileName==SourceFileName)) {
+        // Object already define
+
+    } else {
+        // Object not yet define
+        QString DestFileName=QFileInfo(SourceFileName).baseName()+"."+QFileInfo(SourceFileName).completeSuffix();
+        // Search if DestFileName already exist
+        bool Cont=true;
+        int  Num =0;
+        while (Cont) {
+            Cont=false;
+            int j=0;
+            while ((j<List.count())&&(List[j].DestFileName!=DestFileName)) j++;
+            if ((j<List.count())&&(List[j].DestFileName==DestFileName)) {
+                // DestFileName already define
+                Cont=true;
+                Num++;
+                DestFileName=QFileInfo(SourceFileName).baseName()+QString("-%1").arg(Num)+"."+QFileInfo(SourceFileName).completeSuffix();
+            }
+        }
+        List.append(cReplaceObject(SourceFileName,DestFileName));
+    }
+}
+
+QString cReplaceObjectList::GetDestinationFileName(QString SourceFileName) {
+    for (int i=0;i<List.count();i++) if (List[i].SourceFileName==SourceFileName) return List[i].DestFileName;
+    return SourceFileName;
+}
+
 //*********************************************************************************************************************************************
 // Base class object
 //*********************************************************************************************************************************************
@@ -1678,7 +1718,7 @@ void cVideoFile::GetFullInformationFromFile() {
             //*********************************************************************************************************
             // Thumbnails (since lavf 54.2.0 - avformat.h)
             //*********************************************************************************************************
-            #ifdef LIBAV_09
+            #ifndef USETAGLIB
             if (LibavFile->streams[Track]->disposition & AV_DISPOSITION_ATTACHED_PIC) {
                 AVStream *ThumbStream=LibavFile->streams[Track];
                 AVPacket pkt         =ThumbStream->attached_pic;
@@ -1730,7 +1770,7 @@ void cVideoFile::GetFullInformationFromFile() {
 
         IsInformationValide=true;
 
-        #ifdef LIBAV_08
+        #ifdef USETAGLIB
         // If it's an audio file, try to get embeded image with taglib
         if ((IsIconNeeded)&&(Icon16.isNull())&&(ObjectType==OBJECTTYPE_MUSICFILE)) {
             QImage *Img=GetEmbededImage(FileName);
@@ -2260,115 +2300,34 @@ bool cVideoFile::SeekFile(AVStream *VideoStream,AVStream *AudioStream,int64_t Po
     if (LibavFile->start_time>0) Position-=LibavFile->start_time; else Position-=2*FPSDuration;
     if (Position<0) Position=0;
 
-    // Close resampler
+    // Reset context variables and buffers
     if (AudioStream) CloseResampler();
-    // Close video filter
     if ((VideoStream)&&(VideoFilterGraph)) VideoFilter_Close();
-    // Clear CacheImage
     while (CacheImage.count()>0) delete(CacheImage.takeLast());
+    FrameBufferYUVReady   =false;
+    FrameBufferYUVPosition=0;
+
     // Flush LibAV buffers
     for (unsigned int i=0;i<LibavFile->nb_streams;i++)  {
         AVCodecContext *codec_context = LibavFile->streams[i]->codec;
         if (codec_context && codec_context->codec) avcodec_flush_buffers(codec_context);
     }
-    FrameBufferYUVReady   =false;
-    FrameBufferYUVPosition=0;
 
-    // Seek to nearest previous key frame on video track (if video)
-    if (VideoStream) {
-
-        int64_t seek_target=av_rescale_q(Position,AV_TIME_BASE_Q,VideoStream->time_base);
+    // Seek using audio stream as prefered stream
+    int StreamNumber=(AudioStream?AudioStreamNumber:VideoStream?VideoStreamNumber:-1);
+    if (StreamNumber>=0) {
+        int64_t seek_target=av_rescale_q(Position,AV_TIME_BASE_Q,LibavFile->streams[StreamNumber]->time_base);
         if (seek_target<0) seek_target=0;
-        if (av_seek_frame(LibavFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
+        if (avformat_seek_file(LibavFile,StreamNumber,INT64_MIN,seek_target,INT64_MAX,AVSEEK_FLAG_BACKWARD)<0) {
             // Try in AVSEEK_FLAG_ANY mode
-            if (av_seek_frame(LibavFile,VideoStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD|AVSEEK_FLAG_ANY)<0) {
+            if (av_seek_frame(LibavFile,StreamNumber,seek_target,AVSEEK_FLAG_BACKWARD|AVSEEK_FLAG_ANY)<0) {
                 // Try with default stream if exist
                 int DefaultStream=av_find_default_stream_index(LibavFile);
-                if ((Position>0)||(DefaultStream<0)||(av_seek_frame(LibavFile,DefaultStream,0,AVSEEK_FLAG_BACKWARD|AVSEEK_FLAG_BYTE)<0)) {
+                if ((DefaultStream==StreamNumber)||(Position>0)||(DefaultStream<0)||(av_seek_frame(LibavFile,DefaultStream,0,AVSEEK_FLAG_BACKWARD|AVSEEK_FLAG_BYTE)<0)) {
                     ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadFrame : Seek error");
                     ret=false;
                 }
             }
-        }
-        /*
-        if (avformat_seek_file(LibavFile,VideoStreamNumber,INT64_MIN,seek_target,INT64_MAX,AVSEEK_FLAG_BACKWARD)<0) {
-            // Try in AVSEEK_FLAG_ANY mode
-            if (avformat_seek_file(LibavFile,VideoStreamNumber,INT64_MIN,seek_target,INT64_MAX,AVSEEK_FLAG_BACKWARD|AVSEEK_FLAG_ANY)<0) {
-                // Try with default stream if exist
-                int DefaultStream=av_find_default_stream_index(LibavFile);
-                if ((Position>0)||(DefaultStream<0)||(avformat_seek_file(LibavFile,DefaultStream,INT64_MIN,0,INT64_MAX,AVSEEK_FLAG_BACKWARD|AVSEEK_FLAG_BYTE)<0)) {
-                    ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadFrame : Seek error");
-                    ret=false;
-                }
-            }
-        }
-        */
-        // Flush again LibAV buffers
-        for (unsigned int i=0;i<LibavFile->nb_streams;i++)  {
-            AVCodecContext *codec_context = LibavFile->streams[i]->codec;
-            if (codec_context && codec_context->codec) avcodec_flush_buffers(codec_context);
-        }
-        // Read frame until correct position is reach to ensure correct decoding of first frame (for h264)
-        bool     Continue        =true;
-        AVPacket *StreamPacket   =NULL;
-        bool     DontRetryReading=false;
-
-        while (Continue) {
-            StreamPacket=new AVPacket();
-            av_init_packet(StreamPacket);
-            StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
-
-            if (av_read_frame(LibavFile,StreamPacket)>=0) {
-                double  TimeBase=double(LibavFile->streams[StreamPacket->stream_index]->time_base.den)/double(LibavFile->streams[StreamPacket->stream_index]->time_base.num);
-                if (StreamPacket->stream_index==VideoStreamNumber) {
-                    int FrameDecoded=0;
-                    LastLibAvMessageLevel=0;    // Clear LastLibAvMessageLevel : some decoder dont return error but display errors messages !
-                    int Error=avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket);
-                    if ((Error<0)||(LastLibAvMessageLevel==LOGMSG_CRITICAL)) {
-                        if ((!DontRetryReading)&&(Position>FPSDuration)) {
-                            ToLog(LOGMSG_CRITICAL,"IN:cVideoFile::ReadFrame : error avcodec_decode_video2 return an error. Try to read before.");
-                            SeekFile(VideoStream,AudioStream,Position-2*FPSDuration);
-                            DontRetryReading=true;
-                        } else ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadFrame : avcodec_decode_video2 return an error");
-                        Continue=false;
-                    } else if (FrameDecoded>0) {
-                        #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(55,18,0)   // since ffmpeg 2.0
-                        FrameBufferYUV->pkt_pts = av_frame_get_best_effort_timestamp(FrameBufferYUV);
-                        #endif
-                        int64_t pts=FrameBufferYUV->pkt_pts;
-                        if (pts==(int64_t)AV_NOPTS_VALUE) {
-                            if (FrameBufferYUV->pkt_dts!=(int64_t)AV_NOPTS_VALUE) pts=FrameBufferYUV->pkt_dts;
-                                else pts=0;
-                        }
-                        pts=int64_t((double(pts)/TimeBase)*AV_TIME_BASE);
-                        Continue=Continue && pts<(Position-FPSDuration);
-                    }
-                }
-
-            } else Continue=false;
-
-            if (StreamPacket!=NULL) {
-                av_free_packet(StreamPacket); // Free the StreamPacket that was allocated by previous call to av_read_frame
-                delete StreamPacket;
-                StreamPacket=NULL;
-            }
-
-        }
-    // else seek au audio track
-    } else if (AudioStream) {
-        int64_t seek_target=av_rescale_q(Position,AV_TIME_BASE_Q,AudioStream->time_base);
-        if (seek_target<0) seek_target=0;
-        if (av_seek_frame(LibavFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_BACKWARD)<0) {
-            // Try in AVSEEK_FLAG_ANY mode
-            if (av_seek_frame(LibavFile,AudioStreamNumber,seek_target,AVSEEK_FLAG_ANY)<0) {
-                ToLog(LOGMSG_CRITICAL,"Error in cVideoFile::ReadAudioFrame : Seek error");
-                ret=false;
-            }
-        }
-        // Flush again LibAV buffers
-        for (unsigned int i=0;i<LibavFile->nb_streams;i++)  {
-            AVCodecContext *codec_context = LibavFile->streams[i]->codec;
-            if (codec_context && codec_context->codec) avcodec_flush_buffers(codec_context);
         }
     }
     return ret;
@@ -2465,7 +2424,6 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
     bool     Continue          =true;
     double   FrameDuration     =0;
     bool     NeedResampling    =false;
-    int64_t  AudioLenWanted    =0;
     int64_t  AudioLenDecoded   =0;
     double   FramePosition     =dPosition;
     bool     ResamplingContinue=(Position!=0);
@@ -2481,84 +2439,15 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                         (AudioStream->codec->sample_rate!=SoundTrackBloc->SamplingRate));
     }
 
-    //*************************************************************************************************************************************
-    Mutex.lock();
-    //*************************************************************************************************************************************
-    // SEEK
-    //*************************************************************************************************************************************
-
-    // Compute difftime between asked position and previous end decoded position
-    int64_t DiffTimePosition=-1000000;
-    if (AudioStream) {
-        int64_t CurSize=SoundTrackBloc->SoundPacketSize*SoundTrackBloc->List.count()+SoundTrackBloc->CurrentTempSize;
-        int64_t CurDur =double(CurSize*AV_TIME_BASE)/(SoundTrackBloc->SamplingRate*DstSampleSize);
-        if ((Position>=SoundTrackBloc->CurrentPosition)&&(Position<=SoundTrackBloc->CurrentPosition+CurDur)) {
-            int64_t UsableSize=CurSize-((double(Position-SoundTrackBloc->CurrentPosition)/AV_TIME_BASE)*SoundTrackBloc->SamplingRate*DstSampleSize);
-            AudioLenWanted  =UsableSize<FPSSize?FPSSize-UsableSize:0;
-            DiffTimePosition=0;
-            //ICI-1----------------
-            if ((Position==0)||(DiffTimePosition<0/*-1000*/)||(DiffTimePosition>1500000))
-                ToLog(LOGMSG_INFORMATION,QString("AUDIO-1 SEEK TO %1 PREV: %2").arg(Position).arg(SoundTrackBloc->CurrentPosition));
-            //ICI-1----------------
-        } else {
-            AudioLenWanted=FPSSize;
-            if (Position<SoundTrackBloc->CurrentPosition) {
-                DiffTimePosition=-1;
-                //ICI-1----------------
-                if ((Position==0)||(DiffTimePosition<0/*-1000*/)||(DiffTimePosition>1500000))
-                    ToLog(LOGMSG_INFORMATION,QString("AUDIO-2 SEEK TO %1 PREV: %2").arg(Position).arg(SoundTrackBloc->CurrentPosition));
-                //ICI-1----------------
-            } else {
-                DiffTimePosition=LastAudioReadedPosition-Position;
-                //ICI-1----------------
-                if ((Position==0)||(DiffTimePosition<0/*-1000*/)||(DiffTimePosition>1500000))
-                    ToLog(LOGMSG_INFORMATION,QString("AUDIO-3 SEEK TO %1 PREV: %2").arg(Position).arg(LastAudioReadedPosition));
-                //ICI-1----------------
-            }
-        }
-    } else {
-        if (FrameBufferYUVReady) {
-            DiffTimePosition=Position-FrameBufferYUVPosition;
-            if ((Position==0)||(DiffTimePosition<0/*-1000*/)||(DiffTimePosition>1500000))
-                ToLog(LOGMSG_INFORMATION,QString("VIDEO SEEK TO %1 PREV: %2").arg(Position).arg(FrameBufferYUVPosition));
-        }
-    }
-    // Calc if we need to seek to a position
-    if ((Position==0)||(DiffTimePosition<0/*-1000*/)||(DiffTimePosition>1500000)) {// Allow 1,5 sec diff (rounded double !)
-        if (Position<0) Position=0;
-        SeekFile(VideoStream,AudioStream,Position); // Always seek one FPS before to ensure eventual filter have time to init
-        FramePosition=Position/AV_TIME_BASE;
-        if (AudioStream && SoundTrackBloc) SoundTrackBloc->ClearList();      // Clear soundtrack list
-        ResamplingContinue=false;
-        LastAudioReadedPosition=0;
-    }
-
-    // Prepare resampler
-    if (NeedResampling) {
-        if (!ResamplingContinue) CloseResampler();
-        CheckResampler(AudioStream->codec->channels,SoundTrackBloc->Channels,
-                       AudioStream->codec->sample_fmt,SoundTrackBloc->SampleFormat,
-                       AudioStream->codec->sample_rate,SoundTrackBloc->SamplingRate
-                       #ifdef LIBAV_09
-                       ,AudioStream->codec->channel_layout
-                       ,av_get_default_channel_layout(SoundTrackBloc->Channels)
-                       #endif
-                       );
-    }
-
     bool IsVideoFind=false;
     int  i=0;
     while (i<CacheImage.count()) {
-        if ((CacheImage[i]->Position>=Position)&&(CacheImage[i]->Position<=Position+FPSDuration)) IsVideoFind=true;
+        if ((Position>=CacheImage[i]->Position)&&(Position<=CacheImage[i]->Position+FPSDuration)) {
+            IsVideoFind=true;
+            RetImage=new QImage(CacheImage[i]->Image->copy());
+        }
         i++;
     }
-
-    //*************************************************************************************************************************************
-    // Decoding process : Get StreamPacket until endposition is reach (if sound is wanted) or until image is ok (if image only is wanted)
-    //*************************************************************************************************************************************
-
-    bool ByPassFirstImage=(Deinterlace)&&(CacheImage.count()==0);
-    bool DontRetryReading=false;
 
     // Check if we need to continue loop
     // Note: FPSDuration*(!VideoStream?2:1) is to enhance preview speed
@@ -2570,237 +2459,281 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                 ))
              );
 
-    while (Continue) {
+    if (Continue) {
 
-        StreamPacket=new AVPacket();
-        av_init_packet(StreamPacket);
-        StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
+        //*************************************************************************************************************************************
+        Mutex.lock();
+        //*************************************************************************************************************************************
+        // SEEK
+        //*************************************************************************************************************************************
 
-        if (av_read_frame(LibavFile,StreamPacket)<0) {
-
-            //************************
-            // If error reading frame
-            //************************
-            if (AudioLenWanted>AudioLenDecoded) {
-                u_int8_t *BufferForDecoded=(u_int8_t *)av_malloc(AudioLenWanted-AudioLenDecoded);
-                memset(BufferForDecoded,0,AudioLenWanted-AudioLenDecoded);
-                SoundTrackBloc->AppendData(int64_t(dEndFile*AV_TIME_BASE),(int16_t*)BufferForDecoded,AudioLenWanted-AudioLenDecoded);
-                av_free(BufferForDecoded);
-                AudioLenDecoded=AudioLenWanted;
-            }
-            if ((!LastImage.isNull())&&(FrameBufferYUVReady)&&(FrameBufferYUVPosition>=(dEndFile-1.5)*AV_TIME_BASE)) {
-                RetImage=new QImage(LastImage);
-                Continue=false;
-            } else {
-                if (Position<FPSDuration) {
-                    Position=FPSDuration;
-                    FramePosition=double(Position)/AV_TIME_BASE;
-                }
-                // Seek FPSDuration before and modify var to try to loop again
-                Continue=SeekFile(VideoStream,AudioStream,Position-2*FPSDuration);
-                if (AudioStream && SoundTrackBloc) SoundTrackBloc->ClearList();      // Clear soundtrack list
-                ResamplingContinue=false;
-                if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))) EndPos=QTime(0,0,0).addMSecs(FramePosition*1000);
-                dEndFile               =FramePosition;
-                //Duration               =QTime(0,0,0).addMSecs(FramePosition*1000);
-                Position               =FramePosition-FPSDuration;  if (Position<0) Position=0;
-                dPosition              =double(Position)/AV_TIME_BASE;
-                FramePosition          =dPosition;
-                FrameBufferYUVReady    =false;
-                FrameBufferYUVPosition =0;
-            }
-
+        // Compute difftime between asked position and previous end decoded position
+        int64_t DiffTimePosition=-1000000;
+        if (AudioStream) {
+            if (SoundTrackBloc->CurrentPosition==-1)
+                ToLog(LOGMSG_INFORMATION,QString("AUDIO-SEEK %1 TO %2").arg(QFileInfo(FileName).fileName()).arg(Position));
+                else DiffTimePosition=0;
         } else {
+            if (FrameBufferYUVReady) {
+                DiffTimePosition=Position-FrameBufferYUVPosition;
+                if ((Position==0)||(DiffTimePosition<0)||(DiffTimePosition>1500000))
+                    ToLog(LOGMSG_INFORMATION,QString("VIDEO-SEEK %1 TO %2").arg(QFileInfo(FileName).fileName()).arg(Position));
+            }
+        }
+        // Calc if we need to seek to a position
+        if ((Position==0)||(DiffTimePosition<0)||(DiffTimePosition>1500000)) {// Allow 1,5 sec diff (rounded double !)
+            if (Position<0) Position=0;
+            if (AudioStream && SoundTrackBloc) SoundTrackBloc->ClearList();      // Clear soundtrack list
+            ResamplingContinue=false;
+            LastAudioReadedPosition=0;
+            SeekFile(VideoStream,AudioStream,Position); // Always seek one FPS before to ensure eventual filter have time to init
+            FramePosition=Position/AV_TIME_BASE;
+        }
 
-            int64_t FramePts=StreamPacket->pts!=(int64_t)AV_NOPTS_VALUE?StreamPacket->pts:-1;
-            double  TimeBase=double(LibavFile->streams[StreamPacket->stream_index]->time_base.den)/double(LibavFile->streams[StreamPacket->stream_index]->time_base.num);
-            if (FramePts>=0) FramePosition=(double(FramePts)/TimeBase);
+        // Prepare resampler
+        if (NeedResampling) {
+            if (!ResamplingContinue) CloseResampler();
+            CheckResampler(AudioStream->codec->channels,SoundTrackBloc->Channels,
+                           AudioStream->codec->sample_fmt,SoundTrackBloc->SampleFormat,
+                           AudioStream->codec->sample_rate,SoundTrackBloc->SamplingRate
+                           #ifdef LIBAV_09
+                           ,AudioStream->codec->channel_layout
+                           ,av_get_default_channel_layout(SoundTrackBloc->Channels)
+                           #endif
+                           );
+        }
 
-            if ((VideoStream)&&(StreamPacket->stream_index==VideoStreamNumber)) {
+        //*************************************************************************************************************************************
+        // Decoding process : Get StreamPacket until endposition is reach (if sound is wanted) or until image is ok (if image only is wanted)
+        //*************************************************************************************************************************************
 
-                //******************************************************************
-                // VIDEO PART
-                //******************************************************************
+        bool ByPassFirstImage=(Deinterlace)&&(CacheImage.count()==0);
+        int  MaxErrorCount   =20;
 
-                #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
-                if ((FrameBufferYUV)&&(FrameBufferYUV->opaque)) {
-                    avfilter_unref_buffer((AVFilterBufferRef *)FrameBufferYUV->opaque);
-                    FrameBufferYUV->opaque=NULL;
+        while (Continue) {
+
+            StreamPacket=new AVPacket();
+            av_init_packet(StreamPacket);
+            StreamPacket->flags|=AV_PKT_FLAG_KEY;  // HACK for CorePNG to decode as normal PNG by default
+
+            if (av_read_frame(LibavFile,StreamPacket)<0) {
+
+                //************************
+                // If error reading frame
+                //************************
+                if (FPSSize>AudioLenDecoded) {
+                    u_int8_t *BufferForDecoded=(u_int8_t *)av_malloc(FPSSize-AudioLenDecoded);
+                    memset(BufferForDecoded,0,FPSSize-AudioLenDecoded);
+                    SoundTrackBloc->AppendData(int64_t(dEndFile*AV_TIME_BASE),(int16_t*)BufferForDecoded,FPSSize-AudioLenDecoded);
+                    av_free(BufferForDecoded);
+                    AudioLenDecoded=FPSSize;
                 }
-                #endif
-
-                int FrameDecoded=0;
-                LastLibAvMessageLevel=0;    // Clear LastLibAvMessageLevel : some decoder dont return error but display errors messages !
-                int Error=avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket);
-                if ((Error<0)||(LastLibAvMessageLevel==LOGMSG_CRITICAL)) {
-                    if ((!DontRetryReading)&&(Position>FPSDuration)) {
-                        ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadFrame : error avcodec_decode_video2 return an error. Try to read before.");
-                        SeekFile(VideoStream,AudioStream,Position-2*FPSDuration);
-                        if (AudioStream && SoundTrackBloc) SoundTrackBloc->ClearList();      // Clear soundtrack list
-                        ResamplingContinue=false;
-                        DontRetryReading=true;
-                    } else ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadFrame : avcodec_decode_video2 return an error");
-                    // Close video filter
-                    if (VideoStream) VideoFilter_Close();
+                if ((!LastImage.isNull())&&(FrameBufferYUVReady)&&(FrameBufferYUVPosition>=(dEndFile-1.5)*AV_TIME_BASE)) {
+                    RetImage=new QImage(LastImage);
                     Continue=false;
-                } else if (FrameDecoded>0) {
-                    #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(55,18,0)   // since ffmpeg 2.0
-                    FrameBufferYUV->pkt_pts = av_frame_get_best_effort_timestamp(FrameBufferYUV);
-                    #endif
-                    // Video filter part
-                    if ((Deinterlace)&&(!VideoFilterGraph))           VideoFilter_Open();
-                        else if ((!Deinterlace)&&(VideoFilterGraph))  VideoFilter_Close();
+                } else {
+                    if (Position<FPSDuration) {
+                        Position=FPSDuration;
+                        FramePosition=double(Position)/AV_TIME_BASE;
+                    }
+                    // Seek FPSDuration before and modify var to try to loop again
+                    if (AudioStream && SoundTrackBloc) SoundTrackBloc->ClearList();      // Clear soundtrack list
+                    ResamplingContinue=false;
+                    LastAudioReadedPosition=0;
+                    dEndFile=FramePosition;
+                    Continue=SeekFile(VideoStream,AudioStream,Position-2*FPSDuration);
+                    if (dEndFile==double(QTime(0,0,0,0).msecsTo(EndPos))) EndPos=QTime(0,0,0).addMSecs(FramePosition*1000);
+                }
+
+            } else {
+
+                int64_t FramePts=StreamPacket->pts!=(int64_t)AV_NOPTS_VALUE?StreamPacket->pts:-1;
+                double  TimeBase=double(LibavFile->streams[StreamPacket->stream_index]->time_base.den)/double(LibavFile->streams[StreamPacket->stream_index]->time_base.num);
+                if (FramePts>=0) FramePosition=(double(FramePts)/TimeBase);
+
+                if ((VideoStream)&&(StreamPacket->stream_index==VideoStreamNumber)) {
+
+                    //******************************************************************
+                    // VIDEO PART
+                    //******************************************************************
 
                     #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
-                    if (VideoFilterGraph) VideoFilter_Process();
-                    #else
-                    AVFrame *FiltFrame=NULL;
-                    if (VideoFilterGraph) {
-                        // FFMPEG 2.0
-                        // push the decoded frame into the filtergraph
-                        if (av_buffersrc_add_frame_flags(VideoFilterIn,FrameBufferYUV,AV_BUFFERSRC_FLAG_KEEP_REF)<0) {
-                            ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadFrame : Error while feeding the filtergraph");
-                        } else {
-                            FiltFrame=av_frame_alloc();
-                            // pull filtered frames from the filtergraph
-                            int ret=av_buffersink_get_frame(VideoFilterOut,FiltFrame);
-                            if ((ret<0)||(ret==AVERROR(EAGAIN))||(ret==AVERROR_EOF)) {
-                                ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadFrame : No image return by filter process");
-                                av_frame_free(&FiltFrame);
-                                FiltFrame=NULL;
-                            }
-                        }
+                    if ((FrameBufferYUV)&&(FrameBufferYUV->opaque)) {
+                        avfilter_unref_buffer((AVFilterBufferRef *)FrameBufferYUV->opaque);
+                        FrameBufferYUV->opaque=NULL;
                     }
                     #endif
-                    if (ByPassFirstImage) {
-                        ByPassFirstImage=false;
-                    } else {
-                        int64_t pts=FrameBufferYUV->pkt_pts;
-                        if (pts==(int64_t)AV_NOPTS_VALUE) {
-                            if (FrameBufferYUV->pkt_dts!=(int64_t)AV_NOPTS_VALUE) pts=FrameBufferYUV->pkt_dts; else pts=0;
-                        }
-                        FrameBufferYUVReady   =true;                                            // Keep actual value for FrameBufferYUV
-                        FrameBufferYUVPosition=int64_t((double(pts)/TimeBase)*AV_TIME_BASE);    // Keep actual value for FrameBufferYUV
-                        // Check if it's necessary to append this frame
-                        int64_t   MinNext=(CacheImage.isEmpty()?0:CacheImage.last()->Position)+(AV_TIME_BASE/ApplicationConfig->PreviewFPS);
-                        if ((!PreviewMode)||(CacheImage.isEmpty())||(MinNext<FrameBufferYUVPosition))
-                            #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
-                            CacheImage.append(new cImageInCache(FrameBufferYUVPosition,ConvertYUVToRGB(PreviewMode,FrameBufferYUV)));
-                            #else
-                            CacheImage.append(new cImageInCache(FrameBufferYUVPosition,ConvertYUVToRGB(PreviewMode,FiltFrame?FiltFrame:FrameBufferYUV)));
-                            #endif
 
-                        // Count number of image > position
-                        int Nbr=0;
-                        for (int CNbr=0;CNbr<CacheImage.count();CNbr++) if (CacheImage[CNbr]->Position>=Position) Nbr++;
-                        IsVideoFind=Nbr>=4; // For h264 codec, image are not in the good order, so we have to take at least 4 frames to be sure we have all image we want
-                        #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(3,79,0)   // since ffmpeg 2.0
-                        if (FiltFrame) {
-                            av_frame_unref(FiltFrame);
-                            av_frame_free(&FiltFrame);
-                            av_frame_unref(FrameBufferYUV);
-                        }
-                        #endif
-                    }
-                }
-
-            } else if ((AudioStream)&&(StreamPacket->stream_index==AudioStreamNumber)&&(StreamPacket->size>0)) {
-
-                //******************************************************************
-                // AUDIO PART
-                //******************************************************************
-
-                AVPacket PacketTemp;
-                av_init_packet(&PacketTemp);
-                PacketTemp.data=StreamPacket->data;
-                PacketTemp.size=StreamPacket->size;
-
-                // NOTE: the audio packet can contain several NbrFrames
-                while ((Continue)&&(PacketTemp.size>0)) {
-                    AVFrame *Frame=ALLOCFRAME();
-                    int     got_frame;
-                    int     Len=avcodec_decode_audio4(AudioStream->codec,Frame,&got_frame,&PacketTemp);
-                    if (Len<0) {
-                        // if error, we skip the frame and exit the while loop
-                        PacketTemp.size=0;
-                        Continue=false;
-                    } else if (got_frame>0) {
-                        int64_t  SizeDecoded=0;
-                        u_int8_t *Data      =NULL;
-                        if ((NeedResampling)&&(RSC!=NULL)) {
-                            Data=Resample(Frame,&SizeDecoded,DstSampleSize);
+                    int FrameDecoded=0;
+                    LastLibAvMessageLevel=0;    // Clear LastLibAvMessageLevel : some decoder dont return error but display errors messages !
+                    int Error=avcodec_decode_video2(VideoStream->codec,FrameBufferYUV,&FrameDecoded,StreamPacket);
+                    if ((Error<0)||(LastLibAvMessageLevel==LOGMSG_CRITICAL)) {
+                        if (MaxErrorCount>0) {
+                            ToLog(LOGMSG_INFORMATION,QString("IN:cVideoFile::ReadFrame - Error decoding packet: try left %1").arg(MaxErrorCount));
+                            MaxErrorCount--;
                         } else {
-                            Data=Frame->data[0];
-                            #if defined(LIBAV_08)
-                            SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
-                            #elif defined(USELIBAVRESAMPLE)
-                            SizeDecoded=av_samples_get_buffer_size(NULL,AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,0);
-                            #elif defined(USELIBSWRESAMPLE)
-                            SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
-                            #endif
+                            ToLog(LOGMSG_CRITICAL,QString("IN:cVideoFile::ReadFrame - Error decoding packet: and no try left"));
+                            Continue=false;
                         }
-                        Continue=(Data!=NULL);
-                        if (Continue) {
-                            // Adjust FrameDuration with real Nbr Sample
-                            FrameDuration=double(SizeDecoded)/(SoundTrackBloc->SamplingRate*DstSampleSize);
+                    } else if (FrameDecoded>0) {
+                        #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(55,18,0)   // since ffmpeg 2.0
+                        FrameBufferYUV->pkt_pts = av_frame_get_best_effort_timestamp(FrameBufferYUV);
+                        #endif
+                        // Video filter part
+                        if ((Deinterlace)&&(!VideoFilterGraph))           VideoFilter_Open();
+                            else if ((!Deinterlace)&&(VideoFilterGraph))  VideoFilter_Close();
 
-                            // Adjust pts and inc FramePts int the case there is multiple blocks
-                            int64_t pts=int64_t((double(FramePts)/TimeBase)*AV_TIME_BASE);
-                            if (pts<0) pts=int64_t((double(Position+FPSDuration)/TimeBase)*AV_TIME_BASE);
-                            FramePts+=FrameDuration*AV_TIME_BASE;
-                            FramePosition=qreal(pts)/1000000;
-
-                            // Adjust volume if master volume <>1
-                            if (Volume!=1) {
-                                int16_t *Buf1=(int16_t*)Data;
-                                int32_t mix;
-                                for (int j=0;j<SizeDecoded/4;j++) {
-                                    // Left channel : Adjust if necessary (16 bits)
-                                    mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
-                                    // Right channel : Adjust if necessary (16 bits)
-                                    mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+                        #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
+                        if (VideoFilterGraph) VideoFilter_Process();
+                        #else
+                        AVFrame *FiltFrame=NULL;
+                        if (VideoFilterGraph) {
+                            // FFMPEG 2.0
+                            // push the decoded frame into the filtergraph
+                            if (av_buffersrc_add_frame_flags(VideoFilterIn,FrameBufferYUV,AV_BUFFERSRC_FLAG_KEEP_REF)<0) {
+                                ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadFrame : Error while feeding the filtergraph");
+                            } else {
+                                FiltFrame=av_frame_alloc();
+                                // pull filtered frames from the filtergraph
+                                int ret=av_buffersink_get_frame(VideoFilterOut,FiltFrame);
+                                if ((ret<0)||(ret==AVERROR(EAGAIN))||(ret==AVERROR_EOF)) {
+                                    ToLog(LOGMSG_INFORMATION,"IN:cVideoFile::ReadFrame : No image return by filter process");
+                                    av_frame_free(&FiltFrame);
+                                    FiltFrame=NULL;
                                 }
                             }
-                            // Sync audio/video (if it was not done before)
-                            if ((!CacheImage.isEmpty())&&(!SoundTrackBloc->Adjusted))
-                                SoundTrackBloc->AdjustSoundPosition(pts>0?pts:Position,CacheImage.first()->Position);
-                            // Append decoded data to SoundTrackBloc
-                            SoundTrackBloc->AppendData(/*Position*/pts,(int16_t*)Data,SizeDecoded);
-                            AudioLenDecoded+=SizeDecoded;
-                            PacketTemp.data+=Len;
-                            PacketTemp.size-=Len;
-                            FramePosition  =FramePosition+FrameDuration;
                         }
+                        #endif
+                        if (ByPassFirstImage) {
+                            ByPassFirstImage=false;
+                        } else {
+                            int64_t pts=FrameBufferYUV->pkt_pts;
+                            if (pts==(int64_t)AV_NOPTS_VALUE) {
+                                if (FrameBufferYUV->pkt_dts!=(int64_t)AV_NOPTS_VALUE) pts=FrameBufferYUV->pkt_dts; else pts=0;
+                            }
+                            FrameBufferYUVReady   =true;                                            // Keep actual value for FrameBufferYUV
+                            FrameBufferYUVPosition=int64_t((double(pts)/TimeBase)*AV_TIME_BASE);    // Keep actual value for FrameBufferYUV
+                            // Check if it's necessary to append this frame
+                            int64_t   MinNext=(CacheImage.isEmpty()?0:CacheImage.last()->Position)+(AV_TIME_BASE/ApplicationConfig->PreviewFPS);
+                            if ((!PreviewMode)||(CacheImage.isEmpty())||(MinNext<FrameBufferYUVPosition))
+                                #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
+                                CacheImage.append(new cImageInCache(FrameBufferYUVPosition,ConvertYUVToRGB(PreviewMode,FrameBufferYUV)));
+                                #else
+                                CacheImage.append(new cImageInCache(FrameBufferYUVPosition,ConvertYUVToRGB(PreviewMode,FiltFrame?FiltFrame:FrameBufferYUV)));
+                                #endif
 
-                        LastAudioReadedPosition =int64_t(FramePosition*AV_TIME_BASE);    // Keep NextPacketPosition for determine next time if we need to seek
-                        if (Data!=Frame->data[0]) av_free(Data);
+                            // Count number of image > position
+                            int Nbr=0;
+                            for (int CNbr=0;CNbr<CacheImage.count();CNbr++) if (CacheImage[CNbr]->Position>=Position) Nbr++;
+                            IsVideoFind=Nbr>=4; // For h264 codec, image are not in the good order, so we have to take at least 4 frames to be sure we have all image we want
+                            #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(3,79,0)   // since ffmpeg 2.0
+                            if (FiltFrame) {
+                                av_frame_unref(FiltFrame);
+                                av_frame_free(&FiltFrame);
+                                av_frame_unref(FrameBufferYUV);
+                            }
+                            #endif
+                        }
                     }
-                    FREEFRAME(&Frame);
+
+                } else if ((AudioStream)&&(StreamPacket->stream_index==AudioStreamNumber)&&(StreamPacket->size>0)) {
+
+                    //******************************************************************
+                    // AUDIO PART
+                    //******************************************************************
+
+                    AVPacket PacketTemp;
+                    av_init_packet(&PacketTemp);
+                    PacketTemp.data=StreamPacket->data;
+                    PacketTemp.size=StreamPacket->size;
+
+                    // NOTE: the audio packet can contain several NbrFrames
+                    while ((Continue)&&(PacketTemp.size>0)) {
+                        AVFrame *Frame=ALLOCFRAME();
+                        int     got_frame;
+                        int     Len=avcodec_decode_audio4(AudioStream->codec,Frame,&got_frame,&PacketTemp);
+                        if (Len<0) {
+                            // if error, we skip the frame and exit the while loop
+                            PacketTemp.size=0;
+                            Continue=false;
+                        } else if (got_frame>0) {
+                            int64_t  SizeDecoded=0;
+                            u_int8_t *Data      =NULL;
+                            if ((NeedResampling)&&(RSC!=NULL)) {
+                                Data=Resample(Frame,&SizeDecoded,DstSampleSize);
+                            } else {
+                                Data=Frame->data[0];
+                                #if defined(LIBAV_08)
+                                SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
+                                #elif defined(USELIBAVRESAMPLE)
+                                SizeDecoded=av_samples_get_buffer_size(NULL,AudioStream->codec->channels,Frame->nb_samples,AudioStream->codec->sample_fmt,0);
+                                #elif defined(USELIBSWRESAMPLE)
+                                SizeDecoded=Frame->nb_samples*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*AudioStream->codec->channels;
+                                #endif
+                            }
+                            Continue=(Data!=NULL);
+                            if (Continue) {
+                                // Adjust FrameDuration with real Nbr Sample
+                                FrameDuration=double(SizeDecoded)/(SoundTrackBloc->SamplingRate*DstSampleSize);
+
+                                // Adjust pts and inc FramePts int the case there is multiple blocks
+                                int64_t pts=int64_t((double(FramePts)/TimeBase)*AV_TIME_BASE);
+                                if (pts<0) pts=int64_t((double(Position+FPSDuration)/TimeBase)*AV_TIME_BASE);
+                                FramePts+=FrameDuration*AV_TIME_BASE;
+                                FramePosition=qreal(pts)/1000000;
+
+                                // Adjust volume if master volume <>1
+                                if (Volume!=1) {
+                                    int16_t *Buf1=(int16_t*)Data;
+                                    int32_t mix;
+                                    for (int j=0;j<SizeDecoded/4;j++) {
+                                        // Left channel : Adjust if necessary (16 bits)
+                                        mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+                                        // Right channel : Adjust if necessary (16 bits)
+                                        mix=int32_t(double(*(Buf1))*Volume); if (mix>32767)  mix=32767; else if (mix<-32768) mix=-32768;  *(Buf1++)=int16_t(mix);
+                                    }
+                                }
+                                // Sync audio/video (if it was not done before)
+                                if ((!CacheImage.isEmpty())&&(!SoundTrackBloc->Adjusted))
+                                    SoundTrackBloc->AdjustSoundPosition(pts>0?pts:Position,CacheImage.first()->Position);
+                                // Append decoded data to SoundTrackBloc
+                                SoundTrackBloc->AppendData(/*Position*/pts,(int16_t*)Data,SizeDecoded);
+                                AudioLenDecoded+=SizeDecoded;
+                                PacketTemp.data+=Len;
+                                PacketTemp.size-=Len;
+                                FramePosition  =FramePosition+FrameDuration;
+                            }
+
+                            LastAudioReadedPosition =int64_t(FramePosition*AV_TIME_BASE);    // Keep NextPacketPosition for determine next time if we need to seek
+                            if (Data!=Frame->data[0]) av_free(Data);
+                        }
+                        FREEFRAME(&Frame);
+                    }
                 }
+            }
+
+            // Check if we need to continue loop
+            // Note: FPSDuration*(!VideoStream?2:1) is to enhance preview speed
+            Continue=Continue && (
+                        ((VideoStream)&&(!IsVideoFind))||
+                        ((AudioStream)&&(SoundTrackBloc)&&(!(
+                            ((LastAudioReadedPosition>=Position+FPSDuration*((PreviewMode&&(!VideoStream))?2:1))&&(SoundTrackBloc->List.count()>=SoundTrackBloc->NbrPacketForFPS))||
+                            (LastAudioReadedPosition>=int64_t(dEndFile*AV_TIME_BASE)))
+                        ))
+                     );
+
+            // Continue with a new one
+            if (StreamPacket!=NULL) {
+                av_free_packet(StreamPacket); // Free the StreamPacket that was allocated by previous call to av_read_frame
+                delete StreamPacket;
+                StreamPacket=NULL;
             }
         }
 
-        // Check if we need to continue loop
-        // Note: FPSDuration*(!VideoStream?2:1) is to enhance preview speed
-        Continue=Continue && (
-                    ((VideoStream)&&(!IsVideoFind))||
-                    ((AudioStream)&&(SoundTrackBloc)&&(!(
-                        ((LastAudioReadedPosition>=Position+FPSDuration*((PreviewMode&&(!VideoStream))?2:1))&&(SoundTrackBloc->List.count()>=SoundTrackBloc->NbrPacketForFPS))||
-                        (LastAudioReadedPosition>=int64_t(dEndFile*AV_TIME_BASE)))
-                    ))
-                 );
-
-        // Continue with a new one
-        if (StreamPacket!=NULL) {
-            av_free_packet(StreamPacket); // Free the StreamPacket that was allocated by previous call to av_read_frame
-            delete StreamPacket;
-            StreamPacket=NULL;
-        }
+        //*************************************************************************************************************************************
+        Mutex.unlock();
+        //*************************************************************************************************************************************
     }
-
-    //*************************************************************************************************************************************
-    Mutex.unlock();
-    //*************************************************************************************************************************************
 
     if (VideoStream) {
         if (!RetImage) {
@@ -3056,14 +2989,16 @@ cMusicObject::cMusicObject(cBaseApplicationConfig *ApplicationConfig):cVideoFile
 
 //====================================================================================================================
 
-void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
+void cMusicObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cMusicObject::SaveToXML");
 
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     QString         TheFileName;
 
-    if (PathForRelativPath!="") {
+    if (ReplaceList) {
+        TheFileName=ReplaceList->GetDestinationFileName(FileName);
+    } else if (PathForRelativPath!="") {
         if (ForceAbsolutPath) TheFileName=QDir(QFileInfo(PathForRelativPath).absolutePath()).absoluteFilePath(FileName);
             else TheFileName=QDir(QFileInfo(PathForRelativPath).absolutePath()).relativeFilePath(FileName);
     } else TheFileName=FileName;
@@ -3085,11 +3020,12 @@ bool cMusicObject::LoadFromXML(QDomElement domDocument,QString ElementName,QStri
         QDomElement Element=domDocument.elementsByTagName(ElementName).item(0).toElement();
 
         FileName=Element.attribute("FilePath","");
-        if (PathForRelativPath!="") {
-            QString PA=QDir(PathForRelativPath).absolutePath();
-            if (!PA.endsWith(QDir::separator())) PA=PA+QDir::separator();
-            PA=PA+FileName;
-            FileName=QDir::cleanPath(PA);
+        if ((!QFileInfo(FileName).exists())&&(PathForRelativPath!="")) {
+            FileName=QDir::cleanPath(QDir(PathForRelativPath).absoluteFilePath(FileName));
+            //QString PA=QDir(PathForRelativPath).absolutePath();
+            //if (!PA.endsWith(QDir::separator())) PA=PA+QDir::separator();
+            //PA=PA+FileName;
+            //FileName=QDir::cleanPath(PA);
         }
         if (LoadMedia(FileName,AliasList,ModifyFlag)) {
             StartPos=QTime().fromString(Element.attribute("StartPos"));

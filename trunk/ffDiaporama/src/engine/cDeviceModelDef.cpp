@@ -724,7 +724,7 @@ bool cDeviceModelList::InitLibav() {
     #else
 
         // Next step : start libav
-        ToLog(LOGMSG_INFORMATION,"Starting libav lib ...");
+        ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Starting libav..."));
         avfilter_register_all();
         avcodec_register_all();
         av_register_all();

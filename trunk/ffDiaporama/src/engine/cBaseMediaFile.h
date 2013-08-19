@@ -95,6 +95,27 @@
     #endif
 #endif
 
+//============================================
+// Class for exporting project
+//============================================
+
+class cReplaceObject {
+public:
+    QString SourceFileName;
+    QString DestFileName;
+    cReplaceObject(QString SourceFileName,QString DestFileName) {this->SourceFileName=SourceFileName; this->DestFileName=DestFileName;}
+};
+
+class cReplaceObjectList {
+public:
+    QList<cReplaceObject> List;
+
+            cReplaceObjectList();
+
+    void    SearchAppendObject(QString SourceFileName);
+    QString GetDestinationFileName(QString SourceFileName);
+};
+
 //****************************************************************************************************************************************************************
 
 class cBaseMediaFile : public cCustomIcon {
@@ -349,7 +370,7 @@ public:
 
     virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
 
-    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
+    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList,bool *ModifyFlag);
     bool                    LoadMedia(QString &filename,QStringList *AliasList,bool *ModifyFlag);
 };

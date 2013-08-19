@@ -1371,6 +1371,94 @@ To solve the problems you will have to install additional packages on your compu
     </message>
 </context>
 <context>
+    <name>DlgExportProject</name>
+    <message>
+        <source>Export project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on this button to select graphically a destination folder.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination folder:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project subfolder:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog box allows you to export the project and all ressources used by the project to a folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start export process</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished">確定(&amp;O)</translation>
+    </message>
+    <message>
+        <source>Abort export operation and exit dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">取消(&amp;C)</translation>
+    </message>
+    <message>
+        <source>% done;Destination file;Source file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export done</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export cancel</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>not started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error during the creation of the %1 folder</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error during the export of the project file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error during the copy of %1 to %2</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DlgFileExplorer</name>
     <message>
         <source>Adjust display mode and file filtering</source>
@@ -3402,6 +3490,10 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select destination folder</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6130,6 +6222,14 @@ Are you sure it is empty?</source>
     <message>
         <source>A new ffDiaporama version is available from WEB site.
 Do you whant do download it now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export current project and all used files in a new folder</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
