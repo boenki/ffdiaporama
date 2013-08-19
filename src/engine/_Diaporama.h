@@ -193,7 +193,7 @@ public:
                                       bool Transfo=false,double NewX=0,double NewY=0,double NewW=0,double NewH=0,
                                       bool DisplayTextMargin=false,cCompositionObjectContext *PreparedBrush=NULL);
 
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition=true);
+    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,bool CheckTypeComposition=true);
 
     QRectF      GetTextMargin(QRectF Workspace,double  ADJUST_RATIO);
@@ -231,7 +231,7 @@ public:
     cCompositionList();
     ~cCompositionList();
 
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
+    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList,cBaseApplicationConfig *ApplicationConfig);
 };
 
@@ -247,7 +247,7 @@ public:
     cDiaporamaShot(cDiaporamaObject *Parent);
     ~cDiaporamaShot();
 
-    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo);
+    void        SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList);
     bool        LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,cCompositionList *ObjectComposition,QStringList *AliasList);
 };
 
@@ -299,7 +299,7 @@ public:
     int64_t                 GetCumulTransitDuration();
     int64_t                 GetDuration();
     void                    DrawThumbnail(int ThumbWidth,int ThumbHeight,QPainter *Painter,int AddX,int AddY,int ShotNumber=0);   // Draw Thumb @ position 0
-    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath);
+    void                    SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList);
     bool                    LoadFromXML(QDomElement domDocument,QString ElementName,QString PathForRelativPath,QStringList *AliasList);
     int64_t                 GetTransitDuration();
     int                     GetSpeedWave();
@@ -309,7 +309,7 @@ public:
 
     // Models part
     void                    LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument domDocument);
-    bool                    SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName);
+    bool                    SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName,bool ForceAbsolutPath);
     QString                 SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel);
 };
 
@@ -428,7 +428,7 @@ public:
     void                    PrepareBackground(int ObjectIndex,int Width,int Height,QPainter *Painter,int AddX,int AddY);
     cMusicObject            *GetMusicObject(int ObjectIndex,int64_t &StartPosition,int *CountObject=NULL,int *IndexObject=NULL);
     void                    DefineSizeAndGeometry(ffd_GEOMETRY Geometry);                        // Init size and geometry
-    bool                    SaveFile(QWidget *ParentWindow);
+    bool                    SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList=NULL,QString *ExportFileName=NULL);
 
     void                    UpdateInformation();
     void                    UpdateChapterInformation();

@@ -291,6 +291,7 @@ public:
     QString                 LastMediaPath;                              // Last folder use for image/video
     QString                 LastMusicPath;                              // Last folder use for music
     QString                 LastProjectPath;                            // Last folder use for project
+    QString                 LastExportPath;                             // Last folder use for project export
     QString                 LastRenderVideoPath;                        // Last folder use for render video
     QString                 LastCaptureImage;                           // Last folder use for captured image
     QString                 CurrentPath;                                // Currently shown path in browser widget
@@ -446,6 +447,7 @@ public:
     cSaveWindowPosition     *DlgManageFavoriteWSP;                      // Dialog box "Manage favorite" - Window size and position
     cSaveWindowPosition     *DlgChapterWSP;
     cSaveWindowPosition     *DlgAutoTitleWSP;
+    cSaveWindowPosition     *DlgExportProjectWSP;
     cSaveWindowPosition     *MainWinWSP;                                // MainWindow - Window size and position
 
     cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage,QString ApplicationGroupName,QString ApplicationName,QString ApplicationVersion,QString ConfigFileExt,QString ConfigFileRootName);

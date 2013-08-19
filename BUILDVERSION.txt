@@ -1,1 +1,1 @@
-Version 1.7_devel 20130810
+Version 1.7_devel 20130819

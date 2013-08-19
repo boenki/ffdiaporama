@@ -129,7 +129,7 @@ void DlgffDPjrProperties::PrepareGlobalUndo() {
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG"); // Create xml document and root
     ffdProject->ProjectInfo->SaveToXML(root);
-    ffdProject->ProjectThumbnail->SaveToXML(root,"UNDO-DLG-ProjectThumbnail",ffdProject->ProjectFileName,true);
+    ffdProject->ProjectThumbnail->SaveToXML(root,"UNDO-DLG-ProjectThumbnail",ffdProject->ProjectFileName,true,NULL);
     Undo->appendChild(root); // Add object to xml document
 }
 
@@ -228,7 +228,7 @@ void DlgffDPjrProperties::AdminEditThumb() {
         DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,BaseApplicationConfig->DlgImageComposerThumbWSP,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
-            ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,NewName);
+            ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,NewName,true);
             BaseApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
             ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
             ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
@@ -244,7 +244,7 @@ void DlgffDPjrProperties::AdminEditThumb() {
         DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,BaseApplicationConfig->DlgImageComposerThumbWSP,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
-            ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,BaseApplicationConfig->ThumbnailModels->List[BaseApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName)].FileName);
+            ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,BaseApplicationConfig->ThumbnailModels->List[BaseApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName)].FileName,true);
             BaseApplicationConfig->ThumbnailModels->FillModelType(ffd_MODELTYPE_THUMBNAIL);
             ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
             ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);

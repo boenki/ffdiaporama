@@ -303,7 +303,7 @@ void DlgImageCorrection::PrepareGlobalUndo() {
 
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");           // Create xml document and root
-    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","",true);    // Save object
+    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","",true,NULL);    // Save object
     if (IsVideo) {
         root.setAttribute("StartPos",CurrentBrush->Video->StartPos.toString("HH:mm:ss.zzz"));
         root.setAttribute("EndPos",CurrentBrush->Video->EndPos.toString("HH:mm:ss.zzz"));
@@ -340,7 +340,7 @@ void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root)
 
     QString BrushFileName=(CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
     root.setAttribute("BrushFileName",BrushFileName);
-    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","",true);    // Save object
+    CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","",true,NULL);    // Save object
     if (IsVideo) {
         root.setAttribute("StartPos",CurrentBrush->Video->StartPos.toString("HH:mm:ss.zzz"));               // Start position (video only)
         root.setAttribute("EndPos",CurrentBrush->Video->EndPos.toString("HH:mm:ss.zzz"));                   // End position (video only)

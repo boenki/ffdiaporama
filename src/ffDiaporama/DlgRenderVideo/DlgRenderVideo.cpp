@@ -1012,6 +1012,7 @@ bool DlgRenderVideo::DoAccept() {
             QString XBMCNFOFileName=OutputFileName.left(OutputFileName.lastIndexOf("."))+".nfo";
             QFile   file(XBMCNFOFileName);
             QString Text;
+            Text=Text+QString("<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\" ?>\n");
             Text=Text+QString("<movie>\n");
             Text=Text+QString("  <title>%1</title>\n").arg(Diaporama->ProjectInfo->Title);
             Text=Text+QString("  <sorttitle>%1</sorttitle>\n").arg(QFileInfo(OutputFileName).baseName());

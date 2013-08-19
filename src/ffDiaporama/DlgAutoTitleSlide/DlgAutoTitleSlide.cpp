@@ -123,7 +123,7 @@ void DlgAutoTitleSlide::PrepareGlobalUndo() {
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");                                               // Create xml document and root
-    CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true);     // Save object
+    CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true,NULL);     // Save object
     Undo->appendChild(root);                                                                        // Add object to xml document
 }
 

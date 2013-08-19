@@ -624,7 +624,7 @@ void cBrushDefinition::CopyFromBrushDefinition(cBrushDefinition *BrushToCopy) {
 
 //====================================================================================================================
 
-void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
+void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::SaveToXML");
 
     QDomDocument    DomDocument;
@@ -639,12 +639,17 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
         BFN=BFN.replace("\\","/");  // Force Linux mode separator
         #endif
     } else {
-        BFN=BrushFileName;
-        if ((PathForRelativPath!="")&&(BFN!="")) {
-            if (ForceAbsolutPath)
-                BFN=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).absoluteFilePath(BFN));
-            else
-                BFN=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).relativeFilePath(BFN));
+
+        if (ReplaceList) {
+            BFN=ReplaceList->GetDestinationFileName(BrushFileName);
+        } else {
+            BFN=BrushFileName;
+            if ((PathForRelativPath!="")&&(BFN!="")) {
+                if (ForceAbsolutPath)
+                    BFN=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).absoluteFilePath(BFN));
+                else
+                    BFN=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).relativeFilePath(BFN));
+            }
         }
     }
     // Attribut of the object

@@ -58,6 +58,8 @@ int64_t TotalLoadSources=0,TotalAssembly=0,TotalLoadSound=0;
 #define DEFAULT_STARTNEWCHAPTER             false
 #define DEFAULT_CHAPTEROVERRIDE             false
 
+//====================================================================================================================
+
 cCompositionObjectContext::cCompositionObjectContext(int ObjectNumber,bool PreviewMode,bool IsCurrentObject,cDiaporamaObjectInfo *Info,double width,double height,
                                                      cDiaporamaShot *CurShot,cDiaporamaShot *PreviousShot,cSoundBlockList *SoundTrackMontage,bool AddStartPos,
                                                      int64_t ShotDuration) {
@@ -367,7 +369,7 @@ QRectF cCompositionObject::GetTextMargin(QRectF Workspace,double  ADJUST_RATIO) 
 
 //====================================================================================================================
 
-void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition) {
+void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool CheckTypeComposition,cReplaceObjectList *ReplaceList) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionObject:SaveToXML");
 
     QDomDocument    DomDocument;
@@ -438,7 +440,7 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     if (FormShadowDistance!=DEFAULT_SHAPE_SHADOWDISTANCE)   Element.setAttribute("FormShadowDistance",FormShadowDistance);          // Distance from form to shadow
     if (FormShadowColor!=DEFAULT_SHAPE_SHADOWCOLOR)         Element.setAttribute("FormShadowColor",FormShadowColor);                // Shadow color
 
-    BackgroundBrush->SaveToXML(Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath);    // Brush of the background of the form
+    BackgroundBrush->SaveToXML(Element,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList);    // Brush of the background of the form
 
     domDocument.appendChild(Element);
 }
@@ -1235,6 +1237,7 @@ void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter
 
                 QTextCursor         Cursor(&TextDocument);
                 QTextCharFormat     TCF;
+
                 Cursor.select(QTextCursor::Document);
                 if (StyleText==1) {
                     // Add outerline for painting
@@ -1326,7 +1329,7 @@ cCompositionList::~cCompositionList() {
 
 //====================================================================================================================
 
-void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
+void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCompositionList:SaveToXML");
 
     QDomDocument    DomDocument;
@@ -1334,7 +1337,7 @@ void cCompositionList::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     // Save composition list
     Element.setAttribute("TypeComposition",TypeComposition);
     Element.setAttribute("CompositionNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath);
+    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,true,ReplaceList);
     domDocument.appendChild(Element);
 }
 
@@ -1385,14 +1388,14 @@ cDiaporamaShot::~cDiaporamaShot() {
 
 //===============================================================
 
-void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo) {
+void cDiaporamaShot::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,bool LimitedInfo,cReplaceObjectList *ReplaceList) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaShot:SaveToXML");
 
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
 
     if (!LimitedInfo) Element.setAttribute("StaticDuration",qlonglong(StaticDuration));                           // Duration (in msec) of the static part animation
-    ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath,ForceAbsolutPath);   // Composition list for this object
+    ShotComposition.SaveToXML(Element,"ShotComposition",PathForRelativPath,ForceAbsolutPath,ReplaceList);   // Composition list for this object
     domDocument.appendChild(Element);
 }
 
@@ -1633,7 +1636,7 @@ void cDiaporamaObject::LoadModelFromXMLData(ffd_MODELTYPE TypeModel,QDomDocument
 
 //===============================================================
 
-bool cDiaporamaObject::SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName) {
+bool cDiaporamaObject::SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileName,bool ForceAbsolutPath) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:SaveThumbnail");
 
     QFile           file(ModelFileName);
@@ -1656,7 +1659,7 @@ bool cDiaporamaObject::SaveModelFile(ffd_MODELTYPE TypeModel,QString ModelFileNa
     }
     root=domDocument.createElement(RootName);
     domDocument.appendChild(root);
-    SaveToXML(root,ElementName,ModelFileName,false);
+    SaveToXML(root,ElementName,ModelFileName,ForceAbsolutPath,NULL);
     // Write file to disk
     if (!file.open(QFile::WriteOnly | QFile::Text)) {
         CustomMessageBox(NULL,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),QApplication::translate("MainWindow","Error creating model file","Error message"),QMessageBox::Close);
@@ -1690,7 +1693,7 @@ QString cDiaporamaObject::SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel) {
     Text=QString("%1").arg(*ModelList->NextNumber);
     (*ModelList->NextNumber)++;
     NewName=NewName+Text+"."+ModelList->ModelSuffix;
-    SaveModelFile(TypeModel,NewName);
+    SaveModelFile(TypeModel,NewName,true);
     ModelList->FillModelType(TypeModel);
     if (TypeModel==ffd_MODELTYPE_THUMBNAIL) Parent->ThumbnailName=Text;
     return NewName;
@@ -1698,7 +1701,7 @@ QString cDiaporamaObject::SaveAsNewCustomModelFile(ffd_MODELTYPE TypeModel) {
 
 //===============================================================
 
-void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath) {
+void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QString PathForRelativPath,bool ForceAbsolutPath,cReplaceObjectList *ReplaceList) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObject:SaveToXML");
 
     QDomDocument    DomDocument;
@@ -1742,7 +1745,7 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
         if (MusicReduceFactor!=DEFAULT_MUSICREDUCEFACTOR)   Element.setAttribute("MusicReduceFactor",QString("%1").arg(MusicReduceFactor,0,'f'));   // factor for volume reduction if MusicReduceVolume is true
         if (MusicList.count()>0) {
             Element.setAttribute("MusicNumber",MusicList.count());                           // Number of file in the playlist
-            for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath);
+            for (int i=0;i<MusicList.count();i++) MusicList[i].SaveToXML(Element,"Music-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,ReplaceList);
         }
 
         if (Thumbnail) {
@@ -1759,17 +1762,17 @@ void cDiaporamaObject::SaveToXML(QDomElement &domDocument,QString ElementName,QS
         // Background properties
         SubElement=DomDocument.createElement("Background");
         SubElement.setAttribute("BackgroundType",BackgroundType?"1":"0");                                        // Background type : false=same as precedent - true=new background definition
-        BackgroundBrush->SaveToXML(SubElement,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath);             // Background brush
+        BackgroundBrush->SaveToXML(SubElement,"BackgroundBrush",PathForRelativPath,ForceAbsolutPath,ReplaceList);             // Background brush
         Element.appendChild(SubElement);
 
     }
 
     // Global blocks composition table
-    ObjectComposition.SaveToXML(Element,"ObjectComposition",PathForRelativPath,ForceAbsolutPath);         // ObjectComposition
+    ObjectComposition.SaveToXML(Element,"ObjectComposition",PathForRelativPath,ForceAbsolutPath,ReplaceList);         // ObjectComposition
 
     // Shots definitions
     Element.setAttribute("ShotNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,(ElementName==THUMBMODEL_ELEMENTNAME));
+    for (int i=0;i<List.count();i++) List[i]->SaveToXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,ForceAbsolutPath,(ElementName==THUMBMODEL_ELEMENTNAME),ReplaceList);
 
     domDocument.appendChild(Element);
 }
@@ -2244,35 +2247,36 @@ cMusicObject *cDiaporama::GetMusicObject(int ObjectIndex,int64_t &StartPosition,
 
 //====================================================================================================================
 
-bool cDiaporama::SaveFile(QWidget *ParentWindow) {
+bool cDiaporama::SaveFile(QWidget *ParentWindow,cReplaceObjectList *ReplaceList,QString *ExportFileName) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporama:SaveFile");
 
-    QFile           file(ProjectFileName);
+    QFile           file((ReplaceList!=NULL)&&(ExportFileName!=NULL)?*ExportFileName:ProjectFileName);
     QDomDocument    domDocument(APPLICATION_NAME);
     QDomElement     Element;
     QDomElement     root;
 
     UpdateChapterInformation();
-
-    if ((ProjectInfo->Title=="")&&(ApplicationConfig->DefaultTitleFilling!=0)) {
-        if (ApplicationConfig->DefaultTitleFilling==1) {
-            // Fill with project name when project save (if not yet defined)
-            ProjectInfo->Title=QFileInfo(ProjectFileName).completeBaseName();
-        } else if (ApplicationConfig->DefaultTitleFilling==2) {
-            // Fill with project folder when project save (if not yet defined)
-            ProjectInfo->Title=ProjectFileName;
-            if (ProjectInfo->Title!="") {
-                ProjectInfo->Title=QFileInfo(ProjectInfo->Title).absolutePath();
-                if (ProjectInfo->Title.endsWith(QDir::separator())) {
-                    ProjectInfo->Title=QFileInfo(ProjectFileName).baseName();
-                } else if (ProjectInfo->Title.lastIndexOf(QDir::separator())>0) ProjectInfo->Title=ProjectInfo->Title.mid(ProjectInfo->Title.lastIndexOf(QDir::separator())+1);
+    if (!ReplaceList) {
+        if ((ProjectInfo->Title=="")&&(ApplicationConfig->DefaultTitleFilling!=0)) {
+            if (ApplicationConfig->DefaultTitleFilling==1) {
+                // Fill with project name when project save (if not yet defined)
+                ProjectInfo->Title=QFileInfo(ProjectFileName).completeBaseName();
+            } else if (ApplicationConfig->DefaultTitleFilling==2) {
+                // Fill with project folder when project save (if not yet defined)
+                ProjectInfo->Title=ProjectFileName;
+                if (ProjectInfo->Title!="") {
+                    ProjectInfo->Title=QFileInfo(ProjectInfo->Title).absolutePath();
+                    if (ProjectInfo->Title.endsWith(QDir::separator())) {
+                        ProjectInfo->Title=QFileInfo(ProjectFileName).baseName();
+                    } else if (ProjectInfo->Title.lastIndexOf(QDir::separator())>0) ProjectInfo->Title=ProjectInfo->Title.mid(ProjectInfo->Title.lastIndexOf(QDir::separator())+1);
+                }
             }
+            if (ProjectInfo->Title.length()>30) ProjectInfo->Title=ProjectInfo->Title.left(30);
         }
-        if (ProjectInfo->Title.length()>30) ProjectInfo->Title=ProjectInfo->Title.left(30);
+        if (ProjectInfo->Author=="") ProjectInfo->Author=ApplicationConfig->DefaultAuthor;
+        ProjectInfo->Composer   =ApplicationConfig->ApplicationName+QString(" ")+ApplicationConfig->ApplicationVersion;
     }
-    if (ProjectInfo->Author=="") ProjectInfo->Author=ApplicationConfig->DefaultAuthor;
     ProjectInfo->ffDRevision=CurrentAppVersion;
-    ProjectInfo->Composer   =ApplicationConfig->ApplicationName+QString(" ")+ApplicationConfig->ApplicationVersion;
 
     // Create xml document and root
     root=domDocument.createElement(APPLICATION_ROOTNAME);
@@ -2280,7 +2284,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 
     // Save project properties
     ProjectInfo->SaveToXML(root);
-    ProjectThumbnail->SaveToXML(root,THUMBMODEL_ELEMENTNAME,ProjectFileName,false);
+    ProjectThumbnail->SaveToXML(root,THUMBMODEL_ELEMENTNAME,ProjectFileName,false,ReplaceList);
 
     // Save basic information on project
     Element=domDocument.createElement("Project");
@@ -2288,7 +2292,7 @@ bool cDiaporama::SaveFile(QWidget *ParentWindow) {
 
     // Save object list
     Element.setAttribute("ObjectNumber",List.count());
-    for (int i=0;i<List.count();i++) List[i]->SaveToXML(root,"Object-"+(QString("%1").arg(i,10)).trimmed(),ProjectFileName,false);
+    for (int i=0;i<List.count();i++) List[i]->SaveToXML(root,"Object-"+(QString("%1").arg(i,10)).trimmed(),ProjectFileName,false,ReplaceList);
 
     root.appendChild(Element);
 

@@ -55,6 +55,7 @@
 #include "DlgManageFavorite/DlgManageFavorite.h"
 #include "DlgFileExplorer/DlgFileExplorer.h"
 #include "DlgAutoTitleSlide/DlgAutoTitleSlide.h"
+#include "DlgExportProject/DlgExportProject.h"
 
 #define LATENCY 5
 
@@ -173,6 +174,9 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading luma transitions..."));
     RegisterLumaTransition();
 
+    AutoFramingDefInit();
+    ShapeFormDefinitionInit();
+
     // Because now we have local installed, then we can translate drive name
     screen.showMessage(QApplication::translate("MainWindow","Scan drives in computer..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Scan drives in computer..."));
@@ -235,6 +239,8 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->actionRandomize_transition->setIconVisibleInMenu(true);
     ui->actionAddEmptySlide->setIconVisibleInMenu(true);
     ui->actionAddAutoTitleSlide->setIconVisibleInMenu(true);
+    ui->actionSaveProjectAs->setIconVisibleInMenu(true);
+    ui->actionExportProject->setIconVisibleInMenu(true);
 
     ui->ActionDocumentation_BT->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton));
     ui->ActionDocumentation_BT_2->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton));
@@ -280,9 +286,11 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->Action_Open_BT,SIGNAL(released()),this,SLOT(s_Action_Open()));                              connect(ui->Action_Open_BT_2,SIGNAL(released()),this,SLOT(s_Action_Open()));
     connect(ui->Action_OpenRecent_BT,SIGNAL(pressed()),this,SLOT(s_Action_OpenRecent()));                   connect(ui->Action_OpenRecent_BT_2,SIGNAL(pressed()),this,SLOT(s_Action_OpenRecent()));
     connect(ui->Action_Save_BT,SIGNAL(released()),this,SLOT(s_Action_Save()));                              connect(ui->Action_Save_BT_2,SIGNAL(released()),this,SLOT(s_Action_Save()));
-    connect(ui->ActionSave_as_BT,SIGNAL(released()),this,SLOT(s_Action_SaveAs()));                          connect(ui->ActionSave_as_BT_2,SIGNAL(released()),this,SLOT(s_Action_SaveAs()));
+    connect(ui->ActionSave_as_BT,SIGNAL(released()),this,SLOT(s_Action_SaveAsBT()));                        connect(ui->ActionSave_as_BT_2,SIGNAL(released()),this,SLOT(s_Action_SaveAsBT()));
     connect(ui->Action_PrjProperties_BT,SIGNAL(released()),this,SLOT(s_Action_ProjectProperties()));        connect(ui->Action_PrjProperties_BT_2,SIGNAL(released()),this,SLOT(s_Action_ProjectProperties()));
     connect(ui->ActionConfiguration_BT,SIGNAL(released()),this,SLOT(s_Action_ChangeApplicationSettings())); connect(ui->ActionConfiguration_BT_2,SIGNAL(released()),this,SLOT(s_Action_ChangeApplicationSettings()));
+    connect(ui->actionSaveProjectAs,SIGNAL(triggered()),this,SLOT(s_Action_SaveAs()));
+    connect(ui->actionExportProject,SIGNAL(triggered()),this,SLOT(s_Action_Export()));
 
     // Project menu
     connect(ui->ActionAdd_BT,SIGNAL(released()),this,SLOT(s_Action_AddFile()));
@@ -1736,16 +1744,44 @@ void MainWindow::DoSaveFile() {
 // Save current project as
 //====================================================================================================================
 
-void MainWindow::s_Action_SaveAs() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_SaveAs");
+void MainWindow::s_Action_SaveAsBT() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_SaveAsBT");
 
     ui->preview->SetPlayerToPause();    // Ensure player is stop
     ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(LATENCY,this,SLOT(s_Action_SaveAsBT()));
+        return;
+    }
     ui->ActionSave_as_BT->setDown(false);
     ui->ActionSave_as_BT_2->setDown(false);
+    QMenu *ContextMenu=new QMenu(this);
+    ContextMenu->addAction(ui->actionSaveProjectAs);
+    ContextMenu->addAction(ui->actionExportProject);
+    ContextMenu->exec(QCursor::pos());
+    delete ContextMenu;
+}
+
+//====================================================================================================================
+// Export current project in a new folder
+//====================================================================================================================
+
+void MainWindow::s_Action_Export() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_Export");
+    DlgExportProject Dlg(Diaporama,ApplicationConfig,ApplicationConfig->DlgExportProjectWSP,this);
+    Dlg.InitDialog();
+    if (Dlg.exec()==0) s_Browser_RefreshHere();
+}
+
+//====================================================================================================================
+// Save current project as
+//====================================================================================================================
+
+void MainWindow::s_Action_SaveAs() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_SaveAs");
 
     // Save project
-    Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Save project as"),ApplicationConfig->LastProjectPath,QString("ffDiaporama (*.ffd)"));
+    Diaporama->ProjectFileName=QFileDialog::getSaveFileName(this,QApplication::translate("MainWindow","Save project as"),Diaporama->ProjectFileName.isEmpty()?ApplicationConfig->LastProjectPath:Diaporama->ProjectFileName,QString("ffDiaporama (*.ffd)"));
     if (Diaporama->ProjectFileName!="") {
         if (QFileInfo(Diaporama->ProjectFileName).suffix()!="ffd") Diaporama->ProjectFileName=Diaporama->ProjectFileName+".ffd";
         ApplicationConfig->LastProjectPath=QFileInfo(Diaporama->ProjectFileName).dir().absolutePath();
@@ -2614,7 +2650,7 @@ void MainWindow::s_Action_CutToClipboard() {
     root.setAttribute("SlideNumber",SlideList.count());
     for (int i=0;i<SlideList.count();i++) {
         QDomElement  SlideClipboard=Object.createElement(QString("CLIPBOARD_%1").arg(i));
-        Diaporama->List[SlideList[i]]->SaveToXML(SlideClipboard,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true);
+        Diaporama->List[SlideList[i]]->SaveToXML(SlideClipboard,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true,NULL);
         root.appendChild(SlideClipboard);
     }
     Object.appendChild(root);
@@ -2656,7 +2692,7 @@ void MainWindow::s_Action_CopyToClipboard() {
     root.setAttribute("SlideNumber",SlideList.count());
     for (int i=0;i<SlideList.count();i++) {
         QDomElement  SlideClipboard=Object.createElement(QString("CLIPBOARD_%1").arg(i));
-        Diaporama->List[SlideList[i]]->SaveToXML(SlideClipboard,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true);
+        Diaporama->List[SlideList[i]]->SaveToXML(SlideClipboard,"CLIPBOARD-OBJECT",Diaporama->ProjectFileName,true,NULL);
         root.appendChild(SlideClipboard);
     }
     Object.appendChild(root);
@@ -3429,7 +3465,14 @@ void MainWindow::s_Browser_RemoveFile() {
     QList<cBaseMediaFile*> MediaList=ui->FolderTable->GetCurrentSelectedMediaFile();
     if (MediaList.count()>0) {
         while (FileList.count()>0) FileList.removeLast();
-        for (int i=0;i<MediaList.count();i++) FileList.append(MediaList[i]->FileName);
+        for (int i=0;i<MediaList.count();i++) {
+            FileList.append(MediaList[i]->FileName);
+            QString FName=MediaList[i]->FileName;
+            if (!MediaList[i]->FileExtension.isEmpty())     FName.replace("."+MediaList[i]->FileExtension,"");
+            if (QFileInfo(FName+".jpg").exists())           FileList.append(FName+".jpg");
+            if (QFileInfo(FName+"-poster.jpg").exists())    FileList.append(FName+"-poster.jpg");
+            if (QFileInfo(FName+".nfo").exists())           FileList.append(FName+".nfo");
+        }
         DlgWorkingTaskDialog=new DlgWorkingTask(QApplication::translate("MainWindow","Remove files"),&CancelAction,ApplicationConfig,this);
         DlgWorkingTaskDialog->InitDialog();
         DlgWorkingTaskDialog->SetMaxValue(FileList.count(),0);

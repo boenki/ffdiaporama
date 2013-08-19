@@ -369,5 +369,7 @@
         <file>img/AutoTS.png</file>
         <file>img/db_menu_big.png</file>
         <file>img/medal.png</file>
+        <file>img/fileexport.png</file>
+        <file>img/SaveAsMenu.png</file>
     </qresource>
 </RCC>

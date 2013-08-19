@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.7 - Trunk
 *
-* Dernier commit le : 07/08/2013
+* Dernier commit le : 10/08/2013
 **************************************************
 
 TODO :
@@ -42,9 +42,9 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
                         C'est une solution provisoire car l'idéal est de décharger la mémoire si nécessaire et recharger les thumbnails au besoin
 
     dlgmanagefavorite et dlgfileexplorer à finir !
-    Pb de dédoublonnage des fichiers récents
 
     Modifier le fonctionnement si le user dit non à la recherche d'un fichier manquant : supprimer le bloc !
+    Erreur d'affectation du lien relatif sur les musiques sous Windows [Bug vasipo]
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
@@ -59,22 +59,32 @@ switch version to
     ffmpeg 2.0 for Windows / openSuse / Gentoo / ArchLinux
 
 French version / Correction de bug :
--Corrige l'erreur de profile video pour l'encodage en x264 avec ffmpeg 2.0 [Bug poupouneroot]
--Corrige l'erreur de chemin du modèle de vignette dans la sauvegarde des fichiers .ffd sous Windows [Bug vasipo+Philippe21]
--Corrige l'erreur d'inscription des projets en doublons dans la liste des projets récents sous Windows
--Corrige un bug de prise en compte des touches flèches pour se déplacer dans la timeline + prend en compte ses touches même si le focus est sur le lecteur de prévisualisation [Bug JoergBe]
--Corrige un probleme de compilation avec openSUSE : librairie déplacée [Bug William]
+-Corrige un bug lors de la création de modèles : les chemins étaient relatifs
+-Corrige un bug de dédoublonnage des fichiers récents sous Windows (en cas de sauver sous, le fichier n'était pas dédoublonné)
+-Corrige le bug de tentative d'analyse des lecteurs vides sous Windows [Bug Philippe21]
+-Corrige un bug aléatoire de coupure des mots dans les variables
+-Corrige le bug de non application des traductions pour le nom des formes
+-Corrige un bug de mauvaise résolution du nom de fichier relatif pour les musiques
 
 English version / Bug fixes :
--Fix video profil error when render usign x264 codec with ffmpeg 2.0 [Bug poupouneroot]
--Fix path error for thumbnail in saved .ffd file for Windows [Bug vasipo+Philippe21]
--Fix error of duplicate projects in recent project list on Windows
--Fix error of not using arrow keys in timeline for moving from slide to slide + add use of arrow keys in timeline even if the focus is under preview window [Bug JoergBe]
--Fix a compilation error on openSUSE: ffmpeg lib have moved to another folder [Bug William]
+-Fix a bug when creating new model: path was relatif
+-Fix a bug of deduplication of recent files under Windows (when using Project save as, the file was duplicated in recent files list)
+-Fix a bug of trying to read at empty drive under Windows [Bug Philippe21]
+-Fix a random bug of word wrapping in variables
+-Fix a bug of no translation of shape names
+-Fix a bug of bad computing of relatif filepath for music
 
 French version / Nouveautés :
+-Lors des suppressions de fichier dans l'explorateur, si le fichier a des fichiers joint (thumbnail et/ou xbmc nfo), propose également de supprimer ces fichiers joints
+-Ajoute un entete xml aux fichiers .nfo pour xbmc
+-Considère les images XBMC nommées -poster.jpg comme des vignettes
+-Ajoute une fonction d'export du projet (exporte le projet et tous les fichiers qui le compose dans un répertoire)
 
 English version / New features :
+-When removing file in multimedia explorer, if file have joined files (thumbnail and/or xbmc nfo), aslo offer to remove these joined files
+-Add an xml header to .nfo files for xbmc
+-Consider the XBMC -poster.jpg images as thumbnails
+-Add a function to export project (export the project and all files that compose it in a folder)
 
 Translation/Traductions (1373 sentences):
 EN    - 100% - 1373

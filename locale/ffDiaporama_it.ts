@@ -1448,6 +1448,94 @@ Per risolvere i problemi si dovranno installare i pacchetti aggiuntivi sul vostr
     </message>
 </context>
 <context>
+    <name>DlgExportProject</name>
+    <message>
+        <source>Export project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on this button to select graphically a destination folder.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination folder:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project subfolder:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog box allows you to export the project and all ressources used by the project to a folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start export process</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Ok</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Abort export operation and exit dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Cancel</source>
+        <translation type="unfinished">&amp;Annulla</translation>
+    </message>
+    <message>
+        <source>% done;Destination file;Source file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export done</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export cancel</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>not started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error during the creation of the %1 folder</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>started</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>done</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>error</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error during the export of the project file</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Error during the copy of %1 to %2</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>DlgFileExplorer</name>
     <message>
         <source>Adjust display mode and file filtering</source>
@@ -3659,6 +3747,10 @@ Nota: le proprietà del progetto vengono salvate nel video come TAG (metadati) c
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select destination folder</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6599,6 +6691,14 @@ traccia audio</translation>
     <message>
         <source>A new ffDiaporama version is available from WEB site.
 Do you whant do download it now?</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export current project and all used files in a new folder</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

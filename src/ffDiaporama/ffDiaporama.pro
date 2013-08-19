@@ -36,7 +36,7 @@ unix {
 
     CFLAGS += -W"Missing debug information for"
 
-    HARDWARE_PLATFORM = $$system(uname -i)
+    HARDWARE_PLATFORM = $$system(uname -m)
     contains(HARDWARE_PLATFORM,x86_64) {
         DEFINES+=Q_OS_LINUX64
         message("x86_64 build")
@@ -61,6 +61,7 @@ unix {
         LIBS    += -lavresample                                             #------ conditionnaly include libavresample
     } else {
         LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV_08
+        DEFINES += USETAGLIB
     }
 
     LIBS        += -lexiv2                                                  #------ Exiv2
@@ -284,6 +285,7 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             DlgFileExplorer/DlgFileExplorer.cpp \
             DlgChapter/DlgChapter.cpp \
             DlgAutoTitleSlide/DlgAutoTitleSlide.cpp \
+            DlgExportProject/DlgExportProject.cpp \
             ../engine/_GlobalDefines.cpp \
             ../engine/QCustomRuller.cpp \
             ../engine/cSaveWindowPosition.cpp \
@@ -319,7 +321,7 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             ../CustomCtrl/QCustomFolderTree.cpp \
             ../CustomCtrl/cCTexteFrameComboBox.cpp \
             ../CustomCtrl/cThumbnailComboBox.cpp \
-    ../CustomCtrl/cCustomTitleModelTable.cpp
+            ../CustomCtrl/cCustomTitleModelTable.cpp
 
 # Header files
 HEADERS  += wgt_QVideoPlayer.h \
@@ -353,6 +355,7 @@ HEADERS  += wgt_QVideoPlayer.h \
             DlgFileExplorer/DlgFileExplorer.h \
             DlgChapter/DlgChapter.h \
             DlgAutoTitleSlide/DlgAutoTitleSlide.h \
+            DlgExportProject/DlgExportProject.h \
             ../engine/QCustomRuller.h \
             ../engine/cSaveWindowPosition.h \
             ../engine/cBaseApplicationConfig.h \
@@ -388,7 +391,7 @@ HEADERS  += wgt_QVideoPlayer.h \
             ../CustomCtrl/QCustomFolderTree.h \
             ../CustomCtrl/cCTexteFrameComboBox.h \
             ../CustomCtrl/cThumbnailComboBox.h \
-    ../CustomCtrl/cCustomTitleModelTable.h
+            ../CustomCtrl/cCustomTitleModelTable.h
 
 # Forms files
 FORMS    += mainwindow.ui \
@@ -415,7 +418,8 @@ FORMS    += mainwindow.ui \
             DlgSlide/DlgSlideDuration.ui \
             DlgFileExplorer/DlgFileExplorer.ui \
             DlgChapter/DlgChapter.ui \
-            DlgAutoTitleSlide/DlgAutoTitleSlide.ui
+            DlgAutoTitleSlide/DlgAutoTitleSlide.ui \
+            DlgExportProject/DlgExportProject.ui
 
 #--------------------------------------------------------------
 # INSTALLATION

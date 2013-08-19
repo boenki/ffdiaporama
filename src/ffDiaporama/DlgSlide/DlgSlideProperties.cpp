@@ -148,7 +148,7 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseAp
     if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_4_3)        { ui->InteractiveZone->DisplayW=1440; ui->InteractiveZone->DisplayH=1080; }
     else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_16_9)  { ui->InteractiveZone->DisplayW=1920; ui->InteractiveZone->DisplayH=1080; }
     else if (DiaporamaObject->Parent->ImageGeometry==GEOMETRY_40_17) { ui->InteractiveZone->DisplayW=1920; ui->InteractiveZone->DisplayH=816;  }
-    else { ui->InteractiveZone->DisplayW=0; ui->InteractiveZone->DisplayH=0; }
+    else                                                             { ui->InteractiveZone->DisplayW=0; ui->InteractiveZone->DisplayH=0; }
 
     CurrentCompoObject      =NULL;
     CurrentCompoObjectNbr   =-1;
@@ -205,6 +205,7 @@ void DlgSlideProperties::DoInitDialog() {
     // Init combo box Background form
     for (int i=0;i<ShapeFormDefinition.count();i++) if (ShapeFormDefinition.at(i).Enable) ui->BackgroundFormCB->addItem(ShapeFormDefinition.at(i).Name,QVariant(i));
     MakeFormIcon(ui->BackgroundFormCB);
+
     if (ui->TextFramingStyleCB->view()->width()<500)    ui->TextFramingStyleCB->view()->setFixedWidth(500);
     if (ui->ShadowEffectCB->view()->width()<500)        ui->ShadowEffectCB->view()->setFixedWidth(500);
 
@@ -223,6 +224,7 @@ void DlgSlideProperties::DoInitDialog() {
     ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashDotLine);
     ui->PenStyleCB->addItem("");    ui->PenStyleCB->setItemData(ui->PenStyleCB->count()-1,(int)Qt::DashDotDotLine);
     MakeBorderStyleIcon(ui->PenStyleCB);
+
     // Init shape Borders
     ui->PenSizeEd->setMinimum(0);       ui->PenSizeEd->setMaximum(30);
 
@@ -466,7 +468,7 @@ void DlgSlideProperties::PrepareGlobalUndo() {
     // Save object before modification for cancel button
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");                                               // Create xml document and root
-    CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true);     // Save object
+    CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true,NULL);     // Save object
     Undo->appendChild(root);                                                                        // Add object to xml document
 }
 
@@ -680,7 +682,7 @@ void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
             case UNDOACTION_BLOCKTABLE_VISIBLESTATE:        SubElement.setAttribute("IsVisible",CompositionList->List[i]->IsVisible?"1":"0");               break;
             case UNDOACTION_BLOCKTABLE_SOUNDSTATE:          SubElement.setAttribute("SoundVolume",CompositionList->List[i]->BackgroundBrush->SoundVolume);
 
-            case UNDOACTION_BLOCKTABLE_EDITVIDEO:           CompositionList->List[i]->BackgroundBrush->SaveToXML(SubElement,"BRUSH","",false);              break;
+            case UNDOACTION_BLOCKTABLE_EDITVIDEO:           CompositionList->List[i]->BackgroundBrush->SaveToXML(SubElement,"BRUSH","",false,NULL);         break;
 
             case UNDOACTION_BLOCKTABLE_EDITTEXT:
             case UNDOACTION_BLOCKTABLE_EDITIMAGE:
@@ -696,7 +698,7 @@ void DlgSlideProperties::PreparePartialUndo(int ActionType,QDomElement root) {
             case UNDOACTION_SHOTTABLE_CHORDER:
             case UNDOACTION_BLOCKTABLE_SAMEASPREVIOUSSTATE:
             default:
-                CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true);     // Save all
+                CurrentSlide->SaveToXML(root,"UNDO-DLG-OBJECT",CurrentSlide->Parent->ProjectFileName,true,NULL);     // Save all
                 break;
         }
         root.appendChild(SubElement);
@@ -2170,8 +2172,8 @@ void DlgSlideProperties::s_BlockTable_Copy() {
         QDomElement         Element=Object.createElement(QString("Block-%1").arg(BlockNum));
         cCompositionObject  *GlobalBlock=GetGlobalCompositionObject(CompositionList->List[i]->IndexKey);
 
-        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",CurrentSlide->Parent->ProjectFileName,true);                // Save global object
-        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",CurrentSlide->Parent->ProjectFileName,true);     // Save shot object
+        GlobalBlock->SaveToXML(Element,"CLIPBOARD-BLOCK-GLOBAL",CurrentSlide->Parent->ProjectFileName,true,true,NULL);                // Save global object
+        CompositionList->List[i]->SaveToXML(Element,"CLIPBOARD-BLOCK-SHOT",CurrentSlide->Parent->ProjectFileName,true,true,NULL);     // Save shot object
         root.appendChild(Element);
         BlockNum++;
     }
