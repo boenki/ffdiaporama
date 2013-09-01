@@ -503,6 +503,7 @@ INSTALLS 	    += mimefile
 
 translation.path    = $$PREFIX/share/$$APPFOLDER/locale
 translation.files   = ../../locale/ffDiaporama_* \
+                      ../../locale/wiki_* \
                       ../../locale/qt_*
 INSTALLS 	    += translation
 
