@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+<head>
+    <title>Correct, reframe or cut image or video</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="content-type">
+    <meta http-equiv="Content-Language" content="en-US">
+    <meta content="ffDiaporama Team" name="author">
+    <link rel="stylesheet" type="text/css" href="wiki.css"/>
+</head>
+<body>
+    <div><img src="wiki_img/Work.png"></div>
+    <h1>Correct, reframe or cut image or video</h1>
+    <div>This dialog box allows you to:</div>
+    <br>- Change image framing (select a part of the image),
+    <br>- Rotate image (change or restore the orientation portrait/landscape)
+    <br>- Correct image (change the color and/or exposure parameters) but also applying graphical filters.
+    <br>- Define the beginning and end of a video sequence.
+    <br>
+    <h2>The image correct and reframe tag</h2>
+    <div style="margin-left: 40px;">
+        <img src="img/FolderOpen.png"> This button allows you to change the file
+        <br>Warning! If you replace a file (image or video) with another one with a different image geometry, you will need to review the image framing in all shots.
+        <br>
+
+        <h3>Framing</h3>
+        <table border="0" cellpadding="0" cellspacing="5"><tbody>
+            <tr>
+                <td valign="top"><img src="img/Geometry.png"></td>
+                <td>Allows to select a framing from a list of predefined framings. The framings are classified in different categories:
+                    <br>
+                    <br>
+                    <table border="1" cellpadding="2" cellspacing="0" class="background"><tbody>
+                        <tr>
+                            <td valign="top"><img src="img/Geometry_ProjectLock.png"></td>
+                            <td nowrap valign="top">Lock on the project geometry</td>
+                            <td valign="top">Lock the image framing selection rectangle to the same geometry as the project. If you place the image in full screen, the reframed part will correspond to the whole screen.</td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><img src="img/Geometry_ImageLock.png"></td>
+                            <td nowrap valign="top">Lock on the image geometry</td>
+                            <td valign="top">Lock the image framing selection rectangle to the same geometry as the image</td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><img src="img/Geometry_Unlock.png"></td>
+                            <td nowrap valign="top">No constraint</td>
+                            <td valign="top">No constraint is applied to the image framing selection rectangle.</td>
+                        </tr>
+                        <tr>
+                            <td valign="top"><img src="img/Geometry_Lock.png"></td>
+                            <td nowrap valign="top">Lock on this geometry</td>
+                            <td valign="top">Lock image framing selection rectangle to the actual geometry. This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</td>
+                        </tr>
+                    </tbody></table>
+                    <br>According to the image format, various choices will be proposed to you. For example:
+                    <div style="margin-left: 40px;"><img src="wiki_img/AutoFraming1.png"> <img src="wiki_img/AutoFraming2.png"></div>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/PosSize_X.png"></td>
+                <td>The horizontal position from the left (X). This position is expressed as a percentage (%) of the width of the image.<br>Example: if X=25% then the 1st quarter to the left of the image is eliminated.</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/PosSize_Y.png"></td>
+                <td>The vertical position from the top of the image ( Y ). This position is expressed as a percentage (%) of the height of the image.<br>Example: if Y=25% the 1st quarter at the top of the image is eliminated.</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/PosSize_Width.png"></td>
+                <td>The width. This value is expressed as a percentage (%) of the original width of the image.<br>Example: if Width=33%, the re-framed image will represent 1/3 of the original.</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/PosSize_Height.png"></td>
+                <td>The height. This value is expressed as a percentage (%) of the original height of the image.<br>Example: if Height=33%, the re-framed image will represent 1/3 of the original.</td>
+            </tr>
+        </tbody></table>
+        <div style="margin-left: 40px;">
+            <h4>Remarks:</h4>
+            <ul>
+            <li>You can use the + and - buttons in each input field to change the settings, or directly enter values for the four parameters.</li>
+            <li>Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
+                <table border="0" cellpadding="0" cellspacing="5"><tbody>
+                    <tr>
+                        <td valign="top">With the mouse</td>
+                        <td>Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept).
+                            <br>Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.</td>
+                    </tr>
+                    <tr>
+                        <td valign="top">With the keyboard</td>
+                        <td>Use the arrows to move the part of the image which will be kept.
+                            <br>Use SHIFT+arrows to move the upper left corner handle or CTRL+arraows to move the lower right corner handle, to change the size of the part of the image which will be kept.</td>
+                    </tr>
+                </tbody></table></li>
+                <li>When the image does not correspond to the geometry of the video to be produced, transparent zones appear. For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</li>
+                <li><img src="img/ruler_ok.png"> This button enables or disables the magnetic rulers: When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</li>
+            </ul>
+            <br>
+        </div>
+
+        <h3>Image corrections</h3>
+        <table border="0" cellpadding="0" cellspacing="5"><tbody>
+            <tr>
+                <td valign="top"><img src="img/RotateZ.png"></td>
+                <td>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90&deg;, the image is turned by a quarter to the right.
+                    <br>The following buttons help you in image settings:
+                    <table border="1" cellpadding="2" cellspacing="0" class="background"><tbody>
+                        <tr>
+                            <td><img src="img/rotationg.png"></td>
+                            <td>Turn the image to the left (to the nearest multiple of 90&deg;).</td>
+                        </tr>
+                        <tr>
+                            <td><img src="img/rotationd.png"></td>
+                            <td>Turn the image to the right (to the nearest multiple of 90&deg;).</td>
+                        </tr>
+                    </tbody></table>
+                </td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/Filter/Brightness.png"></td>
+                <td>Allows you to increase or decrease the luminosity of the image</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/Filter/Contrast.png"></td>
+                <td>Allows you to increase or decrease the contrast of the image</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/Filter/Gamma.png"></td>
+                <td>Allows you to to increase or decrease the gamma value of the image</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/Red.png"></td>
+                <td>Allows you to modify the colorization of an image by changing the primary color red. Example : Reducing the red component makes the image more yellow - increasing it makes make the image more red</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/Green.png"></td>
+                <td>Allows you to modify the colorization of an image by changing the primary color green. Example : Reducing the green component makes the image more red - increasing it makes the image more green</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/Blue.png"></td>
+                <td>Allows you to modify the colorization of an image by changing the primary color blue. Example : Reducing the green component makes the image more red - increasing it makes the image more blue</td>
+            </tr>
+        </tbody></table>
+        <div style="margin-left: 40px;">
+            <br>
+            <h4>Remarks</h4>
+            <ul>
+                <li>All the combinations are possible. For example: you can increase the red and reduce the green at the same time.</li>
+                <li>The results depend on the initial strength of the primary color components of the source image.</li>
+                <li><img src="img/undo.png"> This button allows the value to be reset to zero for all correction settings.</li>
+            </ul>
+        </div>
+        <br>
+        <h3>Image transformations</h3>
+        <div style="margin-left: 40px;">
+            Apply a filter to the photo or video images.
+            <br>The following filters are available:
+        </div>
+        <table border="0" cellpadding="0" cellspacing="5"><tbody>
+            <tr>
+                <td valign="top"><img src="img/Filter/Equalize.png"></td>
+                <td>Equalize (Histogram equalization)</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/Filter/Despeckle.png"></td>
+                <td>Despeckle (Noise reduction)</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/Filter/Grayscale.png"></td>
+                <td>Gray (black &amp; white)</td>
+            </tr>
+            <tr>
+                <td valign="top"><img src="img/Filter/Blur.png"></td>
+                <td>Blur/Sharpen
+                    <ul>
+                        <li>Increase the blur with a negative value, using radius.</li>
+                        <li>Increase the sharpen with a positive value, using radius.</li>
+                    </ul>
+                </td>
+            </tr>
+        </tbody></table>
+        <div style="margin-left: 40px;"><img src="img/undo.png"> This button allows you to reset the value to zero. (For some transformation settings.)</div>
+    </div>
+    <br>
+
+    <h2>The video tag</h2>
+    <div style="margin-left: 40px;">
+        <h3>The progress bar</h3>
+            <div style="margin-left: 20px;">Displays as follows:</div>
+            <ul>
+                <li>The length of the ruler is increased in proportion to the duration of the video.</li>
+                <li>The blue part represents the part of the video which is selected (which will be used in the assembly).</li>
+                <li><img src="img/player_play_small.png"> This button starts playback. Click again on this button to pause. <img src="img/player_pause_small.png"></li>
+            </ul>
+        <h3>The working range</h3>
+            <ul>
+                <li><img src="img/player_rew.png"> Positions the cursor at the starting point</li>
+                <li><img src="img/PosStart.png"> Uses the current cursor position as starting point (carries out an edit)</li>
+                <li><img src="img/player_fwd.png"> Positions the cursor at the end point</li>
+                <li><img src="img/PosEnd.png"> Uses the current cursor position as end point (carries out an edit)</li>
+            </ul>
+        <h3>The additional settings zone</h3>
+            <ul>
+                <li><strong>Volume</strong> allows you to define the &quot;Master Volume&quot; for the file</li>
+                <li><strong>Deinterlace video</strong> allows you to activate the deinterlace filter</li>
+            </ul>
+    </div>
+    <br>
+
+
+    <h2>See also</h2>
+    <table border="0" cellpadding="0" cellspacing="0"><tbody>
+        <tr>
+            <td valign="top"><img src="wiki_img/Wikipedia.png"></td>
+            <td valign="top"><ul>
+                <li><a href="http://en.wikipedia.org/wiki/Ken_Burns_effect">Ken Burns effects</a></li>
+                <li><a href="http://en.wikipedia.org/wiki/Histogram_equalization">Filter: Histogram equalization</a></li>
+                <li><a href="http://en.wikipedia.org/wiki/Despeckle">Filter: Noise reduction</a></li>
+            </ul></td>
+        </tr>
+    </tbody></table>
+</body>
+</html>

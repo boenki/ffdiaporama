@@ -47,7 +47,8 @@ DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cBaseA
     ui->setupUi(this);
     OkBt                =ui->OkBt;
     CancelBt            =ui->CancelBt;
-    HelpTT              =ui->HelpTT;
+    HelpBt              =ui->HelpBt;
+    HelpFile            ="0115";
     Diaporama           =&TheDiaporama;
     ExportMode          =TheExportMode;
     IsDestFileOpen      =false;

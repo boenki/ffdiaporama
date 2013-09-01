@@ -47,7 +47,8 @@ DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaO
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
     UndoBt          =ui->UndoBT;
-    HelpTT          =ui->HelpTT;
+    HelpBt          =ui->HelpBt;
+    HelpFile        ="0104";
     DiaporamaObject =TheDiaporamaObject;
     StopMAJSpinbox  =false;
 }

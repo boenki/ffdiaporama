@@ -39,7 +39,8 @@ DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject
 
     CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
-    HelpTT  =ui->HelpTT;
+    HelpBt  =ui->HelpBt;
+    HelpFile="0108";
 
     ui->ThumbCB->Diaporama=ffdProject;
 }

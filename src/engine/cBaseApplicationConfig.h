@@ -243,6 +243,7 @@ public:
     cDeviceModelList        DeviceModelList;                            // List of known rendering device model
     cDriveList              *DriveList;                                 // Drive list for multimedia file explorer
     QString                 AllowedWEBLanguage;
+    QProcess                HelpProcess;
 
     // Image cache
     cLuLoImageCache         ImagesCache;                                // cLuLoImageCache List Object
@@ -459,12 +460,14 @@ public:
     virtual bool            SaveConfigurationFile();
 
     virtual QString         GetValideWEBLanguage(QString Language);
+    virtual void            OpenHelp(QString HelpFile);
 
     virtual void            PreloadSystemIcons();
 
     virtual void            InitValues();
     virtual void            SaveValueToXML(QDomElement &domDocument);
     virtual bool            LoadValueFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile);
+
 };
 
 #endif // CBASEAPPLICATIONCONFIG_H

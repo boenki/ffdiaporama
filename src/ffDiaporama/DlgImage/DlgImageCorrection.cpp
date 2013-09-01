@@ -79,7 +79,8 @@ DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *T
 
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
-    HelpTT          =ui->HelpTT;
+    HelpBt          =ui->HelpBt;
+    HelpFile        ="0110";
     UndoBt          =ui->UndoBT;
     UndoReloadImage =false;
     FLAGSTOPED      =false;

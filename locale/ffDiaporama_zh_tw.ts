@@ -5,27 +5,27 @@
     <name>CommonErrorMsg</name>
     <message>
         <source>Format not supported</source>
-        <translation type="unfinished">格式不支援</translation>
+        <translation>格式不支援</translation>
     </message>
     <message>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
-        <translation type="unfinished">這個應用程式只支援具有無正負 8 位元或帶正負 16 位元採樣格式的音訊軌段</translation>
+        <translation>這個應用程式只支援具有無正負 8 位元或帶正負 16 位元採樣格式的音訊軌段</translation>
     </message>
     <message>
         <source>This application support only mono or stereo audio track</source>
-        <translation type="unfinished">這個應用程式只支援單聲道或立體的音效訊軌段</translation>
+        <translation>這個應用程式只支援單聲道或立體的音效訊軌段</translation>
     </message>
 </context>
 <context>
     <name>CommonInfoMsg</name>
     <message>
         <source>Select a file</source>
-        <translation type="unfinished">選取檔案</translation>
+        <translation>選取檔案</translation>
     </message>
     <message>
         <source>Error</source>
         <comment>Title of dialog box displaying an error</comment>
-        <translation type="unfinished">錯誤</translation>
+        <translation>錯誤</translation>
     </message>
 </context>
 <context>
@@ -48,7 +48,7 @@
     </message>
     <message>
         <source>Copyright (C) 2011-2013 Dominique Levray</source>
-        <translation type="unfinished">著作權©2011-2012 Dominique Levray {2011-2013 ?}</translation>
+        <translation>著作權©2011-2013 Dominique Levray</translation>
     </message>
     <message>
         <source>Texturemate</source>
@@ -736,14 +736,6 @@ Use title project as video name: Use the title defined in the project properties
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog box allows you to define options for the application.
-It consists of following 3 tabs:
-- The Application options tab allows to define the general behavior of ffDiaporama.
-- The Project options tab allows to define the options by default of the current project and for the new projects.
-- The Rendering options Tab allows to define the options used by default during the generation of videos.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Allows you to open the Check configuration dialog box</source>
         <translation type="unfinished"></translation>
     </message>
@@ -842,6 +834,18 @@ Beyond this height, the videos are automatically reduced for creating images.</s
         <source>Join XBMC .nfo file to rendered file</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>If this box is checked, a dialog box will appear at startup the next time a new version will be available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgAutoTitleSlide</name>
@@ -867,35 +871,35 @@ Beyond this height, the videos are automatically reduced for creating images.</s
     </message>
     <message>
         <source>Accept modification and go to previous slide</source>
-        <translation type="unfinished">採納修改並前往上一張投影片</translation>
+        <translation>採納修改並前往上一張投影片</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">上一張</translation>
+        <translation>上一張</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+        <translation>採納修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished">確定(&amp;O)</translation>
+        <translation>確定(&amp;O)</translation>
     </message>
     <message>
         <source>Accept modification and go to next slide</source>
-        <translation type="unfinished">採納修改並前往下一張投影片</translation>
+        <translation>採納修改並前往下一張投影片</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">下一張</translation>
+        <translation>下一張</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+        <translation>取消修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
     <message>
         <source>Chapter name:</source>
@@ -958,16 +962,20 @@ Standard slide are fully customizable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to select a model and define chapter information for this predefined slide.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Chapter date different from project date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Credit title</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -1096,16 +1104,20 @@ Standard slide are fully customizable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The &quot;Background properties&quot; dialog allows you to define settings for the background of the slide.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+        <translation>採納修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+        <translation>取消修改然後離開對話方塊</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -1135,24 +1147,20 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to define settings for the chapter information of the slide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+        <translation>採納修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished">確定(&amp;O)</translation>
+        <translation>確定(&amp;O)</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+        <translation>取消修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
     <message>
         <source>Override date:</source>
@@ -1181,6 +1189,14 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <source>Enter here the name of the chapter</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -1322,14 +1338,6 @@ Yellow: The component works partially
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows to check external tools configuration and libraries used by ffDiaporama.
-It is especially useful for the Linux users and for those who compiles the application.
-The most common shown errors concern the supported formats, codec and library versions.
-
-To solve the problems you will have to install additional packages on your computer then make ffDiaporama from source and verify again the configuration.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Close dialog box</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1369,6 +1377,14 @@ To solve the problems you will have to install additional packages on your compu
         <source>LIBSWRESAMPLE version: %1.%2.%3.%4</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
+    </message>
 </context>
 <context>
     <name>DlgExportProject</name>
@@ -1389,16 +1405,12 @@ To solve the problems you will have to install additional packages on your compu
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog box allows you to export the project and all ressources used by the project to a folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Start export process</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished">確定(&amp;O)</translation>
+        <translation>確定(&amp;O)</translation>
     </message>
     <message>
         <source>Abort export operation and exit dialog box</source>
@@ -1406,7 +1418,7 @@ To solve the problems you will have to install additional packages on your compu
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
     <message>
         <source>% done;Destination file;Source file</source>
@@ -1457,6 +1469,14 @@ To solve the problems you will have to install additional packages on your compu
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
+    </message>
 </context>
 <context>
     <name>DlgFileExplorer</name>
@@ -1482,31 +1502,27 @@ To solve the problems you will have to install additional packages on your compu
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+        <translation>採納修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished">確定(&amp;O)</translation>
+        <translation>確定(&amp;O)</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+        <translation>取消修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
-    </message>
-    <message>
-        <source>Open help page describing this dialog box</source>
-        <translation type="unfinished">開啟描述這個對話方塊的說明頁面</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation type="unfinished">求助(&amp;H)</translation>
+        <translation>求助(&amp;H)</translation>
     </message>
     <message>
         <source>F1</source>
-        <translation type="unfinished">F1</translation>
+        <translation>F1</translation>
     </message>
     <message>
         <source>Add to favorite</source>
@@ -1544,6 +1560,10 @@ To solve the problems you will have to install additional packages on your compu
         <source>The selection can&apos;t include folders.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgImageComposer</name>
@@ -1562,7 +1582,7 @@ text</source>
     </message>
     <message>
         <source>Ctrl+Ins</source>
-        <translation type="unfinished">Ctrl+Ins</translation>
+        <translation>Ctrl+Ins</translation>
     </message>
     <message>
         <source>Add one or several new blocks of images or video. A file selection dialog appears allowing you to select files.
@@ -1577,7 +1597,7 @@ file</source>
     </message>
     <message>
         <source>Ins</source>
-        <translation type="unfinished">Ins</translation>
+        <translation>Ins</translation>
     </message>
     <message>
         <source>Edit block</source>
@@ -1614,51 +1634,6 @@ information</source>
         <source>Rulers</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>The blocks table lists, from top to bottom, the present blocks in the slide.
-
-Remarks:
-- The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.
-- The order of the blocks is defined shot by shot.
-
-Blocks are shown on 3 columns:
-- The first column contains or:
-  - A text icon￼ if the block is a title.
-  - A thumbnail if the block is an image or a video.
-  - Possibly, one transformation￼ icon appears on the thumbnail if the image or the video have a transformation filter.
-
-- The second column contains icons giving the state of the blocks for the current shot:
-  - A lock icon if the properties of the block are locked during this shot or and unlock icon if they are unlocked. (Remark: This information does not appear for the 1st shot.)
-  - A sound icon if the video has the sound during this shot. This information appears only for the video blocks.
-  - An eye icon if the block is visible during this shot or ￼a crossed eye icon if the block is hidden.
-
-- The third column indicates:
-  - If the block is a title: the text of the block
-  - If the block is an image: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and a summary of EXIF information on the image.
-  - If the block is a video: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and the duration of the video.
-
-Remarks:
-- Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
-- Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
-- Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.
-- To select a block: click the block
-- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
-- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
-
-- The blocks with locked properties are shown on a grey bottom.
-- The selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.
-
-- To change the blocks order, use Drag &amp; Drop or up￼ and down arrow functions of the contextual menu.
-- It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.
-
-- All blocks, whether title, image or video, possess a text element.
-
-- During the insertion of a new block (Add title, Add file or Paste), the block is inserted:
-  - In visible mode for the current shot and for all the following shots.
-  - In hidden mode for the shots located before the current shot.
-  - Always in the last position in the list of blocks (in the foreground).</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Block coordinates :</source>
         <translation type="unfinished"></translation>
@@ -1679,7 +1654,7 @@ This value is defined as a percentage (%) of the total height of the image or in
     </message>
     <message>
         <source>Reset to zero</source>
-        <translation type="unfinished">重置為零</translation>
+        <translation>重置為零</translation>
     </message>
     <message>
         <source>Allows you to select a shape for the block.
@@ -1701,7 +1676,7 @@ This position is defined as a percentage (%) of the total height of the image or
     </message>
     <message>
         <source>Shape :</source>
-        <translation type="unfinished">形狀：</translation>
+        <translation>形狀：</translation>
     </message>
     <message>
         <source>Clip-Art :</source>
@@ -1719,7 +1694,7 @@ Remark: the position of the shadow is independent of rotation of the block: the 
     </message>
     <message>
         <source>Border :</source>
-        <translation type="unfinished">邊框：</translation>
+        <translation>邊框：</translation>
     </message>
     <message utf8="true">
         <source>Defines the thickness of the border.
@@ -1738,11 +1713,11 @@ A value of 10 corresponds to 10 points on a 1920×1080 FullHD screen, but only t
     </message>
     <message>
         <source>Shadow :</source>
-        <translation type="unfinished">陰影：</translation>
+        <translation>陰影：</translation>
     </message>
     <message>
         <source>Opacity :</source>
-        <translation type="unfinished">濁度：</translation>
+        <translation>濁度：</translation>
     </message>
     <message>
         <source>This settings group deals with style management.</source>
@@ -1782,7 +1757,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     </message>
     <message>
         <source>Reset to 100%</source>
-        <translation type="unfinished">重置為 100%</translation>
+        <translation>重置為 100%</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Text option :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -1793,45 +1768,28 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to define the information which qualifies the project.
-This information will then be registered in the form of TAGs in the rendered video files.
-
-Remark:
-
-The properties of the project are a partial implementation of the MPEG-7 standard on the descriptors of multimedia contents.
-These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by jukeboxes.
-
-Some fields are automatically filled and do not appear in this dialog:
--Timestamp: Date and time of generation of the video.
--Composer: Contains the version of ffDiaporama with which the video was produced.
--Encoder: Contains the version of libavformat (ffmpeg) with which the video was produced.
-
-For more compatibility with indexing systems and jukeboxes, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+        <translation>採納修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished">確定(&amp;O)</translation>
+        <translation>確定(&amp;O)</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+        <translation>取消修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
     <message>
         <source>Edit text</source>
-        <translation type="unfinished">編輯文字</translation>
+        <translation>編輯文字</translation>
     </message>
     <message>
         <source>Define the properties of the text block</source>
-        <translation type="unfinished">定義文字區塊的性質</translation>
+        <translation>定義文字區塊的性質</translation>
     </message>
     <message>
         <source>Correct or reframe image</source>
@@ -1875,7 +1833,7 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Ctrl+C</source>
-        <translation type="unfinished">Ctrl+C</translation>
+        <translation>Ctrl+C</translation>
     </message>
     <message>
         <source>Cut block</source>
@@ -1883,15 +1841,15 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide</source>
-        <translation type="unfinished">複製目前的區塊到 ffDiaporama 剪貼簿並從投影片移除</translation>
+        <translation>複製目前的區塊到 ffDiaporama 剪貼簿並從投影片移除</translation>
     </message>
     <message>
         <source>Ctrl+X</source>
-        <translation type="unfinished">Ctrl+X</translation>
+        <translation>Ctrl+X</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <source>Remove current block(s)</source>
@@ -1899,7 +1857,7 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Del</source>
-        <translation type="unfinished">Del</translation>
+        <translation>Del</translation>
     </message>
     <message>
         <source>Paste block</source>
@@ -1911,11 +1869,11 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Ctrl+V</source>
-        <translation type="unfinished">Ctrl+V</translation>
+        <translation>Ctrl+V</translation>
     </message>
     <message>
         <source>Align top</source>
-        <translation type="unfinished">對齊頂端</translation>
+        <translation>對齊頂端</translation>
     </message>
     <message>
         <source>Align blocks to the top</source>
@@ -1931,7 +1889,7 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Align bottom</source>
-        <translation type="unfinished">對齊底部</translation>
+        <translation>對齊底部</translation>
     </message>
     <message>
         <source>Align blocks to the bottom</source>
@@ -1939,7 +1897,7 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Align left</source>
-        <translation type="unfinished">靠左對齊</translation>
+        <translation>靠左對齊</translation>
     </message>
     <message>
         <source>Align blocks to the left</source>
@@ -1947,7 +1905,7 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Align center</source>
-        <translation type="unfinished">置中對齊</translation>
+        <translation>置中對齊</translation>
     </message>
     <message>
         <source>Align blocks to the center</source>
@@ -1955,7 +1913,7 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Align right</source>
-        <translation type="unfinished">靠右對齊</translation>
+        <translation>靠右對齊</translation>
     </message>
     <message>
         <source>Align blocks to the right</source>
@@ -2003,23 +1961,23 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished">無</translation>
+        <translation>無</translation>
     </message>
     <message>
         <source>Shadow upper left</source>
-        <translation type="unfinished">左上陰影</translation>
+        <translation>左上陰影</translation>
     </message>
     <message>
         <source>Shadow upper right</source>
-        <translation type="unfinished">右上陰影</translation>
+        <translation>右上陰影</translation>
     </message>
     <message>
         <source>Shadow bottom left</source>
-        <translation type="unfinished">左下陰影</translation>
+        <translation>左下陰影</translation>
     </message>
     <message>
         <source>Shadow bottom right</source>
-        <translation type="unfinished">右下陰影</translation>
+        <translation>右下陰影</translation>
     </message>
     <message>
         <source>Remove block</source>
@@ -2040,7 +1998,15 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     <message>
         <source>Text</source>
         <comment>Default text value</comment>
-        <translation type="unfinished">文字</translation>
+        <translation>文字</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -2155,7 +2121,7 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Reset to 1</source>
-        <translation type="unfinished">重置為 1</translation>
+        <translation>重置為 1</translation>
     </message>
     <message>
         <source>Image distortion:</source>
@@ -2167,7 +2133,7 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Despeckle</source>
-        <translation type="unfinished">除斑</translation>
+        <translation>除斑</translation>
     </message>
     <message>
         <source>Adjust desaturat level</source>
@@ -2215,7 +2181,7 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Equalize</source>
-        <translation type="unfinished">均化</translation>
+        <translation>均化</translation>
     </message>
     <message>
         <source>Antialias</source>
@@ -2243,21 +2209,21 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>Speed wave:</source>
-        <translation type="unfinished">速度波動：</translation>
+        <translation>速度波動：</translation>
     </message>
     <message>
         <source>Start :</source>
-        <translation type="unfinished">開始：</translation>
+        <translation>開始：</translation>
     </message>
     <message>
         <source>Move to start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">移動開始位置</translation>
+        <translation>移動開始位置</translation>
     </message>
     <message>
         <source>Use current position as start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">使用現行位置做為開始位置</translation>
+        <translation>使用現行位置做為開始位置</translation>
     </message>
     <message>
         <source>Define the start position to use</source>
@@ -2266,7 +2232,7 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>End :</source>
-        <translation type="unfinished">結束：</translation>
+        <translation>結束：</translation>
     </message>
     <message>
         <source>Define the end position to use</source>
@@ -2276,20 +2242,20 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     <message>
         <source>Use current position as end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">使用現行位置做為結束位置</translation>
+        <translation>使用現行位置做為結束位置</translation>
     </message>
     <message>
         <source>Move to end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation type="unfinished">移動到結束位置</translation>
+        <translation>移動到結束位置</translation>
     </message>
     <message>
         <source>Duration :</source>
-        <translation type="unfinished">持續時間：</translation>
+        <translation>持續時間：</translation>
     </message>
     <message>
         <source>Volume :</source>
-        <translation type="unfinished">音量：</translation>
+        <translation>音量：</translation>
     </message>
     <message>
         <source>Select the &quot; Master Volume &quot; for the movie</source>
@@ -2321,7 +2287,7 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
     </message>
     <message>
         <source>TV margins</source>
-        <translation type="unfinished">TV 邊距</translation>
+        <translation>TV 邊距</translation>
     </message>
     <message>
         <source>Two thirds screen</source>
@@ -2489,14 +2455,6 @@ For example: an 4:3 image used in a 16:9 project will be shown by default with a
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog box allows you to:
-- Change image framing (select a part of the image),
-- Rotate image (change or restore the orientation portrait/landscape)
-- Correct image (change the color and/or exposure parameters) but also applying graphical filters.
-- Define the beginning and end of a video sequence.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Allows you to enable or disable the magnetic rulers.
 When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</source>
         <translation type="unfinished"></translation>
@@ -2504,6 +2462,14 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
     <message>
         <source>Defined speed curve for image animations.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -2565,10 +2531,6 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows to obtain detailed information on a multimedia file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>This zone contains a board listing every video track present in the file.
 For every track, the following information is shown:
 - #:			Track number
@@ -2618,6 +2580,14 @@ At least the information about the duration of the video will be shown, but a lo
 - Comment:	Comment field of the TAG ID3v2 of the video
 - Composer:	The software with which the video was created</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -2779,7 +2749,11 @@ At least the information about the duration of the video will be shown, but a lo
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This dialog box allows you to modify the equipment profiles database.&lt;/p&gt;&lt;p&gt;The database is actually composed of two parts:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db.png&quot;/&gt; The default database (supplied with ffDiaporama). These devices are registered in the global ffDiaporama configuration file.&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db_update.png&quot;/&gt; The devices which you modify or add. These are registered in your personal configuration file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2796,7 +2770,7 @@ At least the information about the duration of the video will be shown, but a lo
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">重新命名</translation>
+        <translation>重新命名</translation>
     </message>
     <message>
         <source>Remove favorite</source>
@@ -2804,23 +2778,23 @@ At least the information about the duration of the video will be shown, but a lo
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished">移除</translation>
+        <translation>移除</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+        <translation>採納修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished">確定(&amp;O)</translation>
+        <translation>確定(&amp;O)</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+        <translation>取消修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
     <message>
         <source>New favorite name:</source>
@@ -2830,6 +2804,14 @@ At least the information about the duration of the video will be shown, but a lo
         <source>A favorite with this name already exist.
 Please select another name!</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -2976,13 +2958,6 @@ Please select another name!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The Manage style dialog allows several things.
-Rename existing style
-Remove custom style
-Reset a standard style (that you modified) has its default values.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Allows to delete the customizations of a standard style and thus to return it to the default values for this style.
 It concerns as well the name of the style as the associated settings.</source>
         <translation type="unfinished"></translation>
@@ -2994,6 +2969,14 @@ It concerns as well the name of the style as the associated settings.</source>
     <message>
         <source>Update this style</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -3124,9 +3107,13 @@ The Volume column defines the &quot; Master volume &quot; for the file.
 This volume is independent of any reductions in the volume that you define in the upper part of the dialog</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Music properties dialog allows you to specify the music track.&lt;/p&gt;&lt;p&gt;The main functional principle for music tracks is that as long as you do not change the settings, the previous settings apply. So, if:&lt;br/&gt;- Slide 1 – Defines a play list&lt;br/&gt;- Slide 2 – Contains no settings&lt;br/&gt;- Slide 3 – Contains no settings&lt;br/&gt;- Slide 4 – Defines a play list&lt;br/&gt;- Slide 5 – Contains no settings&lt;/p&gt;&lt;p&gt;Then:&lt;br/&gt;- Slide 2 and 3 continue to play the play list defined in slide 1&lt;br/&gt;- Slide 5 continues to play the play list define in slide 4&lt;/p&gt;&lt;p&gt;Available settings for the music track :&lt;br/&gt;- Continue current playlist: Continues to play the play list defined by a previous slide&lt;br/&gt;- Start a new playlist: Allows you to create a new playlist. If a list defined in a previous slide, is still playing, it is stopped with a fade-out effect (progressive decline of the sound volume up to complete stop).&lt;/p&gt;&lt;p&gt;Remark:&lt;/p&gt;&lt;p&gt;The fade in/out effects and the increase/decrease of volume take place during the entering slide transitions. Consequently:&lt;br/&gt;- They last for the same time as the entering transition.&lt;br/&gt;- If a slide has an entering transition set to &amp;quot;No transition&amp;quot;, the sound effect is not progressive but instantaneous.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+    <message>
+        <source>Show help about this dialogue box</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -3467,10 +3454,6 @@ By checking the option From and then entering the numbers of the start and end s
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to render the project as a video file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>This button allows you to open project properties dialog.
 It allows you to adjust the properties before generating the video.
 Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by jukeboxes.</source>
@@ -3496,6 +3479,14 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <source>Select destination folder</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
+    </message>
 </context>
 <context>
     <name>DlgRulerDef</name>
@@ -3517,7 +3508,7 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
     </message>
     <message>
         <source>TV margins</source>
-        <translation type="unfinished">TV 邊距</translation>
+        <translation>TV 邊距</translation>
     </message>
     <message>
         <source>Screen center</source>
@@ -3529,25 +3520,19 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+        <translation>採納修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished">確定(&amp;O)</translation>
+        <translation>確定(&amp;O)</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+        <translation>取消修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
-    </message>
-    <message>
-        <source>This dialog allows you to enable or disable rulers.
-When a ruler is activated, the mouse is attracted towards this ruler.
-This is valid as well for the movements of blocks as for the resizing (movements of the handles).</source>
-        <translation type="unfinished"></translation>
+        <translation>取消(&amp;C)</translation>
     </message>
     <message>
         <source>Enable or disable ruler for the horizontal edges of the screen.</source>
@@ -3583,6 +3568,14 @@ In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are d
         <source>Enable or disable vertical rulers of the center, of the top edge, of the bottom edge, of the left edge and of the right edge of each objects which are not a part of the selection.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
+    </message>
 </context>
 <context>
     <name>DlgSlideDuration</name>
@@ -3596,31 +3589,35 @@ In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are d
     </message>
     <message>
         <source>HH:mm:ss.zzz</source>
-        <translation type="unfinished">HH:mm:ss.zzz</translation>
+        <translation>HH:mm:ss.zzz</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+        <translation>採納修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished">確定(&amp;O)</translation>
+        <translation>確定(&amp;O)</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+        <translation>取消修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
     <message>
         <source>Define the duration of the first shot.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to define the duration of the fist shot of a set of slides.</source>
+        <source>Show help about this dialogue box</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -3839,7 +3836,7 @@ information</source>
     </message>
     <message>
         <source>Reset to zero</source>
-        <translation type="unfinished">重置為零</translation>
+        <translation>重置為零</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block shape :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -3911,7 +3908,7 @@ information</source>
     </message>
     <message>
         <source>Reset to 100%</source>
-        <translation type="unfinished">重置為 100%</translation>
+        <translation>重置為 100%</translation>
     </message>
     <message>
         <source>Clip-Art :</source>
@@ -3935,7 +3932,7 @@ information</source>
     </message>
     <message>
         <source>Edit text</source>
-        <translation type="unfinished">編輯文字</translation>
+        <translation>編輯文字</translation>
     </message>
     <message>
         <source>Correct or reframe image</source>
@@ -4003,7 +4000,7 @@ information</source>
     </message>
     <message>
         <source>Align top</source>
-        <translation type="unfinished">對齊頂端</translation>
+        <translation>對齊頂端</translation>
     </message>
     <message>
         <source>Align blocks to the top</source>
@@ -4019,7 +4016,7 @@ information</source>
     </message>
     <message>
         <source>Align bottom</source>
-        <translation type="unfinished">對齊底部</translation>
+        <translation>對齊底部</translation>
     </message>
     <message>
         <source>Align blocks to the bottom</source>
@@ -4027,7 +4024,7 @@ information</source>
     </message>
     <message>
         <source>Align left</source>
-        <translation type="unfinished">靠左對齊</translation>
+        <translation>靠左對齊</translation>
     </message>
     <message>
         <source>Align blocks to the left</source>
@@ -4035,7 +4032,7 @@ information</source>
     </message>
     <message>
         <source>Align center</source>
-        <translation type="unfinished">置中對齊</translation>
+        <translation>置中對齊</translation>
     </message>
     <message>
         <source>Align blocks to the center</source>
@@ -4043,7 +4040,7 @@ information</source>
     </message>
     <message>
         <source>Align right</source>
-        <translation type="unfinished">靠右對齊</translation>
+        <translation>靠右對齊</translation>
     </message>
     <message>
         <source>Align blocks to the right</source>
@@ -4240,51 +4237,6 @@ The following rules are used to calculate the minimum duration of the shot:
 If you specify a duration lower than the minimum calculated duration for the shot, it is this minimum duration that will be used in place of the value which you specified.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message utf8="true">
-        <source>The blocks table lists, from top to bottom, the present blocks in the slide.
-
-Remarks:
-- The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.
-- The order of the blocks is defined shot by shot.
-
-Blocks are shown on 3 columns:
-- The first column contains or:
-  - A text icon￼ if the block is a title.
-  - A thumbnail if the block is an image or a video.
-  - Possibly, one transformation￼ icon appears on the thumbnail if the image or the video have a transformation filter.
-
-- The second column contains icons giving the state of the blocks for the current shot:
-  - A lock icon if the properties of the block are locked during this shot or and unlock icon if they are unlocked. (Remark: This information does not appear for the 1st shot.)
-  - A sound icon if the video has the sound during this shot. This information appears only for the video blocks.
-  - An eye icon if the block is visible during this shot or ￼a crossed eye icon if the block is hidden.
-
-- The third column indicates:
-  - If the block is a title: the text of the block
-  - If the block is an image: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and a summary of EXIF information on the image.
-  - If the block is a video: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and the duration of the video.
-
-Remarks:
-- Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
-- Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
-- Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.
-- To select a block: click the block
-- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
-- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
-
-- The blocks with locked properties are shown on a grey bottom.
-- The selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.
-
-- To change the blocks order, use Drag &amp; Drop or up￼ and down arrow functions of the contextual menu.
-- It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.
-
-- All blocks, whether title, image or video, possess a text element.
-
-- During the insertion of a new block (Add title, Add file or Paste), the block is inserted:
-  - In visible mode for the current shot and for all the following shots.
-  - In hidden mode for the shots located before the current shot.
-  - Always in the last position in the list of blocks (in the foreground).</source>
-        <translation type="unfinished"></translation>
-    </message>
     <message>
         <source>Define the number of rotations around the X axis that is to be made during this shot.
 
@@ -4415,45 +4367,6 @@ The selected shape will be used as:
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to define settings for the slides.
-
-This dialog includes numerous zones:
--On the top: The toolbar allows to launch the main slide editing commands.
--On the left: The slide settings zone, the shots table and the interactive.
--On the right: The blocks table and the blocks settings zone.
-
-Place the mouse over each area for more information.
-
-Remark on block properties locking:
-The properties locking is available only from the 2nd shot.
-- When the block properties are locked, the modifications made to the block in the preceding shot are echoed in the current shot.
-- It defines as well the coordinates, forms and animations properties as the properties defined in the editing dialog of text, image or video.
-
-Remark on the interactive area:
-You can move and interactively re-size blocks within the selected shot.
-- Selected blocks are shown with a frame. (It allows to differentiate them from other graphic elements of the slide).
-- Control handles (small square) are shown on sides and on corners of the selection frame.
-- Rulers are displayed to facilitate the work with the mouse.
-
-Using the mouse:
-- To select a block: click the block
-- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
-- To select a block under another block : Click the block to be selected by pushing both SHIFT and CTRL keys.
-- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
-- To modify the size of the blocks of the selection: Click one of the handles of the selection and, while keeping the button of the mouse pressed, move the mouse.
-- To move the blocks of the selection: Click one of the blocks of the selection and, while keeping the button of the mouse pressed, move the mouse.
-
-Using the keyboard:
-- To move the blocks of the selection, use the arrow keys.
-- To change the size of the blocks of the selection, use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle.
-
-Remarks:
-- A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
-- A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
-- A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Allows you to open the rulers settings dialog.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4510,6 +4423,14 @@ model</source>
         <source>Slide added in Credit title models collection</source>
         <comment>Information message</comment>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -4584,11 +4505,11 @@ model</source>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished">文字</translation>
+        <translation>文字</translation>
     </message>
     <message>
         <source>Background</source>
-        <translation type="unfinished">背景</translation>
+        <translation>背景</translation>
     </message>
     <message>
         <source>Background properties :</source>
@@ -4608,7 +4529,7 @@ model</source>
     </message>
     <message>
         <source>Custom</source>
-        <translation type="unfinished">自訂</translation>
+        <translation>自訂</translation>
     </message>
     <message>
         <source>Undo last action (CTRL+Z)</source>
@@ -4776,12 +4697,6 @@ This value is expressed in % of the width of the block.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to modify the text within a block.
-Remark: The modifications made to the text properties will apply to all shots of the slide.
-To understand indeed the differences between the properties which apply to all shots and those who apply only to the current shot, consult: How ffDiaporama work.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Allows you to select the font to be used.
 This setting applies to the current selection.</source>
         <translation type="unfinished"></translation>
@@ -4789,6 +4704,14 @@ This setting applies to the current selection.</source>
     <message>
         <source>Insert a text variable</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -4799,11 +4722,11 @@ This setting applies to the current selection.</source>
     </message>
     <message>
         <source>Duration :</source>
-        <translation type="unfinished">持續時間：</translation>
+        <translation>持續時間：</translation>
     </message>
     <message>
         <source>Define the animation duration</source>
-        <translation type="unfinished">定義動畫持續時間</translation>
+        <translation>定義動畫持續時間</translation>
     </message>
     <message>
         <source>second(s)</source>
@@ -4811,23 +4734,27 @@ This setting applies to the current selection.</source>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">採納修改然後離開對話方塊</translation>
+        <translation>採納修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished">確定(&amp;O)</translation>
+        <translation>確定(&amp;O)</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">取消修改然後離開對話方塊</translation>
+        <translation>取消修改然後離開對話方塊</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">取消(&amp;C)</translation>
+        <translation>取消(&amp;C)</translation>
     </message>
     <message>
-        <source>This dialog allows you to define the transition duration for a set of slides.</source>
+        <source>Show help about this dialogue box</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -4902,7 +4829,7 @@ This setting applies to the current selection.</source>
     </message>
     <message>
         <source>Speed wave:</source>
-        <translation type="unfinished">速度波動：</translation>
+        <translation>速度波動：</translation>
     </message>
     <message>
         <source>Duration:</source>
@@ -4940,8 +4867,12 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to define the entering transition for a slide.</source>
+        <source>Show help about this dialogue box</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -5012,11 +4943,11 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
     </message>
     <message>
         <source>Project</source>
-        <translation type="unfinished">專案</translation>
+        <translation>專案</translation>
     </message>
     <message>
         <source>Project geometry:</source>
-        <translation type="unfinished">專案位置與尺寸：</translation>
+        <translation>專案位置與尺寸：</translation>
     </message>
     <message>
         <source>Old TV (4:3)</source>
@@ -5024,11 +4955,11 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
     </message>
     <message>
         <source>TV Wide (16:9)</source>
-        <translation type="unfinished">TV 寬螢幕 (16:9)</translation>
+        <translation>TV 寬螢幕 (16:9)</translation>
     </message>
     <message>
         <source>Cinema (2.35:1)</source>
-        <translation type="unfinished">Cinema (2.35:1)</translation>
+        <translation>Cinema (2.35:1)</translation>
     </message>
     <message>
         <source>Default options</source>
@@ -5048,7 +4979,7 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
     </message>
     <message>
         <source>New project</source>
-        <translation type="unfinished">新專案</translation>
+        <translation>新專案</translation>
     </message>
     <message>
         <source>Create project</source>
@@ -5081,23 +5012,6 @@ This option sets the value of the velocity curves for use whenever the correspon
     <message>
         <source>Defined default speed curve for image animations.
 This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This dialog allows you to define the information which qualifies the project.
-This information will then be registered in the form of TAGs in the rendered video files.
-
-Remark:
-
-The properties of the project are a partial implementation of the MPEG-7 standard on the descriptors of multimedia contents.
-These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by jukeboxes.
-
-Some fields are automatically filled and do not appear in this dialog:
--Timestamp: Date and time of generation of the video.
--Composer: Contains the version of ffDiaporama with which the video was produced.
--Encoder: Contains the version of libavformat (ffmpeg) with which the video was produced.
-
-For more compatibility with indexing systems and jukeboxes, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5200,6 +5114,14 @@ custom model</source>
         <source>Create
 custom model</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>求助(&amp;H)</translation>
     </message>
 </context>
 <context>
@@ -5889,7 +5811,7 @@ Soundtrack</source>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished">重新命名</translation>
+        <translation>重新命名</translation>
     </message>
     <message>
         <source>Rename file</source>
@@ -6059,7 +5981,7 @@ Do you want to overwrite it?</source>
     </message>
     <message>
         <source>Select destination file</source>
-        <translation type="unfinished">選取目的檔案</translation>
+        <translation>選取目的檔案</translation>
     </message>
     <message>
         <source>Starting libav...</source>
@@ -6174,19 +6096,19 @@ Are you sure it is empty?</source>
     </message>
     <message>
         <source>Del</source>
-        <translation type="unfinished">Del</translation>
+        <translation>Del</translation>
     </message>
     <message>
         <source>Ctrl+X</source>
-        <translation type="unfinished">Ctrl+X</translation>
+        <translation>Ctrl+X</translation>
     </message>
     <message>
         <source>Ctrl+C</source>
-        <translation type="unfinished">Ctrl+C</translation>
+        <translation>Ctrl+C</translation>
     </message>
     <message>
         <source>Ctrl+V</source>
-        <translation type="unfinished">Ctrl+V</translation>
+        <translation>Ctrl+V</translation>
     </message>
     <message>
         <source>The file is not a valid thumbnail file</source>
@@ -6232,13 +6154,25 @@ Do you whant do download it now?</source>
         <source>Export current project and all used files in a new folder</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Render project as a video using a predefined model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Render project as a lossless video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Render sound trak of project</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
     <message>
         <source>File</source>
         <comment>Column header</comment>
-        <translation type="unfinished">檔案</translation>
+        <translation>檔案</translation>
     </message>
     <message>
         <source>File Type</source>
@@ -6258,7 +6192,7 @@ Do you whant do download it now?</source>
     <message>
         <source>Duration</source>
         <comment>Column header</comment>
-        <translation type="unfinished">持續時間</translation>
+        <translation>持續時間</translation>
     </message>
     <message>
         <source>Image Size</source>
@@ -6318,7 +6252,7 @@ Do you whant do download it now?</source>
     <message>
         <source>Title</source>
         <comment>Column header</comment>
-        <translation type="unfinished">標題</translation>
+        <translation>標題</translation>
     </message>
     <message>
         <source>Artist</source>
@@ -6363,7 +6297,7 @@ Do you whant do download it now?</source>
     <message>
         <source>Chapters</source>
         <comment>Column header</comment>
-        <translation type="unfinished">章節</translation>
+        <translation>章節</translation>
     </message>
     <message>
         <source>Author</source>
@@ -7280,7 +7214,7 @@ Do you whant do download it now?</source>
     <message>
         <source>Error</source>
         <comment>Error message</comment>
-        <translation type="unfinished">錯誤</translation>
+        <translation>錯誤</translation>
     </message>
     <message>
         <source>Error reading content of default thumbnail file</source>

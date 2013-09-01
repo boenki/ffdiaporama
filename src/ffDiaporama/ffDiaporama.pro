@@ -250,7 +250,66 @@ OTHER_FILES += ../../TODO-LIST.txt \          # Developpement file
     ../../licences.rtf \                      # Licence file
     ../../authors.txt \                       # Authoring file for ffDiaporama
     ../../ffDiaporama.url \                   # URL file to be install on windows system
-    ../../ffDiaporama.desktop                 # Desktop (menu icon) entry for ffDiaporama installed in /usr
+    ../../ffDiaporama.desktop \                 # Desktop (menu icon) entry for ffDiaporama installed in /usr
+    ../../WIKI/en/wiki_en.qhp \
+    ../../WIKI/en/wiki_en.qhcp \
+    ../../WIKI/en/main.html \
+    ../../WIKI/en/0043.html \
+    ../../WIKI/en/0042.html \
+    ../../WIKI/en/0041.html \
+    ../../WIKI/en/0040.html \
+    ../../WIKI/en/0039.html \
+    ../../WIKI/en/0038.html \
+    ../../WIKI/en/0037.html \
+    ../../WIKI/en/0036.html \
+    ../../WIKI/en/0035.html \
+    ../../WIKI/en/0034.html \
+    ../../WIKI/en/0033.html \
+    ../../WIKI/en/0032.html \
+    ../../WIKI/en/0031.html \
+    ../../WIKI/en/0030.html \
+    ../../WIKI/en/0024.html \
+    ../../WIKI/en/0023.html \
+    ../../WIKI/en/0022.html \
+    ../../WIKI/en/0021.html \
+    ../../WIKI/en/0020.html \
+    ../../WIKI/en/0016.html \
+    ../../WIKI/en/0015.html \
+    ../../WIKI/en/0014.html \
+    ../../WIKI/en/0011.html \
+    ../../WIKI/en/0010.html \
+    ../../WIKI/en/0101.html \
+    ../../WIKI/en/0102.html \
+    ../../WIKI/wiki.css \
+    ../../WIKI/en/0012.html \
+    ../../WIKI/en/003A.html \
+    ../../WIKI/en/0044.html \
+    ../../WIKI/en/0103.html \
+    ../../WIKI/en/0104.html \
+    ../../WIKI/en/0105.html \
+    ../../WIKI/en/0106.html \
+    ../../WIKI/en/0107.html \
+    ../../WIKI/en/0108.html \
+    ../../WIKI/en/0109.html \
+    ../../WIKI/en/0110.html \
+    ../../WIKI/en/0111.html \
+    ../../WIKI/en/0112.html \
+    ../../WIKI/en/0113.html \
+    ../../WIKI/en/0114.html \
+    ../../WIKI/en/0115.html \
+    ../../WIKI/en/0116.html \
+    ../../WIKI/en/0117.html \
+    ../../WIKI/en/0118.html \
+    ../../WIKI/en/0119.html \
+    ../../WIKI/en/0120.html \
+    ../../WIKI/en/0121.html \
+    ../../WIKI/en/0122.html \
+    ../../WIKI/UpdateTSFiles.bash \
+    ../../WIKI/UpdateQMFiles.bash \
+    ../../WIKI/readme.txt \
+    ../../WIKI/UpdateTSFiles.cmd \
+    ../../WIKI/UpdateQMFiles.cmd \
+    ../../WIKI/PREPLANGUAGE.cmd
 
 # Source files
 SOURCES +=  wgt_QVideoPlayer.cpp \

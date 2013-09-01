@@ -43,7 +43,8 @@ DlgManageFavorite::DlgManageFavorite(QStringList *TheCollection,cBaseApplication
     ui->setupUi(this);
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
-    //HelpTT      =ui->HelpTT;
+    HelpBt      =ui->HelpBt;
+    HelpFile    ="0112";
     Collection  =TheCollection;
 }
 

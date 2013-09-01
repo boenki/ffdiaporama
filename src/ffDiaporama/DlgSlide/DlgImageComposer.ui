@@ -476,50 +476,6 @@ information</string>
               <property name="acceptDrops">
                <bool>true</bool>
               </property>
-              <property name="toolTip">
-               <string>The blocks table lists, from top to bottom, the present blocks in the slide.
-
-Remarks:
-- The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.
-- The order of the blocks is defined shot by shot.
-
-Blocks are shown on 3 columns:
-- The first column contains or:
-  - A text icon￼ if the block is a title.
-  - A thumbnail if the block is an image or a video.
-  - Possibly, one transformation￼ icon appears on the thumbnail if the image or the video have a transformation filter.
-
-- The second column contains icons giving the state of the blocks for the current shot:
-  - A lock icon if the properties of the block are locked during this shot or and unlock icon if they are unlocked. (Remark: This information does not appear for the 1st shot.)
-  - A sound icon if the video has the sound during this shot. This information appears only for the video blocks.
-  - An eye icon if the block is visible during this shot or ￼a crossed eye icon if the block is hidden.
-
-- The third column indicates:
-  - If the block is a title: the text of the block
-  - If the block is an image: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and a summary of EXIF information on the image.
-  - If the block is a video: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and the duration of the video.
-
-Remarks:
-- Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
-- Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
-- Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.
-- To select a block: click the block
-- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
-- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
-
-- The blocks with locked properties are shown on a grey bottom.
-- The selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.
-
-- To change the blocks order, use Drag &amp; Drop or up￼ and down arrow functions of the contextual menu.
-- It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.
-
-- All blocks, whether title, image or video, possess a text element.
-
-- During the insertion of a new block (Add title, Add file or Paste), the block is inserted:
-  - In visible mode for the current shot and for all the following shots.
-  - In hidden mode for the shots located before the current shot.
-  - Always in the last position in the list of blocks (in the foreground).</string>
-              </property>
               <property name="lineWidth">
                <number>1</number>
               </property>
@@ -1909,35 +1865,6 @@ Remark: To make animations of text, you have to create at least 2 shots then:
       <number>4</number>
      </property>
      <item>
-      <widget class="QLabel" name="HelpTT">
-       <property name="toolTip">
-        <string>This dialog allows you to define the information which qualifies the project.
-This information will then be registered in the form of TAGs in the rendered video files.
-
-Remark:
-
-The properties of the project are a partial implementation of the MPEG-7 standard on the descriptors of multimedia contents.
-These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by jukeboxes.
-
-Some fields are automatically filled and do not appear in this dialog:
--Timestamp: Date and time of generation of the video.
--Composer: Contains the version of ffDiaporama with which the video was produced.
--Encoder: Contains the version of libavformat (ffmpeg) with which the video was produced.
-
-For more compatibility with indexing systems and jukeboxes, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</string>
-       </property>
-       <property name="text">
-        <string notr="true"/>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::AutoText</enum>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer_2">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -1975,6 +1902,20 @@ For more compatibility with indexing systems and jukeboxes, ffDiaporama does not
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="HelpBt">
+       <property name="toolTip">
+        <string>Show help about this dialogue box</string>
+       </property>
+       <property name="text">
+        <string>&amp;Help</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../RSCffDiaporama.qrc">
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
      </item>

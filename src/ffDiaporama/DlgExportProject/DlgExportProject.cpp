@@ -31,6 +31,8 @@ DlgExportProject::DlgExportProject(cDiaporama *ffdProject,cBaseApplicationConfig
     ui->setupUi(this);
     OkBt    =ui->OkBt;
     CancelBt=ui->CancelBt;
+    HelpBt  =ui->HelpBt;
+    HelpFile="0107";
 
     this->ffdProject=ffdProject;
     DestinationPath =BaseApplicationConfig->LastExportPath;

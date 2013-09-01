@@ -784,18 +784,6 @@ Utilizzare titolo progetto come nome video: Utilizzare il titolo definito nelle 
         <translation>Selezionare la frequenza di default da utilizzare per l&apos;audio durante il rendering.</translation>
     </message>
     <message>
-        <source>This dialog box allows you to define options for the application.
-It consists of following 3 tabs:
-- The Application options tab allows to define the general behavior of ffDiaporama.
-- The Project options tab allows to define the options by default of the current project and for the new projects.
-- The Rendering options Tab allows to define the options used by default during the generation of videos.</source>
-        <translation>Questa finestra di dialogo consente di definire le opzioni per l&apos;applicazione.
-Presenta le seguenti tre schede:
-- La scheda Opzioni applicazione permette di definire il comportamento generale di ffDiaporama.
-- La scheda Opzioni di progetto permette di definire le opzioni di default del progetto in corso e per i nuovi progetti.
-- La scheda Opzioni di rendering consente di definire le opzioni utilizzate per impostazione predefinita durante la generazione di video.</translation>
-    </message>
-    <message>
         <source>Allows you to open the Check configuration dialog box</source>
         <translation>Consente di aprire la finestra di dialogo di Verifica configurazione</translation>
     </message>
@@ -900,6 +888,18 @@ Beyond this height, the videos are automatically reduced for creating images.</s
         <source>Join XBMC .nfo file to rendered file</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>If this box is checked, a dialog box will appear at startup the next time a new version will be available.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgAutoTitleSlide</name>
@@ -925,15 +925,15 @@ Beyond this height, the videos are automatically reduced for creating images.</s
     </message>
     <message>
         <source>Accept modification and go to previous slide</source>
-        <translation type="unfinished">Accetta le modifiche e vai alla diapositiva precedente</translation>
+        <translation>Accetta le modifiche e vai alla diapositiva precedente</translation>
     </message>
     <message>
         <source>Previous</source>
-        <translation type="unfinished">Precedente</translation>
+        <translation>Precedente</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
@@ -941,19 +941,19 @@ Beyond this height, the videos are automatically reduced for creating images.</s
     </message>
     <message>
         <source>Accept modification and go to next slide</source>
-        <translation type="unfinished">Accetta le modifiche e vai alla prossima diapositiva</translation>
+        <translation>Accetta le modifiche e vai alla prossima diapositiva</translation>
     </message>
     <message>
         <source>Next</source>
-        <translation type="unfinished">Prossimo</translation>
+        <translation>Prossimo</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Annulla</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Chapter name:</source>
@@ -1016,16 +1016,20 @@ Standard slide are fully customizable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to select a model and define chapter information for this predefined slide.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Chapter date different from project date</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Credit title</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -1161,16 +1165,20 @@ Standard slide are fully customizable.</source>
         <translation>Consente di selezionare una foto o un&apos;immagine da un file sul disco.</translation>
     </message>
     <message>
-        <source>The &quot;Background properties&quot; dialog allows you to define settings for the background of the slide.</source>
-        <translation>La finestra &quot;Proprietà sfondo&quot; consente di definire le impostazioni per lo sfondo della diapositiva.</translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
         <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
         <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -1200,12 +1208,8 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to define settings for the chapter information of the slide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
@@ -1213,11 +1217,11 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Annulla</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Override date:</source>
@@ -1246,6 +1250,14 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <source>Enter here the name of the chapter</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -1395,18 +1407,6 @@ Giallo: il componente funziona parzialmente
 - Per una libreria: La versione è vecchia</translation>
     </message>
     <message>
-        <source>This dialog allows to check external tools configuration and libraries used by ffDiaporama.
-It is especially useful for the Linux users and for those who compiles the application.
-The most common shown errors concern the supported formats, codec and library versions.
-
-To solve the problems you will have to install additional packages on your computer then make ffDiaporama from source and verify again the configuration.</source>
-        <translation>Questa finestra di dialogo consente di controllare la configurazione degli strumenti esterni e librerie usate da ffDiaporama.
-E &apos;particolarmente utile per gli utenti Linux e per chi compila l&apos;applicazione.
-Gli errori più comuni riportati riguardano le versioni dei formati supportati, codec e librerie.
-
-Per risolvere i problemi si dovranno installare i pacchetti aggiuntivi sul vostro computer poi compilare ffDiaporama dai sorgenti e verificare nuovamente la configurazione.</translation>
-    </message>
-    <message>
         <source>Close dialog box</source>
         <translation>Chiudi finestra</translation>
     </message>
@@ -1446,6 +1446,14 @@ Per risolvere i problemi si dovranno installare i pacchetti aggiuntivi sul vostr
         <source>LIBSWRESAMPLE version: %1.%2.%3.%4</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
+    </message>
 </context>
 <context>
     <name>DlgExportProject</name>
@@ -1466,10 +1474,6 @@ Per risolvere i problemi si dovranno installare i pacchetti aggiuntivi sul vostr
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog box allows you to export the project and all ressources used by the project to a folder</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Start export process</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1483,7 +1487,7 @@ Per risolvere i problemi si dovranno installare i pacchetti aggiuntivi sul vostr
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Annulla</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>% done;Destination file;Source file</source>
@@ -1534,6 +1538,14 @@ Per risolvere i problemi si dovranno installare i pacchetti aggiuntivi sul vostr
         <comment>Error message</comment>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
+    </message>
 </context>
 <context>
     <name>DlgFileExplorer</name>
@@ -1572,10 +1584,6 @@ Per risolvere i problemi si dovranno installare i pacchetti aggiuntivi sul vostr
     <message>
         <source>&amp;Cancel</source>
         <translation>&amp;Annulla</translation>
-    </message>
-    <message>
-        <source>Open help page describing this dialog box</source>
-        <translation>Apri la pagina di aiuto di questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
@@ -1621,6 +1629,10 @@ Per risolvere i problemi si dovranno installare i pacchetti aggiuntivi sul vostr
         <source>The selection can&apos;t include folders.</source>
         <translation>La selezione non può includere le cartelle.</translation>
     </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgImageComposer</name>
@@ -1630,179 +1642,93 @@ Per risolvere i problemi si dovranno installare i pacchetti aggiuntivi sul vostr
     </message>
     <message>
         <source>Add a new text block</source>
-        <translation type="unfinished">Aggiunge un nuovo blocco testo</translation>
+        <translation>Aggiunge un nuovo blocco testo</translation>
     </message>
     <message>
         <source>Add
 text</source>
-        <translation type="unfinished">Aggiungi
+        <translation>Aggiungi
 testo</translation>
     </message>
     <message>
         <source>Ctrl+Ins</source>
-        <translation type="unfinished">Ctrl+Ins</translation>
+        <translation>Ctrl+Ins</translation>
     </message>
     <message>
         <source>Add one or several new blocks of images or video. A file selection dialog appears allowing you to select files.
 
 Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the configuration dialog).</source>
-        <translation type="unfinished">Aggiungi uno o più nuovi blocchi di immagini o video. Una finestra di dialogo di selezione file viene visualizzata che consente di selezionare i file.
+        <translation>Aggiungi uno o più nuovi blocchi di immagini o video. Una finestra di dialogo di selezione file viene visualizzata che consente di selezionare i file.
 
 Nota: in caso di selezione multipla, i file vengono aggiunti in ordine alfabetico dei nomi dei file o nell&apos;ordine digitale di scatti (in base all&apos;opzione selezionata nella finestra di configurazione).</translation>
     </message>
     <message>
         <source>Add
 file</source>
-        <translation type="unfinished">Aggiungi
+        <translation>Aggiungi
 file</translation>
     </message>
     <message>
         <source>Ins</source>
-        <translation type="unfinished">Ins</translation>
+        <translation>Ins</translation>
     </message>
     <message>
         <source>Edit block</source>
-        <translation type="unfinished">Modifica blocco</translation>
+        <translation>Modifica blocco</translation>
     </message>
     <message>
         <source>Edit
 block</source>
-        <translation type="unfinished">Modifica
+        <translation>Modifica
 blocco</translation>
     </message>
     <message>
         <source>Arrange blocks</source>
-        <translation type="unfinished">Aggiusta blocchi</translation>
+        <translation>Aggiusta blocchi</translation>
     </message>
     <message>
         <source>Arrange
 block</source>
-        <translation type="unfinished">Aggiusta
+        <translation>Aggiusta
 blocco</translation>
     </message>
     <message>
         <source>Display information on image or video file</source>
-        <translation type="unfinished">Visualizza informazioni sul file immagine o video</translation>
+        <translation>Visualizza informazioni sul file immagine o video</translation>
     </message>
     <message>
         <source>Block
 information</source>
-        <translation type="unfinished">Informazioni
+        <translation>Informazioni
 blocco</translation>
     </message>
     <message>
         <source>Allows you to open the rulers settings dialog.</source>
-        <translation type="unfinished">Consente di aprire la finestra di dialogo delle impostazioni righelli.</translation>
+        <translation>Consente di aprire la finestra di dialogo delle impostazioni righelli.</translation>
     </message>
     <message>
         <source>Rulers</source>
-        <translation type="unfinished">Righelli</translation>
-    </message>
-    <message utf8="true">
-        <source>The blocks table lists, from top to bottom, the present blocks in the slide.
-
-Remarks:
-- The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.
-- The order of the blocks is defined shot by shot.
-
-Blocks are shown on 3 columns:
-- The first column contains or:
-  - A text icon￼ if the block is a title.
-  - A thumbnail if the block is an image or a video.
-  - Possibly, one transformation￼ icon appears on the thumbnail if the image or the video have a transformation filter.
-
-- The second column contains icons giving the state of the blocks for the current shot:
-  - A lock icon if the properties of the block are locked during this shot or and unlock icon if they are unlocked. (Remark: This information does not appear for the 1st shot.)
-  - A sound icon if the video has the sound during this shot. This information appears only for the video blocks.
-  - An eye icon if the block is visible during this shot or ￼a crossed eye icon if the block is hidden.
-
-- The third column indicates:
-  - If the block is a title: the text of the block
-  - If the block is an image: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and a summary of EXIF information on the image.
-  - If the block is a video: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and the duration of the video.
-
-Remarks:
-- Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
-- Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
-- Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.
-- To select a block: click the block
-- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
-- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
-
-- The blocks with locked properties are shown on a grey bottom.
-- The selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.
-
-- To change the blocks order, use Drag &amp; Drop or up￼ and down arrow functions of the contextual menu.
-- It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.
-
-- All blocks, whether title, image or video, possess a text element.
-
-- During the insertion of a new block (Add title, Add file or Paste), the block is inserted:
-  - In visible mode for the current shot and for all the following shots.
-  - In hidden mode for the shots located before the current shot.
-  - Always in the last position in the list of blocks (in the foreground).</source>
-        <translation type="unfinished">La tabella riporta i blocchi, dall&apos;alto verso il basso, i presenti blocchi nella diapositiva.
-
-Osservazioni:
-- L&apos;ordine dei blocchi è importante! Il primo blocco (in cima all&apos;elenco) è coperto dal secondo blocco che è anche coperto dal blocco successivo e così via.
-- L&apos;ordine dei blocchi è definito inquadratura per inquadratura.
-
-I blocchi vengono visualizzati su 3 colonne:
-- La prima colonna contiene o:
-  - Una icona testo￼ se il blocco è un titolo.
-  - Una miniatura se il blocco è un&apos;immagine o un video.
-  - Eventualmente, una icona di trasformazione  apparirà sulla miniatura se l&apos;immagine o il video hanno un filtro di trasformazione.
-
-- La seconda colonna contiene le icone che danno lo stato dei blocchi per lo scatto corrente:
-  - L&apos;icona di blocco se le proprietà del blocco vengono bloccate durante questo filmato o l&apos;icona di sblocco se sono sbloccate. (Nota:. Questa informazione non viene visualizzata per il 1° scatto)
-  - L&apos;icona del suono se il video ha il suono durante questo fotogramma. Questa informazione viene visualizzata solo per i blocchi video.
-  - Un&apos;icona occhio se il blocco è visibile in questo filmato o ￼ un&apos;icona occhio barrato se il blocco è nascosto.
-
-- La terza colonna indica:
-  - Se il blocco è un titolo: il testo del blocco
-  - Se il blocco è un&apos;immagine: Il nome file, la larghezza x l&apos;altezza dell&apos;immagine in pixel (il formato dell&apos;immagine - la geometria dell&apos;immagine) e una sintesi delle informazioni EXIF ​​sull&apos;immagine.
-  - Se il blocco è un video: Il nome file, la larghezza x l&apos;altezza dell&apos;immagine in pixel (il formato dell&apos;immagine - la geometria dell&apos;immagine) e la durata del video.
-
-Osservazioni:
-- Fare doppio clic su un blocco si apre l&apos;editor di blocco associato con il tipo di blocco (per un blocco di testo questo sarà l&apos;editor di testo, per un blocco immagine sarà la finestra di riformulazione, ecc)
-- Fare clic destro su un blocco quando la selezione include solo un singolo blocco si apre un menu contestuale che propone i comandi di modifica per un blocco.
-- Fare clic destro su un blocco quando la selezione comprende più blocchi si apre un menu contestuale che propone i comandi di modifica per più blocchi.
-- Per selezionare un blocco: clicca il blocco
-- Per selezionare più blocchi: Seleziona un primo blocco facendo clic su di esso e poi, cliccando su gli altri blocchi da selezionare premendo il tasto MAIUSC o il tasto CTRL.
-- Per deselezionare un blocco in una selezione multipla: Fare clic con sul blocco premendo il tasto MAIUSC o il tasto CTRL.
-
-- I blocchi con proprietà bloccate sono visualizzati su un fondo grigio.
-- I blocchi selezionati vengono visualizzati su un fondo rosso se il focus è sul tavolo blocchi o su un fondo blu se il focus è su un altro elemento.
-
-- Per cambiare l&apos;ordine blocchi, utilizzare il Drag &amp; Drop o le funzioni freccia su e giù del menu contestuale.
-- E &apos;possibile aggiungere i file direttamente nella tabella blocchi utilizzando il Drag and Drop con il file explorer.
-
-- Tutti i blocchi, se il titolo, un&apos;immagine o un video, in possesso di un elemento di testo.
-
-- Durante l&apos;inserimento di un nuovo blocco (Aggiungi titolo, Aggiungi file o Incolla), è inserito il blocco:
-  - In modalità visibile per lo scatto corrente e per tutti i seguenti.
-  - In modalità nascosta per lo scatto situato prima di quello corrente.
-  - Sempre in ultima posizione nella lista dei blocchi (in primo piano).</translation>
+        <translation>Righelli</translation>
     </message>
     <message>
         <source>Block coordinates :</source>
-        <translation type="unfinished">Coordinate blocco :</translation>
+        <translation>Coordinate blocco :</translation>
     </message>
     <message>
         <source>Represents the width of the block.
 This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
-        <translation type="unfinished">Rappresenta la larghezza del blocco.
+        <translation>Rappresenta la larghezza del blocco.
 Questo valore è definito come percentuale (%) della larghezza totale dell&apos;immagine o in pixel (per uno schermo 1080p) secondo l&apos;unità definita nella finestra di dialogo di configurazione.</translation>
     </message>
     <message>
         <source>Represents the height of the block.
 This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished">Rappresenta l&apos;altezza del blocco.
+        <translation>Rappresenta l&apos;altezza del blocco.
 Questo valore è definito come percentuale (%) dell&apos;altezza totale dell&apos;immagine o in pixel (per uno schermo 1080p) secondo l&apos;unità definita nella finestra di configurazione.</translation>
     </message>
     <message>
         <source>Define the angle of rotation about the x-axis (expressed in degrees)</source>
-        <translation type="unfinished">Definire l&apos;angolo di rotazione attorno all&apos;asse x (espressa in gradi)</translation>
+        <translation>Definire l&apos;angolo di rotazione attorno all&apos;asse x (espressa in gradi)</translation>
     </message>
     <message>
         <source>Reset to zero</source>
@@ -1814,7 +1740,7 @@ Questo valore è definito come percentuale (%) dell&apos;altezza totale dell&apo
 The selected shape will be used as:
 - A fusion mask for the images and the videos.
 - A cutting zone for texts.</source>
-        <translation type="unfinished">Consente di selezionare una forma per il blocco.
+        <translation>Consente di selezionare una forma per il blocco.
 
 La forma selezionata verrà utilizzato come:
 - Una maschera di fusione per le immagini ed i video.
@@ -1823,92 +1749,92 @@ La forma selezionata verrà utilizzato come:
     <message>
         <source>Represents the horizontal offset of the block from the left.
 This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished">Rappresenta l&apos;offset orizzontale del blocco da sinistra.
+        <translation>Rappresenta l&apos;offset orizzontale del blocco da sinistra.
 Questa posizione è definita come percentuale (%) della larghezza totale dell&apos;immagine o in pixel (per uno schermo 1080p) secondo l&apos;unità definita nella finestra di configurazione.</translation>
     </message>
     <message>
         <source>Represents the vertical offset of the block from the top.
 This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished">Rappresenta l&apos;offset verticale del blocco dall&apos;alto.
+        <translation>Rappresenta l&apos;offset verticale del blocco dall&apos;alto.
 Questa posizione è definita come percentuale (%) dell&apos;altezza totale dell&apos;immagine o in pixel (per uno schermo 1080p) secondo l&apos;unità definita nella finestra di configurazione.</translation>
     </message>
     <message>
         <source>Shape :</source>
-        <translation type="unfinished">Forma :</translation>
+        <translation>Forma :</translation>
     </message>
     <message>
         <source>Clip-Art :</source>
-        <translation type="unfinished">Clip-Art :</translation>
+        <translation>Clip-Art :</translation>
     </message>
     <message>
         <source>Select in which corner the shadow will be positioned (or no shadow).
 
 Remark: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied.</source>
-        <translation type="unfinished">Selezionare in quale angolo sarà posizionata l&apos;ombra (o nessuna ombra).
+        <translation>Selezionare in quale angolo sarà posizionata l&apos;ombra (o nessuna ombra).
 
 Osservazione: la posizione dell&apos;ombra è indipendente alla rotazione del blocco: l&apos;angolo destro inferiore è sempre inferiore destro, qualunque rotazione viene applicata.</translation>
     </message>
     <message>
         <source>Define the angle of rotation about the y-axis (expressed in degrees)</source>
-        <translation type="unfinished">Definire l&apos;angolo di rotazione attorno all&apos;asse y (espressa in gradi)</translation>
+        <translation>Definire l&apos;angolo di rotazione attorno all&apos;asse y (espressa in gradi)</translation>
     </message>
     <message>
         <source>Border :</source>
-        <translation type="unfinished">Bordo :</translation>
+        <translation>Bordo :</translation>
     </message>
     <message utf8="true">
         <source>Defines the thickness of the border.
 
 Remark: This value is defined as 1/1080 of the height of the screen.
 A value of 10 corresponds to 10 points on a 1920×1080 FullHD screen, but only to 6 points on a 1280×720 screen.</source>
-        <translation type="unfinished">Definisce lo spessore del bordo.
+        <translation>Definisce lo spessore del bordo.
 
 Nota: Questo valore è definito come 1/1080 della altezza dello schermo.
 Un valore di 10 corrisponde a 10 punti su uno schermo 1920×1080 FullHD, ma solo a 6 punti su uno schermo 1280×720.</translation>
     </message>
     <message>
         <source>Select the color of the line to be used to draw the border</source>
-        <translation type="unfinished">Selezionare il colore della linea utilizzata per disegnare il bordo</translation>
+        <translation>Selezionare il colore della linea utilizzata per disegnare il bordo</translation>
     </message>
     <message>
         <source>Select the type of line (solid, dotted line, etc.)</source>
-        <translation type="unfinished">Selezionare il tipo di linea (solida, linea punteggiata, ecc.)</translation>
+        <translation>Selezionare il tipo di linea (solida, linea punteggiata, ecc.)</translation>
     </message>
     <message>
         <source>Shadow :</source>
-        <translation type="unfinished">Ombra :</translation>
+        <translation>Ombra :</translation>
     </message>
     <message>
         <source>Opacity :</source>
-        <translation type="unfinished">Opacità :</translation>
+        <translation>Opacità :</translation>
     </message>
     <message>
         <source>This settings group deals with style management.</source>
-        <translation type="unfinished">Questo gruppo si occupa di gestione delle impostazioni di stile.</translation>
+        <translation>Questo gruppo si occupa di gestione delle impostazioni di stile.</translation>
     </message>
     <message>
         <source>Select the opaqueness of the block</source>
-        <translation type="unfinished">Selezionare l&apos;opacità del blocco</translation>
+        <translation>Selezionare l&apos;opacità del blocco</translation>
     </message>
     <message>
         <source>Define the distance between the block and its shadow</source>
-        <translation type="unfinished">Definire la distanza tra il blocco e la sua ombra</translation>
+        <translation>Definire la distanza tra il blocco e la sua ombra</translation>
     </message>
     <message>
         <source>Select the color of the shadow</source>
-        <translation type="unfinished">Selezionare il colore dell&apos;ombra</translation>
+        <translation>Selezionare il colore dell&apos;ombra</translation>
     </message>
     <message>
         <source>Define the angle of rotation about the z-axis (expressed in degrees)</source>
-        <translation type="unfinished">Definire l&apos;angolo di rotazione attorno all&apos;asse z (espressa in gradi)</translation>
+        <translation>Definire l&apos;angolo di rotazione attorno all&apos;asse z (espressa in gradi)</translation>
     </message>
     <message>
         <source>Select a clip-art</source>
-        <translation type="unfinished">Seleziona una clip-art</translation>
+        <translation>Seleziona una clip-art</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Block shape :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Blocco forma :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Blocco forma :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Define a zoom value for the text.
@@ -1916,7 +1842,7 @@ Un valore di 10 corrisponde a 10 punti su uno schermo 1920×1080 FullHD, ma solo
 Remark: To make animations of text, you have to create at least 2 shots then:
 -Define values for zoom and scrolling for the 1st shot
 -Define different values for zoom and scrolling for the 2nd</source>
-        <translation type="unfinished">Definire un valore di zoom per il testo.
+        <translation>Definire un valore di zoom per il testo.
 
 Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quindi:
 -Definire i valori di zoom e scorrimento per il 1° scatto
@@ -1924,7 +1850,7 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
     </message>
     <message>
         <source>Reset to 100%</source>
-        <translation type="unfinished">Ripristina a 100%</translation>
+        <translation>Ripristina a 100%</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Text option :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -1932,41 +1858,11 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
     </message>
     <message>
         <source>Zoom :</source>
-        <translation type="unfinished">Zoom :</translation>
-    </message>
-    <message>
-        <source>This dialog allows you to define the information which qualifies the project.
-This information will then be registered in the form of TAGs in the rendered video files.
-
-Remark:
-
-The properties of the project are a partial implementation of the MPEG-7 standard on the descriptors of multimedia contents.
-These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by jukeboxes.
-
-Some fields are automatically filled and do not appear in this dialog:
--Timestamp: Date and time of generation of the video.
--Composer: Contains the version of ffDiaporama with which the video was produced.
--Encoder: Contains the version of libavformat (ffmpeg) with which the video was produced.
-
-For more compatibility with indexing systems and jukeboxes, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</source>
-        <translation type="unfinished">Questa finestra di dialogo consente di definire le informazioni che qualifica il progetto.
-Questa informazione verrà quindi registrata in forma di tag nei file video renderizzato.
-
-Nota:
-
-Le proprietà del progetto sono una parziale implementazione dello standard MPEG-7 sui descrittori di contenuti multimediali.
-Queste proprietà sono scritte nei file video durante il rendering e può essere sfruttata da sistemi di indicizzazione (Gestori di raccolte) o da juke-box.
-
-Alcuni campi vengono compilati automaticamente e non vengono visualizzati in questa finestra:
--Timestamp: Data e ora di creazione del video.
--Compositore: contiene la versione di ffDiaporama con cui è stato prodotto il video.
--Encoder: contiene la versione di libavformat (ffmpeg) con cui è stato prodotto il video.
-
-Per una maggiore compatibilità con i sistemi di indicizzazione e jukebox, ffDiaporama non include l&apos;intero TAG video, ma è più vicino piuttosto allo standard id3v2 che è il più usato da questi sistemi oggi. Inoltre, i formati video non supportano ogni TAG nello stesso modo.</translation>
+        <translation>Zoom :</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished">Accetta le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Accetta le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
@@ -1974,75 +1870,75 @@ Per una maggiore compatibilità con i sistemi di indicizzazione e jukebox, ffDia
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
-        <translation type="unfinished">Annulla le modifiche e esci dalla finestra di dialogo</translation>
+        <translation>Annulla le modifiche e esci dalla finestra di dialogo</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Annulla</translation>
+        <translation>&amp;Annulla</translation>
     </message>
     <message>
         <source>Edit text</source>
-        <translation type="unfinished">Modifica testo</translation>
+        <translation>Modifica testo</translation>
     </message>
     <message>
         <source>Define the properties of the text block</source>
-        <translation type="unfinished">Definire le propietà del blocco di testo</translation>
+        <translation>Definire le propietà del blocco di testo</translation>
     </message>
     <message>
         <source>Correct or reframe image</source>
-        <translation type="unfinished">Correzione o inquadratura immagine</translation>
+        <translation>Correzione o inquadratura immagine</translation>
     </message>
     <message>
         <source>Define framing and correction of image or movie</source>
-        <translation type="unfinished">Definire l&apos;inquadratura e correzione dell&apos;immagine o filmato</translation>
+        <translation>Definire l&apos;inquadratura e correzione dell&apos;immagine o filmato</translation>
     </message>
     <message>
         <source>Move to background</source>
-        <translation type="unfinished">Muovi verso lo sfondo</translation>
+        <translation>Muovi verso lo sfondo</translation>
     </message>
     <message>
         <source>Change the order of blocks by moving the active block towards the background</source>
-        <translation type="unfinished">Modificare l&apos;ordine dei blocchi spostando il blocco attivo verso il fondo</translation>
+        <translation>Modificare l&apos;ordine dei blocchi spostando il blocco attivo verso il fondo</translation>
     </message>
     <message>
         <source>Move to foreground</source>
-        <translation type="unfinished">Spostare verso il primo piano</translation>
+        <translation>Spostare verso il primo piano</translation>
     </message>
     <message>
         <source>Change the order of blocks by moving the active block towards the foreground</source>
-        <translation type="unfinished">Modificare l&apos;ordine dei blocchi spostando il blocco attivo verso il primo piano</translation>
+        <translation>Modificare l&apos;ordine dei blocchi spostando il blocco attivo verso il primo piano</translation>
     </message>
     <message>
         <source>Display information</source>
-        <translation type="unfinished">Visualizza informazioni</translation>
+        <translation>Visualizza informazioni</translation>
     </message>
     <message>
         <source>Display detailed information on current block</source>
-        <translation type="unfinished">Visualizza il dettaglio delle informazioni sul blocco corrente</translation>
+        <translation>Visualizza il dettaglio delle informazioni sul blocco corrente</translation>
     </message>
     <message>
         <source>Copy block</source>
-        <translation type="unfinished">Copia blocco</translation>
+        <translation>Copia blocco</translation>
     </message>
     <message>
         <source>Copy the current block to the ffDiaporama clipboard</source>
-        <translation type="unfinished">Copiare il blocco corrente negli appunti di ffDiaporama</translation>
+        <translation>Copiare il blocco corrente negli appunti di ffDiaporama</translation>
     </message>
     <message>
         <source>Ctrl+C</source>
-        <translation type="unfinished">Ctrl+C</translation>
+        <translation>Ctrl+C</translation>
     </message>
     <message>
         <source>Cut block</source>
-        <translation type="unfinished">Taglia blocco</translation>
+        <translation>Taglia blocco</translation>
     </message>
     <message>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide</source>
-        <translation type="unfinished">Copiare il blocco corrente negli appunti ffDiaporama e rimuovilo dalla diapositiva</translation>
+        <translation>Copiare il blocco corrente negli appunti ffDiaporama e rimuovilo dalla diapositiva</translation>
     </message>
     <message>
         <source>Ctrl+X</source>
-        <translation type="unfinished">Ctrl+X</translation>
+        <translation>Ctrl+X</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -2050,7 +1946,7 @@ Per una maggiore compatibilità con i sistemi di indicizzazione e jukebox, ffDia
     </message>
     <message>
         <source>Remove current block(s)</source>
-        <translation type="unfinished">Rimuove il blocco(i) corrente</translation>
+        <translation>Rimuove il blocco(i) corrente</translation>
     </message>
     <message>
         <source>Del</source>
@@ -2058,144 +1954,152 @@ Per una maggiore compatibilità con i sistemi di indicizzazione e jukebox, ffDia
     </message>
     <message>
         <source>Paste block</source>
-        <translation type="unfinished">Incolla blocco</translation>
+        <translation>Incolla blocco</translation>
     </message>
     <message>
         <source>Paste block from the ffDiaporama clipboard and insert it</source>
-        <translation type="unfinished">Incollare il blocco dagli appunti di ffDiaporama e inserirli</translation>
+        <translation>Incollare il blocco dagli appunti di ffDiaporama e inserirli</translation>
     </message>
     <message>
         <source>Ctrl+V</source>
-        <translation type="unfinished">Ctrl+V</translation>
+        <translation>Ctrl+V</translation>
     </message>
     <message>
         <source>Align top</source>
-        <translation type="unfinished">Allinea in alto</translation>
+        <translation>Allinea in alto</translation>
     </message>
     <message>
         <source>Align blocks to the top</source>
-        <translation type="unfinished">Allinea blocchi verso l&apos;alto</translation>
+        <translation>Allinea blocchi verso l&apos;alto</translation>
     </message>
     <message>
         <source>Align middle</source>
-        <translation type="unfinished">Allinea al centro</translation>
+        <translation>Allinea al centro</translation>
     </message>
     <message>
         <source>Align blocks to the middle</source>
-        <translation type="unfinished">Allinea blocchi al centro</translation>
+        <translation>Allinea blocchi al centro</translation>
     </message>
     <message>
         <source>Align bottom</source>
-        <translation type="unfinished">Allinea in basso</translation>
+        <translation>Allinea in basso</translation>
     </message>
     <message>
         <source>Align blocks to the bottom</source>
-        <translation type="unfinished">Allinea blocchi verso il basso</translation>
+        <translation>Allinea blocchi verso il basso</translation>
     </message>
     <message>
         <source>Align left</source>
-        <translation type="unfinished">Allinea a sinistra</translation>
+        <translation>Allinea a sinistra</translation>
     </message>
     <message>
         <source>Align blocks to the left</source>
-        <translation type="unfinished">Allinea blocchi verso sinistra</translation>
+        <translation>Allinea blocchi verso sinistra</translation>
     </message>
     <message>
         <source>Align center</source>
-        <translation type="unfinished">Allinea al centro</translation>
+        <translation>Allinea al centro</translation>
     </message>
     <message>
         <source>Align blocks to the center</source>
-        <translation type="unfinished">Allinea blocchi verso il centro</translation>
+        <translation>Allinea blocchi verso il centro</translation>
     </message>
     <message>
         <source>Align right</source>
-        <translation type="unfinished">Allinea a destra</translation>
+        <translation>Allinea a destra</translation>
     </message>
     <message>
         <source>Align blocks to the right</source>
-        <translation type="unfinished">Allinea blocchi verso destra</translation>
+        <translation>Allinea blocchi verso destra</translation>
     </message>
     <message>
         <source>Add text block</source>
-        <translation type="unfinished">Aggiunge un blocco testo</translation>
+        <translation>Aggiunge un blocco testo</translation>
     </message>
     <message>
         <source>Add file</source>
-        <translation type="unfinished">Aggiungi file</translation>
+        <translation>Aggiungi file</translation>
     </message>
     <message>
         <source>Add a new block of type image or video</source>
-        <translation type="unfinished">Aggiungere un nuovo blocco di tipo immagine o video</translation>
+        <translation>Aggiungere un nuovo blocco di tipo immagine o video</translation>
     </message>
     <message>
         <source>distribute horizontally</source>
-        <translation type="unfinished">distribuire orizzontalmente</translation>
+        <translation>distribuire orizzontalmente</translation>
     </message>
     <message>
         <source>Place each block so as to have the same space between each</source>
-        <translation type="unfinished">Posizionare ogni blocco in modo da avere lo stesso spazio tra di essi</translation>
+        <translation>Posizionare ogni blocco in modo da avere lo stesso spazio tra di essi</translation>
     </message>
     <message>
         <source>distribute vertically</source>
-        <translation type="unfinished">distribuire verticalmente</translation>
+        <translation>distribuire verticalmente</translation>
     </message>
     <message>
         <source>Add simple text block</source>
-        <translation type="unfinished">Aggiungi blocco testo semplice</translation>
+        <translation>Aggiungi blocco testo semplice</translation>
     </message>
     <message>
         <source>Add a new simple text block</source>
-        <translation type="unfinished">Aggiungi un nuovo blocco testo semplice</translation>
+        <translation>Aggiungi un nuovo blocco testo semplice</translation>
     </message>
     <message>
         <source>Add ClipArt text block</source>
-        <translation type="unfinished">Aggiungi blocco testo ClipArt</translation>
+        <translation>Aggiungi blocco testo ClipArt</translation>
     </message>
     <message>
         <source>Add a new ClipArt text block</source>
-        <translation type="unfinished">Aggiungi un nuovo blocco testo ClipArt</translation>
+        <translation>Aggiungi un nuovo blocco testo ClipArt</translation>
     </message>
     <message>
         <source>None</source>
-        <translation type="unfinished">Nessuno</translation>
+        <translation>Nessuno</translation>
     </message>
     <message>
         <source>Shadow upper left</source>
-        <translation type="unfinished">Ombra in alto a sinistra</translation>
+        <translation>Ombra in alto a sinistra</translation>
     </message>
     <message>
         <source>Shadow upper right</source>
-        <translation type="unfinished">Ombra in alto a destra</translation>
+        <translation>Ombra in alto a destra</translation>
     </message>
     <message>
         <source>Shadow bottom left</source>
-        <translation type="unfinished">Ombra in basso a sinistra</translation>
+        <translation>Ombra in basso a sinistra</translation>
     </message>
     <message>
         <source>Shadow bottom right</source>
-        <translation type="unfinished">Ombra in basso a destra</translation>
+        <translation>Ombra in basso a destra</translation>
     </message>
     <message>
         <source>Remove block</source>
-        <translation type="unfinished">Rimuove blocco</translation>
+        <translation>Rimuove blocco</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this block?</source>
-        <translation type="unfinished">Sei sicuro di voler eliminare questo blocco?</translation>
+        <translation>Sei sicuro di voler eliminare questo blocco?</translation>
     </message>
     <message>
         <source>Remove blocks</source>
-        <translation type="unfinished">Rimuove blocchi</translation>
+        <translation>Rimuove blocchi</translation>
     </message>
     <message>
         <source>Are you sure you want to delete these blocks?</source>
-        <translation type="unfinished">Sei sicuro di voler eliminare questi blocchi?</translation>
+        <translation>Sei sicuro di voler eliminare questi blocchi?</translation>
     </message>
     <message>
         <source>Text</source>
         <comment>Default text value</comment>
-        <translation type="unfinished">Testo</translation>
+        <translation>Testo</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -2689,22 +2593,18 @@ Per esempio: un&apos;immagine 4:03 utilizzato in un progetto 16:9 vengono visual
         <translation>Consente di attivare il filtro di deinterlacciamento</translation>
     </message>
     <message>
-        <source>This dialog box allows you to:
-- Change image framing (select a part of the image),
-- Rotate image (change or restore the orientation portrait/landscape)
-- Correct image (change the color and/or exposure parameters) but also applying graphical filters.
-- Define the beginning and end of a video sequence.</source>
-        <translation>Questa finestra consente di:
-- Cambiare inquadratura immagine (selezionare una parte dell&apos;immagine),
-- Ruotare immagine (cambiare o ripristinare l&apos;orientamento verticale/orizzontale)
-- Correggere immagine (cabiare il colore e/o parametri esposizione) ma anche applicare filtri grafici.
-- Definisce l&apos;inizio e la fine di una sequenza video.</translation>
-    </message>
-    <message>
         <source>Allows you to enable or disable the magnetic rulers.
 When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</source>
         <translation>Consente di abilitare o disabilitare i righelli magnetici.
 Quando i righelli sono attivati, il mouse si aggancerà automaticamente ai bordi della foto, facilitando l&apos;inquadratura.</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -2764,10 +2664,6 @@ Quando i righelli sono attivati, il mouse si aggancerà automaticamente ai bordi
     <message>
         <source>The date and the hour of the last modification of the file (when the photo was taken or when you modified it with an image editor).</source>
         <translation>La data e l&apos;ora dell&apos;ultima modifica del file (quando la foto è stata scattata o quando si è modificato con un editor di immagini).</translation>
-    </message>
-    <message>
-        <source>This dialog allows to obtain detailed information on a multimedia file.</source>
-        <translation>Questa finestra di dialogo consente di ottenere informazioni dettagliate su un file multimediale.</translation>
     </message>
     <message>
         <source>This zone contains a board listing every video track present in the file.
@@ -2854,6 +2750,14 @@ Sarà almeno mostrate le informazioni sulla durata del video, ma molte altre inf
 - Data:		Campo data del TAG ID3v2 del video
 - Commento:	Campo commento del TAG ID3v2 del video
 - Composer:	Il software con il quale è stato creato il video</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -3016,8 +2920,12 @@ Dispositivi preceduti da questa icona sono definiti nel database predefinito.&lt
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Inserisci qui il nome del dispositivo (campo libero di immissione testo)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This dialog box allows you to modify the equipment profiles database.&lt;/p&gt;&lt;p&gt;The database is actually composed of two parts:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db.png&quot;/&gt; The default database (supplied with ffDiaporama). These devices are registered in the global ffDiaporama configuration file.&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db_update.png&quot;/&gt; The devices which you modify or add. These are registered in your personal configuration file.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Questa finestra di dialogo consente di modificare il database dei profili attrezzature.&lt;/p&gt;&lt;p&gt;Il database è in realtà composto da due parti:&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db.png&quot;/&gt; Il database predefinito (fornito con ffDiaporama). Questi dispositivi sono registrati nel file di configurazione globale di ffDiaporama.&lt;/p&gt;&lt;p&gt;&lt;img src=&quot;:/img/db_update.png&quot;/&gt;I dispositivi che si modificano o si aggiungono. Questi sono registrati nel file di configurazione personale.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3068,6 +2976,14 @@ Per favore seleziona un altro nome!</translation>
     <message>
         <source>Remove favorite</source>
         <translation>Rimovi preferito</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -3214,16 +3130,6 @@ Per favore seleziona un&apos;altro nome!</translation>
         <translation>Permette di rimuovere lo stile personalizzato.</translation>
     </message>
     <message>
-        <source>The Manage style dialog allows several things.
-Rename existing style
-Remove custom style
-Reset a standard style (that you modified) has its default values.</source>
-        <translation>La finestra di dialogo Gestione stile consente diverse cose.
-Rinomina lo stile esistente
-Rimuovere lo stile personalizzato
-Ripristinare uno stile standard (che si è modificato) ha i suoi valori di default.</translation>
-    </message>
-    <message>
         <source>Allows to delete the customizations of a standard style and thus to return it to the default values for this style.
 It concerns as well the name of the style as the associated settings.</source>
         <translation>Permette di eliminare le personalizzazioni di uno stile standard e quindi di restituirlo ai valori predefiniti per questo stile.
@@ -3236,6 +3142,14 @@ Essa riguarda anche il nome dello stile come impostazioni associate.</translatio
     <message>
         <source>Update this style</source>
         <translation>Modifica questo stile</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -3374,9 +3288,13 @@ This volume is independent of any reductions in the volume that you define in th
 La colonna Volume definisce il &quot;Volume principale&quot; per il file.
 Questo volume è indipendente da eventuali riduzioni nel volume che si definisce nella parte superiore della finestra di dialogo</translation>
     </message>
-    <message utf8="true">
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;The Music properties dialog allows you to specify the music track.&lt;/p&gt;&lt;p&gt;The main functional principle for music tracks is that as long as you do not change the settings, the previous settings apply. So, if:&lt;br/&gt;- Slide 1 – Defines a play list&lt;br/&gt;- Slide 2 – Contains no settings&lt;br/&gt;- Slide 3 – Contains no settings&lt;br/&gt;- Slide 4 – Defines a play list&lt;br/&gt;- Slide 5 – Contains no settings&lt;/p&gt;&lt;p&gt;Then:&lt;br/&gt;- Slide 2 and 3 continue to play the play list defined in slide 1&lt;br/&gt;- Slide 5 continues to play the play list define in slide 4&lt;/p&gt;&lt;p&gt;Available settings for the music track :&lt;br/&gt;- Continue current playlist: Continues to play the play list defined by a previous slide&lt;br/&gt;- Start a new playlist: Allows you to create a new playlist. If a list defined in a previous slide, is still playing, it is stopped with a fade-out effect (progressive decline of the sound volume up to complete stop).&lt;/p&gt;&lt;p&gt;Remark:&lt;/p&gt;&lt;p&gt;The fade in/out effects and the increase/decrease of volume take place during the entering slide transitions. Consequently:&lt;br/&gt;- They last for the same time as the entering transition.&lt;br/&gt;- If a slide has an entering transition set to &amp;quot;No transition&amp;quot;, the sound effect is not progressive but instantaneous.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;La finestra delle proprietà Musica consente di specificare la traccia musicale.&lt;/p&gt;&lt;p&gt;Il principale principio di  funzionamento per i brani musicali è che non si modificano le impostazioni, applicare le impostazioni precedenti prima di applicarle. Quindi, se:&lt;br/&gt;- Diapositiva 1 - Definisce un elenco di riproduzione&lt;br/&gt;- Diapositiva 2 -Non contiene impostazioni&lt;br/&gt;- Diapositiva 3 - Non contiene impostazioni&lt;br/&gt;- Diapositiva 4 - Definisce una lista di riproduzione&lt;br/&gt;- Diapositiva 5 - Non contiene impostazioni&lt;/p&gt;&lt;p&gt;Quindi:&lt;br/&gt;- Diapositiva 2 e 3 continuano a riprodurre la lista di riproduzione definita nella diapositiva 1&lt;br/&gt;- Diapositiva 5 continua a riprodurre la lista di riproduzione definita nella diapositiva 4&lt;/p&gt;&lt;p&gt;Le impostazioni disponibili per la traccia musicale:&lt;br/&gt;- Continuare con la riproduzione corrente: Riprodurre ancora la play list definita da una diapositiva precedente &lt;br/&gt; - Inizia una nuova playlist: Consente di creare una nuova playlist. Se un elenco definito in una diapositiva precedente, è ancora in gioco, ma viene fermato con un effetto fade-out (progressivo declino del volume fino a completare fermata).&lt;/p&gt;&lt;p&gt;Nota:&lt;/p&gt;&lt;p&gt;L&apos;effetto fade in / out e l&apos;aumento / diminuzione del volume si svolgono durante l&apos;inserimento transizioni diapositiva. Di conseguenza:&lt;br/&gt;- Esse durano per lo stesso tempo come la transizione.&lt;br/&gt;- Se una diapositiva ha una transizione in entrare insieme a &amp;quot;Nessuna transizione&amp;quot; l&apos;effetto sonoro non è progressiva ma instantaneo.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -3722,10 +3640,6 @@ Selezionando l&apos;opzione Da e immettendo i numeri delle diapositive di inizio
         <translation>Fare clic su questo pulsante per selezionare graficamente un file e una directory.</translation>
     </message>
     <message>
-        <source>This dialog allows you to render the project as a video file.</source>
-        <translation>Questa finestra di dialogo consente di eseguire il rendering del progetto come un file video.</translation>
-    </message>
-    <message>
         <source>This button allows you to open project properties dialog.
 It allows you to adjust the properties before generating the video.
 Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by jukeboxes.</source>
@@ -3752,6 +3666,14 @@ Nota: le proprietà del progetto vengono salvate nel video come TAG (metadati) c
     <message>
         <source>Select destination folder</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -3801,14 +3723,6 @@ Nota: le proprietà del progetto vengono salvate nel video come TAG (metadati) c
         <translation>&amp;Annulla</translation>
     </message>
     <message>
-        <source>This dialog allows you to enable or disable rulers.
-When a ruler is activated, the mouse is attracted towards this ruler.
-This is valid as well for the movements of blocks as for the resizing (movements of the handles).</source>
-        <translation>Questa finestra di dialogo consente di abilitare o disabilitare i righelli.
-Quando si attiva un righello, il mouse viene attratto verso questo.
-Questo è valido anche per i movimenti dei blocchi come per il ridimensionamento (movimenti delle maniglie).</translation>
-    </message>
-    <message>
         <source>Enable or disable ruler for the horizontal edges of the screen.</source>
         <translation>Attivare o disattivare il righello per i bordi orizzontali dello schermo.</translation>
     </message>
@@ -3843,6 +3757,14 @@ In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e
     <message>
         <source>Enable or disable vertical rulers of the center, of the top edge, of the bottom edge, of the left edge and of the right edge of each objects which are not a part of the selection.</source>
         <translation>Abilitare o disabilitare righelli verticale del centro, del bordo superiore, del bordo inferiore, del bordo sinistro e del bordo destro di ogni oggetti che non sono una parte della selezione.</translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -3880,8 +3802,12 @@ In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e
         <translation>Definisce la durata del primo scatto.</translation>
     </message>
     <message>
-        <source>This dialog allows you to define the duration of the fist shot of a set of slides.</source>
-        <translation>Questa finestra di dialogo consente di definire la durata dello scatto di una serie di diapositive.</translation>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -4527,92 +4453,6 @@ Le seguenti regole vengono utilizzati per calcolare la durata minima del fotogra
 
 Se si specifica una durata inferiore alla durata minima calcolata per lo scatto, è questa durata minima che verrà utilizzata al posto del valore che avete specificato.</translation>
     </message>
-    <message utf8="true">
-        <source>The blocks table lists, from top to bottom, the present blocks in the slide.
-
-Remarks:
-- The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.
-- The order of the blocks is defined shot by shot.
-
-Blocks are shown on 3 columns:
-- The first column contains or:
-  - A text icon￼ if the block is a title.
-  - A thumbnail if the block is an image or a video.
-  - Possibly, one transformation￼ icon appears on the thumbnail if the image or the video have a transformation filter.
-
-- The second column contains icons giving the state of the blocks for the current shot:
-  - A lock icon if the properties of the block are locked during this shot or and unlock icon if they are unlocked. (Remark: This information does not appear for the 1st shot.)
-  - A sound icon if the video has the sound during this shot. This information appears only for the video blocks.
-  - An eye icon if the block is visible during this shot or ￼a crossed eye icon if the block is hidden.
-
-- The third column indicates:
-  - If the block is a title: the text of the block
-  - If the block is an image: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and a summary of EXIF information on the image.
-  - If the block is a video: The filename, the width x the height of the image in pixel (the format of the image - the geometry of the image) and the duration of the video.
-
-Remarks:
-- Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
-- Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
-- Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.
-- To select a block: click the block
-- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
-- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
-
-- The blocks with locked properties are shown on a grey bottom.
-- The selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.
-
-- To change the blocks order, use Drag &amp; Drop or up￼ and down arrow functions of the contextual menu.
-- It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.
-
-- All blocks, whether title, image or video, possess a text element.
-
-- During the insertion of a new block (Add title, Add file or Paste), the block is inserted:
-  - In visible mode for the current shot and for all the following shots.
-  - In hidden mode for the shots located before the current shot.
-  - Always in the last position in the list of blocks (in the foreground).</source>
-        <translation>La tabella riporta i blocchi, dall&apos;alto verso il basso, i presenti blocchi nella diapositiva.
-
-Osservazioni:
-- L&apos;ordine dei blocchi è importante! Il primo blocco (in cima all&apos;elenco) è coperto dal secondo blocco che è anche coperto dal blocco successivo e così via.
-- L&apos;ordine dei blocchi è definito inquadratura per inquadratura.
-
-I blocchi vengono visualizzati su 3 colonne:
-- La prima colonna contiene o:
-  - Una icona testo￼ se il blocco è un titolo.
-  - Una miniatura se il blocco è un&apos;immagine o un video.
-  - Eventualmente, una icona di trasformazione  apparirà sulla miniatura se l&apos;immagine o il video hanno un filtro di trasformazione.
-
-- La seconda colonna contiene le icone che danno lo stato dei blocchi per lo scatto corrente:
-  - L&apos;icona di blocco se le proprietà del blocco vengono bloccate durante questo filmato o l&apos;icona di sblocco se sono sbloccate. (Nota:. Questa informazione non viene visualizzata per il 1° scatto)
-  - L&apos;icona del suono se il video ha il suono durante questo fotogramma. Questa informazione viene visualizzata solo per i blocchi video.
-  - Un&apos;icona occhio se il blocco è visibile in questo filmato o ￼ un&apos;icona occhio barrato se il blocco è nascosto.
-
-- La terza colonna indica:
-  - Se il blocco è un titolo: il testo del blocco
-  - Se il blocco è un&apos;immagine: Il nome file, la larghezza x l&apos;altezza dell&apos;immagine in pixel (il formato dell&apos;immagine - la geometria dell&apos;immagine) e una sintesi delle informazioni EXIF ​​sull&apos;immagine.
-  - Se il blocco è un video: Il nome file, la larghezza x l&apos;altezza dell&apos;immagine in pixel (il formato dell&apos;immagine - la geometria dell&apos;immagine) e la durata del video.
-
-Osservazioni:
-- Fare doppio clic su un blocco si apre l&apos;editor di blocco associato con il tipo di blocco (per un blocco di testo questo sarà l&apos;editor di testo, per un blocco immagine sarà la finestra di riformulazione, ecc)
-- Fare clic destro su un blocco quando la selezione include solo un singolo blocco si apre un menu contestuale che propone i comandi di modifica per un blocco.
-- Fare clic destro su un blocco quando la selezione comprende più blocchi si apre un menu contestuale che propone i comandi di modifica per più blocchi.
-- Per selezionare un blocco: clicca il blocco
-- Per selezionare più blocchi: Seleziona un primo blocco facendo clic su di esso e poi, cliccando su gli altri blocchi da selezionare premendo il tasto MAIUSC o il tasto CTRL.
-- Per deselezionare un blocco in una selezione multipla: Fare clic con sul blocco premendo il tasto MAIUSC o il tasto CTRL.
-
-- I blocchi con proprietà bloccate sono visualizzati su un fondo grigio.
-- I blocchi selezionati vengono visualizzati su un fondo rosso se il focus è sul tavolo blocchi o su un fondo blu se il focus è su un altro elemento.
-
-- Per cambiare l&apos;ordine blocchi, utilizzare il Drag &amp; Drop o le funzioni freccia su e giù del menu contestuale.
-- E &apos;possibile aggiungere i file direttamente nella tabella blocchi utilizzando il Drag and Drop con il file explorer.
-
-- Tutti i blocchi, se il titolo, un&apos;immagine o un video, in possesso di un elemento di testo.
-
-- Durante l&apos;inserimento di un nuovo blocco (Aggiungi titolo, Aggiungi file o Incolla), è inserito il blocco:
-  - In modalità visibile per lo scatto corrente e per tutti i seguenti.
-  - In modalità nascosta per lo scatto situato prima di quello corrente.
-  - Sempre in ultima posizione nella lista dei blocchi (in primo piano).</translation>
-    </message>
     <message>
         <source>Define the number of rotations around the X axis that is to be made during this shot.
 
@@ -4788,80 +4628,6 @@ La forma selezionata verrà utilizzato come:
         <translation>Seleziona una clip-art</translation>
     </message>
     <message>
-        <source>This dialog allows you to define settings for the slides.
-
-This dialog includes numerous zones:
--On the top: The toolbar allows to launch the main slide editing commands.
--On the left: The slide settings zone, the shots table and the interactive.
--On the right: The blocks table and the blocks settings zone.
-
-Place the mouse over each area for more information.
-
-Remark on block properties locking:
-The properties locking is available only from the 2nd shot.
-- When the block properties are locked, the modifications made to the block in the preceding shot are echoed in the current shot.
-- It defines as well the coordinates, forms and animations properties as the properties defined in the editing dialog of text, image or video.
-
-Remark on the interactive area:
-You can move and interactively re-size blocks within the selected shot.
-- Selected blocks are shown with a frame. (It allows to differentiate them from other graphic elements of the slide).
-- Control handles (small square) are shown on sides and on corners of the selection frame.
-- Rulers are displayed to facilitate the work with the mouse.
-
-Using the mouse:
-- To select a block: click the block
-- To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.
-- To select a block under another block : Click the block to be selected by pushing both SHIFT and CTRL keys.
-- To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.
-- To modify the size of the blocks of the selection: Click one of the handles of the selection and, while keeping the button of the mouse pressed, move the mouse.
-- To move the blocks of the selection: Click one of the blocks of the selection and, while keeping the button of the mouse pressed, move the mouse.
-
-Using the keyboard:
-- To move the blocks of the selection, use the arrow keys.
-- To change the size of the blocks of the selection, use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle.
-
-Remarks:
-- A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)
-- A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.
-- A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
-        <translation>Questa finestra di dialogo consente di definire le impostazioni per le diapositive.
-
-Questa finestra di dialogo include numerose zone:
--In alto: La barra degli strumenti permette di lanciare i principali comandi di modifica di diapositive.
--A sinistra: La zona impostazioni di presentazione, la tavola scatti e l&apos;interattivo.
--A destra: La tabella blocchi e la zona impostazioni blocchi.
-
-Posizionare il mouse su ogni zona per ulteriori informazioni.
-
-Osservazioni sulle proprietà del blocco di chiusura:
-Le propietà di bloccaggio sono disponibile solo dal 2° scatto.
-- Quando le proprietà del blocco sono bloccate, le modifiche apportate al blocco nella ripresa precedente fanno eco nella ripresa attuale.
-- Si definiscono così le coordinate, le forme e le proprietà animazioni come le proprietà definite nella finestra di dialogo di modifica testo, immagine o video.
-
-Osservazioni sull&apos;area interattiva:
-È possibile spostare, interagire e ri-dimensionare all&apos;interno della ripresa selezionata.
-- Blocchi selezionati vengono visualizzati con una cornice. (Permette di differenziarli da altri elementi grafici della diapositiva).
-- Manopole di comando (piccoli quadrati) sono indicati sui lati e agli angoli della cornice di selezione.
-- I righelli vengono visualizzati per facilitare il lavoro con il mouse.
-
-Con il mouse:
-- Per selezionare un blocco: clicca il blocco
-- Per selezionare più blocchi: Seleziona un primo blocco facendo clic su di esso e poi, cliccando su gli altri blocchi da selezionare premendo il tasto MAIUSC o il tasto CTRL.
-- Per selezionare un blocco sotto un altro blocco: Fare clic sui blocchi selezionati premendo entrambi i tasti MAIUSC e CTRL.
-- Per deselezionare un blocco in una selezione multipla: Fare clic sul blocco premendo il tasto MAIUSC o il tasto CTRL.
-- Per modificare la dimensione dei blocchi della selezione: Fare clic su una delle maniglie di selezione e, tenendo premuto il pulsante del mouse, spostare il mouse.
-- Per spostare i blocchi della selezione: Fare clic su uno dei blocchi della selezione e, tenendo premuto il tasto del mouse, muovere il mouse.
-
-Utilizzando la tastiera:
-- Per spostare i blocchi della selezione, utilizzare i tasti freccia.
-- Per modificare la dimensione dei blocchi della selezione, utilizzare MAIUSC + frecce per spostare la maniglia in alto a sinistra o CTRL + frecce per spostare la maniglia in basso a destra.
-
-Osservazioni:
-- Un doppio clic su un blocco si apre la modifica di blocco associato con il tipo di blocco (per un blocco di testo questo sarà la modifica del testo, per un blocco immagine sarà la finestra di riformulazione, ecc)
-- Un clic destro su un blocco quando la selezione include solo un singolo blocco si apre un menu contestuale che propone i comandi di modifica per un blocco.
-- Un clic destro su un blocco quando la selezione comprende più blocchi si apre un menu contestuale che propone i comandi di modifica per più blocchi.</translation>
-    </message>
-    <message>
         <source>Allows you to open the rulers settings dialog.</source>
         <translation>Consente di aprire la finestra di dialogo delle impostazioni righelli.</translation>
     </message>
@@ -4919,6 +4685,14 @@ model</source>
         <source>Slide added in Credit title models collection</source>
         <comment>Information message</comment>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -5208,16 +4982,16 @@ This value is expressed in % of the width of the block.</source>
 Questo valore è espresso in% della larghezza del blocco.</translation>
     </message>
     <message>
-        <source>This dialog allows you to modify the text within a block.
-Remark: The modifications made to the text properties will apply to all shots of the slide.
-To understand indeed the differences between the properties which apply to all shots and those who apply only to the current shot, consult: How ffDiaporama work.</source>
-        <translation>Questa finestra di dialogo consente di modificare il testo all&apos;interno di un blocco.
-Nota: Le modifiche apportate alle proprietà del testo si applicano a tutti i fotogrammi della diapositiva.
-Per capire davvero le differenze tra le proprietà che si applicano a tutti i colpi e quelli che valgono solo per il colpo corrente, consultare: Come lavora ffDiaporama.</translation>
-    </message>
-    <message>
         <source>Insert a text variable</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -5255,8 +5029,12 @@ Per capire davvero le differenze tra le proprietà che si applicano a tutti i co
         <translation>Selezionare la durata della transizione per un gruppo di diapositive</translation>
     </message>
     <message>
-        <source>This dialog allows you to define the transition duration for a set of slides.</source>
-        <translation>Questa finestra di dialogo consente di definire la durata della transizione per una serie di diapositive.</translation>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -5376,8 +5154,12 @@ Le scelte possibili sono di 0,5 secondi (molto veloce) a 10 secondi (molto lento
         <translation>Consente di selezionare una transizione.</translation>
     </message>
     <message>
-        <source>This dialog allows you to define the entering transition for a slide.</source>
-        <translation>Questa finestra di dialogo consente di definire la transizione di entrare in una diapositiva.</translation>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -5525,36 +5307,6 @@ This option sets the value of the velocity curves for use whenever the correspon
 Questa opzione imposta il valore delle curve di velocità per l&apos;uso, ogni volta che le opzioni corrispondenti sono impostate su &quot;Default Progetto&quot;.</translation>
     </message>
     <message>
-        <source>This dialog allows you to define the information which qualifies the project.
-This information will then be registered in the form of TAGs in the rendered video files.
-
-Remark:
-
-The properties of the project are a partial implementation of the MPEG-7 standard on the descriptors of multimedia contents.
-These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by jukeboxes.
-
-Some fields are automatically filled and do not appear in this dialog:
--Timestamp: Date and time of generation of the video.
--Composer: Contains the version of ffDiaporama with which the video was produced.
--Encoder: Contains the version of libavformat (ffmpeg) with which the video was produced.
-
-For more compatibility with indexing systems and jukeboxes, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</source>
-        <translation>Questa finestra di dialogo consente di definire le informazioni che qualifica il progetto.
-Questa informazione verrà quindi registrata in forma di tag nei file video renderizzato.
-
-Nota:
-
-Le proprietà del progetto sono una parziale implementazione dello standard MPEG-7 sui descrittori di contenuti multimediali.
-Queste proprietà sono scritte nei file video durante il rendering e può essere sfruttata da sistemi di indicizzazione (Gestori di raccolte) o da juke-box.
-
-Alcuni campi vengono compilati automaticamente e non vengono visualizzati in questa finestra:
--Timestamp: Data e ora di creazione del video.
--Compositore: contiene la versione di ffDiaporama con cui è stato prodotto il video.
--Encoder: contiene la versione di libavformat (ffmpeg) con cui è stato prodotto il video.
-
-Per una maggiore compatibilità con i sistemi di indicizzazione e jukebox, ffDiaporama non include l&apos;intero TAG video, ma è più vicino piuttosto allo standard id3v2 che è il più usato da questi sistemi oggi. Inoltre, i formati video non supportano ogni TAG nello stesso modo.</translation>
-    </message>
-    <message>
         <source>Chapters defined in the project are listed for consultation. To modify chapters use modify slide dialog.
 
 The following fields appear:
@@ -5664,6 +5416,14 @@ custom model</source>
         <source>Create
 custom model</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&amp;Help</source>
+        <translation>&amp;Aiuto</translation>
     </message>
 </context>
 <context>
@@ -6701,6 +6461,18 @@ Do you whant do download it now?</source>
         <source>Export current project and all used files in a new folder</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Render project as a video using a predefined model</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Render project as a lossless video</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Render sound trak of project</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>QCustomFolderTable</name>
@@ -7389,7 +7161,7 @@ Do you whant do download it now?</source>
     </message>
     <message>
         <source>Year</source>
-        <translation type="unfinished">Anno</translation>
+        <translation>Anno</translation>
     </message>
     <message>
         <source>Month</source>
@@ -7749,7 +7521,7 @@ Do you whant do download it now?</source>
     <message>
         <source>Error</source>
         <comment>Error message</comment>
-        <translation type="unfinished">Errore</translation>
+        <translation>Errore</translation>
     </message>
     <message>
         <source>Error reading content of default thumbnail file</source>

@@ -65,26 +65,32 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     // Fill background
     TempPainter.fillRect(QRectF(0,0,Width,Height),Transparent);
 
-    // Calc start position of this shot
-    int64_t Position=0; for (int i=1;i<=index.column();i++) Position=Position+ParentTable->DiaporamaObject->List[i-1]->StaticDuration;
+    int     CurCol  =index.column();
+    int64_t Duration=0;
+    bool    RedColor=false;
+    int64_t Position=0;
 
-    // Calc duration of this shot
-    int64_t Duration=ParentTable->DiaporamaObject->List[index.column()]->StaticDuration;
+    if ((CurCol>=0)&&(CurCol<ParentTable->DiaporamaObject->List.count())) {
+        // Calc start position of this shot
+        for (int i=1;i<=CurCol;i++) Position=Position+ParentTable->DiaporamaObject->List[i-1]->StaticDuration;
 
-    // Define display color of duration (Red only if shot is the last and Position+Duration < DiaporamaObject's duration
-    bool RedColor=((index.column()==ParentTable->DiaporamaObject->List.count()-1)&&(Position+Duration<ParentTable->DiaporamaObject->GetDuration()));
-    if (RedColor) Duration=ParentTable->DiaporamaObject->GetDuration()-Position;
+        // Calc duration of this shot
+        Duration=ParentTable->DiaporamaObject->List[CurCol]->StaticDuration;
 
-    // draw shot
-    if (ParentTable->DiaporamaObject->Thumbnail) {
-        delete ParentTable->DiaporamaObject->Thumbnail;
-        ParentTable->DiaporamaObject->Thumbnail=NULL;
+        // Define display color of duration (Red only if shot is the last and Position+Duration < DiaporamaObject's duration
+        RedColor=((CurCol==ParentTable->DiaporamaObject->List.count()-1)&&(Position+Duration<ParentTable->DiaporamaObject->GetDuration()));
+        if (RedColor) Duration=ParentTable->DiaporamaObject->GetDuration()-Position;
+
+        // draw shot
+        if (ParentTable->DiaporamaObject->Thumbnail) {
+            delete ParentTable->DiaporamaObject->Thumbnail;
+            ParentTable->DiaporamaObject->Thumbnail=NULL;
+        }
+        ParentTable->DiaporamaObject->DrawThumbnail(Width,Height,&TempPainter,0,0,CurCol);
     }
-    ParentTable->DiaporamaObject->DrawThumbnail(Width,Height,&TempPainter,0,0,index.column());
 
     // Draw selected box (if needed)
-
-    if (index.column()==ParentTable->currentColumn()) {
+    if (CurCol==ParentTable->currentColumn()) {
         QPen Pen;
         Pen.setColor(Qt::blue);
         Pen.setWidth(6);
@@ -94,7 +100,7 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
     }
 
     // Draw Drag & Drop inserting point (if needed)
-    if ((ParentTable->IsDragOn==1)&&(index.column()!=ParentTable->DragItemSource)&&((index.column()==ParentTable->DragItemDest)||((index.column()==ParentTable->DragItemDest-1)&&(ParentTable->DragItemDest==ParentTable->DiaporamaObject->List.count())))) {
+    if ((ParentTable->IsDragOn==1)&&(CurCol!=ParentTable->DragItemSource)&&((CurCol==ParentTable->DragItemDest)||((CurCol==ParentTable->DragItemDest-1)&&(ParentTable->DragItemDest==ParentTable->DiaporamaObject->List.count())))) {
         TempPainter.save();
         QPen Pen;
         Pen.setColor(Qt::red);
@@ -104,8 +110,8 @@ void cShotTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem 
         TempPainter.setBrush(Qt::NoBrush); //QBrush(QColor(WidgetSelection_Color)));
         TempPainter.setOpacity(0.5);
         TempPainter.setOpacity(0.5);
-        if (index.column()==ParentTable->DragItemDest)  TempPainter.drawLine(3,      0,3,      Height);
-            else                                        TempPainter.drawLine(Width-3,0,Width-3,Height);
+        if (CurCol==ParentTable->DragItemDest)  TempPainter.drawLine(3,      0,3,      Height);
+            else                                TempPainter.drawLine(Width-3,0,Width-3,Height);
         TempPainter.setOpacity(1);
         TempPainter.restore();
     }

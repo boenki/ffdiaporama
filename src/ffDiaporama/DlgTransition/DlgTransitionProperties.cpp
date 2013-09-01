@@ -52,7 +52,8 @@ DlgTransitionProperties::DlgTransitionProperties(bool IsMultiple,cDiaporamaObjec
     ui->setupUi(this);
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
-    HelpTT          =ui->HelpTT;
+    HelpBt          =ui->HelpBt;
+    HelpFile        ="0122";
     DiaporamaObject =TheDiaporamaObject;
     this->IsMultiple=IsMultiple;
 }

@@ -131,7 +131,8 @@ DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseAp
     ui->setupUi(this);
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
-    HelpTT      =ui->HelpTT;
+    HelpBt      =ui->HelpBt;
+    HelpFile    ="0119";
     UndoBt      =ui->UndoBT;
     CurrentShot =NULL;
 

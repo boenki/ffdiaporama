@@ -94,8 +94,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>661</width>
-            <height>588</height>
+            <width>667</width>
+            <height>590</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -114,17 +114,7 @@
            <property name="spacing">
             <number>4</number>
            </property>
-           <item row="4" column="0">
-            <widget class="QCheckBox" name="RestoreWindowCH_2">
-             <property name="toolTip">
-              <string>If this box is checked, the sizes and the positions of all windows and dialogs will be saved and reused the next time you use ffDiaporama.</string>
-             </property>
-             <property name="text">
-              <string>Remember size and position of windows</string>
-             </property>
-            </widget>
-           </item>
-           <item row="19" column="0">
+           <item row="18" column="0">
             <widget class="QLabel" name="label_34">
              <property name="text">
               <string>Coordinates unit :</string>
@@ -134,7 +124,7 @@
              </property>
             </widget>
            </item>
-           <item row="30" column="0">
+           <item row="29" column="0">
             <spacer name="verticalSpacer_2">
              <property name="orientation">
               <enum>Qt::Vertical</enum>
@@ -147,7 +137,7 @@
              </property>
             </spacer>
            </item>
-           <item row="23" column="0">
+           <item row="22" column="0">
             <widget class="QLabel" name="label_99">
              <property name="text">
               <string>Video cropping :</string>
@@ -157,7 +147,7 @@
              </property>
             </widget>
            </item>
-           <item row="20" column="1">
+           <item row="19" column="1">
             <widget class="QComboBox" name="AppendObjectCB">
              <property name="toolTip">
               <string>This option allows you to adjust the positions occupied by new objects inserted into the timeline.
@@ -176,7 +166,7 @@
              </item>
             </widget>
            </item>
-           <item row="8" column="0" colspan="2">
+           <item row="7" column="0" colspan="2">
             <layout class="QHBoxLayout" name="horizontalLayout_16">
              <item>
               <widget class="QLabel" name="MemCacheProfilLabel">
@@ -244,7 +234,7 @@
              </property>
             </widget>
            </item>
-           <item row="23" column="1">
+           <item row="22" column="1">
             <widget class="QCheckBox" name="Crop1088To1080CB">
              <property name="toolTip">
               <string>If the Automatically crop 1920×1088 video to 1920×1080 is checked then video images are automatically cropped.
@@ -255,7 +245,7 @@ Remark: Some manufacturers produce FullHD videos 1920×1088 rather than 1920×10
              </property>
             </widget>
            </item>
-           <item row="13" column="1">
+           <item row="12" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_17">
              <property name="spacing">
               <number>2</number>
@@ -314,7 +304,7 @@ Beyond this height, the videos are automatically reduced for creating images.</s
              </item>
             </layout>
            </item>
-           <item row="15" column="0">
+           <item row="14" column="0">
             <widget class="QLabel" name="label_7">
              <property name="text">
               <string>Sound sample rate :</string>
@@ -337,7 +327,7 @@ Beyond this height, the videos are automatically reduced for creating images.</s
              </property>
             </widget>
            </item>
-           <item row="11" column="0" colspan="2">
+           <item row="10" column="0" colspan="2">
             <widget class="QLabel" name="label_4">
              <property name="font">
               <font>
@@ -354,7 +344,7 @@ Beyond this height, the videos are automatically reduced for creating images.</s
              </property>
             </widget>
            </item>
-           <item row="5" column="0">
+           <item row="4" column="0">
             <widget class="QCheckBox" name="DisableTooltipsCB">
              <property name="toolTip">
               <string>If this box is checked, tooltips will no longer appear in dialog boxes (only what's this will be available).</string>
@@ -364,7 +354,7 @@ Beyond this height, the videos are automatically reduced for creating images.</s
              </property>
             </widget>
            </item>
-           <item row="24" column="1">
+           <item row="23" column="1">
             <widget class="QCheckBox" name="DeinterlaceCB">
              <property name="toolTip">
               <string>If the Activate deinterlace filter when add new MTS videos is checked, deinterlace filter will automatically be activated for all .mts videos added to the project.
@@ -375,32 +365,7 @@ Remark: Some manufacturers produce videos using interlaced mode. They make it to
              </property>
             </widget>
            </item>
-           <item row="12" column="0">
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>Frame rate :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-             <property name="buddy">
-              <cstring>PreviewFrameRateCB</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="22" column="1">
-            <widget class="QCheckBox" name="AskUserToRemove">
-             <property name="toolTip">
-              <string>If this box is checked, a confirmation prompt will be displayed every time you remove an object:
-- A slide from the main window
--A shot or block from the slide properties dialog box</string>
-             </property>
-             <property name="text">
-              <string>Ask user confirmation to remove slide, object or shot</string>
-             </property>
-            </widget>
-           </item>
-           <item row="19" column="1">
+           <item row="18" column="1">
             <widget class="QComboBox" name="UnitCB">
              <property name="toolTip">
               <string>This option allows to select the unit for the coordinates which will be used in the properties dialog.
@@ -420,7 +385,32 @@ Remark: Some manufacturers produce videos using interlaced mode. They make it to
              </item>
             </widget>
            </item>
-           <item row="21" column="0">
+           <item row="11" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>Frame rate :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+             <property name="buddy">
+              <cstring>PreviewFrameRateCB</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="21" column="1">
+            <widget class="QCheckBox" name="AskUserToRemove">
+             <property name="toolTip">
+              <string>If this box is checked, a confirmation prompt will be displayed every time you remove an object:
+- A slide from the main window
+-A shot or block from the slide properties dialog box</string>
+             </property>
+             <property name="text">
+              <string>Ask user confirmation to remove slide, object or shot</string>
+             </property>
+            </widget>
+           </item>
+           <item row="20" column="0">
             <widget class="QLabel" name="label_26">
              <property name="text">
               <string>Multiple file insertion :</string>
@@ -430,7 +420,7 @@ Remark: Some manufacturers produce videos using interlaced mode. They make it to
              </property>
             </widget>
            </item>
-           <item row="13" column="0">
+           <item row="12" column="0">
             <widget class="QLabel" name="label_59">
              <property name="text">
               <string>Max video preview height :</string>
@@ -443,7 +433,19 @@ Remark: Some manufacturers produce videos using interlaced mode. They make it to
              </property>
             </widget>
            </item>
-           <item row="14" column="0">
+           <item row="20" column="1">
+            <widget class="QCheckBox" name="SortFileCB">
+             <property name="toolTip">
+              <string>This option allows you to adjust the way files are sorted when you select several files in Add file.
+- If this box is checked, files will be added in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040
+- If this box is unchecked, files are added in alphabetical order.</string>
+             </property>
+             <property name="text">
+              <string>Sort file by last number</string>
+             </property>
+            </widget>
+           </item>
+           <item row="13" column="0">
             <widget class="QLabel" name="label_42">
              <property name="text">
               <string>Image smoothing :</string>
@@ -453,7 +455,7 @@ Remark: Some manufacturers produce videos using interlaced mode. They make it to
              </property>
             </widget>
            </item>
-           <item row="18" column="0" colspan="2">
+           <item row="17" column="0" colspan="2">
             <widget class="QLabel" name="label">
              <property name="font">
               <font>
@@ -470,19 +472,17 @@ Remark: Some manufacturers produce videos using interlaced mode. They make it to
              </property>
             </widget>
            </item>
-           <item row="21" column="1">
-            <widget class="QCheckBox" name="SortFileCB">
+           <item row="5" column="0">
+            <widget class="QCheckBox" name="SDLAudioModeCB">
              <property name="toolTip">
-              <string>This option allows you to adjust the way files are sorted when you select several files in Add file.
-- If this box is checked, files will be added in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040
-- If this box is unchecked, files are added in alphabetical order.</string>
+              <string>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</string>
              </property>
              <property name="text">
-              <string>Sort file by last number</string>
+              <string>SDL Audio use old mode</string>
              </property>
             </widget>
            </item>
-           <item row="20" column="0">
+           <item row="19" column="0">
             <widget class="QLabel" name="label_2">
              <property name="text">
               <string>Object position :</string>
@@ -495,17 +495,18 @@ Remark: Some manufacturers produce videos using interlaced mode. They make it to
              </property>
             </widget>
            </item>
-           <item row="6" column="0">
-            <widget class="QCheckBox" name="SDLAudioModeCB">
+           <item row="3" column="0" colspan="2">
+            <widget class="QCheckBox" name="RasterModeCB">
              <property name="toolTip">
-              <string>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</string>
+              <string>If this box is checked, the graphic system &quot;raster&quot; is used instead of the default graphic system. This option is used only at application start up.
+The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</string>
              </property>
              <property name="text">
-              <string>SDL Audio use old mode</string>
+              <string>Enable &quot;raster&quot; Graphics System (Need application restart)</string>
              </property>
             </widget>
            </item>
-           <item row="15" column="1">
+           <item row="14" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_6">
              <property name="spacing">
               <number>2</number>
@@ -553,7 +554,7 @@ Remark: Some manufacturers produce videos using interlaced mode. They make it to
              </item>
             </layout>
            </item>
-           <item row="12" column="1">
+           <item row="11" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_4">
              <property name="spacing">
               <number>2</number>
@@ -612,7 +613,7 @@ Note: the higher this number, the more smooth the preview will be. On the other 
              </item>
             </layout>
            </item>
-           <item row="24" column="0">
+           <item row="23" column="0">
             <widget class="QLabel" name="label_100">
              <property name="text">
               <string>Video deinterlacing :</string>
@@ -622,28 +623,7 @@ Note: the higher this number, the more smooth the preview will be. On the other 
              </property>
             </widget>
            </item>
-           <item row="3" column="0" colspan="2">
-            <widget class="QCheckBox" name="RasterModeCB">
-             <property name="toolTip">
-              <string>If this box is checked, the graphic system &quot;raster&quot; is used instead of the default graphic system. This option is used only at application start up.
-The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</string>
-             </property>
-             <property name="text">
-              <string>Enable &quot;raster&quot; Graphics System (Need application restart)</string>
-             </property>
-            </widget>
-           </item>
-           <item row="22" column="0">
-            <widget class="QLabel" name="label_33">
-             <property name="text">
-              <string>Object deletion :</string>
-             </property>
-             <property name="alignment">
-              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-             </property>
-            </widget>
-           </item>
-           <item row="14" column="1">
+           <item row="13" column="1">
             <widget class="QCheckBox" name="SmoothImageDuringPreviewCB">
              <property name="toolTip">
               <string>If this box is checked, the image smoothing effect will be applied to the images during the preview.
@@ -664,7 +644,17 @@ Remark: This effect consumes lots of resources and can result in slow preview on
              </property>
             </widget>
            </item>
-           <item row="26" column="0">
+           <item row="21" column="0">
+            <widget class="QLabel" name="label_33">
+             <property name="text">
+              <string>Object deletion :</string>
+             </property>
+             <property name="alignment">
+              <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+             </property>
+            </widget>
+           </item>
+           <item row="25" column="0">
             <widget class="QLabel" name="label_57">
              <property name="text">
               <string>Short date format :</string>
@@ -677,7 +667,7 @@ Remark: This effect consumes lots of resources and can result in slow preview on
              </property>
             </widget>
            </item>
-           <item row="26" column="1">
+           <item row="25" column="1">
             <widget class="QComboBox" name="ShortDateFmtCB">
              <property name="toolTip">
               <string>This option allows you to adjust the positions occupied by new objects inserted into the timeline.
@@ -716,7 +706,17 @@ Remark: This effect consumes lots of resources and can result in slow preview on
              </item>
             </widget>
            </item>
-           <item row="25" column="0">
+           <item row="6" column="0" colspan="2">
+            <widget class="QCheckBox" name="OpenWEBNewVersionCH">
+             <property name="toolTip">
+              <string>If this box is checked, a dialog box will appear at startup the next time a new version will be available.</string>
+             </property>
+             <property name="text">
+              <string>Offer to open the download Web page when a new version is available</string>
+             </property>
+            </widget>
+           </item>
+           <item row="24" column="0">
             <widget class="QLabel" name="label_58">
              <property name="font">
               <font>
@@ -730,16 +730,6 @@ Remark: This effect consumes lots of resources and can result in slow preview on
              </property>
              <property name="alignment">
               <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0" colspan="2">
-            <widget class="QCheckBox" name="OpenWEBNewVersionCH">
-             <property name="toolTip">
-              <string>If this box is checked, the sizes and the positions of all windows and dialogs will be saved and reused the next time you use ffDiaporama.</string>
-             </property>
-             <property name="text">
-              <string>Offer to open the download Web page when a new version is available</string>
              </property>
             </widget>
            </item>
@@ -785,8 +775,8 @@ Remark: This effect consumes lots of resources and can result in slow preview on
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>661</width>
-            <height>1124</height>
+            <width>579</width>
+            <height>1204</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_4">
@@ -2675,8 +2665,8 @@ This style defines the size, the coordinates, the rotations and the geometrical 
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>661</width>
-            <height>566</height>
+            <width>412</width>
+            <height>602</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout_2">
@@ -3290,26 +3280,6 @@ Use title project as video name: Use the title defined in the project properties
       <number>4</number>
      </property>
      <item>
-      <widget class="QLabel" name="HelpTT">
-       <property name="toolTip">
-        <string>This dialog box allows you to define options for the application.
-It consists of following 3 tabs:
-- The Application options tab allows to define the general behavior of ffDiaporama.
-- The Project options tab allows to define the options by default of the current project and for the new projects.
-- The Rendering options Tab allows to define the options used by default during the generation of videos.</string>
-       </property>
-       <property name="text">
-        <string notr="true"/>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::AutoText</enum>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer_7">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -3388,6 +3358,20 @@ It consists of following 3 tabs:
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="HelpBt">
+       <property name="toolTip">
+        <string>Show help about this dialogue box</string>
+       </property>
+       <property name="text">
+        <string>&amp;Help</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../RSCffDiaporama.qrc">
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
      </item>

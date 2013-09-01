@@ -43,7 +43,8 @@ DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowM
     ui->setupUi(this);
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
-    //HelpBt      =ui->HelpBT;
+    HelpBt      =ui->HelpBT;
+    HelpFile    ="0109";
     UndoBt      =NULL;
 
     BoxTitle    =TheBoxTitle;

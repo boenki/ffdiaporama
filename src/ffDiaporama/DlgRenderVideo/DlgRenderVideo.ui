@@ -53,7 +53,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-123</y>
+        <y>0</y>
         <width>607</width>
         <height>502</height>
        </rect>
@@ -1074,22 +1074,6 @@ This value is on 3 characters and follows the ISO 639 recommendation.</string>
       <number>4</number>
      </property>
      <item>
-      <widget class="QLabel" name="HelpTT">
-       <property name="toolTip">
-        <string>This dialog allows you to render the project as a video file.</string>
-       </property>
-       <property name="text">
-        <string notr="true"/>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::AutoText</enum>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer_5">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -1156,6 +1140,20 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
          <normaloff>:/img/action_cancel.png</normaloff>:/img/action_cancel.png</iconset>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="HelpBt">
+       <property name="toolTip">
+        <string>Show help about this dialogue box</string>
+       </property>
+       <property name="text">
+        <string>&amp;Help</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../RSCffDiaporama.qrc">
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
        </property>
       </widget>
      </item>

@@ -29,7 +29,8 @@ DlgSlideDuration::DlgSlideDuration(int64_t Duration,cBaseApplicationConfig *Appl
     ui->setupUi(this);
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
-    HelpTT          =ui->HelpTT;
+    HelpBt          =ui->HelpBt;
+    HelpFile        ="0118";
     this->Duration  =Duration;
 }
 

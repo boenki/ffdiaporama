@@ -29,7 +29,8 @@ DlgTransitionDuration::DlgTransitionDuration(int64_t Duration,cBaseApplicationCo
     ui->setupUi(this);
     OkBt            =ui->OKBT;
     CancelBt        =ui->CancelBt;
-    HelpTT          =ui->HelpTT;
+    HelpBt          =ui->HelpBt;
+    HelpFile        ="0121";
     this->Duration  =Duration;
 }
 
