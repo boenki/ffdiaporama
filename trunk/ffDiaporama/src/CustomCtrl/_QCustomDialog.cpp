@@ -86,7 +86,7 @@ QCustomDialog::QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,cSave
     OkBt                        =NULL;
     CancelBt                    =NULL;
     UndoBt                      =NULL;
-    HelpTT                      =NULL;
+    HelpBt                      =NULL;
 
     #ifdef Q_OS_WIN
     #else
@@ -126,8 +126,9 @@ void QCustomDialog::InitDialog() {
         connect(UndoBt,SIGNAL(clicked()),this,SLOT(DoPartialUndo()));
     }
 
-    if (HelpTT) {
-        HelpTT->setPixmap(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton).pixmap(HelpTT->size()));
+    if (HelpBt) {
+        HelpBt->setIcon(QApplication::style()->standardIcon(QStyle::SP_DialogHelpButton));
+        connect(HelpBt,SIGNAL(clicked()),this,SLOT(help()));
     }
 
     // Restore window size and position
@@ -178,6 +179,12 @@ void QCustomDialog::reject() {
 
 //====================================================================================================================
 
+void QCustomDialog::help() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::help");
+    BaseApplicationConfig->OpenHelp(HelpFile);
+}
+
+//====================================================================================================================
 void QCustomDialog::SaveWindowState() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::SaveWindowState");
 

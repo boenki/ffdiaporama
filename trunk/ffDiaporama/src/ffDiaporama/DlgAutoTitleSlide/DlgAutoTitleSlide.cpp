@@ -31,7 +31,8 @@ DlgAutoTitleSlide::DlgAutoTitleSlide(bool IsCreation,cDiaporamaObject *Diaporama
     ui->setupUi(this);
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
-    HelpTT      =ui->HelpTT;
+    HelpBt      =ui->HelpBt;
+    HelpFile    ="0103";
 
     CurrentSlide                     =DiaporamaObject;
     ui->ModelTable->ApplicationConfig=ApplicationConfig;

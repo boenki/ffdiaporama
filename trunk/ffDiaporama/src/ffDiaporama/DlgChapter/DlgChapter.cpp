@@ -28,7 +28,8 @@ DlgChapter::DlgChapter(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig 
     ui->setupUi(this);
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
-    HelpTT      =ui->HelpTT;
+    HelpBt      =ui->HelpBt;
+    HelpFile    ="0105";
     CurrentSlide=DiaporamaObject;
 }
 

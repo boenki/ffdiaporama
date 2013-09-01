@@ -270,6 +270,45 @@ QString cBaseApplicationConfig::GetValideWEBLanguage(QString Language) {
 }
 
 //====================================================================================================================
+
+void cBaseApplicationConfig::OpenHelp(QString HelpFile) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::OpenHelp");
+
+    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    HelpProcess.close();
+
+    QString Path="ffdiaporama_";
+    QString collectionFile=StartingPath;
+    if (!collectionFile.endsWith(QDir::separator())) collectionFile=collectionFile+QDir::separator();
+    if (QFileInfo(collectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(CurrentLanguage)).exists()) {
+        collectionFile=collectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(CurrentLanguage);
+        Path=Path+CurrentLanguage;
+    } else {
+        collectionFile=collectionFile+"locale"+QDir::separator()+"wiki_en.qhc";
+        Path=Path+"en";
+    }
+    QStringList args;
+    args<<("-collectionFile")<<collectionFile<<"-enableRemoteControl";
+    HelpProcess.start("assistant",args);
+    if (!HelpProcess.waitForStarted()) {
+        QApplication::restoreOverrideCursor();
+        return;
+    }
+
+    QByteArray ba;
+    ba.append(QString("hide bookmarks;hide index;hide search;setSource qthelp://%1/doc/%2.html\n").arg(Path).arg(HelpFile)); //;syncContents
+    HelpProcess.write(ba);
+    HelpProcess.waitForBytesWritten();
+
+    /*QByteArray bb;
+    bb.append(QString("syncContents\n"));
+    HelpProcess.write(bb);
+    HelpProcess.waitForBytesWritten();*/
+
+    QApplication::restoreOverrideCursor();
+}
+
+//====================================================================================================================
 // Preload system icon images
 void cBaseApplicationConfig::PreloadSystemIcons() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::PreloadSystemIcons");

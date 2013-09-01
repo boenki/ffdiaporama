@@ -30,31 +30,27 @@
 
 //*****************************************************************************************************************
 
-int main(int argc, char *argv[]) {
-    WCHAR   wFile[512],wParam[512],wFolder[512];
-    char    Param[2048],Folder[2048];
+int wmain(int argc, wchar_t* argv[]) {
+    WCHAR   wFile[2048],wParam[2048],wFolder[2048];
 
     // Software to start
-    swprintf(wFile,512,L"%S","ffDiaporama.exe");
+    swprintf(wFile,2048,L"%S","ffDiaporama.exe");
 
     // compute current folder
-    strcpy_s(Folder,2048,argv[0]);
-    if (strrchr(Folder,'\\')) *strrchr(Folder,'\\')=0;
-    if (strlen(Folder)==0) {
-        _getcwd(Folder,2048);
-        if (strrchr(Folder,'\\')) *strrchr(Folder,'\\')=0;
+    wcscpy_s(wFolder,2048,argv[0]);
+    if (wcsrchr(wFolder,'\\')) *wcsrchr(wFolder,'\\')=0;
+    if (wcslen(wFolder)==0) {
+        _wgetcwd(wFolder,2048);
+        if (wcsrchr(wFolder,'\\')) *wcsrchr(wFolder,'\\')=0;
     }
-    // compute new folder depending on processor flags
-    swprintf(wFolder,512,L"%S",Folder);
 
     // Get parameters
-    Param[0]=0;
+    wParam[0]=0;
     for (int i=1;i<argc;i++) {
-        strcat_s(Param,2048,"\"");
-        strcat_s(Param,2048,argv[i]);
-        strcat_s(Param,2048,"\" ");
+        wcscat_s(wParam,2048,L"\"");
+        wcscat_s(wParam,2048,argv[i]);
+        wcscat_s(wParam,2048,L"\" ");
     }
-    swprintf(wParam,512,L"%S",Param);
 
     ShellExecute(NULL,NULL,wFile,wParam,wFolder,SW_SHOWNORMAL);
     return 0;

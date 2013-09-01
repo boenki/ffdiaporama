@@ -43,7 +43,8 @@ DlgManageStyle::DlgManageStyle(cStyleCollection *TheCollection,cBaseApplicationC
     ui->setupUi(this);
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
-    HelpTT      =ui->HelpTT;
+    HelpBt      =ui->HelpBt;
+    HelpFile    ="0113";
     Collection  =TheCollection;
 }
 

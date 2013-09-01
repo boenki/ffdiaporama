@@ -38,7 +38,8 @@ DlgCheckConfig::DlgCheckConfig(cBaseApplicationConfig *ApplicationConfig,cSaveWi
 
     ui->setupUi(this);
     OkBt    =ui->OKBT;
-    HelpTT  =ui->HelpTT;
+    HelpBt  =ui->HelpBt;
+    HelpFile="0106";
 }
 
 //====================================================================================================================

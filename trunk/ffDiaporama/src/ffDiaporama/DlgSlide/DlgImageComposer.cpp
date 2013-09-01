@@ -71,7 +71,8 @@ DlgImageComposer::DlgImageComposer(cDiaporama *ffdProject,cBaseApplicationConfig
 
     CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
-    HelpTT  =ui->HelpTT;
+    HelpBt  =ui->HelpBt;
+    HelpFile="0117";
 
     InRefreshStyleControls              =false;
     InRefreshControls                   =false;

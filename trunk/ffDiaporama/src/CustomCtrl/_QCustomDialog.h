@@ -52,8 +52,8 @@
 //**********************************************************************************
 
 #define HELPFILE_NEWS                       5
-#define HELPFILE_WIKIINDEX                  8386
-#define HELPFILE_RENDERINDEX                8386    // Rendering videos
+#define HELPFILE_WIKIINDEX                  "0010"
+#define HELPFILE_RENDERINDEX                "0030"    // Rendering videos
 
 //**********************************************************************************
 // name of default icons
@@ -90,7 +90,8 @@ public:
     QAbstractButton         *OkBt;
     QAbstractButton         *CancelBt;
     QAbstractButton         *UndoBt;
-    QLabel                  *HelpTT;
+    QAbstractButton         *HelpBt;
+    QString                 HelpFile;
 
     explicit        QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
                     ~QCustomDialog();
@@ -127,6 +128,7 @@ protected:
 
 private slots:
     void            DoPartialUndo();
+    void            help();
 };
 
 //**********************************************************************************

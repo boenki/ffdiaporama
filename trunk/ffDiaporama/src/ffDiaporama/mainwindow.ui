@@ -114,7 +114,7 @@ QToolButton:pressed {
          <enum>QTabWidget::Rounded</enum>
         </property>
         <property name="currentIndex">
-         <number>0</number>
+         <number>2</number>
         </property>
         <widget class="QWidget" name="TabFile">
          <property name="font">
@@ -986,6 +986,9 @@ project</string>
               <pointsize>-1</pointsize>
              </font>
             </property>
+            <property name="toolTip">
+             <string>Render project as a video using a predefined model</string>
+            </property>
             <property name="text">
              <string>Player and
 smartphone</string>
@@ -1030,6 +1033,9 @@ smartphone</string>
               <pointsize>-1</pointsize>
              </font>
             </property>
+            <property name="toolTip">
+             <string>Render project as a video using a predefined model</string>
+            </property>
             <property name="text">
              <string>Multimedia
 system</string>
@@ -1068,6 +1074,9 @@ system</string>
               <pointsize>-1</pointsize>
              </font>
             </property>
+            <property name="toolTip">
+             <string>Render project as a video using a predefined model</string>
+            </property>
             <property name="text">
              <string>For the
 WEB</string>
@@ -1105,6 +1114,9 @@ WEB</string>
              <font>
               <pointsize>-1</pointsize>
              </font>
+            </property>
+            <property name="toolTip">
+             <string>Render project as a lossless video</string>
             </property>
             <property name="text">
              <string>Lossless</string>
@@ -1196,7 +1208,7 @@ WEB</string>
              </font>
             </property>
             <property name="toolTip">
-             <string>Render project as a video</string>
+             <string>Render sound trak of project</string>
             </property>
             <property name="text">
              <string>Export
@@ -2324,6 +2336,9 @@ project</string>
                <pointsize>-1</pointsize>
               </font>
              </property>
+             <property name="toolTip">
+              <string>Render project as a video using a predefined model</string>
+             </property>
              <property name="text">
               <string>Player and
 smartphone</string>
@@ -2368,6 +2383,9 @@ smartphone</string>
                <pointsize>-1</pointsize>
               </font>
              </property>
+             <property name="toolTip">
+              <string>Render project as a video using a predefined model</string>
+             </property>
              <property name="text">
               <string>Multimedia
 system</string>
@@ -2406,6 +2424,9 @@ system</string>
                <pointsize>-1</pointsize>
               </font>
              </property>
+             <property name="toolTip">
+              <string>Render project as a video using a predefined model</string>
+             </property>
              <property name="text">
               <string>For the
 WEB</string>
@@ -2443,6 +2464,9 @@ WEB</string>
               <font>
                <pointsize>-1</pointsize>
               </font>
+             </property>
+             <property name="toolTip">
+              <string>Render project as a lossless video</string>
              </property>
              <property name="text">
               <string>Lossless</string>
@@ -2534,7 +2558,7 @@ WEB</string>
               </font>
              </property>
              <property name="toolTip">
-              <string>Render project as a video</string>
+              <string>Render sound trak of project</string>
              </property>
              <property name="text">
               <string>Export
@@ -4782,6 +4806,22 @@ font-size: 11px;
  </widget>
  <customwidgets>
   <customwidget>
+   <class>QCustomFolderTree</class>
+   <extends>QTreeWidget</extends>
+   <header>../CustomCtrl/QCustomFolderTree.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QCustomHorizSplitter</class>
+   <extends>QSplitter</extends>
+   <header>../CustomCtrl/QCustomHorizSplitter.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>QCustomFolderTable</class>
+   <extends>QTableWidget</extends>
+   <header>../CustomCtrl/QCustomFolderTable.h</header>
+  </customwidget>
+  <customwidget>
    <class>wgt_QVideoPlayer</class>
    <extends>QWidget</extends>
    <header>wgt_QVideoPlayer.h</header>
@@ -4791,22 +4831,6 @@ font-size: 11px;
    <class>cCustomSlideTable</class>
    <extends>QTableWidget</extends>
    <header>cCustomSlideTable.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QCustomFolderTree</class>
-   <extends>QTreeWidget</extends>
-   <header>../CustomCtrl/QCustomFolderTree.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QCustomFolderTable</class>
-   <extends>QTableWidget</extends>
-   <header>../CustomCtrl/QCustomFolderTable.h</header>
-  </customwidget>
-  <customwidget>
-   <class>QCustomHorizSplitter</class>
-   <extends>QSplitter</extends>
-   <header>../CustomCtrl/QCustomHorizSplitter.h</header>
-   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources>

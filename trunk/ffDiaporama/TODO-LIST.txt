@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.7 - Trunk
 *
-* Dernier commit le : 10/08/2013
+* Dernier commit le : 19/08/2013
 **************************************************
 
 TODO :
@@ -41,10 +41,9 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
                         Pour le moment, j'ai réduit la qualité des thumbnails quand plus de 100 images (division par 4)
                         C'est une solution provisoire car l'idéal est de décharger la mémoire si nécessaire et recharger les thumbnails au besoin
 
-    dlgmanagefavorite et dlgfileexplorer à finir !
-
     Modifier le fonctionnement si le user dit non à la recherche d'un fichier manquant : supprimer le bloc !
-    Erreur d'affectation du lien relatif sur les musiques sous Windows [Bug vasipo]
+    Memory leak en render
+    assistant.exe à ajouter au paquet Windows
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
@@ -59,43 +58,89 @@ switch version to
     ffmpeg 2.0 for Windows / openSuse / Gentoo / ArchLinux
 
 French version / Correction de bug :
--Corrige un bug lors de la création de modèles : les chemins étaient relatifs
--Corrige un bug de dédoublonnage des fichiers récents sous Windows (en cas de sauver sous, le fichier n'était pas dédoublonné)
--Corrige le bug de tentative d'analyse des lecteurs vides sous Windows [Bug Philippe21]
--Corrige un bug aléatoire de coupure des mots dans les variables
--Corrige le bug de non application des traductions pour le nom des formes
--Corrige un bug de mauvaise résolution du nom de fichier relatif pour les musiques
+-Supprime l'option en doublon dans la boite d'option et corrige l'erreur de tooltip sur la nouvelle option pour prévenir l'utilisateur d'une nouvelle version
+-Corrige les problèmes d'unicode pour le starter windows
+-Corrige un bug de perte de nom de fichier de clipart lors d'Undo dans la boite slide
+-Corrige quelques erreures de tooltip sur les boutons de la barre de la fenetre principale
 
 English version / Bug fixes :
--Fix a bug when creating new model: path was relatif
--Fix a bug of deduplication of recent files under Windows (when using Project save as, the file was duplicated in recent files list)
--Fix a bug of trying to read at empty drive under Windows [Bug Philippe21]
--Fix a random bug of word wrapping in variables
--Fix a bug of no translation of shape names
--Fix a bug of bad computing of relatif filepath for music
+-Remove dupplicate option in option dialog and fix tooltip error for new option to offer to the user to download new version
+-Fix unicode problem for windows starter
+-Fix loose of clipart filename when undo in slide dialog
+-Fix some errors on tooltips for some buttons of the mainwindow toolbar
 
 French version / Nouveautés :
--Lors des suppressions de fichier dans l'explorateur, si le fichier a des fichiers joint (thumbnail et/ou xbmc nfo), propose également de supprimer ces fichiers joints
--Ajoute un entete xml aux fichiers .nfo pour xbmc
--Considère les images XBMC nommées -poster.jpg comme des vignettes
--Ajoute une fonction d'export du projet (exporte le projet et tous les fichiers qui le compose dans un répertoire)
+-Transfert le WIKI du site web vers QT Assistant et intègre les pages dans le code source
 
 English version / New features :
--When removing file in multimedia explorer, if file have joined files (thumbnail and/or xbmc nfo), aslo offer to remove these joined files
--Add an xml header to .nfo files for xbmc
--Consider the XBMC -poster.jpg images as thumbnails
--Add a function to export project (export the project and all files that compose it in a folder)
+-Move the WIKI from the web site to QT Assistant and integrate pages into the source code
 
-Translation/Traductions (1373 sentences):
-EN    - 100% - 1373
-FR    - 100% - 1373
+Translation/Traductions (1674 sentences):
+EN    - 100% - 1674
+FR    - 100% - 1674
 
-PT    -  99% - 1368
-IT    -  92% - 1264
-DE    -  92% - 1264
-ES    -  89% - 1219
-EL    -  77% - 1052
-NL    -  70% - 960
-RU    -  59% - 810
-ZH-TW -  37% - 513
-CZ    -  12% - 163
+RU    -  99% - 1649
+PT    -  99% - 1648
+ES    -  99% - 1648
+IT    -  86% - 1442
+DE    -  86% - 1446
+EL    -  74% - 1278
+NL    -  65% - 1090
+ZH-TW -  38% - 648
+CZ    -  17% - 287
+
+------------------------------------------------------------------------------------------------------------------------------
+WIKI
+------------------------------------------------------------------------------------------------------------------------------
+            wiki_en.qhcp
+            wiki_en.qhp
+            main.html       Welcome to the ffDiaporama WIKI
+TBU         0010.html           How ffDiaporama works
+ok                0011.html           Functional principles
+ok                0014.html           The Visible property of blocks and the management of the breaks
+TBU               0015.html           All shots regulations versus current shot regulations
+ok                0016.html           Style sheets
+TBU         0020.html           Interface description
+ok              0021.html           The main window
+TBU             0022.html           The toolbar
+ok              0023.html           The timeline
+ok              0024.html           The multimedia file browser
+TBU             0020.html           Dialog boxes
+TBU                 0101.html           Application options
+ok                  0102.html           Manage devices
+TBU                 0103.html           Add or modify a predefined title slide
+ok                  0104.html           Background properties
+TBU                 0105.html           Chapter properties
+ok                  0106.html           Check configuration
+TBU                 0107.html           Export project
+TBU                 0108.html           Project properties
+TBU                 0109.html           Select files
+TBU                 0110.html           Correct, reframe or cut image or video
+ok                  0111.html           File information
+TBU                 0112.html           Manage favorite
+ok                  0113.html           Manage style
+ok                  0114.html           Music properties
+TBU                 0115.html           Render video
+ok                  0116.html           Ruler properties
+TBU                 0117.html           Edit thumbnail model
+TBU                 0118.html           Set first shot duration for a set of slides
+TBU                 0119.html           Slide properties
+TBU                 0120.html           Edit text
+TBU                 0121.html           Select transition duration for a set of slides
+ok                  0122.html           Transition properties
+TBU             0030.html       Rendering videos
+ok                  0031.html       Rendering videos
+ok                  0032.html       Smartphones and tablets
+ok                  0033.html       Portable devices
+ok                  0034.html       Multimedia system (Home cinema)
+ok                  0035.html       For the WEB
+TBU preset          0036.html       Video codec
+ok                  0037.html       Audio codec
+ok                  0038.html       Containers
+ok                  0039.html       Video standards and resolutions
+TBU                 003A.html       File attachments (Thumbnails, nfo, etc...)
+TBU             0040.html       Technical information on ffDiaporama
+ok                  0041.html       ffDiaporama command line arguments
+ok                  0042.html       ffDiaporama project files
+ok                  0043.html       The configuration files for ffDiaporama
+TBU                 0044.html       XBMC nfo files

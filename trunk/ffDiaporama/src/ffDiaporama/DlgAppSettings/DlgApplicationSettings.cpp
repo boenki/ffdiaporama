@@ -43,7 +43,8 @@ DlgApplicationSettings::DlgApplicationSettings(cBaseApplicationConfig *Applicati
     ui->setupUi(this);
     CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
-    HelpTT  =ui->HelpTT;
+    HelpBt  =ui->HelpBt;
+    HelpFile="0101";
 
     IsDeviceChanged     =false;
     CurrentDevice       =-1;

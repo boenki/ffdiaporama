@@ -23,6 +23,9 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+
+#include <QtHelp/QHelpEngine>
+
 #include <QClipboard>
 #include <QMimeData>
 #include <QDomElement>
@@ -715,7 +718,7 @@ void MainWindow::s_Event_NetworkReply(QNetworkReply* reply) {
                     (CustomMessageBox(this,QMessageBox::Question,"ffDiaporama",
                                       QApplication::translate("MainWindow","A new ffDiaporama version is available from WEB site.\nDo you whant do download it now?"),
                                       QMessageBox::Yes | QMessageBox::No, QMessageBox::Yes)==QMessageBox::Yes)) {
-                    QDesktopServices::openUrl(QUrl(QString(HELPFILE_DEF).arg(DOWNLOADPAGE_NUMBER).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
+                    QDesktopServices::openUrl(QUrl(QString(DOWNLOADPAGE).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
                 }
             } else {
                 InternetBUILDVERSION="";
@@ -841,7 +844,8 @@ void MainWindow::s_Action_Documentation() {
 
     ui->ActionDocumentation_BT->setDown(false);
     ui->ActionDocumentation_BT_2->setDown(false);
-    QDesktopServices::openUrl(QUrl(QString(HELPFILE_DEF).arg(HELPFILE_WIKIINDEX).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage))));
+
+    ApplicationConfig->OpenHelp("main");
 }
 
 //====================================================================================================================
@@ -1185,7 +1189,8 @@ void MainWindow::DoTimelineSelectionChanged() {
 
 void MainWindow::s_Action_OpenTABHelpLink(const QString Link) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_OpenTABHelpLink");
-    QDesktopServices::openUrl(QUrl(Link));
+    if (Link.startsWith("http:")) QDesktopServices::openUrl(QUrl(Link));
+        else ApplicationConfig->OpenHelp(Link);
 }
 
 void MainWindow::s_Event_ToolbarChanged(int MenuIndex) {
@@ -1197,15 +1202,15 @@ void MainWindow::s_Event_ToolbarChanged(int MenuIndex) {
     switch (MenuIndex) {
     case 0: Html=QApplication::translate("MainWindow","<html><body>Select a project to open or to create a new project<br>"\
                                          "To discover ffDiaporama:<br><a href=\"%1\">Consult the WIKI</a></body></html>").
-                                         arg(QString(HELPFILE_DEF).arg(HELPFILE_WIKIINDEX).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage)));
+                                         arg(HELPFILE_WIKIINDEX);
             break;
     case 1: Html=QApplication::translate("MainWindow","<html><body>Add empty slides or slides based on photos or videos<br>"\
                                          "To discover how to build your slide show and to animate slides:<br><a href=\"%1\">Discover the principles of functioning of ffDiaporama</a></body></html>").
-                                         arg(QString(HELPFILE_DEF).arg(HELPFILE_WIKIINDEX).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage)));
+                                         arg(HELPFILE_WIKIINDEX);
             break;
     case 2: Html=QApplication::translate("MainWindow","<html><body>Select the equipment type that you plan to use for your video<br>"\
                                          "To discover how to render videos:<br><a href=\"%1\">Consult the rendering videos WIKI page</a></body></html>").
-                                         arg(QString(HELPFILE_DEF).arg(HELPFILE_RENDERINDEX).arg(ApplicationConfig->GetValideWEBLanguage(ApplicationConfig->CurrentLanguage)));
+                                         arg(HELPFILE_RENDERINDEX);
             break;
     case 3: Html=QApplication::translate("MainWindow","<html><body>Visit the ffDiaporama Web site to use the forum,<br>"\
                 "consult tutorials and learn the lastest news:<br><a href=\"http://ffdiaporama.tuxfamily.org\">http://ffdiaporama.tuxfamily.org</a></body></html>");

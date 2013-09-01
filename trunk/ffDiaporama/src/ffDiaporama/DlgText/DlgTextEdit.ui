@@ -930,7 +930,7 @@ p, li { white-space: pre-wrap; }
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>302</width>
+            <width>465</width>
             <height>212</height>
            </rect>
           </property>
@@ -1693,24 +1693,6 @@ This value is expressed in % of the width of the block.</string>
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="HelpTT">
-       <property name="toolTip">
-        <string>This dialog allows you to modify the text within a block.
-Remark: The modifications made to the text properties will apply to all shots of the slide.
-To understand indeed the differences between the properties which apply to all shots and those who apply only to the current shot, consult: How ffDiaporama work.</string>
-       </property>
-       <property name="text">
-        <string notr="true"/>
-       </property>
-       <property name="textFormat">
-        <enum>Qt::AutoText</enum>
-       </property>
-       <property name="pixmap">
-        <pixmap resource="../../../RSCffDiaporama.qrc">:/img/help.png</pixmap>
-       </property>
-      </widget>
-     </item>
-     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -1793,6 +1775,20 @@ To understand indeed the differences between the properties which apply to all s
        </property>
       </widget>
      </item>
+     <item>
+      <widget class="QPushButton" name="HelpBt">
+       <property name="toolTip">
+        <string>Show help about this dialogue box</string>
+       </property>
+       <property name="text">
+        <string>&amp;Help</string>
+       </property>
+       <property name="icon">
+        <iconset resource="../../../RSCffDiaporama.qrc">
+         <normaloff>:/img/help.png</normaloff>:/img/help.png</iconset>
+       </property>
+      </widget>
+     </item>
     </layout>
    </item>
   </layout>
@@ -1804,16 +1800,6 @@ To understand indeed the differences between the properties which apply to all s
    <header>../CustomCtrl/cCColorComboBox.h</header>
   </customwidget>
   <customwidget>
-   <class>cCustomTextEdit</class>
-   <extends>QTextEdit</extends>
-   <header>DlgText/cCustomTextEdit.h</header>
-  </customwidget>
-  <customwidget>
-   <class>cCBrushComboBox</class>
-   <extends>QComboBox</extends>
-   <header>../CustomCtrl/cCBrushComboBox.h</header>
-  </customwidget>
-  <customwidget>
    <class>cCGrdOrientationComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCGrdOrientationComboBox.h</header>
@@ -1822,6 +1808,16 @@ To understand indeed the differences between the properties which apply to all s
    <class>cBackgroundComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cBackgroundComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCustomTextEdit</class>
+   <extends>QTextEdit</extends>
+   <header>DlgText/cCustomTextEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>cCBrushComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/cCBrushComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

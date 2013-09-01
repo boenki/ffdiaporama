@@ -109,9 +109,10 @@
 
 // Application version : url to file on internet
 //#define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Stable/BUILDVERSION.txt"
-//#define DOWNLOADPAGE_NUMBER                 178
 #define BUILDVERSION_WEBURL                 "http://ffdiaporama.tuxfamily.org/Devel/BUILDVERSION.txt"
-#define DOWNLOADPAGE_NUMBER                 3635
+
+//#define DOWNLOADPAGE                        "ffdiaporama.tuxfamily.org/?page_id=178&lang=%1"
+#define DOWNLOADPAGE                         "ffdiaporama.tuxfamily.org/?page_id=3635&lang=%1"
 
 
 // Global values
@@ -121,7 +122,6 @@ extern double  ScreenFontAdjust;            // System Font adjustement
 
 // URL to link to help page
 #define HELPFILE_CAT                        "http://ffdiaporama.tuxfamily.org/?cat=%1&lang=%2"
-#define HELPFILE_DEF                        "http://ffdiaporama.tuxfamily.org/?page_id=%1&lang=%2"
 #define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de;nl;pt;ru"
 
 

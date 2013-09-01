@@ -33,7 +33,8 @@ DlgInfoFile::DlgInfoFile(cBaseMediaFile *MediaFile,cBaseApplicationConfig *Appli
     ui->setupUi(this);
     //CancelBt=ui->CancelBt;
     OkBt    =ui->OkBt;
-    HelpTT  =ui->HelpTT;
+    HelpBt  =ui->HelpBt;
+    HelpFile="0111";
 }
 
 //====================================================================================================================
