@@ -58,27 +58,16 @@ switch version to
     ffmpeg 2.0 for Windows / openSuse / Gentoo / ArchLinux
 
 French version / Correction de bug :
--Supprime l'option en doublon dans la boite d'option et corrige l'erreur de tooltip sur la nouvelle option pour prévenir l'utilisateur d'une nouvelle version
--Corrige les problèmes d'unicode pour le starter windows
--Corrige un bug de perte de nom de fichier de clipart lors d'Undo dans la boite slide
--Corrige quelques erreures de tooltip sur les boutons de la barre de la fenetre principale
 
 English version / Bug fixes :
--Remove dupplicate option in option dialog and fix tooltip error for new option to offer to the user to download new version
--Fix unicode problem for windows starter
--Fix loose of clipart filename when undo in slide dialog
--Fix some errors on tooltips for some buttons of the mainwindow toolbar
 
 French version / Nouveautés :
--Transfert le WIKI du site web vers QT Assistant et intègre les pages dans le code source
 
 English version / New features :
--Move the WIKI from the web site to QT Assistant and integrate pages into the source code
 
 Translation/Traductions (1674 sentences):
 EN    - 100% - 1674
 FR    - 100% - 1674
-
 RU    -  99% - 1649
 PT    -  99% - 1648
 ES    -  99% - 1648
