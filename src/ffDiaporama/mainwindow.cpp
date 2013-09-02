@@ -23,9 +23,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-
-#include <QtHelp/QHelpEngine>
-
 #include <QClipboard>
 #include <QMimeData>
 #include <QDomElement>
