@@ -309,7 +309,8 @@ OTHER_FILES += ../../TODO-LIST.txt \          # Developpement file
     ../../WIKI/readme.txt \
     ../../WIKI/UpdateTSFiles.cmd \
     ../../WIKI/UpdateQMFiles.cmd \
-    ../../WIKI/PREPLANGUAGE.cmd
+    ../../WIKI/PREPLANGUAGE.cmd \
+    ../../WIKI/en/0013.html
 
 # Source files
 SOURCES +=  wgt_QVideoPlayer.cpp \
@@ -380,7 +381,8 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             ../CustomCtrl/QCustomFolderTree.cpp \
             ../CustomCtrl/cCTexteFrameComboBox.cpp \
             ../CustomCtrl/cThumbnailComboBox.cpp \
-            ../CustomCtrl/cCustomTitleModelTable.cpp
+            ../CustomCtrl/cCustomTitleModelTable.cpp \
+    ../CustomCtrl/_QCustomComboBox.cpp
 
 # Header files
 HEADERS  += wgt_QVideoPlayer.h \
@@ -450,7 +452,8 @@ HEADERS  += wgt_QVideoPlayer.h \
             ../CustomCtrl/QCustomFolderTree.h \
             ../CustomCtrl/cCTexteFrameComboBox.h \
             ../CustomCtrl/cThumbnailComboBox.h \
-            ../CustomCtrl/cCustomTitleModelTable.h
+            ../CustomCtrl/cCustomTitleModelTable.h \
+    ../CustomCtrl/_QCustomComboBox.h
 
 # Forms files
 FORMS    += mainwindow.ui \

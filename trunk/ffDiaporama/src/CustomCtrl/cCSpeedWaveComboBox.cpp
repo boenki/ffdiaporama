@@ -22,7 +22,7 @@
 
 //====================================================================================================================
 
-cCSpeedWaveComboBox::cCSpeedWaveComboBox(QWidget *parent):QComboBox(parent) {
+cCSpeedWaveComboBox::cCSpeedWaveComboBox(QWidget *parent):QCustomComboBox(parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCSpeedWaveComboBox::cCSpeedWaveComboBox");
     for (int i=0;i<SPEEDWAVE_TYPE_NBR;i++) addItem(GetSpeedWaveName(i),QVariant(i));
 }

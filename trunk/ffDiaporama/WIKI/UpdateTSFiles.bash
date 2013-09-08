@@ -20,7 +20,10 @@
 #   ====================================================================== */
 
 ./WikiMakeBin fake
-cd fake
-/usr/lib/x86_64-linux-gnu/qt4/bin/lupdate -no-obsolete fake.pro
-cd ..
+retval=$?
+if [ "${retval}" -eq 0 ]; then
+	cd fake
+	/usr/lib/x86_64-linux-gnu/qt4/bin/lupdate -no-obsolete fake.pro
+	cd ..
+fi
 

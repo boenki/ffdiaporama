@@ -3008,6 +3008,7 @@ void DlgSlideProperties::s_BlockShapeStyleBT() {
         InRefreshControls=true;
         CurrentCompoObject->ApplyBlockShapeStyle(BaseApplicationConfig->StyleBlockShapeCollection.GetStyleDef(Item));
         RefreshBlockTable(CurrentCompoObjectNbr);
+        InRefreshControls=false;
     }
 }
 

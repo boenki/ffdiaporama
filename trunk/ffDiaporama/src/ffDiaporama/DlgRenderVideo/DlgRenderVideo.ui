@@ -53,7 +53,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>0</y>
+        <y>-145</y>
         <width>607</width>
         <height>502</height>
        </rect>
@@ -187,7 +187,7 @@
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>Select the video compression ratio from the displayed list.</string>
+            <string>Select the audio compression ratio from the displayed list.</string>
            </property>
           </widget>
          </item>
@@ -615,7 +615,7 @@ This value is on 3 characters and follows the ISO 639 recommendation.</string>
             </sizepolicy>
            </property>
            <property name="toolTip">
-            <string>Select the bit rate to use for audio during the rendering.</string>
+            <string>Select the frequency to use for audio during the rendering.</string>
            </property>
           </widget>
          </item>

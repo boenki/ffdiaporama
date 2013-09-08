@@ -56,7 +56,7 @@
    <item>
     <widget class="QTabWidget" name="tabWidget">
      <property name="currentIndex">
-      <number>0</number>
+      <number>1</number>
      </property>
      <widget class="QWidget" name="TabApp">
       <attribute name="title">
@@ -93,9 +93,9 @@
           <property name="geometry">
            <rect>
             <x>0</x>
-            <y>0</y>
+            <y>-183</y>
             <width>667</width>
-            <height>590</height>
+            <height>589</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">
@@ -465,7 +465,8 @@ Remark: Some manufacturers produce videos using interlaced mode. They make it to
               </font>
              </property>
              <property name="text">
-              <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Editor options (when adding objects)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+              <string>
+Editor options (when adding objects)</string>
              </property>
              <property name="alignment">
               <set>Qt::AlignBottom|Qt::AlignLeading|Qt::AlignLeft</set>
@@ -670,9 +671,7 @@ Remark: This effect consumes lots of resources and can result in slow preview on
            <item row="25" column="1">
             <widget class="QComboBox" name="ShortDateFmtCB">
              <property name="toolTip">
-              <string>This option allows you to adjust the positions occupied by new objects inserted into the timeline.
-- If Insert after the current selected object is selected, then the new slides will be created after the current slide.
-- If Append to the end of the project is selected, then the new slides will be created at the end of the project.</string>
+              <string>This option allows you to specify the format in which computed dates are displayed.</string>
              </property>
              <item>
               <property name="text">
@@ -775,7 +774,7 @@ Remark: This effect consumes lots of resources and can result in slow preview on
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>579</width>
+            <width>667</width>
             <height>1204</height>
            </rect>
           </property>
@@ -2480,7 +2479,7 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
            <item row="3" column="3">
             <widget class="QLineEdit" name="DefaultAuthorED">
              <property name="toolTip">
-              <string>Defines the default value for the field Author (often so called Artist by Jukebox)
+              <string>Defines the default value for the field Author (often so called Artist by Media Center Systems)
 Note: this field is limited to 30 characters to remain compatible with jukebox</string>
              </property>
              <property name="maxLength">

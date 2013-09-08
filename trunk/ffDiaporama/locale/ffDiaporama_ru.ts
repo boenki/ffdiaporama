@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/engine/_GlobalDefines.cpp" line="248"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
-        <translation>Данное приложение поддерживает звуковую дорожку только с неподписанным 8 битным или подписанным 16 битным форматом сэмпла</translation>
+        <translation>Это приложение поддерживает звуковую дорожку только с неподписанным 8 битным или подписанным 16 битным форматом сэмпла</translation>
     </message>
     <message>
         <location filename="../src/engine/_GlobalDefines.cpp" line="249"/>
@@ -79,7 +79,7 @@
         <translation>Параметры программы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="643"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="644"/>
         <source>Remember last used folders</source>
         <translation>Запоминать последнюю используемую папку</translation>
     </message>
@@ -94,12 +94,12 @@
         <translation>Частота кадров:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="610"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="611"/>
         <source>fps (Reduce this value for slow computer)</source>
         <translation>кадров в секунду (уменьшите это значение для медленного компьютера)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="488"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="489"/>
         <source>Object position :</source>
         <translation>Положение объекта:</translation>
     </message>
@@ -124,14 +124,14 @@
         <translation>Сортировать файлы по цифровому обозначению</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2022"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2021"/>
         <source>Define the transition duration</source>
-        <translation>Определить длительность перехода</translation>
+        <translation>Выбрать длительность перехода</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1259"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2069"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2541"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1258"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2068"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2540"/>
         <source>sec</source>
         <translation>сек</translation>
     </message>
@@ -141,20 +141,12 @@
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Предварительный просмотр&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="468"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Editor options (when adding objects)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation variants="yes">
-            <lengthvariant>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Параметры редактора (при добавлении объектов)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</lengthvariant>
-            <lengthvariant></lengthvariant>
-        </translation>
-    </message>
-    <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="409"/>
         <source>Ask user confirmation to remove slide, object or shot</source>
-        <translation>Запрашивать подтверждение при удалении слайда, объекта или рисунка</translation>
+        <translation>Запрашивать подтверждение при удалении слайда, объекта или кадра</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="650"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="651"/>
         <source>Object deletion :</source>
         <translation>Удаление объекта:</translation>
     </message>
@@ -179,106 +171,106 @@
         <translation>Обрезка видео:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="744"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="743"/>
         <source>Project Options</source>
         <translation>Параметры проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2315"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2314"/>
         <source>Old TV (4:3)</source>
         <translation>Старый ТВ (4:3)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2320"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2319"/>
         <source>TV Wide (16:9)</source>
         <translation>Широкоэкранный ТВ (16:9)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2325"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2324"/>
         <source>Cinema (2.35:1)</source>
         <translation>Фильм (2,35:1)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2333"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2332"/>
         <source>(Only for new project)</source>
         <translation>(только для новых проектов)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2634"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2633"/>
         <source>Rendering Options</source>
-        <translation>Параметры рендеринга</translation>
+        <translation>Параметры создания файла</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3117"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3116"/>
         <source>Default advanced rendering options</source>
-        <translation>Продвинутые параметры рендеринга (по умолчанию)</translation>
+        <translation>Дополнительные параметры создания видеофайла (по умолчанию)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2811"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2810"/>
         <source>Video standard :</source>
         <translation>Стандарт видео:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2691"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2690"/>
         <source>Video codec :</source>
         <translation>Видео кодек:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2991"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3131"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2990"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3130"/>
         <source>File format :</source>
         <translation>Формат файла:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2919"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2918"/>
         <source>Format :</source>
         <translation>Формат:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2939"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2938"/>
         <source>PAL</source>
-        <translation></translation>
+        <translation>PAL</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2944"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2943"/>
         <source>NTSC</source>
-        <translation></translation>
+        <translation>NTSC</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3046"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3085"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3176"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3045"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3084"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3175"/>
         <source>Bit rate :</source>
         <translation>Битрейт:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3004"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3144"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3003"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3143"/>
         <source>Audio codec :</source>
         <translation>Аудио кодек:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2857"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2856"/>
         <source>Default device mode rendering options</source>
-        <translation>Параметры рендеринта для различных устройств (по умолчанию)</translation>
+        <translation>Параметры создания видеофайла для различных устройств (по умолчанию)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2824"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2823"/>
         <source>Smartphone :</source>
         <translation>Смартфон:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2732"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2731"/>
         <source>Multimedia system :</source>
         <translation>Мультимедиа система:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2714"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2713"/>
         <source>For the WEB :</source>
         <translation>Интернет:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="505"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="506"/>
         <source>Enable &quot;raster&quot; Graphics System (Need application restart)</source>
         <translation>Включить &quot;растровую&quot; Графическую Систему (требуется перезапуск)</translation>
     </message>
@@ -288,7 +280,7 @@
         <translation>Автоматически обрезать видео 1920x1088 до 1920x1080</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="481"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="482"/>
         <source>SDL Audio use old mode</source>
         <translation>Использовать старый аудио режим SDL</translation>
     </message>
@@ -324,12 +316,12 @@
         <translation>Сглаживание изображений :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="633"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="634"/>
         <source>Smooth image during preview</source>
         <translation>Сглаживать изображение при предпросмотре</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2121"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2120"/>
         <source>Project geometry:</source>
         <translation>Геометрия проекта:</translation>
     </message>
@@ -341,104 +333,104 @@
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="364"/>
         <source>Activate deinterlace filter when add new MTS videos</source>
-        <translation>Активировать фильтр устранения чересстрочности (deinterlace) при добавлении нового видео в формате MTS</translation>
+        <translation>Активировать фильтр устранения чересстрочности при добавлении нового видео в формате MTS</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="619"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="620"/>
         <source>Video deinterlacing :</source>
         <translation>Устранение чересстрочности видео :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2111"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2110"/>
         <source>Project properties (default values)</source>
         <translation>Свойства проекта (по умолчанию)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2196"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2195"/>
         <source>1st shot duration:</source>
         <translation>Длительность первого кадра:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="831"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="830"/>
         <source>Next shot duration:</source>
         <translation>Длительность следующего кадра:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2456"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2455"/>
         <source>Default transition:</source>
         <translation>Переход по умолчанию:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1938"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1937"/>
         <source>Set the default type of transition to be inserted between slides to:
 Randomly from the transition library</source>
         <translation>Установить основной тип перехода между слайдами:
 случайным образом</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1962"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1961"/>
         <source>Set the default type of transition to be inserted between slides to:
 No transition</source>
         <translation>Установить основной тип перехода между слайдами:
 без перехода</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1986"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1985"/>
         <source>Set the default type of transition to be inserted between slides to:
 Crossfade transition</source>
         <translation>Установить основной тип перехода между слайдами:
 плавное затухание</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2373"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2372"/>
         <source>Text</source>
         <translation>Текст</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2500"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2499"/>
         <source>Background</source>
         <translation>Фон</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2275"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2274"/>
         <source>Coordinates</source>
         <translation>Координаты</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2184"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2183"/>
         <source>Default options for new image or video block (when creating slide)</source>
         <translation>Параметры нового изображения или видео (по умолчанию - при создании слайда)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1205"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1558"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1204"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1557"/>
         <source>Text style</source>
         <translation>Стиль текста</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1189"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1670"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1885"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1188"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1669"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1884"/>
         <source>Shape</source>
         <translation>Форма</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1905"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1904"/>
         <source>Title :</source>
         <translation>Название :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2259"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2258"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Project options (default values)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Параметры проекта (по умолчанию)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2563"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2562"/>
         <source>Author :</source>
         <translation>Автор:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2392"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2391"/>
         <source>No automatic filling</source>
         <translation>Без автозаполнения</translation>
     </message>
@@ -449,7 +441,6 @@ Crossfade transition</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="153"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="673"/>
         <source>This option allows you to adjust the positions occupied by new objects inserted into the timeline.
 - If Insert after the current selected object is selected, then the new slides will be created after the current slide.
 - If Append to the end of the project is selected, then the new slides will be created at the end of the project.</source>
@@ -458,12 +449,12 @@ Crossfade transition</source>
 - если выбран параметр Добавить в конец проекта, то новые слайды будут создаваться в конце проекта.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="478"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="479"/>
         <source>if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
         <translation>Если этот флажок установлен, используется старый режим SDL аудио. Этот параметр полезен на некоторых дистрибутивах Linux, которые все еще используют старые пакеты SDL (например: Ubuntu 10.10 и 11.04, Fedora 14 и 15, и т.д.).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="640"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="641"/>
         <source>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</source>
         <translation>Если этот флажок установлен, папки с изображениями, видео, проектами, музыкой и созданным фильмом будут запомнены и повторно использованы при следующем запуске ffDiaporama.</translation>
     </message>
@@ -477,7 +468,7 @@ Remark: Some manufacturers produce FullHD videos 1920×1088 rather than 1920×10
  установите этот флажок и такое видео будет обрезано до размера 1920 × 1080. По 4 строки обрезается сверху и снизу.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="629"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="630"/>
         <source>If this box is checked, the image smoothing effect will be applied to the images during the preview.
 Remark: This effect consumes lots of resources and can result in slow preview on small machines. Unchecking this box allows then to keep a fluid preview.</source>
         <translation>Если этот флажок установлен, то эффект сглаживания изображений будет применен во время предпросмотра.
@@ -498,13 +489,13 @@ Remark: This effect consumes lots of resources and can result in slow preview on
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="360"/>
         <source>If the Activate deinterlace filter when add new MTS videos is checked, deinterlace filter will automatically be activated for all .mts videos added to the project.
 Remark: Some manufacturers produce videos using interlaced mode. They make it to accelerate the encoding. The problem is it deforms the image on which moved lines appear. For more information on interlaced video, see Wikipedia page on interlaced video.</source>
-        <translation>Если этот флажок установлен, то фильтр устранения чересстрочности (deinterlace) будет автоматически активирован для всего .mts видео, добавленного в проект.
+        <translation>Если этот флажок установлен, то фильтр устранения чересстрочности будет автоматически активирован для всего .mts видео, добавленного в проект.
 Примечание: некоторые производители выпускают видео, используя режим чересстрочной развертки. Они делают это, чтобы ускорить кодирование. 
 Проблема в том, что он искажает изображение, на котором появляются линии движения. Для получения дополнительной информации по видео с чересстрочной разверткой,
 см. соответствующую статью в Википедии.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="571"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="572"/>
         <source>Defines the number of images per second which will be generated to show the preview.
 Note: the higher this number, the more smooth the preview will be. On the other hand, more computer resources will be required. Reduce this number on slow computers or if the gauge for your multimedia reader is frequently in the red zone.</source>
         <translation>Определяет количество кадров в секунду, которое будет использоваться при предпросмотре.
@@ -512,7 +503,7 @@ Note: the higher this number, the more smooth the preview will be. On the other 
 Уменьшите это значение на медленных компьютерах или если датчик вашего мультимедиапроигрывателя часто находится в красной зоне.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="501"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="502"/>
         <source>If this box is checked, the graphic system &quot;raster&quot; is used instead of the default graphic system. This option is used only at application start up.
 The &quot;raster&quot; Graphics accelerates the display but can raise problems on some computer in particular with KDE.</source>
         <translation>Если этот флажок установлен, будет использоваться растровая  графическая система вместо графической системы по умолчанию. Этот параметр вступит в силу только после перезапуска программы.
@@ -523,9 +514,9 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
         <source>If this box is checked, a confirmation prompt will be displayed every time you remove an object:
 - A slide from the main window
 -A shot or block from the slide properties dialog box</source>
-        <translation>Если этот флажок установлен, то запрос на подтверждение будет отображаться каждый раз, когда вы удалите объект:
-- слайд из главного окна
-- картинку или видеоблок из диалогового окна Свойства слайда</translation>
+        <translation>Если этот флажок установлен, то запрос на подтверждение будет отображаться при каждом удалении объекта:
+- слайда из главного окна
+- кадра или блока из диалогового окна свойств слайда</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="439"/>
@@ -533,8 +524,8 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
 - If this box is checked, files will be added in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040
 - If this box is unchecked, files are added in alphabetical order.</source>
         <translation>Эта опция позволяет настроить способ сортировки при добавлении нескольких файлов.
-- если этот флажок установлен, то файлы будут добавлены в порядке их численных суффиксов: например, если вы выберете IMG_0025, IMG_0032, MVI_0029 и MVI_0040, 
-то файлы будут вставлены следующим образом: IMG_0025, MVI_0029, IMG_0032 и MVI_0040
+- если этот флажок установлен, то файлы будут добавлены в порядке их численных суффиксов: например, если вы выберете файлы
+IMG_0025, IMG_0032, MVI_0029 и MVI_0040, то они будут расположены в следующем порядке: IMG_0025, MVI_0029, IMG_0032 и MVI_0040
 - если этот флажок не установлен, то файлы будут добавлены в алфавитном порядке.</translation>
     </message>
     <message>
@@ -553,12 +544,12 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
         <translation>(уменьшите это значение для медленного компьютера)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="523"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="524"/>
         <source>Defines the frequency of the sound generated to show the preview.</source>
         <translation>Определяет частоту звука для воспроизведения при предварительном просмотре.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="551"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="552"/>
         <source>Hz (Reduce this value for slow computer)</source>
         <translation>Гц (уменьшите это значение для медленного компьютера)</translation>
     </message>
@@ -571,21 +562,21 @@ The &quot;raster&quot; Graphics accelerates the display but can raise problems o
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="262"/>
         <source>Sets the maximum height of videos used for the preview.
 Beyond this height, the videos are automatically reduced for creating images.</source>
-        <translation>Устанавливает максимальную высоту видео, используемого при предварительном просмотре.
+        <translation>Определяет максимальную высоту видео, используемого при предварительном просмотре.
 Видео, превышающее эту высоту, будет автоматически уменьшено.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="747"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="746"/>
         <source>The Project options tab allows to define the options by default of the current project and for the new projects.</source>
-        <translation>Вкладка &quot;Параметры проекта&quot; позволяет задавать настройки по умолчанию как для текущего проекта, так и для новых проектов.</translation>
+        <translation>Вкладка &quot;Параметры проекта&quot; позволяет задать настройки по умолчанию как для текущего проекта, так и для новых проектов.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="806"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="805"/>
         <source>Sets the default speed curve for the blocks animations of new projects</source>
-        <translation>Устанавливает скорость кривой для анимации блоков новых проектов по умолчанию</translation>
+        <translation>Устанавливает скорость анимации блоков новых проектов по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2355"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2354"/>
         <source>Allows to Select the geometric constraint applied to the new text blocks.
 - Unlock: The shape of the block is free
 - Lock to project geometry: The shape of the block has the same shape as the image</source>
@@ -594,7 +585,7 @@ Beyond this height, the videos are automatically reduced for creating images.</s
 - Заблокировать геометрию проекта: форма блока имеет такую ​​же форму, что и изображение</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2303"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2302"/>
         <source>Selects the image geometry to be used for the creation of projects. Three geometries are available :
 - 4:3 : Corresponds to an old TV with (almost) square screen
 - 16:9 : Corresponds to a modern TV with rectangular screen
@@ -604,12 +595,12 @@ Note: the geometry of a project is defined once and for all when it is created. 
         <translation>Выбор геометрии изображения, используемой при создании проектов. Доступно три геометрии:
 - 4:3: соответствует старому телевизору с (почти) квадратным экраном 
 - 16:9: соответствует современному телевизору с прямоугольным экраном 
-- 2.35:1: соответствует формату кино (на экране телевизора, это формат будет использовать черные полосы вверху и внизу).
+- 2.35:1: соответствует формату кино (на экране телевизора, это формат приведет к появлению черных полос вверху и внизу).
 
 Примечание: геометрия проекта определяется при его создании один раз и навсегда. Ее невозможно изменить  впоследствии.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2383"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2382"/>
         <source>Defines the automatic filling method to use for the title&apos;s project properties:
 - No automatic filling : You will have to define manually the title
 - Fill with project name when project save : The title will take the same name as the .ffd file
@@ -618,78 +609,78 @@ Note: the geometry of a project is defined once and for all when it is created. 
 Note: this field is limited to 30 characters to remain compatible with jukebox</source>
         <translation>Определяет метод автоматического заполнения названия проекта:
 - Без автозаполнения: вы должны будете задать название вручную
-- Использовать имя проекта при сохранении: название будет таким же, как имя FFD файла
-- Использовать имя папки проекта при сохранении: название будет таким же, как имя папки, где находится FFD файл
+- Использовать имя проекта при сохранении: название будет таким же, как имя ffd файла
+- Использовать имя папки проекта при сохранении: название будет таким же, как имя папки, где находится ffd файл
 
 Примечание: это поле не должно превышать 30 символов, чтобы сохранить совместимость с jukebox</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2397"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2396"/>
         <source>Fill with project name when project save (if not yet defined)</source>
         <translation>Использовать имя проекта при сохранении (если не определено)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2402"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2401"/>
         <source>Fill with project folder name when project save (if not yet defined)</source>
         <translation>Использовать имя папки проекта при сохранении (если не определено)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2158"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2157"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This group of settings applies to the new image or video blocks created from the main window by means of the &lt;img src=&quot;:/img/add_image.png&quot;/&gt; button.&lt;br&gt;&lt;br&gt;For every image format and every project geometry select the style of location to applied to the new blocks. &lt;br&gt;- Framing styles define how to crop the image to make it compatible with the block in which is displayed.&lt;br&gt;- The positioning styles define the the size, coordinates, rotations and geometric constraint to apply to blocks.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Эта группа настроек применяется к новому изображению или блоку видео, созданному из главного окна с помощью кнопки &lt;img src=&quot;:/img/add_image.png&quot;/&gt;&quot;.&lt;br&gt;&lt;br&gt;Для каждого формата изображения и каждой геометрии проекта выберите стиль расположения, применяемый к новым блокам. &lt;br&gt;- Стиль обрамления определяет  как обрезается изображение, для обеспечения его совместимости с блоком, в котором оно отображается..&lt;br&gt;-Стиль позиционирования определяет размер, координаты, повороты и ограничения геометрии, применяемые к блокам.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Эта группа настроек применяется к новому изображению или видео, созданным из главного окна с помощью кнопки &lt;img src=&quot;:/img/add_image.png&quot;/&gt;&quot;.&lt;br&gt;&lt;br&gt;Для каждого формата изображения и каждой геометрии проекта выберите стиль расположения, применяемый к новым блокам. &lt;br&gt;- Стиль кадрирования определяет  как обрезается изображение, для обеспечения его совместимости с блоком, в котором оно отображается..&lt;br&gt;-Стиль позиционирования определяет размер, координаты, вращение и ограничения геометрии, применяемые к блокам.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2227"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2226"/>
         <source>Sets the default speed curve for the image effects animations of new projects</source>
-        <translation>Устанавливает скорость кривой для анимации изображений новых проектов по умолчанию</translation>
+        <translation>Устанавливает скорость анимации изображений новых проектов по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2573"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2572"/>
         <source>Allows to select, for every project geometry, the style of the location applied to the new text blocks.
 This style defines the size, the coordinates, the rotations and the geometrical constraint.</source>
         <translation>Позволяет выбрать для геометрии каждого проекта стиль расположения, применяемый к новым текстовым блокам.
 Этот стиль определяет размер, координаты, повороты и ограничения геометрии.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2528"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2527"/>
         <source>Defines the default duration of further shots.</source>
         <translation>Определяет длительность следующих кадров (по умолчанию).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="918"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="934"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="985"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1001"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1109"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1141"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1494"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1542"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1574"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1622"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1686"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1702"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="917"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="933"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="984"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1000"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1108"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1140"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1493"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1541"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1573"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1621"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1685"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1701"/>
         <source>Framing styles define how to crop the image to make it compatible with the block in which is displayed.</source>
         <translation>Стиль обрамления определяет как обрезается изображение, для обеспечения его совместимости с блоком, в котором оно отображается.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="867"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="902"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="950"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1125"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1157"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1173"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1510"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1526"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1590"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1606"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1638"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1654"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="866"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="901"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="949"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1124"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1156"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1172"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1509"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1525"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1589"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1605"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1637"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1653"/>
         <source>The positioning styles define the the size, coordinates, rotations and geometric constraint to apply to blocks.</source>
-        <translation>Стиль позиционирования определяет размер, координаты, повороты и ограничения геометрии, применяемые к блокам.</translation>
+        <translation>Стиль позиционирования определяет размер, координаты, вращение и ограничения геометрии, применяемые к блокам.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1227"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1728"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1226"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1727"/>
         <source>Allows to select the characters style applied to the text of the blocks.
 This style defines the font, its size, its color and the shadow effects applied to the text.
 Remark: This setting apply to all image formats.</source>
@@ -698,8 +689,8 @@ Remark: This setting apply to all image formats.</source>
 Примечание: эта настройка применяется для всех форматов.</translation>
     </message>
     <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1215"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1740"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1214"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1739"/>
         <source>Allows to select the style of the shape applied to the new text blocks.
 This style defines the shape (rectangle, circle, …), the border, the opaqueness and the shadow effect applied to the block.
 Remark: This setting apply to all image formats.</source>
@@ -708,100 +699,104 @@ Remark: This setting apply to all image formats.</source>
 Примечание: эта настройка применяется для всех форматов.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1895"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1894"/>
         <source>Default language :</source>
         <translation>Язык по умолчанию:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1868"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1867"/>
         <source>Allows to select the characters style applied to the new text blocks.
 This style defines the font, its size, its color and the shadow effects applied to the text.</source>
         <translation>Позволяет выбрать стиль символов, применяемый к новым блокам текста.
 Этот стиль определяет шрифт, его размер, цвет и эффект тени, применяемый к тексту.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1443"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1442"/>
         <source>Defines the default value for the field Language</source>
         <translation>Установка параметров языка по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1446"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1445"/>
         <source>und</source>
         <translation>und</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1462"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1461"/>
         <source>(ISO 639 language code)</source>
         <translation>(код языка по ISO 639)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2483"/>
-        <source>Defines the default value for the field Author (often so called Artist by Jukebox)
-Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation>Определяет значение по умолчанию для поля Автор (часто его называют Артист в Jukebox) 
-Примечание: это поле не должно превышать 30 символов, чтобы сохранить совместимость с Jukebox</translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2431"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2430"/>
         <source>Sets the default speed wave for the transitions of new projects</source>
-        <translation>Устанавливает скорость волны для переходов новых проектов по умолчанию</translation>
+        <translation>Устанавливает скорость переходов новых проектов по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="712"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="468"/>
+        <source>
+Editor options (when adding objects)</source>
+        <translation>Параметры редактора (при добавлении объектов)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="674"/>
+        <source>This option allows you to specify the format in which computed dates are displayed.</source>
+        <translation>Этот параметр позволяет выбрать формат в котором будет отображаться дата.</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="711"/>
         <source>If this box is checked, a dialog box will appear at startup the next time a new version will be available.</source>
         <translation>Если этот флажок установлен, при появлении новой версии во время запуска появится диалоговое окно.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1246"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1245"/>
         <source>Defines the default duration of the first shot for slides during their creation.</source>
-        <translation>Определяетдлительность первого кадра  по умолчанию для слайдов во время их создания.</translation>
+        <translation>Определяет длительность первого кадра  по умолчанию для слайдов во время их создания.</translation>
     </message>
     <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1281"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1280"/>
         <source>Allows to select the style of the shape to applied to the new text blocks.
 This style defines the shape (rectangle, circle, …), the border, the opaqueness and the shadow effect applied to the block.</source>
         <translation>Позволяет выбрать тип фигуры, применяемый к новому текстовому блоку.
-Этот стиль определяет форму (прямоугольник, круг, ...), границы, непрозрачность и  эффект тени, применяемый к блоку.</translation>
+Этот стиль определяет форму (прямоугольник, круг, ...), границы, непрозрачность и эффект тени, применяемый к блоку.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1292"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1291"/>
         <source>Allows to select the style of background applied to the new text blocks.
 This style defines the transparency of the block and its filling.</source>
         <translation>Позволяет выбрать тип фона, применяемый к новому текстовому блоку. 
 Этот стиль определяет прозрачность блока и его заливку.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1327"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1326"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This group of settings applies to the new text blocks created in slide dialogue by means of the &lt;img src=&quot;:/img/add_text.png&quot;/&gt; button.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Эта группа настроек применяется к новым текстовым блокам, созданные на слайде с пмощью кнопки &lt;img src=&quot;:/img/add_text.png&quot;/&gt;&quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Эта группа настроек применяется к новым текстовым блокам, созданным в окне редактирования слайда с помощью кнопки &lt;img src=&quot;:/img/add_text.png&quot;/&gt;&quot;.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1353"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1352"/>
         <source>Default options for new text block</source>
-        <translation>Параметры для нового текстового блока (по умолчанию)</translation>
+        <translation>Параметры нового текстового блока (по умолчанию)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1382"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1381"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;This group of settings applies to the new image or video blocks created in slide dialogue by means of the &lt;img src=&quot;:/img/add_image.png&quot;/&gt; button.&lt;br/&gt;&lt;br/&gt;For every image format and every project geometry select the style of location to applied to the new blocks. &lt;br/&gt;- Framing styles define how to crop the image to make it compatible with the block in which is displayed.&lt;br/&gt;- The positioning styles define the the size, coordinates, rotations and geometric constraint to apply to blocks.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Эта группа настроек применяется к новому изображению или блоку видео, созданным на слайде с помощью кнопки &lt;img src=&quot;:/img/add_image.png&quot;/&gt;&quot;.&lt;br/&gt;&lt;br/&gt;Для каждого формата изображения и каждой геометрии проекта выберите стиль расположения, применяемый к новым блокам. &lt;br/&gt;-Стиль обрамления определяет  как обрезается изображение, для обеспечения его совместимости с блоком, в котором оно отображается.&lt;br/&gt;-Стиль позиционирования определяет размер, координаты, повороты и ограничения геометрии, применяемые к блокам.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Эта группа настроек применяется к новому изображению или видео, созданным в окне редактирования слайда с помощью кнопки &lt;img src=&quot;:/img/add_image.png&quot;/&gt;&quot;.&lt;br/&gt;&lt;br/&gt;Для каждого формата изображения и каждой геометрии проекта выберите стиль расположения, применяемый к новым блокам. &lt;br/&gt;-Стиль кадрирования определяет  как обрезается изображение, для обеспечения его совместимости с блоком, в котором оно отображается.&lt;br/&gt;-Стиль позиционирования определяет размер, координаты, вращение и ограничения геометрии, применяемые к блокам.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1408"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1407"/>
         <source>Default options for new image or video block (when adding block in slide dialog)</source>
-        <translation>Параметры для новых изображений или блоков видео (по умолчанию при добавлении блока в диалоге слайда)</translation>
+        <translation>Параметры нового изображения или видео (по умолчанию - при добавлении блока)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2637"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2636"/>
         <source>The Rendering options Tab allows to define the options used by default during the generation of videos.</source>
-        <translation>Вкладка &quot;Параметры рендеринга&quot; позволяет задавать настройки, используемые по умолчанию при создании видео.</translation>
+        <translation>Вкладка &quot;Параметры создания файла&quot; позволяет задать настройки, используемые по умолчанию при создании видео.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2874"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2873"/>
         <source>Default video name :</source>
         <translation>Имя видео (по умолчанию) :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2884"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2883"/>
         <source>This option allows to select the name which will be proposed by default during the rendering of videos.
 This option can be applied only if the project was saved at first.
 
@@ -810,210 +805,207 @@ Use project name as video name: If the project name is assembly.ffd, then assemb
 Use project folder&apos;s name as video name: If the project name is assembly.ffd and is saved in the My holidays 2011 directory, then My holidays 2011 will be the proposed name
 
 Use title project as video name: Use the title defined in the project properties as the name of video</source>
-        <translation>Эта опция позволяет выбрать название, которое будет предложено по умолчанию во время рендеринга видео.
-Онп может быть применена только если проект был сохранен впервые.
+        <translation>Эта опция позволяет выбрать название, которое будет предложено по умолчанию во время создания видео.
+Она может быть применена только если проект был сохранен впервые.
 
 Использовать имя файла проекта как название видео: если имя файла проекта &quot;assembly.ffd&quot;, то название видео будет &quot;assembly&quot;
 
-Использовать имя папки проекта какназвание видео: если имя проекта &quot;assembly.ffd&quot; и он сохранен в папке &quot;Мои праздники 2011&quot;, то название видео будет &quot; Мои праздники 2011&quot;
+Использовать имя папки проекта как название видео: если имя проекта &quot;assembly.ffd&quot; и он сохранен в папке &quot;Мои праздники 2011&quot;, то название видео будет &quot; Мои праздники 2011&quot;
 
 Использовать имя проекта как название видео: использование имени определено в свойствах проекта в качестве названия видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2900"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2899"/>
         <source>Use project name as video name</source>
         <translation>Использовать имя файла проекта как название видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3367"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3366"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3370"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3369"/>
         <source>&amp;Help</source>
         <translation>&amp;Справка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2895"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2894"/>
         <source>Use project folder&apos;s name as video name</source>
         <translation>Использовать имя папки проекта как название видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2905"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2904"/>
         <source>Use title project as video name</source>
         <translation>Использовать имя проекта как название видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2864"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2863"/>
         <source>Lossless :</source>
         <translation>Сжатие без потерь :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3315"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3314"/>
         <source>Manage Devices</source>
         <translation>Управление устройствами</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3301"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3300"/>
         <source>Check Configuration</source>
         <translation>Проверить конфигурацию</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2473"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2472"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Default options for speed wave&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Параметры скорости волны (по умолчанию)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Параметры скорости (по умолчанию)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2510"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2509"/>
         <source>Block animation:</source>
-        <translation variants="yes">
-            <lengthvariant>Анимация блока:</lengthvariant>
-            <lengthvariant></lengthvariant>
-        </translation>
+        <translation>Анимация блока:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2416"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2415"/>
         <source>Locking</source>
         <translation>Блокировка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2209"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2208"/>
         <source>Transition:</source>
         <translation>Переход:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="883"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1758"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="882"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1757"/>
         <source>Photo landscape</source>
         <translation>Фото - ландшафтный режим</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="966"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1796"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="965"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1795"/>
         <source>Image landscape</source>
         <translation>Изображение - ландшафтный режим</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1011"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1720"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1010"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1719"/>
         <source>
 Coordinates:</source>
         <translation>
 Координаты:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1025"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1834"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1024"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1833"/>
         <source>Video landscape</source>
         <translation>Видео - ландшафтный режим</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1044"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1777"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1043"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1776"/>
         <source>Photo portrait</source>
         <translation>Фото - портретный режим</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1057"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1712"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1056"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1711"/>
         <source>
 Framing:</source>
         <translation>
-Обрамление:</translation>
+Кадрирование:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1071"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1853"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1070"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1852"/>
         <source>Video portrait</source>
         <translation>Видео - портретный режим</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1090"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1815"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1089"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1814"/>
         <source>image portrait</source>
         <translation>Изображение - портретный режим</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2285"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2284"/>
         <source>Image animation:</source>
         <translation>Анимация изображения:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3030"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3029"/>
         <source>Select the default bit rate to use for video during the rendering</source>
-        <translation>Выберите битрейт видео для рендеринга (по умолчанию)</translation>
+        <translation>Выберите битрейт видео создаваемого файла (по умолчанию)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3023"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3022"/>
         <source>Select the default video codec to use for the rendering</source>
-        <translation>Выберите видео кодек для рендеринга (по умолчанию)</translation>
+        <translation>Выберите видео кодек для создаваемого файла (по умолчанию)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3072"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3124"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3071"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3123"/>
         <source>Select the default audio codec to use for the rendering</source>
-        <translation>Выберите аудио кодек для рендеринга (по умолчанию)</translation>
+        <translation>Выберите аудио кодек для создаваемого файла (по умолчанию)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2704"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3202"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2703"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3201"/>
         <source>Select the default bit rate to use for audio during the rendering</source>
-        <translation>Выберите битрейт аудио для рендеринга (по умолчанию)</translation>
+        <translation>Выберите битрейт аудио создаваемого файла (по умолчанию)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2724"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2723"/>
         <source>Select the type of equipment which will be proposed by default
 when you click the &quot;Player and Smartphone&quot; button in the &quot;Render movie&quot; menu</source>
         <translation>Выберите вид оборудования, который будет предложен по умолчанию
-при нажатии кнопки &quot;Плеер и смартфон&quot; в меню &quot;Создать фильм&quot;</translation>
+при нажатии кнопки &quot;Плеер и смартфон&quot; в меню &quot;Создание видео&quot;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2758"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2757"/>
         <source>Select the type of equipment which will be proposed by default
 when you click the &quot;For the WEB&quot; button in the &quot;Render movie&quot; menu</source>
         <translation>Выберите вид оборудования, который будет предложен по умолчанию
-при нажатии кнопки &quot;Интернет&quot; в меню &quot;Создать фильм&quot;</translation>
+при нажатии кнопки &quot;Интернет&quot; в меню &quot;Создание видео&quot;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2795"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2794"/>
         <source>Select the type of equipment which will be proposed by default
 when you click the &quot;Multimedia system&quot; button in the &quot;Render movie&quot; menu</source>
         <translation>Выберите вид оборудования, который будет предложен по умолчанию
-при нажатии кнопки &quot;Мультимедиа система&quot; в меню &quot;Создать фильм&quot;</translation>
+при нажатии кнопки &quot;Мультимедиа система&quot; в меню &quot;Создание видео&quot;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2787"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2786"/>
         <source>Select the model of equipment which will be proposed by default
 when you click the &quot;Player and Smartphone&quot; button in the &quot;Render movie&quot; menu</source>
         <translation>Выберите модель оборудования, которая будет предложена по умолчанию
-при нажатии кнопки &quot;Плеер и смартфон&quot; в меню &quot;Создать фильм&quot;</translation>
+при нажатии кнопки &quot;Плеер и смартфон&quot; в меню &quot;Создание видео&quot;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2803"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2802"/>
         <source>Select the model of equipment which will be proposed by default
 when you click the &quot;Multimedia system&quot; button in the &quot;Render movie&quot; menu</source>
         <translation>Выберите модель оборудования, которая будет предложена по умолчанию
 при нажатии кнопки &quot;Мультимедиа система&quot; в меню &quot;Создать фильм&quot;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2766"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2765"/>
         <source>Select the model of equipment which will be proposed by default
  when you click the &quot;For the WEB&quot; button in the &quot;Render movie&quot; menu</source>
         <translation>Выберите модель оборудования, которая будет предложена по умолчанию
 при нажатии кнопки &quot;Интернет&quot; в меню &quot;Создать фильм&quot;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2780"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3163"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2779"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3162"/>
         <source>Select the default file type to use for the rendering</source>
-        <translation>Выберите формат файла для рендеринга (по умолчанию)</translation>
+        <translation>Выберите формат создаваемого файла (по умолчанию)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2748"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2840"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2747"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2839"/>
         <source>Select the default image format to use for the rendering</source>
-        <translation>Выберите формат изображения для рендеринга (по умолчанию)</translation>
+        <translation>Выберите формат изображения создаваемого видеофайла (по умолчанию)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="184"/>
@@ -1031,109 +1023,115 @@ when you click the &quot;Multimedia system&quot; button in the &quot;Render movi
         <translation>Отключить всплывающие подсказки в диалоговых окнах</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="660"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="661"/>
         <source>Short date format :</source>
         <translation>Краткий формат даты :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="729"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="728"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Various options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Разные настройки&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="715"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="714"/>
         <source>Offer to open the download Web page when a new version is available</source>
         <translation>Предлагать открыть страницу загрузки при появлении новой версии</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2584"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2583"/>
         <source>For more compatibility with the standard id3v2, check this box to limit Title, Author and Album fields to 30 characters</source>
         <translation>Установите этот флажок для большей совместимости со стандартом id3v2 (ограничение полей Название, Автор и Альбом 30 символами)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2587"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2586"/>
         <source>Enhance id3v2 comptatibility</source>
         <translation>Повышенная совместимость с id3v2</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2594"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2593"/>
         <source>Default thumbnail :</source>
         <translation>Обложка по умолчанию :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2616"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2615"/>
         <source>Defines the model use as default thumbnail</source>
         <translation>Выбрать шаблон, используемый в качестве обложки по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2932"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2931"/>
         <source>Select the default video standard to use, PAL or NTSC</source>
-        <translation>Выберите  стандарт видео для использования, PAL или NTSC </translation>
+        <translation>Выберите используемый стандарт видео, PAL или NTSC </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2971"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2970"/>
         <source>Default soundtrack rendering options</source>
-        <translation>Параметры рендеринга аудио (по умолчанию)</translation>
+        <translation>Параметры создания аудиофайла (по умолчанию)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3212"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3235"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3211"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3234"/>
         <source>Frequency :</source>
         <translation>Частота:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3195"/>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3228"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3194"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3227"/>
         <source>Select the default frequency to use for audio during the rendering.</source>
-        <translation>Выберите частоту, используемую для рендеринга аудио (по умолчанию).</translation>
+        <translation>Выберите частоту аудио создаваемого файла (по умолчанию).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3245"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2482"/>
+        <source>Defines the default value for the field Author (often so called Artist by Media Center Systems)
+Note: this field is limited to 30 characters to remain compatible with jukebox</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3244"/>
         <source>If this box is checked then a thumbnail file will be created with video.</source>
-        <translation>Если этот флажок установлен, обложка будет создана вместе с видео файлом.</translation>
+        <translation>Если этот флажок установлен, обложка будет создана вместе с видеофайлом.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3248"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3247"/>
         <source>Join thumbnail to rendered file</source>
         <translation>Присоединить обложку к создаваемому файлу</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3255"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3254"/>
         <source>If this box is checked then a XMBC .nfo file will be created with video.</source>
-        <translation>Если этот флажок установлен, XMBC .nfo файл будет создан вместе с видео файлом.</translation>
+        <translation>Если этот флажок установлен, XMBC .nfo файл будет создан вместе с видеофайлом.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3258"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3257"/>
         <source>Join XBMC .nfo file to rendered file</source>
         <translation>Присоединить XBMC .nfo файл к создаваемому файлу</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3298"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3297"/>
         <source>Allows you to open the Check configuration dialog box</source>
         <translation>Открывает диалоговое окно проверки конфигурации</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3312"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3311"/>
         <source>Allows you to open the Manage device dialog box</source>
         <translation>Открывает диалоговое окно управления устройствами</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3339"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3338"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Применить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3342"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3341"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ок</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3353"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3352"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Отменить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3356"/>
+        <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3355"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Отмена</translation>
     </message>
@@ -1150,7 +1148,7 @@ See help for more details!</source>
 Смотрите справку для более подробной информации!</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="785"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="791"/>
         <source>MM/dd/yyyy</source>
         <comment>Default Date format : dd/MM/yyyy or MM/dd/yyyy or yyyy/MM/dd or dd.MM.yyyy and so on...</comment>
         <translation>MM/dd/yyyy</translation>
@@ -1161,12 +1159,12 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="313"/>
         <source>Event date:</source>
-        <translation>Дата события:</translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="335"/>
         <source>If this box is checked, you can enter a longtime different from that generated from the date of the chapter.</source>
-        <translation>Если этот флажок установлен, вы сможете ввести даты, отличающиеся от созданной даты главы.</translation>
+        <translation>Отметьте этот флажок, чтобы ввести дату вручную в нужном вам формате (как простой текст).</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="345"/>
@@ -1226,7 +1224,7 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="140"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="143"/>
@@ -1288,7 +1286,7 @@ See help for more details!</source>
         <source>This button allows you to convert this slide to a standard slide.
 Standard slide are fully customizable.</source>
         <translation>Эта кнопка позволяет преобразовать этот слайд в обычный слайд.
-Обычный слайд полностью настроиваем.</translation>
+Обычный слайд полностью настраиваем.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="405"/>
@@ -1337,7 +1335,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgBackground/DlgBackgroundProperties.ui" line="605"/>
         <source>Full filling (deform image)</source>
-        <translation>Растянуть (может деформировать изображение)</translation>
+        <translation>Растянуть (с деформацией)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgBackground/DlgBackgroundProperties.ui" line="347"/>
@@ -1427,7 +1425,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgBackground/DlgBackgroundProperties.ui" line="768"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgBackground/DlgBackgroundProperties.ui" line="771"/>
@@ -1515,7 +1513,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="130"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="133"/>
@@ -1588,7 +1586,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="153"/>
         <source>Event date:</source>
-        <translation>Дата события:</translation>
+        <translation>Дата:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="163"/>
@@ -1598,7 +1596,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="53"/>
         <source>If this box is checked, you can enter a longtime different from that generated from the date of the chapter.</source>
-        <translation>Если этот флажок установлен, вы сможете ввести даты, отличающиеся от созданной даты главы.</translation>
+        <translation>Отметьте этот флажок, чтобы ввести дату вручную в нужном вам формате (как простой текст).</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="63"/>
@@ -1652,7 +1650,7 @@ Yellow: The component works partially
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.ui" line="117"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.ui" line="120"/>
@@ -1857,7 +1855,7 @@ Yellow: The component works partially
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="158"/>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="159"/>
         <source>Lossless rendering</source>
-        <translation>Рендеринг &quot;без потерь&quot;</translation>
+        <translation>Сжатие &quot;без потерь&quot;</translation>
     </message>
 </context>
 <context>
@@ -1885,7 +1883,7 @@ Yellow: The component works partially
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="188"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="191"/>
@@ -2026,7 +2024,7 @@ Yellow: The component works partially
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="977"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="980"/>
@@ -2274,7 +2272,7 @@ A value of 10 corresponds to 10 points on a 1920×1080 FullHD screen, but only t
         <translation>Толщина границы.
 
 Примечание: определяется как 1/1080 от высоты экрана.
-Значение 10 соответствует 10 точек на 1920 × 1080 FullHD экране и только 6 точек на 1280 × 720 экране.</translation>
+Значению 10 соответствует 10 точек на 1920 × 1080 FullHD экране и только 6 точек на 1280 × 720 экране.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1277"/>
@@ -2343,7 +2341,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>Определить значения масштабирования текста.
 
 Примечание: чтобы получить анимацию текста, вы должны создать как минимум 2 кадра:
-- определение значения масштабирования и прокрутки для 1-го кадра
+- определеть значения масштабирования и прокрутки для 1-го кадра
 - определить другие значения масштабирования и прокрутки для 2-го кадра</translation>
     </message>
     <message>
@@ -2384,7 +2382,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1911"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1914"/>
@@ -2615,10 +2613,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="121"/>
         <source>None</source>
-        <translation variants="yes">
-            <lengthvariant>Нет</lengthvariant>
-            <lengthvariant>Нет</lengthvariant>
-        </translation>
+        <translation>Нет</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="122"/>
@@ -2676,51 +2671,51 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>Кадрирование и коррекция изображения</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2574"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2522"/>
         <source>Define the width</source>
         <translation>Определить ширину</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1331"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1328"/>
         <source>Define the height</source>
         <translation>Определить высоту</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="570"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="669"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="604"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="635"/>
         <source>Adjust luminosity</source>
         <translation>Настройка яркости</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1694"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1967"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1667"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1890"/>
         <source>Adjust contrast</source>
         <translation>Настройка контрастности</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1523"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2366"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1471"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2324"/>
         <source>Adjust gamma</source>
         <translation>Настройка гаммы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="321"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="293"/>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="359"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="436"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="775"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="816"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="915"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="929"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1166"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1567"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1897"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1989"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2711"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="480"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="716"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="801"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="875"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="889"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1107"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1496"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1835"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1937"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2548"/>
         <source>Reset to zero</source>
         <translation>Сбросить на 0</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="335"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="307"/>
         <source>Reset to 5</source>
         <translation>Сбросить на 5</translation>
     </message>
@@ -2730,33 +2725,33 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>Имя файла изображения/видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3251"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3248"/>
         <source>Undo last action (CTRL+Z)</source>
         <translation>Отменить последнее действие (Ctrl + Z)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3254"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3251"/>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3261"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3258"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3209"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3206"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Применить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="789"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="730"/>
         <source>Reset to 1</source>
         <translation>Сбросить на 1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="703"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2316"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="669"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2264"/>
         <source>Adjust red channel</source>
         <translation>Настроить красный канал</translation>
     </message>
@@ -2766,103 +2761,103 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>Выбрать другой файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="385"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1762"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="395"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1642"/>
         <source>Adjust green channel</source>
         <translation>Настроить зеленый канал</translation>
     </message>
     <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2607"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2579"/>
         <source>Turn the image to the left (on the next multiple of 90°)</source>
         <translation>Повернуть изображение влево (на 90°)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2632"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2604"/>
         <source>Define the rotation angle for the z axis</source>
         <translation>Определить угол вращения по оси z</translation>
     </message>
     <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2672"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2644"/>
         <source>Turn the image to the right (on the next multiple of 90°)</source>
         <translation>Повернуть изображение вправо (на 90°)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="601"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1606"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="551"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1554"/>
         <source>Adjust blue channel</source>
         <translation>Настроить синий канал</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3185"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3182"/>
         <source>Rulers</source>
         <translation>Линейки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1186"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1174"/>
         <source>Artistic effects:</source>
         <translation>Художественные эффекты:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2416"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2311"/>
         <source>Antialias</source>
         <translation>Сглаживание</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1880"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1757"/>
         <source>Emboss</source>
         <translation>Тиснение</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2303"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2076"/>
         <source>Equalize</source>
-        <translation>Выровнять</translation>
+        <translation>Выравнивание</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2099"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2028"/>
         <source>Negative</source>
         <translation>Негатив</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="487"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="473"/>
         <source>Oilpaint</source>
         <translation>Рисунок маслом</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1890"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1852"/>
         <source>Edge</source>
         <translation>Контур</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1724"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1722"/>
         <source>Type:</source>
         <translation>Тип:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1741"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1739"/>
         <source>Fast</source>
-        <translation>быстро</translation>
+        <translation>быстрый</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1746"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1744"/>
         <source>Gaussian</source>
         <translation>размытие по Гауссу</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1847"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2112"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1805"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2089"/>
         <source>Adjust blur/sharpen radius</source>
         <translation>Настроить радиус размытия/резкости</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="893"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1119"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1398"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1631"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="853"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1079"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1243"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1579"/>
         <source>Adjust blur/sharpen sigma</source>
         <translation>Настроить сигму размытия/резкости</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="429"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="376"/>
         <source>Grayscale</source>
         <translation>Оттенки серого</translation>
     </message>
@@ -2872,48 +2867,48 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>Улучшение цвета:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2847"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2788"/>
         <source>Framing and form:</source>
-        <translation>Кадрирование и формовка:</translation>
+        <translation>Кадрирование и форма:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2704"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2541"/>
         <source>Automatic contrast (normalize)</source>
         <translation>Автоконстрастность (нормализация)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="635"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2809"/>
         <source>Select a shape for the current block</source>
         <translation>Выбрать форму данного блока</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="946"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="906"/>
         <source>Despeckle</source>
         <translation>Удаление пятен</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="809"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="775"/>
         <source>Image distortion:</source>
         <translation>Искажение изображения:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1075"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="972"/>
         <source>Image enhancement:</source>
         <translation>Улучшение изображения:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="880"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="840"/>
         <source>Luminosity, contrast and gamma:</source>
         <translation>Яркость, контрастность и гамма:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="352"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="324"/>
         <source>Charcoal</source>
         <translation>Рисунок углем</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="984"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2009"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="944"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1957"/>
         <source>Adjust desaturat level</source>
         <translation>Настроить уровень обесцвечивания</translation>
     </message>
@@ -2929,50 +2924,50 @@ Remark: To make animations of text, you have to create at least 2 shots then:
 - Rotate image (change or restore the orientation portrait/landscape)
 - Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
         <translation>Позволяет:
-- настроить кадрирование изображения (выберать часть изображения),
+- настроить кадрирование изображения (выбрать часть изображения),
 - повернуть изображение (изменить или восстановить книжную / альбомную ориентацию)
 - подкорректировать изображение (изменить цвета и / или  экспозицию), а также применить графические фильтры.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="299"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1039"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="337"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1012"/>
         <source>Adjust value for frequency of wave transformation</source>
-        <translation>Настроить частоту трансформации волны</translation>
+        <translation>Настроить частоту волновой трансформации</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="349"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="321"/>
         <source>Allows you to activate the charcoal filter.</source>
         <translation>Активировать угольный фильтр.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="426"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="373"/>
         <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
         <translation>Активировать фильтр градации серого (черно-белый).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="462"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1787"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="448"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1692"/>
         <source>Adjust value for implode transformation</source>
         <translation>Настроить значение имплозии (взрыв направленный внутрь)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="484"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="470"/>
         <source>Allows you to activate the oilpaint filter.</source>
         <translation>Активировать маслянный фильтр.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="943"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="903"/>
         <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
         <translation>Активировать фильтр удаления пятен (подавления шумов).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1199"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2167"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1146"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2144"/>
         <source>Adjust value for amplitude of wave transformation</source>
-        <translation>Настроить значение амплитуды волны преобразований</translation>
+        <translation>Настроить амплитуду волновой трансформации</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1307"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1304"/>
         <source>Allows you to define the width.
 This value is expressed as a percentage (%) of the original width of the image.
 Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</source>
@@ -2981,7 +2976,7 @@ Example: if Width=33 %, the re-framed image will represent 1/3 of the original.<
 Пример: если ширина = 33 %, кадрированное изображение составит 1/3 оригинала.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1353"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1350"/>
         <source>Allows you to define the height.
 This value is expressed as a percentage (%) of the original height of the image.
 Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</source>
@@ -2990,28 +2985,28 @@ Example: if Height=33 %, the re-framed image will represent 1/3 of the original.
 Пример: если высота = 33 %, кадрированное изображение составит 1/3 оригинала.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1492"/>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2737"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1440"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2685"/>
         <source>Adjust value for swirl transformation</source>
         <translation>Настроить значение трансформации кручения</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1737"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1735"/>
         <source>Select the blur/sharpen algorythm</source>
         <translation>Выберите алгоритм размытия/резкости</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1877"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1754"/>
         <source>Allows you to activate the emboss filter.</source>
         <translation>Активировать фильтр тиснения.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1887"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1849"/>
         <source>Allows you to activate the edge filter.</source>
         <translation>Активировать фильтр контура.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2072"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1976"/>
         <source>Allows you to select a framing from a list of predefined framings.
 According to the image format, various choices will be proposed to you.
 
@@ -3030,79 +3025,79 @@ No constraint is applied to the image framing selection rectangle.
 - Lock on this geometry:
 Lock image framing selection rectangle to the actual geometry.
 This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
-        <translation>Позволяет выбрать обрамление из предопределенного списка.
+        <translation>Позволяет выбрать тип кадрирования из предопределенного списка.
 В соответствии с форматом изображения, вам будут доступны различные варианты.
 
-Обрамление подразделяется на различные категории: 
+Кадрирование подразделяется на следующие категории: 
 - Блокировка геометрии проекта:
-Будет выбран прямоугольник той же геометрии, что и сам проект.
+Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и сам проект.
 Если вы откроете изображение в полноэкранном режиме, то выбранная часть будет соответствовать всему экрану.
 
 - Блокировка геометрии изображения:
-Будет выбран прямоугольник той же геометрии, что и изображение.
+Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и изображение.
 
 - Без ограничений:
-Ограничения не применяются к области выделения границы изображения.
+Означает, что к прямоугольнику выделения при кадрировании изображения не применяются ограничения.
 
 - Блокировка геометрии:
-Будет выбран прямоугольник соответствующий фактической геометрии.
+Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и в настоящее время.
 Это имеет смысл только когда форма была определена в режиме &quot;без ограничений&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2096"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2025"/>
         <source>Allows you to activate the negative filter.</source>
         <translation>Активировать фильтр негатива.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2205"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2182"/>
         <source>Allows you to define the horizontal position from the left (X).
 This position is expressed as a percentage (%) of the width of the image.
 Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</source>
         <translation>Позволяет задать горизонтальное положение от левого края (X).
 Это положение, выраженное в процентах (%) от ширины изображения.
-Например: если Х = 25 %, то левая четверть изображения исключается.</translation>
+Например: если Х = 25 %, то левая четверть изображения будет обрезана.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2248"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2225"/>
         <source>Allows you to define the vertical position from the top of the image ( Y ).
 This position is expressed as a percentage (%) of the height of the image.
 Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</source>
         <translation>Позволяет задать вертикальное положение от верхнего края (Y).
 Это положение, выраженное в процентах (%) от высоты изображения.
-Например: если Y = 25 %, то верхняя четверть изображения исключается.</translation>
+Например: если Y = 25 %, то верхняя четверть изображения будет обрезана.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2300"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2073"/>
         <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
         <translation>Активировать фильтр выравнивания (выравнивание гистограммы).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2413"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2308"/>
         <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
         <translation>Активировать фильтр сглаживания (сведение к минимуму артефактов искажения).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2429"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2352"/>
         <source>Annimation settings:</source>
         <translation>Настройки анимации:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2701"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2538"/>
         <source>Allows you to activate the normalize filter.</source>
         <translation>Активировать фильтр нормализации.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2778"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2726"/>
         <source>Speed wave:</source>
-        <translation>Скорость волны:</translation>
+        <translation>Скорость:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2788"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="1408"/>
         <source>Defined speed curve for image animations.</source>
-        <translation>Задать скорость кривой анимации изображений.</translation>
+        <translation>Задать скорость анимации изображений.</translation>
     </message>
     <message utf8="true">
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2809"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2750"/>
         <source>You can use the + and – buttons in each input field to change the settings, or directly enter values for the five parameters.
 Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard.
  
@@ -3117,8 +3112,8 @@ With the keyboard:
 Remark: 
 When the image does not correspond to the geometry of the video to be produced, transparent zones appear.
 For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
-        <translatorcomment>Вы можете использовать кнопки + и - в каждом поле ввода, чтобы изменить настройки или непосредственно ввести значения всех пяти параметров.
-Кроме того, вы можете воспользоваться интерактивной зоной для установления обрамления с помощью мыши или клавиатуры.
+        <translation>Вы можете использовать кнопки + и - в каждом поле ввода, чтобы изменить настройки или непосредственно ввести значения всех пяти параметров.
+Кроме того, вы можете воспользоваться интерактивной зоной для кадрирования с помощью мыши или клавиатуры.
 
 С помощью мыши:
 - выберите один из маркеров и зажав кнопку мыши перетащите, чтобы изменить размер.
@@ -3130,114 +3125,113 @@ For example: an 4:3 image used in a 16:9 project will be shown by default with a
 
 Примечание:
 Если изображение не соответствует геометрии видео, появляются прозрачные зоны.
-Например: изображение 4:3, используемое в проекте 16:9, будет показано по умолчанию в прозрачной зоне.</translatorcomment>
-        <translation></translation>
+Например: изображение 4:3, используемое в проекте 16:9, будет показано по умолчанию в прозрачной зоне.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2868"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2865"/>
         <source>Allows you to define the beginning and end of a video sequence.</source>
         <translation>Определить начало и конец видеопоследовательности.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2916"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2913"/>
         <source>Start :</source>
         <translation>Начало:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2923"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2920"/>
         <source>Move to start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Переместить в начало</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2937"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2934"/>
         <source>Use current position as start position</source>
         <extracomment>Tooltip in dialog box</extracomment>
-        <translation>Использовать выбранную позицию как стартовую</translation>
+        <translation>Использовать текущую позицию как стартовую</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2957"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2954"/>
         <source>Define the start position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Указать стартовую позицию</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2979"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2976"/>
         <source>End :</source>
         <translation>Конец :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2995"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="2992"/>
         <source>Define the end position to use</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Указать конечную позицию</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3014"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3011"/>
         <source>Use current position as end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Использовать текущую позицию как конечную</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3028"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3025"/>
         <source>Move to end position</source>
         <extracomment>Tooltip in dialog box</extracomment>
         <translation>Переместить в конец</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3048"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3045"/>
         <source>Duration :</source>
         <translation>Длительность :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3093"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3090"/>
         <source>Volume :</source>
         <translation>Громкость :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3109"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3106"/>
         <source>Select the &quot; Master Volume &quot; for the movie</source>
         <translation>Выбрать громкость фильма</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3132"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3129"/>
         <source>Allows you to activate the deinterlace filter</source>
         <translation>Активировать фильтр устранения чересстрочности (деинтерлейсинга)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3135"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3132"/>
         <source>Deinterlace video</source>
-        <translation>Устранение черезстрочности видео (Deinterlace)</translation>
+        <translation>Устранение черезстрочности видео</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3279"/>
+        <source>Show help about this dialogue box</source>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3282"/>
-        <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3285"/>
         <source>&amp;Help</source>
         <translation>&amp;Справка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3181"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3178"/>
         <source>Allows you to enable or disable the magnetic rulers.
 When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</source>
         <translation>Позволяет включить или отключить магнитные линейки.
 Когда линейки включены, мышь будет автоматически привязываться к краям фотографии, содействуя выравниванию.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3212"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3209"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ок</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3268"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3265"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Отменить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3271"/>
+        <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3268"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Отмена</translation>
     </message>
@@ -3301,7 +3295,7 @@ When rulers are enabled, the mouse will automatically snap to the edges of the p
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.cpp" line="212"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="840"/>
         <source>Real image size</source>
-        <translation>Реальный размер изображения</translation>
+        <translation>Реальный размер</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="836"/>
@@ -3422,7 +3416,7 @@ For every track, the following information is shown:
     <message>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.ui" line="516"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.ui" line="519"/>
@@ -3528,7 +3522,7 @@ At least the information about the duration of the video will be shown, but a lo
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="256"/>
         <source>Select the file type to use for the rendering</source>
-        <translation>Выберите формат файла для рендеринга</translation>
+        <translation>Выберите формат создаваемого файла</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="278"/>
@@ -3538,32 +3532,32 @@ At least the information about the duration of the video will be shown, but a lo
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="320"/>
         <source>Select the image format to use for the rendering</source>
-        <translation>Выберите формат изображения для рендеринга</translation>
+        <translation>Выберите формат изображения создаваемого видеофайла</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="357"/>
         <source>Select the video codec to use for the rendering</source>
-        <translation>Выберите видео кодек для рендеринга</translation>
+        <translation>Выберите видео кодек для создаваемого файла</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="380"/>
         <source>Select the bit rate to use for video during the rendering</source>
-        <translation>Выберите битрейт видео для рендеринга</translation>
+        <translation>Выберите битрейт видео создаваемого файла</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="416"/>
         <source>Select the audio codec to use for the rendering</source>
-        <translation>Выберите аудио кодек для рендеринга</translation>
+        <translation>Выберите аудио кодек для создаваемого файла</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="433"/>
         <source>Select the bit rate to use for audio during the rendering</source>
-        <translation>Выберите битрейт аудио для рендеринга</translation>
+        <translation>Выберите битрейт аудио создаваемого файла</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="131"/>
         <source>Model</source>
-        <translation>Модель</translation>
+        <translation>Шаблон</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="59"/>
@@ -3578,7 +3572,7 @@ At least the information about the duration of the video will be shown, but a lo
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="162"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Allows you to create a new device which will be added to the database.&lt;/p&gt;&lt;p&gt;The creation of a new device is made in 3 steps:&lt;/p&gt;&lt;p&gt;1- You must first create a device&lt;/p&gt;&lt;p&gt;2- You define the various parameters&lt;/p&gt;&lt;p&gt;3- You click the &amp;quot;Apply modifications&amp;quot; button to register the parameters&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Позволяет создать новое устройство, которое будет добавлено в базу данных.&lt;/p&gt;&lt;p&gt;Создание нового устройства производится в три этапа:&lt;/p&gt;&lt;p&gt;1 -Создание самого устройства&lt;/p&gt;&lt;p&gt;2 - Задание различных параметров рендеринга&lt;/p&gt;&lt;p&gt;3 - Нажатие кнопки &amp;quot;Применить изменения&amp;quot; для регистрации параметров&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;Позволяет создать новое устройство, которое будет добавлено в базу данных.&lt;/p&gt;&lt;p&gt;Создание нового устройства производится в три этапа:&lt;/p&gt;&lt;p&gt;1 -Создание самого устройства&lt;/p&gt;&lt;p&gt;2 - Задание различных параметров обработки&lt;/p&gt;&lt;p&gt;3 - Нажатие кнопки &amp;quot;Применить изменения&amp;quot; для регистрации параметров&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="165"/>
@@ -3659,7 +3653,7 @@ At least the information about the duration of the video will be shown, but a lo
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="521"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="524"/>
@@ -3699,10 +3693,7 @@ At least the information about the duration of the video will be shown, but a lo
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.cpp" line="115"/>
         <source>Do you whant to apply modification for this device?</source>
-        <translation variants="yes">
-            <lengthvariant>Хотите сохранить изменения для  этого устройства?</lengthvariant>
-            <lengthvariant></lengthvariant>
-        </translation>
+        <translation>Хотите сохранить изменения для  этого устройства?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.cpp" line="539"/>
@@ -3756,7 +3747,7 @@ At least the information about the duration of the video will be shown, but a lo
     <message>
         <location filename="../src/ffDiaporama/DlgManageFavorite/DlgManageFavorite.ui" line="171"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageFavorite/DlgManageFavorite.ui" line="174"/>
@@ -3789,7 +3780,7 @@ Please select another name!</source>
         <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.ui" line="20"/>
         <source>Manage style</source>
         <comment>Dialog title</comment>
-        <translation>Управление стилем</translation>
+        <translation>Управление стилями</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.cpp" line="148"/>
@@ -3837,7 +3828,7 @@ It concerns as well the name of the style as the associated settings.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.ui" line="189"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.ui" line="192"/>
@@ -3904,7 +3895,7 @@ Please select another name!</source>
     <message>
         <location filename="../src/engine/_StyleDefinitions.cpp" line="313"/>
         <source>Small white text with black outlines</source>
-        <translation>Мелкий черный текст с белым обрамлением</translation>
+        <translation>Мелкий былый текст с черным обрамлением</translation>
     </message>
     <message>
         <location filename="../src/engine/_StyleDefinitions.cpp" line="314"/>
@@ -3939,13 +3930,12 @@ Please select another name!</source>
     <message>
         <location filename="../src/engine/_StyleDefinitions.cpp" line="320"/>
         <source>Transparent block (no brush)</source>
-        <translatorcomment>?</translatorcomment>
-        <translation>Прозрачный блок (без кисти)</translation>
+        <translation>Прозрачный блок (без фона)</translation>
     </message>
     <message>
         <location filename="../src/engine/_StyleDefinitions.cpp" line="321"/>
         <source>Rounded rectangle with small brown border</source>
-        <translation>Скругленный прямоугольник с маленькой коричневой каймой </translation>
+        <translation>Скругленный прямоугольник с тонкой коричневой границей</translation>
     </message>
     <message>
         <location filename="../src/engine/_StyleDefinitions.cpp" line="322"/>
@@ -3967,7 +3957,7 @@ Please select another name!</source>
     <message>
         <location filename="../src/engine/_StyleDefinitions.cpp" line="357"/>
         <source>Update existing style</source>
-        <translation>Обновиить существующий стиль</translation>
+        <translation>Обновить существующий стиль</translation>
     </message>
     <message>
         <location filename="../src/engine/_StyleDefinitions.cpp" line="369"/>
@@ -3998,7 +3988,7 @@ Do you want to overwrite-it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="26"/>
         <source>Music properties</source>
-        <translation>Свойства музыки</translation>
+        <translation>Параметры музыки</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="47"/>
@@ -4033,7 +4023,7 @@ Do you want to overwrite-it ?</source>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="183"/>
         <source>Normal</source>
-        <translation>Нормальный</translation>
+        <translation>Без изменений</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="198"/>
@@ -4124,7 +4114,7 @@ This volume is independent of any reductions in the volume that you define in th
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="435"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="438"/>
@@ -4195,7 +4185,7 @@ This volume is independent of any reductions in the volume that you define in th
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="312"/>
         <source>Select the video standard to use, PAL or NTSC.</source>
-        <translation>Выберите стандарт видео для использования, PAL или NTSC.</translation>
+        <translation>Выберите используемый стандарт видео, PAL или NTSC.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="567"/>
@@ -4209,7 +4199,7 @@ This value is on 3 characters and follows the ISO 639 recommendation.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="169"/>
         <source>Select the image format to be used to render the video from the displayed list.</source>
-        <translation>Выберите формат изображения, который будет использоваться для рендеринга видео из списка.</translation>
+        <translation>Выберите формат изображения создаваемого видеофайла.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="316"/>
@@ -4253,14 +4243,9 @@ This value is on 3 characters and follows the ISO 639 recommendation.</source>
         <translation>Битрейт:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="618"/>
-        <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation>Выберите битрейт аудио для рендеринга.</translation>
-    </message>
-    <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1149"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1152"/>
@@ -4305,30 +4290,29 @@ This value is on 3 characters and follows the ISO 639 recommendation.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="303"/>
         <source>Select the audio codec to be used to render the video from the displayed list.</source>
-        <translation>Выберите аудио кодек, который будет использоваться для рендеринга видео.</translation>
+        <translation>Выберите аудио кодек для создаваемого файла.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="224"/>
         <source>Select the video codec to be used to render the video from the displayed list.</source>
-        <translation>Выберите видео кодек, который будет использоваться для рендеринга видео.</translation>
+        <translation>Выберите видео кодек для создаваемого файла.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="107"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="190"/>
         <source>Select the video compression ratio from the displayed list.</source>
-        <translation>Выберите формат сжатия видео из списка.</translation>
+        <translation>Выберите битрейт видео создаваемого файла.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="378"/>
         <source>Select the type of file to be used to render the video from the displayed list.</source>
-        <translation>Выберите тип файла, который будет использоваться для рендеринга видео.</translation>
+        <translation>Выберите формат создаваемого файла.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="449"/>
         <source>The rendering can be made on the whole project or only on a part.
 By checking the option All slides to render the video of the whole project.</source>
-        <translation>Может быть произведен рендеринг всего проекта или только его части.
-При установке опции Все слайды будет сделан рендеринг видео всего проекта.</translation>
+        <translation>Может быть обработан весь проект или только его часть.
+При установке опции Все слайды будет создан видеофайл из всего проекта.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="453"/>
@@ -4341,8 +4325,8 @@ By checking the option All slides to render the video of the whole project.</sou
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="486"/>
         <source>The rendering can be made on the whole project or only on a part.
 By checking the option From and then entering the numbers of the start and end slides to generate a video of only a part of the project.</source>
-        <translation>Может быть произведен рендеринг всего проекта или только его части.
-Опция С ... До... , содержащая номера начального и конечного слайдов, позволяет произвести рендеринг только части проекта.</translation>
+        <translation>Может быть обработан весь проект или только его часть.
+Опция С ... По... , содержащая номера начального и конечного слайдов, позволяет создать видеофайл только из части проекта.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="464"/>
@@ -4352,12 +4336,12 @@ By checking the option From and then entering the numbers of the start and end s
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="479"/>
         <source>To</source>
-        <translation>До</translation>
+        <translation>По</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="149"/>
         <source>To render :</source>
-        <translation>Рендеринг :</translation>
+        <translation>Обработать :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="526"/>
@@ -4392,7 +4376,7 @@ By checking the option From and then entering the numbers of the start and end s
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="706"/>
         <source>Rendering to :</source>
-        <translation>Рендеринг в :</translation>
+        <translation>Создаваемый файл :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="726"/>
@@ -4412,7 +4396,7 @@ By checking the option From and then entering the numbers of the start and end s
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1006"/>
         <source>Average render speed :</source>
-        <translation>Средняя скорость рендеринга :</translation>
+        <translation>Средняя скорость обработки :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1042"/>
@@ -4422,12 +4406,17 @@ By checking the option From and then entering the numbers of the start and end s
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1121"/>
         <source>Accept modification and start rendering process</source>
-        <translation>Применить изменения и начать процесс рендеринга</translation>
+        <translation>Применить изменения и начать создание файла</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1097"/>
         <source>&amp;Properties</source>
-        <translation>&amp;Свойства</translation>
+        <translation>&amp;Свойства проекта</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="190"/>
+        <source>Select the audio compression ratio from the displayed list.</source>
+        <translation>Выберите битрейт аудио создаваемого файла.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="231"/>
@@ -4442,7 +4431,7 @@ By checking the option From and then entering the numbers of the start and end s
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="395"/>
         <source>If this box is checked then a thumbnail file will be created with video.</source>
-        <translation>Если этот флажок установлен, обложка будет создана вместе с видео файлом.</translation>
+        <translation>Если этот флажок установлен, обложка будет создана вместе с видеофайлом.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="398"/>
@@ -4450,9 +4439,14 @@ By checking the option From and then entering the numbers of the start and end s
         <translation>Присоединить обложку к создаваемому файлу</translation>
     </message>
     <message>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="618"/>
+        <source>Select the frequency to use for audio during the rendering.</source>
+        <translation>Выберите частоту аудио создаваемого файла.</translation>
+    </message>
+    <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="657"/>
         <source>If this box is checked then a XBMC .nfo file will be created with video.</source>
-        <translation>Если этот флажок установлен, XMBC .nfo файл будет создан вместе с видео файлом.</translation>
+        <translation>Если этот флажок установлен, XMBC .nfo файл будет создан вместе с видеофайлом.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="660"/>
@@ -4474,9 +4468,9 @@ By checking the option From and then entering the numbers of the start and end s
         <source>This button allows you to open project properties dialog.
 It allows you to adjust the properties before generating the video.
 Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by jukeboxes.</source>
-        <translation>Эта кнопка позволяет открыть диалоговое окно свойства проекта.
-Оно позволяет настройть свойства до создания видео.
-Примечание: свойства проекта свойства сохраняются в видео, как ТЭГ (МЕТАДАННЫЕ), которые используются многими программами или устройствами.</translation>
+        <translation>Эта кнопка позволяет открыть диалоговое окно свойств проекта.
+Оно позволяет настройть свойства проекта до создания видео.
+Примечание: свойства проекта сохраняются в видео, как тег (метаданные), которые используются многими программами или устройствами.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1124"/>
@@ -4486,7 +4480,7 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1135"/>
         <source>Cancel modification or rendering process and exit dialog box</source>
-        <translation>Отмменить изменения или процесс рендеринга и выйти из диалогового окна</translation>
+        <translation>Отмменить изменения или процесс создания файла и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1138"/>
@@ -4496,27 +4490,27 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="73"/>
         <source>Advanced render video</source>
-        <translation>Продвинутый рендеринг видео</translation>
+        <translation>Дополнительные параметры создания видеофайла</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="74"/>
         <source>Render lossless video</source>
-        <translation>Рендеринг видео &quot;без потерь&quot;</translation>
+        <translation>Создать видеофайл без потери качества</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="75"/>
         <source>Render video for mobil player and smartphone</source>
-        <translation>Рендеринг видео для мобильного плеера или смартфона</translation>
+        <translation>Создать видеофайл для мобильного плеера или смартфона</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="76"/>
         <source>Render video for multimedia system</source>
-        <translation>Рендеринг видео для мультимедиа системы</translation>
+        <translation>Создать видеофайл для мультимедиа системы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="77"/>
         <source>Render video for the WEB</source>
-        <translation>Рендеринг видео для интернета</translation>
+        <translation>Создать видеофайл для интернета</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="78"/>
@@ -4524,84 +4518,84 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
         <translation>Экспорт аудио дорожки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="106"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="108"/>
         <source>soundtrack</source>
         <comment>Default name for rendering</comment>
         <translation>Аудио дорожка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="117"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="119"/>
         <source>movie</source>
         <comment>Default name for rendering</comment>
         <translation>Видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="418"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="420"/>
         <source>Select destination file</source>
         <translation>Выберите файл назначения</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="652"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="733"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="654"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="735"/>
         <source>Stop rendering</source>
-        <translation>Остановить рендеринг</translation>
+        <translation>Остановить кодирование</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="738"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="740"/>
         <source>Range selection</source>
         <translation>Выбор диапазона</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="739"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="741"/>
         <source>Slide range is defined to incorrect values</source>
         <translation>Диапазон слайдов определен неправильными значениями</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="747"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="749"/>
         <source>Language selection</source>
         <translation>Выбор языка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="748"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="750"/>
         <source>Language must be empty or an ISO 639 language code (3 characters)
 See help for more details!</source>
         <translation>Поле должно быть пустым или содержать код языка по ISO 639 (3 символа)
 Смотрите справку для более подробной информации!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="755"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="757"/>
         <source>Overwrite file ?</source>
         <translation>Перезаписать файл?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="756"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="758"/>
         <source>The file you selected already exist.
 Do you want to overwrite it ?</source>
         <translation>Выбранный файл уже существует.
 Хотите перезаписать его?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="892"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="894"/>
         <source>Incorrect codec combination!</source>
         <translation>Неправильное сочетание кодеков!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="912"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="914"/>
         <source>Stop rendering process and exit dialog box</source>
-        <translation>Остановить рендеринг и выйти из диалогового окна</translation>
+        <translation>Остановить кодирование и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="946"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="948"/>
         <source>Encoding video</source>
         <translation>Кодирование видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1039"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1041"/>
         <source>Job canceled!</source>
         <translation>Задание отменено!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1040"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1042"/>
         <source>Job error!
 Please contact ffDiaporama team</source>
         <translation>Ошибка задания!
@@ -4609,28 +4603,28 @@ Please contact ffDiaporama team</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="26"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="774"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="785"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="806"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="892"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1038"/>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1039"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="776"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="787"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="808"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="894"/>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1040"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1041"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1042"/>
         <source>Render video</source>
-        <translation>Рендеринг видео</translation>
+        <translation>Создание видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="837"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="839"/>
         <source>Device model selection</source>
         <translation>Выбор модели устройства</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="838"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="840"/>
         <source>A device model is require!</source>
         <translation>Требуется модель устройства!</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="933"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="935"/>
         <source>Encoding sound</source>
         <translation>Кодирование звука</translation>
     </message>
@@ -4640,7 +4634,7 @@ Please contact ffDiaporama team</source>
         <translation>    Прогнозируемое оставшееся время : </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1038"/>
+        <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.cpp" line="1040"/>
         <source>Job completed successfully!</source>
         <translation>Задание выполнено успешно!</translation>
     </message>
@@ -4655,7 +4649,7 @@ Please contact ffDiaporama team</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="20"/>
         <source>Ruler properties</source>
-        <translation>Свойства линейки</translation>
+        <translation>Свойства линеек</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="85"/>
@@ -4738,7 +4732,7 @@ In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are d
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="313"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="316"/>
@@ -4791,7 +4785,7 @@ In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are d
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="186"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="189"/>
@@ -4832,33 +4826,33 @@ In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are d
         <translation>Добавить кадр в конец линии времени</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3717"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3720"/>
         <source>Add file</source>
         <translation>Добавить файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3735"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3738"/>
         <source>Add shot</source>
         <translation>Добавить кадр</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="229"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3756"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3759"/>
         <source>Remove current selected shot</source>
         <translation>Удалить выбранный кадр</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3549"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3552"/>
         <source>Remove</source>
         <translation>Удалить</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3774"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3777"/>
         <source>Move left</source>
         <translation>Передвинуть влево</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3792"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3795"/>
         <source>Move right</source>
         <translation>Передвинуть вправо</translation>
     </message>
@@ -4874,7 +4868,7 @@ In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are d
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="277"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3702"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3705"/>
         <source>Add a new text block</source>
         <translation>Добавить новый блок текста</translation>
     </message>
@@ -4894,7 +4888,7 @@ In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are d
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Форма блока :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2603"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2606"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Text animation :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Анимация текста :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -4947,7 +4941,7 @@ Remark :
 - изображение, представляющее кадр, в конце его продолжительности
 
 Примечание:
-- порядок кадров может быть изменен с помощью Drag &amp; Drop.</translation>
+- порядок кадров может быть изменен с помощью перетаскивания.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="807"/>
@@ -4998,7 +4992,7 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>Прокрутка текста снизу вверх.
 
 Примечание: чтобы получить анимацию текста, вы должны создать как минимум 2 кадра:
-- определение значения масштабирования и прокрутки для 1-го кадра
+- определить значения масштабирования и прокрутки для 1-го кадра
 - определить другие значения масштабирования и прокрутки для 2-го кадра</translation>
     </message>
     <message>
@@ -5058,7 +5052,7 @@ A value of 10 corresponds to 10 points on a 1920×1080 FullHD screen, but only t
         <translation>Толщина границы.
 
 Примечание: определяется как 1/1080 от высоты экрана.
-Значение 10 соответствует 10 точек на 1920 × 1080 FullHD экране и только 6 точек на 1280 × 720 экране.</translation>
+Значению 10 соответствует 10 точек на 1920 × 1080 FullHD экране и только 6 точек на 1280 × 720 экране.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2046"/>
@@ -5070,14 +5064,14 @@ A value of 10 corresponds to 10 points on a 1920×1080 FullHD screen, but only t
         <source>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks)
 
 Remark: To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog.</source>
-        <translation>Выбор скорости  кривой анимации блока (перемещение, изменение размера и поворот, анимация текста и блоков)
+        <translation>Выбор скорости анимации блока (перемещение, изменение размера и поворот, анимация текста и блоков)
 
-Примечание: изменить кривую скорости анимации изображения (графический эффект и кадрирование),
-редактировать изображения или видео и выбрать скорость можно в диалоге Кадрирование и коррекция изображения.</translation>
+Примечание: измененить скорости анимации изображения (графический эффект и кадрирование),
+отредактировать изображение или видео и выбрать скорость можно в диалоге Кадрирование и коррекция изображения.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2197"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2232"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2200"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2235"/>
         <source>Scroll text from left to right.
 
 Remark: To make animations of text, you have to create at least 2 shots then:
@@ -5086,16 +5080,16 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>Прокрутка текста слева направо.
 
 Примечание: чтобы получить анимацию текста, вы должны создать как минимум 2 кадра:
-- определение значения масштабирования и прокрутки для 1-го кадра
+- определить значения масштабирования и прокрутки для 1-го кадра
 - определить другие значения масштабирования и прокрутки для 2-го кадра</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2471"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2474"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Animation settings:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Настройки анимации:&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2582"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2585"/>
         <source>The block animations define which animations will run during the current shot.
 
 You can define different animations for every shot!
@@ -5108,19 +5102,19 @@ You can define different animations for every shot!
 - Растворение: эта анимация позволяет осуществить плавный переход между блоком и прозрачной областью.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2619"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2622"/>
         <source>Speed wave :</source>
-        <translation>Скорость волны :</translation>
+        <translation>Скорость :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2782"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2785"/>
         <source>Allows you to select a reframing style for the image.
 It has the same effect as selecting a style in the Image framing and correction dialog.</source>
         <translation>Позволяет выбрать стиль обрезки изображения.
 Имеет такой же эффект, как и выбор стиля в диалоге Кадрирование и коррекция изображения.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2795"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2798"/>
         <source>Allows you to select the geometrical constraints to be applied to the block.
 
 Three type of constraint are available:
@@ -5130,12 +5124,12 @@ Three type of constraint are available:
         <translation>Позволяет выбрать ограничения геометрии, которые должны применяться к блоку.
 
 Доступно три типа ограничений:
-- Без ограничений: ограничения не применяются к выбранному прямоугольнику.
-- Блокировка на основе фактической геометрии. Не имеет смысла до тех пор, пока не будет определена форма в режиме &quot;Без ограничений&quot;.
-- Блокировка на основе геометрии проекта, если вы откроете изображение в полноэкранном режиме, то выбранная часть будет соответствовать всему экрану.</translation>
+- К прямоугольнику выделения не применяются ограничения.
+- Прямоугольник выделения будет той же геометрии, что и в настоящее время. Не имеет смысла до тех пор, пока не будет определена форма в режиме &quot;Без ограничений&quot;.
+- Прямоугольник выделение будет той же геометрии, что и сам проект. Если вы откроете изображение в полноэкранном режиме, то выбранная часть будет соответствовать всему экрану.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2917"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2920"/>
         <source>Appear: The block will appear during the shot
 Disappear: The block will disappear during the shot
 Blink: The block will blink during the shot (appear then disappear). 4 speeds are proposed (from slow to very fast).</source>
@@ -5144,8 +5138,8 @@ Blink: The block will blink during the shot (appear then disappear). 4 speeds ar
 Мигание: блок будет мигать во время кадра (появился, исчез). Доступно 4 скорости (от медленной до очень быстрой).</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2974"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3009"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2977"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3012"/>
         <source>Define a zoom value for the text.
 
 Remark: To make animations of text, you have to create at least 2 shots then:
@@ -5154,11 +5148,11 @@ Remark: To make animations of text, you have to create at least 2 shots then:
         <translation>Определить значения масштабирования текста.
 
 Примечание: чтобы получить анимацию текста, вы должны создать как минимум 2 кадра:
-- определение значения масштабирования и прокрутки для 1-го кадра
+- определить значения масштабирования и прокрутки для 1-го кадра
 - определить другие значения масштабирования и прокрутки для 2-го кадра</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3091"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3094"/>
         <source>Select in which corner the shadow will be positioned (or no shadow).
 
 Remark: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied.</source>
@@ -5167,7 +5161,7 @@ Remark: the position of the shadow is independent of rotation of the block: the 
 Примечание: положение тени не зависит от вращения блока: правый нижний угол - это всегда правый нижний угол, независимо от поворота.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3112"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3115"/>
         <source>Allows you to select a shape for the block.
 
 The selected shape will be used as:
@@ -5180,186 +5174,186 @@ The selected shape will be used as:
 - зоны обрезки для текстов.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3144"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3147"/>
         <source>Clip-Art :</source>
-        <translation>Клип-арт :</translation>
+        <translation>Клипарт :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3166"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3169"/>
         <source>Select a clip-art</source>
-        <translation>Выберите клип-арт</translation>
+        <translation>Выберите клипарт</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3247"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3250"/>
         <source>Allows you to open the rulers settings dialog.</source>
         <translation>Открыть диалоговое окно настройки линеек.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3360"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3363"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3363"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3366"/>
         <source>&amp;Help</source>
         <translation>&amp;Справка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3380"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3383"/>
         <source>Edit text</source>
         <translation>Изменить текст</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3455"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3458"/>
         <source>Make the active block visible.
 Note: Hidden video blocks are automatically paused</source>
         <translation>Сделать активный блок видимым.
-Примечание: скрытые видео блоки автоматически приостанавливается</translation>
+Примечание: скрытые видео блоки автоматически приостанавливаются</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3471"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3474"/>
         <source>Take the sound</source>
         <translation>Использовать звук</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3489"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3492"/>
         <source>Display information</source>
         <translation>Показать информацию</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3492"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3495"/>
         <source>Display detailed information on current block</source>
         <translation>Показать подробную информацию о текущем блоке</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3510"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3513"/>
         <source>Copy the current block to the ffDiaporama clipboard</source>
         <translation>Скопировать текущий блок в буфер обмена ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3552"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3555"/>
         <source>Remove current block(s)</source>
         <translation>Удалить текущий блок(и)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3573"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3576"/>
         <source>Paste block from the ffDiaporama clipboard and insert it</source>
         <translation>Вставить блок из буфера обмена ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3591"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3594"/>
         <source>Align top</source>
         <translation>Выровнять по верху</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3594"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3597"/>
         <source>Align blocks to the top</source>
         <translation>Выровнять блоки по верху</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3609"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3612"/>
         <source>Align middle</source>
         <translation>Выровнять по середине</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3612"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3615"/>
         <source>Align blocks to the middle</source>
         <translation>Выровнять блоки по середине</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3627"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3630"/>
         <source>Align bottom</source>
         <translation>Выровнять по низу</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3630"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3633"/>
         <source>Align blocks to the bottom</source>
         <translation>Выровнять блоки по низу</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3645"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3648"/>
         <source>Align left</source>
         <translation>Выровнять по левому краю</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3648"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3651"/>
         <source>Align blocks to the left</source>
         <translation>Выровнять блоки по левому краю</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3663"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3666"/>
         <source>Align center</source>
         <translation>Выровнять по центру</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3666"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3669"/>
         <source>Align blocks to the center</source>
         <translation>Выровнять блоки по центру</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3681"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3684"/>
         <source>Align right</source>
         <translation>Выровнять по правому краю</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3684"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3687"/>
         <source>Align blocks to the right</source>
         <translation>Выровнять блоки по правому краю</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3699"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3702"/>
         <source>Add text block</source>
         <translation>Добавить блок текста</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3864"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3867"/>
         <source>distribute horizontally</source>
         <translation>Распределить горизонтально</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3867"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3885"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3870"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3888"/>
         <source>Place each block so as to have the same space between each</source>
         <translation>Разместить блоки на равном расстоянии друг от друга</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3882"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3885"/>
         <source>distribute vertically</source>
         <translation>Распределить вертикально</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3900"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3903"/>
         <source>Add simple text block</source>
         <translation>Добавить простой блок текста</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3903"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3906"/>
         <source>Add a new simple text block</source>
         <translation>Добавить новый простой блок текста</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3918"/>
-        <source>Add ClipArt text block</source>
-        <translation>Добавить клип-арт блок текста</translation>
-    </message>
-    <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3921"/>
-        <source>Add a new ClipArt text block</source>
-        <translation>Добавить новый клип-арт блок текста</translation>
+        <source>Add ClipArt text block</source>
+        <translation>Добавить клипарт блок текста</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3936"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3924"/>
+        <source>Add a new ClipArt text block</source>
+        <translation>Добавить новый клипарт блок текста</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3939"/>
         <source>Append to project title models</source>
         <translation>Добавить к шаблонам названий проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3945"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3948"/>
         <source>Append to chapter title models</source>
         <translation>Добавить к шаблонам названий глав</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3954"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3957"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3960"/>
         <source>Append to credit title models</source>
         <translation>Добавить к шаблонам заключительных титров</translation>
     </message>
@@ -5379,103 +5373,103 @@ Note: Hidden video blocks are automatically paused</source>
         <translation>Ins</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3561"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3765"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3564"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3768"/>
         <source>Del</source>
         <translation>Del</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3416"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3419"/>
         <source>Move to background</source>
         <translation>Переместить на задний план</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3419"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3422"/>
         <source>Change the order of blocks by moving the active block towards the background</source>
         <translation>Изменить порядок блоков перемещением активного блока на задний план</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3437"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3440"/>
         <source>Change the order of blocks by moving the active block towards the foreground</source>
         <translation>Изменить порядок блоков перемещением активного блока на передний план</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3452"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3455"/>
         <source>Visible</source>
         <translation>Показать</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3507"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3510"/>
         <source>Copy block</source>
         <translation>Копировать блок</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3519"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3522"/>
         <source>Ctrl+C</source>
         <translation>Ctrl+C</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3528"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3531"/>
         <source>Cut block</source>
         <translation>Вырезать блок</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3531"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3534"/>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide</source>
         <translation>Скопировать текущий блок в буфер обмена ffDiaporama и удалить со слайда</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3540"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3543"/>
         <source>Ctrl+X</source>
         <translation>Ctrl+X</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3570"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3573"/>
         <source>Paste block</source>
         <translation>Вставить блок</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3582"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3585"/>
         <source>Ctrl+V</source>
         <translation>Ctrl+V</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3474"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3477"/>
         <source>Give the sound, during this shot, to the current video block</source>
-        <translation>Задать звук в течение этого кадра для данного блока видео</translation>
+        <translation>Пустить звук в течение этого кадра для данного блока видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3383"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3386"/>
         <source>Define the properties of the text block</source>
         <translation>Определить свойства текстового блока</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2286"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2289"/>
         <source>Border :</source>
         <translation>Граница :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2708"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2711"/>
         <source>Shape :</source>
         <translation>Форма :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2321"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2324"/>
         <source>Opacity :</source>
         <translation>Непрозрачность :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3329"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3332"/>
         <source>Undo last action (CTRL+Z)</source>
         <translation>Отменить последнее действие (Ctrl+Z)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3332"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3335"/>
         <source>Undo</source>
         <translation>Отменить</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3339"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3342"/>
         <source>Ctrl+Z</source>
         <translation>Ctrl+Z</translation>
     </message>
@@ -5550,26 +5544,26 @@ information</source>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1455"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1563"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1816"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2264"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2429"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2560"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2267"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2432"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2563"/>
         <source>Reset to zero</source>
         <translation>Сбросить на ноль</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2510"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2538"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2513"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2541"/>
         <source>Define the angle of rotation about the x-axis (expressed in degrees)</source>
         <translation>Определить угол поворота по оси x (в градусах)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2379"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2407"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2382"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2410"/>
         <source>Define the angle of rotation about the y-axis (expressed in degrees)</source>
         <translation>Определить угол поворота по оси y (в градусах)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2641"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2644"/>
         <source>Select the opaqueness of the block</source>
         <translation>Выбрать непрозрачность блока</translation>
     </message>
@@ -5594,49 +5588,49 @@ information</source>
         <translation>Выбрать цвет тени</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2451"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2454"/>
         <source>Zoom :</source>
         <translation>Масштаб :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3044"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3047"/>
         <source>Reset to 100%</source>
         <translation>Сбросить на 100%</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3813"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3816"/>
         <source>Lock properties to the same values as defined for the previous shot</source>
         <translation>Заблокировать параметры на значениях, определенных для предыдущего кадра</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3831"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3834"/>
         <source>Define properties of this shot</source>
         <translation>Выбрать свойства этого кадра</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3849"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3852"/>
         <source>Hide the active block</source>
         <translation>Скрыть активный блок</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2815"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2818"/>
         <source>Type :</source>
         <translation>Тип:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2654"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2657"/>
         <source>Dissolve :</source>
         <translation>Растворение :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2885"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2888"/>
         <source>Block coordinates :</source>
         <translation>Координаты блока :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="616"/>
         <source>Total duration :</source>
-        <translation>Общая длительность :</translation>
+        <translation>Общая продолжительность :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="128"/>
@@ -5656,102 +5650,102 @@ Information</source>
         <translation>Имя слайда:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3250"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3253"/>
         <source>Rulers</source>
         <translation>Линейки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3398"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3401"/>
         <source>Correct or reframe image</source>
         <translation>Кадрирование и коррекция изображения</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3401"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3404"/>
         <source>Define framing and correction of image or movie</source>
         <translation>Настроить кадрирование и коррекцию изображения или фильма</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3434"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3437"/>
         <source>Move to foreground</source>
         <translation>Переместить на передний план</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3720"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3723"/>
         <source>Add a new block of type image or video</source>
         <translation>Добавить новый блок изображения или видео</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3738"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3741"/>
         <source>Append a shot at the end of the timeline</source>
         <translation>Добавить кадр в конец временной шкалы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3777"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3780"/>
         <source>Change the order of the shots by moving the current selected shot a notch towards the left</source>
         <translation>Изменить порядок кадров перемещением данного кадра на шаг влево</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3795"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3798"/>
         <source>Change the order of the shots by moving the current selected shot a notch towards the right</source>
         <translation>Изменить порядок кадров перемещением данного кадра на шаг вправо</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3810"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3813"/>
         <source>Lock properties</source>
         <translation>Заблокировать свойства</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3828"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3831"/>
         <source>Unlock properties</source>
         <translation>Разблокировать свойства</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3846"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3849"/>
         <source>Hide</source>
         <translation>Скрыть</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2724"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="2727"/>
         <source>Shadow :</source>
         <translation>Тень :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3274"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3277"/>
         <source>Accept modification and go to previous slide</source>
         <translation>Применить изменения и вернуться к предыдущему слайду</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3277"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3280"/>
         <source>Previous</source>
         <translation>Предыдущий</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3288"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3291"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Применить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3291"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3294"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ок</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3302"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3305"/>
         <source>Accept modification and go to next slide</source>
         <translation>Применить изменения и перейти на следующий слайд</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3305"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3308"/>
         <source>Next</source>
         <translation>Следующий</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3346"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3349"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Отменить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3349"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3352"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Отмена</translation>
     </message>
@@ -5759,10 +5753,7 @@ Information</source>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="214"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="259"/>
         <source>None</source>
-        <translation variants="yes">
-            <lengthvariant>Нет</lengthvariant>
-            <lengthvariant>Нет</lengthvariant>
-        </translation>
+        <translation>Нет</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="215"/>
@@ -5787,12 +5778,12 @@ Information</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="260"/>
         <source>Multiple block turn</source>
-        <translation>Несколько поворотов блоков</translation>
+        <translation>Несколько поворотов</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="261"/>
         <source>Dissolve</source>
-        <translation>Растворение блока</translation>
+        <translation>Растворение</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="264"/>
@@ -5850,7 +5841,7 @@ Information</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1557"/>
         <source>Lengthened to %1</source>
-        <translation>Удлинение на %1</translation>
+        <translation>Удлинен на %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2114"/>
@@ -5874,7 +5865,7 @@ Information</source>
         <translation>Слайд</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3753"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3756"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1416"/>
         <source>Remove shot</source>
         <translation>Удалить кадр</translation>
@@ -5884,7 +5875,6 @@ Information</source>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1877"/>
         <source>Text</source>
         <comment>Default text value</comment>
-        <translatorcomment>Значение текста по-умолчанию</translatorcomment>
         <translation>Текст</translation>
     </message>
     <message>
@@ -5914,7 +5904,7 @@ Information</source>
         <location filename="../src/engine/_GlobalDefines.cpp" line="259"/>
         <source>Define framing and correction of image or cut video</source>
         <comment>Tooltip</comment>
-        <translation>Настроить кадрирование и коррекцию изображения или нарезку видео</translation>
+        <translation>Настроить кадрирование и коррекцию изображения или обрезку видео</translation>
     </message>
 </context>
 <context>
@@ -6061,24 +6051,24 @@ Remark: This setting applies to the block (to the whole text).</source>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="737"/>
         <source>Vertical alignment: top. This setting applies to the block (to the whole text).</source>
         <translation>Вертикальное выравнивание: по верху.
-Этот параметр применяется к блоку (на весь текст).</translation>
+Этот параметр применяется к блоку (для всего текста).</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="769"/>
         <source>Vertical alignment: middle. This setting applies to the block (to the whole text).</source>
         <translation>Вертикальное выравнивание: по середине.
-Этот параметр применяется к блоку (на весь текст).</translation>
+Этот параметр применяется к блоку (для всего текста).</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="801"/>
         <source>Vertical alignment: bottom. This setting applies to the block (to the whole text).</source>
         <translation>Вертикальное выравнивание: по низу.
-Этот параметр применяется к блоку (на весь текст).</translation>
+Этот параметр применяется к блоку (для всего текста).</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="855"/>
         <source>Insert a text variable</source>
-        <translation>Вставить текст переменной</translation>
+        <translation>Вставить текстовую переменную</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="988"/>
@@ -6124,7 +6114,7 @@ Image from library 	Allows you to select an image from the library.</source>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1299"/>
         <source>If background brush is Gradient, then this line appears and allows you to select the gradient orientation.
 If the Gradient has 3 colors, additional controls allow to define the position (in percentage) of the 3rd gradient color.</source>
-        <translation>Если кисть фона -  градиент, то появляется эта настройка и позволяет выбрать ориентацию градиента.
+        <translation>Если кисть фона -  градиент, то появляется эта настройка и позволяет выбрать направление градиента.
 Если градиент имеет 3 цвета, дополнительные элементы управления позволяют определить положение (в процентах) 3-го цвета градиента.</translation>
     </message>
     <message>
@@ -6157,7 +6147,7 @@ This value is expressed in % of the width of the block.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1520"/>
         <source>Allows you to use margins corresponding to the entire form, in fact, the selection rectangle shape regardless of the design.</source>
-        <translation>Позволяет использовать поля, соответствующие полной форме, фактически, форма выделения прямоугольник, независимо от дизайна.</translation>
+        <translation>Позволяет использовать поля, соответствующие полной форме, то есть форме прямоугольника выделения, независимо от дизайна.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1523"/>
@@ -6172,7 +6162,7 @@ This value is expressed in % of the width of the block.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1533"/>
         <source>Custom</source>
-        <translation>Заданный</translation>
+        <translation>Пользовательские</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1628"/>
@@ -6198,7 +6188,7 @@ This value is expressed in % of the width of the block.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1781"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1784"/>
@@ -6218,7 +6208,7 @@ This value is expressed in % of the width of the block.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1750"/>
         <source>Undo last action (CTRL+Z)</source>
-        <translation>Отменить предыдущее действие</translation>
+        <translation>Отменить последнее действие (CTRL+Z)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1753"/>
@@ -6233,7 +6223,7 @@ This value is expressed in % of the width of the block.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1767"/>
         <source>Cancel modification and exit dialog box</source>
-        <translation>Отменить изменение и выйти из диалогового окна</translation>
+        <translation>Отменить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1770"/>
@@ -6306,7 +6296,7 @@ This value is expressed in % of the width of the block.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionDuration.ui" line="20"/>
         <source>Select transition duration for a set of slides</source>
-        <translation>Выберите длительность перехода для группы слайдов</translation>
+        <translation>Выберите продолжительность перехода для группы слайдов</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionDuration.ui" line="49"/>
@@ -6326,7 +6316,7 @@ This value is expressed in % of the width of the block.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionDuration.ui" line="186"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionDuration.ui" line="189"/>
@@ -6446,12 +6436,12 @@ This value is expressed in % of the width of the block.</source>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="90"/>
         <source>Speed wave:</source>
-        <translation>Скорость волны:</translation>
+        <translation>Скорость:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="100"/>
         <source>Allows you to select a speed curve to apply to the transition.</source>
-        <translation>Позволяет выбрать скорость кривой применительно к переходу.</translation>
+        <translation>Позволяет выбрать скорость перехода.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="113"/>
@@ -6478,7 +6468,7 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="302"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="305"/>
@@ -6520,7 +6510,7 @@ The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow).</
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="20"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="58"/>
         <source>Project properties</source>
-        <translation>Параметры проекта</translation>
+        <translation>Свойства проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="118"/>
@@ -6572,7 +6562,7 @@ Remark: Video formats do not support all the chapters in the same way.</source>
         <source>A free comment which can spread out on several lines.
 Remark: numerous indexing systems or jukeboxes will read only the 1st line.</source>
         <translation>Произвольный комментарий, который может содержать несколько строк.
-Примечание: многочисленные системы индексации или музыкальные устройства могут прочитать только 1 строку.</translation>
+Примечание: многочисленные системы индексации и музыкальные устройства могут прочитать только 1 строку.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="141"/>
@@ -6587,43 +6577,43 @@ Note: This field is only editable when the dialog box is opened for creating a n
         <translation>Язык :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="466"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="472"/>
         <source>Options for speed wave</source>
-        <translation>Настройки скорости волны</translation>
+        <translation>Настройки скорости</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="520"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="526"/>
         <source>Defined default speed curve for transitions.
 This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</source>
-        <translation>Определяет скорость кривой по умолчанию для переходов.
-Эта опция устанавливает значение скорости кривой, когда соответствующие параметры установлены по умолчанию.</translation>
+        <translation>Определяет скорость переходов по умолчанию.
+Эта опция задает значение скорости, когда соответствующие параметры установлены по умолчанию.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="551"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="557"/>
         <source>Defined default speed curve for block animations.
 This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</source>
-        <translation>Определяет скорость кривой по умолчанию для анимации блоков.
-Эта опция устанавливает значение скорости кривой, когда соответствующие параметры установлены по умолчанию.</translation>
+        <translation>Определяет скорость анимации блоков по умолчанию.
+Эта опция задает значение скорости, когда соответствующие параметры установлены по умолчанию.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="582"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="588"/>
         <source>Defined default speed curve for image animations.
 This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</source>
-        <translation>Определяет скорость кривой по умолчанию для анимации изображений.
-Эта опция устанавливает значение скорости кривой, когда соответствующие параметры установлены по умолчанию.</translation>
+        <translation>Определяет скорость анимации изображений по умолчанию.
+Эта опция задает значение скорости, когда соответствующие параметры установлены по умолчанию.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="625"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="631"/>
         <source>Defines the model use as default thumbnail</source>
         <translation>Выбрать шаблон, используемый в качестве обложки по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="836"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="842"/>
         <source>Thumbnail :</source>
         <translation>Обложка :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="859"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="865"/>
         <source>
 Options for joined ressources</source>
         <translation>
@@ -6677,7 +6667,7 @@ Options for joined ressources</source>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="255"/>
         <source>Event date :</source>
-        <translation>Дата события :</translation>
+        <translation>Дата :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="265"/>
@@ -6702,100 +6692,107 @@ Remark: This field is often shown by indexing system and jukeboxes under the ter
 Примечание: это поле часто отображается системами индексации и плеерами как Артист.</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="375"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="356"/>
         <source>The date of the event of the project</source>
         <translation>Дата события проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="389"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="371"/>
+        <source>Check this box to override the date and offer you to enter the date as a free text</source>
+        <translation>Отметьте этот флажок, чтобы ввести дату вручную в нужном вам формате (как простой текст)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="381"/>
+        <source>Enter here the date of the event of the project as a free text</source>
+        <translation>Введите здесь дату события в любом формате (как простой текст)</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="395"/>
         <source>Default options</source>
         <translation>Параметры по умолчанию</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="476"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="482"/>
         <source>Block animation:</source>
-        <translation variants="yes">
-            <lengthvariant>Анимация блока:</lengthvariant>
-            <lengthvariant>Блок анимации:</lengthvariant>
-        </translation>
+        <translation>Анимация блока:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="489"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="495"/>
         <source>Transition:</source>
         <translation>Переход:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="502"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="508"/>
         <source>Image animation:</source>
         <translation>Анимация изображения:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="711"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="717"/>
         <source>Create a new model from this thumbnail or edit custom thumbnail</source>
         <translation>Создать новый шаблон для этой обложки или отредактировать существующий</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="714"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="720"/>
         <source>Edit custom
 thumbnail</source>
         <translation>Изменить текущую
 обложку</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="753"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="759"/>
         <source>Customize the thumbnail only for this project (without creating a new thumbnail model)</source>
         <translation>Изменить обложку только для этого проекта (без создания нового шаблона обложки)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="756"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="762"/>
         <source>Customize</source>
         <translation>Изменить</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="794"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="800"/>
         <source>Expor thumbnail to a jpeg file</source>
         <translation>Экспорт обложки в jpeg файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="797"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="803"/>
         <source>Export
 thumbnail</source>
         <translation>Экспорт
 обложки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="903"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="909"/>
         <source>Accept modification and exit dialog box</source>
         <translation>Применить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="906"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="912"/>
         <source>&amp;Ok</source>
         <translation>&amp;Ок</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="917"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="923"/>
         <source>Cancel modification and exit dialog box</source>
         <translation>Отменить изменения и выйти из диалогового окна</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="920"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="926"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Отмена</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="931"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="937"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать справку об этом диалоговом окне</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="934"/>
+        <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="940"/>
         <source>&amp;Help</source>
         <translation>&amp;Справка</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="55"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1437"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1434"/>
         <source>New project</source>
         <translation>Новый проект</translation>
     </message>
@@ -6866,7 +6863,7 @@ custom model</source>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="72"/>
         <source>Full inner image</source>
-        <translation>Полное внутреннее изображение</translation>
+        <translation>Полное изображение - внутри</translation>
     </message>
     <message>
         <location filename="../src/engine/cBrushDefinition.cpp" line="74"/>
@@ -6947,7 +6944,8 @@ custom model</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1586"/>
         <source>New
 project</source>
-        <translation>Новый проект</translation>
+        <translation>Новый
+проект</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="218"/>
@@ -6960,20 +6958,22 @@ project</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1633"/>
         <source>Open
 project</source>
-        <translation>Открыть проект</translation>
+        <translation>Открыть
+проект</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="265"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1677"/>
         <source>Open a recently used project file</source>
-        <translation>Открыть недавно сохраненный проект</translation>
+        <translation>Открыть недавно используемый проект</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="268"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1680"/>
         <source>Open
 recent</source>
-        <translation>Открыть недавний</translation>
+        <translation>Открыть
+недавний</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="312"/>
@@ -6986,7 +6986,8 @@ recent</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1727"/>
         <source>Save
 project</source>
-        <translation>Cохранить проект</translation>
+        <translation>Cохранить
+проект</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="359"/>
@@ -7001,21 +7002,21 @@ project</source>
         <source>Save
 project as</source>
         <translation>Сохранить
- проект как</translation>
+проект как</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="401"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1813"/>
         <source>Define project properties</source>
-        <translation>Установить параметры проекта</translation>
+        <translation>Задать свойства проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="404"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1816"/>
         <source>Project
 properties</source>
-        <translation>Параметры
- проекта</translation>
+        <translation>Свойства
+проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="442"/>
@@ -7066,7 +7067,8 @@ properties</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1967"/>
         <source>Add
 title</source>
-        <translation>Добавить слайд</translation>
+        <translation>Добавить
+слайд</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="610"/>
@@ -7080,7 +7082,8 @@ title</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2014"/>
         <source>Add
 files</source>
-        <translation>Добавить файлы</translation>
+        <translation>Добавить
+файлы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="651"/>
@@ -7094,7 +7097,8 @@ files</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2055"/>
         <source>Add
 project</source>
-        <translation>Добавить проект</translation>
+        <translation>Добавить
+проект</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="699"/>
@@ -7162,7 +7166,7 @@ project</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="946"/>
         <source>Render video</source>
-        <translation>Рендеринг видео</translation>
+        <translation>Создание видео</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="990"/>
@@ -7172,21 +7176,23 @@ project</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2387"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2428"/>
         <source>Render project as a video using a predefined model</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать видеофайл из проекта, выбрав соответствующий шаблон</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="993"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2343"/>
         <source>Player and
 smartphone</source>
-        <translation>Плеер и смартфон</translation>
+        <translation>Плеер и
+смартфон</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1040"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2390"/>
         <source>Multimedia
 system</source>
-        <translation>Мультимедиа система</translation>
+        <translation>Мультимедиа
+система</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1081"/>
@@ -7206,7 +7212,7 @@ WEB</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1165"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2515"/>
         <source>Render project as a video</source>
-        <translation>Рендеринг проекта в видеофайл</translation>
+        <translation>Создать видеофайл из проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1168"/>
@@ -7219,8 +7225,8 @@ WEB</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2564"/>
         <source>Export
 Soundtrack</source>
-        <translation>Экспортировать
-аудио дорожку</translation>
+        <translation>Экспорт
+аудио дорожки</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1289"/>
@@ -7255,12 +7261,12 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1426"/>
         <source>Display blog/news page from internet WEB site</source>
-        <translation>Показать блог/новости с домашней страницы</translation>
+        <translation>Показать блог/ новости с домашней страницы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1429"/>
         <source>What&apos;s new</source>
-        <translation>Что нового </translation>
+        <translation>Что нового</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3239"/>
@@ -7317,9 +7323,9 @@ and help</source>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="522"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="528"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="539"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3105"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3111"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3122"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3102"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3108"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3119"/>
         <source>Add to favorite</source>
         <translation>Добавить в избранное</translation>
     </message>
@@ -7405,7 +7411,7 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4581"/>
         <source>Use as new playlist</source>
-        <translation>Использовать новый плейлист</translation>
+        <translation>Использовать как новый плейлист</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4584"/>
@@ -7415,8 +7421,8 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4599"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4614"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2388"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3457"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2385"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3454"/>
         <source>Add files to project</source>
         <translation>Добавить файлы в проект</translation>
     </message>
@@ -7432,8 +7438,8 @@ and help</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4635"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3523"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="3526"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3529"/>
         <source>Rename file</source>
         <translation>Переименовать файл</translation>
     </message>
@@ -7465,7 +7471,7 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4125"/>
         <source>Switch display to sheet mode</source>
-        <translation>Переключить экран в режим карты</translation>
+        <translation>Переключить экран в режим таблицы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4085"/>
@@ -7476,13 +7482,13 @@ and help</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1119"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2469"/>
         <source>Render project as a lossless video</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать видеофайл из проекта без потери качества</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1211"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2561"/>
         <source>Render sound trak of project</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать аудио дорожку из проекта</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3925"/>
@@ -7497,7 +7503,7 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4026"/>
         <source>Chapter: xx/xxx</source>
-        <translation>Заголовок: xx/xxx</translation>
+        <translation>Глава: xx/xxx</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4205"/>
@@ -7542,7 +7548,7 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4334"/>
         <source>Edit object transition</source>
-        <translation>Редактировать переход объекта</translation>
+        <translation>Редактировать переход</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4337"/>
@@ -7566,27 +7572,27 @@ and help</source>
         <translation>Найти растровый режим в файле конфигурации</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="346"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="352"/>
         <source>All suported file (</source>
         <translation>Все поддерживаемые файлы (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="353"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="359"/>
         <source>Image file (</source>
         <translation>Изображения (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="359"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="365"/>
         <source>Video file (</source>
         <translation>Видео файлы (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="365"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="371"/>
         <source>Music file (</source>
         <translation>Аудио файлы (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="589"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="595"/>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="579"/>
         <source>Read configuration file</source>
         <translation>Прочитать файл конфигурации</translation>
@@ -7594,18 +7600,18 @@ and help</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1129"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2024"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2155"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2152"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
-        <translation>Данное приложение поддерживает аудио дорожку только с неподписанным 8 битным или подписанным 16 битным форматом сэмпла</translation>
+        <translation>Это приложение поддерживает аудио дорожку только с неподписанным 8 битным или подписанным 16 битным форматом сэмпла</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1133"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2028"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2161"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2158"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
-        <translation>Данное приложение поддерживает только моно или стерео аудио дорожки</translation>
+        <translation>Это приложение поддерживает только моно или стерео аудио дорожки</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="1634"/>
@@ -7613,48 +7619,48 @@ and help</source>
         <location filename="../src/engine/_Diaporama.cpp" line="2301"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1184"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2101"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1610"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1614"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1625"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2089"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2097"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2115"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2120"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2145"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2156"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2162"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2242"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1607"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1611"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1622"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2086"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2094"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2112"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2117"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2142"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2153"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2159"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2239"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Ошибка</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="591"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="597"/>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="589"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения файла конфигурации</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="599"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="605"/>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="594"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
-        <translation>Ошибка чтения содержимого файла конфигуранции</translation>
+        <translation>Ошибка чтения содержимого файла конфигурации</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="609"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="615"/>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="601"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
-        <translation>Этот файл не является файлом конфигуранции</translation>
+        <translation>Этот файл не является файлом конфигурации</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="743"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="749"/>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="648"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
-        <translation>Ошибка создания файла конфигуранции</translation>
+        <translation>Ошибка создания файла конфигурации</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="1428"/>
@@ -7688,54 +7694,54 @@ and help</source>
         <translation>Ошибка создания файла данных</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1590"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1664"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1587"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1661"/>
         <source>Open project file</source>
         <translation>Открыть файл проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1591"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1588"/>
         <source>Impossible to open file </source>
         <translation>Невозможно открыть файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1591"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1588"/>
         <source>Do you want to select another file ?</source>
         <translation>Хотите выбрать другой файл?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1594"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1591"/>
         <source>Select another file for </source>
         <translation>Выбрать другой файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1602"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1599"/>
         <source>Impossible to open project file %1</source>
         <translation>Невозможно открыть файл проекта %1</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1609"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2120"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1606"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2117"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения файла проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1614"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2115"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1611"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2112"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation>Ошибка чтения содержимого файла проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1625"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2089"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1622"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2086"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation>Этот файл не является файлом проекта</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2097"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2094"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -7745,469 +7751,475 @@ Image geometry in this file is not the same than the current project</source>
     <message>
         <location filename="../src/engine/cLuLoImageCache.cpp" line="87"/>
         <source>Rescale image to 8MPix</source>
-        <translation>Масштабировать изображение до 8MPix</translation>
+        <translation>Изменить размер изображения до 8Мп</translation>
     </message>
     <message>
         <location filename="../src/engine/cLuLoImageCache.cpp" line="72"/>
         <source>Loading file :</source>
-        <translation>Загрузить файл:</translation>
+        <translation>Загрузка файла:</translation>
     </message>
     <message>
         <location filename="../src/engine/cLuLoImageCache.cpp" line="95"/>
         <source>Error allocating memory for render image</source>
-        <translation>Ошибка выделения памяти для визуализации изображения</translation>
+        <translation>Ошибка выделения памяти для обработки изображения</translation>
     </message>
     <message>
         <location filename="../src/engine/cLuLoImageCache.cpp" line="97"/>
         <source>Error loading file :</source>
-        <translation>Ошибка при загрузке файла:</translation>
+        <translation>Ошибка загрузки файла:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="153"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="150"/>
         <source>Starting SDL...</source>
         <translation>Запуск SDL...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="161"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="162"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="158"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="159"/>
         <source>Loading background library...</source>
         <translation>Загрузка библиотек фонов ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="171"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="172"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="168"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="169"/>
         <source>Loading no-luma transitions...</source>
         <translation>Загрузка не luma переходов...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="176"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="177"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="173"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="174"/>
         <source>Loading luma transitions...</source>
         <translation>Загрузка luma переходов...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="184"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="185"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="181"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="182"/>
         <source>Scan drives in computer...</source>
         <translation>Сканирование дисков компьютера...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="189"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="186"/>
         <source>Register models...</source>
-        <translation>Регистрация моделей...</translation>
+        <translation>Регистрация шаблонов...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="627"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="624"/>
         <source>Close application</source>
         <translation>Закрыть программу</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="627"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="624"/>
         <source>Want to save the project before closing?</source>
         <translation>Хотите сохранить проект перед закрытием?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="714"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="711"/>
         <source>A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
-        <translation>Доступна новая версия ffDiaporama. Пожалуйста, обновите ее с http://ffdiaporama.tuxfamily.org!</translation>
+        <translation>Доступна новая версия ffDiaporama. Пожалуйста, обновите ее с http://ffdiaporama.tuxfamily.org !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="719"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="716"/>
         <source>A new ffDiaporama version is available from WEB site.
 Do you whant do download it now?</source>
         <translation>Новая версия ffDiaporama доступна на сайте.
 Хотите скачать ее сейчас?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="726"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="723"/>
         <source>Your version of ffDiaporama is up to day</source>
         <translation>У вас установлена последняя версия ffDiaporama</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1215"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1212"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Посетите сайт ffDiaporama чтобы&lt;br&gt;посмотреть руководство и узнать последние новости:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1400"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1397"/>
         <source>Saving configuration file and applying new configuration ...</source>
         <translation>Сохранение файла конфигурации и применение новой конфигурации ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1437"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1496"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1518"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3338"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1434"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1493"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1515"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3335"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
-        <translation>Текущий проет был изменен. Сохранить его?</translation>
+        <translation>Текущий проект был изменен.
+Сохранить его?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1686"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1683"/>
         <source>Loading slide %1/%2</source>
         <translation>Загрузка слайда %1/%2</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1963"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2010"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1960"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2007"/>
         <source>Add file to project</source>
         <translation>Добавить файл в проект</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2174"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2171"/>
         <source>This video files contains more than one chapter.
 Do you want to create one slide for each chapters ?</source>
-        <translation>Этот видео файл содержит более чем одну главу.
+        <translation>Этот видеофайл содержит более чем одну главу.
 Хотите создать отдельный слайд для каждой главы ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2604"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2601"/>
         <source>Are you sure you want to remove this slide?</source>
         <translation>Удалить этот слайд?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2608"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2605"/>
         <source>Remove multiple slides</source>
         <translation>Удалить несколько слайдов</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3508"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3505"/>
         <source>Are you sure to delete this file or folder ?
 (Warning: Content will not be moved to trash)</source>
-        <translation>Удалить этот файл или папку? (Внимание: они не будут перемещены в корзину)</translation>
+        <translation>Удалить этот файл или папку?
+(Внимание: они не будут перемещены в корзину)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3510"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3507"/>
         <source>Impossible to delete folder!
 Are you sure it is empty?</source>
-        <translation>Невозможно удалить папку! Вы уверены, что она пустая?</translation>
+        <translation>Невозможно удалить папку!
+Вы уверены, что она пустая?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3512"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3509"/>
         <source>Impossible to delete file!</source>
         <translation>Невозможно удалить файл!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="276"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="277"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2946"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2947"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2943"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2944"/>
         <source>Total duration:</source>
         <translation>Общая продолжительность:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="280"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2950"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2947"/>
         <source>Total size:%1</source>
         <translation>Общий размер:%1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="287"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2957"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2954"/>
         <source>%1 audio files</source>
-        <translation>%1 аудио файлов</translation>
+        <translation>аудио файлов - %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="291"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2961"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2958"/>
         <source>%1 video files</source>
-        <translation>%1 видео файлов</translation>
+        <translation>видео файлов - %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="295"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2965"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2962"/>
         <source>%1 image files</source>
-        <translation>%1 файлов изображений</translation>
+        <translation>файлов изображений - %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="299"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2969"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2966"/>
         <source>%1 ffDiaporama project files</source>
-        <translation>%1 файлов проектов ffDiaporama</translation>
+        <translation>файлов проектов ffDiaporama - %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="303"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2973"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2970"/>
         <source>%1 folders</source>
-        <translation>%1 папок</translation>
+        <translation>папок - %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="307"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="315"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2977"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2985"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2974"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2982"/>
         <source>%1 files</source>
-        <translation>%1-файлов</translation>
+        <translation>файлов - %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="308"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="316"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2978"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2986"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2975"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2983"/>
         <source>Multiple file types</source>
         <translation>Несколько типов файлов</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="350"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3004"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3001"/>
         <source>Refresh All</source>
         <translation>Обновить все</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="353"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3007"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3004"/>
         <source>update drive list</source>
         <translation>Обновить список дисков</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="365"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="377"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3019"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3031"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3016"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3028"/>
         <source>update drive (%1)</source>
         <translation>Обновление дисков (%1)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="381"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3035"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3032"/>
         <source>update current folder</source>
         <translation>Обновить текущую папку</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="522"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3105"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3102"/>
         <source>Favorite name:</source>
         <translation>Имя избранного:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3160"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3157"/>
         <source>Impossible to remove file %1 - error %2:%3</source>
         <translation>Невозможно удалить файл%1 - Ошибка:%2:%3</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3165"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3162"/>
         <source>Impossible to remove folder %1 - error %2:%3</source>
         <translation>Невозможно удалить папку%1 - Ошибка:%2:%3</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3190"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3187"/>
         <source>Are you sure to remove this folder ?
 (Warning: Content will not be moved to trash)</source>
-        <translation>Удалить эту папку? (Внимание:она не будет перемещена в корзину)</translation>
+        <translation>Удалить эту папку?
+(Внимание: она не будет перемещена в корзину)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3223"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3225"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3220"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3222"/>
         <source>Rename folder</source>
         <translation>Переименовать папку</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3223"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3220"/>
         <source>Folder:</source>
         <translation>Папка:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3225"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3222"/>
         <source>Impossible to rename folder!</source>
         <translation>Невозможно переименовать папку!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="591"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3270"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3267"/>
         <source>Hide files name</source>
         <translation>Скрыть имена файлов</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="592"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3271"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3268"/>
         <source>Show files name</source>
         <translation>Показать имена файлов</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3481"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3478"/>
         <source>Remove files</source>
         <translation>Удалить файлы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3503"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3500"/>
         <source>Remove file :</source>
-        <translation>Удалить файл:</translation>
+        <translation>Удалить файл :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3510"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3507"/>
         <source>Remove folder</source>
         <translation>Удалить папку</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3512"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3509"/>
         <source>Remove file</source>
         <translation>Удалить файл</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3526"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3523"/>
         <source>New name:</source>
         <translation>Новое имя:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3529"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3526"/>
         <source>Impossible to rename file!</source>
         <translation>Невозможно переименовать файл!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="578"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3257"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3254"/>
         <source>Details view</source>
         <translation>Подробно</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2608"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2605"/>
         <source>Are you sure you want to remove these %1 slides?</source>
         <translation>Удалить слайды %1?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="529"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3112"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3109"/>
         <source>A favorite with this name already exists.
 Do you want to overwrite it?</source>
-        <translation>Избранное с таким именем уже существует. Перезаписать его?</translation>
+        <translation>Избранное с таким именем уже существует.
+Перезаписать его?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="540"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3123"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3120"/>
         <source>A favorite with for this path already exists.
 Do you want to overwrite it?</source>
-        <translation>Избранное с таким путем уже существует. Перезаписать его?</translation>
+        <translation>Избранное с таким путем уже существует.
+Перезаписать его?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3168"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3165"/>
         <source>Successfully deleted folder (and all its content) %1</source>
         <translation>Папка %1 успешно удалена (и все ее содержимое)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="579"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3258"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3255"/>
         <source>Icon view</source>
         <translation>Значки</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="581"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3260"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3257"/>
         <source>All files</source>
         <translation>Все файлы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="582"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3261"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3258"/>
         <source>Managed files</source>
         <translation>Поддерживаемые файлы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="583"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3262"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3259"/>
         <source>Image files</source>
         <translation>Изображения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="584"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3263"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3260"/>
         <source>Video files</source>
         <translation>Видео файлы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="585"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3264"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3261"/>
         <source>Music files</source>
         <translation>Аудио файлы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="586"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3265"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3262"/>
         <source>ffDiaporama project files</source>
         <translation>Файлы проектов ffDiaporama</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="588"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3267"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3264"/>
         <source>Hide hidden files and folders</source>
         <translation>Не показывать скрытые файлы и папки</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="589"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3268"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3265"/>
         <source>Show hidden files and folders</source>
         <translation>Показать скрытые файлы и папки</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="800"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="797"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation>&lt;Новый проект&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1500"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1528"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1538"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3343"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1497"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1525"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1535"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3340"/>
         <source>Open file :</source>
-        <translation>Открыть файл:</translation>
+        <translation>Открыть файл :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1496"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1518"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1523"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1552"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3337"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1493"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1515"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1520"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1549"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3334"/>
         <source>Open project</source>
         <translation>Открыть проект</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="310"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="149"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="316"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="146"/>
         <source>Loading system icons...</source>
         <translation>Загрузка системных иконок...</translation>
     </message>
     <message>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="727"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="157"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="154"/>
         <source>Starting libav...</source>
         <translation>Запуск libav...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="166"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="167"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="163"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="164"/>
         <source>Loading text frame  library...</source>
-        <translation>Загрузка библиотеки текстовых фреймов ...</translation>
+        <translation>Загрузка бибилотеки клипартов текста ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="426"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="790"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="423"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="787"/>
         <source>Slide: </source>
         <translation>Слайд:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="427"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="548"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="556"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="424"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="545"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="553"/>
         <source>Chapter: </source>
         <translation>Глава:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1203"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1200"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Выберите существующий проект или создайте новый.&lt;br&gt;Чтобы узнать больше о ffDiaporama,&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;посетите WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1207"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1204"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Добавьте пустые слайды или слайды из фотографий или видео.&lt;br&gt;Чтобы узнать как создать слайд-шоу и анимировать слайды,&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;познакомьтесь с принципами функционирования ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1211"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1208"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;body&gt;Выберите тип устройства, на котором вы собираетесь просматривать видео.&lt;br&gt;Чтобы узнать как сделать видео,&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;посетите страницу рендеринга видео в WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;body&gt;Выберите тип устройства, на котором вы собираетесь просматривать видео.&lt;br&gt;Чтобы узнать как сделать видео,&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;посетите страницу обработки видео в WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1553"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1550"/>
         <source>This project was created with a newer version of ffDiaporama.
 If you continue, you take the risk of losing data!
 Do you want to open it nevertheless?</source>
@@ -8216,14 +8228,14 @@ Do you want to open it nevertheless?</source>
 Хотите открыть его все равно?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1735"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1800"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1732"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1797"/>
         <source>Saving project file ...</source>
         <translation>Сохранение файла проекта ...</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4788"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1789"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1786"/>
         <source>Save project as</source>
         <translation>Сохранить проект как</translation>
     </message>
@@ -8231,55 +8243,55 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4455"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1047"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1940"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1939"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1936"/>
         <source>Add files</source>
         <translation>Добавить файлы</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1089"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1982"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2135"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2132"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Формат не поддерживается</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2371"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2368"/>
         <source>Add a sub project</source>
         <translation>Добавить подпроект</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2401"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2398"/>
         <source>Add project file :</source>
-        <translation>Добавить файл проекта:</translation>
+        <translation>Добавить файл проекта :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2456"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2462"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2453"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2459"/>
         <source>Capture the image </source>
         <translation>Захват изображения </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2604"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2601"/>
         <source>Remove slide</source>
         <translation>Удалить слайд</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2064"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3460"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2061"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3457"/>
         <source>Add file to project :</source>
-        <translation>Добавить файл в проект:</translation>
+        <translation>Добавить файл в проект :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="1292"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2468"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2465"/>
         <source>Capture image</source>
         <translation>Захват изображения</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="1293"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="204"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2469"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2466"/>
         <source>Select destination file</source>
         <translation>Выберите файл назначения</translation>
     </message>
@@ -8617,7 +8629,7 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="109"/>
         <source>Refresh from here</source>
-        <translation>Обновить отсюда</translation>
+        <translation>Обновить выделенное</translation>
     </message>
     <message>
         <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="110"/>
@@ -9375,7 +9387,7 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="297"/>
         <source>Current chapter number as &quot;Chapter NÂ°&quot;</source>
-        <translation>Номер текущей главы: &quot;&lt;Глава ...&gt;&quot;</translation>
+        <translation>Номер текущей главы: &quot;&lt;Глава №&gt;&quot;</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="298"/>
@@ -9592,9 +9604,9 @@ Do you want to open it nevertheless?</source>
         <translation>Папка</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2173"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2170"/>
         <source>Add video file</source>
-        <translation>Добавить видео файл</translation>
+        <translation>Добавить видеофайл</translation>
     </message>
 </context>
 <context>
@@ -9610,13 +9622,13 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="701"/>
         <source>Smartphone</source>
         <comment>Device database type</comment>
-        <translation>Смартфоны и плееры</translation>
+        <translation>Смартфон и плеер</translation>
     </message>
     <message>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="698"/>
         <source>Multimedia system</source>
         <comment>Device database type</comment>
-        <translation>Мультимедиа системы</translation>
+        <translation>Мультимедиа система</translation>
     </message>
     <message>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="699"/>
@@ -9782,42 +9794,42 @@ Do you want to open it nevertheless?</source>
         <translation>Название главы</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="194"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="191"/>
         <source>Simple titles without animation</source>
         <translation>Простые без анимации</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="195"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="192"/>
         <source>Animated titles</source>
         <translation>Анимированные</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="197"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="194"/>
         <source>Custom titles</source>
         <translation>Пользовательские</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="199"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="196"/>
         <source>Simple chapter titles without animation</source>
         <translation>Простые без анимации</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="200"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="197"/>
         <source>Animated chapter titles</source>
         <translation>Анимированные</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="202"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="199"/>
         <source>Custom chapter titles</source>
         <translation>Пользовательские</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="204"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="201"/>
         <source>Simple credit titles</source>
         <translation>Простые</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="205"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="202"/>
         <source>Custom credit titles</source>
         <translation>Пользовательские</translation>
     </message>
@@ -9835,9 +9847,9 @@ Do you want to open it nevertheless?</source>
         <source>The progress bar allows you to set the video display to a specific position.
 Remark : The length of the ruler is increased in proportion to the duration of the video.
 The blue part represents the part of the video which is selected (which will be used in the assembly).</source>
-        <translation>Индикатор позволяет установить отображение видео на определенный момент времени.
+        <translation>Индикатор позволяет перемотать видео на определенный момент времени.
 Примечание: длина линейки увеличивается пропорционально продолжительности видео.
-Синяя часть представляет собой ту часть видео, которая соответствует выделенному.</translation>
+Синяя часть соответствует выделенному на шкале времени фрагменту.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/wgt_QVideoPlayer.ui" line="296"/>

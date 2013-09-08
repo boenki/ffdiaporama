@@ -92,7 +92,7 @@
        </property>
        <property name="icon">
         <iconset resource="../../../RSCffDiaporama.qrc">
-         <normaloff>:/img/db_add.png</normaloff>:/img/db_add.png</iconset>
+         <normaloff>:/img/db_update.png</normaloff>:/img/db_update.png</iconset>
        </property>
       </widget>
      </item>

@@ -392,10 +392,6 @@ See help for more details!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Editor options (when adding objects)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remember size and position of windows</source>
         <translation type="unfinished"></translation>
     </message>
@@ -682,11 +678,6 @@ This style defines the font, its size, its color and the shadow effects applied 
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Defines the default value for the field Author (often so called Artist by Jukebox)
-Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Sets the default speed wave for the transitions of new projects</source>
         <translation type="unfinished"></translation>
     </message>
@@ -844,6 +835,20 @@ Beyond this height, the videos are automatically reduced for creating images.</s
     </message>
     <message>
         <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Editor options (when adding objects)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option allows you to specify the format in which computed dates are displayed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the default value for the field Author (often so called Artist by Media Center Systems)
+Note: this field is limited to 30 characters to remain compatible with jukebox</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3147,10 +3152,6 @@ This volume is independent of any reductions in the volume that you define in th
         <translation>位元速率：</translation>
     </message>
     <message>
-        <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation>選取位元速率以在潤算期間用於音訊。</translation>
-    </message>
-    <message>
         <source>Audio codec :</source>
         <translation>音訊編碼解碼器：</translation>
     </message>
@@ -3486,6 +3487,14 @@ Note: the project properties are saved into the video as TAG (METADATA) which ar
     <message>
         <source>&amp;Help</source>
         <translation>求助(&amp;H)</translation>
+    </message>
+    <message>
+        <source>Select the audio compression ratio from the displayed list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the frequency to use for audio during the rendering.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5122,6 +5131,14 @@ custom model</source>
     <message>
         <source>&amp;Help</source>
         <translation>求助(&amp;H)</translation>
+    </message>
+    <message>
+        <source>Check this box to override the date and offer you to enter the date as a free text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter here the date of the event of the project as a free text</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>

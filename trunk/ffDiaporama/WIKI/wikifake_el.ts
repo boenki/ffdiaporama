@@ -8,14 +8,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This WIKI is being restructured. Now, information about dialog boxes appear directly in the dialog boxes as ToolTips (leave the mouse a few seconds on a zone displays information on the zone).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the ffDiaporama WIKI</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Functional principles</source>
         <translation type="unfinished"></translation>
     </message>
@@ -33,6 +25,22 @@
     </message>
     <message>
         <source>Style sheets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama WIKI - How ffDiaporama works</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This section contains general information on the concepts and methods of use of ffDiaporama </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Index</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dynamic variables</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -267,6 +275,13 @@
     </message>
 </context>
 <context>
+    <name>0013</name>
+    <message>
+        <source>Dynamic variables</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>0014</name>
     <message>
         <source>The &quot;Visible&quot; property of blocks and the management of the breaks</source>
@@ -348,10 +363,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>There are two types of settings in the &apos;Image framing and corrections&apos; dialog:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>&lt;B&gt;The settings which apply to the current shot.&lt;/B&gt; These settings are made shot by shot. So, every shot possesses its own settings and the passage from a shot to the other one is defined by the passage from one setting to an other one creating a shot animation: these are called Ken Burns effects. Here are some some: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -372,23 +383,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;B&gt;The settings which apply to all shots.&lt;/B&gt; These settings are made globally, that is their effects will be visible on all the shots of the slide. Here are some some: </source>
+        <source>&lt;B&gt;The settings which apply to all shots.&lt;/B&gt; These settings are made globally, that is their effects will be visible on all the shots of the slide. Here are some: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Equalize (Filter of type Equalization of histogram)</source>
+        <source>There are two types of settings in the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>De-speckle (Filter of type Reduction of noise)</source>
+        <source>Text and text format</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Levels of grey (Passage in black and white)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Blur/Sharpen</source>
+        <source>Shape form</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -467,14 +474,6 @@
     <name>0020</name>
     <message>
         <source>Interface description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This WIKI is being restructured. Now, information about dialog boxes appear directly in the dialog boxes as ToolTips (leave the mouse a few seconds on a zone displays information on the zone).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the ffDiaporama WIKI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -583,6 +582,18 @@
     </message>
     <message>
         <source>Dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama WIKI - Interface description</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This section contains information about using ffDiaporama. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Index</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -697,15 +708,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> The editing of slides is done: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To change display mode, use the buttons located in the status bar, to the right, at the bottom of the main window. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>by using the buttons of the &lt;a href=&quot;0022.html&quot;&gt;toolbar&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To change display mode, use the buttons located in the status bar, to the right, at the bottom of the main window.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The editing of slides is done:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -749,10 +760,6 @@
     </message>
     <message>
         <source>CTRL+N</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to create a new blank project using the default project settings as defined in the Application settings. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -808,31 +815,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allows you to save the current project in a different file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The file selection dialog appears and allows you to select a destination file.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Project properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allows you to open the project properties dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to define applications settings.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The Application settings dialog appears.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -864,19 +851,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allows you to add an empty slide : the slide is appended to the project and is displayed in the timeline.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Add files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>INS</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to add photo or video files : A file selection dialog appears and allows you to select one or more files. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -892,19 +871,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allows you to add the slides of an existing project to the end the current project: a file selection dialog appears and allows you to select a project file. Slides, slide settings, music and background of the project are added to the current project.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Cut</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>CTRL+X</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to cut the current slide (remove it from the timeline and put it in the clipboard).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -928,43 +899,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allows you to paste the slide currently in the clipboard into the timeline.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Opens a sub-menu giving access to the slide modification functions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Background property (Equivalent to a double click on the background track)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>F6</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide property (Equivalent to a double click on the mounting track)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>F7</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Music property (Equivalent to a double click on the music track)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>F8</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Open transition property (Equivalent to a double click on the transition)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -988,10 +927,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>It is possible to add slides by Drag and Drop directly using the file browser. Drag photos or videos onto the timeline and slides are created at the point you release the files.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The render commands</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1008,14 +943,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allows you to render the video for selected equipment from the device database.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The Render movie dialog from database appears.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Multimedia system</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1028,19 +955,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allows you to render the video in a lossless format. Lossless format is not destructive, so it is possible to render several times the same video without losing in quality.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The Render movie dialog appears.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to render the video using the Advanced render video dialog.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1085,6 +1000,110 @@
     </message>
     <message>
         <source>Opens the Blog/News page from the ffDiaporama website</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to create a new blank project. The &lt;a href=&quot;0108.html&quot;&gt;project properties dialog&lt;/a&gt; appears and allows you to setup the new project. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Opens a sub-menu giving you access to the following functions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Save as: Allows you to save the current project in a different file. The &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select a destination file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export project: Export current project and all used files in a new folder. The &lt;a href=&quot;0107.html&quot;&gt;export project dialog&lt;/a&gt; appears and allows you to setup the export.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to open the &lt;a href=&quot;0108.html&quot;&gt;project properties dialog&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to define applications settings. The &lt;a href=&quot;0101.html&quot;&gt;application settings dialog&lt;/a&gt; appears.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add empty slide: Allows you to add an empty slide : the new empty slide is appended to the project and is displayed in the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a predefined title slide: Allows you to add a slide based on a model. The &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; appears.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to add photo or video files : A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select one or more files. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to add the slides of an existing project to the end the current project: a &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select a project file. Slides, slide settings, music and background of the project are added to the current project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to cut the current slide (remove it from the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and put it in the clipboard).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to paste the slide currently in the clipboard into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the &lt;a href=&quot;0104.html&quot;&gt;background properties dialog&lt;/a&gt; (Equivalent to a double click on the background track)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>F6 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Depending on the slide type, open the &lt;a href=&quot;0119.html&quot;&gt;slide properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide. (Equivalent to a double click on the mounting track)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>F7 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the &lt;a href=&quot;0114.html&quot;&gt;music properties dialog&lt;/a&gt; (Equivalent to a double click on the music track)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>F8 </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the &lt;a href=&quot;0122.html&quot;&gt;transition properties dialog&lt;/a&gt; (Equivalent to a double click on the transition)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is possible to add slides by Drag and Drop directly using the file browser. Drag photos or videos onto the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and slides are created at the point you release the files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to render the video for selected equipment from the device database. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; from database appears.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to render the video in a lossless format. Lossless format is not destructive, so it is possible to render several times the same video without losing in quality. The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; appears.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to render the video using the &lt;a href=&quot;0115.html&quot;&gt;Advanced render movie dialog&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export Soundtrack</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to render only the sound track of the project. The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; appears.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1271,11 +1290,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To modify the slide (framing, filter, animation, etc.) double-click the thumbnail. This action opens the &lt;a href=&quot;0119.html&quot;&gt;Modify slides&lt;/a&gt; dialog.</source>
+        <source>To modify the music associated with the slide, double-click the zone corresponding to the slide musical track. This action opens the &lt;a href=&quot;0114.html&quot;&gt;Define the music track&lt;/a&gt; dialog.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To modify the music associated with the slide, double-click the zone corresponding to the slide musical track. This action opens the &lt;a href=&quot;0114.html&quot;&gt;Define the music track&lt;/a&gt; dialog.</source>
+        <source>To modify the slide (framing, filter, animation, etc.) double-click the thumbnail. This action opens the &lt;a href=&quot;0119.html&quot;&gt;slides properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1709,14 +1728,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This WIKI is being restructured. Now, information about dialog boxes appear directly in the dialog boxes as ToolTips (leave the mouse a few seconds on a zone displays information on the zone).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the ffDiaporama WIKI</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Smartphones and tablets</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1750,6 +1761,18 @@
     </message>
     <message>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama WIKI - Rendering videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This section contains information about generating video with ffDiaporama. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Index</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1852,14 +1875,6 @@
     </message>
     <message>
         <source>Consult the documentation for your equipment or search the Internet to determine these two characteristics.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>As far as the resolution is concerned, note that most devices can play videos designed for lower resolution devices without difficulty.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The device models available in ffDiaporama are as follows:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2098,6 +2113,14 @@
         <source>Android/Linux</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>As far as the resolution is concerned, note that most devices can play videos designed for lower resolution devices without difficulty. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The device models available in ffDiaporama are as follows: </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0033</name>
@@ -2201,18 +2224,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>These &quot;Home Cinema&quot; devices are connected to a television set. The format choice will thus be made according to the requirements of the set used.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Warning: The old SD format is only suitable for old television sets using cathode ray tube technology. With these tubes, points were not circular but oval: we call this anamorphism.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Playing a video in SD format on a modern LCD, LED or plasma television set gives openly disastrous results: The image is particularly ugly! Thus, if your television is new and if your device allows it, always use a HD or Full-HD format in preference to a SD format.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Device type</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2310,6 +2321,18 @@
     </message>
     <message>
         <source>XBox360</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> These &quot;Home Cinema&quot; devices are connected to a television set. The format choice will thus be made according to the requirements of the set used. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Warning: The old SD format is only suitable for old television sets using cathode ray tube technology. With these tubes, points were not circular but oval: we call this anamorphism. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Playing a video in SD format on a modern LCD, LED or plasma television set gives openly disastrous results: The image is particularly ugly! Thus, if your television is new and if your device allows it, always use a HD or Full-HD format in preference to a SD format. </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2495,10 +2518,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remark : ffDiaporama uses two preset h264 codecs specifically designed for this program. They contain different combinations of h264 parameters: High Quality for &quot;Home Cinema&quot; devices and &quot;Phone Quality&quot; for mobile devices. (Both preset files are placed in the same directory as the binary of ffDiaporama.)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>H264PQ</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2516,10 +2535,6 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/X264</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note : ffDiaporama uses the standard x264 fast preset.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2556,6 +2571,26 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Theora</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama uses specific settings for encoding with x264. This settings are including: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- &lt;B&gt;High Quality&lt;/B&gt; for &quot;Home Cinema&quot; devices based on x264 &lt;U&gt;main&lt;/U&gt; profile, with 3 refs and 3 bframes. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>- &lt;B&gt;Phone Quality&lt;/B&gt; for mobile devices based on x264 &lt;U&gt;baseline&lt;/U&gt; profile, with 3 refs and 0 bframes. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Both settings are using &lt;U&gt;veryfast&lt;/U&gt; preset</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama uses the standard x264 &lt;U&gt;fast&lt;/U&gt; preset with 3 refs and qp set to 0.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3200,7 +3235,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> Note that many other resolutions exists but which are not used by ffDiaporama.</source>
+        <source>Note that many other resolutions exists but which are not used by ffDiaporama.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3210,19 +3245,47 @@
         <source>File attachments (Thumbnails, nfo, etc...)</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>ffDiaporama allows you to produce joint files during the rendering process.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following files are availables:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thumbnails</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A video or music file can be accompanied with an image file which must have the same name but with the .jpg extension (example: holidays.mkv and holidays.jpg in the same folder). </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This image is called a thumbnail and is used as icon for this file by ffDiaporama and many </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media Center Systems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XBMC .nfo files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The .nfo file for XBMC allows XBMC to recognize the rendered videos as movies. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information see: &lt;a href=&quot;0044.html&quot;&gt;XBMC nfo files&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0040</name>
     <message>
         <source>Technical information on ffDiaporama</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This WIKI is being restructured. Now, information about dialog boxes appear directly in the dialog boxes as ToolTips (leave the mouse a few seconds on a zone displays information on the zone).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Welcome to the ffDiaporama WIKI</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3239,6 +3302,18 @@
     </message>
     <message>
         <source>XBMC nfo files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama WIKI - Technical information on ffDiaporama</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This section contains technical information about ffDiaporama. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Index</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3379,14 +3454,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> In order to work, the application needs two configuration files. Each of them consists of a pair of files. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For example: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The primary ffDiaporama.xml file is stored in the ffDiaporama directory. This file is global for all users: it contains the default ffDiaporama application settings. </source>
         <translation type="unfinished"></translation>
     </message>
@@ -3450,6 +3517,14 @@
         <source>Contains the base of profiles for video generation.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>In order to work, the application needs two configuration files. Each of them consists of a pair of files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For example:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0044</name>
@@ -3457,19 +3532,91 @@
         <source>XBMC nfo files</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The .nfo file for XBMC allows XBMC to recognize the rendered videos as movies.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When doing a scan or an automatic new file discovery, XBMC uses the .nfo files.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>During a manual refresh, XBMC offers you to find the film through one of its scrapers. Refuse its proposal to use the information contained in the .nfo file.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Information included in the .nfo file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot; ?&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;movie&gt; </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;title&gt;&lt;U&gt;&lt;B&gt;Project Title&lt;/B&gt;&lt;/U&gt;&lt;/title&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;sorttitle&gt;&lt;U&gt;&lt;B&gt;Rendered filename&lt;/B&gt;&lt;/U&gt;&lt;/sorttitle&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;set&gt;&lt;B&gt;&lt;U&gt;Project Album&lt;/U&gt;&lt;/B&gt;&lt;/set&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;genre&gt;&lt;B&gt;&lt;U&gt;Project Album&lt;/U&gt;&lt;/B&gt;&lt;/genre&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;year&gt;&lt;U&gt;&lt;B&gt;Year of project date&lt;/B&gt;&lt;/U&gt;&lt;/year&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;outline&gt;&lt;U&gt;&lt;B&gt;Project Title&lt;/B&gt;&lt;/U&gt;&lt;/outline&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;plot&gt;&lt;U&gt;&lt;B&gt;Project Comment&lt;/B&gt;&lt;/U&gt;&lt;/plot&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;director&gt;&lt;U&gt;&lt;B&gt;Project Author&lt;/B&gt;&lt;/U&gt;&lt;/director&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;credits&gt;&lt;U&gt;&lt;B&gt;Project Author&lt;/B&gt;&lt;/U&gt;&lt;/credits&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;runtime&gt;&lt;U&gt;&lt;B&gt;Project duration in minutes&lt;/B&gt;&lt;/U&gt;&lt;/runtime&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;thumb&gt;&lt;U&gt;&lt;B&gt;Project thumbnail&lt;/B&gt;&lt;/U&gt;&lt;/thumb&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> &lt;/movie&gt; </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>See also</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Information on XBMC movies .nfo file</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0101</name>
     <message>
         <source>Application options dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This dialog box allows you to define options for the application.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>It consists of following 3 tabs:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3553,10 +3700,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remark: This effect consumes lots of resources and can result in slow preview on small machines. Unchecking this box allows then to keep a fluid preview.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Editor options</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3625,10 +3768,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Video</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>If the &lt;B&gt;Activate deinterlace filter when add new MTS videos&lt;/B&gt; is checked, deinterlace filter will automatically be activated for all .mts videos added to the project. </source>
         <translation type="unfinished"></translation>
     </message>
@@ -3665,19 +3804,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Author</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Defines the default value for the field Author (often so called Artist by Jukebox) </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note: this field is limited to 30 characters to remain compatible with jukebox</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3973,26 +4100,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Other actions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>At the bottom of the dialog the two buttons allow you to:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Manage device allows to open the &lt;a href=&quot;0102.html&quot;&gt;Manage device dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Check configuration allows to open the &lt;a href=&quot;0106.html&quot;&gt;Check configuration dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiapora to your hardware.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>If the &lt;B&gt;Automatically crop 1920x1088 video to 1920x1080&lt;/B&gt; is checked then video images are automatically cropped. </source>
         <translation type="unfinished"></translation>
     </message>
@@ -4037,11 +4144,191 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allows to select the style of the shape to applied to the new text blocks. This style defines the shape (rectangle, circle, �), the border, the opaqueness and the shadow effect applied to the block.</source>
+        <source>This dialog box allows you to define options for the application. It consists of the following 3 tabs:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Allows to select the style of the shape applied to the new text blocks. This style defines the shape (rectangle, circle, �), the border, the opaqueness and the shadow effect applied to the block.</source>
+        <source>The Application options tab allows you to define the general behavior of ffDiaporama.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Project options tab allows you to define the options by default of the current project and for the new projects.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Rendering options Tab allows you to define the options used by default during the generation of videos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Disable tooltips in dialog box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, tooltips will no longer appear in dialog boxes (only what&apos;s this will be available).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Offer to open the download Web page when a new version is available</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, a dialog box will appear at startup the next time a new version will be available. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>By default, this box is checked for Windows users and unchecked for Linux users</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For users of 32-bit systems, it is recommended that set this value to 512 MB if the computer has at least 2 GB of RAM. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For users of 64-bit systems, it is recommended that set this value to 2 GB if the computer has at least 4 GB of RAM.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Max video preview height</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sets the maximum height of videos used for the preview. Beyond this height, the videos are automatically reduced for creating images. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This parameter affects only the preview and does not change the quality of rendered video. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is recommended to reduce this value for slow computer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This effect consumes lots of resources and can result in slow preview on small machines. Unchecking this box allows then to keep a fluid preview. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This parameter affects only the preview and does not change the quality of rendered video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sound sample rate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the frequency of the sound generated to show the preview. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video cropping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video deinterlacing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Short date format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option allows you to specify the format in which computed dates are displayed. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Normally this format depends on the language used on your system, but it can be useful to change it especially if the interface is not available for your language.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enhance id3v2 comptatibility</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more compatibility with the standard id3v2, check this box to limit Title, Author and Album fields to 30 characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information on joined files, see &lt;a href=&quot;003A.html&quot;&gt;File attachments&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default joined files options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Join thumbnail to rendered file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked then a thumbnail file will be created with video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Join XBMC .nfo file to rendered file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked then a XMBC .nfo file will be created with video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequency</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the default frequency to use for audio during the rendering.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Default soundtrack rendering options</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other actions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At the bottom of the dialog these buttons allow you to:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Check configuration allows to open the &lt;a href=&quot;0106.html&quot;&gt;Check configuration dialog&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Manage device allows to open the &lt;a href=&quot;0102.html&quot;&gt;Manage device dialog&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows to select the style of the shape to applied to the new text blocks. This style defines the shape (rectangle, circle, ...), the border, the opaqueness and the shadow effect applied to the block.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiaporama to your hardware. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media Center Systems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the model use as default thumbnail. Thumbnails are images that are generated along with the videos. These images are used as a poster by most </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the default value for the field Author that is often so called Artist by </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4049,6 +4336,14 @@
     <name>0102</name>
     <message>
         <source>Manage devices dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This dialog box allows you to modify the equipment profiles database. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The database is actually composed of two parts: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4060,11 +4355,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The database is actually composed of two parts: </source>
+        <source>Devices preceded by this icon are defined in the default database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The list shows the categories and the device types present in the database. </source>
+        <source>Devices preceded by this icon are those that you defined yourself, or those from the default database that you have modified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add device: Allows you to create a new device which will be added to the database. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The creation of a new device is made in 3 steps: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4077,6 +4380,18 @@
     </message>
     <message>
         <source>You click the &quot;Apply modifications&quot; button to register the parameters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove device: Allows you to delete a device. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note that you can delete only devices which you created - those shown with this icon: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Reset to default: Cancels the modifications that you made on a device defined in the default ffDiaporama database</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4096,47 +4411,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Note that you can delete only devices which you created - those shown with this icon: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Enter here the name of the device (free text entry field) and then, enter all the parameters required for rendering videos that are to be associated with the device profile (File format, video Standard, etc.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> This dialog box allows you to modify the equipment profiles database. </source>
+        <source>The device type zone allows you to select the type of equipment to be shown in the list.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The device type zone allows you to select the type of equipment to be shown in the list. </source>
+        <source>The list shows the categories and the device types present in the database.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Devices preceded by this icon are defined in the default database.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Devices preceded by this icon are those that you defined yourself, or those from the default database that you have modified.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following buttons allow you to act on the database: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add device: Allows you to create a new device which will be added to the database. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The creation of a new device is made in 3 steps: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remove device: Allows you to delete a device. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Reset to default: Cancels the modifications that you made on a device defined in the default ffDiaporama database</source>
+        <source>The following buttons allow you to act on the database:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4155,6 +4442,10 @@
     <name>0104</name>
     <message>
         <source>Background properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The &quot;Background properties&quot; dialog allows you to define settings for the background of the slide.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4210,6 +4501,22 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Selects a background image from the library </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark: By default, the library contains a dozen of background screens. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can get additionals backgrounds installing the &lt;B&gt;&lt;U&gt;Texturemate&lt;/U&gt;&lt;/B&gt; extension from this page </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Download extensions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Image disk</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4226,19 +4533,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Keep aspect ratio</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Full filling</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows the image to fill the whole screen with image deformation as needed.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Allow you to selects an image file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Keep aspect ratio</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4250,23 +4549,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Selects a background image from the library </source>
+        <source>Full filling</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remark: By default, the library contains a dozen of background screens. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Download extensions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>You can get additionals backgrounds installing the &lt;B&gt;&lt;U&gt;Texturemate&lt;/U&gt;&lt;/B&gt; extension from this page </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The &quot;Background properties&quot; dialog allows you to define settings for the background of the slide.</source>
+        <source>Allows the image to fill the whole screen with image deformation as needed.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4288,6 +4575,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>This dialog allows to check external tools configuration and libraries used by ffDiaporama.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>It is especially useful for the Linux users and for those who compiles the application. </source>
         <translation type="unfinished"></translation>
     </message>
@@ -4296,11 +4587,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This dialog allows to check external tools configuration and libraries used by ffDiaporama.</source>
+        <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration. </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4330,19 +4617,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Some fields are automatically filled and do not appear in this dialog: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The properties of the project are a partial implementation of the MPEG-7 standard on the descriptors of multimedia contents.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by jukeboxes.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4370,15 +4645,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remark: This field is only editable when the dialog box is used for creating a new project. Subsequently, it is not possible to change this value.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The title of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4386,39 +4653,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The name of the author of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters) </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remark: This field is often shown by indexing system and jukeboxes under the term Artist</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Album</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The album of the project (For more compatibility with the standard id3v2, this fields is limited to 30 characters)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Year</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Year (4 numbers) </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remark: This field is different from &quot;timestamp&quot; field</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Language</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The language of the audio track (ISO 639 standard - 3 characters)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4430,7 +4669,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remark: numerous indexing systems or jukeboxes will read only the 1st line.</source>
+        <source>Some fields are automatically filled and do not appear in this dialog: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4458,15 +4697,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>For more compatibility with indexing systems and jukeboxes, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Chapters</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> Chapters defined in the project are listed for consultation. (To modify chapters use Chapter button in modify slide dialog.) </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4515,10 +4746,6 @@
     </message>
     <message>
         <source>Chapter duration</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remark: Video formats do not support all the chapters in the same way: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4593,6 +4820,166 @@
         <source>Standard MPEG-7 on the descriptors of multimedia contents</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>The properties of the project are a partial implementation of the </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>MPEG-7</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> standard on the descriptors of multimedia contents.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Media Center Systems</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This field is only editable when the dialog box is used for creating a new project. Subsequently, it is not possible to change this value.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The title of the project </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If the id3v2 compatibility option is set in &lt;a href=&quot;0101.html&quot;&gt;option dialog&lt;/a&gt;, this fields is limited to 30 characters</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The date of the event of the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Override date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check this box to override the date and offer you to enter the date as a free multi-line text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The name of the author of the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This field is often shown by indexing system and </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> under the term Artist.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The album of the project </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ISO 639</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Numerous indexing systems or </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more compatibility with indexing systems and </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Chapters defined in the project are listed for consultation. (To modify chapters use Chapter button in &lt;a href=&quot;0119.html&quot;&gt;modify slide dialog&lt;/a&gt;.) </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Options for joined ressources</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> These options allow you to define the thumbnail that will be attached to the video file when rendering </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the model use as default thumbnail. The combobox contains the available thumbnails: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit custom thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Create a new model from this thumbnail or edit custom thumbnail. Opens the &lt;a href=&quot;0117.html&quot;&gt;Edit thumbnail dialog&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Customize</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Customize the thumbnail only for this project (without creating a new thumbnail model). Opens the &lt;a href=&quot;0117.html&quot;&gt;Edit thumbnail dialog&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export thumbnail</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Expor thumbnail to a jpeg file. By default, the proposed file name is &quot;folder.jpg&quot;. ffDiaporama and many </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> recognize this file as the icon to be used for the directory that contains it.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The language of the audio track </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>(ISO 639 standard - 3 characters)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> will read only the 1&lt;SUP&gt;st&lt;/SUP&gt; line.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If this icon appears, then the thumbnail is a custom model thumbnail (Ie, a custom model thumbnail that you have added to your collection of thumbnail model).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If this icon appears, then the thumbnail is a custom thumbnail for this project only (Ie, not based on a model).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark: Video formats do not support all the chapters in the same way:</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0109</name>
@@ -4608,27 +4995,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>- Change image framing (select a part of the image), </source>
+        <source>This dialog box allows you to:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>- Rotate image (change or restore the orientation portrait/landscape) </source>
+        <source> This button allows you to change the file </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>- Correct image (change the color and/or exposure parameters) but also applying graphical filters. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>- Define the beginning and end of a video sequence. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The image correct and reframe tag</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Framing</source>
+        <source>Warning! If you replace a file (image or video) with another one with a different image geometry, you will need to review the image framing in all shots. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4676,7 +5051,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Example: if X=25% then the 1st quarter to the left of the image is eliminated.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>The vertical position from the top of the image ( Y ). This position is expressed as a percentage (%) of the height of the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Example: if Y=25% the 1st quarter at the top of the image is eliminated.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4684,7 +5067,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Example: if Width=33%, the re-framed image will represent 1/3 of the original.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>The height. This value is expressed as a percentage (%) of the original height of the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Example: if Height=33%, the re-framed image will represent 1/3 of the original.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4692,7 +5083,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Alternatively, you can use the interactive zone to set the framing with the mouse or the keyboard. </source>
+        <source>You can use the + and - buttons in each input field to change the settings, or directly enter values for the four parameters.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4724,15 +5115,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> This button enables or disables the magnetic rulers: When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing.</source>
+        <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Image corrections</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following buttons help you in image settings: </source>
+        <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4760,39 +5147,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remarks</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>All the combinations are possible. For example: you can increase the red and reduce the green at the same time.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The results depend on the initial strength of the primary color components of the source image.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> This button allows the value to be reset to zero for all correction settings.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Image transformations</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The following filters are available: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Equalize (Histogram equalization)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Despeckle (Noise reduction)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Gray (black &amp; white)</source>
+        <source>Blur/Sharpen </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4804,7 +5163,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The video tag</source>
+        <source> This button allows you to reset the value to zero. (For some transformation settings.)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4821,6 +5180,10 @@
     </message>
     <message>
         <source>The blue part represents the part of the video which is selected (which will be used in the assembly).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This button starts playback. Click again on this button to pause. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4872,63 +5235,179 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>You can use the + and - buttons in each input field to change the settings, or directly enter values for the four parameters.</source>
+        <source>Change image framing (select a part of the image).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Example: if X=25% then the 1st quarter to the left of the image is eliminated.</source>
+        <source>Rotate image (change or restore the orientation portrait/landscape).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Example: if Y=25% the 1st quarter at the top of the image is eliminated.</source>
+        <source>Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Example: if Width=33%, the re-framed image will represent 1/3 of the original.</source>
+        <source>Define the beginning and end of a video sequence.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Example: if Height=33%, the re-framed image will represent 1/3 of the original.</source>
+        <source>To the left: The interactive area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> This button allows you to change the file </source>
+        <source>To the right: The settings area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Warning! If you replace a file (image or video) with another one with a different image geometry, you will need to review the image framing in all shots. </source>
+        <source>At the bottom of the interactive zone, is an area for changing the image or video file:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> Apply a filter to the photo or video images. </source>
+        <source>At the bottom of the dialog box:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Blur/Sharpen </source>
+        <source> This button enables or disables the magnetic rulers: When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> This button allows you to reset the value to zero. (For some transformation settings.)</source>
+        <source>The interactive area</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> This button starts playback. Click again on this button to pause. </source>
+        <source>You can use the interactive zone to set the framing with the mouse or the keyboard:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog box allows you to:</source>
+        <source>The settings area - Framing and form</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90�, the image is turned by a quarter to the right. </source>
+        <source>Shape</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Turn the image to the left (to the nearest multiple of 90�).</source>
+        <source>Select a shape for the current block.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Turn the image to the right (to the nearest multiple of 90�).</source>
+        <source>The settings area - Annimation settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Speed wave</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defined speed curve for image animations.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The settings area - Image rotation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The settings area - Luminosity, contrast and gamma and Color enhancement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All the combinations are possible. For example: you can increase the red and reduce the green at the same time. The results depend on the initial strength of the primary color components of the source image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The settings area - Image enhancement</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Apply a filter to the photo or video images. The following filters are available: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Type: Select the blur/sharpen algorythm</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The settings area - Artistic effects</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the negative filter..</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the emboss filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the edge filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the charcoal filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the oilpaint filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The settings area - Image distortion</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> The image correct and reframe tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This tab is available for both images and video. It is divided into two parts:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the swirl transformation. Image swirling is a non-linear image deformation that creates a whirlpool effect.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to activate the implode transformation</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A value of 0 disables the filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A negative or positive value active the filter in one direction or the other.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This button allows the value to be reset to zero.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> The video tag</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This tag is available only for video.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4936,6 +5415,10 @@
     <name>0111</name>
     <message>
         <source>File information</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows to obtain detailed information on a multimedia file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5254,15 +5737,27 @@
         <source>Standard MPEG-7 on the descriptors of multimedia contents</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>This dialog allows to obtain detailed information on a multimedia file.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>0112</name>
     <message>
-        <source>Manage favorite</source>
+        <source> Rename: Allows to rename the selected favorite.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Remove: Allows to remove the selected favorite.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Manage favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Manage favorite dialog allows you to manage existing favorites</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The existing favorites are listed in the high part of the dialog. Select one of them and click on one of the following buttons:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5273,7 +5768,31 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>The Manage style dialog allows several things:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rename existing style,</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove custom style,</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Reset a standard style (that you modified) has its default values.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The existing styles are listed in the high part of the dialog. They appear with an icon which has various meanings:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>for a standard style</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>for a standard style you modified or for a custom style</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5301,10 +5820,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The followed actions are available: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Allows to rename the selected style.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5325,31 +5840,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Rename existing style,</source>
+        <source>According to the type of the selected style, you can execute various actions:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remove custom style,</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>for a standard style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>for a standard style you modified or for a custom style</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>According to the type of the selected style, you can execute various actions: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The existing styles are listed in the high part of the dialog. They appear with an icon which has various meanings:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The Manage style dialog allows several things:</source>
+        <source>The followed actions are available:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5357,6 +5852,10 @@
     <name>0114</name>
     <message>
         <source>Music properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The Music properties dialog allows you to specify the music track.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5389,6 +5888,10 @@
     </message>
     <message>
         <source>Slide 5 - Contains no settings</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Then:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5503,14 +6006,6 @@
         <source>If a slide has an entering transition set to &quot;No transition&quot;, the sound effect is not progressive but instantaneous.</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>The Music properties dialog allows you to specify the music track.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Then:</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>0115</name>
@@ -5519,15 +6014,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog has 3 different appearances depending on whether you clicked the Device type, Lossless or the Advanced button. </source>
+        <source>This dialog allows you to render the project as a video file.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Description of the dialog box</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>In device mode and in advanced mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5579,15 +6070,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>At the dialog bottom: The properties button</source>
+        <source>This value is used by players to indicate in which language is the audio track. This value is on 3 characters and follows this recommendation: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This button allows you to open project properties dialog. It allows you to adjust the properties before generating the video.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by jukeboxes.</source>
+        <source>ISO 639</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5651,6 +6138,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Bitrate</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Select the video compression ratio from the displayed list</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5703,23 +6194,67 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>See also</source>
+        <source>Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ISO 639</source>
+        <source>Media Center Systems</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to render the project as a video file.</source>
+        <source>This dialog has different appearances depending on whether you clicked the Device type, Lossless, Advanced or Soundtrack button. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This value is used by players to indicate in which language is the audio track. This value is on 3 characters and follows this recommendation: </source>
+        <source>Join thumbnail to rendered file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Bitrate</source>
+        <source>If this box is checked then a thumbnail file will be created with video. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Join XBMC .nfo file to rendered file</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked then a &lt;a href=&quot;0044.html&quot;&gt;XBMC .nfo&lt;/a&gt; file will be created with video. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the audio compression ratio from the displayed list</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Frequency</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>In export soundtrack mode</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the type of file to be used to render the soundtrack from the displayed list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At the dialog bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information on joined files, see &lt;a href=&quot;003A.html&quot;&gt;File attachments&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the frequency to use for audio during the rendering.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> The properties button allows you to open the &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;. It allows you to adjust the properties before generating the video. </source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5727,6 +6262,10 @@
     <name>0116</name>
     <message>
         <source>Ruler properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to enable or disable rulers.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5785,10 +6324,6 @@
         <source>Description of TV margins and overscan</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>This dialog allows you to enable or disable rulers.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>0117</name>
@@ -5804,7 +6339,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to define the duration of the fist shot of a set of slides.</source>
+        <source> This dialog allows you to define the duration of the fist shot of a set of slides: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>First shot duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the duration of the first shot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When you click the OK button, the new duration is applied to all the slides that were selected. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This new duration affects only the first shot of each slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This new duration is applied only to standard slides. The predefined title slides are not impacted.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5815,11 +6370,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog includes numerous zones: </source>
+        <source>On the top: The &lt;a href=&quot;#Toolbar&quot;&gt;Toolbar&lt;/a&gt; allows to launch the main slide editing commands, and the &lt;a href=&quot;#ShotSettings&quot;&gt;Shot settings&lt;/a&gt; zone.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Remarks: </source>
+        <source>On the left: The &lt;a href=&quot;#SlideSettings&quot;&gt;Slide settings zone&lt;/a&gt;, the &lt;a href=&quot;#ShotsTable&quot;&gt;Shots table&lt;/a&gt; and the &lt;a href=&quot;#InteractiveZone&quot;&gt;Interactive&lt;/a&gt; zones.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On the right: The &lt;a href=&quot;#BlockTable&quot;&gt;Blocks table&lt;/a&gt; and the &lt;a href=&quot;#BlockSettings&quot;&gt;Block settings&lt;/a&gt; zones.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5827,51 +6386,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Slide settings zone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shots table</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Blocks table</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Shot settings zone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Interactive zone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Block settings zone</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> The toolbar allows to launch the main slide editing commands. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>It is also possible to open contextual menus by right clicking on zones. Each of these menus propose commands which depend on what you have clicked. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Command</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Contextual menu</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Append a shot to the end of the shot table</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Right click on shots table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5887,23 +6406,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Add a new title block</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Right click on blocks table or on interactive zone when no block was selected</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Add one or several new blocks of images or video. A file selection dialog appears allowing you to select files. Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the configuration dialog).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide. The copy is made with the block parameters defined for the current selected shot.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Right click on blocks table or on interactive zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5935,11 +6438,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Open the &lt;a href=&quot;0120.html&quot;&gt;Edit text block dialog&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Open the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt;. This button is active only for objects containing images or videos.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Block properties locking</source>
+        <source>Lock or unlock properties of active block. (See: &lt;a href=&quot;#LockProperties&quot;&gt;Block properties locking&lt;/a&gt;)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5948,14 +6455,6 @@
     </message>
     <message>
         <source>Align to top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remark: The selected blocks are aligned with the rectangle containing them. So, an alignment to the center will align blocks to the center of the selection rectangle.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Right click on one of the blocks of a multiple selection, on blocks table or on interactive zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5987,6 +6486,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Slide settings zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Name of the slide</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5995,27 +6498,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Chapter</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>If this box is checked, the slide will mark the beginning of a new chapter.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Remarks: The name of the chapter will be the name of the slide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>With the exception of the 1st chapter of the video which cannot be deactivated, is always positioned on the 1st slide and always begins at 0, chapters begin after the enterring transition.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Total slide duration</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The total slide duration is displayed here. This duration takes into account possible adjustments for minimal duration of the shot as described above.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shots table</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6047,6 +6538,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Shot settings zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Shot duration</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6064,6 +6559,14 @@
     </message>
     <message>
         <source>The total slide duration cannot be lower than 1:30 second</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If you specify a duration lower than the minimum calculated duration for the shot, it is this minimum duration that will be used in place of the value which you specified.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Interactive zone</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6139,11 +6642,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Blocks table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The blocks table lists, from top to bottom, the present blocks in the slide.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The order of the blocks is defined shot by shot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blocks are shown on 3 columns:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6167,7 +6682,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source> If the properties of the block are locked during this shot. (This information does not appear for the 1st plan.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If the properties of the block are unlocked during this shot. (This information does not appear for the 1st plan.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source> If the video has the sound during this shot. This information appears only for the video blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If the block is visible during this shot.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If the block is hidden during this shot.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6251,7 +6782,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Block settings zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Coordinates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This settings group defines the coordinates of the block for the current shot, so, the modifications made to the following properties will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6308,6 +6847,10 @@
     </message>
     <message>
         <source>Block shape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This settings group defines the shape of the block for all shots, so, modification of the following properties will apply to all shots in the slide. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6391,6 +6934,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Sets the color used to draw the shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Animation option</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6424,6 +6971,14 @@
     </message>
     <message>
         <source>Defines the vertical position of the text inside the block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To make animations of text, you have to create at least 2 shots then:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6499,6 +7054,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Block properties locking</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source> When the block properties are locked, the modifications made to the block in the preceding shot are echoed in the current shot. </source>
         <translation type="unfinished"></translation>
     </message>
@@ -6519,75 +7078,79 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to define settings for the slides.</source>
+        <source>This dialog allows you to define settings for the slides. It includes numerous zones:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Place the mouse over each area for more information.</source>
+        <source>Open the &lt;a href=&quot;0105.html&quot;&gt;Chapter properties dialog&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This settings group defines the coordinates of the block for the current shot, so, the modifications made to the following properties will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
+        <source>Add a new title block - Open a sub menu with the following options: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> This settings group defines the shape of the block for all shots, so, modification of the following properties will apply to all shots in the slide. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;. </source>
+        <source>Add a simple title block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>On the top: The &lt;a href=&quot;#Toolbar&quot;&gt;Toolbar&lt;/a&gt; allows to launch the main slide editing commands, and the &lt;a href=&quot;#ShotSettings&quot;&gt;Shot settings&lt;/a&gt; zone.</source>
+        <source>Add a title clip-art block</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>On the left: The &lt;a href=&quot;#SlideSettings&quot;&gt;Slide settings zone&lt;/a&gt;, the &lt;a href=&quot;#ShotsTable&quot;&gt;Shots table&lt;/a&gt; and the &lt;a href=&quot;#InteractiveZone&quot;&gt;Interactive&lt;/a&gt; zones.</source>
+        <source>Once you have selected one of the options, the &lt;a href=&quot;0120.html&quot;&gt;Edit Text dialog&lt;/a&gt; opens.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>On the right: The &lt;a href=&quot;#BlockTable&quot;&gt;Blocks table&lt;/a&gt; and the &lt;a href=&quot;#BlockSettings&quot;&gt;Block settings&lt;/a&gt; zones.</source>
+        <source>Add one or several new blocks of images or video. A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears allowing you to select files. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Open the &lt;a href=&quot;0120.html&quot;&gt;Edit text block dialog&lt;/a&gt;.</source>
+        <source>Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;).</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Lock or unlock properties of active block. (See: &lt;a href=&quot;#LockProperties&quot;&gt;Block properties locking&lt;/a&gt;)</source>
+        <source>Edit blocks - Open a sub menu with the following options: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> If the block is visible during this shot.</source>
+        <source>Arrange blocks - Open a sub menu with the following options: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> If the properties of the block are locked during this shot. (This information does not appear for the 1st plan.)</source>
+        <source>Save as model - Allows you to save current slide as a new Predefined custom title. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> If the properties of the block are unlocked during this shot. (This information does not appear for the 1st plan.)</source>
+        <source>For more information on predefined title slide, see: &lt;a href=&quot;0012.html&quot;&gt;Predefined title slide&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> If the block is hidden during this shot.</source>
+        <source> At the bottom of the box, the &quot;Rullers&quot; button allows you to open the &lt;a href=&quot;0116.html&quot;&gt;Ruler properties dialog&lt;/a&gt; </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Sets the color used to draw the shadow</source>
+        <source> It is also possible to open contextual menus by: </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>If you specify a duration lower than the minimum calculated duration for the shot, it is this minimum duration that will be used in place of the value which you specified.</source>
+        <source>Right clicking on zones.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Blocks are shown on 3 columns:</source>
+        <source>Right click on shots table.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The blocks table lists, from top to bottom, the present blocks in the slide.</source>
+        <source>Right click on blocks table or on interactive zone when no block was selected.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To make animations of text, you have to create at least 2 shots then:</source>
+        <source>Right click on one of the blocks of a multiple selection, on blocks table or on interactive zone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Each of these contextual menus propose commands which depend on what you have clicked.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6595,6 +7158,10 @@
     <name>0120</name>
     <message>
         <source>Edit text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to modify the text within a block.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6606,11 +7173,19 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>To understand indeed the differences between the properties which apply to all shots and those who apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Text tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>First line at the top of the dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This settings group is the object of style management. for more information on style management, see : &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6846,15 +7421,7 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to modify the text within a block.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>To understand indeed the differences between the properties which apply to all shots and those who apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This settings group is the object of style management. for more information on style management, see : &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
+        <source>Allows you to add a dynamic variable to the text. For more information on dynamic variables see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6865,7 +7432,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This dialog allows you to define the transition duration for a set of slides.</source>
+        <source> This dialog allows you to define the transition duration for a set of slides: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Define the animation duration.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When you click the OK button, the new transition duration is applied to all the slides that were selected. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This function can not be used to delete or change the slide&apos;s transition. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If it&apos;s what you want, then call the context transitions menu by right clicking on one of the slides of the selection from the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and then select &quot;Modify the transition for all the slides of the selection&quot; option.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6892,7 +7479,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Allows you to select a transition family: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>No transition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No transition: The new slide immediately replaces the old one. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6912,7 +7507,23 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>Dissolve effect: The slide appears gradually, with gradually increasing opacity.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Scripted transition</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Zoom: The new slide appears by getting bigger while the old slide disappears with a dissolve effect. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide: The new slide glides onto the old slide which disappears with a dissolve effect. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Push: The new slide takes the place of the old slide by pushing it aside.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -6949,30 +7560,6 @@
     </message>
     <message>
         <source>Description of LUMA</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Allows you to select a transition family: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>No transition: The new slide immediately replaces the old one. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Dissolve effect: The slide appears gradually, with gradually increasing opacity.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Zoom: The new slide appears by getting bigger while the old slide disappears with a dissolve effect. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Slide: The new slide glides onto the old slide which disappears with a dissolve effect. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Push: The new slide takes the place of the old slide by pushing it aside.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7020,66 +7607,6 @@
     </message>
     <message>
         <source>The multimedia file browser</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Rendering videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Smartphones and tablets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Portable devices</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Multimedia system (Home cinema)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>For the WEB</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Video codec</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Audio codec</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Containers</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Video standards and resolutions</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>File attachments (Thumbnails, nfo, etc...)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Technical information on ffDiaporama</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ffDiaporama command line arguments</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ffDiaporama project files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The configuration files for ffDiaporama</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>XBMC nfo files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7174,19 +7701,75 @@
         <source>Transition properties</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Rendering videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Smartphones and tablets</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Portable devices</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Multimedia system (Home cinema)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For the WEB</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video codec</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Audio codec</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Containers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Video standards and resolutions</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>File attachments (Thumbnails, nfo, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Technical information on ffDiaporama</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama command line arguments</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama project files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The configuration files for ffDiaporama</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>XBMC nfo files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dynamic variables</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>main</name>
     <message>
         <source>Welcome to the ffDiaporama WIKI</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This WIKI is being restructured. Now, information about dialog boxes appear directly in the dialog boxes as ToolTips (leave the mouse a few seconds on a zone displays information on the zone).</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Index</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -7203,6 +7786,22 @@
     </message>
     <message>
         <source>Technical information on ffDiaporama</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> This documentation is divided into the followed themes: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama Web site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Finally, you&apos;ll also find help on the </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama forum</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

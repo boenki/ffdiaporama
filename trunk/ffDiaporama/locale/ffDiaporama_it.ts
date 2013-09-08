@@ -380,10 +380,6 @@ Vedere la guida per maggiori dettagli!</translation>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Anteprima opzioni&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Editor options (when adding objects)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Modifica opzioni (quando si aggiungono oggetti)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
-    </message>
-    <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Project options (default values)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Opzioni progetto (valori predefiniti)&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
@@ -720,12 +716,6 @@ Questo stile definisce il tipo di carattere, la dimensione, il colore e gli effe
         <translation>Definisce il valore predefinito per il campo Lingua</translation>
     </message>
     <message>
-        <source>Defines the default value for the field Author (often so called Artist by Jukebox)
-Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation>Definisce il valore predefinito per il campo Autore (spesso chiamato Artista dai Jukebox)
-Nota: questo campo è limitato a 30 caratteri per rimanere compatibile con i jukebox</translation>
-    </message>
-    <message>
         <source>Sets the default speed wave for the transitions of new projects</source>
         <translation>Imposta la velocità dell&apos;onda di default per le transizioni di nuovi progetti</translation>
     </message>
@@ -898,6 +888,20 @@ Beyond this height, the videos are automatically reduced for creating images.</s
     </message>
     <message>
         <source>Show help about this dialogue box</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>
+Editor options (when adding objects)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This option allows you to specify the format in which computed dates are displayed.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the default value for the field Author (often so called Artist by Media Center Systems)
+Note: this field is limited to 30 characters to remain compatible with jukebox</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -3348,10 +3352,6 @@ Questo volume è indipendente da eventuali riduzioni nel volume che si definisce
         <translation>Bit rate :</translation>
     </message>
     <message>
-        <source>Select the bit rate to use for audio during the rendering.</source>
-        <translation>Seleziona il bit rate da usare per l&apos;audio durante il rendering.</translation>
-    </message>
-    <message>
         <source>File format :</source>
         <translation>Formato file :</translation>
     </message>
@@ -3674,6 +3674,14 @@ Nota: le proprietà del progetto vengono salvate nel video come TAG (metadati) c
     <message>
         <source>&amp;Help</source>
         <translation>&amp;Aiuto</translation>
+    </message>
+    <message>
+        <source>Select the audio compression ratio from the displayed list.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select the frequency to use for audio during the rendering.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5424,6 +5432,14 @@ custom model</source>
     <message>
         <source>&amp;Help</source>
         <translation>&amp;Aiuto</translation>
+    </message>
+    <message>
+        <source>Check this box to override the date and offer you to enter the date as a free text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter here the date of the event of the project as a free text</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
