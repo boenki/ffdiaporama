@@ -423,7 +423,7 @@ void cCompositionObject::SaveToXML(QDomElement &domDocument,QString ElementName,
     if (TxtScrollY!=DEFAULT_TXTSCROLLY)                     Element.setAttribute("TxtScrollY",TxtScrollY);                          // Scrolling Y for text
 
     // Text margins
-    if (TMType!=TEXTMARGINS_SHAPEDEFAULT)                   Element.setAttribute("TMType",TMType);                                  // Text margins type
+    Element.setAttribute("TMType",TMType);                                  // Text margins type
     if (TMType==TEXTMARGINS_CUSTOM) {
         Element.setAttribute("TMx",TMx);
         Element.setAttribute("TMy",TMy);

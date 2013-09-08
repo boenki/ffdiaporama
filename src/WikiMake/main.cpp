@@ -197,6 +197,8 @@ cKeepTagConversion::cKeepTagConversion() {
 // ************************************************
 
 QString cKeepTagConversion::ToKeep(QString Source) {
+    if (Source.contains("<div>&nbsp;</div>",Qt::CaseInsensitive)) Source.replace("<div>&nbsp;</div>",";breakl;",Qt::CaseInsensitive);
+
     for (int i=0;i<List.count();i++) if (Source.contains(List[i].Normal,Qt::CaseSensitive)) Source=Source.replace(List[i].Normal,List[i].Keep,Qt::CaseSensitive);
 
     int P1=Source.indexOf("<a href=",Qt::CaseInsensitive);
@@ -262,6 +264,7 @@ QString cKeepTagConversion::ToNormal(QString Source) {
             Source=S1+"<a href=\"#"+S2+"\">"+S3;
         }
     }
+    if (Source.contains(";breakl;",Qt::CaseInsensitive)) Source.replace(";breakl;","<div>&nbsp;</div>",Qt::CaseInsensitive);
     return Source;
 }
 
@@ -295,7 +298,8 @@ void ToLogT(int Level,QString Text) {
                 NewText=NewText.mid(NewText.toLower().indexOf("<a")+2);
                 NewText=NewText.mid(NewText.indexOf(">")+1);
             }
-            TextStream<<QString("\tStr=QApplication::translate(\"%1\",\"%2\");\n").arg(CurrentSrc).arg(NewText).toUtf8();
+            if (!NewText.contains("<div>&nbsp;</div>"))
+                TextStream<<QString("\tStr=QApplication::translate(\"%1\",\"%2\");\n").arg(CurrentSrc).arg(NewText).toUtf8();
 
         } else if (Mode==MakeMode) {
 

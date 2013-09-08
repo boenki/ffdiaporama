@@ -432,7 +432,7 @@ This setting applies to the paragraphs of the current selection.</string>
           <number>0</number>
          </property>
          <item>
-          <widget class="QComboBox" name="fontEffectCB">
+          <widget class="QCustomComboBox" name="fontEffectCB">
            <property name="toolTip">
             <string>Allows you to select a font effect (outerline, shadow).
 Remark: This setting applies to the block (to the whole text).</string>
@@ -1818,6 +1818,11 @@ This value is expressed in % of the width of the block.</string>
    <class>cCBrushComboBox</class>
    <extends>QComboBox</extends>
    <header>../CustomCtrl/cCBrushComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>QCustomComboBox</class>
+   <extends>QComboBox</extends>
+   <header>../CustomCtrl/_QCustomComboBox.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

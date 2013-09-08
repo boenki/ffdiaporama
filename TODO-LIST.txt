@@ -43,7 +43,6 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
 
     Modifier le fonctionnement si le user dit non à la recherche d'un fichier manquant : supprimer le bloc !
     Memory leak en render
-    assistant.exe à ajouter au paquet Windows
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
@@ -58,8 +57,24 @@ switch version to
     ffmpeg 2.0 for Windows / openSuse / Gentoo / ArchLinux
 
 French version / Correction de bug :
+-Corrige le bug sur le bouton de sélection de style dans la boite Edit slide (le bouton était désactivé après une première utilisation)
+-Corrige un bug sur la sauvegarde du type de marge de texte pour les blocs "texte dans clipart"
+-Résoud le problème de la largeur des popups des combobox suivantes avec les langues longues (Russe)
+    - Sélection de courbe de vitesse
+    - Effect de police dans la boite Edit texte
+    - Type d'animation de bloc dans la boite Propriété des diapositives
+    - Type de fond d'animation de bloc dans la boite Propriété des diapositives
+-Retire la génération des fichiers joints quand le mode de génération est exporter la piste son
 
 English version / Bug fixes :
+-Fixed the bug on the button style in the Edit slide box (the button was disabled after first use)
+-Fixed a bug in the writing of type of margin in ffd file for "text clipart" blocks
+-Solves the problem of wide combobox popups with long tongues (Russian)
+    - Selection of speed curve
+    - Font effect in Edit text dialog
+    - Type of block animation in Slide properties dialog
+    - Dissolve type of block animation in Slide properties dialog
+-Remove joined file generation when render mode is export soundtrack
 
 French version / Nouveautés :
 
@@ -81,55 +96,61 @@ CZ    -  17% - 287
 ------------------------------------------------------------------------------------------------------------------------------
 WIKI
 ------------------------------------------------------------------------------------------------------------------------------
-            wiki_en.qhcp
-            wiki_en.qhp
-            main.html       Welcome to the ffDiaporama WIKI
-TBU         0010.html           How ffDiaporama works
+ok          wiki_en.qhcp
+ok          wiki_en.qhp
+ok          main.html       Welcome to the ffDiaporama WIKI
+
+ok          0010.html           How ffDiaporama works
 ok                0011.html           Functional principles
+TBU               0012.html           Predefined title slide
 ok                0014.html           The Visible property of blocks and the management of the breaks
-TBU               0015.html           All shots regulations versus current shot regulations
+ok                0015.html           All shots regulations versus current shot regulations
 ok                0016.html           Style sheets
-TBU         0020.html           Interface description
+TBU               0013.html           Dynamic variables
+
+ok          0020.html           Interface description
 ok              0021.html           The main window
-TBU             0022.html           The toolbar
+ok              0022.html           The toolbar
 ok              0023.html           The timeline
 ok              0024.html           The multimedia file browser
-TBU             0020.html           Dialog boxes
-TBU                 0101.html           Application options
+ok              0020.html           Dialog boxes
+ok                  0101.html           Application options
 ok                  0102.html           Manage devices
 TBU                 0103.html           Add or modify a predefined title slide
 ok                  0104.html           Background properties
 TBU                 0105.html           Chapter properties
 ok                  0106.html           Check configuration
 TBU                 0107.html           Export project
-TBU                 0108.html           Project properties
+ok                  0108.html           Project properties
 TBU                 0109.html           Select files
-TBU                 0110.html           Correct, reframe or cut image or video
+ok                  0110.html           Correct, reframe or cut image or video
 ok                  0111.html           File information
-TBU                 0112.html           Manage favorite
+ok                  0112.html           Manage favorite
 ok                  0113.html           Manage style
 ok                  0114.html           Music properties
-TBU                 0115.html           Render video
+ok                  0115.html           Render video
 ok                  0116.html           Ruler properties
 TBU                 0117.html           Edit thumbnail model
-TBU                 0118.html           Set first shot duration for a set of slides
-TBU                 0119.html           Slide properties
-TBU                 0120.html           Edit text
-TBU                 0121.html           Select transition duration for a set of slides
+ok                  0118.html           Set first shot duration for a set of slides
+ok                  0119.html           Slide properties
+ok                  0120.html           Edit text
+ok                  0121.html           Select transition duration for a set of slides
 ok                  0122.html           Transition properties
-TBU             0030.html       Rendering videos
+
+ok              0030.html       Rendering videos
 ok                  0031.html       Rendering videos
 ok                  0032.html       Smartphones and tablets
 ok                  0033.html       Portable devices
 ok                  0034.html       Multimedia system (Home cinema)
 ok                  0035.html       For the WEB
-TBU preset          0036.html       Video codec
+ok                  0036.html       Video codec
 ok                  0037.html       Audio codec
 ok                  0038.html       Containers
 ok                  0039.html       Video standards and resolutions
-TBU                 003A.html       File attachments (Thumbnails, nfo, etc...)
-TBU             0040.html       Technical information on ffDiaporama
+ok                  003A.html       File attachments (Thumbnails, nfo, etc...)
+
+ok              0040.html       Technical information on ffDiaporama
 ok                  0041.html       ffDiaporama command line arguments
 ok                  0042.html       ffDiaporama project files
 ok                  0043.html       The configuration files for ffDiaporama
-TBU                 0044.html       XBMC nfo files
+ok                  0044.html       XBMC nfo files

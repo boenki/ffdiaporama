@@ -98,6 +98,8 @@ void DlgRenderVideo::DoInitDialog() {
     Standard            = Diaporama->ApplicationConfig->DefaultStandard;
 
     if (ExportMode==MODE_SOUNDTRACK) {
+        ui->ExportThumbCB->setVisible(false);
+        ui->ExportXBMCNfoCB->setVisible(false);
         OutputFileName=Diaporama->ApplicationConfig->LastMusicPath+
             (Diaporama->ApplicationConfig->LastMusicPath.endsWith(QDir::separator())?"":QString(QDir::separator()))+
             (Diaporama->ProjectFileName!=""?
@@ -999,7 +1001,7 @@ bool DlgRenderVideo::DoAccept() {
         }
 
         QString ThumbFileName="";
-        if ((Continue)&&(ui->ExportThumbCB->isChecked())) {
+        if ((Continue)&&(ExportMode!=MODE_SOUNDTRACK)&&(ui->ExportThumbCB->isChecked())) {
             ThumbFileName=OutputFileName.left(OutputFileName.lastIndexOf("."))+".jpg";
             int Index=BaseApplicationConfig->ThumbnailModels->SearchModel(Diaporama->ThumbnailName);
             if (Index>=0) {
@@ -1009,7 +1011,7 @@ bool DlgRenderVideo::DoAccept() {
             }
         }
 
-        if ((Continue)&&(ui->ExportXBMCNfoCB->isChecked())) {
+        if ((Continue)&&(ExportMode!=MODE_SOUNDTRACK)&&(ui->ExportXBMCNfoCB->isChecked())) {
             QString XBMCNFOFileName=OutputFileName.left(OutputFileName.lastIndexOf("."))+".nfo";
             QFile   file(XBMCNFOFileName);
             QString Text;

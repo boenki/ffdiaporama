@@ -8,9 +8,10 @@
     <link rel="stylesheet" type="text/css" href="wiki.css"/>
 </head>
 <body>
-    <div><img src="wiki_img/Work.png"></div>
     <h1>Video codec</h1>
-    <div>The following table lists the video codecs which ffDiaporama can use to generate videos:</div>
+    <div>&nbsp;</div>
+    <div style="margin-left: 40px;">The following table lists the video codecs which ffDiaporama can use to generate videos:</div>
+    <div>&nbsp;</div>
     <table border="1" cellpadding="2" cellspacing="0"><tbody>
         <tr>
             <td colspan="1" rowspan="1" style="text-align: left; background-color: rgb(0, 0, 65); font-weight: bold; color: white;">Codec</td>
@@ -41,7 +42,10 @@
             </td>
             <td colspan="1" rowspan="2" style="vertical-align: top;">
               <div><a href="http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC">http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC</a></div>
-              <div>Remark : ffDiaporama uses two preset h264 codecs specifically designed for this program. They contain different combinations of h264 parameters: High Quality for "Home Cinema" devices and "Phone Quality" for mobile devices. (Both preset files are placed in the same directory as the binary of ffDiaporama.)</div>
+              <div>ffDiaporama uses specific settings for encoding with x264. This settings are including:
+                <br>- <b>High Quality</b> for "Home Cinema" devices based on x264 <u>main</u> profile, with 3 refs and 3 bframes.
+                <br>- <b>Phone Quality</b> for mobile devices based on x264 <u>baseline</u> profile, with 3 refs and 0 bframes.
+                <br>Both settings are using <u>veryfast</u> preset</div>
             </td>
         </tr>
         <tr>
@@ -51,7 +55,8 @@
         <tr>
             <td style="vertical-align: top;">X264LL</td>
             <td style="vertical-align: top;">x264 Lossless</td>
-            <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/X264">http://en.wikipedia.org/wiki/X264</a><br>Note : ffDiaporama uses the standard x264 fast preset.</td>
+            <td style="vertical-align: top;"><a href="http://en.wikipedia.org/wiki/X264">http://en.wikipedia.org/wiki/X264</a>
+                <br>ffDiaporama uses the standard x264 <u>fast</u> preset with 3 refs and qp set to 0.</td>
         </tr>
         <tr>
             <td style="vertical-align: top;">VP8</td>

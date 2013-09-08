@@ -352,6 +352,9 @@ Remark: This field is often shown by indexing system and jukeboxes under the ter
            </item>
            <item row="2" column="1">
             <widget class="QDateEdit" name="DateEdit">
+             <property name="toolTip">
+              <string>The date of the event of the project</string>
+             </property>
              <property name="calendarPopup">
               <bool>true</bool>
              </property>
@@ -364,6 +367,9 @@ Remark: This field is often shown by indexing system and jukeboxes under the ter
              </property>
              <item>
               <widget class="QCheckBox" name="OverrideDateCB">
+               <property name="toolTip">
+                <string>Check this box to override the date and offer you to enter the date as a free text</string>
+               </property>
                <property name="text">
                 <string/>
                </property>
@@ -372,7 +378,7 @@ Remark: This field is often shown by indexing system and jukeboxes under the ter
              <item>
               <widget class="QPlainTextEdit" name="DateED">
                <property name="toolTip">
-                <string>The date of the event of the project</string>
+                <string>Enter here the date of the event of the project as a free text</string>
                </property>
               </widget>
              </item>
@@ -420,8 +426,8 @@ Remark: This field is often shown by indexing system and jukeboxes under the ter
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>679</width>
-            <height>397</height>
+            <width>466</width>
+            <height>226</height>
            </rect>
           </property>
           <layout class="QGridLayout" name="gridLayout">

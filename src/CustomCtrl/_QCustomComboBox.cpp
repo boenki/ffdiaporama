@@ -18,27 +18,18 @@
     51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
    ====================================================================== */
 
-#ifndef CCSPEEDWAVECOMBOBOX_H
-#define CCSPEEDWAVECOMBOBOX_H
-
-// Basic inclusions (common to all files)
 #include "_QCustomDialog.h"
 #include "_QCustomComboBox.h"
-#include "../engine/_SpeedWave.h"
 
-class cCSpeedWaveComboBox : public QCustomComboBox {
-Q_OBJECT
-public:
-    explicit cCSpeedWaveComboBox(QWidget *parent = 0);
+QCustomComboBox::QCustomComboBox(QWidget *parent):QComboBox(parent) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomComboBox::QCustomComboBox");
+    view()->setTextElideMode(Qt::ElideNone);
+}
 
-    virtual void AddProjectDefault(int DefaultSpeedWave);
-    virtual void SetCurrentValue(int Value);
-    virtual int  GetCurrentValue();
+//====================================================================================================================
 
-signals:
-    
-public slots:
-    
-};
-
-#endif // CCSPEEDWAVECOMBOBOX_H
+void QCustomComboBox::showPopup() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomComboBox::showPopup");
+    view()->setFixedWidth(this->width()*2);
+    QComboBox::showPopup();
+}
