@@ -420,7 +420,7 @@ struct sFormatDef AUDIOFORMATDEF[NBR_AFORMAT]={
 };
 
 // List of all file extension allowed for video
-QString AllowVideoExtensions="avi#mov#mpg#mpeg#m4v#mkv#mp4#flv#3gp#ogv#webm#dv#wmv#mts#m2ts";
+QString AllowVideoExtensions="avi#mov#mpg#mpeg#m4v#mkv#mp4#flv#3gp#ogv#webm#dv#wmv#mts#m2ts#mod";
 // List of all file extension allowed for image
 QString AllowImageExtensions="bmp#gif#jpg#jpeg#png#pbm#pgm#ppm#tiff#tif#xbm#xpm#svg";
 // List of all file extension allowed for musique

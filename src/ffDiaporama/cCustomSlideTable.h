@@ -74,6 +74,7 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *event);
     virtual void mouseMoveEvent(QMouseEvent *event);
     virtual void mouseDoubleClickEvent(QMouseEvent *ev);
+    virtual void wheelEvent(QWheelEvent *ev);
 
 private slots:
 

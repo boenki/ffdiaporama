@@ -1582,7 +1582,7 @@ void cVideoFile::GetFullInformationFromFile() {
                     if (QFileInfo(JPegFile).exists()) LoadIcons(JPegFile);
 
                     VideoStreamNumber=Track;
-                    IsMTS=(FileName.endsWith(".mts",Qt::CaseInsensitive) || FileName.endsWith(".m2ts",Qt::CaseInsensitive));
+                    IsMTS=(FileName.endsWith(".mts",Qt::CaseInsensitive) || FileName.endsWith(".m2ts",Qt::CaseInsensitive) || FileName.endsWith(".mod",Qt::CaseInsensitive));
                     LibavFile->flags|=AVFMT_FLAG_GENPTS;       // Generate missing pts even if it requires parsing future NbrFrames.
                     LibavFile->streams[VideoStreamNumber]->discard=AVDISCARD_DEFAULT;  // Setup STREAM options
 
@@ -2411,7 +2411,9 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
     if ((dPosition>0)&&(dPosition>=dEndFile)) {
         AudioStream=NULL; // Disable audio
         // Check if last image is ready and correspond to end of file
-        if ((!LastImage.isNull())&&(FrameBufferYUVReady)&&(FrameBufferYUVPosition>=dEndFile*AV_TIME_BASE-FPSDuration)) return new QImage(LastImage.copy());
+        if ((!LastImage.isNull())&&(FrameBufferYUVReady)&&(FrameBufferYUVPosition>=dEndFile*AV_TIME_BASE-FPSDuration)) {
+            return new QImage(LastImage.copy());
+        }
         // If not then change Position to end file - a FPS to prepare a last image
         Position=dEndFile*AV_TIME_BASE-FPSDuration;
         dPosition=double(Position)/AV_TIME_BASE;
@@ -2439,15 +2441,11 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                         (AudioStream->codec->sample_rate!=SoundTrackBloc->SamplingRate));
     }
 
-    bool IsVideoFind=false;
-    int  i=0;
-    while (i<CacheImage.count()) {
-        if ((Position>=CacheImage[i]->Position)&&(Position<=CacheImage[i]->Position+FPSDuration)) {
-            IsVideoFind=true;
-            RetImage=new QImage(CacheImage[i]->Image->copy());
-        }
-        i++;
-    }
+    // Count number of image > position
+    int Nbr=0;
+    for (int CNbr=0;CNbr<CacheImage.count();CNbr++) if (CacheImage[CNbr]->Position>=Position) Nbr++;
+    bool IsVideoFind=Nbr>=4; // For h264 codec, image are not in the good order, so we have to take at least 4 frames to be sure we have all image we want
+
 
     // Check if we need to continue loop
     // Note: FPSDuration*(!VideoStream?2:1) is to enhance preview speed
@@ -2529,7 +2527,8 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                     AudioLenDecoded=FPSSize;
                 }
                 if ((!LastImage.isNull())&&(FrameBufferYUVReady)&&(FrameBufferYUVPosition>=(dEndFile-1.5)*AV_TIME_BASE)) {
-                    RetImage=new QImage(LastImage);
+                    if (!RetImage) RetImage=new QImage(LastImage);
+                    IsVideoFind=true;
                     Continue=false;
                 } else {
                     if (Position<FPSDuration) {
@@ -2614,13 +2613,18 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                             FrameBufferYUVReady   =true;                                            // Keep actual value for FrameBufferYUV
                             FrameBufferYUVPosition=int64_t((double(pts)/TimeBase)*AV_TIME_BASE);    // Keep actual value for FrameBufferYUV
                             // Check if it's necessary to append this frame
-                            int64_t   MinNext=(CacheImage.isEmpty()?0:CacheImage.last()->Position)+(AV_TIME_BASE/ApplicationConfig->PreviewFPS);
-                            if ((!PreviewMode)||(CacheImage.isEmpty())||(MinNext<FrameBufferYUVPosition))
-                                #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
-                                CacheImage.append(new cImageInCache(FrameBufferYUVPosition,ConvertYUVToRGB(PreviewMode,FrameBufferYUV)));
-                                #else
-                                CacheImage.append(new cImageInCache(FrameBufferYUVPosition,ConvertYUVToRGB(PreviewMode,FiltFrame?FiltFrame:FrameBufferYUV)));
-                                #endif
+                            //int64_t   MinNext=(CacheImage.isEmpty()?0:CacheImage.last()->Position)+(AV_TIME_BASE/ApplicationConfig->PreviewFPS);
+                            //if ((!PreviewMode)||(CacheImage.isEmpty())||(MinNext<FrameBufferYUVPosition)) {
+                                cImageInCache *ObjImage=
+                                    #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
+                                    new cImageInCache(FrameBufferYUVPosition,ConvertYUVToRGB(PreviewMode,FrameBufferYUV));
+                                    #else
+                                    new cImageInCache(FrameBufferYUVPosition,ConvertYUVToRGB(PreviewMode,FiltFrame?FiltFrame:FrameBufferYUV));
+                                    #endif
+                                int ToIns=0;
+                                while ((ToIns<CacheImage.count())&&(CacheImage[ToIns]->Position<ObjImage->Position)) ToIns++;
+                                if (ToIns<CacheImage.count()) CacheImage.insert(ToIns,ObjImage); else CacheImage.append(ObjImage);
+                            //}
 
                             // Count number of image > position
                             int Nbr=0;
@@ -2739,8 +2743,15 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
         if (!RetImage) {
             int i=0;
             while ((i<CacheImage.count())&&(CacheImage[i]->Position<Position)) i++;
-            if ((i<CacheImage.count())&&(CacheImage[i]->Position>=Position)) RetImage=new QImage(CacheImage[i]->Image->copy());
+            if ((i<CacheImage.count())&&(CacheImage[i]->Position>=Position)) {
+                RetImage=new QImage(CacheImage[i]->Image->copy());
+            }
         }
+        if ((!RetImage)&&(CacheImage.count()>0)) {
+            ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return image at ").arg(Position).arg(CacheImage[0]->Position));
+            RetImage=new QImage(CacheImage[0]->Image->copy());
+        }
+
         if (!RetImage) {
             ToLog(LOGMSG_CRITICAL,QString("No video image return for position %1 => return black frame").arg(Position));
             RetImage =new QImage(LibavFile->streams[VideoStreamNumber]->codec->width,LibavFile->streams[VideoStreamNumber]->codec->height,QImage::Format_ARGB32_Premultiplied);

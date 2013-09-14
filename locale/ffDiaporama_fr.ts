@@ -8635,7 +8635,7 @@ Voulez-vous l&apos;enregistrer ?</translation>
     </message>
     <message>
         <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="406"/>
-        <location filename="../src/engine/cDriveList.cpp" line="384"/>
+        <location filename="../src/engine/cDriveList.cpp" line="386"/>
         <source>System files</source>
         <translation>Système de fichiers</translation>
     </message>
@@ -8653,7 +8653,7 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="669"/>
         <location filename="../src/engine/cDriveList.cpp" line="64"/>
         <location filename="../src/engine/cDriveList.cpp" line="103"/>
-        <location filename="../src/engine/cDriveList.cpp" line="372"/>
+        <location filename="../src/engine/cDriveList.cpp" line="374"/>
         <source>Clipart</source>
         <translation>Clipart</translation>
     </message>
@@ -8663,7 +8663,7 @@ Voulez-vous l&apos;enregistrer ?</translation>
         <translation>Disque vide...</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDriveList.cpp" line="341"/>
+        <location filename="../src/engine/cDriveList.cpp" line="343"/>
         <source>Personal folder</source>
         <translation>Dossier personnel</translation>
     </message>
