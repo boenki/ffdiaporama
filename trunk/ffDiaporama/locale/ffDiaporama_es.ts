@@ -766,12 +766,13 @@ Nota: este campo está limitado a 30 caracteres para ser compatible con jukebox<
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="468"/>
         <source>
 Editor options (when adding objects)</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Opciones de edición (al añadir objetos)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="674"/>
         <source>This option allows you to specify the format in which computed dates are displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta opción permite especificar el formato en el que se muestran las fechas calculadas.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="711"/>
@@ -976,7 +977,8 @@ cuando seleccionas &quot;Para la WEB&quot; en el menu &quot;Generar video&quot;<
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2482"/>
         <source>Defines the default value for the field Author (often so called Artist by Media Center Systems)
 Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation type="unfinished"></translation>
+        <translation>Define el valor predeterminado para el campo Autor (a menudo llamado artista en Media Center Systems)
+Nota: este campo está limitado a 30 caracteres para ser compatible con el jukebox</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2931"/>
@@ -4372,7 +4374,7 @@ Al marcar la opción Desde y después introducir los números de las diapositiva
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="190"/>
         <source>Select the audio compression ratio from the displayed list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar el ratio de compresión de audio de la lista que se muestra.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="265"/>
@@ -4392,7 +4394,7 @@ Al marcar la opción Desde y después introducir los números de las diapositiva
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="618"/>
         <source>Select the frequency to use for audio during the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar la frecuencia a utilizar para el audio durante el renderizado.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="657"/>
@@ -6556,12 +6558,12 @@ Observación: En este campo se muestra a menudo por el sistema de indexación y 
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="371"/>
         <source>Check this box to override the date and offer you to enter the date as a free text</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar esta casilla para reemplazar la fecha y ofrecerá la posibilidad de  introducir la fecha como texto libre</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="381"/>
         <source>Enter here the date of the event of the project as a free text</source>
-        <translation type="unfinished"></translation>
+        <translation>Introducir aquí la fecha del evento del proyecto como un texto libre</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="472"/>
@@ -8674,7 +8676,7 @@ Si continúas, se corre el riesgo de perder datos!
     </message>
     <message>
         <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="406"/>
-        <location filename="../src/engine/cDriveList.cpp" line="384"/>
+        <location filename="../src/engine/cDriveList.cpp" line="386"/>
         <source>System files</source>
         <translation>Archivos del Sistema</translation>
     </message>
@@ -8692,7 +8694,7 @@ Si continúas, se corre el riesgo de perder datos!
         <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="669"/>
         <location filename="../src/engine/cDriveList.cpp" line="64"/>
         <location filename="../src/engine/cDriveList.cpp" line="103"/>
-        <location filename="../src/engine/cDriveList.cpp" line="372"/>
+        <location filename="../src/engine/cDriveList.cpp" line="374"/>
         <source>Clipart</source>
         <translation>Clipart</translation>
     </message>
@@ -8702,7 +8704,7 @@ Si continúas, se corre el riesgo de perder datos!
         <translation>Unidad vacía...</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDriveList.cpp" line="341"/>
+        <location filename="../src/engine/cDriveList.cpp" line="343"/>
         <source>Personal folder</source>
         <translation>Carpeta personal</translation>
     </message>

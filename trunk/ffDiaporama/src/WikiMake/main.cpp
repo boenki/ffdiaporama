@@ -462,7 +462,7 @@ bool TraiteHELPFile(QFileInfo FileSrc) {
                 Text=Text.left(Text.lastIndexOf("\""));
                 QString TR=Translator.translate("QHP",Text.toUtf8().constData());
                 if (TR.isEmpty()) TR=Text;
-                line=Start+TR+End;
+                line=Start+HTMLConverter.ToHTML(TR)+End;
             } else {
                 line.replace("wiki_en",QString("wiki_%1").arg(Language));
                 line.replace("ffDiaporama_en",QString("ffDiaporama_%1").arg(Language));

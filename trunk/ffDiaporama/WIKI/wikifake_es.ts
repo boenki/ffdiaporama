@@ -4434,7 +4434,167 @@
         <translation type="unfinished">Agregar o modificar una diapositiva de título predefinido</translation>
     </message>
     <message>
-        <source>This dialog allows you to select a model and define chapter information for this predefined slide.</source>
+        <source>This dialog allows you to select a model and define chapter information for predefined title slides.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To understand the differences between &lt;B&gt;&lt;I&gt;Predefined title slides&lt;/I&gt;&lt;/B&gt; and &lt;B&gt;&lt;I&gt;Standard slides&lt;/I&gt;&lt;/B&gt;, see: &lt;a href=&quot;0012.html&quot;&gt;Predefined title slide&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At the top of the box, the following two settings allow you to filter the Predefined title slide that are displayed in the selection area.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Slide type</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>You can select between: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used early in the project as the opening credits. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Credit title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used at the end of the project as the end credits. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Statics models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type lists statics models ie without animations.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animated models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type lists animated models ie with several shots.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> The selection area display models corresponding to the current Type and Category you previously selected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The models are displayed and played, so you can see the slide as it will appear in your project with the content of dynamic variables.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The slide duration is displayed on the bottom of each thumbnails model.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>When your selection of model is made, the following settings are available if slide type is &lt;B&gt;&lt;I&gt;Chapter model&lt;/I&gt;&lt;/B&gt;:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter here the name of the chapter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter date different from project date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the date of the chapter is different from the date of the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark: It is often useful to differentiate the date of the chapter of the date of the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a date for the chapter. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark: This field is enabled only if the &lt;I&gt;&lt;B&gt;Chapter date different from project date&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Override date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check this box to override the date and offer you to enter the date as a free multi-line text. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Under these settings, the following two buttons allow you:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Project properties</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This button allows you to open &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Convert to standard slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This button allows you to convert this slide to a standard slide which are fully customizable.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4564,7 +4724,79 @@
         <translation type="unfinished">Propiedades del capítulo</translation>
     </message>
     <message>
-        <source>This dialog allows you to define settings for the chapter information of the slide</source>
+        <source> All slides have information chaptering so each slide can mark the beginning of a new chapter. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Except for the first chapter which start at 0, all other chapters begin after the entering transition.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The 1st slide of the mount always mark the beginning of a new chapter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Start a new chapter with this slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the slide will mark the beginning of a new chapter. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Enter here the name of the chapter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter date different from project date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If this box is checked, the date of the chapter is different from the date of the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark: It is often useful to differentiate the date of the chapter of the date of the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Event date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Select a date for the chapter. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark: This field is enabled only if the &lt;I&gt;&lt;B&gt;Chapter date different from project date&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Check this box to override the date and offer you to enter the date as a free multi-line text. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remark: This box cannot be deactivated for the first slide of the project.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Override date</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define settings for the chapter information of the slide:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4599,6 +4831,74 @@
     </message>
     <message>
         <source>This dialog box allows you to export the project and all ressources used by the project to a folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Destination folder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select the base destination folder. Click on the folder button to open the directory selector.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project subfolder</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Once completed your selections, click the OK button to start the export. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>At any time during this process, you can click the cancel button to stop the export. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The export takes into account all the resources that compose the project:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Images</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Videos</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Music</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thumbnail elements</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Wallpapers</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>clipart that are not stored under the ClipArt alias.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Export does not just only copy the files. The following rules apply:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If multiple files from different directories have the same names, these files are re-named.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A .ffd project file is created taking into account any changes in directory and file name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select the folder name to be created for the project files. By default the project title is proposed.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6331,6 +6631,498 @@
         <source>Edit thumbnail model</source>
         <translation type="unfinished">Editar miniatura de modelo</translation>
     </message>
+    <message>
+        <source>This dialog allows you to edit custom thumbnails and custom thumbnails models.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It&apos;s a simplified version of the &lt;a href=&quot;0119.html&quot;&gt;Slides properties dialog&lt;/a&gt; and as it, it includes numerous zones:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On the top: The &lt;a href=&quot;#Toolbar&quot;&gt;Toolbar&lt;/a&gt; allows to launch the main thumbnail editing commands.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On the right: The &lt;a href=&quot;#BlockTable&quot;&gt;Blocks table&lt;/a&gt; and the &lt;a href=&quot;#BlockSettings&quot;&gt;Block settings&lt;/a&gt; zones.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Toolbar</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> The toolbar allows to launch the main thumbnail editing commands. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a new title block - Open a sub menu with the following options: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a simple title block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add a title clip-art block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Once you have selected one of the options, the &lt;a href=&quot;0120.html&quot;&gt;Edit Text dialog&lt;/a&gt; opens.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Add one or several new blocks of images or video. A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears allowing you to select files. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Edit blocks - Open a sub menu with the following options: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy the current block to the ffDiaporama clipboard and remove it from the thumbnail.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copy the current block to the ffDiaporama clipboard.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Paste block from the ffDiaporama clipboard and insert it to the end of the block table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remove the current block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the &lt;a href=&quot;0120.html&quot;&gt;Edit text block dialog&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt;. This button is active only for objects containing images or videos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Arrange blocks - Open a sub menu with the following options: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align to top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align to midle</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align to bottom</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align to left</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align to center</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Align to right</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Distribute horizontally</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Distribute vertically</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the order of blocks by moving the active block upward (towards the background)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Change the order of blocks by moving the active block downward (towards the foreground)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Display information on active block. (Remark: This function is available only for &quot;image&quot; or &quot;video&quot; blocks.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to open the &lt;a href=&quot;0116.html&quot;&gt;Ruler properties dialog&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> It is also possible to open contextual menus by: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right clicking on zones.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right click on blocks table or on interactive zone when no block was selected.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right click on one of the blocks of a multiple selection, on blocks table or on interactive zone.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Each of these contextual menus propose commands which depend on what you have clicked.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Interactive zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> The interactive zone allows you to move and interactively re-size blocks. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selected blocks are shown with a frame. (It allows to differentiate them from other graphic elements of the thumbnail).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Control handles (small square) are shown on sides and on corners of the selection frame.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rulers are displayed to facilitate the work with the mouse. See &lt;a href=&quot;0116.html&quot;&gt;Rulers settings&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Using the mouse:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To select a block: click the block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To select a block under another block : Click the block to be selected by pushing both SHIFT and CTRL keys.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To modify the size of the blocks of the selection: Click one of the handles of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To move the blocks of the selection: Click one of the blocks of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Using the keyboard:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To move the blocks of the selection, use the arrow keys.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To change the size of the blocks of the selection, use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blocks table</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The blocks table lists, from top to bottom, the present blocks in the thumbnail.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blocks are shown on 3 columns:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The first column contains or: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If the block is a title.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A thumbnail if the block is an image or a video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If the image or the video have a transformation filter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The second column contains icons giving the state of the blocks</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The third column indicates: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If the block is a title: the text of the block</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If the block is an image: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The filename.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The width x the height of the image in pixel (the format of the image - the geometry of the image).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A summary of EXIF information on the image.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>If the block is a video: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The duration of the video.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Blocks with locked properties are shown on a grey bottom.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To change the blocks order, use Drag &amp; Drop or &lt;B&gt;Up&lt;/B&gt; and &lt;B&gt;Down&lt;/B&gt; functions of the contextual menu.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>All blocks, whether title, image or video, possess a text element.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>During the insertion of a new block (Add title, Add file or Paste), the block is inserted: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Always in the last position in the list of blocks (in the foreground)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Block settings zone</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Coordinates</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;B&gt;For image or video blocks: &lt;/B&gt;Allows you to select a reframing style for the image. It has the same effect as selecting a style in the dialog: &lt;a href=&quot;0110.html&quot;&gt;Correct, reframe or cut image or video&lt;/a&gt;.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>&lt;B&gt;For text blocks: &lt;/B&gt;Allows you to select the geometrical constraints to be applied to the block. Three type of constraint are available:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>No constraint is applied to the selection rectangle.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock selection rectangle to the actual geometry. It has no meaning until you have defined a shape in &quot;no constraint&quot; mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Lock selection rectangle to the same geometry as the project, such that, if you place the image in full screen, the reframed part will correspond to the whole screen.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a pre-defined block size</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the horizontal offset of the block from the left. This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the vertical offset of the block from the top. This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the width of the block. This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Represents the height of the block. This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotation around the Z axis in degrees.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotation around the Y axis in degrees.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Rotation around the X axis in degrees.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Block shape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This settings group deals with style management. For more information on style management, see : &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shape</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Allows you to select a shape for the block. The selected shape will be used as:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>a fusion mask for the images and the videos.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A cutting zone for texts</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Opacity</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the opacity of the block. This value also applies to the text of the block.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Thickness of the border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the thickness of the border (This value is defined as 1/1080 of the height of the screen. A value of 10 corresponds to 10 points on a 1920x1080 FullHD screen, but only to 6 points on a 1280x720 screen).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Border color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the color of the line to be used to draw the border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Line type of border</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the type of line (solid, dotted line, etc.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Shadow position</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines in which corner the shadow will be positioned (Note: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Distance of the shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Defines the distance between the block and its shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Color</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Sets the color used to draw the shadow</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>See also</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Description of EXIF - Exchangeable image file format</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>On the left: The &lt;a href=&quot;#InteractiveZone&quot;&gt;Interactive&lt;/a&gt; zone allows you to graphically modify the blocks.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0118</name>
@@ -6806,10 +7598,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This settings group deals with style management. For more information on style management, see : Using style management</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Shape</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7046,14 +7834,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> If the properties of the block are locked during this shot. (This information does not appear for the 1st plan.)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> If the properties of the block are unlocked during this shot. (This information does not appear for the 1st plan.)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> If the block is hidden during this shot.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7151,6 +7931,18 @@
     </message>
     <message>
         <source>Each of these contextual menus propose commands which depend on what you have clicked.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If the properties of the block are locked during this shot. (This information does not appear for the 1st shot.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> If the properties of the block are unlocked during this shot. (This information does not appear for the 1st shot.)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This settings group deals with style management. For more information on style management, see: &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

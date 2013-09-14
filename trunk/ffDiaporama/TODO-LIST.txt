@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.7 - Trunk
 *
-* Dernier commit le : 19/08/2013
+* Dernier commit le : 09/09/2013
 **************************************************
 
 TODO :
@@ -57,28 +57,24 @@ switch version to
     ffmpeg 2.0 for Windows / openSuse / Gentoo / ArchLinux
 
 French version / Correction de bug :
--Corrige le bug sur le bouton de sélection de style dans la boite Edit slide (le bouton était désactivé après une première utilisation)
--Corrige un bug sur la sauvegarde du type de marge de texte pour les blocs "texte dans clipart"
--Résoud le problème de la largeur des popups des combobox suivantes avec les langues longues (Russe)
-    - Sélection de courbe de vitesse
-    - Effect de police dans la boite Edit texte
-    - Type d'animation de bloc dans la boite Propriété des diapositives
-    - Type de fond d'animation de bloc dans la boite Propriété des diapositives
--Retire la génération des fichiers joints quand le mode de génération est exporter la piste son
+-Corrige un problème de saccadement des vidéos qui apparaissait parfois
+-Corrige une fuite de mémoire dans le décodage des vidéos qui apparaissait parfois
+-Corrige un plantage dans l'analyse des disques du PC
+-Corrige le fonctionnement de la preview pour Ubuntu 12.04/32 bits
 
 English version / Bug fixes :
--Fixed the bug on the button style in the Edit slide box (the button was disabled after first use)
--Fixed a bug in the writing of type of margin in ffd file for "text clipart" blocks
--Solves the problem of wide combobox popups with long tongues (Russian)
-    - Selection of speed curve
-    - Font effect in Edit text dialog
-    - Type of block animation in Slide properties dialog
-    - Dissolve type of block animation in Slide properties dialog
--Remove joined file generation when render mode is export soundtrack
+-Fixes a problem jerky videos that sometimes appeared
+-Fixes a memory leak in video decoding that sometimes appeared
+-Fixes a crash in drive analysis
+-Fixes preview on Ubuntu 12.04/32 bits
 
 French version / Nouveautés :
+-Ajoute la prise en charge des videos .mod (camescope Panasonic) et les traite comme des fichiers .mts
+-Ajoute la prise en charge de la molette de la souris pour changer de diapositive dans la timeline
 
 English version / New features :
+-Add support of .mod videos (Panasonic camcorder) and use them like they was .mts video
+-Adds support for the mouse wheel to change the current slide in the timeline
 
 Translation/Traductions (1674 sentences):
 EN    - 100% - 1674
@@ -116,11 +112,11 @@ ok              0024.html           The multimedia file browser
 ok              0020.html           Dialog boxes
 ok                  0101.html           Application options
 ok                  0102.html           Manage devices
-TBU                 0103.html           Add or modify a predefined title slide
+ok                  0103.html           Add or modify a predefined title slide
 ok                  0104.html           Background properties
-TBU                 0105.html           Chapter properties
+ok                  0105.html           Chapter properties
 ok                  0106.html           Check configuration
-TBU                 0107.html           Export project
+ok                  0107.html           Export project
 ok                  0108.html           Project properties
 TBU                 0109.html           Select files
 ok                  0110.html           Correct, reframe or cut image or video
@@ -130,7 +126,7 @@ ok                  0113.html           Manage style
 ok                  0114.html           Music properties
 ok                  0115.html           Render video
 ok                  0116.html           Ruler properties
-TBU                 0117.html           Edit thumbnail model
+ok                  0117.html           Edit thumbnail model
 ok                  0118.html           Set first shot duration for a set of slides
 ok                  0119.html           Slide properties
 ok                  0120.html           Edit text

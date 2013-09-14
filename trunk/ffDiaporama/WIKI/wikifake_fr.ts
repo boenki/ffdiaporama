@@ -5822,161 +5822,364 @@ de</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="1252"/>
-        <source>This dialog allows you to select a model and define chapter information for this predefined slide.</source>
-        <translation type="unfinished"></translation>
+        <source>This dialog allows you to select a model and define chapter information for predefined title slides.</source>
+        <oldsource>This dialog allows you to select a model and define chapter information for this predefined slide.</oldsource>
+        <translation>Cette boîte de dialogue vous permet de sélectionner un modèle de titre prédéfinis et de définir les informations de chapitre pour les diapositives.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1253"/>
+        <source>To understand the differences between &lt;B&gt;&lt;I&gt;Predefined title slides&lt;/I&gt;&lt;/B&gt; and &lt;B&gt;&lt;I&gt;Standard slides&lt;/I&gt;&lt;/B&gt;, see: &lt;a href=&quot;0012.html&quot;&gt;Predefined title slide&lt;/a&gt;</source>
+        <translation type="unfinished">Pour comprendre les différences entre les &lt;B&gt;&lt;I&gt;diapositives de titre prédéfinis&lt;/I&gt;&lt;/B&gt; et les &lt;B&gt;&lt;I&gt;diapositives standards&lt;/I&gt;&lt;/B&gt;, voir: &lt;a href=&quot;0012.html&quot;&gt;diapositive de titre prédéfinis&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1254"/>
+        <source>At the top of the box, the following two settings allow you to filter the Predefined title slide that are displayed in the selection area.</source>
+        <translation>En haut de la boîte, les deux paramètres suivants vous permettent de filtrer les modèles de diapositive de titre prédéfinis qui sont affichés dans la zone de sélection.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1255"/>
+        <source>Slide type</source>
+        <translation>Type de diapositive</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1256"/>
+        <location filename="fake/fake.cpp" line="1267"/>
+        <source>You can select between: </source>
+        <translation>Vous pouvez choisir entre :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1257"/>
+        <source>Project title</source>
+        <translation>Titre de projet</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1258"/>
+        <source>This type of slide is usually used early in the project as the opening credits. </source>
+        <translation>Ce type de diapositive est généralement utilisé au début du projet comme générique d&apos;ouverture.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1259"/>
+        <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
+        <translation>Les variables de textes qui sont utilisées par les modèles de ce type de diapositive sont basées uniquement sur les informations du projet. Pour plus d&apos;informations sur les informations du projet, voir : Boite de dialogue de &lt;a href=&quot;0108.html&quot;&gt;Propriétés du projet&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1260"/>
+        <source>Chapter title</source>
+        <translation>Titre du chapitre</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1261"/>
+        <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
+        <translation>Ce type de diapositive est généralement utilisé plusieurs fois dans le projet pour marquer le début des chapitres.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1262"/>
+        <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
+        <translation>Les variables de textes qui sont utilisées par les modèles de ce type de diapositive sont basées sur les informations du projet et sur les informations de chapitre.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1263"/>
+        <source>Credit title</source>
+        <translation>Générique</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1264"/>
+        <source>This type of slide is usually used at the end of the project as the end credits. </source>
+        <translation>Ce type de diapositive est généralement utilisé à la fin du projet comme générique de fin.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1265"/>
+        <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
+        <translation>Les variables de textes qui sont utilisés par les modèles de ce type de diapositive sont généralement calculées. Pour plus d&apos;informations sur les variables de textes, voir: &lt;a href=&quot;0013.html&quot;&gt;Variables dynamiques&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1266"/>
+        <source>Category</source>
+        <translation>Catégorie</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1268"/>
+        <source>Statics models</source>
+        <translation>Titre sans animation</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1269"/>
+        <source>This type lists statics models ie without animations.</source>
+        <translation>Ce type liste les modèles statiques c&apos;est à dire sans animations.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1270"/>
+        <source>Animated models</source>
+        <translation>Titre animé</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1271"/>
+        <source>This type lists animated models ie with several shots.</source>
+        <translation>Ce type liste les modèles animés c&apos;est à dire contenant plusieurs plans.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1272"/>
+        <source>Custom models</source>
+        <translation>Titres personalisés</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1273"/>
+        <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
+        <translation>Ce type liste les modèles que vous avez enregistré avec la fonction &lt;I&gt;&lt;B&gt;Enregistrer comme modèle&lt;/I&gt;&lt;/B&gt; de la boite de dialogue &lt;a href=&quot;0119.html&quot;&gt;Propriétés de la diapositive&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1274"/>
+        <source> The selection area display models corresponding to the current Type and Category you previously selected.</source>
+        <translation> La zone de sélection affiche les modèles correspondant au type et à la catégorie que vous avez sélectionné précédemment.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1275"/>
+        <source>The models are displayed and played, so you can see the slide as it will appear in your project with the content of dynamic variables.</source>
+        <translation>Les modèles sont affichés et joués, vous pouvez donc voir la diapositive telle qu&apos;elle apparaîtra dans votre projet avec le contenu des variables dynamiques.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1276"/>
+        <source>The slide duration is displayed on the bottom of each thumbnails model.</source>
+        <translation>La durée des modèles est affichée en bas de chaque vignette de modèle.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1277"/>
+        <source>When your selection of model is made, the following settings are available if slide type is &lt;B&gt;&lt;I&gt;Chapter model&lt;/I&gt;&lt;/B&gt;:</source>
+        <translation>Lorsque votre sélection de modèle est faite, les paramètres suivants deviennent disponibles si le type de diapositive est &lt;B&gt;&lt;I&gt;Titre de chapitre &lt;/I&gt;&lt;/B&gt; :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1278"/>
+        <source>Chapter name</source>
+        <translation>Nom du chapitre</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1279"/>
+        <source>Enter here the name of the chapter.</source>
+        <translation>Entrez ici le nom du chapitre.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1280"/>
+        <source>Chapter date different from project date</source>
+        <translation>Date de chapitre diffèrente de la date du projet</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1281"/>
+        <source>If this box is checked, the date of the chapter is different from the date of the project. </source>
+        <translation>Si cette case est cochée, la date de ce chapitre est différente de la date du projet.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1282"/>
+        <source>Remark: It is often useful to differentiate the date of the chapter of the date of the project. </source>
+        <translation>Remarque: Il est souvent utile de distinguer la date du chapitre de la date du projet.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1283"/>
+        <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
+        <translation>Par exemple, si le projet est «Mes vacances du 1 au 15», le chapitre peut porter sur le 3.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1284"/>
+        <source>Event date</source>
+        <translation>Date de l&apos;évènement</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1285"/>
+        <source>Select a date for the chapter. </source>
+        <translation>Sélectionnez une date pour le chapitre.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1286"/>
+        <location filename="fake/fake.cpp" line="1289"/>
+        <source>Remark: This field is enabled only if the &lt;I&gt;&lt;B&gt;Chapter date different from project date&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
+        <translation>Remarque: Ce champ n&apos;est activé que si la case &lt;B&gt;&lt;I&gt;Date de chapitre diffèrente de la date du projet&lt;/B&gt;&lt;/I&gt; est cochée.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1287"/>
+        <source>Override date</source>
+        <translation>Outrepasser la date</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1288"/>
+        <source>Check this box to override the date and offer you to enter the date as a free multi-line text. </source>
+        <translation>Cochez cette case pour remplacer la date et vous proposer de l&apos;entrer sous forme d&apos;un texte libre multi-lignes.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1290"/>
+        <source>Under these settings, the following two buttons allow you:</source>
+        <translation>Sous ces réglages, les deux boutons suivants vous permettent:</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1291"/>
+        <source> Project properties</source>
+        <translation> Propriétés du projet</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1292"/>
+        <source>This button allows you to open &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;.</source>
+        <translation>Ce bouton vous permet d&apos;ouvrir la boite de dialogue &lt;a href=&quot;0108.html&quot;&gt;Propriétés du projet&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1293"/>
+        <source> Convert to standard slide</source>
+        <translation> Convertir en diapositive standard</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1294"/>
+        <source>This button allows you to convert this slide to a standard slide which are fully customizable.</source>
+        <translation>Ce bouton vous permet de convertir cette diapositive en une diapositive standard qui devient entièrement personnalisable.</translation>
     </message>
 </context>
 <context>
     <name>0104</name>
     <message>
-        <location filename="fake/fake.cpp" line="1253"/>
-        <location filename="fake/fake.cpp" line="1254"/>
+        <location filename="fake/fake.cpp" line="1295"/>
+        <location filename="fake/fake.cpp" line="1296"/>
         <source>Background properties</source>
         <translation>Propriétés de l&apos;arrière plan</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1255"/>
+        <location filename="fake/fake.cpp" line="1297"/>
         <source>The &quot;Background properties&quot; dialog allows you to define settings for the background of the slide.</source>
         <oldsource>The &quot;Background properties&quot; dialog allows you to define settings for the background of the slide. </oldsource>
         <translation>La boite « Propriétés de l’arrière plan » permet de définir le réglage d’arrière plan de la diapositive (fond d’écran).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1256"/>
+        <location filename="fake/fake.cpp" line="1298"/>
         <source>Same background as preceding object.</source>
         <translation>Utiliser le même arrière plan que l’objet précédent.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1257"/>
+        <location filename="fake/fake.cpp" line="1299"/>
         <source> If this option is selected, the slide will have no background definition  but will use the same background as the previous slide: </source>
         <translation> Si cette option est sélectionnée, la diapositive n’aura pas de définition d’arrière plan mais utilisera le même arrière plan que la diapositive précédente :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1258"/>
+        <location filename="fake/fake.cpp" line="1300"/>
         <source>If the previous slide does not have a background definition either, the check continues backwards until a slide is found which does have a background definition.</source>
         <translation>Si la diapositive précédente ne possède pas non plus de définition d’arrière plan, on remontera encore d’un cran jusqu’à ce qu’une diapositive possède une définition d’arrière plan.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1259"/>
+        <location filename="fake/fake.cpp" line="1301"/>
         <source>If no previous slide has a background definition, then a black frame will be used.</source>
         <translation>Si aucune diapositive précédente ne possède de définition d’arrière plan, alors un fond noir sera utilisé.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1260"/>
+        <location filename="fake/fake.cpp" line="1302"/>
         <source>Select a new background</source>
         <translation>Définir un nouvel arrière plan</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1261"/>
+        <location filename="fake/fake.cpp" line="1303"/>
         <source> If this option is selected, the slide will have its own background definition. In that case, the following zones set properties for the background. </source>
         <translation> Si cette option est sélectionnée, la diapositive aura sa propre définition d’arrière plan. Dans ce cas, les zones suivantes permettent d’effectuer le réglage du fond d’écran.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1262"/>
+        <location filename="fake/fake.cpp" line="1304"/>
         <source>Solid brush</source>
         <translation>Brosse unie</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1263"/>
+        <location filename="fake/fake.cpp" line="1305"/>
         <source>Selects a plain color.</source>
         <translation>Permet de sélectionner une couleur unie.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1264"/>
+        <location filename="fake/fake.cpp" line="1306"/>
         <source>Gradient 2 colors</source>
         <translation>Dégradé à 2 couleurs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1265"/>
+        <location filename="fake/fake.cpp" line="1307"/>
         <source>Selects a gradient of 2 colors</source>
         <translation>Permet de sélectionner un dégradé de 2 couleurs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1266"/>
+        <location filename="fake/fake.cpp" line="1308"/>
         <source>Gradient 3 colors</source>
         <translation>Dégradé à 3 couleurs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1267"/>
+        <location filename="fake/fake.cpp" line="1309"/>
         <source>Selects a gradient of 3 colors</source>
         <translation>Permet de sélectionner un dégradé de 3 couleurs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1268"/>
+        <location filename="fake/fake.cpp" line="1310"/>
         <source>Image from library</source>
         <translation>Image de la librairie</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1269"/>
+        <location filename="fake/fake.cpp" line="1311"/>
         <source>Selects a background image from the library </source>
         <oldsource>Selects a background image from the library</oldsource>
         <translation>Permet de sélectionner une image parmi celle présente dans la librairie</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1270"/>
+        <location filename="fake/fake.cpp" line="1312"/>
         <source>Remark: By default, the library contains a dozen of background screens. </source>
         <translation>Note : Par défaut, la librairie contient une douzaine de fond d&apos;écran.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1271"/>
+        <location filename="fake/fake.cpp" line="1313"/>
         <source>You can get additionals backgrounds installing the &lt;B&gt;&lt;U&gt;Texturemate&lt;/U&gt;&lt;/B&gt; extension from this page </source>
         <oldsource>You can get additionals backgrounds installing the &lt;B&gt;&lt;U&gt;Texturemate extension&lt;/U&gt;&lt;/B&gt; from this page </oldsource>
         <translation>Vous pouvez obtenir des fonds d&apos;écran additionnels en installant l&apos;extension &lt;B&gt;&lt;U&gt;Texturemate&lt;/U&gt;&lt;/B&gt; depuis cette page</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1272"/>
+        <location filename="fake/fake.cpp" line="1314"/>
         <source>Download extensions</source>
         <translation>Télécharger des extensions</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1273"/>
+        <location filename="fake/fake.cpp" line="1315"/>
         <source>Image disk</source>
         <translation>Image depuis un fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1274"/>
+        <location filename="fake/fake.cpp" line="1316"/>
         <source>Allows you to select a photo or an image. </source>
         <translation>Permet de sélectionner une photo ou une image.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1275"/>
+        <location filename="fake/fake.cpp" line="1317"/>
         <source>File</source>
         <translation>Fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1276"/>
+        <location filename="fake/fake.cpp" line="1318"/>
         <source>Indicates the name of the current file</source>
         <translation>Indique le nom du fichier actuellement sélectionné</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1277"/>
+        <location filename="fake/fake.cpp" line="1319"/>
         <source>Allow you to selects an image file</source>
         <oldsource> Selects an image file</oldsource>
         <translation>Vous permet de sélectionner un fichier image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1278"/>
+        <location filename="fake/fake.cpp" line="1320"/>
         <source>Keep aspect ratio</source>
         <translation>Conserver la géométrie</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1279"/>
+        <location filename="fake/fake.cpp" line="1321"/>
         <source>If this box is checked, then the image will not be deformed, and: </source>
         <oldsource>If this box is checked, then the image will not be deformed and the button &lt;B&gt;Image framing and correction&lt;/B&gt; is displays</oldsource>
         <translation>Si cette case est cochée, alors l&apos;image ne sera pas déformée, et :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1280"/>
+        <location filename="fake/fake.cpp" line="1322"/>
         <source> Open the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt; to regulate framing and image corrections </source>
         <oldsource>Open the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt; to regulate framing and image corrections</oldsource>
         <translation>Ouvre la boite de dialog &lt;a href=&quot;0110.html&quot;&gt;Recadrer et/ou corriger une image&lt;/a&gt; pour effectuer un recadrage ou des réglages sur l’image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1281"/>
+        <location filename="fake/fake.cpp" line="1323"/>
         <source>Full filling</source>
         <translation>Remplir</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1282"/>
+        <location filename="fake/fake.cpp" line="1324"/>
         <source>Allows the image to fill the whole screen with image deformation as needed.</source>
         <translation>Permet de remplir tout l’écran, en déformant l’image si nécessaire.</translation>
     </message>
@@ -5984,43 +6187,137 @@ de</translation>
 <context>
     <name>0105</name>
     <message>
-        <location filename="fake/fake.cpp" line="1283"/>
-        <location filename="fake/fake.cpp" line="1284"/>
+        <location filename="fake/fake.cpp" line="1325"/>
+        <location filename="fake/fake.cpp" line="1326"/>
         <source>Chapter properties</source>
         <translation>Propriétés du chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1285"/>
-        <source>This dialog allows you to define settings for the chapter information of the slide</source>
-        <translation type="unfinished"></translation>
+        <location filename="fake/fake.cpp" line="1327"/>
+        <source> All slides have information chaptering so each slide can mark the beginning of a new chapter. </source>
+        <oldsource>This dialog allows you to define settings for the chapter information of the slide</oldsource>
+        <translation> Toutes les diapositives possèdent des informations de chapitrage et peuvent marquer le début d&apos;un nouveau chapitre.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1328"/>
+        <source>Remarks:</source>
+        <translation>A noter :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1329"/>
+        <source>Except for the first chapter which start at 0, all other chapters begin after the entering transition.</source>
+        <translation>A l&apos;exception du premier chapitre qui commencent à 0, tous les autres chapitres commencent après la transition entrante.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1330"/>
+        <source>The 1st slide of the mount always mark the beginning of a new chapter.</source>
+        <translation>La 1ère diapositive du montage marque toujours le début d&apos;un nouveau chapitre.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1331"/>
+        <source>This dialog allows you to define settings for the chapter information of the slide:</source>
+        <translation>Cette boîte de dialogue vous permet de définir les information de chapitrage de la diapositive :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1332"/>
+        <source>Start a new chapter with this slide</source>
+        <translation>Commencer un nouveau chapitre avec cette diapositive</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1333"/>
+        <source>If this box is checked, the slide will mark the beginning of a new chapter. </source>
+        <translation>Si cette case est cochée, la diapositive marquera le début d&apos;un nouveau chapitre.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1334"/>
+        <source>Remark: This box cannot be deactivated for the first slide of the project.</source>
+        <oldsource>Remarks: This box cannot be deactivated for the first slide of the project.</oldsource>
+        <translation>Remarque: Cette case ne peut pas être désactivée pour la première diapositive du projet.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1335"/>
+        <source>Chapter name</source>
+        <translation>Nom du chapitre</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1336"/>
+        <source>Enter here the name of the chapter.</source>
+        <translation>Entrez ici le nom du chapitre.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1337"/>
+        <source>Chapter date different from project date</source>
+        <translation>Date de chapitre diffèrente de la date du projet</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1338"/>
+        <source>If this box is checked, the date of the chapter is different from the date of the project. </source>
+        <translation>Si cette case est cochée, la date de ce chapitre est différente de la date du projet.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1339"/>
+        <source>Remark: It is often useful to differentiate the date of the chapter of the date of the project. </source>
+        <translation>Remarque: Il est souvent utile de distinguer la date du chapitre de la date du projet.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1340"/>
+        <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
+        <translation>Par exemple, si le projet est «Mes vacances du 1 au 15», le chapitre peut porter sur le 3.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1341"/>
+        <source>Event date</source>
+        <translation>Date de l&apos;évènement</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1342"/>
+        <source>Select a date for the chapter. </source>
+        <translation>Sélectionnez une date pour le chapitre.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1343"/>
+        <location filename="fake/fake.cpp" line="1346"/>
+        <source>Remark: This field is enabled only if the &lt;I&gt;&lt;B&gt;Chapter date different from project date&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
+        <translation>Remarque: Ce champ n&apos;est activé que si la case &lt;B&gt;&lt;I&gt;Date de chapitre diffèrente de la date du projet&lt;/B&gt;&lt;/I&gt; est cochée.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1344"/>
+        <source>Override date</source>
+        <oldsource>Override date:</oldsource>
+        <translation>Outrepasser la date</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1345"/>
+        <source>Check this box to override the date and offer you to enter the date as a free multi-line text. </source>
+        <translation>Cochez cette case pour remplacer la date et vous proposer de l&apos;entrer sous forme d&apos;un texte libre multi-lignes.</translation>
     </message>
 </context>
 <context>
     <name>0106</name>
     <message>
-        <location filename="fake/fake.cpp" line="1286"/>
-        <location filename="fake/fake.cpp" line="1287"/>
+        <location filename="fake/fake.cpp" line="1347"/>
+        <location filename="fake/fake.cpp" line="1348"/>
         <source>Check configuration</source>
         <translation>Vérification de la configuration</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1288"/>
+        <location filename="fake/fake.cpp" line="1349"/>
         <source>This dialog allows to check external tools configuration and libraries used by ffDiaporama.</source>
         <oldsource>This dialog allows to check external tools configuration and libraries used by ffDiaporama. </oldsource>
         <translation>Cette boite de dialogue permet de vérifier la configuration des programmes externes et des librairies utilisés par ffDiaporama.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1289"/>
+        <location filename="fake/fake.cpp" line="1350"/>
         <source>It is especially useful for the Linux users and for those who compiles the application. </source>
         <translation>Elle est surtout utile aux utilisateurs de Linux et à ceux qui compile l’application.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1290"/>
+        <location filename="fake/fake.cpp" line="1351"/>
         <source>The most common shown errors concern the supported formats, codec and library versions. </source>
         <translation>Les erreurs affichées les plus courantes concernent la prise en charge des formats et des codecs ainsi que les versions des librairies.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1291"/>
+        <location filename="fake/fake.cpp" line="1352"/>
         <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration. </source>
         <oldsource>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration.</oldsource>
         <translation>Pour résoudre les problèmes vous devrez installer des paquets complémentaires sur votre ordinateur puis éventuellement recompiler ffDiaporama et vérifier à nouveau la configuration.</translation>
@@ -6029,508 +6326,594 @@ de</translation>
 <context>
     <name>0107</name>
     <message>
-        <location filename="fake/fake.cpp" line="1292"/>
-        <location filename="fake/fake.cpp" line="1293"/>
+        <location filename="fake/fake.cpp" line="1353"/>
+        <location filename="fake/fake.cpp" line="1354"/>
         <source>Export project</source>
         <translation>Exporter le projet</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1294"/>
+        <location filename="fake/fake.cpp" line="1355"/>
         <source>This dialog box allows you to export the project and all ressources used by the project to a folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Cette boîte de dialogue vous permet d&apos;exporter le projet et toutes les ressources utilisées par le projet dans un dossier</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1356"/>
+        <source>Destination folder</source>
+        <translation>Répertoire de destination</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1357"/>
+        <source>Allows you to select the base destination folder. Click on the folder button to open the directory selector.</source>
+        <translation>Permet de sélectionner le répertoire de base pour la destination. Cliquez sur le bouton en forme de dossier pour ouvrir le sélecteur de répertoire.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1358"/>
+        <source>Project subfolder</source>
+        <translation>Sous-répertoire du projet</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1359"/>
+        <source>Allows you to select the folder name to be created for the project files. By default the project title is proposed.</source>
+        <oldsource>Allows you to selects the folder name to be created for the project files. By default the project title is proposed.</oldsource>
+        <translation>Permet de sélectionner le nom du dossier qui sera créé pour l&apos;export du projet. Par défaut, le titre du projet est proposé.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1360"/>
+        <source> Once completed your selections, click the OK button to start the export. </source>
+        <translation> Une fois terminé vos sélections, cliquez sur le bouton OK pour démarrer l&apos;exportation.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1361"/>
+        <source>At any time during this process, you can click the cancel button to stop the export. </source>
+        <translation>À tout moment au cours de ce processus, vous pouvez cliquer sur le bouton Annuler pour arrêter l&apos;exportation.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1362"/>
+        <source>Remarks:</source>
+        <translation>A noter :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1363"/>
+        <source>The export takes into account all the resources that compose the project:</source>
+        <translation>L&apos;exportation prend en compte toutes les ressources qui composent le projet :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1364"/>
+        <source>Images</source>
+        <translation>Images</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1365"/>
+        <source>Videos</source>
+        <translation>Vidéos</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1366"/>
+        <source>Music</source>
+        <translation>Musiques</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1367"/>
+        <source>Thumbnail elements</source>
+        <translation>Eléments de vignette</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1368"/>
+        <source>Wallpapers</source>
+        <translation>Fonds d&apos;écran</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1369"/>
+        <source>clipart that are not stored under the ClipArt alias.</source>
+        <translation>Les cliparts qui ne sont pas stockés sous l&apos;alias ClipArt.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1370"/>
+        <source>Export does not just only copy the files. The following rules apply:</source>
+        <translation>L&apos;exportation ne se contente pas seulement de copier les fichiers. Les règles suivantes s&apos;appliquent:</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1371"/>
+        <source>If multiple files from different directories have the same names, these files are re-named.</source>
+        <translation>Si plusieurs fichiers de différents répertoires ont les mêmes noms, ces fichiers sont renommés.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1372"/>
+        <source>A .ffd project file is created taking into account any changes in directory and file name.</source>
+        <translation>Un fichier projet .ffd est créé en prenant en compte tous les changements de répertoire et de nom de fichier.</translation>
     </message>
 </context>
 <context>
     <name>0108</name>
     <message>
-        <location filename="fake/fake.cpp" line="1295"/>
-        <location filename="fake/fake.cpp" line="1296"/>
+        <location filename="fake/fake.cpp" line="1373"/>
+        <location filename="fake/fake.cpp" line="1374"/>
         <source>Project properties</source>
         <translation>Propriétés du projet</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1297"/>
+        <location filename="fake/fake.cpp" line="1375"/>
         <source>This dialog allows you to define the information which qualifies the project. </source>
         <translation>La boite de dialogue Définir les propriétés du projet vous permet de définir les informations qui qualifie le projet.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1298"/>
+        <location filename="fake/fake.cpp" line="1376"/>
         <source>This information will then be registered in the form of TAGs in the rendered video files. </source>
         <translation>Ces informations seront ensuite inscrites sous forme de TAG dans les fichiers vidéos générés.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1299"/>
-        <location filename="fake/fake.cpp" line="1324"/>
-        <location filename="fake/fake.cpp" line="1342"/>
+        <location filename="fake/fake.cpp" line="1377"/>
+        <location filename="fake/fake.cpp" line="1402"/>
+        <location filename="fake/fake.cpp" line="1420"/>
         <source>Remarks:</source>
         <oldsource>Remark: </oldsource>
         <translation>Note :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1306"/>
+        <location filename="fake/fake.cpp" line="1384"/>
         <source>The Project tab</source>
         <translation>L’onglet projet</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1307"/>
+        <location filename="fake/fake.cpp" line="1385"/>
         <source>Settable fields</source>
         <translation>Champs paramétrables</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1308"/>
-        <location filename="fake/fake.cpp" line="1356"/>
+        <location filename="fake/fake.cpp" line="1386"/>
+        <location filename="fake/fake.cpp" line="1434"/>
         <source>Fields</source>
         <translation>Champs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1309"/>
-        <location filename="fake/fake.cpp" line="1357"/>
-        <location filename="fake/fake.cpp" line="1372"/>
+        <location filename="fake/fake.cpp" line="1387"/>
+        <location filename="fake/fake.cpp" line="1435"/>
+        <location filename="fake/fake.cpp" line="1450"/>
         <source>Remark</source>
         <translation>Note</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1310"/>
+        <location filename="fake/fake.cpp" line="1388"/>
         <source>Project geometry</source>
         <translation>Géométrie du projet</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1311"/>
+        <location filename="fake/fake.cpp" line="1389"/>
         <source>This field allows you to select the geometry to be used for the project. </source>
         <translation>Ce champ permet de sélectionner la géométrie qui sera utilisé pour le projet.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1314"/>
-        <location filename="fake/fake.cpp" line="1362"/>
+        <location filename="fake/fake.cpp" line="1392"/>
+        <location filename="fake/fake.cpp" line="1440"/>
         <source>Title</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1322"/>
+        <location filename="fake/fake.cpp" line="1400"/>
         <source>Author</source>
         <translation>Auteur</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1329"/>
+        <location filename="fake/fake.cpp" line="1407"/>
         <source>Album</source>
         <translation>Album</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1333"/>
+        <location filename="fake/fake.cpp" line="1411"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1335"/>
+        <location filename="fake/fake.cpp" line="1413"/>
         <source>(ISO 639 standard - 3 characters)</source>
         <translation>(Standard ISO 639 - 3 caractères)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1336"/>
+        <location filename="fake/fake.cpp" line="1414"/>
         <source>Comment</source>
         <translation>Commentaire</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1337"/>
+        <location filename="fake/fake.cpp" line="1415"/>
         <source>A free comment which can spread out on several lines. </source>
         <translation>Un commentaire libre pouvant s’étaler sur plusieurs lignes.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1343"/>
+        <location filename="fake/fake.cpp" line="1421"/>
         <source>Some fields are automatically filled and do not appear in this dialog: </source>
         <translation>Note : Certain champs sont remplis automatiquement et n’apparaissent pas dans cette boite de dialogue :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1344"/>
+        <location filename="fake/fake.cpp" line="1422"/>
         <source>Timestamp</source>
         <translation>Timestamp</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1345"/>
+        <location filename="fake/fake.cpp" line="1423"/>
         <source>Date and time of generation of the video.</source>
         <translation>Correspond aux date et heure de génération de la vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1346"/>
+        <location filename="fake/fake.cpp" line="1424"/>
         <source>Composer</source>
         <translation>Composeur</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1347"/>
+        <location filename="fake/fake.cpp" line="1425"/>
         <source>Contains the version of ffDiaporama with which the video was produced.</source>
         <translation>Contient la version de ffDiaporama avec lequel la vidéo a été produite.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1348"/>
+        <location filename="fake/fake.cpp" line="1426"/>
         <source>Encoder</source>
         <translation>Encodeur</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1349"/>
+        <location filename="fake/fake.cpp" line="1427"/>
         <source>Contains the version of libavformat (ffmpeg) with which the video was produced.</source>
         <translation>Contient la version de libavformat (ffmpeg) avec lequel la vidéo a été produite.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1353"/>
+        <location filename="fake/fake.cpp" line="1431"/>
         <source>Chapters</source>
         <translation>Chapitres</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1300"/>
+        <location filename="fake/fake.cpp" line="1378"/>
         <source>The properties of the project are a partial implementation of the </source>
         <translation>Les propriétés du projet sont une mise en œuvre partielle de la norme </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1301"/>
+        <location filename="fake/fake.cpp" line="1379"/>
         <source>MPEG-7</source>
         <translation>MPEG-7</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1302"/>
+        <location filename="fake/fake.cpp" line="1380"/>
         <source> standard on the descriptors of multimedia contents.</source>
         <translation>sur les descripteurs de contenu multimédia.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1303"/>
+        <location filename="fake/fake.cpp" line="1381"/>
         <source>These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by </source>
         <translation>Ces propriétés sont écrites dans les fichiers vidéo lors de la génération et peuvent être exploitées par les systèmes d&apos;indexation (gestionnaires de collections) ou par les </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1304"/>
-        <location filename="fake/fake.cpp" line="1326"/>
-        <location filename="fake/fake.cpp" line="1340"/>
-        <location filename="fake/fake.cpp" line="1351"/>
-        <location filename="fake/fake.cpp" line="1398"/>
+        <location filename="fake/fake.cpp" line="1382"/>
+        <location filename="fake/fake.cpp" line="1404"/>
+        <location filename="fake/fake.cpp" line="1418"/>
+        <location filename="fake/fake.cpp" line="1429"/>
+        <location filename="fake/fake.cpp" line="1476"/>
         <source>Media Center Systems</source>
         <translation>Systèmes Media Center</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1305"/>
+        <location filename="fake/fake.cpp" line="1383"/>
         <source>.</source>
         <translation>.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1312"/>
-        <location filename="fake/fake.cpp" line="1316"/>
-        <location filename="fake/fake.cpp" line="1331"/>
-        <location filename="fake/fake.cpp" line="1338"/>
+        <location filename="fake/fake.cpp" line="1390"/>
+        <location filename="fake/fake.cpp" line="1394"/>
+        <location filename="fake/fake.cpp" line="1409"/>
+        <location filename="fake/fake.cpp" line="1416"/>
         <source>Remark:</source>
         <translation>Note :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1313"/>
+        <location filename="fake/fake.cpp" line="1391"/>
         <source>This field is only editable when the dialog box is used for creating a new project. Subsequently, it is not possible to change this value.</source>
         <translation>Ce champ est modifiable uniquement lorsque la boîte de dialogue est utilisée pour créer un nouveau projet. Par la suite, il n&apos;est plus possible de modifier cette valeur.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1315"/>
+        <location filename="fake/fake.cpp" line="1393"/>
         <source>The title of the project </source>
         <translation>Le titre du projet </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1317"/>
-        <location filename="fake/fake.cpp" line="1328"/>
-        <location filename="fake/fake.cpp" line="1332"/>
+        <location filename="fake/fake.cpp" line="1395"/>
+        <location filename="fake/fake.cpp" line="1406"/>
+        <location filename="fake/fake.cpp" line="1410"/>
         <source>If the id3v2 compatibility option is set in &lt;a href=&quot;0101.html&quot;&gt;option dialog&lt;/a&gt;, this fields is limited to 30 characters</source>
         <translation>Si l&apos;option de compatibilité ID3v2 est cochée dans la boite de dialog &lt;a href=&quot;0101.html&quot;&gt;option de l&apos;application&lt;/a&gt;, alors ce champ est limité à 30 caractères</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1318"/>
+        <location filename="fake/fake.cpp" line="1396"/>
         <source>Event date</source>
         <translation>Date de l&apos;évènement</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1319"/>
+        <location filename="fake/fake.cpp" line="1397"/>
         <source>The date of the event of the project</source>
         <translation>La date de l&apos;évènement sur lequel le projet porte</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1320"/>
+        <location filename="fake/fake.cpp" line="1398"/>
         <source>Override date</source>
         <translation>Outrepasser la date</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1321"/>
+        <location filename="fake/fake.cpp" line="1399"/>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text</source>
         <translation>Cochez cette case pour remplacer la date et vous proposer de l&apos;entrer sous forme d&apos;un texte libre multi-lignes</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1323"/>
+        <location filename="fake/fake.cpp" line="1401"/>
         <source>The name of the author of the project. </source>
         <translation>Le nom de l&apos;auteur du projet.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1325"/>
+        <location filename="fake/fake.cpp" line="1403"/>
         <source>This field is often shown by indexing system and </source>
         <translation>Ce champ est souvent reconnu par les systèmes d&apos;indexation et les </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1327"/>
+        <location filename="fake/fake.cpp" line="1405"/>
         <source> under the term Artist.</source>
         <translation> sous le nom de Artiste.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1330"/>
+        <location filename="fake/fake.cpp" line="1408"/>
         <source>The album of the project </source>
         <translation>L&apos;album du projet </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1334"/>
+        <location filename="fake/fake.cpp" line="1412"/>
         <source>The language of the audio track </source>
         <oldsource>The language of the audio track (</oldsource>
         <translation>La langue de la piste audio </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1401"/>
+        <location filename="fake/fake.cpp" line="1479"/>
         <source>ISO 639</source>
         <translation>ISO 639</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1339"/>
+        <location filename="fake/fake.cpp" line="1417"/>
         <source>Numerous indexing systems or </source>
         <translation>De nombreux systèmes d&apos;indexation ou des </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1341"/>
+        <location filename="fake/fake.cpp" line="1419"/>
         <source> will read only the 1&lt;SUP&gt;st&lt;/SUP&gt; line.</source>
         <oldsource> will read only the 1st line.</oldsource>
         <translation> ne reconnaitrons que la 1&lt;SUP&gt;ère&lt;/SUP&gt; ligne.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1350"/>
+        <location filename="fake/fake.cpp" line="1428"/>
         <source>For more compatibility with indexing systems and </source>
         <translation>Pour plus de compatibilité avec les systèmes d&apos;indexation et les </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1352"/>
+        <location filename="fake/fake.cpp" line="1430"/>
         <source>, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</source>
         <translation>, ffDiaporama n&apos;inclut pas l&apos;ensemble des TAG vidéo, mais se rapproche plutôt de la norme ID3v2 qui est la plus utilisée aujourd&apos;hui par ces systèmes. En outre, les formats vidéo ne supportent pas tous les TAG de la même façon.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1354"/>
+        <location filename="fake/fake.cpp" line="1432"/>
         <source> Chapters defined in the project are listed for consultation. (To modify chapters use Chapter button in &lt;a href=&quot;0119.html&quot;&gt;modify slide dialog&lt;/a&gt;.) </source>
         <translation> Les chapitres définis dans le projet sont affichés pour consultation. (Pour modifier les chapitres utilisez le bouton chapitre dans la boite de dialogue &lt;a href=&quot;0119.html&quot;&gt;Propriétés des diapositives&lt;/a&gt;.)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1355"/>
+        <location filename="fake/fake.cpp" line="1433"/>
         <source>The following fields appear: </source>
         <translation>Les champs suivant apparaissent :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1358"/>
+        <location filename="fake/fake.cpp" line="1436"/>
         <source>#</source>
         <translation>#</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1359"/>
+        <location filename="fake/fake.cpp" line="1437"/>
         <source>Chapter number</source>
         <translation>Le n° du chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1360"/>
+        <location filename="fake/fake.cpp" line="1438"/>
         <source>Slide</source>
         <translation>Diapositive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1361"/>
+        <location filename="fake/fake.cpp" line="1439"/>
         <source>Slide number in wich chapter is defined</source>
         <translation>Le n° de la diapositive dans laquelle est définie le chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1363"/>
+        <location filename="fake/fake.cpp" line="1441"/>
         <source>Chapter title</source>
         <translation>Titre du chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1364"/>
+        <location filename="fake/fake.cpp" line="1442"/>
         <source>Start</source>
         <translation>Début</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1365"/>
+        <location filename="fake/fake.cpp" line="1443"/>
         <source>Chapter start position</source>
         <translation>La position de début du chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1366"/>
+        <location filename="fake/fake.cpp" line="1444"/>
         <source>End</source>
         <translation>Fin</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1367"/>
+        <location filename="fake/fake.cpp" line="1445"/>
         <source>Chapter end position</source>
         <translation>La position de fin du chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1368"/>
+        <location filename="fake/fake.cpp" line="1446"/>
         <source>Duration</source>
         <translation>Durée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1369"/>
+        <location filename="fake/fake.cpp" line="1447"/>
         <source>Chapter duration</source>
         <translation>Durée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1370"/>
+        <location filename="fake/fake.cpp" line="1448"/>
         <source>Remark: Video formats do not support all the chapters in the same way:</source>
         <oldsource>Remark: Video formats do not support all the chapters in the same way: </oldsource>
         <translation>Note : Les formats vidéos ne supportent pas tous les chapitres de la même façon :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1371"/>
+        <location filename="fake/fake.cpp" line="1449"/>
         <source>Format</source>
         <translation>Format</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1373"/>
+        <location filename="fake/fake.cpp" line="1451"/>
         <source>3GP/MP4/MKV</source>
         <translation>3GP/MP4/MKV</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1374"/>
+        <location filename="fake/fake.cpp" line="1452"/>
         <source>Full support</source>
         <translation>Support complet</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1375"/>
+        <location filename="fake/fake.cpp" line="1453"/>
         <source>AVI/MPG/FLV/OGV/WEBM</source>
         <translation>AVI/MPG/FLV/OGV/WEBM</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1376"/>
+        <location filename="fake/fake.cpp" line="1454"/>
         <source>No support</source>
         <translation>Aucune prise en charge des chapitres</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1377"/>
+        <location filename="fake/fake.cpp" line="1455"/>
         <source>The option tab</source>
         <translation>L’onglet options</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1378"/>
+        <location filename="fake/fake.cpp" line="1456"/>
         <source>Options for speed waves</source>
         <translation>Options pour les courbes de vitesse</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1379"/>
+        <location filename="fake/fake.cpp" line="1457"/>
         <source> These options sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot; </source>
         <translation>Cette option définie la valeur des courbes de vitesse à utiliser chaque fois que les options correspondantes sont définies sur « Valeur par défaut du projet »</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1380"/>
+        <location filename="fake/fake.cpp" line="1458"/>
         <source>Transition</source>
         <translation>Transition</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1381"/>
+        <location filename="fake/fake.cpp" line="1459"/>
         <source>Defined default speed curve for transitions</source>
         <translation>Défini la courbe de vitesse par défaut pour les transitions</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1382"/>
+        <location filename="fake/fake.cpp" line="1460"/>
         <source>Block animations</source>
         <translation>Animation de blocs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1383"/>
+        <location filename="fake/fake.cpp" line="1461"/>
         <source>Defined default speed curve for block animations</source>
         <translation>Défini la courbe de vitesse par défaut pour les animations</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1384"/>
+        <location filename="fake/fake.cpp" line="1462"/>
         <source>Image animations</source>
         <translation>Animation d’images</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1385"/>
+        <location filename="fake/fake.cpp" line="1463"/>
         <source>Defined default speed curve for image animations</source>
         <translation>Défini la courbe de vitesse par défaut pour les animations</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1386"/>
+        <location filename="fake/fake.cpp" line="1464"/>
         <source>Options for joined ressources</source>
         <translation>Options pour les fichiers joints</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1387"/>
+        <location filename="fake/fake.cpp" line="1465"/>
         <source> These options allow you to define the thumbnail that will be attached to the video file when rendering </source>
         <translation> Ces options vous permettent de définir la vignette qui sera jointe au fichier vidéo lors de la génération</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1388"/>
+        <location filename="fake/fake.cpp" line="1466"/>
         <source>Thumbnail</source>
         <translation>Vignette</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1389"/>
+        <location filename="fake/fake.cpp" line="1467"/>
         <source>Defines the model use as default thumbnail. The combobox contains the available thumbnails: </source>
         <translation>Définit le modèle de vignette à utiliser. La liste déroulante contient les vignettes disponibles:</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1390"/>
+        <location filename="fake/fake.cpp" line="1468"/>
         <source> If this icon appears, then the thumbnail is a custom model thumbnail (Ie, a custom model thumbnail that you have added to your collection of thumbnail model).</source>
         <oldsource> If this icon appears, then the thumbnail is a customized thumbnail (Ie, a custom thumbnail that you have added to your collection of thumbnail model).</oldsource>
         <translation> Si cette icône apparaît, c&apos;est que la vignette est un modèle de vignette personnalisée (C&apos;est à dire un modèle que vous avez ajouté à votre collection de modèle de vignettes).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1391"/>
+        <location filename="fake/fake.cpp" line="1469"/>
         <source> If this icon appears, then the thumbnail is a custom thumbnail for this project only (Ie, not based on a model).</source>
         <oldsource> If this icon appears, then the thumbnail is a custom thumbnail for this project only.</oldsource>
         <translation> Si cette icône apparaît, c&apos;est que la vignette est une vignette personnalisée pour ce projet uniquement (c&apos;est à dire pas basée sur un modèle).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1392"/>
+        <location filename="fake/fake.cpp" line="1470"/>
         <source>Edit custom thumbnail</source>
         <translation>Editer une vignette personnalisée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1393"/>
+        <location filename="fake/fake.cpp" line="1471"/>
         <source>Create a new model from this thumbnail or edit custom thumbnail. Opens the &lt;a href=&quot;0117.html&quot;&gt;Edit thumbnail dialog&lt;/a&gt;.</source>
         <translation>Créer un nouveau modèle à partir de cette vignette ou modifier une vignette personnalisée. Ouvre la boîte de dialogue &lt;a href=&quot;0117.html&quot;&gt;Editer une vignette&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1394"/>
+        <location filename="fake/fake.cpp" line="1472"/>
         <source>Customize</source>
         <translation>Personnaliser</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1395"/>
+        <location filename="fake/fake.cpp" line="1473"/>
         <source>Customize the thumbnail only for this project (without creating a new thumbnail model). Opens the &lt;a href=&quot;0117.html&quot;&gt;Edit thumbnail dialog&lt;/a&gt;.</source>
         <translation>Personnaliser la vignette uniquement pour ce projet (sans créer de nouveau modèle de vignette). Ouvre la boîte de dialogue &lt;a href=&quot;0117.html&quot;&gt;Editer une vignette&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1396"/>
+        <location filename="fake/fake.cpp" line="1474"/>
         <source>Export thumbnail</source>
         <translation>Exporter la vignette</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1397"/>
+        <location filename="fake/fake.cpp" line="1475"/>
         <source>Expor thumbnail to a jpeg file. By default, the proposed file name is &quot;folder.jpg&quot;. ffDiaporama and many </source>
         <translation>Exporter la vignette dans un fichier jpeg. Par défaut, le nom de fichier proposé est &quot;folder.jpg&quot;. ffDiaporama et de nombreux </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1399"/>
+        <location filename="fake/fake.cpp" line="1477"/>
         <source> recognize this file as the icon to be used for the directory that contains it.</source>
         <translation> reconnaissent ce fichier comme étant l&apos;icône à utiliser pour le répertoire qui le contient.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1400"/>
+        <location filename="fake/fake.cpp" line="1478"/>
         <source>See also</source>
         <translation>Voir aussi</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1402"/>
+        <location filename="fake/fake.cpp" line="1480"/>
         <source>TAG in ffmpeg</source>
         <translation>Les TAG dans ffmpeg</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1403"/>
+        <location filename="fake/fake.cpp" line="1481"/>
         <source>Standard ID3v2</source>
         <translation>Norme ID3v2</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1404"/>
+        <location filename="fake/fake.cpp" line="1482"/>
         <source>Standard MPEG-7 on the descriptors of multimedia contents</source>
         <translation>Norme MPEG-7 sur les descripteurs de contenus multimédia</translation>
     </message>
@@ -6538,8 +6921,8 @@ de</translation>
 <context>
     <name>0109</name>
     <message>
-        <location filename="fake/fake.cpp" line="1405"/>
-        <location filename="fake/fake.cpp" line="1406"/>
+        <location filename="fake/fake.cpp" line="1483"/>
+        <location filename="fake/fake.cpp" line="1484"/>
         <source>Select files</source>
         <translation>Sélectionner des fichiers</translation>
     </message>
@@ -6547,544 +6930,544 @@ de</translation>
 <context>
     <name>0110</name>
     <message>
-        <location filename="fake/fake.cpp" line="1407"/>
-        <location filename="fake/fake.cpp" line="1408"/>
+        <location filename="fake/fake.cpp" line="1485"/>
+        <location filename="fake/fake.cpp" line="1486"/>
         <source>Correct, reframe or cut image or video</source>
         <translation>Recadrer, corriger et/ou couper une image ou une vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1409"/>
+        <location filename="fake/fake.cpp" line="1487"/>
         <source>This dialog box allows you to:</source>
         <oldsource>This dialog box allows you to: </oldsource>
         <translation>Cette boite vous permet :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1410"/>
+        <location filename="fake/fake.cpp" line="1488"/>
         <source>Change image framing (select a part of the image).</source>
         <oldsource>- Rotate image (change or restore the orientation portrait/landscape) </oldsource>
         <translation>Change le cadrage de l&apos;image (n&apos;en sélectionne qu&apos;une partie).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1414"/>
+        <location filename="fake/fake.cpp" line="1492"/>
         <source> The image correct and reframe tag</source>
         <oldsource>The image correct and reframe tag</oldsource>
         <translation>L&apos;onglet de correction et de recadrage</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1419"/>
+        <location filename="fake/fake.cpp" line="1497"/>
         <source> This button allows you to change the file </source>
         <translation> Ce bouton vous permet de changer de fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1420"/>
+        <location filename="fake/fake.cpp" line="1498"/>
         <source>Warning! If you replace a file (image or video) with another one with a different image geometry, you will need to review the image framing in all shots. </source>
         <translation>Attention, si vous remplacer le fichier (image ou vidéo) par un autre dont la géométrie d’image n’est pas la même, vous devrez revoir le cadrage de l’image dans tous les plans.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1432"/>
+        <location filename="fake/fake.cpp" line="1510"/>
         <source>Allows to select a framing from a list of predefined framings. The framings are classified in different categories: </source>
         <translation>Permet de sélectionner un cadrage parmi une liste de cadrage prédéfinis. Les cadrages sont classés dans différentes catégories :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1433"/>
+        <location filename="fake/fake.cpp" line="1511"/>
         <source>Lock on the project geometry</source>
         <translation>Verrouiller sur la géométrie du projet</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1434"/>
+        <location filename="fake/fake.cpp" line="1512"/>
         <source>Lock the image framing selection rectangle to the same geometry as the project. If you place the image in full screen, the reframed part will correspond to the whole screen.</source>
         <translation>Fait en sorte à ce que le rectangle de sélection du cadrage de l’image ait la même géométrie que le projet, comme cela, si vous placez l’image en plein écran la partie recadrée correspondra à tout l’écran.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1435"/>
+        <location filename="fake/fake.cpp" line="1513"/>
         <source>Lock on the image geometry</source>
         <translation>Verrouiller sur la géométrie de l’image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1436"/>
+        <location filename="fake/fake.cpp" line="1514"/>
         <source>Lock the image framing selection rectangle to the same geometry as the image</source>
         <translation>Fait en sorte à ce que le rectangle de sélection du cadrage de l’image ait la forme de l’image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1437"/>
+        <location filename="fake/fake.cpp" line="1515"/>
         <source>No constraint</source>
         <translation>Pas de contrainte</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1438"/>
+        <location filename="fake/fake.cpp" line="1516"/>
         <source>No constraint is applied to the image framing selection rectangle.</source>
         <translation>Aucune contrainte ne s’applique au rectangle de sélection du cadrage de l’image. Il est définit librement.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1439"/>
+        <location filename="fake/fake.cpp" line="1517"/>
         <source>Lock on this geometry</source>
         <translation>Verrouiller sur cette géométrie</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1440"/>
+        <location filename="fake/fake.cpp" line="1518"/>
         <source>Lock image framing selection rectangle to the actual geometry. This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
         <translation>Permet de Verrouiller le rectangle de sélection du cadrage de l’image sur la forme qu’il a actuellement. Cela n’a de sens qu’après avoir définit une forme avec le mode « Pas de contrainte ».</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1441"/>
+        <location filename="fake/fake.cpp" line="1519"/>
         <source>According to the image format, various choices will be proposed to you. For example: </source>
         <translation>En fonction du format de l’image, différents choix vous seront proposés. Par exemple :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1444"/>
+        <location filename="fake/fake.cpp" line="1522"/>
         <source>The horizontal position from the left (X). This position is expressed as a percentage (%) of the width of the image.</source>
         <translation>La position horizontal à partir de la gauche (X). Cette position est exprimée en pourcentage (%) de la largeur total de l’image.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1445"/>
+        <location filename="fake/fake.cpp" line="1523"/>
         <source>Example: if X=25% then the 1st quarter to the left of the image is eliminated.</source>
         <oldsource>Example: if X=25 % then the 1st quarter to the left of the image is eliminated.</oldsource>
         <translation>Exemple : Si X=25% alors le 1er quart à gauche de l’image est supprimé.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1446"/>
+        <location filename="fake/fake.cpp" line="1524"/>
         <source>The vertical position from the top of the image ( Y ). This position is expressed as a percentage (%) of the height of the image.</source>
         <translation>La position vertical à partir du haut de l’image (Y). Cette position est exprimée en pourcentage (%) de la hauteur total de l’image.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1447"/>
+        <location filename="fake/fake.cpp" line="1525"/>
         <source>Example: if Y=25% the 1st quarter at the top of the image is eliminated.</source>
         <oldsource>Example: if Y=25 % the 1st quarter at the top of the image is eliminated.</oldsource>
         <translation>Exemple : Si Y=25% alors le 1er quart en haut de l’image est supprimé.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1448"/>
+        <location filename="fake/fake.cpp" line="1526"/>
         <source>The width. This value is expressed as a percentage (%) of the original width of the image.</source>
         <translation>La largeur. Cette valeur est exprimée en pourcentage (%) de la largeur total de l’image.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1449"/>
+        <location filename="fake/fake.cpp" line="1527"/>
         <source>Example: if Width=33%, the re-framed image will represent 1/3 of the original.</source>
         <oldsource>Example: if Width=33 %, the re-framed image will represent 1/3 of the original.</oldsource>
         <translation>Exemple : Si Largeur=33%, alors l’image recadrée représentera 1/3 de l’image total.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1450"/>
+        <location filename="fake/fake.cpp" line="1528"/>
         <source>The height. This value is expressed as a percentage (%) of the original height of the image.</source>
         <translation>La hauteur. Cette valeur est exprimée en pourcentage (%) de la hauteur total de l’image.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1451"/>
+        <location filename="fake/fake.cpp" line="1529"/>
         <source>Example: if Height=33%, the re-framed image will represent 1/3 of the original.</source>
         <oldsource>Example: if Height=33 %, the re-framed image will represent 1/3 of the original.</oldsource>
         <translation>Exemple : Si Hauteur=33%, alors l’image recadrée représentera 1/3 de l’image total.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1452"/>
-        <location filename="fake/fake.cpp" line="1471"/>
-        <location filename="fake/fake.cpp" line="1494"/>
+        <location filename="fake/fake.cpp" line="1530"/>
+        <location filename="fake/fake.cpp" line="1549"/>
+        <location filename="fake/fake.cpp" line="1572"/>
         <source>Remarks:</source>
         <translation>A noter :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1453"/>
+        <location filename="fake/fake.cpp" line="1531"/>
         <source>You can use the + and - buttons in each input field to change the settings, or directly enter values for the four parameters.</source>
         <oldsource>You can use the + and - buttons in each input field to change the settings, or directly enter values for the five parameters.</oldsource>
         <translation>Vous pouvez utiliser les bouton + et – de chaque zone de saisie pour effectuer les réglages, ou bien saisir directement les valeurs pour les quattre paramètres. </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1425"/>
+        <location filename="fake/fake.cpp" line="1503"/>
         <source>With the mouse</source>
         <translation>A la souris</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1426"/>
+        <location filename="fake/fake.cpp" line="1504"/>
         <source>Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept). </source>
         <translation>Cliquer sur l’une des poignées de l’image et, tout en maintenant le bouton de la souris enfoncé, déplacer la souris, permet de modifier la taille (augmenter ou réduire la partie de l’image qui sera conservée).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1427"/>
+        <location filename="fake/fake.cpp" line="1505"/>
         <source>Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.</source>
         <translation>Cliquer sur la zone d’image conservée et, tout en maintenant le bouton de la souris enfoncé, déplacer la souris, permet de modifier la partie de l’image qui sera conservée.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1428"/>
+        <location filename="fake/fake.cpp" line="1506"/>
         <source>With the keyboard</source>
         <translation>Au clavier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1429"/>
+        <location filename="fake/fake.cpp" line="1507"/>
         <source>Use the arrows to move the part of the image which will be kept. </source>
         <translation>Utiliser les flèches de direction pour déplacer la partie de l’image qui sera conservée.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1430"/>
+        <location filename="fake/fake.cpp" line="1508"/>
         <source>Use SHIFT+arrows to move the upper left corner handle or CTRL+arraows to move the lower right corner handle, to change the size of the part of the image which will be kept.</source>
         <translation>Utiliser SHIFT+les flèches de direction pour déplacer la poignée du coin supérieur gauche, ce qui permet de changer la taille de la partie de l’image qui sera conservée.
 Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin inférieur droit, ce qui permet de changer la taille de la partie de l’image qui sera conservée.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1454"/>
+        <location filename="fake/fake.cpp" line="1532"/>
         <source>When the image does not correspond to the geometry of the video to be produced, transparent zones appear. For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
         <translation>Lorsque l’image ne correspond pas à la géométrie de la vidéo à produire, des zones transparentes apparaissent. (Par exemple : Une image 4/3 utilisée dans un projet en 16/9 sera par défaut affichée avec une zone transparent de chaque coté).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1460"/>
+        <location filename="fake/fake.cpp" line="1538"/>
         <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
         <translation>Tourne l&apos;image vers la gauche (vers le prochain multiple de 90°).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1461"/>
+        <location filename="fake/fake.cpp" line="1539"/>
         <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
         <translation>Tourne l&apos;image vers la droite (vers le prochain multiple de 90°).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1463"/>
+        <location filename="fake/fake.cpp" line="1541"/>
         <source>Allows you to increase or decrease the luminosity of the image</source>
         <translation>Permet d’éclaircir ou d’assombrir l’image aux travers de la valeur de luminosité</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1464"/>
+        <location filename="fake/fake.cpp" line="1542"/>
         <source>Allows you to increase or decrease the contrast of the image</source>
         <translation>Permet d’éclaircir ou d’assombrir l’image aux travers de la valeur de contraste</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1465"/>
+        <location filename="fake/fake.cpp" line="1543"/>
         <source>Allows you to to increase or decrease the gamma value of the image</source>
         <translation>Permet d’éclaircir ou d’assombrir l’image aux travers de la valeur de gamma</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1468"/>
+        <location filename="fake/fake.cpp" line="1546"/>
         <source>Allows you to modify the colorization of an image by changing the primary color red. Example : Reducing the red component makes the image more yellow - increasing it makes make the image more red</source>
         <translation>Permet de modifier la colorisation d’une image en changeant la couleur primaire rouge. Exemple : Réduire la composante rouge fait jaunir l’image - L’augmenter fait bleuir l’image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1469"/>
+        <location filename="fake/fake.cpp" line="1547"/>
         <source>Allows you to modify the colorization of an image by changing the primary color green. Example : Reducing the green component makes the image more red - increasing it makes the image more green</source>
         <translation>Permet de modifier la colorisation d’une image en changeant la couleur primaire verte. Exemple : Réduire la composante verte fait rougir l’image - L’augmenter fait verdir l’image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1470"/>
+        <location filename="fake/fake.cpp" line="1548"/>
         <source>Allows you to modify the colorization of an image by changing the primary color blue. Example : Reducing the green component makes the image more red - increasing it makes the image more blue</source>
         <translation>Permet de modifier la colorisation d’une image en changeant la couleur primaire bleu. Exemple : Réduire la composante verte fait rougir l’image - L’augmenter fait bleuir l’image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1473"/>
+        <location filename="fake/fake.cpp" line="1551"/>
         <source> This button allows the value to be reset to zero for all correction settings.</source>
         <translation> Ce bouton permet de remettre la zone à zéro pour tous les réglages de correction d’images.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1457"/>
+        <location filename="fake/fake.cpp" line="1535"/>
         <source>Defined speed curve for image animations.</source>
         <oldsource> Apply a filter to the photo or video images. </oldsource>
         <translation>Définie la courbe de vitesse à appliquer aux animations d&apos;images.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1411"/>
+        <location filename="fake/fake.cpp" line="1489"/>
         <source>Rotate image (change or restore the orientation portrait/landscape).</source>
         <translation>Faire pivoter l&apos;image (modifier ou restaurer l&apos;orientation portrait/paysage).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1412"/>
+        <location filename="fake/fake.cpp" line="1490"/>
         <source>Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
         <translation>Correction d&apos;image (modifier la couleur et/ou les paramètres d&apos;exposition), mais également l&apos;application de filtres graphiques.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1413"/>
+        <location filename="fake/fake.cpp" line="1491"/>
         <source>Define the beginning and end of a video sequence.</source>
         <translation>Définir le début et la fin d&apos;une séquence vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1415"/>
+        <location filename="fake/fake.cpp" line="1493"/>
         <source>This tab is available for both images and video. It is divided into two parts:</source>
         <oldsource>This box is divided into two parts:</oldsource>
         <translation>Cet onglet est disponible aussi bien pour les images que pour les vidéos. Il est divisé en deux parties :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1416"/>
+        <location filename="fake/fake.cpp" line="1494"/>
         <source>To the left: The interactive area</source>
         <translation>A gauche : La zone interactive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1417"/>
+        <location filename="fake/fake.cpp" line="1495"/>
         <source>To the right: The settings area</source>
         <translation>A droite : La zone de réglage</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1418"/>
+        <location filename="fake/fake.cpp" line="1496"/>
         <source>At the bottom of the interactive zone, is an area for changing the image or video file:</source>
         <translation>Au bas de la zone interactive, il y a une zone pour modifier le fichier de l&apos;image ou de la vidéo :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1421"/>
+        <location filename="fake/fake.cpp" line="1499"/>
         <source>At the bottom of the dialog box:</source>
         <translation>Au bas de la boîte de dialogue :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1422"/>
+        <location filename="fake/fake.cpp" line="1500"/>
         <source> This button enables or disables the magnetic rulers: When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing. </source>
         <translation> Ce bouton permet d&apos;activer ou de désactiver les règles magnétiques: Lorsque les règles sont activées, la souris sera automatiquement attirée par ​​les bords de la photo, ce qui facilite le cadrage.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1423"/>
+        <location filename="fake/fake.cpp" line="1501"/>
         <source>The interactive area</source>
         <translation>La zone interactive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1424"/>
+        <location filename="fake/fake.cpp" line="1502"/>
         <source>You can use the interactive zone to set the framing with the mouse or the keyboard:</source>
         <translation>Vous pouvez utiliser la zone interactive pour définir le cadrage à la souris ou au clavier:</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1431"/>
+        <location filename="fake/fake.cpp" line="1509"/>
         <source>The settings area - Framing and form</source>
         <translation>La zone de réglage - Cadrage et forme</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1442"/>
+        <location filename="fake/fake.cpp" line="1520"/>
         <source>Shape</source>
         <translation>Forme</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1443"/>
+        <location filename="fake/fake.cpp" line="1521"/>
         <source>Select a shape for the current block.</source>
         <translation>Selectionner une forme pour le bloc.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1455"/>
+        <location filename="fake/fake.cpp" line="1533"/>
         <source>The settings area - Annimation settings</source>
         <translation>La zone de réglage - Réglage des annimations</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1456"/>
+        <location filename="fake/fake.cpp" line="1534"/>
         <source>Speed wave</source>
         <translation>Courbe de vitesse</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1458"/>
+        <location filename="fake/fake.cpp" line="1536"/>
         <source>The settings area - Image rotation</source>
         <translation>La zone de réglage - Rotation d&apos;image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1459"/>
+        <location filename="fake/fake.cpp" line="1537"/>
         <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
         <translation>L&apos;angle de rotation pour l&apos;axe des z. Cet angle est exprimé en degré. Exemple: Si Rotation=90°, l&apos;image est tournée d&apos;un quart de tour vers la droite.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1462"/>
+        <location filename="fake/fake.cpp" line="1540"/>
         <source>The settings area - Luminosity, contrast and gamma and Color enhancement</source>
         <translation>La zone de réglage - Luminosité, contraste, gamma and amélioration colorimétrique</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1466"/>
+        <location filename="fake/fake.cpp" line="1544"/>
         <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
         <translation>Permet d&apos;activer le filtre Niveaux de gris.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1467"/>
+        <location filename="fake/fake.cpp" line="1545"/>
         <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
         <translation>Permet d&apos;activer le filtre d&apos;Egalisation.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1472"/>
+        <location filename="fake/fake.cpp" line="1550"/>
         <source>All the combinations are possible. For example: you can increase the red and reduce the green at the same time. The results depend on the initial strength of the primary color components of the source image.</source>
         <translation>Toutes les combinaisons sont possibles. Par exemple: vous pouvez augmenter le rouge et réduire le vert  en même temps. Les résultats dépendent de la valeur initiale des composantes de couleurs primaires de l&apos;image.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1474"/>
+        <location filename="fake/fake.cpp" line="1552"/>
         <source>The settings area - Image enhancement</source>
         <translation>La zone de réglage - Amélioration d&apos;image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1475"/>
-        <location filename="fake/fake.cpp" line="1484"/>
-        <location filename="fake/fake.cpp" line="1491"/>
+        <location filename="fake/fake.cpp" line="1553"/>
+        <location filename="fake/fake.cpp" line="1562"/>
+        <location filename="fake/fake.cpp" line="1569"/>
         <source> Apply a filter to the photo or video images. The following filters are available: </source>
         <translation> Applique un filtre à la photo ou aux images de la vidéo. Les filtres suivants sont disponibles:</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1476"/>
+        <location filename="fake/fake.cpp" line="1554"/>
         <source>Blur/Sharpen </source>
         <oldsource>Blur/Sharpen and radius : </oldsource>
         <translation>Flou/Netteté</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1477"/>
+        <location filename="fake/fake.cpp" line="1555"/>
         <source>Type: Select the blur/sharpen algorythm</source>
         <translation>Type : Permet de sélectionner le type d&apos;algorithme à utiliser pour le filtre flou/nettete</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1478"/>
+        <location filename="fake/fake.cpp" line="1556"/>
         <source>Increase the blur with a negative value, using radius.</source>
         <translation>Augmente le flou avec une valeur négative en s’appuyant sur le rayon.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1479"/>
+        <location filename="fake/fake.cpp" line="1557"/>
         <source>Increase the sharpen with a positive value, using radius.</source>
         <translation>Augmente au contraire la netteté avec une valeur positive en s’appuyant sur le rayon.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1480"/>
+        <location filename="fake/fake.cpp" line="1558"/>
         <source> This button allows you to reset the value to zero. (For some transformation settings.)</source>
         <translation> Ce bouton vous permet de remettre les valeurs à zéro. (Pour certaines transformations.)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1481"/>
+        <location filename="fake/fake.cpp" line="1559"/>
         <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
         <translation>Permet d&apos;activer le Dépoussierage (réduction de bruit).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1482"/>
+        <location filename="fake/fake.cpp" line="1560"/>
         <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
         <translation>Permet d&apos;activer le filtre d&apos;antialiasing (réduire les artefacts de distorsion).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1483"/>
+        <location filename="fake/fake.cpp" line="1561"/>
         <source>The settings area - Artistic effects</source>
         <translation>La zone de réglage - Effets artistiques</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1485"/>
+        <location filename="fake/fake.cpp" line="1563"/>
         <source>Allows you to activate the negative filter..</source>
         <translation>Permet d&apos;activer le filtre Négative.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1486"/>
+        <location filename="fake/fake.cpp" line="1564"/>
         <source>Allows you to activate the emboss filter.</source>
         <translation>Permet d&apos;activer le filtre Estampage.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1487"/>
+        <location filename="fake/fake.cpp" line="1565"/>
         <source>Allows you to activate the edge filter.</source>
         <translation>Permet d&apos;activer le filtre Contours.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1488"/>
+        <location filename="fake/fake.cpp" line="1566"/>
         <source>Allows you to activate the charcoal filter.</source>
         <translation>Permet d&apos;activer le filtre Fusain.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1489"/>
+        <location filename="fake/fake.cpp" line="1567"/>
         <source>Allows you to activate the oilpaint filter.</source>
         <translation>Permet d&apos;activer le filtre Peinture à l&apos;huile.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1490"/>
+        <location filename="fake/fake.cpp" line="1568"/>
         <source>The settings area - Image distortion</source>
         <translation>La zone de réglage - Distorsion d&apos;image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1492"/>
+        <location filename="fake/fake.cpp" line="1570"/>
         <source>Allows you to activate the swirl transformation. Image swirling is a non-linear image deformation that creates a whirlpool effect.</source>
         <translation>Permet d&apos;activer la transformation tourbillon. Il s&apos;agit d&apos;une déformation non linéaire de l&apos;image qui crée un effet de tourbillon.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1493"/>
+        <location filename="fake/fake.cpp" line="1571"/>
         <source>Allows you to activate the implode transformation</source>
         <translation>Permet d&apos;activer la transformation Implosion</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1495"/>
+        <location filename="fake/fake.cpp" line="1573"/>
         <source>A value of 0 disables the filter.</source>
         <translation>Une valeur à 0 désactive le filtre.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1496"/>
+        <location filename="fake/fake.cpp" line="1574"/>
         <source>A negative or positive value active the filter in one direction or the other.</source>
         <translation>Une valeur négative ou positive active le filtre dans un sens ou dans l&apos;autre.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1497"/>
+        <location filename="fake/fake.cpp" line="1575"/>
         <source> This button allows the value to be reset to zero.</source>
         <translation> Ce bouton permet de reseter la valeur en la remettant à 0.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1498"/>
+        <location filename="fake/fake.cpp" line="1576"/>
         <source> The video tag</source>
         <translation> L&apos;onglet vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1499"/>
+        <location filename="fake/fake.cpp" line="1577"/>
         <source>This tag is available only for video.</source>
         <translation>Cet onglet n&apos;est disponible que pour les vidéos.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1500"/>
+        <location filename="fake/fake.cpp" line="1578"/>
         <source>The progress bar</source>
         <translation>La barre de progression</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1501"/>
+        <location filename="fake/fake.cpp" line="1579"/>
         <source>Displays as follows:</source>
         <translation>Affiche respectivement :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1502"/>
+        <location filename="fake/fake.cpp" line="1580"/>
         <source>The length of the ruler is increased in proportion to the duration of the video.</source>
         <translation>La règle est graduée en fonction de la durée de la vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1503"/>
+        <location filename="fake/fake.cpp" line="1581"/>
         <source>The blue part represents the part of the video which is selected (which will be used in the assembly).</source>
         <translation>La partie en bleu représente la partie de la vidéo qui est sélectionnée (qui sera utilisée dans le montage).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1504"/>
+        <location filename="fake/fake.cpp" line="1582"/>
         <source> This button starts playback. Click again on this button to pause. </source>
         <translation> Ce bouton permet de lancer la lecture de la vidéo. Cliquer encore sur ce bouton pour passer la lecture en pause. </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1505"/>
+        <location filename="fake/fake.cpp" line="1583"/>
         <source>The working range</source>
         <translation>La zone d’action</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1506"/>
+        <location filename="fake/fake.cpp" line="1584"/>
         <source> Positions the cursor at the starting point</source>
         <translation> Positionne le curseur sur la position de départ</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1507"/>
+        <location filename="fake/fake.cpp" line="1585"/>
         <source> Uses the current cursor position as starting point (carries out an edit)</source>
         <translation> Utilise la position actuelle du curseur comme position de départ (remplie la zone d’édition)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1508"/>
+        <location filename="fake/fake.cpp" line="1586"/>
         <source> Positions the cursor at the end point</source>
         <translation> Positionne le curseur sur la position de fin</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1509"/>
+        <location filename="fake/fake.cpp" line="1587"/>
         <source> Uses the current cursor position as end point (carries out an edit)</source>
         <translation> Utilise la position actuelle du curseur comme position de fin (remplie la zone d’édition)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1510"/>
+        <location filename="fake/fake.cpp" line="1588"/>
         <source>The additional settings zone</source>
         <translation>La zone de réglage complémentaire</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1511"/>
+        <location filename="fake/fake.cpp" line="1589"/>
         <source>&lt;B&gt;Volume&lt;/B&gt; allows you to define the &quot;Master Volume&quot; for the file</source>
         <translation>&lt;B&gt;Volume&lt;/B&gt; permet de définir le « Master Volume » pour le fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1512"/>
+        <location filename="fake/fake.cpp" line="1590"/>
         <source>&lt;B&gt;Deinterlace video&lt;/B&gt; allows you to activate the deinterlace filter</source>
         <translation>&lt;B&gt;Désentrelacer&lt;/B&gt; la vidéo permet d’activer le filtre de désentrelacement</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1513"/>
+        <location filename="fake/fake.cpp" line="1591"/>
         <source>See also</source>
         <translation>Voir aussi</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1514"/>
+        <location filename="fake/fake.cpp" line="1592"/>
         <source>Ken Burns effects</source>
         <translation>Les effets Ken Burns</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1515"/>
+        <location filename="fake/fake.cpp" line="1593"/>
         <source>Filter: Histogram equalization</source>
         <translation>Filtre de type : Égalisation d’histogramme</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1516"/>
+        <location filename="fake/fake.cpp" line="1594"/>
         <source>Filter: Noise reduction</source>
         <translation>Filtre de type : Réduction de bruit</translation>
     </message>
@@ -7092,426 +7475,426 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>0111</name>
     <message>
-        <location filename="fake/fake.cpp" line="1517"/>
-        <location filename="fake/fake.cpp" line="1518"/>
+        <location filename="fake/fake.cpp" line="1595"/>
+        <location filename="fake/fake.cpp" line="1596"/>
         <source>File information</source>
         <translation>Information sur le fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1519"/>
+        <location filename="fake/fake.cpp" line="1597"/>
         <source>This dialog allows to obtain detailed information on a multimedia file.</source>
         <oldsource>This dialog allows to obtain detailed information on a multimedia file. </oldsource>
         <translation>La boite « Afficher des informations sur un fichier multimédia » permet d’obtenir des informations détaillées sur un fichier multimédia.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1520"/>
+        <location filename="fake/fake.cpp" line="1598"/>
         <source>Information shown for the image files</source>
         <translation>Informations affichées pour les images</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1521"/>
+        <location filename="fake/fake.cpp" line="1599"/>
         <source>Information on file</source>
         <translation>Informations sur le fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1522"/>
-        <location filename="fake/fake.cpp" line="1537"/>
+        <location filename="fake/fake.cpp" line="1600"/>
+        <location filename="fake/fake.cpp" line="1615"/>
         <source>File name</source>
         <translation>Nom de fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1523"/>
-        <location filename="fake/fake.cpp" line="1538"/>
+        <location filename="fake/fake.cpp" line="1601"/>
+        <location filename="fake/fake.cpp" line="1616"/>
         <source>The name of the file</source>
         <translation>Le nom du fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1524"/>
-        <location filename="fake/fake.cpp" line="1539"/>
+        <location filename="fake/fake.cpp" line="1602"/>
+        <location filename="fake/fake.cpp" line="1617"/>
         <source>File type</source>
         <translation>Type de fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1525"/>
-        <location filename="fake/fake.cpp" line="1540"/>
+        <location filename="fake/fake.cpp" line="1603"/>
+        <location filename="fake/fake.cpp" line="1618"/>
         <source>Image</source>
         <translation>Image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1526"/>
-        <location filename="fake/fake.cpp" line="1541"/>
+        <location filename="fake/fake.cpp" line="1604"/>
+        <location filename="fake/fake.cpp" line="1619"/>
         <source>File size</source>
         <translation>Taille du fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1527"/>
-        <location filename="fake/fake.cpp" line="1542"/>
+        <location filename="fake/fake.cpp" line="1605"/>
+        <location filename="fake/fake.cpp" line="1620"/>
         <source>The size of the file on the disk (Mb)</source>
         <translation>La taille du fichier sur le disque (en Mo)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1528"/>
-        <location filename="fake/fake.cpp" line="1543"/>
+        <location filename="fake/fake.cpp" line="1606"/>
+        <location filename="fake/fake.cpp" line="1621"/>
         <source>File created</source>
         <translation>Date de création</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1529"/>
-        <location filename="fake/fake.cpp" line="1544"/>
+        <location filename="fake/fake.cpp" line="1607"/>
+        <location filename="fake/fake.cpp" line="1622"/>
         <source>The date and the hour of creation of the file on the disk (when you transferred it since the camera)</source>
         <translation>La date et l’heure de création du fichier sur le disque (quand vous l’avez transféré depuis l’appareil photo)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1530"/>
-        <location filename="fake/fake.cpp" line="1545"/>
+        <location filename="fake/fake.cpp" line="1608"/>
+        <location filename="fake/fake.cpp" line="1623"/>
         <source>File modify</source>
         <translation>Date de modification</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1531"/>
-        <location filename="fake/fake.cpp" line="1546"/>
+        <location filename="fake/fake.cpp" line="1609"/>
+        <location filename="fake/fake.cpp" line="1624"/>
         <source>The date and the hour of the last modification of the file (when the photo was taken or when you modified it with an image editor)</source>
         <translation>La date et l’heure de la dernière modification du fichier (quand la photo a été prise ou quand vous l’avez modifié avec un éditeur d’image)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1532"/>
+        <location filename="fake/fake.cpp" line="1610"/>
         <source>Additional information</source>
         <translation>Autres informations</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1533"/>
+        <location filename="fake/fake.cpp" line="1611"/>
         <source> Show the EXIF information supplied by the camera. </source>
         <translation>Affiche les informations EXIF fournies par l’appareil photo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1534"/>
+        <location filename="fake/fake.cpp" line="1612"/>
         <source>This zone can contain several hundreds of lines according to what the camera supplies. </source>
         <translation>Ce tableau peut contenir plusieurs dizaines voir centaines de ligne en fonction de ce que l’appareil photo fournit.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1535"/>
+        <location filename="fake/fake.cpp" line="1613"/>
         <source>Information shown for the audio and video files</source>
         <translation>Informations affichées pour les fichiers audio et vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1536"/>
+        <location filename="fake/fake.cpp" line="1614"/>
         <source>Information on file (audio and video files)</source>
         <translation>Informations sur le fichier (fichiers audio et video)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1547"/>
+        <location filename="fake/fake.cpp" line="1625"/>
         <source>Audio track information (audio and video files)</source>
         <translation>Information sur les pistes audio (fichiers audio et video)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1548"/>
+        <location filename="fake/fake.cpp" line="1626"/>
         <source> This zone contains a table listing every audio track present in the file. </source>
         <translation> Cette zone contient un tableau listant chaque piste audio présente dans le fichier.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1549"/>
-        <location filename="fake/fake.cpp" line="1566"/>
+        <location filename="fake/fake.cpp" line="1627"/>
+        <location filename="fake/fake.cpp" line="1644"/>
         <source>For every track, the following information is shown: </source>
         <translation>Pour chaque piste, les informations suivantes sont affichées :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1550"/>
-        <location filename="fake/fake.cpp" line="1567"/>
-        <location filename="fake/fake.cpp" line="1584"/>
+        <location filename="fake/fake.cpp" line="1628"/>
+        <location filename="fake/fake.cpp" line="1645"/>
+        <location filename="fake/fake.cpp" line="1662"/>
         <source>#</source>
         <translation>#</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1551"/>
-        <location filename="fake/fake.cpp" line="1568"/>
+        <location filename="fake/fake.cpp" line="1629"/>
+        <location filename="fake/fake.cpp" line="1646"/>
         <source>Track number</source>
         <translation>Le numéro de la piste</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1552"/>
+        <location filename="fake/fake.cpp" line="1630"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1553"/>
+        <location filename="fake/fake.cpp" line="1631"/>
         <source>The language in which is the audio track (generally cameras and camcorders indicate &lt;B&gt;und&lt;/B&gt; for undefine)</source>
         <translation>La langue dans laquelle est la piste audio (en général les appareils photos et les caméscopes indique &lt;B&gt;und&lt;/B&gt; pour indéterminé)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1554"/>
-        <location filename="fake/fake.cpp" line="1575"/>
+        <location filename="fake/fake.cpp" line="1632"/>
+        <location filename="fake/fake.cpp" line="1653"/>
         <source>Codec</source>
         <translation>Codec</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1555"/>
+        <location filename="fake/fake.cpp" line="1633"/>
         <source>The audio codec used for compressed the sound</source>
         <translation>Le codec audio  utilisé pour compresser le son</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1556"/>
+        <location filename="fake/fake.cpp" line="1634"/>
         <source>Channels</source>
         <translation>Channels</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1557"/>
+        <location filename="fake/fake.cpp" line="1635"/>
         <source>The number of audio channels (1=mono, 2=stereo, etc.)</source>
         <translation>Le nombre de canaux audio (1=mono, 2=stéréo, etc…)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1558"/>
-        <location filename="fake/fake.cpp" line="1579"/>
+        <location filename="fake/fake.cpp" line="1636"/>
+        <location filename="fake/fake.cpp" line="1657"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1559"/>
+        <location filename="fake/fake.cpp" line="1637"/>
         <source>The audio compression ratio (when available)</source>
         <translation>Le taux de compression audio (quand il est disponible)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1560"/>
+        <location filename="fake/fake.cpp" line="1638"/>
         <source>Frequency</source>
         <translation>Fréquence</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1561"/>
+        <location filename="fake/fake.cpp" line="1639"/>
         <source>The frequency of sampling used by the audio track</source>
         <translation>La fréquence d’échantillonnage utilisée par la piste audio</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1562"/>
-        <location filename="fake/fake.cpp" line="1586"/>
+        <location filename="fake/fake.cpp" line="1640"/>
+        <location filename="fake/fake.cpp" line="1664"/>
         <source>Title</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1563"/>
+        <location filename="fake/fake.cpp" line="1641"/>
         <source>A title (when available)</source>
         <translation>Un titre (quand il est disponible)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1564"/>
+        <location filename="fake/fake.cpp" line="1642"/>
         <source>Video track information (video files only)</source>
         <translation>Information sur les pistes vidéo (fichiers vidéo uniquement)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1565"/>
+        <location filename="fake/fake.cpp" line="1643"/>
         <source> This zone contains a board listing every video track present in the file. </source>
         <translation> Cette zone contient un tableau listant chaque piste vidéo présente dans le fichier.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1569"/>
+        <location filename="fake/fake.cpp" line="1647"/>
         <source>Image size</source>
         <translation>Taille d&apos;image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1570"/>
+        <location filename="fake/fake.cpp" line="1648"/>
         <source>The size of the images of the video track in number of points by number of line</source>
         <translation>La taille des images de la piste vidéo en nombre de points par nombre de ligne</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1571"/>
+        <location filename="fake/fake.cpp" line="1649"/>
         <source>Image format</source>
         <translation>Format d&apos;image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1572"/>
+        <location filename="fake/fake.cpp" line="1650"/>
         <source>The size of the images of the video track in million of pixels</source>
         <translation>La taille des images de la piste vidéo en million de pixels</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1573"/>
+        <location filename="fake/fake.cpp" line="1651"/>
         <source>Image geometry</source>
         <translation>Géométrie d&apos;image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1574"/>
+        <location filename="fake/fake.cpp" line="1652"/>
         <source>The image geometry of the video track (4:3, 16:9, etc.)</source>
         <translation>La géométrie des images de la piste vidéo (4/3, 16/9, etc…)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1576"/>
+        <location filename="fake/fake.cpp" line="1654"/>
         <source>The video codec used for compressed the images</source>
         <translation>Le codec vidéo utilisé pour compresser les images</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1577"/>
+        <location filename="fake/fake.cpp" line="1655"/>
         <source>Frame rate</source>
         <translation>Images/sec</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1578"/>
+        <location filename="fake/fake.cpp" line="1656"/>
         <source>The number of images per second of the video</source>
         <translation>Le nombre d’images par seconde de la vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1580"/>
+        <location filename="fake/fake.cpp" line="1658"/>
         <source>The video compression ratio (when available)</source>
         <translation>Le taux de compression vidéo (quand il est disponible)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1581"/>
+        <location filename="fake/fake.cpp" line="1659"/>
         <source>Chapter information (video files only)</source>
         <translation>Informations sur les chapitres (fichiers vidéo uniquement)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1582"/>
+        <location filename="fake/fake.cpp" line="1660"/>
         <source> This zone appears only for files containing chapters. it contains a table listing every chapter present in the file. </source>
         <translation> Cette zone n’apparaît que pour les fichiers contenant des chapitres. Elle contient un tableau listant chaque chapitre présents dans le fichier.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1583"/>
+        <location filename="fake/fake.cpp" line="1661"/>
         <source>For every chapter, the following information is shown: </source>
         <translation>Pour chaque chapitre, les informations suivantes sont affichées :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1585"/>
+        <location filename="fake/fake.cpp" line="1663"/>
         <source>Chapter number</source>
         <translation>Le n° du chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1587"/>
+        <location filename="fake/fake.cpp" line="1665"/>
         <source>The title of the chapter</source>
         <translation>Le titre du chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1588"/>
+        <location filename="fake/fake.cpp" line="1666"/>
         <source>Start</source>
         <translation>Début</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1589"/>
+        <location filename="fake/fake.cpp" line="1667"/>
         <source>The temporal position of the beginning of the chapter</source>
         <translation>La position temporelle de début du chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1590"/>
+        <location filename="fake/fake.cpp" line="1668"/>
         <source>End</source>
         <translation>Fin</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1591"/>
+        <location filename="fake/fake.cpp" line="1669"/>
         <source>The temporal position of the end of the chapter</source>
         <translation>La position temporelle de fin du chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1592"/>
+        <location filename="fake/fake.cpp" line="1670"/>
         <source>Duration</source>
         <translation>Durée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1593"/>
+        <location filename="fake/fake.cpp" line="1671"/>
         <source>The duration of the chapter</source>
         <translation>La durée du chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1594"/>
+        <location filename="fake/fake.cpp" line="1672"/>
         <source>Additional information (video files only)</source>
         <translation>Autres informations (fichiers vidéo uniquement)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1595"/>
+        <location filename="fake/fake.cpp" line="1673"/>
         <source> This zone contains diverse information on the video. </source>
         <translation> Cette zone contient des informations diverses sur la vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1596"/>
+        <location filename="fake/fake.cpp" line="1674"/>
         <source>At least the information about the duration of the video will be shown, but a lot of other information can appear according to what is available in the file, such as: </source>
         <translation>A minima, l’information sur la durée de la vidéo sera affichée, mais bien d’autres informations peuvent apparaître en fonction de ce que est disponible dans le fichier, tels que :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1597"/>
+        <location filename="fake/fake.cpp" line="1675"/>
         <source>creation_time</source>
         <translation>creation_time</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1598"/>
+        <location filename="fake/fake.cpp" line="1676"/>
         <source>Date and time of creation of the video</source>
         <translation>Les date et heure de création de la vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1599"/>
+        <location filename="fake/fake.cpp" line="1677"/>
         <source>title</source>
         <translation>Titre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1600"/>
+        <location filename="fake/fake.cpp" line="1678"/>
         <source>Title field of the TAG ID3v2 of the video</source>
         <translation>Le champ titre du TAG ID3v2 de la vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1601"/>
+        <location filename="fake/fake.cpp" line="1679"/>
         <source>artist</source>
         <translation>Artiste</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1602"/>
+        <location filename="fake/fake.cpp" line="1680"/>
         <source>Artist field of the TAG ID3v2 of the video</source>
         <translation>Le champ artiste du TAG ID3v2 de la vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1603"/>
+        <location filename="fake/fake.cpp" line="1681"/>
         <source>album</source>
         <translation>album</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1604"/>
+        <location filename="fake/fake.cpp" line="1682"/>
         <source>Album field of the TAG ID3v2 of the video</source>
         <translation>Le champ album du TAG ID3v2 de la vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1605"/>
+        <location filename="fake/fake.cpp" line="1683"/>
         <source>date</source>
         <translation>date</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1606"/>
+        <location filename="fake/fake.cpp" line="1684"/>
         <source>Date field of the TAG ID3v2 of the video</source>
         <translation>Le champ date du TAG ID3v2 de la vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1607"/>
+        <location filename="fake/fake.cpp" line="1685"/>
         <source>comment</source>
         <translation>Commentaire</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1608"/>
+        <location filename="fake/fake.cpp" line="1686"/>
         <source>Comment field of the TAG ID3v2 of the video</source>
         <translation>Le champ commentaire du TAG ID3v2 de la vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1609"/>
+        <location filename="fake/fake.cpp" line="1687"/>
         <source>composer</source>
         <translation>Composeur</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1610"/>
+        <location filename="fake/fake.cpp" line="1688"/>
         <source>The software with which the video was created</source>
         <translation>Le logiciel avec lequel la vidéo a été créée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1611"/>
+        <location filename="fake/fake.cpp" line="1689"/>
         <source>See also</source>
         <translation>Voir aussi</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1612"/>
+        <location filename="fake/fake.cpp" line="1690"/>
         <source>Information on EXIF data</source>
         <translation>Explications sur les données EXIF</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1613"/>
+        <location filename="fake/fake.cpp" line="1691"/>
         <source>TAG in ffmpeg</source>
         <translation>Les TAG dans ffmpeg</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1614"/>
+        <location filename="fake/fake.cpp" line="1692"/>
         <source>Standard ID3v2</source>
         <translation>Norme ID3v2</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1615"/>
+        <location filename="fake/fake.cpp" line="1693"/>
         <source>Standard MPEG-7 on the descriptors of multimedia contents</source>
         <translation>Norme MPEG-7 sur les descripteurs de contenus multimédia</translation>
     </message>
@@ -7519,31 +7902,31 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>0112</name>
     <message>
-        <location filename="fake/fake.cpp" line="1616"/>
-        <location filename="fake/fake.cpp" line="1617"/>
+        <location filename="fake/fake.cpp" line="1694"/>
+        <location filename="fake/fake.cpp" line="1695"/>
         <source>Manage favorites</source>
         <oldsource>Manage favorite</oldsource>
         <translation>Gérer les favoris</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1618"/>
+        <location filename="fake/fake.cpp" line="1696"/>
         <source>The Manage favorite dialog allows you to manage existing favorites</source>
         <oldsource>The Manage favorite dialog allows you to manage existing favorite</oldsource>
         <translation>La boîte de dialogue Gérer les favoris vous permet de gérer les favoris existant</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1619"/>
+        <location filename="fake/fake.cpp" line="1697"/>
         <source>The existing favorites are listed in the high part of the dialog. Select one of them and click on one of the following buttons:</source>
         <oldsource>The existing favorite are listed in the high part of the dialog. Select one of them and click on one of the following buttons:</oldsource>
         <translation>Les favoris existants sont répertoriés dans la partie haute de la boîte de dialogue. Sélectionnez l&apos;un d&apos;eux et cliquez sur l&apos;un des boutons suivants:</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1620"/>
+        <location filename="fake/fake.cpp" line="1698"/>
         <source> Rename: Allows to rename the selected favorite.</source>
         <translation> Renommer: Permet de renommer le favori sélectionné.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1621"/>
+        <location filename="fake/fake.cpp" line="1699"/>
         <source> Remove: Allows to remove the selected favorite.</source>
         <translation> Supprimer: Permet de supprimer le favori sélectionné.</translation>
     </message>
@@ -7551,117 +7934,117 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>0113</name>
     <message>
-        <location filename="fake/fake.cpp" line="1622"/>
-        <location filename="fake/fake.cpp" line="1623"/>
+        <location filename="fake/fake.cpp" line="1700"/>
+        <location filename="fake/fake.cpp" line="1701"/>
         <source>Manage style</source>
         <translation>Gestion des styles</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1624"/>
+        <location filename="fake/fake.cpp" line="1702"/>
         <source>The Manage style dialog allows several things:</source>
         <oldsource>The Manage style dialog allows several things: </oldsource>
         <translation>La boite de gestion des styles permet plusieurs choses :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1625"/>
+        <location filename="fake/fake.cpp" line="1703"/>
         <source>Rename existing style,</source>
         <oldsource>Rename existing style</oldsource>
         <translation>Renommer des styles existant,</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1626"/>
+        <location filename="fake/fake.cpp" line="1704"/>
         <source>Remove custom style,</source>
         <oldsource>Remove custom style</oldsource>
         <translation>Supprimer des styles personnalisés,</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1627"/>
+        <location filename="fake/fake.cpp" line="1705"/>
         <source>Reset a standard style (that you modified) has its default values.</source>
         <translation>Réinitialiser un style standard (que vous avez modifié) a ses valeurs par défaut.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1628"/>
+        <location filename="fake/fake.cpp" line="1706"/>
         <source>The existing styles are listed in the high part of the dialog. They appear with an icon which has various meanings:</source>
         <oldsource>The existing styles are listed in the high part of the dialog. They appear with an icon which has various meanings: </oldsource>
         <translation>Les styles existant sont listés dans la partie haute de la boite. Ils apparaissent avec une icône qui a différentes significations :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1629"/>
+        <location filename="fake/fake.cpp" line="1707"/>
         <source>for a standard style</source>
         <oldsource> for a standard style</oldsource>
         <translation>représente un style standard</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1630"/>
+        <location filename="fake/fake.cpp" line="1708"/>
         <source>for a standard style you modified or for a custom style</source>
         <oldsource> for a standard style you modified or for a custom style</oldsource>
         <translation>représente soit un style standard que vous avez modifié, soit un style personnalisé</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1631"/>
+        <location filename="fake/fake.cpp" line="1709"/>
         <source>According to the type of the selected style, you can execute various actions:</source>
         <oldsource>According to the type of the selected style, you can execute various actions: </oldsource>
         <translation>En fonction du type de style sélectionné, vous pouvez exécuter différentes actions :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1632"/>
+        <location filename="fake/fake.cpp" line="1710"/>
         <source>Standard style</source>
         <translation>Style standard</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1633"/>
-        <location filename="fake/fake.cpp" line="1639"/>
+        <location filename="fake/fake.cpp" line="1711"/>
+        <location filename="fake/fake.cpp" line="1717"/>
         <source>Rename</source>
         <translation>Renommer</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1634"/>
+        <location filename="fake/fake.cpp" line="1712"/>
         <source>Standard style you modified</source>
         <translation>Style standard modifié</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1635"/>
+        <location filename="fake/fake.cpp" line="1713"/>
         <source>Rename, Reset to default</source>
         <translation>Renommer, Par défaut</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1636"/>
+        <location filename="fake/fake.cpp" line="1714"/>
         <source>Custom style</source>
         <translation>Style personnalisé</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1637"/>
+        <location filename="fake/fake.cpp" line="1715"/>
         <source>Rename, Remove</source>
         <translation>Renommer, supprimer</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1638"/>
+        <location filename="fake/fake.cpp" line="1716"/>
         <source>The followed actions are available:</source>
         <oldsource>The followed actions are available: </oldsource>
         <translation>Les actions suivantes sont disponibles :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1640"/>
+        <location filename="fake/fake.cpp" line="1718"/>
         <source>Allows to rename the selected style.</source>
         <translation>Permet de renommer le style sélectionné.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1641"/>
+        <location filename="fake/fake.cpp" line="1719"/>
         <source>Reset to default</source>
         <translation>Par défaut</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1642"/>
+        <location filename="fake/fake.cpp" line="1720"/>
         <source>Allows to delete the customizations of a standard style and thus to return it to the default values for this style. It concerns as well the name of the style as the associated settings.</source>
         <translation>Permet de supprimer les personnalisations d&apos;un style standard et donc de revenir aux valeurs par défaut pour ce style. Cela concerne aussi bien le nom du style que les réglages associés.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1643"/>
+        <location filename="fake/fake.cpp" line="1721"/>
         <source>Remove</source>
         <translation>Supprimer</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1644"/>
+        <location filename="fake/fake.cpp" line="1722"/>
         <source>Allows to remove the personalized style.</source>
         <translation>Permet de supprimer le style personnalisé.</translation>
     </message>
@@ -7669,203 +8052,203 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>0114</name>
     <message>
-        <location filename="fake/fake.cpp" line="1645"/>
-        <location filename="fake/fake.cpp" line="1646"/>
+        <location filename="fake/fake.cpp" line="1723"/>
+        <location filename="fake/fake.cpp" line="1724"/>
         <source>Music properties</source>
         <translation>Propriétés de la musique</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1647"/>
+        <location filename="fake/fake.cpp" line="1725"/>
         <source>The Music properties dialog allows you to specify the music track.</source>
         <oldsource>The Music properties dialog allows you to specify the music track. </oldsource>
         <translation>La boite « Propriétés de la musique » permet de régler la piste musicale .</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1648"/>
+        <location filename="fake/fake.cpp" line="1726"/>
         <source>Settings for the music track (upper part of the dialog)</source>
         <translation>Réglages de la piste musical (partie haute de la boite)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1649"/>
+        <location filename="fake/fake.cpp" line="1727"/>
         <source>Functional Principles</source>
         <translation>Principe de fonctionnement</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1650"/>
+        <location filename="fake/fake.cpp" line="1728"/>
         <source> The main functional principle for music tracks is that as long as you do not change the settings, the previous settings apply. So, if: </source>
         <translation> Le principe général de fonctionnement de la piste musical est que tant que vous ne changez pas les réglages, les réglages précédents s’appliquent. Ainsi, si :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1651"/>
+        <location filename="fake/fake.cpp" line="1729"/>
         <source>Slide 1 - Defines a play list</source>
         <oldsource>- Slide 3 - Contains no settings </oldsource>
         <translation>La diapositive 1 - Définie une liste de lecture</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1652"/>
+        <location filename="fake/fake.cpp" line="1730"/>
         <source>Slide 2 - Contains no settings</source>
         <oldsource>- Slide 4 - Defines a play list </oldsource>
         <translation>La diapositive 2 - Ne contient aucun réglage de musique</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1653"/>
+        <location filename="fake/fake.cpp" line="1731"/>
         <source>Slide 3 - Contains no settings</source>
         <oldsource>- Slide 5 - Contains no settings </oldsource>
         <translation>La diapositive 3 - Ne contient aucun réglage de musique</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1654"/>
+        <location filename="fake/fake.cpp" line="1732"/>
         <source>Slide 4 - Defines a play list</source>
         <translation>La diapositive 4 - Définie une liste de lecture</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1655"/>
+        <location filename="fake/fake.cpp" line="1733"/>
         <source>Slide 5 - Contains no settings</source>
         <translation>La diapositive 5 - Ne contient aucun réglage de musique</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1656"/>
+        <location filename="fake/fake.cpp" line="1734"/>
         <source>Then:</source>
         <oldsource> Then: </oldsource>
         <translation> Alors :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1657"/>
+        <location filename="fake/fake.cpp" line="1735"/>
         <source>Slide 2 and 3 continue to play the play list defined in slide 1</source>
         <translation>Les diapositive 2 et 3 continuent de jouer la liste de lecture définie dans la diapositive 1</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1659"/>
+        <location filename="fake/fake.cpp" line="1737"/>
         <source>Available settings for the music track</source>
         <translation>Les réglages suivants sont disponibles pour la piste musicale</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1660"/>
+        <location filename="fake/fake.cpp" line="1738"/>
         <source>Continue current playlist</source>
         <translation>Continuer la liste de lecture actuelle</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1661"/>
+        <location filename="fake/fake.cpp" line="1739"/>
         <source>Continues to play the play list defined by a previous slide:</source>
         <translation>Permet de continuer à jouer la liste de lecture définie dans une diapositive précédente :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1662"/>
+        <location filename="fake/fake.cpp" line="1740"/>
         <source>Normal</source>
         <translation>Normal</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1663"/>
+        <location filename="fake/fake.cpp" line="1741"/>
         <source>No specific settings</source>
         <translation>Aucun réglage particulier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1664"/>
+        <location filename="fake/fake.cpp" line="1742"/>
         <source>Change sound level</source>
         <translation>Changer le niveau de volume</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1665"/>
+        <location filename="fake/fake.cpp" line="1743"/>
         <source>Specifies that from now on, the sound volume is reduced. This option is particularly useful, for example, to reduce the sound of the music during the play of a video. Remark : This volume reduction is applied only for the selected slide.</source>
         <translation>Permet d’indiquer qu’à partir de maintenant, le volume sonore est réduit. Cette option est particulièrement utile, par exemple, pour réduire le son de la musique pendant le passage d’une vidéo. Note : Cette réduction de volume ne dure que le temps de la diapositive.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1666"/>
+        <location filename="fake/fake.cpp" line="1744"/>
         <source>Set to pause</source>
         <translation>Mettre en pause</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1667"/>
+        <location filename="fake/fake.cpp" line="1745"/>
         <source>Pauses the current play list. Remark : This pause is applied only for the selected slide.</source>
         <translation>Permet de mettre en pause la liste de lecture. Note : Cette pause ne dure que le temps de la diapositive.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1668"/>
+        <location filename="fake/fake.cpp" line="1746"/>
         <source>Start a new playlist</source>
         <translation>Commencer une nouvelle liste de lecture</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1669"/>
+        <location filename="fake/fake.cpp" line="1747"/>
         <source>Allows you to create a new playlist. If a list defined in a previous slide, is still playing, it is stopped with a fade-out effect (progressive decline of the sound volume up to complete stop).</source>
         <translation>Permet de commencer une nouvelle liste de lecture. Si une liste définie dans une diapositive précédente, est en cours de lecture, la liste précédente est arrêté avec un effet de fade-out (baisse progressive du volume sonore jusqu’à arrêt complet).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1670"/>
+        <location filename="fake/fake.cpp" line="1748"/>
         <source>The playlist (bottom part of the dialog)</source>
         <translation>La liste de lecture (partie basse de la boite)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1671"/>
+        <location filename="fake/fake.cpp" line="1749"/>
         <source> This playlist section consists of two parts: </source>
         <translation> La liste de lecture est composée de deux parties :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1672"/>
+        <location filename="fake/fake.cpp" line="1750"/>
         <source>The toolbar containing controls for the playlist</source>
         <translation>La barre d’outils contenant les contrôles de la liste de lecture</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1673"/>
+        <location filename="fake/fake.cpp" line="1751"/>
         <source>The list of the music files composing the playlist</source>
         <translation>La liste des fichiers musicaux composant la liste de lecture</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1674"/>
+        <location filename="fake/fake.cpp" line="1752"/>
         <source>The toolbar</source>
         <translation>La barre d’outils</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1675"/>
+        <location filename="fake/fake.cpp" line="1753"/>
         <source>Adds a file to the playlist A file selection dialog appears, allowing you to select a file.</source>
         <translation>Permet d’ajouter un fichier musical à la liste de lecture. Une boite de sélection de fichier apparaît vous permettant de sélectionner un fichier.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1676"/>
+        <location filename="fake/fake.cpp" line="1754"/>
         <source>Removes the current selected file from the playlist.</source>
         <translation>Permet de supprimer le fichier musical actuellement sélectionné dans la liste.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1677"/>
+        <location filename="fake/fake.cpp" line="1755"/>
         <source>Changes the order in which the music files will be played. Moves the currently selected file one step up.</source>
         <translation>Permet de changer l’ordre dans lequel seront joués les fichiers musicaux. Déplace le fichier actuellement sélectionné dans la liste d’un cran vers le haut.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1678"/>
+        <location filename="fake/fake.cpp" line="1756"/>
         <source>Changes the order in which the music files will be played. Moves the currently selected file one step down.</source>
         <translation>Permet de changer l’ordre dans lequel seront joués les fichiers musicaux. Déplace le fichier actuellement sélectionné dans la liste d’un cran vers le bas.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1679"/>
+        <location filename="fake/fake.cpp" line="1757"/>
         <source>The playlist</source>
         <translation>La liste des fichiers musicaux</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1680"/>
+        <location filename="fake/fake.cpp" line="1758"/>
         <source>The music files are listed in the order in which they will be played, from top to bottom. The Volume column defines the &quot; Master volume &quot; for the file. This volume is independent of any reductions in the volume that you define in the upper part of the dialog.</source>
         <translation>Les fichiers musicaux sont listés dans l’ordre dans lequel ils seront joués, du haut vers le bas. La colonne Volume permet de définir le « Master Volume » pour le fichier. Ce volume est indépendant des éventuels réductions de volume que vous définissez dans la partie haute de la boite.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1681"/>
+        <location filename="fake/fake.cpp" line="1759"/>
         <source>Remarks:</source>
         <translation>A noter :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1682"/>
+        <location filename="fake/fake.cpp" line="1760"/>
         <source>The fade in/out effects and the increase/decrease of volume take place during the entering slide transitions. Consequently: </source>
         <translation>Les effets de fade/in fade/out et les augmentations/réductions de volume ont lieux pendant les transitions entrantes des diapositives. Par conséquent :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1683"/>
+        <location filename="fake/fake.cpp" line="1761"/>
         <source>They last for the same time as the entering transition.</source>
         <translation>Ils durent le temps des transitions entrantes.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1684"/>
+        <location filename="fake/fake.cpp" line="1762"/>
         <source>If a slide has an entering transition set to &quot;No transition&quot;, the sound effect is not progressive but instantaneous.</source>
         <translation>Si une diapositive a une transition entrante réglée sur Aucun, l’effet sonore n’est pas progressif mais instantané.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1658"/>
+        <location filename="fake/fake.cpp" line="1736"/>
         <source>Slide 5 continues to play the play list define in slide 4</source>
         <oldsource>- Continue current playlist: Continues to play the play list defined by a previous slide </oldsource>
         <translation>La diapositive 5 continue de jouer la liste de lecture définie dans la diapositive 4</translation>
@@ -7874,383 +8257,383 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>0115</name>
     <message>
-        <location filename="fake/fake.cpp" line="1685"/>
-        <location filename="fake/fake.cpp" line="1686"/>
+        <location filename="fake/fake.cpp" line="1763"/>
+        <location filename="fake/fake.cpp" line="1764"/>
         <source>Render video</source>
         <translation>Générer le film</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1687"/>
+        <location filename="fake/fake.cpp" line="1765"/>
         <source>This dialog allows you to render the project as a video file.</source>
         <oldsource>This dialog allows you to render the project as a video file. </oldsource>
         <translation>Cette boîte de dialogue vous permet de générer la vidéo du projet.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1689"/>
+        <location filename="fake/fake.cpp" line="1767"/>
         <source>Description of the dialog box</source>
         <translation>Description de la boite de dialogue</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1691"/>
-        <location filename="fake/fake.cpp" line="1716"/>
-        <location filename="fake/fake.cpp" line="1741"/>
-        <location filename="fake/fake.cpp" line="1778"/>
+        <location filename="fake/fake.cpp" line="1769"/>
+        <location filename="fake/fake.cpp" line="1794"/>
+        <location filename="fake/fake.cpp" line="1819"/>
+        <location filename="fake/fake.cpp" line="1856"/>
         <source>Destination file</source>
         <translation>Fichier destination</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1692"/>
-        <location filename="fake/fake.cpp" line="1717"/>
-        <location filename="fake/fake.cpp" line="1742"/>
-        <location filename="fake/fake.cpp" line="1779"/>
+        <location filename="fake/fake.cpp" line="1770"/>
+        <location filename="fake/fake.cpp" line="1795"/>
+        <location filename="fake/fake.cpp" line="1820"/>
+        <location filename="fake/fake.cpp" line="1857"/>
         <source>Indicate here the name of the destination file. </source>
         <translation>Indiquer ici le nom du fichier de destination. </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1693"/>
-        <location filename="fake/fake.cpp" line="1718"/>
-        <location filename="fake/fake.cpp" line="1743"/>
-        <location filename="fake/fake.cpp" line="1780"/>
+        <location filename="fake/fake.cpp" line="1771"/>
+        <location filename="fake/fake.cpp" line="1796"/>
+        <location filename="fake/fake.cpp" line="1821"/>
+        <location filename="fake/fake.cpp" line="1858"/>
         <source> Click on this button to select graphically a file and a directory.</source>
         <translation>Cliquer sur ce bouton permet de sélectionner graphiquement un fichier et un répertoire.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1698"/>
-        <location filename="fake/fake.cpp" line="1719"/>
-        <location filename="fake/fake.cpp" line="1744"/>
-        <location filename="fake/fake.cpp" line="1781"/>
+        <location filename="fake/fake.cpp" line="1776"/>
+        <location filename="fake/fake.cpp" line="1797"/>
+        <location filename="fake/fake.cpp" line="1822"/>
+        <location filename="fake/fake.cpp" line="1859"/>
         <source>Rendering</source>
         <translation>Générer</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1699"/>
-        <location filename="fake/fake.cpp" line="1720"/>
-        <location filename="fake/fake.cpp" line="1745"/>
-        <location filename="fake/fake.cpp" line="1782"/>
+        <location filename="fake/fake.cpp" line="1777"/>
+        <location filename="fake/fake.cpp" line="1798"/>
+        <location filename="fake/fake.cpp" line="1823"/>
+        <location filename="fake/fake.cpp" line="1860"/>
         <source>The rendering can be made on the whole project or only on a part.</source>
         <translation>La génération de la vidéo peut s’effectuer sur tout le projet ou seulement sur une partie. </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1700"/>
-        <location filename="fake/fake.cpp" line="1721"/>
-        <location filename="fake/fake.cpp" line="1746"/>
-        <location filename="fake/fake.cpp" line="1783"/>
+        <location filename="fake/fake.cpp" line="1778"/>
+        <location filename="fake/fake.cpp" line="1799"/>
+        <location filename="fake/fake.cpp" line="1824"/>
+        <location filename="fake/fake.cpp" line="1861"/>
         <source>This choice is made: </source>
         <translation>Ce réglage s’effectue :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1701"/>
-        <location filename="fake/fake.cpp" line="1722"/>
-        <location filename="fake/fake.cpp" line="1747"/>
-        <location filename="fake/fake.cpp" line="1784"/>
+        <location filename="fake/fake.cpp" line="1779"/>
+        <location filename="fake/fake.cpp" line="1800"/>
+        <location filename="fake/fake.cpp" line="1825"/>
+        <location filename="fake/fake.cpp" line="1862"/>
         <source>By checking the option &lt;B&gt;All slides&lt;/B&gt; to render the video of the whole project</source>
         <translation>Soit en cochant la case &lt;B&gt;toutes les diapositives&lt;/B&gt; pour générer la vidéo du projet entier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1702"/>
-        <location filename="fake/fake.cpp" line="1723"/>
-        <location filename="fake/fake.cpp" line="1748"/>
-        <location filename="fake/fake.cpp" line="1785"/>
+        <location filename="fake/fake.cpp" line="1780"/>
+        <location filename="fake/fake.cpp" line="1801"/>
+        <location filename="fake/fake.cpp" line="1826"/>
+        <location filename="fake/fake.cpp" line="1863"/>
         <source>Or by checking the option &lt;B&gt;From&lt;/B&gt; and then entering the numbers of the start and end slides to generate a video of only a part of the project.</source>
         <translation>Soit en cochant la case &lt;B&gt;depuis&lt;/B&gt; et en entrant les numéros des diapositives de début et de fin pour ne générer une vidéo que d’une partie du projet.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1703"/>
-        <location filename="fake/fake.cpp" line="1726"/>
-        <location filename="fake/fake.cpp" line="1757"/>
+        <location filename="fake/fake.cpp" line="1781"/>
+        <location filename="fake/fake.cpp" line="1804"/>
+        <location filename="fake/fake.cpp" line="1835"/>
         <source>Sound (include sound in the video)</source>
         <translation>Son (Inclure le son dans la vidéo)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1704"/>
-        <location filename="fake/fake.cpp" line="1727"/>
-        <location filename="fake/fake.cpp" line="1758"/>
+        <location filename="fake/fake.cpp" line="1782"/>
+        <location filename="fake/fake.cpp" line="1805"/>
+        <location filename="fake/fake.cpp" line="1836"/>
         <source>If this box is checked then the sound track will be included in the video</source>
         <translation>Si cette case est cochée, la piste audio sera intégrée dans la vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1705"/>
-        <location filename="fake/fake.cpp" line="1728"/>
-        <location filename="fake/fake.cpp" line="1765"/>
-        <location filename="fake/fake.cpp" line="1792"/>
+        <location filename="fake/fake.cpp" line="1783"/>
+        <location filename="fake/fake.cpp" line="1806"/>
+        <location filename="fake/fake.cpp" line="1843"/>
+        <location filename="fake/fake.cpp" line="1870"/>
         <source>Language</source>
         <translation>Langue</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1706"/>
-        <location filename="fake/fake.cpp" line="1729"/>
-        <location filename="fake/fake.cpp" line="1766"/>
-        <location filename="fake/fake.cpp" line="1793"/>
+        <location filename="fake/fake.cpp" line="1784"/>
+        <location filename="fake/fake.cpp" line="1807"/>
+        <location filename="fake/fake.cpp" line="1844"/>
+        <location filename="fake/fake.cpp" line="1871"/>
         <source>Defines the value of the Language field. </source>
         <translation>Définie la valeur pour le champ Langage.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1707"/>
-        <location filename="fake/fake.cpp" line="1730"/>
-        <location filename="fake/fake.cpp" line="1767"/>
-        <location filename="fake/fake.cpp" line="1794"/>
+        <location filename="fake/fake.cpp" line="1785"/>
+        <location filename="fake/fake.cpp" line="1808"/>
+        <location filename="fake/fake.cpp" line="1845"/>
+        <location filename="fake/fake.cpp" line="1872"/>
         <source>This value is used by players to indicate in which language is the audio track. This value is on 3 characters and follows this recommendation: </source>
         <oldsource>This value is used by players to indicate in which language is the audio track. This value is on 3 characters and follows the recommendation. See:</oldsource>
         <translation>Cette valeur est utilisé par les lecteurs vidéos pour indiquer dans quelle langue est la piste audio. Cette valeur est sur 3 caractères et suit la recommandation :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1708"/>
-        <location filename="fake/fake.cpp" line="1731"/>
-        <location filename="fake/fake.cpp" line="1768"/>
-        <location filename="fake/fake.cpp" line="1795"/>
+        <location filename="fake/fake.cpp" line="1786"/>
+        <location filename="fake/fake.cpp" line="1809"/>
+        <location filename="fake/fake.cpp" line="1846"/>
+        <location filename="fake/fake.cpp" line="1873"/>
         <source>ISO 639</source>
         <oldsource> ISO 639</oldsource>
         <translation>ISO 639</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1808"/>
+        <location filename="fake/fake.cpp" line="1886"/>
         <source>Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by </source>
         <translation>Remarque: les propriétés du projet sont enregistrées dans la vidéo sous forme de TAG (métadonnées) qui sont utilisés par un grand nombre de programmes d&apos;indexation ou par les </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1809"/>
+        <location filename="fake/fake.cpp" line="1887"/>
         <source>Media Center Systems</source>
         <translation>Systèmes Media Center</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1688"/>
+        <location filename="fake/fake.cpp" line="1766"/>
         <source>This dialog has different appearances depending on whether you clicked the Device type, Lossless, Advanced or Soundtrack button. </source>
         <translation>Cette boîte de dialogue a une apparencee différente, selon que vous avez cliqué sur une génération en mode &quot;Modèle d&apos;équipement&quot;, en mode &quot;Lossless&quot;, en mode avancée ou sur l&apos;export de piste son.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1690"/>
+        <location filename="fake/fake.cpp" line="1768"/>
         <source>In device mode</source>
         <translation>En mode équipement</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1694"/>
+        <location filename="fake/fake.cpp" line="1772"/>
         <source>Device type</source>
         <translation>Type d’équipement</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1695"/>
+        <location filename="fake/fake.cpp" line="1773"/>
         <source>Allows you to select a device type.</source>
         <translation>Permet de sélectionner un type d’équipement.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1696"/>
+        <location filename="fake/fake.cpp" line="1774"/>
         <source>Model</source>
         <translation>Modèle</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1697"/>
+        <location filename="fake/fake.cpp" line="1775"/>
         <source>Allows you to select a device model.</source>
         <translation>Permet de sélectionner un modèle d’équipement.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1709"/>
-        <location filename="fake/fake.cpp" line="1732"/>
-        <location filename="fake/fake.cpp" line="1769"/>
+        <location filename="fake/fake.cpp" line="1787"/>
+        <location filename="fake/fake.cpp" line="1810"/>
+        <location filename="fake/fake.cpp" line="1847"/>
         <source>Join thumbnail to rendered file</source>
         <translation>Joindre une vignette aux vidéos générées</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1710"/>
-        <location filename="fake/fake.cpp" line="1733"/>
-        <location filename="fake/fake.cpp" line="1770"/>
+        <location filename="fake/fake.cpp" line="1788"/>
+        <location filename="fake/fake.cpp" line="1811"/>
+        <location filename="fake/fake.cpp" line="1848"/>
         <source>If this box is checked then a thumbnail file will be created with video. </source>
         <translation>Si cette case est cochée, une vignette sera créé avec la vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1711"/>
-        <location filename="fake/fake.cpp" line="1714"/>
-        <location filename="fake/fake.cpp" line="1734"/>
-        <location filename="fake/fake.cpp" line="1737"/>
-        <location filename="fake/fake.cpp" line="1771"/>
-        <location filename="fake/fake.cpp" line="1774"/>
+        <location filename="fake/fake.cpp" line="1789"/>
+        <location filename="fake/fake.cpp" line="1792"/>
+        <location filename="fake/fake.cpp" line="1812"/>
+        <location filename="fake/fake.cpp" line="1815"/>
+        <location filename="fake/fake.cpp" line="1849"/>
+        <location filename="fake/fake.cpp" line="1852"/>
         <source>For more information on joined files, see &lt;a href=&quot;003A.html&quot;&gt;File attachments&lt;/a&gt;</source>
         <oldsource>For more information on joined file, see: &lt;a href=&quot;003A.html&quot;&gt;File attachments&lt;/a&gt;</oldsource>
         <translation>Pour plus d&apos;information sur les fichiers joints, consulter &lt;a href=&quot;003A.html&quot;&gt;Fichiers joints&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1712"/>
-        <location filename="fake/fake.cpp" line="1735"/>
-        <location filename="fake/fake.cpp" line="1772"/>
+        <location filename="fake/fake.cpp" line="1790"/>
+        <location filename="fake/fake.cpp" line="1813"/>
+        <location filename="fake/fake.cpp" line="1850"/>
         <source>Join XBMC .nfo file to rendered file</source>
         <translation>Joindre des fichiers .nfo pour XBMC aux vidéos générées</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1713"/>
-        <location filename="fake/fake.cpp" line="1736"/>
-        <location filename="fake/fake.cpp" line="1773"/>
+        <location filename="fake/fake.cpp" line="1791"/>
+        <location filename="fake/fake.cpp" line="1814"/>
+        <location filename="fake/fake.cpp" line="1851"/>
         <source>If this box is checked then a &lt;a href=&quot;0044.html&quot;&gt;XBMC .nfo&lt;/a&gt; file will be created with video. </source>
         <translation>Si cette case est cochée, un fichier .nfo pour XBMC sera généré en même temps que la vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1715"/>
+        <location filename="fake/fake.cpp" line="1793"/>
         <source>In lossless mode</source>
         <translation>En mode lossless</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1724"/>
-        <location filename="fake/fake.cpp" line="1751"/>
+        <location filename="fake/fake.cpp" line="1802"/>
+        <location filename="fake/fake.cpp" line="1829"/>
         <source>Image format</source>
         <translation>Format d&apos;image</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1725"/>
-        <location filename="fake/fake.cpp" line="1752"/>
+        <location filename="fake/fake.cpp" line="1803"/>
+        <location filename="fake/fake.cpp" line="1830"/>
         <source>Select the image format to be used to render the video from the displayed list.</source>
         <translation>Sélectionne le format d’image vidéo à utiliser parmi la liste proposée.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1738"/>
+        <location filename="fake/fake.cpp" line="1816"/>
         <source>In advanced mode</source>
         <translation>En mode avancé</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1739"/>
-        <location filename="fake/fake.cpp" line="1776"/>
+        <location filename="fake/fake.cpp" line="1817"/>
+        <location filename="fake/fake.cpp" line="1854"/>
         <source>File format</source>
         <translation>Format de fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1740"/>
+        <location filename="fake/fake.cpp" line="1818"/>
         <source>Select the type of file to be used to render the video from the displayed list.</source>
         <translation>Sélectionne le type de fichier à utiliser pour la génération de la vidéo, parmi la liste proposée.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1749"/>
+        <location filename="fake/fake.cpp" line="1827"/>
         <source>Video Standard</source>
         <translation>Standard vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1750"/>
+        <location filename="fake/fake.cpp" line="1828"/>
         <source>Select the video standard to be used: PAL or NTSC.</source>
         <translation>Sélectionne le standard vidéo à utiliser, PAL ou NTSC.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1753"/>
+        <location filename="fake/fake.cpp" line="1831"/>
         <source>Video codec</source>
         <translation>Codec vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1754"/>
+        <location filename="fake/fake.cpp" line="1832"/>
         <source>Select the video codec to be used to render the video from the displayed list.</source>
         <translation>Sélectionne le codec vidéo à utiliser parmi la liste proposée.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1755"/>
-        <location filename="fake/fake.cpp" line="1761"/>
-        <location filename="fake/fake.cpp" line="1788"/>
+        <location filename="fake/fake.cpp" line="1833"/>
+        <location filename="fake/fake.cpp" line="1839"/>
+        <location filename="fake/fake.cpp" line="1866"/>
         <source>Bitrate</source>
         <oldsource>Bit rate</oldsource>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1756"/>
+        <location filename="fake/fake.cpp" line="1834"/>
         <source>Select the video compression ratio from the displayed list</source>
         <translation>Sélectionne le taux de compression vidéo à utiliser parmi la liste proposée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1759"/>
-        <location filename="fake/fake.cpp" line="1786"/>
+        <location filename="fake/fake.cpp" line="1837"/>
+        <location filename="fake/fake.cpp" line="1864"/>
         <source>Audio codec</source>
         <translation>Codec audio</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1760"/>
-        <location filename="fake/fake.cpp" line="1787"/>
+        <location filename="fake/fake.cpp" line="1838"/>
+        <location filename="fake/fake.cpp" line="1865"/>
         <source>Select the audio codec to be used to render the video from the displayed list.</source>
         <translation>Sélectionne le codec audio à utiliser parmi la liste proposée.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1762"/>
-        <location filename="fake/fake.cpp" line="1789"/>
+        <location filename="fake/fake.cpp" line="1840"/>
+        <location filename="fake/fake.cpp" line="1867"/>
         <source>Select the audio compression ratio from the displayed list</source>
         <translation>Sélectionne le taux de compression audio à utiliser parmi la liste proposée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1763"/>
-        <location filename="fake/fake.cpp" line="1790"/>
+        <location filename="fake/fake.cpp" line="1841"/>
+        <location filename="fake/fake.cpp" line="1868"/>
         <source>Frequency</source>
         <translation>Fréquence</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1764"/>
-        <location filename="fake/fake.cpp" line="1791"/>
+        <location filename="fake/fake.cpp" line="1842"/>
+        <location filename="fake/fake.cpp" line="1869"/>
         <source>Select the frequency to use for audio during the rendering.</source>
         <oldsource>SSelect the frequency to use for audio during the rendering.</oldsource>
         <translation>Sélectionner la fréquence audio à utiliser pour la génération.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1775"/>
+        <location filename="fake/fake.cpp" line="1853"/>
         <source>In export soundtrack mode</source>
         <translation>En mode Exporter la piste son</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1777"/>
+        <location filename="fake/fake.cpp" line="1855"/>
         <source>Select the type of file to be used to render the soundtrack from the displayed list.</source>
         <translation>Sélectionne le type de fichier à utiliser pour la génération de la piste son, parmi la liste proposée.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1796"/>
+        <location filename="fake/fake.cpp" line="1874"/>
         <source>Render the movie</source>
         <translation>Génération de la vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1797"/>
+        <location filename="fake/fake.cpp" line="1875"/>
         <source> Once you have selected the device or set the advanced parameters, one click on the OK button starts the process of rendering the video. </source>
         <translation>Une fois l’équipement sélectionné ou les paramètres avancés sélectionnés, un clique sur le bouton OK démarre le processus de génération de la vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1798"/>
+        <location filename="fake/fake.cpp" line="1876"/>
         <source>At any time during this process, one click on the &quot;Cancel&quot; button stops the process. </source>
         <translation>A tout moment durant le processus, un clique sur le bouton « Annuler » stop le processus.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1799"/>
+        <location filename="fake/fake.cpp" line="1877"/>
         <source>Remark :</source>
         <translation>A noter :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1800"/>
+        <location filename="fake/fake.cpp" line="1878"/>
         <source> Depending on the device model or the advanced parameters which you selected, the generation can take quite a long time. </source>
         <translation> Selon le modèle de l’équipement ou les paramètres avancés que vous avez sélectionnés, la génération peut prendre un temps assez long.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1801"/>
+        <location filename="fake/fake.cpp" line="1879"/>
         <source>Generally, for a Full-HD 1080p video: </source>
         <translation>En général, pour une vidéo en Full-HD 1080p :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1802"/>
+        <location filename="fake/fake.cpp" line="1880"/>
         <source>On a PC with 4 fast cores (Core i7 for example) : The process will take approximately 2 minutes for each minute of video to be rendered</source>
         <translation>Sur un PC équipé de 4 cœurs rapides (par exemple Core i7) : Le processus prendra environ 2 minutes pour chaque minute du film à générer</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1803"/>
+        <location filename="fake/fake.cpp" line="1881"/>
         <source>On a PC with 2 cores (Core 2 duo for example) : The process will take approximately 5 minutes for each minute of video to be rendered</source>
         <translation>Sur un PC équipé de 2 cœurs (par exemple Core 2 duo) : Le processus prendra environ 5 minutes pour chaque minute du film à générer</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1804"/>
+        <location filename="fake/fake.cpp" line="1882"/>
         <source> This amounts to 2 to 5 hours for a one-hour video. </source>
         <translation> Soit de 2 à 5 heures pour un film de 1 heure.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1805"/>
+        <location filename="fake/fake.cpp" line="1883"/>
         <source>This duration will be much shorter for a video in VGA resolution. That is why we recommend you to carry out all tests and focusing trials at low resolution, and to render your videos in Full-HD only for the last step. </source>
         <translation>Cette durée sera beaucoup moins longue pour une vidéo en résolution VGA. C’est pourquoi nous vous conseillons de faire vos tests et mises au points dans des résolutions faibles et de ne générer vos vidéos Full-HD qu’en dernière étape.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1806"/>
+        <location filename="fake/fake.cpp" line="1884"/>
         <source>At the dialog bottom</source>
         <translation>Au bas de la boite de dialogue</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1807"/>
+        <location filename="fake/fake.cpp" line="1885"/>
         <source> The properties button allows you to open the &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;. It allows you to adjust the properties before generating the video. </source>
         <oldsource> The properties button allows you to open project properties dialog. It allows you to adjust the properties before generating the video. </oldsource>
         <translation> Le bouton Propriétés vous permet d&apos;ouvrir la boite de dialogue  &lt;a href=&quot;0108.html&quot;&gt;Propriétés du projet&lt;/a&gt;. Il vous permet d&apos;ajuster les propriétés du projet avant de générer la vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1810"/>
+        <location filename="fake/fake.cpp" line="1888"/>
         <source>. </source>
         <translation>. </translation>
     </message>
@@ -8258,84 +8641,84 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>0116</name>
     <message>
-        <location filename="fake/fake.cpp" line="1811"/>
-        <location filename="fake/fake.cpp" line="1812"/>
+        <location filename="fake/fake.cpp" line="1889"/>
+        <location filename="fake/fake.cpp" line="1890"/>
         <source>Ruler properties</source>
         <translation>Propriétés des guides</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1813"/>
+        <location filename="fake/fake.cpp" line="1891"/>
         <source>This dialog allows you to enable or disable rulers.</source>
         <oldsource>This dialog allows you to enable or disable rulers. </oldsource>
         <translation>Cette boite de dialogue vous permet d&apos;activer ou de désactiver les guides.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1814"/>
+        <location filename="fake/fake.cpp" line="1892"/>
         <source>Edge of the screen</source>
         <translation>Bord de l’écran</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1815"/>
+        <location filename="fake/fake.cpp" line="1893"/>
         <source>Corresponds to the edge of the screen.</source>
         <translation>Correspond au bord de l’écran.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1816"/>
+        <location filename="fake/fake.cpp" line="1894"/>
         <source>TV margins</source>
         <translation>Marges TV</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1817"/>
+        <location filename="fake/fake.cpp" line="1895"/>
         <source>In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are defined on 90% in width and 90% in height, for all the project geometries.</source>
         <translation>Dans ffDiaporama, les marges TV sont de type « Title safe area » et sont définies sur 90% en largeur et 90% en hauteur, pour toutes les géométries de projet.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1818"/>
+        <location filename="fake/fake.cpp" line="1896"/>
         <source>Centre of the screen</source>
         <translation>Centre de l’écran</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1819"/>
+        <location filename="fake/fake.cpp" line="1897"/>
         <source>Corresponds to the center of the screen.</source>
         <translation>Correspond au centre de l’écran.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1820"/>
+        <location filename="fake/fake.cpp" line="1898"/>
         <source>Unselected blocks</source>
         <translation>Objets non sélectionnés</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1821"/>
+        <location filename="fake/fake.cpp" line="1899"/>
         <source>For all the objects which are not a part of the selection, create rulers for the top, bottom, left and right edges of blocks as well as for the centers of blocks.</source>
         <translation>Pour tous les objets qui ne font pas partie de la sélection, crée des guides pour les bords haut, bas, gauche et droite ainsi que pour les centres des blocs.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1822"/>
+        <location filename="fake/fake.cpp" line="1900"/>
         <source>Remarks:</source>
         <translation>A noter :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1823"/>
+        <location filename="fake/fake.cpp" line="1901"/>
         <source>Rulers can be activated or deactivated one by one.</source>
         <translation>Les guides peuvent être activés ou désactivés unitairement.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1824"/>
+        <location filename="fake/fake.cpp" line="1902"/>
         <source>When a ruler is activated, the mouse is attracted towards this ruler. This is valid as well for the movements of blocks as for the resizing (movements of the handles).</source>
         <translation>Lorsqu’un guide est activé, la souris est attirée vers ce guide. Ceci est valable aussi bien pour les déplacements de blocs que pour les déplacements des poignées de redimensionnement.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1825"/>
+        <location filename="fake/fake.cpp" line="1903"/>
         <source>TV margins rullers are not available for thumbnails editing.</source>
         <translation>Les guides de type « Marges TV » ne sont pas disponible lors de l&apos;édition des vignettes.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1826"/>
+        <location filename="fake/fake.cpp" line="1904"/>
         <source>See also</source>
         <translation>Voir aussi</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1827"/>
+        <location filename="fake/fake.cpp" line="1905"/>
         <source>Description of TV margins and overscan</source>
         <translation>Explications sur les marges TV et « l’overscan »</translation>
     </message>
@@ -8343,47 +8726,671 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>0117</name>
     <message>
-        <location filename="fake/fake.cpp" line="1828"/>
-        <location filename="fake/fake.cpp" line="1829"/>
+        <location filename="fake/fake.cpp" line="1906"/>
+        <location filename="fake/fake.cpp" line="1907"/>
         <source>Edit thumbnail model</source>
         <translation>Modifier un modèle de vignette</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1908"/>
+        <source>This dialog allows you to edit custom thumbnails and custom thumbnails models.</source>
+        <translation>Cette boîte de dialogue vous permet de modifier les vignettes personnalisées et des modèles de vignettes personnalisées.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1909"/>
+        <source>It&apos;s a simplified version of the &lt;a href=&quot;0119.html&quot;&gt;Slides properties dialog&lt;/a&gt; and as it, it includes numerous zones:</source>
+        <translation>C&apos;est une version simplifiée de la boite de dialogue &lt;a href=&quot;0119.html&quot;&gt;Editer les propriétés de la diapositive&lt;/a&gt; et comme elle, elle inclus de nombreuses zones: </translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1910"/>
+        <source>On the top: The &lt;a href=&quot;#Toolbar&quot;&gt;Toolbar&lt;/a&gt; allows to launch the main thumbnail editing commands.</source>
+        <translation>En haut : La &lt;a href=&quot;#Toolbar&quot;&gt;Barre d&apos;outils&lt;/a&gt; permet de lancer les principales commandes d&apos;édition de vignettes.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1911"/>
+        <source>On the left: The &lt;a href=&quot;#InteractiveZone&quot;&gt;Interactive&lt;/a&gt; zone allows you to graphically modify the blocks.</source>
+        <oldsource>On the left: The &lt;a href=&quot;#InteractiveZone&quot;&gt;Interactive&lt;/a&gt; zones.</oldsource>
+        <translation>A gauche : La  &lt;a href=&quot;#InteractiveZone&quot;&gt;Zone Interactive&lt;/a&gt; vous permet de modifier graphiquement les blocs.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1912"/>
+        <source>On the right: The &lt;a href=&quot;#BlockTable&quot;&gt;Blocks table&lt;/a&gt; and the &lt;a href=&quot;#BlockSettings&quot;&gt;Block settings&lt;/a&gt; zones.</source>
+        <translation>A droite : La &lt;a href=&quot;#BlockTable&quot;&gt;table des blocs&lt;/a&gt; et la &lt;a href=&quot;#BlockSettings&quot;&gt;zone de réglage des blocs&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1913"/>
+        <source>Toolbar</source>
+        <translation>La barre d’outils</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1914"/>
+        <source> The toolbar allows to launch the main thumbnail editing commands. </source>
+        <translation> La barre d&apos;outils permet de lancer les principales commandes d&apos;édition de vignettes.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1915"/>
+        <source>Add a new title block - Open a sub menu with the following options: </source>
+        <translation>Ajouter un nouveau bloc texte - Ouvre un sous-menu avec les options suivantes:</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1916"/>
+        <source>Add a simple title block</source>
+        <translation>Ajouter un texte simple</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1917"/>
+        <source>Add a title clip-art block</source>
+        <translation>Ajouter un texte dans un clip-art</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1918"/>
+        <source>Once you have selected one of the options, the &lt;a href=&quot;0120.html&quot;&gt;Edit Text dialog&lt;/a&gt; opens.</source>
+        <translation>Dès que vous avez sélectionné l&apos;une des options, La boite de dialogue &lt;a href=&quot;0120.html&quot;&gt;Editer un texte&lt;/a&gt; s&apos;ouvre.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1919"/>
+        <source>Add one or several new blocks of images or video. A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears allowing you to select files. </source>
+        <translation>Ajouter un ou plusieurs nouveaux blocs d&apos;images ou de vidéo. Une boite de dialogue de &lt;a href=&quot;0109.html&quot;&gt;Sélection de fichiers&lt;/a&gt; apparaît, vous permettant de sélectionner les fichiers.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1920"/>
+        <source>Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;).</source>
+        <translation>Note: En cas de sélection multiple, les fichiers sont ajoutés dans l&apos;ordre alphabétique des noms de fichiers ou dans l&apos;ordre numérique de photos (selon l&apos;option choisie dans la boite de dialogue &lt;a href=&quot;0101.html&quot;&gt;Options de l&apos;application&lt;/a&gt;).</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1921"/>
+        <source>Edit blocks - Open a sub menu with the following options: </source>
+        <translation>Editer les blocs - Ouvre un sous-menu avec les options suivantes :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1922"/>
+        <source>Copy the current block to the ffDiaporama clipboard and remove it from the thumbnail.</source>
+        <translation>Copier le bloc actif dans le presse papier et le supprime de la vignette.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1923"/>
+        <source>Copy the current block to the ffDiaporama clipboard.</source>
+        <translation>Copier le bloc actif dans le presse papier.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1924"/>
+        <source>Paste block from the ffDiaporama clipboard and insert it to the end of the block table</source>
+        <translation>Coller le ou les blocs actuellement présent dans le presse papier en dernier dans la table des blocs</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1925"/>
+        <source>Remove the current block</source>
+        <translation>Supprime le bloc actif</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1926"/>
+        <source>Open the &lt;a href=&quot;0120.html&quot;&gt;Edit text block dialog&lt;/a&gt;.</source>
+        <translation>Ouvrir la boite &lt;a href=&quot;0120.html&quot;&gt;Éditer le texte du bloc&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1927"/>
+        <source>Open the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt;. This button is active only for objects containing images or videos.</source>
+        <translation>Ouvrir la boite de dialogue &lt;a href=&quot;0110.html&quot;&gt;Recadrer et/ou corriger une image ou une vidéo&lt;/a&gt;. Cette fonction n’est disponible que pour les blocs image ou vidéo.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1928"/>
+        <source>Arrange blocks - Open a sub menu with the following options: </source>
+        <translation>Arranger les blocs - Ouvre un sous-menu avec les options suivantes :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1929"/>
+        <source>Align to top</source>
+        <translation>Aligner en haut</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1930"/>
+        <source>Align to midle</source>
+        <translation>Aligner au milieu</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1931"/>
+        <source>Align to bottom</source>
+        <translation>Aligner en bas</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1932"/>
+        <source>Align to left</source>
+        <translation>Aligner à gauche</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1933"/>
+        <source>Align to center</source>
+        <translation>Aligner au centre</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1934"/>
+        <source>Align to right</source>
+        <translation>Aligner à droite</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1935"/>
+        <source>Distribute horizontally</source>
+        <translation>Distribuer horizontalement</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1936"/>
+        <source>Distribute vertically</source>
+        <translation>Distribuer verticalement</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1937"/>
+        <source>Change the order of blocks by moving the active block upward (towards the background)</source>
+        <translation>Changer l’ordre des blocs en déplaçant le bloc actif vers le haut (vers l’arrière plan)</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1938"/>
+        <source>Change the order of blocks by moving the active block downward (towards the foreground)</source>
+        <translation>Changer l’ordre des blocs en déplaçant le bloc actif vers le bas (vers le premier plan)</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1939"/>
+        <source>Display information on active block. (Remark: This function is available only for &quot;image&quot; or &quot;video&quot; blocks.)</source>
+        <translation>Afficher des informations sur le bloc actif. (Note : Cette fonction n’est disponible que pour les blocs « image » ou « vidéo ».)</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1940"/>
+        <source>Allows you to open the &lt;a href=&quot;0116.html&quot;&gt;Ruler properties dialog&lt;/a&gt;</source>
+        <translation>Permet d&apos;ouvrir la boite de dialogue &lt;a href=&quot;0116.html&quot;&gt;Propriétés des guides&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1941"/>
+        <source> It is also possible to open contextual menus by: </source>
+        <translation> Il est également possible d&apos;ouvrir des menus contextuels par:</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1942"/>
+        <source>Right clicking on zones.</source>
+        <translation>Un clic droit sur les ​​zones.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1943"/>
+        <source>Right click on blocks table or on interactive zone when no block was selected.</source>
+        <translation>Un clic droit sur ​​la table des blocs ou sur la zone interactive quand aucun bloc n&apos;est sélectionné.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1944"/>
+        <source>Right click on one of the blocks of a multiple selection, on blocks table or on interactive zone.</source>
+        <translation>Un clic droit sur ​​l&apos;un des blocs d&apos;une sélection multiple, sur la table des blocs ou sur la zone interactive.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1945"/>
+        <source>Each of these contextual menus propose commands which depend on what you have clicked.</source>
+        <translation>Chacun de ces menus contextuels proposent des commandes qui dépendent de votre sélection.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1946"/>
+        <source>Interactive zone</source>
+        <translation>La zone interactive</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1947"/>
+        <source> The interactive zone allows you to move and interactively re-size blocks. </source>
+        <translation> La zone interactive vous permet de déplacer et de redimensionner les blocs de manière interactive.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1948"/>
+        <source>Selected blocks are shown with a frame. (It allows to differentiate them from other graphic elements of the thumbnail).</source>
+        <translation>Les blocs sélectionnés sont affichés avec un cadre (cela permet de les différencier des autres éléments graphiques de la vignette).</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1949"/>
+        <source>Control handles (small square) are shown on sides and on corners of the selection frame.</source>
+        <translation>La sélection affiche en plus des poignées de contrôles (petit carré) apparaissant dans les coins et sur les cotés.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1950"/>
+        <source>Rulers are displayed to facilitate the work with the mouse. See &lt;a href=&quot;0116.html&quot;&gt;Rulers settings&lt;/a&gt;</source>
+        <translation>Des guides peuvent faciliter le travail à la souris. Voir &lt;a href=&quot;0116.html&quot;&gt;Réglage des guides&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1951"/>
+        <source>Using the mouse:</source>
+        <translation>A la souris :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1952"/>
+        <location filename="fake/fake.cpp" line="1988"/>
+        <source>To select a block: click the block</source>
+        <translation>Pour sélectionner un bloc : Cliquer dessus</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1953"/>
+        <location filename="fake/fake.cpp" line="1989"/>
+        <source>To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.</source>
+        <translation>Pour sélectionner plusieurs blocs : Sélectionner un premier bloc en cliquant dessus puis cliquer sur les autres blocs à sélectionner en maintenant soit la touche SHIFT, soit la touche CTRL enfoncé.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1954"/>
+        <source>To select a block under another block : Click the block to be selected by pushing both SHIFT and CTRL keys.</source>
+        <translation>Pour sélectionner un bloc sous un autre bloc : Cliquer sur le bloc à sélectionner en maintenant enfoncé les deux touches SHIFT et CTRL.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1955"/>
+        <location filename="fake/fake.cpp" line="1990"/>
+        <source>To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.</source>
+        <translation>Pour déselectionner un bloc dans une sélection multiple : Cliquer dessus en maintenant soit la touche SHIFT, soit la touche CTRL enfoncé.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1956"/>
+        <source>To modify the size of the blocks of the selection: Click one of the handles of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
+        <translation>Pour modifier la taille des blocs de la sélection : Cliquer sur l’une des poignées de la sélection et, tout en maintenant le bouton de la souris enfoncé, déplacer la souris.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1957"/>
+        <source>To move the blocks of the selection: Click one of the blocks of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
+        <translation>Pour déplacer les blocs de la sélection : Cliquer sur un des blocs de la sélection et, tout en maintenant le bouton de la souris enfoncé, déplacer la souris.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1958"/>
+        <source>Using the keyboard:</source>
+        <translation>Au clavier :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1959"/>
+        <source>To move the blocks of the selection, use the arrow keys.</source>
+        <translation>Utiliser les flèches de direction pour déplacer les blocs de la sélection.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1960"/>
+        <source>To change the size of the blocks of the selection, use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle.</source>
+        <translation>Utiliser SHIFT+les flèches de direction pour déplacer la poignée du coin supérieur gauche, ce qui permet de changer la taille des blocs.
+Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin inférieur droit, ce qui permet de changer la taille des blocs.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1961"/>
+        <location filename="fake/fake.cpp" line="1984"/>
+        <source>Remarks:</source>
+        <translation>A noter :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1962"/>
+        <source>A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
+        <translation>Un double clic sur un bloc permet d’ouvrir l’éditeur de bloc associé au type de bloc (Pour un bloc texte : ouvre l’editeur de texte. Pour un bloc image : ouvre la boite de recadrage, etc…)</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1963"/>
+        <source>A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
+        <translation>Un clic droit sur un bloc quand la sélection n’inclus qu’un seul bloc : permet d’appeler le menu contextuel proposant les commandes d’édition de bloc.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1964"/>
+        <source>A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
+        <translation>Un clic droit sur un bloc quand la sélection inclus plusieurs blocs : permet d’appeler le menu contextuel proposant les commandes d’édition multi-bloc.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1965"/>
+        <source>Blocks table</source>
+        <translation>La table des blocs</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1966"/>
+        <source>The blocks table lists, from top to bottom, the present blocks in the thumbnail.</source>
+        <translation>La table des blocs liste, de haut en bas, les blocs présents dans la vignette.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1967"/>
+        <source>The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.</source>
+        <translation>L’ordre des blocs est important ! Le premier bloc (en haut de la liste) est recouvert par le 2eme bloc qui lui même est recouvert par le bloc suivant et ainsi de suite.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1968"/>
+        <source>Blocks are shown on 3 columns:</source>
+        <translation>Les blocs sont affichés sur 3 colonnes :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1969"/>
+        <source>The first column contains or: </source>
+        <translation>La première colonne contient soit : </translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1970"/>
+        <source> If the block is a title.</source>
+        <translation> si le bloc est de type titre.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1971"/>
+        <source>A thumbnail if the block is an image or a video.</source>
+        <translation>Une vignette de l’image ou de la vidéo, si le bloc est de type image ou vidéo.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1972"/>
+        <source> If the image or the video have a transformation filter.</source>
+        <translation> si l’image ou la vidéo a un filtre de transformation actif.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1973"/>
+        <source>The second column contains icons giving the state of the blocks</source>
+        <translation>La seconde colonne contient des icônes donnant l’état du bloc</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1974"/>
+        <source>The third column indicates: </source>
+        <translation>La troisième colonne indique : </translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1975"/>
+        <source>If the block is a title: the text of the block</source>
+        <translation>S’il s’agit d’un bloc de type titre : le texte du bloc</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1976"/>
+        <source>If the block is an image: </source>
+        <translation>S’il s’agit d’un bloc de type image : </translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1977"/>
+        <location filename="fake/fake.cpp" line="1981"/>
+        <source>The filename.</source>
+        <translation>Le nom du fichier.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1978"/>
+        <location filename="fake/fake.cpp" line="1982"/>
+        <source>The width x the height of the image in pixel (the format of the image - the geometry of the image).</source>
+        <translation>La largeur x la hauteur de l’image en pixel (le format de l’image – la géométrie de l’image).</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1979"/>
+        <source>A summary of EXIF information on the image.</source>
+        <translation>Un résumé des informations EXIF sur l’image.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1980"/>
+        <source>If the block is a video: </source>
+        <translation>S’il s’agit d’un bloc de type vidéo : </translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1983"/>
+        <source>The duration of the video.</source>
+        <translation>La durée de la vidéo.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1985"/>
+        <source>Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
+        <translation>Un double clic sur un bloc permet d’ouvrir l’éditeur de bloc associé au type de bloc (Pour un bloc texte : ouvre l’editeur de texte. Pour un bloc image : ouvre la boite de recadrage, etc.)</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1986"/>
+        <source>Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
+        <translation>Un clic droit sur un bloc quand la sélection n’inclus qu’un seul bloc : permet d’appeler le menu contextuel proposant les commandes d’édition d’un bloc.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1987"/>
+        <source>Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
+        <translation>Un clic droit sur un bloc quand la sélection inclus plusieurs blocs : permet d’appeler le menu contextuel proposant les commandes d’édition multi-bloc.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1991"/>
+        <source>Blocks with locked properties are shown on a grey bottom.</source>
+        <translation>Les blocs dont les propriétés sont verrouillés sont affichés sur un fond gris.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1992"/>
+        <source>Selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.</source>
+        <translation>Les blocs sélectionnés sont affichés sur un fond rouge si le focus est sur la table des blocs et sur un fond bleu si le focus est sur un autre élément.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1993"/>
+        <source>To change the blocks order, use Drag &amp; Drop or &lt;B&gt;Up&lt;/B&gt; and &lt;B&gt;Down&lt;/B&gt; functions of the contextual menu.</source>
+        <translation>Pour changer l’ordre des blocs, utiliser soit le Drag &amp; Drop soit les fonctions B&gt;Haut&lt;/B&gt; et B&gt;Bas&lt;/B&gt; du menu contextuel.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1994"/>
+        <source>It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.</source>
+        <translation>Il est possible d’ajouter des fichiers directement dans la table des blocs par Drag &amp; Drop avec l’explorateur de fichier.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1995"/>
+        <source>All blocks, whether title, image or video, possess a text element.</source>
+        <translation>Tous les blocs, qu’ils soient de type titre, image ou vidéo possèdent un texte.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1996"/>
+        <source>During the insertion of a new block (Add title, Add file or Paste), the block is inserted: </source>
+        <translation>Lors de l’insertion d’un nouveau bloc (Ajouter titre, Ajouter fichier ou Coller), le bloc est inséré : </translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1997"/>
+        <source>Always in the last position in the list of blocks (in the foreground)</source>
+        <translation>toujours en dernière position dans la liste des blocs (au premier plan)</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1998"/>
+        <source>Block settings zone</source>
+        <translation>La zone de réglage des blocs</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="1999"/>
+        <source>Coordinates</source>
+        <translation>Coordonnées</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2000"/>
+        <source>&lt;B&gt;For image or video blocks: &lt;/B&gt;Allows you to select a reframing style for the image. It has the same effect as selecting a style in the dialog: &lt;a href=&quot;0110.html&quot;&gt;Correct, reframe or cut image or video&lt;/a&gt;.</source>
+        <translation>&lt;B&gt;Pour les blocs image ou vidéo :&lt;/B&gt; Permet de sélectionner un style de recadrage pour l’image Cela a le même effet que de sélectionner un style dans la boite de dialogue &lt;a href=&quot;0110.html&quot;&gt;Recadrer et/ou corriger une image ou une vidéo&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2001"/>
+        <source>&lt;B&gt;For text blocks: &lt;/B&gt;Allows you to select the geometrical constraints to be applied to the block. Three type of constraint are available:</source>
+        <translation>&lt;B&gt;Pour les blocs textes :&lt;/B&gt; Permet de sélectionner la contrainte géométrique à appliquer au bloc. Trois types de contrainte sont disponibles :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2002"/>
+        <source>No constraint is applied to the selection rectangle.</source>
+        <translation>Pas de contrainte : Aucune contrainte ne s’applique au rectangle de sélection. Il est définit librement.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2003"/>
+        <source>Lock selection rectangle to the actual geometry. It has no meaning until you have defined a shape in &quot;no constraint&quot; mode.</source>
+        <translation>Verrouiller sur cette géométrie : Permet de verrouiller le rectangle de sélection sur la forme qu’il a actuellement. Cela n’a de sens qu’après avoir définit une forme avec le mode « Pas de contrainte ».</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2004"/>
+        <source>Lock selection rectangle to the same geometry as the project, such that, if you place the image in full screen, the reframed part will correspond to the whole screen.</source>
+        <translation>Verrouiller sur la géométrie du projet : Fait en sorte à ce que le rectangle de sélection ait la même géométrie que le projet, comme cela, si vous placez l’image en plein écran la partie recadrée correspondra à tout l’écran.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2005"/>
+        <source>Allows you to select a pre-defined block size</source>
+        <translation>Permet de sélectionner une taille de bloc pré-définie</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2006"/>
+        <source>Represents the horizontal offset of the block from the left. This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation>Représente la position horizontal du bloc à partir de la gauche. Cette position est exprimée soit en pourcentage (%) de la largeur total de l’image, soit en pixel (pour un écran 1080p) en fonction de l’unité définie dans la boite de configuration.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2007"/>
+        <source>Represents the vertical offset of the block from the top. This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation>Représente la position vertical du bloc  à partir du haut de l’image. Cette position est exprimée soit en pourcentage (%) de la hauteur total de l’image, soit en pixel (pour un écran 1080p) en fonction de l’unité définie dans la boite de configuration.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2008"/>
+        <source>Represents the width of the block. This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
+        <translation>Représente la largeur du bloc. Cette position est exprimée soit en pourcentage (%) de la largeur total de l’image, soit en pixel (pour un écran 1080p) en fonction de l’unité définie dans la boite de configuration.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2009"/>
+        <source>Represents the height of the block. This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
+        <translation>Représente la hauteur du bloc. Cette position est exprimée soit en pourcentage (%) de la hauteur total de l’image, soit en pixel (pour un écran 1080p) en fonction de l’unité définie dans la boite de configuration.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2010"/>
+        <source>Rotation around the Z axis in degrees.</source>
+        <translation>Rotation selon l’axe des Z exprimée en degré.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2011"/>
+        <source>Rotation around the Y axis in degrees.</source>
+        <translation>Rotation selon l’axe des Y exprimée en degré.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2012"/>
+        <source>Rotation around the X axis in degrees.</source>
+        <translation>Rotation selon l’axe des X exprimée en degré.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2013"/>
+        <source>Block shape</source>
+        <translation>Forme du bloc</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2014"/>
+        <source>This settings group deals with style management. For more information on style management, see : &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
+        <translation>Ce groupe de paramètres concerne la gestion des styles. Pour plus d&apos;informations sur la gestion des styles, voir: &lt;a href=&quot;0016.html&quot;&gt;Gestion des styles&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2015"/>
+        <source>Shape</source>
+        <translation>Forme</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2016"/>
+        <source>Allows you to select a shape for the block. The selected shape will be used as:</source>
+        <translation>Permet de sélectionner une forme pour le bloc. La forme sélectionnée sera utilisée comme :</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2017"/>
+        <source>a fusion mask for the images and the videos.</source>
+        <translation>masque de fusion pour les images et les vidéos.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2018"/>
+        <source>A cutting zone for texts</source>
+        <translation> zone de coupure pour les textes</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2019"/>
+        <location filename="fake/fake.cpp" line="2020"/>
+        <source>Opacity</source>
+        <translation>Opacité</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2021"/>
+        <source>Defines the opacity of the block. This value also applies to the text of the block.</source>
+        <translation>Définit l’opacité du bloc. Cette valeur s’applique également au texte du bloc.</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2022"/>
+        <source>Border</source>
+        <translation>Bordure</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2023"/>
+        <source>Thickness of the border</source>
+        <translation>Épaisseur</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2024"/>
+        <source>Defines the thickness of the border (This value is defined as 1/1080 of the height of the screen. A value of 10 corresponds to 10 points on a 1920x1080 FullHD screen, but only to 6 points on a 1280x720 screen).</source>
+        <translation>Définit l’épaisseur de la bordure (Cette valeur est exprimée en 1/1080eme de la hauteur de l’écran, c’est à dire qu’une valeur de 10 correspond à 10 points sur un écran FullHD 1920×1080, mais seulement à 6 points sur un écran 1280x720).</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2025"/>
+        <source>Border color</source>
+        <translation>Couleur</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2026"/>
+        <source>Defines the color of the line to be used to draw the border</source>
+        <translation>Définit la couleur du trait à utiliser pour dessiner la bordure</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2027"/>
+        <source>Line type of border</source>
+        <translation>Type de trait</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2028"/>
+        <source>Defines the type of line (solid, dotted line, etc.)</source>
+        <translation>Définit le type de trait (plein, pointillé, etc.)</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2029"/>
+        <source>Shadow</source>
+        <translation>Ombre</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2030"/>
+        <source>Shadow position</source>
+        <translation>Position</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2031"/>
+        <source>Defines in which corner the shadow will be positioned (Note: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied).</source>
+        <translation>Définit dans quel coin l’ombre sera positionnée (Note : La position de l’ombre est indépendante des rotations du bloc : Le coin inférieur droit est toujours le coin inférieur droit quelque soit les rotations appliquées au bloc).</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2032"/>
+        <source>Distance of the shadow</source>
+        <translation>Distance</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2033"/>
+        <source>Defines the distance between the block and its shadow</source>
+        <translation>Définit la distance entre le bloc ets on ombre</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2034"/>
+        <source>Color</source>
+        <translation>Couleur</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2035"/>
+        <source>Sets the color used to draw the shadow</source>
+        <translation>Définit la couleur à utiliser pour dessiner l’ombre</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2036"/>
+        <source>See also</source>
+        <translation>Voir aussi</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2037"/>
+        <source>Description of EXIF - Exchangeable image file format</source>
+        <translation>Explications sur l’EXIF-Exchangeable image file format</translation>
     </message>
 </context>
 <context>
     <name>0118</name>
     <message>
-        <location filename="fake/fake.cpp" line="1830"/>
-        <location filename="fake/fake.cpp" line="1831"/>
+        <location filename="fake/fake.cpp" line="2038"/>
+        <location filename="fake/fake.cpp" line="2039"/>
         <source>Set first shot duration for a set of slides</source>
         <translation>Définir la durée du 1er plan pour un groupe de diapositive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1832"/>
+        <location filename="fake/fake.cpp" line="2040"/>
         <source> This dialog allows you to define the duration of the fist shot of a set of slides: </source>
         <translation> Cette boîte de dialogue vous permet de définir la durée du premier plan d&apos;un groupe de diapositives :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1833"/>
+        <location filename="fake/fake.cpp" line="2041"/>
         <source>First shot duration</source>
         <translation>Durée du premier plan</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1834"/>
+        <location filename="fake/fake.cpp" line="2042"/>
         <source>Define the duration of the first shot.</source>
         <translation>Définie la durée du premier plan.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1835"/>
+        <location filename="fake/fake.cpp" line="2043"/>
         <source>When you click the OK button, the new duration is applied to all the slides that were selected. </source>
         <translation>Quand vous cliquez sur le bouton OK, la nouvelle durée est appliquée à toutes les diapositives qui ont été sélectionnées.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1836"/>
+        <location filename="fake/fake.cpp" line="2044"/>
         <source>This new duration affects only the first shot of each slide</source>
         <translation>Cette nouvelle durée ne concerne que le premier plan de chaque diapositive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1837"/>
+        <location filename="fake/fake.cpp" line="2045"/>
         <source>This new duration is applied only to standard slides. The predefined title slides are not impacted.</source>
         <translation>Cette nouvelle durée ne s&apos;applique qu&apos;aux diapositives standards. Les diapositives de type Titre prédéfinis ne sont pas affectées.</translation>
     </message>
@@ -8391,1011 +9398,1009 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>0119</name>
     <message>
-        <location filename="fake/fake.cpp" line="1838"/>
-        <location filename="fake/fake.cpp" line="1839"/>
+        <location filename="fake/fake.cpp" line="2046"/>
+        <location filename="fake/fake.cpp" line="2047"/>
         <source>Slide properties</source>
         <translation>Propriétés de la diapositive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1840"/>
+        <location filename="fake/fake.cpp" line="2048"/>
         <source>This dialog allows you to define settings for the slides. It includes numerous zones:</source>
         <oldsource>This dialog allows you to define settings for the slides.</oldsource>
         <translation>La boite « Propriétés de la diapositive » permet de définir les réglages des diapositives. Elle inclus de nombreuses zones :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2017"/>
+        <location filename="fake/fake.cpp" line="2225"/>
         <source>Remarks: </source>
         <translation>A noter :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1844"/>
+        <location filename="fake/fake.cpp" line="2052"/>
         <source>Toolbar</source>
         <translation>La barre d’outils</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1841"/>
+        <location filename="fake/fake.cpp" line="2049"/>
         <source>On the top: The &lt;a href=&quot;#Toolbar&quot;&gt;Toolbar&lt;/a&gt; allows to launch the main slide editing commands, and the &lt;a href=&quot;#ShotSettings&quot;&gt;Shot settings&lt;/a&gt; zone.</source>
         <translation>En haut : La &lt;a href=&quot;#Toolbar&quot;&gt;barre d&apos;outils&lt;/a&gt; qui permet d’accéder aux principales commandes d’édition de la diapositive, et la &lt;a href=&quot;#ShotSettings&quot;&gt;zone de réglage des plans&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1842"/>
+        <location filename="fake/fake.cpp" line="2050"/>
         <source>On the left: The &lt;a href=&quot;#SlideSettings&quot;&gt;Slide settings zone&lt;/a&gt;, the &lt;a href=&quot;#ShotsTable&quot;&gt;Shots table&lt;/a&gt; and the &lt;a href=&quot;#InteractiveZone&quot;&gt;Interactive&lt;/a&gt; zones.</source>
         <translation>A gauche : La &lt;a href=&quot;#SlideSettings&quot;&gt;zone de réglage de la diapositive&lt;/a&gt;, la &lt;a href=&quot;#ShotsTable&quot;&gt;table des plans&lt;/a&gt; et la &lt;a href=&quot;#InteractiveZone&quot;&gt;zone interactive&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1843"/>
+        <location filename="fake/fake.cpp" line="2051"/>
         <source>On the right: The &lt;a href=&quot;#BlockTable&quot;&gt;Blocks table&lt;/a&gt; and the &lt;a href=&quot;#BlockSettings&quot;&gt;Block settings&lt;/a&gt; zones.</source>
         <translation>A droite : La &lt;a href=&quot;#BlockTable&quot;&gt;table des blocs&lt;/a&gt; et la &lt;a href=&quot;#BlockSettings&quot;&gt;zone de réglage des blocs&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1846"/>
+        <location filename="fake/fake.cpp" line="2054"/>
         <source>Open the &lt;a href=&quot;0105.html&quot;&gt;Chapter properties dialog&lt;/a&gt;</source>
         <translation>Ouvre la boite de dialogue &lt;a href=&quot;0105.html&quot;&gt;Propriétés du chapitrage&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1849"/>
+        <location filename="fake/fake.cpp" line="2057"/>
         <source>Add a new title block - Open a sub menu with the following options: </source>
         <translation>Ajouter un nouveau bloc texte - Ouvre un sous-menu avec les options suivantes:</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1850"/>
+        <location filename="fake/fake.cpp" line="2058"/>
         <source>Add a simple title block</source>
         <translation>Ajouter un texte simple</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1851"/>
+        <location filename="fake/fake.cpp" line="2059"/>
         <source>Add a title clip-art block</source>
         <translation>Ajouter un texte dans un clip-art</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1852"/>
+        <location filename="fake/fake.cpp" line="2060"/>
         <source>Once you have selected one of the options, the &lt;a href=&quot;0120.html&quot;&gt;Edit Text dialog&lt;/a&gt; opens.</source>
         <translation>Dès que vous avez sélectionné l&apos;une des options, La boite de dialogue &lt;a href=&quot;0120.html&quot;&gt;Editer un texte&lt;/a&gt; s&apos;ouvre.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1853"/>
+        <location filename="fake/fake.cpp" line="2061"/>
         <source>Add one or several new blocks of images or video. A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears allowing you to select files. </source>
         <translation>Ajouter un ou plusieurs nouveaux blocs d&apos;images ou de vidéo. Une boite de dialogue de &lt;a href=&quot;0109.html&quot;&gt;Sélection de fichiers&lt;/a&gt; apparaît, vous permettant de sélectionner les fichiers.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1854"/>
+        <location filename="fake/fake.cpp" line="2062"/>
         <source>Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;).</source>
         <translation>Note: En cas de sélection multiple, les fichiers sont ajoutés dans l&apos;ordre alphabétique des noms de fichiers ou dans l&apos;ordre numérique de photos (selon l&apos;option choisie dans la boite de dialogue &lt;a href=&quot;0101.html&quot;&gt;Options de l&apos;application&lt;/a&gt;).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1855"/>
+        <location filename="fake/fake.cpp" line="2063"/>
         <source>Edit blocks - Open a sub menu with the following options: </source>
         <translation>Editer les blocs - Ouvre un sous-menu avec les options suivantes :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1869"/>
+        <location filename="fake/fake.cpp" line="2075"/>
         <source>Arrange blocks - Open a sub menu with the following options: </source>
         <translation>Arranger les blocs - Ouvre un sous-menu avec les options suivantes :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1879"/>
+        <location filename="fake/fake.cpp" line="2087"/>
         <source>Save as model - Allows you to save current slide as a new Predefined custom title. </source>
         <translation>Enregistrer en tant que modèle - Permet de sauvegarder la diapositive en cours comme un nouveau modèle de titre prédéfini.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1880"/>
+        <location filename="fake/fake.cpp" line="2088"/>
         <source>For more information on predefined title slide, see: &lt;a href=&quot;0012.html&quot;&gt;Predefined title slide&lt;/a&gt;</source>
         <translation>Pour plus d&apos;informations sur les modèles de titre prédéfinis, voir : &lt;a href=&quot;0012.html&quot;&gt;Diapositives titre prédéfinies&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1881"/>
+        <location filename="fake/fake.cpp" line="2089"/>
         <source> At the bottom of the box, the &quot;Rullers&quot; button allows you to open the &lt;a href=&quot;0116.html&quot;&gt;Ruler properties dialog&lt;/a&gt; </source>
         <translation>Au bas de la boîte, le bouton &quot;Guides&quot; vous permet d&apos;ouvrir la boite de dialogue &lt;a href=&quot;0116.html&quot;&gt;Propriétés des guides&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1882"/>
+        <location filename="fake/fake.cpp" line="2090"/>
         <source> It is also possible to open contextual menus by: </source>
         <translation> Il est également possible d&apos;ouvrir des menus contextuels par:</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1883"/>
+        <location filename="fake/fake.cpp" line="2091"/>
         <source>Right clicking on zones.</source>
         <translation>Un clic droit sur les ​​zones.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1884"/>
+        <location filename="fake/fake.cpp" line="2092"/>
         <source>Right click on shots table.</source>
         <translation>Un clic droit sur ​​la table des plans.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1885"/>
+        <location filename="fake/fake.cpp" line="2093"/>
         <source>Right click on blocks table or on interactive zone when no block was selected.</source>
         <translation>Un clic droit sur ​​la table des blocs ou sur la zone interactive quand aucun bloc n&apos;est sélectionné.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1887"/>
+        <location filename="fake/fake.cpp" line="2095"/>
         <source>Each of these contextual menus propose commands which depend on what you have clicked.</source>
         <translation>Chacun de ces menus contextuels proposent des commandes qui dépendent de votre sélection.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1888"/>
+        <location filename="fake/fake.cpp" line="2096"/>
         <source>Slide settings zone</source>
         <translation>La zone de réglage de la diapositive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1893"/>
+        <location filename="fake/fake.cpp" line="2101"/>
         <source>Shots table</source>
         <translation>La table des plans</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1927"/>
+        <location filename="fake/fake.cpp" line="2135"/>
         <source>Blocks table</source>
         <translation>La table des blocs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1901"/>
+        <location filename="fake/fake.cpp" line="2109"/>
         <source>Shot settings zone</source>
         <translation>La zone de réglage des plans</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1908"/>
+        <location filename="fake/fake.cpp" line="2116"/>
         <source>Interactive zone</source>
         <translation>La zone interactive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1968"/>
+        <location filename="fake/fake.cpp" line="2176"/>
         <source>Block settings zone</source>
         <translation>La zone de réglage des blocs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1845"/>
+        <location filename="fake/fake.cpp" line="2053"/>
         <source> The toolbar allows to launch the main slide editing commands. </source>
         <translation> La barre d’outils permet d’accéder aux principales commandes d’édition de la diapositive.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1847"/>
+        <location filename="fake/fake.cpp" line="2055"/>
         <source>Append a shot to the end of the shot table</source>
         <translation>Ajouter un nouveau plan à la fin de la table des plans</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1848"/>
+        <location filename="fake/fake.cpp" line="2056"/>
         <source>Remove current selected shot</source>
         <translation>Supprimer le plan actuellement sélectionné, de la barre de temps</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1856"/>
+        <location filename="fake/fake.cpp" line="2064"/>
         <source>Change the order of the shots by moving the current selected shot a step to the left</source>
         <translation>Changer l’ordre des plans en déplaçant le plan actuellement sélectionné, d’un cran vers la gauche</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1857"/>
+        <location filename="fake/fake.cpp" line="2065"/>
         <source>Change the order of the shots by moving the current selected shot a step to the right</source>
         <translation>Changer l’ordre des plans en déplaçant le plan actuellement sélectionné, d’un cran vers la droite</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1858"/>
+        <location filename="fake/fake.cpp" line="2066"/>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide. The copy is made with the block parameters defined for the current selected shot.</source>
-        <translation>Copier le bloc actif dans le presse papier et le supprimer de la diapositive.  La copie s’effectue avec les paramètres de bloc tel qu’ils sont définis pour le plan actuellement sélectionné.</translation>
+        <translation>Copier le bloc actif dans le presse papier et le supprime de la diapositive. La copie s’effectue avec les paramètres de bloc tel qu’ils sont définis pour le plan actuellement sélectionné.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1859"/>
+        <location filename="fake/fake.cpp" line="2067"/>
         <source>Copy the current block to the ffDiaporama clipboard. The copy is made with the block parameters defined for the current selected shot.</source>
         <translation>Copier le bloc actif dans le presse papier. La copie s’effectue avec les paramètres de bloc tel qu’ils sont définis pour le plan actuellement sélectionné.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1860"/>
+        <location filename="fake/fake.cpp" line="2068"/>
         <source>Paste block from the ffDiaporama clipboard and insert it to the end of the block table</source>
         <translation>Coller le ou les blocs actuellement présent dans le presse papier en dernier dans la table des blocs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1861"/>
+        <location filename="fake/fake.cpp" line="2069"/>
         <source>Remove the current block</source>
         <translation>Supprime le bloc actif</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1862"/>
+        <location filename="fake/fake.cpp" line="2084"/>
         <source>Change the order of blocks by moving the active block upward (towards the background)</source>
         <translation>Changer l’ordre des blocs en déplaçant le bloc actif vers le haut (vers l’arrière plan)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1863"/>
+        <location filename="fake/fake.cpp" line="2085"/>
         <source>Change the order of blocks by moving the active block downward (towards the foreground)</source>
         <translation>Changer l’ordre des blocs en déplaçant le bloc actif vers le bas (vers le premier plan)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1864"/>
+        <location filename="fake/fake.cpp" line="2070"/>
         <source>Make the active block visible or hidden. Note: Hidden video blocks are automatically paused</source>
         <translation>Rendre visible ou invisible le bloc actif. Note : Les blocs vidéos invisibles sont automatiquement mis en pause</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1865"/>
+        <location filename="fake/fake.cpp" line="2071"/>
         <source>Play the sound, during this shot, of the selected video block. (This button is active only for videos.)</source>
         <translation>Donner le son, pendant ce plan, au bloc vidéo actuellement actif. (Cette fonction n’est disponible que pour les blocs vidéos.)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1866"/>
+        <location filename="fake/fake.cpp" line="2072"/>
         <source>Open the &lt;a href=&quot;0120.html&quot;&gt;Edit text block dialog&lt;/a&gt;.</source>
         <oldsource>Open the &lt;a href=&quot;0120.html&quot;&gt; Edit text block dialog&lt;/a&gt;.</oldsource>
         <translation>Ouvrir la boite &lt;a href=&quot;0120.html&quot;&gt;Éditer le texte du bloc&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1867"/>
+        <location filename="fake/fake.cpp" line="2073"/>
         <source>Open the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt;. This button is active only for objects containing images or videos.</source>
         <translation>Ouvrir la boite de dialogue &lt;a href=&quot;0110.html&quot;&gt;Recadrer et/ou corriger une image ou une vidéo&lt;/a&gt;. Cette fonction n’est disponible que pour les blocs image ou vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1868"/>
+        <location filename="fake/fake.cpp" line="2074"/>
         <source>Lock or unlock properties of active block. (See: &lt;a href=&quot;#LockProperties&quot;&gt;Block properties locking&lt;/a&gt;)</source>
         <oldsource>Lock or unlock properties of active block. (See: </oldsource>
         <translation>Verrouiller ou déverrouiller les propriétés du bloc actif. (Voir : &lt;a href=&quot;#LockProperties&quot;&gt;Verrouillage des propriétés d’un bloc&lt;/a&gt;)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2007"/>
+        <location filename="fake/fake.cpp" line="2145"/>
+        <source> If the properties of the block are locked during this shot. (This information does not appear for the 1st shot.)</source>
+        <translation> Si les propriétés du bloc sont verrouillées pendant ce plan. (Cette information n&apos;apparaît pas pour le 1er plan.)</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2146"/>
+        <source> If the properties of the block are unlocked during this shot. (This information does not appear for the 1st shot.)</source>
+        <translation> Si les propriétés du bloc sont déverrouillées pendant ce plan. (Cette information n&apos;apparaît pas pour le 1er plan.)</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2194"/>
+        <source>This settings group deals with style management. For more information on style management, see: &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
+        <translation>Ce groupe de paramètres concerne la gestion des styles. Pour plus d&apos;informations sur la gestion des styles, voir: &lt;a href=&quot;0016.html&quot;&gt;Gestion des styles&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <location filename="fake/fake.cpp" line="2215"/>
         <source>Sets the color used to draw the shadow</source>
         <translation>Définit la couleur à utiliser pour dessiner l’ombre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2037"/>
+        <location filename="fake/fake.cpp" line="2245"/>
         <source>Block properties locking</source>
         <translation>Verrouillage des propriétés d’un bloc</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1878"/>
+        <location filename="fake/fake.cpp" line="2086"/>
         <source>Display information on active block. (Remark: This function is available only for &quot;image&quot; or &quot;video&quot; blocks.)</source>
         <translation>Afficher des informations sur le bloc actif. (Note : Cette fonction n’est disponible que pour les blocs « image » ou « vidéo ».)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1870"/>
+        <location filename="fake/fake.cpp" line="2076"/>
         <source>Align to top</source>
         <translation>Aligner en haut</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1871"/>
+        <location filename="fake/fake.cpp" line="2077"/>
         <source>Align to midle</source>
         <translation>Aligner au milieu</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1872"/>
+        <location filename="fake/fake.cpp" line="2078"/>
         <source>Align to bottom</source>
         <translation>Aligner en bas</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1873"/>
+        <location filename="fake/fake.cpp" line="2079"/>
         <source>Align to left</source>
         <translation>Aligner à gauche</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1874"/>
+        <location filename="fake/fake.cpp" line="2080"/>
         <source>Align to center</source>
         <translation>Aligner au centre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1875"/>
+        <location filename="fake/fake.cpp" line="2081"/>
         <source>Align to right</source>
         <translation>Aligner à droite</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1876"/>
+        <location filename="fake/fake.cpp" line="2082"/>
         <source>Distribute horizontally</source>
         <translation>Distribuer horizontalement</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1877"/>
+        <location filename="fake/fake.cpp" line="2083"/>
         <source>Distribute vertically</source>
         <translation>Distribuer verticalement</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1889"/>
+        <location filename="fake/fake.cpp" line="2097"/>
         <source>Name of the slide</source>
         <translation>Nom de la diapositive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1890"/>
+        <location filename="fake/fake.cpp" line="2098"/>
         <source>Indicate here a name for the slide. It is this name which will appear on the thumbnail in the main window timeline.</source>
         <translation>Saisissez ici un nom pour la diapositive. C’est ce nom qui apparaîtra sur la vignette de la diapositive dans la barre de temps de la fenêtre principale.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1886"/>
+        <location filename="fake/fake.cpp" line="2094"/>
         <source>Right click on one of the blocks of a multiple selection, on blocks table or on interactive zone.</source>
         <oldsource>If this box is checked, the slide will mark the beginning of a new chapter.</oldsource>
         <translation>Un clic droit sur ​​l&apos;un des blocs d&apos;une sélection multiple, sur la table des blocs ou sur la zone interactive.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1891"/>
+        <location filename="fake/fake.cpp" line="2099"/>
         <source>Total slide duration</source>
         <translation>Durée total (diapositive)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1892"/>
+        <location filename="fake/fake.cpp" line="2100"/>
         <source>The total slide duration is displayed here. This duration takes into account possible adjustments for minimal duration of the shot as described above.</source>
         <translation>La durée cumulée des plans de la diapositive est affichée ici. Cette durée tient compte des éventuels ajustement de durée minimale des plans tel que décrit ci-dessous.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1894"/>
+        <location filename="fake/fake.cpp" line="2102"/>
         <source> The shots table shows the shots as thumbnails, in the order in which they will be played (from left to right). </source>
         <translation> La table des plans affiche les plans sous forme de vignette, dans l’ordre dans lequel ils seront joués (de la gauche vers la droite).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1895"/>
+        <location filename="fake/fake.cpp" line="2103"/>
         <source>For each shot, the thumbnail shows: </source>
         <translation>Pour chaque plan, la vignette affiche :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1896"/>
+        <location filename="fake/fake.cpp" line="2104"/>
         <source>The shot duration (At the top of the thumbnail)</source>
         <translation>La durée du plan (en haut de la vignette)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1897"/>
+        <location filename="fake/fake.cpp" line="2105"/>
         <source>The temporal position of the shot at the end of its duration (At the bottom right of the thumbnail)</source>
         <translation>La position temporelle du plan à la fin de sa durée (en bas à droite de la vignette)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1898"/>
+        <location filename="fake/fake.cpp" line="2106"/>
         <source>An image representing the shot at the end of its duration</source>
         <translation>Une image représentant le plan à la fin de sa durée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1899"/>
-        <location filename="fake/fake.cpp" line="2040"/>
+        <location filename="fake/fake.cpp" line="2107"/>
+        <location filename="fake/fake.cpp" line="2248"/>
         <source>Remark:</source>
         <translation>Note :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1900"/>
+        <location filename="fake/fake.cpp" line="2108"/>
         <source>The order of the shots can be changed by using Drag &amp; Drop.</source>
         <translation>Il est possible de changer l’ordre des plans par Drag &amp; Drop.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1902"/>
+        <location filename="fake/fake.cpp" line="2110"/>
         <source>Shot duration</source>
         <translation>Durée du plan</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1903"/>
+        <location filename="fake/fake.cpp" line="2111"/>
         <source> Indicate here the duration of the currently selected shot. For the last shot of the slide, there is a minimum duration.The following rules are used to calculate the minimum duration of the shot: </source>
         <translation>Indiquer ici une durée pour le plan actuellement sélectionné. Pour le dernier plan de la diapositive, la notion de durée minimale intervient. Les règles suivantes s’appliquent pour calculer la durée minimale des plans :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1904"/>
+        <location filename="fake/fake.cpp" line="2112"/>
         <source>The total slide duration cannot be lower than the sum of the durations of the entering transition of the slide plus that of the transition to the following slide</source>
         <translation>La durée total de la diapositive ne peut pas être inférieur à la somme des durées de la transition entrante de la diapositive + la durée de la transition entrante de la diapositive suivante</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1905"/>
+        <location filename="fake/fake.cpp" line="2113"/>
         <source>The total slide duration must permit complete play of the longest video sequence (time of breaks is taken into account)</source>
         <translation>La durée total de la diapositive doit permettre de jouer dans son intégralité la vidéo la plus longue (Le temps des pauses est pris en compte)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1906"/>
+        <location filename="fake/fake.cpp" line="2114"/>
         <source>The total slide duration cannot be lower than 1:30 second</source>
         <translation>La durée total de la diapositive ne peut pas être inférieur à 1/30eme de seconde</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1907"/>
+        <location filename="fake/fake.cpp" line="2115"/>
         <source>If you specify a duration lower than the minimum calculated duration for the shot, it is this minimum duration that will be used in place of the value which you specified.</source>
         <oldsource> If you specify a duration lower than the minimum calculated duration for the shot, it is this minimum duration that will be used in place of the value which you specified. </oldsource>
         <translation>Si vous indiquez une durée inférieure à la durée minimum calculée pour le plan, c’est cette durée minimum qui sera utilisée à la place de la valeur que vous aurez saisie.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1909"/>
+        <location filename="fake/fake.cpp" line="2117"/>
         <source> The interactive zone allows you to move and interactively re-size blocks within the selected shot. </source>
         <translation> La zone de intéractive permet de déplacer et redimensionner graphiquement les blocs, pour le plan actuellement sélectionné.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1910"/>
+        <location filename="fake/fake.cpp" line="2118"/>
         <source>Selected blocks are shown with a frame. (It allows to differentiate them from other graphic elements of the slide).</source>
-        <translation>Les blocs sélectionnés sont affichés avec un cadre (cela permet de les différencier des éléments graphiques provenant du fond d’écran).</translation>
+        <translation>Les blocs sélectionnés sont affichés avec un cadre (cela permet de les différencier des autres éléments graphiques de la diapositive).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1911"/>
+        <location filename="fake/fake.cpp" line="2119"/>
         <source>Control handles (small square) are shown on sides and on corners of the selection frame.</source>
         <translation>La sélection affiche en plus des poignées de contrôles (petit carré) apparaissant dans les coins et sur les cotés.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1912"/>
+        <location filename="fake/fake.cpp" line="2120"/>
         <source>Rulers are displayed to facilitate the work with the mouse. See &lt;a href=&quot;0116.html&quot;&gt;Rulers settings&lt;/a&gt;</source>
         <translation>Des guides peuvent faciliter le travail à la souris. Voir &lt;a href=&quot;0116.html&quot;&gt;Réglage des guides&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1913"/>
+        <location filename="fake/fake.cpp" line="2121"/>
         <source>Using the mouse:</source>
         <translation>A la souris :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1914"/>
-        <location filename="fake/fake.cpp" line="1956"/>
+        <location filename="fake/fake.cpp" line="2122"/>
+        <location filename="fake/fake.cpp" line="2164"/>
         <source>To select a block: click the block</source>
         <translation>Pour sélectionner un bloc : Cliquer dessus</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1915"/>
-        <location filename="fake/fake.cpp" line="1957"/>
+        <location filename="fake/fake.cpp" line="2123"/>
+        <location filename="fake/fake.cpp" line="2165"/>
         <source>To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.</source>
         <translation>Pour sélectionner plusieurs blocs : Sélectionner un premier bloc en cliquant dessus puis cliquer sur les autres blocs à sélectionner en maintenant soit la touche SHIFT, soit la touche CTRL enfoncé.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1916"/>
+        <location filename="fake/fake.cpp" line="2124"/>
         <source>To select a block under another block : Click the block to be selected by pushing both SHIFT and CTRL keys.</source>
         <translation>Pour sélectionner un bloc sous un autre bloc : Cliquer sur le bloc à sélectionner en maintenant enfoncé les deux touches SHIFT et CTRL.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1917"/>
-        <location filename="fake/fake.cpp" line="1958"/>
+        <location filename="fake/fake.cpp" line="2125"/>
+        <location filename="fake/fake.cpp" line="2166"/>
         <source>To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.</source>
         <translation>Pour déselectionner un bloc dans une sélection multiple : Cliquer dessus en maintenant soit la touche SHIFT, soit la touche CTRL enfoncé.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1918"/>
+        <location filename="fake/fake.cpp" line="2126"/>
         <source>To modify the size of the blocks of the selection: Click one of the handles of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
         <translation>Pour modifier la taille des blocs de la sélection : Cliquer sur l’une des poignées de la sélection et, tout en maintenant le bouton de la souris enfoncé, déplacer la souris.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1919"/>
+        <location filename="fake/fake.cpp" line="2127"/>
         <source>To move the blocks of the selection: Click one of the blocks of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
         <translation>Pour déplacer les blocs de la sélection : Cliquer sur un des blocs de la sélection et, tout en maintenant le bouton de la souris enfoncé, déplacer la souris.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1920"/>
+        <location filename="fake/fake.cpp" line="2128"/>
         <source>Using the keyboard:</source>
         <translation>Au clavier :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1921"/>
+        <location filename="fake/fake.cpp" line="2129"/>
         <source>To move the blocks of the selection, use the arrow keys.</source>
         <translation>Utiliser les flèches de direction pour déplacer les blocs de la sélection.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1922"/>
+        <location filename="fake/fake.cpp" line="2130"/>
         <source>To change the size of the blocks of the selection, use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle.</source>
         <translation>Utiliser SHIFT+les flèches de direction pour déplacer la poignée du coin supérieur gauche, ce qui permet de changer la taille des blocs.
 Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin inférieur droit, ce qui permet de changer la taille des blocs.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1923"/>
-        <location filename="fake/fake.cpp" line="1952"/>
+        <location filename="fake/fake.cpp" line="2131"/>
+        <location filename="fake/fake.cpp" line="2160"/>
         <source>Remarks:</source>
         <translation>A noter :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1924"/>
+        <location filename="fake/fake.cpp" line="2132"/>
         <source>A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
         <translation>Un double clic sur un bloc permet d’ouvrir l’éditeur de bloc associé au type de bloc (Pour un bloc texte : ouvre l’editeur de texte. Pour un bloc image : ouvre la boite de recadrage, etc…)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1925"/>
+        <location filename="fake/fake.cpp" line="2133"/>
         <source>A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
         <translation>Un clic droit sur un bloc quand la sélection n’inclus qu’un seul bloc : permet d’appeler le menu contextuel proposant les commandes d’édition de bloc.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1926"/>
+        <location filename="fake/fake.cpp" line="2134"/>
         <source>A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
         <translation>Un clic droit sur un bloc quand la sélection inclus plusieurs blocs : permet d’appeler le menu contextuel proposant les commandes d’édition multi-bloc.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1928"/>
+        <location filename="fake/fake.cpp" line="2136"/>
         <source>The blocks table lists, from top to bottom, the present blocks in the slide.</source>
         <oldsource> The blocks table lists, from top to bottom, the present blocks in the slide. </oldsource>
         <translation>La table des blocs liste, de haut en bas, les blocs présents dans la diapositive.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1929"/>
+        <location filename="fake/fake.cpp" line="2137"/>
         <source>The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.</source>
         <translation>L’ordre des blocs est important ! Le premier bloc (en haut de la liste) est recouvert par le 2eme bloc qui lui même est recouvert par le bloc suivant et ainsi de suite.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1930"/>
+        <location filename="fake/fake.cpp" line="2138"/>
         <source>The order of the blocks is defined shot by shot.</source>
         <translation>L’ordre des blocs est défini plan par plan.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1931"/>
+        <location filename="fake/fake.cpp" line="2139"/>
         <source>Blocks are shown on 3 columns:</source>
         <oldsource>Blocks are shown on 3 columns: </oldsource>
         <translation>Les blocs sont affichés sur 3 colonnes :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1932"/>
+        <location filename="fake/fake.cpp" line="2140"/>
         <source>The first column contains or: </source>
         <translation>La première colonne contient soit : </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1933"/>
+        <location filename="fake/fake.cpp" line="2141"/>
         <source> If the block is a title.</source>
         <translation> si le bloc est de type titre.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1934"/>
+        <location filename="fake/fake.cpp" line="2142"/>
         <source>A thumbnail if the block is an image or a video.</source>
         <translation>Une vignette de l’image ou de la vidéo, si le bloc est de type image ou vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1935"/>
+        <location filename="fake/fake.cpp" line="2143"/>
         <source> If the image or the video have a transformation filter.</source>
         <translation> si l’image ou la vidéo a un filtre de transformation actif.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1936"/>
+        <location filename="fake/fake.cpp" line="2144"/>
         <source>The second column contains icons giving the state of the blocks for the current shot: </source>
         <translation>La seconde colonne contient des icônes donnant l’état du bloc pour le plan en cours : </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1937"/>
-        <source> If the properties of the block are locked during this shot. (This information does not appear for the 1st plan.)</source>
-        <oldsource> If the properties of the block are locked during this shot.</oldsource>
-        <translation> Si les propriétés du bloc sont verrouillés pendant ce plan. (Cette information n’apparaît pas pour le 1er plan.)</translation>
-    </message>
-    <message>
-        <location filename="fake/fake.cpp" line="1938"/>
-        <source> If the properties of the block are unlocked during this shot. (This information does not appear for the 1st plan.)</source>
-        <oldsource> If they are unlocked. Remark: This information does not appear for the 1st plan.</oldsource>
-        <translation> Si les propriétés du bloc sont déverrouillés pendant ce plan. (Cette information n’apparaît pas pour le 1er plan.)</translation>
-    </message>
-    <message>
-        <location filename="fake/fake.cpp" line="1939"/>
+        <location filename="fake/fake.cpp" line="2147"/>
         <source> If the video has the sound during this shot. This information appears only for the video blocks.</source>
         <translation>si la vidéo a le son pendant ce plan. Cette information n’apparaît que pour les blocs de type vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1940"/>
+        <location filename="fake/fake.cpp" line="2148"/>
         <source> If the block is visible during this shot.</source>
         <oldsource> If the block is visible during this shot</oldsource>
         <translation> Si le bloc est visible pendant ce plan.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1941"/>
+        <location filename="fake/fake.cpp" line="2149"/>
         <source> If the block is hidden during this shot.</source>
         <oldsource> If the block is hidden.</oldsource>
         <translation> Si le bloc est caché pendant ce plan.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1942"/>
+        <location filename="fake/fake.cpp" line="2150"/>
         <source>The third column indicates: </source>
         <translation>La troisième colonne indique : </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1943"/>
+        <location filename="fake/fake.cpp" line="2151"/>
         <source>If the block is a title: the text of the block</source>
         <translation>S’il s’agit d’un bloc de type titre : le texte du bloc</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1944"/>
+        <location filename="fake/fake.cpp" line="2152"/>
         <source>If the block is an image: </source>
         <translation>S’il s’agit d’un bloc de type image : </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1945"/>
-        <location filename="fake/fake.cpp" line="1949"/>
+        <location filename="fake/fake.cpp" line="2153"/>
+        <location filename="fake/fake.cpp" line="2157"/>
         <source>The filename.</source>
         <translation>Le nom du fichier.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1946"/>
-        <location filename="fake/fake.cpp" line="1950"/>
+        <location filename="fake/fake.cpp" line="2154"/>
+        <location filename="fake/fake.cpp" line="2158"/>
         <source>The width x the height of the image in pixel (the format of the image - the geometry of the image).</source>
         <translation>La largeur x la hauteur de l’image en pixel (le format de l’image – la géométrie de l’image).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1947"/>
+        <location filename="fake/fake.cpp" line="2155"/>
         <source>A summary of EXIF information on the image.</source>
         <translation>Un résumé des informations EXIF sur l’image.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1948"/>
+        <location filename="fake/fake.cpp" line="2156"/>
         <source>If the block is a video: </source>
         <translation>S’il s’agit d’un bloc de type vidéo : </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1951"/>
+        <location filename="fake/fake.cpp" line="2159"/>
         <source>The duration of the video.</source>
         <translation>La durée de la vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1953"/>
+        <location filename="fake/fake.cpp" line="2161"/>
         <source>Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
         <translation>Un double clic sur un bloc permet d’ouvrir l’éditeur de bloc associé au type de bloc (Pour un bloc texte : ouvre l’editeur de texte. Pour un bloc image : ouvre la boite de recadrage, etc.)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1954"/>
+        <location filename="fake/fake.cpp" line="2162"/>
         <source>Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
         <translation>Un clic droit sur un bloc quand la sélection n’inclus qu’un seul bloc : permet d’appeler le menu contextuel proposant les commandes d’édition d’un bloc.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1955"/>
+        <location filename="fake/fake.cpp" line="2163"/>
         <source>Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
         <translation>Un clic droit sur un bloc quand la sélection inclus plusieurs blocs : permet d’appeler le menu contextuel proposant les commandes d’édition multi-bloc.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1959"/>
+        <location filename="fake/fake.cpp" line="2167"/>
         <source>Blocks with locked properties are shown on a grey bottom.</source>
         <translation>Les blocs dont les propriétés sont verrouillés sont affichés sur un fond gris.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1960"/>
+        <location filename="fake/fake.cpp" line="2168"/>
         <source>Selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.</source>
         <translation>Les blocs sélectionnés sont affichés sur un fond rouge si le focus est sur la table des blocs et sur un fond bleu si le focus est sur un autre élément.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1961"/>
+        <location filename="fake/fake.cpp" line="2169"/>
         <source>To change the blocks order, use Drag &amp; Drop or &lt;B&gt;Up&lt;/B&gt; and &lt;B&gt;Down&lt;/B&gt; functions of the contextual menu.</source>
         <translation>Pour changer l’ordre des blocs, utiliser soit le Drag &amp; Drop soit les fonctions B&gt;Haut&lt;/B&gt; et B&gt;Bas&lt;/B&gt; du menu contextuel.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1962"/>
+        <location filename="fake/fake.cpp" line="2170"/>
         <source>It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.</source>
         <translation>Il est possible d’ajouter des fichiers directement dans la table des blocs par Drag &amp; Drop avec l’explorateur de fichier.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1963"/>
+        <location filename="fake/fake.cpp" line="2171"/>
         <source>All blocks, whether title, image or video, possess a text element.</source>
         <translation>Tous les blocs, qu’ils soient de type titre, image ou vidéo possèdent un texte.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1964"/>
+        <location filename="fake/fake.cpp" line="2172"/>
         <source>During the insertion of a new block (Add title, Add file or Paste), the block is inserted: </source>
         <translation>Lors de l’insertion d’un nouveau bloc (Ajouter titre, Ajouter fichier ou Coller), le bloc est inséré : </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1965"/>
+        <location filename="fake/fake.cpp" line="2173"/>
         <source>In visible mode for the current shot and for all the following shots</source>
         <translation>en mode visible pour le plan actuellement sélectionné et pour tous les plans suivants</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1966"/>
+        <location filename="fake/fake.cpp" line="2174"/>
         <source>In hidden mode for the shots located before the current shot</source>
         <translation>en mode caché pour les plans situés avant le plan actuellement sélectionné</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1967"/>
+        <location filename="fake/fake.cpp" line="2175"/>
         <source>Always in the last position in the list of blocks (in the foreground)</source>
         <translation>toujours en dernière position dans la liste des blocs (au premier plan)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1969"/>
+        <location filename="fake/fake.cpp" line="2177"/>
         <source>Coordinates</source>
         <translation>Coordonnées</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1970"/>
+        <location filename="fake/fake.cpp" line="2178"/>
         <source>This settings group defines the coordinates of the block for the current shot, so, the modifications made to the following properties will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
         <oldsource>This settings group defines the coordinates of the block for the current shot, so, the modifications made to the following properties will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: How ffDiaporama works.</oldsource>
         <translation>Ce groupe de réglages concerne les coordonnées du bloc pour le plan en cour, ainsi, les modifications apportés sur les propriétés suivantes s’appliqueront uniquement au plan en cours. Pour bien comprendre les différences entre les propriétés qui s’appliquent sur tous les plans et celles qui ne s’appliquent qu’au plan en cours, consultez : &lt;a href=&quot;0010.html&quot;&gt;Principes de fonctionnement de ffDiaporama&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1971"/>
+        <location filename="fake/fake.cpp" line="2179"/>
         <source>&lt;B&gt;For image or video blocks: &lt;/B&gt;Allows you to select a reframing style for the image. It has the same effect as selecting a style in the dialog: &lt;a href=&quot;0110.html&quot;&gt;Correct, reframe or cut image or video&lt;/a&gt;.</source>
         <translation>&lt;B&gt;Pour les blocs image ou vidéo :&lt;/B&gt; Permet de sélectionner un style de recadrage pour l’image Cela a le même effet que de sélectionner un style dans la boite de dialogue &lt;a href=&quot;0110.html&quot;&gt;Recadrer et/ou corriger une image ou une vidéo&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1972"/>
+        <location filename="fake/fake.cpp" line="2180"/>
         <source>&lt;B&gt;For text blocks: &lt;/B&gt;Allows you to select the geometrical constraints to be applied to the block. Three type of constraint are available:</source>
         <translation>&lt;B&gt;Pour les blocs textes :&lt;/B&gt; Permet de sélectionner la contrainte géométrique à appliquer au bloc. Trois types de contrainte sont disponibles :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1973"/>
+        <location filename="fake/fake.cpp" line="2181"/>
         <source>No constraint is applied to the selection rectangle.</source>
         <translation>Pas de contrainte : Aucune contrainte ne s’applique au rectangle de sélection. Il est définit librement.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1974"/>
+        <location filename="fake/fake.cpp" line="2182"/>
         <source>Lock selection rectangle to the actual geometry. It has no meaning until you have defined a shape in &quot;no constraint&quot; mode.</source>
         <translation>Verrouiller sur cette géométrie : Permet de verrouiller le rectangle de sélection sur la forme qu’il a actuellement. Cela n’a de sens qu’après avoir définit une forme avec le mode « Pas de contrainte ».</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1975"/>
+        <location filename="fake/fake.cpp" line="2183"/>
         <source>Lock selection rectangle to the same geometry as the project, such that, if you place the image in full screen, the reframed part will correspond to the whole screen.</source>
         <translation>Verrouiller sur la géométrie du projet : Fait en sorte à ce que le rectangle de sélection ait la même géométrie que le projet, comme cela, si vous placez l’image en plein écran la partie recadrée correspondra à tout l’écran.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1976"/>
+        <location filename="fake/fake.cpp" line="2184"/>
         <source>Allows you to select a pre-defined block size</source>
         <translation>Permet de sélectionner une taille de bloc pré-définie</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1977"/>
+        <location filename="fake/fake.cpp" line="2185"/>
         <source>Represents the horizontal offset of the block from the left. This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
         <translation>Représente la position horizontal du bloc à partir de la gauche. Cette position est exprimée soit en pourcentage (%) de la largeur total de l’image, soit en pixel (pour un écran 1080p) en fonction de l’unité définie dans la boite de configuration.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1978"/>
+        <location filename="fake/fake.cpp" line="2186"/>
         <source>Represents the vertical offset of the block from the top. This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
         <translation>Représente la position vertical du bloc  à partir du haut de l’image. Cette position est exprimée soit en pourcentage (%) de la hauteur total de l’image, soit en pixel (pour un écran 1080p) en fonction de l’unité définie dans la boite de configuration.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1979"/>
+        <location filename="fake/fake.cpp" line="2187"/>
         <source>Represents the width of the block. This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
         <translation>Représente la largeur du bloc. Cette position est exprimée soit en pourcentage (%) de la largeur total de l’image, soit en pixel (pour un écran 1080p) en fonction de l’unité définie dans la boite de configuration.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1980"/>
+        <location filename="fake/fake.cpp" line="2188"/>
         <source>Represents the height of the block. This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
         <translation>Représente la hauteur du bloc. Cette position est exprimée soit en pourcentage (%) de la hauteur total de l’image, soit en pixel (pour un écran 1080p) en fonction de l’unité définie dans la boite de configuration.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1981"/>
+        <location filename="fake/fake.cpp" line="2189"/>
         <source>Rotation around the Z axis in degrees.</source>
         <translation>Rotation selon l’axe des Z exprimée en degré.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1982"/>
+        <location filename="fake/fake.cpp" line="2190"/>
         <source>Rotation around the Y axis in degrees.</source>
         <translation>Rotation selon l’axe des Y exprimée en degré.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1983"/>
+        <location filename="fake/fake.cpp" line="2191"/>
         <source>Rotation around the X axis in degrees.</source>
         <translation>Rotation selon l’axe des X exprimée en degré.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1984"/>
+        <location filename="fake/fake.cpp" line="2192"/>
         <source>Block shape</source>
         <translation>Forme du bloc</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1985"/>
+        <location filename="fake/fake.cpp" line="2193"/>
         <source> This settings group defines the shape of the block for all shots, so, modification of the following properties will apply to all shots in the slide. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;. </source>
         <oldsource> This settings group defines the shape of the block for all shots, so, modification of the following properties will apply to all shots in the slide. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: How ffDiaporama works. </oldsource>
         <translation> Ce groupe de réglages concerne la forme du bloc pour tous les plans de la diapositive, ainsi, les propriétés suivantes s&apos;appliqueront à tous les plans de la diapositive. Pour bien comprendre les différences entre les propriétés qui s’appliquent sur tous les plans et celles qui ne s’appliquent qu’au plan en cours, consultez : &lt;a href=&quot;0010.html&quot;&gt;Principes de fonctionnement de ffDiaporama&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1986"/>
-        <source>This settings group deals with style management. For more information on style management, see : Using style management</source>
-        <translation>Ce groupe de réglage fait l’objet d’une gestion de style. Pour plus d’information sur la gestion des styles, consultez : &lt;a href=&quot;0016.html&quot;&gt;La gestion des styles&lt;/a&gt;</translation>
-    </message>
-    <message>
-        <location filename="fake/fake.cpp" line="1987"/>
+        <location filename="fake/fake.cpp" line="2195"/>
         <source>Shape</source>
         <translation>Forme</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1988"/>
+        <location filename="fake/fake.cpp" line="2196"/>
         <source>Allows you to select a shape for the block. The selected shape will be used as:</source>
         <translation>Permet de sélectionner une forme pour le bloc. La forme sélectionnée sera utilisée comme :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1989"/>
+        <location filename="fake/fake.cpp" line="2197"/>
         <source>a fusion mask for the images and the videos.</source>
         <translation>masque de fusion pour les images et les vidéos.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1990"/>
+        <location filename="fake/fake.cpp" line="2198"/>
         <source>A cutting zone for texts</source>
         <translation> zone de coupure pour les textes</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1991"/>
-        <location filename="fake/fake.cpp" line="1992"/>
+        <location filename="fake/fake.cpp" line="2199"/>
+        <location filename="fake/fake.cpp" line="2200"/>
         <source>Opacity</source>
         <translation>Opacité</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1993"/>
+        <location filename="fake/fake.cpp" line="2201"/>
         <source>Defines the opacity of the block. This value also applies to the text of the block.</source>
         <translation>Définit l’opacité du bloc. Cette valeur s’applique également au texte du bloc.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1994"/>
+        <location filename="fake/fake.cpp" line="2202"/>
         <source>Border</source>
         <translation>Bordure</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1995"/>
+        <location filename="fake/fake.cpp" line="2203"/>
         <source>Thickness of the border</source>
         <translation>Épaisseur</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1996"/>
+        <location filename="fake/fake.cpp" line="2204"/>
         <source>Defines the thickness of the border (This value is defined as 1/1080 of the height of the screen. A value of 10 corresponds to 10 points on a 1920x1080 FullHD screen, but only to 6 points on a 1280x720 screen).</source>
         <translation>Définit l’épaisseur de la bordure (Cette valeur est exprimée en 1/1080eme de la hauteur de l’écran, c’est à dire qu’une valeur de 10 correspond à 10 points sur un écran FullHD 1920×1080, mais seulement à 6 points sur un écran 1280x720).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1997"/>
+        <location filename="fake/fake.cpp" line="2205"/>
         <source>Border color</source>
         <translation>Couleur</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1998"/>
+        <location filename="fake/fake.cpp" line="2206"/>
         <source>Defines the color of the line to be used to draw the border</source>
         <translation>Définit la couleur du trait à utiliser pour dessiner la bordure</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="1999"/>
+        <location filename="fake/fake.cpp" line="2207"/>
         <source>Line type of border</source>
         <translation>Type de trait</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2000"/>
+        <location filename="fake/fake.cpp" line="2208"/>
         <source>Defines the type of line (solid, dotted line, etc.)</source>
         <translation>Définit le type de trait (plein, pointillé, etc.)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2001"/>
+        <location filename="fake/fake.cpp" line="2209"/>
         <source>Shadow</source>
         <translation>Ombre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2002"/>
+        <location filename="fake/fake.cpp" line="2210"/>
         <source>Shadow position</source>
         <translation>Position</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2003"/>
+        <location filename="fake/fake.cpp" line="2211"/>
         <source>Defines in which corner the shadow will be positioned (Note: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied).</source>
         <translation>Définit dans quel coin l’ombre sera positionnée (Note : La position de l’ombre est indépendante des rotations du bloc : Le coin inférieur droit est toujours le coin inférieur droit quelque soit les rotations appliquées au bloc).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2004"/>
+        <location filename="fake/fake.cpp" line="2212"/>
         <source>Distance of the shadow</source>
         <translation>Distance</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2005"/>
+        <location filename="fake/fake.cpp" line="2213"/>
         <source>Defines the distance between the block and its shadow</source>
         <translation>Définit la distance entre le bloc ets on ombre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2006"/>
+        <location filename="fake/fake.cpp" line="2214"/>
         <source>Color</source>
         <translation>Couleur</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2008"/>
+        <location filename="fake/fake.cpp" line="2216"/>
         <source>Animation option</source>
         <translation>Option des animations</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2009"/>
+        <location filename="fake/fake.cpp" line="2217"/>
         <source>Speed wave</source>
         <translation>Courbe de vitesse</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2010"/>
+        <location filename="fake/fake.cpp" line="2218"/>
         <source>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks) </source>
         <translation>Permet de sélectionner une courbe de vitesse pour les animations de blocs (mouvement, changement de taille et rotation de blocs, animation de texte et de blocs)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2011"/>
+        <location filename="fake/fake.cpp" line="2219"/>
         <source>Remark: To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog</source>
         <translation>Note : Pour modifier la courbe de vitesse concernant les animations d’images (effet graphique et recadrage), éditer l’image ou la vidéo et sélectionner une courbe de vitesse dans la boite Recadrer et/ou corriger une image ou une vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2012"/>
+        <location filename="fake/fake.cpp" line="2220"/>
         <source>Text annimation</source>
         <translation>Animation de texte</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2013"/>
+        <location filename="fake/fake.cpp" line="2221"/>
         <source>Zoom</source>
         <translation>Zoom</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2014"/>
+        <location filename="fake/fake.cpp" line="2222"/>
         <source>Defines a level of zoom for the text</source>
         <translation>Définit un niveau de zoom pour le texte</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2015"/>
+        <location filename="fake/fake.cpp" line="2223"/>
         <source>Defines the horizontal position of the text inside the block</source>
         <translation>Définit la position horizontal du texte à l’intérieur du bloc</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2016"/>
+        <location filename="fake/fake.cpp" line="2224"/>
         <source>Defines the vertical position of the text inside the block</source>
         <translation>Définit la position vertical du texte à l’intérieur du bloc</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2018"/>
+        <location filename="fake/fake.cpp" line="2226"/>
         <source>To make animations of text, you have to create at least 2 shots then:</source>
         <oldsource> To make animations of text, you have to create at least 2 shots then: </oldsource>
         <translation>Pour réaliser des animations de texte, vous devez créer au moins 2 plans puis :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2019"/>
+        <location filename="fake/fake.cpp" line="2227"/>
         <source>Define values for zoom and scrolling for the 1st shot</source>
         <translation>Définissez des valeurs de zoom et de scrolling pour le 1er plan</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2020"/>
+        <location filename="fake/fake.cpp" line="2228"/>
         <source>Define different values for zoom and scrolling for the 2nd</source>
         <translation>Définissez des valeurs de zoom et de scrolling pour le 2eme plan</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2021"/>
+        <location filename="fake/fake.cpp" line="2229"/>
         <source>Block animation</source>
         <translation>Animation de blocs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2022"/>
+        <location filename="fake/fake.cpp" line="2230"/>
         <source> The block animations define which animations will run during the current shot. You can define different animations for every shot! </source>
         <translation> Les animations de bloc définissent des animations qui s’exécutent pendant le plan en cours. Vous pouvez définir des animations différentes pour chaque plan !</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2023"/>
+        <location filename="fake/fake.cpp" line="2231"/>
         <source>Multiple rotations</source>
         <translation>Multiple rotations</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2024"/>
+        <location filename="fake/fake.cpp" line="2232"/>
         <source> This animation allows to turn a block several times during the shot. </source>
         <translation> Cette animation permet de faire tourner un bloc plusieurs fois sur lui même pendant le plan.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2025"/>
+        <location filename="fake/fake.cpp" line="2233"/>
         <source>Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction </source>
         <translation>Note : Le sens de rotation est définit par le signe, ainsi +5 donnera 5 rotations dans un sens alors que -5 donnera 5 rotations dans l’autre sens</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2026"/>
+        <location filename="fake/fake.cpp" line="2234"/>
         <source>Defines the number of rotation to be made according to the Z axis.</source>
         <translation>Définit le nombre de rotation à effectuer selon l’axe des Z.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2027"/>
+        <location filename="fake/fake.cpp" line="2235"/>
         <source>Defines the number of rotation to be made according to the Y axis.</source>
         <translation>Définit le nombre de rotation à effectuer selon l’axe des Y.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2028"/>
+        <location filename="fake/fake.cpp" line="2236"/>
         <source>Defines the number of rotation to be made according to the X axis.</source>
         <translation>Définit le nombre de rotation à effectuer selon l’axe des X.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2029"/>
+        <location filename="fake/fake.cpp" line="2237"/>
         <source>Dissolve</source>
         <translation>Fondu</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2030"/>
+        <location filename="fake/fake.cpp" line="2238"/>
         <source>This animation dissolves between the block and a transparent zone according to the following settings.</source>
         <translation>Cette animation permet d’effectuer des fondus entre le bloc et une zone transparente en fonction des paramètres suivants.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2031"/>
+        <location filename="fake/fake.cpp" line="2239"/>
         <source>Appear</source>
         <translation>Apparaître</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2032"/>
+        <location filename="fake/fake.cpp" line="2240"/>
         <source>The block will appear during the shot</source>
         <translation>Permet de faire apparaître le bloc pendant le plan</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2033"/>
+        <location filename="fake/fake.cpp" line="2241"/>
         <source>Disappear</source>
         <translation>Disparaître</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2034"/>
+        <location filename="fake/fake.cpp" line="2242"/>
         <source>The block will disappear during the shot</source>
         <translation>Permet de faire disparaître le bloc pendant le plan</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2035"/>
+        <location filename="fake/fake.cpp" line="2243"/>
         <source>Blink</source>
         <translation>Clignoter</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2036"/>
+        <location filename="fake/fake.cpp" line="2244"/>
         <source>The block will blink during the shot (appear then disappear). 4 speeds are proposed (from slow to very fast).</source>
         <translation>Permet de faire clignoter le bloc pendant le plan (apparition puis disparition). 4 vitesses sont proposées (de lentes à très rapide).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2038"/>
+        <location filename="fake/fake.cpp" line="2246"/>
         <source> When the block properties are locked, the modifications made to the block in the preceding shot are echoed in the current shot. </source>
         <translation>Lorsque les propriétés d’un bloc sont verrouillées, les modifications apportées au bloc dans le plan précédant sont répercutées au plan en cours.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2039"/>
+        <location filename="fake/fake.cpp" line="2247"/>
         <source>It defines as well the coordinates, forms and animations properties as the properties defined in the editing dialog of text, image or video. </source>
         <translation>Cela concerne aussi bien les propriétés de coordonnées, de formes et d’animations que les propriétés définies dans les boites d’édition de texte, d’image ou de vidéo.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2041"/>
+        <location filename="fake/fake.cpp" line="2249"/>
         <source>The properties locking is available only from the 2nd shot.</source>
         <translation>Le verrouillage des propriétés n’est disponible qu’à partir du 2eme plan.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2042"/>
+        <location filename="fake/fake.cpp" line="2250"/>
         <source>See also</source>
         <translation>Voir aussi</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2043"/>
+        <location filename="fake/fake.cpp" line="2251"/>
         <source>Description of EXIF - Exchangeable image file format</source>
         <translation>Explications sur l’EXIF-Exchangeable image file format</translation>
     </message>
@@ -9403,344 +10408,344 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>0120</name>
     <message>
-        <location filename="fake/fake.cpp" line="2044"/>
-        <location filename="fake/fake.cpp" line="2045"/>
+        <location filename="fake/fake.cpp" line="2252"/>
+        <location filename="fake/fake.cpp" line="2253"/>
         <source>Edit text</source>
         <translation>Editer le texte</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2046"/>
+        <location filename="fake/fake.cpp" line="2254"/>
         <source>This dialog allows you to modify the text within a block.</source>
         <oldsource> This dialog allows you to modify the text within a block. </oldsource>
         <translation>La boite « Éditer le texte » permet de modifier le texte d’un bloc.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2047"/>
+        <location filename="fake/fake.cpp" line="2255"/>
         <source>Properties for all shots</source>
         <translation>Propriétés pour tous les plans</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2048"/>
+        <location filename="fake/fake.cpp" line="2256"/>
         <source> The modifications made to the following properties will apply to all shots of the slide. </source>
         <translation> Les modifications apportés sur les propriétés suivantes s’appliqueront sur tous les plans de la diapositive.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2049"/>
+        <location filename="fake/fake.cpp" line="2257"/>
         <source>To understand indeed the differences between the properties which apply to all shots and those who apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;. </source>
         <oldsource>To understand indeed the differences between the properties which apply to all shots and those who apply only to the current shot, consult: How ffDiaporama work. </oldsource>
         <translation>Pour bien comprendre les différences entre les propriétés qui s’appliquent sur tous les plans et celles qui ne s’appliquent qu’au plan en cours, consultez : &lt;a href=&quot;0010.html&quot;&gt;Principes de fonctionnement de ffDiaporama&lt;/a&gt;.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2050"/>
+        <location filename="fake/fake.cpp" line="2258"/>
         <source>Text tab</source>
         <translation>Onglet texte</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2051"/>
+        <location filename="fake/fake.cpp" line="2259"/>
         <source>First line at the top of the dialog</source>
         <translation>Première ligne en haut de la boite</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2052"/>
-        <location filename="fake/fake.cpp" line="2083"/>
+        <location filename="fake/fake.cpp" line="2260"/>
+        <location filename="fake/fake.cpp" line="2291"/>
         <source>This settings group is the object of style management. for more information on style management, see : &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
         <oldsource>This settings group is the object of style management. for more information on style management, see : Using style management</oldsource>
         <translation>Ce groupe de réglage fait l’objet d’une gestion de style. Pour plus d’information sur la gestion des styles, consultez : &lt;a href=&quot;0016.html&quot;&gt;La gestion des styles&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2053"/>
+        <location filename="fake/fake.cpp" line="2261"/>
         <source>Allows you to select the font to be used, its size and its colour. This setting applies to the current selection.</source>
         <translation>Permet de sélectionner la police de caractère à utiliser, sa taille et sa couleur. Ce réglage s’applique à la sélection en cours.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2054"/>
+        <location filename="fake/fake.cpp" line="2262"/>
         <source>Allows to establish (or to remove) a bullet list. This setting applies to the paragraphs of the current selection.</source>
         <translation>Permet de constituer (ou d’enlever) une liste à puce. Ce réglage s’applique aux paragraphes de la sélection en cours.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2055"/>
+        <location filename="fake/fake.cpp" line="2263"/>
         <source>Allows to establish (or to remove) a numbered list. This setting applies to the paragraphs of the current selection.</source>
         <translation>Permet de constituer (ou d’enlever) une liste numérotée. Ce réglage s’applique aux paragraphes de la sélection en cours.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2056"/>
+        <location filename="fake/fake.cpp" line="2264"/>
         <source>Horizontal alignment: left. This setting applies to the paragraph in which the cursor is.</source>
         <translation>Alignement horizontal à gauche. Ce réglage s’applique au paragraphe dans lequel se trouve le curseur.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2057"/>
+        <location filename="fake/fake.cpp" line="2265"/>
         <source>Horizontal alignment: centered. This setting applies to the paragraph in which the cursor is.</source>
         <translation>Alignement horizontal au centre. Ce réglage s’applique au paragraphe dans lequel se trouve le curseur.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2058"/>
+        <location filename="fake/fake.cpp" line="2266"/>
         <source>Horizontal alignment: justified. This setting applies to the paragraph in which the cursor is.</source>
         <translation>Alignement horizontal justifié. Ce réglage s’applique au paragraphe dans lequel se trouve le curseur.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2059"/>
+        <location filename="fake/fake.cpp" line="2267"/>
         <source>Horizontal alignment: right. This setting applies to the paragraph in which the cursor is.</source>
         <translation>Alignement horizontal à droite. Ce réglage s’applique au paragraphe dans lequel se trouve le curseur.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2060"/>
+        <location filename="fake/fake.cpp" line="2268"/>
         <source>Second line at the top of the dialog</source>
         <translation>Deuxième ligne en haut de la boite
 	
 </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2061"/>
+        <location filename="fake/fake.cpp" line="2269"/>
         <source>Allows you to add outline or shadow to the whole text: </source>
         <translation>Permet de donner un effet de contour ou d’ombre au texte :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2062"/>
+        <location filename="fake/fake.cpp" line="2270"/>
         <source>The first list allows you to select the effect: </source>
         <translation>La première liste permet de définir l’effet :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2063"/>
+        <location filename="fake/fake.cpp" line="2271"/>
         <source>No effect</source>
         <translation>Aucun effet</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2064"/>
+        <location filename="fake/fake.cpp" line="2272"/>
         <source>Text is shown without any shadow or outline</source>
         <translation>Le texte est affiché sans aucun effet d’ombre ou de contour</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2065"/>
+        <location filename="fake/fake.cpp" line="2273"/>
         <source>Outline</source>
         <translation>Contour</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2066"/>
+        <location filename="fake/fake.cpp" line="2274"/>
         <source>Surrounds the characters with a line in the current shadow color</source>
         <translation>Entoure les caractères avec un trait de la couleur de l’ombre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2067"/>
+        <location filename="fake/fake.cpp" line="2275"/>
         <source>Shadow ...</source>
         <translation>Ombre en…</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2068"/>
+        <location filename="fake/fake.cpp" line="2276"/>
         <source>Add a shadow in the current shadow color in one of the 4 corners.</source>
         <translation>Ajoute une ombre de la couleur de l’ombre en la positionnant dans l’un des 4 coins.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2069"/>
+        <location filename="fake/fake.cpp" line="2277"/>
         <source>The second list allows you to select the color of the shadow or the outline.</source>
         <translation>La seconde liste permet de sélectionner la couleur de l’ombre ou du contour.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2070"/>
+        <location filename="fake/fake.cpp" line="2278"/>
         <source>Sets bold characters. This setting applies to the current selection.</source>
         <translation>Met les caractères en gras. Ce réglage s’applique à la sélection en cours.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2071"/>
+        <location filename="fake/fake.cpp" line="2279"/>
         <source>Sets characters to italics. This setting applies to the current selection.</source>
         <translation>Met les caractères en italique. Ce réglage s’applique à la sélection en cours.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2072"/>
+        <location filename="fake/fake.cpp" line="2280"/>
         <source>Underlines the characters. This setting applies to the current selection.</source>
         <translation>Souligne les caractères. Ce réglage s’applique à la sélection en cours.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2073"/>
+        <location filename="fake/fake.cpp" line="2281"/>
         <source>Puts the characters to super. This setting applies to the current selection.</source>
         <translation>Met les caractères en exposant. Ce réglage s’applique à la sélection en cours.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2074"/>
+        <location filename="fake/fake.cpp" line="2282"/>
         <source>Puts the characters to sub. This setting applies to the current selection.</source>
         <translation>Met les caractères en indice. Ce réglage s’applique à la sélection en cours.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2075"/>
+        <location filename="fake/fake.cpp" line="2283"/>
         <source>Move the paragraph of a notch towards the right (indent). This setting applies to the paragraph in which is the cursor.</source>
         <translation>Décale le paragraphe d’un cran vers la droite (indentation). Ce réglage s’applique au paragraphe dans lequel se trouve le curseur.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2076"/>
+        <location filename="fake/fake.cpp" line="2284"/>
         <source>Move the paragraph of a notch towards the left (unindent). This setting applies to the paragraph in which is the cursor.</source>
         <translation>Décale le paragraphe d’un cran vers la gauche (désindentation). Ce réglage s’applique au paragraphe dans lequel se trouve le curseur.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2077"/>
+        <location filename="fake/fake.cpp" line="2285"/>
         <source>Vertical alignment: top. This setting applies to the block (to the whole text).</source>
         <translation>Alignement vertical en haut. Ce réglage s’applique au bloc (à l’ensemble du texte).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2078"/>
+        <location filename="fake/fake.cpp" line="2286"/>
         <source>Vertical alignment: middle. This setting applies to the block (to the whole text).</source>
         <translation>Alignement vertical au milieu. Ce réglage s’applique au bloc (à l’ensemble du texte).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2079"/>
+        <location filename="fake/fake.cpp" line="2287"/>
         <source>Vertical alignment: bottom. This setting applies to the block (to the whole text).</source>
         <translation>Alignement vertical en bas. Ce réglage s’applique au bloc (à l’ensemble du texte).</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2080"/>
+        <location filename="fake/fake.cpp" line="2288"/>
         <source>Allows you to add a dynamic variable to the text. For more information on dynamic variables see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
         <translation>Permet d&apos;ajouter une variable dynamique au texte. Pour plus d&apos;informations sur les variables dynamiques voir: &lt;a href=&quot;0013.html&quot;&gt;Les variables dynamiques&lt;/a&gt;</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2081"/>
+        <location filename="fake/fake.cpp" line="2289"/>
         <source>Background text tab</source>
         <translation>Onglet fond du texte</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2082"/>
+        <location filename="fake/fake.cpp" line="2290"/>
         <source>&lt;U&gt;&lt;B&gt;&lt;I&gt;Note: This tab is available only for the title blocks (It&apos;s not available when the text applies to an image block).&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;</source>
         <translation>&lt;U&gt;&lt;B&gt;&lt;I&gt;Note : Cette onglet n’est disponible que pour les blocs de type texte (il n&apos;est pas disponible pour les textes des blocks de type image).&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2084"/>
+        <location filename="fake/fake.cpp" line="2292"/>
         <source>Allows you to define a background brush for the shape. The following options are available: </source>
         <translation>Permet de définir le type de fond à utiliser. Les types de fond suivant sont disponibles :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2085"/>
+        <location filename="fake/fake.cpp" line="2293"/>
         <source>No brush</source>
         <translation>Pas de brosse</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2086"/>
+        <location filename="fake/fake.cpp" line="2294"/>
         <source>The shape will have no background and will thus be totally transparent.</source>
         <translation>La forme n’aura pas de fond et sera donc totalement transparente.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2087"/>
+        <location filename="fake/fake.cpp" line="2295"/>
         <source>Solid brush</source>
         <translation>Brosse unie</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2088"/>
+        <location filename="fake/fake.cpp" line="2296"/>
         <source>Allows you to select a plain color.</source>
         <translation>Permet de sélectionner une couleur unie.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2089"/>
+        <location filename="fake/fake.cpp" line="2297"/>
         <source>Pattern brush</source>
         <translation>Motif</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2090"/>
+        <location filename="fake/fake.cpp" line="2298"/>
         <source>Allows you to select a hatched brush.</source>
         <translation>Permet de sélectionner une forme hachurée.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2091"/>
+        <location filename="fake/fake.cpp" line="2299"/>
         <source>Gradient 2 colors</source>
         <translation>Dégradé à 2 couleurs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2092"/>
+        <location filename="fake/fake.cpp" line="2300"/>
         <source>Allows you to select a gradient of 2 colors.</source>
         <translation>Permet de sélectionner un dégradé de 2 couleurs.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2093"/>
+        <location filename="fake/fake.cpp" line="2301"/>
         <source>Gradient 3 colors</source>
         <translation>Dégradé à 3 couleurs</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2094"/>
+        <location filename="fake/fake.cpp" line="2302"/>
         <source>Allows you to select a gradient of 3 colors.</source>
         <translation>Permet de sélectionner un dégradé de 3 couleurs.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2095"/>
+        <location filename="fake/fake.cpp" line="2303"/>
         <source>Image from library</source>
         <translation>Image de la librairie</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2096"/>
+        <location filename="fake/fake.cpp" line="2304"/>
         <source>Allows you to select an image from the library.</source>
         <translation>Permet de sélectionner une image parmi celle de la librairie.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2097"/>
+        <location filename="fake/fake.cpp" line="2305"/>
         <source>If background brush is Solid, Pattern or Gradient brush, then this line appears and allows you to select a color. (Depending on the brush you select, there will be one, two or three selectable colors.)</source>
         <translation>Si le type de fond est positionné sur Brosse unie, Motif ou Dégradé, alors cette ligne apparaît et permet de sélectionner la ou les couleurs à utiliser. (En fonction du type de fond, il y aura une, deux ou trois couleurs sélectionnables.)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2098"/>
+        <location filename="fake/fake.cpp" line="2306"/>
         <source>If background brush is Pattern brush, then this line appears and allows you to select a pattern.</source>
         <translation>Si le type de fond est positionné sur Motif, alors cette ligne apparaît et permet de sélectionner un type de hachure.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2099"/>
+        <location filename="fake/fake.cpp" line="2307"/>
         <source>If background brush is Gradient, then this line appears and allows you to select the gradient orientation. </source>
         <translation>Si le type de fond est positionné sur Dégradé à 2 ou 3 couleurs, alors cette ligne apparaît et permet de sélectionner l’orientation du dégradé.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2100"/>
+        <location filename="fake/fake.cpp" line="2308"/>
         <source>If the Gradient has 3 colors, additional controls allow to define the position (in percentage) of the 3rd gradient color.</source>
         <translation>Si le dégradé est a 3 couleurs, des contrôles supplémentaires permettent de définir la position (en pourcentage) du 3eme points de dégradé.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2101"/>
+        <location filename="fake/fake.cpp" line="2309"/>
         <source>If background brush is Image from library, then this line appears and allows you to select an image.</source>
         <translation>Si le type de fond est positionné sur Image de la librairie, alors cette ligne apparaît et permet de sélectionner une image.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2102"/>
+        <location filename="fake/fake.cpp" line="2310"/>
         <source>Margins tab</source>
         <translation>Onglet marges</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2103"/>
+        <location filename="fake/fake.cpp" line="2311"/>
         <source>Default margins</source>
         <translation>Marges par défaut</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2104"/>
+        <location filename="fake/fake.cpp" line="2312"/>
         <source>To use predefined margins for the shape of the block. In general, these margins ensure that the text is contained in the form.</source>
         <translation>Pour utiliser les marges prédéfinies pour la forme du bloc. En général ces marges assurent que le texte est contenu dans la forme.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2105"/>
+        <location filename="fake/fake.cpp" line="2313"/>
         <source>Full shape</source>
         <translation>Pas de marge (forme entière)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2106"/>
+        <location filename="fake/fake.cpp" line="2314"/>
         <source>To use margins corresponding to the entire form, in fact, the selection rectangle shape regardless of the design.</source>
         <translation>Pour utiliser des marges correspondant à la forme entière, c’est à dire au rectangle de sélection de la forme sans tenir compte du dessin.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2107"/>
+        <location filename="fake/fake.cpp" line="2315"/>
         <source>Custom</source>
         <translation>Personalisée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2108"/>
+        <location filename="fake/fake.cpp" line="2316"/>
         <source>To use custom margins. The following settings allow you to adjust the margins: </source>
         <translation>Pour utiliser des marges personnalisées. Les réglages suivants permettent de régler les marges :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2109"/>
+        <location filename="fake/fake.cpp" line="2317"/>
         <source>Represents the horizontal position of the margins relative to the top-left corner of the block. (This value is expressed in % of the width of the block.)</source>
         <translation>Représente la position horizontal des marges par rapport au point haut-gauche du bloc. (Cette valeur est exprimée en % de la largeur du bloc.)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2110"/>
+        <location filename="fake/fake.cpp" line="2318"/>
         <source>Represents the vertical position of the margins relative to the top-left corner of the block. (This value is expressed in % of the height of the block.)</source>
         <translation>Représente la position vertical des marges par rapport au point haut-gauche du bloc. (Cette valeur est exprimée en % de la hauteur du bloc.)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2111"/>
+        <location filename="fake/fake.cpp" line="2319"/>
         <source>Represents the width of the margins. (This value is expressed in % of the width of the block.)</source>
         <translation>Représente la largeur des marges. (Cette valeur est exprimée en % de la largeur du bloc.)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2112"/>
+        <location filename="fake/fake.cpp" line="2320"/>
         <source>Represents the height of the margins. (This value is expressed in % of the height of the block.)</source>
         <translation>Représente la hauteur des marges. (Cette valeur est exprimée en % de la hauteur du bloc.)</translation>
     </message>
@@ -9748,38 +10753,38 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>0121</name>
     <message>
-        <location filename="fake/fake.cpp" line="2113"/>
-        <location filename="fake/fake.cpp" line="2114"/>
+        <location filename="fake/fake.cpp" line="2321"/>
+        <location filename="fake/fake.cpp" line="2322"/>
         <source>Select transition duration for a set of slides</source>
         <translation>Définir la durée des transitions pour un groupe de diapositive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2115"/>
+        <location filename="fake/fake.cpp" line="2323"/>
         <source> This dialog allows you to define the transition duration for a set of slides: </source>
         <translation>Cette boite de dialogue vous permet de définir la durée des transitions pour un groupe de diapositive :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2116"/>
+        <location filename="fake/fake.cpp" line="2324"/>
         <source>Duration</source>
         <translation>Durée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2117"/>
+        <location filename="fake/fake.cpp" line="2325"/>
         <source>Define the animation duration.</source>
         <translation>Définir la durée de l&apos;animation.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2118"/>
+        <location filename="fake/fake.cpp" line="2326"/>
         <source>When you click the OK button, the new transition duration is applied to all the slides that were selected. </source>
         <translation>Quand vous cliquez sur le bouton OK, la nouvelle durée de transition est appliquée à toutes les diapositives qui ont été sélectionnées.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2119"/>
+        <location filename="fake/fake.cpp" line="2327"/>
         <source>This function can not be used to delete or change the slide&apos;s transition. </source>
         <translation>Cette fonction ne peut pas être utilisée pour supprimer ou modifier la transition de la diapositive.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2120"/>
+        <location filename="fake/fake.cpp" line="2328"/>
         <source>If it&apos;s what you want, then call the context transitions menu by right clicking on one of the slides of the selection from the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and then select &quot;Modify the transition for all the slides of the selection&quot; option.</source>
         <translation>Si c&apos;est cela que vous voulez, appeler le menu contextuel des transitions en effectuant un clic droit sur ​​l&apos;une des diapositives de la sélection dans la &lt;a href=&quot;0023.html&quot;&gt;barre de temps&lt;/a&gt;, puis sélectionner l&apos;option &quot;Modifier la transition pour un groupe de diapositives&quot;.</translation>
     </message>
@@ -9787,139 +10792,139 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>0122</name>
     <message>
-        <location filename="fake/fake.cpp" line="2121"/>
-        <location filename="fake/fake.cpp" line="2122"/>
+        <location filename="fake/fake.cpp" line="2329"/>
+        <location filename="fake/fake.cpp" line="2330"/>
         <source>Transition properties</source>
         <translation>Propriétés de la transition</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2123"/>
+        <location filename="fake/fake.cpp" line="2331"/>
         <source> This dialog allows you to define the entering transition for a slide. </source>
         <translation> La boite « Propriétés de la transition entrante » permet de régler les transitions entrantes des diapositives.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2124"/>
+        <location filename="fake/fake.cpp" line="2332"/>
         <source>It shows a preview of the available transitions by transition family. </source>
         <translation>Cette boite de dialogue affiche une prévisualisation des transitions disponibles par famille de transition. </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2125"/>
+        <location filename="fake/fake.cpp" line="2333"/>
         <source>Remark : In case this dialog is opened for a multiple slide selection, it&apos;s the first slide of the selection that is used for the preview. </source>
         <translation>Note : Dans le cas où cette boite est appelée pour une sélection multiple de diapositive, c’est la première diapositive de la sélection qui est utilisée pour la prévisualisation.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2126"/>
+        <location filename="fake/fake.cpp" line="2334"/>
         <source>Transition type</source>
         <translation>Type de transition</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2127"/>
+        <location filename="fake/fake.cpp" line="2335"/>
         <source>Allows you to select a transition family: </source>
         <oldsource>Allows you to select a transition family : </oldsource>
         <translation>Permet de sélectionner une famille de transition :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2128"/>
+        <location filename="fake/fake.cpp" line="2336"/>
         <source>No transition</source>
         <translation>Aucun</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2129"/>
+        <location filename="fake/fake.cpp" line="2337"/>
         <source>No transition: The new slide immediately replaces the old one. </source>
         <oldsource>No transition : The new slide immediately replaces the old one. </oldsource>
         <translation>Pas de transition : La diapositive entrante remplace instantanément la diapositive sortante.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2130"/>
+        <location filename="fake/fake.cpp" line="2338"/>
         <source>Note that this also deactivates:</source>
         <translation>A noter que dans ce cas, cela désactive également :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2131"/>
+        <location filename="fake/fake.cpp" line="2339"/>
         <source>Sound fades (The playlist of the new slide immediately replaces that of the old one)</source>
         <translation>Les fondus sonores (La liste de lecture musicale de la diapositive entrante remplace instantanément la liste de lecture de la diapositive sortante)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2132"/>
+        <location filename="fake/fake.cpp" line="2340"/>
         <source>Background transitions</source>
         <translation>Les transitions de fond d’écran</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2133"/>
+        <location filename="fake/fake.cpp" line="2341"/>
         <source>Basic</source>
         <translation>Basic</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2134"/>
+        <location filename="fake/fake.cpp" line="2342"/>
         <source>Dissolve effect: The slide appears gradually, with gradually increasing opacity.</source>
         <oldsource>Dissolve effect : The slide appears gradually, with gradually increasing opacity.</oldsource>
         <translation>Effet de fondu : La diapositive apparaît progressivement : son opacité augmente progressivement.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2135"/>
+        <location filename="fake/fake.cpp" line="2343"/>
         <source>Scripted transition</source>
         <translation>Transition programmée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2136"/>
+        <location filename="fake/fake.cpp" line="2344"/>
         <source>Zoom: The new slide appears by getting bigger while the old slide disappears with a dissolve effect. </source>
         <oldsource>Zoom : The new slide appears by getting bigger while the old slide disappears with a dissolve effect. </oldsource>
         <translation>Zoom : La diapositive entrante apparaît en s’agrandissant pendant que la diapositive sortante disparaît avec un effet de fondu.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2137"/>
+        <location filename="fake/fake.cpp" line="2345"/>
         <source>Slide: The new slide glides onto the old slide which disappears with a dissolve effect. </source>
         <oldsource>Slide : The new slide glides onto the old slide which disappears with a dissolve effect. </oldsource>
         <translation>Glissement : La diapositive entrante glisse sur la diapositive sortante qui elle même disparaît avec un effet de fondu.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2138"/>
+        <location filename="fake/fake.cpp" line="2346"/>
         <source>Push: The new slide takes the place of the old slide by pushing it aside.</source>
         <oldsource>Push : The new slide takes the place of the old slide by pushing it aside.</oldsource>
         <translation>Pousseur : La diapositive entrante prend la place de la diapositive sortante en la poussant.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2139"/>
+        <location filename="fake/fake.cpp" line="2347"/>
         <source>LUMA transition</source>
         <translation>Transition LUMA</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2140"/>
+        <location filename="fake/fake.cpp" line="2348"/>
         <source>The animation is based on a luminance mask : the darker the points in the mask, the faster the corresponding points in the new slide replace those in the old slide.</source>
         <translation>L’animation est basée sur un masque de luminance : Plus les points sont sombres dans le masque et plus vite les points correspondant de la diapositive entrante prennent la place des points correspondant de la diapositive sortante.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2141"/>
+        <location filename="fake/fake.cpp" line="2349"/>
         <source>Speed wave</source>
         <translation>Courbe de vitesse</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2142"/>
+        <location filename="fake/fake.cpp" line="2350"/>
         <source>Allows you to select a speed curve to apply to the transition</source>
         <translation>Permet de sélectionner une courbe de vitesse à appliquer à la transition</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2143"/>
+        <location filename="fake/fake.cpp" line="2351"/>
         <source>Duration</source>
         <translation>Durée</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2144"/>
+        <location filename="fake/fake.cpp" line="2352"/>
         <source>Allows you to define the duration of the animation. </source>
         <translation>Permet de définir la durée de l’animation.</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2145"/>
+        <location filename="fake/fake.cpp" line="2353"/>
         <source>The possible choices are of 0,5 seconds (very fast) to 10 seconds (very slow)</source>
         <translation>Les choix possibles vont de 0,5 secondes (très rapide) à 10 secondes (très lent)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2146"/>
+        <location filename="fake/fake.cpp" line="2354"/>
         <source>See also</source>
         <translation>Voir aussi</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2147"/>
+        <location filename="fake/fake.cpp" line="2355"/>
         <source>Description of LUMA</source>
         <translation>Explications sur les LUMA</translation>
     </message>
@@ -9927,253 +10932,253 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>QHP</name>
     <message>
-        <location filename="fake/fake.cpp" line="2158"/>
+        <location filename="fake/fake.cpp" line="2366"/>
         <source>Welcome to the ffDiaporama WIKI</source>
         <translation>Bienvenue dans le WIKI de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2159"/>
+        <location filename="fake/fake.cpp" line="2367"/>
         <source>How ffDiaporama works</source>
         <translation>Principes de fonctionnement de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2160"/>
+        <location filename="fake/fake.cpp" line="2368"/>
         <source>Functional principles</source>
         <translation>Principes de fonctionnement de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2161"/>
+        <location filename="fake/fake.cpp" line="2369"/>
         <source>The Visible property of blocks and the management of the breaks</source>
         <translation>La propriété « Visible » des blocs et la gestion des pauses</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2162"/>
+        <location filename="fake/fake.cpp" line="2370"/>
         <source>All shots regulations versus current shot regulations</source>
         <translation>Les réglages pour tous les plans et les réglages pour le plan en cour</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2163"/>
+        <location filename="fake/fake.cpp" line="2371"/>
         <source>Style sheets</source>
         <translation>Les feuilles de style</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2164"/>
+        <location filename="fake/fake.cpp" line="2372"/>
         <source>Dynamic variables</source>
         <translation>Les variables dynamiques</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2165"/>
+        <location filename="fake/fake.cpp" line="2373"/>
         <source>Interface description</source>
         <translation>Description de l’interface</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2166"/>
+        <location filename="fake/fake.cpp" line="2374"/>
         <source>The main window</source>
         <translation>La fenêtre principale</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2167"/>
+        <location filename="fake/fake.cpp" line="2375"/>
         <source>The toolbar</source>
         <translation>La barre d’outils</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2168"/>
+        <location filename="fake/fake.cpp" line="2376"/>
         <source>The timeline</source>
         <translation>La barre de temps</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2169"/>
+        <location filename="fake/fake.cpp" line="2377"/>
         <source>The multimedia file browser</source>
         <translation>L’explorateur de fichiers multimédia</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2193"/>
-        <location filename="fake/fake.cpp" line="2194"/>
+        <location filename="fake/fake.cpp" line="2401"/>
+        <location filename="fake/fake.cpp" line="2402"/>
         <source>Rendering videos</source>
         <translation>Générer des films</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2195"/>
+        <location filename="fake/fake.cpp" line="2403"/>
         <source>Smartphones and tablets</source>
         <translation>Smartphone et tablettes</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2196"/>
+        <location filename="fake/fake.cpp" line="2404"/>
         <source>Portable devices</source>
         <translation>Équipements portables</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2197"/>
+        <location filename="fake/fake.cpp" line="2405"/>
         <source>Multimedia system (Home cinema)</source>
         <translation>Système multimédia de salon</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2198"/>
+        <location filename="fake/fake.cpp" line="2406"/>
         <source>For the WEB</source>
         <translation>Pour Internet</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2199"/>
+        <location filename="fake/fake.cpp" line="2407"/>
         <source>Video codec</source>
         <translation>Codec vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2200"/>
+        <location filename="fake/fake.cpp" line="2408"/>
         <source>Audio codec</source>
         <translation>Codec audio</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2201"/>
+        <location filename="fake/fake.cpp" line="2409"/>
         <source>Containers</source>
         <translation>Containers</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2202"/>
+        <location filename="fake/fake.cpp" line="2410"/>
         <source>Video standards and resolutions</source>
         <translation>Standards et résolutions des vidéos</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2203"/>
+        <location filename="fake/fake.cpp" line="2411"/>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
         <translation>Fichiers joints (Vignettes, nfo, etc...)</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2204"/>
+        <location filename="fake/fake.cpp" line="2412"/>
         <source>Technical information on ffDiaporama</source>
         <translation>Informations techniques sur ffDiaporama</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2205"/>
+        <location filename="fake/fake.cpp" line="2413"/>
         <source>ffDiaporama command line arguments</source>
         <translation>Les paramètres de la ligne de commande</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2206"/>
+        <location filename="fake/fake.cpp" line="2414"/>
         <source>ffDiaporama project files</source>
         <translation>Projet ffDiaporama</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2207"/>
+        <location filename="fake/fake.cpp" line="2415"/>
         <source>The configuration files for ffDiaporama</source>
         <translation>Les fichiers de configuration de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2208"/>
+        <location filename="fake/fake.cpp" line="2416"/>
         <source>XBMC nfo files</source>
         <translation>Fichier nfo pour XBMC</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2170"/>
+        <location filename="fake/fake.cpp" line="2378"/>
         <source>Dialog boxes</source>
         <translation>Les boites de dialogue</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2171"/>
+        <location filename="fake/fake.cpp" line="2379"/>
         <source>Application options</source>
         <translation>Options de l&apos;application</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2172"/>
+        <location filename="fake/fake.cpp" line="2380"/>
         <source>Manage devices</source>
         <translation>Gérer les profils de génération</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2173"/>
+        <location filename="fake/fake.cpp" line="2381"/>
         <source>Add or modify a predefined title slide</source>
         <translation>Ajouter ou éditer une diapositive titre prédéfinie</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2174"/>
+        <location filename="fake/fake.cpp" line="2382"/>
         <source>Background properties</source>
         <translation>Propriétés de l&apos;arrière plan</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2175"/>
+        <location filename="fake/fake.cpp" line="2383"/>
         <source>Chapter properties</source>
         <translation>Propriétés du chapitre</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2176"/>
+        <location filename="fake/fake.cpp" line="2384"/>
         <source>Check configuration</source>
         <translation>Vérification de la configuration</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2177"/>
+        <location filename="fake/fake.cpp" line="2385"/>
         <source>Export project</source>
         <translation>Exporter le projet</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2178"/>
+        <location filename="fake/fake.cpp" line="2386"/>
         <source>Project properties</source>
         <translation>Propriétés du projet</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2179"/>
+        <location filename="fake/fake.cpp" line="2387"/>
         <source>Select files</source>
         <translation>Sélectionner des fichiers</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2180"/>
+        <location filename="fake/fake.cpp" line="2388"/>
         <source>Correct, reframe or cut image or video</source>
         <translation>Recadrer, corriger et/ou couper une image ou une vidéo</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2181"/>
+        <location filename="fake/fake.cpp" line="2389"/>
         <source>File information</source>
         <translation>Information sur le fichier</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2182"/>
+        <location filename="fake/fake.cpp" line="2390"/>
         <source>Manage favorite</source>
         <translation>Gérer les favoris</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2183"/>
+        <location filename="fake/fake.cpp" line="2391"/>
         <source>Manage style</source>
         <translation>Gestion des styles</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2184"/>
+        <location filename="fake/fake.cpp" line="2392"/>
         <source>Music properties</source>
         <translation>Propriétés de la musique</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2185"/>
+        <location filename="fake/fake.cpp" line="2393"/>
         <source>Render video</source>
         <translation>Générer le film</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2186"/>
+        <location filename="fake/fake.cpp" line="2394"/>
         <source>Ruler properties</source>
         <translation>Propriétés des guides</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2187"/>
+        <location filename="fake/fake.cpp" line="2395"/>
         <source>Edit thumbnail model</source>
         <translation>Modifier un modèle de vignette</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2188"/>
+        <location filename="fake/fake.cpp" line="2396"/>
         <source>Set first shot duration for a set of slides</source>
         <translation>Définir la durée du 1er plan pour un groupe de diapositive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2189"/>
+        <location filename="fake/fake.cpp" line="2397"/>
         <source>Slide properties</source>
         <translation>Propriétés de la diapositive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2190"/>
+        <location filename="fake/fake.cpp" line="2398"/>
         <source>Edit text</source>
         <translation>Editer le texte</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2191"/>
+        <location filename="fake/fake.cpp" line="2399"/>
         <source>Select transition duration for a set of slides</source>
         <translation>Définir la durée des transitions pour un groupe de diapositive</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2192"/>
+        <location filename="fake/fake.cpp" line="2400"/>
         <source>Transition properties</source>
         <translation>Propriétés de la transition</translation>
     </message>
@@ -10181,51 +11186,51 @@ Utiliser CTRL+les flèches de direction pour déplacer la poignée du coin infé
 <context>
     <name>main</name>
     <message>
-        <location filename="fake/fake.cpp" line="2148"/>
-        <location filename="fake/fake.cpp" line="2149"/>
+        <location filename="fake/fake.cpp" line="2356"/>
+        <location filename="fake/fake.cpp" line="2357"/>
         <source>Welcome to the ffDiaporama WIKI</source>
         <translation>Bienvenue dans le WIKI de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2150"/>
+        <location filename="fake/fake.cpp" line="2358"/>
         <source> This documentation is divided into the followed themes: </source>
         <translation> Cette documentation est divisée selon les thèmes suivant :</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2151"/>
+        <location filename="fake/fake.cpp" line="2359"/>
         <source>How ffDiaporama works</source>
         <oldsource>&lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;</oldsource>
         <translation>Principes de fonctionnement de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2152"/>
+        <location filename="fake/fake.cpp" line="2360"/>
         <source>Interface description</source>
         <oldsource>&lt;a href=&quot;0020.html&quot;&gt;Interface description&lt;/a&gt;</oldsource>
         <translation>Description de l’interface</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2153"/>
+        <location filename="fake/fake.cpp" line="2361"/>
         <source>Rendering videos</source>
         <translation>Générer des films</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2154"/>
+        <location filename="fake/fake.cpp" line="2362"/>
         <source>Technical information on ffDiaporama</source>
         <oldsource>&lt;a href=&quot;0040.html&quot;&gt;Technical information on ffDiaporama&lt;/a&gt;</oldsource>
         <translation>Informations techniques sur ffDiaporama</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2155"/>
+        <location filename="fake/fake.cpp" line="2363"/>
         <source>ffDiaporama Web site</source>
         <translation>le site Web de ffDiaporama</translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2156"/>
+        <location filename="fake/fake.cpp" line="2364"/>
         <source>Finally, you&apos;ll also find help on the </source>
         <translation>Enfin, vous trouverez également de l&apos;aide sur </translation>
     </message>
     <message>
-        <location filename="fake/fake.cpp" line="2157"/>
+        <location filename="fake/fake.cpp" line="2365"/>
         <source>ffDiaporama forum</source>
         <translation>le forum de ffDiaporama</translation>
     </message>

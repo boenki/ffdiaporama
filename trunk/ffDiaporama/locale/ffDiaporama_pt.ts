@@ -765,12 +765,12 @@ Nota: este campo é limitado a 30 caracteres para ficar compatível com jukebox<
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="468"/>
         <source>
 Editor options (when adding objects)</source>
-        <translation type="unfinished"></translation>
+        <translation>Opções de edição (quando adicionar objetos)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="674"/>
         <source>This option allows you to specify the format in which computed dates are displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta opção permite que você especifique o formato em que datas computadas são exibidas.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="711"/>
@@ -977,7 +977,8 @@ quando você clicar no botão &quot;Para a Web&quot; no menu &quot;Renderizaçã
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2482"/>
         <source>Defines the default value for the field Author (often so called Artist by Media Center Systems)
 Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation type="unfinished"></translation>
+        <translation>Define o valor padrão para o campo Autor (muitas vezes chamado Artista pelo Centro de Sistemas de Média)
+Nota: este campo é limitado a 30 caracteres para ficar compatível com jukebox</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2931"/>
@@ -4369,7 +4370,7 @@ Marcar a opção a partir de, e em seguida, digitar os números do início e fim
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="190"/>
         <source>Select the audio compression ratio from the displayed list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccione a taxa de compressão de áudio a partir da lista apresentada.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="265"/>
@@ -4389,7 +4390,7 @@ Marcar a opção a partir de, e em seguida, digitar os números do início e fim
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="618"/>
         <source>Select the frequency to use for audio during the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selecione a freqüência a utilizar para o áudio durante a renderização.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="657"/>
@@ -6550,12 +6551,12 @@ Observação: Este campo é freqüentemente mostrado pelo sistema de indexação
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="371"/>
         <source>Check this box to override the date and offer you to enter the date as a free text</source>
-        <translation type="unfinished"></translation>
+        <translation>Marque esta caixa para substituir a data e disponibilizar-lhe o campo para inserir a data como um texto livre</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="381"/>
         <source>Enter here the date of the event of the project as a free text</source>
-        <translation type="unfinished"></translation>
+        <translation>Digite aqui a data do evento do projeto como um texto livre</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="472"/>
@@ -8654,7 +8655,7 @@ Você quer abri-lo mesmo assim?</translation>
     </message>
     <message>
         <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="406"/>
-        <location filename="../src/engine/cDriveList.cpp" line="384"/>
+        <location filename="../src/engine/cDriveList.cpp" line="386"/>
         <source>System files</source>
         <translation>Arquivos do sistema</translation>
     </message>
@@ -8672,7 +8673,7 @@ Você quer abri-lo mesmo assim?</translation>
         <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="669"/>
         <location filename="../src/engine/cDriveList.cpp" line="64"/>
         <location filename="../src/engine/cDriveList.cpp" line="103"/>
-        <location filename="../src/engine/cDriveList.cpp" line="372"/>
+        <location filename="../src/engine/cDriveList.cpp" line="374"/>
         <source>Clipart</source>
         <translation>Clipart</translation>
     </message>
@@ -8682,7 +8683,7 @@ Você quer abri-lo mesmo assim?</translation>
         <translation>Unidade vazia ...</translation>
     </message>
     <message>
-        <location filename="../src/engine/cDriveList.cpp" line="341"/>
+        <location filename="../src/engine/cDriveList.cpp" line="343"/>
         <source>Personal folder</source>
         <translation>Pasta pessoal</translation>
     </message>

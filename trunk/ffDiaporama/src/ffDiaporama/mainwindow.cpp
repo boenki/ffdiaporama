@@ -2247,7 +2247,7 @@ void MainWindow::s_Action_DoAddFile() {
                 return;
             }
 
-            if ((ApplicationConfig->Deinterlace)&&(CurrentBrush->Video!=NULL)&&((CurrentBrush->Video->FileExtension.toLower()=="mts")||(CurrentBrush->Video->FileExtension.toLower()=="m2ts"))) CurrentBrush->Deinterlace=true;
+            if ((ApplicationConfig->Deinterlace)&&(CurrentBrush->Video!=NULL)&&((CurrentBrush->Video->FileExtension.toLower()=="mts")||(CurrentBrush->Video->FileExtension.toLower()=="m2ts")||(CurrentBrush->Video->FileExtension.toLower()=="mod"))) CurrentBrush->Deinterlace=true;
 
             // No future need of this
             if (Image) {

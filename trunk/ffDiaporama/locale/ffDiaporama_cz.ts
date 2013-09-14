@@ -8323,7 +8323,7 @@ Chcete vytvořit jeden snímek pro každou z kapitol ?</translation>
     </message>
     <message>
         <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="406"/>
-        <location filename="../src/engine/cDriveList.cpp" line="384"/>
+        <location filename="../src/engine/cDriveList.cpp" line="386"/>
         <source>System files</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8341,7 +8341,7 @@ Chcete vytvořit jeden snímek pro každou z kapitol ?</translation>
         <location filename="../src/CustomCtrl/QCustomFolderTree.cpp" line="669"/>
         <location filename="../src/engine/cDriveList.cpp" line="64"/>
         <location filename="../src/engine/cDriveList.cpp" line="103"/>
-        <location filename="../src/engine/cDriveList.cpp" line="372"/>
+        <location filename="../src/engine/cDriveList.cpp" line="374"/>
         <source>Clipart</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8351,7 +8351,7 @@ Chcete vytvořit jeden snímek pro každou z kapitol ?</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/engine/cDriveList.cpp" line="341"/>
+        <location filename="../src/engine/cDriveList.cpp" line="343"/>
         <source>Personal folder</source>
         <translation type="unfinished"></translation>
     </message>

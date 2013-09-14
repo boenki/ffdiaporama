@@ -204,23 +204,25 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
 
                     // line we search is like "[dev without number] Attached"
                     QString ToFind=Device.mid(QString("/dev/").length());
-                    if ((ToFind[ToFind.length()-1]>='0')&&(ToFind[ToFind.length()-1]<='9')) ToFind=ToFind.left(ToFind.length()-1);
-                    ToFind="["+ToFind+"] Attached";
+                    if (!ToFind.isEmpty()) {
+                        if ((ToFind[ToFind.length()-1]>='0')&&(ToFind[ToFind.length()-1]<='9')) ToFind=ToFind.left(ToFind.length()-1);
+                        ToFind="["+ToFind+"] Attached";
 
-                    // Parse all line in Dmesg to try find line containing "[dev without number] Attached"
-                    QString DriveTypeStr;
-                    QString DmesgLine;
-                    while (DmesgInfo!="") {
-                        if (DmesgInfo.indexOf("\n")!=-1) {
-                            DmesgLine=DmesgInfo.left(DmesgInfo.indexOf("\n"));
-                            DmesgInfo=DmesgInfo.mid(DmesgInfo.indexOf("\n")+QString("\n").length());
-                        } else {
-                            DmesgLine=DmesgInfo;
-                            DmesgInfo="";
+                        // Parse all line in Dmesg to try find line containing "[dev without number] Attached"
+                        QString DriveTypeStr;
+                        QString DmesgLine;
+                        while (DmesgInfo!="") {
+                            if (DmesgInfo.indexOf("\n")!=-1) {
+                                DmesgLine=DmesgInfo.left(DmesgInfo.indexOf("\n"));
+                                DmesgInfo=DmesgInfo.mid(DmesgInfo.indexOf("\n")+QString("\n").length());
+                            } else {
+                                DmesgLine=DmesgInfo;
+                                DmesgInfo="";
+                            }
+                            if (DmesgLine.indexOf(ToFind)!=-1) DriveTypeStr=DmesgLine.mid(DmesgLine.indexOf(ToFind)+ToFind.length()+1);
                         }
-                        if (DmesgLine.indexOf(ToFind)!=-1) DriveTypeStr=DmesgLine.mid(DmesgLine.indexOf(ToFind)+ToFind.length()+1);
+                        if (DriveTypeStr=="SCSI removable disk") IconDrive=ApplicationConfig->DefaultHDDIcon.GetIcon(cCustomIcon::ICON16)->copy();
                     }
-                    if (DriveTypeStr=="SCSI removable disk") IconDrive=ApplicationConfig->DefaultHDDIcon.GetIcon(cCustomIcon::ICON16)->copy();
                 }
             }
 

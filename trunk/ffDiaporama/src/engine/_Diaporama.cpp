@@ -2436,8 +2436,13 @@ void cDiaporama::PrepareImage(cDiaporamaObjectInfo *Info,int W,int H,bool IsCurr
                 PreparedBrushList.append(cCompositionObjectContext(j,PreviewMode,IsCurrentObject,Info,W,H,CurShot,PreviousShot,SoundTrackMontage,AddStartPos,Duration));
 
             // Compute each item of the collection
-            QFuture<void> DoCompute = QtConcurrent::map(PreparedBrushList,ComputeCompositionObjectContext);
-            if (DoCompute.isRunning()) DoCompute.waitForFinished();
+            #if QT_VERSION >= 0x050000
+                // Threaded version only for QT5
+                QFuture<void> DoCompute = QtConcurrent::map(PreparedBrushList,ComputeCompositionObjectContext);
+                if (DoCompute.isRunning()) DoCompute.waitForFinished();
+            #else
+                for (int aa=0;aa<PreparedBrushList.count();aa++) ComputeCompositionObjectContext(PreparedBrushList[aa]);
+            #endif
 
             // Draw collection
             for (int j=0;j<CurShot->ShotComposition.List.count();j++) {

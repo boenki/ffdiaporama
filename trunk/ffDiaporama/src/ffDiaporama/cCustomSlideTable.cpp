@@ -930,6 +930,19 @@ void cCustomSlideTable::mouseDoubleClickEvent(QMouseEvent *event) {
 
 //====================================================================================================================
 
+void cCustomSlideTable::wheelEvent(QWheelEvent *event) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::wheelEvent");
+    if (!PartitionMode) {
+        int numDegrees = event->delta() / 8;
+        int numSteps = numDegrees / 15;
+
+        SetCurrentCell(Diaporama->CurrentCol-numSteps);
+        event->accept();
+    }
+}
+
+//====================================================================================================================
+
 void cCustomSlideTable::AddObjectToTimeLine(int CurIndex) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cCustomSlideTable::AddObjectToTimeLine");
 
