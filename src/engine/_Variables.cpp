@@ -173,7 +173,7 @@ QString cVariable::ResolveTextVariable(cDiaporamaObject *Object,QString SourceTe
         else if (Variables[i].VarName=="PAP") VarName=QApplication::translate("Variables","A %1 production").arg(Object->Parent->ProjectInfo->Author);
         else if (Variables[i].VarName=="PAL") VarName=Object->Parent->ProjectInfo->Album;
         else if (Variables[i].VarName=="PCT") VarName=Object->Parent->ProjectInfo->Comment;
-        else if (Variables[i].VarName=="PDD") VarName=Object->Parent->ProjectInfo->GetInformationValue("Duration");
+        else if (Variables[i].VarName=="PDD") { VarName=Object->Parent->ProjectInfo->GetInformationValue("Duration"); VarName=VarName.left(VarName.lastIndexOf(".")); }
         else if (Variables[i].VarName=="PSC") VarName=QString("%1").arg(Object->Parent->List.count());
 
         // Project date values
@@ -208,7 +208,7 @@ QString cVariable::ResolveTextVariable(cDiaporamaObject *Object,QString SourceTe
         // Various values
         else if (Variables[i].VarName=="FFD")  VarName=QString("%1 (%2)").arg(Object->Parent->ProjectInfo->Composer).arg(Object->Parent->ProjectInfo->ffDRevision);
         else if (Variables[i].VarName=="STP")  VarName=Variables[i].Value;
-        else if (Variables[i].VarName=="STM")   VarName=Variables[i].Value;
+        else if (Variables[i].VarName=="STM")  VarName=Variables[i].Value;
         else if (Variables[i].VarName=="STA")  VarName=QApplication::translate("Variables","Project done the %1:\n\t·with «%2 (%3)»\n\t·on a %4 (%5 Core/CPU) computer")
                                                         .arg(QDate::currentDate().toString(Object->Parent->ApplicationConfig->ShortDateFormat))
                                                         .arg(Object->Parent->ProjectInfo->Composer).arg(Object->Parent->ProjectInfo->ffDRevision)

@@ -675,7 +675,7 @@ void cffDProjectFile::InitDefaultValues() {
     Comment         =QApplication::translate("cModelList","Project comment");
     Composer        ="";
     DefaultLanguage =ApplicationConfig->DefaultLanguage;
-    ffDRevision     ="";
+    ffDRevision     =CurrentAppVersion;;
 }
 
 //====================================================================================================================

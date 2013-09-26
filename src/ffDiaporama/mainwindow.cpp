@@ -40,6 +40,7 @@
 #include "../engine/cTextFrame.h"
 #include "../engine/_Variables.h"
 
+#include "HelpPopup/HelpPopup.h"
 #include "DlgInfoFile/DlgInfoFile.h"
 #include "DlgCheckConfig/DlgCheckConfig.h"
 #include "DlgffDPjrProperties/DlgffDPjrProperties.h"
@@ -184,6 +185,7 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
 
     // Register models
     screen.showMessage(QApplication::translate("MainWindow","Register models..."),Qt::AlignHCenter|Qt::AlignBottom);
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Register models..."));
     ApplicationConfig->ThumbnailModels=new cModelList(ApplicationConfig,ffd_MODELTYPE_THUMBNAIL,&ApplicationConfig->ThumbnailModelsNextNumber,GEOMETRY_THUMBNAIL,0,"");
     int Cur;
     for (int geo=GEOMETRY_4_3;geo<=GEOMETRY_40_17;geo++) {
@@ -269,6 +271,14 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     ui->ZoomMinusBT->setEnabled(ApplicationConfig->TimelineHeight>TIMELINEMINHEIGH);
     ui->ZoomPlusBT->setEnabled(ApplicationConfig->TimelineHeight<TIMELINEMAXHEIGH);
 
+    // Init help window
+    screen.showMessage(QApplication::translate("MainWindow","Init WIKI..."),Qt::AlignHCenter|Qt::AlignBottom);
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Init WIKI..."));
+    ApplicationConfig->PopupHelp=new HelpPopup(ApplicationConfig,ApplicationConfig->DlgPopupHelp);
+    ApplicationConfig->PopupHelp->InitDialog();
+    ApplicationConfig->PopupHelp->hide();
+    ApplicationConfig->PopupHelp->OpenHelp("main",false);
+
     // We have finish with the SplashScreen
     screen.hide();
     toolTipTowhatsThis(this);
@@ -328,7 +338,6 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     connect(ui->Action_Exit_BT_3,SIGNAL(released()),this,SLOT(s_Action_Exit()));
     connect(ui->Action_Exit_BT_4,SIGNAL(released()),this,SLOT(s_Action_Exit()));
     connect(ui->Action_Exit_BT_5,SIGNAL(released()),this,SLOT(s_Action_Exit()));
-
 
     connect(QApplication::clipboard(),SIGNAL(dataChanged()),this,SLOT(s_Event_ClipboardChanged()));
 
@@ -639,6 +648,7 @@ void MainWindow::closeEvent(QCloseEvent *Event) {
         QApplication::processEvents(QEventLoop::ExcludeUserInputEvents);
     }
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+    ApplicationConfig->PopupHelp->close();
     ApplicationConfig->BrowserWidgetSplitter=QString(QByteArray(ui->BrowserWidget->saveState()).toHex());
     ApplicationConfig->MainWinWSP->SaveWindowState(this);
     ApplicationConfig->SaveConfigurationFile();
@@ -842,7 +852,7 @@ void MainWindow::s_Action_Documentation() {
     ui->ActionDocumentation_BT->setDown(false);
     ui->ActionDocumentation_BT_2->setDown(false);
 
-    ApplicationConfig->OpenHelp("main");
+    ApplicationConfig->PopupHelp->OpenHelp("main",true);
 }
 
 //====================================================================================================================
@@ -1187,7 +1197,7 @@ void MainWindow::DoTimelineSelectionChanged() {
 void MainWindow::s_Action_OpenTABHelpLink(const QString Link) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Action_OpenTABHelpLink");
     if (Link.startsWith("http:")) QDesktopServices::openUrl(QUrl(Link));
-        else ApplicationConfig->OpenHelp(Link);
+        else ApplicationConfig->PopupHelp->OpenHelp(Link,true);
 }
 
 void MainWindow::s_Event_ToolbarChanged(int MenuIndex) {

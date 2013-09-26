@@ -8,10 +8,10 @@ CONFIG += qt thread
 
 greaterThan(QT_MAJOR_VERSION, 4): {
     # QT5 version
-    QT += widgets concurrent
+    QT += widgets concurrent help
 } else: {
     # QT4 version
-    #CONFIG += thread
+    CONFIG += help
 }
 
 QT          += core gui xml network svg
@@ -71,14 +71,14 @@ unix {
     contains(QMAKE_HOST.arch,x86_64) {
         DEFINES+=Q_OS_WIN64
         message("x86_64 build")
-        INCLUDEPATH += "../../../win_src/ffmpeg-2.0-win64-dev/include"
-        LIBS        += -L"../../../win_src/ffmpeg-2.0-win64-dev/lib"
+        INCLUDEPATH += "../../../win_src/ffmpeg-2.0.1-win64-dev/include"
+        LIBS        += -L"../../../win_src/ffmpeg-2.0.1-win64-dev/lib"
         LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x64"
     } else {
         DEFINES+=Q_OS_WIN32
         message("x86 build")
-        INCLUDEPATH += "../../../win_src/ffmpeg-2.0-win32-dev/include"
-        LIBS        += -L"../../../win_src/ffmpeg-2.0-win32-dev/lib"
+        INCLUDEPATH += "../../../win_src/ffmpeg-2.0.1-win32-dev/include"
+        LIBS        += -L"../../../win_src/ffmpeg-2.0.1-win32-dev/lib"
         LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x86"
     }
 
@@ -251,66 +251,67 @@ OTHER_FILES += ../../TODO-LIST.txt \          # Developpement file
     ../../authors.txt \                       # Authoring file for ffDiaporama
     ../../ffDiaporama.url \                   # URL file to be install on windows system
     ../../ffDiaporama.desktop \                 # Desktop (menu icon) entry for ffDiaporama installed in /usr
-    ../../WIKI/en/wiki_en.qhp \
-    ../../WIKI/en/wiki_en.qhcp \
-    ../../WIKI/en/main.html \
-    ../../WIKI/en/0043.html \
-    ../../WIKI/en/0042.html \
-    ../../WIKI/en/0041.html \
-    ../../WIKI/en/0040.html \
-    ../../WIKI/en/0039.html \
-    ../../WIKI/en/0038.html \
-    ../../WIKI/en/0037.html \
-    ../../WIKI/en/0036.html \
-    ../../WIKI/en/0035.html \
-    ../../WIKI/en/0034.html \
-    ../../WIKI/en/0033.html \
-    ../../WIKI/en/0032.html \
-    ../../WIKI/en/0031.html \
-    ../../WIKI/en/0030.html \
-    ../../WIKI/en/0024.html \
-    ../../WIKI/en/0023.html \
-    ../../WIKI/en/0022.html \
-    ../../WIKI/en/0021.html \
-    ../../WIKI/en/0020.html \
-    ../../WIKI/en/0016.html \
-    ../../WIKI/en/0015.html \
-    ../../WIKI/en/0014.html \
-    ../../WIKI/en/0011.html \
-    ../../WIKI/en/0010.html \
-    ../../WIKI/en/0101.html \
-    ../../WIKI/en/0102.html \
+    ../../WIKI/src_en/wiki_en.qhp \
+    ../../WIKI/src_en/wiki_en.qhcp \
+    ../../WIKI/src_en/main.html \
+    ../../WIKI/src_en/0043.html \
+    ../../WIKI/src_en/0042.html \
+    ../../WIKI/src_en/0041.html \
+    ../../WIKI/src_en/0040.html \
+    ../../WIKI/src_en/0039.html \
+    ../../WIKI/src_en/0038.html \
+    ../../WIKI/src_en/0037.html \
+    ../../WIKI/src_en/0036.html \
+    ../../WIKI/src_en/0035.html \
+    ../../WIKI/src_en/0034.html \
+    ../../WIKI/src_en/0033.html \
+    ../../WIKI/src_en/0032.html \
+    ../../WIKI/src_en/0031.html \
+    ../../WIKI/src_en/0030.html \
+    ../../WIKI/src_en/0024.html \
+    ../../WIKI/src_en/0023.html \
+    ../../WIKI/src_en/0022.html \
+    ../../WIKI/src_en/0021.html \
+    ../../WIKI/src_en/0020.html \
+    ../../WIKI/src_en/0016.html \
+    ../../WIKI/src_en/0015.html \
+    ../../WIKI/src_en/0014.html \
+    ../../WIKI/src_en/0011.html \
+    ../../WIKI/src_en/0010.html \
+    ../../WIKI/src_en/0101.html \
+    ../../WIKI/src_en/0102.html \
     ../../WIKI/wiki.css \
-    ../../WIKI/en/0012.html \
-    ../../WIKI/en/003A.html \
-    ../../WIKI/en/0044.html \
-    ../../WIKI/en/0103.html \
-    ../../WIKI/en/0104.html \
-    ../../WIKI/en/0105.html \
-    ../../WIKI/en/0106.html \
-    ../../WIKI/en/0107.html \
-    ../../WIKI/en/0108.html \
-    ../../WIKI/en/0109.html \
-    ../../WIKI/en/0110.html \
-    ../../WIKI/en/0111.html \
-    ../../WIKI/en/0112.html \
-    ../../WIKI/en/0113.html \
-    ../../WIKI/en/0114.html \
-    ../../WIKI/en/0115.html \
-    ../../WIKI/en/0116.html \
-    ../../WIKI/en/0117.html \
-    ../../WIKI/en/0118.html \
-    ../../WIKI/en/0119.html \
-    ../../WIKI/en/0120.html \
-    ../../WIKI/en/0121.html \
-    ../../WIKI/en/0122.html \
+    ../../WIKI/src_en/0012.html \
+    ../../WIKI/src_en/003A.html \
+    ../../WIKI/src_en/0044.html \
+    ../../WIKI/src_en/0103.html \
+    ../../WIKI/src_en/0104.html \
+    ../../WIKI/src_en/0105.html \
+    ../../WIKI/src_en/0106.html \
+    ../../WIKI/src_en/0107.html \
+    ../../WIKI/src_en/0108.html \
+    ../../WIKI/src_en/0109.html \
+    ../../WIKI/src_en/0110.html \
+    ../../WIKI/src_en/0111.html \
+    ../../WIKI/src_en/0112.html \
+    ../../WIKI/src_en/0113.html \
+    ../../WIKI/src_en/0114.html \
+    ../../WIKI/src_en/0115.html \
+    ../../WIKI/src_en/0116.html \
+    ../../WIKI/src_en/0117.html \
+    ../../WIKI/src_en/0118.html \
+    ../../WIKI/src_en/0119.html \
+    ../../WIKI/src_en/0120.html \
+    ../../WIKI/src_en/0121.html \
+    ../../WIKI/src_en/0122.html \
     ../../WIKI/UpdateTSFiles.bash \
     ../../WIKI/UpdateQMFiles.bash \
     ../../WIKI/readme.txt \
     ../../WIKI/UpdateTSFiles.cmd \
     ../../WIKI/UpdateQMFiles.cmd \
     ../../WIKI/PREPLANGUAGE.cmd \
-    ../../WIKI/en/0013.html
+    ../../WIKI/src_en/0013.html \
+    ../../readme.txt
 
 # Source files
 SOURCES +=  wgt_QVideoPlayer.cpp \
@@ -346,6 +347,8 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             DlgChapter/DlgChapter.cpp \
             DlgAutoTitleSlide/DlgAutoTitleSlide.cpp \
             DlgExportProject/DlgExportProject.cpp \
+            HelpPopup/HelpPopup.cpp \
+            HelpPopup/HelpBrowser.cpp \
             ../engine/_GlobalDefines.cpp \
             ../engine/QCustomRuller.cpp \
             ../engine/cSaveWindowPosition.cpp \
@@ -382,7 +385,8 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             ../CustomCtrl/cCTexteFrameComboBox.cpp \
             ../CustomCtrl/cThumbnailComboBox.cpp \
             ../CustomCtrl/cCustomTitleModelTable.cpp \
-    ../CustomCtrl/_QCustomComboBox.cpp
+            ../CustomCtrl/_QCustomComboBox.cpp \
+    HelpPopup/HelpContent.cpp
 
 # Header files
 HEADERS  += wgt_QVideoPlayer.h \
@@ -417,6 +421,8 @@ HEADERS  += wgt_QVideoPlayer.h \
             DlgChapter/DlgChapter.h \
             DlgAutoTitleSlide/DlgAutoTitleSlide.h \
             DlgExportProject/DlgExportProject.h \
+            HelpPopup/HelpPopup.h \
+            HelpPopup/HelpBrowser.h \
             ../engine/QCustomRuller.h \
             ../engine/cSaveWindowPosition.h \
             ../engine/cBaseApplicationConfig.h \
@@ -453,7 +459,8 @@ HEADERS  += wgt_QVideoPlayer.h \
             ../CustomCtrl/cCTexteFrameComboBox.h \
             ../CustomCtrl/cThumbnailComboBox.h \
             ../CustomCtrl/cCustomTitleModelTable.h \
-    ../CustomCtrl/_QCustomComboBox.h
+            ../CustomCtrl/_QCustomComboBox.h \
+    HelpPopup/HelpContent.h
 
 # Forms files
 FORMS    += mainwindow.ui \
@@ -481,7 +488,8 @@ FORMS    += mainwindow.ui \
             DlgFileExplorer/DlgFileExplorer.ui \
             DlgChapter/DlgChapter.ui \
             DlgAutoTitleSlide/DlgAutoTitleSlide.ui \
-            DlgExportProject/DlgExportProject.ui
+            DlgExportProject/DlgExportProject.ui \
+    HelpPopup/HelpPopup.ui
 
 #--------------------------------------------------------------
 # INSTALLATION

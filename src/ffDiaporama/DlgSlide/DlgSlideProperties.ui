@@ -109,13 +109,13 @@ QToolButton:pressed {
        <widget class="QToolButton" name="ChapterBT">
         <property name="minimumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
@@ -163,13 +163,13 @@ Information</string>
         </property>
         <property name="minimumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
@@ -210,13 +210,13 @@ shot</string>
         </property>
         <property name="minimumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
@@ -258,13 +258,13 @@ shot</string>
        <widget class="QToolButton" name="AddTextBlock">
         <property name="minimumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
@@ -302,13 +302,13 @@ text</string>
        <widget class="QToolButton" name="AddFileBlock">
         <property name="minimumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
@@ -355,13 +355,13 @@ file</string>
        <widget class="QToolButton" name="EditBT">
         <property name="minimumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
@@ -396,13 +396,13 @@ block</string>
        <widget class="QToolButton" name="ArrangeBT">
         <property name="minimumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
@@ -437,13 +437,13 @@ block</string>
        <widget class="QToolButton" name="InfoBlockBT">
         <property name="minimumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
@@ -485,13 +485,13 @@ information</string>
        <widget class="QToolButton" name="SaveModelBT">
         <property name="minimumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
         <property name="maximumSize">
          <size>
-          <width>56</width>
+          <width>60</width>
           <height>56</height>
          </size>
         </property>
@@ -1060,7 +1060,7 @@ If you specify a duration lower than the minimum calculated duration for the sho
             <property name="geometry">
              <rect>
               <x>0</x>
-              <y>-639</y>
+              <y>0</y>
               <width>294</width>
               <height>857</height>
              </rect>

@@ -806,126 +806,129 @@ Nota: questo campo è limitato a 30 caratteri per rimanere compatibile con jukeb
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiaporama to your hardware.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Definisce la quantità di memoria utilizzata come memoria cache da ffDiaporama. Questo parametro è importante perché permette di adattare ffDiaporama al proprio hardware.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Max video preview height :</source>
-        <translation type="unfinished"></translation>
+        <translation>Massima latezza dell&apos;anteprima video :</translation>
     </message>
     <message>
         <source>Sets the maximum height of videos used for the preview.
 Beyond this height, the videos are automatically reduced for creating images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Imposta l&apos;altezza massima del video utilizzato per l&apos;anteprima.
+Al di là di questa altezza, i video vengono automaticamente ridotti per la creazione di immagini.</translation>
     </message>
     <message>
         <source>(Reduce this value for slow computer)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Ridurre questo valore per i computer lenti)</translation>
     </message>
     <message>
         <source>If this box is checked, tooltips will no longer appear in dialog boxes (only what&apos;s this will be available).</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è selezionata, i suggerimenti non verranno più visualizzati nelle finestre di dialogo (solo se questa sarà disponibile).</translation>
     </message>
     <message>
         <source>Disable tooltips in dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Disattiva la descrizioni comandi nella finestra di dialogo</translation>
     </message>
     <message>
         <source>For more compatibility with the standard id3v2, check this box to limit Title, Author and Album fields to 30 characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Per maggiori compatibilità con lo standard id3v2, selezione la casella per limitare i campi Titolo, Autore Album a 30 caratteri</translation>
     </message>
     <message>
         <source>Enhance id3v2 comptatibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Migliora compatibilità id3v2</translation>
     </message>
     <message>
         <source>Short date format :</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato data breve :</translation>
     </message>
     <message>
         <source>MM/dd/yyyy</source>
         <comment>Default Date format : dd/MM/yyyy or MM/dd/yyyy or yyyy/MM/dd or dd.MM.yyyy and so on...</comment>
-        <translation type="unfinished"></translation>
+        <translation>dd/MM/yyyy</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Various options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Opzioni varie&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Default thumbnail :</source>
-        <translation type="unfinished"></translation>
+        <translation>Miniatura predefinita :</translation>
     </message>
     <message>
         <source>Defines the model use as default thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisci il modello usato come miniatura predefinita</translation>
     </message>
     <message>
         <source>If this box is checked then a thumbnail file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è spuntata un file miniatura verrà creato con il video.</translation>
     </message>
     <message>
         <source>Join thumbnail to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Unisci la miniatura alla generazione file</translation>
     </message>
     <message>
         <source>Offer to open the download Web page when a new version is available</source>
-        <translation type="unfinished"></translation>
+        <translation>Offerta di aprire la pagina Web di download quando una nuova versione è disponibile</translation>
     </message>
     <message>
         <source>If this box is checked then a XMBC .nfo file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è spuntata un file .nfo XMBC verrà creato con il video.</translation>
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Unisci file XBMC .nfo al file generato.</translation>
     </message>
     <message>
         <source>If this box is checked, a dialog box will appear at startup the next time a new version will be available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è selezionata, una finestra di dialogo viene visualizzata al successivo avvio che una nuova versione è disponibile.</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>
 Editor options (when adding objects)</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Modifica opzioni (quando aggiungi oggetti)</translation>
     </message>
     <message>
         <source>This option allows you to specify the format in which computed dates are displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questa opzione consente di specificare il formato in cui vengono visualizzate le date calcolate.</translation>
     </message>
     <message>
         <source>Defines the default value for the field Author (often so called Artist by Media Center Systems)
 Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce il valore predefinito per il campo Autore (spesso chiamato Artista dai Sistemi Media Center)
+Note: questo campo è limitato a 30 caratteri per rimanere compatibile con i jukebox</translation>
     </message>
 </context>
 <context>
     <name>DlgAutoTitleSlide</name>
     <message>
         <source>Event date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Evento data:</translation>
     </message>
     <message>
         <source>If this box is checked, you can enter a longtime different from that generated from the date of the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è selezionata, è possibile inserire una data diversa da quella generata dalla data del capitolo.</translation>
     </message>
     <message>
         <source>Enter here a date, in a free format, for the chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserisci qui una data, in formato libero, per il capitolo</translation>
     </message>
     <message>
         <source>Select a date for the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona una data per il capitolo.</translation>
     </message>
     <message>
         <source>Override date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sovrascrivi data:</translation>
     </message>
     <message>
         <source>Accept modification and go to previous slide</source>
@@ -941,7 +944,7 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <source>Accept modification and go to next slide</source>
@@ -961,79 +964,83 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
     </message>
     <message>
         <source>Chapter name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome capitolo:</translation>
     </message>
     <message>
         <source>If this box is checked, the date of the chapter is different from the date of the project.
 
 Remark: It is often useful to differentiate the date of the chapter of the date of the project.
 For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è selezionata, la data del capitolo è diversa dalla data del progetto.
+
+Osservazione: Spesso è utile per differenziare la data del capitolo della data del progetto.
+Ad esempio, se il progetto è &quot;mia vacanza da 1 a 15&quot;, il capitolo può essere limitato al 3.</translation>
     </message>
     <message>
         <source>Add a predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi un titolo predefinito alla diapositiva</translation>
     </message>
     <message>
         <source>Edit a predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica un titolo predefinito della diapositiva</translation>
     </message>
     <message>
         <source>Slide type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo diapositiva:</translation>
     </message>
     <message>
         <source>Project title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titolo progetto</translation>
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titolo capitolo</translation>
     </message>
     <message>
         <source>Category:</source>
-        <translation type="unfinished"></translation>
+        <translation>Categoria:</translation>
     </message>
     <message>
         <source>&amp;Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Propietà progetto</translation>
     </message>
     <message>
         <source>This button allows you to convert this slide to a standard slide.
 Standard slide are fully customizable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questo pulsante ti permette di convertire questa diapositiva in una diapositiva standard.
+Diapositive standard sono tutte personalizzabili.</translation>
     </message>
     <message>
         <source>&amp;Convert to standard slide</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Converti a diapositiva standard</translation>
     </message>
     <message>
         <source>Please select a model first</source>
-        <translation type="unfinished"></translation>
+        <translation>Per favore seleziona un modello prima</translation>
     </message>
     <message>
         <source>Enter here the title of the chapter (if the &quot;Chapter name different from slide name&quot; box is checked).</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserisci qui il titolo del capitolo (se il &quot;nome capitolo è differente dal nome diapositiva&quot; casella è selezionata)</translation>
     </message>
     <message>
         <source>This button allows you to open project properties dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Questo pulsante permette di aprire la finestra propietà progetto.</translation>
     </message>
     <message>
         <source>Chapter date different from project date</source>
-        <translation type="unfinished"></translation>
+        <translation>Data capitolo differente da data progetto</translation>
     </message>
     <message>
         <source>Credit title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titolo credito</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -1092,7 +1099,7 @@ Standard slide are fully customizable.</source>
     </message>
     <message>
         <source>Undo</source>
-        <translation>Annulla</translation>
+        <translation>Undo</translation>
     </message>
     <message>
         <source>Ctrl+Z</source>
@@ -1178,38 +1185,42 @@ Standard slide are fully customizable.</source>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
     <name>DlgChapter</name>
     <message>
         <source>Chapter properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Propietà capitolo</translation>
     </message>
     <message>
         <source>Start a new chapter from this slide. (If this box is checked, the slide will mark the beginning of a new chapter.)
 Remarks : This box cannot be deactivated for the first slide of the project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Avviare un nuovo capitolo da questa diapositiva. (Se questa casella è selezionata, la diapositiva segnerà l&apos;inizio di un nuovo capitolo.)
+Osservazione : Questa casella non può essere disattivata per la prima diapositiva del progetto.</translation>
     </message>
     <message>
         <source>Start a new chapter with this slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvia un nuovo capitolo con questa diapositiva</translation>
     </message>
     <message>
         <source>If this box is checked, the date of the chapter is different from the date of the project.
 
 Remark: It is often useful to differentiate the date of the chapter of the date of the project.
 For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è selezionata, la data del capitolo è diversa dalla data del progetto.
+
+Osservazione: Spesso è utile per differenziare la data del capitolo della data del progetto.
+Ad esempio, se il progetto è &quot;mia vacanza da 1 a 15&quot;, il capitolo può essere limitato a 3.</translation>
     </message>
     <message>
         <source>Chapter name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome capitolo:</translation>
     </message>
     <message>
         <source>Accept modification and exit dialog box</source>
@@ -1217,7 +1228,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
@@ -1229,39 +1240,39 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     </message>
     <message>
         <source>Override date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sovrascrivi data:</translation>
     </message>
     <message>
         <source>Event date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Evento data:</translation>
     </message>
     <message>
         <source>Select a date for the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona una data per il capitolo.</translation>
     </message>
     <message>
         <source>If this box is checked, you can enter a longtime different from that generated from the date of the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è selezionata, è possibile inserire una data diversa da quella generata dalla data del capitolo.</translation>
     </message>
     <message>
         <source>Enter here a date, in a free format, for the chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserisci qui una data, in formato libero, per il capitolo</translation>
     </message>
     <message>
         <source>Chapter date different from project date</source>
-        <translation type="unfinished"></translation>
+        <translation>Data capitolo differente da data progetto</translation>
     </message>
     <message>
         <source>Enter here the name of the chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserisci qui il nome del capitolo</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -1416,78 +1427,78 @@ Giallo: il componente funziona parzialmente
     </message>
     <message>
         <source>qimageblitz version:0.6.6-Licence=LGPL</source>
-        <translation type="unfinished"></translation>
+        <translation>versione qimageblitz: 0.6.6-Licenza=LGPL</translation>
     </message>
     <message>
         <source>SDL version: %1.%2.%3-Licence=GPL version 2.1 or later</source>
-        <translation type="unfinished"></translation>
+        <translation>versione SDL: %1.%2.%3-Licenza=GPL versione 2.1 o successiva</translation>
     </message>
     <message>
         <source>LIBAVUTIL version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>versione LIBAVUTIL: %1.%2.%3.%4</translation>
     </message>
     <message>
         <source>LIBAVCODEC version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>versione LIBAVCODEC: %1.%2.%3.%4</translation>
     </message>
     <message>
         <source>LIBAVFORMAT version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>versione LIBAVFORMAT: %1.%2.%3.%4</translation>
     </message>
     <message>
         <source>LIBAVFILTER version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>versione LIBAVFILTER: %1.%2.%3.%4</translation>
     </message>
     <message>
         <source>LIBSWSCALE version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>versione LIBSWSCALE: %1.%2.%3.%4</translation>
     </message>
     <message>
         <source>LIBAVRESAMPLE version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>versione LIBAVRESAMPLE: %1.%2.%3.%4</translation>
     </message>
     <message>
         <source>LIBSWRESAMPLE version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>versione LIBSWRESAMPLE: %1.%2.%3.%4</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
     <name>DlgExportProject</name>
     <message>
         <source>Export project</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta progetto</translation>
     </message>
     <message>
         <source>Click on this button to select graphically a destination folder.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fare clic su questo pulsante per selezionare graficamente una cartella di destinazione.</translation>
     </message>
     <message>
         <source>Destination folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cartella destinazione:</translation>
     </message>
     <message>
         <source>Project subfolder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sotto cartella progetto:</translation>
     </message>
     <message>
         <source>Start export process</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvia esportazione progetto</translation>
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <source>Abort export operation and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Interrompi l&apos;operazione di esportazione e esci dalla finestra</translation>
     </message>
     <message>
         <source>&amp;Cancel</source>
@@ -1495,60 +1506,60 @@ Giallo: il componente funziona parzialmente
     </message>
     <message>
         <source>% done;Destination file;Source file</source>
-        <translation type="unfinished"></translation>
+        <translation>% finito;File destinazione;File sorgente</translation>
     </message>
     <message>
         <source>Export done</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Esportazione finita</translation>
     </message>
     <message>
         <source>Export cancel</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Esportazione annullata</translation>
     </message>
     <message>
         <source>not started</source>
-        <translation type="unfinished"></translation>
+        <translation>non avviato</translation>
     </message>
     <message>
         <source>Project file</source>
-        <translation type="unfinished"></translation>
+        <translation>File progetto</translation>
     </message>
     <message>
         <source>Error during the creation of the %1 folder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore durante la creazione della cartella %1</translation>
     </message>
     <message>
         <source>started</source>
-        <translation type="unfinished"></translation>
+        <translation>iniziato</translation>
     </message>
     <message>
         <source>done</source>
-        <translation type="unfinished"></translation>
+        <translation>fatto</translation>
     </message>
     <message>
         <source>error</source>
-        <translation type="unfinished"></translation>
+        <translation>errore</translation>
     </message>
     <message>
         <source>Error during the export of the project file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore durante l&apos;esportazione del file progetto</translation>
     </message>
     <message>
         <source>Error during the copy of %1 to %2</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore durante la copia di %1 a %2</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -1591,7 +1602,7 @@ Giallo: il componente funziona parzialmente
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
     <message>
         <source>F1</source>
@@ -1635,14 +1646,14 @@ Giallo: il componente funziona parzialmente
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
 </context>
 <context>
     <name>DlgImageComposer</name>
     <message>
         <source>Edit thumbnail model</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica modello miniatura</translation>
     </message>
     <message>
         <source>Add a new text block</source>
@@ -1662,7 +1673,7 @@ testo</translation>
         <source>Add one or several new blocks of images or video. A file selection dialog appears allowing you to select files.
 
 Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the configuration dialog).</source>
-        <translation>Aggiungi uno o più nuovi blocchi di immagini o video. Una finestra di dialogo di selezione file viene visualizzata che consente di selezionare i file.
+        <translation>Aggiunge uno o più nuovi blocchi di immagini o video. Una finestra di selezione file viene visualizzata e consentirà di selezionare i file.
 
 Nota: in caso di selezione multipla, i file vengono aggiunti in ordine alfabetico dei nomi dei file o nell&apos;ordine digitale di scatti (in base all&apos;opzione selezionata nella finestra di configurazione).</translation>
     </message>
@@ -1736,7 +1747,7 @@ Questo valore è definito come percentuale (%) dell&apos;altezza totale dell&apo
     </message>
     <message>
         <source>Reset to zero</source>
-        <translation type="unfinished"></translation>
+        <translation>Ripristina a zero</translation>
     </message>
     <message>
         <source>Allows you to select a shape for the block.
@@ -1858,7 +1869,7 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Text option :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Opzione testo :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <source>Zoom :</source>
@@ -1870,7 +1881,7 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
     </message>
     <message>
         <source>&amp;Ok</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Ok</translation>
     </message>
     <message>
         <source>Cancel modification and exit dialog box</source>
@@ -1946,7 +1957,7 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Rimuovi</translation>
     </message>
     <message>
         <source>Remove current block(s)</source>
@@ -1954,7 +1965,7 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
     </message>
     <message>
         <source>Del</source>
-        <translation type="unfinished"></translation>
+        <translation>Canc</translation>
     </message>
     <message>
         <source>Paste block</source>
@@ -2099,11 +2110,11 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -2174,7 +2185,7 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
     </message>
     <message>
         <source>Undo</source>
-        <translation>Annulla</translation>
+        <translation>Undo</translation>
     </message>
     <message>
         <source>Ctrl+Z</source>
@@ -2604,11 +2615,11 @@ Quando i righelli sono attivati, il mouse si aggancerà automaticamente ai bordi
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -2757,11 +2768,11 @@ Sarà almeno mostrate le informazioni sulla durata del video, ma molte altre inf
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -2925,11 +2936,11 @@ Dispositivi preceduti da questa icona sono definiti nel database predefinito.&lt
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
 </context>
 <context>
@@ -2983,11 +2994,11 @@ Per favore seleziona un altro nome!</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -3149,11 +3160,11 @@ Essa riguarda anche il nome dello stile come impostazioni associate.</translatio
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -3294,11 +3305,11 @@ Questo volume è indipendente da eventuali riduzioni nel volume che si definisce
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -3649,39 +3660,39 @@ Nota: le proprietà del progetto vengono salvate nel video come TAG (metadati) c
     </message>
     <message>
         <source>If this box is checked then a thumbnail file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è spuntata un file miniatura verrà creato con il video.</translation>
     </message>
     <message>
         <source>Join thumbnail to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Unisci la miniatura alla generazione file</translation>
     </message>
     <message>
         <source>If this box is checked then a XBMC .nfo file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è spuntata un file .nfo XMBC verrà creato con il video.</translation>
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Unisci file XBMC .nfo al file generato.</translation>
     </message>
     <message>
         <source>Select destination folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona cartella destinazione</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
     <message>
         <source>Select the audio compression ratio from the displayed list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare il rapporto di compressione audio dall&apos;elenco visualizzato.</translation>
     </message>
     <message>
         <source>Select the frequency to use for audio during the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Selezionare la frequenza da utilizzare per l&apos;audio durante il rendering.</translation>
     </message>
 </context>
 <context>
@@ -3768,11 +3779,11 @@ In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -3811,11 +3822,11 @@ In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -4177,7 +4188,7 @@ testo</translation>
     </message>
     <message>
         <source>Undo</source>
-        <translation>Annulla</translation>
+        <translation>Undo</translation>
     </message>
     <message>
         <source>Add
@@ -4647,60 +4658,62 @@ Nota: i blocchi di video nascosti vengono messi in pausa automaticamente</transl
     </message>
     <message>
         <source>Manage chapter information for this slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestisce le informazioni del capitolo per questa diapositiva</translation>
     </message>
     <message>
         <source>Chapter
 Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Informazioni
+Capitolo</translation>
     </message>
     <message>
         <source>Slide name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome diapositiva:</translation>
     </message>
     <message>
         <source>Save this slide as a model</source>
-        <translation type="unfinished"></translation>
+        <translation>Salva questa diapositiva come un modello</translation>
     </message>
     <message>
         <source>Save as
 model</source>
-        <translation type="unfinished"></translation>
+        <translation>Salve come
+modello</translation>
     </message>
     <message>
         <source>Append to project title models</source>
-        <translation type="unfinished"></translation>
+        <translation>Accoda ai modelli titolo progetto</translation>
     </message>
     <message>
         <source>Append to chapter title models</source>
-        <translation type="unfinished"></translation>
+        <translation>Accoda ai modelli titolo capitolo</translation>
     </message>
     <message>
         <source>Slide added in Project title models collection</source>
         <comment>Information message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunta diapositiva nella raccolta modelli Titoli progetto</translation>
     </message>
     <message>
         <source>Slide added in Chapter title models collection</source>
         <comment>Information message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunta diapositiva nella raccolta modelli Titolo capitolo</translation>
     </message>
     <message>
         <source>Append to credit title models</source>
-        <translation type="unfinished"></translation>
+        <translation>Accoda ai modelli titolo crediti</translation>
     </message>
     <message>
         <source>Slide added in Credit title models collection</source>
         <comment>Information message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Aggiunta diapositiva nella raccolta modelli Titolo crediti</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -4791,7 +4804,7 @@ model</source>
     </message>
     <message>
         <source>Undo</source>
-        <translation>Annulla</translation>
+        <translation>Undo</translation>
     </message>
     <message>
         <source>Ctrl+Z</source>
@@ -4991,15 +5004,15 @@ Questo valore è espresso in% della larghezza del blocco.</translation>
     </message>
     <message>
         <source>Insert a text variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserisci una variabile testo</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -5038,11 +5051,11 @@ Questo valore è espresso in% della larghezza del blocco.</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -5163,11 +5176,11 @@ Le scelte possibili sono di 0,5 secondi (molto veloce) a 10 secondi (molto lento
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
 </context>
 <context>
@@ -5300,19 +5313,19 @@ Nota: questo campo è editabile solo se la finestra di dialogo si apre per la cr
         <source>Defined default speed curve for transitions.
 This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</source>
         <translation>Definisce la curva di velocità predefinita per le transizioni.
-Questa opzione imposta il valore delle curve di velocità per l&apos;uso, ogni volta che le opzioni corrispondenti sono impostate su &quot;Default Progetto&quot;.</translation>
+Questa opzione imposta il valore delle curve di velocità da utilizzare, ogni volta che le opzioni corrispondenti sono impostate su &quot;Default Progetto&quot;.</translation>
     </message>
     <message>
         <source>Defined default speed curve for block animations.
 This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</source>
         <translation>Definisce la curva di velocità predefinita per le animazioni di blocco.
-Questa opzione imposta il valore delle curve di velocità per l&apos;uso, ogni volta che le opzioni corrispondenti sono impostate su &quot;Default Progetto&quot;.</translation>
+Questa opzione imposta il valore delle curve di velocità da utilizzare, ogni volta che le opzioni corrispondenti sono impostate su &quot;Default Progetto&quot;.</translation>
     </message>
     <message>
         <source>Defined default speed curve for image animations.
 This option sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot;.</source>
         <translation>Definisce la curva di velocità predefinita per le animazioni di immagini.
-Questa opzione imposta il valore delle curve di velocità per l&apos;uso, ogni volta che le opzioni corrispondenti sono impostate su &quot;Default Progetto&quot;.</translation>
+Questa opzione imposta il valore delle curve di velocità da utilizzare, ogni volta che le opzioni corrispondenti sono impostate su &quot;Default Progetto&quot;.</translation>
     </message>
     <message>
         <source>Chapters defined in the project are listed for consultation. To modify chapters use modify slide dialog.
@@ -5340,106 +5353,112 @@ Nota: i formati video non supportano tutti i capitoli nello stesso modo.</transl
     </message>
     <message>
         <source>The album of the project (If the id3v2 compatibility option is set in option dialog, this fields is limited to 30 characters).</source>
-        <translation type="unfinished"></translation>
+        <translation>L&apos;album del progetto (Se l&apos;opzione di compatibilità id3v2 è settata nella finestra,questo campo è limitato a 30 caratteri).</translation>
     </message>
     <message>
         <source>The name of the author of the project (If the id3v2 compatibility option is set in option dialog, this fields is limited to 30 characters).
 Remark: This field is often shown by indexing system and jukeboxes under the term Artist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Il nome dell&apos;autore del progetto (se l&apos;opzione di compatibilità id3v2 è settata nella finestra, questo campo è limitato a 30 caratteri).
+Osservazione: Questo campo è generalmente mostrato dai sistemi di indicizzazione e jukeboxe sotto il termine Artista.</translation>
     </message>
     <message>
         <source>The title of the project (If the id3v2 compatibility option is set in option dialog, this fields is limited to 30 characters).</source>
-        <translation type="unfinished"></translation>
+        <translation>Il titolo del progetto (Se l&apos;opzione di compatibilità id3v2 è settata nella finestra,questo campo è limitato a 30 caratteri).</translation>
     </message>
     <message>
         <source>The date of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>La data dell&apos;evento del progetto</translation>
     </message>
     <message>
         <source>Event date :</source>
-        <translation type="unfinished"></translation>
+        <translation>Evento data :</translation>
     </message>
     <message>
         <source>Override date :</source>
-        <translation type="unfinished"></translation>
+        <translation>Sovrascrivi data :</translation>
     </message>
     <message>
         <source>Options for speed wave</source>
-        <translation type="unfinished"></translation>
+        <translation>Opzioni per velocità onda</translation>
     </message>
     <message>
         <source>Defines the model use as default thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Definisce il modello usato come miniatura predefinita</translation>
     </message>
     <message>
         <source>Thumbnail :</source>
-        <translation type="unfinished"></translation>
+        <translation>Miniatura :</translation>
     </message>
     <message>
         <source>
 Options for joined ressources</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Opzioni per unire risorse</translation>
     </message>
     <message>
         <source>Customize the thumbnail only for this project (without creating a new thumbnail model)</source>
-        <translation type="unfinished"></translation>
+        <translation>Personalizza la miniatura solo per questo progetto (senza creare un nuovo modello di miniatura)</translation>
     </message>
     <message>
         <source>Customize</source>
-        <translation type="unfinished"></translation>
+        <translation>Personalizza</translation>
     </message>
     <message>
         <source>Create a new model from this thumbnail or edit custom thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea un nuovo modello da questa miniatura o modifica la miniatura personalizzata</translation>
     </message>
     <message>
         <source>Edit custom
 thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica miniatura
+personalizzata</translation>
     </message>
     <message>
         <source>Expor thumbnail to a jpeg file</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta miniatura in un file jpeg</translation>
     </message>
     <message>
         <source>Export
 thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta
+miniatura</translation>
     </message>
     <message>
         <source>Export thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta miniatura</translation>
     </message>
     <message>
         <source>Thumbnail successfully exported</source>
         <comment>Information message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Miniatura esportata con successo</translation>
     </message>
     <message>
         <source>Edit
 custom model</source>
-        <translation type="unfinished"></translation>
+        <translation>Modifica modello
+personalizzato</translation>
     </message>
     <message>
         <source>Create
 custom model</source>
-        <translation type="unfinished"></translation>
+        <translation>Crea modello
+personalizzato</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Molsta aiuto riguardo a questa finestra</translation>
     </message>
     <message>
         <source>&amp;Help</source>
-        <translation>&amp;Aiuto</translation>
+        <translation>A&amp;iuto</translation>
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free text</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona questa casella per sovrascrivere la data e permetterti di inserire la data come un testo libero</translation>
     </message>
     <message>
         <source>Enter here the date of the event of the project as a free text</source>
-        <translation type="unfinished"></translation>
+        <translation>Inserisci qui la data dell&apos;evento del progetto come un testo libero</translation>
     </message>
 </context>
 <context>
@@ -5518,6 +5537,73 @@ custom model</source>
     </message>
 </context>
 <context>
+    <name>HelpPopup</name>
+    <message>
+        <source>Changes the document displayed to the previous document in the list of documents built by navigating links.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changes the document displayed to the main page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Home</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changes the document displayed to the next document in the list of documents built by navigating links.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the ffDiaporama Web site into your internet browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Web Site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the ffDiaporama Forum into your internet browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close the WIKI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished">Esci</translation>
+    </message>
+    <message>
+        <source>If this checkbox is checked and the WIKI remains open, then automatically displayed in the WIKI the document corresponding to the currently used  interface element (main window, dialog, etc ...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Follow the interface</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama is a &lt;a href=&quot;http://en.wikipedia.org/wiki/Free_software&quot;&gt;Free Software (Open Source)&lt;/a&gt; and is distributed under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-2.0.html&quot;&gt;GNU General Public License (GPL) version 2&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>©2011-2013 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>File</source>
@@ -5593,7 +5679,7 @@ progetto</translation>
     </message>
     <message>
         <source>Exit application (Ctrl+W)</source>
-        <translation>Uscita applicazione (Ctrl+W)</translation>
+        <translation>Esci dall&apos;applicazione (Ctrl+W)</translation>
     </message>
     <message>
         <source>Exit</source>
@@ -6436,57 +6522,62 @@ traccia audio</translation>
     <message>
         <source>The file is not a valid thumbnail file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Il file non è un file miniatura valido</translation>
     </message>
     <message>
         <source>Start ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Avvio ...</translation>
     </message>
     <message>
         <source>Scan drives in computer...</source>
-        <translation type="unfinished"></translation>
+        <translation>Scansione dispositivi nel computer...</translation>
     </message>
     <message>
         <source>Register models...</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrazione modelli...</translation>
     </message>
     <message>
         <source>Add a predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Aggiungi una diapositiva titolo predefinita</translation>
     </message>
     <message>
         <source>Error creating model file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore creando il file modello</translation>
     </message>
     <message>
         <source>The file is not a valid title model file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Il file non è un file modello valido</translation>
     </message>
     <message>
         <source>A new ffDiaporama version is available from WEB site.
 Do you whant do download it now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Una nuova versione di ffDiaporama è disponibile sul sito WEB.
+Vuoi scaricarla ora?</translation>
     </message>
     <message>
         <source>Export project</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta progetto</translation>
     </message>
     <message>
         <source>Export current project and all used files in a new folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Esporta progetto corrente e tutti i file utilizzati in una nuova cartella</translation>
     </message>
     <message>
         <source>Render project as a video using a predefined model</source>
-        <translation type="unfinished"></translation>
+        <translation>Genera il progetto come un video utilizzando un modello predefinito</translation>
     </message>
     <message>
         <source>Render project as a lossless video</source>
-        <translation type="unfinished"></translation>
+        <translation>Genera il progetto come un video lossless</translation>
     </message>
     <message>
         <source>Render sound trak of project</source>
+        <translation>Genera la traccia audio del progetto</translation>
+    </message>
+    <message>
+        <source>Init WIKI...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -6704,7 +6795,7 @@ Do you whant do download it now?</source>
     </message>
     <message>
         <source>Clipart</source>
-        <translation type="unfinished"></translation>
+        <translation>Clipart</translation>
     </message>
 </context>
 <context>
@@ -7113,67 +7204,67 @@ Do you whant do download it now?</source>
     <name>Variables</name>
     <message>
         <source>Select this variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Seleziona questa variabile</translation>
     </message>
     <message>
         <source>Project properties values</source>
-        <translation type="unfinished"></translation>
+        <translation>Valori propietà progetto</translation>
     </message>
     <message>
         <source>Project date values</source>
-        <translation type="unfinished"></translation>
+        <translation>Valori data progetto</translation>
     </message>
     <message>
         <source>Current slide values</source>
-        <translation type="unfinished"></translation>
+        <translation>Valori diapositiva corrente</translation>
     </message>
     <message>
         <source>Chapters values</source>
-        <translation type="unfinished"></translation>
+        <translation>Valori capitoli</translation>
     </message>
     <message>
         <source>Current chapter date values</source>
-        <translation type="unfinished"></translation>
+        <translation>Valori data capitolo corrente</translation>
     </message>
     <message>
         <source>Various values</source>
-        <translation type="unfinished"></translation>
+        <translation>Valori vari</translation>
     </message>
     <message>
         <source>Today date values</source>
-        <translation type="unfinished"></translation>
+        <translation>Valori data oggi</translation>
     </message>
     <message>
         <source>Project title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titolo progetto</translation>
     </message>
     <message>
         <source>Project author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autore progetto</translation>
     </message>
     <message>
         <source>Project album</source>
-        <translation type="unfinished"></translation>
+        <translation>Album progetto</translation>
     </message>
     <message>
         <source>Project comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Commento progetto</translation>
     </message>
     <message>
         <source>Project duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Durata progetto</translation>
     </message>
     <message>
         <source>Project slide count</source>
-        <translation type="unfinished"></translation>
+        <translation>Conteggio diapositive progetto</translation>
     </message>
     <message>
         <source>Long date</source>
-        <translation type="unfinished"></translation>
+        <translation>Data lunga</translation>
     </message>
     <message>
         <source>Short date</source>
-        <translation type="unfinished"></translation>
+        <translation>Data corta</translation>
     </message>
     <message>
         <source>Year</source>
@@ -7181,150 +7272,152 @@ Do you whant do download it now?</source>
     </message>
     <message>
         <source>Month</source>
-        <translation type="unfinished"></translation>
+        <translation>Mese</translation>
     </message>
     <message>
         <source>Month as number</source>
-        <translation type="unfinished"></translation>
+        <translation>Mese come numero</translation>
     </message>
     <message>
         <source>Day</source>
-        <translation type="unfinished"></translation>
+        <translation>Giorno</translation>
     </message>
     <message>
         <source>Day of week</source>
-        <translation type="unfinished"></translation>
+        <translation>Giorno della settimana</translation>
     </message>
     <message>
         <source>Current slide name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome diapositiva corrente</translation>
     </message>
     <message>
         <source>Current slide number</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero diapositiva corrente</translation>
     </message>
     <message>
         <source>Current chapter name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome capitolo corrente</translation>
     </message>
     <message>
         <source>Current chapter number</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero capitolo corrente</translation>
     </message>
     <message>
         <source>Current chapter duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Durata capitolo corrente</translation>
     </message>
     <message>
         <source>Chapter count</source>
-        <translation type="unfinished"></translation>
+        <translation>Conteggio capitoli</translation>
     </message>
     <message>
         <source>ffDiaporama version</source>
-        <translation type="unfinished"></translation>
+        <translation>Versione ffDiaporama</translation>
     </message>
     <message>
         <source>%1 presents</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 presenti</translation>
     </message>
     <message>
         <source>A %1 production</source>
-        <translation type="unfinished"></translation>
+        <translation>Una produzione di %1</translation>
     </message>
     <message>
         <source>Chapter %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Capitolo %1</translation>
     </message>
     <message>
         <source>Project author as &lt;Author presents&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Autore progetto come &lt;Autore presente&gt;</translation>
     </message>
     <message>
         <source>Project author as &lt;A Author production&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Autore progetto come &lt;A Autore produzione&gt;</translation>
     </message>
     <message>
         <source>Current chapter number as &quot;Chapter NÂ°&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Numero corrente capitoli come &quot;Capitolo N°&quot;</translation>
     </message>
     <message>
         <source>Content:</source>
         <comment>Project statistics</comment>
-        <translation type="unfinished"></translation>
+        <translation>contenuto:</translation>
     </message>
     <message>
         <source>%1 slides (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>diapositive %1 (%2)</translation>
     </message>
     <message>
         <source>%1 chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>capitoli %1</translation>
     </message>
     <message>
         <source>%1 videos (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>video %1 (%2)</translation>
     </message>
     <message>
         <source>%3 vector images</source>
-        <translation type="unfinished"></translation>
+        <translation>immagini vettoriali %3</translation>
     </message>
     <message>
         <source>%4 photos</source>
-        <translation type="unfinished"></translation>
+        <translation>foto %4</translation>
     </message>
     <message>
         <source>%5 text blocks</source>
-        <translation type="unfinished"></translation>
+        <translation>blocchi testo %5</translation>
     </message>
     <message>
         <source>%6 automatic slides</source>
-        <translation type="unfinished"></translation>
+        <translation>diapositive automatiche %6</translation>
     </message>
     <message>
         <source>Musical content:</source>
         <comment>Project statistics</comment>
-        <translation type="unfinished"></translation>
+        <translation>Contenuto musicale:</translation>
     </message>
     <message>
         <source> - Â© %1</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> - © %1</translation>
     </message>
     <message>
         <source>Project done the %1:
 	Â·with Â«%2 (%3)Â»
 	Â·on a %4 (%5 Core/CPU) computer</source>
-        <translation type="unfinished"></translation>
+        <translation>Progetto terminato il %1:
+	con «%2 (%3)»
+	su un computer %4 (%5 Core/CPU)</translation>
     </message>
     <message>
         <source>The end</source>
-        <translation type="unfinished"></translation>
+        <translation>Fine</translation>
     </message>
     <message>
         <source>Copyright</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyright</translation>
     </message>
     <message>
         <source>Project made</source>
-        <translation type="unfinished"></translation>
+        <translation>Progetto fatto</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenuto</translation>
     </message>
     <message>
         <source>Musical content</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenuto musicale</translation>
     </message>
     <message>
         <source> - Â© %1 (%2)</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> - © %1 (%2)</translation>
     </message>
     <message>
         <source> from Â«%1Â»</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> da «%1»</translation>
     </message>
 </context>
 <context>
@@ -7511,28 +7604,28 @@ Do you whant do download it now?</source>
     <name>cModelList</name>
     <message>
         <source>Project title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titolo progetto</translation>
     </message>
     <message>
         <source>Project album</source>
-        <translation type="unfinished"></translation>
+        <translation>Album progetto</translation>
     </message>
     <message>
         <source>Project author</source>
-        <translation type="unfinished"></translation>
+        <translation>Autore progetto</translation>
     </message>
     <message>
         <source>Project comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Commento progetto</translation>
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titolo capitolo</translation>
     </message>
     <message>
         <source>Error reading default thumbnail file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore lettura del file miniatura predefinito</translation>
     </message>
     <message>
         <source>Error</source>
@@ -7542,65 +7635,65 @@ Do you whant do download it now?</source>
     <message>
         <source>Error reading content of default thumbnail file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore lettura contenuto del file miniatura predefinito</translation>
     </message>
     <message>
         <source>Register thumbnail models...</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrazione modelli miniatura...</translation>
     </message>
     <message>
         <source>Register Project title slide models (%1)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Reggistrazione modello Titolo diapositiva progetto (%1)...</translation>
     </message>
     <message>
         <source>Register Chapter title slide models (%1)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrazione modello Titolo diapositiva capitolo (%1)...</translation>
     </message>
     <message>
         <source>Simple titles without animation</source>
-        <translation type="unfinished"></translation>
+        <translation>Titolo semplice senza animazione</translation>
     </message>
     <message>
         <source>Animated titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Titoli animati</translation>
     </message>
     <message>
         <source>Custom titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Titoli personalizzabili</translation>
     </message>
     <message>
         <source>Simple chapter titles without animation</source>
-        <translation type="unfinished"></translation>
+        <translation>Titolo capitolo semplice senza animazione</translation>
     </message>
     <message>
         <source>Animated chapter titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Titoli capitolo animati</translation>
     </message>
     <message>
         <source>Custom chapter titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Titoli capitolo personalizzati</translation>
     </message>
     <message>
         <source>Error reading content of title model file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Erorre lettura contenuti del file modello titolo</translation>
     </message>
     <message>
         <source>Register Credit title slide models (%1)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrazione Credenziali modello titolo diapositiva (%1)...</translation>
     </message>
     <message>
         <source>Simple credit titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Credenziali semplici titoli</translation>
     </message>
     <message>
         <source>Custom credit titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Credenziali titoli semplici</translation>
     </message>
     <message>
         <source>Error reading title model file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Errore lettura del file modello titolo</translation>
     </message>
 </context>
 <context>

@@ -627,48 +627,49 @@ Dieser Stil definiert die Schriftart, die Größe, die Farbe und den Schatteneff
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="184"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiaporama to your hardware.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Legt die zu verwendente Speichergröße für den Zwischenspeicher von ffDiaporama fest. Dieser Paramter ist wichtig, da er ffDiaporama an Ihre verwendete Hardware anpasst.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="426"/>
         <source>Max video preview height :</source>
-        <translation type="unfinished"></translation>
+        <translation>Maximale Höhe der Videovorschau :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="262"/>
         <source>Sets the maximum height of videos used for the preview.
 Beyond this height, the videos are automatically reduced for creating images.</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt die maximale Höhe des Vorschauvideos fest.
+Unabähngig dieses Wertes, werden die erstellten Bilder eines Videos automatisch reduziert.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="301"/>
         <source>(Reduce this value for slow computer)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Veringern Sie diesen Wert für langsame Computer)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="350"/>
         <source>If this box is checked, tooltips will no longer appear in dialog boxes (only what&apos;s this will be available).</source>
-        <translation type="unfinished"></translation>
+        <translation>Ist die Optionsbox aktiv, werden Tips zu Fenstern nicht länger angezeigt (ausgenommen &quot;Was ist das&quot;).</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="353"/>
         <source>Disable tooltips in dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Tips zu Fenstern ausschalten</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="661"/>
         <source>Short date format :</source>
-        <translation type="unfinished"></translation>
+        <translation>Kurzes Datumsformat :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="728"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Various options&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Verschiedene Optionen&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="714"/>
         <source>Offer to open the download Web page when a new version is available</source>
-        <translation type="unfinished"></translation>
+        <translation>Ermöglicht das öffnen der Downloadseite, wenn eine neue Version verfügbar ist</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="882"/>
@@ -761,17 +762,18 @@ Anmerkung: Die Feldlänge ist mit 30 Zeichen festgelegt, um mit Jukebox kompatib
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="468"/>
         <source>
 Editor options (when adding objects)</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Editoreinstellungen (beim Hinzufügen von Objekten)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="674"/>
         <source>This option allows you to specify the format in which computed dates are displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Option legt das Format fest in dem das Datum angezeigt wird.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="711"/>
         <source>If this box is checked, a dialog box will appear at startup the next time a new version will be available.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ist diese Option aktiv, öffnet sich beim nächsten Programmstart ein Informationsfenster sofern eine neue Version verfügbar ist.</translation>
     </message>
     <message utf8="true">
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1280"/>
@@ -805,22 +807,22 @@ Der Stl beinhaltet die Transparenz des Blocks sowie seine Füllung.</translation
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2583"/>
         <source>For more compatibility with the standard id3v2, check this box to limit Title, Author and Album fields to 30 characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Für bessere Kompatibilität mit dem id3v2-Standard, aktivieren Sie diese Option um die Felder für Titel und Album auf 30 Zeichen zu beschränken</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2586"/>
         <source>Enhance id3v2 comptatibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Erweiterete id3v2 Kompatibilität</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2593"/>
         <source>Default thumbnail :</source>
-        <translation type="unfinished"></translation>
+        <translation>Standardvorschaubild :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2615"/>
         <source>Defines the model use as default thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt das verwendete Model für das Standardvorschaubild fest</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2633"/>
@@ -864,7 +866,7 @@ Verwende den Projekttitel als Videoname: Verwende den Titel aus den Projekteigen
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3366"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3369"/>
@@ -971,7 +973,8 @@ wenn Sie den Knopf &quot;Internet&quot; im Menü &quot;Video erzeugen&quot; drü
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2482"/>
         <source>Defines the default value for the field Author (often so called Artist by Media Center Systems)
 Note: this field is limited to 30 characters to remain compatible with jukebox</source>
-        <translation type="unfinished"></translation>
+        <translation>Left den Defaultwert für das Feld Author (öfter auch Artist genannt bei Mediencentersystemen)
+Anmerkung: Dieses Feld ist auf 30 Stellen beschränkt um Kompatibel zu Jukebox zu bleiben</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="2931"/>
@@ -987,22 +990,22 @@ Note: this field is limited to 30 characters to remain compatible with jukebox</
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3244"/>
         <source>If this box is checked then a thumbnail file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ist diese Option gesetzt, wird ein Vorschaubild für das Video generiert.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3247"/>
         <source>Join thumbnail to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde Vorschaubild mit umgewandelten Video</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3254"/>
         <source>If this box is checked then a XMBC .nfo file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn diese Option gesetzt ist, wird eine XBMC .nfo Datei erstellt für das Video.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3257"/>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde XBMC .nfo Datei mit umgewandelten Video</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="3297"/>
@@ -1141,10 +1144,11 @@ See help for more details!</source>
         <translation>Sprache muss leer sein oder eine der ISO 639 Sprachcodes (3-stellig) beinhalten. Schauen Sie in der Hilfe für Details!</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="791"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="758"/>
         <source>MM/dd/yyyy</source>
         <comment>Default Date format : dd/MM/yyyy or MM/dd/yyyy or yyyy/MM/dd or dd.MM.yyyy and so on...</comment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Standard Datumsformat : tt/mm/jjjj oder mm/tt/jjjj oder jjjj/mm/tt oder tt.mm.jjjj und so weiter...</translatorcomment>
+        <translation>mm/tt/jjjj</translation>
     </message>
 </context>
 <context>
@@ -1152,27 +1156,28 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="313"/>
         <source>Event date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignisdatum:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="335"/>
         <source>If this box is checked, you can enter a longtime different from that generated from the date of the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>The English Version didn´t make seens .....</translatorcomment>
+        <translation>Ist diese Option gesetzt, können Sie ein eigenes Datum für dieses Kapitel setzen.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="345"/>
         <source>Enter here a date, in a free format, for the chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie hier das Datum für dieses Kapitel ein (Freies Format)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="296"/>
         <source>Select a date for the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Auswahl des Datums für das Kapitel.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="286"/>
         <source>Override date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum überschreiben:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="71"/>
@@ -1187,7 +1192,7 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="85"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungen speichern und Fenster schliessen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="88"/>
@@ -1217,7 +1222,7 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="140"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="143"/>
@@ -1227,63 +1232,64 @@ See help for more details!</source>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="211"/>
         <source>Chapter date different from project date</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapiteldatum (different zum Projektdatum)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="223"/>
         <source>Slide type:</source>
-        <translation type="unfinished"></translation>
+        <translation>Diatype:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="237"/>
         <source>Project title</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekttitel</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="246"/>
         <source>Chapter title</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapiteltitel</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="255"/>
         <source>Credit title</source>
-        <translation type="unfinished"></translation>
+        <translation>Titel für Quellnachweis</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="267"/>
         <source>Category:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kategorie:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="306"/>
         <source>Chapter name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapitelname:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="323"/>
         <source>Enter here the title of the chapter (if the &quot;Chapter name different from slide name&quot; box is checked).</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie hier den Titel des Kapitels ein (wenn die Option &quot;Kapitelname unterschiedlich zu Dianame&quot; ausgewählt ist).</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="381"/>
         <source>This button allows you to open project properties dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieser Knopf öffnet den Eigenschaftsdialog für das Projekt.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="384"/>
         <source>&amp;Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Projekteigenschaften</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="401"/>
         <source>This button allows you to convert this slide to a standard slide.
 Standard slide are fully customizable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dieser Knopf konvertiert das Dia zu einem Standarddia.
+Standarddias sind vollständig anpassbar.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="405"/>
         <source>&amp;Convert to standard slide</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Konvertiert zu einem Standarddia</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.ui" line="205"/>
@@ -1291,22 +1297,26 @@ Standard slide are fully customizable.</source>
 
 Remark: It is often useful to differentiate the date of the chapter of the date of the project.
 For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Good/practicality Example ?</translatorcomment>
+        <translation>Wenn diese Option gesetzt ist, ist das Datum des Kapitels unterschiedlich zum Datum des Projektes.
+
+Anmerkung: Es ist nützlich das Datum des Kapitels unterschiedlich zum Projektdatum zu setzen.
+Zum Beispiel: Wenn das Projekt &quot;Mein Urlaub von 1 bis 15&quot;, kann das Kapitel nur bis zu 3 gehen.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.cpp" line="64"/>
         <source>Add a predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen eines vordefinierten Titeldia</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.cpp" line="69"/>
         <source>Edit a predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Ändern eines vordefinierten Titeldia</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAutoTitleSlide/DlgAutoTitleSlide.cpp" line="160"/>
         <source>Please select a model first</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte erst ein Model auswählen</translation>
     </message>
 </context>
 <context>
@@ -1419,7 +1429,7 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgBackground/DlgBackgroundProperties.ui" line="768"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgBackground/DlgBackgroundProperties.ui" line="771"/>
@@ -1497,12 +1507,12 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="14"/>
         <source>Chapter properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapiteleigenschaften</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="130"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="133"/>
@@ -1512,18 +1522,19 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="173"/>
         <source>Enter here the name of the chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie hier den Namen des Kapitels ein</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="216"/>
         <source>Start a new chapter from this slide. (If this box is checked, the slide will mark the beginning of a new chapter.)
 Remarks : This box cannot be deactivated for the first slide of the project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Starten eines neuen Kapitels ab diesem Dia (wenn diese Option gesetzt ist, wird das Dia als Beginn eines Kapitels markiert.)
+Anmerkung: Diese Option kann nicht für das erste Dia abgewählt werden.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="220"/>
         <source>Start a new chapter with this slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Starte ein neues Kapitel mit diesem Dia</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="35"/>
@@ -1531,17 +1542,20 @@ Remarks : This box cannot be deactivated for the first slide of the project.</so
 
 Remark: It is often useful to differentiate the date of the chapter of the date of the project.
 For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn diese Option gesetzt ist, ist das Datum des Kapitels unterschiedlich zum Datum des Projektes.
+
+Anmerkung: Es ist nützlich das Datum des Kapitels unterschiedlich zum Projektdatum zu setzen.
+Zum Beispiel: Wenn das Projekt &quot;Mein Urlaub von 1 bis 15&quot;, kann das Kapitel nur bis zu 3 gehen.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="146"/>
         <source>Chapter name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapitelname:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="102"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungen speichern und Fenster schliessen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="105"/>
@@ -1561,32 +1575,32 @@ For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="41"/>
         <source>Chapter date different from project date</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapiteldatum (different zum Projektdatum)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="193"/>
         <source>Override date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum überschreiben:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="153"/>
         <source>Event date:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignisdatum:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="163"/>
         <source>Select a date for the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Auswahl des Datums für das Kapitel.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="53"/>
         <source>If this box is checked, you can enter a longtime different from that generated from the date of the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ist diese Option gesetzt, können Sie ein eigenes Datum für dieses Kapitel setzen.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="63"/>
         <source>Enter here a date, in a free format, for the chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie hier das Datum für dieses Kapitel ein (Freies Format)</translation>
     </message>
 </context>
 <context>
@@ -1635,7 +1649,7 @@ Gelb: Die Komponente funktioniert teilweise
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.ui" line="117"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.ui" line="120"/>
@@ -1712,7 +1726,7 @@ Gelb: Die Komponente funktioniert teilweise
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="82"/>
         <source>SDL version: %1.%2.%3-Licence=GPL version 2.1 or later</source>
-        <translation type="unfinished"></translation>
+        <translation>SDL Version: %1.%2.%3-Lizenz=GPL Version 2.1 oder später</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="84"/>
@@ -1722,7 +1736,7 @@ Gelb: Die Komponente funktioniert teilweise
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="86"/>
         <source>qimageblitz version:0.6.6-Licence=LGPL</source>
-        <translation type="unfinished"></translation>
+        <translation>qimageblitz Version:0.6.6-Lizenz=LGPL</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="89"/>
@@ -1789,37 +1803,37 @@ Gelb: Die Komponente funktioniert teilweise
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="144"/>
         <source>LIBAVUTIL version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBAVUTIL Version: %1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="145"/>
         <source>LIBAVCODEC version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBAVCODEC Version: %1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="146"/>
         <source>LIBAVFORMAT version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBAVFORMAT Version: %1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="147"/>
         <source>LIBAVFILTER version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBAVFILTER Version: %1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="148"/>
         <source>LIBSWSCALE version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBSWSCALE Version: %1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="152"/>
         <source>LIBAVRESAMPLE version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBAVRESAMPLE Version: %1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="154"/>
         <source>LIBSWRESAMPLE version: %1.%2.%3.%4</source>
-        <translation type="unfinished"></translation>
+        <translation>LIBSWRESAMPLE Version: %1.%2.%3.%4</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgCheckConfig/DlgCheckConfig.cpp" line="164"/>
@@ -1848,27 +1862,27 @@ Gelb: Die Komponente funktioniert teilweise
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="20"/>
         <source>Export project</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt exportieren</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="58"/>
         <source>Click on this button to select graphically a destination folder.</source>
-        <translation type="unfinished"></translation>
+        <translation>Drücken Sie diesen Knopf um einen Zielordner grafisch zu wählen.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="72"/>
         <source>Destination folder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zielordner:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="82"/>
         <source>Project subfolder:</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektunterordner:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="188"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="191"/>
@@ -1878,7 +1892,7 @@ Gelb: Die Komponente funktioniert teilweise
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="160"/>
         <source>Start export process</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportvorgang starten</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="163"/>
@@ -1888,7 +1902,7 @@ Gelb: Die Komponente funktioniert teilweise
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="174"/>
         <source>Abort export operation and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Export abbrechen und Fenster schliessen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.ui" line="177"/>
@@ -1898,65 +1912,66 @@ Gelb: Die Komponente funktioniert teilweise
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="62"/>
         <source>% done;Destination file;Source file</source>
-        <translation type="unfinished"></translation>
+        <translation>% erledigt;Zieldatei;Quelldatei</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="102"/>
         <source>Export done</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Fehlernachricht</translatorcomment>
+        <translation>Export fertiggestellt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="130"/>
         <source>Export cancel</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Export abgebrochen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="166"/>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="201"/>
         <source>not started</source>
-        <translation type="unfinished"></translation>
+        <translation>nicht gestartet</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="198"/>
         <source>Project file</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektdatei</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="216"/>
         <source>Error during the creation of the %1 folder</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim erstellen des %1 Ordners</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="222"/>
         <source>started</source>
-        <translation type="unfinished"></translation>
+        <translation>gestartet</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="225"/>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="237"/>
         <source>done</source>
-        <translation type="unfinished"></translation>
+        <translation>erledigt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="226"/>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="235"/>
         <source>error</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="228"/>
         <source>Error during the export of the project file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fehler während des Exports der Projektdatei</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="234"/>
         <source>Error during the copy of %1 to %2</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fehler während des kopierens von %1 zu %2</translation>
     </message>
 </context>
 <context>
@@ -2009,7 +2024,7 @@ Gelb: Die Komponente funktioniert teilweise
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="977"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.ui" line="980"/>
@@ -2072,7 +2087,7 @@ Gelb: Die Komponente funktioniert teilweise
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="14"/>
         <source>Edit thumbnail model</source>
-        <translation type="unfinished"></translation>
+        <translation>Ändern des Modells für das Vorschaubild</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="135"/>
@@ -2337,7 +2352,7 @@ Anmerkung: Um einen Text zu animieren, müssen Sie mindestens 2 Aufnahmen festle
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1822"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Text option :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;Textoption :&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1838"/>
@@ -2347,7 +2362,7 @@ Anmerkung: Um einen Text zu animieren, müssen Sie mindestens 2 Aufnahmen festle
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1883"/>
         <source>Accept modification and exit dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungen speichern und Fenster schliessen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1886"/>
@@ -2367,7 +2382,7 @@ Anmerkung: Um einen Text zu animieren, müssen Sie mindestens 2 Aufnahmen festle
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1911"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.ui" line="1914"/>
@@ -2596,53 +2611,53 @@ Anmerkung: Um einen Text zu animieren, müssen Sie mindestens 2 Aufnahmen festle
         <translation>Hinzufügen eines neuen Clipart Textblockes</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="121"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="141"/>
         <source>None</source>
         <translation>Keiner</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="122"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="142"/>
         <source>Shadow upper left</source>
         <translation>Schatten links oben</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="123"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="143"/>
         <source>Shadow upper right</source>
         <translation>Schatten rechts oben</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="124"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="144"/>
         <source>Shadow bottom left</source>
         <translation>Schatten links unten</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="125"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="145"/>
         <source>Shadow bottom right</source>
         <translation>Schatten rechts unten</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="871"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="891"/>
         <source>Remove block</source>
         <translation>Block entfernen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="871"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="891"/>
         <source>Are you sure you want to delete this block?</source>
         <translation>Möchten Sie diesen Block wirklich löschen ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="874"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="894"/>
         <source>Remove blocks</source>
         <translation>Blöcke entfernen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="874"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="894"/>
         <source>Are you sure you want to delete these blocks?</source>
         <translation>Möchten Sie diese Blöcke wirklich löschen ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="939"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1003"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="959"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1023"/>
         <source>Text</source>
         <comment>Default text value</comment>
         <translation>Text</translation>
@@ -3181,7 +3196,7 @@ Z.B: bei einem 4:3 Bild werden in einem 16:9 Projekt auf den beiden Seiten trans
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3279"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.ui" line="3282"/>
@@ -3440,7 +3455,7 @@ Es wird zumindest die Länge des Videos angezeigt. Allerdings können auch hier 
     <message>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.ui" line="516"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgInfoFile/DlgInfoFile.ui" line="519"/>
@@ -3639,7 +3654,7 @@ Es wird zumindest die Länge des Videos angezeigt. Allerdings können auch hier 
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="521"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgManageDevices/DlgManageDevices.ui" line="524"/>
@@ -3733,7 +3748,7 @@ Es wird zumindest die Länge des Videos angezeigt. Allerdings können auch hier 
     <message>
         <location filename="../src/ffDiaporama/DlgManageFavorite/DlgManageFavorite.ui" line="171"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageFavorite/DlgManageFavorite.ui" line="174"/>
@@ -3814,7 +3829,7 @@ Dies betrifft den Namen wie auch die Einstellungen.</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.ui" line="189"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgManageStyle/DlgManageStyle.ui" line="192"/>
@@ -4100,7 +4115,7 @@ Diese Lautstärke ist unabhängig von jeglicher Reduktion, die im oberen Teil de
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="435"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgMusic/DlgMusicProperties.ui" line="438"/>
@@ -4357,7 +4372,7 @@ Beim Aktivieren der Option Von und der Eingabe eines Start- und Enddias wird nur
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="190"/>
         <source>Select the audio compression ratio from the displayed list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Kompressionsverhältnis, das zum Erstellen des Tones verwendet werden soll, aus der angezeigten Liste wählen.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="265"/>
@@ -4367,27 +4382,27 @@ Beim Aktivieren der Option Von und der Eingabe eines Start- und Enddias wird nur
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="395"/>
         <source>If this box is checked then a thumbnail file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ist diese Option gesetzt, wird ein Vorschaubild für das Video generiert.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="398"/>
         <source>Join thumbnail to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde Vorschaubild mit umgewandelten Video</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="618"/>
         <source>Select the frequency to use for audio during the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wählen Sie die Frequenz für Audio während der Erstellung des Videos.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="657"/>
         <source>If this box is checked then a XBMC .nfo file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Wenn diese Option gesetzt ist, wird eine XBMC .nfo Datei erstellt für das Video.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="660"/>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Verbinde XBMC .nfo Datei mit umgewandelten Video</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="706"/>
@@ -4427,7 +4442,7 @@ Beim Aktivieren der Option Von und der Eingabe eines Start- und Enddias wird nur
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1149"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgRenderVideo/DlgRenderVideo.ui" line="1152"/>
@@ -4626,7 +4641,7 @@ Bitte kontaktieren Sie das ffDiaporama Team</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgExportProject/DlgExportProject.cpp" line="138"/>
         <source>Select destination folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Zielordner wählen</translation>
     </message>
 </context>
 <context>
@@ -4717,7 +4732,7 @@ In ffDiaporama: der Bildschirmrand definiert den Bereich in dem die Titel jedenf
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="313"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgRuler/DlgRulerDef.ui" line="316"/>
@@ -4770,7 +4785,7 @@ In ffDiaporama: der Bildschirmrand definiert den Bereich in dem die Titel jedenf
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="186"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideDuration.ui" line="189"/>
@@ -5060,18 +5075,19 @@ informationen</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="128"/>
         <source>Manage chapter information for this slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwalte Kapitelinformationen für das Dia</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="131"/>
         <source>Chapter
 Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapitel
+Information</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="580"/>
         <source>Slide name:</source>
-        <translation type="unfinished"></translation>
+        <translation>Dianame:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="1628"/>
@@ -5096,7 +5112,7 @@ Information</source>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3363"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3366"/>
@@ -5297,13 +5313,14 @@ Anmerkung : Werden mehrere Dateien eingefügt, so werden diese entweder alphabet
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="504"/>
         <source>Save this slide as a model</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern dieses Dia als Modell</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="507"/>
         <source>Save as
 model</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern als
+Modell</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="626"/>
@@ -5620,18 +5637,18 @@ Anmerkung: Versteckte Videoblöcke werden automatisch angehalten</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3939"/>
         <source>Append to project title models</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu Titlemodellen hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3948"/>
         <source>Append to chapter title models</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu Kapitelmodellen hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3957"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3960"/>
         <source>Append to credit title models</source>
-        <translation type="unfinished"></translation>
+        <translation>Zu Nachweistitelmodellen hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.ui" line="3477"/>
@@ -5808,19 +5825,19 @@ entfernen</translation>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1350"/>
         <source>Slide added in Project title models collection</source>
         <comment>Information message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Dia zu Projekttitelmodellkollektion hinzugefügt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1359"/>
         <source>Slide added in Chapter title models collection</source>
         <comment>Information message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Dia zu Kapiteltitelmodellkollektion hinzugefügt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1368"/>
         <source>Slide added in Credit title models collection</source>
         <comment>Information message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Dia zu Nachweistitelmodellkollektion hinzugefügt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1416"/>
@@ -6035,7 +6052,7 @@ Anmerkung: Diese Einstellung wirkt auf den gesamten Text im Block.</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="855"/>
         <source>Insert a text variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine Textvariable hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="988"/>
@@ -6155,7 +6172,7 @@ Dieser Wert wird in % der Weite des Blockes ausgedrückt.</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1781"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgText/DlgTextEdit.ui" line="1784"/>
@@ -6283,7 +6300,7 @@ Dieser Wert wird in % der Weite des Blockes ausgedrückt.</translation>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionDuration.ui" line="186"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionDuration.ui" line="189"/>
@@ -6435,7 +6452,7 @@ Die möglichen Werte gehen von 0,5 Sekunden (sehr schnell) bis zu 10 Sekunden (s
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="302"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgTransition/DlgTransitionProperties.ui" line="305"/>
@@ -6521,28 +6538,29 @@ Anmerkung: Sie können diese Daten nur während der Erstellung eines neuen Proje
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="265"/>
         <source>The album of the project (If the id3v2 compatibility option is set in option dialog, this fields is limited to 30 characters).</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Album des Projektes (wenn die Option id3v2-Kompatibiltät angewählt ist, ist dieses Feld auf 30 Zeichen beschränkt).</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="332"/>
         <source>The name of the author of the project (If the id3v2 compatibility option is set in option dialog, this fields is limited to 30 characters).
 Remark: This field is often shown by indexing system and jukeboxes under the term Artist.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Name des Autors (wenn die Option id3v2-Kompatibiltät angewählt ist, ist dieses Feld auf 30 Zeichen beschränkt).
+Anmerkung: Dieses Feld wird von Indexsystemen und Jukeboxen als &quot;Artist&quot; angezeigt.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="371"/>
         <source>Check this box to override the date and offer you to enter the date as a free text</source>
-        <translation type="unfinished"></translation>
+        <translation>Setzen Sie diese Option um das Datum mit einem Freitext zu überschreiben</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="381"/>
         <source>Enter here the date of the event of the project as a free text</source>
-        <translation type="unfinished"></translation>
+        <translation>Geben Sie hier das Datum des Ereignisses vom Projekt als Freitext ein</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="472"/>
         <source>Options for speed wave</source>
-        <translation type="unfinished"></translation>
+        <translation>Optionen für Anstiegskurve</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="526"/>
@@ -6568,55 +6586,58 @@ Diese Option legt die Geschwindigkeitskurve fest, wann immer die entsprechende O
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="631"/>
         <source>Defines the model use as default thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Legt das Modell für das Standardvorschaubild fest</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="717"/>
         <source>Create a new model from this thumbnail or edit custom thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstellt ein neues Modell von diesem Vorschaubild oder ändern des benutzerdefinierten Vorschaubildes</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="720"/>
         <source>Edit custom
 thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Ändern benutzerdefinierten
+Vorschaubildes</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="759"/>
         <source>Customize the thumbnail only for this project (without creating a new thumbnail model)</source>
-        <translation type="unfinished"></translation>
+        <translation>Anpassen des Vorschaubildes nur für dieses Projekt (ohne ein neues Vorschaumodell zu erstellen)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="762"/>
         <source>Customize</source>
-        <translation type="unfinished"></translation>
+        <translation>Anpassen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="800"/>
         <source>Expor thumbnail to a jpeg file</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportieren des Vorschaubildes als JPG-Datei</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="803"/>
         <source>Export
 thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportieren
+Vorschaubild</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="842"/>
         <source>Thumbnail :</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorschaubild :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="865"/>
         <source>
 Options for joined ressources</source>
-        <translation type="unfinished"></translation>
+        <translation>
+Optionen für verbundene Ressourcen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="937"/>
         <source>Show help about this dialogue box</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigen des &quot;was ist das&quot; Hilfefensters</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="940"/>
@@ -6696,22 +6717,22 @@ Anmerkung: Verschiedene Videoformate unterstützen Kapitel nicht in der selben W
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="285"/>
         <source>The title of the project (If the id3v2 compatibility option is set in option dialog, this fields is limited to 30 characters).</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Titel des Projektes (wenn die Option id3v2-Kompatibiltät angewählt ist, ist dieses Feld auf 30 Zeichen beschränkt).</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="356"/>
         <source>The date of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Datum des Ereignisses für das Projekt</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="255"/>
         <source>Event date :</source>
-        <translation type="unfinished"></translation>
+        <translation>Ereignisdatum :</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="312"/>
         <source>Override date :</source>
-        <translation type="unfinished"></translation>
+        <translation>Datum überschreiben:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.ui" line="395"/>
@@ -6755,7 +6776,7 @@ Anmerkung: Verschiedene Videoformate unterstützen Kapitel nicht in der selben W
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="55"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1434"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1444"/>
         <source>New project</source>
         <translation>Projekt neu anlegen</translation>
     </message>
@@ -6773,25 +6794,27 @@ Anmerkung: Verschiedene Videoformate unterstützen Kapitel nicht in der selben W
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="211"/>
         <source>Export thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Exportieren Vorschaubild</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="212"/>
         <source>Thumbnail successfully exported</source>
         <comment>Information message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Vorschaubild erfolgreich exportiert</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="306"/>
         <source>Edit
 custom model</source>
-        <translation type="unfinished"></translation>
+        <translation>Ändern
+Benutzerdefiniertes Modell</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="309"/>
         <source>Create
 custom model</source>
-        <translation type="unfinished"></translation>
+        <translation>Erstellen
+Benutzerdefiniertes Modell</translation>
     </message>
 </context>
 <context>
@@ -6885,6 +6908,89 @@ custom model</source>
         <location filename="../src/engine/cBrushDefinition.cpp" line="83"/>
         <source>Project width - at the bottom</source>
         <translation>Projektweite - nach unten ausgerichtet</translation>
+    </message>
+</context>
+<context>
+    <name>HelpPopup</name>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="119"/>
+        <source>Changes the document displayed to the previous document in the list of documents built by navigating links.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="122"/>
+        <source>Backward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="159"/>
+        <source>Changes the document displayed to the main page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="162"/>
+        <source>Home</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="199"/>
+        <source>Changes the document displayed to the next document in the list of documents built by navigating links.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="202"/>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="246"/>
+        <source>Open the ffDiaporama Web site into your internet browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="249"/>
+        <source>Web Site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="286"/>
+        <source>Open the ffDiaporama Forum into your internet browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="289"/>
+        <source>Forum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="339"/>
+        <source>Close the WIKI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="342"/>
+        <source>Exit</source>
+        <translation type="unfinished">Beenden</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="430"/>
+        <source>If this checkbox is checked and the WIKI remains open, then automatically displayed in the WIKI the document corresponding to the currently used  interface element (main window, dialog, etc ...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="433"/>
+        <source>Follow the interface</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="576"/>
+        <source>ffDiaporama is a &lt;a href=&quot;http://en.wikipedia.org/wiki/Free_software&quot;&gt;Free Software (Open Source)&lt;/a&gt; and is distributed under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-2.0.html&quot;&gt;GNU General Public License (GPL) version 2&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <location filename="../src/ffDiaporama/HelpPopup/HelpPopup.ui" line="612"/>
+        <source>©2011-2013 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -7136,7 +7242,7 @@ hinzufügen</translation>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2387"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2428"/>
         <source>Render project as a video using a predefined model</source>
-        <translation type="unfinished"></translation>
+        <translation>Erzeugen des Videos vom Projekt unter Verwendung eines vordefinierten Modells</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="993"/>
@@ -7282,9 +7388,9 @@ und Hilfe</translation>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="522"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="528"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="539"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3102"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3108"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3119"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3112"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3118"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3129"/>
         <source>Add to favorite</source>
         <translation>Zu Favoriten hinzufügen</translation>
     </message>
@@ -7355,17 +7461,17 @@ und Hilfe</translation>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4779"/>
         <source>Add a predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Hinzufügen eines vordefinierten Titeldia</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4800"/>
         <source>Export project</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt exportieren</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4803"/>
         <source>Export current project and all used files in a new folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelles Projekt exportieren und alle verwendeten Dateien in einen neuen Ordner</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4581"/>
@@ -7380,8 +7486,8 @@ und Hilfe</translation>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4599"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4614"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2385"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3454"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2395"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3464"/>
         <source>Add files to project</source>
         <translation>Dateien zu Projekt hinzufügen</translation>
     </message>
@@ -7397,8 +7503,8 @@ und Hilfe</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4635"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3523"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3526"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3533"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3536"/>
         <source>Rename file</source>
         <translation>Datei umbenennen</translation>
     </message>
@@ -7441,13 +7547,13 @@ und Hilfe</translation>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1119"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2469"/>
         <source>Render project as a lossless video</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt als verlustfreies Video umwandeln</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="1211"/>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="2561"/>
         <source>Render sound trak of project</source>
-        <translation type="unfinished"></translation>
+        <translation>Tonspur für das Projekt umwandeln</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="3925"/>
@@ -7525,49 +7631,49 @@ und Hilfe</translation>
         <translation>Projekt hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="62"/>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="76"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="63"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="77"/>
         <source>Search Raster mode in configuration file</source>
         <translation>Suche Rastermodus in Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="352"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="318"/>
         <source>All suported file (</source>
         <translation>Unterstützte Dateien (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="359"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="325"/>
         <source>Image file (</source>
         <translation>Bilddateien (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="365"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="331"/>
         <source>Video file (</source>
         <translation>Videodateien (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="371"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="337"/>
         <source>Music file (</source>
         <translation>Musikdateien (</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="595"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="561"/>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="579"/>
         <source>Read configuration file</source>
         <translation>Lesen der Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1129"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1149"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2024"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2152"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2162"/>
         <source>This application support only audio track with unsigned 8 bits or signed 16 bits sample format</source>
         <comment>Error message</comment>
         <translation>Diese Anwendung unterstützt nur Audiospuren mit unsigniertem 8-Bit oder signiertem 16-Bit Sample Format</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1133"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1153"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2028"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2158"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2168"/>
         <source>This application support only mono or stereo audio track</source>
         <comment>Error message</comment>
         <translation>Dieses Programm unterstützt nur Mono und Stereo Audiospuren</translation>
@@ -7576,25 +7682,25 @@ und Hilfe</translation>
         <location filename="../src/engine/_Diaporama.cpp" line="1631"/>
         <source>The file is not a valid title model file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei ist keine korrekte Datei für ein Titelmodell</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="1634"/>
         <location filename="../src/engine/_Diaporama.cpp" line="1665"/>
         <location filename="../src/engine/_Diaporama.cpp" line="2301"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1184"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1204"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="2101"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1607"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1611"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1622"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2086"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2094"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2112"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2117"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2142"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2153"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2159"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2239"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1617"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1621"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1632"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2096"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2104"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2122"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2127"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2152"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2163"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2169"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2249"/>
         <source>Error</source>
         <comment>Error message</comment>
         <translation>Fehler</translation>
@@ -7603,37 +7709,37 @@ und Hilfe</translation>
         <location filename="../src/engine/_Diaporama.cpp" line="1665"/>
         <source>Error creating model file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim erstellen der Modelldatei</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="1625"/>
         <source>The file is not a valid thumbnail file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Diese Datei ist kein gültiges Vorschaubild</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="597"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="563"/>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="589"/>
         <source>Error reading configuration file</source>
         <comment>Error message</comment>
         <translation>Fehler beim Lesen der Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="605"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="571"/>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="594"/>
         <source>Error reading content of configuration file</source>
         <comment>Error message</comment>
         <translation>Fehler beim Lesen des Inhaltes der Konfigurationsdatei</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="615"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="581"/>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="601"/>
         <source>The file is not a valid configuration file</source>
         <comment>Error message</comment>
         <translation>Diese Datei ist keine gültige Konfigurationsdatei </translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="749"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="715"/>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="648"/>
         <source>Error creating configuration file</source>
         <comment>Error message</comment>
@@ -7646,8 +7752,8 @@ und Hilfe</translation>
         <translation>Titel</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1732"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1797"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1742"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1807"/>
         <source>Saving project file ...</source>
         <translation>Speichern Projektdatei ...</translation>
     </message>
@@ -7659,54 +7765,54 @@ und Hilfe</translation>
         <translation>Fehler beim Erzeugen der Datei </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1587"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1661"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1597"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1671"/>
         <source>Open project file</source>
         <translation>Projekt öffnen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1588"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1598"/>
         <source>Impossible to open file </source>
         <translation>Öffnen der Datei nicht möglich </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1588"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1598"/>
         <source>Do you want to select another file ?</source>
         <translation>Möchten Sie eine andere Datei auswählen ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1591"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1601"/>
         <source>Select another file for </source>
         <translation>Andere Datei wählen für</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1599"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1609"/>
         <source>Impossible to open project file %1</source>
         <translation>Öffnen der Projektdatei %1 nicht möglich</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1606"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2117"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1616"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2127"/>
         <source>Error reading project file</source>
         <comment>Error message</comment>
         <translation>Fehler beim Lesen der Projektdatei</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1611"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2112"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1621"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2122"/>
         <source>Error reading content of project file</source>
         <comment>Error message</comment>
         <translation>Fehler beim Lesen des Inhaltes der Projektdatei</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1622"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2086"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1632"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2096"/>
         <source>The file is not a valid project file</source>
         <comment>Error message</comment>
         <translation>Diese Datei ist keine kültige Projektdatei</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2094"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2104"/>
         <source>Impossible to import this file :
 Image geometry in this file is not the same than the current project</source>
         <comment>Error message</comment>
@@ -7734,331 +7840,339 @@ Bildgeometrie des Bildes entspricht nicht der des aktuellen Projektes</translati
         <translation>Fehler beim Laden der Datei :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="150"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="151"/>
         <source>Starting SDL...</source>
         <translation>Starten SDL...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="158"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="159"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="160"/>
         <source>Loading background library...</source>
         <translation>Laden der Bibliothek für die Hintergründe...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="168"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="169"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="170"/>
         <source>Loading no-luma transitions...</source>
         <translation>Laden der einfachen Überblendungen... </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="173"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="174"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="175"/>
         <source>Loading luma transitions...</source>
         <translation>Laden der Luma-Überblendungen...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="181"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="182"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="183"/>
         <source>Scan drives in computer...</source>
-        <translation type="unfinished"></translation>
+        <translation>Durchsuche Laufwerke des Computers...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="186"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="187"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="188"/>
         <source>Register models...</source>
+        <translation>Modelle registrieren...</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="275"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="276"/>
+        <source>Init WIKI...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="624"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="633"/>
         <source>Close application</source>
         <translation>Beenden</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="624"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="633"/>
         <source>Want to save the project before closing?</source>
         <translation>Möchten Sie die Änderungen des Projekt vorher speichern?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="711"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="721"/>
         <source>A new ffDiaporama release is available from WEB site. Please update from http://ffdiaporama.tuxfamily.org !</source>
         <translation>Eine neue Version von ffDiaporama ist auf der Homepage verfügbar. Bitte das Update von http://ffdiaporama.tuxfamily.org einspielen !</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="716"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="726"/>
         <source>A new ffDiaporama version is available from WEB site.
 Do you whant do download it now?</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine neue Version von ffDiaporama ist verfügbar von der Website.
+Möchten Sie dies nun herunterladen ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1212"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1222"/>
         <source>&lt;html&gt;&lt;body&gt;Visit the ffDiaporama Web site to use the forum,&lt;br&gt;consult tutorials and learn the lastest news:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Besuchen Sie das Forum von ffDiaporama auf unserer Webseite.&lt;br&gt;Dort finden Sie weitere Informationen und Neuigkeiten rund um ffDiaporama:&lt;br&gt;&lt;a href=&quot;http://ffdiaporama.tuxfamily.org&quot;&gt;http://ffdiaporama.tuxfamily.org&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1397"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1407"/>
         <source>Saving configuration file and applying new configuration ...</source>
         <translation>Speichern und Anwenden der neuen Konfiguration ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1434"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1493"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1515"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3335"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1444"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1503"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1525"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3345"/>
         <source>Current project has been modified.
 Do you want to save-it ?</source>
         <translation>Aktuelles Projekt wurde geändert
 Möchten Sie es speichern ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1683"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1693"/>
         <source>Loading slide %1/%2</source>
         <translation>Dia %1/%2 laden</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1960"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2007"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1970"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2017"/>
         <source>Add file to project</source>
         <translation>Datei zu Projekt hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2171"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2181"/>
         <source>This video files contains more than one chapter.
 Do you want to create one slide for each chapters ?</source>
         <translation>Die Videodatei enthält mehr als ein Kapitel. Möchten Sie ein Dia pro Kapitel erstellen ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2601"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2611"/>
         <source>Are you sure you want to remove this slide?</source>
         <translation>Wollen Sie dieses Dia wirklich löschen ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2605"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2615"/>
         <source>Remove multiple slides</source>
         <translation>Mehrere Dias löschen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3505"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3515"/>
         <source>Are you sure to delete this file or folder ?
 (Warning: Content will not be moved to trash)</source>
         <translation>Sind Sie sicher dass Sie diese Datei bzw. diesen Ordner löschen wollen ?
 (Warnung: Inhalt wird nicht in den Papierkorb verschoben, sondern entgültig gelöscht)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3507"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3517"/>
         <source>Impossible to delete folder!
 Are you sure it is empty?</source>
         <translation>Ordner kann nicht gelöscht werden!
 Sind Sie sicher dass er leer ist ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3509"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3519"/>
         <source>Impossible to delete file!</source>
         <translation>Kann Datei nicht löschen !</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="276"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="277"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2943"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2944"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2953"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2954"/>
         <source>Total duration:</source>
         <translation>Gesamtdauer :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="163"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="164"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="165"/>
         <source>Loading text frame  library...</source>
         <translation>Lade Textrahmen Bibliothek...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="423"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="787"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="432"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="797"/>
         <source>Slide: </source>
         <translation>Dia: </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="424"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="545"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="553"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="433"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="554"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="562"/>
         <source>Chapter: </source>
         <translation>Kapitel: </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="723"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="733"/>
         <source>Your version of ffDiaporama is up to day</source>
         <translation>Ihre Version von ffDiaporama ist aktuell</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="280"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2947"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2957"/>
         <source>Total size:%1</source>
         <translation>Gesamtgröße: %1</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="287"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2954"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2964"/>
         <source>%1 audio files</source>
         <translation>%1 Audiodateien</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="291"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2958"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2968"/>
         <source>%1 video files</source>
         <translation>%1 Videodateien</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="295"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2962"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2972"/>
         <source>%1 image files</source>
         <translation>%1 Bilddateien</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="299"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2966"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2976"/>
         <source>%1 ffDiaporama project files</source>
         <translation>%1 ffDiaporama Projektdateien</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="303"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2970"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2980"/>
         <source>%1 folders</source>
         <translation>%1 Ordner</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="307"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="315"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2974"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2982"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2984"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2992"/>
         <source>%1 files</source>
         <translation>%1 Dateien</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="308"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="316"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2975"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2983"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2985"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2993"/>
         <source>Multiple file types</source>
         <translation>Mehrere Dateitypen</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="350"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3001"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3011"/>
         <source>Refresh All</source>
         <translation>Alles aktualisieren</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="353"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3004"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3014"/>
         <source>update drive list</source>
         <translation>Laufwerksliste aktualisieren</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="365"/>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="377"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3016"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3028"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3026"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3038"/>
         <source>update drive (%1)</source>
         <translation>Laufwerk %1 aktualisieren</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="381"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3032"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3042"/>
         <source>update current folder</source>
         <translation>Aktuellen Ordner aktualisieren</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="522"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3102"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3112"/>
         <source>Favorite name:</source>
         <translation>Favoritenname:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3157"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3167"/>
         <source>Impossible to remove file %1 - error %2:%3</source>
         <translation>Datei %1 kann nicht gelöscht werden - Fehler %2:%3</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3162"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3172"/>
         <source>Impossible to remove folder %1 - error %2:%3</source>
         <translation>Ordner %1 kann nicht gelöscht werden - Fehler %2:%3</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3187"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3197"/>
         <source>Are you sure to remove this folder ?
 (Warning: Content will not be moved to trash)</source>
         <translation>Sind Sie sicher dass Sie diesen Ordner löschen wollen ?
 (Warnung: Inhalt wird nicht in den Papierkorb verschoben, sondern entgültig gelöscht)</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3220"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3222"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3230"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3232"/>
         <source>Rename folder</source>
         <translation>Ordner umbenennen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3220"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3230"/>
         <source>Folder:</source>
         <translation>Ordner:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3222"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3232"/>
         <source>Impossible to rename folder!</source>
         <translation>Ordner kann nicht umbenannt werden!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="591"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3267"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3277"/>
         <source>Hide files name</source>
         <translation>Dateinamen verstecken</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="592"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3268"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3278"/>
         <source>Show files name</source>
         <translation>Dateinamen anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3478"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3488"/>
         <source>Remove files</source>
         <translation>Dateien entfernen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3500"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3510"/>
         <source>Remove file :</source>
         <translation>Datei entfernen:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3507"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3517"/>
         <source>Remove folder</source>
         <translation>Ordner entfernen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3509"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3519"/>
         <source>Remove file</source>
         <translation>Datei entfernen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3523"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3533"/>
         <source>New name:</source>
         <translation>Neuer Name:</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3526"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3536"/>
         <source>Impossible to rename file!</source>
         <translation>Datei kann nicht umbenannt werden!</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="578"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3254"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3264"/>
         <source>Details view</source>
         <translation>Detailansicht</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2605"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2615"/>
         <source>Are you sure you want to remove these %1 slides?</source>
         <translation>Sind Sie sicher dass Sie %1 Dias löschen wollen ?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="529"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3109"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3119"/>
         <source>A favorite with this name already exists.
 Do you want to overwrite it?</source>
         <translation>Ein Favorit mit diesem Namen existiert bereits.
@@ -8066,123 +8180,123 @@ Wollen Sie ihn überschreiben ?</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="540"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3120"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3130"/>
         <source>A favorite with for this path already exists.
 Do you want to overwrite it?</source>
         <translation>Ein Favorit mit diesem Pfad existiert bereits.
 Wollen Sie ihn überschreiben ?</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3165"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3175"/>
         <source>Successfully deleted folder (and all its content) %1</source>
         <translation>Ordner %1 erfolgreich gelöscht (und sein gesamter Inhalt)</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="579"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3255"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3265"/>
         <source>Icon view</source>
         <translation>Symbolansicht</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="581"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3257"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3267"/>
         <source>All files</source>
         <translation>Alle Dateien</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="582"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3258"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3268"/>
         <source>Managed files</source>
         <translation>Verwaltete Dateien</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="583"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3259"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3269"/>
         <source>Image files</source>
         <translation>Bilddateien</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="584"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3260"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3270"/>
         <source>Video files</source>
         <translation>Videodateien</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="585"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3261"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3271"/>
         <source>Music files</source>
         <translation>Musikdateien</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="586"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3262"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3272"/>
         <source>ffDiaporama project files</source>
         <translation>ffDiaporama Projektdateien</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="588"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3264"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3274"/>
         <source>Hide hidden files and folders</source>
         <translation>Ausblenden von versteckten Dateien und Ordnern</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgFileExplorer/DlgFileExplorer.cpp" line="589"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3265"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3275"/>
         <source>Show hidden files and folders</source>
         <translation>Anzeigen von versteckten Dateien und Ordnern</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="797"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="807"/>
         <source>&lt;new project&gt;</source>
         <comment>when project have no name define</comment>
         <translation>&lt;Neues Projekt&gt;</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="316"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="146"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="282"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="147"/>
         <source>Loading system icons...</source>
         <translation>Laden der Systemsymbole...</translation>
     </message>
     <message>
         <location filename="../src/engine/cDeviceModelDef.cpp" line="727"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="154"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="155"/>
         <source>Starting libav...</source>
         <translation>libav starten ...</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1200"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1210"/>
         <source>&lt;html&gt;&lt;body&gt;Select a project to open or to create a new project&lt;br&gt;To discover ffDiaporama:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Wählen Sie ein bestehendes Projekt über &lt;b&gt;&lt;i&gt;Öffne Projekt&lt;/i&gt;&lt;/b&gt;, oder erstellen Sie ein neues Projekt über &lt;b&gt;&lt;I&gt;Neues Projekt&lt;/i&gt;&lt;/b&gt; &lt;br&gt;Um mehr über ffDiaporama zu erfahren::&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Besuchen Sie die  WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1204"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1214"/>
         <source>&lt;html&gt;&lt;body&gt;Add empty slides or slides based on photos or videos&lt;br&gt;To discover how to build your slide show and to animate slides:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Discover the principles of functioning of ffDiaporama&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Fügen Sie leere Dias, oder bestehende Dias aus Fotos und Videos, zur Zeitleiste hinzu&lt;br&gt;Um zu erfahren wie Sie animierte Diashows erzeugen können:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Lesen Sie das Kapitel &lt;I&gt;Wie ffDiaporama arbeitet&lt;/i&gt; in unserer WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1208"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1218"/>
         <source>&lt;html&gt;&lt;body&gt;Select the equipment type that you plan to use for your video&lt;br&gt;To discover how to render videos:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Consult the rendering videos WIKI page&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;body&gt;Wählen Sie den Gerätetype für den Sie Ihr Video erstellen möchten&lt;br&gt;Um zu erfahren wie Videos zu erstellen sind:&lt;br&gt;&lt;a href=&quot;%1&quot;&gt;Lesen Sie das Kapitel &lt;b&gt;&lt;/i&gt;Videos erstellen&lt;/i&gt;&lt;/b&gt; in unserer WIKI&lt;/a&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1493"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1515"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1520"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1549"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3334"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1503"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1525"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1530"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1559"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3344"/>
         <source>Open project</source>
         <translation>Projekt öffnen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1497"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1525"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1507"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="1535"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3340"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1545"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3350"/>
         <source>Open file :</source>
         <translation>Datei öffnen: </translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1550"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1560"/>
         <source>This project was created with a newer version of ffDiaporama.
 If you continue, you take the risk of losing data!
 Do you want to open it nevertheless?</source>
@@ -8190,63 +8304,63 @@ Do you want to open it nevertheless?</source>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4788"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1786"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1796"/>
         <source>Save project as</source>
         <translation>Projekt sichern als</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.ui" line="4455"/>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1047"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1067"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1940"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1936"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="1946"/>
         <source>Add files</source>
         <translation>Dateien hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1089"/>
+        <location filename="../src/ffDiaporama/DlgSlide/DlgImageComposer.cpp" line="1109"/>
         <location filename="../src/ffDiaporama/DlgSlide/DlgSlideProperties.cpp" line="1982"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2132"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2142"/>
         <source>Format not supported</source>
         <comment>Error message</comment>
         <translation>Format nicht unterstützt</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2368"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2378"/>
         <source>Add a sub project</source>
         <translation>Hinzufügen eines Unterprojektes</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2398"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2408"/>
         <source>Add project file :</source>
         <translation>Hinzufügen Projektdatei :</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2453"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2459"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2463"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2469"/>
         <source>Capture the image </source>
         <translation>Bild speichern</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2601"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2611"/>
         <source>Remove slide</source>
         <translation>Dia löschen</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2061"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3457"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2071"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="3467"/>
         <source>Add file to project :</source>
         <translation>Datei zum Projekt hinzufügen:</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="1292"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2465"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2475"/>
         <source>Capture image</source>
         <translation>Bild speichern</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgImage/DlgImageCorrection.cpp" line="1293"/>
         <location filename="../src/ffDiaporama/DlgffDPjrProperties/DlgffDPjrProperties.cpp" line="204"/>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2466"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2476"/>
         <source>Select destination file</source>
         <translation>Wähle Zieldatei</translation>
     </message>
@@ -8270,7 +8384,7 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/ffDiaporama/main.cpp" line="99"/>
         <source>Start ...</source>
-        <translation type="unfinished"></translation>
+        <translation>Start ...</translation>
     </message>
 </context>
 <context>
@@ -8553,25 +8667,25 @@ Do you want to open it nevertheless?</source>
 <context>
     <name>QCustomFolderTree</name>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="101"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="102"/>
         <source>Kb</source>
         <comment>Unit Kb</comment>
         <translation>Kb</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="102"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="103"/>
         <source>Mb</source>
         <comment>Unit Mb</comment>
         <translation>Mb</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="103"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="104"/>
         <source>Gb</source>
         <comment>Unit Gb</comment>
         <translation>Gb</translation>
     </message>
     <message>
-        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="104"/>
+        <location filename="../src/engine/cBaseApplicationConfig.cpp" line="105"/>
         <source>Tb</source>
         <comment>Unit Tb</comment>
         <translation>Tb</translation>
@@ -8644,7 +8758,7 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/engine/cDriveList.cpp" line="103"/>
         <location filename="../src/engine/cDriveList.cpp" line="374"/>
         <source>Clipart</source>
-        <translation type="unfinished"></translation>
+        <translation>Clipart</translation>
     </message>
     <message>
         <location filename="../src/engine/cDriveList.cpp" line="104"/>
@@ -9163,124 +9277,126 @@ Do you want to open it nevertheless?</source>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="172"/>
         <source>%1 presents</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 präsentiert</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="173"/>
         <source>A %1 production</source>
-        <translation type="unfinished"></translation>
+        <translation>Eine %1 Produktion</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="195"/>
         <source>Chapter %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapitel %1</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="212"/>
         <source>Project done the %1:
 	Â·with Â«%2 (%3)Â»
 	Â·on a %4 (%5 Core/CPU) computer</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt erledigt %1:
+	Â·mit Â«%2 (%3)Â»
+	Â·auf einem %4 (%5 Core/CPU) Computer</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="217"/>
         <location filename="../src/engine/_Variables.cpp" line="311"/>
         <source>The end</source>
-        <translation type="unfinished"></translation>
+        <translation>Ende</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="258"/>
         <source>Select this variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Diese Variable auswählen</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="266"/>
         <source>Project properties values</source>
-        <translation type="unfinished"></translation>
+        <translation>Werte für Projekteigenschaften</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="267"/>
         <source>Project date values</source>
-        <translation type="unfinished"></translation>
+        <translation>Werte für Projektdatum</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="268"/>
         <source>Current slide values</source>
-        <translation type="unfinished"></translation>
+        <translation>Werte für aktuelles Dia</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="269"/>
         <source>Chapters values</source>
-        <translation type="unfinished"></translation>
+        <translation>Werte für Kapitel</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="270"/>
         <source>Current chapter date values</source>
-        <translation type="unfinished"></translation>
+        <translation>Werte für aktuelles Kapiteldatum</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="271"/>
         <source>Various values</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschiedene Werte</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="272"/>
         <source>Today date values</source>
-        <translation type="unfinished"></translation>
+        <translation>Werte für heutiges Datum</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="275"/>
         <source>Project title</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekttitel</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="276"/>
         <source>Project author</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektautor</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="277"/>
         <source>Project author as &lt;Author presents&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektautor als &lt;Autor präsentiert&gt;</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="278"/>
         <source>Project author as &lt;A Author production&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektautor als &lt;Eine Autor Produktion&gt;</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="279"/>
         <source>Project album</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektalbum</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="280"/>
         <source>Project comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektkommentar</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="281"/>
         <source>Project duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektlaufzeit</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="282"/>
         <source>Project slide count</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl Projektdia</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="284"/>
         <location filename="../src/engine/_Variables.cpp" line="301"/>
         <location filename="../src/engine/_Variables.cpp" line="316"/>
         <source>Long date</source>
-        <translation type="unfinished"></translation>
+        <translation>Langdatum</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="285"/>
         <location filename="../src/engine/_Variables.cpp" line="302"/>
         <location filename="../src/engine/_Variables.cpp" line="317"/>
         <source>Short date</source>
-        <translation type="unfinished"></translation>
+        <translation>Kurzdatum</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="286"/>
@@ -9294,153 +9410,153 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/engine/_Variables.cpp" line="304"/>
         <location filename="../src/engine/_Variables.cpp" line="319"/>
         <source>Month</source>
-        <translation type="unfinished"></translation>
+        <translation>Monat</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="288"/>
         <location filename="../src/engine/_Variables.cpp" line="305"/>
         <location filename="../src/engine/_Variables.cpp" line="320"/>
         <source>Month as number</source>
-        <translation type="unfinished"></translation>
+        <translation>Monat als Zahl</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="289"/>
         <location filename="../src/engine/_Variables.cpp" line="306"/>
         <location filename="../src/engine/_Variables.cpp" line="321"/>
         <source>Day</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="290"/>
         <location filename="../src/engine/_Variables.cpp" line="307"/>
         <location filename="../src/engine/_Variables.cpp" line="322"/>
         <source>Day of week</source>
-        <translation type="unfinished"></translation>
+        <translation>Tag der Woche</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="292"/>
         <source>Current slide name</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktueller Dianame</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="293"/>
         <source>Current slide number</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelle Dianummer</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="295"/>
         <source>Current chapter name</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktueller Kapitelname</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="296"/>
         <source>Current chapter number</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelle Kapitelnummer</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="297"/>
         <source>Current chapter number as &quot;Chapter NÂ°&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelle Kapitelnummer als &quot;Kapitel NÂ°&quot;</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="298"/>
         <source>Current chapter duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Aktuelle Kapiteldauer</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="299"/>
         <source>Chapter count</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzahl Kapitel</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="309"/>
         <source>ffDiaporama version</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama Version</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="310"/>
         <source>Copyright</source>
-        <translation type="unfinished"></translation>
+        <translation>Copyright</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="312"/>
         <source>Project made</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekt erstellt von</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="313"/>
         <source>Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhalt</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="314"/>
         <source>Musical content</source>
-        <translation type="unfinished"></translation>
+        <translation>Musikalischer Inhalt</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2042"/>
         <source>Content:</source>
         <comment>Project statistics</comment>
-        <translation type="unfinished"></translation>
+        <translation>Statistik des Projektes:</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2043"/>
         <source>%1 slides (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Dia (%2)</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2044"/>
         <source>%1 chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Kapitel</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2045"/>
         <source>%1 videos (%2)</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Videos (%2)</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2046"/>
         <source>%3 vector images</source>
-        <translation type="unfinished"></translation>
+        <translation>%3 Vektorbilder</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2047"/>
         <source>%4 photos</source>
-        <translation type="unfinished"></translation>
+        <translation>%4 Bilder</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2048"/>
         <source>%5 text blocks</source>
-        <translation type="unfinished"></translation>
+        <translation>%5 Textblöcke</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2049"/>
         <source>%6 automatic slides</source>
-        <translation type="unfinished"></translation>
+        <translation>%6 automatische Dias</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2057"/>
         <source>Musical content:</source>
         <comment>Project statistics</comment>
-        <translation type="unfinished"></translation>
+        <translation>Musikalischer Inhalt:</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2065"/>
         <source> - Â© %1 (%2)</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> - Â© %1 (%2)</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2066"/>
         <source> - Â© %1</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> - Â© %1</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="2068"/>
         <source> from Â«%1Â»</source>
         <comment>Project statistics-Music</comment>
-        <translation type="unfinished"></translation>
+        <translation> von Â«%1Â»</translation>
     </message>
 </context>
 <context>
@@ -9557,7 +9673,7 @@ Do you want to open it nevertheless?</source>
         <translation>Ordner</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2170"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="2180"/>
         <source>Add video file</source>
         <translation>Videoclip hinzufügen</translation>
     </message>
@@ -9668,42 +9784,42 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/engine/_Model.cpp" line="64"/>
         <location filename="../src/engine/cBaseMediaFile.cpp" line="669"/>
         <source>Project title</source>
-        <translation type="unfinished"></translation>
+        <translation>Projekttitel</translation>
     </message>
     <message>
         <location filename="../src/engine/_Model.cpp" line="65"/>
         <location filename="../src/engine/cBaseMediaFile.cpp" line="671"/>
         <source>Project album</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektalbum</translation>
     </message>
     <message>
         <location filename="../src/engine/_Model.cpp" line="66"/>
         <location filename="../src/engine/cBaseMediaFile.cpp" line="670"/>
         <source>Project author</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektautor</translation>
     </message>
     <message>
         <location filename="../src/engine/_Model.cpp" line="67"/>
         <location filename="../src/engine/cBaseMediaFile.cpp" line="675"/>
         <source>Project comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Projektkommentar</translation>
     </message>
     <message>
         <location filename="../src/engine/_Model.cpp" line="206"/>
         <source>Error reading default thumbnail file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Lesen des Standardvorschaubildes</translation>
     </message>
     <message>
         <location filename="../src/engine/_Model.cpp" line="223"/>
         <source>Error reading content of title model file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Lesen des Inhaltes der Titelmodelldatei</translation>
     </message>
     <message>
         <location filename="../src/engine/_Model.cpp" line="281"/>
         <source>Register Credit title slide models (%1)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrieren des Nachweisdiamodelles (%1)...</translation>
     </message>
     <message>
         <location filename="../src/engine/_Model.cpp" line="215"/>
@@ -9716,75 +9832,75 @@ Do you want to open it nevertheless?</source>
         <location filename="../src/engine/_Model.cpp" line="211"/>
         <source>Error reading title model file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Lesen der Titelmodelldatei</translation>
     </message>
     <message>
         <location filename="../src/engine/_Model.cpp" line="219"/>
         <source>Error reading content of default thumbnail file</source>
         <comment>Error message</comment>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Lesen vom Inhalt des Standardvorschaubildes</translation>
     </message>
     <message>
         <location filename="../src/engine/_Model.cpp" line="290"/>
         <source>Register thumbnail models...</source>
-        <translation type="unfinished"></translation>
+        <translation>Modelle für Vorschaubilder registrieren...</translation>
     </message>
     <message>
         <location filename="../src/engine/_Model.cpp" line="265"/>
         <source>Register Project title slide models (%1)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrieren des Projekttiteldiamodelles (%1)...</translation>
     </message>
     <message>
         <location filename="../src/engine/_Model.cpp" line="273"/>
         <source>Register Chapter title slide models (%1)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Registrieren des Kapiteltiteldiamodelles (%1)...</translation>
     </message>
     <message>
         <location filename="../src/engine/_Diaporama.cpp" line="1444"/>
         <location filename="../src/engine/_Model.cpp" line="90"/>
         <location filename="../src/engine/_Model.cpp" line="98"/>
         <source>Chapter title</source>
-        <translation type="unfinished"></translation>
+        <translation>Kapiteltitel</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="191"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="193"/>
         <source>Simple titles without animation</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="192"/>
-        <source>Animated titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Einfache Titel ohne Animation</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="194"/>
-        <source>Custom titles</source>
-        <translation type="unfinished"></translation>
+        <source>Animated titles</source>
+        <translation>Animierte Titel</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="196"/>
-        <source>Simple chapter titles without animation</source>
-        <translation type="unfinished"></translation>
+        <source>Custom titles</source>
+        <translation>Benutzerdefinierte Titel</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="197"/>
-        <source>Animated chapter titles</source>
-        <translation type="unfinished"></translation>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="198"/>
+        <source>Simple chapter titles without animation</source>
+        <translation>Einfache Kapiteltitel ohne Animation</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="199"/>
-        <source>Custom chapter titles</source>
-        <translation type="unfinished"></translation>
+        <source>Animated chapter titles</source>
+        <translation>Animierte Kapiteltitel</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="201"/>
-        <source>Simple credit titles</source>
-        <translation type="unfinished"></translation>
+        <source>Custom chapter titles</source>
+        <translation>Benutzerdefinierte Kapiteltitel</translation>
     </message>
     <message>
-        <location filename="../src/ffDiaporama/mainwindow.cpp" line="202"/>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="203"/>
+        <source>Simple credit titles</source>
+        <translation>Einfache Nachweistitel</translation>
+    </message>
+    <message>
+        <location filename="../src/ffDiaporama/mainwindow.cpp" line="204"/>
         <source>Custom credit titles</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzerdefinierte Nachweistitel</translation>
     </message>
 </context>
 <context>

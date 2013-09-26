@@ -28,10 +28,11 @@ lrelease fake.pro
 cd ..
 call PREPLANGUAGE "en"
 call PREPLANGUAGE "fr"
-
-call PREPLANGUAGE "de"
 call PREPLANGUAGE "es"
-call PREPLANGUAGE "el"
-call PREPLANGUAGE "it"
 call PREPLANGUAGE "pt"
 call PREPLANGUAGE "ru"
+
+rem call PREPLANGUAGE "de"
+rem call PREPLANGUAGE "el"
+rem call PREPLANGUAGE "it"
+
