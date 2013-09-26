@@ -22,6 +22,7 @@ Translation:
     Czech: Bagicz
     Dutch: J.G. Visser <jgvnet@gmail.com>
     English: Dominique LEVRAY <levray.dominique@bbox.fr>
+    French: Dominique LEVRAY <levray.dominique@bbox.fr>
     German: Thomas Böhmwalder <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=104> + Armin Ipfelkofer <a.ipfelkofer@gmx.net>
     Greec: Dimitrios Glentadakis <http://ffdiaporama.tuxfamily.org/Forum/misc.php?email=34>
     Italian: Lino Fantasia <http://www.anxurweb.com/fine-dello-sviluppo-di-videoporama-benvenuto-ffdiaporama.html>

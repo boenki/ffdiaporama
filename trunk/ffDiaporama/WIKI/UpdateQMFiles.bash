@@ -21,19 +21,17 @@
 
 PREPLANGUAGE() {
 	echo "Prepare for language: "$1
-	if [ "$1" != "en" ];then
-		./WikiMakeBin make=$1
-	fi
+	./WikiMakeBin make=$1
 	cd $1
-        rm wiki_img
-        ln -s ../wiki_img wiki_img
-        rm img
-        ln -s ../../img img
-        cp ../wiki.css wiki.css
-        qhelpgenerator -c "wiki_"$1".qhp" -o "wiki_"$1".qch"
+    rm wiki_img
+    ln -s ../wiki_img wiki_img
+    rm img
+    ln -s ../../img img
+    cp ../wiki.css wiki.css
+    qhelpgenerator -c "wiki_"$1".qhp" -o "wiki_"$1".qch"
 	qcollectiongenerator "wiki_"$1".qhcp" -o "wiki_"$1".qhc"
-        mv "wiki_"$1".qhc" ../../locale
-        mv "wiki_"$1".qch" ../../locale
+    mv "wiki_"$1".qhc" ../../locale
+    mv "wiki_"$1".qch" ../../locale
 	cd ..
 }
 
@@ -42,11 +40,11 @@ cd fake
 cd ..
 PREPLANGUAGE "en"
 PREPLANGUAGE "fr"
-
-PREPLANGUAGE "de"
 PREPLANGUAGE "es"
-PREPLANGUAGE "el"
-PREPLANGUAGE "it"
 PREPLANGUAGE "pt"
 PREPLANGUAGE "ru"
+
+#PREPLANGUAGE "de"
+#PREPLANGUAGE "el"
+#PREPLANGUAGE "it"
 

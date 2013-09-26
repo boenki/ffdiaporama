@@ -23,6 +23,7 @@
 #include <QInputDialog>
 #include <QDialogButtonBox>
 #include <QLabel>
+#include "../ffDiaporama/HelpPopup/HelpPopup.h"
 
 //====================================================================================================================
 
@@ -88,17 +89,19 @@ QCustomDialog::QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,cSave
     UndoBt                      =NULL;
     HelpBt                      =NULL;
 
-    #ifdef Q_OS_WIN
-    #else
+    #ifndef Q_OS_WIN
     setWindowFlags((windowFlags()|Qt::CustomizeWindowHint|Qt::WindowSystemMenuHint|Qt::WindowMaximizeButtonHint)&(~Qt::WindowMinimizeButtonHint));
-    setAttribute(Qt::WA_AlwaysShowToolTips);
     #endif
+    setAttribute(Qt::WA_AlwaysShowToolTips);
+    setWindowModality(Qt::WindowModal);
 }
 
 //====================================================================================================================
 
 QCustomDialog::~QCustomDialog() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::~QCustomDialog");
+
+    if (!HelpFile.isEmpty() && BaseApplicationConfig->WikiFollowInterface) BaseApplicationConfig->PopupHelp->RestorePreviousHelpFile();
 
     if (Undo) {
         delete Undo;
@@ -143,6 +146,10 @@ void QCustomDialog::InitDialog() {
     if (UndoBt) UndoBt->setEnabled(UndoDataList.count()>0);
 
     toolTipTowhatsThis(this);
+    if (!HelpFile.isEmpty() && BaseApplicationConfig->WikiFollowInterface) {
+        BaseApplicationConfig->PopupHelp->SaveLatestHelpFile();
+        BaseApplicationConfig->PopupHelp->OpenHelp(HelpFile,false);
+    }
 }
 
 //====================================================================================================================
@@ -181,7 +188,7 @@ void QCustomDialog::reject() {
 
 void QCustomDialog::help() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::help");
-    BaseApplicationConfig->OpenHelp(HelpFile);
+    BaseApplicationConfig->PopupHelp->OpenHelp(HelpFile,true);
 }
 
 //====================================================================================================================

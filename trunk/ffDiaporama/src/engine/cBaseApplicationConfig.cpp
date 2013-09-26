@@ -29,6 +29,7 @@
 #include <QTextStream>
 #include <QTranslator>
 #include <QTextDocument>
+#include "../ffDiaporama/HelpPopup/HelpPopup.h"
 
 //*****************************************************************************************************************************************
 
@@ -196,6 +197,7 @@ int getCpuCount() {
 cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QString TheAllowedWEBLanguage,QString TheApplicationGroupName,QString TheApplicationName,QString TheApplicationVersion,QString TheConfigFileExt,QString TheConfigFileRootName) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::cBaseApplicationConfig");
 
+    PopupHelp               =NULL;
     AllowedWEBLanguage      =TheAllowedWEBLanguage;
     TopLevelWindow          =TheTopLevelWindow;            // Link to MainWindow of the application
     ApplicationGroupName    =TheApplicationGroupName;      // Private folder name to save user configuration file
@@ -225,6 +227,8 @@ cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QS
 cBaseApplicationConfig::~cBaseApplicationConfig() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::~cBaseApplicationConfig");
 
+    delete PopupHelp;
+
     delete DlgMusicPropertiesWSP;
     delete DlgBackgroundPropertiesWSP;
     delete DlgApplicationSettingsWSP;
@@ -250,6 +254,7 @@ cBaseApplicationConfig::~cBaseApplicationConfig() {
     delete DlgAutoTitleWSP;
     delete DlgExportProjectWSP;
     delete MainWinWSP;
+    delete DlgPopupHelp;
 
     delete DriveList;
     delete ThumbnailModels;
@@ -267,45 +272,6 @@ QString cBaseApplicationConfig::GetValideWEBLanguage(QString Language) {
 
     if (!AllowedWEBLanguage.contains(Language)) Language="en";
     return Language;
-}
-
-//====================================================================================================================
-
-void cBaseApplicationConfig::OpenHelp(QString HelpFile) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::OpenHelp");
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-    HelpProcess.close();
-
-    QString Path="ffdiaporama_";
-    QString collectionFile=StartingPath;
-    if (!collectionFile.endsWith(QDir::separator())) collectionFile=collectionFile+QDir::separator();
-    if (QFileInfo(collectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(CurrentLanguage)).exists()) {
-        collectionFile=collectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(CurrentLanguage);
-        Path=Path+CurrentLanguage;
-    } else {
-        collectionFile=collectionFile+"locale"+QDir::separator()+"wiki_en.qhc";
-        Path=Path+"en";
-    }
-    QStringList args;
-    args<<("-collectionFile")<<collectionFile<<"-enableRemoteControl";
-    HelpProcess.start("assistant",args);
-    if (!HelpProcess.waitForStarted()) {
-        QApplication::restoreOverrideCursor();
-        return;
-    }
-
-    QByteArray ba;
-    ba.append(QString("hide bookmarks;hide index;hide search;setSource qthelp://%1/doc/%2.html\n").arg(Path).arg(HelpFile)); //;syncContents
-    HelpProcess.write(ba);
-    HelpProcess.waitForBytesWritten();
-
-    /*QByteArray bb;
-    bb.append(QString("syncContents\n"));
-    HelpProcess.write(bb);
-    HelpProcess.waitForBytesWritten();*/
-
-    QApplication::restoreOverrideCursor();
 }
 
 //====================================================================================================================
@@ -769,6 +735,7 @@ void cBaseApplicationConfig::InitValues() {
     AskUserToRemove             = true;                     // If true, user must answer to a confirmation dialog box to remove slide
     SortFile                    = true;                     // if true sort file by (last) number when multiple file insertion
     AppendObject                = false;                    // If true, new object will be append at the end of the diaporama, if false, new object will be insert after current position
+    WikiFollowInterface         = true;
     DisplayUnit                 = 1;                        // Display coordinates unit
     DefaultFraming              = 2;                        // 0=Width, 1=Height, 2=Full
     TimelineHeight              = TIMELINEMINHEIGH;         // Initial height of the timeline
@@ -851,6 +818,7 @@ void cBaseApplicationConfig::InitValues() {
     DlgAutoTitleWSP             =new cSaveWindowPosition("DlgAutoTitleWSP",RestoreWindow,false);
     DlgExportProjectWSP         =new cSaveWindowPosition("DlgExportProjectWSP",RestoreWindow,false);
     DlgImageComposerThumbWSP    =new cSaveWinWithSplitterPos("DlgImageComposerThumbWSP",RestoreWindow,false);
+    DlgPopupHelp                =new cSaveWinWithSplitterPos("DlgPopupHelp",RestoreWindow,false);
 
     // Default new text block options
     DefaultBlock_Text_TextST    ="###GLOBALSTYLE###:0";
@@ -918,6 +886,7 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     Element.setAttribute("DefaultTransitionSubType",    DefaultTransitionSubType);
     Element.setAttribute("DefaultTransitionDuration",   DefaultTransitionDuration);
     Element.setAttribute("AskUserToRemove",             AskUserToRemove?"1":"0");
+    Element.setAttribute("WikiFollowInterface",         WikiFollowInterface?"1":"0");
     Element.setAttribute("DlgSlideRuler",               SlideRuler);
     Element.setAttribute("ThumbRuler",                  ThumbRuler);
     Element.setAttribute("FramingRuler",                FramingRuler?"1":"0");
@@ -1040,6 +1009,7 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     DlgChapterWSP->SaveToXML(domDocument);
     DlgAutoTitleWSP->SaveToXML(domDocument);
     DlgExportProjectWSP->SaveToXML(domDocument);
+    DlgPopupHelp->SaveToXML(domDocument);
 }
 
 //====================================================================================================================
@@ -1082,6 +1052,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
         if (Element.hasAttribute("DefaultTransitionSubType"))   DefaultTransitionSubType    =Element.attribute("DefaultTransitionSubType").toInt();
         if (Element.hasAttribute("DefaultTransitionDuration"))  DefaultTransitionDuration   =Element.attribute("DefaultTransitionDuration").toInt();
         if (Element.hasAttribute("AskUserToRemove"))            AskUserToRemove             =Element.attribute("AskUserToRemove")!="0";
+        if (Element.hasAttribute("WikiFollowInterface"))        WikiFollowInterface         =Element.attribute("WikiFollowInterface")!="0";
         if ((Element.hasAttribute("SlideRuler"))&&(Element.attribute("SlideRuler")!="0"))   SlideRuler=RULER_DEFAULT;
         if (Element.hasAttribute("DlgSlideRuler"))              SlideRuler                  =Element.attribute("DlgSlideRuler").toInt();
         if (Element.hasAttribute("ThumbRuler"))                 ThumbRuler                  =Element.attribute("ThumbRuler").toInt();
@@ -1226,6 +1197,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
     DlgChapterWSP->LoadFromXML(domDocument);
     DlgAutoTitleWSP->LoadFromXML(domDocument);
     DlgExportProjectWSP->LoadFromXML(domDocument);
+    DlgPopupHelp->LoadFromXML(domDocument);
 
     return true;
 }

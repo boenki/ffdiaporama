@@ -5,272 +5,372 @@
     <name>0010</name>
     <message>
         <source>How ffDiaporama works</source>
-        <translation type="unfinished"></translation>
+        <translation>Cómo trabaja ffDiaporama</translation>
     </message>
     <message>
         <source>Functional principles</source>
-        <translation type="unfinished"></translation>
+        <translation>Principios de funcionamiento</translation>
     </message>
     <message>
         <source>Predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva de título predefinido</translation>
     </message>
     <message>
         <source>The &quot;Visible&quot; property of blocks and the management of the breaks</source>
-        <translation type="unfinished"></translation>
+        <translation>La propiedad &quot;Visible de bloques y gestión de las pausas</translation>
     </message>
     <message>
         <source>All shots regulations versus current shot regulations</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos los ajustes de tomas vs ajustes de toma actual</translation>
     </message>
     <message>
         <source>Style sheets</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ffDiaporama WIKI - How ffDiaporama works</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoja de estilo</translation>
     </message>
     <message>
         <source> This section contains general information on the concepts and methods of use of ffDiaporama </source>
-        <translation type="unfinished"></translation>
+        <translation>Esta sección contiene información general sobre conceptos y métodos de uso de ffDiaporama</translation>
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished"></translation>
+        <translation>Indice</translation>
     </message>
     <message>
         <source>Dynamic variables</source>
-        <translation type="unfinished"></translation>
+        <translation>Variables dinámicas</translation>
     </message>
 </context>
 <context>
     <name>0011</name>
     <message>
         <source>Functional principles</source>
-        <translation type="unfinished"></translation>
+        <translation>Principios del funcionamiento</translation>
     </message>
     <message>
         <source>The main control element of ffDiaporama is the timeline. The timeline lists the slides which compose the project.</source>
-        <translation type="unfinished"></translation>
+        <translation>El elemento principal de control de ffDiaporama es la línea de tiempo. La línea de tiempo muestra las diapositivas que componen el proyecto.</translation>
     </message>
     <message>
         <source>It consists of 3 tracks: </source>
-        <translation type="unfinished"></translation>
+        <translation>Consiste en 3 pistas:</translation>
     </message>
     <message>
         <source>the background track</source>
-        <translation type="unfinished"></translation>
+        <translation>la pista de fondo</translation>
     </message>
     <message>
         <source>the mounting track</source>
-        <translation type="unfinished"></translation>
+        <translation>la pista de montaje</translation>
     </message>
     <message>
         <source>and the music track.</source>
-        <translation type="unfinished"></translation>
+        <translation>y la pista de audio.</translation>
     </message>
     <message>
         <source>The slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Las diapositivas</translation>
     </message>
     <message>
         <source>Slides are shown one after another, in the order in which they appear in the time line.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las diapositivas se muestran una tras otra, en el orden en el que aparecen en la línea de tiempo.</translation>
     </message>
     <message>
         <source>The following diagram shows how slides function:</source>
-        <translation type="unfinished"></translation>
+        <translation>El siguiente diagrama muestra cómo funcionan las diapositivas:</translation>
     </message>
     <message>
         <source>The upper part of the diagram represents four slides: A, B, C and D. </source>
-        <translation type="unfinished"></translation>
+        <translation>En la parte superior del diagrama están representadas las diapositivas: A, B, C y D.</translation>
     </message>
     <message>
         <source>Each slide possesses an entering transition (symbolized on the diagram by a small rectangle labelled T). The transitions can have different durations (symbolized on the diagram by the lengths TA&apos;, TB&apos;, etc.): It is possible to define the duration of the entering transition for each slide separately (or to indicate no transition: duration=0).</source>
-        <translation type="unfinished"></translation>
+        <translation>Cada diapositiva posee una transición (simbolizada en el diagrama por un pequeño rectángulo etiquetado como T). Las transiciones pueden tener diferente duración (simbolizado en el diagrama por las longitudes TA&apos;, TB&apos;, etc.): Es posible definir la duración de cada transición para cada diapositiva (o para indicar que no hay ninguna transición: duración = 0).</translation>
     </message>
     <message>
         <source>Each slide possesses a duration which is appropriate for it (symbolized on the diagram by the lengths B&apos;, C&apos;, etc.): Some last only a few seconds while others can last several minutes. The durations are expressed in seconds but are not necessarily whole numbers: a slide might last 12.234 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cada diapositiva tiene una duración que es apropiada para ello (simbolizado en el diagrama por las longitudes B&apos;, C&apos;, etc): Algunas tienen una duración de unos pocos segundos, mientras que otras pueden durar varios minutos. Los tiempos se expresan en segundos, pero no son necesariamente números enteros: una diapositiva puede tener 12.234 segundos.</translation>
     </message>
     <message>
         <source>Each slide is a composite, an assembly of one or more multimedia elements which are animated over time. The animation is realized through shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cada diapositiva es una composición, un conjunto de uno o más elementos multimedia que se animan en el tiempo. La animación se realiza a través de planos o tomas.</translation>
     </message>
     <message>
         <source>Each slide can define a new background (that is shown under the multimedia elements of the slide if they don&apos;t fill out the whole screen).</source>
-        <translation type="unfinished"></translation>
+        <translation>En cada diapositiva se puede definir un fondo (que se muestra debajo de los elementos multimedia de la diapositiva si no llena toda la pantalla).</translation>
     </message>
     <message>
         <source>Each slide can define a new musical play-list.</source>
-        <translation type="unfinished"></translation>
+        <translation>En cada diapositiva se puede definir una nueva lista de reproducción.</translation>
     </message>
     <message>
         <source>Slides which do not define a background use the background defined in a previous slide. So in the following example: </source>
-        <translation type="unfinished"></translation>
+        <translation>Las diapositivas en las que no se ha configurado un fondo utilizan el fondo definido en una diapositiva anterior. He aquí un ejemplo:</translation>
     </message>
     <message>
         <source>Slide 1: Defines a background</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva 1: Define un fondo</translation>
     </message>
     <message>
         <source>Slide 2: Does not define a background and therefore uses the background defined by slide 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva 2: no define un fondo y  por lo tanto utiliza el fondo definido por diapositiva 1</translation>
     </message>
     <message>
         <source>Slide 3: Does not define a background and therefore uses the background defined by slide 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva 3: no define un fondo y  por lo tanto utiliza el fondo definido por diapositiva 1</translation>
     </message>
     <message>
         <source>Slide 4: Defines a background</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva 4: Define un fondo</translation>
     </message>
     <message>
         <source>Slide 5: Does not define a background and therefore uses the background defined by slide 4</source>
-        <translation type="unfinished"></translation>
+        <translation>Diapositiva 5: no define un fondo y  por lo tanto utiliza el fondo definido por diapositiva 4</translation>
     </message>
     <message>
         <source>The same principle applies to the musical play-lists. As long as slides do not define a new play-list, they use the last defined play-list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este mismo principio se aplica a la lista de reproducción de música. Si en las diapositivas no se configura una nueva lista de reproducción, se usa la última lista definida.</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notas:</translation>
     </message>
     <message>
         <source>The total duration of the project is not equal to the sum of the durations of the slides because the transitions make the slides overlap: Two slides of 10 seconds, each with a transition of 1 second, will give a total duration for the project of 19 seconds (and not 20 seconds)!</source>
-        <translation type="unfinished"></translation>
+        <translation>La duración total del proyecto no es igual a la suma de la duración de las diapositivas porque las transiciones hacen que las diapositivas se superpongan: Dos diapositivas de 10 segundos, cada una con una transición de 1 segundo, ¡el resultado será una duración total del proyecto de 19 segundos (y no de 20 segundos)!</translation>
     </message>
     <message>
         <source>Shots and blocks</source>
-        <translation type="unfinished"></translation>
+        <translation>Tomas y bloques</translation>
     </message>
     <message>
         <source>The lower part of the diagram represents the composition of slide C. </source>
-        <translation type="unfinished"></translation>
+        <translation>La parte inferior del diagrama representa la diapositiva C.</translation>
     </message>
     <message>
         <source>Each slide comprises one or more shots. The shots are represented on the diagram by rectangles C1, C2, C3, etc...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cada diapositiva contiene uno o más tomas. Las tomas están representadas en el diagrama por los rectángulos C1, C2, C3, etc. …</translation>
     </message>
     <message>
         <source>Each shot has its own duration (symbolized on the diagram by the lengths C1 &apos;, C2 &apos;, C3 &apos;, etc.). Some shots can last only seconds while others can last several minutes. Some shots can have a duration of zero. (The durations are expressed in seconds but are not necessarily whole numbers: A shot can very well last 12.234 seconds).</source>
-        <translation type="unfinished"></translation>
+        <translation>Cada toma tiene su propia duración (simbolizado en el diagrama con las longitudes C1, C2, C3, etc.). Algunas tomas pueden durar sólo algunos segundos, mientras que otras pueden durar varios minutos. Otras tomas pueden tener una duración cero. (Los tiempos se expresan en segundos, pero no son necesariamente números enteros: Una toma puede durar perfectamente 12.234 segundos).</translation>
     </message>
     <message>
         <source>The shots can contain several multimedia objects. The multimedia objects are integrated into blocks which can be of three types: title (containing only text), images (or photos), or video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las tomas contienen varios objetos multimedia. Los objetos multimedia se integran en bloques que pueden ser de tres tipos: de título (que contiene sólo texto), imágenes (o fotos), o vídeo.</translation>
     </message>
     <message>
         <source>The blocks define where and how the multimedia object appears on the screen. Each block can have a different framing that defines what is visible from the multimedia object within the block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Los bloques definen dónde y cómo el objeto multimedia aparece en la pantalla. Cada bloque puede tener un encuadre diferente que define lo que es visible para el objeto multimedia dentro del bloque.</translation>
     </message>
     <message>
         <source>The background of the shots is transparent. This means that if the image does not fill the whole screen, the background will appear.</source>
-        <translation type="unfinished"></translation>
+        <translation>El fondo de las tomas es transparente. Esto significa que si la imagen no ocupa toda la pantalla, el fondo aparecerá.</translation>
     </message>
     <message>
         <source>The shots define the arrangement of blocks (multimedia objects) at any given moment.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las tomas definen la disposición de los bloques (objetos multimedia) en un momento dado.</translation>
     </message>
     <message>
         <source>The shot animations are generated by the transformation of these arrangements from one shot to another.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las animaciones de las tomas se generan por la transformación de estas posiciones que se lleva a cabo de una toma a otra.</translation>
     </message>
     <message>
         <source>The lengths of the shot animations are defined by the shot durations.</source>
-        <translation type="unfinished"></translation>
+        <translation>La duración de las animaciones de la toma se define por el tiempo de cada toma.</translation>
     </message>
     <message>
         <source>Specifically, if in the foreground, a block containing an image occupies the whole screen, and then in the following shot the same block occupies only a small part of the screen, then the animation will consist of the transformation of the image from the whole screen into that small part of the screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Concretando, si en el primer plano un bloque conteniendo una imagen ocupa toda la pantalla, y la siguiente toma, el mismo bloque sólo ocupa una pequeña parte de la pantalla, entonces la animación estará formada por la transformación de ésta ocupando toda la pantalla hasta ocupar sólo una pequeña parte de la pantalla.</translation>
     </message>
     <message>
         <source>Example:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ejemplo:</translation>
     </message>
     <message>
         <source>Let&apos;s have 3 shots within a slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Tenemos 3 tomas en una diapositiva:</translation>
     </message>
     <message>
         <source>Shot 1: Image using the whole screen: Duration=2 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toma 1: La imagen ocupa la pantalla entera: Duración=2 segundos.</translation>
     </message>
     <message>
         <source>Shot 2: Image using only the bottom right screen quarter: Duration 3 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toma 2: La imagen sólo ocupa el cuadrante inferior derecho: Duración 3 segundos.</translation>
     </message>
     <message>
         <source>Shot 3: Image again using the whole screen: Duration=2 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Toma 3: La imagen vuelve a ocupar otra vez la pantalla entera: Duratción=2 segundos.</translation>
     </message>
     <message>
         <source>Result:</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultado:</translation>
     </message>
     <message>
         <source>The image will be shown on the whole screen for 2 seconds, will shrink gradually over 3 seconds towards the right lower quarter of the screen, and then will grow again for 2 seconds until it once more occupies the whole screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>La imagen se mostrará en la pantalla completa durante 2 segundos, encogerá gradualmente durante otros 3 segundos hacia el el cuadrante inferior derecho de la pantalla, y luego crecerá otra vez durante 2 segundos hasta que una vez más ocupe la pantalla completa.</translation>
     </message>
     <message>
         <source>The slide will end as soon as the image has reached the position defined in shot 3.</source>
-        <translation type="unfinished"></translation>
+        <translation>La diapositiva terminará tan pronto como la imagen haya llegado a la posición definida en la toma 3.</translation>
     </message>
     <message>
         <source>The transformations are gradual: in the example you will see the image being gradually reduced.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las transformaciones son graduales: en el ejemplo que hemos visto la imagen va reduciédose gradualmente.</translation>
     </message>
     <message>
         <source>The transformations are made over the whole duration of the following shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las transformaciones tienen lugar a través de toda la duración de la toma siguiente.</translation>
     </message>
     <message>
         <source>The framing definition of the objects in each block can vary from one shot to another. The following example shows three different definitions from the same block:</source>
-        <translation type="unfinished"></translation>
+        <translation>La definición de encuadre de los objetos en cada bloque puede variar de una toma a otra. En el siguiente ejemplo se puede comprobar tres diferentes definiciones en el mismo bloque:</translation>
     </message>
     <message>
         <source>1st shot: The image is complete.</source>
-        <translation type="unfinished"></translation>
+        <translation>1ª toma: La imagen está completa.</translation>
     </message>
     <message>
         <source>2nd shot: The image is re-framed on the statue.</source>
-        <translation type="unfinished"></translation>
+        <translation>2ª toma: La imagen se ha enmarcado en la zona de la estatua.</translation>
     </message>
     <message>
         <source>3rd shot: The image is re-framed on the pedestrians.</source>
-        <translation type="unfinished"></translation>
+        <translation>3ª toma: La imagen se ha enmarcado en la zona de los peatones.</translation>
     </message>
     <message>
         <source>If we apply these framing definitions to the previous 3 shots: </source>
-        <translation type="unfinished"></translation>
+        <translation>Si aplicamos estos encuadres a las 3 tomas mencionadas anteriormente:</translation>
     </message>
     <message>
         <source>The complete image will be shown on all the screen for 2 seconds, then it will be reduced gradually towards the right lower quarter of the screen over 3 seconds while zooming in on the statue, then it will grow again over 2 seconds until it once more occupies the whole screen while the &quot;camera&quot; moves towards the pedestrians.</source>
-        <translation type="unfinished"></translation>
+        <translation>La imagen completa se muestra en toda la pantalla durante 2 segundos, luego va disminuyendo de tamaño gradualmente durante 3 segundos haciendo un zoom sobre la imagen en el cuadrante inferior derecho de la pantalla, entonces crece durante otros 2 segundos hasta que, una vez más, ocupa toda la pantalla mientras la &quot;cámara&quot; se mueve hacia la zona de los peatones.</translation>
     </message>
     <message>
         <source>ffDiaporama can manage up to several hundreds slides in a single project.</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama puede gestionar cientos de diapositivas en un solo proyecto.</translation>
     </message>
     <message>
         <source>Each slide can consist of tens of shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cada diapositiva puede contener decenas de tomas.</translation>
     </message>
     <message>
         <source>Each slide can contain tens of blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cada diapositiva puede contener decenas de bloques.</translation>
     </message>
     <message>
         <source>Blocks can be visible on some shots and invisible on other.</source>
-        <translation type="unfinished"></translation>
+        <translation>Los bloques pueden ser visibles en algunas tomas e invisibles en otras.</translation>
     </message>
 </context>
 <context>
     <name>0012</name>
     <message>
         <source>Predefined title slide</source>
+        <translation type="unfinished">Diapositiva de título predefinido</translation>
+    </message>
+    <message>
+        <source> Predefined title slide are complete slides including formatting and animations. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The main interest of these slides is to standardize the slides within a project or across projects. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama included many Predefined title slides, but you can also define your own Predefined title slides. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To do this, create a standard slide using the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog box&lt;/a&gt; and save your slide as a model using: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Save as model function.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks:</source>
+        <translation type="unfinished">Notas:</translation>
+    </message>
+    <message>
+        <source>Predefined title slides are defined according to the following three categories: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used early in the project as the opening credits. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Credit title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used at the end of the project as the end credits. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Within each category, the predefined title slides are classified into the following types: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Statics models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type lists statics models ie without animations.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animated models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type lists animated models ie with several shots.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It will always be possible to create slides from a model using the &lt;a href=&quot;0103.html&quot;&gt;Add or modify a predefined title slide dialog box&lt;/a&gt; then convert it to a standard slide using this function: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Convert to standard slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The resources used by the models you create are not moved. So, if you include a photo in a model, the model will only be valid until the picture will not move. This is why it is recommended, to think resources included before creating a new model.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -278,6 +378,382 @@
     <name>0013</name>
     <message>
         <source>Dynamic variables</source>
+        <translation type="unfinished">Variables dinámicas</translation>
+    </message>
+    <message>
+        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It&apos;s why variables are used in many parts of the application (slide, thumbnails, predefined titles slides, video tags, xbmc nfo, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following table lists all the available variables: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project properties values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PTT%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project title&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAU%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAI%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;Author presents&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAP%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;A Author production&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAL%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project album&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PCT%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project comment&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PDD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration of the project displayed as &lt;U&gt;hh:mm:ss&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PSC%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project slide count (Number of slide in the project)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PLD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Long date (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PSD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Short date (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PYR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year (The year of the event date as a four digit number)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PMM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month (The month of the event date as a name, depending on the current language: January, February, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PMD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month as number (The month of the event date as a two digit number)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PDY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day (The day of the event date as a two digit number)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PDW%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of week (The day of week of the event date as a name, depending on the current language: Monday, Thuesday, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current slide values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CSN%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Slide name&lt;/I&gt;&lt;/B&gt; field of the slide as defined in the &lt;U&gt;Slide settings zone&lt;/U&gt; of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CSR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current slide number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapters values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCN%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Chapter name&lt;/I&gt;&lt;/B&gt; field of the latest slide which defined &lt;U&gt;Chapters information&lt;/U&gt;. (Chapters information may be defined in &lt;a href=&quot;0105.html&quot;&gt;Chapter properties dialog&lt;/a&gt; or in &lt;a href=&quot;0103.html&quot;&gt;Predefined title slide dialog&lt;/a&gt;).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCI%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCT%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter count (Number of chapter in the project)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CLD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Long date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CSD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Short date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CYR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year of the chapter&apos;s date (if one is defined or year of project&apos;s date), as a four digit number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CMM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a name (depending on the current language: January, February, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CMD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a two digit number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CDY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a two digit number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CDW%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of week of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a a name (depending on the current language: Monday, Thuesday, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%FFD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama version as &lt;U&gt;ffDiaporama 1.7 (20130919)&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CPY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%END%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The end (depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%STA%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%STP%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of project statistics (Number of slides, project duration, list of chapters, list of musics, how many photo, vector images, videos and predefined title slides, etc...) </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%STM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of list of musics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TLD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date as long date format (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TSD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date as short date format (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TYR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s year as a four digit number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TMM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s month as a name (depending on the current language: January, February, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TMD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s month as as a two digit number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TDY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s day as a two digit number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TDW%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s day of week as a a name (depending on the current language: Monday, Thuesday, etc...)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -285,125 +761,125 @@
     <name>0014</name>
     <message>
         <source>The &quot;Visible&quot; property of blocks and the management of the breaks</source>
-        <translation type="unfinished"></translation>
+        <translation>La propiedad &quot;Visible&quot; de los bloques y la gestión de las pausas</translation>
     </message>
     <message>
         <source>Blocks have a visible/invisible property. In the following example, the one image is inserted 3 times (in 3 different blocks) into the same slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Los bloques tienen una propiedad visible/invisible. En el siguiente ejemplo, una imagen se inserta 3 veces (en 3 bloques diferentes) en la misma diapositiva.</translation>
     </message>
     <message>
         <source>The first block consists of the whole image filling the whole screen</source>
-        <translation type="unfinished"></translation>
+        <translation>El primer bloque se compone de la imagen completa llenando toda la pantalla</translation>
     </message>
     <message>
         <source>The second block consists of the image re-framed on the statue and positioned in an ellipse at the right of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>El segundo bloque consiste en la imagen de reencuadrada en la estatua y posicionada en una elipse en la parte derecha de la pantalla</translation>
     </message>
     <message>
         <source>The third block consists of the image re-framed on the pedestrians and also positioned in an ellipse at the right of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>El tercer bloque se compone de la imagen reencuadrada en los peatones y también colocada en una elipse en la parte derecha de la pantalla</translation>
     </message>
     <message>
         <source>The statue and the pedestrians have their visibility property set to invisible on the 1st shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>La estatua y los peatones tienen la propiedad de visibilidad establecido en invisible en la 1ª toma.</translation>
     </message>
     <message>
         <source>Then the statue becomes visible on the 2nd shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>A continuación, la estatua se hace visible en la 2ª toma.</translation>
     </message>
     <message>
         <source>Finally, the statue once more becomes invisible on the 3rd shot and the pedestrians become visible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por último, la estatua, una vez más se vuelve invisible en la tercera toma y los peatones se hacen visibles.</translation>
     </message>
     <message>
         <source>Result:</source>
-        <translation type="unfinished"></translation>
+        <translation>Resultado:</translation>
     </message>
     <message>
         <source>For 2 seconds, the 1st shot is shown and we see only the whole image which occupies all the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Durante 2 segundos, la 1ª toma se muestra y vemos sólo la imagen completa que ocupa toda la pantalla</translation>
     </message>
     <message>
         <source>Over the next 2 seconds, the statue appears</source>
-        <translation type="unfinished"></translation>
+        <translation>Durante los próximos 2 segundos, aparece la estatua</translation>
     </message>
     <message>
         <source>Over a further 2 seconds, the statue is replaced by the pedestrians</source>
-        <translation type="unfinished"></translation>
+        <translation>En otros 2 segundos, la estatua será sustituida por los peatones</translation>
     </message>
     <message>
         <source>This example is really very simple, because it is also possible to animate the appearance and the disappearance of blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este ejemplo es realmente muy simple, ya que también es posible animar la aparición y la desaparición de los bloques.</translation>
     </message>
     <message>
         <source>Indeed, as shown previously, animations are generated by the transformation of the arrangement from one shot to another.</source>
-        <translation type="unfinished"></translation>
+        <translation>En efecto, como se indica anteriormente, las animaciones son generadas por las transformaciones de la disposición de una toma a otra.</translation>
     </message>
     <message>
         <source>So, if on the 1st shot, the statue occupied the left lower quarter of the screen rather than the same position as on the 2nd shot, then instead of simply appearing for 2 seconds on the 2nd shot, it would appear by growing out of the left lower quarter of the screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por lo tanto, si en la 1ª toma, la estatua ocupa la cuarta parte inferior izquierda de la pantalla en  la misma posición que en la 2ª toma, entonces en vez de simplemente aparecer durante 2 segundos en la 2ª toma, irá apareciendo por el crecimiento de la cuarta parte inferior izquierda de la pantalla.</translation>
     </message>
     <message>
         <source>Using videos:</source>
-        <translation type="unfinished"></translation>
+        <translation>Usando vídeos:</translation>
     </message>
     <message>
         <source>You should note that videos are paused when they are invisible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Hay que tener en cuenta que los videos están en pausa cuando son invisibles.</translation>
     </message>
     <message>
         <source>Therefore a video can be displayed for several seconds in the 1st shot, then be made invisible and thus paused in a 2nd shot, then be visible in a 3rd shot and resume playing, from where it stopped at the end of the 1st shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por lo tanto, un vídeo se puede visualizar durante varios segundos en la 1ª toma, y luego hacerse invisible y después detenerse en una 2ª toma, a continuación ser visible en una 3ª toma y reanudar la reproducción desde donde se detuvo al final de la 1ª toma.</translation>
     </message>
 </context>
 <context>
     <name>0015</name>
     <message>
         <source>All shots regulations versus current shot regulations</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos los ajustes de las tomas vs ajustes de toma actual</translation>
     </message>
     <message>
         <source>&lt;B&gt;The settings which apply to the current shot.&lt;/B&gt; These settings are made shot by shot. So, every shot possesses its own settings and the passage from a shot to the other one is defined by the passage from one setting to an other one creating a shot animation: these are called Ken Burns effects. Here are some some: </source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Los ajustes que se aplican a la toma actual.&lt;/B&gt; Estos ajustes se realizan toma a toma. Por lo tanto, cada toma posee sus propios ajustes y el paso de una toma a otra se define por el paso de un escenario a otro que crea una animación de : son los llamados efectos Ken Burns. Éstos son algunos:</translation>
     </message>
     <message>
         <source>Zoom on a portion of the image</source>
-        <translation type="unfinished"></translation>
+        <translation>Zoom en una parte de la imagen</translation>
     </message>
     <message>
         <source>Scrolling from a portion of the image to an other one</source>
-        <translation type="unfinished"></translation>
+        <translation>Desplazarse desde una parte de la imagen a otra</translation>
     </message>
     <message>
         <source>Clarification or darkening of a portion of the image</source>
-        <translation type="unfinished"></translation>
+        <translation>Esclarecimiento u oscurecimiento de una parte de la imagen</translation>
     </message>
     <message>
         <source>etc...</source>
-        <translation type="unfinished"></translation>
+        <translation>etc...</translation>
     </message>
     <message>
         <source>&lt;B&gt;The settings which apply to all shots.&lt;/B&gt; These settings are made globally, that is their effects will be visible on all the shots of the slide. Here are some: </source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Los ajustes que se aplican a todas las tomas.&lt;/B&gt; Estos ajustes se realizan globalmente, es decir, sus efectos serán visibles en todos los planos de la diapositiva. Éstos son algunos: </translation>
     </message>
     <message>
         <source>There are two types of settings in the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;:</source>
-        <translation type="unfinished"></translation>
+        <translation>Existen dos tipos de ajustes en la &lt;a href=&quot;0119.html&quot;&gt; ventana Propiedades de la diapositiva &lt;/a&gt;:</translation>
     </message>
     <message>
         <source>Text and text format</source>
-        <translation type="unfinished"></translation>
+        <translation>Texto y formato de texto</translation>
     </message>
     <message>
         <source>Shape form</source>
-        <translation type="unfinished"></translation>
+        <translation>Forma de bloque</translation>
     </message>
 </context>
 <context>
     <name>0016</name>
     <message>
         <source>Style sheets</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoja de estilo</translation>
     </message>
     <message>
         <source>ffDiaporama uses a style sheet system to facilitate the settings for various things.</source>
@@ -585,15 +1061,27 @@
         <translation>Ventanas de diálogo</translation>
     </message>
     <message>
-        <source>ffDiaporama WIKI - Interface description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> This section contains information about using ffDiaporama. </source>
-        <translation type="unfinished"></translation>
+        <translation>Esta sección contiene información sobre cómo usar ffDiaporama.</translation>
     </message>
     <message>
         <source>Index</source>
+        <translation>Índice</translation>
+    </message>
+    <message>
+        <source>Configuration dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editing dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog boxes related to the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various dialog boxes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -601,182 +1089,182 @@
     <name>0021</name>
     <message>
         <source>The main window</source>
-        <translation type="unfinished">La ventana principal</translation>
+        <translation>La ventana principal</translation>
     </message>
     <message>
         <source>The main window of ffDiaporama allows all the common tasks of slide management.</source>
-        <translation type="unfinished"></translation>
+        <translation>La ventana principal de ffDiaporama permite seleccionar todas las tareas comunes para gestionar las diapositivas.</translation>
     </message>
     <message>
         <source>The general principle is:</source>
-        <translation type="unfinished"></translation>
+        <translation>El principio general es:</translation>
     </message>
     <message>
         <source>Add files and titles to the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; in the form of slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Añadir archivos y los títulos a la &lt;a href=&quot;0023.html&quot;&gt; línea de tiempo &lt;/a&gt; en forma de diapositivas</translation>
     </message>
     <message>
         <source>Organize slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Organizar las diapositivas</translation>
     </message>
     <message>
         <source>Adjust slides and create animations</source>
-        <translation type="unfinished"></translation>
+        <translation>Ajustar las diapositivas y crear animaciones</translation>
     </message>
     <message>
         <source>To manage slides, ffDiaporama provides three display modes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Para gestionar las diapositivas, ffDiaporama provee tres modos visuales:</translation>
     </message>
     <message>
         <source>File mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo navegador de archivos</translation>
     </message>
     <message>
         <source>In this mode, the main window is divided into 3 zones: </source>
-        <translation type="unfinished"></translation>
+        <translation>En este modo, la ventana principal se divide en 3 zonas:</translation>
     </message>
     <message>
         <source>The &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>La &lt;a href=&quot;0023.html&quot;&gt;línea de tiempo&lt;/a&gt;</translation>
     </message>
     <message>
         <source>The &lt;a href=&quot;0024.html&quot;&gt;multimedia file browser&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>El &lt;a href=&quot;0024.html&quot;&gt;navegador de archivos multimedia&lt;/a&gt;</translation>
     </message>
     <message>
         <source> In this mode, you can display the multimedia files present on your hard disks and insert them using Drag &amp; Drop into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; to create your slide show. </source>
-        <translation type="unfinished"></translation>
+        <translation>En este modo, se pueden visualizar los archivos multimedia instalados en los discos duros e insertarlos mediante Drag &amp; Drop en la &lt;a href=&quot;0023.html&quot;&gt; línea de tiempo &lt;/a&gt; para crear una presentación de diapositivas.</translation>
     </message>
     <message>
         <source>A small multimedia player is displayed above on the right, near the toolbar and menu, to allow you to preview the slide show. </source>
-        <translation type="unfinished"></translation>
+        <translation>Un pequeño reproductor multimedia se muestra arriba a la derecha, cerca de la barra de herramientas y menús, que  permite una vista previa de la presentación de diapositivas.</translation>
     </message>
     <message>
         <source>Sheet mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo hoja completa</translation>
     </message>
     <message>
         <source>In this mode, the main window is divided into 2 zones: </source>
-        <translation type="unfinished"></translation>
+        <translation>En este modo, la ventana principal se divide en 2 zonas:</translation>
     </message>
     <message>
         <source> In this mode, the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; is displayed on several lines to show as much slides as possible of the slide show. Slides are shown as on a musical score, in the form of line and at the end of a line, we pass over to the beginning og the following line. </source>
-        <translation type="unfinished"></translation>
+        <translation>En este modo, la &lt;a href=&quot;0023.html&quot;&gt; línea de tiempo &lt;/a&gt; se muestra en varias líneas para mostrar la mayor cantidad posible de diapositivas de la presentación. Las diapositivas se muestran como en una partitura musical, en forma de línea, y al final de una línea, se pasa al principio de la siguiente línea.</translation>
     </message>
     <message>
         <source>You can reorganize your slides by moving them using Drag &amp; Drop within the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;. </source>
-        <translation type="unfinished"></translation>
+        <translation>Se pueden reorganizar las diapositivas moviéndolas mediante Drag &amp; Drop en la &lt;a href=&quot;0023.html&quot;&gt; línea de tiempo &lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Preview mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Modo vista previa</translation>
     </message>
     <message>
         <source>A big multimedia player</source>
-        <translation type="unfinished"></translation>
+        <translation>Un gran reproductor multimedia</translation>
     </message>
     <message>
         <source> In this mode, you can preview your slide show in big size. </source>
-        <translation type="unfinished"></translation>
+        <translation>En este modo, se puede obtener una vista previa de la presentación en tamaño grande.</translation>
     </message>
     <message>
         <source>You can modify your slides and preview your changes in the multimedia player </source>
-        <translation type="unfinished"></translation>
+        <translation>Se pueden modificar las diapositivas y la vista previa de los cambios realizados en el reproductor multimedia</translation>
     </message>
     <message>
         <source> Switch display to file mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Intercambiar la vista al modo navegador de archivos</translation>
     </message>
     <message>
         <source> Switch display to sheet mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Intercambiar la vista al modo hoja completa</translation>
     </message>
     <message>
         <source> Switch display to preview mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Intercambiar la vista al modo vista previa</translation>
     </message>
     <message>
         <source>by using contextual menus (right click on an element)</source>
-        <translation type="unfinished"></translation>
+        <translation>mediante el uso del menú contextual (botón derecho del ratón sobre un elemento)</translation>
     </message>
     <message>
         <source>by double clicking on elements of the slide</source>
-        <translation type="unfinished"></translation>
+        <translation>haciendo doble clic en los elementos de la diapositiva</translation>
     </message>
     <message>
         <source>The &lt;a href=&quot;0022.html&quot;&gt;toolbar&lt;/a&gt; and menu at the top</source>
-        <translation type="unfinished"></translation>
+        <translation>La &lt;a href=&quot;0022.html&quot;&gt;barra de herramientas&lt;/a&gt; y menu en parte superior de la interfaz</translation>
     </message>
     <message>
         <source>by using the buttons of the &lt;a href=&quot;0022.html&quot;&gt;toolbar&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Usando los botones situados en la &lt;a href=&quot;0022.html&quot;&gt;barra de herramientas&lt;/a&gt;</translation>
     </message>
     <message>
         <source>To change display mode, use the buttons located in the status bar, to the right, at the bottom of the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para cambiar el modo de visualización, utilizar los botones situados en la barra de estado, en la parte inferior de la ventana principal, a la derecha.</translation>
     </message>
     <message>
         <source>The editing of slides is done:</source>
-        <translation type="unfinished"></translation>
+        <translation>La edición de las diapositivas se realiza:</translation>
     </message>
 </context>
 <context>
     <name>0022</name>
     <message>
         <source>The toolbar</source>
-        <translation type="unfinished">La barra de herramientas</translation>
+        <translation>La barra de herramientas</translation>
     </message>
     <message>
         <source>These buttons are grouped under four tabs: File / Project / Render and Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Estos botones se agrupan en cuatro pestañas Archivo / Proyecto / Procesamiento y Ayuda</translation>
     </message>
     <message>
         <source>The project management commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Los comandos de gestión del proyectos</translation>
     </message>
     <message>
         <source>The following table summarizes the main project management commands:</source>
-        <translation type="unfinished"></translation>
+        <translation>El siguiente cuadro resume los principales comandos de gestión del proyecto:</translation>
     </message>
     <message>
         <source>Toolbar button</source>
-        <translation type="unfinished"></translation>
+        <translation>Botón de barra de herramientas</translation>
     </message>
     <message>
         <source>Project menu command</source>
-        <translation type="unfinished"></translation>
+        <translation>Comando de menú Proyecto</translation>
     </message>
     <message>
         <source>Keyboard shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Atajos de teclado</translation>
     </message>
     <message>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Acción</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Nuevo</translation>
     </message>
     <message>
         <source>CTRL+N</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+N</translation>
     </message>
     <message>
         <source>(If the current project has unsaved modifications, ffDiaporama prompts you to save it.)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Si el proyecto actual no ha guardado las modificaciones, ffDiaporama le pide que lo guarde.)</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir</translation>
     </message>
     <message>
         <source>CTRL+O</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+O</translation>
     </message>
     <message>
         <source>Allows you to open an existing project. The file selection dialog appears and allows you to select the project to be opened. </source>
-        <translation type="unfinished"></translation>
+        <translation>Permite abrir un proyecto existente. El cuadro de diálogo de selección de archivos aparece y permite seleccionar el proyecto que se abrirá.</translation>
     </message>
     <message>
         <source>(If the current project has unsaved modifications, ffDiaporama prompts you to save it.) </source>
@@ -796,11 +1284,11 @@
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar</translation>
     </message>
     <message>
         <source>CTRL+S</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+S</translation>
     </message>
     <message>
         <source>Allows you to save the current project in a project file.</source>
@@ -812,27 +1300,27 @@
     </message>
     <message>
         <source>Save as</source>
-        <translation type="unfinished"></translation>
+        <translation>Guardar como</translation>
     </message>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished">Propiedades del proyecto</translation>
+        <translation>Propiedades del proyecto</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar</translation>
     </message>
     <message>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Salir</translation>
     </message>
     <message>
         <source>CTRL+W</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+W</translation>
     </message>
     <message>
         <source>Allows you to exit ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permite salir de ffDiaporama.</translation>
     </message>
     <message>
         <source>The slide management commands</source>
@@ -884,7 +1372,7 @@
     </message>
     <message>
         <source>CTRL+C</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+C</translation>
     </message>
     <message>
         <source>Allows you to copy the current slide to the clipboard.</source>
@@ -896,7 +1384,7 @@
     </message>
     <message>
         <source>CTRL+V</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+V</translation>
     </message>
     <message>
         <source>Edit</source>
@@ -908,11 +1396,11 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Eliminar</translation>
     </message>
     <message>
         <source>DEL</source>
-        <translation type="unfinished"></translation>
+        <translation>DEL</translation>
     </message>
     <message>
         <source>Allows you to remove the current slide.</source>
@@ -920,7 +1408,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notas:</translation>
     </message>
     <message>
         <source>Inserted slides are either at the end of the project, or after the current slide, depending to the option &quot;add the new slides (at the end of the project or after the current slide) &quot; in the configuration dialog.</source>
@@ -948,19 +1436,19 @@
     </message>
     <message>
         <source>For the WEB</source>
-        <translation type="unfinished"></translation>
+        <translation>Para la WEB</translation>
     </message>
     <message>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin pérdidas</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Avanzado</translation>
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota:</translation>
     </message>
     <message>
         <source>The lossless format is readable only by few equipment and generates files of enormous size. Consequently, it is useful only to generate parts of a project which will then be joined into a final project.</source>
@@ -980,7 +1468,7 @@
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Acerca de</translation>
     </message>
     <message>
         <source>Opens the about dialog. This displays information about the release, license and system information</source>
@@ -988,7 +1476,7 @@
     </message>
     <message>
         <source>Support and help (F1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Soporte y ayuda (F1)</translation>
     </message>
     <message>
         <source>Opens the ffDiaporama WIKI index</source>
@@ -996,7 +1484,7 @@
     </message>
     <message>
         <source>What&apos;s new</source>
-        <translation type="unfinished"></translation>
+        <translation>Qué es nuevo</translation>
     </message>
     <message>
         <source>Opens the Blog/News page from the ffDiaporama website</source>
@@ -1056,7 +1544,7 @@
     </message>
     <message>
         <source>F6 </source>
-        <translation type="unfinished"></translation>
+        <translation>F6 </translation>
     </message>
     <message>
         <source>Depending on the slide type, open the &lt;a href=&quot;0119.html&quot;&gt;slide properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide. (Equivalent to a double click on the mounting track)</source>
@@ -1064,7 +1552,7 @@
     </message>
     <message>
         <source>F7 </source>
-        <translation type="unfinished"></translation>
+        <translation>F7 </translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0114.html&quot;&gt;music properties dialog&lt;/a&gt; (Equivalent to a double click on the music track)</source>
@@ -1072,7 +1560,7 @@
     </message>
     <message>
         <source>F8 </source>
-        <translation type="unfinished"></translation>
+        <translation>F8 </translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0122.html&quot;&gt;transition properties dialog&lt;/a&gt; (Equivalent to a double click on the transition)</source>
@@ -1111,190 +1599,206 @@
     <name>0023</name>
     <message>
         <source>The timeline</source>
-        <translation type="unfinished">La línea de tiempo</translation>
+        <translation>La línea de tiempo</translation>
     </message>
     <message>
         <source>The timeline lists the slides which compose the project. The slides are listed from left to right.</source>
-        <translation type="unfinished"></translation>
+        <translation>La línea de tiempo muestra las diapositivas que componen el proyecto. Las diapositivas se presentan de izquierda a derecha.</translation>
     </message>
     <message>
         <source>Each slide is represented by the 3 tracks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Cada diapositiva está representada por 3 pistas:</translation>
     </message>
     <message>
         <source>The background track:</source>
-        <translation type="unfinished"></translation>
+        <translation>Una pista de fondo:</translation>
     </message>
     <message>
         <source>An icon corresponding to the transition selected to pass from the previous background to this slide (if a new background is defined). .</source>
-        <translation type="unfinished"></translation>
+        <translation>Un icono correspondiente a la transición seleccionada para pasar de los fondos anteriores a esta diapositiva (si se define un nuevo fondo).</translation>
     </message>
     <message>
         <source>A thumbnail representing the background associated with this slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Una miniatura representando el fondo que está asociado con su diapositiva.</translation>
     </message>
     <message>
         <source>The slide number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Número de la diapositiva.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the upper left if the slide is used as chapter start</source>
-        <translation type="unfinished"></translation>
+        <translation>Posíblemente aparezca un icono en la parte superior izquierda si la diapositiva es usada como inicio de capítulo</translation>
     </message>
     <message>
         <source>The mounting track:</source>
-        <translation type="unfinished"></translation>
+        <translation>La pista de montaje:</translation>
     </message>
     <message>
         <source>An icon corresponding to the transition selected to pass from the previous slide to this slide, under which is indicated the duration of the transition in seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un icono correspondiente a la transición seleccionada y que enlaza la diapositiva anterior con la actual, bajo la cual se indica la duración de la transición en segundos.</translation>
     </message>
     <message>
         <source>A thumbnail in the form of a static image for slides consisting of title or photo, or in the form of a video (under which is placed a soundtrack).</source>
-        <translation type="unfinished"></translation>
+        <translation>Una miniatura que es una imagen estática representando a la diapositiva, y que puede ser el título, una fotografía, o un vídeo (y debajo se situaría la banda sonora).</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the upper left if the slide is composed of several blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Posíblemente este icono puede aparecer en la zona superior izquierda si una diapositiva está compuesta por varios bloques.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the upper right if the slide is animated (that is consisting of more than one shot).</source>
-        <translation type="unfinished"></translation>
+        <translation>Posíblemente este iconopuede aparecer en la zona superior izquierda si una diapositiva contiene animación (consiste en más de una toma).</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the bottom right if the slide contains at least an image for which you defined a transformation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Posíblemente este icono puede aparecer en la zona inferior derecha si una diapositiva contiene una transformación que se ha definido.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the bottom left if the slide is an automatic predefined slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Posíblemente este icono puede aparecer en la zona inferior izquierda si la diapositiva se ha definido de forma automática.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the bottom right if the predefined slide is a project title slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Posíblemente este icono puede aparecer en la zona inferior derecha si una diapositiva es un proyecto de diapositiva título.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the bottom right if the predefined slide is a chapter title slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Posíblemente este icono puede aparecer en la zona inferior derecha si una diapositiva es un capítulo de diapositiva de título.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the bottom right if the predefined slide is a generic title slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Posíblemente este icono puede aparecer en la zona inferior derecha si una diapositiva es una diapositiva de título genérico.</translation>
     </message>
     <message>
         <source>Remark: The thumbnail represents the first image on the slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: La miniatura representa la primera imagen de la diapositiva.</translation>
     </message>
     <message>
         <source>The music track:</source>
-        <translation type="unfinished"></translation>
+        <translation>La pista de música:</translation>
     </message>
     <message>
         <source>Every play-list is shown by a change of color.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cada lista de reproducción se muestra por una alternancia de color.</translation>
     </message>
     <message>
         <source>The track is more or less filled according to the sound volume selected, displaying the variation in volume.</source>
-        <translation type="unfinished"></translation>
+        <translation>La pista se llena más o menos dependiendo del volumen de sonido seleccionado, mostrando cómo va variando el volumen.</translation>
     </message>
     <message>
         <source>The musical transitions (fade in/out) are shown as crossings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las transiciones musicales (fade in/out) se muestran bajo la forma de cruces.</translation>
     </message>
     <message>
         <source>Remark: Possible pauses are symbolized by a change in the volume to zero and the display of this icon: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: Las posibles pausas están simbolizadas por un cambio de volumen a cero y mostrando este icono:</translation>
     </message>
     <message>
         <source>To modify an element:</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar un elemento:</translation>
     </message>
     <message>
         <source>You can also call a contextual menu by doing a right click ahead the thumbnail or click on the Edit button. This contextual menu allows you to select an action.</source>
-        <translation type="unfinished"></translation>
+        <translation>También se puede llamar a un menú contextual al hacer un clic derecho delante de la miniatura o en el botón Editar. Este menú contextual permite seleccionar una acción.</translation>
     </message>
     <message>
         <source>To modify several elements at one time:</source>
-        <translation type="unfinished"></translation>
+        <translation>Se pueden modificar varios elementos a la vez:</translation>
     </message>
     <message>
         <source>You can select several slides by using the mouse and the CTRL and SHIFT:</source>
-        <translation type="unfinished"></translation>
+        <translation>Se pueden seleccionar varias diapositivas con el ratón y las teclas CTRL y SHIFT:</translation>
     </message>
     <message>
         <source>CTRL + click on a slide: add or removes the slide of the selection</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL + clic en una diapositiva: agrega o elimina la diapositiva seleccionada</translation>
     </message>
     <message>
         <source>SHIFT + click on a slide: add all the slides understood between the last one selected and the slide which you have just clicked</source>
-        <translation type="unfinished"></translation>
+        <translation>SHIFT + clic en una diapositiva: agregar todas las diapositivas comprendidas entre la última seleccionada y la diapositiva donde se acaba de hacer clic</translation>
     </message>
     <message>
         <source>Then, by making a right click on one of the slides of the selection, a contextual menu appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Entonces, haciendo clic con el botón derecho en una de las diapositivas de la selección, aparecerá un menú contextual.</translation>
     </message>
     <message>
         <source>This menu suggests various actions making on all the slides of the selection such as:</source>
-        <translation type="unfinished"></translation>
+        <translation>Este menú sugiere diversas acciones que actúan en todas las diapositivas de la selección, tales como:</translation>
     </message>
     <message>
         <source>Copy/Cut/Paste/Remove all slide of the selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar/Cortar/Pegar/Eliminar todas las diapositivas de la selección</translation>
     </message>
     <message>
         <source>Modify the duration of the 1st shot for all the slides of the selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar la duración de la primera toma para todas las diapositivas de la selección</translation>
     </message>
     <message>
         <source>Modify the transition for all the slides of the selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar la transición para todas las diapositivas de la selección</translation>
     </message>
     <message>
         <source>Modify the music for all the slides of the selection</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar la música para todas las diapositivas de la selección</translation>
     </message>
     <message>
         <source>etc...</source>
-        <translation type="unfinished"></translation>
+        <translation>etc...</translation>
     </message>
     <message>
         <source>To reorder the slide in the timeline:</source>
-        <translation type="unfinished"></translation>
+        <translation>Reordenar diapositivas en la línea de tiempo:</translation>
     </message>
     <message>
         <source>Simply drag the slide to a new position with the mouse (drag &amp; drop)</source>
-        <translation type="unfinished"></translation>
+        <translation>Símplemente arrastrando con el ratón la diapositiva a una nueva posición (drag &amp; drop)</translation>
     </message>
     <message>
         <source>To modify the display of the timeline:</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar la visualización de la línea de tiempo:</translation>
     </message>
     <message>
         <source>The timeline settings commands are in the status bar, to the right, at the bottom of the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>La configuración de las acciones para la línea de tiempo están en la barra de estado, en la parte inferior derecha de la ventana principal.</translation>
     </message>
     <message>
         <source> Increases the size of the thumbnails but reduces the number of thumbnails shown in the timeline.</source>
-        <translation type="unfinished"></translation>
+        <translation>Aumenta el tamaño de las miniaturas, pero reduce el número de miniaturas que se mostrará en la línea de tiempo.</translation>
     </message>
     <message>
         <source> Reduces the size of the thumbnails and increases the number of thumbnails shown in the timeline.</source>
-        <translation type="unfinished"></translation>
+        <translation>Reduce el tamaño de las miniaturas, pero incrementa el número de miniaturas que se mostrará en la línea de tiempo.</translation>
     </message>
     <message>
         <source>To modify the background, double-click the thumbnail of the background. This action opens the &lt;a href=&quot;0104.html&quot;&gt;Define background&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para modificar el fondo, doble-clic en la miniatura que representa el fondo. Esta acción abre la ventana que contiene &lt;a href=&quot;0104.html&quot;&gt;Configurar el fondo&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>To modify the entering slide transition, double-click the slide transition. This action opens the &lt;a href=&quot;0122.html&quot;&gt;Define the entering slides transitions&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para modificar la transición entre diapositivas , hacer doble clic en la miniatura que representa la transición de diapositivas. Esta acción abre la ventana &lt;a href=&quot;0122.html&quot;&gt;Definir las transiciones&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>To modify the music associated with the slide, double-click the zone corresponding to the slide musical track. This action opens the &lt;a href=&quot;0114.html&quot;&gt;Define the music track&lt;/a&gt; dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para modificar la música asociada con la diapositiva, hacer doble clic en la zona correspondiente a la pista musical para diapositivas. Esta acción abre la ventana &lt;a href=&quot;0114.html&quot;&gt;Definir la pista de audio&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>To modify the slide (framing, filter, animation, etc.) double-click the thumbnail. This action opens the &lt;a href=&quot;0119.html&quot;&gt;slides properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide.</source>
+        <translation>Para modificar la diapositiva (encuadre, filtro, animación, etc) hacer doble clic en la miniatura. Esta acción abre la &lt;a href=&quot;0119.html&quot;&gt;ventana de propiedades de diapositivas&lt;/a&gt; si se trata de una diapositiva estándar o abrir la &lt;a href=&quot;0103.html&quot;&gt;ventana de diapositiva de título prefefinido&lt;/a&gt; si se trata de una diapositiva de título predefinido.</translation>
+    </message>
+    <message>
+        <source>To select the current slide:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on a slide to define it as current slide.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the mouse wheel to change the current slide.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: When previewing the selected slide is automatically defined on the current slide preview.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1302,7 +1806,7 @@
     <name>0024</name>
     <message>
         <source>The multimedia file browser</source>
-        <translation type="unfinished">El navegador multimedia de archivos</translation>
+        <translation>El navegador multimedia de archivos</translation>
     </message>
     <message>
         <source>ffDiaporama offers a multimedia file browser which is shown in the main window when you select the file browser mode in the main window. It is designed for quick access to the multimedia files on your computer.</source>
@@ -1322,7 +1826,7 @@
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nota:</translation>
     </message>
     <message>
         <source>Files can be presented differently than by the system file browser (presence of filters showing only some files - management of the file/icon pairs - etc.)</source>
@@ -1702,7 +2206,7 @@
     </message>
     <message>
         <source>Remark: </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nota:</translation>
     </message>
     <message>
         <source> or </source>
@@ -1725,141 +2229,137 @@
     <name>0030</name>
     <message>
         <source>Rendering videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Generar vídeos</translation>
     </message>
     <message>
         <source>Smartphones and tablets</source>
-        <translation type="unfinished"></translation>
+        <translation>Smartphones and tablets</translation>
     </message>
     <message>
         <source>Portable devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivos portátiles</translation>
     </message>
     <message>
         <source>Multimedia system (Home cinema)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistema Multimedia (Home cinema)</translation>
     </message>
     <message>
         <source>For the WEB</source>
-        <translation type="unfinished"></translation>
+        <translation>Para la WEB</translation>
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec de Video</translation>
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec de Audio</translation>
     </message>
     <message>
         <source>Containers</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenedores</translation>
     </message>
     <message>
         <source>Video standards and resolutions</source>
-        <translation type="unfinished"></translation>
+        <translation>Normas y resoluciones de Video</translation>
     </message>
     <message>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ffDiaporama WIKI - Rendering videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Archvivos adjuntos (Thumbnails, nfo, etc...)</translation>
     </message>
     <message>
         <source> This section contains information about generating video with ffDiaporama. </source>
-        <translation type="unfinished"></translation>
+        <translation> Esta sección contiene información acerca de la generación de video con ffDiaporama. </translation>
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished"></translation>
+        <translation>Indice</translation>
     </message>
 </context>
 <context>
     <name>0031</name>
     <message>
         <source>Rendering videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Generar vídeos</translation>
     </message>
     <message>
         <source>A digital video consists of a computer file called the &lt;a href=&quot;0038.html&quot;&gt;container&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Un video digital consiste en un fichero de dispoitivo denominado &lt;a href=&quot;0038.html&quot;&gt;contenedor&lt;/a&gt;</translation>
     </message>
     <message>
         <source>In this file we find:</source>
-        <translation type="unfinished"></translation>
+        <translation>En este archivo encontramos:</translation>
     </message>
     <message>
         <source>One or more video tracks. Each track is built using a &lt;a href=&quot;0036.html&quot;&gt;Video Codec&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Uno o más pistas de vídeo. Cada pista está construida utilizando un &lt;a href=&quot;0036.html&quot;&gt;Codec de Video&lt;/a&gt;</translation>
     </message>
     <message>
         <source>One or more audio tracks. Each track is built using an &lt;a href=&quot;0037.html&quot;&gt;Audio Codec&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Uno o más pistas de audio. Cada pista está construida utilizando un &lt;a href=&quot;0037.html&quot;&gt;Audio Codec&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Possibly, one or more subtitles. Each subtitle is built in a subtitle format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Posiblemente, uno o más subtítulos. Cada subtítulo se basa en un formato de subtítulos.</translation>
     </message>
     <message>
         <source>Possibly, a definition of tags and chapters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Posiblemente, una definición de las etiquetas y capítulos.</translation>
     </message>
     <message>
         <source>Limitations :</source>
-        <translation type="unfinished"></translation>
+        <translation>Limitaciones :</translation>
     </message>
     <message>
         <source>ffDiaporama does not manage subtitles.</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama no gestiona subtítulos.</translation>
     </message>
     <message>
         <source>ffDiaporama generates files that include a single video track and a single audio track.</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama genera archivos que incluyen una pista de vídeo y una única pista audio.</translation>
     </message>
     <message>
         <source>Unlike music files, which are widely portable from one device to another, videos require a certain amount of juggling between various formats to adapt to the equipment used to play them.</source>
-        <translation type="unfinished"></translation>
+        <translation>A diferencia de los archivos de música, que son muy portátiles de un dispositivo a otro, los videos requieren una cierta cantidad de juegos malabares entre varios formatos para adaptarse a los equipos utilizados para manejarlos.</translation>
     </message>
     <message>
         <source>A video rendered for a &quot;Home Cinema&quot; device can occupy several Gb and will be unreadable on a smartphone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Un vídeo renderizado para un dispositivo de &quot;Home Cinema&quot; puede ocupar varios GB y será ilegible en un smartphone.</translation>
     </message>
     <message>
         <source>The same video rendered for a smartphone will require only one Mb, and can be played on a &quot;Home Cinema&quot; device but it will look ugly.</source>
-        <translation type="unfinished"></translation>
+        <translation>El mismo vídeo renderizado un smartphone requerirá solamente un Mb, y se puede reproducir en un dispositivo de &quot;Home Cinema&quot;, pero se verá de mala calidad.</translation>
     </message>
     <message>
         <source>That is why we recommend that you preserve your original project files as far as possible, and create from them videos suitable for the devices you wish to use for playback.</source>
-        <translation type="unfinished"></translation>
+        <translation>Por eso se recomienda conservar los archivos originales del proyecto en la medida de lo posible, y crear vídeos con ellos adecuados para los dispositivos que se desea utilizar para la reproducción.</translation>
     </message>
     <message>
         <source>To simplify settings for the rendering operation, ffDiaporama contains predefined settings for the following devices:</source>
-        <translation type="unfinished"></translation>
+        <translation>Para simplificar la configuración de la operación de renderizado, ffDiaporama contiene ajustes predefinidos para los siguientes dispositivos:</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;0032.html&quot;&gt;Smartphones&lt;/a&gt; and &lt;a href=&quot;0033.html&quot;&gt;portable devices&lt;/a&gt;, and small video-playing devices in general</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;0032.html&quot;&gt;Smartphones&lt;/a&gt; y &lt;a href=&quot;0033.html&quot;&gt;dispositivos portátiles&lt;/a&gt;, y pequeños reproductores en general</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;0034.html&quot;&gt;Multimedia systems&lt;/a&gt; for domestic use (&quot;Home Cinema&quot; devices)</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;0034.html&quot;&gt;Los sistemas Multimedia&lt;/a&gt; para uso doméstico (dispositivos &quot;Home Cinema&quot;)</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;0035.html&quot;&gt;Display on the Web&lt;/a&gt; (blogs, picture-sharing and social networking sites)</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;0035.html&quot;&gt;Mostrar en la Web&lt;/a&gt; (blogs, imágenes para compartir y sitios de redes sociales)</translation>
     </message>
     <message>
         <source>It is also possible for you to define all parameters directly by using the advanced option.</source>
-        <translation type="unfinished"></translation>
+        <translation>También es posible definir todos los parámetros directamente mediante el uso de la opción avanzada.</translation>
     </message>
 </context>
 <context>
     <name>0032</name>
     <message>
         <source>Smartphones and tablets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smartphones and tablets</translation>
     </message>
     <message>
         <source>Generally speaking the main differences between these devices are:</source>
@@ -1879,11 +2379,11 @@
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo de dispositivo</translation>
     </message>
     <message>
         <source>Operating system</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistema operativo</translation>
     </message>
     <message>
         <source>Available resolution</source>
@@ -1891,23 +2391,23 @@
     </message>
     <message>
         <source>Remarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Notas</translation>
     </message>
     <message>
         <source>Smartphone</source>
-        <translation type="unfinished"></translation>
+        <translation>Smartphone</translation>
     </message>
     <message>
         <source>Nokia Symbian System S60</source>
-        <translation type="unfinished"></translation>
+        <translation>Nokia Symbian System S60</translation>
     </message>
     <message>
         <source>QVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>QVGA</translation>
     </message>
     <message>
         <source>VGA</source>
-        <translation type="unfinished"></translation>
+        <translation>VGA</translation>
     </message>
     <message>
         <source>Generally, Nokia phones working with the Symbian operating system and equipped with a camera, are capable of playing videos. Very often, those provided with a keyboard offer a 320x240 resolution (QVGA), while those with only a touch-sensitive screen offer a 640x360 resolution (VGA).</source>
@@ -1923,15 +2423,15 @@
     </message>
     <message>
         <source>Windows Mobile 6.0/6.1/6.5</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Mobile 6.0/6.1/6.5</translation>
     </message>
     <message>
         <source>HVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>HVGA</translation>
     </message>
     <message>
         <source>WVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>WVGA</translation>
     </message>
     <message>
         <source>Numerous manufacturers made phones using the Microsoft Windows Mobile 6 operating system (HP, HTC, etc.) between 2006 and 2010.</source>
@@ -1947,11 +2447,11 @@
     </message>
     <message>
         <source>Windows Phone 7</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Phone 7</translation>
     </message>
     <message>
         <source>Microsoft Windows Phone 7 is the evolution of Windows Mobil 6</source>
-        <translation type="unfinished"></translation>
+        <translation>Microsoft Windows Phone 7 es la evolución de Windows Mobil 6</translation>
     </message>
     <message>
         <source>Movie format is: Container: MP4 - Video Codec: h264 - Audio Codec: AAC-LC</source>
@@ -1959,15 +2459,15 @@
     </message>
     <message>
         <source>Android</source>
-        <translation type="unfinished"></translation>
+        <translation>Android</translation>
     </message>
     <message>
         <source>1.5/1.6</source>
-        <translation type="unfinished">1.5/1.6</translation>
+        <translation>1.5/1.6</translation>
     </message>
     <message>
         <source>2.1/2.2/2.3</source>
-        <translation type="unfinished">2.1/2.2/2.3</translation>
+        <translation>2.1/2.2/2.3</translation>
     </message>
     <message>
         <source>Many manufacturers made or still make phones using the Google Android operating system.</source>
@@ -1975,19 +2475,19 @@
     </message>
     <message>
         <source>Apple iOS</source>
-        <translation type="unfinished"></translation>
+        <translation>Apple iOS</translation>
     </message>
     <message>
         <source>iPhone 3G/3GS</source>
-        <translation type="unfinished"></translation>
+        <translation>iPhone 3G/3GS</translation>
     </message>
     <message>
         <source>iPhone 4</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>HP - WebOs</source>
-        <translation type="unfinished"></translation>
+        <translation>HP - WebOs</translation>
     </message>
     <message>
         <source>WebOs arises from the repurchase of Palm by HP.</source>
@@ -1995,15 +2495,15 @@
     </message>
     <message>
         <source>&lt;B&gt;To be completed&lt;/B&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Por completar&lt;/B&gt;</translation>
     </message>
     <message>
         <source>Blackberry OS</source>
-        <translation type="unfinished"></translation>
+        <translation>Blackberry OS</translation>
     </message>
     <message>
         <source>RIM 240</source>
-        <translation type="unfinished"></translation>
+        <translation>RIM 240</translation>
     </message>
     <message>
         <source>Movie format is: Container: AVI - Video Codec: MPEG4 - Audio Codec: MP3</source>
@@ -2015,87 +2515,87 @@
     </message>
     <message>
         <source>Samsung BADA</source>
-        <translation type="unfinished"></translation>
+        <translation>Samsung BADA</translation>
     </message>
     <message>
         <source>Tablet</source>
-        <translation type="unfinished"></translation>
+        <translation>Tablet</translation>
     </message>
     <message>
         <source>Android 2.x</source>
-        <translation type="unfinished"></translation>
+        <translation>Android 2.x</translation>
     </message>
     <message>
         <source>Android 3.x</source>
-        <translation type="unfinished"></translation>
+        <translation>Android 3.x</translation>
     </message>
     <message>
         <source>Linux</source>
-        <translation type="unfinished"></translation>
+        <translation>Linux</translation>
     </message>
     <message>
         <source>800x480</source>
-        <translation type="unfinished"></translation>
+        <translation>800x480</translation>
     </message>
     <message>
         <source>854x480</source>
-        <translation type="unfinished"></translation>
+        <translation>854x480</translation>
     </message>
     <message>
         <source>Tablet examples: Archos 4/5/70/Arnova 10, Dell Streak, Creative ZiiO 7</source>
-        <translation type="unfinished"></translation>
+        <translation>Ejemplos de Tablets: Archos 4/5/70/Arnova 10, Dell Streak, Creative ZiiO 7</translation>
     </message>
     <message>
         <source>1024x600</source>
-        <translation type="unfinished"></translation>
+        <translation>1024x600</translation>
     </message>
     <message>
         <source>XGA</source>
-        <translation type="unfinished"></translation>
+        <translation>XGA</translation>
     </message>
     <message>
         <source>Tablet examples: Archos 101, Samsung Galaxy Tab, HTC Flyer, Hannspree HANNSpad SN10T, Toshiba Folio 100</source>
-        <translation type="unfinished"></translation>
+        <translation>Ejemplos de Tablets: Archos 101, Samsung Galaxy Tab, HTC Flyer, Hannspree HANNSpad SN10T, Toshiba Folio 100</translation>
     </message>
     <message>
         <source>1024x768</source>
-        <translation type="unfinished"></translation>
+        <translation>1024x768</translation>
     </message>
     <message>
         <source>Tablet examples: HP TouchPad</source>
-        <translation type="unfinished"></translation>
+        <translation>Ejemplos de Tablets: HP TouchPad</translation>
     </message>
     <message>
         <source>1280x800</source>
-        <translation type="unfinished"></translation>
+        <translation>1280x800</translation>
     </message>
     <message>
         <source>720p</source>
-        <translation type="unfinished">720p</translation>
+        <translation>720p</translation>
     </message>
     <message>
         <source>Tablet examples: ASUS Eee Pad, Motorola Xoom, Packard Bell Liberty Tab, LG Optimus Pad, Archos G9</source>
-        <translation type="unfinished"></translation>
+        <translation>Ejemplos de Tablets: ASUS Eee Pad, Motorola Xoom, Packard Bell Liberty Tab, LG Optimus Pad, Archos G9</translation>
     </message>
     <message>
         <source>iPad</source>
-        <translation type="unfinished"></translation>
+        <translation>iPad</translation>
     </message>
     <message>
         <source>RIM BlackBerry</source>
-        <translation type="unfinished"></translation>
+        <translation>RIM BlackBerry</translation>
     </message>
     <message>
         <source>Playbook</source>
-        <translation type="unfinished"></translation>
+        <translation>Libro Electrónico</translation>
     </message>
     <message>
         <source>Netbook/NetPC</source>
-        <translation type="unfinished"></translation>
+        <translation>Netbook/NetPC</translation>
     </message>
     <message>
         <source>Windows/XP</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows/XP</translation>
     </message>
     <message>
         <source>Require xVid or DivX codec to be installed on the computer.</source>
@@ -2103,15 +2603,15 @@
     </message>
     <message>
         <source>Windows/Vista</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows/Vista</translation>
     </message>
     <message>
         <source>Windows/7</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows/7</translation>
     </message>
     <message>
         <source>Android/Linux</source>
-        <translation type="unfinished"></translation>
+        <translation>Android/Linux</translation>
     </message>
     <message>
         <source>As far as the resolution is concerned, note that most devices can play videos designed for lower resolution devices without difficulty. </source>
@@ -2126,7 +2626,7 @@
     <name>0033</name>
     <message>
         <source>Portable devices</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Dispositivos portátiles</translation>
     </message>
     <message>
         <source>These portable devices are usually very specific. We will not discuss therefore either operating system or resolution.</source>
@@ -2134,7 +2634,7 @@
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tipo de dispositivo</translation>
     </message>
     <message>
         <source>Manufacturer/Model</source>
@@ -2221,11 +2721,11 @@
     <name>0034</name>
     <message>
         <source>Multimedia system (Home cinema)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistema Multimedia (Home cinema)</translation>
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tipo de dispositivo</translation>
     </message>
     <message>
         <source>Manufacturer/Model</source>
@@ -2309,7 +2809,7 @@
     </message>
     <message>
         <source>&lt;B&gt;To be completed&lt;/B&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;B&gt;Por completar&lt;/B&gt;</translation>
     </message>
     <message>
         <source>Games console</source>
@@ -2340,11 +2840,11 @@
     <name>0035</name>
     <message>
         <source>For the WEB</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Para la WEB</translation>
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tipo de dispositivo</translation>
     </message>
     <message>
         <source>Manufacturer/Model</source>
@@ -2451,7 +2951,7 @@
     <name>0036</name>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Codec de Video</translation>
     </message>
     <message>
         <source>The following table lists the video codecs which ffDiaporama can use to generate videos:</source>
@@ -2459,146 +2959,146 @@
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>WIKIPEDIA/Remark</source>
-        <translation type="unfinished"></translation>
+        <translation>WIKIPEDIA/Nota</translation>
     </message>
     <message>
         <source>MPJEP</source>
-        <translation type="unfinished"></translation>
+        <translation>MPJEP</translation>
     </message>
     <message>
         <source>Motion JPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>Motion JPEG</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Motion_JPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/MJPEG</translation>
     </message>
     <message>
         <source>MPEG2</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG2</translation>
     </message>
     <message>
         <source>MPEG-2 video</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-2 video</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG-2</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/MPEG-2</translation>
     </message>
     <message>
         <source>MPEG4</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG4</translation>
     </message>
     <message>
         <source>DivX/XVid/MPEG-4</source>
-        <translation type="unfinished"></translation>
+        <translation>DivX/XVid/MPEG-4</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Xvid</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/Xvid</translation>
     </message>
     <message>
         <source>H264HQ</source>
-        <translation type="unfinished"></translation>
+        <translation>H264HQ</translation>
     </message>
     <message>
         <source>High Quality H.264 AVC/MPEG-4 AVC</source>
-        <translation type="unfinished"></translation>
+        <translation>Ata Calidad H.264 AVC/MPEG-4 AVC</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/H.264/MPEG-4_AVC</translation>
     </message>
     <message>
         <source>H264PQ</source>
-        <translation type="unfinished"></translation>
+        <translation>H264PQ</translation>
     </message>
     <message>
         <source>Phone Quality H.264 AVC/MPEG-4 AVC</source>
-        <translation type="unfinished"></translation>
+        <translation>Calidad Móvil H.264 AVC/MPEG-4 AVC</translation>
     </message>
     <message>
         <source>X264LL</source>
-        <translation type="unfinished"></translation>
+        <translation>X264LL</translation>
     </message>
     <message>
         <source>x264 Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>x264 Sin pérdidas</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/X264</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/X264</translation>
     </message>
     <message>
         <source>VP8</source>
-        <translation type="unfinished"></translation>
+        <translation>VP8</translation>
     </message>
     <message>
         <source>WebP (WebM-VP8)</source>
-        <translation type="unfinished"></translation>
+        <translation>WebP (WebM-VP8)</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/WebM</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/WebM</translation>
     </message>
     <message>
         <source>H263</source>
-        <translation type="unfinished"></translation>
+        <translation>H263</translation>
     </message>
     <message>
         <source>Sorenson H.263</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorenson H.263</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/H.263</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/H.263</translation>
     </message>
     <message>
         <source>THEORA</source>
-        <translation type="unfinished"></translation>
+        <translation>THEORA</translation>
     </message>
     <message>
         <source>Theora VP3</source>
-        <translation type="unfinished"></translation>
+        <translation>Theora VP3</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Theora</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/Theora</translation>
     </message>
     <message>
         <source>ffDiaporama uses specific settings for encoding with x264. This settings are including: </source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama utiliza la configuración específica para codificar con x264. Estos ajustes están incluidos:</translation>
     </message>
     <message>
         <source>- &lt;B&gt;High Quality&lt;/B&gt; for &quot;Home Cinema&quot; devices based on x264 &lt;U&gt;main&lt;/U&gt; profile, with 3 refs and 3 bframes. </source>
-        <translation type="unfinished"></translation>
+        <translation>- &lt;B&gt;Alta Calidad&lt;/B&gt; para &quot;Home Cinema&quot; dispositivos basados en x264 &lt;U&gt;principal&lt;/U&gt; perfil, con 3 refs y 3 bframes. </translation>
     </message>
     <message>
         <source>- &lt;B&gt;Phone Quality&lt;/B&gt; for mobile devices based on x264 &lt;U&gt;baseline&lt;/U&gt; profile, with 3 refs and 0 bframes. </source>
-        <translation type="unfinished"></translation>
+        <translation>- &lt;B&gt;Calidad Móvil&lt;/B&gt; para dispositivos móviles basados en  x264 &lt;U&gt;referencia&lt;/U&gt; perfil, con 3 refs y 0 bframes. </translation>
     </message>
     <message>
         <source>Both settings are using &lt;U&gt;veryfast&lt;/U&gt; preset</source>
-        <translation type="unfinished"></translation>
+        <translation>Ambas opciones están utilizando &lt;U&gt; muy rápido &lt;/U&gt; preajuste</translation>
     </message>
     <message>
         <source>ffDiaporama uses the standard x264 &lt;U&gt;fast&lt;/U&gt; preset with 3 refs and qp set to 0.</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama utiliza la norma x264 &lt;U&gt; rápido &lt;/U&gt; preajustado con 3 refs qp establecido en 0.</translation>
     </message>
 </context>
 <context>
     <name>0037</name>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Codec de Audio</translation>
     </message>
     <message>
         <source>The following table lists the audio codecs which ffDiaporama can use to generate videos:</source>
@@ -2606,19 +3106,19 @@
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Codec</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>WIKIPEDIA</source>
-        <translation type="unfinished"></translation>
+        <translation>WIKIPEDIA</translation>
     </message>
     <message>
         <source>PCM</source>
-        <translation type="unfinished"></translation>
+        <translation>PCM</translation>
     </message>
     <message>
         <source>WAV / PCM signed 16-bit little-endian</source>
@@ -2630,7 +3130,7 @@
     </message>
     <message>
         <source>MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3</translation>
     </message>
     <message>
         <source>MPEG-1/2 Audio Layer III</source>
@@ -2654,11 +3154,11 @@
     </message>
     <message>
         <source>AC3</source>
-        <translation type="unfinished"></translation>
+        <translation>AC3</translation>
     </message>
     <message>
         <source>Dolby Digital</source>
-        <translation type="unfinished"></translation>
+        <translation>Dolby Digital</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Dolby_Digital</source>
@@ -2666,11 +3166,11 @@
     </message>
     <message>
         <source>VORBIS</source>
-        <translation type="unfinished"></translation>
+        <translation>VORBIS</translation>
     </message>
     <message>
         <source>Vorbis</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorbis</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Vorbis</source>
@@ -2678,19 +3178,19 @@
     </message>
     <message>
         <source>MP2</source>
-        <translation type="unfinished"></translation>
+        <translation>MP2</translation>
     </message>
     <message>
         <source>MPEG-1 Layer II</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-1 Layer II</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG-2</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">http://es.wikipedia.org/wiki/MPEG-2</translation>
     </message>
     <message>
         <source>AMR</source>
-        <translation type="unfinished"></translation>
+        <translation>AMR</translation>
     </message>
     <message>
         <source>Adaptive Multi-Rate</source>
@@ -2702,7 +3202,7 @@
     </message>
     <message>
         <source>FLAC</source>
-        <translation type="unfinished"></translation>
+        <translation>FLAC</translation>
     </message>
     <message>
         <source>Free Lossless Audio Codec</source>
@@ -2717,207 +3217,207 @@
     <name>0038</name>
     <message>
         <source>Container</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenedor</translation>
     </message>
     <message>
         <source>The following table lists the containers which ffDiaporama can use to generate videos, as well as the available audio and video codecs for every container:</source>
-        <translation type="unfinished"></translation>
+        <translation>En la siguiente tabla se muestran los contenedores ffDiaporama puede utilizar para generar vídeos, así como el audio disponible y codecs de vídeo para cada contenedor:</translation>
     </message>
     <message>
         <source>Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Extension</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nombre</translation>
     </message>
     <message>
         <source>Video Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Codecs de Video</translation>
     </message>
     <message>
         <source>Audio Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Codecs de Audio</translation>
     </message>
     <message>
         <source>WIKIPEDIA</source>
-        <translation type="unfinished"></translation>
+        <translation>WIKIPEDIA</translation>
     </message>
     <message>
         <source>3GP</source>
-        <translation type="unfinished"></translation>
+        <translation>3GP</translation>
     </message>
     <message>
         <source>MPEG4, H264HQ/H264PQ</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG4, H264HQ/H264PQ</translation>
     </message>
     <message>
         <source>AMR</source>
-        <translation type="unfinished"></translation>
+        <translation>AMR</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/3GP_and_3G2</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/3GP</translation>
     </message>
     <message>
         <source>AVI</source>
-        <translation type="unfinished"></translation>
+        <translation>AVI</translation>
     </message>
     <message>
         <source>Audio Video Interleave</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio Vídeo entrelazado</translation>
     </message>
     <message>
         <source>MJPEG, MPEG2, MPEG4, H264HQ/H264PQ</source>
-        <translation type="unfinished"></translation>
+        <translation>MJPEG, MPEG2, MPEG4, H264HQ/H264PQ</translation>
     </message>
     <message>
         <source>PCM, MP2, MP3, AAC, AC3</source>
-        <translation type="unfinished"></translation>
+        <translation>PCM, MP2, MP3, AAC, AC3</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Audio_Video_Interleave</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/AVI</translation>
     </message>
     <message>
         <source>MKV</source>
-        <translation type="unfinished"></translation>
+        <translation>MKV</translation>
     </message>
     <message>
         <source>Matroska file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Formato de archivo matroska</translation>
     </message>
     <message>
         <source>MPEG4, H264HQ/H264PQ, THEORA</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG4, H264HQ/H264PQ, THEORA</translation>
     </message>
     <message>
         <source>PCM, MP3, AAC, AC3, VORBIS</source>
-        <translation type="unfinished"></translation>
+        <translation>PCM, MP3, AAC, AC3, VORBIS</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Matroska</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/Matroska</translation>
     </message>
     <message>
         <source>MJPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>MJPEG</translation>
     </message>
     <message>
         <source>Motion JPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>Motion JPEG</translation>
     </message>
     <message>
         <source>PCM</source>
-        <translation type="unfinished"></translation>
+        <translation>PCM</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Motion_JPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/MJPEG</translation>
     </message>
     <message>
         <source>MP4</source>
-        <translation type="unfinished"></translation>
+        <translation>MP4</translation>
     </message>
     <message>
         <source>MPEG-4 Part 14</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-4 Parte 14</translation>
     </message>
     <message>
         <source>MP3, AAC</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3, AAC</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG-4_Part_14</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/MPEG-4_Parte_14</translation>
     </message>
     <message>
         <source>MPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG</translation>
     </message>
     <message>
         <source>MPEG program stream</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG stream</translation>
     </message>
     <message>
         <source>MPEG2</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG2</translation>
     </message>
     <message>
         <source>MP2</source>
-        <translation type="unfinished"></translation>
+        <translation>MP2</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG_program_stream</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/MPEG_program_stream</translation>
     </message>
     <message>
         <source>WEBM</source>
-        <translation type="unfinished"></translation>
+        <translation>WEBM</translation>
     </message>
     <message>
         <source>WebM</source>
-        <translation type="unfinished"></translation>
+        <translation>WebM</translation>
     </message>
     <message>
         <source>VP8</source>
-        <translation type="unfinished"></translation>
+        <translation>VP8</translation>
     </message>
     <message>
         <source>VORBIS</source>
-        <translation type="unfinished"></translation>
+        <translation>VORBIS</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/WebM</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/WebM</translation>
     </message>
     <message>
         <source>FLV</source>
-        <translation type="unfinished"></translation>
+        <translation>FLV</translation>
     </message>
     <message>
         <source>Flash file format 2005</source>
-        <translation type="unfinished"></translation>
+        <translation>Flash 2005</translation>
     </message>
     <message>
         <source>H263</source>
-        <translation type="unfinished"></translation>
+        <translation>H263</translation>
     </message>
     <message>
         <source>MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Adobe_Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/Adobe_Flash_Professional</translation>
     </message>
     <message>
         <source>Flash file format 2008</source>
-        <translation type="unfinished"></translation>
+        <translation>Flash 2008</translation>
     </message>
     <message>
         <source>H264HQ/H264PQ</source>
-        <translation type="unfinished"></translation>
+        <translation>H264HQ/H264PQ</translation>
     </message>
     <message>
         <source>AAC</source>
-        <translation type="unfinished"></translation>
+        <translation>AAC</translation>
     </message>
     <message>
         <source>OGV</source>
-        <translation type="unfinished"></translation>
+        <translation>OGV</translation>
     </message>
     <message>
         <source>Ogg</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogg</translation>
     </message>
     <message>
         <source>THEORA</source>
-        <translation type="unfinished"></translation>
+        <translation>THEORA</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Ogg</source>
-        <translation type="unfinished"></translation>
+        <translation>http://es.wikipedia.org/wiki/Ogg</translation>
     </message>
 </context>
 <context>
@@ -3016,7 +3516,7 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nombre</translation>
     </message>
     <message>
         <source>PAL</source>
@@ -3036,7 +3536,7 @@
     </message>
     <message>
         <source>RIM 240</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">RIM 240</translation>
     </message>
     <message>
         <source>4:3</source>
@@ -3044,7 +3544,7 @@
     </message>
     <message>
         <source>240x180</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x180 {240x?}</translation>
     </message>
     <message>
         <source>24 FPS</source>
@@ -3060,7 +3560,7 @@
     </message>
     <message>
         <source>240x136</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x136 {240x?}</translation>
     </message>
     <message>
         <source>40:17</source>
@@ -3068,11 +3568,11 @@
     </message>
     <message>
         <source>QVGA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QVGA</translation>
     </message>
     <message>
         <source>320x240</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x240 {320x?}</translation>
     </message>
     <message>
         <source>25 FPS</source>
@@ -3092,19 +3592,19 @@
     </message>
     <message>
         <source>320x180</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x180 {320x?}</translation>
     </message>
     <message>
         <source>320x136</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x136 {320x?}</translation>
     </message>
     <message>
         <source>HVGA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HVGA</translation>
     </message>
     <message>
         <source>426x320</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x320 {426x?}</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by second generation smartphones and mobile video players. &lt;B&gt;Because this format does not respect the traditional video geometry&lt;/B&gt;, &lt;B&gt;black bands appear to fill the screen to 480x320.&lt;/B&gt;</source>
@@ -3112,19 +3612,19 @@
     </message>
     <message>
         <source>480x270</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x270 {480x?}</translation>
     </message>
     <message>
         <source>480x204</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x204 {480x?}</translation>
     </message>
     <message>
         <source>VGA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">VGA</translation>
     </message>
     <message>
         <source>640x480</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x480 {640x?}</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by some smartphones.</source>
@@ -3132,11 +3632,11 @@
     </message>
     <message>
         <source>640x360</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x360 {640x?}</translation>
     </message>
     <message>
         <source>640x272</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x272 {640x?}</translation>
     </message>
     <message>
         <source>SD-DVD</source>
@@ -3144,11 +3644,11 @@
     </message>
     <message>
         <source>720x576</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x576 {720x?}</translation>
     </message>
     <message>
         <source>720x480</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x480 {720x?}</translation>
     </message>
     <message>
         <source>The old television format for cathode ray tubes. Note that this format was specifically created for equipment with oval points: It is the anamorphism of the points that determines the geometry. That is why &lt;B&gt;it is absolutely necessary to avoid this format for anything other than television sets with cathode ray tubes.&lt;/B&gt;</source>
@@ -3156,7 +3656,7 @@
     </message>
     <message>
         <source>WVGA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">WVGA</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by new generation smartphones and mobile video players. This format has become widespread and has replaced the old  QVGA, HVGA and VGA format used in the years 2000-2010. &lt;B&gt;Because this format does not respect the traditional video geometries, black bands appear to fill the screen to 800x480.&lt;/B&gt;</source>
@@ -3164,19 +3664,19 @@
     </message>
     <message>
         <source>800x450</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x450 {800x?}</translation>
     </message>
     <message>
         <source>800x340</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x340 {800x?}</translation>
     </message>
     <message>
         <source>XGA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">XGA</translation>
     </message>
     <message>
         <source>1024x768</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1024x768</translation>
     </message>
     <message>
         <source>Historically this format was used only by computers (fixed or portable). Now we meet it more and more on tablet computers like the iPad.</source>
@@ -3184,11 +3684,11 @@
     </message>
     <message>
         <source>1024x576</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x576 {1024x?}</translation>
     </message>
     <message>
         <source>1024x436</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x436 {1024x?}</translation>
     </message>
     <message>
         <source>720p</source>
@@ -3196,7 +3696,7 @@
     </message>
     <message>
         <source>960x720</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x720 {960x?}</translation>
     </message>
     <message>
         <source>23,976 FPS</source>
@@ -3208,11 +3708,11 @@
     </message>
     <message>
         <source>1280x720</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x720 {1280x?}</translation>
     </message>
     <message>
         <source>1280x544</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x544 {1280x?}</translation>
     </message>
     <message>
         <source>1080p</source>
@@ -3220,7 +3720,7 @@
     </message>
     <message>
         <source>1440x1080</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x1080 {1440x?}</translation>
     </message>
     <message>
         <source>This is the real &quot;home cinema&quot; format. It is used by the Blue Ray players and the &quot;home cinema&quot; devices.</source>
@@ -3228,11 +3728,11 @@
     </message>
     <message>
         <source>1920x1080</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x1080 {1920x?}</translation>
     </message>
     <message>
         <source>1920x816</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1280x816 {1920x?}</translation>
     </message>
     <message>
         <source>Note that many other resolutions exists but which are not used by ffDiaporama.</source>
@@ -3243,85 +3743,81 @@
     <name>003A</name>
     <message>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos adjuntos (Mniaturas, nfo, etc...)</translation>
     </message>
     <message>
         <source>ffDiaporama allows you to produce joint files during the rendering process.</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama permite generar archivos adjuntos durante el proceso de renderizado.</translation>
     </message>
     <message>
         <source>The following files are availables:</source>
-        <translation type="unfinished"></translation>
+        <translation>Están disponibles los archivos siguientes:</translation>
     </message>
     <message>
         <source>Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Miniaturas</translation>
     </message>
     <message>
         <source>A video or music file can be accompanied with an image file which must have the same name but with the .jpg extension (example: holidays.mkv and holidays.jpg in the same folder). </source>
-        <translation type="unfinished"></translation>
+        <translation>Un archivo de vídeo o música puede ir acompañado de un archivo de imagen que debe tener el mismo nombre pero con la extensión .jpg (ejemplo: holidays.mkv y holidays.jpg en la misma carpeta)..</translation>
     </message>
     <message>
         <source>This image is called a thumbnail and is used as icon for this file by ffDiaporama and many </source>
-        <translation type="unfinished"></translation>
+        <translation>Esta imagen se crea como una miniatura y se utiliza como icono de este archivo, tanto por ffDiaporama como por otros muchos </translation>
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistemas Centro Multimedia</translation>
     </message>
     <message>
         <source>XBMC .nfo files</source>
-        <translation type="unfinished"></translation>
+        <translation>archivos .nfo de XBMC</translation>
     </message>
     <message>
         <source>The .nfo file for XBMC allows XBMC to recognize the rendered videos as movies. </source>
-        <translation type="unfinished"></translation>
+        <translation>El archivo .nfo para XBMC permite a este programa reconocer videos y películas generadas. </translation>
     </message>
     <message>
         <source>For more information see: &lt;a href=&quot;0044.html&quot;&gt;XBMC nfo files&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Para más información consultar:  &lt;a href=&quot;0044.html&quot;&gt;archivos nfo de XBMC&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
     <name>0040</name>
     <message>
         <source>Technical information on ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Información técnica en ffDiaporama</translation>
     </message>
     <message>
         <source>ffDiaporama command line arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>Comandos en línea de argumentos para ffDiaporama</translation>
     </message>
     <message>
         <source>ffDiaporama project files</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos de proyecto de ffDiaporama</translation>
     </message>
     <message>
         <source>The configuration files for ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos de configuración de ffDiaporama</translation>
     </message>
     <message>
         <source>XBMC nfo files</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ffDiaporama WIKI - Technical information on ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>archivos nfo de XBMC</translation>
     </message>
     <message>
         <source> This section contains technical information about ffDiaporama. </source>
-        <translation type="unfinished"></translation>
+        <translation> Esta sección contiene información técnica acerca de ffDiaporama. </translation>
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished"></translation>
+        <translation>Índice</translation>
     </message>
 </context>
 <context>
     <name>0041</name>
     <message>
         <source>ffDiaporama command line arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>Comandos en línea de argumentos para ffDiaporama</translation>
     </message>
     <message>
         <source>Syntax : ffDiaporama [-lang=] [-loglevel=] [Filename]</source>
@@ -3428,189 +3924,189 @@
     <name>0042</name>
     <message>
         <source>ffDiaporama project files</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos de proyecto de ffDiaporama</translation>
     </message>
     <message>
         <source>Project files for ffDiaporama are XML files with .ffd extension.</source>
-        <translation type="unfinished"></translation>
+        <translation>Los archivos de proyecto de ffDiaporama son archivos XML con la extensión .ffd.</translation>
     </message>
     <message>
         <source>This XML file does not contain copies of the multimedia elements (image, video, music) which are included in the project but only links to these files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Este archivo XML no contiene copias de elementos multimedia (imagen, video, música) que están incluídos en el proyecto sino que son enlaces a estos archivos.</translation>
     </message>
     <message>
         <source>The links are relative to the location of the .ffd file. This ensures that if the directory containing the project file (.ffd ) also contains the multimedia elements (directly or in subdirectories), it is possible to move and/or to rename the directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Los enlaces son relativos respecto a la ubicación del archivo  ffd.. Esto asegura que si el directorio que contiene el archivo de proyecto (.ffd) también contiene los elementos multimedia (directamente o en subdirectorios), es posible mover y/o cambiar el nombre del directorio.</translation>
     </message>
     <message>
         <source>Another advantage is that a project created under Linux can be opened under Windows and conversely.</source>
-        <translation type="unfinished"></translation>
+        <translation>Otra ventaja es que un proyecto creado bajo Linux se puede abrir bajo Windows y viceversa.</translation>
     </message>
 </context>
 <context>
     <name>0043</name>
     <message>
         <source>The configuration files for ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos de configuración de ffDiaporama</translation>
     </message>
     <message>
         <source>The primary ffDiaporama.xml file is stored in the ffDiaporama directory. This file is global for all users: it contains the default ffDiaporama application settings. </source>
-        <translation type="unfinished"></translation>
+        <translation>El archivo de ffDiaporama.xml principal se almacena en el directorio ffDiaporama. Este archivo es global para todos los usuarios: contiene los parámetros de la aplicación ffDiaporama por defecto.</translation>
     </message>
     <message>
         <source>For Windows, this is C:\Program Files\ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Para Wndows es C:\Program Files\ffDiaporama</translation>
     </message>
     <message>
         <source>For Linux, it is /usr/share/ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Para Linux es /usr/share/ffDiaporama</translation>
     </message>
     <message>
         <source>A secondary user-specific ffDiaporama.xml file is stored in the user&apos;s profile folder. </source>
-        <translation type="unfinished"></translation>
+        <translation>Un archivo secundario ffDiaporama.xml específico del usuario está situado en el directorio de perfil de usario. </translation>
     </message>
     <message>
         <source>For Windows, this is C:\Document and settings\[user]</source>
-        <translation type="unfinished"></translation>
+        <translation>Para Windows es C:\Document and settings\[user]</translation>
     </message>
     <message>
         <source>For Linux, it is ~/.ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Para Linux es ~/.ffDiaporama</translation>
     </message>
     <message>
         <source> When the application is launched for the first time, the user configuration file is created if it does not already exist. </source>
-        <translation type="unfinished"></translation>
+        <translation> Cuando la aplicación se inicia por primera vez, se crea el archivo de configuración del usuario, si no existe ya. </translation>
     </message>
     <message>
         <source>Remark: </source>
-        <translation type="unfinished"></translation>
+        <translation>Nota:</translation>
     </message>
     <message>
         <source>If ffDiaporama is used by several users on the same PC, there will be a separate configuration file for each user.</source>
-        <translation type="unfinished"></translation>
+        <translation>Si ffDiaporama es utilizado por varios usuarios en el mismo PC, habrá un archivo de configuración independiente para cada usuario.</translation>
     </message>
     <message>
         <source> The same principle is used for 2 files: </source>
-        <translation type="unfinished"></translation>
+        <translation>El mismo principio se utiliza para estos 2 archivos:</translation>
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivo</translation>
     </message>
     <message>
         <source>Use</source>
-        <translation type="unfinished"></translation>
+        <translation>Uso</translation>
     </message>
     <message>
         <source>ffDiaporama.xml</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama.xml</translation>
     </message>
     <message>
         <source>Contains the application options for ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Contiene las opciones de la aplicación para ffDiaporama</translation>
     </message>
     <message>
         <source>Devices.xml</source>
-        <translation type="unfinished"></translation>
+        <translation>Devices.xml</translation>
     </message>
     <message>
         <source>Contains the base of profiles for video generation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Contiene la base de los perfiles para la generación del video.</translation>
     </message>
     <message>
         <source>In order to work, the application needs two configuration files. Each of them consists of a pair of files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para que funcione, la aplicación necesita dos archivos de configuración. Cada uno de ellos consta de un par de archivos.</translation>
     </message>
     <message>
         <source>For example:</source>
-        <translation type="unfinished"></translation>
+        <translation>Por ejemplo:</translation>
     </message>
 </context>
 <context>
     <name>0044</name>
     <message>
         <source>XBMC nfo files</source>
-        <translation type="unfinished"></translation>
+        <translation>archivos nfo de XBMC</translation>
     </message>
     <message>
         <source>The .nfo file for XBMC allows XBMC to recognize the rendered videos as movies.</source>
-        <translation type="unfinished"></translation>
+        <translation>El archivo .nfo para XBMC permite que XBMC reconozca las películas y videos generados.</translation>
     </message>
     <message>
         <source>When doing a scan or an automatic new file discovery, XBMC uses the .nfo files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cuando comprueba que existe un nuevo archivo, XBMC usa los archivos .nfo.</translation>
     </message>
     <message>
         <source>During a manual refresh, XBMC offers you to find the film through one of its scrapers. Refuse its proposal to use the information contained in the .nfo file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Durante una actualización manual, XBMC ofrece: encontrar la película a través de uno de sus rastreadores. Rechazar su propuesta de utilizar la información contenida en el archivo nfo.</translation>
     </message>
     <message>
         <source>Information included in the .nfo file</source>
-        <translation type="unfinished"></translation>
+        <translation>Iformación incluída en el archivo .nfo</translation>
     </message>
     <message>
         <source> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot; ?&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot; ?&gt;</translation>
     </message>
     <message>
         <source> &lt;movie&gt; </source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;movie&gt; </translation>
     </message>
     <message>
         <source> &lt;title&gt;&lt;U&gt;&lt;B&gt;Project Title&lt;/B&gt;&lt;/U&gt;&lt;/title&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;title&gt;&lt;U&gt;&lt;B&gt;Título del Proyecto&lt;/B&gt;&lt;/U&gt;&lt;/title&gt;</translation>
     </message>
     <message>
         <source> &lt;sorttitle&gt;&lt;U&gt;&lt;B&gt;Rendered filename&lt;/B&gt;&lt;/U&gt;&lt;/sorttitle&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;sorttitle&gt;&lt;U&gt;&lt;B&gt;Archivo renderizado&lt;/B&gt;&lt;/U&gt;&lt;/sorttitle&gt;</translation>
     </message>
     <message>
         <source> &lt;set&gt;&lt;B&gt;&lt;U&gt;Project Album&lt;/U&gt;&lt;/B&gt;&lt;/set&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;set&gt;&lt;B&gt;&lt;U&gt;Album del Proyecto&lt;/U&gt;&lt;/B&gt;&lt;/set&gt;</translation>
     </message>
     <message>
         <source> &lt;genre&gt;&lt;B&gt;&lt;U&gt;Project Album&lt;/U&gt;&lt;/B&gt;&lt;/genre&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;genre&gt;&lt;B&gt;&lt;U&gt;Album del Proyecto&lt;/U&gt;&lt;/B&gt;&lt;/genre&gt;</translation>
     </message>
     <message>
         <source> &lt;year&gt;&lt;U&gt;&lt;B&gt;Year of project date&lt;/B&gt;&lt;/U&gt;&lt;/year&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;year&gt;&lt;U&gt;&lt;B&gt;Año del proyecto&lt;/B&gt;&lt;/U&gt;&lt;/year&gt;</translation>
     </message>
     <message>
         <source> &lt;outline&gt;&lt;U&gt;&lt;B&gt;Project Title&lt;/B&gt;&lt;/U&gt;&lt;/outline&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;outline&gt;&lt;U&gt;&lt;B&gt;Título del Proyecto&lt;/B&gt;&lt;/U&gt;&lt;/outline&gt;</translation>
     </message>
     <message>
         <source> &lt;plot&gt;&lt;U&gt;&lt;B&gt;Project Comment&lt;/B&gt;&lt;/U&gt;&lt;/plot&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;plot&gt;&lt;U&gt;&lt;B&gt;Comentario del Proyecto&lt;/B&gt;&lt;/U&gt;&lt;/plot&gt;</translation>
     </message>
     <message>
         <source> &lt;director&gt;&lt;U&gt;&lt;B&gt;Project Author&lt;/B&gt;&lt;/U&gt;&lt;/director&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;director&gt;&lt;U&gt;&lt;B&gt;Autor del Proyecto&lt;/B&gt;&lt;/U&gt;&lt;/director&gt;</translation>
     </message>
     <message>
         <source> &lt;credits&gt;&lt;U&gt;&lt;B&gt;Project Author&lt;/B&gt;&lt;/U&gt;&lt;/credits&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;credits&gt;&lt;U&gt;&lt;B&gt;Autor del Proyecto&lt;/B&gt;&lt;/U&gt;&lt;/credits&gt;</translation>
     </message>
     <message>
         <source> &lt;runtime&gt;&lt;U&gt;&lt;B&gt;Project duration in minutes&lt;/B&gt;&lt;/U&gt;&lt;/runtime&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;runtime&gt;&lt;U&gt;&lt;B&gt;Duración del proyecto en minutos&lt;/B&gt;&lt;/U&gt;&lt;/runtime&gt;</translation>
     </message>
     <message>
         <source> &lt;thumb&gt;&lt;U&gt;&lt;B&gt;Project thumbnail&lt;/B&gt;&lt;/U&gt;&lt;/thumb&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;thumb&gt;&lt;U&gt;&lt;B&gt;Miniatura del proyecto&lt;/B&gt;&lt;/U&gt;&lt;/thumb&gt;</translation>
     </message>
     <message>
         <source> &lt;/movie&gt; </source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;/movie&gt; </translation>
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation>Consultar también</translation>
     </message>
     <message>
         <source>Information on XBMC movies .nfo file</source>
-        <translation type="unfinished"></translation>
+        <translation>Información en XBMC de archivos .nfo</translation>
     </message>
 </context>
 <context>
@@ -3633,7 +4129,7 @@
     </message>
     <message>
         <source>Application options</source>
-        <translation type="unfinished">Opciones de la aplicación</translation>
+        <translation>Opciones de la aplicación</translation>
     </message>
     <message>
         <source>Remember Windows size and positions</source>
@@ -3781,7 +4277,7 @@
     </message>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished">Propiedades del proyecto</translation>
+        <translation>Propiedades del proyecto</translation>
     </message>
     <message>
         <source>Title</source>
@@ -4017,7 +4513,7 @@
     </message>
     <message>
         <source>Smartphone</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smartphone</translation>
     </message>
     <message>
         <source>Selects the default type and equipment model when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</source>
@@ -4033,7 +4529,7 @@
     </message>
     <message>
         <source>For the WEB</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Para la WEB</translation>
     </message>
     <message>
         <source>Selects the default type and equipment model when you will click the &quot;For the Web&quot; button of the &quot;Render movie&quot; menu</source>
@@ -4041,7 +4537,7 @@
     </message>
     <message>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sin pérdidas</translation>
     </message>
     <message>
         <source>Selects the default image size to be used when you will click the &quot;Lossless&quot; button of the &quot;Render movie&quot; menu</source>
@@ -4077,7 +4573,7 @@
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Codec de Video</translation>
     </message>
     <message>
         <source>Selects the default video codec to use for the rendering out of the proposed list.</source>
@@ -4089,7 +4585,7 @@
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Codec de Audio</translation>
     </message>
     <message>
         <source>Selects the default audio codec to use for the rendering out of the proposed list.</source>
@@ -4253,7 +4749,7 @@
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistemas Centro Multimedia</translation>
     </message>
     <message>
         <source>Enhance id3v2 comptatibility</source>
@@ -4347,10 +4843,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The database is actually composed of two parts: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>You must first create a device</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4364,7 +4856,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notas:</translation>
     </message>
     <message>
         <source>Device subtype</source>
@@ -4384,10 +4876,6 @@
     </message>
     <message>
         <source>Enter here the name of the device (free text entry field) and then, enter all the parameters required for rendering videos that are to be associated with the device profile (File format, video Standard, etc.)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> This dialog box allows you to modify the equipment profiles database. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4424,6 +4912,14 @@
     </message>
     <message>
         <source>The following buttons allow you to act on the database:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog box allows you to modify the equipment profiles database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The database is actually composed of two parts:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4559,7 +5055,7 @@
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fecha del evento</translation>
     </message>
     <message>
         <source>Select a date for the chapter. </source>
@@ -4666,7 +5162,7 @@
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Archivo</translation>
     </message>
     <message>
         <source>Indicates the name of the current file</source>
@@ -4721,7 +5217,7 @@
     <name>0105</name>
     <message>
         <source>Chapter properties</source>
-        <translation type="unfinished">Propiedades del capítulo</translation>
+        <translation>Propiedades del capítulo</translation>
     </message>
     <message>
         <source> All slides have information chaptering so each slide can mark the beginning of a new chapter. </source>
@@ -4729,7 +5225,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notas:</translation>
     </message>
     <message>
         <source>Except for the first chapter which start at 0, all other chapters begin after the entering transition.</source>
@@ -4773,7 +5269,7 @@
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished"></translation>
+        <translation>Fecha del evento</translation>
     </message>
     <message>
         <source>Select a date for the chapter. </source>
@@ -4804,22 +5300,22 @@
     <name>0106</name>
     <message>
         <source>Check configuration</source>
-        <translation type="unfinished">Comprobar configuración</translation>
-    </message>
-    <message>
-        <source>It is especially useful for the Linux users and for those who compiles the application. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The most common shown errors concern the supported formats, codec and library versions. </source>
-        <translation type="unfinished"></translation>
+        <translation>Comprobar configuración</translation>
     </message>
     <message>
         <source>This dialog allows to check external tools configuration and libraries used by ffDiaporama.</source>
+        <translation>Este cuadro de diálogo permite comprobar la configuración de herramientas externas y librerías utilizadas por ffDiaporama.</translation>
+    </message>
+    <message>
+        <source>It is especially useful for the Linux users and for those who compiles the application.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration. </source>
+        <source>The most common shown errors concern the supported formats, codec and library versions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4827,7 +5323,7 @@
     <name>0107</name>
     <message>
         <source>Export project</source>
-        <translation type="unfinished">Exportar proyecto</translation>
+        <translation>Exportar proyecto</translation>
     </message>
     <message>
         <source>This dialog box allows you to export the project and all ressources used by the project to a folder</source>
@@ -4855,7 +5351,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notas:</translation>
     </message>
     <message>
         <source>The export takes into account all the resources that compose the project:</source>
@@ -4906,11 +5402,7 @@
     <name>0108</name>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished">Propiedades del proyecto</translation>
-    </message>
-    <message>
-        <source>This dialog allows you to define the information which qualifies the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Propiedades del proyecto</translation>
     </message>
     <message>
         <source>This information will then be registered in the form of TAGs in the rendered video files. </source>
@@ -4922,7 +5414,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notas:</translation>
     </message>
     <message>
         <source>The Project tab</source>
@@ -5042,7 +5534,7 @@
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Duración</translation>
     </message>
     <message>
         <source>Chapter duration</source>
@@ -5106,7 +5598,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Consultar también</translation>
     </message>
     <message>
         <source>TAG in ffmpeg</source>
@@ -5138,7 +5630,7 @@
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistemas Centro Multimedia</translation>
     </message>
     <message>
         <source>.</source>
@@ -5146,7 +5638,7 @@
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nota:</translation>
     </message>
     <message>
         <source>This field is only editable when the dialog box is used for creating a new project. Subsequently, it is not possible to change this value.</source>
@@ -5162,7 +5654,7 @@
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fecha del evento</translation>
     </message>
     <message>
         <source>The date of the event of the project</source>
@@ -5280,19 +5772,39 @@
         <source>Remark: Video formats do not support all the chapters in the same way:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source> This dialog allows you to define the information which qualifies the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0109</name>
     <message>
         <source>Select files</source>
-        <translation type="unfinished">Seleccionar archivos</translation>
+        <translation>Seleccionar archivos</translation>
+    </message>
+    <message>
+        <source>This dialog box is used in very many cases in the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is used to select either one or multiple files depending on the purpose for which is was called.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It consists of a multimedia file browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information on the ffDiaporama&apos;s multimedia file browser, see: &lt;a href=&quot;0024.html&quot;&gt;The multimedia file browser&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>0110</name>
     <message>
         <source>Correct, reframe or cut image or video</source>
-        <translation type="unfinished">Corregir, reencuadrar, cortar, imagen o vídeo</translation>
+        <translation>Corregir, reencuadrar, cortar, imagen o vídeo</translation>
     </message>
     <message>
         <source>Allows to select a framing from a list of predefined framings. The framings are classified in different categories: </source>
@@ -5352,7 +5864,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notas:</translation>
     </message>
     <message>
         <source>With the mouse</source>
@@ -5468,7 +5980,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Consultar también</translation>
     </message>
     <message>
         <source>Ken Burns effects</source>
@@ -5715,7 +6227,7 @@
     <name>0111</name>
     <message>
         <source>File information</source>
-        <translation type="unfinished">Información de archivo</translation>
+        <translation>Información de archivo</translation>
     </message>
     <message>
         <source>Information shown for the image files</source>
@@ -5815,7 +6327,7 @@
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Codec</translation>
     </message>
     <message>
         <source>The audio codec used for compressed the sound</source>
@@ -5939,7 +6451,7 @@
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Duración</translation>
     </message>
     <message>
         <source>The duration of the chapter</source>
@@ -6015,7 +6527,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Consultar también</translation>
     </message>
     <message>
         <source>Information on EXIF data</source>
@@ -6042,74 +6554,74 @@
     <name>0112</name>
     <message>
         <source> Rename: Allows to rename the selected favorite.</source>
-        <translation type="unfinished"></translation>
+        <translation> Renombrar: Permite renombrar el favorito seleccionado.</translation>
     </message>
     <message>
         <source> Remove: Allows to remove the selected favorite.</source>
-        <translation type="unfinished"></translation>
+        <translation> Eliminar: Permite eliminar el favorito seleccionado.</translation>
     </message>
     <message>
         <source>Manage favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Gestionar favoritos</translation>
     </message>
     <message>
         <source>The Manage favorite dialog allows you to manage existing favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>La ventana de gestión de favoritos permite gestionar favoritos existentes</translation>
     </message>
     <message>
         <source>The existing favorites are listed in the high part of the dialog. Select one of them and click on one of the following buttons:</source>
-        <translation type="unfinished"></translation>
+        <translation>Los favoritos existentes se enumeran en la parte alta del cuadro de diálogo. Seleccionar uno de ellos y hacer clic en uno de los siguientes botones:</translation>
     </message>
 </context>
 <context>
     <name>0113</name>
     <message>
         <source>Manage style</source>
-        <translation type="unfinished">Gestionar estilos</translation>
+        <translation>Gestionar estilos</translation>
     </message>
     <message>
         <source>Reset a standard style (that you modified) has its default values.</source>
-        <translation type="unfinished"></translation>
+        <translation>Restablecer un estilo estándar (que se ha modificado) a sus valores por defecto.</translation>
     </message>
     <message>
         <source>Standard style</source>
-        <translation type="unfinished"></translation>
+        <translation>Estilo estándar</translation>
     </message>
     <message>
         <source>Rename</source>
-        <translation type="unfinished"></translation>
+        <translation>Renombrar</translation>
     </message>
     <message>
         <source>Standard style you modified</source>
-        <translation type="unfinished"></translation>
+        <translation>Estilo estándar modificado</translation>
     </message>
     <message>
         <source>Rename, Reset to default</source>
-        <translation type="unfinished"></translation>
+        <translation>Renombrar, Restablecer a valores por defecto</translation>
     </message>
     <message>
         <source>Custom style</source>
-        <translation type="unfinished"></translation>
+        <translation>Estilo personalizado</translation>
     </message>
     <message>
         <source>Rename, Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Renombrar, Eliminar</translation>
     </message>
     <message>
         <source>Allows to rename the selected style.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permite renombrar el estilo seleccionado.</translation>
     </message>
     <message>
         <source>Reset to default</source>
-        <translation type="unfinished"></translation>
+        <translation>Restablecer valores predeterminados</translation>
     </message>
     <message>
         <source>Allows to delete the customizations of a standard style and thus to return it to the default values for this style. It concerns as well the name of the style as the associated settings.</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <source>Allows to remove the personalized style.</source>
@@ -6284,7 +6796,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Notas:</translation>
     </message>
     <message>
         <source>The fade in/out effects and the increase/decrease of volume take place during the entering slide transitions. Consequently: </source>
@@ -6371,7 +6883,7 @@
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Tipo de dispositivo</translation>
     </message>
     <message>
         <source>Allows you to select a device type.</source>
@@ -6419,7 +6931,7 @@
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Codec de Video</translation>
     </message>
     <message>
         <source>Select the video codec to be used to render the video from the displayed list.</source>
@@ -6431,7 +6943,7 @@
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Codec de Audio</translation>
     </message>
     <message>
         <source>Select the audio codec to be used to render the video from the displayed list.</source>
@@ -6499,7 +7011,7 @@
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Sistemas Centro Multimedia</translation>
     </message>
     <message>
         <source>This dialog has different appearances depending on whether you clicked the Device type, Lossless, Advanced or Soundtrack button. </source>
@@ -6562,7 +7074,7 @@
     <name>0116</name>
     <message>
         <source>Ruler properties</source>
-        <translation type="unfinished">Propiedades de reglas</translation>
+        <translation>Propiedades de reglas</translation>
     </message>
     <message>
         <source>Edge of the screen</source>
@@ -6598,7 +7110,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notas:</translation>
     </message>
     <message>
         <source>Rulers can be activated or deactivated one by one.</source>
@@ -6614,7 +7126,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Consultar también</translation>
     </message>
     <message>
         <source>Description of TV margins and overscan</source>
@@ -6629,7 +7141,7 @@
     <name>0117</name>
     <message>
         <source>Edit thumbnail model</source>
-        <translation type="unfinished">Editar miniatura de modelo</translation>
+        <translation>Editar miniatura de modelo</translation>
     </message>
     <message>
         <source>This dialog allows you to edit custom thumbnails and custom thumbnails models.</source>
@@ -6841,7 +7353,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notas:</translation>
     </message>
     <message>
         <source>A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
@@ -7113,7 +7625,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Consultar también</translation>
     </message>
     <message>
         <source>Description of EXIF - Exchangeable image file format</source>
@@ -7128,30 +7640,30 @@
     <name>0118</name>
     <message>
         <source>Set first shot duration for a set of slides</source>
-        <translation type="unfinished">Situar duración de primera toma para una serie de diapositivas</translation>
-    </message>
-    <message>
-        <source> This dialog allows you to define the duration of the fist shot of a set of slides: </source>
-        <translation type="unfinished"></translation>
+        <translation>Situar duración de primera toma para una serie de diapositivas</translation>
     </message>
     <message>
         <source>First shot duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Duración de la primera toma</translation>
     </message>
     <message>
         <source>Define the duration of the first shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir la duración de la primera toma.</translation>
     </message>
     <message>
         <source>When you click the OK button, the new duration is applied to all the slides that were selected. </source>
-        <translation type="unfinished"></translation>
+        <translation>Al hacer clic en el botón Aceptar, la nueva duración se aplica a todas las diapositivas que se han seleccionado.</translation>
     </message>
     <message>
         <source>This new duration affects only the first shot of each slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Este nueva duración sólo afecta a la primera toma de cada diapositiva</translation>
     </message>
     <message>
         <source>This new duration is applied only to standard slides. The predefined title slides are not impacted.</source>
+        <translation>Esta nueva duración se aplicará sólo a las diapositivas estándar. Las diapositivas de título predefinidos no se ven afectados.</translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define the duration of the fist shot of a set of slides:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7159,7 +7671,7 @@
     <name>0119</name>
     <message>
         <source>Slide properties</source>
-        <translation type="unfinished">Propiedades de diapositiva</translation>
+        <translation>Propiedades de diapositiva</translation>
     </message>
     <message>
         <source>Remarks: </source>
@@ -7327,7 +7839,7 @@
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Nota:</translation>
     </message>
     <message>
         <source>The order of the shots can be changed by using Drag &amp; Drop.</source>
@@ -7411,7 +7923,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Notas:</translation>
     </message>
     <message>
         <source>A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
@@ -7795,7 +8307,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Consultar también</translation>
     </message>
     <message>
         <source>Description of EXIF - Exchangeable image file format</source>
@@ -7950,7 +8462,7 @@
     <name>0120</name>
     <message>
         <source>Edit text</source>
-        <translation type="unfinished">Editar texto</translation>
+        <translation>Editar texto</translation>
     </message>
     <message>
         <source>Properties for all shots</source>
@@ -8221,30 +8733,30 @@
     <name>0121</name>
     <message>
         <source>Select transition duration for a set of slides</source>
-        <translation type="unfinished">Seleccionar duración de transición para una serie de diapositivas</translation>
-    </message>
-    <message>
-        <source> This dialog allows you to define the transition duration for a set of slides: </source>
-        <translation type="unfinished"></translation>
+        <translation>Seleccionar duración de transición para una serie de diapositivas</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Duración</translation>
     </message>
     <message>
         <source>Define the animation duration.</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir la duración de la animación.</translation>
     </message>
     <message>
         <source>When you click the OK button, the new transition duration is applied to all the slides that were selected. </source>
-        <translation type="unfinished"></translation>
+        <translation>Al hacer clic en el botón OK, la nueva duración de la transición se aplica a todas las diapositivas que se han seleccionado. </translation>
     </message>
     <message>
         <source>This function can not be used to delete or change the slide&apos;s transition. </source>
-        <translation type="unfinished"></translation>
+        <translation>Esta función no se puede utilizar para eliminar o cambiar la transición de la diapositiva.</translation>
     </message>
     <message>
         <source>If it&apos;s what you want, then call the context transitions menu by right clicking on one of the slides of the selection from the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and then select &quot;Modify the transition for all the slides of the selection&quot; option.</source>
+        <translation>Si es lo que quieres, a continuación, llamar el menú transiciones contextual haciendo clic derecho en una de las diapositivas de la selección de la línea de tiempo &lt;a href=&quot;0023.html&quot;&gt; &lt;/a&gt; y después seleccionar la opci´on &quot;Modificar la transición para todas los diapositivas de la selección &quot;.</translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define the transition duration for a set of slides:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8252,7 +8764,7 @@
     <name>0122</name>
     <message>
         <source>Transition properties</source>
-        <translation type="unfinished">Propiedades de transición</translation>
+        <translation>Propiedades de transición</translation>
     </message>
     <message>
         <source> This dialog allows you to define the entering transition for a slide. </source>
@@ -8272,7 +8784,7 @@
     </message>
     <message>
         <source>No transition</source>
-        <translation type="unfinished"></translation>
+        <translation>Sin transición</translation>
     </message>
     <message>
         <source>Note that this also deactivates:</source>
@@ -8312,7 +8824,7 @@
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Duración</translation>
     </message>
     <message>
         <source>Allows you to define the duration of the animation. </source>
@@ -8324,7 +8836,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Consultar también</translation>
     </message>
     <message>
         <source>Description of LUMA</source>
@@ -8359,202 +8871,222 @@
     <name>QHP</name>
     <message>
         <source>Welcome to the ffDiaporama WIKI</source>
-        <translation type="unfinished">Bienvenido al WIKI de ffDiaporama</translation>
+        <translation>Bienvenido al WIKI de ffDiaporama</translation>
     </message>
     <message>
         <source>How ffDiaporama works</source>
-        <translation type="unfinished"></translation>
+        <translation>Cómo trabaja ffDiaporama</translation>
     </message>
     <message>
         <source>Functional principles</source>
-        <translation type="unfinished"></translation>
+        <translation>Principios del funcionamiento</translation>
     </message>
     <message>
         <source>The Visible property of blocks and the management of the breaks</source>
-        <translation type="unfinished"></translation>
+        <translation>La propiedad Visible de los bloques y la gestión de las pausas</translation>
     </message>
     <message>
         <source>All shots regulations versus current shot regulations</source>
-        <translation type="unfinished"></translation>
+        <translation>Todos los ajustes de tomas vs ajustes de toma actual</translation>
     </message>
     <message>
         <source>Style sheets</source>
-        <translation type="unfinished"></translation>
+        <translation>Hoja de estilo</translation>
     </message>
     <message>
         <source>Interface description</source>
-        <translation type="unfinished">Descripción de la interfaz</translation>
+        <translation>Descripción de la interfaz</translation>
     </message>
     <message>
         <source>The main window</source>
-        <translation type="unfinished">La ventana principal</translation>
+        <translation>La ventana principal</translation>
     </message>
     <message>
         <source>The toolbar</source>
-        <translation type="unfinished">La barra de herramientas</translation>
+        <translation>La barra de herramientas</translation>
     </message>
     <message>
         <source>The timeline</source>
-        <translation type="unfinished">La línea de tiempo</translation>
+        <translation>La línea de tiempo</translation>
     </message>
     <message>
         <source>The multimedia file browser</source>
-        <translation type="unfinished">El navegador multimedia de archivos</translation>
+        <translation>El navegador multimedia de archivos</translation>
     </message>
     <message>
         <source>Rendering videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Generar vídeos</translation>
     </message>
     <message>
         <source>Smartphones and tablets</source>
-        <translation type="unfinished"></translation>
+        <translation>Smartphones and tablets</translation>
     </message>
     <message>
         <source>Portable devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivos portátiles</translation>
     </message>
     <message>
         <source>Multimedia system (Home cinema)</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistema Multimedia (Home cinema)</translation>
     </message>
     <message>
         <source>For the WEB</source>
-        <translation type="unfinished"></translation>
+        <translation>Para la WEB</translation>
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec de Video</translation>
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Codec de Audio</translation>
     </message>
     <message>
         <source>Containers</source>
-        <translation type="unfinished"></translation>
+        <translation>Contenedores</translation>
     </message>
     <message>
         <source>Video standards and resolutions</source>
-        <translation type="unfinished"></translation>
+        <translation>Normas y resoluciones de video</translation>
     </message>
     <message>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos adjuntos (Miniaturas, nfo, etc...)</translation>
     </message>
     <message>
         <source>Technical information on ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Información técnica en ffDiaporama</translation>
     </message>
     <message>
         <source>ffDiaporama command line arguments</source>
-        <translation type="unfinished"></translation>
+        <translation>Comandos en línea de argumentos para ffDiaporama</translation>
     </message>
     <message>
         <source>ffDiaporama project files</source>
-        <translation type="unfinished"></translation>
+        <translation>Archivos de proyecto de ffDiaporama</translation>
     </message>
     <message>
         <source>The configuration files for ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Archvios de configuración de ffDiaporama</translation>
     </message>
     <message>
         <source>XBMC nfo files</source>
-        <translation type="unfinished"></translation>
+        <translation>archivos nfo de XBMC</translation>
     </message>
     <message>
         <source>Dialog boxes</source>
-        <translation type="unfinished">Ventanas de diálogo</translation>
+        <translation>Ventanas de diálogo</translation>
     </message>
     <message>
         <source>Application options</source>
-        <translation type="unfinished">Opciones de la aplicación</translation>
+        <translation>Opciones de la aplicación</translation>
     </message>
     <message>
         <source>Manage devices</source>
-        <translation type="unfinished">Gestionar dispositivos</translation>
+        <translation>Gestionar dispositivos</translation>
     </message>
     <message>
         <source>Add or modify a predefined title slide</source>
-        <translation type="unfinished">Agregar o modificar una diapositiva de título predefinido</translation>
+        <translation>Agregar o modificar una diapositiva de título predefinido</translation>
     </message>
     <message>
         <source>Background properties</source>
-        <translation type="unfinished">Propiedades del fondo</translation>
+        <translation>Propiedades del fondo</translation>
     </message>
     <message>
         <source>Chapter properties</source>
-        <translation type="unfinished">Propiedades del capítulo</translation>
+        <translation>Propiedades del capítulo</translation>
     </message>
     <message>
         <source>Check configuration</source>
-        <translation type="unfinished">Comprobar configuración</translation>
+        <translation>Comprobar configuración</translation>
     </message>
     <message>
         <source>Export project</source>
-        <translation type="unfinished">Exportar proyecto</translation>
+        <translation>Exportar proyecto</translation>
     </message>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished">Propiedades del proyecto</translation>
+        <translation>Propiedades del proyecto</translation>
     </message>
     <message>
         <source>Select files</source>
-        <translation type="unfinished">Seleccionar archivos</translation>
+        <translation>Seleccionar archivos</translation>
     </message>
     <message>
         <source>Correct, reframe or cut image or video</source>
-        <translation type="unfinished">Corregir, reencuadrar, cortar, imagen o vídeo</translation>
+        <translation>Corregir, reencuadrar, cortar, imagen o vídeo</translation>
     </message>
     <message>
         <source>File information</source>
-        <translation type="unfinished">Información de archivo</translation>
+        <translation>Información de archivo</translation>
     </message>
     <message>
         <source>Manage favorite</source>
-        <translation type="unfinished">Gestionar favoritos</translation>
+        <translation>Gestionar favoritos</translation>
     </message>
     <message>
         <source>Manage style</source>
-        <translation type="unfinished">Gestionar estilos</translation>
+        <translation>Gestionar estilos</translation>
     </message>
     <message>
         <source>Music properties</source>
-        <translation type="unfinished">Propiedades de la música</translation>
+        <translation>Propiedades de la música</translation>
     </message>
     <message>
         <source>Render video</source>
-        <translation type="unfinished">Generar vídeo</translation>
+        <translation>Generar vídeo</translation>
     </message>
     <message>
         <source>Ruler properties</source>
-        <translation type="unfinished">Propiedades de reglas</translation>
+        <translation>Propiedades de reglas</translation>
     </message>
     <message>
         <source>Edit thumbnail model</source>
-        <translation type="unfinished">Editar miniatura de modelo</translation>
+        <translation>Editar miniatura de modelo</translation>
     </message>
     <message>
         <source>Set first shot duration for a set of slides</source>
-        <translation type="unfinished">Situar duración de primera toma para una serie de diapositivas</translation>
+        <translation>Situar duración de primera toma para una serie de diapositivas</translation>
     </message>
     <message>
         <source>Slide properties</source>
-        <translation type="unfinished">Propiedades de diapositiva</translation>
+        <translation>Propiedades de diapositiva</translation>
     </message>
     <message>
         <source>Edit text</source>
-        <translation type="unfinished">Editar texto</translation>
+        <translation>Editar texto</translation>
     </message>
     <message>
         <source>Select transition duration for a set of slides</source>
-        <translation type="unfinished">Seleccionar duración de transición para una serie de diapositivas</translation>
+        <translation>Seleccionar duración de transición para una serie de diapositivas</translation>
     </message>
     <message>
         <source>Transition properties</source>
-        <translation type="unfinished">Propiedades de transición</translation>
+        <translation>Propiedades de transición</translation>
     </message>
     <message>
         <source>Dynamic variables</source>
+        <translation>Variables dinámicas</translation>
+    </message>
+    <message>
+        <source>Predefined title slide</source>
+        <translation type="unfinished">Diapositiva de título predefinido</translation>
+    </message>
+    <message>
+        <source>Configuration dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editing dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog boxes related to the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various dialog boxes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8562,38 +9094,42 @@
     <name>main</name>
     <message>
         <source>Welcome to the ffDiaporama WIKI</source>
-        <translation type="unfinished">Bienvenido al WIKI de ffDiaporama</translation>
+        <translation>Bienvenido al WIKI de ffDiaporama</translation>
     </message>
     <message>
         <source>How ffDiaporama works</source>
-        <translation type="unfinished"></translation>
+        <translation>Cómo trabaja ffDiaporama</translation>
     </message>
     <message>
         <source>Interface description</source>
-        <translation type="unfinished">Descripción de la interfaz</translation>
+        <translation>Descripción de la interfaz</translation>
     </message>
     <message>
         <source>Rendering videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Generar vídeos</translation>
     </message>
     <message>
         <source>Technical information on ffDiaporama</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source> This documentation is divided into the followed themes: </source>
-        <translation type="unfinished"></translation>
+        <translation>Información técnica en ffDiaporama</translation>
     </message>
     <message>
         <source>ffDiaporama Web site</source>
-        <translation type="unfinished"></translation>
+        <translation>Sitio Web de ffDiaporama</translation>
     </message>
     <message>
         <source>Finally, you&apos;ll also find help on the </source>
-        <translation type="unfinished"></translation>
+        <translation>Finalmente, puedes encontrar ayuda en </translation>
     </message>
     <message>
         <source>ffDiaporama forum</source>
+        <translation>ffDiaporama foro</translation>
+    </message>
+    <message>
+        <source>Other elements of documentation are available on the </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This documentation is divided into the followed themes:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

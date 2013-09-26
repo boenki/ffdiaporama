@@ -237,13 +237,14 @@ struct sDefaultBlockCoord {
 // Application config class
 //====================================================================================================================
 
+class HelpPopup;
 class cBaseApplicationConfig {
 public:
     QMainWindow             *TopLevelWindow;                            // Link to MainWindow of the application
     cDeviceModelList        DeviceModelList;                            // List of known rendering device model
     cDriveList              *DriveList;                                 // Drive list for multimedia file explorer
     QString                 AllowedWEBLanguage;
-    QProcess                HelpProcess;
+    HelpPopup               *PopupHelp;
 
     // Image cache
     cLuLoImageCache         ImagesCache;                                // cLuLoImageCache List Object
@@ -269,6 +270,8 @@ public:
     bool                    AskUserToRemove;                            // If true, user must answer to a confirmation dialog box to remove slide
     bool                    PartitionMode;                              // If true, partition mode is on
     int                     WindowDisplayMode;
+    bool                    WikiFollowInterface;                        // If true Wiki follow the interface
+
     QString                 BrowserWidgetSplitter;                      // Position of the Browser Widget Splitter
     QStringList             BrowserFavorites;                           // List of favorites path
 
@@ -450,6 +453,7 @@ public:
     cSaveWindowPosition     *DlgAutoTitleWSP;
     cSaveWindowPosition     *DlgExportProjectWSP;
     cSaveWindowPosition     *MainWinWSP;                                // MainWindow - Window size and position
+    cSaveWinWithSplitterPos *DlgPopupHelp;
 
     cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage,QString ApplicationGroupName,QString ApplicationName,QString ApplicationVersion,QString ConfigFileExt,QString ConfigFileRootName);
     virtual ~cBaseApplicationConfig();
@@ -460,14 +464,12 @@ public:
     virtual bool            SaveConfigurationFile();
 
     virtual QString         GetValideWEBLanguage(QString Language);
-    virtual void            OpenHelp(QString HelpFile);
 
     virtual void            PreloadSystemIcons();
 
     virtual void            InitValues();
     virtual void            SaveValueToXML(QDomElement &domDocument);
     virtual bool            LoadValueFromXML(QDomElement domDocument,LoadConfigFileType TypeConfigFile);
-
 };
 
 #endif // CBASEAPPLICATIONCONFIG_H

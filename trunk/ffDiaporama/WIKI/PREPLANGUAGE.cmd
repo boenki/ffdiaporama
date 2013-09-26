@@ -20,7 +20,7 @@ REM    51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 REM   ====================================================================== */
 echo "Prepare for language: %1"
 
-if "a%1" NEQ "aen" WikiMakeBin make=%1
+WikiMakeBin make=%1
 cd %1
 rd wiki_img
 mklink /J wiki_img ..\wiki_img

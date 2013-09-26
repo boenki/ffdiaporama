@@ -97,5 +97,6 @@ int main(int argc, char* argv[]) {
     }
 
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Start ..."));
+
     return app.exec();
 }

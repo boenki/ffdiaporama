@@ -5217,6 +5217,73 @@ custom model</source>
     </message>
 </context>
 <context>
+    <name>HelpPopup</name>
+    <message>
+        <source>Changes the document displayed to the previous document in the list of documents built by navigating links.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Backward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changes the document displayed to the main page.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Home</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Changes the document displayed to the next document in the list of documents built by navigating links.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forward</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the ffDiaporama Web site into your internet browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Web Site</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Open the ffDiaporama Forum into your internet browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Forum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Close the WIKI</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Exit</source>
+        <translation type="unfinished">離開</translation>
+    </message>
+    <message>
+        <source>If this checkbox is checked and the WIKI remains open, then automatically displayed in the WIKI the document corresponding to the currently used  interface element (main window, dialog, etc ...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Follow the interface</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama is a &lt;a href=&quot;http://en.wikipedia.org/wiki/Free_software&quot;&gt;Free Software (Open Source)&lt;/a&gt; and is distributed under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-2.0.html&quot;&gt;GNU General Public License (GPL) version 2&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message utf8="true">
+        <source>©2011-2013 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
         <source>Remove</source>
@@ -6181,6 +6248,10 @@ Do you whant do download it now?</source>
     </message>
     <message>
         <source>Render sound trak of project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Init WIKI...</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

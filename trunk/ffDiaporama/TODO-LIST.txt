@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.7 - Trunk
 *
-* Dernier commit le : 09/09/2013
+* Dernier commit le : 14/09/2013
 **************************************************
 
 TODO :
@@ -57,37 +57,37 @@ switch version to
     ffmpeg 2.0 for Windows / openSuse / Gentoo / ArchLinux
 
 French version / Correction de bug :
--Corrige un problème de saccadement des vidéos qui apparaissait parfois
--Corrige une fuite de mémoire dans le décodage des vidéos qui apparaissait parfois
--Corrige un plantage dans l'analyse des disques du PC
--Corrige le fonctionnement de la preview pour Ubuntu 12.04/32 bits
+-Corrige la valeur du champ ffDRevision des projets lorsque ceux-ci n'ont pas encore été sauvegardé
 
 English version / Bug fixes :
--Fixes a problem jerky videos that sometimes appeared
--Fixes a memory leak in video decoding that sometimes appeared
--Fixes a crash in drive analysis
--Fixes preview on Ubuntu 12.04/32 bits
+-Fixes value of the project ffDRevision field when project was not yet saved
 
 French version / Nouveautés :
--Ajoute la prise en charge des videos .mod (camescope Panasonic) et les traite comme des fichiers .mts
--Ajoute la prise en charge de la molette de la souris pour changer de diapositive dans la timeline
+-Supprime les millisecondes de l'affichage lors de l'utilisation de la variable %PDD%
+-Remplace QT Assistant (fenetre du WIKI) par une fenetre Popup intégrée dans l'application, ce qui permet de réduire la taille des paquets d'installation et permet au WIKI de suivre l'interface (quand le wiki est ouvert, il affiche toujours la page correspondant à la fenetre ou boite de dialogue en cour)
 
 English version / New features :
--Add support of .mod videos (Panasonic camcorder) and use them like they was .mts video
--Adds support for the mouse wheel to change the current slide in the timeline
+-Remove display of millisecondes when using %PDD% variable
+-Replaces QT Assistant (the WIKI window) by a Popup window integrated into the application, which reduces the size of the installation packages and allows to follow the WIKI interface (when the wiki is open, it always displays the page for the current window or dialog box)
 
-Translation/Traductions (1674 sentences):
-EN    - 100% - 1674
-FR    - 100% - 1674
-RU    -  99% - 1649
-PT    -  99% - 1648
-ES    -  99% - 1648
-IT    -  86% - 1442
-DE    -  86% - 1446
-EL    -  74% - 1278
-NL    -  65% - 1090
-ZH-TW -  38% - 648
-CZ    -  17% - 287
+Translation/Traductions:
+
+    Local     Interface       /   WIKI
+    -------------------------------------------
+    EN        100% - 1695     /   100% - 2214
+
+    FR        100% - 1695     /   100% - 2214
+    PT         99% - 1678     /    99% - 2193
+    RU         99% - 1678     /    58% - 1279
+    ES         99% - 1678     /    27% - 588
+
+    IT         99% - 1678     /     0%
+    DE         99% - 1678     /     0%
+
+    EL         75% - 1275     /     0%
+    NL         64% - 1088     /     0%
+    ZH-TW      38% - 647      /     0%
+    CZ         17% - 287      /     0%
 
 ------------------------------------------------------------------------------------------------------------------------------
 WIKI
@@ -98,11 +98,11 @@ ok          main.html       Welcome to the ffDiaporama WIKI
 
 ok          0010.html           How ffDiaporama works
 ok                0011.html           Functional principles
-TBU               0012.html           Predefined title slide
+ok                0012.html           Predefined title slide
 ok                0014.html           The Visible property of blocks and the management of the breaks
 ok                0015.html           All shots regulations versus current shot regulations
 ok                0016.html           Style sheets
-TBU               0013.html           Dynamic variables
+ok                0013.html           Dynamic variables
 
 ok          0020.html           Interface description
 ok              0021.html           The main window
@@ -110,28 +110,37 @@ ok              0022.html           The toolbar
 ok              0023.html           The timeline
 ok              0024.html           The multimedia file browser
 ok              0020.html           Dialog boxes
+
+                    // Configuration dialog boxes
 ok                  0101.html           Application options
 ok                  0102.html           Manage devices
+ok                  0106.html           Check configuration
+ok                  0116.html           Ruler properties
+ok                  0117.html           Edit thumbnail model
+
+                    // Editing dialog boxes
 ok                  0103.html           Add or modify a predefined title slide
+ok                  0119.html           Slide properties
+ok                  0118.html           Set first shot duration for a set of slides
 ok                  0104.html           Background properties
 ok                  0105.html           Chapter properties
-ok                  0106.html           Check configuration
-ok                  0107.html           Export project
-ok                  0108.html           Project properties
-TBU                 0109.html           Select files
+ok                  0114.html           Music properties
+ok                  0122.html           Transition properties
+ok                  0121.html           Select transition duration for a set of slides
 ok                  0110.html           Correct, reframe or cut image or video
+ok                  0120.html           Edit text
+
+                    // Dialog boxes related to the project
+ok                  0108.html           Project properties
+ok                  0115.html           Render video
+ok                  0107.html           Export project
+
+                    // Various dialog boxes
+ok                  0109.html           Select files
 ok                  0111.html           File information
 ok                  0112.html           Manage favorite
 ok                  0113.html           Manage style
-ok                  0114.html           Music properties
-ok                  0115.html           Render video
-ok                  0116.html           Ruler properties
-ok                  0117.html           Edit thumbnail model
-ok                  0118.html           Set first shot duration for a set of slides
-ok                  0119.html           Slide properties
-ok                  0120.html           Edit text
-ok                  0121.html           Select transition duration for a set of slides
-ok                  0122.html           Transition properties
+
 
 ok              0030.html       Rendering videos
 ok                  0031.html       Rendering videos

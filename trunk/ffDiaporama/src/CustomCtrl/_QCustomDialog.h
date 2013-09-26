@@ -52,7 +52,7 @@
 //**********************************************************************************
 
 #define HELPFILE_NEWS                       5
-#define HELPFILE_WIKIINDEX                  "0010"
+#define HELPFILE_WIKIINDEX                  "main"
 #define HELPFILE_RENDERINDEX                "0030"    // Rendering videos
 
 //**********************************************************************************

@@ -310,7 +310,8 @@ void ToLogT(int Level,QString Text) {
                 TT=TT.left(TT.toLower().lastIndexOf("</a>"));
                 QString NewTT=Translator.translate(CurrentSrc.toUtf8().constData(),TT.toUtf8().constData());
                 if (NewTT.isEmpty()) {
-                    NewTT="<span style=\"background-color:#FFFF00;\">"+HTMLConverter.ToHTML(KeepConverter.ToKeep(TT))+"</span>";
+                    if (Language!="en") NewTT="<span style=\"background-color:#FFFF00;\">"+HTMLConverter.ToHTML(KeepConverter.ToKeep(TT))+"</span>";
+                        else NewTT=HTMLConverter.ToHTML(KeepConverter.ToKeep(TT));
                 } else {
                     TR=KeepConverter.ToKeep(NewTT);
                     TR=HTMLConverter.ToHTML(NewTT);
@@ -319,7 +320,8 @@ void ToLogT(int Level,QString Text) {
             } else {
                 TR=Translator.translate(CurrentSrc.toUtf8().constData(),Text.toUtf8().constData());
                 if (TR.isEmpty()) {
-                    TR="<span style=\"background-color:#FFFF00;\">"+HTMLConverter.ToHTML(KeepConverter.ToKeep(Text))+"</span>";
+                    if (Language!="en") TR="<span style=\"background-color:#FFFF00;\">"+HTMLConverter.ToHTML(KeepConverter.ToKeep(Text))+"</span>";
+                        else TR=HTMLConverter.ToHTML(KeepConverter.ToKeep(Text));
                 } else {
                     TR=KeepConverter.ToKeep(TR);
                     TR=HTMLConverter.ToHTML(TR);
@@ -364,6 +366,7 @@ bool ScanSource(int CurrentLevel,QString CurrentTag) {
                 ||(UTag.startsWith("<meta"))
                 ||(UTag.startsWith("<img"))
                 ||(UTag.startsWith("<br"))
+                ||(UTag.startsWith("<hr"))
                 ||(UTag.startsWith("<script"))||(UTag.startsWith("</script"))
                 ||(UTag.startsWith("<link"))
                )
@@ -420,6 +423,7 @@ bool TraiteHTMLFile(QFileInfo FileSrc) {
             return false;
         }
         ToLog(QString("Creating localised file in %1").arg(DestFile));
+
         TextStream.setDevice(&FakeFile);
         TextStream.setCodec("UTF-8");
         bool Error=ScanSource(-1,"");
@@ -462,7 +466,7 @@ bool TraiteHELPFile(QFileInfo FileSrc) {
                 Text=Text.left(Text.lastIndexOf("\""));
                 QString TR=Translator.translate("QHP",Text.toUtf8().constData());
                 if (TR.isEmpty()) TR=Text;
-                line=Start+HTMLConverter.ToHTML(TR)+End;
+                line=Start+TR.replace("\"","")+End;
             } else {
                 line.replace("wiki_en",QString("wiki_%1").arg(Language));
                 line.replace("ffDiaporama_en",QString("ffDiaporama_%1").arg(Language));
@@ -579,7 +583,7 @@ int main(int argc, char *argv[]) {
         Mode=MakeMode;
         Language=QString(argv[1]).mid(QString("make=").length());
         ToLog(QString("WikiMake in make mode for \"%1\" language").arg(Language));
-        if (!Translator.load(QString("wikifake_%1.qm").arg(Language))) {
+        if ((Language!="en")&&(!Translator.load(QString("wikifake_%1.qm").arg(Language)))) {
             ToLog(QString("Error loading translation file %1").arg(QString("wikifake_%1.qm").arg(Language)));
             return -1;
         }
@@ -588,7 +592,7 @@ int main(int argc, char *argv[]) {
         if (!QDir(BasePath+Language).exists()) QDir().mkdir(BasePath+Language);
     }
 
-    QFileInfoList Files=QDir(BasePath+"en").entryInfoList(QDir::Files);
+    QFileInfoList Files=QDir(BasePath+"src_en").entryInfoList(QDir::Files);
     int i=0;
     while (i<Files.count()) if ((Files[i].completeSuffix().toLower()!="html")&&(Files[i].completeSuffix().toLower()!="qhp")&&(Files[i].completeSuffix().toLower()!="qhcp"))
         Files.removeAt(i); else i++;

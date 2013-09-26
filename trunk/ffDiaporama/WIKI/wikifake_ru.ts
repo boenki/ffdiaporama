@@ -28,20 +28,16 @@
         <translation>Таблицы стилей</translation>
     </message>
     <message>
-        <source>ffDiaporama WIKI - How ffDiaporama works</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> This section contains general information on the concepts and methods of use of ffDiaporama </source>
-        <translation type="unfinished"></translation>
+        <translation> Этот раздел содержит общую информацию о принципах работы и методах использования  ffDiaporama </translation>
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished">Содержание</translation>
+        <translation>Содержание</translation>
     </message>
     <message>
         <source>Dynamic variables</source>
-        <translation type="unfinished"></translation>
+        <translation>Динамические переменные</translation>
     </message>
 </context>
 <context>
@@ -273,11 +269,491 @@
         <source>Predefined title slide</source>
         <translation>Шаблон заголовка слайда</translation>
     </message>
+    <message>
+        <source> Predefined title slide are complete slides including formatting and animations. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The main interest of these slides is to standardize the slides within a project or across projects. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama included many Predefined title slides, but you can also define your own Predefined title slides. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To do this, create a standard slide using the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog box&lt;/a&gt; and save your slide as a model using: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Save as model function.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks:</source>
+        <translation type="unfinished">Примечания:</translation>
+    </message>
+    <message>
+        <source>Predefined title slides are defined according to the following three categories: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project title</source>
+        <translation type="unfinished">Название проекта</translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used early in the project as the opening credits. </source>
+        <translation type="unfinished">Этот тип слайда обычно используется в начале проекта в качестве вступительных титров.</translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
+        <translation type="unfinished">Тексты переменных, используемых в шаблонах этого типа слайда, основаны только на информации о проекте. Более подробно об информации о проекте, см.: &lt;a href=&quot;0108.html&quot;&gt; Свойства проекта&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Chapter title</source>
+        <translation type="unfinished">Название главы</translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
+        <translation type="unfinished">Это тип слайда обычно используется несколько раз в проекте для обозначения начала главы. </translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
+        <translation type="unfinished">Тексты переменных, используемых в шаблонах этого типа слайда, основаны на информации о проекте и информации о главе.</translation>
+    </message>
+    <message>
+        <source>Credit title</source>
+        <translation type="unfinished">Заключительный</translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used at the end of the project as the end credits. </source>
+        <translation type="unfinished">Этот тип слайда обычно используется в конце проекта в качестве заключительных титров. </translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
+        <translation type="unfinished">Тексты переменных, используемых в шаблонах этого типа слайда,в основном рассчетные. Более подробно о текстовых переменных, см.: &lt;a href=&quot;0108.html&quot;&gt;Динамические переменные&lt;/a&gt;</translation>
+    </message>
+    <message>
+        <source>Within each category, the predefined title slides are classified into the following types: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Statics models</source>
+        <translation type="unfinished">Простые без анимации</translation>
+    </message>
+    <message>
+        <source>This type lists statics models ie without animations.</source>
+        <translation type="unfinished">Этот тип содержит простые шаблоны без анимации.</translation>
+    </message>
+    <message>
+        <source>Animated models</source>
+        <translation type="unfinished">Анимированные</translation>
+    </message>
+    <message>
+        <source>This type lists animated models ie with several shots.</source>
+        <translation type="unfinished">Этот тип содержит анимированные шаблоны, т.е с несколькими кадрами.</translation>
+    </message>
+    <message>
+        <source>Custom models</source>
+        <translation type="unfinished">Пользовательские</translation>
+    </message>
+    <message>
+        <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
+        <translation type="unfinished">Этот тип содержит шаблоны, которые вы сохранили с помощью кнопки &lt;B&gt;&lt;I&gt;Сохранить как шаблон&lt;/I&gt;&lt;/B&gt; диалогового окна &lt;a href=&quot;0119.html&quot;&gt;Параметры слайда&lt;/a&gt;.</translation>
+    </message>
+    <message>
+        <source>It will always be possible to create slides from a model using the &lt;a href=&quot;0103.html&quot;&gt;Add or modify a predefined title slide dialog box&lt;/a&gt; then convert it to a standard slide using this function: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Convert to standard slide</source>
+        <translation type="unfinished">Преобразовать в обычный слайд</translation>
+    </message>
+    <message>
+        <source>The resources used by the models you create are not moved. So, if you include a photo in a model, the model will only be valid until the picture will not move. This is why it is recommended, to think resources included before creating a new model.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0013</name>
     <message>
         <source>Dynamic variables</source>
+        <translation>Динамические переменные</translation>
+    </message>
+    <message>
+        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It&apos;s why variables are used in many parts of the application (slide, thumbnails, predefined titles slides, video tags, xbmc nfo, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following table lists all the available variables: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation type="unfinished">Категория</translation>
+    </message>
+    <message>
+        <source>Variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project properties values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PTT%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project title&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAU%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAI%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;Author presents&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAP%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;A Author production&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAL%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project album&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PCT%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project comment&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PDD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration of the project displayed as &lt;U&gt;hh:mm:ss&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PSC%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project slide count (Number of slide in the project)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PLD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Long date (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PSD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Short date (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PYR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year (The year of the event date as a four digit number)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PMM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month (The month of the event date as a name, depending on the current language: January, February, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PMD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month as number (The month of the event date as a two digit number)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PDY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day (The day of the event date as a two digit number)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PDW%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of week (The day of week of the event date as a name, depending on the current language: Monday, Thuesday, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current slide values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CSN%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Slide name&lt;/I&gt;&lt;/B&gt; field of the slide as defined in the &lt;U&gt;Slide settings zone&lt;/U&gt; of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CSR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current slide number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapters values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCN%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Chapter name&lt;/I&gt;&lt;/B&gt; field of the latest slide which defined &lt;U&gt;Chapters information&lt;/U&gt;. (Chapters information may be defined in &lt;a href=&quot;0105.html&quot;&gt;Chapter properties dialog&lt;/a&gt; or in &lt;a href=&quot;0103.html&quot;&gt;Predefined title slide dialog&lt;/a&gt;).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCI%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCT%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter count (Number of chapter in the project)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CLD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Long date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CSD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Short date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CYR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year of the chapter&apos;s date (if one is defined or year of project&apos;s date), as a four digit number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CMM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a name (depending on the current language: January, February, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CMD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a two digit number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CDY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a two digit number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CDW%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of week of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a a name (depending on the current language: Monday, Thuesday, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%FFD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama version as &lt;U&gt;ffDiaporama 1.7 (20130919)&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CPY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%END%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The end (depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%STA%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%STP%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of project statistics (Number of slides, project duration, list of chapters, list of musics, how many photo, vector images, videos and predefined title slides, etc...) </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%STM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of list of musics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TLD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date as long date format (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TSD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date as short date format (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TYR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s year as a four digit number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TMM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s month as a name (depending on the current language: January, February, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TMD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s month as as a two digit number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TDY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s day as a two digit number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TDW%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s day of week as a a name (depending on the current language: Monday, Thuesday, etc...)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -384,19 +860,19 @@
     </message>
     <message>
         <source>There are two types of settings in the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;:</source>
-        <translation type="unfinished"></translation>
+        <translation>В &lt;a href=&quot;0119.html&quot;&gt;диалоговом окне Параметры слайда&lt;/a&gt;есть два типа настроек:</translation>
     </message>
     <message>
         <source>&lt;B&gt;The settings which apply to all shots.&lt;/B&gt; These settings are made globally, that is their effects will be visible on all the shots of the slide. Here are some: </source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Настройки, которые применяются для всех кадров.&lt;/B&gt; Это общие настройки, их воздействие будет видно на всех кадрах слайда. Вот некоторые из них:</translation>
     </message>
     <message>
         <source>Text and text format</source>
-        <translation type="unfinished"></translation>
+        <translation>Текст и форматирование текста</translation>
     </message>
     <message>
         <source>Shape form</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма блока</translation>
     </message>
 </context>
 <context>
@@ -585,16 +1061,28 @@
         <translation>Диалоговые окна</translation>
     </message>
     <message>
-        <source>ffDiaporama WIKI - Interface description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> This section contains information about using ffDiaporama. </source>
-        <translation type="unfinished"></translation>
+        <translation>Этот раздел содержит информацию о том, как работать в ffDiaporama. </translation>
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished">Содержание</translation>
+        <translation>Содержание</translation>
+    </message>
+    <message>
+        <source>Configuration dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editing dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog boxes related to the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various dialog boxes</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -713,11 +1201,11 @@
     </message>
     <message>
         <source>To change display mode, use the buttons located in the status bar, to the right, at the bottom of the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для изменения режима отображения используйте кнопки, расположенные в строке состояния, правой и нижней частях главного окна.</translation>
     </message>
     <message>
         <source>The editing of slides is done:</source>
-        <translation type="unfinished"></translation>
+        <translation>Редактирование слайдов осуществляется:</translation>
     </message>
 </context>
 <context>
@@ -1010,107 +1498,107 @@
     </message>
     <message>
         <source>Allows you to create a new blank project. The &lt;a href=&quot;0108.html&quot;&gt;project properties dialog&lt;/a&gt; appears and allows you to setup the new project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет создать новый пустой проект. Появится диалоговое окно &lt;a href=&quot;0108.html&quot;&gt;Свойства проекта&lt;/a&gt; для настройки нового проекта.</translation>
     </message>
     <message>
         <source>Opens a sub-menu giving you access to the following functions</source>
-        <translation type="unfinished"></translation>
+        <translation>Открывает подменю, предоставляющее доступ к следующим функциям</translation>
     </message>
     <message>
         <source>Save as: Allows you to save the current project in a different file. The &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select a destination file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить как: позволяет сохранить текущий проект в другой файл. Появится диалоговое окно &lt;a href=&quot;0109.html&quot;&gt;выбора файлов&lt;/a&gt; для указания файла назначения.</translation>
     </message>
     <message>
         <source>Export project: Export current project and all used files in a new folder. The &lt;a href=&quot;0107.html&quot;&gt;export project dialog&lt;/a&gt; appears and allows you to setup the export.</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспорт проекта: экспортирует текущий проект и все содержащиеся в нем файлы в новую папку. Появится диалоговое окно &lt;a href=&quot;0107.html&quot;&gt;Экспорт проекта&lt;/a&gt; для настройки экспорта.</translation>
     </message>
     <message>
         <source>Allows you to open the &lt;a href=&quot;0108.html&quot;&gt;project properties dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет открыть диалоговое окно &lt;a href=&quot;0108.html&quot;&gt;Свойства проекта&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Allows you to define applications settings. The &lt;a href=&quot;0101.html&quot;&gt;application settings dialog&lt;/a&gt; appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет определить настройки программы. Появится диалоговое окно &lt;a href=&quot;0101.html&quot;&gt;Настройки программы&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Add empty slide: Allows you to add an empty slide : the new empty slide is appended to the project and is displayed in the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить пустой слайд: позволяет добавить пустой слайд : новый пустой слайд добавляется в проект и отображается на &lt;a href=&quot;0023.html&quot;&gt;линии времени&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Add a predefined title slide: Allows you to add a slide based on a model. The &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить слайд из шаблона: позволяет добавить слайд на основе шаблона. Появится диалоговое окно &lt;a href=&quot;0103.html&quot;&gt;свойств шаблона заголовков&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Allows you to add photo or video files : A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select one or more files. </source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет добавить фото или видео : появится диалоговое окно &lt;a href=&quot;0109.html&quot;&gt;выбора файлов&lt;/a&gt; для выбора одного или нескольких файлов. </translation>
     </message>
     <message>
         <source>Allows you to add the slides of an existing project to the end the current project: a &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select a project file. Slides, slide settings, music and background of the project are added to the current project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет добавить слайды уже существующего проекта в конец текущего проекта: появится диалоговое окно &lt;a href=&quot;0109.html&quot;&gt;выбора файлов&lt;/a&gt; для выбора файла проекта. Слайды, их настройки, музыка и фоны проекта будут добавлены в текущий проект.</translation>
     </message>
     <message>
         <source>Allows you to cut the current slide (remove it from the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and put it in the clipboard).</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет вырезать текущий слайд (удалить его с &lt;a href=&quot;0023.html&quot;&gt;линии времени&lt;/a&gt; и поместить в буфер обмена).</translation>
     </message>
     <message>
         <source>Allows you to paste the slide currently in the clipboard into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет вставить слайд из буфера обмена на &lt;a href=&quot;0023.html&quot;&gt;линию времени&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0104.html&quot;&gt;background properties dialog&lt;/a&gt; (Equivalent to a double click on the background track)</source>
-        <translation type="unfinished"></translation>
+        <translation>Открывает диалоговое окно &lt;a href=&quot;0104.html&quot;&gt;Свойства фона&lt;/a&gt; (эквивалентно двойному щелчку на треке фона)</translation>
     </message>
     <message>
         <source>F6 </source>
-        <translation type="unfinished">F6 </translation>
+        <translation>F6 </translation>
     </message>
     <message>
         <source>Depending on the slide type, open the &lt;a href=&quot;0119.html&quot;&gt;slide properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide. (Equivalent to a double click on the mounting track)</source>
-        <translation type="unfinished"></translation>
+        <translation>В зависимости от типа слайда откроется либо диалоговое окно &lt;a href=&quot;0119.html&quot;&gt;Параметры слайда&lt;/a&gt;, если это обычный слайд, либо диалоговое окно &lt;a href=&quot;0103.html&quot;&gt;свойств шаблона заголовокв&lt;/a&gt; если это слайд на основе  шаблона заголовков. (эквивалентно двойному щелчку на треке монтажа) </translation>
     </message>
     <message>
         <source>F7 </source>
-        <translation type="unfinished">F7 </translation>
+        <translation>F7 </translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0114.html&quot;&gt;music properties dialog&lt;/a&gt; (Equivalent to a double click on the music track)</source>
-        <translation type="unfinished"></translation>
+        <translation>Открывает диалоговое окно &lt;a href=&quot;0114.html&quot;&gt;Параметры музыки&lt;/a&gt; (эквивалентно войному щелчку на треке музыки)</translation>
     </message>
     <message>
         <source>F8 </source>
-        <translation type="unfinished">F8 </translation>
+        <translation>F8 </translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0122.html&quot;&gt;transition properties dialog&lt;/a&gt; (Equivalent to a double click on the transition)</source>
-        <translation type="unfinished"></translation>
+        <translation>Открывает диалоговое окно &lt;a href=&quot;0122.html&quot;&gt;Параметры перехода&lt;/a&gt; (эквивалентно двойному щелчку на переходе)</translation>
     </message>
     <message>
         <source>It is possible to add slides by Drag and Drop directly using the file browser. Drag photos or videos onto the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and slides are created at the point you release the files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Можно добавлять слайды путем перетаскивания непосредственно из менеджера файлов. Перетащите фотографии или видео на &lt;a href=&quot;0023.html&quot;&gt;линию времени&lt;/a&gt; и слайды будут созданы там, где вы &quot;бросите&quot; файлы.</translation>
     </message>
     <message>
         <source>Allows you to render the video for selected equipment from the device database. </source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет создать видео для оборудования, выбранного из базы данных устройств. </translation>
     </message>
     <message>
         <source>The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; from database appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Появится диалоговое окно &lt;a href=&quot;0115.html&quot;&gt;создания видео&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Allows you to render the video in a lossless format. Lossless format is not destructive, so it is possible to render several times the same video without losing in quality. The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет создать видео без потери качества. В этом случае обработка не будет носить ухудшающий характер, что позволяет кодировать одно и то же видео несколько раз без потери качества. Появится диалоговое окно &lt;a href=&quot;0115.html&quot;&gt;Создание видео&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Allows you to render the video using the &lt;a href=&quot;0115.html&quot;&gt;Advanced render movie dialog&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет создать видео, используя диалоговое окно &lt;a href=&quot;0115.html&quot;&gt;Дополнительные параметры создания видеофайла&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Export Soundtrack</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспорт аудио дорожки</translation>
     </message>
     <message>
         <source>Allows you to render only the sound track of the project. The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет создать только звуковую дорожку проекта. Появится даилоговое окно &lt;a href=&quot;0115.html&quot;&gt;Создание видео&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -1301,6 +1789,22 @@
     </message>
     <message>
         <source>To modify the slide (framing, filter, animation, etc.) double-click the thumbnail. This action opens the &lt;a href=&quot;0119.html&quot;&gt;slides properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide.</source>
+        <translation>Для изменения слайда (кадрирование, фильтры, анимация, и т.д.) дважды щелкните его миниатюру. Это действие открывает &lt;a href=&quot;0119.html&quot;&gt; диалоговое окно Параметры слайда&lt;/a&gt;, если это обычный слайд или &lt;a href=&quot;0103.html&quot;&gt; диалоговое окно свойств шаблонов слайда&lt;/a&gt;, если это загаловок, созданный на основе шаблона.</translation>
+    </message>
+    <message>
+        <source>To select the current slide:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on a slide to define it as current slide.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the mouse wheel to change the current slide.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: When previewing the selected slide is automatically defined on the current slide preview.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1770,16 +2274,12 @@
         <translation>Присоединяемые файлы (обложка, nfo, и др.)</translation>
     </message>
     <message>
-        <source>ffDiaporama WIKI - Rendering videos</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> This section contains information about generating video with ffDiaporama. </source>
-        <translation type="unfinished"></translation>
+        <translation>Этот раздел содержит информацию о создании видеофайлов в ffDiaporama. </translation>
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished">Содержание</translation>
+        <translation>Содержание</translation>
     </message>
 </context>
 <context>
@@ -1909,11 +2409,11 @@
     </message>
     <message>
         <source>QVGA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">QVGA</translation>
     </message>
     <message>
         <source>VGA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">VGA</translation>
     </message>
     <message>
         <source>Generally, Nokia phones working with the Symbian operating system and equipped with a camera, are capable of playing videos. Very often, those provided with a keyboard offer a 320x240 resolution (QVGA), while those with only a touch-sensitive screen offer a 640x360 resolution (VGA).</source>
@@ -1933,11 +2433,11 @@
     </message>
     <message>
         <source>HVGA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">HVGA</translation>
     </message>
     <message>
         <source>WVGA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">WVGA</translation>
     </message>
     <message>
         <source>Numerous manufacturers made phones using the Microsoft Windows Mobile 6 operating system (HP, HTC, etc.) between 2006 and 2010.</source>
@@ -2009,7 +2509,7 @@
     </message>
     <message>
         <source>RIM 240</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">RIM 240</translation>
     </message>
     <message>
         <source>Movie format is: Container: AVI - Video Codec: MPEG4 - Audio Codec: MP3</source>
@@ -2041,11 +2541,11 @@
     </message>
     <message>
         <source>800x480</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1920x480 {800x?}</translation>
     </message>
     <message>
         <source>854x480</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1920x480 {854x?}</translation>
     </message>
     <message>
         <source>Tablet examples: Archos 4/5/70/Arnova 10, Dell Streak, Creative ZiiO 7</source>
@@ -2053,11 +2553,11 @@
     </message>
     <message>
         <source>1024x600</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1920x600 {1024x?}</translation>
     </message>
     <message>
         <source>XGA</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">XGA</translation>
     </message>
     <message>
         <source>Tablet examples: Archos 101, Samsung Galaxy Tab, HTC Flyer, Hannspree HANNSpad SN10T, Toshiba Folio 100</source>
@@ -2065,7 +2565,7 @@
     </message>
     <message>
         <source>1024x768</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1024x768</translation>
     </message>
     <message>
         <source>Tablet examples: HP TouchPad</source>
@@ -2073,7 +2573,7 @@
     </message>
     <message>
         <source>1280x800</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">1920x800 {1280x?}</translation>
     </message>
     <message>
         <source>720p</source>
@@ -2148,7 +2648,7 @@
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Примечание</translation>
     </message>
     <message>
         <source>Portable player</source>
@@ -2239,7 +2739,7 @@
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Примечание</translation>
     </message>
     <message>
         <source>TV box of ADSL box</source>
@@ -2358,7 +2858,7 @@
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Примечание</translation>
     </message>
     <message>
         <source>Flash player (SWF)</source>
@@ -2581,23 +3081,23 @@
     </message>
     <message>
         <source>ffDiaporama uses specific settings for encoding with x264. This settings are including: </source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama использует особые настройки кодирования в x264. Эти настроки включают:</translation>
     </message>
     <message>
         <source>- &lt;B&gt;High Quality&lt;/B&gt; for &quot;Home Cinema&quot; devices based on x264 &lt;U&gt;main&lt;/U&gt; profile, with 3 refs and 3 bframes. </source>
-        <translation type="unfinished"></translation>
+        <translation>-&lt;B&gt;Высокое качество&lt;/B&gt; для устройств типа «Домашний кинотеатр» на основе &lt;U&gt;основного&lt;/U&gt; профиля x264  с 3 refs и 3 bframes.</translation>
     </message>
     <message>
         <source>- &lt;B&gt;Phone Quality&lt;/B&gt; for mobile devices based on x264 &lt;U&gt;baseline&lt;/U&gt; profile, with 3 refs and 0 bframes. </source>
-        <translation type="unfinished"></translation>
+        <translation>-&lt;B&gt;Качество телефона&lt;/B&gt; для мобильных устройств на основе &lt;U&gt;базового&lt;/U&gt; профиля x264 с 3 refs и 0 bframes.</translation>
     </message>
     <message>
         <source>Both settings are using &lt;U&gt;veryfast&lt;/U&gt; preset</source>
-        <translation type="unfinished"></translation>
+        <translation>Оба типа настроек используют предустановку &lt;U&gt;veryfast&lt;/U&gt;</translation>
     </message>
     <message>
         <source>ffDiaporama uses the standard x264 &lt;U&gt;fast&lt;/U&gt; preset with 3 refs and qp set to 0.</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama использует стандартную предустановку x264 &lt;U&gt;fast&lt;/U&gt; с 3 refs и qp равным 0.</translation>
     </message>
 </context>
 <context>
@@ -2723,326 +3223,326 @@
     <name>0038</name>
     <message>
         <source>Container</source>
-        <translation type="unfinished"></translation>
+        <translation>Контейнеры</translation>
     </message>
     <message>
         <source>The following table lists the containers which ffDiaporama can use to generate videos, as well as the available audio and video codecs for every container:</source>
-        <translation type="unfinished"></translation>
+        <translation>В следующей таблице перечислены контейнеры, которые ffDiaporama может использовать при создании видео, а также аудио и видео кодеки для каждого контейнера:</translation>
     </message>
     <message>
         <source>Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Расширение</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Название</translation>
+        <translation>Название</translation>
     </message>
     <message>
         <source>Video Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Видео кодеки</translation>
     </message>
     <message>
         <source>Audio Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио кодеки</translation>
     </message>
     <message>
         <source>WIKIPEDIA</source>
-        <translation type="unfinished">Википедия</translation>
+        <translation>Википедия</translation>
     </message>
     <message>
         <source>3GP</source>
-        <translation type="unfinished"></translation>
+        <translation>3GP</translation>
     </message>
     <message>
         <source>MPEG4, H264HQ/H264PQ</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG4, H264HQ/H264PQ</translation>
     </message>
     <message>
         <source>AMR</source>
-        <translation type="unfinished">AMR</translation>
+        <translation>AMR</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/3GP_and_3G2</source>
-        <translation type="unfinished"></translation>
+        <translation>http://ru.wikipedia.org/wiki/3GP</translation>
     </message>
     <message>
         <source>AVI</source>
-        <translation type="unfinished"></translation>
+        <translation>AVI</translation>
     </message>
     <message>
         <source>Audio Video Interleave</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio Video Interleave</translation>
     </message>
     <message>
         <source>MJPEG, MPEG2, MPEG4, H264HQ/H264PQ</source>
-        <translation type="unfinished"></translation>
+        <translation>MJPEG, MPEG2, MPEG4, H264HQ/H264PQ</translation>
     </message>
     <message>
         <source>PCM, MP2, MP3, AAC, AC3</source>
-        <translation type="unfinished"></translation>
+        <translation>PCM, MP2, MP3, AAC, AC3</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Audio_Video_Interleave</source>
-        <translation type="unfinished"></translation>
+        <translation>http://ru.wikipedia.org/wiki/Audio_Video_Interleave</translation>
     </message>
     <message>
         <source>MKV</source>
-        <translation type="unfinished"></translation>
+        <translation>MKV</translation>
     </message>
     <message>
         <source>Matroska file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Matroska file format</translation>
     </message>
     <message>
         <source>MPEG4, H264HQ/H264PQ, THEORA</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG4, H264HQ/H264PQ, THEORA</translation>
     </message>
     <message>
         <source>PCM, MP3, AAC, AC3, VORBIS</source>
-        <translation type="unfinished"></translation>
+        <translation>PCM, MP3, AAC, AC3, VORBIS</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Matroska</source>
-        <translation type="unfinished"></translation>
+        <translation>http://ru.wikipedia.org/wiki/Matroska</translation>
     </message>
     <message>
         <source>MJPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>MJPEG</translation>
     </message>
     <message>
         <source>Motion JPEG</source>
-        <translation type="unfinished">Motion JPEG</translation>
+        <translation>Motion JPEG</translation>
     </message>
     <message>
         <source>PCM</source>
-        <translation type="unfinished">PCM</translation>
+        <translation>PCM</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Motion_JPEG</source>
-        <translation type="unfinished">http://ru.wikipedia.org/wiki/MJPEG</translation>
+        <translation>http://ru.wikipedia.org/wiki/MJPEG</translation>
     </message>
     <message>
         <source>MP4</source>
-        <translation type="unfinished">MP4</translation>
+        <translation>MP4</translation>
     </message>
     <message>
         <source>MPEG-4 Part 14</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-4 Part 14</translation>
     </message>
     <message>
         <source>MP3, AAC</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3, AAC</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG-4_Part_14</source>
-        <translation type="unfinished"></translation>
+        <translation>http://ru.wikipedia.org/wiki/MPEG-4_Part_14</translation>
     </message>
     <message>
         <source>MPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG</translation>
     </message>
     <message>
         <source>MPEG program stream</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG program stream</translation>
     </message>
     <message>
         <source>MPEG2</source>
-        <translation type="unfinished">MPEG2</translation>
+        <translation>MPEG2</translation>
     </message>
     <message>
         <source>MP2</source>
-        <translation type="unfinished">MP2</translation>
+        <translation>MP2</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG_program_stream</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/MPEG_program_stream</translation>
     </message>
     <message>
         <source>WEBM</source>
-        <translation type="unfinished"></translation>
+        <translation>WEBM</translation>
     </message>
     <message>
         <source>WebM</source>
-        <translation type="unfinished"></translation>
+        <translation>WebM</translation>
     </message>
     <message>
         <source>VP8</source>
-        <translation type="unfinished">VP8</translation>
+        <translation>VP8</translation>
     </message>
     <message>
         <source>VORBIS</source>
-        <translation type="unfinished">VORBIS</translation>
+        <translation>VORBIS</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/WebM</source>
-        <translation type="unfinished">http://ru.wikipedia.org/wiki/WebM</translation>
+        <translation>http://ru.wikipedia.org/wiki/WebM</translation>
     </message>
     <message>
         <source>FLV</source>
-        <translation type="unfinished"></translation>
+        <translation>FLV</translation>
     </message>
     <message>
         <source>Flash file format 2005</source>
-        <translation type="unfinished"></translation>
+        <translation>Flash file format 2005</translation>
     </message>
     <message>
         <source>H263</source>
-        <translation type="unfinished">H263</translation>
+        <translation>H263</translation>
     </message>
     <message>
         <source>MP3</source>
-        <translation type="unfinished">MP3</translation>
+        <translation>MP3</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Adobe_Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>http://ru.wikipedia.org/wiki/Adobe_Flash</translation>
     </message>
     <message>
         <source>Flash file format 2008</source>
-        <translation type="unfinished"></translation>
+        <translation>Flash file format 2008</translation>
     </message>
     <message>
         <source>H264HQ/H264PQ</source>
-        <translation type="unfinished"></translation>
+        <translation>H264HQ/H264PQ</translation>
     </message>
     <message>
         <source>AAC</source>
-        <translation type="unfinished"></translation>
+        <translation>AAC</translation>
     </message>
     <message>
         <source>OGV</source>
-        <translation type="unfinished"></translation>
+        <translation>OGV</translation>
     </message>
     <message>
         <source>Ogg</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogg</translation>
     </message>
     <message>
         <source>THEORA</source>
-        <translation type="unfinished">THEORA</translation>
+        <translation>THEORA</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Ogg</source>
-        <translation type="unfinished"></translation>
+        <translation>http://ru.wikipedia.org/wiki/Ogg</translation>
     </message>
 </context>
 <context>
     <name>0039</name>
     <message>
         <source>Video standards and resolutions</source>
-        <translation type="unfinished">Видео стандарты и разрешения</translation>
+        <translation>Видео стандарты и разрешения</translation>
     </message>
     <message>
         <source> Standards and resolution are both fundamental properties which define a video. </source>
-        <translation type="unfinished"></translation>
+        <translation>Стандарты и разрешения - это два фундаментальных свойства, которые определяют видео.</translation>
     </message>
     <message>
         <source>Two associated properties are the geometry and the FPS number. </source>
-        <translation type="unfinished"></translation>
+        <translation>Геометрия и количество кадров в секунду (FPS) - это свзянные с ними свойства видео.</translation>
     </message>
     <message>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандарт</translation>
     </message>
     <message>
         <source> Standards are a historic feature which continues today in spite of technological progress. </source>
-        <translation type="unfinished"></translation>
+        <translation>Стандарты являются историческим особенностями, которые продолжают использоваться и сегодня несмотря на технический прогресс.</translation>
     </message>
     <message>
         <source>A rich literature on this subject can be found on the internet. </source>
-        <translation type="unfinished"></translation>
+        <translation>Много литературы по этому вопросу можно найти в Интернете. </translation>
     </message>
     <message>
         <source>To simplify things we shall summarize as follows: </source>
-        <translation type="unfinished"></translation>
+        <translation>Для простоты мы обобщим это так: </translation>
     </message>
     <message>
         <source>PAL is effective in all the countries where the electricity network is 50 hz (which is the case, for example, for Western European countries)</source>
-        <translation type="unfinished"></translation>
+        <translation>PAL действует во всех странах, где сети электроснабжения — 50 Гц ( например, страны Западной Европы)</translation>
     </message>
     <message>
         <source>NTSC is effective in all the countries where the electricity network is 60 hz (which is the case, for example, for the United States of America)</source>
-        <translation type="unfinished"></translation>
+        <translation>NTSC действует во всех странах, где сети электроснабжения — 60 Гц ( например, США)</translation>
     </message>
     <message>
         <source>Geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Геометрия</translation>
     </message>
     <message>
         <source> The geometry is the ratio of Width to Height. </source>
-        <translation type="unfinished"></translation>
+        <translation> Геометрия - это отношение ширины к высоте. </translation>
     </message>
     <message>
         <source>4:3 corresponds to screens that are almost square</source>
-        <translation type="unfinished"></translation>
+        <translation>4:3 соответствует почти квадратному экрану</translation>
     </message>
     <message>
         <source>16:9 corresponds to screens that are rectangular</source>
-        <translation type="unfinished"></translation>
+        <translation>16:9 соответствует прямоугольному экрану</translation>
     </message>
     <message>
         <source>40:17 corresponds to cinema screens in overall size</source>
-        <translation type="unfinished"></translation>
+        <translation>40:17 соответствует экрану кинотеатра в полном размере</translation>
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение</translation>
     </message>
     <message>
         <source> Unlike with photos, video resolution is not expressed in megapixels but in number of points (pixels) shown by the screen multiplied by the number of lines. </source>
-        <translation type="unfinished"></translation>
+        <translation>В отличие от фотографий, разрешение видео выражается не в мегапикселях, а в количестве точек (пикселей), показываемых на экране, умноженных на количество строк. </translation>
     </message>
     <message>
         <source>So, 320x240 corresponds to 320 points of width and 240 lines in height </source>
-        <translation type="unfinished"></translation>
+        <translation>Так, разрешение 320x240 соответствует 320 точкам в ширину и 240 строкам в высоту </translation>
     </message>
     <message>
         <source>FPS (Frames per second)</source>
-        <translation type="unfinished"></translation>
+        <translation>FPS (количество кадров в секунду)</translation>
     </message>
     <message>
         <source> Corresponds to the number of images shown every second. You should know that in cinemas, 24 images are shown per second and this figure of 24 images is recognized as corresponding to the maximum number of images which the eye is capable of differentiating: </source>
-        <translation type="unfinished"></translation>
+        <translation> Соответствует количеству изображений, показываемых за одну секунду. Наверное, вы знаете, что в кинотеатрах показывается 24 кадра в секунду и признано, что человеческий глаз не способен воспринимать большее количество изображений в секунду: </translation>
     </message>
     <message>
         <source>More images per second and the eye does not notice it</source>
-        <translation type="unfinished"></translation>
+        <translation>больше изображений в секунду глаз просто не замечает</translation>
     </message>
     <message>
         <source>Fewer images per second and the film appears jerky</source>
-        <translation type="unfinished"></translation>
+        <translation>меньшее изображений и фильм воспринимается как отрывистый</translation>
     </message>
     <message>
         <source>Matrix of combinations managed by ffDiaporama</source>
-        <translation type="unfinished"></translation>
+        <translation>Матрица комбинаций, поддерживаемых ffDiaporama</translation>
     </message>
     <message>
         <source> The following table indicates all the combinations of geometry, standards and resolutions managed by ffDiaporama. For every combination, it indicates the number of associated FPS: </source>
-        <translation type="unfinished"></translation>
+        <translation>В следующей таблице перечислены все комбинации геометрии, стандартов и разрешений, которые ffDiaporama может использовать. Для каждой комбинации указано соответствующее FPS (количество кадров в секунду): </translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished">Название</translation>
+        <translation>Название</translation>
     </message>
     <message>
         <source>PAL</source>
-        <translation type="unfinished"></translation>
+        <translation>PAL</translation>
     </message>
     <message>
         <source>NTSC</source>
-        <translation type="unfinished"></translation>
+        <translation>NTSC</translation>
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>FPS</translation>
     </message>
     <message>
         <source>RIM 240</source>
-        <translation type="unfinished"></translation>
+        <translation>RIM 240</translation>
     </message>
     <message>
         <source>4:3</source>
@@ -3050,199 +3550,199 @@
     </message>
     <message>
         <source>240x180</source>
-        <translation type="unfinished"></translation>
+        <translation>240x180</translation>
     </message>
     <message>
         <source>24 FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>24 FPS</translation>
     </message>
     <message>
         <source>Special format used on Blackberry&apos;s very small screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Специальный формат, используемый на очень маленьком экране Blackberry</translation>
     </message>
     <message>
         <source>6:9</source>
-        <translation type="unfinished">6:9</translation>
+        <translation>6:9</translation>
     </message>
     <message>
         <source>240x136</source>
-        <translation type="unfinished"></translation>
+        <translation>240x136</translation>
     </message>
     <message>
         <source>40:17</source>
-        <translation type="unfinished">40:17</translation>
+        <translation>40:17</translation>
     </message>
     <message>
         <source>QVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>QVGA</translation>
     </message>
     <message>
         <source>320x240</source>
-        <translation type="unfinished"></translation>
+        <translation>320x240</translation>
     </message>
     <message>
         <source>25 FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>25 FPS</translation>
     </message>
     <message>
         <source>29,97 FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>29,97 FPS</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by first generation smartphones and mobile video players.</source>
-        <translation type="unfinished"></translation>
+        <translation>Используется в основном в Интернете, а также смартфонами и портативными видеопроигрывателями первого поколения.</translation>
     </message>
     <message>
         <source>16:9</source>
-        <translation type="unfinished">16:9</translation>
+        <translation>16:9</translation>
     </message>
     <message>
         <source>320x180</source>
-        <translation type="unfinished"></translation>
+        <translation>320x180</translation>
     </message>
     <message>
         <source>320x136</source>
-        <translation type="unfinished"></translation>
+        <translation>320x136</translation>
     </message>
     <message>
         <source>HVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>HVGA</translation>
     </message>
     <message>
         <source>426x320</source>
-        <translation type="unfinished"></translation>
+        <translation>426x320</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by second generation smartphones and mobile video players. &lt;B&gt;Because this format does not respect the traditional video geometry&lt;/B&gt;, &lt;B&gt;black bands appear to fill the screen to 480x320.&lt;/B&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Используется в основном в Интернете, а также смартфонами и портативными видеопроигрывателями второго поколения. &lt;B&gt;Так как этот формат не соответствует традиционной геометрии видео&lt;/B&gt;, &lt;B&gt;то на экране 480 x 320 появляются черные полосы.&lt;/B&gt;</translation>
     </message>
     <message>
         <source>480x270</source>
-        <translation type="unfinished"></translation>
+        <translation>480x270</translation>
     </message>
     <message>
         <source>480x204</source>
-        <translation type="unfinished"></translation>
+        <translation>480x204</translation>
     </message>
     <message>
         <source>VGA</source>
-        <translation type="unfinished"></translation>
+        <translation>VGA</translation>
     </message>
     <message>
         <source>640x480</source>
-        <translation type="unfinished"></translation>
+        <translation>640x480</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by some smartphones.</source>
-        <translation type="unfinished"></translation>
+        <translation>Используется в основном в Интернете и некоторыми смартфонами.</translation>
     </message>
     <message>
         <source>640x360</source>
-        <translation type="unfinished"></translation>
+        <translation>640x360</translation>
     </message>
     <message>
         <source>640x272</source>
-        <translation type="unfinished"></translation>
+        <translation>640x272</translation>
     </message>
     <message>
         <source>SD-DVD</source>
-        <translation type="unfinished"></translation>
+        <translation>SD-DVD</translation>
     </message>
     <message>
         <source>720x576</source>
-        <translation type="unfinished"></translation>
+        <translation>720x576</translation>
     </message>
     <message>
         <source>720x480</source>
-        <translation type="unfinished"></translation>
+        <translation>720x480</translation>
     </message>
     <message>
         <source>The old television format for cathode ray tubes. Note that this format was specifically created for equipment with oval points: It is the anamorphism of the points that determines the geometry. That is why &lt;B&gt;it is absolutely necessary to avoid this format for anything other than television sets with cathode ray tubes.&lt;/B&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Старый телевизионный  формат для электронно-лучевых трубок. Обратите внимание, что этот формат был создан специально для оборудования с овальными точками: это анаморфизм точек, который определяет геометрию. Поэтому &lt;B&gt;крайне важно не использовать этот формат ни для чего иного, кроме телевизоров с электронно-лучевыми трубками.&lt;/B&gt;</translation>
     </message>
     <message>
         <source>WVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>WVGA</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by new generation smartphones and mobile video players. This format has become widespread and has replaced the old  QVGA, HVGA and VGA format used in the years 2000-2010. &lt;B&gt;Because this format does not respect the traditional video geometries, black bands appear to fill the screen to 800x480.&lt;/B&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Используется в основном в Интернете, а также смартфонами и портативными видеопроигрывателями нового поколения. Этот формат получил широкое распространение и заменил старые QVGA, HVGA и VGA форматы, используемые в 2000-2010 годы. &lt;B&gt;Так как этот формат не соответствует традиционной геометрии видео, то на экране  800x480 появляются черные полосы.&lt;/B&gt;</translation>
     </message>
     <message>
         <source>800x450</source>
-        <translation type="unfinished"></translation>
+        <translation>800x450</translation>
     </message>
     <message>
         <source>800x340</source>
-        <translation type="unfinished"></translation>
+        <translation>800x340</translation>
     </message>
     <message>
         <source>XGA</source>
-        <translation type="unfinished"></translation>
+        <translation>XGA</translation>
     </message>
     <message>
         <source>1024x768</source>
-        <translation type="unfinished"></translation>
+        <translation>1024x768</translation>
     </message>
     <message>
         <source>Historically this format was used only by computers (fixed or portable). Now we meet it more and more on tablet computers like the iPad.</source>
-        <translation type="unfinished"></translation>
+        <translation>Исторически этот формат использовался только компьютерами (стационарными и ноутбуками). В настоящее время он все чаще встречается на планшетных компьютерах типа iPad.</translation>
     </message>
     <message>
         <source>1024x576</source>
-        <translation type="unfinished"></translation>
+        <translation>1024x576</translation>
     </message>
     <message>
         <source>1024x436</source>
-        <translation type="unfinished"></translation>
+        <translation>1024x436</translation>
     </message>
     <message>
         <source>720p</source>
-        <translation type="unfinished">720p</translation>
+        <translation>720p</translation>
     </message>
     <message>
         <source>960x720</source>
-        <translation type="unfinished"></translation>
+        <translation>960x720</translation>
     </message>
     <message>
         <source>23,976 FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>23,976 FPS</translation>
     </message>
     <message>
         <source>Today, this format is widely used on the Internet, in particular by social networking and video-sharing sites. We also find it on certain &quot;home cinema&quot; devices.</source>
-        <translation type="unfinished"></translation>
+        <translation>Сегодня этот формат широко используется в Интернете, в частности, в социальных сетях и сайтах видео-обмена. Он также встречается на некоторых устройствах типа &quot;домашний кинотеатр&quot;.</translation>
     </message>
     <message>
         <source>1280x720</source>
-        <translation type="unfinished"></translation>
+        <translation>1280x720</translation>
     </message>
     <message>
         <source>1280x544</source>
-        <translation type="unfinished"></translation>
+        <translation>1280x544</translation>
     </message>
     <message>
         <source>1080p</source>
-        <translation type="unfinished">1080p</translation>
+        <translation>1080p</translation>
     </message>
     <message>
         <source>1440x1080</source>
-        <translation type="unfinished"></translation>
+        <translation>1440x1080</translation>
     </message>
     <message>
         <source>This is the real &quot;home cinema&quot; format. It is used by the Blue Ray players and the &quot;home cinema&quot; devices.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это настоящий формат &quot;домашнего кинотеатра&quot;. Он используется Blue Ray плеерами и устройства типа &quot;домашний кинотеатр&quot;.</translation>
     </message>
     <message>
         <source>1920x1080</source>
-        <translation type="unfinished"></translation>
+        <translation>1920x1080</translation>
     </message>
     <message>
         <source>1920x816</source>
-        <translation type="unfinished"></translation>
+        <translation>1920x816</translation>
     </message>
     <message>
         <source>Note that many other resolutions exists but which are not used by ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation>Обратите внимание, что существует много других разрешений, которые не используются ffDiaporama.</translation>
     </message>
 </context>
 <context>
@@ -3253,39 +3753,39 @@
     </message>
     <message>
         <source>ffDiaporama allows you to produce joint files during the rendering process.</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama может одновременно с видеофайлом создавать дополнительные файлы.</translation>
     </message>
     <message>
         <source>The following files are availables:</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступны следующие файлы:</translation>
     </message>
     <message>
         <source>Thumbnails</source>
-        <translation type="unfinished"></translation>
+        <translation>Обложка</translation>
     </message>
     <message>
         <source>A video or music file can be accompanied with an image file which must have the same name but with the .jpg extension (example: holidays.mkv and holidays.jpg in the same folder). </source>
-        <translation type="unfinished"></translation>
+        <translation>Видео или аудио файлы могут сопровождаться изображением, которое должен иметь такое же имя, но с расширением .jpg (например: holidays.mkv и holidays.jpg в одной и той же папке).</translation>
     </message>
     <message>
         <source>This image is called a thumbnail and is used as icon for this file by ffDiaporama and many </source>
-        <translation type="unfinished"></translation>
+        <translation>Это изображение называется обложкой и используется в качестве миниатюры этого файла ffDiaporama и многими</translation>
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation>мультимедиа системами</translation>
     </message>
     <message>
         <source>XBMC .nfo files</source>
-        <translation type="unfinished"></translation>
+        <translation>XBMC .nfo файлы</translation>
     </message>
     <message>
         <source>The .nfo file for XBMC allows XBMC to recognize the rendered videos as movies. </source>
-        <translation type="unfinished"></translation>
+        <translation>XBMC .nfo файл позволяет XBMC  распознавать созданное видео как фильм. </translation>
     </message>
     <message>
         <source>For more information see: &lt;a href=&quot;0044.html&quot;&gt;XBMC nfo files&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Для получения дополнительной информации смотрите: &lt;a href=&quot;0044.html&quot;&gt;XBMC nfo files&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -3311,123 +3811,119 @@
         <translation>XBMC nfo файлы</translation>
     </message>
     <message>
-        <source>ffDiaporama WIKI - Technical information on ffDiaporama</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> This section contains technical information about ffDiaporama. </source>
-        <translation type="unfinished"></translation>
+        <translation> Этот раздел содержит техническую информацию о ffDiaporama. </translation>
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished">Содержание</translation>
+        <translation>Содержание</translation>
     </message>
 </context>
 <context>
     <name>0041</name>
     <message>
         <source>ffDiaporama command line arguments</source>
-        <translation type="unfinished">Параметры командной строки ffDiaporama</translation>
+        <translation>Параметры командной строки ffDiaporama</translation>
     </message>
     <message>
         <source>Syntax : ffDiaporama [-lang=] [-loglevel=] [Filename]</source>
-        <translation type="unfinished"></translation>
+        <translation>Синтаксис : ffDiaporama [-lang=] [-loglevel=] [Filename]</translation>
     </message>
     <message>
         <source>Setting</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметр</translation>
     </message>
     <message>
         <source>Explanation</source>
-        <translation type="unfinished"></translation>
+        <translation>Объяснение</translation>
     </message>
     <message>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Filename</translation>
     </message>
     <message>
         <source>Filename of the project file to load at application startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя файла проекта, который будет загружен при запуске программы</translation>
     </message>
     <message>
         <source>-lang=</source>
-        <translation type="unfinished"></translation>
+        <translation>-lang=</translation>
     </message>
     <message>
         <source>The language to be used. can take the following values: </source>
-        <translation type="unfinished"></translation>
+        <translation>Используемый язык интерфейса. Может принимать следующие значения: </translation>
     </message>
     <message>
         <source>&lt;B&gt;cz&lt;/B&gt; to use Czech</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;cz&lt;/B&gt; использовать чешский</translation>
     </message>
     <message>
         <source>&lt;B&gt;de&lt;/B&gt; to use German</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;de&lt;/B&gt; использовать немецкий</translation>
     </message>
     <message>
         <source>&lt;B&gt;en&lt;/B&gt; to use English</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;en&lt;/B&gt; использовать английский</translation>
     </message>
     <message>
         <source>&lt;B&gt;es&lt;/B&gt; to use Spanish</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;es&lt;/B&gt; использовать испанский</translation>
     </message>
     <message>
         <source>&lt;B&gt;el&lt;/B&gt; to use Greek</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;el&lt;/B&gt; использовать греческий</translation>
     </message>
     <message>
         <source>&lt;B&gt;fr&lt;/B&gt; to use French</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;fr&lt;/B&gt; использовать французский</translation>
     </message>
     <message>
         <source>&lt;B&gt;it&lt;/B&gt; to use Italian</source>
-        <translation type="unfinished"></translation>
+        <translation>B&gt;it&lt;/B&gt; использовать итальянский</translation>
     </message>
     <message>
         <source>&lt;B&gt;nl&lt;/B&gt; to use Dutch</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;nl&lt;/B&gt; использовать голландский</translation>
     </message>
     <message>
         <source>&lt;B&gt;pt&lt;/B&gt; to use Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;pt&lt;/B&gt; использовать португальский</translation>
     </message>
     <message>
         <source>&lt;B&gt;ru&lt;/B&gt; to use Russian</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;ru&lt;/B&gt; использовать русский</translation>
     </message>
     <message>
         <source>&lt;B&gt;zh-tw&lt;/B&gt; to use Taiwanese</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;zh-tw&lt;/B&gt; использовать тайваньский</translation>
     </message>
     <message>
         <source>-loglevel=</source>
-        <translation type="unfinished"></translation>
+        <translation>-loglevel=</translation>
     </message>
     <message>
         <source>Adjust the level of messages shown in the console: </source>
-        <translation type="unfinished"></translation>
+        <translation>Регулирует тип сообщений, показываемых в командной строке: </translation>
     </message>
     <message>
         <source>1 to show all the messages of Debug, Information, Warning and Error levels</source>
-        <translation type="unfinished"></translation>
+        <translation>1 для отображения всех тиов сообщений: Отладка, Информационные, Предупреждения и Ошибки</translation>
     </message>
     <message>
         <source>2 to show the messages of Information, Warning and Error levels</source>
-        <translation type="unfinished"></translation>
+        <translation>2 для отображения сообщений типа: Информационные, Предупреждения и Ошибки</translation>
     </message>
     <message>
         <source>3 to show the messages of Warning and Error levels</source>
-        <translation type="unfinished"></translation>
+        <translation>3 для отображения сообщений типа: Предупреждения и Ошибки</translation>
     </message>
     <message>
         <source>4 to show only the messages of Error levels</source>
-        <translation type="unfinished"></translation>
+        <translation>4 для отображения сообщений только типа Ошибки</translation>
     </message>
     <message>
         <source> Note: messages appear only if you launched the program from a console (CMD under Windows or Terminal under Linux). It is possible to redirect these messages into a log file by using &gt;. </source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: сообщения появляются только, если вы запустили программу из консоли (cmd в Windows или terminal в Linux). Можно перенаправить эти сообщения в лог-файл с помощью &gt;. </translation>
     </message>
 </context>
 <context>
@@ -3525,11 +4021,11 @@
     </message>
     <message>
         <source>In order to work, the application needs two configuration files. Each of them consists of a pair of files.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для того чтобы работать, приложению необходимо два файла конфигурации. Каждый из них состоит из пары файлов.</translation>
     </message>
     <message>
         <source>For example:</source>
-        <translation type="unfinished"></translation>
+        <translation>Например:</translation>
     </message>
 </context>
 <context>
@@ -3540,83 +4036,83 @@
     </message>
     <message>
         <source>The .nfo file for XBMC allows XBMC to recognize the rendered videos as movies.</source>
-        <translation type="unfinished"></translation>
+        <translation>XBMC .nfo файл позволяет XBMC  распознавать созданное видео как фильм. </translation>
     </message>
     <message>
         <source>When doing a scan or an automatic new file discovery, XBMC uses the .nfo files.</source>
-        <translation type="unfinished"></translation>
+        <translation>При выполнении сканирования или автоматическом открытии файлов XBMC использует файлы .nfo.</translation>
     </message>
     <message>
         <source>During a manual refresh, XBMC offers you to find the film through one of its scrapers. Refuse its proposal to use the information contained in the .nfo file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Во время ручного обновления XBMC предлагает найти фильм с помощью встроенных функций. Откажитесь от его предложения, чтобы использовать информацию, содержащуюся в .nfo файле.</translation>
     </message>
     <message>
         <source>Information included in the .nfo file</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация, включаемая в .nfo файл</translation>
     </message>
     <message>
         <source> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot; ?&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot; ?&gt;</translation>
     </message>
     <message>
         <source> &lt;movie&gt; </source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;movie&gt; </translation>
     </message>
     <message>
         <source> &lt;title&gt;&lt;U&gt;&lt;B&gt;Project Title&lt;/B&gt;&lt;/U&gt;&lt;/title&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;title&gt;&lt;U&gt;&lt;B&gt;Название проекта&lt;/B&gt;&lt;/U&gt;&lt;/title&gt;</translation>
     </message>
     <message>
         <source> &lt;sorttitle&gt;&lt;U&gt;&lt;B&gt;Rendered filename&lt;/B&gt;&lt;/U&gt;&lt;/sorttitle&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;sorttitle&gt;&lt;U&gt;&lt;B&gt;Имя создаваемого файла&lt;/B&gt;&lt;/U&gt;&lt;/sorttitle&gt;</translation>
     </message>
     <message>
         <source> &lt;set&gt;&lt;B&gt;&lt;U&gt;Project Album&lt;/U&gt;&lt;/B&gt;&lt;/set&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;set&gt;&lt;B&gt;&lt;U&gt;Альбом проекта&lt;/U&gt;&lt;/B&gt;&lt;/set&gt;</translation>
     </message>
     <message>
         <source> &lt;genre&gt;&lt;B&gt;&lt;U&gt;Project Album&lt;/U&gt;&lt;/B&gt;&lt;/genre&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;genre&gt;&lt;B&gt;&lt;U&gt;Альбом проекта&lt;/U&gt;&lt;/B&gt;&lt;/genre&gt;</translation>
     </message>
     <message>
         <source> &lt;year&gt;&lt;U&gt;&lt;B&gt;Year of project date&lt;/B&gt;&lt;/U&gt;&lt;/year&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;year&gt;&lt;U&gt;&lt;B&gt;Год проекта&lt;/B&gt;&lt;/U&gt;&lt;/year&gt;</translation>
     </message>
     <message>
         <source> &lt;outline&gt;&lt;U&gt;&lt;B&gt;Project Title&lt;/B&gt;&lt;/U&gt;&lt;/outline&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;outline&gt;&lt;U&gt;&lt;B&gt;Название проекта&lt;/B&gt;&lt;/U&gt;&lt;/outline&gt;</translation>
     </message>
     <message>
         <source> &lt;plot&gt;&lt;U&gt;&lt;B&gt;Project Comment&lt;/B&gt;&lt;/U&gt;&lt;/plot&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;plot&gt;&lt;U&gt;&lt;B&gt;Комментарий к проекту&lt;/B&gt;&lt;/U&gt;&lt;/plot&gt;</translation>
     </message>
     <message>
         <source> &lt;director&gt;&lt;U&gt;&lt;B&gt;Project Author&lt;/B&gt;&lt;/U&gt;&lt;/director&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;director&gt;&lt;U&gt;&lt;B&gt;Автор проекта&lt;/B&gt;&lt;/U&gt;&lt;/director&gt;</translation>
     </message>
     <message>
         <source> &lt;credits&gt;&lt;U&gt;&lt;B&gt;Project Author&lt;/B&gt;&lt;/U&gt;&lt;/credits&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;credits&gt;&lt;U&gt;&lt;B&gt;Автор проекта&lt;/B&gt;&lt;/U&gt;&lt;/credits&gt;</translation>
     </message>
     <message>
         <source> &lt;runtime&gt;&lt;U&gt;&lt;B&gt;Project duration in minutes&lt;/B&gt;&lt;/U&gt;&lt;/runtime&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;runtime&gt;&lt;U&gt;&lt;B&gt;Продолжительность проекта в минутах&lt;/B&gt;&lt;/U&gt;&lt;/runtime&gt;</translation>
     </message>
     <message>
         <source> &lt;thumb&gt;&lt;U&gt;&lt;B&gt;Project thumbnail&lt;/B&gt;&lt;/U&gt;&lt;/thumb&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;thumb&gt;&lt;U&gt;&lt;B&gt;Обложка проекта&lt;/B&gt;&lt;/U&gt;&lt;/thumb&gt;</translation>
     </message>
     <message>
         <source> &lt;/movie&gt; </source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;/movie&gt; </translation>
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation>Смотрите также</translation>
     </message>
     <message>
         <source>Information on XBMC movies .nfo file</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о XBMC .nfo файле</translation>
     </message>
 </context>
 <context>
@@ -4158,187 +4654,188 @@
     </message>
     <message>
         <source>This dialog box allows you to define options for the application. It consists of the following 3 tabs:</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет определить настройки программы. Оно состоит из следующих 3 вкладок:</translation>
     </message>
     <message>
         <source>The Application options tab allows you to define the general behavior of ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вкладка &quot;Параметры программы&quot; позволяет определять общее поведение ffDiaporama.</translation>
     </message>
     <message>
         <source>The Project options tab allows you to define the options by default of the current project and for the new projects.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вкладка &quot;Параметры проекта&quot; позволяет задать настройки по умолчанию как для текущего проекта, так и для новых проектов.</translation>
     </message>
     <message>
         <source>The Rendering options Tab allows you to define the options used by default during the generation of videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вкладка &quot;Параметры создания файла&quot; позволяет задать настройки, используемые по умолчанию при создании видео.</translation>
     </message>
     <message>
         <source>Disable tooltips in dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Отключить всплывающие подсказки в диалоговых окнах</translation>
     </message>
     <message>
         <source>If this box is checked, tooltips will no longer appear in dialog boxes (only what&apos;s this will be available).</source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, всплывающие подсказки больше не будут появляться в диалоговых окнах.</translation>
     </message>
     <message>
         <source>Offer to open the download Web page when a new version is available</source>
-        <translation type="unfinished"></translation>
+        <translation>Предлагать открыть страницу загрузки при появлении новой версии</translation>
     </message>
     <message>
         <source>If this box is checked, a dialog box will appear at startup the next time a new version will be available. </source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, при появлении новой версии во время запуска появится диалоговое окно.</translation>
     </message>
     <message>
         <source>By default, this box is checked for Windows users and unchecked for Linux users</source>
-        <translation type="unfinished"></translation>
+        <translation>По умолчанию, этот флажок установлен для Windows пользователей и снят для Linux пользователей</translation>
     </message>
     <message>
         <source>Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiaporama to your hardware. </source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет количество памяти, используемой в качестве кэш-памяти ffDiaporama. Этот параметр важен, поскольку позволяет адаптировать ffDiaporama под ваш компьютер.</translation>
     </message>
     <message>
         <source>For users of 32-bit systems, it is recommended that set this value to 512 MB if the computer has at least 2 GB of RAM. </source>
-        <translation type="unfinished"></translation>
+        <translation>Для пользователей 32-битных систем рекомендуется установить это значение на 512 Мб, если компьютер имеет по крайней мере 2 Гб оперативной памяти.</translation>
     </message>
     <message>
         <source>For users of 64-bit systems, it is recommended that set this value to 2 GB if the computer has at least 4 GB of RAM.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для пользователей 64-битных систем рекомендуется установить это значение на 2 Гб, если компьютер имеет по крайней мере 4 Гб оперативной памяти.</translation>
     </message>
     <message>
         <source>Max video preview height</source>
-        <translation type="unfinished"></translation>
+        <translation>Максимальная высота видео при предпросмотре</translation>
     </message>
     <message>
         <source>Sets the maximum height of videos used for the preview. Beyond this height, the videos are automatically reduced for creating images. </source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет максимальную высоту видео, используемого при предварительном просмотре.
+Видео, превышающее эту высоту, будет автоматически уменьшено. </translation>
     </message>
     <message>
         <source>This parameter affects only the preview and does not change the quality of rendered video. </source>
-        <translation type="unfinished"></translation>
+        <translation>Этот параметр влияет только на предварительный просмотр и не изменяет качества создаваемого видео.</translation>
     </message>
     <message>
         <source>It is recommended to reduce this value for slow computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Рекомендуется уменьшить это значение для медленного компьютера.</translation>
     </message>
     <message>
         <source>This effect consumes lots of resources and can result in slow preview on small machines. Unchecking this box allows then to keep a fluid preview. </source>
-        <translation type="unfinished"></translation>
+        <translation>Этот эффект потребляет много ресурсов и может привести к медленному предварительному просмотру на слабых машинах. Снимите этот флажок чтобы вернуть скорость предварительного просмотра.</translation>
     </message>
     <message>
         <source>This parameter affects only the preview and does not change the quality of rendered video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот параметр влияет только на предварительный просмотр и не изменяет качества создаваемого видео.</translation>
     </message>
     <message>
         <source>Sound sample rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Частота дискретизации звука</translation>
     </message>
     <message>
         <source>Defines the frequency of the sound generated to show the preview. </source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет частоту звука для воспроизведения при предварительном просмотре.</translation>
     </message>
     <message>
         <source>Video cropping</source>
-        <translation type="unfinished"></translation>
+        <translation>Обрезка видео</translation>
     </message>
     <message>
         <source>Video deinterlacing</source>
-        <translation type="unfinished"></translation>
+        <translation>Устранение чересстрочности видео</translation>
     </message>
     <message>
         <source>Various options</source>
-        <translation type="unfinished"></translation>
+        <translation>Разные настройки</translation>
     </message>
     <message>
         <source>Short date format</source>
-        <translation type="unfinished"></translation>
+        <translation>Краткий формат даты</translation>
     </message>
     <message>
         <source>This option allows you to specify the format in which computed dates are displayed. </source>
-        <translation type="unfinished"></translation>
+        <translation>Этот параметр позволяет выбрать формат в котором будет отображаться дата.</translation>
     </message>
     <message>
         <source>Normally this format depends on the language used on your system, but it can be useful to change it especially if the interface is not available for your language.</source>
-        <translation type="unfinished"></translation>
+        <translation>Обычно этот формат зависит от языка, используемого в вашей системе, но бывает необходимо изменить его, особенно если отсутствует интерфейс для вашего языка.</translation>
     </message>
     <message>
         <source>Defines the default value for the field Author that is often so called Artist by </source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет значение по умолчанию для поля Автор, которое часто именуется Артист</translation>
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation>мультимедиа системами</translation>
     </message>
     <message>
         <source>Enhance id3v2 comptatibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Повышенная совместимость с id3v2</translation>
     </message>
     <message>
         <source>For more compatibility with the standard id3v2, check this box to limit Title, Author and Album fields to 30 characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Установите этот флажок для большей совместимости со стандартом id3v2 (ограничение полей Название, Автор и Альбом 30 символами)</translation>
     </message>
     <message>
         <source>Default thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Обложка по умолчанию</translation>
     </message>
     <message>
         <source>Defines the model use as default thumbnail. Thumbnails are images that are generated along with the videos. These images are used as a poster by most </source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать шаблон, используемый в качестве обложки по умолчанию. Обложки - это изображения, которые создаются вместе с видеофайлом. Эти изображения используются как постер многими</translation>
     </message>
     <message>
         <source>. </source>
-        <translation type="unfinished"></translation>
+        <translation>. </translation>
     </message>
     <message>
         <source>For more information on joined files, see &lt;a href=&quot;003A.html&quot;&gt;File attachments&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Для более подробной информации о присоединяемых файлах смотрите &lt;a href=&quot;003A.html&quot;&gt;Присоединяемые файлы&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Allows to select the style of the shape to applied to the new text blocks. This style defines the shape (rectangle, circle, ...), the border, the opaqueness and the shadow effect applied to the block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет выбрать тип фигуры, применяемый к новому текстовому блоку. Этот стиль определяет форму (прямоугольник, круг, ...), границы, непрозрачность и эффект тени, применяемый к блоку.</translation>
     </message>
     <message>
         <source>Default joined files options</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки присоединяемых ресурсов (по умолчанию)</translation>
     </message>
     <message>
         <source>Join thumbnail to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Присоединить обложку к создаваемому файлу</translation>
     </message>
     <message>
         <source>If this box is checked then a thumbnail file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, обложка будет создана вместе с видеофайлом.</translation>
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Присоединить XBMC .nfo файл к создаваемому файлу</translation>
     </message>
     <message>
         <source>If this box is checked then a XMBC .nfo file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, XMBC .nfo файл будет создан вместе с видеофайлом.</translation>
     </message>
     <message>
         <source>Frequency</source>
-        <translation type="unfinished"></translation>
+        <translation>Частота</translation>
     </message>
     <message>
         <source>Select the default frequency to use for audio during the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите частоту аудио создаваемого файла (по умолчанию).</translation>
     </message>
     <message>
         <source>Default soundtrack rendering options</source>
-        <translation type="unfinished"></translation>
+        <translation>Параметры создания аудиофайла (по умолчанию)</translation>
     </message>
     <message>
         <source>At the bottom of the dialog these buttons allow you to:</source>
-        <translation type="unfinished"></translation>
+        <translation>В нижней части диалогового окна следующие кнопки позволяют:</translation>
     </message>
     <message>
         <source> Check configuration allows to open the &lt;a href=&quot;0106.html&quot;&gt;Check configuration dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> Проверить конфигурацию, открыв диалоговое окно &lt;a href=&quot;0106.html&quot;&gt;Проверить конфигурацию&lt;/a&gt;</translation>
     </message>
     <message>
         <source> Manage device allows to open the &lt;a href=&quot;0102.html&quot;&gt;Manage device dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> Уравлять устройствами, открыв диалоговое окно &lt;a href=&quot;0102.html&quot;&gt;Управление устройствами&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -4354,10 +4851,6 @@
     <message>
         <source>The devices which you modify or add. These are registered in your personal configuration file.</source>
         <translation>Устройства, которые ви изменили или добавили. Они регистрируются в вашем личном файле конфигурации.</translation>
-    </message>
-    <message>
-        <source>The database is actually composed of two parts: </source>
-        <translation>База данных устройств состоит из двух частей:</translation>
     </message>
     <message>
         <source>You must first create a device</source>
@@ -4396,10 +4889,6 @@
         <translation>Введите здесь имя устройства (обычное текстовое поле) и укажите все параметры, необходимые для создания видео, которые должны быть связаны с профилем устройства (формат файла, стандарт видео, и т.д.)</translation>
     </message>
     <message>
-        <source> This dialog box allows you to modify the equipment profiles database. </source>
-        <translation>Это диалоговое окно позволяет изменять базу данных профилей оборудования.</translation>
-    </message>
-    <message>
         <source>Devices preceded by this icon are defined in the default database.</source>
         <translation>Устройства, помеченные этим значком, внесены в базу данных по умолчанию.</translation>
     </message>
@@ -4425,14 +4914,22 @@
     </message>
     <message>
         <source>The device type zone allows you to select the type of equipment to be shown in the list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Поле Категория устройства позволяет выбрать тип оборудования, которое будет отображаться в списке.</translation>
     </message>
     <message>
         <source>The list shows the categories and the device types present in the database.</source>
-        <translation type="unfinished"></translation>
+        <translation>В списке перечислены категории и типы устройств, присутствующих в базе данных.</translation>
     </message>
     <message>
         <source>The following buttons allow you to act on the database:</source>
+        <translation>Следующие кнопки позволяют работать в базе данных:</translation>
+    </message>
+    <message>
+        <source>This dialog box allows you to modify the equipment profiles database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The database is actually composed of two parts:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4444,167 +4941,167 @@
     </message>
     <message>
         <source>This dialog allows you to select a model and define chapter information for predefined title slides.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет выбрать шаблон и определить информацию о главе для предустановленных шаблонов заголовков.</translation>
     </message>
     <message>
         <source>To understand the differences between &lt;B&gt;&lt;I&gt;Predefined title slides&lt;/I&gt;&lt;/B&gt; and &lt;B&gt;&lt;I&gt;Standard slides&lt;/I&gt;&lt;/B&gt;, see: &lt;a href=&quot;0012.html&quot;&gt;Predefined title slide&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>для понимания разницы между &lt;B&gt;&lt;I&gt;Слайдом из шаблона&lt;/I&gt;&lt;/B&gt; и &lt;B&gt;&lt;I&gt;обычным слайдом&lt;/I&gt;&lt;/B&gt; смотрите: &lt;a href=&quot;0012.html&quot;&gt;Шаблоны заголовков слайда&lt;/a&gt;</translation>
     </message>
     <message>
         <source>At the top of the box, the following two settings allow you to filter the Predefined title slide that are displayed in the selection area.</source>
-        <translation type="unfinished"></translation>
+        <translation>В верхней части диалогового окна следующие два параметра позволяют фильтровать шаблоны заголовков слайда, которые отображаются в области выбора.</translation>
     </message>
     <message>
         <source>Slide type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип слайда</translation>
     </message>
     <message>
         <source>You can select between: </source>
-        <translation type="unfinished"></translation>
+        <translation>Вы можете выбирать из: </translation>
     </message>
     <message>
         <source>Project title</source>
-        <translation type="unfinished"></translation>
+        <translation>Название проекта</translation>
     </message>
     <message>
         <source>This type of slide is usually used early in the project as the opening credits. </source>
-        <translation type="unfinished"></translation>
+        <translation>Этот тип слайда обычно используется в начале проекта в качестве вступительных титров.</translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Тексты переменных, используемых в шаблонах этого типа слайда, основаны только на информации о проекте. Более подробно об информации о проекте, см.: &lt;a href=&quot;0108.html&quot;&gt; Свойства проекта&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished"></translation>
+        <translation>Название главы</translation>
     </message>
     <message>
         <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
-        <translation type="unfinished"></translation>
+        <translation>Это тип слайда обычно используется несколько раз в проекте для обозначения начала главы. </translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Тексты переменных, используемых в шаблонах этого типа слайда, основаны на информации о проекте и информации о главе.</translation>
     </message>
     <message>
         <source>Credit title</source>
-        <translation type="unfinished"></translation>
+        <translation>Заключительный</translation>
     </message>
     <message>
         <source>This type of slide is usually used at the end of the project as the end credits. </source>
-        <translation type="unfinished"></translation>
+        <translation>Этот тип слайда обычно используется в конце проекта в качестве заключительных титров. </translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Тексты переменных, используемых в шаблонах этого типа слайда,в основном рассчетные. Более подробно о текстовых переменных, см.: &lt;a href=&quot;0108.html&quot;&gt;Динамические переменные&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation>Категория</translation>
     </message>
     <message>
         <source>Statics models</source>
-        <translation type="unfinished"></translation>
+        <translation>Простые без анимации</translation>
     </message>
     <message>
         <source>This type lists statics models ie without animations.</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот тип содержит простые шаблоны без анимации.</translation>
     </message>
     <message>
         <source>Animated models</source>
-        <translation type="unfinished"></translation>
+        <translation>Анимированные</translation>
     </message>
     <message>
         <source>This type lists animated models ie with several shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот тип содержит анимированные шаблоны, т.е с несколькими кадрами.</translation>
     </message>
     <message>
         <source>Custom models</source>
-        <translation type="unfinished"></translation>
+        <translation>Пользовательские</translation>
     </message>
     <message>
         <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот тип содержит шаблоны, которые вы сохранили с помощью кнопки &lt;B&gt;&lt;I&gt;Сохранить как шаблон&lt;/I&gt;&lt;/B&gt; диалогового окна &lt;a href=&quot;0119.html&quot;&gt;Параметры слайда&lt;/a&gt;.</translation>
     </message>
     <message>
         <source> The selection area display models corresponding to the current Type and Category you previously selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Область выбора показывает шаблоны, соответствующие выбранному типу и категории.</translation>
     </message>
     <message>
         <source>The models are displayed and played, so you can see the slide as it will appear in your project with the content of dynamic variables.</source>
-        <translation type="unfinished"></translation>
+        <translation>Шаблоны отображаются в динамике (воспроизводятся), поэтому вы можете видеть слайд так,  как он будет выглядеть в вашем проекте с содержимым динамических переменных.</translation>
     </message>
     <message>
         <source>The slide duration is displayed on the bottom of each thumbnails model.</source>
-        <translation type="unfinished"></translation>
+        <translation>Длительность слайда отображается в нижней части каждой миниатюры шаблона.</translation>
     </message>
     <message>
         <source>When your selection of model is made, the following settings are available if slide type is &lt;B&gt;&lt;I&gt;Chapter model&lt;/I&gt;&lt;/B&gt;:</source>
-        <translation type="unfinished"></translation>
+        <translation>После выбора шаблона, доступны следующие параметры если тип слайда &lt;B&gt;&lt;I&gt;Название главы&lt;/I&gt;&lt;/B&gt;:</translation>
     </message>
     <message>
         <source>Chapter name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название главы</translation>
     </message>
     <message>
         <source>Enter here the name of the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите здесь название главы.</translation>
     </message>
     <message>
         <source>Chapter date different from project date</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата главы отличается от даты проекта</translation>
     </message>
     <message>
         <source>If this box is checked, the date of the chapter is different from the date of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, дата главы отличается от даты проекта.</translation>
     </message>
     <message>
         <source>Remark: It is often useful to differentiate the date of the chapter of the date of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: зачастую полезно различать дату главы и дату проекта.</translation>
     </message>
     <message>
         <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Например, если проект называется &quot;Мой отпуск с 1 по 15&quot;, то глава может быть ограничена 3 числом.</translation>
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <source>Select a date for the chapter. </source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите дату главы. </translation>
     </message>
     <message>
         <source>Remark: This field is enabled only if the &lt;I&gt;&lt;B&gt;Chapter date different from project date&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: это поле активно только если установлен флажок &lt;I&gt;&lt;B&gt;Дата главы отличается от даты проекта&lt;/B&gt;&lt;/I&gt;.</translation>
     </message>
     <message>
         <source>Override date</source>
-        <translation type="unfinished"></translation>
+        <translation>Замещающая дата</translation>
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text. </source>
-        <translation type="unfinished"></translation>
+        <translation>Отметьте этот флажок, чтобы ввести дату вручную в нужном вам формате (как простой текст).</translation>
     </message>
     <message>
         <source>Under these settings, the following two buttons allow you:</source>
-        <translation type="unfinished"></translation>
+        <translation>Под этими настройками расположено две кнопки:</translation>
     </message>
     <message>
         <source> Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Свойства проекта</translation>
     </message>
     <message>
         <source>This button allows you to open &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта кнопка позволяет открыть диалоговое окно &lt;a href=&quot;0108.html&quot;&gt;Свойства проекта&lt;/a&gt;.</translation>
     </message>
     <message>
         <source> Convert to standard slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Преобразовать в обычный слайд</translation>
     </message>
     <message>
         <source>This button allows you to convert this slide to a standard slide which are fully customizable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта кнопка позволяет преобразовать этот слайд в обычный слайд, который полностью настраиваем.</translation>
     </message>
 </context>
 <context>
@@ -4734,79 +5231,79 @@
     </message>
     <message>
         <source> All slides have information chaptering so each slide can mark the beginning of a new chapter. </source>
-        <translation type="unfinished"></translation>
+        <translation>Каждый слайд может быть использован в качестве начала новой главы.</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Примечания:</translation>
+        <translation>Примечания:</translation>
     </message>
     <message>
         <source>Except for the first chapter which start at 0, all other chapters begin after the entering transition.</source>
-        <translation type="unfinished"></translation>
+        <translation>Все главы кроме первой, которая начинается с 0, начинаются после входящего перехода.</translation>
     </message>
     <message>
         <source>The 1st slide of the mount always mark the beginning of a new chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Первый слайд всегда служит в качестве начала новой главы.</translation>
     </message>
     <message>
         <source>Start a new chapter with this slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Начать новую главу с этого слайда</translation>
     </message>
     <message>
         <source>If this box is checked, the slide will mark the beginning of a new chapter. </source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, слайд будет помечен как начало новой главы. </translation>
     </message>
     <message>
         <source>Chapter name</source>
-        <translation type="unfinished"></translation>
+        <translation>Название главы</translation>
     </message>
     <message>
         <source>Enter here the name of the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Введите здась название главы.</translation>
     </message>
     <message>
         <source>Chapter date different from project date</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата главы отличается от даты проекта</translation>
     </message>
     <message>
         <source>If this box is checked, the date of the chapter is different from the date of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, дата главы отличается от даты проекта. </translation>
     </message>
     <message>
         <source>Remark: It is often useful to differentiate the date of the chapter of the date of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: зачастую полезно различать дату главы и дату проекта. </translation>
     </message>
     <message>
         <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Например, если проект называется &quot;Мой отпуск с 1 по 15&quot;, то глава может быть ограничена 3 числом.</translation>
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <source>Select a date for the chapter. </source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите дату главы. </translation>
     </message>
     <message>
         <source>Remark: This field is enabled only if the &lt;I&gt;&lt;B&gt;Chapter date different from project date&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: это поле активно, только если установлен флажок &lt;I&gt;&lt;B&gt;Дата главы отличается от даты проекта&lt;/B&gt;&lt;/I&gt;.</translation>
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text. </source>
-        <translation type="unfinished"></translation>
+        <translation>Отметьте этот флажок, чтобы ввести дату вручную в нужном вам формате (как простой текст). </translation>
     </message>
     <message>
         <source>Remark: This box cannot be deactivated for the first slide of the project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание : этот флажок нельзя отключить для первого слайда проекта.</translation>
     </message>
     <message>
         <source>Override date</source>
-        <translation type="unfinished"></translation>
+        <translation>Замещающая дата</translation>
     </message>
     <message>
         <source>This dialog allows you to define settings for the chapter information of the slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет определить настройки информации о главе для слайда:</translation>
     </message>
 </context>
 <context>
@@ -4816,19 +5313,19 @@
         <translation>Проверить конфигурацию</translation>
     </message>
     <message>
-        <source>It is especially useful for the Linux users and for those who compiles the application. </source>
-        <translation>Это особенно полезно для пользователей Linux и тех, кто компилирует приложение. </translation>
-    </message>
-    <message>
-        <source>The most common shown errors concern the supported formats, codec and library versions. </source>
-        <translation>Показаны наиболее распространенные ошибки, касающиеся поддерживаемых форматов, версий кодеков и библиотек.</translation>
-    </message>
-    <message>
         <source>This dialog allows to check external tools configuration and libraries used by ffDiaporama.</source>
         <translation>Это диалоговое окно позволяет проверить конфигурацию внешних инструментов и библиотек, используемых ffDiaporama.</translation>
     </message>
     <message>
-        <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration. </source>
+        <source>It is especially useful for the Linux users and for those who compiles the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The most common shown errors concern the supported formats, codec and library versions.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4836,89 +5333,85 @@
     <name>0107</name>
     <message>
         <source>Export project</source>
-        <translation type="unfinished">Экспорт проекта</translation>
+        <translation>Экспорт проекта</translation>
     </message>
     <message>
         <source>This dialog box allows you to export the project and all ressources used by the project to a folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет экспортировать проект и все используемые в нем ресурсы в папку</translation>
     </message>
     <message>
         <source>Destination folder</source>
-        <translation type="unfinished"></translation>
+        <translation>Папка назначения</translation>
     </message>
     <message>
         <source>Allows you to select the base destination folder. Click on the folder button to open the directory selector.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет указать папку назначения. Нажатие на конопку в виде папки открывает окно выбора папок.</translation>
     </message>
     <message>
         <source>Project subfolder</source>
-        <translation type="unfinished"></translation>
+        <translation>Подпапка проекта</translation>
     </message>
     <message>
         <source> Once completed your selections, click the OK button to start the export. </source>
-        <translation type="unfinished"></translation>
+        <translation>После завершения выбора нажмите кнопку ОК, чтобы начать экспорт.</translation>
     </message>
     <message>
         <source>At any time during this process, you can click the cancel button to stop the export. </source>
-        <translation type="unfinished"></translation>
+        <translation>В любое время в течение этого процесса можно нажать кнопку Отмена, чтобы остановить экспорт.</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Примечания:</translation>
+        <translation>Примечания:</translation>
     </message>
     <message>
         <source>The export takes into account all the resources that compose the project:</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспортируются все ресурсы, составляющие проект:</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображения</translation>
     </message>
     <message>
         <source>Videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Видеофайлы</translation>
     </message>
     <message>
         <source>Music</source>
-        <translation type="unfinished"></translation>
+        <translation>Музыка</translation>
     </message>
     <message>
         <source>Thumbnail elements</source>
-        <translation type="unfinished"></translation>
+        <translation>Элементы обложки</translation>
     </message>
     <message>
         <source>Wallpapers</source>
-        <translation type="unfinished"></translation>
+        <translation>Обои</translation>
     </message>
     <message>
         <source>clipart that are not stored under the ClipArt alias.</source>
-        <translation type="unfinished"></translation>
+        <translation>Клипарт, который не хранится в папке ClipArt.</translation>
     </message>
     <message>
         <source>Export does not just only copy the files. The following rules apply:</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспорт не просто копирует файлы. Применяются следующие правила:</translation>
     </message>
     <message>
         <source>If multiple files from different directories have the same names, these files are re-named.</source>
-        <translation type="unfinished"></translation>
+        <translation>Если у нескольких файлов из разных папок одинаковые имена, то  эти файлы переименовываются.</translation>
     </message>
     <message>
         <source>A .ffd project file is created taking into account any changes in directory and file name.</source>
-        <translation type="unfinished"></translation>
+        <translation>При создании .ffd файла проекта учитываются любые изменения в имени папки или файла.</translation>
     </message>
     <message>
         <source>Allows you to select the folder name to be created for the project files. By default the project title is proposed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет указать имя папки для файлов проекта. По умолчанию предлагается название проекта.</translation>
     </message>
 </context>
 <context>
     <name>0108</name>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This dialog allows you to define the information which qualifies the project. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4947,7 +5440,7 @@
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Примечание</translation>
     </message>
     <message>
         <source>Project geometry</source>
@@ -5031,7 +5524,7 @@
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Название главы</translation>
     </message>
     <message>
         <source>Start</source>
@@ -5147,7 +5640,7 @@
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">мультимедиа системами</translation>
     </message>
     <message>
         <source>.</source>
@@ -5171,7 +5664,7 @@
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Дата</translation>
     </message>
     <message>
         <source>The date of the event of the project</source>
@@ -5179,7 +5672,7 @@
     </message>
     <message>
         <source>Override date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Замещающая дата</translation>
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text</source>
@@ -5289,12 +5782,32 @@
         <source>ISO 639</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source> This dialog allows you to define the information which qualifies the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0109</name>
     <message>
         <source>Select files</source>
-        <translation type="unfinished">Выбор файлов</translation>
+        <translation>Выбор файлов</translation>
+    </message>
+    <message>
+        <source>This dialog box is used in very many cases in the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is used to select either one or multiple files depending on the purpose for which is was called.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It consists of a multimedia file browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information on the ffDiaporama&apos;s multimedia file browser, see: &lt;a href=&quot;0024.html&quot;&gt;The multimedia file browser&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5724,7 +6237,7 @@
     <name>0111</name>
     <message>
         <source>File information</source>
-        <translation type="unfinished">Информация о файле</translation>
+        <translation>Информация о файле</translation>
     </message>
     <message>
         <source>Information shown for the image files</source>
@@ -5824,7 +6337,7 @@
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished">Кодек</translation>
+        <translation>Кодек</translation>
     </message>
     <message>
         <source>The audio codec used for compressed the sound</source>
@@ -5840,7 +6353,7 @@
     </message>
     <message>
         <source>Bitrate</source>
-        <translation type="unfinished">Битрейт</translation>
+        <translation>Битрейт</translation>
     </message>
     <message>
         <source>The audio compression ratio (when available)</source>
@@ -5848,7 +6361,7 @@
     </message>
     <message>
         <source>Frequency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Частота</translation>
     </message>
     <message>
         <source>The frequency of sampling used by the audio track</source>
@@ -5856,7 +6369,7 @@
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished">Название</translation>
+        <translation>Название</translation>
     </message>
     <message>
         <source>A title (when available)</source>
@@ -5900,7 +6413,7 @@
     </message>
     <message>
         <source>Frame rate</source>
-        <translation type="unfinished">Частота кадров</translation>
+        <translation>Частота кадров</translation>
     </message>
     <message>
         <source>The number of images per second of the video</source>
@@ -5948,7 +6461,7 @@
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished">Продолжительность</translation>
+        <translation>Продолжительность</translation>
     </message>
     <message>
         <source>The duration of the chapter</source>
@@ -6051,23 +6564,23 @@
     <name>0112</name>
     <message>
         <source> Rename: Allows to rename the selected favorite.</source>
-        <translation type="unfinished"></translation>
+        <translation>Переименовать: позволяет переименовать выделенное избранное.</translation>
     </message>
     <message>
         <source> Remove: Allows to remove the selected favorite.</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить: позволяет удалить выделенное избранное.</translation>
     </message>
     <message>
         <source>Manage favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Управление избранным</translation>
     </message>
     <message>
         <source>The Manage favorite dialog allows you to manage existing favorites</source>
-        <translation type="unfinished"></translation>
+        <translation>Диалоговое окно Управление избранным позволяет управлять существующим избранным</translation>
     </message>
     <message>
         <source>The existing favorites are listed in the high part of the dialog. Select one of them and click on one of the following buttons:</source>
-        <translation type="unfinished"></translation>
+        <translation>Существующее избранное приведено в верхней части диалогового окна. Выберите одно из них и нажмите на одну из кнопок:</translation>
     </message>
 </context>
 <context>
@@ -6150,11 +6663,11 @@
     </message>
     <message>
         <source>According to the type of the selected style, you can execute various actions:</source>
-        <translation type="unfinished"></translation>
+        <translation>В зависимости от типа выбранного стиля, вы можете выполнять различные действия:</translation>
     </message>
     <message>
         <source>The followed actions are available:</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступны следующие действия:</translation>
     </message>
 </context>
 <context>
@@ -6321,7 +6834,7 @@
     <name>0115</name>
     <message>
         <source>Render video</source>
-        <translation type="unfinished">Создание видео</translation>
+        <translation>Создание видео</translation>
     </message>
     <message>
         <source>Description of the dialog box</source>
@@ -6509,7 +7022,7 @@
     </message>
     <message>
         <source>Join thumbnail to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Присоединить обложку к создаваемому файлу</translation>
     </message>
     <message>
         <source>If this box is checked then a thumbnail file will be created with video. </source>
@@ -6517,7 +7030,7 @@
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Присоединить XBMC .nfo файл к создаваемому файлу</translation>
     </message>
     <message>
         <source>If this box is checked then a &lt;a href=&quot;0044.html&quot;&gt;XBMC .nfo&lt;/a&gt; file will be created with video. </source>
@@ -6529,7 +7042,7 @@
     </message>
     <message>
         <source>Frequency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Частота</translation>
     </message>
     <message>
         <source>In export soundtrack mode</source>
@@ -6549,15 +7062,15 @@
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">мультимедиа системами</translation>
     </message>
     <message>
         <source>. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">. </translation>
     </message>
     <message>
         <source>For more information on joined files, see &lt;a href=&quot;003A.html&quot;&gt;File attachments&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Для более подробной информации о присоединяемых файлах смотрите &lt;a href=&quot;003A.html&quot;&gt;Присоединяемые файлы&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Select the frequency to use for audio during the rendering.</source>
@@ -7138,30 +7651,30 @@
     <name>0118</name>
     <message>
         <source>Set first shot duration for a set of slides</source>
-        <translation type="unfinished">Выбор продолжительности первого кадра для группы слайдов</translation>
-    </message>
-    <message>
-        <source> This dialog allows you to define the duration of the fist shot of a set of slides: </source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор продолжительности первого кадра для группы слайдов</translation>
     </message>
     <message>
         <source>First shot duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Продолжительность первого кадра</translation>
     </message>
     <message>
         <source>Define the duration of the first shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет продолжительность первого кадра.</translation>
     </message>
     <message>
         <source>When you click the OK button, the new duration is applied to all the slides that were selected. </source>
-        <translation type="unfinished"></translation>
+        <translation>После нажатия кнопки ОК новая продолжительность будет применена ко всем выделенным слайдам.</translation>
     </message>
     <message>
         <source>This new duration affects only the first shot of each slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Новая продолжительность применяется только к первому кадру каждого слайда</translation>
     </message>
     <message>
         <source>This new duration is applied only to standard slides. The predefined title slides are not impacted.</source>
+        <translation>Новая продолжительность применяется только к обычным слайдам. Она не влияет на слайды - шаблоны заголовков.</translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define the duration of the fist shot of a set of slides:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8224,37 +8737,37 @@
     </message>
     <message>
         <source>Allows you to add a dynamic variable to the text. For more information on dynamic variables see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет добавить динамическую переменную в текст. Дополнительные сведения о динамических переменных смотрите в разделе &lt;a href=&quot;0013.html&quot;&gt; Динамические переменные&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
     <name>0121</name>
     <message>
         <source>Select transition duration for a set of slides</source>
-        <translation type="unfinished">Выбор продолжительности перехода для группы слайдов</translation>
-    </message>
-    <message>
-        <source> This dialog allows you to define the transition duration for a set of slides: </source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор продолжительности перехода для группы слайдов</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished">Продолжительность</translation>
+        <translation>Продолжительность</translation>
     </message>
     <message>
         <source>Define the animation duration.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать продолжительность анимации.</translation>
     </message>
     <message>
         <source>When you click the OK button, the new transition duration is applied to all the slides that were selected. </source>
-        <translation type="unfinished"></translation>
+        <translation>После нажатия кнопки ОК всем выделенным слайдам будет установлена новая продолжительность перехода. </translation>
     </message>
     <message>
         <source>This function can not be used to delete or change the slide&apos;s transition. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта функция не может использоваться для удаления или изменения перехода слайда.</translation>
     </message>
     <message>
         <source>If it&apos;s what you want, then call the context transitions menu by right clicking on one of the slides of the selection from the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and then select &quot;Modify the transition for all the slides of the selection&quot; option.</source>
+        <translation>Если это то, чего вы хотите,то вызовите контекстное меню переходов, щелкнув правой кнопкой мыши на одном из слайдов, выделенных на &lt;a href=&quot;0023.html&quot;&gt; линии времени&lt;/a&gt;, а затем выберите опцию «Установить длительность перехода».</translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define the transition duration for a set of slides:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8565,6 +9078,26 @@
     </message>
     <message>
         <source>Dynamic variables</source>
+        <translation>Динамические переменные</translation>
+    </message>
+    <message>
+        <source>Predefined title slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configuration dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editing dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog boxes related to the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various dialog boxes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8591,19 +9124,23 @@
         <translation>Техническая информация о ffDiaporama</translation>
     </message>
     <message>
-        <source> This documentation is divided into the followed themes: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>ffDiaporama Web site</source>
-        <translation type="unfinished"></translation>
+        <translation>веб-сайте ffDiaporama</translation>
     </message>
     <message>
         <source>Finally, you&apos;ll also find help on the </source>
-        <translation type="unfinished"></translation>
+        <translation>Наконец, вы также можете получить помощь на</translation>
     </message>
     <message>
         <source>ffDiaporama forum</source>
+        <translation>форуме ffDiaporama</translation>
+    </message>
+    <message>
+        <source>Other elements of documentation are available on the </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This documentation is divided into the followed themes:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

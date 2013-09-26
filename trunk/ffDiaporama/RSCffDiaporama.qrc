@@ -371,5 +371,8 @@
         <file>img/medal.png</file>
         <file>img/fileexport.png</file>
         <file>img/SaveAsMenu.png</file>
+        <file>img/ccbysa.png</file>
+        <file>img/Opensource.png</file>
+        <file>img/forum.png</file>
     </qresource>
 </RCC>

@@ -28,10 +28,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ffDiaporama WIKI - How ffDiaporama works</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> This section contains general information on the concepts and methods of use of ffDiaporama </source>
         <translation type="unfinished"></translation>
     </message>
@@ -273,11 +269,491 @@
         <source>Predefined title slide</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source> Predefined title slide are complete slides including formatting and animations. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The main interest of these slides is to standardize the slides within a project or across projects. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama included many Predefined title slides, but you can also define your own Predefined title slides. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>To do this, create a standard slide using the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog box&lt;/a&gt; and save your slide as a model using: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Save as model function.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Remarks:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Predefined title slides are defined according to the following three categories: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used early in the project as the opening credits. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Credit title</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type of slide is usually used at the end of the project as the end credits. </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Within each category, the predefined title slides are classified into the following types: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Statics models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type lists statics models ie without animations.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Animated models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type lists animated models ie with several shots.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Custom models</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It will always be possible to create slides from a model using the &lt;a href=&quot;0103.html&quot;&gt;Add or modify a predefined title slide dialog box&lt;/a&gt; then convert it to a standard slide using this function: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source> Convert to standard slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The resources used by the models you create are not moved. So, if you include a photo in a model, the model will only be valid until the picture will not move. This is why it is recommended, to think resources included before creating a new model.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0013</name>
     <message>
         <source>Dynamic variables</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It&apos;s why variables are used in many parts of the application (slide, thumbnails, predefined titles slides, video tags, xbmc nfo, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The following table lists all the available variables: </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Category</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Variable</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Content</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project properties values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PTT%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project title&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAU%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAI%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;Author presents&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAP%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;A Author production&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PAL%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project album&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PCT%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Project comment&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PDD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Duration of the project displayed as &lt;U&gt;hh:mm:ss&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PSC%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Project slide count (Number of slide in the project)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PLD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Long date (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PSD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Short date (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PYR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year (The year of the event date as a four digit number)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PMM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month (The month of the event date as a name, depending on the current language: January, February, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PMD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month as number (The month of the event date as a two digit number)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PDY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day (The day of the event date as a two digit number)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%PDW%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of week (The day of week of the event date as a name, depending on the current language: Monday, Thuesday, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current slide values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CSN%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Slide name&lt;/I&gt;&lt;/B&gt; field of the slide as defined in the &lt;U&gt;Slide settings zone&lt;/U&gt; of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CSR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current slide number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapters values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCN%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Value of the &lt;B&gt;&lt;I&gt;Chapter name&lt;/I&gt;&lt;/B&gt; field of the latest slide which defined &lt;U&gt;Chapters information&lt;/U&gt;. (Chapters information may be defined in &lt;a href=&quot;0105.html&quot;&gt;Chapter properties dialog&lt;/a&gt; or in &lt;a href=&quot;0103.html&quot;&gt;Predefined title slide dialog&lt;/a&gt;).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCI%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current chapter duration</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CCT%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Chapter count (Number of chapter in the project)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CLD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Long date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CSD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Short date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CYR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Year of the chapter&apos;s date (if one is defined or year of project&apos;s date), as a four digit number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CMM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a name (depending on the current language: January, February, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CMD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a two digit number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CDY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a two digit number.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CDW%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Day of week of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a a name (depending on the current language: Monday, Thuesday, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various values</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%FFD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>ffDiaporama version as &lt;U&gt;ffDiaporama 1.7 (20130919)&lt;/U&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%CPY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%END%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The end (depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%STA%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%STP%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of project statistics (Number of slides, project duration, list of chapters, list of musics, how many photo, vector images, videos and predefined title slides, etc...) </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%STM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>A full text composed of list of musics</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TLD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date as long date format (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TSD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date as short date format (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TYR%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s year as a four digit number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TMM%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s month as a name (depending on the current language: January, February, etc...)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TMD%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s month as as a two digit number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TDY%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s day as a two digit number</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>%TDW%</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Current date&apos;s day of week as a a name (depending on the current language: Monday, Thuesday, etc...)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -585,15 +1061,27 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ffDiaporama WIKI - Interface description</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> This section contains information about using ffDiaporama. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Index</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configuration dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editing dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog boxes related to the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various dialog boxes</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -1297,6 +1785,22 @@
         <source>To modify the slide (framing, filter, animation, etc.) double-click the thumbnail. This action opens the &lt;a href=&quot;0119.html&quot;&gt;slides properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide.</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>To select the current slide:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Click on a slide to define it as current slide.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Use the mouse wheel to change the current slide.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Note: When previewing the selected slide is automatically defined on the current slide preview.</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0024</name>
@@ -1761,10 +2265,6 @@
     </message>
     <message>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>ffDiaporama WIKI - Rendering videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -3305,10 +3805,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>ffDiaporama WIKI - Technical information on ffDiaporama</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source> This section contains technical information about ffDiaporama. </source>
         <translation type="unfinished"></translation>
     </message>
@@ -4339,14 +4835,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> This dialog box allows you to modify the equipment profiles database. </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>The database is actually composed of two parts: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>The default database (supplied with ffDiaporama). These devices are registered in the global ffDiaporama configuration file.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4424,6 +4912,14 @@
     </message>
     <message>
         <source>The following buttons allow you to act on the database:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog box allows you to modify the equipment profiles database.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>The database is actually composed of two parts:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4811,15 +5307,15 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>It is especially useful for the Linux users and for those who compiles the application. </source>
+        <source>It is especially useful for the Linux users and for those who compiles the application.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>The most common shown errors concern the supported formats, codec and library versions. </source>
+        <source>The most common shown errors concern the supported formats, codec and library versions.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration. </source>
+        <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration.</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -4906,10 +5402,6 @@
     <name>0108</name>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>This dialog allows you to define the information which qualifies the project. </source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -5280,11 +5772,31 @@
         <source>Remark: Video formats do not support all the chapters in the same way:</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source> This dialog allows you to define the information which qualifies the project. </source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>0109</name>
     <message>
         <source>Select files</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog box is used in very many cases in the application.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It is used to select either one or multiple files depending on the purpose for which is was called.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>It consists of a multimedia file browser.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>For more information on the ffDiaporama&apos;s multimedia file browser, see: &lt;a href=&quot;0024.html&quot;&gt;The multimedia file browser&lt;/a&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -7131,10 +7643,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> This dialog allows you to define the duration of the fist shot of a set of slides: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>First shot duration</source>
         <translation type="unfinished"></translation>
     </message>
@@ -7152,6 +7660,10 @@
     </message>
     <message>
         <source>This new duration is applied only to standard slides. The predefined title slides are not impacted.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define the duration of the fist shot of a set of slides:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8224,10 +8736,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> This dialog allows you to define the transition duration for a set of slides: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>Duration</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8245,6 +8753,10 @@
     </message>
     <message>
         <source>If it&apos;s what you want, then call the context transitions menu by right clicking on one of the slides of the selection from the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and then select &quot;Modify the transition for all the slides of the selection&quot; option.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This dialog allows you to define the transition duration for a set of slides:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -8557,6 +9069,26 @@
         <source>Dynamic variables</source>
         <translation type="unfinished"></translation>
     </message>
+    <message>
+        <source>Predefined title slide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Configuration dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Editing dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Dialog boxes related to the project</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Various dialog boxes</source>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>main</name>
@@ -8581,10 +9113,6 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source> This documentation is divided into the followed themes: </source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <source>ffDiaporama Web site</source>
         <translation type="unfinished"></translation>
     </message>
@@ -8594,6 +9122,14 @@
     </message>
     <message>
         <source>ffDiaporama forum</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Other elements of documentation are available on the </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>This documentation is divided into the followed themes:</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
