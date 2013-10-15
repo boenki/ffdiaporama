@@ -260,9 +260,9 @@ extern int MAXCACHEIMAGE;
 
 class cImageInCache {
 public:
-    int64_t   Position;
-    QImage      *Image;
-    cImageInCache(int64_t Position,QImage *Image);
+    int64_t     Position;
+    AVFrame     *FiltFrame,*FrameBufferYUV;
+    cImageInCache(int64_t Position,AVFrame *FiltFrame,AVFrame *FrameBufferYUV);
     ~cImageInCache();
 };
 

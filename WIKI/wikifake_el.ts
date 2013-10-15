@@ -5,269 +5,269 @@
     <name>0010</name>
     <message>
         <source>How ffDiaporama works</source>
-        <translation type="unfinished"></translation>
+        <translation>Πώς λειτουργεί το ffDiaporama</translation>
     </message>
     <message>
         <source>Functional principles</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχή λειτουργίας</translation>
     </message>
     <message>
         <source>Predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένοι τίτλοι διαφανειών</translation>
     </message>
     <message>
         <source>The &quot;Visible&quot; property of blocks and the management of the breaks</source>
-        <translation type="unfinished"></translation>
+        <translation>Η «Ορατή» ιδιότητα των τμημάτων και η διαχείριση παύσεων</translation>
     </message>
     <message>
         <source>All shots regulations versus current shot regulations</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι ρυθμίσεις για όλα τα στιγμιότυπα και οι ρυθμίσεις για το στιγμιότυπο σε εξέλιξη</translation>
     </message>
     <message>
         <source>Style sheets</source>
-        <translation type="unfinished"></translation>
+        <translation>Φύλλα στυλ</translation>
     </message>
     <message>
         <source> This section contains general information on the concepts and methods of use of ffDiaporama </source>
-        <translation type="unfinished"></translation>
+        <translation> Αυτή η ενότητα περιέχει γενικές πληροφορίες για το σχεδιασμό και τις μεθόδους χρήσης του ffDiaporama </translation>
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished"></translation>
+        <translation>Ευρετήριο</translation>
     </message>
     <message>
         <source>Dynamic variables</source>
-        <translation type="unfinished"></translation>
+        <translation>Δυναμικές μεταβλητές</translation>
     </message>
 </context>
 <context>
     <name>0011</name>
     <message>
         <source>Functional principles</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχή λειτουργίας</translation>
     </message>
     <message>
         <source>The main control element of ffDiaporama is the timeline. The timeline lists the slides which compose the project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το κύριο αντικείμενο ελέγχου του ffDiaporama είναι η γραμμή χρονοδιαγράμματος όπου εμφανίζονται οι διαφάνειες από τις οποίες αποτελείται το έργο.</translation>
     </message>
     <message>
         <source>It consists of 3 tracks: </source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτελείται από 3 κομμάτια: </translation>
     </message>
     <message>
         <source>the background track</source>
-        <translation type="unfinished"></translation>
+        <translation>το κομμάτι του φόντου</translation>
     </message>
     <message>
         <source>the mounting track</source>
-        <translation type="unfinished"></translation>
+        <translation>το κομμάτι του μοντάζ</translation>
     </message>
     <message>
         <source>and the music track.</source>
-        <translation type="unfinished"></translation>
+        <translation>το κομμάτι της μουσικής.</translation>
     </message>
     <message>
         <source>The slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι διαφάνειες</translation>
     </message>
     <message>
         <source>Slides are shown one after another, in the order in which they appear in the time line.</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι διαφάνειες εμφανίζονται η μια μετά την άλλη, με την σειρά που εμφανίζονται στην γραμμή χρονοδιαγράμματος.</translation>
     </message>
     <message>
         <source>The following diagram shows how slides function:</source>
-        <translation type="unfinished"></translation>
+        <translation>Το παρακάτω σχήμα συμβολίζει την αρχή λειτουργίας των διαφανειών:</translation>
     </message>
     <message>
         <source>The upper part of the diagram represents four slides: A, B, C and D. </source>
-        <translation type="unfinished"></translation>
+        <translation>Στο πάνω μέρος του σχήματος αναπαριστώνται οι διαφάνειες A, B, C και D. </translation>
     </message>
     <message>
         <source>Each slide possesses an entering transition (symbolized on the diagram by a small rectangle labelled T). The transitions can have different durations (symbolized on the diagram by the lengths TA&apos;, TB&apos;, etc.): It is possible to define the duration of the entering transition for each slide separately (or to indicate no transition: duration=0).</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάθε διαφάνεια διαθέτει μια μετάβαση εισαγωγής (συμβολίζεται στο σχήμα με ένα μικρό τετράγωνο T). Οι μεταβάσεις δεν έχουν όλες την ίδια διάρκεια (στο σχήμα συμβολίζεται με τα μήκη των TA’, TB’, κλπ…): στην πράξη είναι εφικτό να καθοριστεί ανά διαφάνεια η διάρκεια της μετάβασης εισαγωγής (ή χωρίς μετάβαση: διάρκεια=0).</translation>
     </message>
     <message>
         <source>Each slide possesses a duration which is appropriate for it (symbolized on the diagram by the lengths B&apos;, C&apos;, etc.): Some last only a few seconds while others can last several minutes. The durations are expressed in seconds but are not necessarily whole numbers: a slide might last 12.234 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάθε διαφάνεια διαθέτει την δικής της διάρκεια (στο σχήμα συμβολίζεται από τα μήκη B’, C’, κλπ…): Μερικές μπορούν να έχουν διάρκεια μόνο μερικά δευτερόλεπτα ενώ άλλες μπορούν να έχουν διάρκεια περισσότερα λεπτά. Η διάρκεια εκφράζεται σε δευτερόλεπτα αλλά δεν είναι οπωσδήποτε ακέραια τιμή: Μια διαφάνεια μπορεί να έχει διάρκεια 12,234 δευτερόλεπτα !</translation>
     </message>
     <message>
         <source>Each slide is a composite, an assembly of one or more multimedia elements which are animated over time. The animation is realized through shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάθε διαφάνεια αποτελεί μια σύνθεση, ενός ή περισσοτέρων στοιχείων πολυμέσων τα οποία κινούνται κατά την πάροδο του χρόνου. Η κίνηση μέσα στο χρόνο πραγματοποιείται μέσω στιγμιοτύπων.</translation>
     </message>
     <message>
         <source>Each slide can define a new background (that is shown under the multimedia elements of the slide if they don&apos;t fill out the whole screen).</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάθε διαφάνεια μπορεί να καθορίζει ένα νέο φόντο (εμφανίζεται στα αντικείμενα πολυμέσων της διαφάνειας αν δεν καταλαμβάνουν ολόκληρη την οθόνη).</translation>
     </message>
     <message>
         <source>Each slide can define a new musical play-list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάθε διαφάνεια μπορεί να καθορίζει μια νέα λίστα αναπαραγωγής μουσικής.</translation>
     </message>
     <message>
         <source>Slides which do not define a background use the background defined in a previous slide. So in the following example: </source>
-        <translation type="unfinished"></translation>
+        <translation>Οι διαφάνειες που δεν καθορίζουν κάποιο φόντο χρησιμοποιούν το φόντο που καθορίζεται σε μια προηγούμενη διαφάνεια. Έτσι στο παρακάτω παράδειγμα: </translation>
     </message>
     <message>
         <source>Slide 1: Defines a background</source>
-        <translation type="unfinished"></translation>
+        <translation>Η διαφάνεια 1 – Καθορίζει ένα φόντο</translation>
     </message>
     <message>
         <source>Slide 2: Does not define a background and therefore uses the background defined by slide 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Η διαφάνεια 2 – Δεν καθορίζει κάποιο φόντο και ως εκ τούτου χρησιμοποιεί το φόντο που χρησιμοποιεί η διαφάνεια 1</translation>
     </message>
     <message>
         <source>Slide 3: Does not define a background and therefore uses the background defined by slide 1</source>
-        <translation type="unfinished"></translation>
+        <translation>Η διαφάνεια 3 – Δεν καθορίζει κάποιο φόντο και ως εκ τούτου χρησιμοποιεί το φόντο της διαφάνειας 1</translation>
     </message>
     <message>
         <source>Slide 4: Defines a background</source>
-        <translation type="unfinished"></translation>
+        <translation>Η διαφάνεια 4 – Καθορίζει ένα φόντο</translation>
     </message>
     <message>
         <source>Slide 5: Does not define a background and therefore uses the background defined by slide 4</source>
-        <translation type="unfinished"></translation>
+        <translation>Η διαφάνεια 5 – Δεν καθορίζει κάποιο φόντο και ως εκ τούτου χρησιμοποιεί το φόντο της διαφάνειας 4</translation>
     </message>
     <message>
         <source>The same principle applies to the musical play-lists. As long as slides do not define a new play-list, they use the last defined play-list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η ίδια αρχή εφαρμόζεται και στις λίστες αναπαραγωγής μουσικής. Όσο οι διαφάνειες δεν ορίζουν μια νέα λίστα αναπαραγωγής, χρησιμοποιούν την τελευταία καθορισμένη λίστα.</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Παρατήρηση:</translation>
     </message>
     <message>
         <source>The total duration of the project is not equal to the sum of the durations of the slides because the transitions make the slides overlap: Two slides of 10 seconds, each with a transition of 1 second, will give a total duration for the project of 19 seconds (and not 20 seconds)!</source>
-        <translation type="unfinished"></translation>
+        <translation>Η ολική διάρκεια του έργου δεν ισούται με το άθροισμα της κάθε διάρκειας των διαφανειών διότι οι μεταβάσεις προκαλούν τις διαφάνειες να επικαλύπτει η μια την άλλη: Δυο διαφάνειες των 10 δευτερολέπτων, κάθε μια με μια μετάβαση του 1 δευτερολέπτου, θα έχει σαν αποτέλεσμα η ολική διάρκεια του έργου να είναι 19 δευτερόλεπτα (και όχι 20)!</translation>
     </message>
     <message>
         <source>Shots and blocks</source>
-        <translation type="unfinished"></translation>
+        <translation>Στιγμιότυπα και τμήματα</translation>
     </message>
     <message>
         <source>The lower part of the diagram represents the composition of slide C. </source>
-        <translation type="unfinished"></translation>
+        <translation>Το κατώτερο τμήμα του διαγράμματος παριστάνει την διαφάνεια C. </translation>
     </message>
     <message>
         <source>Each slide comprises one or more shots. The shots are represented on the diagram by rectangles C1, C2, C3, etc...</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάθε διαφάνεια περιλαμβάνει ένα ή περισσότερα στιγμιότυπα. Τα στιγμιότυπα αναπαριστώνται στο διάγραμμα από τα ορθογώνια C1, C2, C3, κλπ. …</translation>
     </message>
     <message>
         <source>Each shot has its own duration (symbolized on the diagram by the lengths C1 &apos;, C2 &apos;, C3 &apos;, etc.). Some shots can last only seconds while others can last several minutes. Some shots can have a duration of zero. (The durations are expressed in seconds but are not necessarily whole numbers: A shot can very well last 12.234 seconds).</source>
-        <translation type="unfinished"></translation>
+        <translation>Το κάθε στιγμιότυπο έχει και την δική του διάρκεια (στο διάγραμμα συμβολίζεται από τα μήκη C1 ‘, C2 ‘, C3 ‘, κλπ.). Μερικά στιγμιότυπα μπορεί να διαρκούν μόνο μερικά δευτερόλεπτα ενώ άλλα μερικά λεπτά. Μερικά στιγμιότυπα έχουν μηδενική διάρκεια. (Η διάρκεια εκφράζεται σε δευτερόλεπτα αλλά δεν εκφράζεται απαραίτητα από ακέραιους αριθμούς: Ένα στιγμιότυπο μπορεί να έχει διάρκεια 12.234 δευτερόλεπτα!)</translation>
     </message>
     <message>
         <source>The shots can contain several multimedia objects. The multimedia objects are integrated into blocks which can be of three types: title (containing only text), images (or photos), or video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα στιγμιότυπα μπορεί να περιέχουν μερικά αντικείμενα πολυμέσων. Τα αντικείμενα πολυμέσων ενσωματώνονται στα τμήματα τα οποία μπορεί να είναι τριών τύπων: τίτλος (περιέχει μόνο κείμενο), εικόνες (ή φωτογραφίες), ή βίντεο.</translation>
     </message>
     <message>
         <source>The blocks define where and how the multimedia object appears on the screen. Each block can have a different framing that defines what is visible from the multimedia object within the block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα τμήματα καθορίζουν που και πως θα εμφανίζεται το αντικείμενο πολυμέσων στην οθόνη. Κάθε τμήμα μπορεί να έχει διαφορετική πλαισίωση που καθορίζει τι θα είναι ορατό από το αντικείμενο πολυμέσων μέσα στο τμήμα.</translation>
     </message>
     <message>
         <source>The background of the shots is transparent. This means that if the image does not fill the whole screen, the background will appear.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα στιγμιότυπα είναι διάφανα. Αυτό σημαίνει ότι αν η εικόνα δεν καταλαμβάνει ολόκληρη την οθόνη, θα φαίνεται το φόντο.</translation>
     </message>
     <message>
         <source>The shots define the arrangement of blocks (multimedia objects) at any given moment.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα στιγμιότυπα καθορίζουν την διάταξη των τμημάτων (αντικείμενα πολυμέσων) ανά πάσα στιγμή.</translation>
     </message>
     <message>
         <source>The shot animations are generated by the transformation of these arrangements from one shot to another.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα εφέ των στιγμιότυπων δημιουργούνται από τον μετασχηματισμό αυτών των διατάξεων από το ένα στιγμιότυπο στο άλλο.</translation>
     </message>
     <message>
         <source>The lengths of the shot animations are defined by the shot durations.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το μήκος των εφέ των στιγμιότυπων καθορίζεται από την διάρκεια των στιγμιότυπων.</translation>
     </message>
     <message>
         <source>Specifically, if in the foreground, a block containing an image occupies the whole screen, and then in the following shot the same block occupies only a small part of the screen, then the animation will consist of the transformation of the image from the whole screen into that small part of the screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ειδικά, αν στο προσκήνιο, μια εικόνα καταλαμβάνει ολόκληρη την οθόνη, και στη συνέχεια καταλαμβάνει μόνο ένα μικρό τμήμα της οθόνης στο επόμενο στιγμιότυπο, τότε το εφέ θα αποτελείται από τον μετασχηματισμό της εικόνας της πλήρους οθόνης (προηγούμενο στιγμιότυπο) σε αυτό το μικρό τμήμα της οθόνης (επόμενο στιγμιότυπο).</translation>
     </message>
     <message>
         <source>Example:</source>
-        <translation type="unfinished"></translation>
+        <translation>Παράδειγμα:</translation>
     </message>
     <message>
         <source>Let&apos;s have 3 shots within a slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ας πάρουμε 3 στιγμιότυπα μέσα στη διαφάνεια:</translation>
     </message>
     <message>
         <source>Shot 1: Image using the whole screen: Duration=2 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Στιγμιότυπο 1: Η εικόνα καταλαμβάνει ολόκληρη την οθόνη: Διάρκεια=2 δευτερόλεπτα.</translation>
     </message>
     <message>
         <source>Shot 2: Image using only the bottom right screen quarter: Duration 3 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Στιγμιότυπο 2: Η εικόνα καταλαμβάνει μόνο το κάτω δεξιά τέταρτο της οθόνης: Διάρκεια 3 δευτερόλεπτα.</translation>
     </message>
     <message>
         <source>Shot 3: Image again using the whole screen: Duration=2 seconds.</source>
-        <translation type="unfinished"></translation>
+        <translation>Στιγμιότυπο 3: Η εικόνα ξανά καταλαμβάνει ολόκληρη την οθόνη: Διάρκεια=2 δευτερόλεπτα.</translation>
     </message>
     <message>
         <source>Result:</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτέλεσμα:</translation>
     </message>
     <message>
         <source>The image will be shown on the whole screen for 2 seconds, will shrink gradually over 3 seconds towards the right lower quarter of the screen, and then will grow again for 2 seconds until it once more occupies the whole screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η εικόνα θα εμφανίζεται σε ολόκληρη την οθόνη για 2 δευτερόλεπτα, θα συρρικνωθεί σταδιακά σε διάστημα 3 δευτερολέπτων προς το κάτω δεξιά τέταρτο της οθόνης, και στη συνέχεια θα μεγεθυνθεί ξανά για 2 δευτερόλεπτα μέχρι να καταλάβει εκ νέου ολόκληρη την οθόνη.</translation>
     </message>
     <message>
         <source>The slide will end as soon as the image has reached the position defined in shot 3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η διαφάνεια θα ολοκληρωθεί όταν η εικόνα έχει φτάσει την θέση που ορίζεται στο στιγμιότυπο 3.</translation>
     </message>
     <message>
         <source>The transformations are gradual: in the example you will see the image being gradually reduced.</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι μετασχηματισμοί γίνονται σταδιακά: στο παράδειγμα θα δείτε την εικόνα να συρρικνώνεται προοδευτικά.</translation>
     </message>
     <message>
         <source>The transformations are made over the whole duration of the following shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι μετασχηματισμοί πραγματοποιούνται καθ όλη την διάρκεια του ακόλουθου στιγμιότυπου.</translation>
     </message>
     <message>
         <source>The framing definition of the objects in each block can vary from one shot to another. The following example shows three different definitions from the same block:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο καθορισμός των αντικειμένων σε κάθε τμήμα μπορεί να ποικίλει από το ένα στιγμιότυπο στο άλλο. Το παρακάτω παράδειγμα δείχνει τρεις διαφορετικούς ορισμούς από το ίδιο τμήμα:</translation>
     </message>
     <message>
         <source>1st shot: The image is complete.</source>
-        <translation type="unfinished"></translation>
+        <translation>1ο στιγμιότυπο: Η εικόνα είναι πλήρης.</translation>
     </message>
     <message>
         <source>2nd shot: The image is re-framed on the statue.</source>
-        <translation type="unfinished"></translation>
+        <translation>2ο στιγμιότυπο: Η εικόνα έχει αναπλαισιωθεί στο άγαλμα.</translation>
     </message>
     <message>
         <source>3rd shot: The image is re-framed on the pedestrians.</source>
-        <translation type="unfinished"></translation>
+        <translation>3ο στιγμιότυπο: Η εικόνα έχει αναπλαισιωθεί στους πεζούς.</translation>
     </message>
     <message>
         <source>If we apply these framing definitions to the previous 3 shots: </source>
-        <translation type="unfinished"></translation>
+        <translation>Αν εφαρμόζουμε αυτούς τους ορισμούς στα 3 προηγούμενα στιγμιότυπα: </translation>
     </message>
     <message>
         <source>The complete image will be shown on all the screen for 2 seconds, then it will be reduced gradually towards the right lower quarter of the screen over 3 seconds while zooming in on the statue, then it will grow again over 2 seconds until it once more occupies the whole screen while the &quot;camera&quot; moves towards the pedestrians.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η πλήρης εικόνα θα εμφανίζεται σε ολόκληρη την οθόνη για 2 δευτερόλεπτα, έπειτα θα συρρικνωθεί σταδιακά για 3 δευτερόλεπτα εστιάζοντας στο άγαλμα στο κάτω δεξιά τέταρτο της οθόνης, έπειτα θα μεγεθυνθεί για 2 δευτερόλεπτα μέχρι να καταλάβει εκ νέου ολόκληρη την οθόνη κατά την μετακίνηση προς τους πεζούς.</translation>
     </message>
     <message>
         <source>ffDiaporama can manage up to several hundreds slides in a single project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το ffDiaporama μπορεί να διαχειριστεί μέχρι και εκατοντάδες διαφάνειες σε ένα μόνο έργο.</translation>
     </message>
     <message>
         <source>Each slide can consist of tens of shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάθε διαφάνεια μπορεί να αποτελείται από δεκάδες στιγμιότυπα.</translation>
     </message>
     <message>
         <source>Each slide can contain tens of blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Κάθε διαφάνεια μπορεί να αποτελείται από δεκάδες τμήματα.</translation>
     </message>
     <message>
         <source>Blocks can be visible on some shots and invisible on other.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα τμήματα μπορεί να είναι ορατά σε ορισμένα στιγμιότυπα και αόρατα σε άλλα.</translation>
     </message>
 </context>
 <context>
     <name>0012</name>
     <message>
         <source>Predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένος τίτλος διαφάνειας</translation>
     </message>
     <message>
         <source> Predefined title slide are complete slides including formatting and animations. </source>
@@ -362,6 +362,10 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <source>The resources used by the models you create are not moved. So, if you include a photo in a model, the model will only be valid until the picture will not move. This is why it is recommended, to think resources included before creating a new model.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>It will always be possible to create slides from a model using the &lt;a href=&quot;0103.html&quot;&gt;Add or modify a predefined title slide dialog box&lt;/a&gt; then convert it to a standard slide using this function: </source>
         <translation type="unfinished"></translation>
     </message>
@@ -369,16 +373,12 @@
         <source> Convert to standard slide</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <source>The resources used by the models you create are not moved. So, if you include a photo in a model, the model will only be valid until the picture will not move. This is why it is recommended, to think resources included before creating a new model.</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>0013</name>
     <message>
         <source>Dynamic variables</source>
-        <translation type="unfinished"></translation>
+        <translation>Δυναμικές μεταβλητές</translation>
     </message>
     <message>
         <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
@@ -761,110 +761,110 @@
     <name>0014</name>
     <message>
         <source>The &quot;Visible&quot; property of blocks and the management of the breaks</source>
-        <translation type="unfinished"></translation>
+        <translation>Η «Ορατή» ιδιότητα των τμημάτων και η διαχείριση παύσεων</translation>
     </message>
     <message>
         <source>Blocks have a visible/invisible property. In the following example, the one image is inserted 3 times (in 3 different blocks) into the same slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα τμήματα έχουν ιδιότητα ορατό/αόρατο. Στο παρακάτω παράδειγμα, η εικόνα εισάγεται 3 φορές (σε 3 διαφορετικά τμήματα) στην ίδια διαφάνεια.</translation>
     </message>
     <message>
         <source>The first block consists of the whole image filling the whole screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Το πρώτο τμήμα καθορίζει την πλήρωση της οθόνης με ολόκληρη την εικόνα</translation>
     </message>
     <message>
         <source>The second block consists of the image re-framed on the statue and positioned in an ellipse at the right of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Το δεύτερο τμήμα καθορίζει την αναπλαισιωμένη εικόνα στο άγαλμα στην έκλειψη στο δεξί τμήμα της οθόνης</translation>
     </message>
     <message>
         <source>The third block consists of the image re-framed on the pedestrians and also positioned in an ellipse at the right of the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Το τρίτο τμήμα καθορίζει την αναπλαισιωμένη εικόνα στους πεζούς και τοποθετείται επίσης σε μια έκλειψη στα δεξιά της οθόνης</translation>
     </message>
     <message>
         <source>The statue and the pedestrians have their visibility property set to invisible on the 1st shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το άγαλμα και οι πεζοί έχουν την ιδιότητα «ορατό» ορισμένη σε «αόρατο» στο 1ο στιγμιότυπο.</translation>
     </message>
     <message>
         <source>Then the statue becomes visible on the 2nd shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Στη συνέχεια το άγαλμα γίνεται ορατό στο 2ο στιγμιότυπο.</translation>
     </message>
     <message>
         <source>Finally, the statue once more becomes invisible on the 3rd shot and the pedestrians become visible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τελικά, το άγαλμα γίνεται εκ νέου αόρατο στο 3ο στιγμιότυπο και οι πεζοί γίνονται ορατοί.</translation>
     </message>
     <message>
         <source>Result:</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποτέλεσμα:</translation>
     </message>
     <message>
         <source>For 2 seconds, the 1st shot is shown and we see only the whole image which occupies all the screen</source>
-        <translation type="unfinished"></translation>
+        <translation>Για 2 δευτερόλεπτα, εμφανίζεται το 1ο στιγμιότυπο και βλέπουμε μόνο την πλήρης εικόνα που καταλαμβάνει όλη την οθόνη</translation>
     </message>
     <message>
         <source>Over the next 2 seconds, the statue appears</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετά από 2 δευτερόλεπτα, εμφανίζεται το άγαλμα</translation>
     </message>
     <message>
         <source>Over a further 2 seconds, the statue is replaced by the pedestrians</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετά από άλλα 2 δευτερόλεπτα, το άγαλμα αντικαθίσταται από τους πεζούς</translation>
     </message>
     <message>
         <source>This example is really very simple, because it is also possible to animate the appearance and the disappearance of blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρόκειται για ένα πολύ απλό παράδειγμα, γιατί είναι εφικτό επίσης να προστεθεί κίνηση στην εμφάνιση και εξαφάνιση των τμημάτων.</translation>
     </message>
     <message>
         <source>Indeed, as shown previously, animations are generated by the transformation of the arrangement from one shot to another.</source>
-        <translation type="unfinished"></translation>
+        <translation>Πράγματι, όπως είδαμε προηγουμένως, τα εφέ δημιουργούνται από τον μετασχηματισμό των διατάξεων από το ένα στιγμιότυπο στο άλλο.</translation>
     </message>
     <message>
         <source>So, if on the 1st shot, the statue occupied the left lower quarter of the screen rather than the same position as on the 2nd shot, then instead of simply appearing for 2 seconds on the 2nd shot, it would appear by growing out of the left lower quarter of the screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Έτσι, στο 1ο στιγμιότυπο, το άγαλμα καταλαμβάνει το κάτω αριστερά τέταρτο της οθόνης αντί της ίδιας θέσης με το 2ο στιγμιότυπο, έπειτα αντί για μια απλή εμφάνιση των 2 δευτερολέπτων στο 2ο στιγμιότυπο, θα εμφανιστεί μεγεθύνοντας προοδευτικά από το κάτω αριστερά τέταρτο της οθόνης.</translation>
     </message>
     <message>
         <source>Using videos:</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρησιμοποιώντας βίντεο:</translation>
     </message>
     <message>
         <source>You should note that videos are paused when they are invisible.</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρέπει να σημειώσετε ότι τα βίντεο είναι σε παύση όταν είναι αόρατα.</translation>
     </message>
     <message>
         <source>Therefore a video can be displayed for several seconds in the 1st shot, then be made invisible and thus paused in a 2nd shot, then be visible in a 3rd shot and resume playing, from where it stopped at the end of the 1st shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ως εκ τούτου ένα βίντεο μπορεί να εμφανίζεται για μερικά δευτερόλεπτα στο 1ο στιγμιότυπο, έπειτα να γίνει αόρατο και να διακοπεί στο 2ο στιγμιότυπο, έπειτα να γίνει ορατό στο 3ο στιγμιότυπο για να συνεχίσει η αναπαραγωγή του, από το σημείο που είχε σταματήσει στο τέλος του 1ου στιγμιότυπου.</translation>
     </message>
 </context>
 <context>
     <name>0015</name>
     <message>
         <source>All shots regulations versus current shot regulations</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι ρυθμίσεις για όλα τα στιγμιότυπα και οι ρυθμίσεις για το στιγμιότυπο σε εξέλιξη</translation>
     </message>
     <message>
         <source>&lt;B&gt;The settings which apply to the current shot.&lt;/B&gt; These settings are made shot by shot. So, every shot possesses its own settings and the passage from a shot to the other one is defined by the passage from one setting to an other one creating a shot animation: these are called Ken Burns effects. Here are some some: </source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Οι ρυθμίσεις που εφαρμόζονται στο στιγμιότυπο σε εξέλιξη.&lt;/B&gt; Αυτές οι ρυθμίσεις εικόνων πραγματοποιούνται ανά στιγμιότυπο. Με αυτόν τον τρόπο, κάθε στιγμιότυπο διαθέτει τις δικές του ρυθμίσεις και η μετάβαση από το ένα στιγμιότυπο στο άλλο καθορίζει την μετάβαση από την μια ρύθμιση στην άλλη δημιουργώντας ένα εφέ για το στιγμιότυπο: είναι αυτό που ονομάζουμε εφέ του Ken Burns. Ορίστε μερικά: </translation>
     </message>
     <message>
         <source>Zoom on a portion of the image</source>
-        <translation type="unfinished"></translation>
+        <translation>Εστίαση ενός τμήματος της εικόνας</translation>
     </message>
     <message>
         <source>Scrolling from a portion of the image to an other one</source>
-        <translation type="unfinished"></translation>
+        <translation>Κύλιση από ένα τμήμα της εικόνας σε ένα άλλο</translation>
     </message>
     <message>
         <source>Clarification or darkening of a portion of the image</source>
-        <translation type="unfinished"></translation>
+        <translation>Φώτιση ή σκίαση ενός τμήματος της εικόνας</translation>
     </message>
     <message>
         <source>etc...</source>
-        <translation type="unfinished"></translation>
+        <translation>κλπ…</translation>
     </message>
     <message>
         <source>&lt;B&gt;The settings which apply to all shots.&lt;/B&gt; These settings are made globally, that is their effects will be visible on all the shots of the slide. Here are some: </source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Οι ρυθμίσεις που εφαρμόζονται σε όλα τα στιγμιότυπα.&lt;/B&gt; Αυτές οι ρυθμίσεις εικόνων πραγματοποιούνται καθολικά, που σημαίνει ότι το αποτέλεσμα θα είναι ορατό σε όλα τα στιγμιότυπα της διαφάνειας. Ορίστε μερικά: </translation>
     </message>
     <message>
         <source>There are two types of settings in the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;:</source>
-        <translation type="unfinished"></translation>
+        <translation>Υπάρχουν δυο τύποι ρυθμίσεων στον &lt;a href=&quot;0119.html&quot;&gt;διάλογο ιδιοτήτων διαφανειών&lt;/a&gt;:</translation>
     </message>
     <message>
         <source>Text and text format</source>
@@ -879,102 +879,102 @@
     <name>0016</name>
     <message>
         <source>Style sheets</source>
-        <translation type="unfinished"></translation>
+        <translation>Φύλλα στυλ</translation>
     </message>
     <message>
         <source>ffDiaporama uses a style sheet system to facilitate the settings for various things.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το ffDiaporama χρησιμοποιεί ένα σύστημα φύλλων στυλ για τη διευκόλυνση των ρυθμίσεων πολλών πραγμάτων.</translation>
     </message>
     <message>
         <source>Style sheets exist for:</source>
-        <translation type="unfinished"></translation>
+        <translation>Έτσι, τα φύλλα στυλ υπάρχουν για:</translation>
     </message>
     <message>
         <source>Controlling the block coordinates, including the parameters of size, position and block rotation, and also the framing style.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τις ρυθμίσεις των συντεταγμένων του τμήματος συμπεριλαμβανομένων των παραμέτρων μεγέθους, θέσης και περιστροφής των τμημάτων, αλλά επίσης του στυλ πλαισίωσης.</translation>
     </message>
     <message>
         <source>Controlling the block shape, which includes the parameters of form, opacity, shadow and block borders.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τις ρυθμίσεις του σχήματος των τμημάτων συμπεριλαμβανομένων των παραμέτρων της μορφής, αδιαφάνειας, σκιάς και περιγράμματος των τμημάτων.</translation>
     </message>
     <message>
         <source>Controlling image framing, which includes the parameters of geometrical constraint and size.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τις ρυθμίσεις πλαισίωσης της εικόνας συμπεριλαμβανομένων των παραμέτρων γεωμετρικών περιορισμών και μεγέθους</translation>
     </message>
     <message>
         <source>Formatting text, which includes the parameters of font, character attributes, alignment and text shadow.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τις ρυθμίσεις κειμένου συμπεριλαμβανομένων των παραμέτρων γραμματοσειράς, των ιδιοτήτων των χαρακτήρων, στοίχισης και σκιάς κειμένου.</translation>
     </message>
     <message>
         <source>Controlling text background, which includes the parameters of background (color, brush, etc.).</source>
-        <translation type="unfinished"></translation>
+        <translation>Τις ρυθμίσεις του φόντου του κειμένου συμπεριλαμβανομένων των παραμέτρων του φόντου (χρώμα, πινέλο, κλπ.)</translation>
     </message>
     <message>
         <source> Open the style menu:</source>
-        <translation type="unfinished"></translation>
+        <translation> Ανοίγει το μενού στυλ:</translation>
     </message>
     <message>
         <source>The first part of the menu lists the known styles. </source>
-        <translation type="unfinished"></translation>
+        <translation>Το πρώτο τμήμα του μενού εμφανίζει τα γνωστά στυλ.</translation>
     </message>
     <message>
         <source>If the current settings correspond to a known style, this style is marked with an asterisk.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν οι τρέχουσες ρυθμίσεις ταιριάζουν με ένα γνωστό στυλ, προστίθεται πριν από αυτό ένα *</translation>
     </message>
     <message>
         <source>The standard styles of ffDiaporama are marked with this icon: </source>
-        <translation type="unfinished"></translation>
+        <translation>Τα τυπικά στυλ του ffDiaporama εμφανίζουν μπροστά τους το εικονίδιο: </translation>
     </message>
     <message>
         <source>Standard styles that you have modified and styles which you created are marked with this icon: </source>
-        <translation type="unfinished"></translation>
+        <translation>Τα τυπικά στυλ που έχετε τροποποιήσει και τα στυλ που έχετε δημιουργήσει εμφανίζεται μπροστά τους το εικονίδιο: </translation>
     </message>
     <message>
         <source>The second part of the menu allows you to modify the style list. </source>
-        <translation type="unfinished"></translation>
+        <translation>Το δεύτερο τμήμα του μενού σας επιτρέπει να τροποποιήσετε τη λίστα των στυλ. </translation>
     </message>
     <message>
         <source>Create a new style: allows you to create a new style with the current settings. When you select this option, a dialog appears asking you to name the new style.</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία ενός νέου στυλ: σας επιτρέπει τη δημιουργία ενός νέου στυλ με τις τρέχουσες ρυθμίσεις. Όταν επιλέγετε αυτή την επιλογή, εμφανίζεται ένας διάλογος που σας ρωτά το όνομα του νέου στυλ.</translation>
     </message>
     <message>
         <source>Modify an existing style: allows you to change the settings of an existing style by using the current settings. When you select this option, the list of known styles appears. Select the style to be modified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Τροποποίηση ενός υπάρχοντος στυλ: σας επιτρέπει την αλλαγή των ρυθμίσεων ενός υπάρχοντος στυλ χρησιμοποιώντας τις τρέχουσες ρυθμίσεις. Όταν επιλέγετε αυτήν την επιλογή, εμφανίζεται η λίστα των γνωστών στυλ. Επιλέξτε το στυλ που θέλετε να τροποποιήσετε.</translation>
     </message>
     <message>
         <source>Manage styles: opens the Manage style dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχείριση στυλ: σας επιτρέπει το άνοιγμα του διαλόγου διαχείρισης στυλ.</translation>
     </message>
 </context>
 <context>
     <name>0020</name>
     <message>
         <source>Interface description</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξήγηση του περιβάλλοντος χρήστη</translation>
     </message>
     <message>
         <source>The main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Το κύριο παράθυρο</translation>
     </message>
     <message>
         <source>The toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Η γραμμή εργαλείων</translation>
     </message>
     <message>
         <source>The timeline</source>
-        <translation type="unfinished"></translation>
+        <translation>Η γραμμή χρονοδιαγράμματος</translation>
     </message>
     <message>
         <source>The multimedia file browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο περιηγητής αρχείων πολυμέσων</translation>
     </message>
     <message>
         <source>Application options</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογές εφαρμογής</translation>
     </message>
     <message>
         <source>Manage devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχείριση συσκευών</translation>
     </message>
     <message>
         <source>Add or modify a predefined title slide</source>
@@ -998,11 +998,11 @@
     </message>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες έργου</translation>
     </message>
     <message>
         <source>Select files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογή αρχείων</translation>
     </message>
     <message>
         <source>Correct, reframe or cut image or video</source>
@@ -1010,47 +1010,47 @@
     </message>
     <message>
         <source>File information</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πληροφορίες αρχείου</translation>
     </message>
     <message>
         <source>Manage favorite</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαχείριση προτιμώμενου</translation>
     </message>
     <message>
         <source>Manage style</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαχείριση του στυλ</translation>
     </message>
     <message>
         <source>Music properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες μουσικής</translation>
     </message>
     <message>
         <source>Render video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δημιουργία του βίντεο</translation>
     </message>
     <message>
         <source>Ruler properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες χαράκων</translation>
     </message>
     <message>
         <source>Edit thumbnail model</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επεξεργασία του μοντέλου της εικόνα επισκόπησης</translation>
     </message>
     <message>
         <source>Set first shot duration for a set of slides</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ρυθμίζει τη διάρκεια του πρώτου στιγμιότυπου για ένα σύνολο διαφανειών</translation>
     </message>
     <message>
         <source>Slide properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες διαφάνειας</translation>
     </message>
     <message>
         <source>Edit text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επεξεργασία κειμένου</translation>
     </message>
     <message>
         <source>Select transition duration for a set of slides</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλέγει τη διάρκεια της μετάβασης για ένα σύνολο διαφανειών</translation>
     </message>
     <message>
         <source>Transition properties</source>
@@ -1066,7 +1066,7 @@
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ευρετήριο</translation>
     </message>
     <message>
         <source>Configuration dialog boxes</source>
@@ -1089,107 +1089,107 @@
     <name>0021</name>
     <message>
         <source>The main window</source>
-        <translation type="unfinished"></translation>
+        <translation>Το κύριο παράθυρο</translation>
     </message>
     <message>
         <source>The main window of ffDiaporama allows all the common tasks of slide management.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το κύριο παράθυρο του ffDiaporama σας επιτρέπει να πραγματοποιήσετε όλες τις συνηθέστερες εργασίες διαχείρισης των διαφανειών.</translation>
     </message>
     <message>
         <source>The general principle is:</source>
-        <translation type="unfinished"></translation>
+        <translation>Η βασική αρχή είναι:</translation>
     </message>
     <message>
         <source>Add files and titles to the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; in the form of slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη αρχείων και τίτλων στη &lt;a href=&quot;0023.html&quot;&gt;γραμμή χρονοδιαγράμματος&lt;/a&gt; στη φόρμα διαφανειών</translation>
     </message>
     <message>
         <source>Organize slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Οργάνωση των διαφανειών</translation>
     </message>
     <message>
         <source>Adjust slides and create animations</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρύθμιση των διαφανειών και δημιουργία εφέ</translation>
     </message>
     <message>
         <source>To manage slides, ffDiaporama provides three display modes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Για την διαχείριση των διαφανειών, το ffDiaporama προτείνει τρεις λειτουργίες προβολής:</translation>
     </message>
     <message>
         <source>File mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Λειτουργία αρχείου</translation>
     </message>
     <message>
         <source>In this mode, the main window is divided into 3 zones: </source>
-        <translation type="unfinished"></translation>
+        <translation>Σε αυτήν τη λειτουργία το κύριο παράθυρο χωρίζεται σε τρεις περιοχές: </translation>
     </message>
     <message>
         <source>The &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Τη &lt;a href=&quot;0023.html&quot;&gt;γραμμή χρονοδιαγράμματος&lt;/a&gt;</translation>
     </message>
     <message>
         <source>The &lt;a href=&quot;0024.html&quot;&gt;multimedia file browser&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Τον &lt;a href=&quot;0024.html&quot;&gt;περιηγητή των αρχείων πολυμέσων&lt;/a&gt;</translation>
     </message>
     <message>
         <source> In this mode, you can display the multimedia files present on your hard disks and insert them using Drag &amp; Drop into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; to create your slide show. </source>
-        <translation type="unfinished"></translation>
+        <translation> Σε αυτήν τη λειτουργία, μπορείτε να εμφανίσετε τα αρχεία πολυμέσων που βρίσκονται στο σκληρό σας δίσκο και με μεταφορά και απόθεση να τα τοποθετήσετε στη &lt;a href=&quot;0023.html&quot;&gt;γραμμή χρονοδιαγράμματος&lt;/a&gt; της προβολής διαφανειών σας. </translation>
     </message>
     <message>
         <source>A small multimedia player is displayed above on the right, near the toolbar and menu, to allow you to preview the slide show. </source>
-        <translation type="unfinished"></translation>
+        <translation>Πάνω δεξιά θα βρείτε έναν μικρό εκτελεστή αρχείων πολυμέσων, δίπλα από τη γραμμή εργαλείων, ο οποίος σας επιτρέπει να δείτε μια προεπισκόπηση της προβολής διαφανειών. </translation>
     </message>
     <message>
         <source>Sheet mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Λειτουργία κατάτμησης</translation>
     </message>
     <message>
         <source>In this mode, the main window is divided into 2 zones: </source>
-        <translation type="unfinished"></translation>
+        <translation>Σε αυτή την λειτουργία, το κύριο παράθυρο είναι χωρισμένο σε 2 περιοχές:</translation>
     </message>
     <message>
         <source> In this mode, the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; is displayed on several lines to show as much slides as possible of the slide show. Slides are shown as on a musical score, in the form of line and at the end of a line, we pass over to the beginning og the following line. </source>
-        <translation type="unfinished"></translation>
+        <translation> Σε αυτή την λειτουργία, η &lt;a href=&quot;0023.html&quot;&gt;γραμμή χρονοδιαγράμματος&lt;/a&gt; εμφανίζεται σε πολλές γραμμές ώστε να προβάλλονται όσον το δυνατόν περισσότερες διαφάνειες. Οι διαφάνειες εμφανίζονται σαν μουσική παρτιτούρα, σε γραμμική μορφή και στο τέλος μιας γραμμής περνάμε στην επόμενη γραμμή.</translation>
     </message>
     <message>
         <source>You can reorganize your slides by moving them using Drag &amp; Drop within the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;. </source>
-        <translation type="unfinished"></translation>
+        <translation>Μπορείτε να οργανώσετε τις διαφάνειες με μεταφορά και απόθεση στη &lt;a href=&quot;0023.html&quot;&gt;γραμμή χρονοδιαγράμματος&lt;/a&gt;. </translation>
     </message>
     <message>
         <source>Preview mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Λειτουργία προεπισκόπησης</translation>
     </message>
     <message>
         <source>A big multimedia player</source>
-        <translation type="unfinished"></translation>
+        <translation>Ένα μεγάλο αναπαραγωγέα πολυμέσων</translation>
     </message>
     <message>
         <source> In this mode, you can preview your slide show in big size. </source>
-        <translation type="unfinished"></translation>
+        <translation> Σε αυτή τη λειτουργία, μπορείτε να προβάλετε τις διαφάνειες σε μεγάλο μέγεθος. </translation>
     </message>
     <message>
         <source>You can modify your slides and preview your changes in the multimedia player </source>
-        <translation type="unfinished"></translation>
+        <translation>Μπορείτε να επεξεργαστείτε τις διαφάνειες και να δείτε μια προεπισκόπηση στον αναπαραγωγέα πολυμέσων </translation>
     </message>
     <message>
         <source> Switch display to file mode</source>
-        <translation type="unfinished"></translation>
+        <translation> Εναλλαγή της προβολής σε λειτουργία αρχείου</translation>
     </message>
     <message>
         <source> Switch display to sheet mode</source>
-        <translation type="unfinished"></translation>
+        <translation> Εναλλαγή της προβολής σε λειτουργία κατάτμησης</translation>
     </message>
     <message>
         <source> Switch display to preview mode</source>
-        <translation type="unfinished"></translation>
+        <translation> Εναλλαγή της προβολής σε λειτουργία προεπισκόπησης</translation>
     </message>
     <message>
         <source>by using contextual menus (right click on an element)</source>
-        <translation type="unfinished"></translation>
+        <translation>μέσω των σχετικών μενού (δεξί κλικ σε ένα αντικείμενο)</translation>
     </message>
     <message>
         <source>by double clicking on elements of the slide</source>
-        <translation type="unfinished"></translation>
+        <translation>με διπλό κλικ στα αντικείμενα της διαφάνειας</translation>
     </message>
     <message>
         <source>The &lt;a href=&quot;0022.html&quot;&gt;toolbar&lt;/a&gt; and menu at the top</source>
@@ -1201,7 +1201,7 @@
     </message>
     <message>
         <source>To change display mode, use the buttons located in the status bar, to the right, at the bottom of the main window.</source>
-        <translation type="unfinished"></translation>
+        <translation>Για εναλλαγή της λειτουργίας προβολής, χρησιμοποιήστε τα κουμπιά που βρίσκονται στη γραμμή κατάστασης, στα δεξιά, στο κάτω μέρος του παραθύρου.</translation>
     </message>
     <message>
         <source>The editing of slides is done:</source>
@@ -1212,283 +1212,284 @@
     <name>0022</name>
     <message>
         <source>The toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Η γραμμή εργαλείων</translation>
     </message>
     <message>
         <source>These buttons are grouped under four tabs: File / Project / Render and Help</source>
-        <translation type="unfinished"></translation>
+        <translation>Τα κουμπιά αυτά είναι ομαδοποιημένα σε τέσσερις καρτέλες Αρχείο / Έργο / Αποτύπωση και Βοήθεια</translation>
     </message>
     <message>
         <source>The project management commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι εντολές διαχείρισης του έργου</translation>
     </message>
     <message>
         <source>The following table summarizes the main project management commands:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο παρακάτω πίνακας συνοψίζει τις κύριες εντολές διαχείρισης:</translation>
     </message>
     <message>
         <source>Toolbar button</source>
-        <translation type="unfinished"></translation>
+        <translation>Κουμπί γραμμής εργαλείων</translation>
     </message>
     <message>
         <source>Project menu command</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντολή μενού έργου</translation>
     </message>
     <message>
         <source>Keyboard shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Συντόμευση πληκτρολογίου</translation>
     </message>
     <message>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Ενέργεια</translation>
     </message>
     <message>
         <source>New</source>
-        <translation type="unfinished"></translation>
+        <translation>Νέο</translation>
     </message>
     <message>
         <source>CTRL+N</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+N</translation>
     </message>
     <message>
         <source>(If the current project has unsaved modifications, ffDiaporama prompts you to save it.)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Αν το τρέχον έργο έχει μη αποθηκευμένες τροποποιήσεις, το ffDiaporama σας προτρέπει να τις αποθηκεύσετε).</translation>
     </message>
     <message>
         <source>Open</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα</translation>
     </message>
     <message>
         <source>CTRL+O</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+O</translation>
     </message>
     <message>
         <source>Allows you to open an existing project. The file selection dialog appears and allows you to select the project to be opened. </source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει να ανοίξετε ένα υπάρχον έργο από το διάλογο επιλογής αρχείων.</translation>
     </message>
     <message>
         <source>(If the current project has unsaved modifications, ffDiaporama prompts you to save it.) </source>
-        <translation type="unfinished"></translation>
+        <translation>(Αν το τρέχον έργο έχει μη αποθηκευμένες τροποποιήσεις, το ffDiaporama σας προτρέπει να τις αποθηκεύσετε).</translation>
     </message>
     <message>
         <source>Remark: if the project contains files which were moved or renamed, ffDiaporama will fail to open them again. In that case, a dialog appears allowing you to select a new file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση: Αν το έργο περιέχει αρχεία που έχουν μετακινηθεί ή μετονομαστεί, το ffDiaporama δεν θα προσπαθήσει να τα ανοίξει την επόμενη φορά. Σε αυτήν την περίπτωση, θα εμφανιστεί ένας διάλογος που σας επιτρέπει την επιλογή ενός νέου αρχείου.</translation>
     </message>
     <message>
         <source>Open recent</source>
-        <translation type="unfinished"></translation>
+        <translation>Άνοιγμα πρόσφατου</translation>
     </message>
     <message>
         <source>Allows you to reopen a recently opened project. ffDiaporama stores a list of the last ten projects.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει το άνοιγμα ενός πρόσφατα ανοιγμένου έργου. Το ffDiaporama αποθηκεύει μια λίστα με τα τελευταία δέκα έργα.</translation>
     </message>
     <message>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση</translation>
     </message>
     <message>
         <source>CTRL+S</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+S</translation>
     </message>
     <message>
         <source>Allows you to save the current project in a project file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει την αποθήκευση του τρέχοντος έργου.</translation>
     </message>
     <message>
         <source>If you have not saved previously the project, a file selection dialog appears and allows you to select a destination file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν δεν έχετε προηγουμένως αποθηκεύσει ήδη το έργο, θα εμφανιστεί ένας διάλογος επιλογής αρχείων για την επιλογή του αρχείου προορισμού που θα αποθηκεύσετε το έργο σας.</translation>
     </message>
     <message>
         <source>Save as</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση ως</translation>
     </message>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες έργου</translation>
     </message>
     <message>
         <source>Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίσεις</translation>
     </message>
     <message>
         <source>Quit</source>
-        <translation type="unfinished"></translation>
+        <translation>Έξοδος</translation>
     </message>
     <message>
         <source>CTRL+W</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+W</translation>
     </message>
     <message>
         <source>Allows you to exit ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει την έξοδο από το πρόγραμμα ffDiaporama.</translation>
     </message>
     <message>
         <source>The slide management commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι εντολές διαχείρισης διαφανειών</translation>
     </message>
     <message>
         <source>The following table summarizes the slide management commands:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο παρακάτω πίνακας συνοψίζει τις κύριες εντολές διαχείρισης:</translation>
     </message>
     <message>
         <source>Edit menu command</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντολή του μενού Επεξεργασία</translation>
     </message>
     <message>
         <source>Add title</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη τίτλου</translation>
     </message>
     <message>
         <source>Add files</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη αρχείων</translation>
     </message>
     <message>
         <source>INS</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Keyboard shortcut</translatorcomment>
+        <translation>INS</translation>
     </message>
     <message>
         <source>Note: Each file selected is added to the project alphabetically by filename or in the numerical order of shots. </source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση: Κάθε επιλεγμένο αρχείο προστίθεται στο έργο με την αλφαβητική σειρά του ονόματος του αρχείου ή με την αριθμητική σειρά των στιγμιοτύπων. </translation>
     </message>
     <message>
         <source>Cameras number pictures/video sequences as they are taken; using numerical order ensures the correct chronological order of shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι λήψεις φωτογραφιών/βίντεο από τις ψηφιακές κάμερες, χρησιμοποιούν μια αύξουσα σειρά αρίθμησης εξασφαλίζοντας τη χρονολογική σειρά των λήψεων.</translation>
     </message>
     <message>
         <source>Add project</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη έργου</translation>
     </message>
     <message>
         <source>Cut</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποκοπή</translation>
     </message>
     <message>
         <source>CTRL+X</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+X</translation>
     </message>
     <message>
         <source>Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντιγραφή</translation>
     </message>
     <message>
         <source>CTRL+C</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+C</translation>
     </message>
     <message>
         <source>Allows you to copy the current slide to the clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει να αντιγράψετε την τρέχουσα διαφάνεια στο πρόχειρο.</translation>
     </message>
     <message>
         <source>Paste</source>
-        <translation type="unfinished"></translation>
+        <translation>Επικόλληση</translation>
     </message>
     <message>
         <source>CTRL+V</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+V</translation>
     </message>
     <message>
         <source>Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία</translation>
     </message>
     <message>
         <source>Opens a sub-menu giving access to the slide modification functions</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανοίγει ένα υπομενού το οποίο δίνει πρόσβαση στις λειτουργίες τροποποίησης</translation>
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>Αφαίρεση</translation>
     </message>
     <message>
         <source>DEL</source>
-        <translation type="unfinished"></translation>
+        <translation>DEL</translation>
     </message>
     <message>
         <source>Allows you to remove the current slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει την αφαίρεση της διαφάνειας.</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημειώσεις:</translation>
     </message>
     <message>
         <source>Inserted slides are either at the end of the project, or after the current slide, depending to the option &quot;add the new slides (at the end of the project or after the current slide) &quot; in the configuration dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι εισηγμένες διαφάνειες βρίσκονται είτε στο τέλος του έργου, είτε μετά από την τρέχουσα διαφάνεια, ανάλογα με την επιλογή του “προσθήκη των νέων διαφανειών (στο τέλος του έργου ή μετά από την τρέχουσα διαφάνεια)” από το διάλογο διαμόρφωσης.</translation>
     </message>
     <message>
         <source>The render commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι εντολές αποτύπωσης</translation>
     </message>
     <message>
         <source>The following table summarizes the main render commands:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο παρακάτω πίνακας συνοψίζει τις κύριες εντολές αποτύπωσης:</translation>
     </message>
     <message>
         <source>Render menu command</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντολή του μενού Αποτύπωση</translation>
     </message>
     <message>
         <source>Player and Smartphone</source>
-        <translation type="unfinished"></translation>
+        <translation>  Αναπαραγωγέας και Smartphone</translation>
     </message>
     <message>
         <source>Multimedia system</source>
-        <translation type="unfinished"></translation>
+        <translation>Σύστημα πολυμέσων</translation>
     </message>
     <message>
         <source>For the WEB</source>
-        <translation type="unfinished"></translation>
+        <translation>Για τον Ιστό</translation>
     </message>
     <message>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>Μη απωλεστικό</translation>
     </message>
     <message>
         <source>Advanced</source>
-        <translation type="unfinished"></translation>
+        <translation>Για προχωρημένους</translation>
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση:</translation>
     </message>
     <message>
         <source>The lossless format is readable only by few equipment and generates files of enormous size. Consequently, it is useful only to generate parts of a project which will then be joined into a final project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η η απωλεστική μορφή είναι αναγνώσιμη από μερικές μόνο συσκευές και δημιουργεί αρχεία μεγάλα σε μέγεθος. Συνεπώς, είναι χρήσιμο στην περίπτωση δημιουργίας ενός τμήματος του έργου το οποίο στη συνέχεια θα ενωθεί στο τελικό έργο.</translation>
     </message>
     <message>
         <source>The help commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι εντολές βοήθειας</translation>
     </message>
     <message>
         <source>The following table summarizes the main help commands:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο παρακάτω πίνακας συνοψίζει τις κύριες εντολές βοήθειας:</translation>
     </message>
     <message>
         <source>Help menu command</source>
-        <translation type="unfinished"></translation>
+        <translation>Εντολή του μενού Βοήθεια</translation>
     </message>
     <message>
         <source>About</source>
-        <translation type="unfinished"></translation>
+        <translation>Σχετικά</translation>
     </message>
     <message>
         <source>Opens the about dialog. This displays information about the release, license and system information</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει το άνοιγμα του διαλόγου Σχετικά, όπου μπορείτε να βρείτε πληροφορίες σχετικά με την έκδοση, την άδεια χρήσης, και πληροφορίες του συστήματος</translation>
     </message>
     <message>
         <source>Support and help (F1)</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποστήριξη και βοήθεια (F1)</translation>
     </message>
     <message>
         <source>Opens the ffDiaporama WIKI index</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανοίγει την αρχική σελίδα του WIKI του ffDiaporama</translation>
     </message>
     <message>
         <source>What&apos;s new</source>
-        <translation type="unfinished"></translation>
+        <translation>Τι νέο υπάρχει</translation>
     </message>
     <message>
         <source>Opens the Blog/News page from the ffDiaporama website</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανοίγει την σελίδα του ιστολογίου/ειδήσεων από την ιστοσελίδα του ffDiaporama</translation>
     </message>
     <message>
         <source>Allows you to create a new blank project. The &lt;a href=&quot;0108.html&quot;&gt;project properties dialog&lt;/a&gt; appears and allows you to setup the new project. </source>
@@ -1599,7 +1600,7 @@
     <name>0023</name>
     <message>
         <source>The timeline</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η γραμμή χρονοδιαγράμματος</translation>
     </message>
     <message>
         <source>The timeline lists the slides which compose the project. The slides are listed from left to right.</source>
@@ -1743,7 +1744,7 @@
     </message>
     <message>
         <source>etc...</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">κλπ…</translation>
     </message>
     <message>
         <source>To reorder the slide in the timeline:</source>
@@ -1806,7 +1807,7 @@
     <name>0024</name>
     <message>
         <source>The multimedia file browser</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ο περιηγητής αρχείων πολυμέσων</translation>
     </message>
     <message>
         <source>ffDiaporama offers a multimedia file browser which is shown in the main window when you select the file browser mode in the main window. It is designed for quick access to the multimedia files on your computer.</source>
@@ -1826,7 +1827,7 @@
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σημείωση:</translation>
     </message>
     <message>
         <source>Files can be presented differently than by the system file browser (presence of filters showing only some files - management of the file/icon pairs - etc.)</source>
@@ -2249,11 +2250,11 @@
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής βίντεο:</translation>
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής ήχου:</translation>
     </message>
     <message>
         <source>Containers</source>
@@ -2273,7 +2274,7 @@
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ευρετήριο</translation>
     </message>
 </context>
 <context>
@@ -2951,7 +2952,7 @@
     <name>0036</name>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής βίντεο:</translation>
     </message>
     <message>
         <source>The following table lists the video codecs which ffDiaporama can use to generate videos:</source>
@@ -3098,7 +3099,7 @@
     <name>0037</name>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής ήχου:</translation>
     </message>
     <message>
         <source>The following table lists the audio codecs which ffDiaporama can use to generate videos:</source>
@@ -3810,7 +3811,7 @@
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ευρετήριο</translation>
     </message>
 </context>
 <context>
@@ -4129,7 +4130,7 @@
     </message>
     <message>
         <source>Application options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογές εφαρμογής</translation>
     </message>
     <message>
         <source>Remember Windows size and positions</source>
@@ -4277,7 +4278,7 @@
     </message>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες έργου</translation>
     </message>
     <message>
         <source>Title</source>
@@ -4293,10 +4294,6 @@
     </message>
     <message>
         <source>Fill with project name when project save : The title will take the same name as the .ffd file</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <source>Fill with project folder name when project save : The title will take the same name as the folder in witch is save the .ffd file</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -4521,7 +4518,7 @@
     </message>
     <message>
         <source>Multimedia system</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σύστημα πολυμέσων</translation>
     </message>
     <message>
         <source>Selects the default type and equipment model when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</source>
@@ -4537,7 +4534,7 @@
     </message>
     <message>
         <source>Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μη απωλεστικό</translation>
     </message>
     <message>
         <source>Selects the default image size to be used when you will click the &quot;Lossless&quot; button of the &quot;Render movie&quot; menu</source>
@@ -4573,7 +4570,7 @@
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής βίντεο:</translation>
     </message>
     <message>
         <source>Selects the default video codec to use for the rendering out of the proposed list.</source>
@@ -4585,7 +4582,7 @@
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής ήχου:</translation>
     </message>
     <message>
         <source>Selects the default audio codec to use for the rendering out of the proposed list.</source>
@@ -4825,6 +4822,10 @@
     </message>
     <message>
         <source>Defines the default value for the field Author that is often so called Artist by </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <source>Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -5402,7 +5403,7 @@
     <name>0108</name>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες έργου</translation>
     </message>
     <message>
         <source>This information will then be registered in the form of TAGs in the rendered video files. </source>
@@ -5638,7 +5639,7 @@
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σημείωση:</translation>
     </message>
     <message>
         <source>This field is only editable when the dialog box is used for creating a new project. Subsequently, it is not possible to change this value.</source>
@@ -5781,7 +5782,7 @@
     <name>0109</name>
     <message>
         <source>Select files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογή αρχείων</translation>
     </message>
     <message>
         <source>This dialog box is used in very many cases in the application.</source>
@@ -6227,7 +6228,7 @@
     <name>0111</name>
     <message>
         <source>File information</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πληροφορίες αρχείου</translation>
     </message>
     <message>
         <source>This dialog allows to obtain detailed information on a multimedia file.</source>
@@ -6577,7 +6578,7 @@
     <name>0113</name>
     <message>
         <source>Manage style</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαχείριση του στυλ</translation>
     </message>
     <message>
         <source>The Manage style dialog allows several things:</source>
@@ -6645,7 +6646,7 @@
     </message>
     <message>
         <source>Remove</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αφαίρεση</translation>
     </message>
     <message>
         <source>Allows to remove the personalized style.</source>
@@ -6664,7 +6665,7 @@
     <name>0114</name>
     <message>
         <source>Music properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες μουσικής</translation>
     </message>
     <message>
         <source>The Music properties dialog allows you to specify the music track.</source>
@@ -6776,7 +6777,7 @@
     </message>
     <message>
         <source>The toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η γραμμή εργαλείων</translation>
     </message>
     <message>
         <source>Adds a file to the playlist A file selection dialog appears, allowing you to select a file.</source>
@@ -6823,7 +6824,7 @@
     <name>0115</name>
     <message>
         <source>Render video</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δημιουργία του βίντεο</translation>
     </message>
     <message>
         <source>This dialog allows you to render the project as a video file.</source>
@@ -6943,7 +6944,7 @@
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής βίντεο:</translation>
     </message>
     <message>
         <source>Select the video codec to be used to render the video from the displayed list.</source>
@@ -6959,7 +6960,7 @@
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής ήχου:</translation>
     </message>
     <message>
         <source>Select the audio codec to be used to render the video from the displayed list.</source>
@@ -7074,7 +7075,7 @@
     <name>0116</name>
     <message>
         <source>Ruler properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες χαράκων</translation>
     </message>
     <message>
         <source>This dialog allows you to enable or disable rulers.</source>
@@ -7141,7 +7142,7 @@
     <name>0117</name>
     <message>
         <source>Edit thumbnail model</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επεξεργασία του μοντέλου της εικόνα επισκόπησης</translation>
     </message>
     <message>
         <source>This dialog allows you to edit custom thumbnails and custom thumbnails models.</source>
@@ -7640,7 +7641,7 @@
     <name>0118</name>
     <message>
         <source>Set first shot duration for a set of slides</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ρυθμίζει τη διάρκεια του πρώτου στιγμιότυπου για ένα σύνολο διαφανειών</translation>
     </message>
     <message>
         <source>First shot duration</source>
@@ -7671,7 +7672,7 @@
     <name>0119</name>
     <message>
         <source>Slide properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες διαφάνειας</translation>
     </message>
     <message>
         <source>On the top: The &lt;a href=&quot;#Toolbar&quot;&gt;Toolbar&lt;/a&gt; allows to launch the main slide editing commands, and the &lt;a href=&quot;#ShotSettings&quot;&gt;Shot settings&lt;/a&gt; zone.</source>
@@ -7835,7 +7836,7 @@
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σημείωση:</translation>
     </message>
     <message>
         <source>The order of the shots can be changed by using Drag &amp; Drop.</source>
@@ -8462,7 +8463,7 @@
     <name>0120</name>
     <message>
         <source>Edit text</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επεξεργασία κειμένου</translation>
     </message>
     <message>
         <source>This dialog allows you to modify the text within a block.</source>
@@ -8733,7 +8734,7 @@
     <name>0121</name>
     <message>
         <source>Select transition duration for a set of slides</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλέγει τη διάρκεια της μετάβασης για ένα σύνολο διαφανειών</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -8871,15 +8872,15 @@
     <name>QHP</name>
     <message>
         <source>Welcome to the ffDiaporama WIKI</source>
-        <translation type="unfinished"></translation>
+        <translation>Καλώς ήλθατε στο WIKI του ffDiaporama</translation>
     </message>
     <message>
         <source>How ffDiaporama works</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πώς λειτουργεί το ffDiaporama</translation>
     </message>
     <message>
         <source>Functional principles</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αρχή λειτουργίας</translation>
     </message>
     <message>
         <source>The Visible property of blocks and the management of the breaks</source>
@@ -8887,31 +8888,31 @@
     </message>
     <message>
         <source>All shots regulations versus current shot regulations</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Οι ρυθμίσεις για όλα τα στιγμιότυπα και οι ρυθμίσεις για το στιγμιότυπο σε εξέλιξη</translation>
     </message>
     <message>
         <source>Style sheets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Φύλλα στυλ</translation>
     </message>
     <message>
         <source>Interface description</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επεξήγηση του περιβάλλοντος χρήστη</translation>
     </message>
     <message>
         <source>The main window</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Το κύριο παράθυρο</translation>
     </message>
     <message>
         <source>The toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η γραμμή εργαλείων</translation>
     </message>
     <message>
         <source>The timeline</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Η γραμμή χρονοδιαγράμματος</translation>
     </message>
     <message>
         <source>The multimedia file browser</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ο περιηγητής αρχείων πολυμέσων</translation>
     </message>
     <message>
         <source>Dialog boxes</source>
@@ -8919,11 +8920,11 @@
     </message>
     <message>
         <source>Application options</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλογές εφαρμογής</translation>
     </message>
     <message>
         <source>Manage devices</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαχείριση συσκευών</translation>
     </message>
     <message>
         <source>Add or modify a predefined title slide</source>
@@ -8947,11 +8948,11 @@
     </message>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες έργου</translation>
     </message>
     <message>
         <source>Select files</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή αρχείων</translation>
     </message>
     <message>
         <source>Correct, reframe or cut image or video</source>
@@ -8959,47 +8960,47 @@
     </message>
     <message>
         <source>File information</source>
-        <translation type="unfinished"></translation>
+        <translation>Πληροφορίες αρχείου</translation>
     </message>
     <message>
         <source>Manage favorite</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχείριση προτιμώμενου</translation>
     </message>
     <message>
         <source>Manage style</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαχείριση του στυλ</translation>
     </message>
     <message>
         <source>Music properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες μουσικής</translation>
     </message>
     <message>
         <source>Render video</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία του βίντεο</translation>
     </message>
     <message>
         <source>Ruler properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες χαράκων</translation>
     </message>
     <message>
         <source>Edit thumbnail model</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία του μοντέλου της εικόνα επισκόπησης</translation>
     </message>
     <message>
         <source>Set first shot duration for a set of slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίζει τη διάρκεια του πρώτου στιγμιότυπου για ένα σύνολο διαφανειών</translation>
     </message>
     <message>
         <source>Slide properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες διαφάνειας</translation>
     </message>
     <message>
         <source>Edit text</source>
-        <translation type="unfinished"></translation>
+        <translation>Επεξεργασία κειμένου</translation>
     </message>
     <message>
         <source>Select transition duration for a set of slides</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέγει τη διάρκεια της μετάβασης για ένα σύνολο διαφανειών</translation>
     </message>
     <message>
         <source>Transition properties</source>
@@ -9023,15 +9024,15 @@
     </message>
     <message>
         <source>For the WEB</source>
-        <translation type="unfinished"></translation>
+        <translation>Για το διαδίκτυο</translation>
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικοποιητής βίντεο:</translation>
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικοποιητής ήχου:</translation>
     </message>
     <message>
         <source>Containers</source>
@@ -9067,7 +9068,7 @@
     </message>
     <message>
         <source>Dynamic variables</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δυναμικές μεταβλητές</translation>
     </message>
     <message>
         <source>Predefined title slide</source>
@@ -9094,15 +9095,15 @@
     <name>main</name>
     <message>
         <source>Welcome to the ffDiaporama WIKI</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Καλώς ήλθατε στο WIKI του ffDiaporama</translation>
     </message>
     <message>
         <source>How ffDiaporama works</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πώς λειτουργεί το ffDiaporama</translation>
     </message>
     <message>
         <source>Interface description</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επεξήγηση του περιβάλλοντος χρήστη</translation>
     </message>
     <message>
         <source>Rendering videos</source>
@@ -9125,11 +9126,11 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Other elements of documentation are available on the </source>
+        <source>This documentation is divided into the followed themes:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>This documentation is divided into the followed themes:</source>
+        <source>Other elements of documentation are available on the </source>
         <translation type="unfinished"></translation>
     </message>
 </context>

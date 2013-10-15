@@ -48,11 +48,11 @@ public:
                     ~DlgTextEdit();
 
     // function to be overloaded
-    virtual void    DoInitDialog();                                         // Initialise dialog
-    virtual bool    DoAccept()          {return true;}                      // Call when user click on Ok button
-    virtual void    DoRejet()           {/*Nothing to do*/}                 // Call when user click on Cancel button
-    virtual void    PrepareGlobalUndo();                                    // Initiale Undo
-    virtual void    DoGlobalUndo();                                         // Apply Undo : call when user click on Cancel button
+    virtual void    DoInitDialog();                                                                     // Initialise dialog
+    virtual bool    DoAccept()          { CurrentTextItem->ComputeOptimisationFlags(); return true; }   // Call when user click on Ok button
+    virtual void    DoRejet()           { CurrentTextItem->ComputeOptimisationFlags();              }   // Call when user click on Cancel button
+    virtual void    PrepareGlobalUndo();                                                                // Initiale Undo
+    virtual void    DoGlobalUndo();                                                                     // Apply Undo : call when user click on Cancel button
     virtual void    PreparePartialUndo(int ActionType,QDomElement root);
     virtual void    ApplyPartialUndo(int ActionType,QDomElement root);
 

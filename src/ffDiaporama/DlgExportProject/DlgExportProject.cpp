@@ -87,6 +87,11 @@ void DlgExportProject::DoInitDialog() {
 
 bool DlgExportProject::DoAccept() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgExportProject::DoAccept");
+    if (ui->ProjectSubfolderED->text().isEmpty()) {
+        CustomMessageBox(this,QMessageBox::Critical,this->windowTitle(),QApplication::translate("DlgExportProject","Error: Project subfolder can't be empty","Error message"),QMessageBox::Close);
+        ui->ProjectSubfolderED->setFocus();
+        return false;
+    }
     BaseApplicationConfig->LastExportPath=DestinationPath;
     JobStarted=true;
     ui->OkBt->setEnabled(false);

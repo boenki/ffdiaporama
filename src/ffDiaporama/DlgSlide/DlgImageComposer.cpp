@@ -520,7 +520,6 @@ cCompositionObject *DlgImageComposer::GetGlobalCompositionObject(int IndexKey) {
 //=========  Refresh the BlockTable
 void DlgImageComposer::RefreshBlockTable(int SetCurrentIndex) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::RefreshBlockTable");
-
     ui->BlockTable->setUpdatesEnabled(false);
     ui->BlockTable->setRowCount(CompositionList->List.count());
     for (int i=0;i<ui->BlockTable->rowCount();i++) ui->BlockTable->setRowHeight(i,48+2+((((cBaseApplicationConfig *)BaseApplicationConfig)->TimelineHeight-TIMELINEMINHEIGH)/20+1)*3);
@@ -611,6 +610,8 @@ void DlgImageComposer::RefreshControls(bool UpdateInteractiveZone) {
     if ((InRefreshControls)||(!CompositionList)) return;
     InRefreshControls=true;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
+
+    for (int i=0;i<CompositionList->List.count();i++) CompositionList->List[i]->ComputeOptimisationFlags();
 
     //***********************
     // Tools button

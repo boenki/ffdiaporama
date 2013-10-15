@@ -9,7 +9,7 @@
     </message>
     <message>
         <source> This section contains general information on the concepts and methods of use of ffDiaporama </source>
-        <translation> Esta secção contém informação geral nos coneitos e métodos usados na utilização do ffDiaporama </translation>
+        <translation> Esta secção contém informação geral nos conceitos e métodos usados na utilização do ffDiaporama </translation>
     </message>
     <message>
         <source>Index</source>
@@ -271,107 +271,107 @@
     </message>
     <message>
         <source> Predefined title slide are complete slides including formatting and animations. </source>
-        <translation type="unfinished"></translation>
+        <translation>Slide de título predefinido são slides completos, incluindo formatação e animações.</translation>
     </message>
     <message>
         <source>The main interest of these slides is to standardize the slides within a project or across projects. </source>
-        <translation type="unfinished"></translation>
+        <translation>O principal interesse desses slides é padronizar os slides dentro de um projecto ou entre projectos. </translation>
     </message>
     <message>
         <source>ffDiaporama included many Predefined title slides, but you can also define your own Predefined title slides. </source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama incluiu muitos slides de título predefinidos, mas você também pode definir os seus próprios slides de título predefinidos. </translation>
     </message>
     <message>
         <source>To do this, create a standard slide using the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog box&lt;/a&gt; and save your slide as a model using: </source>
-        <translation type="unfinished"></translation>
+        <translation>Para fazer isso, crie um slide padrão, utilizando a &lt;a href=&quot;0119.html&quot;&gt;Caixa de diálogo Propriedades do slide&lt;/a&gt;e salve o seu slide como um modelo usando:</translation>
     </message>
     <message>
         <source> Save as model function.</source>
-        <translation type="unfinished"></translation>
+        <translation>Função modelo Salvar como.</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Observações:</translation>
+        <translation>Observações:</translation>
     </message>
     <message>
         <source>Predefined title slides are defined according to the following three categories: </source>
-        <translation type="unfinished"></translation>
+        <translation>Slides de título predefinidos são definidos de acordo com as três categorias seguintes:</translation>
     </message>
     <message>
         <source>Project title</source>
-        <translation type="unfinished">Título do Projeto</translation>
+        <translation>Título do Projeto</translation>
     </message>
     <message>
         <source>This type of slide is usually used early in the project as the opening credits. </source>
-        <translation type="unfinished">Este tipo de slide é usado geralmente no início do projeto, como os créditos de abertura.</translation>
+        <translation>Este tipo de slide é usado geralmente no início do projeto, como os créditos de abertura.</translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
-        <translation type="unfinished">As variáveis ​​de textos que são usados ​​pelas modelos deste tipo de slide são baseadas apenas em informações do projecto. Para mais informações sobre informações sobre o projecto, consulte: &lt;a href=&quot;0108.html&quot;&gt; Caixa de diálogo Propriedades do projecto &lt;/a&gt;</translation>
+        <translation>As variáveis ​​de textos que são usados ​​pelas modelos deste tipo de slide são baseadas apenas em informações do projecto. Para mais informações sobre informações sobre o projecto, consulte: &lt;a href=&quot;0108.html&quot;&gt; Caixa de diálogo Propriedades do projecto &lt;/a&gt;</translation>
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished">Título do Capítulo</translation>
+        <translation>Título do Capítulo</translation>
     </message>
     <message>
         <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
-        <translation type="unfinished">Este tipo de slide é normalmente usado várias vezes no projeto para marcar o início do capítulo.</translation>
+        <translation>Este tipo de slide é normalmente usado várias vezes no projecto para marcar o início do capítulo.</translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
-        <translation type="unfinished">As variáveis ​​de textos que são usados ​​pelas modelos deste tipo de slides são baseados em informações do projeto e na informação capítulo.</translation>
+        <translation>As variáveis ​​de textos que são usados ​​pelas modelos deste tipo de slides são baseados em informações do projecto e na informação capítulo.</translation>
     </message>
     <message>
         <source>Credit title</source>
-        <translation type="unfinished">Título de créditos</translation>
+        <translation>Título de créditos</translation>
     </message>
     <message>
         <source>This type of slide is usually used at the end of the project as the end credits. </source>
-        <translation type="unfinished">Este tipo de slide é usado geralmente no final do projeto, como os créditos finais.</translation>
+        <translation>Este tipo de slide é usado geralmente no final do projecto, como os créditos finais.</translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation type="unfinished">As variáveis ​​de textos que são usados ​​pelas modelos deste tipo de slide são geralmente calculadas. Para mais informações sobre variáveis ​​de textos, veja: &lt;a href=&quot;0013.html&quot;&gt; Variáveis ​​dinâmicas &lt;/ a&gt;</translation>
+        <translation>As variáveis ​​de textos que são usados ​​pelas modelos deste tipo de slide são geralmente calculadas. Para mais informações sobre variáveis ​​de textos, veja: &lt;a href=&quot;0013.html&quot;&gt; Variáveis ​​dinâmicas &lt;/ a&gt;</translation>
     </message>
     <message>
         <source>Within each category, the predefined title slides are classified into the following types: </source>
-        <translation type="unfinished"></translation>
+        <translation>Dentro de cada categoria, os slides de título predefinidos são classificados nos seguintes tipos:</translation>
     </message>
     <message>
         <source>Statics models</source>
-        <translation type="unfinished">Modelos estáticos</translation>
+        <translation>Modelos estáticos</translation>
     </message>
     <message>
         <source>This type lists statics models ie without animations.</source>
-        <translation type="unfinished">Este tipo de listas estática modelos ou seja, sem animações.</translation>
+        <translation>Este tipo de listas estática modelos ou seja, sem animações.</translation>
     </message>
     <message>
         <source>Animated models</source>
-        <translation type="unfinished">Modelos animados</translation>
+        <translation>Modelos animados</translation>
     </message>
     <message>
         <source>This type lists animated models ie with several shots.</source>
-        <translation type="unfinished">Este tipo apresenta modelos animados ou seja, com vários tiros.</translation>
+        <translation>Este tipo apresenta modelos animados ou seja, com vários tiros.</translation>
     </message>
     <message>
         <source>Custom models</source>
-        <translation type="unfinished">Modelos personalizados</translation>
+        <translation>Modelos personalizados</translation>
     </message>
     <message>
         <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
-        <translation type="unfinished">Este tipo lista os modelos que você salvou com o &lt;I&gt; &lt;B&gt; Salvar como modelo &lt;/I&gt; &lt;/B&gt; função da &lt;a href=&quot;0119.html&quot;&gt; caixa de diálogo propriedades do slide &lt;/a&gt;.</translation>
+        <translation>Este tipo lista os modelos que você salvou com o &lt;I&gt; &lt;B&gt; Salvar como modelo &lt;/I&gt; &lt;/B&gt; função da &lt;a href=&quot;0119.html&quot;&gt; caixa de diálogo propriedades do slide &lt;/a&gt;.</translation>
     </message>
     <message>
         <source>It will always be possible to create slides from a model using the &lt;a href=&quot;0103.html&quot;&gt;Add or modify a predefined title slide dialog box&lt;/a&gt; then convert it to a standard slide using this function: </source>
-        <translation type="unfinished"></translation>
+        <translation>Será sempre possível criar slides a partir de um modelo usando &lt;a href=&quot;0103.html&quot;&gt;Caixa de diálogo Adicionar ou modificar slide de título predefinido &lt;/a&gt;e, em seguida, convertê-lo em um slide padrão usando esta função:</translation>
     </message>
     <message>
         <source> Convert to standard slide</source>
-        <translation type="unfinished">Converter para slide padrão</translation>
+        <translation>Converter para slide padrão</translation>
     </message>
     <message>
         <source>The resources used by the models you create are not moved. So, if you include a photo in a model, the model will only be valid until the picture will not move. This is why it is recommended, to think resources included before creating a new model.</source>
-        <translation type="unfinished"></translation>
+        <translation>Os recursos utilizados pelos modelos criados por si não são movidos. Então, se você incluir uma foto em um modelo, o modelo só será válida até que a imagem não se mova. Por isso, recomenda-se, que pense na utilização de recursos incluídos antes de criar um novo modelo.</translation>
     </message>
 </context>
 <context>
@@ -1070,19 +1070,19 @@
     </message>
     <message>
         <source>Configuration dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Caixas de diálogo de configuração</translation>
     </message>
     <message>
         <source>Editing dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Edição de caixas de diálogo</translation>
     </message>
     <message>
         <source>Dialog boxes related to the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Caixas de diálogo relacionados com o projecto</translation>
     </message>
     <message>
         <source>Various dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Várias caixas de diálogo</translation>
     </message>
 </context>
 <context>
@@ -1787,19 +1787,19 @@
     </message>
     <message>
         <source>To select the current slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Para selecionar o slide actual:</translation>
     </message>
     <message>
         <source>Click on a slide to define it as current slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Clique num slide para defini-lo como slide actual.</translation>
     </message>
     <message>
         <source>Use the mouse wheel to change the current slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Use a roda do rato para mudar o slide actual.</translation>
     </message>
     <message>
         <source>Note: When previewing the selected slide is automatically defined on the current slide preview.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nota: Ao visualizar o slide selecionado é automaticamente definido na corrente pré-visualização de slides.</translation>
     </message>
 </context>
 <context>
@@ -2619,7 +2619,7 @@
     </message>
     <message>
         <source>The device models available in ffDiaporama are as follows: </source>
-        <translation type="unfinished"></translation>
+        <translation>Os modelos de dispositivos disponíveis no ffDiaporama são como se segue:</translation>
     </message>
 </context>
 <context>
@@ -4297,10 +4297,6 @@
         <translation>Preencher com o nome do projecto ao salvar o projecto : O título terá o mesmo nome do arquivo .ffd</translation>
     </message>
     <message>
-        <source>Fill with project folder name when project save : The title will take the same name as the folder in witch is save the .ffd file</source>
-        <translation>Preencha com o nome da pasta do projecto quando salvar o projecto: O título terá o mesmo nome que a pasta em que é salvo o arquivo .ffd</translation>
-    </message>
-    <message>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
@@ -4828,6 +4824,10 @@
         <source> Manage device allows to open the &lt;a href=&quot;0102.html&quot;&gt;Manage device dialog&lt;/a&gt;</source>
         <translation>Gerir dispositivos que permite abrir a &lt;a href=&quot;0102.html&quot;&gt; caixa de diálogo Gerir dispositivos &lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file</source>
+        <translation>Preencha com o nome da pasta do projecto quando salvar o projecto : O título terá o mesmo nome que a pasta na qual é salvo o arquivo .ffd</translation>
+    </message>
 </context>
 <context>
     <name>0102</name>
@@ -4917,11 +4917,11 @@
     </message>
     <message>
         <source>This dialog box allows you to modify the equipment profiles database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta caixa de diálogo permite que você modifique o banco de dados de perfis de equipamento.</translation>
     </message>
     <message>
         <source>The database is actually composed of two parts:</source>
-        <translation type="unfinished"></translation>
+        <translation>O banco de dados é, actualmente, composto de duas partes:</translation>
     </message>
 </context>
 <context>
@@ -5309,15 +5309,15 @@
     </message>
     <message>
         <source>It is especially useful for the Linux users and for those who compiles the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ele é especialmente útil para os utilizadores de Linux e para aqueles que compilam o aplicativo.</translation>
     </message>
     <message>
         <source>The most common shown errors concern the supported formats, codec and library versions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Os erros mostrados mais comuns dizem respeito aos formatos suportados, versões codec e de biblioteca.</translation>
     </message>
     <message>
         <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para resolver os problemas que você terá que instalar pacotes adicionais no seu computador e poderá reiniciar o ffDiaporama a partir do código fonte e verificar novamente a configuração.</translation>
     </message>
 </context>
 <context>
@@ -5777,7 +5777,7 @@
     </message>
     <message>
         <source> This dialog allows you to define the information which qualifies the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Esta caixa de diálogo permite que você defina as informações que qualifica o projecto.</translation>
     </message>
 </context>
 <context>
@@ -5788,19 +5788,19 @@
     </message>
     <message>
         <source>This dialog box is used in very many cases in the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta caixa de diálogo é usada em muitos casos na aplicação.</translation>
     </message>
     <message>
         <source>It is used to select either one or multiple files depending on the purpose for which is was called.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ela é utilizada para seleccionar ou um arquivo ou vários arquivos, dependendo da finalidade para a qual é foi chamado.</translation>
     </message>
     <message>
         <source>It consists of a multimedia file browser.</source>
-        <translation type="unfinished"></translation>
+        <translation>Trata-se de um navegador de arquivos multimédia.</translation>
     </message>
     <message>
         <source>For more information on the ffDiaporama&apos;s multimedia file browser, see: &lt;a href=&quot;0024.html&quot;&gt;The multimedia file browser&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Para mais informações sobre o navegador de arquivos multimédia do ffDiaporama, consulte: &lt;a href=&quot;0024.html&quot;&gt;O navegador de arquivos multimédia&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -7668,7 +7668,7 @@
     </message>
     <message>
         <source>This dialog allows you to define the duration of the fist shot of a set of slides:</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta caixa de diálogo permite que você defina a duração do primeiro disparo de um conjunto de slides:</translation>
     </message>
 </context>
 <context>
@@ -8761,7 +8761,7 @@
     </message>
     <message>
         <source>This dialog allows you to define the transition duration for a set of slides:</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta caixa de diálogo permite que você defina a duração da transição para um conjunto de slides:</translation>
     </message>
 </context>
 <context>
@@ -9079,19 +9079,19 @@
     </message>
     <message>
         <source>Configuration dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Caixas de diálogo de configuração</translation>
     </message>
     <message>
         <source>Editing dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Edição de caixas de diálogo</translation>
     </message>
     <message>
         <source>Dialog boxes related to the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Caixas de diálogo relacionados com o projecto</translation>
     </message>
     <message>
         <source>Various dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Várias caixas de diálogo</translation>
     </message>
 </context>
 <context>
@@ -9118,7 +9118,7 @@
     </message>
     <message>
         <source>ffDiaporama Web site</source>
-        <translation>ffDiaporama Web site</translation>
+        <translation>Site web do ffDiaporama</translation>
     </message>
     <message>
         <source>Finally, you&apos;ll also find help on the </source>
@@ -9130,11 +9130,11 @@
     </message>
     <message>
         <source>Other elements of documentation are available on the </source>
-        <translation>Outros elementos de documentação estão disponiveis na</translation>
+        <translation>Outros elementos de documentação estão disponiveis no</translation>
     </message>
     <message>
         <source>This documentation is divided into the followed themes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Esta documentação está dividida nos seguintes temas:</translation>
     </message>
 </context>
 </TS>

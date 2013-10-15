@@ -180,6 +180,10 @@ public:
     QString             FormShadowColor;        // Color of the shadow of the form
     int                 Opacity;                // Opacity of the form
 
+    // Optimisation flags
+    bool                IsTextEmpty;
+    bool                IsFullScreen;
+
     cBaseApplicationConfig *ApplicationConfig;
 
     cCompositionObject(int TypeComposition,int IndexKey,cBaseApplicationConfig *TheApplicationConfig);
@@ -214,6 +218,8 @@ public:
 
     QString     GetBlockShapeStyle();
     void        ApplyBlockShapeStyle(QString StyleDef);
+
+    void        ComputeOptimisationFlags();
 
 private:
     QRectF      GetPrivateTextMargin();

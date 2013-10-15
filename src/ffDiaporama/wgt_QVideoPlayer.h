@@ -105,15 +105,16 @@ public:
     QMutex                  Mutex;
 
     // Thread controls
-    QFutureWatcher<void> ThreadPrepareVideo;
-    QFutureWatcher<void> ThreadPrepareImage;
+    QFutureWatcher<void>    ThreadPrepareVideo;
+    QFutureWatcher<void>    ThreadPrepareImage;
+    QFutureWatcher<void>    ThreadAssembly;
 
     explicit wgt_QVideoPlayer(QWidget *parent = 0);
     ~wgt_QVideoPlayer();
 
     bool    StartPlay(cVideoFile *FileInfo,double WantedFPS);         // Start player in DlgVideoDialogBox mode
     bool    InitDiaporamaPlay(cDiaporama *Diaporama);       // Start player in preview mode
-    void    StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H);
+    void    StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Info,int W,int H,bool SoundWanted);
 
     void    SetStartEndPos(int StartPos,int Duration,int PreviousStartPos,int PrevisousEndPos,int NextStartPos,int NextEndPos);
     void    SeekPlayer(int Value);
@@ -146,7 +147,7 @@ private slots:
 
 private:
     void    EnableWidget(bool State);
-    void    PrepareImage(cDiaporamaObjectInfo *Frame,bool SoundWanted,bool AddStartPos);
+    void    PrepareImage(bool SoundWanted,bool AddStartPos,int64_t NextPosition);
     void    PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position);
 
     Ui::wgt_QVideoPlayer *ui;

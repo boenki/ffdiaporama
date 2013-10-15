@@ -97,6 +97,10 @@ public:
     QLabel              *ElapsedTimeLabel,*SlideNumberLabel,*FrameNumberLabel,*FPSLabel,*SlideProgressBarLabel;
     QProgressBar        *SlideProgressBar,*TotalProgressBar;
 
+    QFutureWatcher<void> ThreadAssembly;
+    QFutureWatcher<void> ThreadEncodeVideo;
+    QFutureWatcher<void> ThreadEncodeAudio;
+
     cEncodeVideo();
     ~cEncodeVideo();
 
@@ -118,7 +122,8 @@ private:
     bool            PrepareTAG(QString Language);
     QString         AdjustMETA(QString Text);
 
-    void            EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue);
+    void            Assembly(cDiaporamaObjectInfo *Frame,cDiaporamaObjectInfo *PreviousFrame,cSoundBlockList *RenderMusic,cSoundBlockList *ToEncodeMusic,bool &Continue);
+    void            EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *RenderMusic,cSoundBlockList *ToEncodeMusic,bool &Continue);
     void            EncodeVideo(QImage *ImageList,bool &Continue);
 };
 

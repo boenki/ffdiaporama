@@ -824,7 +824,7 @@ bool cEncodeVideo::DoEncode() {
     cSoundBlockList         RenderMusic,ToEncodeMusic;
     cDiaporamaObjectInfo    *PreviousFrame=NULL;
     cDiaporamaObjectInfo    *Frame        =NULL;
-    int64_t               RenderedFrame =0;
+    int64_t                 RenderedFrame =0;
     int                     FrameSize     =0;
 
     IncreasingVideoPts=double(1000)/double(dFPS);
@@ -963,8 +963,10 @@ bool cEncodeVideo::DoEncode() {
     QThread::currentThread()->setPriority(QThread::TimeCriticalPriority);
     #endif
 
-    QFutureWatcher<void> ThreadEncodeVideo;
-    QFutureWatcher<void> ThreadEncodeAudio;
+    QTime Time;
+    Time.start();
+    int     Prepare=0,LoadSources=0,Assembly=0,Audio=0,Video=0;
+
     for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
         // Give time to interface!
         QApplication::processEvents();
@@ -1007,77 +1009,30 @@ bool cEncodeVideo::DoEncode() {
             Frame->TransitObject_SoundTrackMontage->SetFPS(IncreasingVideoPts,AudioChannels,AudioSampleRate,AV_SAMPLE_FMT_S16);
         }
 
+        Prepare+=Time.elapsed(); Time.restart();
+
         // Prepare frame (if W=H=0 then soundonly)
         Diaporama->LoadSources(Frame,InternalWidth,InternalHeight,false,true);                                        // Load source images
-        Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,InternalWidth,InternalHeight,QTPIXFMT); // Make final assembly
+        LoadSources+=Time.elapsed(); Time.restart();
 
-        // Ensure previous threaded encoding was ended before continuing
-        if ((AudioStream)&&(AudioFrame)&&(ThreadEncodeAudio.isRunning()))                        ThreadEncodeAudio.waitForFinished();
-        if ((VideoStream)&&(VideoFrameConverter)&&(VideoFrame)&&(ThreadEncodeVideo.isRunning())) ThreadEncodeVideo.waitForFinished();
-
-        // Prepare data
-        if ((Continue)&&(AudioStream)) {
-            QTime a;
-            a.start();
-
-            // mix audio data
-            for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++)
-                RenderMusic.MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,
-                                            Frame->CurrentObject_MusicTrack->DetachFirstPacket(),
-                                            Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket());
-
-            // Transfert RenderMusic data to EncodeMusic data
-            while ((Continue)&&(RenderMusic.List.count()>0)) {
-                u_int8_t *PacketSound=(u_int8_t *)RenderMusic.DetachFirstPacket();
-                if (PacketSound==NULL) {
-                    PacketSound=(u_int8_t *)av_malloc(RenderMusic.SoundPacketSize+4);
-                    memset(PacketSound,0,RenderMusic.SoundPacketSize);
-                }
-                #if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
-                    // LIBAV 0.8 => ToEncodeMusic must have exactly AudioStream->codec->frame_size data
-                    if ((AudioResampler!=NULL)&&(AudioResamplerBuffer!=NULL)) {
-                        int64_t DestNbrSamples=RenderMusic.SoundPacketSize/(RenderMusic.Channels*av_get_bytes_per_sample(RenderMusic.SampleFormat));
-                        int64_t DestPacketSize=audio_resample(AudioResampler,(short int*)AudioResamplerBuffer,(short int*)PacketSound,DestNbrSamples)*AudioStream->codec->channels*av_get_bytes_per_sample(AudioStream->codec->sample_fmt);
-                        if (DestPacketSize<=0) {
-                            ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: audio_resample failed"));
-                            Continue=false;
-                        } else ToEncodeMusic.AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)AudioResamplerBuffer,DestPacketSize);
-                    } else ToEncodeMusic.AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)PacketSound,RenderMusic.SoundPacketSize);
-                #else
-                    // LIBAV 9 => ToEncodeMusic is converted during encoding process
-                    ToEncodeMusic.AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)PacketSound,RenderMusic.SoundPacketSize);
-                #endif
-                av_free(PacketSound);
-            }
-        }
-
-        // Write data to disk
-        if (Continue) {
-            if ((AudioStream)&&(AudioFrame)) {
-                ThreadEncodeAudio.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeMusic,&ToEncodeMusic,Continue));
-                //EncodeMusic(ToEncodeMusic,Continue);
-            }
-            if ((VideoStream)&&(VideoFrameConverter)&&(VideoFrame)) {
-                QImage *Image=((PreviousFrame)&&(Frame->RenderedImage==PreviousFrame->RenderedImage))?NULL:Frame->RenderedImage;
-                ThreadEncodeVideo.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeVideo,Image,Continue));
-                //EncodeVideo(Image,Continue);
-            }
-        }
+        if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
+        ThreadAssembly.setFuture(QtConcurrent::run(this,&cEncodeVideo::Assembly,Frame,PreviousFrame,&RenderMusic,&ToEncodeMusic,Continue));
+        Assembly+=Time.elapsed(); Time.restart();
 
         // Calculate next position
         if (Continue) {
             Position+=IncreasingVideoPts;
-            if (PreviousFrame!=NULL) delete PreviousFrame;
             PreviousFrame=Frame;
-            Frame =NULL;
+            Frame=NULL;
         }
 
         // Stop the process if error occur or user ask to stop
         Continue=Continue && !StopProcessWanted;
     }
 
-    if ((AudioStream)&&(AudioFrame)&&(ThreadEncodeAudio.isRunning()))                        ThreadEncodeAudio.waitForFinished();
-    if ((VideoStream)&&(VideoFrameConverter)&&(VideoFrame)&&(ThreadEncodeVideo.isRunning())) ThreadEncodeVideo.waitForFinished();
+    if (ThreadAssembly.isRunning())    ThreadAssembly.waitForFinished();
+    if (ThreadEncodeAudio.isRunning()) ThreadEncodeAudio.waitForFinished();
+    if (ThreadEncodeVideo.isRunning()) ThreadEncodeVideo.waitForFinished();
 
     #ifdef Q_OS_WIN
     QThread::currentThread()->setPriority(QThread::HighestPriority);
@@ -1091,16 +1046,69 @@ bool cEncodeVideo::DoEncode() {
     if (Frame!=NULL)         delete Frame;
 
     CloseEncoder();
+
+    qDebug()<<"Prepare"<<Prepare<<"LoadSources"<<LoadSources<<"Assembly"<<Assembly<<"Audio"<<Audio<<"Video"<<Video;
+
     return Continue;
 }
 
 //*************************************************************************************************************************************************
 
-void cEncodeVideo::EncodeMusic(cSoundBlockList *ToEncodeMusic,bool &Continue) {
+void cEncodeVideo::Assembly(cDiaporamaObjectInfo *Frame,cDiaporamaObjectInfo *PreviousFrame,cSoundBlockList *RenderMusic,cSoundBlockList *ToEncodeMusic,bool &Continue) {
+    // Make final assembly
+    Diaporama->DoAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,InternalWidth,InternalHeight,QTPIXFMT);
+
+    // Ensure previous threaded encoding was ended before continuing
+    if (ThreadEncodeAudio.isRunning()) ThreadEncodeAudio.waitForFinished();
+    if (ThreadEncodeVideo.isRunning()) ThreadEncodeVideo.waitForFinished();
+
+    // Write data to disk
+    if ((Continue)&&(AudioStream)&&(AudioFrame))
+        ThreadEncodeAudio.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeMusic,Frame,RenderMusic,ToEncodeMusic,Continue));
+
+    if ((Continue)&&(VideoStream)&&(VideoFrameConverter)&&(VideoFrame)) {
+        QImage *Image=((PreviousFrame)&&(Frame->RenderedImage==PreviousFrame->RenderedImage))?NULL:Frame->RenderedImage;
+        ThreadEncodeVideo.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeVideo,Image,Continue));
+    }
+
+    if (PreviousFrame) delete PreviousFrame;
+}
+
+//*************************************************************************************************************************************************
+
+void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *RenderMusic,cSoundBlockList *ToEncodeMusic,bool &Continue) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::EncodeMusic");
 
-    QTime a;
-    a.start();
+
+    // mix audio data
+    for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++)
+        RenderMusic->MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,
+                                    Frame->CurrentObject_MusicTrack->DetachFirstPacket(),
+                                    Frame->CurrentObject_SoundTrackMontage->DetachFirstPacket());
+
+    // Transfert RenderMusic data to EncodeMusic data
+    while ((Continue)&&(RenderMusic->List.count()>0)) {
+        u_int8_t *PacketSound=(u_int8_t *)RenderMusic->DetachFirstPacket();
+        if (PacketSound==NULL) {
+            PacketSound=(u_int8_t *)av_malloc(RenderMusic->SoundPacketSize+4);
+            memset(PacketSound,0,RenderMusic->SoundPacketSize);
+        }
+        #if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
+            // LIBAV 0.8 => ToEncodeMusic must have exactly AudioStream->codec->frame_size data
+            if ((AudioResampler!=NULL)&&(AudioResamplerBuffer!=NULL)) {
+                int64_t DestNbrSamples=RenderMusic->SoundPacketSize/(RenderMusic->Channels*av_get_bytes_per_sample(RenderMusic->SampleFormat));
+                int64_t DestPacketSize=audio_resample(AudioResampler,(short int*)AudioResamplerBuffer,(short int*)PacketSound,DestNbrSamples)*AudioStream->codec->channels*av_get_bytes_per_sample(AudioStream->codec->sample_fmt);
+                if (DestPacketSize<=0) {
+                    ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: audio_resample failed"));
+                    Continue=false;
+                } else ToEncodeMusic.AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)AudioResamplerBuffer,DestPacketSize);
+            } else ToEncodeMusic.AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)PacketSound,RenderMusic->SoundPacketSize);
+        #else
+            // LIBAV 9 => ToEncodeMusic is converted during encoding process
+            ToEncodeMusic->AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)PacketSound,RenderMusic->SoundPacketSize);
+        #endif
+        av_free(PacketSound);
+    }
 
     int         errcode;
     int64_t     DestNbrSamples=ToEncodeMusic->SoundPacketSize/(ToEncodeMusic->Channels*av_get_bytes_per_sample(ToEncodeMusic->SampleFormat));

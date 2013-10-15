@@ -31,8 +31,7 @@ call PREPLANGUAGE "fr"
 call PREPLANGUAGE "es"
 call PREPLANGUAGE "pt"
 call PREPLANGUAGE "ru"
-
-rem call PREPLANGUAGE "de"
-rem call PREPLANGUAGE "el"
-rem call PREPLANGUAGE "it"
+call PREPLANGUAGE "it"
+call PREPLANGUAGE "el"
+call PREPLANGUAGE "de"
 

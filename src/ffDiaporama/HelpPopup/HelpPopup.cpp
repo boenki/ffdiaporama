@@ -71,10 +71,14 @@ void HelpPopup::DoInitDialog() {
         ui->HelpBrowserWidget->HelpEngine=HelpEngine;
         ui->ContentWidget->InitHelpEngine(HelpEngine);
         ui->FollowInterfaceCB->setChecked(*WikiFollowInterface);
+        ui->HelpSplitter->setStretchFactor(0,1);
+        ui->HelpSplitter->setStretchFactor(1,3);
 
         connect(ui->HelpBrowserWidget,SIGNAL(historyChanged()),SLOT(PageChanged()));
         connect(ui->HelpBrowserWidget,SIGNAL(sourceChanged(QUrl)),SLOT(SourceChanged(QUrl)));
         connect(ui->ContentWidget,SIGNAL(clicked(QModelIndex)),this,SLOT(UpdateUrl(QModelIndex)));
+        connect(ui->ContentWidget,SIGNAL(collapsed(QModelIndex)),this,SLOT(CollapsedOrExpanded(QModelIndex)));
+        connect(ui->ContentWidget,SIGNAL(expanded(QModelIndex)),this,SLOT(CollapsedOrExpanded(QModelIndex)));
         connect(ui->ExitBT,SIGNAL(pressed()),this,SLOT(Exit()));
         connect(ui->PreviousBT,SIGNAL(pressed()),this,SLOT(Back()));
         connect(ui->NextBT,SIGNAL(pressed()),this,SLOT(Next()));
@@ -181,6 +185,7 @@ void HelpPopup::RestoreWindowState() {
 //====================================================================================================================
 
 void HelpPopup::OpenHelp(QString HelpFile,bool ForceWindow) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::OpenHelp");
     if (HelpEngine) {
         LatestHelpFile=HelpFile;
         if (HelpFile.endsWith(".html")) ui->HelpBrowserWidget->setSource(QString("qthelp://%1%2").arg(Path).arg(HelpFile));
@@ -193,6 +198,7 @@ void HelpPopup::OpenHelp(QString HelpFile,bool ForceWindow) {
 //====================================================================================================================
 
 void HelpPopup::SourceChanged(const QUrl &name) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::SourceChanged");
     LatestHelpFile=name.path();
     QString Title=ui->HelpBrowserWidget->documentTitle();
     Title.replace("\n","");
@@ -201,23 +207,34 @@ void HelpPopup::SourceChanged(const QUrl &name) {
     if (!DisableContentChange) {
         QModelIndex Item;
         if (ui->ContentWidget->SearchPage(name.path(),ui->ContentWidget->rootIndex(),Item)) ui->ContentWidget->setCurrentIndex(Item);
+        ui->ContentWidget->ResizeScrollBar();
     }
 }
 
 //====================================================================================================================
 
+void HelpPopup::CollapsedOrExpanded(QModelIndex) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::CollapsedOrExpanded");
+    ui->ContentWidget->ResizeScrollBar();
+}
+
+//====================================================================================================================
+
 void HelpPopup::SaveLatestHelpFile() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::SaveLatestHelpFile");
     HelpFileHistory.append(LatestHelpFile);
 }
 
 //====================================================================================================================
 
 void HelpPopup::RestorePreviousHelpFile() {
-    if (HelpFileHistory.count()>0) OpenHelp(HelpFileHistory.takeLast(),false);
+   ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::RestorePreviousHelpFile");
+   if (HelpFileHistory.count()>0) OpenHelp(HelpFileHistory.takeLast(),false);
 }
 
 //====================================================================================================================
 
 void HelpPopup::Follow() {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::SourceChanged");
     *WikiFollowInterface=ui->FollowInterfaceCB->isChecked();
 }

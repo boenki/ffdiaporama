@@ -5733,7 +5733,8 @@ de</translation>
     </message>
     <message>
         <location filename="fake/fake.cpp" line="1206"/>
-        <source>Fill with project folder name when project save : The title will take the same name as the folder in witch is save the .ffd file</source>
+        <source>Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file</source>
+        <oldsource>Fill with project folder name when project save : The title will take the same name as the folder in witch is save the .ffd file</oldsource>
         <translation>Remplir avec le nom du répertoire du projet lors de la sauvegarde : Le titre prendra le même nom que le répertoire dans lequel vous sauvegardez le fichier .ffd</translation>
     </message>
     <message>
