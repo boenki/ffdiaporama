@@ -20,6 +20,7 @@
 
 // Basic inclusions (common to all files)
 #include <iostream>
+#include <QDir>
 #include "_GlobalDefines.h"
 
 QString CurrentAppName;                         // Application name (including devel, beta, ...)
@@ -170,6 +171,9 @@ QString FormatLongDate(QDate EventDate) {
 QString AdjustDirForOS(QString Dir) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:AdjustDirForOS");
 
+    return QDir::toNativeSeparators(Dir);
+
+    /*
     #ifdef Q_OS_WIN
     Dir.replace("/","\\");
     bool DoubleSlashBegin=Dir.startsWith("\\\\");
@@ -179,6 +183,7 @@ QString AdjustDirForOS(QString Dir) {
     Dir.replace("\\","/");
     #endif
     return Dir;
+    */
 }
 
 //====================================================================================================================

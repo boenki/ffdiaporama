@@ -29,17 +29,16 @@
 class HelpContent : public QTreeView {
 Q_OBJECT
 public:
-    QHelpEngine     *HelpEngine;
+    QHelpEngine *HelpEngine;
 
     explicit    HelpContent(QWidget *parent = 0);
     void        InitHelpEngine(QHelpEngine *HelpEngine);
     QUrl        GetURL(const QModelIndex & index);
     bool        SearchPage(QString Page,QModelIndex Parent,QModelIndex &FoundItem);
+    void        ResizeScrollBar();
 
-signals:
-    
-public slots:
-    
+private:
+    int         ComputeTreeSize(QModelIndex Parent,QFontMetrics &FM,int Indent);
 };
 
 #endif // HELPCONTENT_H

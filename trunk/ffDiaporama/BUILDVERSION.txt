@@ -1,1 +1,1 @@
-Version 1.7_beta_1 20130926
+Version 1.7_beta_2 20131015

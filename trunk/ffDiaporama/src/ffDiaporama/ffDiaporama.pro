@@ -45,15 +45,18 @@ unix {
         message("x86 build")
     }
 
-    INCLUDEPATH += /usr/include/ffmpeg/                                     # Specific for Fedora
-
-    exists(/usr/include/ffmpeg/libswresample/swresample.h) {         #------ Specific for Fedora
+    exists(/opt/ffmpeg/include/libswresample/swresample.h) {         #------ conditionnaly includes from Sam Rog packages for Ubuntu
+        message("Use SAM ROG Packages from /opt/ffmpeg")
+        INCLUDEPATH += /opt/ffmpeg/include/
+        LIBS        += -L"/opt/ffmpeg/lib"
         DEFINES += USELIBSWRESAMPLE
+        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
+    } else:exists(/usr/include/ffmpeg/libswresample/swresample.h) {         #------ Specific for Fedora
+        DEFINES += USELIBSWRESAMPLE
+        INCLUDEPATH += /usr/include/ffmpeg/
         LIBS    += -lswresample                                             #------ conditionnaly include libswresample
     } else:exists(/usr/include/libswresample/swresample.h) {                #------ Specific for openSUSE
-        DEFINES += USELIBSWRESAMPLE
-        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
-    } else:exists(/usr/include/libswresample/swresample.h) {
+        INCLUDEPATH += /usr/include/
         DEFINES += USELIBSWRESAMPLE
         LIBS    += -lswresample                                             #------ conditionnaly include libswresample
     } else:exists(/usr/include/libavresample/avresample.h) {
@@ -71,14 +74,14 @@ unix {
     contains(QMAKE_HOST.arch,x86_64) {
         DEFINES+=Q_OS_WIN64
         message("x86_64 build")
-        INCLUDEPATH += "../../../win_src/ffmpeg-2.0.1-win64-dev/include"
-        LIBS        += -L"../../../win_src/ffmpeg-2.0.1-win64-dev/lib"
+        INCLUDEPATH += "../../../win_src/ffmpeg-20131014-win64-dev/include"
+        LIBS        += -L"../../../win_src/ffmpeg-20131014-win64-dev/lib"
         LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x64"
     } else {
         DEFINES+=Q_OS_WIN32
         message("x86 build")
-        INCLUDEPATH += "../../../win_src/ffmpeg-2.0.1-win32-dev/include"
-        LIBS        += -L"../../../win_src/ffmpeg-2.0.1-win32-dev/lib"
+        INCLUDEPATH += "../../../win_src/ffmpeg-20131014-win32-dev/include"
+        LIBS        += -L"../../../win_src/ffmpeg-20131014-win32-dev/lib"
         LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x86"
     }
 

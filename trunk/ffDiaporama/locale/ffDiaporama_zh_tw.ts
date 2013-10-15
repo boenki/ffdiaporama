@@ -1482,6 +1482,11 @@ Yellow: The component works partially
         <source>&amp;Help</source>
         <translation>求助(&amp;H)</translation>
     </message>
+    <message>
+        <source>Error: Project subfolder can&apos;t be empty</source>
+        <comment>Error message</comment>
+        <translation type="unfinished"></translation>
+    </message>
 </context>
 <context>
     <name>DlgFileExplorer</name>

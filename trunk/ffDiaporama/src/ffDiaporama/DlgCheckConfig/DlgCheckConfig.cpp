@@ -133,7 +133,9 @@ void DlgCheckConfig::DoInitDialog() {
     // libav
     ui->ListWidget->addItem(new QListWidgetItem("libav"));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","LIBAV general version:")+
-                                            #if defined(LIBAV_08)
+                                            #if defined(FFMPEG)
+                                                FFMPEGVERSION
+                                            #elif defined(LIBAV_08)
                                                 " 0.8.x"
                                             #elif defined(LIBAV_09)
                                                 " 9.x"

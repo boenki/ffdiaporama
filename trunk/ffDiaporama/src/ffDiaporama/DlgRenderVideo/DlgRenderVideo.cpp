@@ -913,6 +913,9 @@ bool DlgRenderVideo::DoAccept() {
         // Switch cancel button mode
         ui->CancelBt->setToolTip(QApplication::translate("DlgRenderVideo","Stop rendering process and exit dialog box"));
 
+        // Set focus to DestinationFilePath to not undo rendering per error
+        ui->DestinationFilePath->setFocus();
+
         // Set encoder display control
         Encoder.InfoLabelA1          =ui->InfoLabelA1;
         Encoder.InfoLabelA2          =ui->InfoLabelA2;
@@ -934,11 +937,9 @@ bool DlgRenderVideo::DoAccept() {
 
             ToLog(LOGMSG_INFORMATION,QApplication::translate("DlgRenderVideo","Encoding sound"));
 
-            Mutex.lock();
             Continue=Encoder.OpenEncoder(Diaporama,OutputFileName,FromSlide,ToSlide,
                                     false,AV_CODEC_ID_NONE,NULL,0,0,0,0,0,MakeAVRational(1,1),0,
                                     true,AudioCodecIndex,2,AudioBitRate,AudioFrequency,Language);
-            Mutex.unlock();
 
             Continue=Continue && Encoder.DoEncode();
             Encoder.CloseEncoder();
@@ -990,11 +991,9 @@ bool DlgRenderVideo::DoAccept() {
                 PixelAspectRatio=MakeAVRational(1,1);
             }
 
-            Mutex.lock();
             Continue=Encoder.OpenEncoder(Diaporama,OutputFileName,FromSlide,ToSlide,
                                     true,VideoCodecIndex,&DefImageFormat[Standard][Diaporama->ImageGeometry][ImageSize],Final_W,Final_H,Ext_H,Internal_W,Internal_H,PixelAspectRatio,VideoBitRate,
                                     ui->IncludeSoundCB->isChecked(),AudioCodecIndex,2,AudioBitRate,AudioFrequency,Language);
-            Mutex.unlock();
             Continue=Continue && Encoder.DoEncode();
             Encoder.CloseEncoder();
 

@@ -57,6 +57,7 @@ public:
 private slots:
     void            UpdateUrl(QModelIndex);
     void            PageChanged();
+    void            CollapsedOrExpanded(QModelIndex);
     void            Exit();
     void            Back();
     void            Next();

@@ -186,9 +186,8 @@ public:
     void                    s_AdjustMinHRight(qreal ProjectGeometry);
     void                    s_AdjustMinWH();
 
-private:
     QBrush                  *GetLibraryBrush(QRectF Rect);
-    QBrush                  *GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
+    QImage                  *GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush);
     int                     GetHeightForWidth(int WantedWith,QRectF Rect);
     int                     GetWidthForHeight(int WantedHeight,QRectF Rect);
 };

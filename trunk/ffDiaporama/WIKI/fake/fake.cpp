@@ -1203,7 +1203,7 @@ void Append() {
 	Str=QApplication::translate("0101","Defined the automatic filling method to use for the title's project properties: ");
 	Str=QApplication::translate("0101","No automatic filling : You will have to define manually the title");
 	Str=QApplication::translate("0101","Fill with project name when project save : The title will take the same name as the .ffd file");
-	Str=QApplication::translate("0101","Fill with project folder name when project save : The title will take the same name as the folder in witch is save the .ffd file");
+	Str=QApplication::translate("0101","Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file");
 	Str=QApplication::translate("0101","Author");
 	Str=QApplication::translate("0101","Defines the default value for the field Author that is often so called Artist by ");
 	Str=QApplication::translate("0101","Media Center Systems");

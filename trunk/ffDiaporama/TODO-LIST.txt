@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.7 - Trunk
 *
-* Dernier commit le : 14/09/2013
+* Dernier commit le : 26/09/2013
 **************************************************
 
 TODO :
@@ -52,42 +52,45 @@ WIP : Work in progress
 --------------------------------
 Changelog depuis le dernier SVN
 --------------------------------
-switch version to
-    libav 0.8.6 for Ubuntu
-    ffmpeg 2.0 for Windows / openSuse / Gentoo / ArchLinux
 
 French version / Correction de bug :
--Corrige la valeur du champ ffDRevision des projets lorsque ceux-ci n'ont pas encore été sauvegardé
+-Corrige l'affichage de la version de ffmpeg dans la boite CheckConfig
+-Corrige les problèmes de scroller horizontal pour la la zone Content de la fenetre wiki
+-Corrige les problèmes de taille du splitter de la fenetre wiki
+-Rafraichit la liste des fichiers après une sauvegarde du projet
+-Corrige un bug de lecture des jaquettes de taille impaire dans fichiers audio avec ffmpeg 2.x
+-Corrige un bug lors de la production des images qui ralentissait le calcul (Le traitement des textes s'appliquaient aussi pour les textes vides)
 
 English version / Bug fixes :
--Fixes value of the project ffDRevision field when project was not yet saved
+-Fix display of ffmpeg version in CheckConfig dialog
+-Fix horizontal scroller of Content zone of the wiki window
+-Fix splitter of the wiki window size errors
+-Refresh files in multimedia file browser after saving project file
+-Fixed a bug reading jackets odd size in audio files with ffmpeg 2.x
+-Fixed a bug when producing images that slowed calculation (The text processing also applied for empty text)
 
 French version / Nouveautés :
--Supprime les millisecondes de l'affichage lors de l'utilisation de la variable %PDD%
--Remplace QT Assistant (fenetre du WIKI) par une fenetre Popup intégrée dans l'application, ce qui permet de réduire la taille des paquets d'installation et permet au WIKI de suivre l'interface (quand le wiki est ouvert, il affiche toujours la page correspondant à la fenetre ou boite de dialogue en cour)
+-Améliore la gestion des threads lors de la génération des vidéos en répartissant mieux le traitement sur les différents core/processeur ce qui accélère la génération
 
 English version / New features :
--Remove display of millisecondes when using %PDD% variable
--Replaces QT Assistant (the WIKI window) by a Popup window integrated into the application, which reduces the size of the installation packages and allows to follow the WIKI interface (when the wiki is open, it always displays the page for the current window or dialog box)
+-Improves thread management when generating videos by better distributing the processing on different core/processor which accelerates the rendering
 
 Translation/Traductions:
 
     Local     Interface       /   WIKI
     -------------------------------------------
-    EN        100% - 1695     /   100% - 2214
+    EN        100% - 1696     /   100% - 2244   Finished
+    FR        100% - 1696     /   100% - 2244   Finished
+    RU        100% - 1696     /   100% - 2244   Finished
+    PT        100% - 1696     /   100% - 2244   Finished
+    IT        100% - 1696     /   100% - 2244   Finished
+    ES        100% - 1696     /   100% - 2244   Finished
+    DE        100% - 1696     /    99% - 2236   Waiting for Thomas
+    EL         97% - 1657     /    10% - 232    Waiting for Dimitrios
 
-    FR        100% - 1695     /   100% - 2214
-    PT         99% - 1678     /    99% - 2193
-    RU         99% - 1678     /    58% - 1279
-    ES         99% - 1678     /    27% - 588
-
-    IT         99% - 1678     /     0%
-    DE         99% - 1678     /     0%
-
-    EL         75% - 1275     /     0%
-    NL         64% - 1088     /     0%
-    ZH-TW      38% - 647      /     0%
-    CZ         17% - 287      /     0%
+    NL         64% - 1088     /     0%          No contributor for this version
+    ZH-TW      38% - 647      /     0%          No contributor for this version
+    CZ         17% - 287      /     0%          No contributor for this version
 
 ------------------------------------------------------------------------------------------------------------------------------
 WIKI

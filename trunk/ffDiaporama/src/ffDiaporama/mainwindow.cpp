@@ -1548,6 +1548,12 @@ void MainWindow::DoOpenFileParam() {
 
 void MainWindow::DoOpenFile() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::DoOpenFile");
+    ui->preview->SetPlayerToPause();    // Ensure player is stop
+    ui->preview2->SetPlayerToPause();   // Ensure player is stop
+    if (InPlayerUpdate) {               // Resend message and quit if player have not finish to update it's display
+        QTimer::singleShot(LATENCY,this,SLOT(DoOpenFile()));
+        return;
+    }
     bool            Continue=true;
     QDomDocument    domDocument;
     QString         ProjectFileName=AdjustDirForOS(FileForIO);
@@ -1750,6 +1756,7 @@ void MainWindow::DoSaveFile() {
 
     if (Diaporama->SaveFile(this)) SetModifyFlag(false);
     ToStatusBar("");
+    ui->FolderTable->RefreshListFolder();
 }
 
 //====================================================================================================================
@@ -2326,6 +2333,11 @@ void MainWindow::s_Action_DoAddFile() {
                 // But keep chapter information
                 Diaporama->List[CurIndex]->StartNewChapter   =true;
             }
+
+            // Compute Optimisation Flags
+            for (int aa=0;aa<Diaporama->List[CurIndex]->List.count();aa++)
+                for (int bb=0;bb<Diaporama->List[CurIndex]->List[aa]->ShotComposition.List.count();bb++)
+                    Diaporama->List[CurIndex]->List[aa]->ShotComposition.List[bb]->ComputeOptimisationFlags();
 
             //*************************************************************
             // Adjust project and display

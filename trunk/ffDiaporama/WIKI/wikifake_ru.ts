@@ -92,7 +92,7 @@
     </message>
     <message>
         <source>Each slide is a composite, an assembly of one or more multimedia elements which are animated over time. The animation is realized through shots.</source>
-        <translation>Каждый слайд представляет собой композицию из одного или нескольких мультимедийных элементов, которые анимированны во времени. Анимации осуществляется посредством кадров.</translation>
+        <translation>Каждый слайд представляет собой композицию из одного или нескольких мультимедийных элементов, которые анимированы во времени. Анимация осуществляется посредством кадров.</translation>
     </message>
     <message>
         <source>Each slide can define a new background (that is shown under the multimedia elements of the slide if they don&apos;t fill out the whole screen).</source>
@@ -136,7 +136,7 @@
     </message>
     <message>
         <source>The total duration of the project is not equal to the sum of the durations of the slides because the transitions make the slides overlap: Two slides of 10 seconds, each with a transition of 1 second, will give a total duration for the project of 19 seconds (and not 20 seconds)!</source>
-        <translation>Общая продолжителньность проекта не равна сумме продолжительностей составляющих его слайдов, т.к. переходы обеспечивают перекрытие слайдов: два слайда по10 секунд, каждый с переходом в 1 секунду соответствуют общей продолжительности проекта в 19 секунд (а не 20 секунд)!</translation>
+        <translation>Общая продолжителньность проекта не равна сумме продолжительностей составляющих его слайдов, т.к. переходы обеспечивают перекрытие слайдов: два слайда по 10 секунд, каждый с переходом в 1 секунду, соответствуют общей продолжительности проекта в 19 секунд (а не 20 секунд)!</translation>
     </message>
     <message>
         <source>Shots and blocks</source>
@@ -271,107 +271,107 @@
     </message>
     <message>
         <source> Predefined title slide are complete slides including formatting and animations. </source>
-        <translation type="unfinished"></translation>
+        <translation>Шаблоны заголовков слайдов - это полноценные слайды, включая форматирование и анимацию.</translation>
     </message>
     <message>
         <source>The main interest of these slides is to standardize the slides within a project or across projects. </source>
-        <translation type="unfinished"></translation>
+        <translation>Их основное преимущество заключается в стандартизации слайдов в рамках проекта или нескольких проектов.</translation>
     </message>
     <message>
         <source>ffDiaporama included many Predefined title slides, but you can also define your own Predefined title slides. </source>
-        <translation type="unfinished"></translation>
+        <translation>В ffDiaporama включено много шаблонов заголовков слайдов, однако вы также можете создать свой собственный шаблон.</translation>
     </message>
     <message>
         <source>To do this, create a standard slide using the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog box&lt;/a&gt; and save your slide as a model using: </source>
-        <translation type="unfinished"></translation>
+        <translation>Для этого создайте обычный слайд с помощью диалогового окна&lt;a href=&quot;0119.html&quot;&gt; Параметры слайда&lt;/a&gt; и сохраните слайд как шаблон, используя функцию:</translation>
     </message>
     <message>
         <source> Save as model function.</source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить как шаблон.</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Примечания:</translation>
+        <translation>Примечания:</translation>
     </message>
     <message>
         <source>Predefined title slides are defined according to the following three categories: </source>
-        <translation type="unfinished"></translation>
+        <translation>Шаблоны заголовков слайдов подразделяются на три типа:</translation>
     </message>
     <message>
         <source>Project title</source>
-        <translation type="unfinished">Название проекта</translation>
+        <translation>Название проекта</translation>
     </message>
     <message>
         <source>This type of slide is usually used early in the project as the opening credits. </source>
-        <translation type="unfinished">Этот тип слайда обычно используется в начале проекта в качестве вступительных титров.</translation>
+        <translation>Этот тип слайда обычно используется в начале проекта в качестве вступительных титров.</translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
-        <translation type="unfinished">Тексты переменных, используемых в шаблонах этого типа слайда, основаны только на информации о проекте. Более подробно об информации о проекте, см.: &lt;a href=&quot;0108.html&quot;&gt; Свойства проекта&lt;/a&gt;</translation>
+        <translation>Тексты переменных, используемых в шаблонах этого типа слайда, основаны только на информации о проекте. Более подробно об информации о проекте, см.: &lt;a href=&quot;0108.html&quot;&gt; Свойства проекта&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished">Название главы</translation>
+        <translation>Название главы</translation>
     </message>
     <message>
         <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
-        <translation type="unfinished">Это тип слайда обычно используется несколько раз в проекте для обозначения начала главы. </translation>
+        <translation>Это тип слайда обычно используется несколько раз в проекте для обозначения начала главы. </translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
-        <translation type="unfinished">Тексты переменных, используемых в шаблонах этого типа слайда, основаны на информации о проекте и информации о главе.</translation>
+        <translation>Тексты переменных, используемых в шаблонах этого типа слайда, основаны на информации о проекте и информации о главе.</translation>
     </message>
     <message>
         <source>Credit title</source>
-        <translation type="unfinished">Заключительный</translation>
+        <translation>Заключительный</translation>
     </message>
     <message>
         <source>This type of slide is usually used at the end of the project as the end credits. </source>
-        <translation type="unfinished">Этот тип слайда обычно используется в конце проекта в качестве заключительных титров. </translation>
+        <translation>Этот тип слайда обычно используется в конце проекта в качестве заключительных титров. </translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation type="unfinished">Тексты переменных, используемых в шаблонах этого типа слайда,в основном рассчетные. Более подробно о текстовых переменных, см.: &lt;a href=&quot;0108.html&quot;&gt;Динамические переменные&lt;/a&gt;</translation>
+        <translation>Тексты переменных, используемых в шаблонах этого типа слайда,в основном расчетные. Более подробно о текстовых переменных, см.: &lt;a href=&quot;0108.html&quot;&gt;Динамические переменные&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Within each category, the predefined title slides are classified into the following types: </source>
-        <translation type="unfinished"></translation>
+        <translation>Каждый тип шаблонов заголовков слайдов подразделяется на следующие категории:</translation>
     </message>
     <message>
         <source>Statics models</source>
-        <translation type="unfinished">Простые без анимации</translation>
+        <translation>Простые без анимации</translation>
     </message>
     <message>
         <source>This type lists statics models ie without animations.</source>
-        <translation type="unfinished">Этот тип содержит простые шаблоны без анимации.</translation>
+        <translation>Этот тип содержит простые шаблоны без анимации.</translation>
     </message>
     <message>
         <source>Animated models</source>
-        <translation type="unfinished">Анимированные</translation>
+        <translation>Анимированные</translation>
     </message>
     <message>
         <source>This type lists animated models ie with several shots.</source>
-        <translation type="unfinished">Этот тип содержит анимированные шаблоны, т.е с несколькими кадрами.</translation>
+        <translation>Этот тип содержит анимированные шаблоны, т.е. с несколькими кадрами.</translation>
     </message>
     <message>
         <source>Custom models</source>
-        <translation type="unfinished">Пользовательские</translation>
+        <translation>Пользовательские</translation>
     </message>
     <message>
         <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
-        <translation type="unfinished">Этот тип содержит шаблоны, которые вы сохранили с помощью кнопки &lt;B&gt;&lt;I&gt;Сохранить как шаблон&lt;/I&gt;&lt;/B&gt; диалогового окна &lt;a href=&quot;0119.html&quot;&gt;Параметры слайда&lt;/a&gt;.</translation>
+        <translation>Этот тип содержит шаблоны, которые вы сохранили с помощью кнопки &lt;B&gt;&lt;I&gt;Сохранить как шаблон&lt;/I&gt;&lt;/B&gt; диалогового окна &lt;a href=&quot;0119.html&quot;&gt;Параметры слайда&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>It will always be possible to create slides from a model using the &lt;a href=&quot;0103.html&quot;&gt;Add or modify a predefined title slide dialog box&lt;/a&gt; then convert it to a standard slide using this function: </source>
-        <translation type="unfinished"></translation>
+        <translation>Всегда можно создать слайды из шаблона, используя &lt;a href=&quot;0103.html&quot;&gt; Добавление или изменение слайда из шаблона&lt;/a&gt;, а затем преобразовать его в обычный слайд с помощью функции:</translation>
     </message>
     <message>
         <source> Convert to standard slide</source>
-        <translation type="unfinished">Преобразовать в обычный слайд</translation>
+        <translation>Преобразовать в обычный слайд</translation>
     </message>
     <message>
         <source>The resources used by the models you create are not moved. So, if you include a photo in a model, the model will only be valid until the picture will not move. This is why it is recommended, to think resources included before creating a new model.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ресурсы, используемые при создании шаблона, не перемещаются. Так, если вы вставите в шаблон фотографию, то шаблон будет отображаться корректно только до тех пор, пока изображение не будет перемещено (например, в другую папку). Именно поэтому рекомендуется подумать о вставке ресурсов перед созданием нового шаблона.</translation>
     </message>
 </context>
 <context>
@@ -382,379 +382,379 @@
     </message>
     <message>
         <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Большим преимуществом переменных является то, что они вставляются в текст (см.: &lt;a href=&quot;0120.html&quot;&gt; Редактирование текста&lt;/a&gt;) и преобразуются в значения только тогда, когда они используются.</translation>
     </message>
     <message>
         <source>It&apos;s why variables are used in many parts of the application (slide, thumbnails, predefined titles slides, video tags, xbmc nfo, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Поэтому переменные используются во многих частях приложения (слайд, обложки, шаблоны заголовков слайдов, теги видео, xbmc nfo и др.)</translation>
     </message>
     <message>
         <source>The following table lists all the available variables: </source>
-        <translation type="unfinished"></translation>
+        <translation>В следующей таблице перечислены все доступные переменные: </translation>
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished">Категория</translation>
+        <translation>Категория</translation>
     </message>
     <message>
         <source>Variable</source>
-        <translation type="unfinished"></translation>
+        <translation>Переменная</translation>
     </message>
     <message>
         <source>Content</source>
-        <translation type="unfinished"></translation>
+        <translation>Описание</translation>
     </message>
     <message>
         <source>Project properties values</source>
-        <translation type="unfinished"></translation>
+        <translation>Значения свойств проекта</translation>
     </message>
     <message>
         <source>%PTT%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PTT%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project title&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение поля &lt;B&gt;&lt;I&gt;Название проекта&lt;/I&gt;&lt;/B&gt;  из &lt;a href=&quot;0108.html&quot;&gt;Свойств проекта&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PAU%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PAU%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение поля &lt;B&gt;&lt;I&gt;Автор проекта&lt;/I&gt;&lt;/B&gt;  из &lt;a href=&quot;0108.html&quot;&gt;Свойств проекта&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PAI%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PAI%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;Author presents&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение поля &lt;B&gt;&lt;I&gt;Автор проекта&lt;/I&gt;&lt;/B&gt;  из &lt;a href=&quot;0108.html&quot;&gt;Свойств проекта&lt;/a&gt; отображаемое как &lt;U&gt;Автор представляет&lt;/U&gt;</translation>
     </message>
     <message>
         <source>%PAP%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PAP%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;A Author production&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение поля &lt;B&gt;&lt;I&gt;Автор проекта&lt;/I&gt;&lt;/B&gt;  из &lt;a href=&quot;0108.html&quot;&gt;Свойств проекта&lt;/a&gt; отображаемое как &lt;U&gt;Производство Автор&lt;/U&gt;</translation>
     </message>
     <message>
         <source>%PAL%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PAL%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project album&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение поля &lt;B&gt;&lt;I&gt;Альбом проекта&lt;/I&gt;&lt;/B&gt;  из &lt;a href=&quot;0108.html&quot;&gt;Свойств проекта&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PCT%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PCT%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project comment&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение поля &lt;B&gt;&lt;I&gt;Комментарий к проекту&lt;/I&gt;&lt;/B&gt;  из &lt;a href=&quot;0108.html&quot;&gt;Свойств проекта&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PDD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PDD%</translation>
     </message>
     <message>
         <source>Duration of the project displayed as &lt;U&gt;hh:mm:ss&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Продолжительность проекта отображаемая как &lt;U&gt;hh:mm:ss&lt;/U&gt;</translation>
     </message>
     <message>
         <source>%PSC%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PSC%</translation>
     </message>
     <message>
         <source>Project slide count (Number of slide in the project)</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество слайдов проекта (в виде цифры)</translation>
     </message>
     <message>
         <source>%PLD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PLD%</translation>
     </message>
     <message>
         <source>Long date (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата полностью (форма отображения зависит от географической информации, представленной на компьютере, в зависимости от текущего языка)</translation>
     </message>
     <message>
         <source>%PSD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PSD%</translation>
     </message>
     <message>
         <source>Short date (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата кратко (форма отображения зависит от выбранного значения параметра &lt;B&gt;&lt;I&gt;Краткий формат даты&lt;/I&gt;&lt;/B&gt; диалогового окна &lt;a href=&quot;0101.html&quot;&gt;Настройки программы&lt;/a&gt;)</translation>
     </message>
     <message>
         <source>%PYR%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PYR%</translation>
     </message>
     <message>
         <source>Year (The year of the event date as a four digit number)</source>
-        <translation type="unfinished"></translation>
+        <translation>Год (год даты события в виде четырехзначного числа)</translation>
     </message>
     <message>
         <source>%PMM%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PMM%</translation>
     </message>
     <message>
         <source>Month (The month of the event date as a name, depending on the current language: January, February, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Месяц (название месяца даты события в зависимости от текущего языка: январь, февраль и т.д.)</translation>
     </message>
     <message>
         <source>%PMD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PMD%</translation>
     </message>
     <message>
         <source>Month as number (The month of the event date as a two digit number)</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер месяца (месяц даты события в виде двухзначного числа)</translation>
     </message>
     <message>
         <source>%PDY%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PDY%</translation>
     </message>
     <message>
         <source>Day (The day of the event date as a two digit number)</source>
-        <translation type="unfinished"></translation>
+        <translation>День (день даты события в виде двухзначного числа)</translation>
     </message>
     <message>
         <source>%PDW%</source>
-        <translation type="unfinished"></translation>
+        <translation>%PDW%</translation>
     </message>
     <message>
         <source>Day of week (The day of week of the event date as a name, depending on the current language: Monday, Thuesday, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>День недели (название дня недели даты события в зависимости от текущего языка: понедельник, вторник и т.д.)</translation>
     </message>
     <message>
         <source>Current slide values</source>
-        <translation type="unfinished"></translation>
+        <translation>Значения текущего слайда</translation>
     </message>
     <message>
         <source>%CSN%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CSN%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Slide name&lt;/I&gt;&lt;/B&gt; field of the slide as defined in the &lt;U&gt;Slide settings zone&lt;/U&gt; of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение поля &lt;B&gt;&lt;I&gt;Имя текущего слайда&lt;/I&gt;&lt;/B&gt;, определенное в &lt;U&gt;Области настроек слайда&lt;/U&gt; диалогового окна &lt;a href=&quot;0119.html&quot;&gt;Параметры слайда&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%CSR%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CSR%</translation>
     </message>
     <message>
         <source>Current slide number</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер текущего слайда</translation>
     </message>
     <message>
         <source>Chapters values</source>
-        <translation type="unfinished"></translation>
+        <translation>Значения глав</translation>
     </message>
     <message>
         <source>%CCN%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CCN%</translation>
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Chapter name&lt;/I&gt;&lt;/B&gt; field of the latest slide which defined &lt;U&gt;Chapters information&lt;/U&gt;. (Chapters information may be defined in &lt;a href=&quot;0105.html&quot;&gt;Chapter properties dialog&lt;/a&gt; or in &lt;a href=&quot;0103.html&quot;&gt;Predefined title slide dialog&lt;/a&gt;).</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение поля &lt;B&gt;&lt;I&gt;Название главы&lt;/I&gt;&lt;/B&gt;, определенное в &lt;U&gt;Информации о главе&lt;/U&gt;. (Информация о главе может быть задана в диалоговом окне &lt;a href=&quot;0105.html&quot;&gt;Cвойства главы&lt;/a&gt; или &lt;a href=&quot;0103.html&quot;&gt;Шаблон заголовка слайда&lt;/a&gt;).</translation>
     </message>
     <message>
         <source>%CCR%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CCR%</translation>
     </message>
     <message>
         <source>Current chapter number</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер текущей главы</translation>
     </message>
     <message>
         <source>%CCI%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CCI%</translation>
     </message>
     <message>
         <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер текущей главы, отображаемый как &lt;U&gt;Глава №&lt;/U&gt; (зависит от текущего языка)</translation>
     </message>
     <message>
         <source>%CCD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CCD%</translation>
     </message>
     <message>
         <source>Current chapter duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Длительность текущей главы</translation>
     </message>
     <message>
         <source>%CCT%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CCT%</translation>
     </message>
     <message>
         <source>Chapter count (Number of chapter in the project)</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество глав (в виде цифры)</translation>
     </message>
     <message>
         <source>%CLD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CLD%</translation>
     </message>
     <message>
         <source>Long date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата полностью (если она отличается или дата проекта). (Форма отображения зависит от географической информации, представленной на компьютере, в зависимости от текущего языка)</translation>
     </message>
     <message>
         <source>%CSD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CSD%</translation>
     </message>
     <message>
         <source>Short date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата кратко (если она отличается или дата проекта). (Форма отображения зависит от выбранного значения параметра &lt;B&gt;&lt;I&gt;Краткий формат даты&lt;/I&gt;&lt;/B&gt; диалогового окна &lt;a href=&quot;0101.html&quot;&gt;Настройки программы&lt;/a&gt;)</translation>
     </message>
     <message>
         <source>%CYR%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CYR%</translation>
     </message>
     <message>
         <source>Year of the chapter&apos;s date (if one is defined or year of project&apos;s date), as a four digit number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Год даты главы (если он отличается или год даты проекта) в виде четырехзначного числа.</translation>
     </message>
     <message>
         <source>%CMM%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CMM%</translation>
     </message>
     <message>
         <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a name (depending on the current language: January, February, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Название месяца даты главы (если он отличается или месяц даты проекта) (зависит от текущего языка: январь, февраль и т.д.)</translation>
     </message>
     <message>
         <source>%CMD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CMD%</translation>
     </message>
     <message>
         <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a two digit number.</source>
-        <translation type="unfinished"></translation>
+        <translation>Месяц даты главы (если он отличается или месяц даты проекта) в виде двухзначного числа.</translation>
     </message>
     <message>
         <source>%CDY%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CDY%</translation>
     </message>
     <message>
         <source>Day of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a two digit number.</source>
-        <translation type="unfinished"></translation>
+        <translation>День даты главы (если он отличается или день даты проекта) в виде двухзначного числа.</translation>
     </message>
     <message>
         <source>%CDW%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CDW%</translation>
     </message>
     <message>
         <source>Day of week of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a a name (depending on the current language: Monday, Thuesday, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Название дня недели даты главы (если он отличается или день даты проекта) (зависит от текущего языка: понедельник, вторник и т.д.)</translation>
     </message>
     <message>
         <source>Various values</source>
-        <translation type="unfinished"></translation>
+        <translation>Разные значения</translation>
     </message>
     <message>
         <source>%FFD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%FFD%</translation>
     </message>
     <message>
         <source>ffDiaporama version as &lt;U&gt;ffDiaporama 1.7 (20130919)&lt;/U&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Версия ffDiaporama в виде &lt;U&gt;ffDiaporama 1.7 (20130919)&lt;/U&gt;</translation>
     </message>
     <message>
         <source>%CPY%</source>
-        <translation type="unfinished"></translation>
+        <translation>%CPY%</translation>
     </message>
     <message>
         <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Копирайт проекта составленный в виде &lt;U&gt;© Год - Автор&lt;/U&gt;, где &lt;B&gt;&lt;I&gt;Год&lt;/I&gt;&lt;/B&gt; - это текущий год, а &lt;B&gt;&lt;I&gt;Автор&lt;/I&gt;&lt;/B&gt; - это значение поля &lt;B&gt;&lt;I&gt;Автор проекта&lt;/I&gt;&lt;/B&gt; из &lt;a href=&quot;0108.html&quot;&gt;Свойств проекта&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%END%</source>
-        <translation type="unfinished"></translation>
+        <translation>%END%</translation>
     </message>
     <message>
         <source>The end (depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Конец (зависит от текущего языка)</translation>
     </message>
     <message>
         <source>%STA%</source>
-        <translation type="unfinished"></translation>
+        <translation>%STA%</translation>
     </message>
     <message>
         <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Полный текст состоит из: Проект создан &lt;U&gt;&lt;B&gt;&lt;I&gt;дата (кратко)&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; в «&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama версия&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;»  на компьютере &lt;U&gt;&lt;B&gt;&lt;I&gt;Операционная система&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;количество ядер&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU).</translation>
     </message>
     <message>
         <source>%STP%</source>
-        <translation type="unfinished"></translation>
+        <translation>%STP%</translation>
     </message>
     <message>
         <source>A full text composed of project statistics (Number of slides, project duration, list of chapters, list of musics, how many photo, vector images, videos and predefined title slides, etc...) </source>
-        <translation type="unfinished"></translation>
+        <translation>Полный текст состоит из статистики проекта (количество слайдов, продолжительность проекта, список глав, количество фотографий, векторных изображений, видеофайлов, шаблонов слайдов и др.) </translation>
     </message>
     <message>
         <source>%STM%</source>
-        <translation type="unfinished"></translation>
+        <translation>%STM%</translation>
     </message>
     <message>
         <source>A full text composed of list of musics</source>
-        <translation type="unfinished"></translation>
+        <translation>Полный текст состоит из списка музыки</translation>
     </message>
     <message>
         <source>%TLD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TLD%</translation>
     </message>
     <message>
         <source>Current date as long date format (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущая дата (полностью) (Форма отображения зависит от географической информации, представленной на компьютере, в зависимости от текущего языка)</translation>
     </message>
     <message>
         <source>%TSD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TSD%</translation>
     </message>
     <message>
         <source>Current date as short date format (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Текущая дата (кратко) (Форма отображения зависит от выбранного значения параметра &lt;B&gt;&lt;I&gt;Краткий формат даты&lt;/I&gt;&lt;/B&gt; диалогового окна &lt;a href=&quot;0101.html&quot;&gt;Настройки программы&lt;/a&gt;)</translation>
     </message>
     <message>
         <source>%TYR%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TYR%</translation>
     </message>
     <message>
         <source>Current date&apos;s year as a four digit number</source>
-        <translation type="unfinished"></translation>
+        <translation>Год текущей даты в виде четырехзначного числа</translation>
     </message>
     <message>
         <source>%TMM%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TMM%</translation>
     </message>
     <message>
         <source>Current date&apos;s month as a name (depending on the current language: January, February, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Название месяца текущей даты (зависит от текущего языка: январь, февраль и т.д.)</translation>
     </message>
     <message>
         <source>%TMD%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TMD%</translation>
     </message>
     <message>
         <source>Current date&apos;s month as as a two digit number</source>
-        <translation type="unfinished"></translation>
+        <translation>Месяц текущей даты в виде двухзначного числа</translation>
     </message>
     <message>
         <source>%TDY%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TDY%</translation>
     </message>
     <message>
         <source>Current date&apos;s day as a two digit number</source>
-        <translation type="unfinished"></translation>
+        <translation>День текущей даты в виде двухзначного числа</translation>
     </message>
     <message>
         <source>%TDW%</source>
-        <translation type="unfinished"></translation>
+        <translation>%TDW%</translation>
     </message>
     <message>
         <source>Current date&apos;s day of week as a a name (depending on the current language: Monday, Thuesday, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Название дня недели текущей даты (зависит от текущего языка: понедельник, вторник и т.д.)</translation>
     </message>
 </context>
 <context>
@@ -785,7 +785,7 @@
     </message>
     <message>
         <source>Then the statue becomes visible on the 2nd shot.</source>
-        <translation>Затем на втором кадре статуя мтановится видимой.</translation>
+        <translation>Затем на втором кадре статуя становится видимой.</translation>
     </message>
     <message>
         <source>Finally, the statue once more becomes invisible on the 3rd shot and the pedestrians become visible.</source>
@@ -852,7 +852,7 @@
     </message>
     <message>
         <source>Clarification or darkening of a portion of the image</source>
-        <translation>Осветление или затемнение части изображеия</translation>
+        <translation>Осветление или затемнение части изображения</translation>
     </message>
     <message>
         <source>etc...</source>
@@ -860,7 +860,7 @@
     </message>
     <message>
         <source>There are two types of settings in the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;:</source>
-        <translation>В &lt;a href=&quot;0119.html&quot;&gt;диалоговом окне Параметры слайда&lt;/a&gt;есть два типа настроек:</translation>
+        <translation>В &lt;a href=&quot;0119.html&quot;&gt;диалоговом окне Параметры слайда&lt;/a&gt; есть два типа настроек:</translation>
     </message>
     <message>
         <source>&lt;B&gt;The settings which apply to all shots.&lt;/B&gt; These settings are made globally, that is their effects will be visible on all the shots of the slide. Here are some: </source>
@@ -927,7 +927,7 @@
     </message>
     <message>
         <source>Standard styles that you have modified and styles which you created are marked with this icon: </source>
-        <translation>Стандартные стили, которые вы изменили и стили, которые вы создали, помечены этим значком:</translation>
+        <translation>Стандартные стили, которые вы изменили, и стили, которые вы создали, помечены этим значком:</translation>
     </message>
     <message>
         <source>The second part of the menu allows you to modify the style list. </source>
@@ -1070,19 +1070,19 @@
     </message>
     <message>
         <source>Configuration dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Окна настройки программы</translation>
     </message>
     <message>
         <source>Editing dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Окна редактирования</translation>
     </message>
     <message>
         <source>Dialog boxes related to the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Окна, связанные с проектом</translation>
     </message>
     <message>
         <source>Various dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Прочие окна</translation>
     </message>
 </context>
 <context>
@@ -1793,19 +1793,19 @@
     </message>
     <message>
         <source>To select the current slide:</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор текущего слайда:</translation>
     </message>
     <message>
         <source>Click on a slide to define it as current slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щелкните на слайде, чтобы выбрать его в качестве текущего слайда.</translation>
     </message>
     <message>
         <source>Use the mouse wheel to change the current slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Используйте колесико мышки, чтобы изменить текущий слайд.</translation>
     </message>
     <message>
         <source>Note: When previewing the selected slide is automatically defined on the current slide preview.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: при предварительном просмотре выделенный слайд автоматически определяется как текущий.</translation>
     </message>
 </context>
 <context>
@@ -2286,671 +2286,671 @@
     <name>0031</name>
     <message>
         <source>Rendering videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Создание видео</translation>
     </message>
     <message>
         <source>A digital video consists of a computer file called the &lt;a href=&quot;0038.html&quot;&gt;container&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Цифровое видео представляет собой компьютерный файл, называемый &lt;a href=&quot;0038.html&quot;&gt; контейнер&lt;/a&gt;</translation>
     </message>
     <message>
         <source>In this file we find:</source>
-        <translation type="unfinished"></translation>
+        <translation>В этом файле мы найдем:</translation>
     </message>
     <message>
         <source>One or more video tracks. Each track is built using a &lt;a href=&quot;0036.html&quot;&gt;Video Codec&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Один или несколько видео треков. Каждый из них создан  с помощью &lt;a href=&quot;0036.html&quot;&gt;видео кодека&lt;/a&gt;</translation>
     </message>
     <message>
         <source>One or more audio tracks. Each track is built using an &lt;a href=&quot;0037.html&quot;&gt;Audio Codec&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Один или несколько аудио треков. Каждый из них создан с помошью &lt;a href=&quot;0037.html&quot;&gt;аудио кодека&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Possibly, one or more subtitles. Each subtitle is built in a subtitle format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Возможно, один или несколько субтитров. Каждый из них создан в формате субтитров.</translation>
     </message>
     <message>
         <source>Possibly, a definition of tags and chapters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Возможно, определены теги и главы.</translation>
     </message>
     <message>
         <source>Limitations :</source>
-        <translation type="unfinished"></translation>
+        <translation>Ограничения:</translation>
     </message>
     <message>
         <source>ffDiaporama does not manage subtitles.</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama не может управлять субтитрами.</translation>
     </message>
     <message>
         <source>ffDiaporama generates files that include a single video track and a single audio track.</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama создает файлы, включающие один  видео трек и один аудио трек.</translation>
     </message>
     <message>
         <source>Unlike music files, which are widely portable from one device to another, videos require a certain amount of juggling between various formats to adapt to the equipment used to play them.</source>
-        <translation type="unfinished"></translation>
+        <translation>В отличие от аудио файлов, которые легко воспроизводятся на разных устройствах, при создании видео файлов требуется выбирать между разными форматами для адаптации к оборудованию, на котором будет воспроизводиться видео.</translation>
     </message>
     <message>
         <source>A video rendered for a &quot;Home Cinema&quot; device can occupy several Gb and will be unreadable on a smartphone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Видеофайлы, создаваемые для устройств типа &quot;Домашний кинотеатр&quot;  могут занимать несколько Гб и не воспроизводиться на смартфонах.</translation>
     </message>
     <message>
         <source>The same video rendered for a smartphone will require only one Mb, and can be played on a &quot;Home Cinema&quot; device but it will look ugly.</source>
-        <translation type="unfinished"></translation>
+        <translation>То же видео, созданное для смартфона, будет занимать несколько Мб и может воспроизводиться на &quot;Домашнем кинотеатре&quot;, но будет выглядеть некрасиво.</translation>
     </message>
     <message>
         <source>That is why we recommend that you preserve your original project files as far as possible, and create from them videos suitable for the devices you wish to use for playback.</source>
-        <translation type="unfinished"></translation>
+        <translation>Поэтому мы рекомендуем сохранять ваши исходные файлы проекта, если это возможно, и создавать из них видеофайлы, подходящие для устройств, на которых вы хотите их воспроизводить.</translation>
     </message>
     <message>
         <source>To simplify settings for the rendering operation, ffDiaporama contains predefined settings for the following devices:</source>
-        <translation type="unfinished"></translation>
+        <translation>Для упрощения настройки создания видеофайлов ffDiaporama содержит предустановленные настройки для для следующих устройств:</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;0032.html&quot;&gt;Smartphones&lt;/a&gt; and &lt;a href=&quot;0033.html&quot;&gt;portable devices&lt;/a&gt;, and small video-playing devices in general</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;0032.html&quot;&gt;Смартфоны&lt;/a&gt; и &lt;a href=&quot;0033.html&quot;&gt;портативные устройства&lt;/a&gt;, а также все набольшие устройства воспроизведения видео</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;0034.html&quot;&gt;Multimedia systems&lt;/a&gt; for domestic use (&quot;Home Cinema&quot; devices)</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;0034.html&quot;&gt;Мультимедиа системы&lt;/a&gt; для домашнего использования (устройства типа &quot;Домашний кинотеатр&quot;)</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;0035.html&quot;&gt;Display on the Web&lt;/a&gt; (blogs, picture-sharing and social networking sites)</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;a href=&quot;0035.html&quot;&gt;Интернет&lt;/a&gt; (блоги, хостинги изображений и социальные сети)</translation>
     </message>
     <message>
         <source>It is also possible for you to define all parameters directly by using the advanced option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Также можно определить все параметры вручную, используя дополнительные настройки.</translation>
     </message>
 </context>
 <context>
     <name>0032</name>
     <message>
         <source>Smartphones and tablets</source>
-        <translation type="unfinished">Смартфоны и планшеты</translation>
+        <translation>Смартфоны и планшеты</translation>
     </message>
     <message>
         <source>Generally speaking the main differences between these devices are:</source>
-        <translation type="unfinished"></translation>
+        <translation>Основные отличия  этих устройств заключаются в:</translation>
     </message>
     <message>
         <source>Screen size and maximal resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Размере экрана и максимальном разрешении</translation>
     </message>
     <message>
         <source>Operating system on the device</source>
-        <translation type="unfinished"></translation>
+        <translation>Операционной системе устройства</translation>
     </message>
     <message>
         <source>Consult the documentation for your equipment or search the Internet to determine these two characteristics.</source>
-        <translation type="unfinished"></translation>
+        <translation>Обратитесь к документации оборудования или поищите в Интернете, чтобы определить эти две характеристики.</translation>
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип устройства</translation>
     </message>
     <message>
         <source>Operating system</source>
-        <translation type="unfinished"></translation>
+        <translation>Операционная система</translation>
     </message>
     <message>
         <source>Available resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Доступное разрешение</translation>
     </message>
     <message>
         <source>Remarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечания</translation>
     </message>
     <message>
         <source>Smartphone</source>
-        <translation type="unfinished">Смартфон</translation>
+        <translation>Смартфон</translation>
     </message>
     <message>
         <source>Nokia Symbian System S60</source>
-        <translation type="unfinished"></translation>
+        <translation>Nokia Symbian System S60</translation>
     </message>
     <message>
         <source>QVGA</source>
-        <translation type="unfinished">QVGA</translation>
+        <translation>QVGA</translation>
     </message>
     <message>
         <source>VGA</source>
-        <translation type="unfinished">VGA</translation>
+        <translation>VGA</translation>
     </message>
     <message>
         <source>Generally, Nokia phones working with the Symbian operating system and equipped with a camera, are capable of playing videos. Very often, those provided with a keyboard offer a 320x240 resolution (QVGA), while those with only a touch-sensitive screen offer a 640x360 resolution (VGA).</source>
-        <translation type="unfinished"></translation>
+        <translation>Как правило телефоны Nokia работают на операционной системе Symbian и оснащены камерой, способны воспроизводить видео. Телефоны с клавиатурой чаще всего имеют разрешение 320 x 240 (QVGA), а с сенсорным экраном - 640 x 360 (VGA).</translation>
     </message>
     <message>
         <source>Movie format is: Container: MP4 - Video Codec: MPEG4 - Audio Codec: MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат видео:: Контейнер: MP4 - Видео кодек: MPEG4 - Аудио кодек: MP3</translation>
     </message>
     <message>
         <source>Note: Video files should be stored in the &quot;My videos&quot; folder after connecting the telephone to the PC in &quot;mass storage&quot; mode. </source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: видеофайлы следует сохранять в папке «Мое видео» при подключении телефона к ПК в режиме &quot;накопитель&quot;.</translation>
     </message>
     <message>
         <source>Windows Mobile 6.0/6.1/6.5</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Mobile 6.0/6.1/6.5</translation>
     </message>
     <message>
         <source>HVGA</source>
-        <translation type="unfinished">HVGA</translation>
+        <translation>HVGA</translation>
     </message>
     <message>
         <source>WVGA</source>
-        <translation type="unfinished">WVGA</translation>
+        <translation>WVGA</translation>
     </message>
     <message>
         <source>Numerous manufacturers made phones using the Microsoft Windows Mobile 6 operating system (HP, HTC, etc.) between 2006 and 2010.</source>
-        <translation type="unfinished"></translation>
+        <translation>Многие производители делали телефоны на базе операционной системы Microsoft Windows Mobile 6 (HP, HTC и др.) в 2006 - 2010  гг.</translation>
     </message>
     <message>
         <source>Movie format is: Container: 3GP - Video Codec: MPEG4 - Audio Codec: AMR</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат видео: Контейнер: 3GP - Видео кодек: MPEG4 - Аудио кодек: AMR</translation>
     </message>
     <message>
         <source>Note: Store video files in the &quot;My videos&quot; folder having connected the telephone to the PC in &quot;mass storage&quot; mode. </source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: видеофайлы следует сохранять в папке «Мое видео» при подключении телефона к ПК в режиме &quot;накопитель&quot;.</translation>
     </message>
     <message>
         <source>Windows Phone 7</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Phone 7</translation>
     </message>
     <message>
         <source>Microsoft Windows Phone 7 is the evolution of Windows Mobil 6</source>
-        <translation type="unfinished"></translation>
+        <translation>Microsoft Windows Phone 7 - это новая версия Windows Mobil 6</translation>
     </message>
     <message>
         <source>Movie format is: Container: MP4 - Video Codec: h264 - Audio Codec: AAC-LC</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат видео: Контейнер: MP4 - Видео кодек: h264 - Аудио кодек: AAC-LC</translation>
     </message>
     <message>
         <source>Android</source>
-        <translation type="unfinished"></translation>
+        <translation>Android</translation>
     </message>
     <message>
         <source>1.5/1.6</source>
-        <translation type="unfinished">1.5/1.6</translation>
+        <translation>1.5/1.6</translation>
     </message>
     <message>
         <source>2.1/2.2/2.3</source>
-        <translation type="unfinished">2.1/2.2/2.3</translation>
+        <translation>2.1/2.2/2.3</translation>
     </message>
     <message>
         <source>Many manufacturers made or still make phones using the Google Android operating system.</source>
-        <translation type="unfinished"></translation>
+        <translation>Многие производители делали и продолжают делать телефоны на базе операционной системы Google Android.</translation>
     </message>
     <message>
         <source>Apple iOS</source>
-        <translation type="unfinished"></translation>
+        <translation>Apple iOS</translation>
     </message>
     <message>
         <source>iPhone 3G/3GS</source>
-        <translation type="unfinished"></translation>
+        <translation>iPhone 3G/3GS</translation>
     </message>
     <message>
         <source>iPhone 4</source>
-        <translation type="unfinished"></translation>
+        <translation>iPhone 4</translation>
     </message>
     <message>
         <source>HP - WebOs</source>
-        <translation type="unfinished"></translation>
+        <translation>HP - WebOs</translation>
     </message>
     <message>
         <source>WebOs arises from the repurchase of Palm by HP.</source>
-        <translation type="unfinished"></translation>
+        <translation>WebOs появилась после приобретения Palm компанией HP.</translation>
     </message>
     <message>
         <source>&lt;B&gt;To be completed&lt;/B&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;будет добавлено&lt;/B&gt;</translation>
     </message>
     <message>
         <source>Blackberry OS</source>
-        <translation type="unfinished"></translation>
+        <translation>Blackberry OS</translation>
     </message>
     <message>
         <source>RIM 240</source>
-        <translation type="unfinished">RIM 240</translation>
+        <translation>RIM 240</translation>
     </message>
     <message>
         <source>Movie format is: Container: AVI - Video Codec: MPEG4 - Audio Codec: MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат видео: Контейнер: AVI - Видео кодек: MPEG4 - Аудио кодек: MP3</translation>
     </message>
     <message>
         <source>Note: store video files in the \Blackberry\Video folder after connecting the telephone to the PC &quot;mass storage&quot; mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: видеофайлы следует сохранять в папке \Blackberry\Video при подключении телефона к ПК в режиме &quot;накопитель&quot;.</translation>
     </message>
     <message>
         <source>Samsung BADA</source>
-        <translation type="unfinished"></translation>
+        <translation>Samsung BADA</translation>
     </message>
     <message>
         <source>Tablet</source>
-        <translation type="unfinished"></translation>
+        <translation>Планшет</translation>
     </message>
     <message>
         <source>Android 2.x</source>
-        <translation type="unfinished"></translation>
+        <translation>Android 2.x</translation>
     </message>
     <message>
         <source>Android 3.x</source>
-        <translation type="unfinished"></translation>
+        <translation>Android 3.x</translation>
     </message>
     <message>
         <source>Linux</source>
-        <translation type="unfinished"></translation>
+        <translation>Linux</translation>
     </message>
     <message>
         <source>800x480</source>
-        <translation type="unfinished">1920x480 {800x?}</translation>
+        <translation>800x480</translation>
     </message>
     <message>
         <source>854x480</source>
-        <translation type="unfinished">1920x480 {854x?}</translation>
+        <translation>854x480</translation>
     </message>
     <message>
         <source>Tablet examples: Archos 4/5/70/Arnova 10, Dell Streak, Creative ZiiO 7</source>
-        <translation type="unfinished"></translation>
+        <translation>Примеры планшетов: Archos 4/5/70/Arnova 10, Dell Streak, Creative ZiiO 7</translation>
     </message>
     <message>
         <source>1024x600</source>
-        <translation type="unfinished">1920x600 {1024x?}</translation>
+        <translation>1024x600</translation>
     </message>
     <message>
         <source>XGA</source>
-        <translation type="unfinished">XGA</translation>
+        <translation>XGA</translation>
     </message>
     <message>
         <source>Tablet examples: Archos 101, Samsung Galaxy Tab, HTC Flyer, Hannspree HANNSpad SN10T, Toshiba Folio 100</source>
-        <translation type="unfinished"></translation>
+        <translation>Примеры планшетов: Archos 101, Samsung Galaxy Tab, HTC Flyer, Hannspree HANNSpad SN10T, Toshiba Folio 100</translation>
     </message>
     <message>
         <source>1024x768</source>
-        <translation type="unfinished">1024x768</translation>
+        <translation>1024x768</translation>
     </message>
     <message>
         <source>Tablet examples: HP TouchPad</source>
-        <translation type="unfinished"></translation>
+        <translation>Примеры планшетов: HP TouchPad</translation>
     </message>
     <message>
         <source>1280x800</source>
-        <translation type="unfinished">1920x800 {1280x?}</translation>
+        <translation>1280x800</translation>
     </message>
     <message>
         <source>720p</source>
-        <translation type="unfinished">720p</translation>
+        <translation>720p</translation>
     </message>
     <message>
         <source>Tablet examples: ASUS Eee Pad, Motorola Xoom, Packard Bell Liberty Tab, LG Optimus Pad, Archos G9</source>
-        <translation type="unfinished"></translation>
+        <translation>Примеры планшетов: ASUS Eee Pad, Motorola Xoom, Packard Bell Liberty Tab, LG Optimus Pad, Archos G9</translation>
     </message>
     <message>
         <source>iPad</source>
-        <translation type="unfinished"></translation>
+        <translation>iPad</translation>
     </message>
     <message>
         <source>RIM BlackBerry</source>
-        <translation type="unfinished"></translation>
+        <translation>RIM BlackBerry</translation>
     </message>
     <message>
         <source>Playbook</source>
-        <translation type="unfinished"></translation>
+        <translation>Playbook</translation>
     </message>
     <message>
         <source>Netbook/NetPC</source>
-        <translation type="unfinished"></translation>
+        <translation>Нетбук/NetPC</translation>
     </message>
     <message>
         <source>Windows/XP</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows/XP</translation>
     </message>
     <message>
         <source>Require xVid or DivX codec to be installed on the computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Требуются установленные на компьютер xVid или DivX кодеки.</translation>
     </message>
     <message>
         <source>Windows/Vista</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows/Vista</translation>
     </message>
     <message>
         <source>Windows/7</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows/7</translation>
     </message>
     <message>
         <source>Android/Linux</source>
-        <translation type="unfinished"></translation>
+        <translation>Android/Linux</translation>
     </message>
     <message>
         <source>As far as the resolution is concerned, note that most devices can play videos designed for lower resolution devices without difficulty. </source>
-        <translation type="unfinished"></translation>
+        <translation>В отношении разрешения, обратите внимание, что большинство устройств может воспроизводить видео, предназначенное для устройств с более низким разрешением, без затруднений.</translation>
     </message>
     <message>
         <source>The device models available in ffDiaporama are as follows: </source>
-        <translation type="unfinished"></translation>
+        <translation>В ffDiaporama доступны следующие модели устройств:</translation>
     </message>
 </context>
 <context>
     <name>0033</name>
     <message>
         <source>Portable devices</source>
-        <translation type="unfinished">Портативные устройства</translation>
+        <translation>Портативные устройства</translation>
     </message>
     <message>
         <source>These portable devices are usually very specific. We will not discuss therefore either operating system or resolution.</source>
-        <translation type="unfinished"></translation>
+        <translation>Обычно эти портативные устройства очень специфичны. Поэтому мы не будем обсуждать операционную систему или разрешение.</translation>
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип устройства</translation>
     </message>
     <message>
         <source>Manufacturer/Model</source>
-        <translation type="unfinished"></translation>
+        <translation>Производитель/Модель</translation>
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished">Примечание</translation>
+        <translation>Примечание</translation>
     </message>
     <message>
         <source>Portable player</source>
-        <translation type="unfinished"></translation>
+        <translation>Портативный плеер</translation>
     </message>
     <message>
         <source>DVD/DivX portable player (car player or travel player)</source>
-        <translation type="unfinished"></translation>
+        <translation>DVD/DivX портативный плеер (автомобильный плеер или для путешествий)</translation>
     </message>
     <message>
         <source>All these devices use the old DVD/DIVX format with anamorphic resolution 720x576 (PAL) or 720x480 ( NTSC).</source>
-        <translation type="unfinished"></translation>
+        <translation>Все эти устройства используют старый DVD/DIVX формат с анаморфным разрешением 720x576 (PAL) или 720x480 (NTSC).</translation>
     </message>
     <message>
         <source>Movie format is: Container: AVI - Video Codec: MPEG4 - Audio Codec: MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат видео: Контейнер: AVI - Видео кодек: MPEG4 - Аудио кодек: MP3</translation>
     </message>
     <message>
         <source>If the device does not have a USB port, burn a DVD from your video files. Otherwise simply copy your files to a USB pendrive.</source>
-        <translation type="unfinished"></translation>
+        <translation>Если устройство не имеет USB порта, запишите ваши файлы на DVD. В противном случае можно просто скопировать файлы на USB-флешку.</translation>
     </message>
     <message>
         <source>iPod Classic (G5/G6)</source>
-        <translation type="unfinished"></translation>
+        <translation>iPod Classic (G5/G6)</translation>
     </message>
     <message>
         <source>iPod Nano (G3/G4/G5)</source>
-        <translation type="unfinished"></translation>
+        <translation>iPod Nano (G3/G4/G5)</translation>
     </message>
     <message>
         <source>These two portable player were especially designed for music. Therefore, their resolution is only QVGA.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эти два портативных плеера были специально разработаны для музыки. Поэтому их разрешение составляет всего лишь QVGA.</translation>
     </message>
     <message>
         <source>Movie format is: Container: MP4 - Video Codec: h264 - Audio Codec: AAC-LC</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат видео: Контейнер: MP4 - Видео кодек: h264 - Аудио кодек: AAC-LC</translation>
     </message>
     <message>
         <source>Apple iPod Touch</source>
-        <translation type="unfinished"></translation>
+        <translation>Apple iPod Touch</translation>
     </message>
     <message>
         <source>This portable player has a video resolution comparable to the DVD (without anamorphism).</source>
-        <translation type="unfinished"></translation>
+        <translation>Этот портативный плеер имеет разрешение видео, сопоставимое с DVD (без анаморфизма).</translation>
     </message>
     <message>
         <source>Portable LED/LCD TV</source>
-        <translation type="unfinished"></translation>
+        <translation>Портативный LED/LCD TV</translation>
     </message>
     <message>
         <source>These devices, when they support the HD TV, have a real resolution of 1024x576.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эти устройства, если они поддерживают HD TV, имеют реальное разрешение 1024 x 576.</translation>
     </message>
     <message>
         <source>Handheld game console</source>
-        <translation type="unfinished"></translation>
+        <translation>Портативная игровая консоль</translation>
     </message>
     <message>
         <source>Sony PSP</source>
-        <translation type="unfinished"></translation>
+        <translation>Sony PSP</translation>
     </message>
     <message>
         <source>Resolution 320x480 / NTSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Разрешение 320x480 / NTSC</translation>
     </message>
     <message>
         <source>-s 320x480 -b 512000 -ar 24000 -ab 64000 -f psp -r 29.97</source>
-        <translation type="unfinished"></translation>
+        <translation>-s 320x480 -b 512000 -ar 24000 -ab 64000 -f psp -r 29.97</translation>
     </message>
     <message>
         <source>-ac 2 -ar 48000 -acodec libfAAC-LC -ab 128k -r FRAME_RATE -s WIDTHxHEIGHT -vcodec libh264 -vpre slower -vpre main -level 21 -refs 2 -b BIT_RATE -bt BIT_RATE -aspect WIDTH:HEIGHT -f psp</source>
-        <translation type="unfinished"></translation>
+        <translation>-ac 2 -ar 48000 -acodec libfAAC-LC -ab 128k -r FRAME_RATE -s WIDTHxHEIGHT -vcodec libh264 -vpre slower -vpre main -level 21 -refs 2 -b BIT_RATE -bt BIT_RATE -aspect WIDTH:HEIGHT -f psp</translation>
     </message>
 </context>
 <context>
     <name>0034</name>
     <message>
         <source>Multimedia system (Home cinema)</source>
-        <translation type="unfinished">Мультимедиа система (домашний кинотеатр)</translation>
+        <translation>Мультимедиа система (домашний кинотеатр)</translation>
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип устройства</translation>
     </message>
     <message>
         <source>Manufacturer/Model</source>
-        <translation type="unfinished"></translation>
+        <translation>Производитель/Модель</translation>
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished">Примечание</translation>
+        <translation>Примечание</translation>
     </message>
     <message>
         <source>TV box of ADSL box</source>
-        <translation type="unfinished"></translation>
+        <translation>ТВ или ADSL приставка</translation>
     </message>
     <message>
         <source>France - Livebox (Orange)</source>
-        <translation type="unfinished"></translation>
+        <translation>France - Livebox (Orange)</translation>
     </message>
     <message>
         <source>All these devices support the old DVD/DIVX format with anamorphic resolution 720x576 (PAL) for the DVD resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Все эти устройства используют старый DVD/DIVX формат с анаморфным разрешением 720x576 (PAL) вместо DVD разрешения</translation>
     </message>
     <message>
         <source>Movie format is: Container: AVI - Video Codec: MPEG4 - Audio Codec: MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат видео: Контейнер: AVI - Видео кодек: MPEG4 - Аудио кодек: MP3</translation>
     </message>
     <message>
         <source>All these devices support the MP4 format up to the FullHD 1080p resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Все эти устройства используют MP4 формат с разрешением до FullHD 1080p</translation>
     </message>
     <message>
         <source>Movie format is: Container: MP4 - Video Codec: h264 - Audio Codec: AAC-LC</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат видео: Контейнер: MP4 - Видео кодек: h264 - Аудио кодек: AAC-LC</translation>
     </message>
     <message>
         <source>Copy your video files to a USB pendrive or an external hard disk and use the multimedia player integrated into the menu of the decoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Скопируйте ваши видеофайлы на USB-флешку или внешний жесткий диск и используйте мультимедийный проигрыватель, интегрированный в меню декодера</translation>
     </message>
     <message>
         <source>France - Freebox</source>
-        <translation type="unfinished"></translation>
+        <translation>France - Freebox</translation>
     </message>
     <message>
         <source>France - Neufbox (SFR)</source>
-        <translation type="unfinished"></translation>
+        <translation>France - Neufbox (SFR)</translation>
     </message>
     <message>
         <source>France - Bbox (Bouygues Telecom)</source>
-        <translation type="unfinished"></translation>
+        <translation>France - Bbox (Bouygues Telecom)</translation>
     </message>
     <message>
         <source>Multimedia hard drive and gateway</source>
-        <translation type="unfinished"></translation>
+        <translation>Мультимедийный жесткий диск и шлюз</translation>
     </message>
     <message>
         <source>All manufacturers</source>
-        <translation type="unfinished"></translation>
+        <translation>Все производители</translation>
     </message>
     <message>
         <source>Equipments supporting HD (to verify in the technical specifications of the device) support the MP4 format until the FullHD 1080p resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Оборудование с поддержкой HD (проверьте технические характеристики устройства) использует MP4 формат с разрешением до FullHD 1080p</translation>
     </message>
     <message>
         <source>Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Плеер</translation>
     </message>
     <message>
         <source>DVD/DivX Player</source>
-        <translation type="unfinished"></translation>
+        <translation>DVD/DivX плеер</translation>
     </message>
     <message>
         <source>These devices only support the old DVD/DIVX format with anamorphic resolution 720x576 (PAL) for the DVD resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Эти устройства используют старый DVD/DIVX формат с анаморфным разрешением 720x576 (PAL) вместо DVD разрешения</translation>
     </message>
     <message>
         <source>If the device does not have an USB connector: burn a DVD with your video files. Otherwise simply copy your videos files to a USB pendrive.</source>
-        <translation type="unfinished"></translation>
+        <translation>Если устройство не имеет USB порта, запишите ваши файлы на DVD. В противном случае можно просто скопировать файлы на USB-флешку.</translation>
     </message>
     <message>
         <source>BlueRay player</source>
-        <translation type="unfinished"></translation>
+        <translation>BlueRay плеер</translation>
     </message>
     <message>
         <source>&lt;B&gt;To be completed&lt;/B&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;будет добавлено&lt;/B&gt;</translation>
     </message>
     <message>
         <source>Games console</source>
-        <translation type="unfinished"></translation>
+        <translation>Игровая консоль</translation>
     </message>
     <message>
         <source>PS3</source>
-        <translation type="unfinished"></translation>
+        <translation>PS3</translation>
     </message>
     <message>
         <source>XBox360</source>
-        <translation type="unfinished"></translation>
+        <translation>XBox360</translation>
     </message>
     <message>
         <source> These &quot;Home Cinema&quot; devices are connected to a television set. The format choice will thus be made according to the requirements of the set used. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эти устройства (типа &quot;Домашний кинотеатр&quot;) подключаются к телевизору. Выбор формата будет зависеть от системных требований телевизора. </translation>
     </message>
     <message>
         <source>Warning: The old SD format is only suitable for old television sets using cathode ray tube technology. With these tubes, points were not circular but oval: we call this anamorphism. </source>
-        <translation type="unfinished"></translation>
+        <translation>Внимание: старый SD формат подходит только для старых телевизоров, использующих электронно-лучевую технологию. Точки в этих трубках не круглые, а овальные: это называется анаморфизм.</translation>
     </message>
     <message>
         <source>Playing a video in SD format on a modern LCD, LED or plasma television set gives openly disastrous results: The image is particularly ugly! Thus, if your television is new and if your device allows it, always use a HD or Full-HD format in preference to a SD format. </source>
-        <translation type="unfinished"></translation>
+        <translation>Воспроизведение видео в SD формате  на современных LCD, LED или плазменных телевизорах дает просто катастрофические результаты: изображение очень отвратительное! Поэтому если у вас новый телевизор и если это позволяет ваше устройство, всегда используйте HD или Full-HD формат.</translation>
     </message>
 </context>
 <context>
     <name>0035</name>
     <message>
         <source>For the WEB</source>
-        <translation type="unfinished">Интернет</translation>
+        <translation>Интернет</translation>
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип устройства</translation>
     </message>
     <message>
         <source>Manufacturer/Model</source>
-        <translation type="unfinished"></translation>
+        <translation>Производитель/Модель</translation>
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished">Примечание</translation>
+        <translation>Примечание</translation>
     </message>
     <message>
         <source>Flash player (SWF)</source>
-        <translation type="unfinished"></translation>
+        <translation>Flash player (SWF)</translation>
     </message>
     <message>
         <source>All SWF players</source>
-        <translation type="unfinished"></translation>
+        <translation>Все SWF плееры</translation>
     </message>
     <message>
         <source>To be used with the HTML tag object class=&quot;player&quot; type=&quot;application/x-shockwave-flash&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Используется в HTML теге: object class=&quot;player&quot; type=&quot;application/x-shockwave-flash&quot;</translation>
     </message>
     <message>
         <source>- For 4/3 : 320x240, 640x480, 960x720, 1440x1080</source>
-        <translation type="unfinished"></translation>
+        <translation>- для 4/3 : 320x240, 640x480, 960x720, 1440x1080</translation>
     </message>
     <message>
         <source>- For 16/9 : 320x180, 640x360, 1280x720, 1920x1080</source>
-        <translation type="unfinished"></translation>
+        <translation>- для 16/9 : 320x180, 640x360, 1280x720, 1920x1080</translation>
     </message>
     <message>
         <source>- For 40/17 : 320x136, 640x272, 1280x544, 1920x816</source>
-        <translation type="unfinished"></translation>
+        <translation>- для 40/17 : 320x136, 640x272, 1280x544, 1920x816</translation>
     </message>
     <message>
         <source>Movie format is: Container: SWF(2008) - Video Codec: h264 - Audio Codec: AAC-LC</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат видео: Контейнер: SWF(2008) - Видео кодек: h264 - Аудио кодек: AAC-LC</translation>
     </message>
     <message>
         <source>Sharing and social networking</source>
-        <translation type="unfinished"></translation>
+        <translation>Сайты видео-обмена и социальные сети</translation>
     </message>
     <message>
         <source>Youtube</source>
-        <translation type="unfinished"></translation>
+        <translation>Youtube</translation>
     </message>
     <message>
         <source>720p - Movie format is: Container: MP4 - Video Codec: xVid - Audio Codec: MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>720p - Формат видео: Контейнер: MP4 - Видео кодек: xVid - Аудио кодек: MP3</translation>
     </message>
     <message>
         <source>Daily Motion</source>
-        <translation type="unfinished"></translation>
+        <translation>Daily Motion</translation>
     </message>
     <message>
         <source>720p - Movie format is: Container: MP4 - Video Codec: h264 - Audio Codec: AAC-LC</source>
-        <translation type="unfinished"></translation>
+        <translation>720p - Формат видео: Контейнер: MP4 - Видео кодек: h264 - Аудио кодек: AAC-LC</translation>
     </message>
     <message>
         <source>Facebook</source>
-        <translation type="unfinished"></translation>
+        <translation>Facebook</translation>
     </message>
     <message>
         <source>Publish the video on YouTube or Daily Motion and integrate a link towards this video into Facebook</source>
-        <translation type="unfinished"></translation>
+        <translation>Публикация видео на YouTube или Daily Motion и вставка ссылки на это видео в Facebook</translation>
     </message>
     <message>
         <source>HTML 5</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML 5</translation>
     </message>
     <message>
         <source>webm</source>
-        <translation type="unfinished"></translation>
+        <translation>webm</translation>
     </message>
     <message>
         <source>To be added to allow the new video TAG in HTML5 browsers. </source>
-        <translation type="unfinished"></translation>
+        <translation>Добавляется через новые теги видео в браузерах, поддерживающих HTML 5. </translation>
     </message>
     <message>
         <source>WebM is an open source format usable with Firefox, Google Chrome and Opera </source>
-        <translation type="unfinished"></translation>
+        <translation>WebM - это формат с открытым исходным кодом, поддерживаемый Firefox, Google Chrome и Opera </translation>
     </message>
     <message>
         <source>H264 is a format usable in Safari, Internet Explorer and Google Chrome </source>
-        <translation type="unfinished"></translation>
+        <translation>H264 формат поддерживается Safari, Internet Explorer и Google Chrome </translation>
     </message>
     <message>
         <source>To maintain backward compatibility with older browsers, it is advisable to offer a flash version within the tag. See: </source>
-        <translation type="unfinished"></translation>
+        <translation>Для обеспечения совместимости со старыми браузерами мы рекомендуем флэш версию с вставкой посредством тега. Смотрите: </translation>
     </message>
     <message>
         <source>developer.mozilla.org</source>
-        <translation type="unfinished"></translation>
+        <translation>developer.mozilla.org</translation>
     </message>
     <message>
         <source>mp4</source>
-        <translation type="unfinished"></translation>
+        <translation>mp4</translation>
     </message>
     <message>
         <source>ogv</source>
-        <translation type="unfinished"></translation>
+        <translation>ogv</translation>
     </message>
 </context>
 <context>
@@ -2985,7 +2985,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Motion_JPEG</source>
-        <translation>http://ru.wikipedia.org/wiki/MJPEG</translation>
+        <translation>http://en.wikipedia.org/wiki/Motion_JPEG</translation>
     </message>
     <message>
         <source>MPEG2</source>
@@ -2997,7 +2997,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG-2</source>
-        <translation>http://ru.wikipedia.org/wiki/MPEG-2</translation>
+        <translation>http://en.wikipedia.org/wiki/MPEG-2</translation>
     </message>
     <message>
         <source>MPEG4</source>
@@ -3009,7 +3009,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Xvid</source>
-        <translation>http://ru.wikipedia.org/wiki/Xvid</translation>
+        <translation>http://en.wikipedia.org/wiki/Xvid</translation>
     </message>
     <message>
         <source>H264HQ</source>
@@ -3021,7 +3021,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC</source>
-        <translation>http://ru.wikipedia.org/wiki/H.264</translation>
+        <translation>http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC</translation>
     </message>
     <message>
         <source>H264PQ</source>
@@ -3041,7 +3041,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/X264</source>
-        <translation>http://ru.wikipedia.org/wiki/X264</translation>
+        <translation>http://en.wikipedia.org/wiki/X264</translation>
     </message>
     <message>
         <source>VP8</source>
@@ -3053,7 +3053,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/WebM</source>
-        <translation>http://ru.wikipedia.org/wiki/WebM</translation>
+        <translation>http://en.wikipedia.org/wiki/WebM</translation>
     </message>
     <message>
         <source>H263</source>
@@ -3065,7 +3065,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/H.263</source>
-        <translation>http://ru.wikipedia.org/wiki/H.263</translation>
+        <translation>http://en.wikipedia.org/wiki/H.263</translation>
     </message>
     <message>
         <source>THEORA</source>
@@ -3077,7 +3077,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Theora</source>
-        <translation>http://ru.wikipedia.org/wiki/Theora</translation>
+        <translation>http://en.wikipedia.org/wiki/Theora</translation>
     </message>
     <message>
         <source>ffDiaporama uses specific settings for encoding with x264. This settings are including: </source>
@@ -3132,7 +3132,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Pulse-code_modulation</source>
-        <translation>http://ru.wikipedia.org/wiki/%D0%98%D0%BC%D0%BF%D1%83%D0%BB%D1%8C%D1%81%D0%BD%D0%BE-%D0%BA%D0%BE%D0%B4%D0%BE%D0%B2%D0%B0%D1%8F_%D0%BC%D0%BE%D0%B4%D1%83%D0%BB%D1%8F%D1%86%D0%B8%D1%8F</translation>
+        <translation>http://en.wikipedia.org/wiki/Pulse-code_modulation</translation>
     </message>
     <message>
         <source>MP3</source>
@@ -3144,7 +3144,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MP3</source>
-        <translation>http://ru.wikipedia.org/wiki/MP3</translation>
+        <translation>http://en.wikipedia.org/wiki/MP3</translation>
     </message>
     <message>
         <source>AAC-LC</source>
@@ -3156,7 +3156,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Advanced_Audio_Coding</source>
-        <translation>http://ru.wikipedia.org/wiki/Advanced_Audio_Coding</translation>
+        <translation>http://en.wikipedia.org/wiki/Advanced_Audio_Coding</translation>
     </message>
     <message>
         <source>AC3</source>
@@ -3168,7 +3168,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Dolby_Digital</source>
-        <translation>http://ru.wikipedia.org/wiki/Dolby_Digital</translation>
+        <translation>http://en.wikipedia.org/wiki/Dolby_Digital</translation>
     </message>
     <message>
         <source>VORBIS</source>
@@ -3180,7 +3180,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Vorbis</source>
-        <translation>http://ru.wikipedia.org/wiki/Vorbis</translation>
+        <translation>http://en.wikipedia.org/wiki/Vorbis</translation>
     </message>
     <message>
         <source>MP2</source>
@@ -3192,7 +3192,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG-2</source>
-        <translation>http://ru.wikipedia.org/wiki/MPEG-2</translation>
+        <translation>http://en.wikipedia.org/wiki/MPEG-2</translation>
     </message>
     <message>
         <source>AMR</source>
@@ -3204,7 +3204,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Adaptive_Multi-Rate_audio_codec</source>
-        <translation>http://ru.wikipedia.org/wiki/AMR_%28%D1%81%D0%B6%D0%B0%D1%82%D0%B8%D0%B5_%D0%B7%D0%B2%D1%83%D0%BA%D0%B0%29</translation>
+        <translation>http://en.wikipedia.org/wiki/Adaptive_Multi-Rate_audio_codec</translation>
     </message>
     <message>
         <source>FLAC</source>
@@ -3216,7 +3216,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Flac</source>
-        <translation>http://ru.wikipedia.org/wiki/FLAC</translation>
+        <translation>http://en.wikipedia.org/wiki/Flac</translation>
     </message>
 </context>
 <context>
@@ -3263,7 +3263,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/3GP_and_3G2</source>
-        <translation>http://ru.wikipedia.org/wiki/3GP</translation>
+        <translation>http://en.wikipedia.org/wiki/3GP_and_3G2</translation>
     </message>
     <message>
         <source>AVI</source>
@@ -3283,7 +3283,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Audio_Video_Interleave</source>
-        <translation>http://ru.wikipedia.org/wiki/Audio_Video_Interleave</translation>
+        <translation>http://en.wikipedia.org/wiki/Audio_Video_Interleave</translation>
     </message>
     <message>
         <source>MKV</source>
@@ -3303,7 +3303,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Matroska</source>
-        <translation>http://ru.wikipedia.org/wiki/Matroska</translation>
+        <translation>http://en.wikipedia.org/wiki/Matroska</translation>
     </message>
     <message>
         <source>MJPEG</source>
@@ -3319,7 +3319,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Motion_JPEG</source>
-        <translation>http://ru.wikipedia.org/wiki/MJPEG</translation>
+        <translation>http://en.wikipedia.org/wiki/Motion_JPEG</translation>
     </message>
     <message>
         <source>MP4</source>
@@ -3335,7 +3335,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG-4_Part_14</source>
-        <translation>http://ru.wikipedia.org/wiki/MPEG-4_Part_14</translation>
+        <translation>http://en.wikipedia.org/wiki/MPEG-4_Part_14</translation>
     </message>
     <message>
         <source>MPEG</source>
@@ -3375,7 +3375,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/WebM</source>
-        <translation>http://ru.wikipedia.org/wiki/WebM</translation>
+        <translation>http://en.wikipedia.org/wiki/WebM</translation>
     </message>
     <message>
         <source>FLV</source>
@@ -3395,7 +3395,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Adobe_Flash</source>
-        <translation>http://ru.wikipedia.org/wiki/Adobe_Flash</translation>
+        <translation>http://en.wikipedia.org/wiki/Adobe_Flash</translation>
     </message>
     <message>
         <source>Flash file format 2008</source>
@@ -3423,7 +3423,7 @@
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Ogg</source>
-        <translation>http://ru.wikipedia.org/wiki/Ogg</translation>
+        <translation>http://en.wikipedia.org/wiki/Ogg</translation>
     </message>
 </context>
 <context>
@@ -3458,11 +3458,11 @@
     </message>
     <message>
         <source>PAL is effective in all the countries where the electricity network is 50 hz (which is the case, for example, for Western European countries)</source>
-        <translation>PAL действует во всех странах, где сети электроснабжения — 50 Гц ( например, страны Западной Европы)</translation>
+        <translation>PAL действует во всех странах, где сети электроснабжения — 50 Гц (например, страны Западной Европы)</translation>
     </message>
     <message>
         <source>NTSC is effective in all the countries where the electricity network is 60 hz (which is the case, for example, for the United States of America)</source>
-        <translation>NTSC действует во всех странах, где сети электроснабжения — 60 Гц ( например, США)</translation>
+        <translation>NTSC действует во всех странах, где сети электроснабжения — 60 Гц (например, США)</translation>
     </message>
     <message>
         <source>Geometry</source>
@@ -3765,7 +3765,7 @@
     </message>
     <message>
         <source>A video or music file can be accompanied with an image file which must have the same name but with the .jpg extension (example: holidays.mkv and holidays.jpg in the same folder). </source>
-        <translation>Видео или аудио файлы могут сопровождаться изображением, которое должен иметь такое же имя, но с расширением .jpg (например: holidays.mkv и holidays.jpg в одной и той же папке).</translation>
+        <translation>Видео или аудио файлы могут сопровождаться изображением, которое должно иметь такое же имя, но с расширением .jpg (например: holidays.mkv и holidays.jpg в одной и той же папке).</translation>
     </message>
     <message>
         <source>This image is called a thumbnail and is used as icon for this file by ffDiaporama and many </source>
@@ -3785,7 +3785,7 @@
     </message>
     <message>
         <source>For more information see: &lt;a href=&quot;0044.html&quot;&gt;XBMC nfo files&lt;/a&gt;</source>
-        <translation>Для получения дополнительной информации смотрите: &lt;a href=&quot;0044.html&quot;&gt;XBMC nfo files&lt;/a&gt;</translation>
+        <translation>Для получения дополнительной информации смотрите: &lt;a href=&quot;0044.html&quot;&gt;XBMC nfo файлы&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -3879,7 +3879,7 @@
     </message>
     <message>
         <source>&lt;B&gt;it&lt;/B&gt; to use Italian</source>
-        <translation>B&gt;it&lt;/B&gt; использовать итальянский</translation>
+        <translation>&lt;B&gt;it&lt;/B&gt; использовать итальянский</translation>
     </message>
     <message>
         <source>&lt;B&gt;nl&lt;/B&gt; to use Dutch</source>
@@ -3907,7 +3907,7 @@
     </message>
     <message>
         <source>1 to show all the messages of Debug, Information, Warning and Error levels</source>
-        <translation>1 для отображения всех тиов сообщений: Отладка, Информационные, Предупреждения и Ошибки</translation>
+        <translation>1 для отображения всех типов сообщений: Отладка, Информационные, Предупреждения и Ошибки</translation>
     </message>
     <message>
         <source>2 to show the messages of Information, Warning and Error levels</source>
@@ -3923,7 +3923,7 @@
     </message>
     <message>
         <source> Note: messages appear only if you launched the program from a console (CMD under Windows or Terminal under Linux). It is possible to redirect these messages into a log file by using &gt;. </source>
-        <translation>Примечание: сообщения появляются только, если вы запустили программу из консоли (cmd в Windows или terminal в Linux). Можно перенаправить эти сообщения в лог-файл с помощью &gt;. </translation>
+        <translation>Примечание: сообщения появляются только если вы запустили программу из консоли (cmd в Windows или terminal в Linux). Можно перенаправить эти сообщения в лог-файл с помощью &gt;. </translation>
     </message>
 </context>
 <context>
@@ -3957,15 +3957,15 @@
     </message>
     <message>
         <source>The primary ffDiaporama.xml file is stored in the ffDiaporama directory. This file is global for all users: it contains the default ffDiaporama application settings. </source>
-        <translation>Основная файл ffDiaporama.xml хранится в папке ffDiaporama. Этот файл является общим для для всех пользователей: он содержит параметры ffDiaporama по умолчанию.</translation>
+        <translation>Основной файл ffDiaporama.xml хранится в папке ffDiaporama. Этот файл является общим для для всех пользователей: он содержит параметры ffDiaporama по умолчанию.</translation>
     </message>
     <message>
         <source>For Windows, this is C:\Program Files\ffDiaporama</source>
-        <translation>Для Windows это C:\Program Files\ffDiaporama</translation>
+        <translation>Для Windows - это C:\Program Files\ffDiaporama</translation>
     </message>
     <message>
         <source>For Linux, it is /usr/share/ffDiaporama</source>
-        <translation>Для Linux это /usr/share/ffDiaporama</translation>
+        <translation>Для Linux - это /usr/share/ffDiaporama</translation>
     </message>
     <message>
         <source>A secondary user-specific ffDiaporama.xml file is stored in the user&apos;s profile folder. </source>
@@ -3973,11 +3973,11 @@
     </message>
     <message>
         <source>For Windows, this is C:\Document and settings\[user]</source>
-        <translation>Для Windows это C:\Document and settings\[user]</translation>
+        <translation>Для Windows - это C:\Document and settings\[user]</translation>
     </message>
     <message>
         <source>For Linux, it is ~/.ffDiaporama</source>
-        <translation>Для Linux это ~/.ffDiaporama</translation>
+        <translation>Для Linux - это ~/.ffDiaporama</translation>
     </message>
     <message>
         <source> When the application is launched for the first time, the user configuration file is created if it does not already exist. </source>
@@ -3989,7 +3989,7 @@
     </message>
     <message>
         <source>If ffDiaporama is used by several users on the same PC, there will be a separate configuration file for each user.</source>
-        <translation>Если ffDiaporama используется несколькими пользователями на одном компьютере , то для каждого пользователя будет создан отдельный файл конфигурации.</translation>
+        <translation>Если ffDiaporama используется несколькими пользователями на одном компьютере, то для каждого пользователя будет создан отдельный файл конфигурации.</translation>
     </message>
     <message>
         <source> The same principle is used for 2 files: </source>
@@ -4300,10 +4300,6 @@
     <message>
         <source>Fill with project name when project save : The title will take the same name as the .ffd file</source>
         <translation>Использовать имя проекта при сохранении: название будет таким же, как имя ffd файла</translation>
-    </message>
-    <message>
-        <source>Fill with project folder name when project save : The title will take the same name as the folder in witch is save the .ffd file</source>
-        <translation>Использовать имя папки проекта при сохранении: название будет таким же, как имя папки, где находится ffd файл</translation>
     </message>
     <message>
         <source>Author</source>
@@ -4837,6 +4833,10 @@
         <source> Manage device allows to open the &lt;a href=&quot;0102.html&quot;&gt;Manage device dialog&lt;/a&gt;</source>
         <translation> Уравлять устройствами, открыв диалоговое окно &lt;a href=&quot;0102.html&quot;&gt;Управление устройствами&lt;/a&gt;</translation>
     </message>
+    <message>
+        <source>Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file</source>
+        <translation>Использовать имя папки проекта при сохранении: название будет таким же, как имя папки, в которой находится .ffd файл</translation>
+    </message>
 </context>
 <context>
     <name>0102</name>
@@ -4926,11 +4926,11 @@
     </message>
     <message>
         <source>This dialog box allows you to modify the equipment profiles database.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет изменять базу данных профилей устройств.</translation>
     </message>
     <message>
         <source>The database is actually composed of two parts:</source>
-        <translation type="unfinished"></translation>
+        <translation>База данных состоит из двух частей:</translation>
     </message>
 </context>
 <context>
@@ -5310,7 +5310,7 @@
     <name>0106</name>
     <message>
         <source>Check configuration</source>
-        <translation>Проверить конфигурацию</translation>
+        <translation>Проверка конфигурации</translation>
     </message>
     <message>
         <source>This dialog allows to check external tools configuration and libraries used by ffDiaporama.</source>
@@ -5318,15 +5318,15 @@
     </message>
     <message>
         <source>It is especially useful for the Linux users and for those who compiles the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Оно особенно полезно для пользователей Linux и тех, кто компилирует приложение.</translation>
     </message>
     <message>
         <source>The most common shown errors concern the supported formats, codec and library versions.</source>
-        <translation type="unfinished"></translation>
+        <translation>Наиболее распространенные ошибки касаются поддерживаемых форматов, версий кодеков и библиотек.</translation>
     </message>
     <message>
         <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration.</source>
-        <translation type="unfinished"></translation>
+        <translation>Для решения проблем вы должны будете установить дополнительные пакеты на ваш компьютер и, может быть, пересобрать ffDiaporama из исходников и снова проверить конфигурацию.</translation>
     </message>
 </context>
 <context>
@@ -5412,379 +5412,379 @@
     <name>0108</name>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Свойства проекта</translation>
     </message>
     <message>
         <source>This information will then be registered in the form of TAGs in the rendered video files. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта информация затем будет зарегистрирована в виде тегов в создаваемом видеофайле. </translation>
     </message>
     <message>
         <source>Some fields are automatically filled and do not appear in this dialog: </source>
-        <translation type="unfinished"></translation>
+        <translation>Некоторые поля заполняются автоматически и не появляются в этом диалоговом окне: </translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Примечания:</translation>
+        <translation>Примечания:</translation>
     </message>
     <message>
         <source>The Project tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Вклакдка Проект</translation>
     </message>
     <message>
         <source>Settable fields</source>
-        <translation type="unfinished"></translation>
+        <translation>Настраиваемые поля</translation>
     </message>
     <message>
         <source>Fields</source>
-        <translation type="unfinished"></translation>
+        <translation>Поле</translation>
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished">Примечание</translation>
+        <translation>Примечание</translation>
     </message>
     <message>
         <source>Project geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Геометрия проекта</translation>
     </message>
     <message>
         <source>This field allows you to select the geometry to be used for the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Это поле позволяет выбрать геометрию, используемую в проекте.</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished">Название</translation>
+        <translation>Название</translation>
     </message>
     <message>
         <source>Author</source>
-        <translation type="unfinished">Автор</translation>
+        <translation>Автор</translation>
     </message>
     <message>
         <source>Album</source>
-        <translation type="unfinished"></translation>
+        <translation>Альбом</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
     <message>
         <source>Comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Комментарий</translation>
     </message>
     <message>
         <source>A free comment which can spread out on several lines. </source>
-        <translation type="unfinished"></translation>
+        <translation>Произвольный комментарий, который может содержать несколько строк. </translation>
     </message>
     <message>
         <source>Timestamp</source>
-        <translation type="unfinished"></translation>
+        <translation>Временная метка</translation>
     </message>
     <message>
         <source>Date and time of generation of the video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата и время создания видео.</translation>
     </message>
     <message>
         <source>Composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Композитор</translation>
     </message>
     <message>
         <source>Contains the version of ffDiaporama with which the video was produced.</source>
-        <translation type="unfinished"></translation>
+        <translation>Содержит номер версии ffDiaporama в которой было создано видео.</translation>
     </message>
     <message>
         <source>Encoder</source>
-        <translation type="unfinished"></translation>
+        <translation>Кодировщик</translation>
     </message>
     <message>
         <source>Contains the version of libavformat (ffmpeg) with which the video was produced.</source>
-        <translation type="unfinished"></translation>
+        <translation>Содержит номер версии libavformat (ffmpeg) в которой было создано видео.</translation>
     </message>
     <message>
         <source>Chapters</source>
-        <translation type="unfinished"></translation>
+        <translation>Главы</translation>
     </message>
     <message>
         <source>The following fields appear: </source>
-        <translation type="unfinished"></translation>
+        <translation>Появляются следующие поля: </translation>
     </message>
     <message>
         <source>#</source>
-        <translation type="unfinished"></translation>
+        <translation>#</translation>
     </message>
     <message>
         <source>Chapter number</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер главы</translation>
     </message>
     <message>
         <source>Slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Слайд</translation>
     </message>
     <message>
         <source>Slide number in wich chapter is defined</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер слайда в котором определена глава</translation>
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished">Название главы</translation>
+        <translation>Название главы</translation>
     </message>
     <message>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Начало</translation>
     </message>
     <message>
         <source>Chapter start position</source>
-        <translation type="unfinished"></translation>
+        <translation>Позиция начала главы</translation>
     </message>
     <message>
         <source>End</source>
-        <translation type="unfinished"></translation>
+        <translation>Конец</translation>
     </message>
     <message>
         <source>Chapter end position</source>
-        <translation type="unfinished"></translation>
+        <translation>Позиция окончания главы</translation>
     </message>
     <message>
         <source>Duration</source>
-        <translation type="unfinished">Продолжительность</translation>
+        <translation>Продолжительность</translation>
     </message>
     <message>
         <source>Chapter duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Продолжительность главы</translation>
     </message>
     <message>
         <source>Format</source>
-        <translation type="unfinished">Формат</translation>
+        <translation>Формат</translation>
     </message>
     <message>
         <source>3GP/MP4/MKV</source>
-        <translation type="unfinished"></translation>
+        <translation>3GP/MP4/MKV</translation>
     </message>
     <message>
         <source>Full support</source>
-        <translation type="unfinished"></translation>
+        <translation>Полная поддержка</translation>
     </message>
     <message>
         <source>AVI/MPG/FLV/OGV/WEBM</source>
-        <translation type="unfinished"></translation>
+        <translation>AVI/MPG/FLV/OGV/WEBM</translation>
     </message>
     <message>
         <source>No support</source>
-        <translation type="unfinished"></translation>
+        <translation>Не поддерживаются</translation>
     </message>
     <message>
         <source>The option tab</source>
-        <translation type="unfinished"></translation>
+        <translation>Вкладка Параметры</translation>
     </message>
     <message>
         <source>Options for speed waves</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки скорости</translation>
     </message>
     <message>
         <source> These options sets the value of the velocity curves for use whenever the corresponding options are set to &quot;Project Default&quot; </source>
-        <translation type="unfinished"></translation>
+        <translation> Эти параметры задают значение скорости, которое будут использоваться всякий раз, когда соответствующие параметры имеют значение по умолчанию </translation>
     </message>
     <message>
         <source>Transition</source>
-        <translation type="unfinished">Переход</translation>
+        <translation>Переход</translation>
     </message>
     <message>
         <source>Defined default speed curve for transitions</source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет скорость переходов по умолчанию</translation>
     </message>
     <message>
         <source>Block animations</source>
-        <translation type="unfinished"></translation>
+        <translation>Анимация блока</translation>
     </message>
     <message>
         <source>Defined default speed curve for block animations</source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет скорость анимации блоков по умолчанию</translation>
     </message>
     <message>
         <source>Image animations</source>
-        <translation type="unfinished"></translation>
+        <translation>Анимация изображения</translation>
     </message>
     <message>
         <source>Defined default speed curve for image animations</source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет скорость анимации изображений по умолчанию</translation>
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation>Смотрите также</translation>
     </message>
     <message>
         <source>TAG in ffmpeg</source>
-        <translation type="unfinished"></translation>
+        <translation>Тег в ffmpeg</translation>
     </message>
     <message>
         <source>Standard ID3v2</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандарт ID3v2</translation>
     </message>
     <message>
         <source>Standard MPEG-7 on the descriptors of multimedia contents</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандарт MPEG-7 описания мультимедиа контента</translation>
     </message>
     <message>
         <source>The properties of the project are a partial implementation of the </source>
-        <translation type="unfinished"></translation>
+        <translation>Свойства проекта - это частичная реализация </translation>
     </message>
     <message>
         <source>MPEG-7</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-7</translation>
     </message>
     <message>
         <source> standard on the descriptors of multimedia contents.</source>
-        <translation type="unfinished"></translation>
+        <translation>стандарта описания мультимедиа контента.</translation>
     </message>
     <message>
         <source>These properties are written into the video files during the rendering and can be exploited by indexing systems (collection managers) or by </source>
-        <translation type="unfinished"></translation>
+        <translation>Эти свойства записываются в видео файлы в процессе их создания и могут использоваться системами индексирования (менеджерами коллекций) или </translation>
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished">мультимедиа системами</translation>
+        <translation>мультимедиа системы</translation>
     </message>
     <message>
         <source>.</source>
-        <translation type="unfinished"></translation>
+        <translation>.</translation>
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished">Примечание:</translation>
+        <translation>Примечание:</translation>
     </message>
     <message>
         <source>This field is only editable when the dialog box is used for creating a new project. Subsequently, it is not possible to change this value.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это поле может редактироваться только когда открывается диалоговое окно для создания нового проекта. Впоследствии невозможно изменить это значение.</translation>
     </message>
     <message>
         <source>The title of the project </source>
-        <translation type="unfinished"></translation>
+        <translation>Название проекта </translation>
     </message>
     <message>
         <source>If the id3v2 compatibility option is set in &lt;a href=&quot;0101.html&quot;&gt;option dialog&lt;/a&gt;, this fields is limited to 30 characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Если в диалоговом окне &lt;a href=&quot;0101.html&quot;&gt;Настроек программы&lt;/a&gt; установлена совместимость с id3v2, то эти поля ограничены 30 символами</translation>
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished">Дата</translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <source>The date of the event of the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата события проекта</translation>
     </message>
     <message>
         <source>Override date</source>
-        <translation type="unfinished">Замещающая дата</translation>
+        <translation>Замещающая дата</translation>
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text</source>
-        <translation type="unfinished"></translation>
+        <translation>Установите этот флажок, чтобы изменить дату и ввести ее в произвольном формате (в виде свободного многострочного текста)</translation>
     </message>
     <message>
         <source>The name of the author of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Имя автора проекта. </translation>
     </message>
     <message>
         <source>This field is often shown by indexing system and </source>
-        <translation type="unfinished"></translation>
+        <translation>Это поле часто отображается системами индексирования и </translation>
     </message>
     <message>
         <source> under the term Artist.</source>
-        <translation type="unfinished"></translation>
+        <translation> как Артист.</translation>
     </message>
     <message>
         <source>The album of the project </source>
-        <translation type="unfinished"></translation>
+        <translation>Альбом проекта </translation>
     </message>
     <message>
         <source>The language of the audio track </source>
-        <translation type="unfinished"></translation>
+        <translation>Язык аудио дорожки </translation>
     </message>
     <message>
         <source>(ISO 639 standard - 3 characters)</source>
-        <translation type="unfinished"></translation>
+        <translation>(код языка по ISO 639 - 3 знака)</translation>
     </message>
     <message>
         <source>Numerous indexing systems or </source>
-        <translation type="unfinished"></translation>
+        <translation>Многочисленные системы индексирования или </translation>
     </message>
     <message>
         <source> will read only the 1&lt;SUP&gt;st&lt;/SUP&gt; line.</source>
-        <translation type="unfinished"></translation>
+        <translation>могут прочитать только 1&lt;SUP&gt;ую&lt;/SUP&gt; строку.</translation>
     </message>
     <message>
         <source>For more compatibility with indexing systems and </source>
-        <translation type="unfinished"></translation>
+        <translation>Для обеспечения большей совместимости с системами индексирования и </translation>
     </message>
     <message>
         <source>, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</source>
-        <translation type="unfinished"></translation>
+        <translation>, ffDiaporama включает не все видео теги стандарта id3v2, а наиболее широко используемые в этих системах. Кроме того, видео форматы не поддерживают все теги таким же образом.</translation>
     </message>
     <message>
         <source> Chapters defined in the project are listed for consultation. (To modify chapters use Chapter button in &lt;a href=&quot;0119.html&quot;&gt;modify slide dialog&lt;/a&gt;.) </source>
-        <translation type="unfinished"></translation>
+        <translation>Главы, определенные в проекте, представлены для справки. (Для изменения глав используйте кнопку Информация о главе в диалоговом окне &lt;a href=&quot;0119.html&quot;&gt;Параметры слайда&lt;/a&gt;.) </translation>
     </message>
     <message>
         <source>Remark: Video formats do not support all the chapters in the same way:</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: видео форматы не поддерживают все главы в следующих случаях:</translation>
     </message>
     <message>
         <source>Options for joined ressources</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки присоединяемых ресурсов</translation>
     </message>
     <message>
         <source> These options allow you to define the thumbnail that will be attached to the video file when rendering </source>
-        <translation type="unfinished"></translation>
+        <translation> Эти параметры позволяют определить обложку, которая будет прикреплена к видеофайлу при его создании </translation>
     </message>
     <message>
         <source>Thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Обложка</translation>
     </message>
     <message>
         <source>Defines the model use as default thumbnail. The combobox contains the available thumbnails: </source>
-        <translation type="unfinished"></translation>
+        <translation>Определить шаблон, используемый в качестве обложки по умолчанию. Поле со списком содержит доступные обложки: </translation>
     </message>
     <message>
         <source> If this icon appears, then the thumbnail is a custom model thumbnail (Ie, a custom model thumbnail that you have added to your collection of thumbnail model).</source>
-        <translation type="unfinished"></translation>
+        <translation>Если появляется  этот значок, то обложка является пользовательским шаблоном (это пользовательский шаблон, который вы добавили в вашу коллекцию шаблонов).</translation>
     </message>
     <message>
         <source> If this icon appears, then the thumbnail is a custom thumbnail for this project only (Ie, not based on a model).</source>
-        <translation type="unfinished"></translation>
+        <translation>Если появляется  этот значок, то обложка является пользовательской обложкой только этого проекта (она не основана на шаблоне).</translation>
     </message>
     <message>
         <source>Edit custom thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить текущий шаблон</translation>
     </message>
     <message>
         <source>Create a new model from this thumbnail or edit custom thumbnail. Opens the &lt;a href=&quot;0117.html&quot;&gt;Edit thumbnail dialog&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Создать новый шаблон для этой обложки или отредактировать существующий. Открывает диалоговое окно &lt;a href=&quot;0117.html&quot;&gt;Изменить шаблон обложки&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Customize</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить</translation>
     </message>
     <message>
         <source>Customize the thumbnail only for this project (without creating a new thumbnail model). Opens the &lt;a href=&quot;0117.html&quot;&gt;Edit thumbnail dialog&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить обложку только для этого проекта (без создания нового шаблона обложки). Открывает диалоговое окно &lt;a href=&quot;0117.html&quot;&gt;Изменить шаблон обложки&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Export thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Экспорт обложки</translation>
     </message>
     <message>
         <source>Expor thumbnail to a jpeg file. By default, the proposed file name is &quot;folder.jpg&quot;. ffDiaporama and many </source>
-        <translation type="unfinished"></translation>
+        <translation>Экспорт обложки в jpeg файл. По умолчанию предлагается имя файла &quot;folder.jpg&quot;. ffDiaporama и многие </translation>
     </message>
     <message>
         <source> recognize this file as the icon to be used for the directory that contains it.</source>
-        <translation type="unfinished"></translation>
+        <translation> определяют этот файл как значок, который будет использоваться для каталога, в котором он содержится.</translation>
     </message>
     <message>
         <source>ISO 639</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO 639</translation>
     </message>
     <message>
         <source> This dialog allows you to define the information which qualifies the project. </source>
-        <translation type="unfinished"></translation>
+        <translation> Это диалоговое окно позволяет определить информацию, которая характеризует проект.</translation>
     </message>
 </context>
 <context>
@@ -5795,442 +5795,443 @@
     </message>
     <message>
         <source>This dialog box is used in very many cases in the application.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно очень часто используется в приложении.</translation>
     </message>
     <message>
         <source>It is used to select either one or multiple files depending on the purpose for which is was called.</source>
-        <translation type="unfinished"></translation>
+        <translation>Оно используется для выбора одного или несколько файлов в зависимости от цели, для которой оно вызвано.</translation>
     </message>
     <message>
         <source>It consists of a multimedia file browser.</source>
-        <translation type="unfinished"></translation>
+        <translation>Оно представляет собой Мультимедиа Проводник.</translation>
     </message>
     <message>
         <source>For more information on the ffDiaporama&apos;s multimedia file browser, see: &lt;a href=&quot;0024.html&quot;&gt;The multimedia file browser&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Для получения дополнительной информации о Мультимедиа Проводнике смотрите: &lt;a href=&quot;0024.html&quot;&gt;Мультимедиа Проводник&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
     <name>0110</name>
     <message>
         <source>Correct, reframe or cut image or video</source>
-        <translation type="unfinished">Коррекция, кадрирование или обрезка изображения или видео</translation>
+        <translation>Коррекция, кадрирование или обрезка изображения или видео</translation>
     </message>
     <message>
         <source>Allows to select a framing from a list of predefined framings. The framings are classified in different categories: </source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет выбрать тип кадрирования из предопределенного списка. Кадрирование подразделяется на следующие категории: </translation>
     </message>
     <message>
         <source>Lock on the project geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Блокировка геометрии проекта</translation>
     </message>
     <message>
         <source>Lock the image framing selection rectangle to the same geometry as the project. If you place the image in full screen, the reframed part will correspond to the whole screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и сам проект. Если вы откроете изображение в полноэкранном режиме, то выбранная часть будет соответствовать всему экрану.</translation>
     </message>
     <message>
         <source>Lock on the image geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Блокировка геометрии изображения</translation>
     </message>
     <message>
         <source>Lock the image framing selection rectangle to the same geometry as the image</source>
-        <translation type="unfinished"></translation>
+        <translation>Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и изображение</translation>
     </message>
     <message>
         <source>No constraint</source>
-        <translation type="unfinished"></translation>
+        <translation>Без ограничений</translation>
     </message>
     <message>
         <source>No constraint is applied to the image framing selection rectangle.</source>
-        <translation type="unfinished"></translation>
+        <translation>Означает, что к прямоугольнику выделения при кадрировании изображения не применяются ограничения.</translation>
     </message>
     <message>
         <source>Lock on this geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Блокировка геометрии</translation>
     </message>
     <message>
         <source>Lock image framing selection rectangle to the actual geometry. This only has meaning when a shape has been defined in &quot;no constraint&quot; mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Означает, что прямоугольник выделения при кадрировании изображения будет той же геометрии, что и в настоящее время. Это имеет смысл только когда форма была определена в режиме &quot;без ограничений&quot;.</translation>
     </message>
     <message>
         <source>According to the image format, various choices will be proposed to you. For example: </source>
-        <translation type="unfinished"></translation>
+        <translation>В соответствии с форматом изображения, вам будут доступны различные варианты. Например: </translation>
     </message>
     <message>
         <source>The horizontal position from the left (X). This position is expressed as a percentage (%) of the width of the image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Горизонтальное положение от левого края (X). Это положение, выраженное в процентах (%) от ширины изображения.</translation>
     </message>
     <message>
         <source>The vertical position from the top of the image ( Y ). This position is expressed as a percentage (%) of the height of the image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вертикальное положение от верхнего края (Y). Это положение, выраженное в процентах (%) от высоты изображения.</translation>
     </message>
     <message>
         <source>The width. This value is expressed as a percentage (%) of the original width of the image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина. Это значение, выраженное в процентах (%) от исходной ширины изображения.</translation>
     </message>
     <message>
         <source>The height. This value is expressed as a percentage (%) of the original height of the image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Высота. Это значение, выраженное в процентах (%) от исходной высоты изображения.</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Примечания:</translation>
+        <translation>Примечания:</translation>
     </message>
     <message>
         <source>With the mouse</source>
-        <translation type="unfinished"></translation>
+        <translation>С помощью мыши</translation>
     </message>
     <message>
         <source>Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept). </source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите один из маркеров и зажав кнопку мыши перетащите, чтобы изменить размер (для увеличения или уменьшения части изображения, которая будет сохранена). </translation>
     </message>
     <message>
         <source>Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите на изображение и зажав кнопку перетащите, чтобы изменить часть изображения, которая будет сохранена.</translation>
     </message>
     <message>
         <source>With the keyboard</source>
-        <translation type="unfinished"></translation>
+        <translation>С помощью клавиатуры</translation>
     </message>
     <message>
         <source>Use the arrows to move the part of the image which will be kept. </source>
-        <translation type="unfinished"></translation>
+        <translation>Используйте стрелки, чтобы переместить часть изображения, которая будет сохранена.</translation>
     </message>
     <message>
         <source>Use SHIFT+arrows to move the upper left corner handle or CTRL+arraows to move the lower right corner handle, to change the size of the part of the image which will be kept.</source>
-        <translation type="unfinished"></translation>
+        <translation>Воспользуйтесь сочетанием клавиш SHIFT + стрелки для перемещения к верхнему левому углу или CTRL + стрелки для перемещения к нижнему правому углу, чтобы изменить размер части изображения, которая будет сохранена.</translation>
     </message>
     <message>
         <source>When the image does not correspond to the geometry of the video to be produced, transparent zones appear. For example: an 4:3 image used in a 16:9 project will be shown by default with a transparent zone on each side.</source>
-        <translation type="unfinished"></translation>
+        <translation>Если изображение не соответствует геометрии видео, появляются прозрачные зоны.
+Например: изображение 4:3, используемое в проекте 16:9, будет показано по умолчанию в прозрачной зоне на каждой стороне.</translation>
     </message>
     <message>
         <source>Allows you to increase or decrease the luminosity of the image</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет увеличить или уменьшить яркость изображения</translation>
     </message>
     <message>
         <source>Allows you to increase or decrease the contrast of the image</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет увеличить или уменьшить контрастность изображения</translation>
     </message>
     <message>
         <source>Allows you to to increase or decrease the gamma value of the image</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет увеличить или уменьшить значение гаммы изображения</translation>
     </message>
     <message>
         <source>Allows you to modify the colorization of an image by changing the primary color red. Example : Reducing the red component makes the image more yellow - increasing it makes make the image more red</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет изменять цветность изображения, регулируя красный цвет. Например: уменьшение красного канала делает изображение более желтым, увеличение - делает изображение более красным</translation>
     </message>
     <message>
         <source>Allows you to modify the colorization of an image by changing the primary color green. Example : Reducing the green component makes the image more red - increasing it makes the image more green</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет изменять цветность изображения, регулируя зеленый цвет. Например: уменьшение зеленого канала делает изображение более красным, увеличение - делает изображение более зеленым</translation>
     </message>
     <message>
         <source>Allows you to modify the colorization of an image by changing the primary color blue. Example : Reducing the green component makes the image more red - increasing it makes the image more blue</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет изменять цветность изображения, регулируя синий цвет. Например: уменьшение синего канала делает изображение более красным, увеличение - делает изображение более синим</translation>
     </message>
     <message>
         <source> This button allows the value to be reset to zero for all correction settings.</source>
-        <translation type="unfinished"></translation>
+        <translation> Эта кнопка позволяет сбросить все настройки коррекции изображения на ноль.</translation>
     </message>
     <message>
         <source>Increase the blur with a negative value, using radius.</source>
-        <translation type="unfinished"></translation>
+        <translation>Отрицательные значения увеличивают размытие.</translation>
     </message>
     <message>
         <source>Increase the sharpen with a positive value, using radius.</source>
-        <translation type="unfinished"></translation>
+        <translation>Положительные значения увеличивают резкость.</translation>
     </message>
     <message>
         <source>The progress bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Прогресс бар</translation>
     </message>
     <message>
         <source>Displays as follows:</source>
-        <translation type="unfinished"></translation>
+        <translation>Отображается следующее:</translation>
     </message>
     <message>
         <source>The length of the ruler is increased in proportion to the duration of the video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Длина линии увеличивается пропорционально продолжительности видео.</translation>
     </message>
     <message>
         <source>The blue part represents the part of the video which is selected (which will be used in the assembly).</source>
-        <translation type="unfinished"></translation>
+        <translation>Синяя часть соответствует выделенной части видео (которая будет использоваться в проекте).</translation>
     </message>
     <message>
         <source>The working range</source>
-        <translation type="unfinished"></translation>
+        <translation>Рабочий диапазон</translation>
     </message>
     <message>
         <source> Positions the cursor at the starting point</source>
-        <translation type="unfinished"></translation>
+        <translation>Переместить курсор в начало</translation>
     </message>
     <message>
         <source> Uses the current cursor position as starting point (carries out an edit)</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать текущую позицию как стартовую (происходит редактирование - обрезка видео)</translation>
     </message>
     <message>
         <source> Positions the cursor at the end point</source>
-        <translation type="unfinished"></translation>
+        <translation>Переместить курсор в конец</translation>
     </message>
     <message>
         <source> Uses the current cursor position as end point (carries out an edit)</source>
-        <translation type="unfinished"></translation>
+        <translation>Использовать текущую позицию как конечную (происходит редактирование - обрезка видео)</translation>
     </message>
     <message>
         <source>The additional settings zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Зона дополнительных настроек</translation>
     </message>
     <message>
         <source>&lt;B&gt;Volume&lt;/B&gt; allows you to define the &quot;Master Volume&quot; for the file</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Громкость&lt;/B&gt; позволяет определить громкость фильма</translation>
     </message>
     <message>
         <source>&lt;B&gt;Deinterlace video&lt;/B&gt; allows you to activate the deinterlace filter</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Устранение чересстрочности видео&lt;/B&gt; позволяет активировать фильтр устранения чересстрочности видео (деинтерлейсинга)</translation>
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation>Смотрите также</translation>
     </message>
     <message>
         <source>Ken Burns effects</source>
-        <translation type="unfinished"></translation>
+        <translation>Ken Burns эффекты</translation>
     </message>
     <message>
         <source>Filter: Histogram equalization</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильтр: выравнивание гистограммы</translation>
     </message>
     <message>
         <source>Filter: Noise reduction</source>
-        <translation type="unfinished"></translation>
+        <translation>Фильтр: подавление шумов</translation>
     </message>
     <message>
         <source>You can use the + and - buttons in each input field to change the settings, or directly enter values for the four parameters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы можете использовать кнопки + и - в каждом поле ввода, чтобы изменить настройки или непосредственно ввести значения всех четырех параметров.</translation>
     </message>
     <message>
         <source>Example: if X=25% then the 1st quarter to the left of the image is eliminated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Например: если Х = 25 %, то левая четверть изображения будет обрезана.</translation>
     </message>
     <message>
         <source>Example: if Y=25% the 1st quarter at the top of the image is eliminated.</source>
-        <translation type="unfinished"></translation>
+        <translation>Например: если Y = 25 %, то верхняя четверть изображения будет обрезана.</translation>
     </message>
     <message>
         <source>Example: if Width=33%, the re-framed image will represent 1/3 of the original.</source>
-        <translation type="unfinished"></translation>
+        <translation>Например: если ширина = 33 %, кадрированное изображение составит 1/3 оригинала.</translation>
     </message>
     <message>
         <source>Example: if Height=33%, the re-framed image will represent 1/3 of the original.</source>
-        <translation type="unfinished"></translation>
+        <translation>Например: если высота = 33 %, кадрированное изображение составит 1/3 оригинала.</translation>
     </message>
     <message>
         <source> This button allows you to change the file </source>
-        <translation type="unfinished"></translation>
+        <translation> Эта кнопка позволяет изменить файл </translation>
     </message>
     <message>
         <source>Warning! If you replace a file (image or video) with another one with a different image geometry, you will need to review the image framing in all shots. </source>
-        <translation type="unfinished"></translation>
+        <translation>Внимание! Если необходимо заменить файл (изображение или видео) на другой с иной геометрией изображения, то нужно изменить параметры кадрирования изображения на всех кадрах.</translation>
     </message>
     <message>
         <source>Blur/Sharpen </source>
-        <translation type="unfinished"></translation>
+        <translation>Размытие/Резкость </translation>
     </message>
     <message>
         <source> This button allows you to reset the value to zero. (For some transformation settings.)</source>
-        <translation type="unfinished"></translation>
+        <translation> Эта кнопка позволяет сбросить все значения на ноль. (Для некоторых параметров преобразования.)</translation>
     </message>
     <message>
         <source> This button starts playback. Click again on this button to pause. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта кнопка запускает воспроизведение. Повторное нажатие ставит на паузу.</translation>
     </message>
     <message>
         <source>This dialog box allows you to:</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет:</translation>
     </message>
     <message>
         <source>Change image framing (select a part of the image).</source>
-        <translation type="unfinished"></translation>
+        <translation>Кадрировать изображение (выбрать часть изображения).</translation>
     </message>
     <message>
         <source>Rotate image (change or restore the orientation portrait/landscape).</source>
-        <translation type="unfinished"></translation>
+        <translation>Поернуть изображение (изменить или восстановить портретную/ландшафтную ориентацию).</translation>
     </message>
     <message>
         <source>Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить изображение (цвет и/или экспозицию), атакже применить графические фильтры.</translation>
     </message>
     <message>
         <source>Define the beginning and end of a video sequence.</source>
-        <translation type="unfinished"></translation>
+        <translation>Определение начала и конца видео.</translation>
     </message>
     <message>
         <source> The image correct and reframe tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Вкладка коррекция и кадрирование изображения</translation>
     </message>
     <message>
         <source>This tab is available for both images and video. It is divided into two parts:</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта вкладка доступна как для изображений, так и для видео. Она разделена на две части:</translation>
     </message>
     <message>
         <source>To the left: The interactive area</source>
-        <translation type="unfinished"></translation>
+        <translation>Слева: интерактивная зона</translation>
     </message>
     <message>
         <source>To the right: The settings area</source>
-        <translation type="unfinished"></translation>
+        <translation>Справа: зона настроек</translation>
     </message>
     <message>
         <source>At the bottom of the interactive zone, is an area for changing the image or video file:</source>
-        <translation type="unfinished"></translation>
+        <translation>В нижней части интерактивной зоны находится область изменения файла изображения или видео:</translation>
     </message>
     <message>
         <source>At the bottom of the dialog box:</source>
-        <translation type="unfinished"></translation>
+        <translation>В нижней части диалогового окна:</translation>
     </message>
     <message>
         <source> This button enables or disables the magnetic rulers: When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта кнопка включает или отключает магнитные линейки: когда они включены, мышь будет автоматически притягиваться к краям фотографии, содействуя выравниванию.</translation>
     </message>
     <message>
         <source>The interactive area</source>
-        <translation type="unfinished"></translation>
+        <translation>Интерактивная зона</translation>
     </message>
     <message>
         <source>You can use the interactive zone to set the framing with the mouse or the keyboard:</source>
-        <translation type="unfinished"></translation>
+        <translation>Вы можете использовать интерактивную зону для кадрирования с помощью мыши или клавиатуры:</translation>
     </message>
     <message>
         <source>The settings area - Framing and form</source>
-        <translation type="unfinished"></translation>
+        <translation>Зона настроек - Кадрирование и форма</translation>
     </message>
     <message>
         <source>Shape</source>
-        <translation type="unfinished">Форма</translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>Select a shape for the current block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите форму текущего блока.</translation>
     </message>
     <message>
         <source>The settings area - Annimation settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Зона настроек - Настройки анимации</translation>
     </message>
     <message>
         <source>Speed wave</source>
-        <translation type="unfinished">Скорость</translation>
+        <translation>Скорость</translation>
     </message>
     <message>
         <source>Defined speed curve for image animations.</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить скорость анимации изображений.</translation>
     </message>
     <message>
         <source>The settings area - Image rotation</source>
-        <translation type="unfinished"></translation>
+        <translation>Зона настроек - Поворот изображения</translation>
     </message>
     <message>
         <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
-        <translation type="unfinished"></translation>
+        <translation>Угол вращения по оси z. Выражается в градусах. Например: если поворот = 90 °, то  изображение повернется на четверть оборота  вправо.</translation>
     </message>
     <message>
         <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Повернуть изображение влево (на 90°).</translation>
     </message>
     <message>
         <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Повернуть изображение вправо (на 90°).</translation>
     </message>
     <message>
         <source>The settings area - Luminosity, contrast and gamma and Color enhancement</source>
-        <translation type="unfinished"></translation>
+        <translation>Зона настроек - Яркость, контрастность и гамма</translation>
     </message>
     <message>
         <source>Allows you to activate the grayscale (black &amp; white) filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет активировать фильтр Оттенки серого (черно-белый).</translation>
     </message>
     <message>
         <source>Allows you to activate the equalize (Histogram equalization) filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет активировать фильтр выравнивания (выравнивание гистограммы).</translation>
     </message>
     <message>
         <source>All the combinations are possible. For example: you can increase the red and reduce the green at the same time. The results depend on the initial strength of the primary color components of the source image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Возможны любые комбинации. Например: вы можете увеличить красный и уменьшить зеленый одновременно. Результаты зависят от первоначальной насыщенности основных цветов исходного изображения.</translation>
     </message>
     <message>
         <source>The settings area - Image enhancement</source>
-        <translation type="unfinished"></translation>
+        <translation>Зона настроек - Улучшение изображения</translation>
     </message>
     <message>
         <source> Apply a filter to the photo or video images. The following filters are available: </source>
-        <translation type="unfinished"></translation>
+        <translation>Применить фильтр к фото или видео. Доступны следующие фильтры: </translation>
     </message>
     <message>
         <source>Type: Select the blur/sharpen algorythm</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип: выберите алгоритм размытия/резкости</translation>
     </message>
     <message>
         <source>Allows you to activate the despeckle (Noise reduction) filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет активировать фильтр Удаление пятен (подавление шумов).</translation>
     </message>
     <message>
         <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет активировать фильтр сглаживания (сведение к минимуму артефактов искажения).</translation>
     </message>
     <message>
         <source>The settings area - Artistic effects</source>
-        <translation type="unfinished"></translation>
+        <translation>Зона настроек - Художественные эффекты</translation>
     </message>
     <message>
         <source>Allows you to activate the negative filter..</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет активировать эффект негатива.</translation>
     </message>
     <message>
         <source>Allows you to activate the emboss filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет активировать эффект тиснения.</translation>
     </message>
     <message>
         <source>Allows you to activate the edge filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет активировать эффект контура.</translation>
     </message>
     <message>
         <source>Allows you to activate the charcoal filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет активировать эффект рисунка углем.</translation>
     </message>
     <message>
         <source>Allows you to activate the oilpaint filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет активировать эффект рисунка маслом.</translation>
     </message>
     <message>
         <source>The settings area - Image distortion</source>
-        <translation type="unfinished"></translation>
+        <translation>Зона настроек -  Искажение изображения</translation>
     </message>
     <message>
         <source>Allows you to activate the swirl transformation. Image swirling is a non-linear image deformation that creates a whirlpool effect.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет активировать трансформацию кручения. Скручивание изображение - это нелинейная деформация, которая создает эффект водоворота.</translation>
     </message>
     <message>
         <source>Allows you to activate the implode transformation</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет активировать трансформацию имплозии (взрыв, направленный внутрь)</translation>
     </message>
     <message>
         <source>A value of 0 disables the filter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Значение 0 отключает фильтр.</translation>
     </message>
     <message>
         <source>A negative or positive value active the filter in one direction or the other.</source>
-        <translation type="unfinished"></translation>
+        <translation>Отрицательное или положительное значение активирует фильтр в разных направлениях.</translation>
     </message>
     <message>
         <source> This button allows the value to be reset to zero.</source>
-        <translation type="unfinished"></translation>
+        <translation> Эта кнопка позволяет сбросить значение на ноль.</translation>
     </message>
     <message>
         <source> The video tag</source>
-        <translation type="unfinished"></translation>
+        <translation>Вкладка Видео</translation>
     </message>
     <message>
         <source>This tag is available only for video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта вкладка доступна только для видео.</translation>
     </message>
 </context>
 <context>
@@ -6241,99 +6242,99 @@
     </message>
     <message>
         <source>Information shown for the image files</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация, отображаемая для изображений</translation>
     </message>
     <message>
         <source>Information on file</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о файле</translation>
     </message>
     <message>
         <source>File name</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя файла</translation>
     </message>
     <message>
         <source>The name of the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя файла</translation>
     </message>
     <message>
         <source>File type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип файла</translation>
     </message>
     <message>
         <source>Image</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображение</translation>
     </message>
     <message>
         <source>File size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер файла</translation>
     </message>
     <message>
         <source>The size of the file on the disk (Mb)</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер файла на диске (Мб)</translation>
     </message>
     <message>
         <source>File created</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата создания файла</translation>
     </message>
     <message>
         <source>The date and the hour of creation of the file on the disk (when you transferred it since the camera)</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата и время создания файла на диске (когда вы перенесли его с камеры)</translation>
     </message>
     <message>
         <source>File modify</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата изменения файла</translation>
     </message>
     <message>
         <source>The date and the hour of the last modification of the file (when the photo was taken or when you modified it with an image editor)</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата и время последнего изменения файла (когда была сделана фотография или когда вы изменили ее редактором изображений)</translation>
     </message>
     <message>
         <source>Additional information</source>
-        <translation type="unfinished"></translation>
+        <translation>Дополнительная информация</translation>
     </message>
     <message>
         <source> Show the EXIF information supplied by the camera. </source>
-        <translation type="unfinished"></translation>
+        <translation>Отображается EXIF информация, предоставляемая камерой. </translation>
     </message>
     <message>
         <source>This zone can contain several hundreds of lines according to what the camera supplies. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта область может содержать несколько сотен значений в зависимости от камеры.</translation>
     </message>
     <message>
         <source>Information shown for the audio and video files</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация, отображаемая для аудио и видео файлов</translation>
     </message>
     <message>
         <source>Information on file (audio and video files)</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о файле (аудио и видео файлы)</translation>
     </message>
     <message>
         <source>Audio track information (audio and video files)</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о аудио дорожке (аудио и видео файлы)</translation>
     </message>
     <message>
         <source> This zone contains a table listing every audio track present in the file. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта область содержит список аудио дорожек в файле. </translation>
     </message>
     <message>
         <source>For every track, the following information is shown: </source>
-        <translation type="unfinished"></translation>
+        <translation>Для каждой из них отображается следуюшая информация:</translation>
     </message>
     <message>
         <source>#</source>
-        <translation type="unfinished"></translation>
+        <translation>#</translation>
     </message>
     <message>
         <source>Track number</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер дорожки</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
     <message>
         <source>The language in which is the audio track (generally cameras and camcorders indicate &lt;B&gt;und&lt;/B&gt; for undefine)</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык аудио дорожки (как правило, фотоаппараты и камеры указывают &lt;B&gt;und&lt;/B&gt; (неопределено))</translation>
     </message>
     <message>
         <source>Codec</source>
@@ -6341,15 +6342,15 @@
     </message>
     <message>
         <source>The audio codec used for compressed the sound</source>
-        <translation type="unfinished"></translation>
+        <translation>Аудио кодек, используемый для сжатия звука</translation>
     </message>
     <message>
         <source>Channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Каналы</translation>
     </message>
     <message>
         <source>The number of audio channels (1=mono, 2=stereo, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество звуковых каналов (1 = моно, 2 = стерео и т.д.)</translation>
     </message>
     <message>
         <source>Bitrate</source>
@@ -6357,15 +6358,15 @@
     </message>
     <message>
         <source>The audio compression ratio (when available)</source>
-        <translation type="unfinished"></translation>
+        <translation>Степень сжатия звука (при наличии)</translation>
     </message>
     <message>
         <source>Frequency</source>
-        <translation type="unfinished">Частота</translation>
+        <translation>Частота кадров</translation>
     </message>
     <message>
         <source>The frequency of sampling used by the audio track</source>
-        <translation type="unfinished"></translation>
+        <translation>Частота дискретизации аудио дорожки</translation>
     </message>
     <message>
         <source>Title</source>
@@ -6373,43 +6374,43 @@
     </message>
     <message>
         <source>A title (when available)</source>
-        <translation type="unfinished"></translation>
+        <translation>Название (при наличии)</translation>
     </message>
     <message>
         <source>Video track information (video files only)</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о видео дорожке (только видеофайлы)</translation>
     </message>
     <message>
         <source> This zone contains a board listing every video track present in the file. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта область содержит список видео дорожек в файле. </translation>
     </message>
     <message>
         <source>Image size</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер изображения</translation>
     </message>
     <message>
         <source>The size of the images of the video track in number of points by number of line</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер изображения видео дорожки (количество точек на количество строк)</translation>
     </message>
     <message>
         <source>Image format</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат изображения</translation>
     </message>
     <message>
         <source>The size of the images of the video track in million of pixels</source>
-        <translation type="unfinished"></translation>
+        <translation>Размер изображения видео дорожки (в мегапикселях)</translation>
     </message>
     <message>
         <source>Image geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Геометрия изображения</translation>
     </message>
     <message>
         <source>The image geometry of the video track (4:3, 16:9, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Геометрия видео дорожки (4:3, 16:9, и др.)</translation>
     </message>
     <message>
         <source>The video codec used for compressed the images</source>
-        <translation type="unfinished"></translation>
+        <translation>Видео кодек, используемый для сжатия изображения</translation>
     </message>
     <message>
         <source>Frame rate</source>
@@ -6417,47 +6418,47 @@
     </message>
     <message>
         <source>The number of images per second of the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Количество кадров в секунду</translation>
     </message>
     <message>
         <source>The video compression ratio (when available)</source>
-        <translation type="unfinished"></translation>
+        <translation>Степень сжатия видео (при наличии)</translation>
     </message>
     <message>
         <source>Chapter information (video files only)</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о главах (только видеофайлы)</translation>
     </message>
     <message>
         <source> This zone appears only for files containing chapters. it contains a table listing every chapter present in the file. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта область появляется только для файлов, содержащих главы. Она содержит список глав, присутствующих в файле.</translation>
     </message>
     <message>
         <source>For every chapter, the following information is shown: </source>
-        <translation type="unfinished"></translation>
+        <translation>Для каждой из них отображается следуюшая информация: </translation>
     </message>
     <message>
         <source>Chapter number</source>
-        <translation type="unfinished"></translation>
+        <translation>Номер главы</translation>
     </message>
     <message>
         <source>The title of the chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Название главы</translation>
     </message>
     <message>
         <source>Start</source>
-        <translation type="unfinished"></translation>
+        <translation>Начало</translation>
     </message>
     <message>
         <source>The temporal position of the beginning of the chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Временное положение начала главы</translation>
     </message>
     <message>
         <source>End</source>
-        <translation type="unfinished"></translation>
+        <translation>Конец</translation>
     </message>
     <message>
         <source>The temporal position of the end of the chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Временное положение окончания главы</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -6465,99 +6466,99 @@
     </message>
     <message>
         <source>The duration of the chapter</source>
-        <translation type="unfinished"></translation>
+        <translation>Продолжительность главы</translation>
     </message>
     <message>
         <source>Additional information (video files only)</source>
-        <translation type="unfinished"></translation>
+        <translation>Дополнительная информация (только видеофайлы)</translation>
     </message>
     <message>
         <source> This zone contains diverse information on the video. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта область содержит разнообразную информацию о видео.</translation>
     </message>
     <message>
         <source>At least the information about the duration of the video will be shown, but a lot of other information can appear according to what is available in the file, such as: </source>
-        <translation type="unfinished"></translation>
+        <translation>По меньшей мере будет показана информация о продолжительности видео, а также может содержать много другой информации в зависимости от того, что есть в файле:</translation>
     </message>
     <message>
         <source>creation_time</source>
-        <translation type="unfinished"></translation>
+        <translation>Время создания</translation>
     </message>
     <message>
         <source>Date and time of creation of the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата и время создания видео</translation>
     </message>
     <message>
         <source>title</source>
-        <translation type="unfinished"></translation>
+        <translation>Название</translation>
     </message>
     <message>
         <source>Title field of the TAG ID3v2 of the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Поле Название тега ID3v2 видеофайла</translation>
     </message>
     <message>
         <source>artist</source>
-        <translation type="unfinished"></translation>
+        <translation>Исполнитель</translation>
     </message>
     <message>
         <source>Artist field of the TAG ID3v2 of the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Поле Исполнитель тега ID3v2 видеофайла</translation>
     </message>
     <message>
         <source>album</source>
-        <translation type="unfinished"></translation>
+        <translation>Альбом</translation>
     </message>
     <message>
         <source>Album field of the TAG ID3v2 of the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Поле Альбом тега ID3v2 видеофайла</translation>
     </message>
     <message>
         <source>date</source>
-        <translation type="unfinished"></translation>
+        <translation>Дата</translation>
     </message>
     <message>
         <source>Date field of the TAG ID3v2 of the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Поле Дата тега ID3v2 видеофайла</translation>
     </message>
     <message>
         <source>comment</source>
-        <translation type="unfinished"></translation>
+        <translation>Комментарий</translation>
     </message>
     <message>
         <source>Comment field of the TAG ID3v2 of the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Поле Комментарий тега ID3v2 видеофайла</translation>
     </message>
     <message>
         <source>composer</source>
-        <translation type="unfinished"></translation>
+        <translation>Композитор</translation>
     </message>
     <message>
         <source>The software with which the video was created</source>
-        <translation type="unfinished"></translation>
+        <translation>Название программы в которой было создано видео</translation>
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation>Смотрите также</translation>
     </message>
     <message>
         <source>Information on EXIF data</source>
-        <translation type="unfinished"></translation>
+        <translation>Информация о данных EXIF</translation>
     </message>
     <message>
         <source>TAG in ffmpeg</source>
-        <translation type="unfinished"></translation>
+        <translation>Теги в ffmpeg</translation>
     </message>
     <message>
         <source>Standard ID3v2</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандарт ID3v2</translation>
     </message>
     <message>
         <source>Standard MPEG-7 on the descriptors of multimedia contents</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандарт  MPEG-7 описания мультимедиа контента</translation>
     </message>
     <message>
         <source>This dialog allows to obtain detailed information on a multimedia file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет получить подробную информацию о мультимедиа файле.</translation>
     </message>
 </context>
 <context>
@@ -6838,247 +6839,247 @@
     </message>
     <message>
         <source>Description of the dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Описание диалогового окна</translation>
     </message>
     <message>
         <source>Destination file</source>
-        <translation type="unfinished"></translation>
+        <translation>Файл назначения</translation>
     </message>
     <message>
         <source>Indicate here the name of the destination file. </source>
-        <translation type="unfinished"></translation>
+        <translation>Укажите здесь имя файла назначения. </translation>
     </message>
     <message>
         <source> Click on this button to select graphically a file and a directory.</source>
-        <translation type="unfinished"></translation>
+        <translation>Нажмите эту кнопку для выбора файла и папки.</translation>
     </message>
     <message>
         <source>Rendering</source>
-        <translation type="unfinished"></translation>
+        <translation>Обработать</translation>
     </message>
     <message>
         <source>The rendering can be made on the whole project or only on a part.</source>
-        <translation type="unfinished"></translation>
+        <translation>Может быть обработан весь проект или только его часть.</translation>
     </message>
     <message>
         <source>This choice is made: </source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите:</translation>
     </message>
     <message>
         <source>By checking the option &lt;B&gt;All slides&lt;/B&gt; to render the video of the whole project</source>
-        <translation type="unfinished"></translation>
+        <translation>опцию &lt;B&gt;Все слайды&lt;/B&gt; для создания видеофайла из всего проекта</translation>
     </message>
     <message>
         <source>Or by checking the option &lt;B&gt;From&lt;/B&gt; and then entering the numbers of the start and end slides to generate a video of only a part of the project.</source>
-        <translation type="unfinished"></translation>
+        <translation>или опцию &lt;B&gt;С ... По... &lt;/B&gt;, введите номера начального и конечного слайдов для создания видеофайал только из части проекта.</translation>
     </message>
     <message>
         <source>Sound (include sound in the video)</source>
-        <translation type="unfinished"></translation>
+        <translation>Звук (включить звук в видео)</translation>
     </message>
     <message>
         <source>If this box is checked then the sound track will be included in the video</source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, то звуковая дорожка будет включена в видео</translation>
     </message>
     <message>
         <source>Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Язык</translation>
     </message>
     <message>
         <source>Defines the value of the Language field. </source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет значение поля языка.</translation>
     </message>
     <message>
         <source>In device mode</source>
-        <translation type="unfinished"></translation>
+        <translation>В режиме устройств</translation>
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип устройства</translation>
     </message>
     <message>
         <source>Allows you to select a device type.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет выбрать тип оборудования.</translation>
     </message>
     <message>
         <source>Model</source>
-        <translation type="unfinished"></translation>
+        <translation>Модель устройства</translation>
     </message>
     <message>
         <source>Allows you to select a device model.</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет выбрать модель оборудования.</translation>
     </message>
     <message>
         <source>In lossless mode</source>
-        <translation type="unfinished"></translation>
+        <translation>В режиме Сжатие без потерь</translation>
     </message>
     <message>
         <source>Image format</source>
-        <translation type="unfinished"></translation>
+        <translation>Формат изображения</translation>
     </message>
     <message>
         <source>Select the image format to be used to render the video from the displayed list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите формат изображения создаваемого видеофайла.</translation>
     </message>
     <message>
         <source>In advanced mode</source>
-        <translation type="unfinished"></translation>
+        <translation>В режиме дополнительных настроек</translation>
     </message>
     <message>
         <source>File format</source>
-        <translation type="unfinished">Формат файла</translation>
+        <translation>Формат файла</translation>
     </message>
     <message>
         <source>Select the type of file to be used to render the video from the displayed list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите формат создаваемого файла.</translation>
     </message>
     <message>
         <source>Video Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Стандарт видео</translation>
     </message>
     <message>
         <source>Select the video standard to be used: PAL or NTSC.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбор используемого стандарта видео:  PAL или NTSC.</translation>
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished">Видео кодек</translation>
+        <translation>Видео кодек</translation>
     </message>
     <message>
         <source>Select the video codec to be used to render the video from the displayed list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите видео кодек для создаваемого файла.</translation>
     </message>
     <message>
         <source>Select the video compression ratio from the displayed list</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите битрейт видео создаваемого файла</translation>
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished">Аудио кодек</translation>
+        <translation>Аудио кодек</translation>
     </message>
     <message>
         <source>Select the audio codec to be used to render the video from the displayed list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите аудио кодек для создаваемого файла.</translation>
     </message>
     <message>
         <source>Render the movie</source>
-        <translation type="unfinished"></translation>
+        <translation>Создание видео</translation>
     </message>
     <message>
         <source> Once you have selected the device or set the advanced parameters, one click on the OK button starts the process of rendering the video. </source>
-        <translation type="unfinished"></translation>
+        <translation>После выбора устройства или задания дополнительных настроек, один раз щелкните на кнопке OK для запуска процесса создания видео.</translation>
     </message>
     <message>
         <source>At any time during this process, one click on the &quot;Cancel&quot; button stops the process. </source>
-        <translation type="unfinished"></translation>
+        <translation>В любое время в течение этого процесса вы можете остановить его, нажав один раз кнопку «Отмена».</translation>
     </message>
     <message>
         <source>Remark :</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание:</translation>
     </message>
     <message>
         <source> Depending on the device model or the advanced parameters which you selected, the generation can take quite a long time. </source>
-        <translation type="unfinished"></translation>
+        <translation>В зависимости от модели устройства или дополнительных параметров, которые вы выбрали, создание видео может занять довольно долгое время.</translation>
     </message>
     <message>
         <source>Generally, for a Full-HD 1080p video: </source>
-        <translation type="unfinished"></translation>
+        <translation>Например, для Full-HD 1080p видео: </translation>
     </message>
     <message>
         <source>On a PC with 4 fast cores (Core i7 for example) : The process will take approximately 2 minutes for each minute of video to be rendered</source>
-        <translation type="unfinished"></translation>
+        <translation>На 4-х ядерном ПК (например, Core i7): этот процесс займет около 2 минут на каждую минуту создаваемого  видео</translation>
     </message>
     <message>
         <source>On a PC with 2 cores (Core 2 duo for example) : The process will take approximately 5 minutes for each minute of video to be rendered</source>
-        <translation type="unfinished"></translation>
+        <translation>На 2-х ядерном ПК (например, Core 2 duo): этот процесс займет около 5 минут на каждую минуту создаваемого  видео</translation>
     </message>
     <message>
         <source> This amounts to 2 to 5 hours for a one-hour video. </source>
-        <translation type="unfinished"></translation>
+        <translation>Это составляетоколо 2-5 часов на один час видео.</translation>
     </message>
     <message>
         <source>This duration will be much shorter for a video in VGA resolution. That is why we recommend you to carry out all tests and focusing trials at low resolution, and to render your videos in Full-HD only for the last step. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта продолжительность будет гораздо короче для видео в разрешении VGA. Поэтому мы рекомендуем проводить все испытания и пробы на низком разрешении, а создание видео в Full-HD качестве - только для финального результата.</translation>
     </message>
     <message>
         <source>ISO 639</source>
-        <translation type="unfinished"></translation>
+        <translation>ISO 639</translation>
     </message>
     <message>
         <source>This dialog allows you to render the project as a video file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет создать видеофайл из проекта.</translation>
     </message>
     <message>
         <source>This value is used by players to indicate in which language is the audio track. This value is on 3 characters and follows this recommendation: </source>
-        <translation type="unfinished"></translation>
+        <translation>Это значение используется плеерами для определения языка звуковой дорожки. Оно должно содержать 3 символа в соответствии с рекомендациями: </translation>
     </message>
     <message>
         <source>Bitrate</source>
-        <translation type="unfinished">Битрейт</translation>
+        <translation>Битрейт</translation>
     </message>
     <message>
         <source>This dialog has different appearances depending on whether you clicked the Device type, Lossless, Advanced or Soundtrack button. </source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно имеет различные параметры в зависимости от того, какую кнопку вы нажали: Устройства, Сжатие без потерь, Дополнительно или Экспорт аудио дорожки.</translation>
     </message>
     <message>
         <source>Join thumbnail to rendered file</source>
-        <translation type="unfinished">Присоединить обложку к создаваемому файлу</translation>
+        <translation>Присоединить обложку к создаваемому файлу</translation>
     </message>
     <message>
         <source>If this box is checked then a thumbnail file will be created with video. </source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, обложка будет создана вместе с видеофайлом.</translation>
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation type="unfinished">Присоединить XBMC .nfo файл к создаваемому файлу</translation>
+        <translation>Присоединить XBMC .nfo файл к создаваемому файлу</translation>
     </message>
     <message>
         <source>If this box is checked then a &lt;a href=&quot;0044.html&quot;&gt;XBMC .nfo&lt;/a&gt; file will be created with video. </source>
-        <translation type="unfinished"></translation>
+        <translation>Если этот флажок установлен, &lt;a href=&quot;0044.html&quot;&gt;XMBC .nfo&lt;/a&gt;  файл будет создан вместе с видеофайлом.</translation>
     </message>
     <message>
         <source>Select the audio compression ratio from the displayed list</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите битрейт аудио создаваемого файла</translation>
     </message>
     <message>
         <source>Frequency</source>
-        <translation type="unfinished">Частота</translation>
+        <translation>Частота</translation>
     </message>
     <message>
         <source>In export soundtrack mode</source>
-        <translation type="unfinished"></translation>
+        <translation>В режиме экспорта аудио дорожки</translation>
     </message>
     <message>
         <source>Select the type of file to be used to render the soundtrack from the displayed list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите формат создаваемой аудио дорожки.</translation>
     </message>
     <message>
         <source>At the dialog bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>В нижней части диалогового окна</translation>
     </message>
     <message>
         <source>Note: the project properties are saved into the video as TAG (METADATA) which are used by a lot of indexing programs or by </source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: свойства проекта сохраняются в видео как тег (метаданные), которые используются многими программами индексации или </translation>
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished">мультимедиа системами</translation>
+        <translation>мультимедиа системами</translation>
     </message>
     <message>
         <source>. </source>
-        <translation type="unfinished">. </translation>
+        <translation>. </translation>
     </message>
     <message>
         <source>For more information on joined files, see &lt;a href=&quot;003A.html&quot;&gt;File attachments&lt;/a&gt;</source>
-        <translation type="unfinished">Для более подробной информации о присоединяемых файлах смотрите &lt;a href=&quot;003A.html&quot;&gt;Присоединяемые файлы&lt;/a&gt;</translation>
+        <translation>Для более подробной информации о присоединяемых файлах смотрите &lt;a href=&quot;003A.html&quot;&gt;Присоединяемые файлы&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Select the frequency to use for audio during the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выберите частоту аудио создаваемого файла.</translation>
     </message>
     <message>
         <source> The properties button allows you to open the &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;. It allows you to adjust the properties before generating the video. </source>
-        <translation type="unfinished"></translation>
+        <translation>Кнопка Свойства проекта  позволяет открыть диалоговое окно &lt;a href=&quot;0108.html&quot;&gt;Свойства проекта&lt;/a&gt;. Она позволяет настроить свойства перед созданием видео.</translation>
     </message>
 </context>
 <context>
@@ -7152,499 +7153,499 @@
     <name>0117</name>
     <message>
         <source>Edit thumbnail model</source>
-        <translation type="unfinished">Изменение шаблона обложки</translation>
+        <translation>Изменение шаблона обложки</translation>
     </message>
     <message>
         <source>This dialog allows you to edit custom thumbnails and custom thumbnails models.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет отредактировать пользовательскую обложку и шаблон обложки.</translation>
     </message>
     <message>
         <source>It&apos;s a simplified version of the &lt;a href=&quot;0119.html&quot;&gt;Slides properties dialog&lt;/a&gt; and as it, it includes numerous zones:</source>
-        <translation type="unfinished"></translation>
+        <translation>Это упрощенная версия диалогового окна &lt;a href=&quot;0119.html&quot;&gt;Параметры слайда&lt;/a&gt; и также как и оно включает в себя множество областей:</translation>
     </message>
     <message>
         <source>On the top: The &lt;a href=&quot;#Toolbar&quot;&gt;Toolbar&lt;/a&gt; allows to launch the main thumbnail editing commands.</source>
-        <translation type="unfinished"></translation>
+        <translation>Сверху: &lt;a href=&quot;#Toolbar&quot;&gt;Панель инструментов&lt;/a&gt;, позволяющая запускать основные команды редактирования обложки.</translation>
     </message>
     <message>
         <source>On the right: The &lt;a href=&quot;#BlockTable&quot;&gt;Blocks table&lt;/a&gt; and the &lt;a href=&quot;#BlockSettings&quot;&gt;Block settings&lt;/a&gt; zones.</source>
-        <translation type="unfinished"></translation>
+        <translation>Справа: &lt;a href=&quot;#BlockTable&quot;&gt;таблица блоков&lt;/a&gt; и область &lt;a href=&quot;#BlockSettings&quot;&gt;параметров блоков&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Панель инструментов</translation>
     </message>
     <message>
         <source> The toolbar allows to launch the main thumbnail editing commands. </source>
-        <translation type="unfinished"></translation>
+        <translation>Панель инструментов позволяет запускать основные команды редактирования обложки.</translation>
     </message>
     <message>
         <source>Add a new title block - Open a sub menu with the following options: </source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить текст - откроется подменю со следующими параметрами: </translation>
     </message>
     <message>
         <source>Add a simple title block</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить простой блок текста</translation>
     </message>
     <message>
         <source>Add a title clip-art block</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить клипарт блок текста</translation>
     </message>
     <message>
         <source>Once you have selected one of the options, the &lt;a href=&quot;0120.html&quot;&gt;Edit Text dialog&lt;/a&gt; opens.</source>
-        <translation type="unfinished"></translation>
+        <translation>После того как вы выбрали один из вариантов, откроется диалоговое окно &lt;a href=&quot;0120.html&quot;&gt; Редактировать текст&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Add one or several new blocks of images or video. A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears allowing you to select files. </source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить один или несколько новых блоков изображений или видео. Появится диалоговое окно &lt;a href=&quot;0109.html&quot;&gt;выбора файла&lt;/a&gt;, позволяющий выбрать файлы. </translation>
     </message>
     <message>
         <source>Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;).</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: в случае множественного выбора, файлы добавляются в алфавитном порядке имен файлов или в цифровом порядке кадров (в зависимости от выбранной опции в диалоговом окне &lt;a href=&quot;0101.html&quot;&gt;Настройки программы&lt;/a&gt;).</translation>
     </message>
     <message>
         <source>Edit blocks - Open a sub menu with the following options: </source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить блок - откроется подменю, содержащее следующие параметры: </translation>
     </message>
     <message>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the thumbnail.</source>
-        <translation type="unfinished"></translation>
+        <translation>Скопировать текущий блок в буфер обмена ffDiaporama и удалить с обложки.</translation>
     </message>
     <message>
         <source>Copy the current block to the ffDiaporama clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Скопировать текущий блок в буфер обмена ffDiaporama.</translation>
     </message>
     <message>
         <source>Paste block from the ffDiaporama clipboard and insert it to the end of the block table</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставить блок из буфера обмена ffDiaporama и поместить его в конец таблицы блоков</translation>
     </message>
     <message>
         <source>Remove the current block</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить текущий блок</translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0120.html&quot;&gt;Edit text block dialog&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Открывает диалоговое окно &lt;a href=&quot;0120.html&quot;&gt;Редактировать текст блока&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt;. This button is active only for objects containing images or videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть диалоговое окно &lt;a href=&quot;0110.html&quot;&gt;Кадрирование и коррекция изображения&lt;/a&gt;. Эта функция активна только для объектов, содержащих изображения или видео.</translation>
     </message>
     <message>
         <source>Arrange blocks - Open a sub menu with the following options: </source>
-        <translation type="unfinished"></translation>
+        <translation>Упорядочить блоки -  откроется подменю со следующими параметрами: </translation>
     </message>
     <message>
         <source>Align to top</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по верху</translation>
     </message>
     <message>
         <source>Align to midle</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по середине</translation>
     </message>
     <message>
         <source>Align to bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по низу</translation>
     </message>
     <message>
         <source>Align to left</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по левому краю</translation>
     </message>
     <message>
         <source>Align to center</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по центру</translation>
     </message>
     <message>
         <source>Align to right</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по правому краю</translation>
     </message>
     <message>
         <source>Distribute horizontally</source>
-        <translation type="unfinished"></translation>
+        <translation>Распределить горизонтально</translation>
     </message>
     <message>
         <source>Distribute vertically</source>
-        <translation type="unfinished"></translation>
+        <translation>Распределить горизонтально</translation>
     </message>
     <message>
         <source>Change the order of blocks by moving the active block upward (towards the background)</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить порядок блоков перемещением активного блока вверх (на задний план)</translation>
     </message>
     <message>
         <source>Change the order of blocks by moving the active block downward (towards the foreground)</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить порядок блоков перемещением активного блока вниз (на передний план)</translation>
     </message>
     <message>
         <source>Display information on active block. (Remark: This function is available only for &quot;image&quot; or &quot;video&quot; blocks.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать информацию об активном блоке. (Примечание: эта функция доступна только для блоков изображений или видео.)</translation>
     </message>
     <message>
         <source>Allows you to open the &lt;a href=&quot;0116.html&quot;&gt;Ruler properties dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет открыть диалоговое окно &lt;a href=&quot;0116.html&quot;&gt;Свойства линеек&lt;/a&gt;</translation>
     </message>
     <message>
         <source> It is also possible to open contextual menus by: </source>
-        <translation type="unfinished"></translation>
+        <translation>Также можно открыть контекстное меню:</translation>
     </message>
     <message>
         <source>Right clicking on zones.</source>
-        <translation type="unfinished"></translation>
+        <translation>Правым щелчком мыши на области.</translation>
     </message>
     <message>
         <source>Right click on blocks table or on interactive zone when no block was selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Правым щелчком мыши на таблице блоков или на интерактивной области, когда ни один блок не выделен.</translation>
     </message>
     <message>
         <source>Right click on one of the blocks of a multiple selection, on blocks table or on interactive zone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Правым щелчком мыши на одном из выделенных блоков, на таблице блоков или на интерактивной области.</translation>
     </message>
     <message>
         <source>Each of these contextual menus propose commands which depend on what you have clicked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Каждое из этих контекстных меню предлагает команды, которые зависят от того, что вы нажали.</translation>
     </message>
     <message>
         <source>Interactive zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Интерактивная область</translation>
     </message>
     <message>
         <source> The interactive zone allows you to move and interactively re-size blocks. </source>
-        <translation type="unfinished"></translation>
+        <translation> Интерактивная область позволяет перемещать и изменять размеры блоков в интерактивном режиме. </translation>
     </message>
     <message>
         <source>Selected blocks are shown with a frame. (It allows to differentiate them from other graphic elements of the thumbnail).</source>
-        <translation type="unfinished"></translation>
+        <translation>Выделенные блоки показаны с рамкой. (Это позволяет отличать их от других графических элементов обложки).</translation>
     </message>
     <message>
         <source>Control handles (small square) are shown on sides and on corners of the selection frame.</source>
-        <translation type="unfinished"></translation>
+        <translation>Маркеры управления (небольшие квадратики) показаны по бокам и в углах рамки выделения.</translation>
     </message>
     <message>
         <source>Rulers are displayed to facilitate the work with the mouse. See &lt;a href=&quot;0116.html&quot;&gt;Rulers settings&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Линеки отображаются для облегчения работы с  мышью. Смотрите &lt;a href=&quot;0116.html&quot;&gt;Свойства линеек&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Using the mouse:</source>
-        <translation type="unfinished"></translation>
+        <translation>Использование мыши:</translation>
     </message>
     <message>
         <source>To select a block: click the block</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы выбрать блок: нажмите на него</translation>
     </message>
     <message>
         <source>To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы выделить несколько блоков: выберите первый блок, нажав на него, а затем, нажмите на другие блоки, зажав клавишу SHIFT или CTRL.</translation>
     </message>
     <message>
         <source>To select a block under another block : Click the block to be selected by pushing both SHIFT and CTRL keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы выбрать блок под другим блоком: нажмите на блок, который будет выбран, зажав обе клавиши SHIFT и CTRL.</translation>
     </message>
     <message>
         <source>To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы снять выделение с одного из блоков: нажмите на блок, зажав клавишу SHIFT или CTRL.</translation>
     </message>
     <message>
         <source>To modify the size of the blocks of the selection: Click one of the handles of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы изменить размер выделенного блока: нажмите на один из маркеров управления и, не отпуская кнопку мыши, переместите мышь.</translation>
     </message>
     <message>
         <source>To move the blocks of the selection: Click one of the blocks of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы переместить выделенный блок: нажмите на один из выбранных блоков и, не отпуская кнопку мыши, переместите мышь.</translation>
     </message>
     <message>
         <source>Using the keyboard:</source>
-        <translation type="unfinished"></translation>
+        <translation>Использование клавиатуры:</translation>
     </message>
     <message>
         <source>To move the blocks of the selection, use the arrow keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы переместить выделенный блок, используйте клавиши со стрелками.</translation>
     </message>
     <message>
         <source>To change the size of the blocks of the selection, use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы изменить размер выделенного блока, воспользуйтесь сочетанием клавиш SHIFT + стрелки для перемещения к верхнему левому углу или CTRL + стрелки для перемещения к нижнему правом углу.</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Примечания:</translation>
+        <translation>Примечания:</translation>
     </message>
     <message>
         <source>A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Двойной щелчок на блоке открывает редактор блоков, связанный с этим типом блока (для текстового блока - это текстовый редактор, для блока изображения - диалог кадрирования и т.д.)</translation>
     </message>
     <message>
         <source>A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щелчок правой кнопкой мыши на блоке, когда выделен только один блок, открывает контекстное меню, предлагающее ряд команд редактирования блока.</translation>
     </message>
     <message>
         <source>A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щелчок правой кнопкой мыши на блоке, когда выделено несколько блоков, открывает контекстное меню, предлагающее ряд команд редактирования нескольких блоков.</translation>
     </message>
     <message>
         <source>Blocks table</source>
-        <translation type="unfinished"></translation>
+        <translation>Таблица блоков</translation>
     </message>
     <message>
         <source>The blocks table lists, from top to bottom, the present blocks in the thumbnail.</source>
-        <translation type="unfinished"></translation>
+        <translation>Таблица блоков представляет собой список блоков в обложке сверху вниз.</translation>
     </message>
     <message>
         <source>The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Порядок блоков важен! Первый блок (вверху списка) находится под  вторым блоком, который перекрыт следующим блоком и так далее.</translation>
     </message>
     <message>
         <source>Blocks are shown on 3 columns:</source>
-        <translation type="unfinished"></translation>
+        <translation>Блоки показаны в 3 столбца:</translation>
     </message>
     <message>
         <source>The first column contains or: </source>
-        <translation type="unfinished"></translation>
+        <translation>Первый столбец содержит или:</translation>
     </message>
     <message>
         <source> If the block is a title.</source>
-        <translation type="unfinished"></translation>
+        <translation> если блок является текстовым.</translation>
     </message>
     <message>
         <source>A thumbnail if the block is an image or a video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Миниатюру, если блок является изображением или видео.</translation>
     </message>
     <message>
         <source> If the image or the video have a transformation filter.</source>
-        <translation type="unfinished"></translation>
+        <translation> если изображение или видео содержат фильтр трансформации.</translation>
     </message>
     <message>
         <source>The second column contains icons giving the state of the blocks</source>
-        <translation type="unfinished"></translation>
+        <translation>Второй столбец содержит значки, показывающие состояние блока</translation>
     </message>
     <message>
         <source>The third column indicates: </source>
-        <translation type="unfinished"></translation>
+        <translation>Третий столбец содержит: </translation>
     </message>
     <message>
         <source>If the block is a title: the text of the block</source>
-        <translation type="unfinished"></translation>
+        <translation>Если блок текстовый: текст блока</translation>
     </message>
     <message>
         <source>If the block is an image: </source>
-        <translation type="unfinished"></translation>
+        <translation>Если блок изображения: </translation>
     </message>
     <message>
         <source>The filename.</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя файла.</translation>
     </message>
     <message>
         <source>The width x the height of the image in pixel (the format of the image - the geometry of the image).</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина x высота изображения в пикселях (формат изображения - геометрия изображения).</translation>
     </message>
     <message>
         <source>A summary of EXIF information on the image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Общая EXIF информация об изображении.</translation>
     </message>
     <message>
         <source>If the block is a video: </source>
-        <translation type="unfinished"></translation>
+        <translation>Если это блок видео:</translation>
     </message>
     <message>
         <source>The duration of the video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Продолжительность видео.</translation>
     </message>
     <message>
         <source>Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Двойной щелчок на блоке открывает редактор блоков, связанный с этим типом блока (для текстового блока - это текстовый редактор, для блока изображения - диалог кадрирования и т.д.)</translation>
     </message>
     <message>
         <source>Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щелчок правой кнопкой мыши на блоке, когда выделен только один блок, открывает контекстное меню, предлагающее ряд команд редактирования блока.</translation>
     </message>
     <message>
         <source>Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щелчок правой кнопкой мыши на блоке, когда выделено несколько блоков, открывает контекстное меню, предлагающее ряд команд редактирования нескольких блоков.</translation>
     </message>
     <message>
         <source>Blocks with locked properties are shown on a grey bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation>Блоки с заблокированными свойствами показаны в сером цвете.</translation>
     </message>
     <message>
         <source>Selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбранные блоки отбражаются в красном цвете, если акцент делается на таблице блоков, или в синем цвете, если акцент делается на другом элементе.</translation>
     </message>
     <message>
         <source>To change the blocks order, use Drag &amp; Drop or &lt;B&gt;Up&lt;/B&gt; and &lt;B&gt;Down&lt;/B&gt; functions of the contextual menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы изменить порядок блоков, используйте перетаскивание или функции &lt;B&gt;Вверх&lt;/B&gt; и &lt;B&gt;Вниз&lt;/B&gt; контекстного меню.</translation>
     </message>
     <message>
         <source>It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Можно добавить файлы непосредственно в таблицу блоков с помощью перетаскивания из менеджера файлов (Проводника).</translation>
     </message>
     <message>
         <source>All blocks, whether title, image or video, possess a text element.</source>
-        <translation type="unfinished"></translation>
+        <translation>Все блоки, будь то заголовок, изображение или видео, могут иметь текстовый элемент.</translation>
     </message>
     <message>
         <source>During the insertion of a new block (Add title, Add file or Paste), the block is inserted: </source>
-        <translation type="unfinished"></translation>
+        <translation>Во время вставки нового блока (Добавить текст, Добавить файл или Вставить) он вставляется: </translation>
     </message>
     <message>
         <source>Always in the last position in the list of blocks (in the foreground)</source>
-        <translation type="unfinished"></translation>
+        <translation>всегда на последнем месте в таблице блоков (на переднем плане)</translation>
     </message>
     <message>
         <source>Block settings zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Область параметров блока</translation>
     </message>
     <message>
         <source>Coordinates</source>
-        <translation type="unfinished">Координаты</translation>
+        <translation>Координаты</translation>
     </message>
     <message>
         <source>&lt;B&gt;For image or video blocks: &lt;/B&gt;Allows you to select a reframing style for the image. It has the same effect as selecting a style in the dialog: &lt;a href=&quot;0110.html&quot;&gt;Correct, reframe or cut image or video&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Для блоков изображений и видео: &lt;/B&gt;позволяет выбрать стиль обрезки изображения. Имеет такой же эффект как выбор стиля в диалоговом окне: &lt;a href=&quot;0110.html&quot;&gt;Коррекция, кадрирование или обрезка изображения или видео&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>&lt;B&gt;For text blocks: &lt;/B&gt;Allows you to select the geometrical constraints to be applied to the block. Three type of constraint are available:</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Для блоков текста: &lt;/B&gt;позволяет выбрать ограничения геометрии, применяемые к блоку. Доступно три типа ограничений:</translation>
     </message>
     <message>
         <source>No constraint is applied to the selection rectangle.</source>
-        <translation type="unfinished"></translation>
+        <translation>К прямоугольнику выделения не применяются ограничения.</translation>
     </message>
     <message>
         <source>Lock selection rectangle to the actual geometry. It has no meaning until you have defined a shape in &quot;no constraint&quot; mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Прямоугольник выделения будет той же геометрии, что и в настоящее время. Не имеет смысла до тех пор, пока не будет определена форма в режиме &quot;Без ограничений&quot;.</translation>
     </message>
     <message>
         <source>Lock selection rectangle to the same geometry as the project, such that, if you place the image in full screen, the reframed part will correspond to the whole screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Прямоугольник выделение будет той же геометрии, что и сам проект. Если вы откроете изображение в полноэкранном режиме, то выбранная часть будет соответствовать всему экрану.</translation>
     </message>
     <message>
         <source>Allows you to select a pre-defined block size</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет выбрать заранее определенный размер блока</translation>
     </message>
     <message>
         <source>Represents the horizontal offset of the block from the left. This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Горизонтальное смещение блока с левой стороны. Определяется как процент (%) от общей ширины изображения или в пикселях (на экране 1080) в соответствии с единицами измерения, заданными в диалоге конфигурации.</translation>
     </message>
     <message>
         <source>Represents the vertical offset of the block from the top. This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вертикальное смещение блока сверху. Определяется как процент (%) от общей высоты изображения или в пикселях (на экране 1080) в соответствии с единицами измерения, заданными в диалоге конфигурации.</translation>
     </message>
     <message>
         <source>Represents the width of the block. This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина блока. Определяется как процент (%) от общей ширины изображения или в пикселях (на экране 1080) в соответствии с единицами измерения, заданными в диалоге конфигурации.</translation>
     </message>
     <message>
         <source>Represents the height of the block. This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Высота блока. Определяется как процент (%) от общей высоты изображения или в пикселях (на экране 1080) в соответствии с единицами измерения, заданными в диалоге конфигурации.</translation>
     </message>
     <message>
         <source>Rotation around the Z axis in degrees.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вращение вокруг оси Z в градусах.</translation>
     </message>
     <message>
         <source>Rotation around the Y axis in degrees.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вращение вокруг оси Y в градусах.</translation>
     </message>
     <message>
         <source>Rotation around the X axis in degrees.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вращение вокруг оси X в градусах.</translation>
     </message>
     <message>
         <source>Block shape</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма блока</translation>
     </message>
     <message>
         <source>This settings group deals with style management. For more information on style management, see : &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Это группа настроек управления стилями. Дополнительные сведения о управлении стилями смотрите: &lt;a href=&quot;0016.html&quot;&gt;Управление стилями&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Shape</source>
-        <translation type="unfinished">Форма</translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>Allows you to select a shape for the block. The selected shape will be used as:</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет выбрать форму блока. Выбранная форма будет использоваться в качестве:</translation>
     </message>
     <message>
         <source>a fusion mask for the images and the videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>маски слияния для изображений и видео.</translation>
     </message>
     <message>
         <source>A cutting zone for texts</source>
-        <translation type="unfinished"></translation>
+        <translation>зоны обрезки для текстов</translation>
     </message>
     <message>
         <source>Opacity</source>
-        <translation type="unfinished"></translation>
+        <translation>Непрозрачность</translation>
     </message>
     <message>
         <source>Defines the opacity of the block. This value also applies to the text of the block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить непрозрачность блока. Это значение также применяется к тексту блока.</translation>
     </message>
     <message>
         <source>Border</source>
-        <translation type="unfinished"></translation>
+        <translation>Граница</translation>
     </message>
     <message>
         <source>Thickness of the border</source>
-        <translation type="unfinished"></translation>
+        <translation>Толщина границы</translation>
     </message>
     <message>
         <source>Defines the thickness of the border (This value is defined as 1/1080 of the height of the screen. A value of 10 corresponds to 10 points on a 1920x1080 FullHD screen, but only to 6 points on a 1280x720 screen).</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить толщину границы. (Это значение определяется как 1/1080 от высоты экрана. Значению 10 соответствует 10 точек на 1920 × 1080 FullHD экране и только 6 точек на 1280 × 720 экране).</translation>
     </message>
     <message>
         <source>Border color</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет границы</translation>
     </message>
     <message>
         <source>Defines the color of the line to be used to draw the border</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать цвет линии границы</translation>
     </message>
     <message>
         <source>Line type of border</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип линии границы</translation>
     </message>
     <message>
         <source>Defines the type of line (solid, dotted line, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать тип линии (сплошная, пунктирная и т.д.)</translation>
     </message>
     <message>
         <source>Shadow</source>
-        <translation type="unfinished"></translation>
+        <translation>Тень</translation>
     </message>
     <message>
         <source>Shadow position</source>
-        <translation type="unfinished"></translation>
+        <translation>Положение тени</translation>
     </message>
     <message>
         <source>Defines in which corner the shadow will be positioned (Note: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied).</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить в каком углу будет располагаться тень (Примечание: положение тени не зависит от вращения блока: правый нижний угол - это всегда правый нижний угол, независимо от поворота).</translation>
     </message>
     <message>
         <source>Distance of the shadow</source>
-        <translation type="unfinished"></translation>
+        <translation>Расстояние до тени</translation>
     </message>
     <message>
         <source>Defines the distance between the block and its shadow</source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет расстояние между блоком и его тенью</translation>
     </message>
     <message>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет</translation>
     </message>
     <message>
         <source>Sets the color used to draw the shadow</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить цвет тени</translation>
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation>Смотрите также</translation>
     </message>
     <message>
         <source>Description of EXIF - Exchangeable image file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Описание EXIF - Exchangeable image file format</translation>
     </message>
     <message>
         <source>On the left: The &lt;a href=&quot;#InteractiveZone&quot;&gt;Interactive&lt;/a&gt; zone allows you to graphically modify the blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Слева: &lt;a href=&quot;#InteractiveZone&quot;&gt;интерактивная область&lt;/a&gt;, позволяющая изменять блоки в графическом режиме.</translation>
     </message>
 </context>
 <context>
@@ -7675,798 +7676,798 @@
     </message>
     <message>
         <source>This dialog allows you to define the duration of the fist shot of a set of slides:</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет определить продолжительность первого кадра для группы слайдов:</translation>
     </message>
 </context>
 <context>
     <name>0119</name>
     <message>
         <source>Slide properties</source>
-        <translation type="unfinished">Параметры слайда</translation>
+        <translation>Параметры слайда</translation>
     </message>
     <message>
         <source>Remarks: </source>
-        <translation type="unfinished"></translation>
+        <translation>Примечания: </translation>
     </message>
     <message>
         <source>Toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Панель инструментов</translation>
     </message>
     <message>
         <source>Slide settings zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Область параметров слайда</translation>
     </message>
     <message>
         <source>Shots table</source>
-        <translation type="unfinished"></translation>
+        <translation>Таблица кадров</translation>
     </message>
     <message>
         <source>Blocks table</source>
-        <translation type="unfinished"></translation>
+        <translation>Таблица блоков</translation>
     </message>
     <message>
         <source>Shot settings zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Область параметров кадра</translation>
     </message>
     <message>
         <source>Interactive zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Интерактивная область</translation>
     </message>
     <message>
         <source>Block settings zone</source>
-        <translation type="unfinished"></translation>
+        <translation>Область параметров блока</translation>
     </message>
     <message>
         <source> The toolbar allows to launch the main slide editing commands. </source>
-        <translation type="unfinished"></translation>
+        <translation> Панель инструментов позволяет запускать основные команды редактирования слайдов. </translation>
     </message>
     <message>
         <source>Append a shot to the end of the shot table</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить кадр в конец таблицы кадров</translation>
     </message>
     <message>
         <source>Remove current selected shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить выбранный кадр</translation>
     </message>
     <message>
         <source>Change the order of the shots by moving the current selected shot a step to the left</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить порядок кадров перемещением данного кадра на шаг влево</translation>
     </message>
     <message>
         <source>Change the order of the shots by moving the current selected shot a step to the right</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить порядок кадров перемещением данного кадра на шаг вправо</translation>
     </message>
     <message>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide. The copy is made with the block parameters defined for the current selected shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Скопировать текущий блок в буфер обмена ffDiaporama и удалить со слайда. Также копируются параметры блока, определенные для текущего кадра.</translation>
     </message>
     <message>
         <source>Copy the current block to the ffDiaporama clipboard. The copy is made with the block parameters defined for the current selected shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Скопировать текущий блок в буфер обмена ffDiaporama. Также копируются параметры блока, определенные для текущего кадра.</translation>
     </message>
     <message>
         <source>Paste block from the ffDiaporama clipboard and insert it to the end of the block table</source>
-        <translation type="unfinished"></translation>
+        <translation>Вставить блок из буфера обмена ffDiaporama и поместить его в конец таблицы блоков</translation>
     </message>
     <message>
         <source>Remove the current block</source>
-        <translation type="unfinished"></translation>
+        <translation>Удалить текущий блок</translation>
     </message>
     <message>
         <source>Change the order of blocks by moving the active block upward (towards the background)</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить порядок блоков перемещением активного блока вверх (на задний план)</translation>
     </message>
     <message>
         <source>Change the order of blocks by moving the active block downward (towards the foreground)</source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить порядок блоков перемещением активного блока вниз (на передний план)</translation>
     </message>
     <message>
         <source>Make the active block visible or hidden. Note: Hidden video blocks are automatically paused</source>
-        <translation type="unfinished"></translation>
+        <translation>Сделать активный блок видимым или скрытым. Примечание: скрытые видео блоки автоматически приостанавливаются</translation>
     </message>
     <message>
         <source>Play the sound, during this shot, of the selected video block. (This button is active only for videos.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Воспроизвести звук выбранного видео блока в течение этого кадра. (Эта функция активна только для видео.)</translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt;. This button is active only for objects containing images or videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть диалоговое окно &lt;a href=&quot;0110.html&quot;&gt;Кадрирование и коррекция изображения&lt;/a&gt;. Эта функция активна только для объектов, содержащих изображения или видео.</translation>
     </message>
     <message>
         <source>Block properties locking</source>
-        <translation type="unfinished"></translation>
+        <translation>Заблокировать свойства блока</translation>
     </message>
     <message>
         <source>Display information on active block. (Remark: This function is available only for &quot;image&quot; or &quot;video&quot; blocks.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Показать информацию об активном блоке. (Примечание: эта функция доступна только для блоков изображений или видео.)</translation>
     </message>
     <message>
         <source>Align to top</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по верху</translation>
     </message>
     <message>
         <source>Align to midle</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по середине</translation>
     </message>
     <message>
         <source>Align to bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по низу</translation>
     </message>
     <message>
         <source>Align to left</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по левому краю</translation>
     </message>
     <message>
         <source>Align to center</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по центру</translation>
     </message>
     <message>
         <source>Align to right</source>
-        <translation type="unfinished"></translation>
+        <translation>Выровнять по правому краю</translation>
     </message>
     <message>
         <source>Distribute horizontally</source>
-        <translation type="unfinished"></translation>
+        <translation>Распределить горизонтально</translation>
     </message>
     <message>
         <source>Distribute vertically</source>
-        <translation type="unfinished"></translation>
+        <translation>Распределить вертикально</translation>
     </message>
     <message>
         <source>Name of the slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя слайда</translation>
     </message>
     <message>
         <source>Indicate here a name for the slide. It is this name which will appear on the thumbnail in the main window timeline.</source>
-        <translation type="unfinished"></translation>
+        <translation>Укажите здесь название слайда. Это то название, которое будет отображено в миниатюре на линии времени главного окна.</translation>
     </message>
     <message>
         <source>Total slide duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Общая продолжительность слайда</translation>
     </message>
     <message>
         <source>The total slide duration is displayed here. This duration takes into account possible adjustments for minimal duration of the shot as described above.</source>
-        <translation type="unfinished"></translation>
+        <translation>Здесь отображается общая продолжительность слайда. С учетом возможных корректировок минимальной длительности кадра, как указано выше.</translation>
     </message>
     <message>
         <source> The shots table shows the shots as thumbnails, in the order in which they will be played (from left to right). </source>
-        <translation type="unfinished"></translation>
+        <translation> Таблица кадров показывает миниатюры кадров в том порядке, в котором они будут воспроизводиться (слева направо). </translation>
     </message>
     <message>
         <source>For each shot, the thumbnail shows: </source>
-        <translation type="unfinished"></translation>
+        <translation>Для каждого кадра миниатюра показывает: </translation>
     </message>
     <message>
         <source>The shot duration (At the top of the thumbnail)</source>
-        <translation type="unfinished"></translation>
+        <translation>Продолжительность кадра (вверху миниатюры)</translation>
     </message>
     <message>
         <source>The temporal position of the shot at the end of its duration (At the bottom right of the thumbnail)</source>
-        <translation type="unfinished"></translation>
+        <translation>Временное положение кадра в конце его продолжительности (внизу справа миниатюры)</translation>
     </message>
     <message>
         <source>An image representing the shot at the end of its duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Изображение, представляющее кадр, в конце его продолжительности</translation>
     </message>
     <message>
         <source>Remark:</source>
-        <translation type="unfinished">Примечание:</translation>
+        <translation>Примечание:</translation>
     </message>
     <message>
         <source>The order of the shots can be changed by using Drag &amp; Drop.</source>
-        <translation type="unfinished"></translation>
+        <translation>Порядок кадров может быть изменен с помощью перетаскивания.</translation>
     </message>
     <message>
         <source>Shot duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Продолжительность кадра</translation>
     </message>
     <message>
         <source> Indicate here the duration of the currently selected shot. For the last shot of the slide, there is a minimum duration.The following rules are used to calculate the minimum duration of the shot: </source>
-        <translation type="unfinished"></translation>
+        <translation>Укажите здесь продолжительность выбранного кадра. Для последнего кадра слайда, есть минимальная продолжительность. Следующие правила используются при расчете минимальной продолжительности кадра: </translation>
     </message>
     <message>
         <source>The total slide duration cannot be lower than the sum of the durations of the entering transition of the slide plus that of the transition to the following slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Общая продолжительность слайда не может быть меньше, чем сумма длительностей входящего перехода слайда и перехода на следующий слайд</translation>
     </message>
     <message>
         <source>The total slide duration must permit complete play of the longest video sequence (time of breaks is taken into account)</source>
-        <translation type="unfinished"></translation>
+        <translation>Общая продолжительность слайда должна допускать полное воспроизведение самого длинного видеоряда (время перерывов учитывается)</translation>
     </message>
     <message>
         <source>The total slide duration cannot be lower than 1:30 second</source>
-        <translation type="unfinished"></translation>
+        <translation>Общая продолжительность слайд не может быть меньше, чем 1/30 секунды</translation>
     </message>
     <message>
         <source> The interactive zone allows you to move and interactively re-size blocks within the selected shot. </source>
-        <translation type="unfinished"></translation>
+        <translation> Интерактивная область позволяет перемещать и изменять размеры блоков в пределах выбранного кадра в интерактивном режиме. </translation>
     </message>
     <message>
         <source>Selected blocks are shown with a frame. (It allows to differentiate them from other graphic elements of the slide).</source>
-        <translation type="unfinished"></translation>
+        <translation>Выделенные блоки показаны с рамкой. (Это позволяет отличать их от других графических элементов слайда).</translation>
     </message>
     <message>
         <source>Control handles (small square) are shown on sides and on corners of the selection frame.</source>
-        <translation type="unfinished"></translation>
+        <translation>Маркеры управления (небольшие квадратики) показаны по бокам и в углах рамки выделения.</translation>
     </message>
     <message>
         <source>Rulers are displayed to facilitate the work with the mouse. See &lt;a href=&quot;0116.html&quot;&gt;Rulers settings&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Линеки отображаются для облегчения работы с  мышью. Смотрите &lt;a href=&quot;0116.html&quot;&gt;Свойства линеек&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Using the mouse:</source>
-        <translation type="unfinished"></translation>
+        <translation> Использование мыши:</translation>
     </message>
     <message>
         <source>To select a block: click the block</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы выбрать блок: нажмите на него</translation>
     </message>
     <message>
         <source>To select multiple blocks: Select a first block by clicking on it and then, by clicking on the other blocks to be selected with pressing either the SHIFT or the CTRL key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы выделить несколько блоков: выберите первый блок, нажав на него, а затем, нажмите на другие блоки, зажав клавишу SHIFT или CTRL.</translation>
     </message>
     <message>
         <source>To select a block under another block : Click the block to be selected by pushing both SHIFT and CTRL keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы выбрать блок под другим блоком: нажмите на блок, который будет выбран, зажав обе клавиши SHIFT и CTRL.</translation>
     </message>
     <message>
         <source>To unselect a block in a multiple selection: Click the block with pressing either the SHIFT or the CTRL key.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы снять выделение с одного из блоков: нажмите на блок, зажав клавишу SHIFT или CTRL.</translation>
     </message>
     <message>
         <source>To modify the size of the blocks of the selection: Click one of the handles of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы изменить размер выделенного блока: нажмите на один из маркеров управления и, не отпуская кнопку мыши, переместите мышь.</translation>
     </message>
     <message>
         <source>To move the blocks of the selection: Click one of the blocks of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы переместить выделенный блок: нажмите на один из выбранных блоков и, не отпуская кнопку мыши, переместите мышь.</translation>
     </message>
     <message>
         <source>Using the keyboard:</source>
-        <translation type="unfinished"></translation>
+        <translation>Использование клавиатуры:</translation>
     </message>
     <message>
         <source>To move the blocks of the selection, use the arrow keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы переместить выделенный блок, используйте клавиши со стрелками.</translation>
     </message>
     <message>
         <source>To change the size of the blocks of the selection, use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы изменить размер выделенного блока, воспользуйтесь сочетанием клавиш SHIFT + стрелки для перемещения к верхнему левому углу или CTRL + стрелки для перемещения к нижнему правом углу.</translation>
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished">Примечания:</translation>
+        <translation>Примечания:</translation>
     </message>
     <message>
         <source>A double click on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Двойной щелчок на блоке открывает редактор блоков, связанный с этим типом блока (для текстового блока - это текстовый редактор, для блока изображения - диалог кадрирования и т.д.)</translation>
     </message>
     <message>
         <source>A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щелчок правой кнопкой мыши на блоке, когда выделен только один блок, открывает контекстное меню, предлагающее ряд команд редактирования блока.</translation>
     </message>
     <message>
         <source>A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щелчок правой кнопкой мыши на блоке, когда выделено несколько блоков, открывает контекстное меню, предлагающее ряд команд редактирования нескольких блоков.</translation>
     </message>
     <message>
         <source>The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.</source>
-        <translation type="unfinished"></translation>
+        <translation>Порядок блоков важен! Первый блок (вверху списка) находится под  вторым блоком, который перекрыт следующим блоком и так далее.</translation>
     </message>
     <message>
         <source>The order of the blocks is defined shot by shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Порядок блоков определяется кадр за кадром.</translation>
     </message>
     <message>
         <source>The first column contains or: </source>
-        <translation type="unfinished"></translation>
+        <translation>Первый столбец содержит или:</translation>
     </message>
     <message>
         <source> If the block is a title.</source>
-        <translation type="unfinished"></translation>
+        <translation> если блок является текстовым.</translation>
     </message>
     <message>
         <source>A thumbnail if the block is an image or a video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Миниатюру, если блок является изображением или видео.</translation>
     </message>
     <message>
         <source> If the image or the video have a transformation filter.</source>
-        <translation type="unfinished"></translation>
+        <translation> если изображение или видео содержат фильтр трансформации.</translation>
     </message>
     <message>
         <source>The second column contains icons giving the state of the blocks for the current shot: </source>
-        <translation type="unfinished"></translation>
+        <translation>Второй столбец содержит значки, показывающие состояние блока в текущем кадре:</translation>
     </message>
     <message>
         <source> If the video has the sound during this shot. This information appears only for the video blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>если видео на этом кадре имеет звук. Эта информация отображается только для блоков видео.</translation>
     </message>
     <message>
         <source>The third column indicates: </source>
-        <translation type="unfinished"></translation>
+        <translation>Третий столбец содержит: </translation>
     </message>
     <message>
         <source>If the block is a title: the text of the block</source>
-        <translation type="unfinished"></translation>
+        <translation>Если блок текстовый: текст блока</translation>
     </message>
     <message>
         <source>If the block is an image: </source>
-        <translation type="unfinished"></translation>
+        <translation>Если блок изображения: </translation>
     </message>
     <message>
         <source>The filename.</source>
-        <translation type="unfinished"></translation>
+        <translation>Имя файла.</translation>
     </message>
     <message>
         <source>The width x the height of the image in pixel (the format of the image - the geometry of the image).</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина x высота изображения в пикселях (формат изображения - геометрия изображения).</translation>
     </message>
     <message>
         <source>A summary of EXIF information on the image.</source>
-        <translation type="unfinished"></translation>
+        <translation>Общая EXIF информация об изображении.</translation>
     </message>
     <message>
         <source>If the block is a video: </source>
-        <translation type="unfinished"></translation>
+        <translation>Если это блок видео:</translation>
     </message>
     <message>
         <source>The duration of the video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Продолжительность видео.</translation>
     </message>
     <message>
         <source>Double clicking on a block opens the block editor associated with the block type (for a text block this will be the text editor, for an image block the reframing dialog, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Двойной щелчок на блоке открывает редактор блоков, связанный с этим типом блока (для текстового блока - это текстовый редактор, для блока изображения - диалог кадрирования и т.д.)</translation>
     </message>
     <message>
         <source>Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щелчок правой кнопкой мыши на блоке, когда выделен только один блок, открывает контекстное меню, предлагающее ряд команд редактирования блока.</translation>
     </message>
     <message>
         <source>Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Щелчок правой кнопкой мыши на блоке, когда выделено несколько блоков, открывает контекстное меню, предлагающее ряд команд редактирования нескольких блоков.</translation>
     </message>
     <message>
         <source>Blocks with locked properties are shown on a grey bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation>Блоки с заблокированными свойствами показаны в сером цвете.</translation>
     </message>
     <message>
         <source>Selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбранные блоки отбражаются в красном цвете, если акцент делается на таблице блоков, или в синем цвете, если акцент делается на другом элементе.</translation>
     </message>
     <message>
         <source>To change the blocks order, use Drag &amp; Drop or &lt;B&gt;Up&lt;/B&gt; and &lt;B&gt;Down&lt;/B&gt; functions of the contextual menu.</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы изменить порядок блоков, используйте перетаскивание или функции &lt;B&gt;Вверх&lt;/B&gt; и &lt;B&gt;Вниз&lt;/B&gt; контекстного меню.</translation>
     </message>
     <message>
         <source>It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Можно добавить файлы непосредственно в таблицу блоков с помощью перетаскивания из менеджера файлов (Проводника).</translation>
     </message>
     <message>
         <source>All blocks, whether title, image or video, possess a text element.</source>
-        <translation type="unfinished"></translation>
+        <translation>Все блоки, будь то заголовок, изображение или видео, могут иметь текстовый элемент.</translation>
     </message>
     <message>
         <source>During the insertion of a new block (Add title, Add file or Paste), the block is inserted: </source>
-        <translation type="unfinished"></translation>
+        <translation>Во время вставки нового блока (Добавить текст, Добавить файл или Вставить) он вставляется: </translation>
     </message>
     <message>
         <source>In visible mode for the current shot and for all the following shots</source>
-        <translation type="unfinished"></translation>
+        <translation>в режиме видимости для текущего кадра и для всех последующих кадров</translation>
     </message>
     <message>
         <source>In hidden mode for the shots located before the current shot</source>
-        <translation type="unfinished"></translation>
+        <translation>в скрытом режиме для кадров, расположенных перед текущим кадром</translation>
     </message>
     <message>
         <source>Always in the last position in the list of blocks (in the foreground)</source>
-        <translation type="unfinished"></translation>
+        <translation>всегда на последнем месте в таблице блоков (на переднем плане)</translation>
     </message>
     <message>
         <source>Coordinates</source>
-        <translation type="unfinished">Координаты</translation>
+        <translation>Координаты</translation>
     </message>
     <message>
         <source>&lt;B&gt;For image or video blocks: &lt;/B&gt;Allows you to select a reframing style for the image. It has the same effect as selecting a style in the dialog: &lt;a href=&quot;0110.html&quot;&gt;Correct, reframe or cut image or video&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Для блоков изображений и видео: &lt;/B&gt;позволяет выбрать стиль обрезки изображения. Имеет такой же эффект как выбор стиля в диалоговом окне: &lt;a href=&quot;0110.html&quot;&gt;Коррекция, кадрирование или обрезка изображения или видео&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>&lt;B&gt;For text blocks: &lt;/B&gt;Allows you to select the geometrical constraints to be applied to the block. Three type of constraint are available:</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Для блоков текста: &lt;/B&gt;позволяет выбрать ограничения геометрии, применяемые к блоку. Доступно три типа ограничений:</translation>
     </message>
     <message>
         <source>No constraint is applied to the selection rectangle.</source>
-        <translation type="unfinished"></translation>
+        <translation>К прямоугольнику выделения не применяются ограничения.</translation>
     </message>
     <message>
         <source>Lock selection rectangle to the actual geometry. It has no meaning until you have defined a shape in &quot;no constraint&quot; mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Прямоугольник выделения будет той же геометрии, что и в настоящее время. Не имеет смысла до тех пор, пока не будет определена форма в режиме &quot;Без ограничений&quot;.</translation>
     </message>
     <message>
         <source>Lock selection rectangle to the same geometry as the project, such that, if you place the image in full screen, the reframed part will correspond to the whole screen.</source>
-        <translation type="unfinished"></translation>
+        <translation>Прямоугольник выделение будет той же геометрии, что и сам проект. Если вы откроете изображение в полноэкранном режиме, то выбранная часть будет соответствовать всему экрану.</translation>
     </message>
     <message>
         <source>Allows you to select a pre-defined block size</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет выбрать заранее определенный размер блока</translation>
     </message>
     <message>
         <source>Represents the horizontal offset of the block from the left. This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Горизонтальное смещение блока с левой стороны. Определяется как процент (%) от общей ширины изображения или в пикселях (на экране 1080) в соответствии с единицами измерения, заданными в диалоге конфигурации.</translation>
     </message>
     <message>
         <source>Represents the vertical offset of the block from the top. This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вертикальное смещение блока сверху. Определяется как процент (%) от общей высоты изображения или в пикселях (на экране 1080) в соответствии с единицами измерения, заданными в диалоге конфигурации.</translation>
     </message>
     <message>
         <source>Represents the width of the block. This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ширина блока. Определяется как процент (%) от общей ширины изображения или в пикселях (на экране 1080) в соответствии с единицами измерения, заданными в диалоге конфигурации.</translation>
     </message>
     <message>
         <source>Represents the height of the block. This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Высота блока. Определяется как процент (%) от общей высоты изображения или в пикселях (на экране 1080) в соответствии с единицами измерения, заданными в диалоге конфигурации.</translation>
     </message>
     <message>
         <source>Rotation around the Z axis in degrees.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вращение вокруг оси Z в градусах.</translation>
     </message>
     <message>
         <source>Rotation around the Y axis in degrees.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вращение вокруг оси Y в градусах.</translation>
     </message>
     <message>
         <source>Rotation around the X axis in degrees.</source>
-        <translation type="unfinished"></translation>
+        <translation>Вращение вокруг оси X в градусах.</translation>
     </message>
     <message>
         <source>Block shape</source>
-        <translation type="unfinished"></translation>
+        <translation>Форма блока</translation>
     </message>
     <message>
         <source>Shape</source>
-        <translation type="unfinished">Форма</translation>
+        <translation>Форма</translation>
     </message>
     <message>
         <source>Allows you to select a shape for the block. The selected shape will be used as:</source>
-        <translation type="unfinished"></translation>
+        <translation>Позволяет выбрать форму блока. Выбранная форма будет использоваться в качестве:</translation>
     </message>
     <message>
         <source>a fusion mask for the images and the videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>маски слияния для изображений и видео.</translation>
     </message>
     <message>
         <source>A cutting zone for texts</source>
-        <translation type="unfinished"></translation>
+        <translation>зоны обрезки для текстов</translation>
     </message>
     <message>
         <source>Opacity</source>
-        <translation type="unfinished"></translation>
+        <translation>Непрозрачность</translation>
     </message>
     <message>
         <source>Defines the opacity of the block. This value also applies to the text of the block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить непрозрачность блока. Это значение также применяется к тексту блока.</translation>
     </message>
     <message>
         <source>Border</source>
-        <translation type="unfinished"></translation>
+        <translation>Граница</translation>
     </message>
     <message>
         <source>Thickness of the border</source>
-        <translation type="unfinished"></translation>
+        <translation>Толщина границы</translation>
     </message>
     <message>
         <source>Defines the thickness of the border (This value is defined as 1/1080 of the height of the screen. A value of 10 corresponds to 10 points on a 1920x1080 FullHD screen, but only to 6 points on a 1280x720 screen).</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить толщину границы. (Это значение определяется как 1/1080 от высоты экрана. Значению 10 соответствует 10 точек на 1920 × 1080 FullHD экране и только 6 точек на 1280 × 720 экране).</translation>
     </message>
     <message>
         <source>Border color</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет границы</translation>
     </message>
     <message>
         <source>Defines the color of the line to be used to draw the border</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать цвет линии границы</translation>
     </message>
     <message>
         <source>Line type of border</source>
-        <translation type="unfinished"></translation>
+        <translation>Тип линии границы</translation>
     </message>
     <message>
         <source>Defines the type of line (solid, dotted line, etc.)</source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать тип линии (сплошная, пунктирная и т.д.)</translation>
     </message>
     <message>
         <source>Shadow</source>
-        <translation type="unfinished"></translation>
+        <translation>Тень</translation>
     </message>
     <message>
         <source>Shadow position</source>
-        <translation type="unfinished"></translation>
+        <translation>Положение тени</translation>
     </message>
     <message>
         <source>Defines in which corner the shadow will be positioned (Note: the position of the shadow is independent of rotation of the block: the right lower corner is always the right lower corner, whatever rotation is applied).</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить в каком углу будет располагаться тень (Примечание: положение тени не зависит от вращения блока: правый нижний угол - это всегда правый нижний угол, независимо от поворота).</translation>
     </message>
     <message>
         <source>Distance of the shadow</source>
-        <translation type="unfinished"></translation>
+        <translation>Расстояние до тени</translation>
     </message>
     <message>
         <source>Defines the distance between the block and its shadow</source>
-        <translation type="unfinished"></translation>
+        <translation>Определяет расстояние между блоком и его тенью</translation>
     </message>
     <message>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation>Цвет</translation>
     </message>
     <message>
         <source>Animation option</source>
-        <translation type="unfinished"></translation>
+        <translation>Настройки анимации</translation>
     </message>
     <message>
         <source>Speed wave</source>
-        <translation type="unfinished">Скорость</translation>
+        <translation>Скорость</translation>
     </message>
     <message>
         <source>Selects a speed curve for block animations (movement, resizing and rotating of blocks, animation of text and blocks) </source>
-        <translation type="unfinished"></translation>
+        <translation>Выбрать скорость анимации блока (движение, изменение размера и вращение блоков, анимации текста и блоков) </translation>
     </message>
     <message>
         <source>Remark: To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: изменить скорость анимации изображений (графический эффект и кадрирование), изменить изображение или видео и выбрать скорость можно в диалоговом окне Кадрирование и коррекция изображений</translation>
     </message>
     <message>
         <source>Text annimation</source>
-        <translation type="unfinished"></translation>
+        <translation>Анимация текста</translation>
     </message>
     <message>
         <source>Zoom</source>
-        <translation type="unfinished"></translation>
+        <translation>Масштаб</translation>
     </message>
     <message>
         <source>Defines a level of zoom for the text</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить значение масштабирования текста</translation>
     </message>
     <message>
         <source>Defines the horizontal position of the text inside the block</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить горизонтальное положение текста внутри блока</translation>
     </message>
     <message>
         <source>Defines the vertical position of the text inside the block</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить вертикальное положение текста внутри блока</translation>
     </message>
     <message>
         <source>Define values for zoom and scrolling for the 1st shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить значение масштабирования и прокрутки для 1-го кадра</translation>
     </message>
     <message>
         <source>Define different values for zoom and scrolling for the 2nd</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить другие значения масштабирования и прокрутки для 2-го кадра</translation>
     </message>
     <message>
         <source>Block animation</source>
-        <translation type="unfinished"></translation>
+        <translation>Анимация блока</translation>
     </message>
     <message>
         <source> The block animations define which animations will run during the current shot. You can define different animations for every shot! </source>
-        <translation type="unfinished"></translation>
+        <translation>Анимация блока определяет, какая анимация будет выполняться во время текущего кадра. Можно определить различную анимацию для каждого кадра! </translation>
     </message>
     <message>
         <source>Multiple rotations</source>
-        <translation type="unfinished"></translation>
+        <translation>Несколько поворотов</translation>
     </message>
     <message>
         <source> This animation allows to turn a block several times during the shot. </source>
-        <translation type="unfinished"></translation>
+        <translation>Эта анимация позволяет повернуть блок несколько раз за время кадра. </translation>
     </message>
     <message>
         <source>Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction </source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: направление вращения определяется знаком, так +5 даст 5 оборотов в одном направлении, в то время как -5 даст 5 оборотов в другом направлении</translation>
     </message>
     <message>
         <source>Defines the number of rotation to be made according to the Z axis.</source>
-        <translation type="unfinished"></translation>
+        <translation>Задать количество оборотов, которое будет сделано вокруг оси Z.</translation>
     </message>
     <message>
         <source>Defines the number of rotation to be made according to the Y axis.</source>
-        <translation type="unfinished"></translation>
+        <translation>Задать количество оборотов, которое будет сделано вокруг оси Y.</translation>
     </message>
     <message>
         <source>Defines the number of rotation to be made according to the X axis.</source>
-        <translation type="unfinished"></translation>
+        <translation>Задать количество оборотов, которое будет сделано вокруг оси X.</translation>
     </message>
     <message>
         <source>Dissolve</source>
-        <translation type="unfinished"></translation>
+        <translation>Растворение</translation>
     </message>
     <message>
         <source>This animation dissolves between the block and a transparent zone according to the following settings.</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта анимация позволяет осуществить плавный переход между блоком и прозрачной областью согласно следующим параметрам.</translation>
     </message>
     <message>
         <source>Appear</source>
-        <translation type="unfinished"></translation>
+        <translation>Появление</translation>
     </message>
     <message>
         <source>The block will appear during the shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Блок появится во время кадра</translation>
     </message>
     <message>
         <source>Disappear</source>
-        <translation type="unfinished"></translation>
+        <translation>Исчезновение</translation>
     </message>
     <message>
         <source>The block will disappear during the shot</source>
-        <translation type="unfinished"></translation>
+        <translation>Блок исчезнет во время кадра</translation>
     </message>
     <message>
         <source>Blink</source>
-        <translation type="unfinished"></translation>
+        <translation>Мигание</translation>
     </message>
     <message>
         <source>The block will blink during the shot (appear then disappear). 4 speeds are proposed (from slow to very fast).</source>
-        <translation type="unfinished"></translation>
+        <translation>Блок будет мигать во время кадра (появился, исчез). Доступно 4 скорости (от медленной до очень быстрой).</translation>
     </message>
     <message>
         <source> When the block properties are locked, the modifications made to the block in the preceding shot are echoed in the current shot. </source>
-        <translation type="unfinished"></translation>
+        <translation>Когда свойства блока заблокированы, изменения, внесенные в блок на предыдущем кадре, переходят к текущему кадру.</translation>
     </message>
     <message>
         <source>It defines as well the coordinates, forms and animations properties as the properties defined in the editing dialog of text, image or video. </source>
-        <translation type="unfinished"></translation>
+        <translation>Оно также определяет координаты, формы и свойства анимации как свойства, определенные в окне редактирования текста, изображения или видео.</translation>
     </message>
     <message>
         <source>The properties locking is available only from the 2nd shot.</source>
-        <translation type="unfinished"></translation>
+        <translation>Блокировка свойств доступна только со 2-го кадра.</translation>
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation>Смотрите также</translation>
     </message>
     <message>
         <source>Description of EXIF - Exchangeable image file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Описание EXIF - Exchangeable image file format</translation>
     </message>
     <message>
         <source>This settings group defines the coordinates of the block for the current shot, so, the modifications made to the following properties will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Это группа настроек, определяющая координаты блока текущего кадра, т.е. изменения свойств будут применены только к текущему кадру. Для понимания разницы между свойствами, которые применяются ко всем кадрам, и свойствами, которые применяются только к текущему кадру, смотрите &lt;a href=&quot;0010.html&quot;&gt;Принципы работы ffDiaporama&lt;/a&gt;.</translation>
     </message>
     <message>
         <source> This settings group defines the shape of the block for all shots, so, modification of the following properties will apply to all shots in the slide. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;. </source>
-        <translation type="unfinished"></translation>
+        <translation>Это группа настроек, определяющая форму блока всех кадров, т.е. изменения свойств будут применены ко всем кадрам слайда. Для понимания разницы между свойствами, которые применяются ко всем кадрам, и свойствами, которые применяются только к текущему кадру, смотрите &lt;a href=&quot;0010.html&quot;&gt;Принципы работы ffDiaporama&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>On the top: The &lt;a href=&quot;#Toolbar&quot;&gt;Toolbar&lt;/a&gt; allows to launch the main slide editing commands, and the &lt;a href=&quot;#ShotSettings&quot;&gt;Shot settings&lt;/a&gt; zone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Сверху: &lt;a href=&quot;#Toolbar&quot;&gt;Панель инструментов&lt;/a&gt;, позволяющая запускать основные команды редактирования слайдов, и область &lt;a href=&quot;#ShotSettings&quot;&gt;параметров кадров&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>On the left: The &lt;a href=&quot;#SlideSettings&quot;&gt;Slide settings zone&lt;/a&gt;, the &lt;a href=&quot;#ShotsTable&quot;&gt;Shots table&lt;/a&gt; and the &lt;a href=&quot;#InteractiveZone&quot;&gt;Interactive&lt;/a&gt; zones.</source>
-        <translation type="unfinished"></translation>
+        <translation>Слева: область &lt;a href=&quot;#SlideSettings&quot;&gt;параметров слайдов&lt;/a&gt;, &lt;a href=&quot;#ShotsTable&quot;&gt;таблица кадров&lt;/a&gt; и &lt;a href=&quot;#InteractiveZone&quot;&gt;интерактивная область&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>On the right: The &lt;a href=&quot;#BlockTable&quot;&gt;Blocks table&lt;/a&gt; and the &lt;a href=&quot;#BlockSettings&quot;&gt;Block settings&lt;/a&gt; zones.</source>
-        <translation type="unfinished"></translation>
+        <translation>Справа: &lt;a href=&quot;#BlockTable&quot;&gt;таблица блоков&lt;/a&gt; и область &lt;a href=&quot;#BlockSettings&quot;&gt;параметров блоков&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0120.html&quot;&gt;Edit text block dialog&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Открывает диалоговое окно &lt;a href=&quot;0120.html&quot;&gt;Редактировать текст блока&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Lock or unlock properties of active block. (See: &lt;a href=&quot;#LockProperties&quot;&gt;Block properties locking&lt;/a&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Блокировка и разблокировка свойств активного блока. (См.: &lt;a href=&quot;#LockProperties&quot;&gt; Блокировка свойств блока&lt;/a&gt;)</translation>
     </message>
     <message>
         <source> If the block is visible during this shot.</source>
-        <translation type="unfinished"></translation>
+        <translation> Если блок видим во время кадра.</translation>
     </message>
     <message>
         <source> If the block is hidden during this shot.</source>
-        <translation type="unfinished"></translation>
+        <translation> Если блок скрыт во время кадра.</translation>
     </message>
     <message>
         <source>Sets the color used to draw the shadow</source>
-        <translation type="unfinished"></translation>
+        <translation>Определить цвет тени</translation>
     </message>
     <message>
         <source>If you specify a duration lower than the minimum calculated duration for the shot, it is this minimum duration that will be used in place of the value which you specified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Если указанная продолжительностью меньше минимальной продолжительности кадра, то будет использоваться минимальная продолжительность, а не то значение, которое вы указали.</translation>
     </message>
     <message>
         <source>Blocks are shown on 3 columns:</source>
-        <translation type="unfinished"></translation>
+        <translation>Блоки показаны в 3 столбца:</translation>
     </message>
     <message>
         <source>The blocks table lists, from top to bottom, the present blocks in the slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Таблица блоков представляет собой список блоков слайда сверху вниз.</translation>
     </message>
     <message>
         <source>To make animations of text, you have to create at least 2 shots then:</source>
-        <translation type="unfinished"></translation>
+        <translation>Чтобы получить анимацию текста, вы должны создать как минимум 2 кадра:</translation>
     </message>
     <message>
         <source>This dialog allows you to define settings for the slides. It includes numerous zones:</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет определить параметры слайдов. Оно включает множество областей:</translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0105.html&quot;&gt;Chapter properties dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Открыть диалоговое окно &lt;a href=&quot;0105.html&quot;&gt;Свойства главы&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Add a new title block - Open a sub menu with the following options: </source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить текст - откроется подменю со следующими параметрами: </translation>
     </message>
     <message>
         <source>Add a simple title block</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить простой блок текста</translation>
     </message>
     <message>
         <source>Add a title clip-art block</source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить клипарт блок текста</translation>
     </message>
     <message>
         <source>Once you have selected one of the options, the &lt;a href=&quot;0120.html&quot;&gt;Edit Text dialog&lt;/a&gt; opens.</source>
-        <translation type="unfinished"></translation>
+        <translation>После того как вы выбрали один из вариантов, откроется диалоговое окно &lt;a href=&quot;0120.html&quot;&gt; Редактировать текст&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Add one or several new blocks of images or video. A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears allowing you to select files. </source>
-        <translation type="unfinished"></translation>
+        <translation>Добавить один или несколько новых блоков изображений или видео. Появится диалоговое окно &lt;a href=&quot;0109.html&quot;&gt;выбора файла&lt;/a&gt;, позволяющий выбрать файлы.</translation>
     </message>
     <message>
         <source>Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;).</source>
-        <translation type="unfinished"></translation>
+        <translation>Примечание: в случае множественного выбора, файлы добавляются в алфавитном порядке имен файлов или в цифровом порядке кадров (в зависимости от выбранной опции в диалоговом окне &lt;a href=&quot;0101.html&quot;&gt;Настройки программы&lt;/a&gt;).</translation>
     </message>
     <message>
         <source>Edit blocks - Open a sub menu with the following options: </source>
-        <translation type="unfinished"></translation>
+        <translation>Изменить блок - откроется подменю, содержащее следующие параметры: </translation>
     </message>
     <message>
         <source>Arrange blocks - Open a sub menu with the following options: </source>
-        <translation type="unfinished"></translation>
+        <translation>Упорядочить блоки -  откроется подменю со следующими параметрами: </translation>
     </message>
     <message>
         <source>Save as model - Allows you to save current slide as a new Predefined custom title. </source>
-        <translation type="unfinished"></translation>
+        <translation>Сохранить как шаблон - позволяет сохранить текущий слайд как новый пользовательский шаблон заголовка слайда. </translation>
     </message>
     <message>
         <source>For more information on predefined title slide, see: &lt;a href=&quot;0012.html&quot;&gt;Predefined title slide&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Для получения дополнительной информации о шаблонах заголовков слайдов, смотрите: &lt;a href=&quot;0012.html&quot;&gt;Шаблон заголовка слайда&lt;/a&gt;</translation>
     </message>
     <message>
         <source> At the bottom of the box, the &quot;Rullers&quot; button allows you to open the &lt;a href=&quot;0116.html&quot;&gt;Ruler properties dialog&lt;/a&gt; </source>
-        <translation type="unfinished"></translation>
+        <translation>В нижней части окна находится кнопка &quot;Линейки&quot;, которая позволяет открыть диалоговое окно &lt;a href=&quot;0116.html&quot;&gt;Свойства линеек&lt;/a&gt; </translation>
     </message>
     <message>
         <source> It is also possible to open contextual menus by: </source>
-        <translation type="unfinished"></translation>
+        <translation>Также можно открыть контекстное меню:</translation>
     </message>
     <message>
         <source>Right clicking on zones.</source>
-        <translation type="unfinished"></translation>
+        <translation>Правым щелчком мыши на области.</translation>
     </message>
     <message>
         <source>Right click on shots table.</source>
-        <translation type="unfinished"></translation>
+        <translation>Правым щелчком мыши на таблице кадров.</translation>
     </message>
     <message>
         <source>Right click on blocks table or on interactive zone when no block was selected.</source>
-        <translation type="unfinished"></translation>
+        <translation>Правым щелчком мыши на таблице блоков или на интерактивной области, когда ни один блок не выделен.</translation>
     </message>
     <message>
         <source>Right click on one of the blocks of a multiple selection, on blocks table or on interactive zone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Правым щелчком мыши на одном из выделенных блоков, на таблице блоков или на интерактивной области.</translation>
     </message>
     <message>
         <source>Each of these contextual menus propose commands which depend on what you have clicked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Каждое из этих контекстных меню предлагает команды, которые зависят от того, что вы нажали.</translation>
     </message>
     <message>
         <source> If the properties of the block are locked during this shot. (This information does not appear for the 1st shot.)</source>
-        <translation type="unfinished"></translation>
+        <translation> Если свойства блока заблокированы на этом кадре. (Эта информация не отображается для первого кадра.)</translation>
     </message>
     <message>
         <source> If the properties of the block are unlocked during this shot. (This information does not appear for the 1st shot.)</source>
-        <translation type="unfinished"></translation>
+        <translation> Если свойства блока разблокированы на этом кадре. (Эта информация не отображается для первого кадра.)</translation>
     </message>
     <message>
         <source>This settings group deals with style management. For more information on style management, see: &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Это группа настроек управления стилями. Дополнительные сведения о управлении стилями смотрите: &lt;a href=&quot;0016.html&quot;&gt;Управление стилями&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -8768,7 +8769,7 @@
     </message>
     <message>
         <source>This dialog allows you to define the transition duration for a set of slides:</source>
-        <translation type="unfinished"></translation>
+        <translation>Это диалоговое окно позволяет определить продолжительность перехода для группы слайдов:</translation>
     </message>
 </context>
 <context>
@@ -9082,23 +9083,23 @@
     </message>
     <message>
         <source>Predefined title slide</source>
-        <translation type="unfinished"></translation>
+        <translation>Шаблон заголовка слайда</translation>
     </message>
     <message>
         <source>Configuration dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Окна настройки программы</translation>
     </message>
     <message>
         <source>Editing dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Окна редактирования</translation>
     </message>
     <message>
         <source>Dialog boxes related to the project</source>
-        <translation type="unfinished"></translation>
+        <translation>Окна, связанные с проектом</translation>
     </message>
     <message>
         <source>Various dialog boxes</source>
-        <translation type="unfinished"></translation>
+        <translation>Прочие окна</translation>
     </message>
 </context>
 <context>
@@ -9129,7 +9130,7 @@
     </message>
     <message>
         <source>Finally, you&apos;ll also find help on the </source>
-        <translation>Наконец, вы также можете получить помощь на</translation>
+        <translation>Также, вы можете получить помощь на</translation>
     </message>
     <message>
         <source>ffDiaporama forum</source>
@@ -9137,11 +9138,11 @@
     </message>
     <message>
         <source>Other elements of documentation are available on the </source>
-        <translation type="unfinished"></translation>
+        <translation>Дополнительная информация доступна на </translation>
     </message>
     <message>
         <source>This documentation is divided into the followed themes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Эта документация содержит следующие разделы:</translation>
     </message>
 </context>
 </TS>

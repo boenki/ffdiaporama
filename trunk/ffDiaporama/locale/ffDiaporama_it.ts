@@ -67,11 +67,11 @@
     </message>
     <message>
         <source>1st shot duration:</source>
-        <translation>Durata 1° scatto:</translation>
+        <translation>Durata 1&lt;SUP&gt;a&lt;/SUP&gt; ripresa:</translation>
     </message>
     <message>
         <source>Next shot duration:</source>
-        <translation>Durata prossimo scatto:</translation>
+        <translation>Durata prossima ripresa:</translation>
     </message>
     <message>
         <source>Application Options</source>
@@ -620,7 +620,7 @@ La grafica &quot;raster&quot; accelera il display ma può sollevare problemi su 
 -A shot or block from the slide properties dialog box</source>
         <translation>Se questa casella è selezionata, un messaggio di conferma verrà visualizzato ogni volta che si rimuove un oggetto:
 - Una diapositiva dalla finestra principale
-- Una immagine e blocco dalla finestra propietà diapositiva</translation>
+- Una immagine o blocco dalla finestra propietà diapositiva</translation>
     </message>
     <message>
         <source>This option allows you to adjust the way files are sorted when you select several files in Add file.
@@ -679,7 +679,7 @@ This style defines the size, the coordinates, the rotations and the geometrical 
     </message>
     <message>
         <source>Defines the default duration of further shots.</source>
-        <translation>Definisce la durata predefinita di ulteriori scatti.</translation>
+        <translation>Definisce la durata predefinita di ulteriori riprese.</translation>
     </message>
     <message>
         <source>Framing styles define how to crop the image to make it compatible with the block in which is displayed.</source>
@@ -721,7 +721,7 @@ Questo stile definisce il tipo di carattere, la dimensione, il colore e gli effe
     </message>
     <message>
         <source>Defines the default duration of the first shot for slides during their creation.</source>
-        <translation>Definisce la durata predefinita del primo colpo della diapositive durante la loro creazione.</translation>
+        <translation>Definisce la durata predefinita della prima ripresa delle diapositive durante la loro creazione.</translation>
     </message>
     <message utf8="true">
         <source>Allows to select the style of the shape to applied to the new text blocks.
@@ -1561,6 +1561,11 @@ Giallo: il componente funziona parzialmente
         <source>&amp;Help</source>
         <translation>A&amp;iuto</translation>
     </message>
+    <message>
+        <source>Error: Project subfolder can&apos;t be empty</source>
+        <comment>Error message</comment>
+        <translation>Errore: La sottocartella del progetto non può essere vuota</translation>
+    </message>
 </context>
 <context>
     <name>DlgFileExplorer</name>
@@ -1675,7 +1680,7 @@ testo</translation>
 Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the configuration dialog).</source>
         <translation>Aggiunge uno o più nuovi blocchi di immagini o video. Una finestra di selezione file viene visualizzata e consentirà di selezionare i file.
 
-Nota: in caso di selezione multipla, i file vengono aggiunti in ordine alfabetico dei nomi dei file o nell&apos;ordine digitale di scatti (in base all&apos;opzione selezionata nella finestra di configurazione).</translation>
+Nota: in caso di selezione multipla, i file vengono aggiunti in ordine alfabetico dei nomi dei file o nell&apos;ordine digitale degli scatti (in base all&apos;opzione selezionata nella finestra di configurazione).</translation>
     </message>
     <message>
         <source>Add
@@ -3790,7 +3795,7 @@ In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e
     <name>DlgSlideDuration</name>
     <message>
         <source>First shot duration :</source>
-        <translation>Durata primo scatto :</translation>
+        <translation>Durata prima ripresa :</translation>
     </message>
     <message>
         <source>HH:mm:ss.zzz</source>
@@ -3818,7 +3823,7 @@ In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e
     </message>
     <message>
         <source>Define the duration of the first shot.</source>
-        <translation>Definisce la durata del primo scatto.</translation>
+        <translation>Definisce la durata della prima ripresa.</translation>
     </message>
     <message>
         <source>Show help about this dialogue box</source>
@@ -3837,15 +3842,15 @@ In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e
     </message>
     <message>
         <source>Append a shot to end of the timeline</source>
-        <translation>Aggiungi una diapositiva alla fine della linea temporale</translation>
+        <translation>Aggiungi una ripresa alla fine della linea temporale</translation>
     </message>
     <message>
         <source>Add shot</source>
-        <translation>Aggiungi diapositiva</translation>
+        <translation>Aggiungi ripresa</translation>
     </message>
     <message>
         <source>Remove current selected shot</source>
-        <translation>Rimuovi la diapositiva corrente selezionata</translation>
+        <translation>Rimuovi la ripresa corrente selezionata</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -3865,7 +3870,7 @@ In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e
     </message>
     <message>
         <source>Shot duration :</source>
-        <translation>Durata diapositiva :</translation>
+        <translation>Durata ripresa :</translation>
     </message>
     <message>
         <source>Ctrl+Ins</source>
@@ -3897,7 +3902,7 @@ In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e
     </message>
     <message>
         <source>Give the sound, during this shot, to the current video block</source>
-        <translation>Conferire il suono, durante questa diapositiva, al blocco video corrente</translation>
+        <translation>Conferire il suono, durante questa ripresa, al blocco video corrente</translation>
     </message>
     <message>
         <source>Define the properties of the text block</source>
@@ -3977,7 +3982,7 @@ In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e
     </message>
     <message>
         <source>Remove shot</source>
-        <translation>Rimuovi diapositiva</translation>
+        <translation>Rimuovi ripresa</translation>
     </message>
     <message>
         <source>Text</source>
@@ -4132,13 +4137,13 @@ In ffDiaporama, i margini TV sono di tipo &quot;Area di sicurezza titolo&quot; e
         <source>Add
 shot</source>
         <translation>Aggiungi
-scatto</translation>
+ripresa</translation>
     </message>
     <message>
         <source>Remove
 shot</source>
         <translation>Rimuovi
-scatto</translation>
+ripresa</translation>
     </message>
     <message>
         <source>Edit block</source>
@@ -4316,15 +4321,15 @@ blocco</translation>
     </message>
     <message>
         <source>Append a shot at the end of the timeline</source>
-        <translation>Accoda uno scatto alla fine della linea temporale</translation>
+        <translation>Accoda una ripresa alla fine della linea temporale</translation>
     </message>
     <message>
         <source>Change the order of the shots by moving the current selected shot a notch towards the left</source>
-        <translation>Cambiare l&apos;ordine degli scatti muovendo lo scatto correntemente selezionato una tacca verso sinistra</translation>
+        <translation>Cambiare l&apos;ordine delle riprese muovendo la ripresa correntemente selezionata una tacca verso sinistra</translation>
     </message>
     <message>
         <source>Change the order of the shots by moving the current selected shot a notch towards the right</source>
-        <translation>Cambiare l&apos;ordine degli scatti muovendo lo scatto correntemente selezionato una tacca verso destra</translation>
+        <translation>Cambiare l&apos;ordine delle riprese muovendo la ripresa correntemente selezionata una tacca verso destra</translation>
     </message>
     <message>
         <source>Lock properties to the same values as defined for the previous shot</source>
@@ -4332,7 +4337,7 @@ blocco</translation>
     </message>
     <message>
         <source>Define properties of this shot</source>
-        <translation>Definire le propietà di questo scatto</translation>
+        <translation>Definire le propietà di questa ripresa</translation>
     </message>
     <message>
         <source>Hide the active block</source>
@@ -4340,7 +4345,7 @@ blocco</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this shot?</source>
-        <translation>Sei sicuro di voler eliminare questo scatto?</translation>
+        <translation>Sei sicuro di voler eliminare questa ripresa?</translation>
     </message>
     <message>
         <source>Are you sure you want to delete this block?</source>
@@ -4428,7 +4433,7 @@ Nota: in caso di selezione multipla, i file vengono aggiunti in ordine alfabetic
     </message>
     <message>
         <source>The total slide duration is displayed here. This duration takes into account possible adjustments for minimal duration of the shot.</source>
-        <translation>La durata totale della diapositiva viene visualizzata qui. Tale durata tiene conto delle eventuali rettifiche per la durata minima del fotogramma.</translation>
+        <translation>La durata totale della diapositiva viene visualizzata qui. Tale durata tiene conto delle eventuali rettifiche per la durata minima della ripresa.</translation>
     </message>
     <message>
         <source>The shots table shows the shots as thumbnails, in the order in which they will be played (from left to right).
@@ -4440,15 +4445,15 @@ For each shot, the thumbnail shows:
 
 Remark :
 - The order of the shots can be changed by using Drag &amp; Drop.</source>
-        <translation>La tabella mostra gli scatti come miniature, nell&apos;ordine in cui queste vengono riprodotte (da sinistra a destra).
+        <translation>La tabella mostra le riprese come miniature, nell&apos;ordine in cui queste vengono riprodotte (da sinistra a destra).
 
-Per ogni scatto, la miniatura mostra:
+Per ogni ripresa, la miniatura mostra:
 - La durata della ripresa (Nella parte superiore della miniatura)
 - La posizione temporale del fotogramma alla fine della sua durata (In basso a destra della miniatura)
-- Un&apos;immagine che rappresenta lo scatto al termine della sua durata
+- Un&apos;immagine che rappresenta la ripresa al termine della sua durata
 
 Osservazioni:
-- L&apos;ordine degli scatti può essere modificata utilizzando il Drag &amp; Drop.</translation>
+- L&apos;ordine delle riprese può essere modificata utilizzando il Drag &amp; Drop.</translation>
     </message>
     <message>
         <source>Indicate here the duration of the currently selected shot
@@ -4461,22 +4466,22 @@ The following rules are used to calculate the minimum duration of the shot:
 - The total slide duration cannot be lower than 1:30 second
 
 If you specify a duration lower than the minimum calculated duration for the shot, it is this minimum duration that will be used in place of the value which you specified.</source>
-        <translation>Indicare qui la durata dello scatto selezionato
+        <translation>Indicare qui la durata della ripresa selezionata
 
 Per l&apos;ultimo fotogramma della slitta, c&apos;è una durata minima.
 
-Le seguenti regole vengono utilizzati per calcolare la durata minima del fotogramma:
+Le seguenti regole vengono utilizzati per calcolare la durata minima della ripresa:
 - La durata totale della diapositiva non può essere inferiore alla somma delle durate della transizione entranti della slitta, più la transizione della seguente diapositiva.
 - La durata totale della diapositiva deve consentire la riproduzione completa della sequenza video più lunga (tempo di pausa viene considerato).
 - La durata totale della diapositiva non può essere inferiore a 1:30 secondi
 
-Se si specifica una durata inferiore alla durata minima calcolata per lo scatto, è questa durata minima che verrà utilizzata al posto del valore che avete specificato.</translation>
+Se si specifica una durata inferiore alla durata minima calcolata per la ripresa, è questa durata minima che verrà utilizzata al posto del valore che avete specificato.</translation>
     </message>
     <message>
         <source>Define the number of rotations around the X axis that is to be made during this shot.
 
 Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
-        <translation>Definisce il numero di rotazioni attorno all&apos;asse X che deve essere effettuato durante il fotogramma.
+        <translation>Definisce il numero di rotazioni attorno all&apos;asse X che deve essere effettuato durante la ripresa.
 
 Osservazione: il senso di rotazione è definito dal segno, in modo +5 darà 5 rotazioni in una direzione mentre -5 darà 5 rotazioni nell&apos;altra direzione.</translation>
     </message>
@@ -4492,15 +4497,15 @@ Remark: To make animations of text, you have to create at least 2 shots then:
 -Define different values for zoom and scrolling for the 2nd</source>
         <translation>Scorri testo dal basso in alto.
 
-Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quindi:
--Definire i valori di zoom e scorrimento per il 1 ° scatto
--Definire valori diversi per lo zoom e lo scorrimento per il 2 °</translation>
+Nota: Per fare le animazioni di testo, è necessario creare almeno 2 riprese quindi:
+-Definire i valori di zoom e scorrimento per la 1&lt;SUP&gt;a&lt;/SUP&gt; ripresa
+-Definire valori diversi per lo zoom e lo scorrimento per la 2&lt;SUP&gt;a&lt;/SUP&gt;</translation>
     </message>
     <message>
         <source>Define the number of rotations around the Z axis that is to be made during this shot.
 
 Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
-        <translation>Definire il numero di rotazioni attorno all&apos;asse Z, che deve essere effettuato durante questo filmato.
+        <translation>Definire il numero di rotazioni attorno all&apos;asse Z, che deve essere effettuato durante questa ripresa.
 
 Osservazione: il senso di rotazione è definito dal segno, in modo +5 darà 5 rotazioni in una direzione mentre -5 darà 5 rotazioni nell&apos;altra direzione.</translation>
     </message>
@@ -4508,7 +4513,7 @@ Osservazione: il senso di rotazione è definito dal segno, in modo +5 darà 5 ro
         <source>Define the number of rotations around the Y axis that is to be made during this shot.
 
 Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction.</source>
-        <translation>Definire il numero di rotazioni attorno all&apos;asse Y che deve essere effettuato durante questo filmato.
+        <translation>Definire il numero di rotazioni attorno all&apos;asse Y che deve essere effettuato durante questa ripresa.
 
 Osservazione: il senso di rotazione è definito dal segno, in modo +5 darà 5 rotazioni in una direzione mentre -5 darà 5 rotazioni nell&apos;altra direzione.</translation>
     </message>
@@ -4566,9 +4571,9 @@ Remark: To make animations of text, you have to create at least 2 shots then:
 -Define different values for zoom and scrolling for the 2nd</source>
         <translation>Il testo scorre da sinistra a destra.
 
-Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quindi:
--Definire i valori di zoom e scorrimento per il 1° scatto
--Definire valori diversi per lo zoom e lo scorrimento per il 2°</translation>
+Nota: Per fare le animazioni di testo, è necessario creare almeno 2 riprese quindi:
+-Definire i valori di zoom e scorrimento per la 1&lt;SUP&gt;a&lt;/SUP&gt; ripresa
+-Definire valori diversi per lo zoom e lo scorrimento per il 2&lt;SUP&gt;a&lt;/SUP&gt;</translation>
     </message>
     <message>
         <source>The block animations define which animations will run during the current shot.
@@ -4576,10 +4581,10 @@ Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quin
 You can define different animations for every shot!
 - Multiple rotations: This animation allows to turn a block several times during the shot.
 - Dissolve: This animation dissolves between the block and a transparent zone according to the settings.</source>
-        <translation>Il blocco animazioni definiscono quali animazioni verranno eseguite durante lo scatto corrente.
+        <translation>Il blocco animazioni definiscono quali animazioni verranno eseguite durante la ripresa corrente.
 
 È possibile definire le animazioni diverse per ogni scatto!
-- Molteplici rotazioni: Questa animazione permette di trasformare un blocco più volte durante il fotogramma.
+- Molteplici rotazioni: Questa animazione permette di trasformare un blocco più volte durante la ripresa.
 - Sciogliere: Questa animazione dissolve tra il blocco e una zona trasparente in base alle impostazioni.</translation>
     </message>
     <message>
@@ -4606,9 +4611,9 @@ Tre tipi di vincoli sono disponibili:
         <source>Appear: The block will appear during the shot
 Disappear: The block will disappear during the shot
 Blink: The block will blink during the shot (appear then disappear). 4 speeds are proposed (from slow to very fast).</source>
-        <translation>Appare: Il blocco verrà visualizzato durante il fotogramma
-Scomparire: Il blocco scompare durante il fotogramma
-Pulsante: il blocco lampeggia durante il fotogramma (apparirà poi scompariranno). 4 velocità sono proposte (da lento al molto veloce).</translation>
+        <translation>Appare: Il blocco verrà visualizzato durante la ripresa
+Scomparire: Il blocco scompare durante la ripresa
+Pulsante: il blocco lampeggia durante la ripresa (apparirà poi scompariranno). 4 velocità sono proposte (da lento al molto veloce).</translation>
     </message>
     <message>
         <source>Define a zoom value for the text.
@@ -4618,9 +4623,9 @@ Remark: To make animations of text, you have to create at least 2 shots then:
 -Define different values for zoom and scrolling for the 2nd</source>
         <translation>Definire un valore di zoom per il testo.
 
-Nota: Per fare le animazioni di testo, è necessario creare almeno 2 scatti quindi:
--Definire i valori di zoom e scorrimento per il 1° scatto
--Definire valori diversi per lo zoom e lo scorrimento per il 2°</translation>
+Nota: Per fare le animazioni di testo, è necessario creare almeno 2 riprese quindi:
+-Definire i valori di zoom e scorrimento per la 1&lt;SUP&gt;a&lt;/SUP&gt; ripresa
+-Definire valori diversi per lo zoom e lo scorrimento per la 2&lt;SUP&gt;a&lt;/SUP&gt;</translation>
     </message>
     <message>
         <source>Select in which corner the shadow will be positioned (or no shadow).
@@ -5540,67 +5545,67 @@ personalizzato</translation>
     <name>HelpPopup</name>
     <message>
         <source>Changes the document displayed to the previous document in the list of documents built by navigating links.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambia il documento visualizzato al documento precedente nell&apos;elenco dei documenti costruiti dai link di navigazione.</translation>
     </message>
     <message>
         <source>Backward</source>
-        <translation type="unfinished"></translation>
+        <translation>Arretrato</translation>
     </message>
     <message>
         <source>Changes the document displayed to the main page.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambia il documento visualizzato nella pagina principale.</translation>
     </message>
     <message>
         <source>Home</source>
-        <translation type="unfinished"></translation>
+        <translation>Home</translation>
     </message>
     <message>
         <source>Changes the document displayed to the next document in the list of documents built by navigating links.</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambia il documento visualizzato nel successivo documento nell&apos;elenco dei documenti costruiti dai link di navigazione.</translation>
     </message>
     <message>
         <source>Forward</source>
-        <translation type="unfinished"></translation>
+        <translation>Inoltrare</translation>
     </message>
     <message>
         <source>Open the ffDiaporama Web site into your internet browser.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apri il sito Web di ffDiaporama all&apos;interno del tuo browser internet.</translation>
     </message>
     <message>
         <source>Web Site</source>
-        <translation type="unfinished"></translation>
+        <translation>Sito Web</translation>
     </message>
     <message>
         <source>Open the ffDiaporama Forum into your internet browser.</source>
-        <translation type="unfinished"></translation>
+        <translation>Apre il Forum ffDiaporama all&apos;interno del tuo browser internet.</translation>
     </message>
     <message>
         <source>Forum</source>
-        <translation type="unfinished"></translation>
+        <translation>Forum</translation>
     </message>
     <message>
         <source>Close the WIKI</source>
-        <translation type="unfinished"></translation>
+        <translation>Chiudi il WIKI</translation>
     </message>
     <message>
         <source>Exit</source>
-        <translation type="unfinished">Esci</translation>
+        <translation>Esci</translation>
     </message>
     <message>
         <source>If this checkbox is checked and the WIKI remains open, then automatically displayed in the WIKI the document corresponding to the currently used  interface element (main window, dialog, etc ...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Se questa casella è selezionata e il WIKI rimane aperto, allora verranno visualizzati automaticamente nel WIKI i documenti corrispondenti all&apos;elemento dell&apos;interfaccia attualmente utilizzato (finestra principale, finestre, ecc ...)</translation>
     </message>
     <message>
         <source>Follow the interface</source>
-        <translation type="unfinished"></translation>
+        <translation>Seguire l&apos;interfaccia</translation>
     </message>
     <message>
         <source>ffDiaporama is a &lt;a href=&quot;http://en.wikipedia.org/wiki/Free_software&quot;&gt;Free Software (Open Source)&lt;/a&gt; and is distributed under the &lt;a href=&quot;http://www.gnu.org/licenses/gpl-2.0.html&quot;&gt;GNU General Public License (GPL) version 2&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama è un &lt;a href=&quot;http://en.wikipedia.org/wiki/Free_software&quot;&gt;Software Libero (Open Source)&lt;/a&gt; ed è distribuito sotto la &lt;a href=&quot;http://www.gnu.org/licenses/gpl-2.0.html&quot;&gt;GNU General Public License (GPL) versione 2&lt;/a&gt;</translation>
     </message>
     <message utf8="true">
         <source>©2011-2013 The ffDiaporama Team - This wiki and all the resources it contains are under license</source>
-        <translation type="unfinished"></translation>
+        <translation>©2011-2013 Il Team ffDiaporama - Questo wiki e tutte le risorse che contiene sono sotto lincenza</translation>
     </message>
 </context>
 <context>
@@ -6399,7 +6404,7 @@ Vuoi aprirlo comunque?</translation>
     </message>
     <message>
         <source>Set first shot duration</source>
-        <translation>Imposta la durata del primo scatto</translation>
+        <translation>Imposta la durata delal prima ripresa</translation>
     </message>
     <message>
         <source>Reset background to &quot;Same as previous&quot;</source>
@@ -6578,7 +6583,7 @@ Vuoi scaricarla ora?</translation>
     </message>
     <message>
         <source>Init WIKI...</source>
-        <translation type="unfinished"></translation>
+        <translation>Inizializzazione WIKI...</translation>
     </message>
 </context>
 <context>

@@ -283,20 +283,20 @@ QBrush *cBrushDefinition::GetBrush(QRectF Rect,bool PreviewMode,int Position,cSo
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetBrush");
 
     QBrush  *Br=NULL;
+    QImage  *Img=NULL;
 
     switch (BrushType) {
-        case BRUSHTYPE_NOBRUSH :        Br=new QBrush(Qt::NoBrush);                                                                             break;
-        case BRUSHTYPE_SOLID :          Br=new QBrush(QColor(ColorD),Qt::SolidPattern);                                                         break;
-        case BRUSHTYPE_PATTERN :        Br=new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));                                          break;
-        case BRUSHTYPE_GRADIENT2 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);       break;
-        case BRUSHTYPE_GRADIENT3 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);       break;
-        case BRUSHTYPE_IMAGELIBRARY :   Br=GetLibraryBrush(Rect);                                                                               break;
-        case BRUSHTYPE_IMAGEDISK :      Br=GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage,PctDone,PreviousBrush);                break;
-        default :                       Br=new QBrush(Qt::NoBrush);                                                                             break;
+        case BRUSHTYPE_NOBRUSH :        Br=new QBrush(Qt::NoBrush);                                                                                                 break;
+        case BRUSHTYPE_SOLID :          Br=new QBrush(QColor(ColorD),Qt::SolidPattern);                                                                             break;
+        case BRUSHTYPE_PATTERN :        Br=new QBrush(QColor(ColorD),(Qt::BrushStyle)(PatternType+3));                                                              break;
+        case BRUSHTYPE_GRADIENT2 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);                           break;
+        case BRUSHTYPE_GRADIENT3 :      Br=GetGradientBrush(Rect,BrushType,GradientOrientation,ColorD,ColorF,ColorIntermed,Intermediate);                           break;
+        case BRUSHTYPE_IMAGELIBRARY :   Br=GetLibraryBrush(Rect);                                                                                                   break;
+        case BRUSHTYPE_IMAGEDISK :      Img=GetImageDiskBrush(Rect,PreviewMode,Position,SoundTrackMontage,PctDone,PreviousBrush); Br=new QBrush(*Img); delete Img;  break;
+        default :                       Br=new QBrush(Qt::NoBrush);                                                                                                 break;
     }
     return Br;
 }
-
 
 //====================================================================================================================
 
@@ -363,11 +363,20 @@ QImage cBrushDefinition::ApplyFilters(QImage NewRenderImage,double TheBrightness
 
 //====================================================================================================================
 
-QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
+QImage *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t Position,cSoundBlockList *SoundTrackMontage,double PctDone,cBrushDefinition *PreviousBrush) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetImageDiskBrush");
 
     // If not an image or a video or filename is empty then return
-    if ((Image?Image->FileName:Video?Video->FileName:"")=="") return new QBrush(Qt::NoBrush);
+    if ((Image?Image->FileName:Video?Video->FileName:"")=="") {
+        QImage *Ret=new QImage(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
+        QPainter Painter;
+        Painter.begin(Ret);
+        Painter.setCompositionMode(QPainter::CompositionMode_Source);
+        Painter.fillRect(QRect(0,0,Rect.width(),Rect.height()),Qt::transparent);
+        Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        Painter.end();
+        return Ret;
+    }
 
     // W and H = 0 when producing sound track in render process
     bool    SoundOnly=((Rect.width()==0)&&(Rect.height()==0));
@@ -378,7 +387,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t
         else if (Video)                     RenderImage=Video->ImageAt(PreviewMode,Position,SoundTrackMontage,this->Deinterlace,this->SoundVolume,false,false);
 
         // Compute filters values
-        QBrush *Ret                 =NULL;
+        QImage *Ret                 =NULL;
         double TheXFactor           =X;
         double TheYFactor           =Y;
         double TheZoomFactor        =ZoomFactor;
@@ -425,7 +434,7 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t
         if (RenderImage) {
             if (FullFilling) {
                 // Create brush image with distortion
-                Ret=new QBrush(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                Ret=new QImage(RenderImage->scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
                 delete RenderImage;
                 RenderImage=NULL;
             } else {
@@ -477,7 +486,10 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t
                 if (!((Video)&&(PreviewMode)))          NewRenderImage=ApplyFilters(NewRenderImage,TheBrightness,TheContrast,TheGamma,TheRed,TheGreen,TheBlue,TheDesat,ProgressifOnOffFilter,PreviousBrush,PctDone);
                 if (TheSwirl!=0)                        FltSwirl(NewRenderImage,-TheSwirl);
                 if (TheImplode!=0)                      FltImplode(NewRenderImage,TheImplode);
-                if (!NewRenderImage.isNull())           Ret=new QBrush(NewRenderImage.scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+
+                if ((!NewRenderImage.isNull())&&((NewRenderImage.width()!=Rect.width())||(NewRenderImage.height()!=Rect.height())))
+                    Ret=new QImage(NewRenderImage.scaled(Rect.width(),Rect.height(),Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
+                else Ret=new QImage(NewRenderImage);
             }
 
         } else if (Image && (Image->IsVectorImg)) {
@@ -485,8 +497,8 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t
             if (!Image->VectorImage) Image->VectorImage=new QSvgRenderer(Image->FileName);
             if ((Image->VectorImage)&&(Image->VectorImage->isValid())) {
                 QPainter Painter;
-                QImage Img(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
-                Painter.begin(&Img);
+                Ret=new QImage(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
+                Painter.begin(Ret);
                 Painter.setCompositionMode(QPainter::CompositionMode_Source);
                 Painter.fillRect(QRect(0,0,Rect.width(),Rect.height()),Qt::transparent);
                 Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
@@ -494,7 +506,6 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t
                 Painter.setClipRect(QRect(0,0,Rect.width(),Rect.height()));
                 Image->VectorImage->render(&Painter,QRectF(0,0,Rect.width(),Rect.height()));
                 Painter.end();
-                Ret=new QBrush(Img);
             }
         }
         return Ret;
@@ -504,7 +515,14 @@ QBrush *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t
             QImage *RenderImage=Video->ImageAt(PreviewMode,Position,SoundTrackMontage,Deinterlace,SoundVolume,SoundOnly,false);
             if (RenderImage) delete RenderImage;
         }
-        return new QBrush(Qt::NoBrush);
+        QImage *Ret=new QImage(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
+        QPainter Painter;
+        Painter.begin(Ret);
+        Painter.setCompositionMode(QPainter::CompositionMode_Source);
+        Painter.fillRect(QRect(0,0,Rect.width(),Rect.height()),Qt::transparent);
+        Painter.setCompositionMode(QPainter::CompositionMode_SourceOver);
+        Painter.end();
+        return Ret;
     }
 }
 

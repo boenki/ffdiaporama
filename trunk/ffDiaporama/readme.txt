@@ -40,10 +40,10 @@ Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
         Installation:
             sudo make install
 
-    Version 13.04 (Qt 5.01/Libav 0.8.6)
+    Version 13.04 (Qt 5.01/Libav 0.8.6) and Version 13.10 (Qt 5.02/Libav 0.8.7)
         Installation prerequisites:
             sudo apt-get install build-essential
-            sudo apt-get install qt5-qmake qt5-default qttools5-dev-tools libqt5svg5-dev
+            sudo apt-get install qt5-qmake qt5-default qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5help5
             sudo apt-get install libavutil-dev libavformat-dev libavcodec-dev libavdevice-dev libavfilter-dev libswscale-dev
             sudo apt-get install libsdl-image1.2-dev libsdl-mixer1.2-dev libexiv2-dev libtag1-dev
         Compilation:
@@ -52,6 +52,13 @@ Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
         Installation:
             sudo make install
 
+    NOTE: For users who want to use an up to date ffmpeg version instead of outdated libav 0.8, on Ubuntu 13.04/13.10, it is possible to use the Sam Rog PPA. To do this:
+        -Install prerequisites as describe above
+        -Add this ppa: https://launchpad.net/~samrog131/+archive/ppa
+        -Add this complementaries prerequisites
+            sudo apt-get install ffmpeg-real libavcodec-ffmpeg-dev libavdevice-ffmpeg-dev libavfilter-ffmpeg-dev libavformat-ffmpeg-dev \
+                                 libavutil-ffmpeg-dev libpostproc-ffmpeg-dev libswresample-ffmpeg-dev libswscale-ffmpeg-dev
+        -For Compilation and Installation use instructions as describe above
 
 Build ffDiaporama for openSUSE
     Version openSUSE 12.3 (Qt 4.8.4/ffmpeg 1.0.6)
@@ -69,11 +76,7 @@ Build ffDiaporama for openSUSE
 
 
 Build ffDiaporama for Fedora
-    Fedora 18/19 (Qt 4.8.4/ffmpeg 1.2.1)
-        Note for users of Fedora 19:
-            The version of Qt 5 proposed in Fedora does not include the SVG module and therefore can not be used with ffDiaporama.
-            Several bugs are open about this in the Fedora community.
-            Once a "functional" version of QT 5 will be available ffDiaporama may passed in QT 5 for Fedora.
+    Fedora 18 (Qt 4.8.4/ffmpeg 1.2.1)
         Installation prerequisites:
             sudo yum groupinstall development-tools
             sudo yum install gcc-c++ qt4 qt4-devel qt-assistant
@@ -83,6 +86,20 @@ Build ffDiaporama for Fedora
             sudo ln -s /usr/bin/assistant-qt4 /usr/bin/assistant
         Compilation:
             qmake-qt4 ffDiaporama.pro /PREFIX=/opt
+            make
+        Installation:
+            sudo make install
+
+    Fedora 19 (Qt 5.1.1/ffmpeg 1.2.3)
+        Installation prerequisites:
+            sudo yum groupinstall development-tools
+            sudo yum install gcc-c++
+            sudo yum install qt5-qtbase-devel qt5-qttools-devel qt5-qtsvg-devel qt5-qtbase qt5-qttools qt5-qtsvg qt5-qtimageformats
+            sudo yum install ffmpeg ffmpeg-devel
+            sudo yum install SDL SDL-devel SDL_mixer-devel SDL_mixer
+            sudo yum install exiv2 exiv2-devel
+        Compilation:
+            qmake-qt5 ffDiaporama.pro /PREFIX=/opt
             make
         Installation:
             sudo make install

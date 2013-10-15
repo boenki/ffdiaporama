@@ -19,21 +19,28 @@
    ====================================================================== */
 
 #include "HelpContent.h"
+#include <QPainter>
 
 HelpContent::HelpContent(QWidget *parent):QTreeView(parent) {
     HelpEngine=NULL;
 }
+
+//====================================================================================================================
 
 void HelpContent::InitHelpEngine(QHelpEngine *HelpEngine) {
     this->HelpEngine=HelpEngine;
     setModel(HelpEngine->contentModel());
 }
 
+//====================================================================================================================
+
 QUrl HelpContent::GetURL(const QModelIndex &index) {
     QHelpContentModel *Model=HelpEngine->contentModel();
     QHelpContentItem  *Item =Model->contentItemAt(index);
     return Item->url();
 }
+
+//====================================================================================================================
 
 bool HelpContent::SearchPage(QString Page,QModelIndex Parent,QModelIndex &FoundItem) {
     QModelIndex         Current;
@@ -60,4 +67,52 @@ bool HelpContent::SearchPage(QString Page,QModelIndex Parent,QModelIndex &FoundI
         }
     }
     return false;
+}
+
+//====================================================================================================================
+
+int HelpContent::ComputeTreeSize(QModelIndex Parent,QFontMetrics &FM,int Indent) {
+    QModelIndex         Current;
+    QHelpContentModel   *Model=HelpEngine->contentModel();
+    QHelpContentItem    *Item=NULL;
+    int                 Size=0,NewSize=0;
+
+    if (!Parent.isValid()) Parent=Model->index(0,0);  // if Parent is root
+    Item=Model->contentItemAt(Parent);
+    if (Item) {
+        NewSize=FM.width(Item->url().toString())+Indent;
+        if (Size<NewSize) Size=NewSize;
+    }
+
+    if (Model->hasChildren(Parent)) {
+        int row=0;
+        while (Model->hasIndex(row,0,Parent)) {
+            Current=Model->index(row,0,Parent);
+            Item   =Model->contentItemAt(Current);
+            if (Item) {
+                NewSize=FM.width(Item->url().toString())+Indent;
+                if (Size<NewSize) Size=NewSize;
+            }
+            if (Model->hasChildren(Current)) {
+                NewSize=ComputeTreeSize(Current,FM,Indent+indentation());
+                if (Size<NewSize) Size=NewSize;
+            }
+            row++;
+        }
+    }
+    return Size;
+}
+
+void HelpContent::ResizeScrollBar() {
+    QImage          Image(100,100,QImage::Format_ARGB32_Premultiplied);
+    QPainter        Painter;
+    QFont           font("Sans serif",9,QFont::Normal,QFont::StyleNormal);
+    QFontMetrics    FM=Painter.fontMetrics();
+    int             Size=0;
+
+    Painter.begin(&Image);
+    Painter.setFont(font);
+    Size=ComputeTreeSize(rootIndex(),FM,indentation());
+    Painter.end();
+    setColumnWidth(0,Size*2);
 }
