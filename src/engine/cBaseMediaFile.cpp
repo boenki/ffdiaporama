@@ -2660,7 +2660,9 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
                                 FREEFRAME(&FrameBufferYUV);
                             } else {
                                 FrameBufferYUV=NULL;
+                                #if LIBAVFILTER_VERSION_INT >= AV_VERSION_INT(3,79,0)
                                 FiltFrame     =NULL;
+                                #endif
                             }
                         }
                     }
