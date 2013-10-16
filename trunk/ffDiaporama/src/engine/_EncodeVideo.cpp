@@ -1101,8 +1101,8 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
                 if (DestPacketSize<=0) {
                     ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: audio_resample failed"));
                     Continue=false;
-                } else ToEncodeMusic.AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)AudioResamplerBuffer,DestPacketSize);
-            } else ToEncodeMusic.AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)PacketSound,RenderMusic->SoundPacketSize);
+                } else ToEncodeMusic->AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)AudioResamplerBuffer,DestPacketSize);
+            } else ToEncodeMusic->AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)PacketSound,RenderMusic->SoundPacketSize);
         #else
             // LIBAV 9 => ToEncodeMusic is converted during encoding process
             ToEncodeMusic->AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)PacketSound,RenderMusic->SoundPacketSize);
