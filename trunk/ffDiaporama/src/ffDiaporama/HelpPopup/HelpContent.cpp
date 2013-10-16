@@ -107,11 +107,11 @@ void HelpContent::ResizeScrollBar() {
     QImage          Image(100,100,QImage::Format_ARGB32_Premultiplied);
     QPainter        Painter;
     QFont           font("Sans serif",9,QFont::Normal,QFont::StyleNormal);
-    QFontMetrics    FM=Painter.fontMetrics();
     int             Size=0;
 
     Painter.begin(&Image);
     Painter.setFont(font);
+    QFontMetrics FM=Painter.fontMetrics();
     Size=ComputeTreeSize(rootIndex(),FM,indentation());
     Painter.end();
     setColumnWidth(0,Size*2);

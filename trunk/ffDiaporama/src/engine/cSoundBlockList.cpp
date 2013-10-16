@@ -107,7 +107,6 @@ void cSoundBlockList::SetFrameSize(int FrameSize,int TheChannels,int64_t TheSamp
 //====================================================================================================================
 void cSoundBlockList::ClearList() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::ClearList");
-
     while (List.count()>0) {
         int16_t *Packet=DetachFirstPacket();
         if (Packet) av_free(Packet);
@@ -121,12 +120,13 @@ void cSoundBlockList::ClearList() {
 //====================================================================================================================
 int16_t *cSoundBlockList::DetachFirstPacket() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::DetachFirstPacket");
-
+    Mutex.lock();
     int16_t *Ret=NULL;
     if (List.count()>0) {
         Ret=(int16_t *)List.takeFirst();
         CurrentPosition+=(double(SoundPacketSize)/(SampleBytes*Channels*SamplingRate))*AV_TIME_BASE;
     }
+    Mutex.unlock();
     return Ret;
 }
 
@@ -135,9 +135,11 @@ int16_t *cSoundBlockList::DetachFirstPacket() {
 //====================================================================================================================
 void cSoundBlockList::AppendPacket(int64_t Position,int16_t *PacketToAdd) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSoundBlockList::AppendPacket");
+    Mutex.lock();
     if (CurrentPosition==-1)
         CurrentPosition=Position;
     List.append(PacketToAdd);
+    Mutex.unlock();
 }
 
 //====================================================================================================================

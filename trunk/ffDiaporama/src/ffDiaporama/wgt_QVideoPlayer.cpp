@@ -498,10 +498,9 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             if (ThreadAssembly.isRunning())     ThreadAssembly.waitForFinished();
 
             // Create a frame from actual position
-            cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(NULL,Value,Diaporama,double(1000)/WantedFPS,true);
-            PrepareImage(Frame,false,true);         // This will add frame to the ImageList
+            PrepareImage(false,true,Value);         // This will add frame to the ImageList
             if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
-            Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
+            cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
             // Display frame
             ui->MovieFrame->SetImage(Frame->RenderedImage->scaledToHeight(ui->MovieFrame->height()));
 

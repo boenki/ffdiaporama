@@ -902,6 +902,7 @@ cImageFile::cImageFile(cBaseApplicationConfig *ApplicationConfig):cBaseMediaFile
     ObjectType  =OBJECTTYPE_IMAGEFILE;  // coul be turn later to OBJECTTYPE_THUMBNAIL
     IsVectorImg =false;
     VectorImage =NULL;
+    NoExifData  =false;
 }
 
 //====================================================================================================================
@@ -953,7 +954,7 @@ void cImageFile::GetFullInformationFromFile() {
     IsInformationValide =false;
     bool                ExifOk=false;
 
-    if (!IsVectorImg) {
+    if ((!IsVectorImg)&&(!NoExifData)) {
 
         // ******************************************************************************************************
         // Try to load EXIF information using library exiv2
@@ -968,7 +969,8 @@ void cImageFile::GetFullInformationFromFile() {
             ExifOk=true;
         }
         catch( Exiv2::Error& ) {
-            ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
+            //ToLog(LOGMSG_INFORMATION,QApplication::translate("cBaseMediaFile","Image don't have EXIF metadata %1").arg(FileName));
+            NoExifData=true;
         }
         if ((ExifOk)&&(ImageFile->good())) {
             ImageFile->readMetadata();
@@ -1077,7 +1079,7 @@ void cImageFile::GetFullInformationFromFile() {
             #endif
         }
 
-    } else {
+    } else if (!IsVectorImg) {
         // Vector image file
         QSvgRenderer SVGImg(FileName);
         if (SVGImg.isValid()) {
@@ -2475,14 +2477,13 @@ QImage *cVideoFile::ReadFrame(bool PreviewMode,int64_t Position,bool DontUseEndP
         // Compute difftime between asked position and previous end decoded position
         int64_t DiffTimePosition=-1000000;
         if (AudioStream) {
-            if (SoundTrackBloc->CurrentPosition==-1)
-                ToLog(LOGMSG_INFORMATION,QString("AUDIO-SEEK %1 TO %2").arg(QFileInfo(FileName).fileName()).arg(Position));
-                else DiffTimePosition=0;
+            if (SoundTrackBloc->CurrentPosition!=-1) DiffTimePosition=0;
+            //else ToLog(LOGMSG_INFORMATION,QString("AUDIO-SEEK %1 TO %2").arg(QFileInfo(FileName).fileName()).arg(Position));
         } else {
             if (FrameBufferYUVReady) {
                 DiffTimePosition=Position-FrameBufferYUVPosition;
-                if ((Position==0)||(DiffTimePosition<0)||(DiffTimePosition>1500000))
-                    ToLog(LOGMSG_INFORMATION,QString("VIDEO-SEEK %1 TO %2").arg(QFileInfo(FileName).fileName()).arg(Position));
+                //if ((Position==0)||(DiffTimePosition<0)||(DiffTimePosition>1500000))
+                //    ToLog(LOGMSG_INFORMATION,QString("VIDEO-SEEK %1 TO %2").arg(QFileInfo(FileName).fileName()).arg(Position));
             }
         }
         // Calc if we need to seek to a position

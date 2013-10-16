@@ -455,5 +455,4 @@ public:
 
 void ComputeCompositionObjectContext(cCompositionObjectContext &PreparedBrush);
 
-
 #endif // CDIAPORAMA_H

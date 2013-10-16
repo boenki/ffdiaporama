@@ -49,6 +49,7 @@ public:
     double              WantedDuration;             // Duration wanted depending on FPS
     double              dDuration;                  // Duration of a packet (in msec)
     double              FPS;
+    QMutex              Mutex;
 
     cSoundBlockList();
     virtual         ~cSoundBlockList();

@@ -4826,7 +4826,7 @@
     </message>
     <message>
         <source>Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file</source>
-        <translation>Se completa con el nombre de la carpeta del proyecto cuando el proyecto se guarda: El título tendrá el mismo nombre que la carpeta en la que se guarda el archivo ffd. </translation>
+        <translation>Se completa con el nombre de la carpeta del proyecto cuando el proyecto se guarda: El título tendrá el mismo nombre que la carpeta en la que se guarda el archivo ffd</translation>
     </message>
 </context>
 <context>

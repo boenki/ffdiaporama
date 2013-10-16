@@ -1156,7 +1156,7 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
                 } else DestPacket=(u_int8_t *)PacketSound;
             #elif defined(USELIBSWRESAMPLE)
                 if (AudioResampler!=NULL) {
-                    int out_samples     =av_rescale_rnd(swr_get_delay(AudioResampler,ToEncodeMusic->SamplingRate)+DestNbrSamples,AudioStream->codec->sample_rate,ToEncodeMusic->SamplingRate,AV_ROUND_UP);
+                    int out_samples=av_rescale_rnd(swr_get_delay(AudioResampler,ToEncodeMusic->SamplingRate)+DestNbrSamples,AudioStream->codec->sample_rate,ToEncodeMusic->SamplingRate,AV_ROUND_UP);
                     av_samples_alloc(&AudioResamplerBuffer,NULL,AudioStream->codec->channels,out_samples,AudioStream->codec->sample_fmt,0);
                     if (!AudioResamplerBuffer) {
                         ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: AudioResamplerBuffer allocation failed"));
@@ -1217,13 +1217,23 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
                         Continue=false;
                     } else if (got_packet) {
                         pkt.flags|=AV_PKT_FLAG_KEY;
+
                         if (AudioStream->codec->coded_frame && AudioStream->codec->coded_frame->pts!=(int64_t)AV_NOPTS_VALUE)
                             pkt.pts=av_rescale_q(AudioStream->codec->coded_frame->pts,AudioStream->codec->time_base,AudioStream->time_base);
 
                         // write the compressed frame in the media file
                         pkt.stream_index=AudioStream->index;
                         Mutex.lock();
-                        errcode=av_interleaved_write_frame(Container,&pkt);
+
+                        #ifdef FFMPEG201
+                        if (!strcmp(Container->oformat->name,"avi")) {
+                            pkt.pts=AV_NOPTS_VALUE;
+                            pkt.dts=AV_NOPTS_VALUE;
+                            errcode=av_write_frame(Container,&pkt);
+                        } else
+                        #endif
+                            errcode=av_interleaved_write_frame(Container,&pkt);
+
                         Mutex.unlock();
                         if (errcode!=0) {
                             char Buf[2048];
@@ -1263,6 +1273,7 @@ void cEncodeVideo::EncodeVideo(QImage *SrcImage,bool &Continue) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cEncodeVideo::EncodeVideo");
 
     QImage *Image=SrcImage;
+    int     errcode;
 
     if (Image) {
         avcodec_get_frame_defaults(VideoFrame);
@@ -1333,7 +1344,7 @@ void cEncodeVideo::EncodeVideo(QImage *SrcImage,bool &Continue) {
                 pkt.pts=av_rescale_q(VideoStream->codec->coded_frame->pts,VideoStream->codec->time_base,VideoStream->time_base);
         #else
         int got_packet=0;
-        int errcode=avcodec_encode_video2(VideoStream->codec,&pkt,VideoFrame,&got_packet);
+        errcode=avcodec_encode_video2(VideoStream->codec,&pkt,VideoFrame,&got_packet);
         if (errcode!=0) {
             char Buf[2048];
             av_strerror(errcode,Buf,2048);
@@ -1349,7 +1360,16 @@ void cEncodeVideo::EncodeVideo(QImage *SrcImage,bool &Continue) {
 
             // write the compressed frame in the media file
             Mutex.lock();
-            int errcode=av_interleaved_write_frame(Container,&pkt);
+
+            #ifdef FFMPEG201
+            if (!strcmp(Container->oformat->name,"avi")) {
+                pkt.pts=AV_NOPTS_VALUE;
+                pkt.dts=AV_NOPTS_VALUE;
+                errcode=av_write_frame(Container,&pkt);
+            } else
+            #endif
+                errcode=av_interleaved_write_frame(Container,&pkt);
+
             Mutex.unlock();
             if (errcode!=0) {
                 char Buf[2048];
