@@ -58,6 +58,8 @@
 #include "DlgAutoTitleSlide/DlgAutoTitleSlide.h"
 #include "DlgExportProject/DlgExportProject.h"
 
+#include <cmath>
+
 #define LATENCY 5
 
 //====================================================================================================================
