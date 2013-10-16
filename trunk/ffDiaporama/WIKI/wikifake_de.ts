@@ -48,7 +48,7 @@
     </message>
     <message>
         <source>The main control element of ffDiaporama is the timeline. The timeline lists the slides which compose the project.</source>
-        <translation>Das Hauptkontrollelement in ffDiaporama ist die Zeitleiste. In dieser sind alle Aufnahmen, die zu einem Projekt gehören, ersichtlich.</translation>
+        <translation>Das Hauptkontrollelement in ffDiaporama ist die Zeitleiste. In dieser sind alle Aufnahmen ersichtlich, die zu einem Projekt gehören .</translation>
     </message>
     <message>
         <source>It consists of 3 tracks: </source>
@@ -60,7 +60,7 @@
     </message>
     <message>
         <source>the mounting track</source>
-        <translation>Die Montagespur (mittig)</translation>
+        <translation>die Montagespur (mittig)</translation>
     </message>
     <message>
         <source>and the music track.</source>
@@ -80,7 +80,7 @@
     </message>
     <message>
         <source>The upper part of the diagram represents four slides: A, B, C and D. </source>
-        <translation>Im oberen Teil des Diagrammes sind die 4 Dias A, B, C, D zu sehen.</translation>
+        <translation>Im oberen Teil des Diagrammes sind die vier Dias A, B, C, D zu sehen.</translation>
     </message>
     <message>
         <source>Each slide possesses an entering transition (symbolized on the diagram by a small rectangle labelled T). The transitions can have different durations (symbolized on the diagram by the lengths TA&apos;, TB&apos;, etc.): It is possible to define the duration of the entering transition for each slide separately (or to indicate no transition: duration=0).</source>
@@ -104,19 +104,19 @@
     </message>
     <message>
         <source>Slides which do not define a background use the background defined in a previous slide. So in the following example: </source>
-        <translation>Dias, die keine Definition des Hintergrundes haben, erhalten Ihren Hintergrund vom vorherigem Dia. Zum Beispiel: </translation>
+        <translation>Dias, die keine Definition des Hintergrundes haben, erhalten ihren Hintergrund vom vorherigem Dia. Zum Beispiel: </translation>
     </message>
     <message>
         <source>Slide 1: Defines a background</source>
-        <translation>Dia 1 : Bekommt einen Hintergrund</translation>
+        <translation>Dia 1 : Bekommt einen definierten Hintergrund</translation>
     </message>
     <message>
         <source>Slide 2: Does not define a background and therefore uses the background defined by slide 1</source>
-        <translation>Dia 2 : Hat keinen eigenen Hintergrund und erhält somit den Hintergrund vom Dia 1</translation>
+        <translation>Dia 2 : Hat keinen eigenen Hintergrund und erhält somit den Hintergrund von Dia 1</translation>
     </message>
     <message>
         <source>Slide 3: Does not define a background and therefore uses the background defined by slide 1</source>
-        <translation>Dia 3 : Hat keinen eigenen Hintergrund und erhält somit den Hintergrund vom Dia 1</translation>
+        <translation>Dia 3 : Hat keinen eigenen Hintergrund und erhält somit den Hintergrund von Dia 1</translation>
     </message>
     <message>
         <source>Slide 4: Defines a background</source>
@@ -124,11 +124,11 @@
     </message>
     <message>
         <source>Slide 5: Does not define a background and therefore uses the background defined by slide 4</source>
-        <translation>Dia 5 : Hat keinen eigenen Hintergrund und erhält somit den Hintergrund vom Dia 4</translation>
+        <translation>Dia 5 : Hat keinen eigenen Hintergrund und erhält somit den Hintergrund von Dia 4</translation>
     </message>
     <message>
         <source>The same principle applies to the musical play-lists. As long as slides do not define a new play-list, they use the last defined play-list.</source>
-        <translation>Dasselbe Prinzip gilt für Musik bzw. Musikspiellisten. Solange ein Dia keine neue Abspielliste definiert, wird die Liste des Dias davor, welches eine Abspielliste besitzt, verwendet (solange das Musikstück in seiner Dauer selbst ausreicht…).</translation>
+        <translation>Dasselbe Prinzip gilt für Musik bzw. Musikabspiellisten. Solange ein Dia keine neue Abspielliste definiert, wird die Liste des letzten vorhergehenden Dias, welches eine Abspielliste besitzt, verwendet (solange das Musikstück in seiner Dauer selbst ausreicht…).</translation>
     </message>
     <message>
         <source>Remarks:</source>
@@ -156,7 +156,7 @@
     </message>
     <message>
         <source>The shots can contain several multimedia objects. The multimedia objects are integrated into blocks which can be of three types: title (containing only text), images (or photos), or video.</source>
-        <translation>Jede Aufnahme kann mehrere Multimediaobjekte beinhalten. Die Multimediaobjekteobjekte sind in Blöcken zusammengefasst, welche aktuell 3 verschiedene Typen aufnehmen können: Titel (nur Text), Bilder (oder Fotos) und Videos.</translation>
+        <translation>Jede Aufnahme kann mehrere Multimediaobjekte beinhalten. Die Multimediaobjekteobjekte sind in Blöcken zusammengefasst, welche aktuell drei verschiedene Typen aufnehmen können: Titel (nur Text), Bilder (oder Fotos) und Videos.</translation>
     </message>
     <message>
         <source>The blocks define where and how the multimedia object appears on the screen. Each block can have a different framing that defines what is visible from the multimedia object within the block.</source>
@@ -172,11 +172,11 @@
     </message>
     <message>
         <source>The shot animations are generated by the transformation of these arrangements from one shot to another.</source>
-        <translation>Die Animationen der Aufnahmen werden generiert aus den einzelnen Übergängen in Ihrer Anordnung von einer Aufnahme zur nächsten.</translation>
+        <translation>Die Animationen der Aufnahmen werden aus den einzelnen Übergängen in Ihrer Anordnung von einer Aufnahme zur nächsten generiert.</translation>
     </message>
     <message>
         <source>The lengths of the shot animations are defined by the shot durations.</source>
-        <translation>Die Länge der Animation einer Aufnahme ist durch die einzelnen Durchlaufzeiten der Dias definiert.</translation>
+        <translation>Die Länge der Animation einer Aufnahme ist durch die Durchlaufzeiten der Aufnahme definiert.</translation>
     </message>
     <message>
         <source>Specifically, if in the foreground, a block containing an image occupies the whole screen, and then in the following shot the same block occupies only a small part of the screen, then the animation will consist of the transformation of the image from the whole screen into that small part of the screen.</source>
@@ -188,7 +188,7 @@
     </message>
     <message>
         <source>Let&apos;s have 3 shots within a slide:</source>
-        <translation>Betrachten wir ein Beispielt mit drei Dias innerhalb einer Aufnahme:</translation>
+        <translation>Betrachten wir ein Beispielt mit drei Aufnahmen innerhalb eins Dias:</translation>
     </message>
     <message>
         <source>Shot 1: Image using the whole screen: Duration=2 seconds.</source>
@@ -224,7 +224,7 @@
     </message>
     <message>
         <source>The framing definition of the objects in each block can vary from one shot to another. The following example shows three different definitions from the same block:</source>
-        <translation>Die Definition eines Objektes in einem Block kannvon einer Aufnahme zur nächsten unterschiedlich sein. Das folgende Beispiel zeigt 3 unterschiedliche Definitionen desselben Blocks:</translation>
+        <translation>Die Definition eines Objektes in einem Block kann von einer Aufnahme zur nächsten unterschiedlich sein. Das folgende Beispiel zeigt drei unterschiedliche Definitionen desselben Blocks:</translation>
     </message>
     <message>
         <source>1st shot: The image is complete.</source>
@@ -240,11 +240,11 @@
     </message>
     <message>
         <source>If we apply these framing definitions to the previous 3 shots: </source>
-        <translation>Wenn wir diese 3 Definitionen auf die Aufnahmen aus dem vorherigen Beispiel anwenden:</translation>
+        <translation>Wenn wir diese drei  Definitionen auf die Aufnahmen aus dem vorherigen Beispiel anwenden:</translation>
     </message>
     <message>
         <source>The complete image will be shown on all the screen for 2 seconds, then it will be reduced gradually towards the right lower quarter of the screen over 3 seconds while zooming in on the statue, then it will grow again over 2 seconds until it once more occupies the whole screen while the &quot;camera&quot; moves towards the pedestrians.</source>
-        <translation>Das gesamte Bild wird angezeigt für eine Dauer von 2 Sekunden, dann schrumpft das Bild für 3 Sekunden auf den Ausschnitt der Statue in das rechte untere Bildschirmeck um anschliessend den Ausschnitt der Spaziergänger auf den gesamten Bildschirm innerhalb von 2 Sekunden auszudehnen.</translation>
+        <translation>Das gesamte Bild wirdt für eine Dauer von 2 Sekunden angezeig, dann schrumpft das Bild für 3 Sekunden auf den Ausschnitt der Statue in das rechte untere Bildschirmeck um anschliessend den Ausschnitt der Spaziergänger auf den gesamten Bildschirm innerhalb von 2 Sekunden auszudehnen.</translation>
     </message>
     <message>
         <source>ffDiaporama can manage up to several hundreds slides in a single project.</source>
@@ -260,7 +260,7 @@
     </message>
     <message>
         <source>Blocks can be visible on some shots and invisible on other.</source>
-        <translation>Blöcke können sichtbar auf einer Aufnahme und unsichtbar auf einer anderen Aufnahme sein.</translation>
+        <translation>Blöcke können auf einer Aufnahme sichtbar undr auf einer anderen Aufnahme unsichtba sein.</translation>
     </message>
 </context>
 <context>
@@ -271,19 +271,19 @@
     </message>
     <message>
         <source> Predefined title slide are complete slides including formatting and animations. </source>
-        <translation> Vordefinierte Title sind komplette Dias die Formatierungen und Animationen beinhalten. </translation>
+        <translation> Vordefinierte Title sind komplette Dias, die Formatierungen und Animationen beinhalten. </translation>
     </message>
     <message>
         <source>The main interest of these slides is to standardize the slides within a project or across projects. </source>
-        <translation>Das Hauptaugenmerk dieser Dias liegt darin, daß die Titel innerhalb eines Projektes (oder darüber hinaus) standardiziert sind.</translation>
+        <translation>Der Hauptzweck dieser Dias liegt darin, dass die Titel innerhalb eines Projektes (oder darüber hinaus) standardisiert werden.</translation>
     </message>
     <message>
         <source>ffDiaporama included many Predefined title slides, but you can also define your own Predefined title slides. </source>
-        <translation>ffDiaporama hat schon viele vordefinierte Titel enthalten, Sie können jedoch jederzeit Ihre eigenen vordefinierten Titel erstellen.</translation>
+        <translation>ffDiaporama enthält bereits viele vordefinierte Titel, Sie können jedoch jederzeit auch Ihre eigenen vordefinierten Titel erstellen.</translation>
     </message>
     <message>
         <source>To do this, create a standard slide using the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog box&lt;/a&gt; and save your slide as a model using: </source>
-        <translation>Um einen vordefinierten Titel zu erstellen, verwenden Sie &lt;a href=&quot;0119.html&quot;&gt;Diaeigenschaften Dialogbox&lt;/a&gt; und speichern Sie das Dia als Modell mittels der Funktion:</translation>
+        <translation>Um einen vordefinierten Titel zu erstellen, verwenden Sie die &lt;a href=&quot;0119.html&quot;&gt;Diaeigenschaften Dialogbox&lt;/a&gt; und speichern Sie das Dia als Modell mittels der Funktion:</translation>
     </message>
     <message>
         <source> Save as model function.</source>
@@ -295,7 +295,7 @@
     </message>
     <message>
         <source>Predefined title slides are defined according to the following three categories: </source>
-        <translation>Vordefinierte Titel sind definiert entsprechend der drei folgenden Kategorien:</translation>
+        <translation>Vordefinierte Titel sindt entsprechend der drei folgenden Kategorien definier:</translation>
     </message>
     <message>
         <source>Project title</source>
@@ -303,11 +303,11 @@
     </message>
     <message>
         <source>This type of slide is usually used early in the project as the opening credits. </source>
-        <translation>Diese Art von Titel ist meistens genutzt als  Vorspann.</translation>
+        <translation>Diese Art von Titel wird meistens als Vorspann genutzt.</translation>
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
-        <translation>Die Textvariablen die für ein Modell dieses Diatyps verwendet werden, basieren auf den Projektinformationen. Für mehr Informationen über Projektinformationen, siehe: &lt;a href=&quot;0108.html&quot;&gt;Dialog für Projekteigenschaften&lt;/a&gt;</translation>
+        <translation>Die Textvariablen, die für ein Modell dieses Diatyps verwendet werden, basieren auf den Projektinformationen. Für mehr Informationen über Projektinformationen, siehe: &lt;a href=&quot;0108.html&quot;&gt;Dialog für Projekteigenschaften&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Chapter title</source>
@@ -319,7 +319,7 @@
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
-        <translation>Die Textvariablen die für ein Modell dieses Diatyps verwendet werden, basieren auf den Projekt- sowie auf den Kapitelinformationen.</translation>
+        <translation>Die Textvariablen, die für ein Modell dieses Diatyps verwendet werden, basieren auf den Projekt- sowie auf den Kapitelinformationen.</translation>
     </message>
     <message>
         <source>Credit title</source>
@@ -331,11 +331,11 @@
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation>Die Textvariablen die für ein Modell dieses Diatyps verwendet wird sind generell berechnet. Für mehr Informationen von Textvariablen, siehe :&lt;a href=&quot;0013.html&quot;&gt;Dynamische Variablen&lt;/a&gt;</translation>
+        <translation>Die Textvariablen, die für ein Modell dieses Diatyps verwendet wird, sind generell berechnet. Für mehr Informationen von Textvariablen, siehe :&lt;a href=&quot;0013.html&quot;&gt;Dynamische Variablen&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Within each category, the predefined title slides are classified into the following types: </source>
-        <translation>Innerhalb jeder Kategorie, die die vordefinierten Titel in folgende Arten klassifiziert:</translation>
+        <translation>Innerhalb jeder Kategorie, werden die vordefinierten Titel in folgende Arten klassifiziert:</translation>
     </message>
     <message>
         <source>Statics models</source>
@@ -363,7 +363,7 @@
     </message>
     <message>
         <source>It will always be possible to create slides from a model using the &lt;a href=&quot;0103.html&quot;&gt;Add or modify a predefined title slide dialog box&lt;/a&gt; then convert it to a standard slide using this function: </source>
-        <translation>Es ist immer möglich Dias aus einem Modell zu erstellen, indem man das Dialogfenster &lt;a href=&quot;0103.html&quot;&gt;Hinzufügen oder Ändern eines vordefinierten Titels&lt;/a&gt; aufruft und anschliessend in ein Standarddia konvertiert. Dies erreicht man mittels: </translation>
+        <translation>Es ist immer möglich, Dias aus einem Modell zu erstellen, indem man das Dialogfenster &lt;a href=&quot;0103.html&quot;&gt;Hinzufügen oder Ändern eines vordefinierten Titels&lt;/a&gt; aufruft und anschliessend in ein Standarddia konvertiert. Dies erreicht man mittels: </translation>
     </message>
     <message>
         <source> Convert to standard slide</source>
@@ -371,7 +371,7 @@
     </message>
     <message>
         <source>The resources used by the models you create are not moved. So, if you include a photo in a model, the model will only be valid until the picture will not move. This is why it is recommended, to think resources included before creating a new model.</source>
-        <translation>Die Elemente die Ihr erstelltes Modell verwendet werden nicht verschoben. Wenn Sie anschliessend ein Bild in ein Modell integrieren, wird dieses Bild nur so lange angezeigt als der Speicherort unverändert bleibt. Deshalb wird empfohlen die Elemente in ein neues Model zu integrieren, damit diese auch korrekt wiedergegeben werden wenn sich der Speicherort verändert.</translation>
+        <translation>Die Elemente die Ihr erstelltes Modell verwendet, werden nicht verschoben. Wenn Sie anschliessend ein Bild in ein Modell integrieren, wird dieses Bild nur so lange angezeigt, wie der Speicherort unverändert bleibt. Deshalb wird empfohlen, die Elemente in ein neues Model zu integrieren, damit diese auch korrekt wiedergegeben werden, wenn sich der Speicherort verändert.</translation>
     </message>
 </context>
 <context>
@@ -382,11 +382,11 @@
     </message>
     <message>
         <source>It&apos;s why variables are used in many parts of the application (slide, thumbnails, predefined titles slides, video tags, xbmc nfo, etc...)</source>
-        <translation>Diese Flexibilität ist der Grund, warum Variablen in vielen Teilen des Programmes verwendet werden (Dias, Vorschaubilder, vordefinierte Titel, Video Tags, xbmc nfo, usw...)</translation>
+        <translation>Flexibilität ist der Grund, warum Variablen in vielen Teilen des Programmes verwendet werden (Dias, Vorschaubilder, vordefinierte Titel, Video Tags, xbmc nfo, usw...)</translation>
     </message>
     <message>
         <source>The following table lists all the available variables: </source>
-        <translation>Die folgende Tabelle zeigt alle verwendbaren Variablen: </translation>
+        <translation>Die folgende Tabelle zeigt alle verfügbaren Variablen: </translation>
     </message>
     <message>
         <source>Category</source>
@@ -458,7 +458,7 @@
     </message>
     <message>
         <source>Duration of the project displayed as &lt;U&gt;hh:mm:ss&lt;/U&gt;</source>
-        <translation>Dauer des Projektes, angezeigt als &lt;U&gt;hh:mm:ss&lt;/U&gt;</translation>
+        <translation>Dauer des Projektes, angezeigt in &lt;U&gt;hh:mm:ss&lt;/U&gt;</translation>
     </message>
     <message>
         <source>%PSC%</source>
@@ -466,7 +466,7 @@
     </message>
     <message>
         <source>Project slide count (Number of slide in the project)</source>
-        <translation>Anzahl Dias des Projekts</translation>
+        <translation>Diazähler des Projekts (Nummer des Dias im Projekt)</translation>
     </message>
     <message>
         <source>%PLD%</source>
@@ -474,7 +474,7 @@
     </message>
     <message>
         <source>Long date (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
-        <translation>Langes Datum (Die Art der Anzeige hängt von den Regionaleinstellungen Ihres Systemes ab, die an Ihrem Computer gesetzt sind)</translation>
+        <translation>Langes Datum (Die Art der Anzeige hängt von den Regionaleinstellungen Ihres Systemes ab)</translation>
     </message>
     <message>
         <source>%PSD%</source>
@@ -482,7 +482,7 @@
     </message>
     <message>
         <source>Short date (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
-        <translation>Kurzes Datum (Die Art der Anzeige hängt vom Feld &lt;B&gt;&lt;I&gt;Kurzes Datumsformat&lt;/I&gt;&lt;/B&gt; , welche im Dialog &lt;a href=&quot;0101.html&quot;&gt;Anwendungseinstellungen&lt;/a&gt; gesetzt werden)</translation>
+        <translation>Kurzes Datum (Die Art der Anzeige hängt vom Feld &lt;B&gt;&lt;I&gt;Kurzes Datumsformat&lt;/I&gt;&lt;/B&gt; , welche im Dialog &lt;a href=&quot;0101.html&quot;&gt;Anwendungseinstellungen&lt;/a&gt; gesetzt sind)</translation>
     </message>
     <message>
         <source>%PYR%</source>
@@ -490,7 +490,7 @@
     </message>
     <message>
         <source>Year (The year of the event date as a four digit number)</source>
-        <translation>Jahr (Das Jahr des Ereignisses mit 4 Zahlen)</translation>
+        <translation>Jahr (Das Jahr des Ereignisses mit 4 Ziffern)</translation>
     </message>
     <message>
         <source>%PMM%</source>
@@ -498,7 +498,7 @@
     </message>
     <message>
         <source>Month (The month of the event date as a name, depending on the current language: January, February, etc...)</source>
-        <translation>Monat (Das Monat des Ereignisses als Name, abhängig von der aktuellen Ländereinstellung: Jänner, Februar, usw...)</translation>
+        <translation>Monat (Das Monat des Ereignisses als Name, abhängig von der aktuellen Ländereinstellung: Januar, Februar, usw...)</translation>
     </message>
     <message>
         <source>%PMD%</source>
@@ -522,7 +522,7 @@
     </message>
     <message>
         <source>Day of week (The day of week of the event date as a name, depending on the current language: Monday, Thuesday, etc...)</source>
-        <translation>Tag der Woche (Der Tag der Woche vom Ereigniss als Name, abhängig von den aktuellen Ländereinstellungen: Montag, Dienstag, usw.)</translation>
+        <translation>Tag der Woche (Der Tag der Woche des Ereignisses als Name, abhängig von den aktuellen Ländereinstellungen: Montag, Dienstag, usw.)</translation>
     </message>
     <message>
         <source>Current slide values</source>
@@ -582,7 +582,7 @@
     </message>
     <message>
         <source>Chapter count (Number of chapter in the project)</source>
-        <translation>Anzahl Kapitel (Anzahl Kapitel im Projekt)</translation>
+        <translation>Kapitelzähler (Nummer des Kapitesl im Projekt)</translation>
     </message>
     <message>
         <source>%CLD%</source>
@@ -590,7 +590,7 @@
     </message>
     <message>
         <source>Long date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on geographical information provided by the computer, depending on the current language)</source>
-        <translation>Langes Datum des Kapitels (wenn eines festgelegt wurde bzw. das Projektdatum). (Die Art der Anzeige hängt von den Regionaleinstellungen Ihres Systemes ab, die an Ihrem Computer gesetzt sind)</translation>
+        <translation>Langes Datum des Kapitels (falls eines festgelegt wurde, sonst das Projektdatum). (Die Art der Anzeige hängt von den Regionaleinstellungen Ihres Systemes ab)</translation>
     </message>
     <message>
         <source>%CSD%</source>
@@ -598,7 +598,7 @@
     </message>
     <message>
         <source>Short date of the chapter (if one is defined or project&apos;s date). (The form of the display depends on &lt;B&gt;&lt;I&gt;Short date format&lt;/I&gt;&lt;/B&gt; selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;)</source>
-        <translation>Kurzes Datum des Kapitels (wenn eines festgelegt wurde bzw. das Projektdatum). (Die Art der Anzeige ist abhängig von Auswahl in &lt;B&gt;&lt;I&gt;Format Kurzdatum&lt;/I&gt;&lt;/B&gt; im Dialog &lt;a href=&quot;0101.html&quot;&gt;Anwendungseinstellungen&lt;/a&gt;)</translation>
+        <translation>Kurzes Datum des Kapitels (falls eines festgelegt wurde, sonst das Projektdatum). (Die Art der Anzeige ist abhängig von Auswahl in &lt;B&gt;&lt;I&gt;Format Kurzdatum&lt;/I&gt;&lt;/B&gt; im Dialog &lt;a href=&quot;0101.html&quot;&gt;Anwendungseinstellungen&lt;/a&gt;)</translation>
     </message>
     <message>
         <source>%CYR%</source>
@@ -606,7 +606,7 @@
     </message>
     <message>
         <source>Year of the chapter&apos;s date (if one is defined or year of project&apos;s date), as a four digit number.</source>
-        <translation>Jahr aus dem Kapiteldatum (wenn eines gesetzt wurde bzw. vom Projektdatum), als 4-stellige Zahl.</translation>
+        <translation>Jahr aus dem Kapiteldatum (falls eines gesetzt wurde, sonst vom Projektdatum), als 4-stellige Zahl.</translation>
     </message>
     <message>
         <source>%CMM%</source>
@@ -614,7 +614,7 @@
     </message>
     <message>
         <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a name (depending on the current language: January, February, etc...)</source>
-        <translation>Monat vom Kapiteldatum (wenn eines gesetzt wurde bzw. vom Projektdatum) als Name (abhängig von den aktuellen Ländereinstellungen: Jänner, Feburar, usw....)</translation>
+        <translation>Monat vom Kapiteldatum (falls eines gesetzt wurde, sonst vom Projektdatum) als Name (abhängig von den aktuellen Ländereinstellungen: Januar, Feburar, usw....)</translation>
     </message>
     <message>
         <source>%CMD%</source>
@@ -622,7 +622,7 @@
     </message>
     <message>
         <source>Month of the chapter&apos;s date (if one is defined or month of project&apos;s date) as a two digit number.</source>
-        <translation>Monat des Kapiteldatums (wenn eines gesetzt wurde, bzw. vom Projektdatum) als 2-steillige Zahl.</translation>
+        <translation>Monat des Kapiteldatums (falls eines gesetzt wurde, sonst vom Projektdatum) als 2-steillige Zahl.</translation>
     </message>
     <message>
         <source>%CDY%</source>
@@ -630,7 +630,7 @@
     </message>
     <message>
         <source>Day of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a two digit number.</source>
-        <translation>Tag des Kapiteldatums (wenn eines festgelegt wurde, bzw. vom Projektdatum) als 2-stellige Zahl.</translation>
+        <translation>Tag des Kapiteldatums (falls eines festgelegt wurde, sonst vom Projektdatum) als 2-stellige Zahl.</translation>
     </message>
     <message>
         <source>%CDW%</source>
@@ -638,7 +638,7 @@
     </message>
     <message>
         <source>Day of week of the chapter&apos;s date (if one is defined or day of project&apos;s date) as a a name (depending on the current language: Monday, Thuesday, etc...)</source>
-        <translation>Tag der Woche des Kapiteldatums (wenn eines gesetzt wurde, bzw. vom Projektdatum) als Name (abhängig von den aktuellen Ländereinstellungen: Montag, Dienstag,usw...)</translation>
+        <translation>Tag der Woche des Kapiteldatums (falls eines gesetzt wurde, sonst vom Projektdatum) als Name (abhängig von den aktuellen Ländereinstellungen: Montag, Dienstag,usw...)</translation>
     </message>
     <message>
         <source>Various values</source>
@@ -714,7 +714,7 @@
     </message>
     <message>
         <source>Current date&apos;s month as a name (depending on the current language: January, February, etc...)</source>
-        <translation>Aktuelles Monat als Name (Abhängig von den Ländereinstellungen: Jänner, Februar, usw...)</translation>
+        <translation>Aktuelles Monat als Name (Abhängig von den Ländereinstellungen: Januar, Februar, usw...)</translation>
     </message>
     <message>
         <source>%TMD%</source>
@@ -722,7 +722,7 @@
     </message>
     <message>
         <source>Current date&apos;s month as as a two digit number</source>
-        <translation>Aktuelles Monat als 2-stellige Zahl</translation>
+        <translation>Aktueller Monat als 2-stellige Zahl</translation>
     </message>
     <message>
         <source>%TDY%</source>
@@ -741,20 +741,20 @@
         <translation>Aktueller Tag der Woche als Name (abhängig von den Ländereinstellungen: Montag, Dienstag, usw....)</translation>
     </message>
     <message>
-        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
-        <translation type="unfinished"></translation>
+        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values Ã¢ÂÂÃ¢ÂÂonly when they are used.</source>
+        <translation>Große Verwendung finden Variablen, da sie nicht nur als Text eingefügt werden können (siehe Dialog : &lt;a href=&quot;0120.html&quot;&gt;Text ändern&lt;/a&gt;), sie können auch in Ihren Wert übersetzt werden Ã¢ÂÂÃ¢ÂÂ wenn dies gebraucht wird.</translation>
     </message>
     <message>
-        <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <source>Current chapter number displayed as &lt;U&gt;Chapter NÃÂ°&lt;/U&gt; (depending on the current language)</source>
+        <translation>Aktuelle Kapitelnummer die angezeigt wird als &lt;U&gt;Kapitel NÃÂ°&lt;/U&gt; (abhängig von der aktuellen Sprache)</translation>
     </message>
     <message>
-        <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>Copyright of the project construct as &lt;U&gt;ÃÂ© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation>Copyright dieses Projekts zusammengesetzt aus &lt;U&gt;ÃÂ© Jahr - Autor&lt;/U&gt; wobei &lt;B&gt;&lt;I&gt;Jahr&lt;/I&gt;&lt;/B&gt; dem aktuellen Jahr entspricht, sowie &lt;B&gt;&lt;I&gt;Autor&lt;/I&gt;&lt;/B&gt;, das dem Wert des Feldes &lt;B&gt;&lt;I&gt;Projektautor&lt;/I&gt;&lt;/B&gt; aus dem Dialog &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt; entspricht</translation>
     </message>
     <message>
-        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation type="unfinished"></translation>
+        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with ÃÂ«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;ÃÂ» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
+        <translation>Ein Text zusammengesetzt aus : Projekt abgeschlossen am &lt;U&gt;&lt;B&gt;&lt;I&gt;Kurzdatum&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; mit ÃÂ«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama Version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;ÃÂ» auf einem &lt;U&gt;&lt;B&gt;&lt;I&gt;Betriebssystem&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Anzahl der Kerne/CPUs&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Kerne/CPU) Computer.</translation>
     </message>
 </context>
 <context>
@@ -765,7 +765,7 @@
     </message>
     <message>
         <source>Blocks have a visible/invisible property. In the following example, the one image is inserted 3 times (in 3 different blocks) into the same slide.</source>
-        <translation>Blöcke haben die Eigenschaft sichtbar und unsichtbar zu sein. Im folgenden Beispiel ist das Bild 3 mal (in 3 verschiedenen Blöcken) im selben Dia eingefügt.</translation>
+        <translation>Blöcke haben die Eigenschaft sichtbar und unsichtbar zu sein. Im folgenden Beispiel ist das Bild drei mal (in 3 verschiedenen Blöcken) im selben Dia eingefügt.</translation>
     </message>
     <message>
         <source>The first block consists of the whole image filling the whole screen</source>
@@ -773,11 +773,11 @@
     </message>
     <message>
         <source>The second block consists of the image re-framed on the statue and positioned in an ellipse at the right of the screen</source>
-        <translation>Im zweiten Block ist das Bild auf den Ausschnitt der Statue beschnitten und in der Form einer Ellipse gepresst in der rechten Bildhälfte positioniert</translation>
+        <translation>Im zweiten Block ist das Bild auf den Ausschnitt der Statue beschnitten und inr Form einer Ellipse in der rechten Bildhälfte positioniert</translation>
     </message>
     <message>
         <source>The third block consists of the image re-framed on the pedestrians and also positioned in an ellipse at the right of the screen</source>
-        <translation>Im dritten Block ist das Bild auf den Ausschnitt der Spaziergänger und in der Form einer Ellipse gepresst ebenfalls in der rechten Bildschirmhälfte positioniert</translation>
+        <translation>Im dritten Block ist das Bild auf den Ausschnitt der Spaziergänger und in Form einer Ellipse ebenfalls in der rechten Bildschirmhälfte positioniert</translation>
     </message>
     <message>
         <source>The statue and the pedestrians have their visibility property set to invisible on the 1st shot.</source>
@@ -797,7 +797,7 @@
     </message>
     <message>
         <source>For 2 seconds, the 1st shot is shown and we see only the whole image which occupies all the screen</source>
-        <translation>Für 2 Sekunden ist die 1. Aufnahme zu sehen. In dieser Aufnahme ist nur das gesamte Bild in voller Größe zu sehen</translation>
+        <translation>Für 2 Sekunden wird die 1. Aufnahme zangezeigt. Man sieht nur das gesamte Bild in voller Größe</translation>
     </message>
     <message>
         <source>Over the next 2 seconds, the statue appears</source>
@@ -817,7 +817,7 @@
     </message>
     <message>
         <source>So, if on the 1st shot, the statue occupied the left lower quarter of the screen rather than the same position as on the 2nd shot, then instead of simply appearing for 2 seconds on the 2nd shot, it would appear by growing out of the left lower quarter of the screen.</source>
-        <translation>Also, positionieren wir den Zuschnitt der Statue in das linke untere Viertel auf unserer 1. Aufnahme und belassen die Position in der 2. Aufnahme wie gehabt. Sie können sich denken was passiert ? In den 2. Sekunden wo wir zuvor nur die Sichtbarkeit hatten, wächst die Statue von links unten in die gesamte rechte Bildhälfte.</translation>
+        <translation>Also, positionieren wir den Zuschnitt der Statue in das linke untere Viertel auf unserer 1. Aufnahme und belassen die Position in der 2. Aufnahme wie gehabt. Sie können sich denken was passiert ? In den 2 Sekunden wo wir zuvor nur die Sichtbarkeit hatten, wächst die Statue von links unten in die gesamte rechte Bildhälfte.</translation>
     </message>
     <message>
         <source>Using videos:</source>
@@ -825,7 +825,7 @@
     </message>
     <message>
         <source>You should note that videos are paused when they are invisible.</source>
-        <translation>Videos sind übrigens angehalten, wenn Sie unsichtbar sind.</translation>
+        <translation>Videos werden übrigens angehalten, wenn Sie unsichtbar sind.</translation>
     </message>
     <message>
         <source>Therefore a video can be displayed for several seconds in the 1st shot, then be made invisible and thus paused in a 2nd shot, then be visible in a 3rd shot and resume playing, from where it stopped at the end of the 1st shot.</source>
@@ -852,7 +852,7 @@
     </message>
     <message>
         <source>Clarification or darkening of a portion of the image</source>
-        <translation>Aufhellen eines Bildteiles</translation>
+        <translation>Aufhellen oder abdunkeln eines Bildteiles</translation>
     </message>
     <message>
         <source>etc...</source>
@@ -864,7 +864,7 @@
     </message>
     <message>
         <source>There are two types of settings in the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;:</source>
-        <translation>Es gibt 2 Arten von Einstellungen im Dialog &lt;a href=&quot;0119.html&quot;&gt;Diaeinstellungen&lt;/a&gt;:</translation>
+        <translation>Es gibt zwei Arten von Einstellungen im Dialog &lt;a href=&quot;0119.html&quot;&gt;Diaeinstellungen&lt;/a&gt;:</translation>
     </message>
     <message>
         <source>Text and text format</source>
@@ -883,7 +883,7 @@
     </message>
     <message>
         <source>ffDiaporama uses a style sheet system to facilitate the settings for various things.</source>
-        <translation>ffDiaporama verwendet ein System von Stilvorlagen um Einstellungen zusammenzufassen und an Objekte anzuwenden.</translation>
+        <translation>ffDiaporama verwendet ein System von Stilvorlagen um Einstellungen zusammenzufassen und an Objekten anzuwenden.</translation>
     </message>
     <message>
         <source>Style sheets exist for:</source>
@@ -895,7 +895,7 @@
     </message>
     <message>
         <source>Controlling the block shape, which includes the parameters of form, opacity, shadow and block borders.</source>
-        <translation>Steuerung des Aussehens von Blöcken, Dies beinhaltet die Form, Sichtbarkeit und Umrandungen von Blöcken.</translation>
+        <translation>Steuerung des Aussehens von Blöcken. Dies beinhaltet die Form, Sichtbarkeit und Umrandungen von Blöcken.</translation>
     </message>
     <message>
         <source>Controlling image framing, which includes the parameters of geometrical constraint and size.</source>
@@ -907,7 +907,7 @@
     </message>
     <message>
         <source>Controlling text background, which includes the parameters of background (color, brush, etc.).</source>
-        <translation>Steuerung des Hintergrundes. Dies beinhaltet die Paramter für Farbe; verwendeter Pinsel usw.</translation>
+        <translation>Steuerung des Text-Hintergrundes. Dies beinhaltet die Paramter für Farbe; verwendeter Pinsel usw.</translation>
     </message>
     <message>
         <source> Open the style menu:</source>
@@ -923,23 +923,23 @@
     </message>
     <message>
         <source>The standard styles of ffDiaporama are marked with this icon: </source>
-        <translation>Standardvorlagen sind gekennzeichnet mit dem Symbol: </translation>
+        <translation>Standardvorlagen sind mit diesem Symbol gekennzeichnet: </translation>
     </message>
     <message>
         <source>Standard styles that you have modified and styles which you created are marked with this icon: </source>
-        <translation>Abgewandelte Stilvorlagen – die bearbeitet oder von Ihnen erzeugt wurden – werden gekennzeichnet mit dem Symbol: </translation>
+        <translation>Standard-Stilvorlagen,die von Ihnen bearbeitet ode erzeugt wurden, werden mit diesem Symbol gekennzeichnet: </translation>
     </message>
     <message>
         <source>The second part of the menu allows you to modify the style list. </source>
-        <translation>Im zweiten Teil der Liste ist es Ihnen möglich, die Liste der Stilvorlagen zu verändern. </translation>
+        <translation>Im zweiten Teil des Menüs ist es Ihnen möglich, die Liste der Stilvorlagen zu verändern. </translation>
     </message>
     <message>
         <source>Create a new style: allows you to create a new style with the current settings. When you select this option, a dialog appears asking you to name the new style.</source>
-        <translation>Neuer Stil: Ermöglicht, einen neuen Stil mit den aktuell verwendfeten Parametern anzulegen. Wenn Sie diesen Menüeintrag wählen, werden Sie anschliessend nach dem neuen Namen der Stilvorlage gefragt.</translation>
+        <translation>Neuer Stil: Ermöglicht, einen neuen Stil mit den aktuell verwendeten Parametern anzulegen. Wenn Sie diesen Menüeintrag wählen, werden Sie anschliessend nach dem Namen der neuen Stilvorlage gefragt.</translation>
     </message>
     <message>
         <source>Modify an existing style: allows you to change the settings of an existing style by using the current settings. When you select this option, the list of known styles appears. Select the style to be modified.</source>
-        <translation>Aktualisieren vorhandener Stile: Ermöglicht das Aaktualisieren von Einstellungen für eine vorhandene Stilvorlage mit den aktuell eingestellten Parametern. Wenn Sie diesen Menüeintrag wählen, können Sie aus der Liste der bekannten Stilvorlagen denjenigen auswählen, der die aktuellen Parameter übernehmen soll.</translation>
+        <translation>Aktualisieren vorhandener Stile: Ermöglicht das Aktualisieren von Einstellungen für eine vorhandene Stilvorlage mit den aktuell eingestellten Parametern. Wenn Sie diesen Menüeintrag wählen, können Sie aus der Liste der bekannten Stilvorlagen denjenigen auswählen, der die aktuellen Parameter übernehmen soll.</translation>
     </message>
     <message>
         <source>Manage styles: opens the Manage style dialog.</source>
@@ -1058,7 +1058,7 @@
     </message>
     <message>
         <source>Dialog boxes</source>
-        <translation>Dialoge</translation>
+        <translation>Dialogfenster</translation>
     </message>
     <message>
         <source> This section contains information about using ffDiaporama. </source>
@@ -1082,7 +1082,7 @@
     </message>
     <message>
         <source>Various dialog boxes</source>
-        <translation>weitere Dialogfenster</translation>
+        <translation>Verschiedene Dialogfenster</translation>
     </message>
 </context>
 <context>
@@ -1109,7 +1109,7 @@
     </message>
     <message>
         <source>Adjust slides and create animations</source>
-        <translation>Dias bearbeiten und Animationen erstellen</translation>
+        <translation>Dias einstellen und Animationen erstellen</translation>
     </message>
     <message>
         <source>To manage slides, ffDiaporama provides three display modes:</source>
@@ -1133,7 +1133,7 @@
     </message>
     <message>
         <source> In this mode, you can display the multimedia files present on your hard disks and insert them using Drag &amp; Drop into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; to create your slide show. </source>
-        <translation>In diesem Modus, können Sie Ihre Multimediadateien auf Ihrer Festplatte durchsuchen. Sie können diese mittels “Drag &amp; Drop” in die Zeitleiste einfügen, um Ihre Diashow zu erstellen.</translation>
+        <translation>In diesem Modus, können Sie die Multimediadateien auf Ihrer Festplatte durchsuchen. Sie können diese mittels “Drag &amp; Drop” in die Zeitleiste einfügen, um Ihre Diashow zu erstellen.</translation>
     </message>
     <message>
         <source>A small multimedia player is displayed above on the right, near the toolbar and menu, to allow you to preview the slide show. </source>
@@ -1153,11 +1153,11 @@
     </message>
     <message>
         <source>You can reorganize your slides by moving them using Drag &amp; Drop within the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;. </source>
-        <translation>Sie können Ihre Dias in der Reihenfolge durch Verschieben mittels “Drag &amp; Drop” in der &lt;a href=&quot;0023.html&quot;&gt;Zeitleiste&lt;/a&gt; anders platzieren.</translation>
+        <translation>Sie können Ihre Dias in der Reihenfolge durch Verschieben mittels “Drag &amp; Drop” in der &lt;a href=&quot;0023.html&quot;&gt;Zeitleiste&lt;/a&gt; anders anordnen.</translation>
     </message>
     <message>
         <source>Preview mode</source>
-        <translation>Voransichtsmodus</translation>
+        <translation>Vorschaumodus</translation>
     </message>
     <message>
         <source>A big multimedia player</source>
@@ -1189,7 +1189,7 @@
     </message>
     <message>
         <source>by double clicking on elements of the slide</source>
-        <translation>durch Doppelklick auf ein Element des Dia</translation>
+        <translation>durch Doppelklick auf ein Element des Dias</translation>
     </message>
     <message>
         <source>The &lt;a href=&quot;0022.html&quot;&gt;toolbar&lt;/a&gt; and menu at the top</source>
@@ -1216,7 +1216,7 @@
     </message>
     <message>
         <source>These buttons are grouped under four tabs: File / Project / Render and Help</source>
-        <translation>Diese Knöpfe sind in 4 Tabs gruppiert: Datei / Projekt / Video erzeugen und Hilfe</translation>
+        <translation>Diese Knöpfe sind in vier Tabs gruppiert: Datei / Projekt / Video erzeugen und Hilfe</translation>
     </message>
     <message>
         <source>The project management commands</source>
@@ -1253,7 +1253,7 @@ Neues Projekt</translation>
     </message>
     <message>
         <source>(If the current project has unsaved modifications, ffDiaporama prompts you to save it.)</source>
-        <translation>(Im Falle, dass das aktuelle Projekt Änderungen hat, welche noch nicht gespeichert wurden, weist ffDiaporama darauf hin, vorher zu speichern.)</translation>
+        <translation>(Sollte das aktuell geöffnete Projekt seit dem letzten Speichern verändert worden sein, werden Sie von ffDiaporama gefragt, ob Sie die die Änderungen vorher speichern möchten)</translation>
     </message>
     <message>
         <source>Open</source>
@@ -1269,7 +1269,7 @@ Neues Projekt</translation>
     </message>
     <message>
         <source>(If the current project has unsaved modifications, ffDiaporama prompts you to save it.) </source>
-        <translation>(Sollte das aktuell geöffnete Projekt seit dem letzten Speichern verändert worden sein, werden Sie von ffDiaporama gefragt ob Sie die die Änderungen vorher speichern möchten)</translation>
+        <translation>(Sollte das aktuell geöffnete Projekt seit dem letzten Speichern verändert worden sein, werden Sie von ffDiaporama gefragt, ob Sie die die Änderungen vorher speichern möchten)</translation>
     </message>
     <message>
         <source>Remark: if the project contains files which were moved or renamed, ffDiaporama will fail to open them again. In that case, a dialog appears allowing you to select a new file.</source>
@@ -1281,7 +1281,7 @@ Neues Projekt</translation>
     </message>
     <message>
         <source>Allows you to reopen a recently opened project. ffDiaporama stores a list of the last ten projects.</source>
-        <translation>Öffnet ein bestehendes Projekt. Der Dialog für “Projekt öffnen” erscheint und Sie können die Projektdatei auswählen.</translation>
+        <translation>Öffnet ein kürzlich verwendetes Projekt. Der Dialog für “Projekt öffnen” erscheint und Sie können die Projektdatei auswählen.</translation>
     </message>
     <message>
         <source>Save</source>
@@ -1333,7 +1333,7 @@ Neues Projekt</translation>
     </message>
     <message>
         <source>Edit menu command</source>
-        <translation>Ändern Menübefehl</translation>
+        <translation>Menübefehl Ändern</translation>
     </message>
     <message>
         <source>Add title</source>
@@ -1453,7 +1453,7 @@ Neues Projekt</translation>
     </message>
     <message>
         <source>The lossless format is readable only by few equipment and generates files of enormous size. Consequently, it is useful only to generate parts of a project which will then be joined into a final project.</source>
-        <translation> Das verlustfreie Format ist nicht von allen Systemen lesbar. Es ist jedoch sinnvoll, eventuelle Vorstufen der Berechnung in diesem Format durchzuführen und erst den finalen Film in einem allgemein verständlichem Format zu berechnen.</translation>
+        <translation> Das verlustfreie Format ist nicht von allen Systemen lesbar. Es ist jedoch sinnvoll, eventuelle Vorstufen der Berechnung in diesem Format durchzuführen und erst den fertigen Film in einem allgemein verständlichem Format zu berechnen.</translation>
     </message>
     <message>
         <source>The help commands</source>
@@ -1497,7 +1497,7 @@ Neues Projekt</translation>
     </message>
     <message>
         <source>Opens a sub-menu giving you access to the following functions</source>
-        <translation>Öffnet Untermenüs, die folgende Funktionen zur Verfügung stellen</translation>
+        <translation>Öffnet ein Untermenü, das folgende Funktionen zur Verfügung stellt</translation>
     </message>
     <message>
         <source>Save as: Allows you to save the current project in a different file. The &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select a destination file.</source>
@@ -1513,7 +1513,7 @@ Neues Projekt</translation>
     </message>
     <message>
         <source>Allows you to define applications settings. The &lt;a href=&quot;0101.html&quot;&gt;application settings dialog&lt;/a&gt; appears.</source>
-        <translation>Ermöglicht die Festlegung der Anwendungseinstellungen. Der Dialog &lt;a href=&quot;0101.html&quot;&gt;Anwengungseinstellungen&lt;/a&gt; erscheint.</translation>
+        <translation>Ermöglicht die Festlegung der Anwendungseinstellungen. Der Dialog &lt;a href=&quot;0101.html&quot;&gt;Anwendungseinstellungen&lt;/a&gt; erscheint.</translation>
     </message>
     <message>
         <source>Add empty slide: Allows you to add an empty slide : the new empty slide is appended to the project and is displayed in the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
@@ -1521,7 +1521,7 @@ Neues Projekt</translation>
     </message>
     <message>
         <source>Add a predefined title slide: Allows you to add a slide based on a model. The &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; appears.</source>
-        <translation>Fügt einen vordefinierten Titel ein. Ermöglicht das hinzufügen von Dias auf Basis eines Models. Der Dialog &lt;a href=&quot;0103.html&quot;&gt;Vordefinierten Titeleigenschaften&lt;/a&gt; erscheint.</translation>
+        <translation>Fügt einen vordefinierten Titel ein. Ermöglicht das Hinzufügen von Dias auf Basis eines Modells. Der Dialog &lt;a href=&quot;0103.html&quot;&gt;Vordefinierten Titeleigenschaften&lt;/a&gt; erscheint.</translation>
     </message>
     <message>
         <source>Allows you to add photo or video files : A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select one or more files. </source>
@@ -1529,15 +1529,15 @@ Neues Projekt</translation>
     </message>
     <message>
         <source>Allows you to add the slides of an existing project to the end the current project: a &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select a project file. Slides, slide settings, music and background of the project are added to the current project.</source>
-        <translation>Ermöglicht das Hinzufügen von Dias von einem existierendem Projekt an das Ende des aktuellen Projektes. Der Dialog &lt;a href=&quot;0109.html&quot;&gt;Dateiauswahl&lt;/a&gt; erscheint und Sie können die entsprechende Projektdatei auswaählen. Dias, Diaeinstellungen, Musikstücke und Hintergründe werden dem aktuellem Projekt hinzugefügt.</translation>
+        <translation>Ermöglicht das Hinzufügen von Dias von einem existierendem Projekt an das Ende des aktuellen Projektes. Der Dialog &lt;a href=&quot;0109.html&quot;&gt;Dateiauswahl&lt;/a&gt; erscheint und Sie können die entsprechende Projektdatei auswählen. Dias, Diaeinstellungen, Musikstücke und Hintergründe werden dem aktuellem Projekt hinzugefügt.</translation>
     </message>
     <message>
         <source>Allows you to cut the current slide (remove it from the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and put it in the clipboard).</source>
-        <translation>Ermöglicht das Ausschneiden des aktuellen Dia (Entfernen von der &lt;a href=&quot;0023.html&quot;&gt;Zeitleiste&lt;/a&gt; und ablegen in der Zwischenablage).</translation>
+        <translation>Ermöglicht das Ausschneiden des aktuellen Dias (Entfernen von der &lt;a href=&quot;0023.html&quot;&gt;Zeitleiste&lt;/a&gt; und Ablegen in der Zwischenablage).</translation>
     </message>
     <message>
         <source>Allows you to paste the slide currently in the clipboard into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
-        <translation>Ermöglicht das Einfügen eines Dia aus der Zwischenablage in die &lt;a href=&quot;0023.html&quot;&gt;Zeitleiste&lt;/a&gt;.</translation>
+        <translation>Ermöglicht das Einfügen eines Dias aus der Zwischenablage in die &lt;a href=&quot;0023.html&quot;&gt;Zeitleiste&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0104.html&quot;&gt;background properties dialog&lt;/a&gt; (Equivalent to a double click on the background track)</source>
@@ -1549,7 +1549,7 @@ Neues Projekt</translation>
     </message>
     <message>
         <source>Depending on the slide type, open the &lt;a href=&quot;0119.html&quot;&gt;slide properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide. (Equivalent to a double click on the mounting track)</source>
-        <translation>Abhängig von der Art des Dia, öffnet sich der Dialog &lt;a href=&quot;0119.html&quot;&gt;Diaeigenschaften&lt;/a&gt; bei einem Standard Dia oder es öffnet sich der Dialog &lt;a href=&quot;0103.html&quot;&gt;Vordefinierte Titeleigenschaften&lt;/a&gt; wenn es ein vordefinierter Titel ist (Gleichzusetzen mit einem Doppelklick auf die Montagespur)</translation>
+        <translation>Abhängig von der Art des Dias, öffnet sich der Dialog &lt;a href=&quot;0119.html&quot;&gt;Diaeigenschaften&lt;/a&gt; bei einem Standard Dia oder es öffnet sich der Dialog &lt;a href=&quot;0103.html&quot;&gt;Vordefinierte Titeleigenschaften&lt;/a&gt; wenn es ein vordefinierter Titel ist (Gleichzusetzen mit einem Doppelklick auf die Montagespur)</translation>
     </message>
     <message>
         <source>F7 </source>
@@ -1586,7 +1586,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to render the video using the &lt;a href=&quot;0115.html&quot;&gt;Advanced render movie dialog&lt;/a&gt;.</source>
-        <translation>Ermöglicht das Erstellen des Video über den Dialog &lt;a href=&quot;0115.html&quot;&gt;Erweiterte Videoerstellung&lt;/a&gt; erscheint.</translation>
+        <translation>Ermöglicht das Erstellen des Videos über den Dialog &lt;a href=&quot;0115.html&quot;&gt;Erweiterte Videoerstellung&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Export Soundtrack</source>
@@ -1594,7 +1594,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to render only the sound track of the project. The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; appears.</source>
-        <translation>Ernöglicht nur die Erstellung der Musikspur dieses Projektes. Der Dialog &lt;a href=&quot;0115.html&quot;&gt;Video erstellen&lt;/a&gt; erscheint.</translation>
+        <translation>Ernöglicht es, nur dier Musikspur des Projektes zu erstellen. Der Dialog &lt;a href=&quot;0115.html&quot;&gt;Video erstellen&lt;/a&gt; erscheint.</translation>
     </message>
 </context>
 <context>
@@ -1609,7 +1609,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Each slide is represented by the 3 tracks:</source>
-        <translation>Jedes Dia ist durch 3 Spuren repräsentiert:</translation>
+        <translation>Jedes Dia ist durch drei Spuren repräsentiert:</translation>
     </message>
     <message>
         <source>The background track:</source>
@@ -1629,7 +1629,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Possibly this icon may appear at the upper left if the slide is used as chapter start</source>
-        <translation> möglicherweise dieses Symbol links oben. Es zeigt an, dass hier ein neues Kapitel startet</translation>
+        <translation> Möglicherweise wird dieses Symbol links oben erscheinen. Es zeigt an, dass hier ein neues Kapitel startet</translation>
     </message>
     <message>
         <source>The mounting track:</source>
@@ -1637,43 +1637,43 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>An icon corresponding to the transition selected to pass from the previous slide to this slide, under which is indicated the duration of the transition in seconds.</source>
-        <translation>Ein Symbol das den Übergang vom vorherigem Dia zu diesem anzeigt. Darunter wird die gewählte Zeit in Sekunden für den Übergang angezeigt.</translation>
+        <translation>Ein Symbol das den Übergang vom vorherigem Dia zu diesem anzeigt. Darunter wird die gewählte Zeit für den Übergang in Sekunden angezeigt.</translation>
     </message>
     <message>
         <source>A thumbnail in the form of a static image for slides consisting of title or photo, or in the form of a video (under which is placed a soundtrack).</source>
-        <translation>Ein Vorschaubild des Dias, das sich zusammensetzt aus den beinhaltenen Titeln, Photos oder Videos (unter dem eventuell ein Musikstück angezeigt wird).</translation>
+        <translation>Ein Vorschaubild des Dias, das sich zusammensetzt aus den beinhaltenen Titeln, Fotos oder Videos (unter dem eventuell eine Musikspur angezeigt wird).</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the upper left if the slide is composed of several blocks.</source>
-        <translation> Möglicherweise dieses Symbol in der linken oberen Ecke des Vorschaubildes, wenn das Dia aus mehreren Blöcken besteht.</translation>
+        <translation> Möglicherweise erscheint dieses Symbol in der linken oberen Ecke des Vorschaubildes, wenn das Dia aus mehreren Blöcken besteht.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the upper right if the slide is animated (that is consisting of more than one shot).</source>
-        <translation> Möglicherweise dieses Symbol in der rechten oberen Ecke des Vorschaubildes, wenn das Dia animiert ist (das entspricht mehreren Aufnahmen).</translation>
+        <translation> Möglicherweise erscheint dieses Symbol in der rechten oberen Ecke des Vorschaubildes, wenn das Dia animiert ist (das entspricht mehreren Aufnahmen).</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the bottom right if the slide contains at least an image for which you defined a transformation.</source>
-        <translation> Möglicherweise dieses Symbol in der rechten unteren Ecke des Vorschaubildes, wenn das letzte Bild einen Effekt zugeordnet hat.</translation>
+        <translation> Möglicherweise erscheint dieses Symbol in der rechten unteren Ecke des Vorschaubildes, wenn das letzte Bild einen Effekt zugeordnet hat.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the bottom left if the slide is an automatic predefined slide.</source>
-        <translation> Möglicherweise dieses Symbol in der linken unteren Ecke des Vorschaubildes, wenn das Dia einen automatisch vordefinierten Titel zugeordnet hat.</translation>
+        <translation> Möglicherweise erscheint dieses Symbol in der linken unteren Ecke des Vorschaubildes, wenn das Dia einen automatisch vordefinierten Titel zugeordnet hat.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the bottom right if the predefined slide is a project title slide.</source>
-        <translation> Möglicherweise dieses Symbol in der rechten unteren Ecke des Vorschaubildes, wenn das Dia einen vordefinierten Titel als Projekttitel zugeordnet hat.</translation>
+        <translation> Möglicherweise erscheint dieses Symbol in der rechten unteren Ecke des Vorschaubildes, wenn das Dia einen vordefinierten Titel als Projekttitel zugeordnet hat.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the bottom right if the predefined slide is a chapter title slide.</source>
-        <translation> Möglicherweise dieses Symbol in der rechten unteren Ecke des Vorschaubildes, wenn das Dia einen vordefinierten Titel als Kapiteltitel zugeordnet hat.</translation>
+        <translation> Möglicherweise erscheint dieses Symbol in der rechten unteren Ecke des Vorschaubildes, wenn das Dia einen vordefinierten Titel als Kapiteltitel zugeordnet hat.</translation>
     </message>
     <message>
         <source> Possibly this icon may appear at the bottom right if the predefined slide is a generic title slide.</source>
-        <translation> Möglicherweise dieses Symbol in der rechten unteren Ecke des Vorschaubildes, wenn das Dia einen vordefinierten Titel als Titel zugeordnet hat.</translation>
+        <translation> Möglicherweise erscheint dieses Symbol in der rechten unteren Ecke des Vorschaubildes, wenn das Dia einen vordefinierten Titel als Titel zugeordnet hat.</translation>
     </message>
     <message>
         <source>Remark: The thumbnail represents the first image on the slide.</source>
-        <translation>Anmerkung: Die Bildvorschau zeigt das erste Bild aus dem Dia, das gesehen wird.</translation>
+        <translation>Anmerkung: Die Bildvorschau zeigt das erste Bild aus dem aktuellen Dia.</translation>
     </message>
     <message>
         <source>The music track:</source>
@@ -1685,7 +1685,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The track is more or less filled according to the sound volume selected, displaying the variation in volume.</source>
-        <translation>Die Spur ist mehr oder weniger in der Höhe gefüllt, je nach eingestellter Lautstärke.</translation>
+        <translation>Die Spur ist in der Höhe mehr oder weniger gefüllt, je nach eingestellter Lautstärke.</translation>
     </message>
     <message>
         <source>The musical transitions (fade in/out) are shown as crossings.</source>
@@ -1709,7 +1709,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>You can select several slides by using the mouse and the CTRL and SHIFT:</source>
-        <translation>Sie können mehrere Dias mit der Maus auswählen, indem Sie während des Klicken auf ein Dia die STRG- und die SHIFT- Taste verwenden:</translation>
+        <translation>Sie können mehrere Dias mit der Maus auswählen, indem Sie während des Klickens auf ein Dia die STRG- und die SHIFT- Taste verwenden:</translation>
     </message>
     <message>
         <source>CTRL + click on a slide: add or removes the slide of the selection</source>
@@ -1725,7 +1725,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This menu suggests various actions making on all the slides of the selection such as:</source>
-        <translation>Dieses Menü bietet verschiedene Aktionen die an der Auswahl an Dias durchgeführt werden können. Zum Beispiel:</translation>
+        <translation>Dieses Menü bietet verschiedene Aktionen, die an der Auswahl an Dias durchgeführt werden können. Zum Beispiel:</translation>
     </message>
     <message>
         <source>Copy/Cut/Paste/Remove all slide of the selection</source>
@@ -1753,7 +1753,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Simply drag the slide to a new position with the mouse (drag &amp; drop)</source>
-        <translation>ziehen Sie einfach mit gedrückter linker Maustaste das Dia an die neue Position in der Zeitleiste (Drag &amp; Drop)</translation>
+        <translation>Ziehen Sie einfach mit gedrückter linker Maustaste das Dia an die neue Position in der Zeitleiste (Drag &amp; Drop)</translation>
     </message>
     <message>
         <source>To modify the display of the timeline:</source>
@@ -1761,7 +1761,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The timeline settings commands are in the status bar, to the right, at the bottom of the main window.</source>
-        <translation>Die Einstellungen können mittels der Symbole in der Statuszeile rechts unten geändert werden.</translation>
+        <translation>Die Einstellungenfür die Zeitleiste können mit den Symbolen in der Statuszeile rechts unten geändert werden.</translation>
     </message>
     <message>
         <source> Increases the size of the thumbnails but reduces the number of thumbnails shown in the timeline.</source>
@@ -1781,11 +1781,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>To modify the music associated with the slide, double-click the zone corresponding to the slide musical track. This action opens the &lt;a href=&quot;0114.html&quot;&gt;Define the music track&lt;/a&gt; dialog.</source>
-        <translation>Um die zugeordnete Musik zu ändern, doppelklicken sie in den entsprechenden Bereich der Musikspur unterhalb des Dias. Dies öffnet den Dialog &lt;a href=&quot;0114.html&quot;&gt;Erstellen eines Musiktrack&lt;/a&gt;.</translation>
+        <translation>Um die zugeordnete Musik zu ändern, doppelklicken sie in den entsprechenden Bereich der Musikspur unterhalb des Dias. Dies öffnet den Dialog &lt;a href=&quot;0114.html&quot;&gt;Erstellen eines Musiktracks&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>To modify the slide (framing, filter, animation, etc.) double-click the thumbnail. This action opens the &lt;a href=&quot;0119.html&quot;&gt;slides properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide.</source>
-        <translation>Um das Dia zu verändern (Zuschneiden, Filter, Animation, etc.), doppelklicken sie auf die Bildvorschau des Dia. Dies öffnet den Dialog &lt;a href=&quot;0119.html&quot;&gt;Ändern eines Dia&lt;/a&gt; für ein Standard Dia oder es öffnet den Dialog &lt;a href=&quot;0103.html&quot;&gt;für einen vordefinierten Titel. </translation>
+        <translation>Um das Dia zu verändern (Zuschneiden, Filter, Animation, etc.), doppelklicken sie auf die Bildvorschau des Dias. Dies öffnet den Dialog &lt;a href=&quot;0119.html&quot;&gt;Ändern eines Dias&lt;/a&gt; für ein Standard Dia oder es öffnet den Dialog &lt;a href=&quot;0103.html&quot;&gt;Ändern eines vordefinierten Titeldias&lt;/a&gt;l. </translation>
     </message>
     <message>
         <source>To select the current slide:</source>
@@ -1801,7 +1801,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Note: When previewing the selected slide is automatically defined on the current slide preview.</source>
-        <translation>Anmerkung :Wenn die Vorschau eingeschalten ist, wird automatisch das aktuelle Dia in der Vorschau dargestellt. </translation>
+        <translation>Anmerkung :Wenn die Vorschau eingeschaltet ist, wird automatisch das aktuelle Dia in der Vorschau dargestellt. </translation>
     </message>
 </context>
 <context>
@@ -1904,19 +1904,19 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Either as a table with numerous information if you selected the details view in the settings menu of the browser</source>
-        <translation>Entweder als Tabelle mit zahlreichen Informationen wenn Sie die Option &quot;Detailansicht&quot; in den Einstellungen des Browser aktiviert haben</translation>
+        <translation>Entweder als Tabelle mit zahlreichen Informationen, wenn Sie die Option &quot;Detailansicht&quot; in den Einstellungen des Browser aktiviert haben</translation>
     </message>
     <message>
         <source>Or as image if you selected the icons view in the settings menu of the browser</source>
-        <translation>oder ein Bild, wenn Sie die Option &quot;Symbolansicht&quot; in den Einstellungen des Browser gesetzt haben</translation>
+        <translation>oder als Bild, wenn Sie die Option &quot;Symbolansicht&quot; in den Einstellungen des Browser gesetzt haben</translation>
     </message>
     <message>
         <source>Files are shown according to the filter of file selection in the settings menu of the browser</source>
-        <translation>Dateien werden entsprechend dem gesetztem Filter in dem Einstellungen des Browsers angezeigt</translation>
+        <translation>Dateien werden entsprechend dem in den Einstellungen des Browsers gesetzten Filter angezeigt</translation>
     </message>
     <message>
         <source>Select a file or a folder by clicking it</source>
-        <translation>Wählen Sie eine Datei oder einen Ordner durch anklicken</translation>
+        <translation>Wählen Sie eine Datei oder einen Ordner durch Anklicken</translation>
     </message>
     <message>
         <source>Select several files or folders by using SHIFT and CTRL keys</source>
@@ -1944,7 +1944,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Perform a right click on one of the files or folders of the selection to open the contextual menu. According to the elements that are present in the selection, the menu will propose different actions</source>
-        <translation>Bei Ausführung eines rechten Mausklick auf ein Element, öffnet sich das Kontextmenü. Die Anzahl an Einträgen im Kontextmenü orientiert sich am angeklicktem Dateityp und der Möglichkeiten die sich damit anbieten</translation>
+        <translation>Bei Ausführung eines rechten Mausklick auf ein Element, öffnet sich das Kontextmenü. Die Anzahl an Einträgen im Kontextmenü orientiert sich am angeklicktem Dateityp und der Möglichkeiten, die sich damit anbieten</translation>
     </message>
     <message>
         <source>You can also use Drag &amp; Drop to move selected files towards the timeline to:</source>
@@ -1988,7 +1988,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Video: Information about the format of the images / the video track / the audio track / duration </source>
-        <translation>Video: Informationen über das Format des Bildes / Die Videospur / Die Audiospur / Laufzeit </translation>
+        <translation>Video: Informationen über das Format des Bildes / die Videospur / die Audiospur / Laufzeit </translation>
     </message>
     <message>
         <source>Music: Information about the audio format / duration </source>
@@ -2004,15 +2004,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Video: TAG contents (Title / Artist / Album / Year) </source>
-        <translation>Video : TAG Inhalte (Titel / Artist / Album / Jahr)</translation>
+        <translation>Video : TAG Inhalte (Titel / Künstler / Album / Jahr)</translation>
     </message>
     <message>
         <source>Music: TAG contents (Title / Artist / Album / Year) </source>
-        <translation>Musik : TAG Inhalte (Titel / Artist / Album / Jahr)</translation>
+        <translation>Musik : TAG Inhalte (Titel / Künstler / Album / Jahr)</translation>
     </message>
     <message>
         <source>ffDiaporama project: TAG contents (Title / Artist / Album / Year) </source>
-        <translation>ffDiaporama Projekt : TAG Inhalte (Titel / Artist / Album / Jahr) </translation>
+        <translation>ffDiaporama Projekt : TAG Inhalte (Titel / Ersteller / Album / Jahr) </translation>
     </message>
     <message>
         <source>For a multiple files selection, the following information is shown:</source>
@@ -2024,7 +2024,8 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Number of files and type of files</source>
-        <translation>Anzahl der Dateien dieses Typs</translation>
+        <translation>Anzahl der Dateien dieses
+ Typs</translation>
     </message>
     <message>
         <source>Durations accumulated by files</source>
@@ -2064,19 +2065,19 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Favorites menu</source>
-        <translation> Favoritenmenü</translation>
+        <translation>Favoritenmenü</translation>
     </message>
     <message>
         <source>The list of the favourite folders can be managed in the favorites menu.</source>
-        <translation>Die Liste der als Favoriten markierten Ordner können im Favoritenmenü verwaltet werden.</translation>
+        <translation>Die Liste der als Favoriten markierten Ordner kann im Favoritenmenü verwaltet werden.</translation>
     </message>
     <message>
         <source>First line of the menu: </source>
-        <translation>Erste Zeile des Menü:</translation>
+        <translation>Erste Zeile des Menüs:</translation>
     </message>
     <message>
         <source>&lt;U&gt;&lt;B&gt; Add to favorite&lt;/B&gt;&lt;/U&gt; adds the current folder to the list. Then an edit box allows you to give a name for this favorite</source>
-        <translation>&lt;U&gt;&lt;B&gt; zu Favoriten hinzufügen&lt;/B&gt;&lt;/U&gt; fügt den aktuellen Ordner zu der Favoritenliste hinzu. Anschliessend öffnet sich eine Eingabezeile in der ein Name für den Favoriten festgelegt werden kann</translation>
+        <translation>&lt;U&gt;&lt;B&gt; zu Favoriten hinzufügen&lt;/B&gt;&lt;/U&gt; fügt den aktuellen Ordner zu der Favoritenliste hinzu. Anschliessend öffnet sich eine Eingabezeile, in der ein Name für den Favoriten festgelegt werden kann</translation>
     </message>
     <message>
         <source>Between the first and the last line: </source>
@@ -2084,15 +2085,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> &lt;U&gt;&lt;B&gt;The list of favorites folders&lt;/B&gt;&lt;/U&gt; is displayed. Select one of the favorite folders to access it directly</source>
-        <translation> &lt;U&gt;&lt;B&gt;Liste der Favoritenordner&lt;/B&gt;&lt;/U&gt; wird angezeigt. Wählen Sie einen Ordner aus der Liste um diesen direkt zu öffnen</translation>
+        <translation> &lt;U&gt;&lt;B&gt;Liste der Favoritenordner&lt;/B&gt;&lt;/U&gt; wird angezeigt. Wählen Sie einen Ordner aus der Liste, um diesen direkt zu öffnen</translation>
     </message>
     <message>
         <source>Last line of the menu: </source>
-        <translation>Letzte Zeile des Menü: </translation>
+        <translation>Letzte Zeile des Menüs: </translation>
     </message>
     <message>
         <source>&lt;U&gt;&lt;B&gt; Manage favorite&lt;/B&gt;&lt;/U&gt; allows to rename or to delete entries of the list. A dialogbox for the modification of the list is displayed</source>
-        <translation>&lt;U&gt;&lt;B&gt; Favoriten verwalten&lt;/B&gt;&lt;/U&gt; kann Einträge umbenennen oder löschen. Eine entsprechendes Dialogfenster öffnet sich um die Aktion durchzuführen</translation>
+        <translation>&lt;U&gt;&lt;B&gt; Favoriten verwalten&lt;/B&gt;&lt;/U&gt; kann Einträge umbenennen oder löschen. Eine entsprechendes Dialogfenster öffnet sich, um die Aktion durchzuführen</translation>
     </message>
     <message>
         <source> Settings menu</source>
@@ -2100,7 +2101,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The settings menu allows to modify the display of the current folder:</source>
-        <translation>Das Einstellungsmenü erlaubt die Anzeige für den aktuellen Ordner zu ändern:</translation>
+        <translation>Das Einstellungsmenü erlaubt, die Anzeige für den aktuellen Ordner zu ändern:</translation>
     </message>
     <message>
         <source>Settings of the display mode</source>
@@ -2144,7 +2145,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Image, video and audio files of which the format is recognized by ffDiaporama</source>
-        <translation>Bilder, Videos und Musikstücke deren Format von ffDiaporama verarbeitet werden kann</translation>
+        <translation>Bilder, Videos und Musikstücke, deren Format von ffDiaporama verarbeitet werden kann</translation>
     </message>
     <message>
         <source>Subfolders</source>
@@ -2156,7 +2157,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Limit the display of the current folder to the image files of which the format is recognized by ffDiaporama in the present subfolders</source>
-        <translation>Schränkt die Ansicht des aktuellen Ordners auf Bilddateien ein, deren Format von ffDiaporama verarbeitet werden können</translation>
+        <translation>Schränkt die Ansicht des aktuellen Ordners auf Bilddateien ein, deren Formate von ffDiaporama verarbeitet werden können</translation>
     </message>
     <message>
         <source>Video files</source>
@@ -2164,7 +2165,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Limit the display of the current folder to the video files of which the format is recognized by ffDiaporama in the present subfolders</source>
-        <translation>Schränkt die Anzeige des aktuellen Ordners auf Videodateien ein, deren Format von ffDiaporama verarbeitet werden können</translation>
+        <translation>Schränkt die Anzeige des aktuellen Ordners auf Videodateien ein, deren Formate von ffDiaporama verarbeitet werden können</translation>
     </message>
     <message>
         <source>Audio files</source>
@@ -2172,7 +2173,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Limit the display of the current folder to the audio files of which the format is recognized by ffDiaporama inthe present subfolders</source>
-        <translation>Schränkt die Anzeige des aktuellen Ordners auf Musikstücke ein, deren Format von ffDiaporama verarbeitet werden können</translation>
+        <translation>Schränkt die Anzeige des aktuellen Ordners auf Musikstücke ein, deren Formate von ffDiaporama verarbeitet werden können</translation>
     </message>
     <message>
         <source>ffDiaporama projects</source>
@@ -2184,7 +2185,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Additional settings</source>
-        <translation>weitere Einstellungen</translation>
+        <translation>Weitere Einstellungen</translation>
     </message>
     <message>
         <source>Display hidden files and folders</source>
@@ -2196,7 +2197,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Under Windows, hidden files and folders have the &lt;B&gt;Hide&lt;/B&gt; file attribute activated. </source>
-        <translation>Unter Windows, versteckte Dateien oder Ordner haben das Attribute &lt;B&gt;Versteckt&lt;/B&gt; aktiv.</translation>
+        <translation>Unter Windows haben versteckte Dateien oder Ordner das Attribut &lt;B&gt;Versteckt&lt;/B&gt; aktiviert.</translation>
     </message>
     <message>
         <source>Under Linux, hidden files and folders have a name beginning with a dot &quot;.&quot; </source>
@@ -2216,7 +2217,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> One of this icon is displayed in front of the name of the option as this one is activated or not.</source>
-        <translation> Eines dieses Symbole wird vor dem Namen angezeigt ob diese Option aktiv ist oder nicht.</translation>
+        <translation> Eines dieses Symbole wird vor dem Namen zeigt an, ob diese Option aktiv ist oder nicht.</translation>
     </message>
     <message>
         <source>Hide filename</source>
@@ -2263,7 +2264,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Video standards and resolutions</source>
-        <translation>Videostandards und Auflösung</translation>
+        <translation>Videostandards und Auflösungen</translation>
     </message>
     <message>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
@@ -2286,7 +2287,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>A digital video consists of a computer file called the &lt;a href=&quot;0038.html&quot;&gt;container&lt;/a&gt;</source>
-        <translation>Ein digitales Video besteht aus einer Computerdatei, genannt ein &lt;a href=&quot;0038.html&quot;&gt;Container&lt;/a&gt;</translation>
+        <translation>Ein digitales Video besteht aus einer Computerdatei, genannt &lt;a href=&quot;0038.html&quot;&gt;Container&lt;/a&gt;</translation>
     </message>
     <message>
         <source>In this file we find:</source>
@@ -2302,7 +2303,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Possibly, one or more subtitles. Each subtitle is built in a subtitle format.</source>
-        <translation>Eine oder mehrere Untertitel. Jeder Untertitel wird in einem eigenem Untertitelformat beschrieben.</translation>
+        <translation>Möglicherweise einen oder mehrere Untertitel. Jeder Untertitel wird in einem eigenem Untertitelformat beschrieben.</translation>
     </message>
     <message>
         <source>Possibly, a definition of tags and chapters.</source>
@@ -2350,7 +2351,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>&lt;a href=&quot;0035.html&quot;&gt;Display on the Web&lt;/a&gt; (blogs, picture-sharing and social networking sites)</source>
-        <translation>&lt;a href=&quot;0035.html&quot;&gt;Abspielen im Internet&lt;/a&gt; (Blogs, Soziale Plattformen, usw.)</translation>
+        <translation>&lt;a href=&quot;0035.html&quot;&gt;Abspielen im Internet&lt;/a&gt; (Blogs, soziale Plattformen, usw.)</translation>
     </message>
     <message>
         <source>It is also possible for you to define all parameters directly by using the advanced option.</source>
@@ -2369,7 +2370,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Screen size and maximal resolution</source>
-        <translation>verfügbare Bildschirmgröße und maximale Auflösung</translation>
+        <translation>Verfügbare Bildschirmgröße und maximale Auflösung</translation>
     </message>
     <message>
         <source>Operating system on the device</source>
@@ -2413,7 +2414,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Generally, Nokia phones working with the Symbian operating system and equipped with a camera, are capable of playing videos. Very often, those provided with a keyboard offer a 320x240 resolution (QVGA), while those with only a touch-sensitive screen offer a 640x360 resolution (VGA).</source>
-        <translation>Allgemein können Nokiageräte mit einer Kamera auch Videos abspielen. In vielen Fällen gilt: Ist eine Tastatur vorhanden, ist die Auflösung 320×240 (QVGA). Ist das Nokia nur mit einem Touch-Screen ausgestattet, so sind meist Auflösung mit 640×360 (VGA) verwendbar.</translation>
+        <translation>Allgemein können Nokiageräte mit einer Kamera auch Videos abspielen. In vielen Fällen gilt: Wenn eine Tastatur vorhanden, beträgt die Auflösung 320×240 (QVGA). Ist das Nokia nur mit einem Touch-Screen ausgestattet, so sind meist Auflösung mit 640×360 (VGA) verwendbar.</translation>
     </message>
     <message>
         <source>Movie format is: Container: MP4 - Video Codec: MPEG4 - Audio Codec: MP3</source>
@@ -2421,7 +2422,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Note: Video files should be stored in the &quot;My videos&quot; folder after connecting the telephone to the PC in &quot;mass storage&quot; mode. </source>
-        <translation>Anm: Videodateien in den Order “My Videos” bzw. “Videoclips” speichern, nachdem das Gerät mit den PC im Modus “Massenspeicher” verbunden wurde.</translation>
+        <translation>Anmerkung: Videodateien sollen in den Order “My Videos” bzw. “Videoclips” gespeichert werden, nachdem das Gerät mit den PC im Modus “Massenspeicher” verbunden wurde.</translation>
     </message>
     <message>
         <source>Windows Mobile 6.0/6.1/6.5</source>
@@ -2445,7 +2446,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Note: Store video files in the &quot;My videos&quot; folder having connected the telephone to the PC in &quot;mass storage&quot; mode. </source>
-        <translation>Anm: Videodateien sollten in den Order “My Videos” bzw. “Videoclips” zu speichern, nachdem das Gerät mit den PC im Modus “Massenspeicher” verbunden wurde.</translation>
+        <translation>Anmerkung: Videodateien sollten in den Order “My Videos” bzw. “Videoclips” gespeichert werden, nachdem das Gerät mit den PC im Modus “Massenspeicher” verbunden wurde.</translation>
     </message>
     <message>
         <source>Windows Phone 7</source>
@@ -2473,7 +2474,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Many manufacturers made or still make phones using the Google Android operating system.</source>
-        <translation>Viele Hersteller machten oder machen Geräte die das Google Android Betriebssystem verwenden.</translation>
+        <translation>Viele Hersteller machten oder machen Geräte, die das Google Android Betriebssystem verwenden.</translation>
     </message>
     <message>
         <source>Apple iOS</source>
@@ -2601,7 +2602,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Require xVid or DivX codec to be installed on the computer.</source>
-        <translation>Benötigt die Installation von xVid or DivX codec auf dem Computer.</translation>
+        <translation>Benötigt die Installation von xVid or DivX Codec auf dem Computer.</translation>
     </message>
     <message>
         <source>Windows/Vista</source>
@@ -2621,7 +2622,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The device models available in ffDiaporama are as follows: </source>
-        <translation>Folgende Geräte wurden schon in der ffDiaporama Gerätedatenbank aufgenommen:</translation>
+        <translation>Folgende Geräte wurden schon in die ffDiaporama Gerätedatenbank aufgenommen:</translation>
     </message>
 </context>
 <context>
@@ -2739,7 +2740,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>TV box of ADSL box</source>
-        <translation>TV box oder ADSL box</translation>
+        <translation>TV Box oder ADSL Box</translation>
     </message>
     <message>
         <source>France - Livebox (Orange)</source>
@@ -2779,7 +2780,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Multimedia hard drive and gateway</source>
-        <translation>Multimedia Harddisk</translation>
+        <translation>Multimedia Harddisk und Gateway</translation>
     </message>
     <message>
         <source>All manufacturers</source>
@@ -2807,7 +2808,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>BlueRay player</source>
-        <translation>BlueRay player</translation>
+        <translation>BlueRay Player</translation>
     </message>
     <message>
         <source>&lt;B&gt;To be completed&lt;/B&gt;</source>
@@ -2866,7 +2867,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>To be used with the HTML tag object class=&quot;player&quot; type=&quot;application/x-shockwave-flash&quot;</source>
-        <translation>Ist mit dem HTML tag object class=”player” type=”application/x-shockwave-flash” zu verwenden</translation>
+        <translation>Ist mit dem HTML Tag object class=”player” type=”application/x-shockwave-flash” zu verwenden</translation>
     </message>
     <message>
         <source>- For 4/3 : 320x240, 640x480, 960x720, 1440x1080</source>
@@ -2902,7 +2903,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>720p - Movie format is: Container: MP4 - Video Codec: h264 - Audio Codec: AAC-LC</source>
-        <translation>720p – Filmformat is: Container: MP4 – Video Codec: h264 – Audio Codec: AAC-LC</translation>
+        <translation>720p – Filmformat ist: Container: MP4 – Video Codec: h264 – Audio Codec: AAC-LC</translation>
     </message>
     <message>
         <source>Facebook</source>
@@ -2910,7 +2911,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Publish the video on YouTube or Daily Motion and integrate a link towards this video into Facebook</source>
-        <translation>Laden Sie Ihr Video in YouTube oder Daily Motion und verweisen Sie darauf mit einem Link in Facebook</translation>
+        <translation>Publizieren Sie Ihr Video in YouTube oder Daily Motion und verweisen Sie darauf mit einem Link in Facebook</translation>
     </message>
     <message>
         <source>HTML 5</source>
@@ -2930,11 +2931,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>H264 is a format usable in Safari, Internet Explorer and Google Chrome </source>
-        <translation>H264 ist ein Format dass in Safari, Internet Explorer und Google Chrome verwendet werden kann</translation>
+        <translation>H264 ist ein Format, das in Safari, Internet Explorer und Google Chrome verwendet werden kann</translation>
     </message>
     <message>
         <source>To maintain backward compatibility with older browsers, it is advisable to offer a flash version within the tag. See: </source>
-        <translation>Um die Rückwärtskompatibilität zu älteren Browsern zu erhalten, es ist empfehlenswert eine Flashversion innerhalb des TAG anzubieten. Siehe :</translation>
+        <translation>Um die Rückwärtskompatibilität zu älteren Browsern zu erhalten, ist est empfehlenswert eine Flashversion innerhalb des TAG anzubieten. Siehe :</translation>
     </message>
     <message>
         <source>developer.mozilla.org</source>
@@ -3077,11 +3078,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>ffDiaporama uses specific settings for encoding with x264. This settings are including: </source>
-        <translation>ffDiaporama verwendet spezifische Einstellungen zum codieren mit x264. Diese Einstellungen sind enthalten: </translation>
+        <translation>ffDiaporama verwendet spezifische Einstellungen zum Codieren mit x264. Diese Einstellungen sind möglich: </translation>
     </message>
     <message>
         <source>- &lt;B&gt;High Quality&lt;/B&gt; for &quot;Home Cinema&quot; devices based on x264 &lt;U&gt;main&lt;/U&gt; profile, with 3 refs and 3 bframes. </source>
-        <translation>- &lt;B&gt;High Quality&lt;/B&gt; für &quot;Home Cinema&quot; Geräte basierend auf x264 &lt;U&gt;main&lt;/U&gt; Profil, mit 3 refs und 3 bframes. </translation>
+        <translation>- &lt;B&gt;High Quality&lt;/B&gt; für &quot;Home Cinema&quot; (Heimkino) Geräte basierend auf x264 &lt;U&gt;main&lt;/U&gt; Profil, mit 3 refs und 3 bframes. </translation>
     </message>
     <message>
         <source>- &lt;B&gt;Phone Quality&lt;/B&gt; for mobile devices based on x264 &lt;U&gt;baseline&lt;/U&gt; profile, with 3 refs and 0 bframes. </source>
@@ -3287,7 +3288,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Matroska file format</source>
-        <translation>Matroska file format</translation>
+        <translation>Matroska Datei Format</translation>
     </message>
     <message>
         <source>MPEG4, H264HQ/H264PQ, THEORA</source>
@@ -3426,15 +3427,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <name>0039</name>
     <message>
         <source>Video standards and resolutions</source>
-        <translation>Videostandards und Auflösung</translation>
+        <translation>Videostandards und Auflösungen</translation>
     </message>
     <message>
         <source> Standards and resolution are both fundamental properties which define a video. </source>
-        <translation>Standards und Auflösungen sind fundamentale Eigenschaften welche ein Video definieren.</translation>
+        <translation>Standards und Auflösungen sind fundamentale Eigenschaften, welche ein Video definieren.</translation>
     </message>
     <message>
         <source>Two associated properties are the geometry and the FPS number. </source>
-        <translation>Zwei weitere wichtige Eigenschaften sind die Geometry und die Anzahl Bilder pro Sekunde (FPS – Frames per second) eines Videos.</translation>
+        <translation>Zwei weitere wichtige Eigenschaften sind die Geometrie und die Anzahl Bilder pro Sekunde (FPS – Frames per second) eines Videos.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -3442,7 +3443,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Standards are a historic feature which continues today in spite of technological progress. </source>
-        <translation>Standards sind in diesem Bereich historisch begründed und halten sich bis heute – ungeachtet des Technologischen Fortschrittes.</translation>
+        <translation>Standards sind in diesem Bereich historisch begründed und halten sich bis heute – ungeachtet des technologischen Fortschritts.</translation>
     </message>
     <message>
         <source>A rich literature on this subject can be found on the internet. </source>
@@ -3450,15 +3451,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>To simplify things we shall summarize as follows: </source>
-        <translation>Ganz einfach zusammengefasst lassen sich die Standards in 2 große Bereiche einteilen:</translation>
+        <translation>Ganz einfach zusammengefasst lassen sich die Standards in zwei große Bereiche einteilen:</translation>
     </message>
     <message>
         <source>PAL is effective in all the countries where the electricity network is 50 hz (which is the case, for example, for Western European countries)</source>
-        <translation>PAL ist prinzipiell in allen Ländern vertreten die ihr Stromnetz mit 50 hz betrieben (z.B: Westeuropa)</translation>
+        <translation>PAL ist prinzipiell in allen Ländern vertreten, die ihr Stromnetz mit 50 hz betrieben (z.B: Westeuropa)</translation>
     </message>
     <message>
         <source>NTSC is effective in all the countries where the electricity network is 60 hz (which is the case, for example, for the United States of America)</source>
-        <translation>NTSC ist dort anzutreffend wo das Stromnetz mit 60hz betrieben wird (z.B: in den USA)</translation>
+        <translation>NTSC ist dort anzutreffen, wo das Stromnetz mit 60hz betrieben wird (z.B: in den USA)</translation>
     </message>
     <message>
         <source>Geometry</source>
@@ -3470,11 +3471,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>4:3 corresponds to screens that are almost square</source>
-        <translation>4:3 entspricht den Bildschirmen die nahezu Quatratisch sind</translation>
+        <translation>4:3 entspricht Bildschirmen, die nahezu quadratisch sind</translation>
     </message>
     <message>
         <source>16:9 corresponds to screens that are rectangular</source>
-        <translation>16:9 entspricht den heutigen Breitbildfernsehern und sind in (dem Namen entsprechend) etwas breiter als die quatratischen</translation>
+        <translation>16:9 entspricht den heutigen Breitbildfernsehern. Sie sind (dem Namen entsprechend) etwas breiter als die quatratischen</translation>
     </message>
     <message>
         <source>40:17 corresponds to cinema screens in overall size</source>
@@ -3486,11 +3487,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Unlike with photos, video resolution is not expressed in megapixels but in number of points (pixels) shown by the screen multiplied by the number of lines. </source>
-        <translation>Anders als bei Fotos, wird die Auflösung nicht in Megapixel angegeben, sondern Bildpunkten (Pixel). Der erste Wert entspricht dem horizontalem Wert an Punkten die in einer Linie dargestellt werden können. Der zweite Wert ist die Anzahl an Zeilen die dargestellt werden können.</translation>
+        <translation>Anders als bei Fotos, wird die Auflösung nicht in Megapixel, sondern in Bildpunkten (Pixel) angegeben. Der erste Wert entspricht dem horizontalem Wert an Punkten, die in einer Linie dargestellt werden können. Der zweite Wert ist die Anzahl an Zeilen, die dargestellt werden können.</translation>
     </message>
     <message>
         <source>So, 320x240 corresponds to 320 points of width and 240 lines in height </source>
-        <translation>Also bedeutet 320×240 das 320 Bildpunkte in einer Zeile (der Horizontalen) und 240 entsprechende Zeilen in der Höhe (der Vertikalen) dargestellt werden können</translation>
+        <translation>Also bedeutet 320×240, dass 320 Bildpunkte in einer Zeile (der Horizontalen) und 240 Zeilen in der Höhe (der Vertikalen) dargestellt werden können</translation>
     </message>
     <message>
         <source>FPS (Frames per second)</source>
@@ -3498,7 +3499,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Corresponds to the number of images shown every second. You should know that in cinemas, 24 images are shown per second and this figure of 24 images is recognized as corresponding to the maximum number of images which the eye is capable of differentiating: </source>
-        <translation>Entspricht der Anzahl Bilder die pro Sekunde dargestellt werden (1 Bild = vollständige Darstellung aller Zeilen). Sie sollten wissen, dass in Kinos 24 Bilder pro Sekunde gezeigt werden. Diese 24 Bilder nimmt das menschliche Auge als fliesende Bewegung (einen Film) dar:</translation>
+        <translation>Entspricht der Anzahl von Bildern. die pro Sekunde dargestellt werden (1 Bild = vollständige Darstellung aller Zeilen). Sie sollten wissen, dass in Kinos 24 Bilder pro Sekunde gezeigt werden. Diese 24 Bilder nimmt das menschliche Auge als fliessende Bewegung (einen Film) wahr:</translation>
     </message>
     <message>
         <source>More images per second and the eye does not notice it</source>
@@ -3514,7 +3515,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> The following table indicates all the combinations of geometry, standards and resolutions managed by ffDiaporama. For every combination, it indicates the number of associated FPS: </source>
-        <translation> Folgende Tabelle listet alle Kombinationen der Geometrien, Standards und Auflösungen auf die ffDiaporama verwaltet. Bei jeder Kombination sind die Anzahl Bilder pro Sekunde (FPS) angezeigt:</translation>
+        <translation> Folgende Tabelle listet alle Kombinationen der Geometrien, Standards und Auflösungen auf, die ffDiaporama verwaltet. Bei jeder Kombination ist die Anzahl Bilder pro Sekunde (FPS) angezeigt:</translation>
     </message>
     <message>
         <source>Name</source>
@@ -3554,7 +3555,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Special format used on Blackberry&apos;s very small screen</source>
-        <translation>Spezielles Format für kleine Bildschirme von Blackberry´s</translation>
+        <translation>Spezielles Format für kleine Bildschirme von Blackberry</translation>
     </message>
     <message>
         <source>6:9</source>
@@ -3610,7 +3611,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Used mainly on the Internet and by second generation smartphones and mobile video players. &lt;B&gt;Because this format does not respect the traditional video geometry&lt;/B&gt;, &lt;B&gt;black bands appear to fill the screen to 480x320.&lt;/B&gt;</source>
-        <translation>Wird meist im Internet und in der zweiten Generation von Smartphones und mobilen Videoplayern verwendet. &lt;B&gt;Allerdings respektiert dieses Fomat nicht die traditionele Videogeometry&lt;/B&gt;, &lt;B&gt;mit dem Effekt dass schwarze Balken zusätzlich gezeichnet werden müssen um auf die Auflösung 480×320 zu kommen.&lt;/B&gt;</translation>
+        <translation>Wird meist im Internet und in der zweiten Generation von Smartphones und mobilen Videoplayern verwendet. &lt;B&gt;Allerdings respektiert dieses Fomat nicht die traditionele Videogeometrie&lt;/B&gt;, &lt;B&gt;mit dem Effekt, dass schwarze Balken zusätzlich gezeichnet werden müssen um auf die Auflösung 480×320 zu kommen.&lt;/B&gt;</translation>
     </message>
     <message>
         <source>480x270</source>
@@ -3630,7 +3631,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Used mainly on the Internet and by some smartphones.</source>
-        <translation>Wird meist im Internet und in von manchen Smartphones verwendet.</translation>
+        <translation>Wird meist im Internet und von manchen Smartphones verwendet.</translation>
     </message>
     <message>
         <source>640x360</source>
@@ -3654,7 +3655,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The old television format for cathode ray tubes. Note that this format was specifically created for equipment with oval points: It is the anamorphism of the points that determines the geometry. That is why &lt;B&gt;it is absolutely necessary to avoid this format for anything other than television sets with cathode ray tubes.&lt;/B&gt;</source>
-        <translation>Das alte Fernsehformat der Röhrenapparate. Beachten Sie dass dieses Format primär so designt wurde, dass die Bildpunkte oval dargestellt werden ! Es ist eigentlich der anamorphismus der Bildpunkte der die Geometrie festlegt. Aus diesem Grund sollten Sie es &lt;B&gt;absolut vermeiden diese Auflösung für etwas anderes zu verwenden, als für Videos auf einem Röhrenfernseher!&lt;/B&gt; </translation>
+        <translation>Das alte Fernsehformat der Röhrenapparate. Beachten Sie, dass dieses Format Bildpunkte oval darstellt! Es ist eigentlich der Anamorphismus der Bildpunkte, der die Geometrie festlegt. Aus diesem Grund sollten Sie es &lt;B&gt;absolut vermeiden diese Auflösung für etwas anderes zu verwenden, als für Videos auf einem Röhrenfernseher!&lt;/B&gt; </translation>
     </message>
     <message>
         <source>WVGA</source>
@@ -3662,7 +3663,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Used mainly on the Internet and by new generation smartphones and mobile video players. This format has become widespread and has replaced the old  QVGA, HVGA and VGA format used in the years 2000-2010. &lt;B&gt;Because this format does not respect the traditional video geometries, black bands appear to fill the screen to 800x480.&lt;/B&gt;</source>
-        <translation>Wird meist im Internet und auf Smartphones neuerer Generation, sowie auf mobilen Videoplayern verwendet. Dieses Format ist aktuell weit verbreitet und hat das alte QVGA, HVGA und das VGA-Format (wurden zw. 2000-2010 verwendet) verdränkt. &lt;B&gt;Allerdings respektiert auch dieses Format nicht die traditionele Videogeometrie, mit dem Effekt dass schwarze Balken zusätzlich gezeichnet werden müssen um die Auflösung von 800×480 zu erreichen.&lt;/B&gt;</translation>
+        <translation>Wird meist im Internet und auf Smartphones neuerer Generation, sowie auf mobilen Videoplayern verwendet. Dieses Format ist aktuell weit verbreitet und hat das alte QVGA, HVGA und das VGA-Format (wurden zw. 2000-2010 verwendet) verdrängt. &lt;B&gt;Allerdings respektiert auch dieses Format nicht die traditionele Videogeometrie, mit dem Effek,t dass schwarze Balken zusätzlich gezeichnet werden müssen um die Auflösung von 800×480 zu erreichen.&lt;/B&gt;</translation>
     </message>
     <message>
         <source>800x450</source>
@@ -3682,7 +3683,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Historically this format was used only by computers (fixed or portable). Now we meet it more and more on tablet computers like the iPad.</source>
-        <translation>Eigentlich handelt es sich hier um ein Historisches Format, dass vornehmlich auf Computern verwendet wurde. Allerdings findet man dies aktuell auch bei Tablets wie dem iPad.</translation>
+        <translation>Eigentlich handelt es sich hier um ein historisches Format, das vornehmlich auf Computern verwendet wurde. Allerdings findet man es aktuell auch bei Tablets wie dem iPad.</translation>
     </message>
     <message>
         <source>1024x576</source>
@@ -3706,7 +3707,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Today, this format is widely used on the Internet, in particular by social networking and video-sharing sites. We also find it on certain &quot;home cinema&quot; devices.</source>
-        <translation>Aktuell findet dieses Format die weiteste Verbreitung im Internet, im besonderen bei sozialen Netzwerken und “Videosharing” Seiten. Wir fanden dieses Format auch in einigen Heimkinosystemen.</translation>
+        <translation>Aktuell findet dieses Format die weiteste Verbreitung im Internet, im besonderen bei sozialen Netzwerken und “Videosharing” Seiten. Wir finden dieses Format auch in einigen Heimkinosystemen.</translation>
     </message>
     <message>
         <source>1280x720</source>
@@ -3726,7 +3727,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This is the real &quot;home cinema&quot; format. It is used by the Blue Ray players and the &quot;home cinema&quot; devices.</source>
-        <translation>Dies ist das eigentliche Heimkinoformat. Es wird von Blu-Ray Abspielern und von Heimkinosystemen verwendet.</translation>
+        <translation>Dies ist das eigentliche Heimkinoformat. Es wird von Blue-Ray Abspielern und von Heimkinosystemen verwendet.</translation>
     </message>
     <message>
         <source>1920x1080</source>
@@ -3738,7 +3739,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Note that many other resolutions exists but which are not used by ffDiaporama.</source>
-        <translation>Anmerkung : Es gibt tatsächlich noch einige mehr Auflösungen, allerdings werden diese von ffDiaporama nicht verwendet.</translation>
+        <translation>Anmerkung : Es gibt tatsächlich noch einige weitere Auflösungen; allerdings werden diese von ffDiaporama nicht verwendet.</translation>
     </message>
 </context>
 <context>
@@ -3749,7 +3750,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>ffDiaporama allows you to produce joint files during the rendering process.</source>
-        <translation>ffDiaporama ermöglicht die Erzeugung von gemeinsam verwendbaren Dateien whärend der Videoerstellung.</translation>
+        <translation>ffDiaporama ermöglicht die Erzeugung von gemeinsam verwendbaren Dateien während der Videoerstellung.</translation>
     </message>
     <message>
         <source>The following files are availables:</source>
@@ -3761,11 +3762,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>A video or music file can be accompanied with an image file which must have the same name but with the .jpg extension (example: holidays.mkv and holidays.jpg in the same folder). </source>
-        <translation>Eine Musik- oder Videodatei kann eine begleitende Bilddatei erhalten welche den selben Namen erhält, allerdings mit der Dateierweiterung .jpg (Beispiel: Urlaub.mkv und Urlaub.jpg im selben Ordner).</translation>
+        <translation>Eine Musik- oder Videodatei kann eine begleitende Bilddatei haben, welche den selben Namen haben muss; allerdings mit der Dateierweiterung .jpg (Beispiel: Urlaub.mkv und Urlaub.jpg im selben Ordner).</translation>
     </message>
     <message>
         <source>This image is called a thumbnail and is used as icon for this file by ffDiaporama and many </source>
-        <translation>Diese Bild wird als Vorschaubild bezeichnet und als Icon für diese Datei von ffDiaporama und vielen anderen verwendet</translation>
+        <translation>Diese Bild wird als Vorschaubild bezeichnet und als Symbol für diese Datei von ffDiaporama und vielen anderen verwendet</translation>
     </message>
     <message>
         <source>Media Center Systems</source>
@@ -3777,7 +3778,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The .nfo file for XBMC allows XBMC to recognize the rendered videos as movies. </source>
-        <translation>Die .nfo Dateien für XBMC ermöglicht XBMC das erkennen der erstellten Videos als Film.</translation>
+        <translation>Die .nfo Dateien für XBMC ermöglicht XBMC das Erkennen der erstellten Videos als Film.</translation>
     </message>
     <message>
         <source>For more information see: &lt;a href=&quot;0044.html&quot;&gt;XBMC nfo files&lt;/a&gt;</source>
@@ -3839,7 +3840,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Filename of the project file to load at application startup</source>
-        <translation>Dateiname des Projektes, das geladen werden soll</translation>
+        <translation>Dateiname des Projektes, das beim Aufruf des Programmes geladen werden soll</translation>
     </message>
     <message>
         <source>-lang=</source>
@@ -3899,7 +3900,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Adjust the level of messages shown in the console: </source>
-        <translation>Regelt die Ausführlichkeit der Programmeldungen, die in der Konsole angezeigt werden. Der Parameter:</translation>
+        <translation>Regelt die Stufen der Programmeldungen, die in der Konsole angezeigt werden. Der Parameter:</translation>
     </message>
     <message>
         <source>1 to show all the messages of Debug, Information, Warning and Error levels</source>
@@ -3919,7 +3920,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Note: messages appear only if you launched the program from a console (CMD under Windows or Terminal under Linux). It is possible to redirect these messages into a log file by using &gt;. </source>
-        <translation> Anmerkung: Nachrichten werden nur angezeigt, wenn das Programm auch aus einer Konsole (CMD unter Windows oder Terminal unter Linux) aufgerufen wurde. Es ist möglich, die Nachrichten in eine Datei (mittels &gt;) umzuleiten.</translation>
+        <translation> Anmerkung: Nachrichten werden nur angezeigt, wenn das Programm auch aus einer Konsole (CMD unter Windows oder Terminal unter Linux) aufgerufen wurde. Es ist möglich, die Nachrichten (mittels &gt;) in eine Datei umzuleiten.</translation>
     </message>
 </context>
 <context>
@@ -4296,6 +4297,10 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>Fill with project name when project save : The title will take the same name as the .ffd file</source>
         <translation>Der Projektname wird beim Speichern des Projektes festgelegt : Der Titel erhält den selben Namen wie die .ffd Datei</translation>
+    </message>
+    <message>
+        <source>Fill with project folder name when project save : The title will take the same name as the folder in witch is save the .ffd file</source>
+        <translation>Wenn das Projekt gespeichert wird, wird der Ordnername des Projektes verwendet : Der Titel wird mit demselben Namen festgelegt ,wie der Ordner heißt, in dem die .ffd Datei gespeichert ist</translation>
     </message>
     <message>
         <source>Author</source>
@@ -4825,16 +4830,12 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <source>Defines the default value for the field Author that is often so called Artist by </source>
         <translation>Legt den Defaultwert für das Feld Autor - öfter auch Artist genannt bei</translation>
     </message>
-    <message>
-        <source>Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>0102</name>
     <message>
         <source>Manage devices dialog</source>
-        <translation>Verwaltung Gerätedatenbank</translation>
+        <translation>Verwaltung der Gerätedatenbank</translation>
     </message>
     <message>
         <source>The default database (supplied with ffDiaporama). These devices are registered in the global ffDiaporama configuration file.</source>
@@ -4842,7 +4843,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The devices which you modify or add. These are registered in your personal configuration file.</source>
-        <translation>Die Geräte die von Ihnen verändert bzw. hinzugefügt wurden. Diese Geräte sind in Ihrer persönlichen Konfigurationsdatei registriert.</translation>
+        <translation>Die Geräte, die von Ihnen verändert bzw. hinzugefügt wurden. Diese Geräte sind in Ihrer persönlichen Konfigurationsdatei registriert.</translation>
     </message>
     <message>
         <source>Devices preceded by this icon are defined in the default database.</source>
@@ -4854,15 +4855,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Add device: Allows you to create a new device which will be added to the database. </source>
-        <translation>Gerät hinzufügen: Ermöglicht das Hinzufügen von neuen Geräten in die Datenbank.</translation>
+        <translation>Gerät hinzufügen: Ermöglicht das Hinzufügen eines neuen Gerätes in die Datenbank.</translation>
     </message>
     <message>
         <source>The creation of a new device is made in 3 steps: </source>
-        <translation>Das Erzeugen von Geräten passiert in drei Schritten:</translation>
+        <translation>Das Erzeugen eines neuen Geräte geschieht in drei Schritten:</translation>
     </message>
     <message>
         <source>You must first create a device</source>
-        <translation>Sie müssen ein Gerät erstellen</translation>
+        <translation>Sie müssen zuerst ein Gerät erstellen</translation>
     </message>
     <message>
         <source>You define the various parameters</source>
@@ -4894,7 +4895,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to select the category in which the equipment is classified</source>
-        <translation>Ermöglicht das Auswählen der Kategorie in welcher das Gerät einzuordnen ist</translation>
+        <translation>Ermöglicht das Auswählen der Kategorie, in welcher das Gerät einzuordnen ist</translation>
     </message>
     <message>
         <source>Device model</source>
@@ -4902,19 +4903,19 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Enter here the name of the device (free text entry field) and then, enter all the parameters required for rendering videos that are to be associated with the device profile (File format, video Standard, etc.)</source>
-        <translation>Geben Sie hier den Namen des Gerätes (freies Textfeld) an und anschliessend geben Sie alle Parameter die zur Erstellung von Videos notwendig sind (Dateiformat, Videostandard, usw....)</translation>
+        <translation>Geben Sie hier den Namen des Gerätes (freies Textfeld) an und anschliessend geben Sie alle Parameter, die zur Erstellung von Videos notwendig sind (Dateiformat, Videostandard, usw....)</translation>
     </message>
     <message>
         <source>The device type zone allows you to select the type of equipment to be shown in the list.</source>
-        <translation>Die Gerätetypzone ermöglicht die Auswahl der Typen von Geräten die in der Liste angezeigt werden in der Liste.</translation>
+        <translation>Die Gerätetypzone ermöglicht die Auswahl der Typen von Geräten, die in der Liste angezeigt werden.</translation>
     </message>
     <message>
         <source>The list shows the categories and the device types present in the database.</source>
-        <translation>Diese Liste zeigt die Kategorien und die Gerätetypen die aktuell in der Datenbank enthalten sind.</translation>
+        <translation>Diese Liste zeigt die Kategorien und die Gerätetypen, die aktuell in der Datenbank enthalten sind.</translation>
     </message>
     <message>
         <source>The following buttons allow you to act on the database:</source>
-        <translation>Folgende Symbole ermöglichen mit der Datenbank zu arbeiten:</translation>
+        <translation>Folgende Symbole erlauben es, mit der Datenbank zu arbeiten:</translation>
     </message>
     <message>
         <source>This dialog box allows you to modify the equipment profiles database.</source>
@@ -4922,18 +4923,18 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The database is actually composed of two parts:</source>
-        <translation>Die Datenbank ist aktuell in 2 Teile getrennt:</translation>
+        <translation>Die Datenbank besteht aktuell aus zwei Teilen:</translation>
     </message>
 </context>
 <context>
     <name>0103</name>
     <message>
         <source>Add or modify a predefined title slide</source>
-        <translation>Hinzufügen oder Ändern von vordefinierten Titel</translation>
+        <translation>Hinzufügen oder Ändern eines vordefinierten Titels</translation>
     </message>
     <message>
         <source>This dialog allows you to select a model and define chapter information for predefined title slides.</source>
-        <translation>In diesem Dialog können Sie das Modell auswählen und Kapitelinformationen festlegen für die vordefinierten Titel.</translation>
+        <translation>In diesem Dialog können Sie das Modell auswählen und Kapitelinformationen für die vordefinierten Titel festlegen.</translation>
     </message>
     <message>
         <source>To understand the differences between &lt;B&gt;&lt;I&gt;Predefined title slides&lt;/I&gt;&lt;/B&gt; and &lt;B&gt;&lt;I&gt;Standard slides&lt;/I&gt;&lt;/B&gt;, see: &lt;a href=&quot;0012.html&quot;&gt;Predefined title slide&lt;/a&gt;</source>
@@ -4941,7 +4942,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>At the top of the box, the following two settings allow you to filter the Predefined title slide that are displayed in the selection area.</source>
-        <translation>In der obersten Leiste, folgende zwei Einstellungen ermöglichen die vordefinierter Titel zu filtern welche angezeigt werden sollen in der Auswahl.</translation>
+        <translation>In der oberen Leiste ermöglichen folgende zwei Einstellungen die vordefinierter Titel zu filtern, welche  in derAuswahl angezeigt werden sollen.</translation>
     </message>
     <message>
         <source>Slide type</source>
@@ -4961,7 +4962,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based only on project information. For more information on project information, see: &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;</source>
-        <translation>Die Textvariablen die für ein Modell dieses Diatyps verwendet werden, basieren auf den Projektinformationen. Für mehr Informationen über Projektinformationen, siehe: Dialog für &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt;</translation>
+        <translation>Die Textvariablen, die für ein Modell dieses Diatyps verwendet werden, basieren auf den Projektinformationen. Für mehr Informationen über Projektinformationen, siehe: Dialog für &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Chapter title</source>
@@ -4973,7 +4974,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are based on project information and on chapter information.</source>
-        <translation>Die Textvariablen die für ein Modell dieses Diatyps verwendet werden, basieren auf den Projekt- sowie auf den Kapitelinformationen.</translation>
+        <translation>Die Textvariablen, die für ein Modell dieses Diatyps verwendet werden, basieren auf den Projekt- sowie auf den Kapitelinformationen.</translation>
     </message>
     <message>
         <source>Credit title</source>
@@ -4985,7 +4986,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation>Die Textvariablen die für ein Modell dieses Diatyps verwendet wird sind generell berechnet. Für mehr Informationen von Textvariablen, siehe :&lt;a href=&quot;0013.html&quot;&gt;Dynamische Variablen&lt;/a&gt;</translation>
+        <translation>Die Textvariablen die für ein Modell dieses Diatyps verwendet werden, sind generell berechnet. Für mehr Informationen von Textvariablen, siehe :&lt;a href=&quot;0013.html&quot;&gt;Dynamische Variablen&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Category</source>
@@ -5013,23 +5014,23 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This type lists the templates that you saved with the &lt;B&gt;&lt;I&gt;Save as model&lt;/I&gt;&lt;/B&gt; function of the &lt;a href=&quot;0119.html&quot;&gt;Slide properties&lt;/a&gt; dialog box.</source>
-        <translation>Diese Art zeigt die Vorlagen die Sie mittels &lt;B&gt;&lt;I&gt;Speichern als Modell&lt;/I&gt;&lt;/B&gt; im Dialog &lt;a href=&quot;0119.html&quot;&gt;Eigenschaften Aufnahmen&lt;/a&gt; gespeichert haben.</translation>
+        <translation>Diese Art zeigt die Vorlagen, die Sie mittels &lt;B&gt;&lt;I&gt;Speichern als Modell&lt;/I&gt;&lt;/B&gt; im Dialog &lt;a href=&quot;0119.html&quot;&gt;Eigenschaften Aufnahmen&lt;/a&gt; gespeichert haben.</translation>
     </message>
     <message>
         <source> The selection area display models corresponding to the current Type and Category you previously selected.</source>
-        <translation> Der Auswahlbereich für Displaymodelle entsprechen dem aktuellem Typ und Kategorie die sie vorher ausgewählt hatten.</translation>
+        <translation> Der Auswahlbereich für Displaymodelle entsprechen dem aktuellem Typ und der Kategorie die sie vorher ausgewählt hatten.</translation>
     </message>
     <message>
         <source>The models are displayed and played, so you can see the slide as it will appear in your project with the content of dynamic variables.</source>
-        <translation>Die Modelle werden angezeigt und abgespielt, somit können Sie sehen wie das Dia in Ihrem Proejtk eingefügt wird mit dem Inhalt der dynamischen Variablen.</translation>
+        <translation>Die Modelle werden angezeigt und abgespielt, somit können Sie sehen, wie das Dia mit dem Inhalt der dynamischen Variablen in Ihr Proejtk eingefügt wird.</translation>
     </message>
     <message>
         <source>The slide duration is displayed on the bottom of each thumbnails model.</source>
-        <translation>Die Dauer des Dia im unteren Bereich jedes Vorschaubildes des Modells angezeigt.</translation>
+        <translation>Die Dauer des Dias wird im unteren Bereich jedes Vorschaubildes des Modells angezeigt.</translation>
     </message>
     <message>
         <source>When your selection of model is made, the following settings are available if slide type is &lt;B&gt;&lt;I&gt;Chapter model&lt;/I&gt;&lt;/B&gt;:</source>
-        <translation>Wenn Ihre Auswahl des Modells abgeschlossen ist, werden folgende Einstellungen sichtbar wenn das Dia vom Typ &lt;B&gt;&lt;I&gt;Kapitelmodell&lt;/I&gt;&lt;/B&gt;:</translation>
+        <translation>Wenn Ihre Auswahl des Modells abgeschlossen ist, werden folgende Einstellungen sichtbar, wenn das Dia vom Typ &lt;B&gt;&lt;I&gt;Kapitelmodell&lt;/I&gt;&lt;/B&gt; ist:</translation>
     </message>
     <message>
         <source>Chapter name</source>
@@ -5041,11 +5042,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Chapter date different from project date</source>
-        <translation>Kapiteldatum wenn es sich vom Projektdatum unterscheidet</translation>
+        <translation>Kapiteldatum, wenn es sich vom Projektdatum unterscheidet</translation>
     </message>
     <message>
         <source>If this box is checked, the date of the chapter is different from the date of the project. </source>
-        <translation>Wenn diese Option aktiv ist, wenn das Datum für das Kapitel unterschiedlich ist zum Datum des Projekts.</translation>
+        <translation>Wenn diese Option aktiv ist, sind das Datum für das Kapitel und das Datum des Projekts unterschiedlich.</translation>
     </message>
     <message>
         <source>Remark: It is often useful to differentiate the date of the chapter of the date of the project. </source>
@@ -5053,7 +5054,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation>Zum Beispiel: Wenn das Projekt &quot;Mein Urlaub von 1 bis 15&quot;, kann das Kapitel nur bis zu 3 gehen.</translation>
+        <translation>Zum Beispiel: Wenn das Projekt &quot;Mein Urlaub von 1 bis 15&quot;, kann das Kapitel auf 3 eingeschränkt sein.</translation>
     </message>
     <message>
         <source>Event date</source>
@@ -5065,7 +5066,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Remark: This field is enabled only if the &lt;I&gt;&lt;B&gt;Chapter date different from project date&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
-        <translation>Anmerkung: Dieses Feld ist nur aktiv wenn die Option &lt;I&gt;&lt;B&gt;Kapiteldatum ist unterschiedich zum Projektdatum&lt;/B&gt;&lt;/I&gt; aktiv ist.</translation>
+        <translation>Anmerkung: Dieses Feld ist nur aktiv, wenn die Option &lt;I&gt;&lt;B&gt;Kapiteldatum ist unterschiedich zum Projektdatum&lt;/B&gt;&lt;/I&gt; aktiv ist.</translation>
     </message>
     <message>
         <source>Override date</source>
@@ -5073,7 +5074,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text. </source>
-        <translation>Wählen Sie diese Option um das Datum zu überschreiben und zu ermöglichen ein Datum mit einem freien Mehrzeiligem Text einzugeben.</translation>
+        <translation>Wählen Sie diese Option, um das Datum zu überschreiben und zu ermöglichen, das Datum als freien mehrzeiligem Text einzugeben.</translation>
     </message>
     <message>
         <source>Under these settings, the following two buttons allow you:</source>
@@ -5116,7 +5117,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>If the previous slide does not have a background definition either, the check continues backwards until a slide is found which does have a background definition.</source>
-        <translation>Hat das Dia davor keine eigenen Hintergrundeigenschaften, wird solange in den Dias davor gesucht bis ein Dia gefunden wurde, das eigene Hintergrundeigenschaften hat.</translation>
+        <translation>Hat das Dia davor keine eigenen Hintergrundeigenschaften, wird solange in den Dias davor gesucht, bis ein Dia gefunden wurde, das eigene Hintergrundeigenschaften hat.</translation>
     </message>
     <message>
         <source>If no previous slide has a background definition, then a black frame will be used.</source>
@@ -5124,15 +5125,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Select a new background</source>
-        <translation>neuer Hintergrund</translation>
+        <translation>Neuer Hintergrund</translation>
     </message>
     <message>
         <source> If this option is selected, the slide will have its own background definition. In that case, the following zones set properties for the background. </source>
-        <translation>Ist diese Option gewählt, erhält das Dia einen eigenen Hintergrund. Es zeigen sich folgende Eigenschaften des Hintergrunds die nach Ihren Bedürfnissen eingestellt werden können.</translation>
+        <translation>Ist diese Option gewählt, erhält das Dia einen eigenen Hintergrund. Es zeigen sich folgende Eigenschaften des Hintergrunds, die nach Ihren Bedürfnissen eingestellt werden können.</translation>
     </message>
     <message>
         <source>Solid brush</source>
-        <translation>Einfärbiger</translation>
+        <translation>Einfarbiger</translation>
     </message>
     <message>
         <source>Selects a plain color.</source>
@@ -5140,7 +5141,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Gradient 2 colors</source>
-        <translation>Farbverlauf aus 2 Farben</translation>
+        <translation>Farbverlauf aus zwei Farben</translation>
     </message>
     <message>
         <source>Selects a gradient of 2 colors</source>
@@ -5148,7 +5149,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Gradient 3 colors</source>
-        <translation>Farbverlauf aus 3 Farben</translation>
+        <translation>Farbverlauf aus drei Farben</translation>
     </message>
     <message>
         <source>Selects a gradient of 3 colors</source>
@@ -5164,7 +5165,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Remark: By default, the library contains a dozen of background screens. </source>
-        <translation>Anmerkung: Standardmässig enthählt die Bibliothek dutzende Hintergrundbilder.</translation>
+        <translation>Anmerkung: Standardmässig enthält die Bibliothek dutzende Hintergrundbilder.</translation>
     </message>
     <message>
         <source>You can get additionals backgrounds installing the &lt;B&gt;&lt;U&gt;Texturemate&lt;/U&gt;&lt;/B&gt; extension from this page </source>
@@ -5180,7 +5181,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to select a photo or an image. </source>
-        <translation>Sie können ein Photo oder Bild auswählen.</translation>
+        <translation>Sie können ein Foto oder Bild auswählen.</translation>
     </message>
     <message>
         <source>File</source>
@@ -5192,7 +5193,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allow you to selects an image file</source>
-        <translation>Hier können Sie eine Bilddatei auswaählen</translation>
+        <translation>Hier können Sie eine Bilddatei auswählen</translation>
     </message>
     <message>
         <source>Keep aspect ratio</source>
@@ -5204,7 +5205,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Open the &lt;a href=&quot;0110.html&quot;&gt;Image framing and correction dialog&lt;/a&gt; to regulate framing and image corrections </source>
-        <translation> Öffnen Sie den Dialog &lt;a href=&quot;0110.html&quot;&gt;Bildbeschneidung und Korrektur&lt;/a&gt; um den Beschnitt und Bildkorrektur zu bestimmen</translation>
+        <translation> Öffnen Sie den Dialog &lt;a href=&quot;0110.html&quot;&gt;Bildbeschneidung und Korrektur&lt;/a&gt;, um Beschnitt und Bildkorrektur zu bestimmen</translation>
     </message>
     <message>
         <source>Full filling</source>
@@ -5212,7 +5213,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows the image to fill the whole screen with image deformation as needed.</source>
-        <translation>Das Bild wird Vollbildfüllend am Bildschirm angezeigt mit der Deformierung die notwendig ist.</translation>
+        <translation>Das Bild wird vollbildfüllend mit der Deformierung die dafür notwendig ist, am Bildschirm angezeigt.</translation>
     </message>
 </context>
 <context>
@@ -5223,7 +5224,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> All slides have information chaptering so each slide can mark the beginning of a new chapter. </source>
-        <translation> Alle Dias haben die Möglichkeit Kapitelinformationen zu speichern ,somit kann jedes Dia als Start eines neuen Kapitels gewählt werden.</translation>
+        <translation> Alle Dias haben die Möglichkeit, Kapitelinformationen zu speichern. Somit kann jedes Dia als Start eines neuen Kapitels gewählt werden.</translation>
     </message>
     <message>
         <source>Remarks:</source>
@@ -5231,7 +5232,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Except for the first chapter which start at 0, all other chapters begin after the entering transition.</source>
-        <translation>Ausgenommen das erste Kapitel das mit 0 startet, alle restlichen können einen Kapitelstart nach dem Eingangseffekt festlegen.</translation>
+        <translation>Ausgenommen das erste Kapitel das mit 0 startet, alle anderen Kapitel beginnen nach dem Anfangsübergang.</translation>
     </message>
     <message>
         <source>The 1st slide of the mount always mark the beginning of a new chapter.</source>
@@ -5255,19 +5256,19 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Chapter date different from project date</source>
-        <translation>Kapiteldatum wenn es sich vom Projektdatum unterscheidet</translation>
+        <translation>Kapiteldatum, wenn es sich vom Projektdatum unterscheidet</translation>
     </message>
     <message>
         <source>If this box is checked, the date of the chapter is different from the date of the project. </source>
-        <translation>Wenn diese Option aktiv ist, wenn das Datum für das Kapitel unterschiedlich ist zum Datum des Projekts.</translation>
+        <translation>Wenn diese Option aktiv ist, unterscheidet sich das Datum für das Kapitel vom Datum des Projekts.</translation>
     </message>
     <message>
         <source>Remark: It is often useful to differentiate the date of the chapter of the date of the project. </source>
-        <translation>Anmerkung: Es ist oft sinnvoll das Kapiteldatum unterschiedlich zum Projektdatum zu machen.</translation>
+        <translation>Anmerkung: Es ist oft sinnvol,l das Kapiteldatum unterschiedlich zum Projektdatum zu machen.</translation>
     </message>
     <message>
         <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation>Zum Beispiel: Wenn das Projekt &quot;Mein Urlaub von 1 bis 15&quot;, kann das Kapitel nur bis zu 3 gehen.</translation>
+        <translation>Zum Beispiel: Wenn das Projekt &quot;Mein Urlaub von 1 bis 15&quot;, kann das Kapitel nur auf 3 beschränkt sein.</translation>
     </message>
     <message>
         <source>Event date</source>
@@ -5283,7 +5284,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text. </source>
-        <translation>Wählen Sie diese Option um das Datum zu überschreiben und zu ermöglichen ein Datum mit einem freien Mehrzeiligem Text einzugeben.</translation>
+        <translation>Wählen Sie diese Option, um das Datum zu überschreiben und ein Datum als freien mehrzeiligen Text einzugeben.</translation>
     </message>
     <message>
         <source>Remark: This box cannot be deactivated for the first slide of the project.</source>
@@ -5306,11 +5307,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This dialog allows to check external tools configuration and libraries used by ffDiaporama.</source>
-        <translation>Dieser Dialog prüft die externen Tools und deren Einstellungen die für ffDiaporama benutzt werden.</translation>
+        <translation>Dieser Dialog prüft die externen Werkzeuge, die für ffDiaporama benutzt werden und deren Einstellungen.</translation>
     </message>
     <message>
         <source>It is especially useful for the Linux users and for those who compiles the application.</source>
-        <translation>Dies ist für Linuxbenutzer die Ihre Bibliotheken selbst erstellen sehr hilfreich.</translation>
+        <translation>Dies ist für Linuxbenutzer, die Ihre Bibliotheken selbst erstellen sehr hilfreich.</translation>
     </message>
     <message>
         <source>The most common shown errors concern the supported formats, codec and library versions.</source>
@@ -5318,7 +5319,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>To solve the problems you will have to install additional packages on your computer and may be to make ffDiaporama from source and verify again the configuration.</source>
-        <translation>Um Probleme mit den zusätzlichen Paketen zu beheben ist ev. nötig weitere/fehlende Pakete einzurichten; und/oder die Quellen von ffDiaporama zu kompilieren und erneut die Konfiguration überprüfen.</translation>
+        <translation>Um Probleme mit den zusätzlichen Paketen zu beheben, ist es evtl. nötig, weitere/fehlende Pakete einzurichten; und/oder die Quellen von ffDiaporama zu kompilieren und erneut die Konfiguration zu überprüfen.</translation>
     </message>
 </context>
 <context>
@@ -5349,7 +5350,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>At any time during this process, you can click the cancel button to stop the export. </source>
-        <translation>Zu jedem Zeitpunkt während es Exportes, können Sie diesen Abbrechen indem Sie den Abbruchknopf drücken.</translation>
+        <translation>Zu jedem Zeitpunkt während es Exportes, können Sie diesen abbrechen, indem Sie den Abbruchknopf drücken.</translation>
     </message>
     <message>
         <source>Remarks:</source>
@@ -5357,11 +5358,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The export takes into account all the resources that compose the project:</source>
-        <translation>Der Export berücksichtigt alle verwendeten Elemente die dem Projekt zugehörig sind:</translation>
+        <translation>Der Export berücksichtigt alle Elemente, die zum Projekt gehören:</translation>
     </message>
     <message>
         <source>Images</source>
-        <translation>Bilder/Photos</translation>
+        <translation>Bilder/Fotos</translation>
     </message>
     <message>
         <source>Videos</source>
@@ -5393,11 +5394,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>A .ffd project file is created taking into account any changes in directory and file name.</source>
-        <translation>Eine .ffd Projekt-Datei wird erzeugt welche alle Änderungen von Verzeichnis- oder Dateinamen erfahren hat.</translation>
+        <translation>Eine .ffd Projekt-Datei wird erzeug,t welche alle Änderungen von Verzeichnis- oder Dateinamen enthält.</translation>
     </message>
     <message>
         <source>Allows you to select the folder name to be created for the project files. By default the project title is proposed.</source>
-        <translation>Ermöglicht das wählen des Ordnernamens der für die Projektdatei verwendet wird. Per default wird der Projekttitel verwendet.</translation>
+        <translation>Ermöglicht das Wählen des Ordnernamens, der für die Projektdatei verwendet wird. Standardmässig wird der Projekttitel verwendet.</translation>
     </message>
 </context>
 <context>
@@ -5408,7 +5409,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This information will then be registered in the form of TAGs in the rendered video files. </source>
-        <translation>Diese Informationen werden registriert in der Form von TAGs im erstellten Video.</translation>
+        <translation>Diese Informationen werden in der Form von TAGs im erstellten Video registriert.</translation>
     </message>
     <message>
         <source>Remarks:</source>
@@ -5460,7 +5461,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>A free comment which can spread out on several lines. </source>
-        <translation>Ein freier Kommentar welcher über mehrere Zeilen gehen kann.</translation>
+        <translation>Ein freier Kommentar, welcher über mehrere Zeilen gehen kann.</translation>
     </message>
     <message>
         <source>Some fields are automatically filled and do not appear in this dialog: </source>
@@ -5472,23 +5473,23 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Date and time of generation of the video.</source>
-        <translation>Datum und Zeit als das Video erstellt wurde.</translation>
+        <translation>Datum und Zeit zu der das Video erstellt wurde.</translation>
     </message>
     <message>
         <source>Composer</source>
-        <translation>Verfasser</translation>
+        <translation>Erstellungsversion</translation>
     </message>
     <message>
         <source>Contains the version of ffDiaporama with which the video was produced.</source>
-        <translation>Enthält die Version von ffDiaporama mit welcher das erstellte Video gemacht wurde.</translation>
+        <translation>Enthält die Version von ffDiaporama, mit welcher das erstellte Video gemacht wurde.</translation>
     </message>
     <message>
         <source>Encoder</source>
-        <translation>Encoder</translation>
+        <translation>Kodiererr</translation>
     </message>
     <message>
         <source>Contains the version of libavformat (ffmpeg) with which the video was produced.</source>
-        <translation>Enthält die Version von libavformat (ffmepg) mit welcher das Video erstellt wurde.</translation>
+        <translation>Enthält die Version von libavformat (ffmepg), mit welcher das Video erstellt wurde.</translation>
     </message>
     <message>
         <source>Chapters</source>
@@ -5512,7 +5513,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Slide number in wich chapter is defined</source>
-        <translation>Dianummer wo das Kapitel startet und festgelegt ist</translation>
+        <translation>Nummer des Dias, in dem das Kapitel startet und festgelegt ist</translation>
     </message>
     <message>
         <source>Chapter title</source>
@@ -5588,7 +5589,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Defined default speed curve for block animations</source>
-        <translation>Definiert die Standardanstiegskurve für Blockanimationen fest</translation>
+        <translation>Definiert die Standardanstiegskurve für Blockanimationen</translation>
     </message>
     <message>
         <source>Image animations</source>
@@ -5596,11 +5597,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Defined default speed curve for image animations</source>
-        <translation>Definiert die Standardanstiegskurve für Bldanimationen fest</translation>
+        <translation>Definiert die Standardanstiegskurve für Bldanimationen</translation>
     </message>
     <message>
         <source>See also</source>
-        <translation>siehe auch</translation>
+        <translation>Siehe auch</translation>
     </message>
     <message>
         <source>TAG in ffmpeg</source>
@@ -5632,7 +5633,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation>Mediacentersystemen</translation>
+        <translation>Mediacentersystemen genutzt werden</translation>
     </message>
     <message>
         <source>.</source>
@@ -5644,7 +5645,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This field is only editable when the dialog box is used for creating a new project. Subsequently, it is not possible to change this value.</source>
-        <translation>Dieses Feld ist nur innerhalb des Dialoges &quot;Erstellen eines neuen Projektes&quot;. Nachträglich ist dieses Feld nicht mehr änderbar. </translation>
+        <translation>Dieses Feld ist nur innerhalb des Dialoges &quot;Erstellen eines neuen Projektes&quot; veränderbar. Nachträglich ist dieses Feld nicht mehr änderbar. </translation>
     </message>
     <message>
         <source>The title of the project </source>
@@ -5668,7 +5669,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text</source>
-        <translation>Wählen Sie diese Option um das Datum zu überschreiben und zu ermöglichen ein Datum mit einem freien Mehrzeiligem Text einzugeben</translation>
+        <translation>Wählen Sie diese Option um das Datum zu überschreiben und zu ermöglichen ein Datumals freien mehrzeiligen Text einzugeben</translation>
     </message>
     <message>
         <source>The name of the author of the project. </source>
@@ -5680,11 +5681,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> under the term Artist.</source>
-        <translation> unter dem Begriff Artist.</translation>
+        <translation> unter dem Begriff Artist angezeigt.</translation>
     </message>
     <message>
         <source>The album of the project </source>
-        <translation>Das Album vom Projekt </translation>
+        <translation>Das Album des Projekts </translation>
     </message>
     <message>
         <source>ISO 639</source>
@@ -5700,11 +5701,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>, ffDiaporama does not include the whole video TAGs but is closer rather to the standard id3v2 than is the most used by these systems today. Furthermore, the video formats do not support every TAG in the same way.</source>
-        <translation>, ffDiaporama enthält nicht alle Video-TAGs, aber ist näher dem id3V2-Standard da viele andere Systeme diesen Standard heutzutage eher verwenden. Abgesehen davon verwenden viele Videoformate die TAGs unterschiedlich.</translation>
+        <translation>, ffDiaporama enthält nicht alle Video-TAGs, aber ist näher dem id3V2-Standard, da viele andere Systeme diesen Standard heutzutage eher verwenden. Abgesehen davon verwenden viele Videoformate die TAGs unterschiedlich.</translation>
     </message>
     <message>
         <source> Chapters defined in the project are listed for consultation. (To modify chapters use Chapter button in &lt;a href=&quot;0119.html&quot;&gt;modify slide dialog&lt;/a&gt;.) </source>
-        <translation> Kapitel die in diesem Projekt vorhanden sind werden aufgelistet. (Um die Kapitel zu verändern, verwenden Sie den Kapitelknopf im Dialog &lt;a href=&quot;0119.html&quot;&gt;Dia ändern&lt;/a&gt;.) </translation>
+        <translation> Kapitel, die in diesem Projekt vorhanden sind, werden aufgelistet. (Um die Kapitel zu verändern, verwenden Sie den Kapitelknopf im Dialog &lt;a href=&quot;0119.html&quot;&gt;Dia ändern&lt;/a&gt;.) </translation>
     </message>
     <message>
         <source>Options for joined ressources</source>
@@ -5712,7 +5713,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> These options allow you to define the thumbnail that will be attached to the video file when rendering </source>
-        <translation> Mit dieser Option legen Sie das Vorschaubild fest dass dem erstelltem Video beigefügt wird </translation>
+        <translation> Mit dieser Option legen Sie das Vorschaubild fest, das dem erstelltem Video beigefügt wird </translation>
     </message>
     <message>
         <source>Thumbnail</source>
@@ -5724,11 +5725,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Edit custom thumbnail</source>
-        <translation>Ändern Benutzerdefiniertes Vorschaubild</translation>
+        <translation>Ändern benutzerdefiniertes Vorschaubild</translation>
     </message>
     <message>
         <source>Create a new model from this thumbnail or edit custom thumbnail. Opens the &lt;a href=&quot;0117.html&quot;&gt;Edit thumbnail dialog&lt;/a&gt;.</source>
-        <translation>Erstellen eines neuen Modells von diesem Vorschaubild oder Ändern Sie dieses Vorschaubild. Öffnet den Dialog &lt;a href=&quot;0117.html&quot;&gt;Vorschaubild ändern&lt;/a&gt;.</translation>
+        <translation>Erstellen eines neuen Modells von diesem Vorschaubild oder Ändern dieses Vorschaubilds. Öffnet den Dialog &lt;a href=&quot;0117.html&quot;&gt;Vorschaubild ändern&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Customize</source>
@@ -5748,7 +5749,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> recognize this file as the icon to be used for the directory that contains it.</source>
-        <translation> akzeptieren diese Datei als Icon das für den Ordner zu verwenden ist.</translation>
+        <translation> akzeptieren diese Datei als Symbol, das für den Ordner zu verwenden ist.</translation>
     </message>
     <message>
         <source>The language of the audio track </source>
@@ -5764,11 +5765,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> If this icon appears, then the thumbnail is a custom model thumbnail (Ie, a custom model thumbnail that you have added to your collection of thumbnail model).</source>
-        <translation> Wenn dieses Symbol erscheint, dann verwendet dieses Vorschaubild ein Benutzerdefiniertes Modell (genauer: Ein Modell für Vorschaubilder das Sie zu Ihrer Auswahl an Vorschaubildermodellen hinzugefügt hatten).</translation>
+        <translation> Wenn dieses Symbol erscheint, dann verwendet dieses Vorschaubild ein benutzerdefiniertes Modell (genauer: Ein Modell für Vorschaubilder, das Sie zu Ihrer Auswahl an Vorschaubildermodellen hinzugefügt hatten).</translation>
     </message>
     <message>
         <source> If this icon appears, then the thumbnail is a custom thumbnail for this project only (Ie, not based on a model).</source>
-        <translation> wenn dieses Symbol erscheint, dann ist dieses ein Benutzerdefiniertes Vorschaubild nur für dieses Projekt (genauer: nicht basierend auf einem Modell).</translation>
+        <translation> Wenn dieses Symbol erscheint, dann ist dieses ein benutzerdefiniertes Vorschaubild nur für dieses Projekt (genauer: nicht basierend auf einem Modell).</translation>
     </message>
     <message>
         <source>Remark: Video formats do not support all the chapters in the same way:</source>
@@ -5776,7 +5777,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> This dialog allows you to define the information which qualifies the project. </source>
-        <translation> Dieser Dialog erlaubt die Festlegung der Informationen die das Projekt beschreiben. </translation>
+        <translation> Dieser Dialog erlaubt die Festlegung der Informationen, die das Projekt beschreiben. </translation>
     </message>
 </context>
 <context>
@@ -5791,7 +5792,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>It is used to select either one or multiple files depending on the purpose for which is was called.</source>
-        <translation>Er wird verwendet zur Auswahl von einer oder mehreren Dateien abhängig vom Zweck woführ er aufgrufen wurde.</translation>
+        <translation>Er wird verwendet zur Auswahl von einer oder mehreren Dateien, abhängig vom Zweck woführ er aufgrufen wurde.</translation>
     </message>
     <message>
         <source>It consists of a multimedia file browser.</source>
@@ -5818,7 +5819,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Warning! If you replace a file (image or video) with another one with a different image geometry, you will need to review the image framing in all shots. </source>
-        <translation>Achtung! Wenn Sie eine Datei auswechseln (Bilder oder Videos) mit einem anderem unterschiedlicher Bildgeometrie, müssen sie den verwendeten Rahmen in allen Aufnahmen kontrollieren.</translation>
+        <translation>Achtung! Wenn Sie eine Datei (Bild oder Videos) durch ein anderes mit unterschiedlicher Bildgeometrie ersetzen, müssen sie den verwendeten Rahmen in allen Aufnahmen kontrollieren.</translation>
     </message>
     <message>
         <source>Allows to select a framing from a list of predefined framings. The framings are classified in different categories: </source>
@@ -5838,7 +5839,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Lock the image framing selection rectangle to the same geometry as the image</source>
-        <translation>Sperrt das Fadenkreuz des Rahmenwerkzeuges auf die Bildgeometrie des Bildes</translation>
+        <translation>Sperrt das Fadenkreuz des Rahmenwerkzeuges auf die Geometrie des Bildes</translation>
     </message>
     <message>
         <source>No constraint</source>
@@ -5858,11 +5859,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>According to the image format, various choices will be proposed to you. For example: </source>
-        <translation>Abhängig vom Bildformat, ewrden verschiedene Auswahlmöglichkeiten angeboten. Zum Beispiel:</translation>
+        <translation>Abhängig vom Bildformat werden verschiedene Auswahlmöglichkeiten angeboten. Zum Beispiel:</translation>
     </message>
     <message>
         <source>The horizontal position from the left (X). This position is expressed as a percentage (%) of the width of the image.</source>
-        <translation>Die horizontale Position von Links (X). Diese Position wird in Prozent (%) der Bildbreite ausgedrückt.</translation>
+        <translation>Die horizontale Position von links (X). Diese Position wird in Prozent (%) der Bildbreite ausgedrückt.</translation>
     </message>
     <message>
         <source>Example: if X=25% then the 1st quarter to the left of the image is eliminated.</source>
@@ -5870,7 +5871,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The vertical position from the top of the image ( Y ). This position is expressed as a percentage (%) of the height of the image.</source>
-        <translation>Die vertikale Position von Oben (Y). Diese Position wird in Prozent (%) der Bildhöhe ausgedrückt.</translation>
+        <translation>Die vertikale Position von oben (Y). Diese Position wird in Prozent (%) der Bildhöhe ausgedrückt.</translation>
     </message>
     <message>
         <source>Example: if Y=25% the 1st quarter at the top of the image is eliminated.</source>
@@ -5906,7 +5907,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept). </source>
-        <translation>Klicken Sie auf einen der Eckmarkierungen und ziehen Sie - mit gedrückter linker Maustaste - um die Größe des Auswahlrechteckes zu verändern (Vergrößern oder Verkleinern des Bereiches der sichtbar bleiben soll).</translation>
+        <translation>Klicken Sie auf eine der Eckmarkierungen und ziehen Sie - mit gedrückter linker Maustaste - um die Größe des Auswahlrechteckes zu verändern (Vergrößern oder Verkleinern des Bereiches der sichtbar bleiben soll).</translation>
     </message>
     <message>
         <source>Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.</source>
@@ -5938,7 +5939,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to to increase or decrease the gamma value of the image</source>
-        <translation>Ermöglicht das Erhöhen oder Reduzieren den Gamma-Wert des Bildes</translation>
+        <translation>Ermöglicht das Erhöhen oder Reduzieren des Gamma-Wertes des Bildes</translation>
     </message>
     <message>
         <source>Allows you to modify the colorization of an image by changing the primary color red. Example : Reducing the red component makes the image more yellow - increasing it makes make the image more red</source>
@@ -5982,7 +5983,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The length of the ruler is increased in proportion to the duration of the video.</source>
-        <translation>Die Länge des Lineals wächst Proportional zur Dauer des Videos.</translation>
+        <translation>Die Länge des Lineals wächst proportional zur Dauer des Videos.</translation>
     </message>
     <message>
         <source>The blue part represents the part of the video which is selected (which will be used in the assembly).</source>
@@ -5998,11 +5999,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Positions the cursor at the starting point</source>
-        <translation> Positionieren Sie den Cursor auf den Startpunkt</translation>
+        <translation> Positioniert den Cursor auf den Startpunkt</translation>
     </message>
     <message>
         <source> Uses the current cursor position as starting point (carries out an edit)</source>
-        <translation> verwendet die aktuelle Cursorposition als Startpunkt (Berücksichtigt eine Änderung)</translation>
+        <translation> Verwendet die aktuelle Cursorposition als Startpunkt (Berücksichtigt eine Änderung)</translation>
     </message>
     <message>
         <source> Positions the cursor at the end point</source>
@@ -6046,11 +6047,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Rotate image (change or restore the orientation portrait/landscape).</source>
-        <translation>Bildrotation (Ändern oder wiederherstellen der Ausrichtung Portrait/Landscape).</translation>
+        <translation>Bildrotation (Ändern oder Wiederherstellen der Ausrichtung Hochformat/Querformat).</translation>
     </message>
     <message>
         <source>Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
-        <translation>Korrigiere Bild (Farbänderungen und/oder Belichtungsparameter) sowie grafische Filter zuordnen.</translation>
+        <translation>Korrigiere Bild (Farbänderungen und/oder Belichtungsparameter), sowie grafische Filter zuordnen.</translation>
     </message>
     <message>
         <source>Define the beginning and end of a video sequence.</source>
@@ -6058,7 +6059,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>To the left: The interactive area</source>
-        <translation>Auf der linken Seite: Der Interaktive Bereich</translation>
+        <translation>Auf der linken Seite: Der interaktive Bereich</translation>
     </message>
     <message>
         <source>To the right: The settings area</source>
@@ -6066,7 +6067,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>At the bottom of the interactive zone, is an area for changing the image or video file:</source>
-        <translation>Im unteren Bereich der interaktiven Zone, ist ein Bereich zum wechseln der Bild- oder Videodatei:</translation>
+        <translation>Im unteren Bereich der interaktiven Zone ist ein Bereich zum Wechseln der Bild- oder Videodatei:</translation>
     </message>
     <message>
         <source>At the bottom of the dialog box:</source>
@@ -6074,7 +6075,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> This button enables or disables the magnetic rulers: When rulers are enabled, the mouse will automatically snap to the edges of the photo, facilitating the framing. </source>
-        <translation> Dieser Knopf aktiviert oder deaktiviert das magnetische Lineal: Wenn dieses aktiv ist und die Maus in die Nähe kommt, schnappt der Mauszeiger an den Ecken ein (Berücksichtigt einen gesetzten Rahmen).</translation>
+        <translation> Dieser Knopf aktiviert oder deaktiviert das magnetische Lineal: Wenn es aktiv ist und die Maus in die Nähe kommt, schnappt der Mauszeiger an den Ecken ein (Berücksichtigt einen gesetzten Rahmen).</translation>
     </message>
     <message>
         <source>The interactive area</source>
@@ -6126,7 +6127,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>All the combinations are possible. For example: you can increase the red and reduce the green at the same time. The results depend on the initial strength of the primary color components of the source image.</source>
-        <translation>Jede Kombination ist möglich. Zum Beispiel können Sie den Rotanteil reduzieren und gleichzeitig den Grünanteil. Das Ergebnis hängt naturgemäß von der ursprünglichen Farbgestaltung des Quellbildes ab.</translation>
+        <translation>Jede Kombination ist möglich. Zum Beispiel können Sie den Rotanteil erhöhen und gleichzeitig den Grünanteil reduzieren. Das Ergebnis hängt naturgemäß von der ursprünglichen Farbgestaltung des Quellbildes ab.</translation>
     </message>
     <message>
         <source>The settings area - Image enhancement</source>
@@ -6134,7 +6135,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Apply a filter to the photo or video images. The following filters are available: </source>
-        <translation> Einen Filter zu einem Bild oder Video zuordnen. Folgende Filter sind verfügbar:</translation>
+        <translation> Einen Filter einem Bild oder Video zuordnen. Folgende Filter sind verfügbar:</translation>
     </message>
     <message>
         <source>Type: Select the blur/sharpen algorythm</source>
@@ -6146,7 +6147,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to activate the antialias (minimizing the distortion artifacts) filter.</source>
-        <translation>Ermöglicht das Aktivieren des Filters für Antialiasing (verringern von Artifakten).</translation>
+        <translation>Ermöglicht das Aktivieren des Filters für Antialiasing (Verringern von Artifakten).</translation>
     </message>
     <message>
         <source>The settings area - Artistic effects</source>
@@ -6182,7 +6183,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This tab is available for both images and video. It is divided into two parts:</source>
-        <translation>Dieser Tab ist für Bild- und Videodateien verfübar. Er teilt sich in 2 Bereiche:</translation>
+        <translation>Dieser Tab ist für Bild- und Videodateien verfübar. Er teilt sich in zwei Bereiche:</translation>
     </message>
     <message>
         <source>Allows you to activate the swirl transformation. Image swirling is a non-linear image deformation that creates a whirlpool effect.</source>
@@ -6213,16 +6214,16 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Dieser TAG ist nur für Videos verfügbar.</translation>
     </message>
     <message>
-        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
-        <translation type="unfinished"></translation>
+        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90ÃÂÃÂ°, the image is turned by a quarter to the right.</source>
+        <translation>Die Rotationsachse für die Z-Achse. Die Position wird in Grad ausgedrückt. Beispiel: Eine Rotation von 90°, dreht das Bild um ein Viertel nach rechts.</translation>
     </message>
     <message>
-        <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
-        <translation type="unfinished"></translation>
+        <source>Turn the image to the left (to the nearest multiple of 90ÃÂÃÂ°).</source>
+        <translation>Dreht das Bild nach links (zum nächsten Vielfachem von 90°).</translation>
     </message>
     <message>
-        <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
-        <translation type="unfinished"></translation>
+        <source>Turn the image to the right (to the nearest multiple of 90ÃÂÃÂ°).</source>
+        <translation>Dreht das Bild nach rechts (zum nächsten Vielfachem von 90°).</translation>
     </message>
 </context>
 <context>
@@ -6237,7 +6238,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Information shown for the image files</source>
-        <translation>Informationen die für Bilddateien angezeigt werden</translation>
+        <translation>Informationen, die für Bilddateien angezeigt werden</translation>
     </message>
     <message>
         <source>Information on file</source>
@@ -6281,7 +6282,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The date and the hour of the last modification of the file (when the photo was taken or when you modified it with an image editor)</source>
-        <translation>Das Datum und die Uhrzeit der letzten Änderung der Datei (wann das Bild aufgenommen wurde oder das letzte mal mit einem Bildverarbeitungsprogramm verändert wurde)</translation>
+        <translation>Das Datum und die Uhrzeit der letzten Änderung der Datei (wann das Bild aufgenommen wurde oder das letzte Mal mit einem Bildverarbeitungsprogramm verändert wurde)</translation>
     </message>
     <message>
         <source>Additional information</source>
@@ -6289,7 +6290,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Show the EXIF information supplied by the camera. </source>
-        <translation> Zeigt die EXIF-Informationen die von der Kamera zur Verfügung gestellt wurden.</translation>
+        <translation> Zeigt die EXIF-Informationen, die von der Kamera zur Verfügung gestellt wurden.</translation>
     </message>
     <message>
         <source>This zone can contain several hundreds of lines according to what the camera supplies. </source>
@@ -6297,7 +6298,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Information shown for the audio and video files</source>
-        <translation>Informationen die für Audio- und Videodateien gezeigt werden</translation>
+        <translation>Informationen, die für Audio- und Videodateien gezeigt werden</translation>
     </message>
     <message>
         <source>Information on file (audio and video files)</source>
@@ -6309,7 +6310,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> This zone contains a table listing every audio track present in the file. </source>
-        <translation> Dieser Bereich enthält eine Tabelle mit allen Musikspuren die in der Datei enthalten sind.</translation>
+        <translation> Dieser Bereich enthält eine Tabelle mit allen Musikspuren, die in der Datei enthalten sind.</translation>
     </message>
     <message>
         <source>For every track, the following information is shown: </source>
@@ -6329,7 +6330,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The language in which is the audio track (generally cameras and camcorders indicate &lt;B&gt;und&lt;/B&gt; for undefine)</source>
-        <translation>Die Sprache in der die Spur aufgezeichnet wurde (manche Photoapparate und Videokameras zeigen &lt;B&gt;und&lt;/B&gt; für undefiniert)</translation>
+        <translation>Die Sprache, in der die Spur aufgezeichnet wurde (manche Fotoapparate und Videokameras zeigen &lt;B&gt;und&lt;/B&gt; für undefiniert)</translation>
     </message>
     <message>
         <source>Codec</source>
@@ -6341,7 +6342,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Channels</source>
-        <translation>Kanal</translation>
+        <translation>Kanäle</translation>
     </message>
     <message>
         <source>The number of audio channels (1=mono, 2=stereo, etc.)</source>
@@ -6377,7 +6378,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> This zone contains a board listing every video track present in the file. </source>
-        <translation> Dieser Bereich enthält eine Liste in der jede Videospur, die in der Datei enthalten ist, angezeigt wird.</translation>
+        <translation> Dieser Bereich enthält eine Liste, in der jede Videospur, die in der Datei enthalten ist, angezeigt wird.</translation>
     </message>
     <message>
         <source>Image size</source>
@@ -6425,7 +6426,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> This zone appears only for files containing chapters. it contains a table listing every chapter present in the file. </source>
-        <translation>Dieser Bereich erscheint nur für Dateien die auch Kapitel beinhalten. Es enthählt eine Liste aller Kapitel die in der Datei enthalten sind.</translation>
+        <translation>Dieser Bereich erscheint nur für Dateien, die auch Kapitel beinhalten. Es enthählt eine Liste aller Kapitel, die in der Datei enthalten sind.</translation>
     </message>
     <message>
         <source>For every chapter, the following information is shown: </source>
@@ -6445,7 +6446,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The temporal position of the beginning of the chapter</source>
-        <translation>Die Temporäre Position vom Kapitelbeginn</translation>
+        <translation>Die temporäre Position vom Kapitelbeginn</translation>
     </message>
     <message>
         <source>End</source>
@@ -6453,7 +6454,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The temporal position of the end of the chapter</source>
-        <translation>Die Temporäre Endposition des Kapitels</translation>
+        <translation>Die temporäre Endposition des Kapitels</translation>
     </message>
     <message>
         <source>Duration</source>
@@ -6473,11 +6474,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>At least the information about the duration of the video will be shown, but a lot of other information can appear according to what is available in the file, such as: </source>
-        <translation>Zumindest die Information über die Laufzeit des Video wird angezeigt, aber es können viele andere Informationen zusätzlich eingeblendet werden, je nachdem was die Datei an Informationen bereitstellt, so auch:</translation>
+        <translation>Zumindest die Information über die Laufzeit des Videos wird angezeigt, aber es können viele andere Informationen zusätzlich eingeblendet werden, je nachdem was die Datei an Informationen bereitstellt, so auch:</translation>
     </message>
     <message>
         <source>creation_time</source>
-        <translation>Erzeugungsdatum</translation>
+        <translation>Erstellungsdatum</translation>
     </message>
     <message>
         <source>Date and time of creation of the video</source>
@@ -6489,7 +6490,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Title field of the TAG ID3v2 of the video</source>
-        <translation>Titelfeld of the TAG ID3v2 des Videos</translation>
+        <translation>Titelfeld des TAGs ID3v2 des Videos</translation>
     </message>
     <message>
         <source>artist</source>
@@ -6525,7 +6526,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>composer</source>
-        <translation>Verfasser</translation>
+        <translation>Softwareversion</translation>
     </message>
     <message>
         <source>The software with which the video was created</source>
@@ -6537,7 +6538,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Information on EXIF data</source>
-        <translation>Informationen zur Datei</translation>
+        <translation>EXIF-Informationen zur Datei</translation>
     </message>
     <message>
         <source>TAG in ffmpeg</source>
@@ -6583,7 +6584,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The Manage style dialog allows several things:</source>
-        <translation>Der Dialog zur Stilverwaltung ermöglicht wie folgt:</translation>
+        <translation>Der Dialog zur Stilverwaltung ermöglicht folgendes:</translation>
     </message>
     <message>
         <source>Rename existing style,</source>
@@ -6591,7 +6592,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Remove custom style,</source>
-        <translation>Vorhandenen Stil umbenennen,</translation>
+        <translation>Benutzererstellten Stil löschen</translation>
     </message>
     <message>
         <source>Reset a standard style (that you modified) has its default values.</source>
@@ -6599,7 +6600,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The existing styles are listed in the high part of the dialog. They appear with an icon which has various meanings:</source>
-        <translation>Die vorhandenen Stile werden im oberen Teil des Dialogs gelistet. Diese erhalten ein ein Symbol das wie folgt bedeutet:</translation>
+        <translation>Die vorhandenen Stile werden im oberen Teil des Dialogs gelistet. Diese erhalten ein Symbol mit folgender Bedeutung:</translation>
     </message>
     <message>
         <source>for a standard style</source>
@@ -6631,7 +6632,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Rename, Remove</source>
-        <translation>Umbenennen, Entfernen</translation>
+        <translation>Umbenennen, Löschen</translation>
     </message>
     <message>
         <source>Allows to rename the selected style.</source>
@@ -6639,11 +6640,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Reset to default</source>
-        <translation>Reset zu den Defaultwerten</translation>
+        <translation>Zurücksetzen auf Vorgabewerte</translation>
     </message>
     <message>
         <source>Allows to delete the customizations of a standard style and thus to return it to the default values for this style. It concerns as well the name of the style as the associated settings.</source>
-        <translation>Ermöglicht das Entfernen der Änderungen eines Standardstils and die Rückkehr zum ursprünglichen Design des Stils. Dies betrifft auch den Namen des Stiles und die zugehörigen Einstellungen.</translation>
+        <translation>Ermöglicht das Entfernen der Ändern eines Standardstils und die Rückkehr zum ursprünglichen Design des Stils. Dies betrifft auch den Namen des Stiles und die zugehörigen Einstellungen.</translation>
     </message>
     <message>
         <source>Remove</source>
@@ -6742,7 +6743,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Specifies that from now on, the sound volume is reduced. This option is particularly useful, for example, to reduce the sound of the music during the play of a video. Remark : This volume reduction is applied only for the selected slide.</source>
-        <translation>Legt fest, dass von nun an die Lautstärke reduziert. Diese Option ist besonders nützlich um zum Beispiel die Lautstärke während des Abspielens eines Videos zu reduzieren. Anmerkung: Die Lautstärkenreduktion wird nur für das aktuelle Dia angewandt.</translation>
+        <translation>Legt fest, dass von nun an die Lautstärke reduziert wird. Diese Option ist besonders nützlich, um zum Beispiel die Lautstärke während des Abspielens eines Videos zu reduzieren. Anmerkung: Die Lautstärkenreduktion wird nur für das aktuelle Dia angewandt.</translation>
     </message>
     <message>
         <source>Set to pause</source>
@@ -6758,7 +6759,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to create a new playlist. If a list defined in a previous slide, is still playing, it is stopped with a fade-out effect (progressive decline of the sound volume up to complete stop).</source>
-        <translation>Ermöglicht eine neue Abspielliste zu erstellen. Wenn eine Abspielliste in einem vorangegangenem Dia festgelegt wurde, wird diese weiter abgespielt. Sie wird mit einem Fade-Out-Effekt (Das Musikstück wird kontinuierlich leiser bis es gänzlich stoppt).</translation>
+        <translation>Ermöglicht eine neue Abspielliste zu erstellen. Wenn eine Abspielliste in einem vorangegangenem Dia festgelegt wurde, wird diese weiter abgespielt. Sie wird mit einem Fade-Out-Effekt (Das Musikstück wird kontinuierlich leiser, bis es gänzlich stoppt).</translation>
     </message>
     <message>
         <source>The playlist (bottom part of the dialog)</source>
@@ -6766,7 +6767,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> This playlist section consists of two parts: </source>
-        <translation> Der Bereich der Abspielliste ist in 2 Abschnitte unterteilt:</translation>
+        <translation> Der Bereich der Abspielliste ist in zwei Abschnitte unterteilt:</translation>
     </message>
     <message>
         <source>The toolbar containing controls for the playlist</source>
@@ -6853,7 +6854,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The rendering can be made on the whole project or only on a part.</source>
-        <translation>Das Erstellen des Videos kann über das gesamte Projekt oder nur einen Teil davon gestartet werden.</translation>
+        <translation>Das Erstellen des Videos kann über das gesamte Projekt oder nur einen Teil davon erfolgen.</translation>
     </message>
     <message>
         <source>This choice is made: </source>
@@ -6861,11 +6862,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>By checking the option &lt;B&gt;All slides&lt;/B&gt; to render the video of the whole project</source>
-        <translation>Bei aktivieren dieser Option &lt;B&gt;Alle Dias&lt;/B&gt; um alle beinhalteten Dias in das Video einzubinden</translation>
+        <translation>Bei Aktivieren dieser Option &lt;B&gt;Alle Dias&lt;/B&gt;, um alle beinhalteten Dias in das Video einzubinden</translation>
     </message>
     <message>
         <source>Or by checking the option &lt;B&gt;From&lt;/B&gt; and then entering the numbers of the start and end slides to generate a video of only a part of the project.</source>
-        <translation>oder durch aktivieren der Option &lt;B&gt;Von&lt;/B&gt; und Eingabe des Start- und des Enddia um aus diesem Bereich das Video für dieses Teilprojekt zu erstellen.</translation>
+        <translation>oder durch Aktivieren der Option &lt;B&gt;Von&lt;/B&gt; und Eingabe des Start- und des Enddias, um aus diesem Bereich ein Video für dieses Teilprojekt zu erstellen.</translation>
     </message>
     <message>
         <source>Sound (include sound in the video)</source>
@@ -6885,7 +6886,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This value is used by players to indicate in which language is the audio track. This value is on 3 characters and follows this recommendation: </source>
-        <translation>Dieser Wert wird von Abspielgeräten verwendet um die Sprache der Tonspur anzuzeigen. Der Wert besteht aus 3 Buchstaben und folgender Empfehlung:</translation>
+        <translation>Dieser Wert wird von Abspielgeräten verwendet, um die Sprache der Tonspur anzuzeigen. Der Wert besteht aus drei Buchstaben und folgender Empfehlung:</translation>
     </message>
     <message>
         <source>ISO 639</source>
@@ -6901,19 +6902,19 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to select a device type.</source>
-        <translation>Ermöglicht einen Gerätetyp auszuwählen.</translation>
+        <translation>Ermöglicht, einen Gerätetyp auszuwählen.</translation>
     </message>
     <message>
         <source>Model</source>
-        <translation>Model</translation>
+        <translation>Modell</translation>
     </message>
     <message>
         <source>Allows you to select a device model.</source>
-        <translation>Ermöglicht ein Gerätemodel zu wählen.</translation>
+        <translation>Ermöglicht, ein Gerätemodell zu wählen.</translation>
     </message>
     <message>
         <source>In lossless mode</source>
-        <translation>Im Verlusfreiem Modus</translation>
+        <translation>Im verlusfreien Modus</translation>
     </message>
     <message>
         <source>Image format</source>
@@ -6925,7 +6926,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>In advanced mode</source>
-        <translation>Im Erweiterten Modus</translation>
+        <translation>Im erweiterten Modus</translation>
     </message>
     <message>
         <source>File format</source>
@@ -6933,7 +6934,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Select the type of file to be used to render the video from the displayed list.</source>
-        <translation>Wählen Sie den Dateityp der verwendet werden soll aus der angezeigten Liste.</translation>
+        <translation>Wählen Sie den Dateityp, der verwendet werden sol,l aus der angezeigten Liste.</translation>
     </message>
     <message>
         <source>Video Standard</source>
@@ -6973,11 +6974,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Once you have selected the device or set the advanced parameters, one click on the OK button starts the process of rendering the video. </source>
-        <translation> Nachdem Sie ein Gerätemodel gewählt haben oder die Erweiterten Parameter setzten, startet ein Klick auf den OK-Knopf die Generierung des Videos.</translation>
+        <translation> Nachdem Sie ein Gerätemodel gewählt oder die erweiterten Parameter gesetzt haben, startet ein Klick auf den OK-Knopf die Generierung des Videos.</translation>
     </message>
     <message>
         <source>At any time during this process, one click on the &quot;Cancel&quot; button stops the process. </source>
-        <translation>Sie können zu jederzeit während der Erstellung, den Vorgang durch klicken auf &quot;Abbrechen&quot; unterbrechen.</translation>
+        <translation>Sie können während der Erstellung zu jeder Zeit den Vorgang durch Klicken auf &quot;Abbrechen&quot; unterbrechen.</translation>
     </message>
     <message>
         <source>Remark :</source>
@@ -6985,7 +6986,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Depending on the device model or the advanced parameters which you selected, the generation can take quite a long time. </source>
-        <translation> Abhängig vom Gerätemodel oder then Erweiterten Parametern die gewählt wurde, kann die Erstellung des Video viel Zeit in Anspruch nehmen.</translation>
+        <translation> Abhängig vom Gerätemodel oder den erweiterten Parametern, die gewählt wurden, kann die Erstellung des Videos viel Zeit in Anspruch nehmen.</translation>
     </message>
     <message>
         <source>Generally, for a Full-HD 1080p video: </source>
@@ -6993,7 +6994,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>On a PC with 4 fast cores (Core i7 for example) : The process will take approximately 2 minutes for each minute of video to be rendered</source>
-        <translation>Mit einem PC der 4 schnelle Kerne (Core i7 zum Beispiel) : Der Prozess braucht ungefähr 2 Minuten Rechenzeit für jede Minute fertiges Videomaterial</translation>
+        <translation>Auf einem PC mit 4 schnellen Kernen (Core i7 zum Beispiel) : Der Prozess braucht ungefähr 2 Minuten Rechenzeit für jede Minute fertiges Videomaterial</translation>
     </message>
     <message>
         <source>On a PC with 2 cores (Core 2 duo for example) : The process will take approximately 5 minutes for each minute of video to be rendered</source>
@@ -7017,7 +7018,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This dialog has different appearances depending on whether you clicked the Device type, Lossless, Advanced or Soundtrack button. </source>
-        <translation>Dieser Dialog hat verschiedene Erscheinungsformen, je nachdem ob Sie auf Gerätetpy, Verlustfrei, Erweitert oder nur Tonspur geklickt haben.</translation>
+        <translation>Dieser Dialog hat verschiedene Erscheinungsformen, je nachdem ob Sie auf Gerätetpy, verlustfrei, erweitert oder nur Tonspur geklickt haben.</translation>
     </message>
     <message>
         <source>Join thumbnail to rendered file</source>
@@ -7029,11 +7030,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation>XBMC .nfo Dateien zu erstellten Videos zusammenführen</translation>
+        <translation>XBMC .nfo Dateien mit erstellten Video zusammenführen</translation>
     </message>
     <message>
         <source>If this box is checked then a &lt;a href=&quot;0044.html&quot;&gt;XBMC .nfo&lt;/a&gt; file will be created with video. </source>
-        <translation>Wenn diese Option aktiv ist, werden die &lt;a href=&quot;0044.html&quot;&gt;XBMC .nfo Dateien&lt;/a&gt; für das erstellte Video generiert.</translation>
+        <translation>Wenn diese Option aktiv ist, wird eine &lt;a href=&quot;0044.html&quot;&gt;XBMC .nfo Datei&lt;/a&gt; für das erstellte Video generiert.</translation>
     </message>
     <message>
         <source>Select the audio compression ratio from the displayed list</source>
@@ -7049,7 +7050,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Select the type of file to be used to render the soundtrack from the displayed list.</source>
-        <translation>Wählen Sie den Dateityp der verwendet werden soll aus der angezeigten Liste.</translation>
+        <translation>Wählen Sie den Dateityp, der verwendet werden soll, aus der angezeigten Liste.</translation>
     </message>
     <message>
         <source>At the dialog bottom</source>
@@ -7069,7 +7070,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> The properties button allows you to open the &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;. It allows you to adjust the properties before generating the video. </source>
-        <translation> Der Knopf Eigenschaften ermöglicht das Öffnen des Dialoges &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt;. Sie können die Projekteinstellungen verändern noch bevor Sie das Video erstellen.</translation>
+        <translation> Der Knopf Eigenschaften ermöglicht das Öffnen des Dialoges &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt;. Sie können die Projekteinstellungen verändern, bevor Sie das Video erstellen.</translation>
     </message>
 </context>
 <context>
@@ -7080,15 +7081,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This dialog allows you to enable or disable rulers.</source>
-        <translation>Dieser Dialog ermöglicht das ein- bzw. ausschalten der Lineale.</translation>
+        <translation>Dieser Dialog ermöglicht das Ein- bzw. Ausschalten der Lineale.</translation>
     </message>
     <message>
         <source>Edge of the screen</source>
-        <translation>Ecken des Bildschirms</translation>
+        <translation>Rand des Bildschirms</translation>
     </message>
     <message>
         <source>Corresponds to the edge of the screen.</source>
-        <translation>Entsprechen den Ecken des Bildes.</translation>
+        <translation>Entspricht dem Rand des Bildschirms.</translation>
     </message>
     <message>
         <source>TV margins</source>
@@ -7096,7 +7097,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>In ffDiaporama, the TV margins are of type &quot;Title safe area&quot; and are defined on 90% in width and 90% in height, for all the project geometries.</source>
-        <translation>In ffDiaporama, die TV Seitenränder sind vom Typ &quot;Titelsicherer Bereich&quot; und sind definiert auf 90% der Breite und 90% der Höhe, für alle Projektgeometrien.</translation>
+        <translation>In ffDiaporama sind die TV Seitenränder vom Typ &quot;Titelsicherer Bereich&quot; und sind für alle Projektgeometrien auf 90% der Breite und 90% der Höhe definiert.</translation>
     </message>
     <message>
         <source>Centre of the screen</source>
@@ -7112,7 +7113,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>For all the objects which are not a part of the selection, create rulers for the top, bottom, left and right edges of blocks as well as for the centers of blocks.</source>
-        <translation>Für alle Objekte die nicht Teil der Auswahl sind, werden Lineale für Oberen, Unteren, Linken, Rechten Ecke - sowie für die Mitte - der Blöcke erstellt.</translation>
+        <translation>Für alle Objekte, die nicht Teil der Auswahl sind, werden Lineale für den oberen, unteren, linken und rechten Rand, sowie für die Mitte der Blöcke erstellt.</translation>
     </message>
     <message>
         <source>Remarks:</source>
@@ -7124,11 +7125,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>When a ruler is activated, the mouse is attracted towards this ruler. This is valid as well for the movements of blocks as for the resizing (movements of the handles).</source>
-        <translation>Wenn ein Lineal aktiv ist, die Maus snappt bei diesen Linealen ein. Dies gilt auch für das Verschieben von Blöcken und auch für die Größenänderung (Verschieben der Eckmarkierungen).</translation>
+        <translation>Wenn ein Lineal aktiv ist, schnappt die Maus bei diesem Lineal ein. Dies gilt auch für das Verschieben von Blöcken und auch für die Größenänderung (Verschieben der Eckmarkierungen).</translation>
     </message>
     <message>
         <source>TV margins rullers are not available for thumbnails editing.</source>
-        <translation>TV Seitenränder Lineale sind für das Ändern von Vorschaubildern nicht verfügbar.</translation>
+        <translation>TV Seitenränder-Lineale sind für das Ändern von Vorschaubildern nicht verfügbar.</translation>
     </message>
     <message>
         <source>See also</source>
@@ -7136,7 +7137,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Description of TV margins and overscan</source>
-        <translation>Beschreibung für TV Seitenränder und das darüber hinaus gehen (Overscan)</translation>
+        <translation>Beschreibung für TV Seitenränder und das darüber hinausgehen (Overscan)</translation>
     </message>
 </context>
 <context>
@@ -7147,7 +7148,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This dialog allows you to edit custom thumbnails and custom thumbnails models.</source>
-        <translation>Dieser Dialog bietet die Möglichkeit Benutzerdefinierte Vorschaubilder und die Modelle von Vorschaubildern  zu bearbeiten. </translation>
+        <translation>Dieser Dialog bietet die Möglichkeit, benutzerdefinierte Vorschaubilder und die Modelle von Vorschaubildern zu bearbeiten. </translation>
     </message>
     <message>
         <source>It&apos;s a simplified version of the &lt;a href=&quot;0119.html&quot;&gt;Slides properties dialog&lt;/a&gt; and as it, it includes numerous zones:</source>
@@ -7175,15 +7176,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Add a simple title block</source>
-        <translation>fügt einen einfachen Textblock hinzu</translation>
+        <translation>Fügt einen einfachen Textblock hinzu</translation>
     </message>
     <message>
         <source>Add a title clip-art block</source>
-        <translation>fügt einen ClipArt-Block hinzu</translation>
+        <translation>Fügt einen ClipArt-Block hinzu</translation>
     </message>
     <message>
         <source>Once you have selected one of the options, the &lt;a href=&quot;0120.html&quot;&gt;Edit Text dialog&lt;/a&gt; opens.</source>
-        <translation>Nachdem Sie eine der 2 Optionen gewählt haben, öffnet sich der Dialog &lt;a href=&quot;0120.html&quot;&gt;Text ändern&lt;/a&gt;.</translation>
+        <translation>Nachdem Sie eine der zwei Optionen gewählt haben, öffnet sich der Dialog &lt;a href=&quot;0120.html&quot;&gt;Text ändern&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Add one or several new blocks of images or video. A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears allowing you to select files. </source>
@@ -7191,7 +7192,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;).</source>
-        <translation>Anmerkung: wenn mehrere Dateien ausgewählt wurden, werden diese in Alphabetischer Reihenfolge des Dateinamen oder in der Reihenfolge der Aufnahme mit der Kamera hinzugefügt (Abhängig von der ausgewählten Option im Dialog &lt;a href=&quot;0101.html&quot;&gt;Applikationseinstellungen&lt;/a&gt;).</translation>
+        <translation>Anmerkung: wenn mehrere Dateien ausgewählt wurden, werden diese in alphabetischer Reihenfolge des Dateinamen oder in der Reihenfolge der Aufnahme mit der Kamera hinzugefügt (Abhängig von der ausgewählten Option im Dialog &lt;a href=&quot;0101.html&quot;&gt;Applikationseinstellungen&lt;/a&gt;).</translation>
     </message>
     <message>
         <source>Edit blocks - Open a sub menu with the following options: </source>
@@ -7223,7 +7224,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Arrange blocks - Open a sub menu with the following options: </source>
-        <translation>Ausrichtung Blöcke - Öffnet ein Untermenü mit folgenden Optionen:</translation>
+        <translation>Anordnung der Blöcke - Öffnet ein Untermenü mit folgenden Optionen:</translation>
     </message>
     <message>
         <source>Align to top</source>
@@ -7271,23 +7272,23 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to open the &lt;a href=&quot;0116.html&quot;&gt;Ruler properties dialog&lt;/a&gt;</source>
-        <translation>Ermöglicht das öffnen des Dialoges &lt;a href=&quot;0116.html&quot;&gt;Linealeigenschaften&lt;/a&gt;</translation>
+        <translation>Ermöglicht das Öffnen des Dialoges &lt;a href=&quot;0116.html&quot;&gt;Linealeigenschaften&lt;/a&gt;</translation>
     </message>
     <message>
         <source> It is also possible to open contextual menus by: </source>
-        <translation> Es ist ebenso möglich ein Kontextmenü aufzurufen indem man:</translation>
+        <translation> Es ist ebenso möglich ein Kontextmenü aufzurufen, indem man:</translation>
     </message>
     <message>
         <source>Right clicking on zones.</source>
-        <translation>Rechtsklick in den Bereichen.</translation>
+        <translation>Rechts in den Bereichen klickt.</translation>
     </message>
     <message>
         <source>Right click on blocks table or on interactive zone when no block was selected.</source>
-        <translation>Rechte Maustaste in die Blocktabelle oder in den interaktiven Bereich wenn kein Block ausgewählt ist.</translation>
+        <translation>Mit der rechten Maustaste in die Blocktabelle oder in den interaktiven Bereich klickt, wenn kein Block ausgewählt ist.</translation>
     </message>
     <message>
         <source>Right click on one of the blocks of a multiple selection, on blocks table or on interactive zone.</source>
-        <translation>Rechte Maustaste auf einen der Blöcke der Mehrfachauswahl in der Blocktabelle oder in den interaktiven Bereich.</translation>
+        <translation>Mit der rechten Maustaste auf einen der Blöcke der Mehrfachauswahl in der Blocktabelle oder in den interaktiven Bereich klickt.</translation>
     </message>
     <message>
         <source>Each of these contextual menus propose commands which depend on what you have clicked.</source>
@@ -7311,7 +7312,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Rulers are displayed to facilitate the work with the mouse. See &lt;a href=&quot;0116.html&quot;&gt;Rulers settings&lt;/a&gt;</source>
-        <translation>Lineale werden angezeigt um ein leichteres Positionieren mit der Maus zu ermöglichen. Siehe &lt;a href=&quot;0116.html&quot;&gt;Linealeinstellungen&lt;/a&gt;</translation>
+        <translation>Lineale werden angezeigt, um ein leichteres Positionieren mit der Maus zu ermöglichen. Siehe &lt;a href=&quot;0116.html&quot;&gt;Linealeinstellungen&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Using the mouse:</source>
@@ -7335,11 +7336,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>To modify the size of the blocks of the selection: Click one of the handles of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
-        <translation>Um die Größe der gewählten Blöcke zu verändern: Klicken Sie einen der Kontrollpunkte an und während Sie die Maustaste gedrückt halten, verschieben Sie den Kontrollpunkt bis die gewünschte Änderung erreicht ist.</translation>
+        <translation>Um die Größe der gewählten Blöcke zu verändern: Klicken Sie einen der Kontrollpunkte an und während Sie die Maustaste gedrückt halten, verschieben Sie den Kontrollpunkt, bis die gewünschte Größe erreicht ist.</translation>
     </message>
     <message>
         <source>To move the blocks of the selection: Click one of the blocks of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
-        <translation>Um einen Block zu verschieben. Klicken Sie auf einen der markierten Blöcke und halten Sie die Maustaste gedrückt. Wenn Sie die Maus nun verschieben ändert der gesamte Block seine Position. Lassen Sie die Maustaste los, wenn die gewünschte Position erreicht ist.</translation>
+        <translation>Um einen Block zu verschieben. Klicken Sie auf einen der markierten Blöcke und halten Sie die Maustaste gedrückt. Wenn Sie die Maus nun bewegen ändert der gesamte Block seine Position. Lassen Sie die Maustaste los, wenn die gewünschte Position erreicht ist.</translation>
     </message>
     <message>
         <source>Using the keyboard:</source>
@@ -7351,7 +7352,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>To change the size of the blocks of the selection, use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle.</source>
-        <translation>Um die Größe des Blockes zu verändern, drücken Sie die die SHIFT-Taste in Verbindung mit den Pfeiltasten für die Verschiebung des linken oberen Kontrollpunktes. Für die Verschiebung des rechten unteren Kontrollpunktes drücken Sie die STRG-Taste in Verbindung mit den Pfeiltasten.</translation>
+        <translation>Um die Größe des Blockes zu verändern, drücken Sie für die Verschiebung des linken oberen Kontrollpunkte die SHIFT-Taste in Verbindung mit den Pfeiltastens. Für die Verschiebung des rechten unteren Kontrollpunktes drücken Sie die STRG-Taste in Verbindung mit den Pfeiltasten.</translation>
     </message>
     <message>
         <source>Remarks:</source>
@@ -7363,7 +7364,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
-        <translation>Ein Klick mit der rechten Maustaste – sofern die Auswahl einen einzigen Blocktype beinhält – öffnet das Kontextmenü mit den Kommandos für die Auswahl.</translation>
+        <translation>Ein Klick mit der rechten Maustaste – sofern die Auswahl einen einzigen Blocktyp beinhaltet – öffnet das Kontextmenü mit den Kommandos für die Auswahl.</translation>
     </message>
     <message>
         <source>A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
@@ -7379,7 +7380,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The order of the blocks is important! The first block (at the top of the list) is covered by the second block which is even covered by the following block and so on.</source>
-        <translation>Die Listung der Blöcke ist insofern wichtig, als der erste Block in der Liste von allen anderen Blöcke verdeckt wird. Der zweite gelistete liegt oberhalb des ersten Blockes und wird von allen nachfolgenden überdeckt, usw….</translation>
+        <translation>Die Listung der Blöcke ist insofern wichtig, als der erste Block in der Liste von allen anderen Blöcken verdeckt wird. Der zweite gelistete liegt oberhalb des ersten Blockes und wird von allen nachfolgenden überdeckt, usw….</translation>
     </message>
     <message>
         <source>Blocks are shown on 3 columns:</source>
@@ -7391,7 +7392,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> If the block is a title.</source>
-        <translation> wenn es sich um einen Titelblock handelt.</translation>
+        <translation> Ob es sich um einen Titelblock handelt.</translation>
     </message>
     <message>
         <source>A thumbnail if the block is an image or a video.</source>
@@ -7399,11 +7400,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> If the image or the video have a transformation filter.</source>
-        <translation> wenn das Bild oder Video einen Umwandlungseffekt oder Filter zugeordnet hat.</translation>
+        <translation> Ob das Bild oder Video einen Umwandlungseffekt oder Filter zugeordnet hat.</translation>
     </message>
     <message>
         <source>The second column contains icons giving the state of the blocks</source>
-        <translation>Die zweite Spalte kann mehrere Symbole zeigen, welche den Status des Blockes widergeben</translation>
+        <translation>Die zweite Spalte kann mehrere Symbole zeigen, welche den Status des Blockes wiedergeben</translation>
     </message>
     <message>
         <source>The third column indicates: </source>
@@ -7411,11 +7412,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>If the block is a title: the text of the block</source>
-        <translation>wenn der Block ein Textblock ist: Den Text der mit dem Block angezeigt wird</translation>
+        <translation>Wenn der Block ein Textblock ist: Den Text, der mit dem Block angezeigt wird</translation>
     </message>
     <message>
         <source>If the block is an image: </source>
-        <translation>wenn der Block ein Bild ist: </translation>
+        <translation>Wenn der Block ein Bild ist: </translation>
     </message>
     <message>
         <source>The filename.</source>
@@ -7443,7 +7444,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
-        <translation>Ein Klick mit der rechten Maustaste – sofern die Auswahl einen einzigen Blocktype beinhält – öffnet das Kontextmenü mit den Kommandos für die Auswahl.</translation>
+        <translation>Ein Klick mit der rechten Maustaste – sofern die Auswahl einen einzigen Blocktyp beinhaltet – öffnet das Kontextmenü mit den Kommandos für die Auswahl.</translation>
     </message>
     <message>
         <source>Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
@@ -7455,15 +7456,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.</source>
-        <translation>Der gewählte Block wird mit einem roten Hintergrund angezeigt, wenn der Fokus an der Blocktabelle ist oder mit einem blauen Hintergrund, wenn der Fokus auf einem anderem Element liegt.</translation>
+        <translation>Gewählte Blöcke werden mit einem roten Hintergrund angezeigt, wenn der Fokus an der Blocktabelle ist oder mit einem blauen Hintergrund, wenn der Fokus auf einem anderem Element liegt.</translation>
     </message>
     <message>
         <source>To change the blocks order, use Drag &amp; Drop or &lt;B&gt;Up&lt;/B&gt; and &lt;B&gt;Down&lt;/B&gt; functions of the contextual menu.</source>
-        <translation>Um die Reihenfolge des Blockes zu ändern, verschieben die Blöcke mit Drag Drop oder mit den Funktionen &lt;B&gt;Auf&lt;/B&gt; und &lt;B&gt;Ab&lt;/B&gt; Funktionen aus dem Kontextmenü.</translation>
+        <translation>Um die Reihenfolge der Blöcke zu ändern, verschieben Sie die Blöcke mit Drag Drop oder mit den Funktionen &lt;B&gt;Auf&lt;/B&gt; und &lt;B&gt;Ab&lt;/B&gt; Funktionen aus dem Kontextmenü.</translation>
     </message>
     <message>
         <source>It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.</source>
-        <translation>Sie haben die Möglichkeit Dateien in die Blockliste mittels Drap &amp; Drop aus einem Dateiexplorer einzufügen.</translation>
+        <translation>Sie haben die Möglichkeit Dateien in die Blockliste mittels Drag &amp; Drop aus einem Dateiexplorer einzufügen.</translation>
     </message>
     <message>
         <source>All blocks, whether title, image or video, possess a text element.</source>
@@ -7471,11 +7472,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>During the insertion of a new block (Add title, Add file or Paste), the block is inserted: </source>
-        <translation>Im Zuge eines Hinzufügens eines neuen Blockes (Textblock hinzufügen, Datei einfügen oder aus der Zwischenablage einfügen), wird der eingefügte Block : </translation>
+        <translation>Beim Hinzufügen eines neuen Blockes (Textblock hinzufügen, Datei einfügen oder aus der Zwischenablage einfügen), wird der eingefügte Block : </translation>
     </message>
     <message>
         <source>Always in the last position in the list of blocks (in the foreground)</source>
-        <translation>immer an der letzten Position der Blockliste (somit im Vordergrund) angefügt</translation>
+        <translation>Immer an der letzten Position der Blockliste (somit im Vordergrund) angefügt</translation>
     </message>
     <message>
         <source>Block settings zone</source>
@@ -7511,19 +7512,19 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Represents the horizontal offset of the block from the left. This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation>Stellt den horizontalen Abstand des Blockes zum linken Rand dar. Diese Position ist entweder definiert als prozentueller Wert (%) der gesamten Breite des Bildes oder in Pixel (für einen 1080p Bildschirm), je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
+        <translation>Stellt den horizontalen Abstand des Blockes zum linken Rand dar. Diese Position ist entweder als prozentueller Wert (%) der gesamten Breite des Bildes oder in Pixel (für einen 1080p Bildschirm) definiert, je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
     </message>
     <message>
         <source>Represents the vertical offset of the block from the top. This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation>Stellt den vertikalen Abstand des Blockes zum oberen Rand dar. Diese Position ist entweder definiert als prozentueller Wert (%) der gesamten Höhe des Bildes oder in Pixel (für einen 1080p Bildschirm), je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
+        <translation>Stellt den vertikalen Abstand des Blockes zum oberen Rand dar. Diese Position ist entweder dals prozentueller Wert (%) der gesamten Höhe des Bildes oder in Pixel (für einen 1080p Bildschirm) definiert, je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
     </message>
     <message>
         <source>Represents the width of the block. This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
-        <translation>Stellt die Breite des Blockes dar. Dieser Wert ist entweder als prozentueller Wert (%) der Breite des Bildes oder in Pixel (für einen 1080p Bildschirm), je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
+        <translation>Stellt die Breite des Blockes dar. Dieser Wert ist entweder als prozentueller Wert (%) der Breite des Bildes oder in Pixel (für einen 1080p Bildschirm) definiert, je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
     </message>
     <message>
         <source>Represents the height of the block. This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation>Stellt die Höhe des Blockes dar. Dieser Wert ist entweder definiert als prozentueller Wert (%) der Höhe des Bildes oder in Pixel (für einen 1080p Bildschirm), je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
+        <translation>Stellt die Höhe des Blockes dar. Dieser Wert ist entweder als prozentueller Wert (%) der Höhe des Bildes oder in Pixel (für einen 1080p Bildschirm) definiert, je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
     </message>
     <message>
         <source>Rotation around the Z axis in degrees.</source>
@@ -7567,7 +7568,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Defines the opacity of the block. This value also applies to the text of the block.</source>
-        <translation>Legt die Durchsichtigkeit eines Blockes fest. Dieser Wert wird auch für den Text eines Blockes verwendet.</translation>
+        <translation>Legt die Deckkraft eines Blockes fest. Dieser Wert wird auch für den Text eines Blockes verwendet.</translation>
     </message>
     <message>
         <source>Border</source>
@@ -7615,7 +7616,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Defines the distance between the block and its shadow</source>
-        <translation>Legt den Abstand des Schattens zwischen Schattenrand und Blockrand fest</translation>
+        <translation>Legt den Abstand zwischen dem Block und seinem Schatten fest</translation>
     </message>
     <message>
         <source>Color</source>
@@ -7654,11 +7655,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>When you click the OK button, the new duration is applied to all the slides that were selected. </source>
-        <translation>Wenn Sie auf OK-Klicken, die neue Laufzeit wird allen Dias zugewiesen die gerade ausgewählt sind.</translation>
+        <translation>Wenn Sie auf OK klicken, wird die neue Laufzeit allen Dias zugewiesen, die gerade ausgewählt sind.</translation>
     </message>
     <message>
         <source>This new duration affects only the first shot of each slide</source>
-        <translation>Die neue Laufzeit wirkt nur auf die ersten Aufnahmen in einem Dia aus</translation>
+        <translation>Die neue Laufzeit wirkt sich nur auf die erste Aufnahme in einem Dia aus</translation>
     </message>
     <message>
         <source>This new duration is applied only to standard slides. The predefined title slides are not impacted.</source>
@@ -7693,7 +7694,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> The toolbar allows to launch the main slide editing commands. </source>
-        <translation>Die Werkzeugleiste ermöglicht das Starten der wichtigsten Kommandos zum Verändern eines Dia.</translation>
+        <translation>Die Werkzeugleiste ermöglicht das Aufrufen der wichtigsten Kommandos zum Verändern eines Dia.</translation>
     </message>
     <message>
         <source>Append a shot to the end of the shot table</source>
@@ -7709,7 +7710,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Change the order of the shots by moving the current selected shot a step to the right</source>
-        <translation>Die aktuelle Aufnahme um einen Platz nach Rechts schieben</translation>
+        <translation>Die aktuelle Aufnahme um einen Platz nach rechts schieben</translation>
     </message>
     <message>
         <source>Copy the current block to the ffDiaporama clipboard and remove it from the slide. The copy is made with the block parameters defined for the current selected shot.</source>
@@ -7733,7 +7734,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Change the order of blocks by moving the active block downward (towards the foreground)</source>
-        <translation>Den aktuellen Block um eine Ebene anheben und in den Vordergrund holen</translation>
+        <translation>Den aktuellen Block um eine Ebene anheben und in Richtung Vordergrund schieben</translation>
     </message>
     <message>
         <source>Make the active block visible or hidden. Note: Hidden video blocks are automatically paused</source>
@@ -7765,7 +7766,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Align to midle</source>
-        <translation>Horizontal mittig Ausrichten</translation>
+        <translation>Horizontal mittig ausrichten</translation>
     </message>
     <message>
         <source>Align to bottom</source>
@@ -7777,7 +7778,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Align to center</source>
-        <translation>Vertikal mittig Ausrichten</translation>
+        <translation>Vertikal mittig ausrichten</translation>
     </message>
     <message>
         <source>Align to right</source>
@@ -7797,19 +7798,19 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Name of the slide</source>
-        <translation>Name des Dia</translation>
+        <translation>Name des Dias</translation>
     </message>
     <message>
         <source>Indicate here a name for the slide. It is this name which will appear on the thumbnail in the main window timeline.</source>
-        <translation>Geben Sie hier den Namen des Dia an. Dieser wird im Vorschaubild der Zeitleiste des Hauptfensters angezeigt.</translation>
+        <translation>Geben Sie hier den Namen des Dias an. Dieser wird im Vorschaubild der Zeitleiste des Hauptfensters angezeigt.</translation>
     </message>
     <message>
         <source>Total slide duration</source>
-        <translation>Gesamte Anzeigedauer des Dia</translation>
+        <translation>Gesamte Anzeigedauer des Dias</translation>
     </message>
     <message>
         <source>The total slide duration is displayed here. This duration takes into account possible adjustments for minimal duration of the shot as described above.</source>
-        <translation>Die gesamte Durchlaufzeit des Dia wird hier angezeigt. Die Durchlaufzeit nimmt Rücksicht auf mögliche Anpassungen der minimalen Durchlaufzeit eines Dia (wie weiter oben beschrieben).</translation>
+        <translation>Die gesamte Durchlaufzeit des Dias wird hier angezeigt. Die Durchlaufzeit nimmt Rücksicht auf mögliche Anpassungen der minimalen Durchlaufzeit eines Dias (wie weiter oben beschrieben).</translation>
     </message>
     <message>
         <source>Shots table</source>
@@ -7829,7 +7830,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The temporal position of the shot at the end of its duration (At the bottom right of the thumbnail)</source>
-        <translation>Die Temporäre Position der Aufnahme am Ende seiner Laufzeit (am unteren Rand des Vorschaubildes)</translation>
+        <translation>Die Ttemporäre Position der Aufnahme am Ende seiner Laufzeit (am unteren Rand des Vorschaubildes)</translation>
     </message>
     <message>
         <source>An image representing the shot at the end of its duration</source>
@@ -7853,11 +7854,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> Indicate here the duration of the currently selected shot. For the last shot of the slide, there is a minimum duration.The following rules are used to calculate the minimum duration of the shot: </source>
-        <translation>Zeigt die Durchlaufzeit der aktuellen Aufnahme. Für die letzte Aufnahme des Dia, gilt eine minimale Dauer. Die folgenden Regeln werden zur Berechnung der minimalen Dauer verwendet:</translation>
+        <translation>Zeigt die Durchlaufzeit der aktuellen Aufnahme. Für die letzte Aufnahme des Dias, gilt eine minimale Dauer. Die folgenden Regeln werden zur Berechnung der minimalen Dauer verwendet:</translation>
     </message>
     <message>
         <source>The total slide duration cannot be lower than the sum of the durations of the entering transition of the slide plus that of the transition to the following slide</source>
-        <translation>Die gesamte Diadurchlaufzeit kann nicht geringer sein, als die Summe des Eingangseffektes addiert mit der Laufzeit des Übergangeffektes des folgenden Dia</translation>
+        <translation>Die gesamte Diadurchlaufzeit kann nicht geringer sein, als die Summe des Eingangseffektes addiert mit der Laufzeit des Übergangeffektes des folgenden Dias</translation>
     </message>
     <message>
         <source>The total slide duration must permit complete play of the longest video sequence (time of breaks is taken into account)</source>
@@ -7881,7 +7882,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Selected blocks are shown with a frame. (It allows to differentiate them from other graphic elements of the slide).</source>
-        <translation>Markierte Blöcke werden mit einem Rahmen dargestellt. Dies ermöglicht es, diese von anderen Elementen des Dia zu unterscheiden.</translation>
+        <translation>Markierte Blöcke werden mit einem Rahmen dargestellt. Dies ermöglicht es, diese von anderen Elementen des Dias zu unterscheiden.</translation>
     </message>
     <message>
         <source>Control handles (small square) are shown on sides and on corners of the selection frame.</source>
@@ -7889,7 +7890,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Rulers are displayed to facilitate the work with the mouse. See &lt;a href=&quot;0116.html&quot;&gt;Rulers settings&lt;/a&gt;</source>
-        <translation>Lineale werden angezeigt um ein leichteres Positionieren mit der Maus zu ermöglichen. Siehe &lt;a href=&quot;0116.html&quot;&gt;Linealeinstellungen&lt;/a&gt;</translation>
+        <translation>Lineale werden angezeigt, um ein leichteres Positionieren mit der Maus zu ermöglichen. Siehe &lt;a href=&quot;0116.html&quot;&gt;Linealeinstellungen&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Using the mouse:</source>
@@ -7913,11 +7914,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>To modify the size of the blocks of the selection: Click one of the handles of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
-        <translation>Um die Größe der gewählten Blöcke zu verändern: Klicken Sie einen der Kontrollpunkte an und während Sie die Maustaste gedrückt halten, verschieben Sie den Kontrollpunkt bis die gewünschte Änderung erreicht ist.</translation>
+        <translation>Um die Größe der gewählten Blöcke zu verändern: Klicken Sie einen der Kontrollpunkte an und während Sie die Maustaste gedrückt halten, verschieben Sie den Kontrollpunkt bis die gewünschte Größe erreicht ist.</translation>
     </message>
     <message>
         <source>To move the blocks of the selection: Click one of the blocks of the selection and, while keeping the button of the mouse pressed, move the mouse.</source>
-        <translation>Um einen Block zu verschieben. Klicken Sie auf einen der markierten Blöcke und halten Sie die Maustaste gedrückt. Wenn Sie die Maus nun verschieben ändert der gesamte Block seine Position. Lassen Sie die Maustaste los, wenn die gewünschte Position erreicht ist.</translation>
+        <translation>Um einen Block zu verschieben. Klicken Sie auf einen der markierten Blöcke und halten Sie die Maustaste gedrückt. Wenn Sie die Maus nun bewegen, ändert der gesamte Block seine Position. Lassen Sie die Maustaste los, wenn die gewünschte Position erreicht ist.</translation>
     </message>
     <message>
         <source>Using the keyboard:</source>
@@ -7929,7 +7930,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>To change the size of the blocks of the selection, use SHIFT+arrows to move the upper left corner handle or CTRL+arrows to move the lower right corner handle.</source>
-        <translation>Um die Größe des Blockes zu verändern, drücken Sie die die SHIFT-Taste in Verbindung mit den Pfeiltasten für die Verschiebung des linken oberen Kontrollpunktes. Für die Verschiebung des rechten unteren Kontrollpunktes drücken Sie die STRG-Taste in Verbindung mit den Pfeiltasten.</translation>
+        <translation>Um die Größe des Blockes zu verändern, drücken Sie  für die Verschiebung des linken oberen Kontrollpunktes die SHIFT-Taste in Verbindung mit den Pfeiltasten. Für die Verschiebung des rechten unteren Kontrollpunktes drücken Sie die STRG-Taste in Verbindung mit den Pfeiltasten.</translation>
     </message>
     <message>
         <source>Remarks:</source>
@@ -7941,11 +7942,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>A right click on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
-        <translation>Ein Klick mit der rechten Maustaste – sofern die Auswahl einen einzigen Blocktype beinhält – öffnet das Kontextmenü mit den Kommandos für die Auswahl.</translation>
+        <translation>Ein Klick mit der rechten Maustaste – sofern die Auswahl einen einzigen Blocktype beinhaltet – öffnet das Kontextmenü mit den Kommandos für die Auswahl.</translation>
     </message>
     <message>
         <source>A right click on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
-        <translation>Ein Klick mit der rechten Maustaste – sofern die Auswahl mehere Blocktypen umfasst – öffnet das Kontextmenü mit den möglichen Kommandos für die ausgewählten Blöcke.</translation>
+        <translation>Ein Klick mit der rechten Maustaste – sofern die Auswahl mehrere Blocktypen umfasst – öffnet das Kontextmenü mit den möglichen Kommandos für die ausgewählten Blöcke.</translation>
     </message>
     <message>
         <source>Blocks table</source>
@@ -7973,7 +7974,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> If the block is a title.</source>
-        <translation> wenn es sich um einen Titelblock handelt.</translation>
+        <translation> Ob es sich um einen Titelblock handelt.</translation>
     </message>
     <message>
         <source>A thumbnail if the block is an image or a video.</source>
@@ -7981,7 +7982,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> If the image or the video have a transformation filter.</source>
-        <translation> wenn das Bild oder Video einen Umwandlungseffekt oder Filter zugeordnet hat.</translation>
+        <translation> Ob das Bild oder Video einen Umwandlungseffekt oder Filter zugeordnet hat.</translation>
     </message>
     <message>
         <source>The second column contains icons giving the state of the blocks for the current shot: </source>
@@ -7989,15 +7990,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> If the video has the sound during this shot. This information appears only for the video blocks.</source>
-        <translation> wird gezeigt, wenn das Video eine Tonspur während dieser Aufnahme hat. Diese Information wird nur für Videoblöcke angezeigt.</translation>
+        <translation> Wird gezeigt, wenn das Video eine Tonspur während dieser Aufnahme hat. Diese Information wird nur für Videoblöcke angezeigt.</translation>
     </message>
     <message>
         <source> If the block is visible during this shot.</source>
-        <translation> wird gezeigt, wenn der Block in dieser Aufnahme sichtbar ist.</translation>
+        <translation> Wird gezeigt, wenn der Block in dieser Aufnahme sichtbar ist.</translation>
     </message>
     <message>
         <source> If the block is hidden during this shot.</source>
-        <translation> wird gezeigt, wenn der Block in dieser Aufnahme nicht sichtbar ist.</translation>
+        <translation> Wird gezeigt, wenn der Block in dieser Aufnahme nicht sichtbar ist.</translation>
     </message>
     <message>
         <source>The third column indicates: </source>
@@ -8005,11 +8006,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>If the block is a title: the text of the block</source>
-        <translation>wenn der Block ein Textblock ist: Den Text der mit dem Block angezeigt wird</translation>
+        <translation>Wenn der Block ein Textblock ist: Den Text der mit dem Block angezeigt wird</translation>
     </message>
     <message>
         <source>If the block is an image: </source>
-        <translation>wenn der Block ein Bild ist: </translation>
+        <translation>Wenn der Block ein Bild ist: </translation>
     </message>
     <message>
         <source>The filename.</source>
@@ -8037,7 +8038,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Right clicking on a block when the selection includes only a single block opens a contextual menu proposing the editing commands for a block.</source>
-        <translation>Ein Klick mit der rechten Maustaste – sofern die Auswahl einen einzigen Blocktype beinhält – öffnet das Kontextmenü mit den Kommandos für die Auswahl.</translation>
+        <translation>Ein Klick mit der rechten Maustaste – sofern die Auswahl einen einzigen Blocktype beinhaltet – öffnet das Kontextmenü mit den Kommandos für die Auswahl.</translation>
     </message>
     <message>
         <source>Right clicking on a block when the selection includes multiple blocks opens a contextual menu proposing the editing commands for multiple blocks.</source>
@@ -8049,15 +8050,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.</source>
-        <translation>Der gewählte Block wird mit einem roten Hintergrund angezeigt, wenn der Fokus an der Blocktabelle ist oder mit einem blauen Hintergrund, wenn der Fokus auf einem anderem Element liegt.</translation>
+        <translation>Dier gewählten Blöcke wird mit einem roten Hintergrund angezeigt, wenn der Fokus an der Blocktabelle ist oder mit einem blauen Hintergrund, wenn der Fokus auf einem anderem Element liegt.</translation>
     </message>
     <message>
         <source>To change the blocks order, use Drag &amp; Drop or &lt;B&gt;Up&lt;/B&gt; and &lt;B&gt;Down&lt;/B&gt; functions of the contextual menu.</source>
-        <translation>Um die Reihenfolge des Blockes zu ändern, verschieben die Blöcke mit Drag Drop oder mit den Funktionen &lt;B&gt;Auf&lt;/B&gt; und &lt;B&gt;Ab&lt;/B&gt; Funktionen aus dem Kontextmenü.</translation>
+        <translation>Um die Reihenfolge der Blöcke zu ändern, verschieben Sie die Blöcke mit Drag Drop oder mit den Funktionen &lt;B&gt;Auf&lt;/B&gt; und &lt;B&gt;Ab&lt;/B&gt; aus dem Kontextmenü.</translation>
     </message>
     <message>
         <source>It is possible to add files directly in the blocks table by using Drag and Drop with the file explorer.</source>
-        <translation>Sie haben die Möglichkeit Dateien in die Blockliste mittels Drap &amp; Drop aus einem Dateiexplorer einzufügen.</translation>
+        <translation>Sie haben die Möglichkeit, Dateien in die Blockliste mittels Drag &amp; Drop aus einem Dateiexplorer einzufügen.</translation>
     </message>
     <message>
         <source>All blocks, whether title, image or video, possess a text element.</source>
@@ -8069,15 +8070,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>In visible mode for the current shot and for all the following shots</source>
-        <translation>im sichtbaren Modus für die aktuelle Aufnahme und alle folgenden</translation>
+        <translation>Im sichtbaren Modus für die aktuelle Aufnahme und alle folgenden</translation>
     </message>
     <message>
         <source>In hidden mode for the shots located before the current shot</source>
-        <translation>im versteckten Modus für alle davor liegenden Aufnahmen</translation>
+        <translation>Im versteckten Modus für alle davor liegenden Aufnahmen</translation>
     </message>
     <message>
         <source>Always in the last position in the list of blocks (in the foreground)</source>
-        <translation>immer an der letzten Position der Blockliste (somit im Vordergrund) angefügt</translation>
+        <translation>Immer an der letzten Position der Blockliste (somit im Vordergrund) angefügt</translation>
     </message>
     <message>
         <source>Block settings zone</source>
@@ -8117,19 +8118,19 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Represents the horizontal offset of the block from the left. This position is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation>Stellt den horizontalen Abstand des Blockes zum linken Rand dar. Diese Position ist entweder definiert als prozentueller Wert (%) der gesamten Breite des Bildes oder in Pixel (für einen 1080p Bildschirm), je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
+        <translation>Stellt den horizontalen Abstand des Blockes zum linken Rand dar. Diese Position ist entweder als prozentueller Wert (%) der gesamten Breite des Bildes oder in Pixel (für einen 1080p Bildschirm) definiert, je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
     </message>
     <message>
         <source>Represents the vertical offset of the block from the top. This position is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation>Stellt den vertikalen Abstand des Blockes zum oberen Rand dar. Diese Position ist entweder definiert als prozentueller Wert (%) der gesamten Höhe des Bildes oder in Pixel (für einen 1080p Bildschirm), je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
+        <translation>Stellt den vertikalen Abstand des Blockes zum oberen Rand dar. Diese Position ist entweder als prozentueller Wert (%) der gesamten Höhe des Bildes oder in Pixel (für einen 1080p Bildschirm) definiert, je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
     </message>
     <message>
         <source>Represents the width of the block. This value is defined as a percentage (%) of the total width of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog box.</source>
-        <translation>Stellt die Breite des Blockes dar. Dieser Wert ist entweder als prozentueller Wert (%) der Breite des Bildes oder in Pixel (für einen 1080p Bildschirm), je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
+        <translation>Stellt die Breite des Blockes dar. Dieser Wert ist entweder als prozentueller Wert (%) der Breite des Bildes oder in Pixel (für einen 1080p Bildschirm) definiert, je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
     </message>
     <message>
         <source>Represents the height of the block. This value is defined as a percentage (%) of the total height of the image or in pixels (for a 1080p screen) according to the unit defined in the configuration dialog.</source>
-        <translation>Stellt die Höhe des Blockes dar. Dieser Wert ist entweder definiert als prozentueller Wert (%) der Höhe des Bildes oder in Pixel (für einen 1080p Bildschirm), je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
+        <translation>Stellt die Höhe des Blockes dar. Dieser Wert ist entweder als prozentueller Wert (%) der Höhe des Bildes oder in Pixel (für einen 1080p Bildschirm) definiert, je nachdem welche Einstellungen in den Projekteinstellungen vorgenommen wurden.</translation>
     </message>
     <message>
         <source>Rotation around the Z axis in degrees.</source>
@@ -8173,7 +8174,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Defines the opacity of the block. This value also applies to the text of the block.</source>
-        <translation>Legt die Durchsichtigkeit eines Blockes fest. Dieser Wert wird auch für den Text eines Blockes verwendet.</translation>
+        <translation>Legt die Deckkraft eines Blockes fest. Dieser Wert wird auch für den Text eines Blockes verwendet.</translation>
     </message>
     <message>
         <source>Border</source>
@@ -8221,7 +8222,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Defines the distance between the block and its shadow</source>
-        <translation>Legt den Abstand des Schattens zwischen Schattenrand und Blockrand fest</translation>
+        <translation>Legt den Abstand zwischen dem Block und seinem Schatten fest</translation>
     </message>
     <message>
         <source>Color</source>
@@ -8245,7 +8246,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Remark: To change the velocity curve for image animation (graphic effect and framing), edit the image or video and select a velocity in the Image framing and correction dialog</source>
-        <translation>Anmerkung: Um die Geschwindigkeit der Bildanimation zu verändern (Graphische Effekte und Beschneidung), wählen Sie im Dialog für Bildbeschneidung bzw. -korrektur einen Geschwindigkeitswert</translation>
+        <translation>Anmerkung: Um die Geschwindigkeit der Bildanimation zu verändern (Grfhische Effekte und Beschneidung), wählen Sie im Dialog für Bildbeschneidung bzw. -korrektur einen Geschwindigkeitswert</translation>
     </message>
     <message>
         <source>Text annimation</source>
@@ -8297,7 +8298,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> This animation allows to turn a block several times during the shot. </source>
-        <translation> Diese Animation ermöglicht es einen Block zu drehen, während der Dauer der Aufnahme.</translation>
+        <translation> Diese Animation ermöglicht es einen Block während der Dauer der Aufnahme zu drehen.</translation>
     </message>
     <message>
         <source>Remark: the rotation direction is defined by the sign, so +5 will give 5 rotations in one direction while -5 will give 5 rotations in the other direction </source>
@@ -8357,11 +8358,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>It defines as well the coordinates, forms and animations properties as the properties defined in the editing dialog of text, image or video. </source>
-        <translation>Dies betrifft die Koordinaten, die Form und Animationseigenschaften welche im Dialog für Text, Bilder oder Videos festgelegt wurden.</translation>
+        <translation>Dies betrifft die Koordinaten, die Form und Animationseigenschaften, welche im Dialog für Text, Bilder oder Videos festgelegt wurden.</translation>
     </message>
     <message>
         <source>The properties locking is available only from the 2nd shot.</source>
-        <translation>Anmerkung: Das Sperren von Eigenschaften ist nicht für die 1. Aufnahme mögliche, erst ab der 2. Aufnahme.</translation>
+        <translation>Anmerkung: Das Sperren von Eigenschaften ist nicht für die 1. Aufnahme möglich, erst ab der 2. Aufnahme.</translation>
     </message>
     <message>
         <source>See also</source>
@@ -8373,7 +8374,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>This dialog allows you to define settings for the slides. It includes numerous zones:</source>
-        <translation>Dieser Dialog ermöglicht das Festlegen der Eigenschaften eines Dias. Es ist in mehreren Bereich unterteilt:</translation>
+        <translation>Dieser Dialog ermöglicht das Festlegen der Eigenschaften eines Dias. Es ist in mehrere Bereiche unterteilt:</translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0105.html&quot;&gt;Chapter properties dialog&lt;/a&gt;</source>
@@ -8385,15 +8386,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Add a simple title block</source>
-        <translation>fügt einen einfachen Textblock hinzu</translation>
+        <translation>Fügt einen einfachen Textblock hinzu</translation>
     </message>
     <message>
         <source>Add a title clip-art block</source>
-        <translation>fügt einen ClipArt-Block hinzu</translation>
+        <translation>Fügt einen ClipArt-Block hinzu</translation>
     </message>
     <message>
         <source>Once you have selected one of the options, the &lt;a href=&quot;0120.html&quot;&gt;Edit Text dialog&lt;/a&gt; opens.</source>
-        <translation>Nachdem Sie eine der 2 Optionen gewählt haben, öffnet sich der Dialog &lt;a href=&quot;0120.html&quot;&gt;Text ändern&lt;/a&gt;.</translation>
+        <translation>Nachdem Sie eine der zwei Optionen gewählt haben, öffnet sich der Dialog &lt;a href=&quot;0120.html&quot;&gt;Text ändern&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Add one or several new blocks of images or video. A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears allowing you to select files. </source>
@@ -8401,7 +8402,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Note: in case of multiple selection, files are added in the alphabetical order of the filenames or in the digital order of shots (according to the option selected in the &lt;a href=&quot;0101.html&quot;&gt;Application options dialog&lt;/a&gt;).</source>
-        <translation>Anmerkung: wenn mehrere Dateien ausgewählt wurden, werden diese in Alphabetischer Reihenfolge des Dateinamen oder in der Reihenfolge der Aufnahme mit der Kamera hinzugefügt (Abhängig von der ausgewählten Option im Dialog &lt;a href=&quot;0101.html&quot;&gt;Applikationseinstellungen&lt;/a&gt;).</translation>
+        <translation>Anmerkung: wenn mehrere Dateien ausgewählt wurden, werden diese in alphabetischer Reihenfolge des Dateinamen oder in der Reihenfolge der Aufnahme mit der Kamera hinzugefügt (Abhängig von der ausgewählten Option im Dialog &lt;a href=&quot;0101.html&quot;&gt;Applikationseinstellungen&lt;/a&gt;).</translation>
     </message>
     <message>
         <source>Edit blocks - Open a sub menu with the following options: </source>
@@ -8409,11 +8410,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Arrange blocks - Open a sub menu with the following options: </source>
-        <translation>Ausrichtung Blöcke - Öffnet ein Untermenü mit folgenden Optionen:</translation>
+        <translation>Anordnung Blöcke - Öffnet ein Untermenü mit folgenden Optionen:</translation>
     </message>
     <message>
         <source>Save as model - Allows you to save current slide as a new Predefined custom title. </source>
-        <translation>Speichern eines Models - Ermöglicht das Speichern des aktuellen Dia als neuen vordefinierten Titel.</translation>
+        <translation>Speichern eines Models - Ermöglicht das Speichern des aktuellen Dias als neuen vordefinierten Titel.</translation>
     </message>
     <message>
         <source>For more information on predefined title slide, see: &lt;a href=&quot;0012.html&quot;&gt;Predefined title slide&lt;/a&gt;</source>
@@ -8429,19 +8430,19 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Right clicking on zones.</source>
-        <translation>Rechtsklick in den Bereichen.</translation>
+        <translation>Einen Rechtsklick in den Bereichen macht.</translation>
     </message>
     <message>
         <source>Right click on shots table.</source>
-        <translation>Rechtsklick in der Aufnahmentabelle.</translation>
+        <translation>Einen Rechtsklick in der Aufnahmentabelle macht.</translation>
     </message>
     <message>
         <source>Right click on blocks table or on interactive zone when no block was selected.</source>
-        <translation>Rechte Maustaste in die Blocktabelle oder in den interaktiven Bereich wenn kein Block ausgewählt ist.</translation>
+        <translation>Die rechte Maustaste in die Blocktabelle oder in den interaktiven Bereich klickt, wenn kein Block ausgewählt ist.</translation>
     </message>
     <message>
         <source>Right click on one of the blocks of a multiple selection, on blocks table or on interactive zone.</source>
-        <translation>Rechte Maustaste auf einen der Blöcke der Mehrfachauswahl in der Blocktabelle oder in den interaktiven Bereich.</translation>
+        <translation>Die rechte Maustaste auf einem der Blöcke der Mehrfachauswahl in der Blocktabelle oder im interaktiven Bereich klickt.</translation>
     </message>
     <message>
         <source>Each of these contextual menus propose commands which depend on what you have clicked.</source>
@@ -8449,11 +8450,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source> If the properties of the block are locked during this shot. (This information does not appear for the 1st shot.)</source>
-        <translation>wird gezeigt, wenn die Eigenschaften des Blockes für diese Aufnahme gesperrt sind. (Anmerkung: Diese Information wird nicht für die erste Aufnahme des Dia gezeigt.)</translation>
+        <translation>Wird gezeigt, wenn die Eigenschaften des Blockes für diese Aufnahme gesperrt sind. (Anmerkung: Diese Information wird nicht für die erste Aufnahme des Dia gezeigt.)</translation>
     </message>
     <message>
         <source> If the properties of the block are unlocked during this shot. (This information does not appear for the 1st shot.)</source>
-        <translation>wird gezeigt, wenn die Eigenschaften des Blockes für diese Aufnahme nicht gesperrt sind. (Anmerkung: Diese Information wird nicht für die erste Aufnahme des Dia gezeigt.)</translation>
+        <translation>Wird gezeigt, wenn die Eigenschaften des Blockes für diese Aufnahme nicht gesperrt sind. (Anmerkung: Diese Information wird nicht für die erste Aufnahme des Dia gezeigt.)</translation>
     </message>
     <message>
         <source>This settings group deals with style management. For more information on style management, see: &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
@@ -8624,7 +8625,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Solid brush</source>
-        <translation>Einfärbig</translation>
+        <translation>Einfarbig</translation>
     </message>
     <message>
         <source>Allows you to select a plain color.</source>
@@ -8640,7 +8641,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Gradient 2 colors</source>
-        <translation>Farbverlauf aus 2 Farben</translation>
+        <translation>Farbverlauf aus zwei Farben</translation>
     </message>
     <message>
         <source>Allows you to select a gradient of 2 colors.</source>
@@ -8648,7 +8649,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Gradient 3 colors</source>
-        <translation>Farbverlauf aus 3 Farben</translation>
+        <translation>Farbverlauf aus drei Farben</translation>
     </message>
     <message>
         <source>Allows you to select a gradient of 3 colors.</source>
@@ -8664,7 +8665,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>If background brush is Solid, Pattern or Gradient brush, then this line appears and allows you to select a color. (Depending on the brush you select, there will be one, two or three selectable colors.)</source>
-        <translation>In Abhängigkeit Ihrer Wahl des Hintergrundes können Sie hier die entsprechenden Farben für den Hintergrund festlegen. Bei Einfärbig können sie eine Farbe wählen, bei Farbverlauf aus 3 Farben können Sie dementsprechend drei Farben wählen</translation>
+        <translation>In Abhängigkeit Ihrer Wahl des Hintergrundes können Sie hier die entsprechenden Farben für den Hintergrund festlegen. Bei einfarbig können sie eine Farbe wählen, bei Farbverlauf aus drei Farben können Sie dementsprechend drei Farben wählen</translation>
     </message>
     <message>
         <source>If background brush is Pattern brush, then this line appears and allows you to select a pattern.</source>
@@ -8676,7 +8677,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>If the Gradient has 3 colors, additional controls allow to define the position (in percentage) of the 3rd gradient color.</source>
-        <translation>Bei Farbverlauf aus 3 Farben, kann über eine zusätzliche Kontrolleinstellung die Position (in Prozent) der 3. Farbe festgelegt werden.</translation>
+        <translation>Bei Farbverlauf aus drei Farben kann über eine zusätzliche Kontrolleinstellung die Position (in Prozent) der 3. Farbe festgelegt werden.</translation>
     </message>
     <message>
         <source>If background brush is Image from library, then this line appears and allows you to select an image.</source>
@@ -8700,7 +8701,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>To use margins corresponding to the entire form, in fact, the selection rectangle shape regardless of the design.</source>
-        <translation>Um Seitenränder entsprechend der verwendeten Form zu erhalten. Tatsächlich ist die Auswahlrechteck immer gleich unabhängig des Designs der Form.</translation>
+        <translation>Um Seitenränder entsprechend der verwendeten Form zu erhalten. Tatsächlich ist die Auswahlrechteck immer gleich, unabhängig des Designs der Form.</translation>
     </message>
     <message>
         <source>Custom</source>
@@ -8708,7 +8709,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>To use custom margins. The following settings allow you to adjust the margins: </source>
-        <translation>Um Benutzerdefinierte Seitenränder zu erhalten. Folgende Einstellungen ermöglichen die Ränder zu justieren:</translation>
+        <translation>Um benutzerdefinierte Seitenränder zu erhalten. Folgende Einstellungen ermöglichen es, die Ränder zu justieren:</translation>
     </message>
     <message>
         <source>Represents the horizontal position of the margins relative to the top-left corner of the block. (This value is expressed in % of the width of the block.)</source>
@@ -8728,7 +8729,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Allows you to add a dynamic variable to the text. For more information on dynamic variables see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation>Ermöglicht das Hinzufügen einer Variable zum Text. Für mehr Informationen zu Dynamischen Variablen siehe: &lt;a href=&quot;0013.html&quot;&gt;Dynamische Variablen&lt;/a&gt;</translation>
+        <translation>Ermöglicht das Hinzufügen einer Variable zum Text. Für mehr Informationen zu dynamischen Variablen siehe: &lt;a href=&quot;0013.html&quot;&gt;Dynamische Variablen&lt;/a&gt;</translation>
     </message>
 </context>
 <context>
@@ -8747,7 +8748,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>When you click the OK button, the new transition duration is applied to all the slides that were selected. </source>
-        <translation>Wenn Sie auf OK-Klicken, die neue Laufzeit wird allen Dias zugewiesen die gerade ausgewählt sind.</translation>
+        <translation>Wenn Sie auf OK klicken, wird die neue Laufzeit allen Dias zugewiesen, die gerade ausgewählt sind.</translation>
     </message>
     <message>
         <source>This function can not be used to delete or change the slide&apos;s transition. </source>
@@ -8755,7 +8756,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>If it&apos;s what you want, then call the context transitions menu by right clicking on one of the slides of the selection from the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and then select &quot;Modify the transition for all the slides of the selection&quot; option.</source>
-        <translation>Wenn es das war was Sie wollten, dann klicken Sie mit der rechten Maustaste auf eines der selektieren Dias in der &lt;a href=&quot;0023.html&quot;&gt;Zeitleiste&lt;/a&gt; und rufen aus dem Kontextmenü den Eintrag: &quot;Ändern des Übergangs für alle Dias dieser Auswahl&quot;.</translation>
+        <translation>Wenn es das war, was Sie wollten, dann klicken Sie mit der rechten Maustaste auf eines der selektieren Dias in der &lt;a href=&quot;0023.html&quot;&gt;Zeitleiste&lt;/a&gt; und rufen aus dem Kontextmenü den Eintrag: &quot;Ändern des Übergangs für alle Dias dieser Auswahl&quot;.</translation>
     </message>
     <message>
         <source>This dialog allows you to define the transition duration for a set of slides:</source>
@@ -8774,11 +8775,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>It shows a preview of the available transitions by transition family. </source>
-        <translation>Er zeigt eine Vorsch auf alle verfügbaren Übergänge gruppiert in Effektfamilien.</translation>
+        <translation>Er zeigt eine Vorschau auf alle verfügbaren Übergänge, gruppiert in Effektfamilien.</translation>
     </message>
     <message>
         <source>Remark : In case this dialog is opened for a multiple slide selection, it&apos;s the first slide of the selection that is used for the preview. </source>
-        <translation>Anmerkung: Im Falle dass dieser Dialog für eine Mehrfachauswahl von Dias geöffnet wurd, wird das erste Dia der Selektion für die Vorschau verwendet.</translation>
+        <translation>Anmerkung: Im Falle, dass dieser Dialog für eine Mehrfachauswahl von Dias geöffnet wurd, wird das erste Dia der Selektion für die Vorschau verwendet.</translation>
     </message>
     <message>
         <source>Transition type</source>
@@ -8798,11 +8799,11 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Note that this also deactivates:</source>
-        <translation>Beachten Sie: Dies deaktiviert:</translation>
+        <translation>Beachten Sie: Dies deaktiviert auch:</translation>
     </message>
     <message>
         <source>Sound fades (The playlist of the new slide immediately replaces that of the old one)</source>
-        <translation>Musikübergänge (Die ev. neue Abspielliste ersetzt abrupt die bisherige Abspielliste)</translation>
+        <translation>Musikübergänge (Die evtl. neue Abspielliste ersetzt abrupt die bisherige Abspielliste)</translation>
     </message>
     <message>
         <source>Background transitions</source>
@@ -9089,7 +9090,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Various dialog boxes</source>
-        <translation>weitere Dialogfenster</translation>
+        <translation>Weitere Dialogfenster</translation>
     </message>
 </context>
 <context>
@@ -9104,7 +9105,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Interface description</source>
-        <translation>Beschreibung Oberfläche</translation>
+        <translation>Schnittstellen-Beschreibung</translation>
     </message>
     <message>
         <source>Rendering videos</source>
@@ -9136,3 +9137,4 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
 </context>
 </TS>
+
