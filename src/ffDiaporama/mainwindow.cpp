@@ -115,13 +115,15 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     QPixmap     LogoImg(":/img/logo_big.png");
     QPainter    P;
     QTextOption QTO;
-    QFont       Font("Serif",20,QFont::Normal,QFont::StyleItalic);          // First line use bold
+    QFont       Font("Serif",20,QFont::Normal,QFont::StyleItalic);
     QPen        Pen;
 
     P.begin(&LogoImg);
+    P.setFont(Font);
 
-    int Size=P.fontMetrics().boundingRect("0").height();
-    ScreenFontAdjust=double(Size)/double(16);
+    int Size         =P.fontMetrics().boundingRect("99/99/9999").width();           // Size should be 150 on standard Linux and 136 on standard Windows
+    ScreenFontAdjust =double(Size)/double(150);                                     // Adjustement for text functions using direct font
+    SCALINGTEXTFACTOR=int(std::floor(double(SCALINGTEXTFACTOR)*ScreenFontAdjust));  // Adjust Windows to correspond to Linux size
 
     QTO.setAlignment(Qt::AlignRight|Qt::AlignTop);
     QTO.setWrapMode(QTextOption::NoWrap);
@@ -131,7 +133,6 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     Pen.setWidth(1);
     Pen.setStyle(Qt::SolidLine);
     P.setPen(Pen);
-    P.setFont(Font);
     P.drawText(QRect(0,38,LogoImg.width()-10,LogoImg.height()-38),CurrentAppName,QTO);
     P.end();
     ui->TABToolimg->setPixmap(LogoImg);

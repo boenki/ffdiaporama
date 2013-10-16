@@ -236,7 +236,7 @@ public:
 //*********************************************************************************************************************************************
 class cImageFile : public cBaseMediaFile {
 public:
-    bool                    IsVectorImg;
+    bool                    IsVectorImg,NoExifData;
     QSvgRenderer            *VectorImage;
 
     explicit                cImageFile(cBaseApplicationConfig *ApplicationConfig);

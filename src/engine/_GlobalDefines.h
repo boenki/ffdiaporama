@@ -119,11 +119,11 @@
 extern QString CurrentAppName;              // Application name (including devel, beta, ...)
 extern QString CurrentAppVersion;           // Application version read from BUILDVERSION.txt
 extern double  ScreenFontAdjust;            // System Font adjustement
+extern int     SCALINGTEXTFACTOR;           // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
 
 // URL to link to help page
 #define HELPFILE_CAT                        "http://ffdiaporama.tuxfamily.org/?cat=%1&lang=%2"
 #define ALLOWEDWEBLANGUAGE                  "en;fr;it;es;el;de;nl;pt;ru"
-
 
 //====================================================================
 

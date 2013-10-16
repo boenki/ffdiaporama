@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.7 - Trunk
 *
-* Dernier commit le : 26/09/2013
+* Dernier commit le : 15/10/2013
 **************************************************
 
 TODO :
@@ -54,26 +54,22 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige l'affichage de la version de ffmpeg dans la boite CheckConfig
--Corrige les problèmes de scroller horizontal pour la la zone Content de la fenetre wiki
--Corrige les problèmes de taille du splitter de la fenetre wiki
--Rafraichit la liste des fichiers après une sauvegarde du projet
--Corrige un bug de lecture des jaquettes de taille impaire dans fichiers audio avec ffmpeg 2.x
--Corrige un bug lors de la production des images qui ralentissait le calcul (Le traitement des textes s'appliquaient aussi pour les textes vides)
+-Corrige le calcul du textscalling qui ne s'effectuait pas correctement sous Windows en cas de changement des PPP dans le panneau de configuration pour les polices de caractères
+-Corrige l'affichage des accents pour les messages de log dans la fenêtre dos sous Windows
+-Corrige le problème d'encodage au format AVI avec ffmpeg 2.x (utilise av_write_frame au lieu de av_interleaved_write_frame)
+-Corrige une fuite de mémoire et l'absence d'affichage de l'image intervenant lors des déplacements "à la main" du slider de la fenetre de prévisualisation [regression beta 2]
+-Corrige le problème de sélection de slide [regression beta 2]
 
 English version / Bug fixes :
--Fix display of ffmpeg version in CheckConfig dialog
--Fix horizontal scroller of Content zone of the wiki window
--Fix splitter of the wiki window size errors
--Refresh files in multimedia file browser after saving project file
--Fixed a bug reading jackets odd size in audio files with ffmpeg 2.x
--Fixed a bug when producing images that slowed calculation (The text processing also applied for empty text)
+-Fix computation of textscalling which was incorrect on Windows when changing fonts PPP in control panel
+-Fix display of accent for message log in dos box under Windows
+-Fix encoding error with AVI format and ffmpeg 2.x (use av_write_frame instead of av_interleaved_write_frame)
+-Fix a memory leak and no image display occurring when moving "with hand" the slider of the preview window [regression beta 2]
+-Fix slide selection error [regression beta 2]
 
 French version / Nouveautés :
--Améliore la gestion des threads lors de la génération des vidéos en répartissant mieux le traitement sur les différents core/processeur ce qui accélère la génération
 
 English version / New features :
--Improves thread management when generating videos by better distributing the processing on different core/processor which accelerates the rendering
 
 Translation/Traductions:
 

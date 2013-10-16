@@ -22,10 +22,12 @@
 #include <iostream>
 #include <QDir>
 #include "_GlobalDefines.h"
+#include <windows.h>
 
 QString CurrentAppName;                         // Application name (including devel, beta, ...)
 QString CurrentAppVersion;                      // Application version read from BUILDVERSION.txt
 double  ScreenFontAdjust=1;                     // System Font adjustement
+int     SCALINGTEXTFACTOR=700;                  // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
 
 //======================================================================
 // Internal log defines and functions
@@ -190,6 +192,13 @@ QString AdjustDirForOS(QString Dir) {
 
 bool PreviousBreak=true;
 
+std::string toAscii(QString tab) {
+    char buffer[2048];
+    CharToOemA(tab.toLocal8Bit().constData(), buffer);
+    std::string str(buffer);
+    return str;
+}
+
 void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
     if ((MessageType>=LogMsgLevel)&&(PreviousBreak)) {
         QString DateTime=QTime::currentTime().toString("hh:mm:ss.zzz");
@@ -218,15 +227,20 @@ void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
         }
         if (!MSG.isEmpty()) {
             if ((MessageType!=LOGMSG_DEBUGTRACE)&&(EventReceiver!=NULL)) PostEvent(EVENT_GeneralLogChanged,QString("%1###:###%2###:###%3").arg((int)MessageType).arg(Message).arg(Source));
-            std::cout << MSG.toLocal8Bit().constData() << std::flush;
             #ifdef Q_OS_WIN
+            std::cout << toAscii(MSG) << std::flush;
             if (MSG.endsWith("\n")) MSG=MSG.left(MSG.indexOf("\n"));
-            //qDebug()<<MSG;
+            #else
+            std::cout << MSG.toLocal8Bit().constData() << std::flush;
             #endif
         }
         PreviousBreak=((AddBreak)||(Message.endsWith("\n")));
     } else if (MessageType>=LogMsgLevel) {
+        #ifdef Q_OS_WIN
+        std::cout << toAscii(Message) << std::flush;
+        #else
         std::cout << Message.toLocal8Bit().constData() << std::flush;
+        #endif
     }
 }
 
