@@ -22,7 +22,9 @@
 #include <iostream>
 #include <QDir>
 #include "_GlobalDefines.h"
+#ifdef Q_OS_WIN
 #include <windows.h>
+#endif
 
 QString CurrentAppName;                         // Application name (including devel, beta, ...)
 QString CurrentAppVersion;                      // Application version read from BUILDVERSION.txt
@@ -192,12 +194,14 @@ QString AdjustDirForOS(QString Dir) {
 
 bool PreviousBreak=true;
 
+#ifdef Q_OS_WIN
 std::string toAscii(QString tab) {
     char buffer[2048];
     CharToOemA(tab.toLocal8Bit().constData(), buffer);
     std::string str(buffer);
     return str;
 }
+#endif
 
 void ToLog(int MessageType,QString Message,QString Source,bool AddBreak) {
     if ((MessageType>=LogMsgLevel)&&(PreviousBreak)) {

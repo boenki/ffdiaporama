@@ -33,8 +33,6 @@
 int64_t TotalLoadSources=0,TotalAssembly=0,TotalLoadSound=0;
 
 // Composition parameters
-#define SCALINGTEXTFACTOR                   700     // 700 instead of 400 (ffD 1.0/1.1/1.2) to keep similar display from plaintext to richtext
-
 #define DEFAULT_ROTATEZAXIS                 0
 #define DEFAULT_ROTATEXAXIS                 0
 #define DEFAULT_ROTATEYAXIS                 0
@@ -2633,6 +2631,7 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
 
         // Mix current and transit SoundTrackMontage (if needed)
         // @ the end: only current SoundTrackMontage exist !
+        Info->CurrentObject_SoundTrackMontage->Mutex.lock();
         for (int i=0;i<Info->CurrentObject_SoundTrackMontage->NbrPacketForFPS;i++) {
             // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the TransitObject_SoundTrackMontage
             int16_t *Paquet=Info->TransitObject_SoundTrackMontage?Info->TransitObject_SoundTrackMontage->DetachFirstPacket():NULL;
@@ -2685,13 +2684,15 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 }
             }
         }
+        Info->CurrentObject_SoundTrackMontage->Mutex.unlock();
     }
 
     // Mix current and transit music
     // @ the end: only current music exist !
     // add fade out of previous music track (if needed)
     // Mix the 2 sources buffer using the first buffer as destination and remove one paquet from the PreviousMusicTrack
-    if ((Info->IsTransition)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->List.count()>0))
+    if ((Info->IsTransition)&&(Info->TransitObject_MusicTrack)&&(Info->TransitObject_MusicTrack->List.count()>0)) {
+        Info->CurrentObject_SoundTrackMontage->Mutex.lock();
         for (int i=0;i<Info->CurrentObject_MusicTrack->NbrPacketForFPS;i++) {
             int16_t *Paquet=Info->TransitObject_MusicTrack->DetachFirstPacket();
             // Ensure paquet exist, elsewhere create one and init it to 0 (silence)
@@ -2737,6 +2738,8 @@ void cDiaporama::LoadSources(cDiaporamaObjectInfo *Info,int W,int H,bool Preview
                 }
             }
         }
+        Info->CurrentObject_SoundTrackMontage->Mutex.unlock();
+    }
 }
 
 //============================================================================================
