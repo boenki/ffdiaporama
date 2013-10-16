@@ -81,7 +81,7 @@ Translation/Traductions:
     PT        100% - 1696     /   100% - 2244   Finished
     IT        100% - 1696     /   100% - 2244   Finished
     ES        100% - 1696     /   100% - 2244   Finished
-    DE        100% - 1696     /    99% - 2236   Waiting for Thomas
+    DE        100% - 1696     /   100% - 2244   Finished
     EL         97% - 1657     /    10% - 232    Waiting for Dimitrios
 
     NL         64% - 1088     /     0%          No contributor for this version
