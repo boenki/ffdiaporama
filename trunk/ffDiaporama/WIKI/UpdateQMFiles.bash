@@ -36,7 +36,7 @@ PREPLANGUAGE() {
 }
 
 cd fake
-/usr/lib/x86_64-linux-gnu/qt4/bin/lrelease fake.pro
+/usr/lib/x86_64-linux-gnu/qt5/bin/lrelease fake.pro
 cd ..
 PREPLANGUAGE "en"
 PREPLANGUAGE "fr"

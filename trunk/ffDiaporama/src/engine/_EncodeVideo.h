@@ -38,12 +38,12 @@ int CheckEncoderCapabilities(VFORMAT_ID FormatId,AVCodecID VideoCodec,AVCodecID 
 class cEncodeVideo {
 public:
     cDiaporama          *Diaporama;
-    bool                IsOpen;
+    bool                IsOpen,InterleaveFrame;
 
     // Container parameters & buffers
     QString             OutputFileName;
     int                 FromSlide,ToSlide;
-    int64_t           NbrFrame;                       // Number of frame to generate
+    int64_t             NbrFrame;                       // Number of frame to generate
     AVFormatContext     *Container;
 
     // Video parameters & buffers

@@ -54,18 +54,12 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige le calcul du textscalling qui ne s'effectuait pas correctement sous Windows en cas de changement des PPP dans le panneau de configuration pour les polices de caractères
--Corrige l'affichage des accents pour les messages de log dans la fenêtre dos sous Windows
--Corrige le problème d'encodage au format AVI avec ffmpeg 2.x (utilise av_write_frame au lieu de av_interleaved_write_frame)
--Corrige une fuite de mémoire et l'absence d'affichage de l'image intervenant lors des déplacements "à la main" du slider de la fenetre de prévisualisation [regression beta 2]
--Corrige le problème de sélection de slide [regression beta 2]
+-Corrige un probleme d'encodage en MJPEG avec ffmpeg 2.x
+-Corrige la fuite de mémoire qui intervenait lors des encodages d'images fixes
 
 English version / Bug fixes :
--Fix computation of textscalling which was incorrect on Windows when changing fonts PPP in control panel
--Fix display of accent for message log in dos box under Windows
--Fix encoding error with AVI format and ffmpeg 2.x (use av_write_frame instead of av_interleaved_write_frame)
--Fix a memory leak and no image display occurring when moving "with hand" the slider of the preview window [regression beta 2]
--Fix slide selection error [regression beta 2]
+-Fix a rendering error using MJPEG format with ffmpeg 2.x
+-Fix memory leak error when rendering static images
 
 French version / Nouveautés :
 

@@ -741,20 +741,20 @@
         <translation>Aktueller Tag der Woche als Name (abhängig von den Ländereinstellungen: Montag, Dienstag, usw....)</translation>
     </message>
     <message>
-        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values Ã¢ÂÂÃ¢ÂÂonly when they are used.</source>
-        <translation>Große Verwendung finden Variablen, da sie nicht nur als Text eingefügt werden können (siehe Dialog : &lt;a href=&quot;0120.html&quot;&gt;Text ändern&lt;/a&gt;), sie können auch in Ihren Wert übersetzt werden Ã¢ÂÂÃ¢ÂÂ wenn dies gebraucht wird.</translation>
+        <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Current chapter number displayed as &lt;U&gt;Chapter NÃÂ°&lt;/U&gt; (depending on the current language)</source>
-        <translation>Aktuelle Kapitelnummer die angezeigt wird als &lt;U&gt;Kapitel NÃÂ°&lt;/U&gt; (abhängig von der aktuellen Sprache)</translation>
+        <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Copyright of the project construct as &lt;U&gt;ÃÂ© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation>Copyright dieses Projekts zusammengesetzt aus &lt;U&gt;ÃÂ© Jahr - Autor&lt;/U&gt; wobei &lt;B&gt;&lt;I&gt;Jahr&lt;/I&gt;&lt;/B&gt; dem aktuellen Jahr entspricht, sowie &lt;B&gt;&lt;I&gt;Autor&lt;/I&gt;&lt;/B&gt;, das dem Wert des Feldes &lt;B&gt;&lt;I&gt;Projektautor&lt;/I&gt;&lt;/B&gt; aus dem Dialog &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt; entspricht</translation>
+        <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with ÃÂ«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;ÃÂ» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation>Ein Text zusammengesetzt aus : Projekt abgeschlossen am &lt;U&gt;&lt;B&gt;&lt;I&gt;Kurzdatum&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; mit ÃÂ«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama Version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;ÃÂ» auf einem &lt;U&gt;&lt;B&gt;&lt;I&gt;Betriebssystem&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Anzahl der Kerne/CPUs&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Kerne/CPU) Computer.</translation>
+        <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4299,10 +4299,6 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Der Projektname wird beim Speichern des Projektes festgelegt : Der Titel erhält den selben Namen wie die .ffd Datei</translation>
     </message>
     <message>
-        <source>Fill with project folder name when project save : The title will take the same name as the folder in witch is save the .ffd file</source>
-        <translation>Wenn das Projekt gespeichert wird, wird der Ordnername des Projektes verwendet : Der Titel wird mit demselben Namen festgelegt ,wie der Ordner heißt, in dem die .ffd Datei gespeichert ist</translation>
-    </message>
-    <message>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
@@ -4829,6 +4825,10 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     <message>
         <source>Defines the default value for the field Author that is often so called Artist by </source>
         <translation>Legt den Defaultwert für das Feld Autor - öfter auch Artist genannt bei</translation>
+    </message>
+    <message>
+        <source>Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -6214,16 +6214,16 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
         <translation>Dieser TAG ist nur für Videos verfügbar.</translation>
     </message>
     <message>
-        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90ÃÂÃÂ°, the image is turned by a quarter to the right.</source>
-        <translation>Die Rotationsachse für die Z-Achse. Die Position wird in Grad ausgedrückt. Beispiel: Eine Rotation von 90°, dreht das Bild um ein Viertel nach rechts.</translation>
+        <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Turn the image to the left (to the nearest multiple of 90ÃÂÃÂ°).</source>
-        <translation>Dreht das Bild nach links (zum nächsten Vielfachem von 90°).</translation>
+        <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Turn the image to the right (to the nearest multiple of 90ÃÂÃÂ°).</source>
-        <translation>Dreht das Bild nach rechts (zum nächsten Vielfachem von 90°).</translation>
+        <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -9137,4 +9137,3 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
 </context>
 </TS>
-
