@@ -16,6 +16,7 @@
   <property name="font">
    <font>
     <family>Sans Serif</family>
+    <pointsize>9</pointsize>
    </font>
   </property>
   <property name="windowTitle">

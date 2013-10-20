@@ -568,8 +568,7 @@ This style defines the shape (rectangle, circle, …), the border, the opaquenes
 Remark: This setting apply to all image formats.</source>
         <translation>Permite seleccionar el estilo de la forma solicitada a los nuevos bloques de texto.
 Este estilo define la forma (rectángulo, círculo, ...), el borde, la opacidad y el efecto de sombra aplicado al bloque.
-Nota: Este ajuste se aplica a todos los formatos de imagen.
-</translation>
+Nota: Este ajuste se aplica a todos los formatos de imagen.</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgAppSettings/DlgApplicationSettings.ui" line="1894"/>
@@ -1532,7 +1531,7 @@ Observaciones: Este cuadro no puede ser desactivado para la primer diapositiva d
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="220"/>
         <source>Start a new chapter with this slide</source>
-        <translation>Iiciar un nuevo capítulo con esta diapositiva</translation>
+        <translation>Iniciar un nuevo capítulo con esta diapositiva</translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/DlgChapter/DlgChapter.ui" line="35"/>
@@ -8372,7 +8371,7 @@ Si continúas, se corre el riesgo de perder datos!
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="2469"/>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="2475"/>
         <source>Capture the image </source>
-        <translation>Capturar la imagen</translation>
+        <translation>Capturar la imagen </translation>
     </message>
     <message>
         <location filename="../src/ffDiaporama/mainwindow.cpp" line="2617"/>
@@ -9361,7 +9360,7 @@ Si continúas, se corre el riesgo de perder datos!
     <message>
         <location filename="../src/engine/_Variables.cpp" line="269"/>
         <source>Chapters values</source>
-        <translation>Vlores de capítulos</translation>
+        <translation>Valores de capítulos</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="270"/>
@@ -9411,7 +9410,7 @@ Si continúas, se corre el riesgo de perder datos!
     <message>
         <location filename="../src/engine/_Variables.cpp" line="281"/>
         <source>Project duration</source>
-        <translation>Dración del proyecto</translation>
+        <translation>Duración del proyecto</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="282"/>
@@ -9490,7 +9489,7 @@ Si continúas, se corre el riesgo de perder datos!
     <message>
         <location filename="../src/engine/_Variables.cpp" line="297"/>
         <source>Current chapter number as &quot;Chapter NÂ°&quot;</source>
-        <translation>úmero de capítulo actual bajo la forma &quot;Capítulo nº°&quot;</translation>
+        <translation>Número de capítulo actual bajo la forma &quot;Capítulo nº&quot;</translation>
     </message>
     <message>
         <location filename="../src/engine/_Variables.cpp" line="298"/>

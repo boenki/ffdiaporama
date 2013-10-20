@@ -1467,7 +1467,7 @@ void cVideoFile::GetFullInformationFromFile() {
         //*********************************************************************************************************
         // Get information about duration
         //*********************************************************************************************************
-        int         hh,mm,ss;
+        int       hh,mm,ss;
         int64_t   ms;
 
         ms=LibavFile->duration;//-LibavFile->start_time;
@@ -2033,10 +2033,8 @@ void cVideoFile::CheckResampler(int RSC_InChannels,int RSC_OutChannels,AVSampleF
             #endif
             if ((RSC)&&(swr_init(RSC)<0)) {
                 ToLog(LOGMSG_CRITICAL,QString("CheckResampler: swr_init failed"));
-                if (RSC) {
-                    swr_free(&RSC);
-                    RSC=NULL;
-                }
+                swr_free(&RSC);
+                RSC=NULL;
             }
             if (!RSC) ToLog(LOGMSG_CRITICAL,QString("CheckResampler: swr_alloc_set_opts failed"));
         #else

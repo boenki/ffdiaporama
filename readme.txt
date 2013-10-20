@@ -41,6 +41,9 @@ Build ffDiaporama for Ubuntu/LinuxMint (Ubuntu based version)
             sudo make install
 
     Version 13.04 (Qt 5.01/Libav 0.8.6) and Version 13.10 (Qt 5.02/Libav 0.8.7)
+
+        BUG libx264: https://bugs.launchpad.net/ubuntu/+source/libav/+bug/1241777
+
         Installation prerequisites:
             sudo apt-get install build-essential
             sudo apt-get install qt5-qmake qt5-default qttools5-dev qttools5-dev-tools libqt5svg5-dev libqt5help5

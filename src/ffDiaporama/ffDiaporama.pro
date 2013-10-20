@@ -52,17 +52,21 @@ unix {
         DEFINES += USELIBSWRESAMPLE
         LIBS    += -lswresample                                             #------ conditionnaly include libswresample
     } else:exists(/usr/include/ffmpeg/libswresample/swresample.h) {         #------ Specific for Fedora
+        message("Use ffmpeg in /usr/include/ffmpeg")
         DEFINES += USELIBSWRESAMPLE
         INCLUDEPATH += /usr/include/ffmpeg/
         LIBS    += -lswresample                                             #------ conditionnaly include libswresample
     } else:exists(/usr/include/libswresample/swresample.h) {                #------ Specific for openSUSE
+        message("Use ffmpeg in /usr/include")
         INCLUDEPATH += /usr/include/
         DEFINES += USELIBSWRESAMPLE
         LIBS    += -lswresample                                             #------ conditionnaly include libswresample
     } else:exists(/usr/include/libavresample/avresample.h) {
+        message("Use libav 9 in /usr/include")
         DEFINES += USELIBAVRESAMPLE
         LIBS    += -lavresample                                             #------ conditionnaly include libavresample
     } else {
+        message("Use libav 0.8+taglib in /usr/include")
         LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV_08
         DEFINES += USETAGLIB
     }

@@ -620,7 +620,8 @@ void wgt_QVideoPlayer::PrepareImage(bool SoundWanted,bool AddStartPos,int64_t Ne
 
     if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
 
-    cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(ImageList.GetLastImage(),NextPosition,Diaporama,double(1000)/WantedFPS,true);
+    cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
+    cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/WantedFPS,true);
 
     if (SoundWanted) {
         // Ensure MusicTracks are ready
@@ -651,7 +652,9 @@ void wgt_QVideoPlayer::PrepareImage(bool SoundWanted,bool AddStartPos,int64_t Ne
     Diaporama->LoadSources(Frame,W,H,true,AddStartPos);
 
     // Do Assembly
-    ThreadAssembly.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::StartThreadAssembly,ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H,SoundWanted));
+    if ((!PreviousFrame)||(PreviousFrame->FreeRenderedImage))
+        ThreadAssembly.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::StartThreadAssembly,ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H,SoundWanted));
+        else StartThreadAssembly(ComputePCT(Frame->CurrentObject?Frame->CurrentObject->GetSpeedWave():0,Frame->TransitionPCTDone),Frame,W,H,SoundWanted);
 }
 
 void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Frame,int W,int H,bool SoundWanted) {

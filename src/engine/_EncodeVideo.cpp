@@ -476,9 +476,10 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
 
     } else if (codec->id==AV_CODEC_ID_MJPEG) {
         //-qscale 2 -qmin 2 -qmax 2
-        VideoStream->codec->pix_fmt=PIX_FMT_YUVJ420P;
-        VideoStream->codec->qmin   =2;
-        VideoStream->codec->qmax   =2;
+        VideoStream->codec->pix_fmt             =PIX_FMT_YUVJ420P;
+        VideoStream->codec->qmin                =2;
+        VideoStream->codec->qmax                =2;
+        VideoStream->codec->bit_rate_tolerance  =(ImageWidth*ImageHeight*2*VideoFrameRate.den/VideoFrameRate.num)*2;
 
     } else if (codec->id==AV_CODEC_ID_VP8) {
 
@@ -822,7 +823,7 @@ bool cEncodeVideo::DoEncode() {
 
     bool                    Continue=true;
     cSoundBlockList         RenderMusic,ToEncodeMusic;
-    cDiaporamaObjectInfo    *PreviousFrame=NULL;
+    cDiaporamaObjectInfo    *PreviousFrame=NULL,*PreviousPreviousFrame=NULL;
     cDiaporamaObjectInfo    *Frame        =NULL;
     int64_t                 RenderedFrame =0;
     int                     FrameSize     =0;
@@ -855,7 +856,7 @@ bool cEncodeVideo::DoEncode() {
     IncreasingAudioPts  =AudioStream?FrameSize*1000*AudioStream->codec->time_base.num/AudioStream->codec->time_base.den:0;
     StartTime           =QTime::currentTime();
     LastCheckTime       =StartTime;                                     // Display control : last time the loop start
-    int64_t Position  =Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
+    int64_t             Position=Diaporama->GetObjectStartPosition(FromSlide);  // Render current position
     int ColumnStart     =-1;                                            // Render start position of current object
     int Column          =FromSlide-1;                                     // Render current object
 
@@ -959,13 +960,20 @@ bool cEncodeVideo::DoEncode() {
         DefaultSourceImage=QImage(5,5,QImage::Format_ARGB32_Premultiplied);
     }
 
+    // Define InterleaveFrame to not compute it for each frame
+    #ifdef FFMPEG201
+    InterleaveFrame=(strcmp(Container->oformat->name,"avi")!=0);
+    #else
+    InterleaveFrame=true;
+    #endif
+
     #ifdef Q_OS_WIN
     QThread::currentThread()->setPriority(QThread::TimeCriticalPriority);
     #endif
 
-    QTime Time;
-    Time.start();
-    int     Prepare=0,LoadSources=0,Assembly=0,Audio=0,Video=0;
+    //QTime Time;
+    //int   Prepare=0,LoadSources=0,Assembly=0,Audio=0,Video=0;
+    //Time.start();
 
     for (RenderedFrame=0;Continue && (RenderedFrame<NbrFrame);RenderedFrame++) {
         // Give time to interface!
@@ -1009,15 +1017,25 @@ bool cEncodeVideo::DoEncode() {
             Frame->TransitObject_SoundTrackMontage->SetFPS(IncreasingVideoPts,AudioChannels,AudioSampleRate,AV_SAMPLE_FMT_S16);
         }
 
-        Prepare+=Time.elapsed(); Time.restart();
-
+        //Prepare+=Time.elapsed(); Time.restart();
         // Prepare frame (if W=H=0 then soundonly)
         Diaporama->LoadSources(Frame,InternalWidth,InternalHeight,false,true);                                        // Load source images
-        LoadSources+=Time.elapsed(); Time.restart();
+        //LoadSources+=Time.elapsed(); Time.restart();
 
+        // Ensure previous Assembly was ended
         if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
-        ThreadAssembly.setFuture(QtConcurrent::run(this,&cEncodeVideo::Assembly,Frame,PreviousFrame,&RenderMusic,&ToEncodeMusic,Continue));
-        Assembly+=Time.elapsed(); Time.restart();
+
+        // Delete PreviousFrame used by assembly thread
+        if (PreviousPreviousFrame) delete PreviousPreviousFrame;
+
+        // Keep actual PreviousFrame for next time
+        PreviousPreviousFrame=PreviousFrame;
+
+        // If not static image then compute using threaded function
+        if ((!PreviousFrame)||(PreviousFrame->FreeRenderedImage))
+            ThreadAssembly.setFuture(QtConcurrent::run(this,&cEncodeVideo::Assembly,Frame,PreviousFrame,&RenderMusic,&ToEncodeMusic,Continue));
+            else Assembly(Frame,PreviousFrame,&RenderMusic,&ToEncodeMusic,Continue);
+        //Assembly+=Time.elapsed(); Time.restart();
 
         // Calculate next position
         if (Continue) {
@@ -1042,12 +1060,13 @@ bool cEncodeVideo::DoEncode() {
     if (!StopProcessWanted) DisplayProgress(RenderedFrame,-1,Column,0);  // Set All to 100%
 
     // Cleaning
-    if (PreviousFrame!=NULL) delete PreviousFrame;
-    if (Frame!=NULL)         delete Frame;
+    if (PreviousPreviousFrame)  delete PreviousPreviousFrame;
+    if (PreviousFrame!=NULL)    delete PreviousFrame;
+    if (Frame!=NULL)            delete Frame;
 
     CloseEncoder();
 
-    qDebug()<<"Prepare"<<Prepare<<"LoadSources"<<LoadSources<<"Assembly"<<Assembly<<"Audio"<<Audio<<"Video"<<Video;
+    //qDebug()<<"Prepare"<<Prepare<<"LoadSources"<<LoadSources<<"Assembly"<<Assembly<<"Audio"<<Audio<<"Video"<<Video;
 
     return Continue;
 }
@@ -1070,8 +1089,6 @@ void cEncodeVideo::Assembly(cDiaporamaObjectInfo *Frame,cDiaporamaObjectInfo *Pr
         QImage *Image=((PreviousFrame)&&(Frame->RenderedImage==PreviousFrame->RenderedImage))?NULL:Frame->RenderedImage;
         ThreadEncodeVideo.setFuture(QtConcurrent::run(this,&cEncodeVideo::EncodeVideo,Image,Continue));
     }
-
-    if (PreviousFrame) delete PreviousFrame;
 }
 
 //*************************************************************************************************************************************************
@@ -1223,18 +1240,18 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
 
                         // write the compressed frame in the media file
                         pkt.stream_index=AudioStream->index;
-                        Mutex.lock();
 
-                        #ifdef FFMPEG201
-                        if (!strcmp(Container->oformat->name,"avi")) {
+                        // Encode frame
+                        Mutex.lock();
+                        if (InterleaveFrame) {
+                            errcode=av_interleaved_write_frame(Container,&pkt);
+                        } else {
                             pkt.pts=AV_NOPTS_VALUE;
                             pkt.dts=AV_NOPTS_VALUE;
                             errcode=av_write_frame(Container,&pkt);
-                        } else
-                        #endif
-                            errcode=av_interleaved_write_frame(Container,&pkt);
-
+                        }
                         Mutex.unlock();
+
                         if (errcode!=0) {
                             char Buf[2048];
                             av_strerror(errcode,Buf,2048);
@@ -1358,19 +1375,17 @@ void cEncodeVideo::EncodeVideo(QImage *SrcImage,bool &Continue) {
             pkt.stream_index=VideoStream->index;
             if (VideoStream->codec->coded_frame && VideoStream->codec->coded_frame->key_frame) pkt.flags|=AV_PKT_FLAG_KEY;
 
-            // write the compressed frame in the media file
+            // Encode frame
             Mutex.lock();
-
-            #ifdef FFMPEG201
-            if (!strcmp(Container->oformat->name,"avi")) {
+            if (InterleaveFrame) {
+                errcode=av_interleaved_write_frame(Container,&pkt);
+            } else {
                 pkt.pts=AV_NOPTS_VALUE;
                 pkt.dts=AV_NOPTS_VALUE;
                 errcode=av_write_frame(Container,&pkt);
-            } else
-            #endif
-                errcode=av_interleaved_write_frame(Container,&pkt);
-
+            }
             Mutex.unlock();
+
             if (errcode!=0) {
                 char Buf[2048];
                 av_strerror(errcode,Buf,2048);

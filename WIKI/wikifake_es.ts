@@ -414,7 +414,7 @@
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project title&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Título del proyecto&lt;/I&gt;de&lt;/B&gt; &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
+        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Título del proyecto&lt;/I&gt;&lt;/B&gt; desde &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PAU%</source>
@@ -422,7 +422,7 @@
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Autor del proyecto&lt;/I&gt;&lt;/B&gt; para &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
+        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Autor del proyecto&lt;/I&gt;&lt;/B&gt; desde &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PAI%</source>
@@ -430,7 +430,7 @@
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;Author presents&lt;/U&gt;</source>
-        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Autor del proyecto&lt;/I&gt;&lt;/B&gt; para  &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt; mostrándose como  &lt;U&gt;Autor presenta&lt;/U&gt;</translation>
+        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Autor del proyecto&lt;/I&gt;&lt;/B&gt; desde &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt; mostrándose como  &lt;U&gt;Autor presenta&lt;/U&gt;</translation>
     </message>
     <message>
         <source>%PAP%</source>
@@ -438,7 +438,7 @@
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt; displayed as &lt;U&gt;A Author production&lt;/U&gt;</source>
-        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Autor del proyecto&lt;/I&gt;&lt;/B&gt; para &lt;a href=&quot;0108.html&quot;&gt;Propiedades del prpyecto&lt;/a&gt; mostrándose como &lt;U&gt;Una producción Autor&lt;/U&gt;</translation>
+        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Autor del proyecto&lt;/I&gt;&lt;/B&gt; desde &lt;a href=&quot;0108.html&quot;&gt;Propiedades del prpyecto&lt;/a&gt; mostrándose como &lt;U&gt;Una producción Autor&lt;/U&gt;</translation>
     </message>
     <message>
         <source>%PAL%</source>
@@ -446,7 +446,7 @@
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project album&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Album del proyecto&lt;/I&gt;&lt;/B&gt; para &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
+        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Album del proyecto&lt;/I&gt;&lt;/B&gt; desde &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PCT%</source>
@@ -454,7 +454,7 @@
     </message>
     <message>
         <source>Value of the &lt;B&gt;&lt;I&gt;Project comment&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Comentarios del proyecto&lt;/I&gt;&lt;/B&gt; para &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
+        <translation>Valor del campo &lt;B&gt;&lt;I&gt;Comentarios del proyecto&lt;/I&gt;&lt;/B&gt; desde &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%PDD%</source>
@@ -666,7 +666,7 @@
     </message>
     <message>
         <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation>Copyright del proyecto se construye así &lt;U&gt;Â© Año - Autor&lt;/U&gt; con &lt;B&gt;&lt;I&gt;Año&lt;/I&gt;&lt;/B&gt;año actual &lt;B&gt;&lt;I&gt;Autor&lt;/I&gt;&lt;/B&gt; es un valor para &lt;B&gt;&lt;I&gt;autor del proyecto&lt;/I&gt;&lt;/B&gt; y son campos de &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
+        <translation>Copyright del proyecto se construye así &lt;U&gt;© Año - Autor&lt;/U&gt; de esta forma: &lt;B&gt;&lt;I&gt;Año&lt;/I&gt;&lt;/B&gt; como año actual y &lt;B&gt;&lt;I&gt;Autor&lt;/I&gt;&lt;/B&gt; como valor para el &lt;B&gt;&lt;I&gt;autor del proyecto&lt;/I&gt;&lt;/B&gt; y estos son campos de &lt;a href=&quot;0108.html&quot;&gt;Propiedades del proyecto&lt;/a&gt;</translation>
     </message>
     <message>
         <source>%END%</source>
@@ -4226,11 +4226,11 @@
     </message>
     <message>
         <source>If &lt;I&gt;&lt;B&gt;Insert after the current selected object&lt;/B&gt;&lt;/I&gt; is selected, then the new slides will be created after the current slide.</source>
-        <translation>Si se selecciona &lt;I&gt;&lt;B&gt;Insertsr después del objeto actual&lt;/B&gt;&lt;/I&gt; entonces se crearán las nuevas diapositivas después de la diapositiva actual.</translation>
+        <translation>Si se selecciona &lt;I&gt;&lt;B&gt;Insertar después del objeto actual&lt;/B&gt;&lt;/I&gt; entonces se crearán las nuevas diapositivas después de la diapositiva actual.</translation>
     </message>
     <message>
         <source>If &lt;I&gt;&lt;B&gt;Append to the end of the project&lt;/B&gt;&lt;/I&gt; is selected, then the new slides will be created at the end of the project.</source>
-        <translation>Si se selecciona &lt;I&gt;&lt;B&gt;Añadir al final del proyecto&lt;/B&gt;&lt;/I&gt;está seleccionado, entonces se crearán las nuevas diapositivas al final del proyecto.</translation>
+        <translation>Si se selecciona &lt;I&gt;&lt;B&gt;Añadir al final del proyecto&lt;/B&gt;&lt;/I&gt;, entonces se crearán las nuevas diapositivas al final del proyecto.</translation>
     </message>
     <message>
         <source>Multiple file insertion</source>
