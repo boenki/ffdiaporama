@@ -611,8 +611,6 @@ void DlgImageComposer::RefreshControls(bool UpdateInteractiveZone) {
     InRefreshControls=true;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    for (int i=0;i<CompositionList->List.count();i++) CompositionList->List[i]->ComputeOptimisationFlags();
-
     //***********************
     // Tools button
     //***********************

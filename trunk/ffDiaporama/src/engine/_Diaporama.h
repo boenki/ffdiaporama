@@ -219,7 +219,7 @@ public:
     QString     GetBlockShapeStyle();
     void        ApplyBlockShapeStyle(QString StyleDef);
 
-    void        ComputeOptimisationFlags();
+    void        ComputeOptimisationFlags(cCompositionObject *Previous);
 
 private:
     QRectF      GetPrivateTextMargin();

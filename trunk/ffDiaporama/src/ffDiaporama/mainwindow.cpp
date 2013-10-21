@@ -2340,7 +2340,7 @@ void MainWindow::s_Action_DoAddFile() {
             // Compute Optimisation Flags
             for (int aa=0;aa<Diaporama->List[CurIndex]->List.count();aa++)
                 for (int bb=0;bb<Diaporama->List[CurIndex]->List[aa]->ShotComposition.List.count();bb++)
-                    Diaporama->List[CurIndex]->List[aa]->ShotComposition.List[bb]->ComputeOptimisationFlags();
+                    Diaporama->List[CurIndex]->List[aa]->ShotComposition.List[bb]->ComputeOptimisationFlags(aa>0?Diaporama->List[CurIndex]->List[aa-1]->ShotComposition.List[bb]:NULL);
 
             //*************************************************************
             // Adjust project and display
