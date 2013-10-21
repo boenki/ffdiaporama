@@ -7513,10 +7513,6 @@ Vuoi scaricarla ora?</translation>
         <translation>Impossibile aprire file %1</translation>
     </message>
     <message>
-        <source>Image don&apos;t have EXIF metadata %1</source>
-        <translation>Immagine non ha metadati EXIF %1</translation>
-    </message>
-    <message>
         <source>Vector image</source>
         <comment>File type</comment>
         <translation>Immagine vettoriale</translation>

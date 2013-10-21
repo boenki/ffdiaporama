@@ -299,7 +299,7 @@
     </message>
     <message>
         <source>Project title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τίτλος έργου</translation>
     </message>
     <message>
         <source>This type of slide is usually used early in the project as the opening credits. </source>
@@ -311,7 +311,7 @@
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τίτλος κεφαλαίου</translation>
     </message>
     <message>
         <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
@@ -323,7 +323,7 @@
     </message>
     <message>
         <source>Credit title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τίτλοι ευχαριστιών</translation>
     </message>
     <message>
         <source>This type of slide is usually used at the end of the project as the end credits. </source>
@@ -371,7 +371,7 @@
     </message>
     <message>
         <source> Convert to standard slide</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"> Μετατροπή σε τυπική διαφάνεια</translation>
     </message>
 </context>
 <context>
@@ -394,7 +394,7 @@
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κατηγορία</translation>
     </message>
     <message>
         <source>Variable</source>
@@ -982,7 +982,7 @@
     </message>
     <message>
         <source>Background properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες φόντου</translation>
     </message>
     <message>
         <source>Chapter properties</source>
@@ -1493,67 +1493,68 @@
     </message>
     <message>
         <source>Allows you to create a new blank project. The &lt;a href=&quot;0108.html&quot;&gt;project properties dialog&lt;/a&gt; appears and allows you to setup the new project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει τη δημιουργία ενός νέου κενού έργου. Εμφανίζεται ο &lt;a href=&quot;0108.html&quot;&gt;διάλογος ιδιοτήτων του έργου&lt;/a&gt; όπου μπορείτε να ρυθμίσετε το νέο έργο. </translation>
     </message>
     <message>
         <source>Opens a sub-menu giving you access to the following functions</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανοίγει ένα υπομενού το οποίο δίνει πρόσβαση στις παρακάτω λειτουργίες</translation>
     </message>
     <message>
         <source>Save as: Allows you to save the current project in a different file. The &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select a destination file.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αποθήκευση ως: Σας επιτρέπει την αποθήκευση του τρέχοντος έργου σε ένα διαφορετικό αρχείο. Εμφανίζεται ο &lt;a href=&quot;0109.html&quot;&gt;διάλογος επιλογής αρχείου&lt;/a&gt; που σας επιτρέπει να επιλέξετε το αρχείο προορισμού.</translation>
     </message>
     <message>
         <source>Export project: Export current project and all used files in a new folder. The &lt;a href=&quot;0107.html&quot;&gt;export project dialog&lt;/a&gt; appears and allows you to setup the export.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξαγωγή έργου: Εξαγωγή του τρέχοντος έργου και όλων των αρχείων σε έναν νέο φάκελο. Εμφανίζεται ο &lt;a href=&quot;0107.html&quot;&gt;διάλογος εξαγωγής έργου&lt;/a&gt; που σας επιτρέπει να ρυθμίσετε την εξαγωγή.</translation>
     </message>
     <message>
         <source>Allows you to open the &lt;a href=&quot;0108.html&quot;&gt;project properties dialog&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει το άνοιγμα του &lt;a href=&quot;0108.html&quot;&gt;διαλόγου ιδιοτήτων του έργου&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Allows you to define applications settings. The &lt;a href=&quot;0101.html&quot;&gt;application settings dialog&lt;/a&gt; appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει να καθορίσετε της ρυθμίσεις της εφαρμογής. Εμφανίζεται ο &lt;a href=&quot;0101.html&quot;&gt;διάλογος ρυθμίσεων εφαρμογής&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Add empty slide: Allows you to add an empty slide : the new empty slide is appended to the project and is displayed in the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη κενής διαφάνειας: Σας επιτρέπει την προσθήκη μιας κενής διαφάνειας: γίνεται προσθήκη της διαφάνειας στο έργο και εμφανίζεται στη &lt;a href=&quot;0023.html&quot;&gt;γραμμή χρονοδιαγράμματος&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Add a predefined title slide: Allows you to add a slide based on a model. The &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; appears.</source>
-        <translation type="unfinished"></translation>
+        <translation>Προσθήκη ενός προκαθορισμένου τίτλου διαφάνειας: Σας επιτρέπει την προσθήκη μιας διαφάνειας βάσει ενός μοντέλου. Εμφανίζεται ο &lt;a href=&quot;0103.html&quot;&gt;διάλογος ιδιοτήτων προκαθορισμένου τίτλου διαφάνειας&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Allows you to add photo or video files : A &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select one or more files. </source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει την προσθήκη αρχείων φωτογραφιών ή βίντεο: Εμφανίζεται ο &lt;a href=&quot;0109.html&quot;&gt;διάλογος επιλογής αρχείων&lt;/a&gt; που σας επιτρέπει την επιλογή ενός ή περισσοτέρων αρχείων.</translation>
     </message>
     <message>
         <source>Allows you to add the slides of an existing project to the end the current project: a &lt;a href=&quot;0109.html&quot;&gt;file selection dialog&lt;/a&gt; appears and allows you to select a project file. Slides, slide settings, music and background of the project are added to the current project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει την προσθήκη διαφανειών από ένα υπάρχον έργο στο τέλος του τρέχοντος έργου: εμφανίζεται ένας &lt;a href=&quot;0109.html&quot;&gt;διάλογος επιλογής αρχείων&lt;/a&gt; και σας επιτρέπει να επιλέξετε ένα αρχείο έργου.
+Οι διαφάνειες, οι ρυθμίσεις των διαφανειών, η μουσική και το φόντο του έργου προσθέτονται στο τρέχον έργο.</translation>
     </message>
     <message>
         <source>Allows you to cut the current slide (remove it from the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and put it in the clipboard).</source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει την αποκοπή της τρέχουσας διαφάνειας (αφαίρεση από τη &lt;a href=&quot;0023.html&quot;&gt;γραμμή χρονοδιαγράμματος&lt;/a&gt; και προσθήκη της στο πρόχειρο).</translation>
     </message>
     <message>
         <source>Allows you to paste the slide currently in the clipboard into the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σας επιτρέπει την επικόλληση της διαφάνειας από το πρόχειρο στη &lt;a href=&quot;0023.html&quot;&gt;γραμμή χρονοδιαγράμματος&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0104.html&quot;&gt;background properties dialog&lt;/a&gt; (Equivalent to a double click on the background track)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανοίγει τον &lt;a href=&quot;0104.html&quot;&gt;διάλογο ιδιοτήτων φόντου&lt;/a&gt; (ή με διπλό κλικ στο κομμάτι του φόντου)</translation>
     </message>
     <message>
         <source>F6 </source>
-        <translation type="unfinished"></translation>
+        <translation>F6 </translation>
     </message>
     <message>
         <source>Depending on the slide type, open the &lt;a href=&quot;0119.html&quot;&gt;slide properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide. (Equivalent to a double click on the mounting track)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάλογα με τον τύπο της διαφάνειας, ανοίγει ο &lt;a href=&quot;0119.html&quot;&gt;διάλογος ιδιοτήτων διαφάνειας&lt;/a&gt; αν είναι μια τυπική διαφάνεια ή ανοίγει ο &lt;a href=&quot;0103.html&quot;&gt;διάλογος ιδιοτήτων προκαθορισμένων τίτλων διαφάνειας&lt;/a&gt; αν πρόκειται για έναν τίτλο διαφάνειας. (Ίδιο με διπλό κλικ στο κομμάτι του μοντάζ)</translation>
     </message>
     <message>
         <source>F7 </source>
-        <translation type="unfinished"></translation>
+        <translation>F7 </translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0114.html&quot;&gt;music properties dialog&lt;/a&gt; (Equivalent to a double click on the music track)</source>
@@ -1561,7 +1562,7 @@
     </message>
     <message>
         <source>F8 </source>
-        <translation type="unfinished"></translation>
+        <translation>F8 </translation>
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0122.html&quot;&gt;transition properties dialog&lt;/a&gt; (Equivalent to a double click on the transition)</source>
@@ -1589,7 +1590,7 @@
     </message>
     <message>
         <source>Export Soundtrack</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξαγωγή κομματιού ήχου</translation>
     </message>
     <message>
         <source>Allows you to render only the sound track of the project. The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; appears.</source>
@@ -1600,7 +1601,7 @@
     <name>0023</name>
     <message>
         <source>The timeline</source>
-        <translation type="unfinished">Η γραμμή χρονοδιαγράμματος</translation>
+        <translation>Η γραμμή χρονοδιαγράμματος</translation>
     </message>
     <message>
         <source>The timeline lists the slides which compose the project. The slides are listed from left to right.</source>
@@ -1744,7 +1745,7 @@
     </message>
     <message>
         <source>etc...</source>
-        <translation type="unfinished">κλπ…</translation>
+        <translation>κλπ...</translation>
     </message>
     <message>
         <source>To reorder the slide in the timeline:</source>
@@ -2147,11 +2148,11 @@
     </message>
     <message>
         <source>Subfolders</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποφάκελοι</translation>
     </message>
     <message>
         <source>Image files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία εικόνων</translation>
     </message>
     <message>
         <source>Limit the display of the current folder to the image files of which the format is recognized by ffDiaporama in the present subfolders</source>
@@ -2159,7 +2160,7 @@
     </message>
     <message>
         <source>Video files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία βίντεο</translation>
     </message>
     <message>
         <source>Limit the display of the current folder to the video files of which the format is recognized by ffDiaporama in the present subfolders</source>
@@ -2167,7 +2168,7 @@
     </message>
     <message>
         <source>Audio files</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχεία ήχου</translation>
     </message>
     <message>
         <source>Limit the display of the current folder to the audio files of which the format is recognized by ffDiaporama inthe present subfolders</source>
@@ -2175,7 +2176,7 @@
     </message>
     <message>
         <source>ffDiaporama projects</source>
-        <translation type="unfinished"></translation>
+        <translation>Έργα ffDiaporama</translation>
     </message>
     <message>
         <source>Limit the display of the current folder to the ffDiaporama project files in the present subfolders</source>
@@ -2207,11 +2208,11 @@
     </message>
     <message>
         <source>Remark: </source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση: </translation>
     </message>
     <message>
         <source> or </source>
-        <translation type="unfinished"></translation>
+        <translation> ή </translation>
     </message>
     <message>
         <source> One of this icon is displayed in front of the name of the option as this one is activated or not.</source>
@@ -2219,7 +2220,7 @@
     </message>
     <message>
         <source>Hide filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόκρυψη του ονόματος αρχείου</translation>
     </message>
     <message>
         <source>This option is available only for the icon view mode. If this option is activated, the file names will not be shown under the file images. It allows to increase the number of images shown in the view of the current directory. </source>
@@ -2230,94 +2231,94 @@
     <name>0030</name>
     <message>
         <source>Rendering videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία των βίντεο</translation>
     </message>
     <message>
         <source>Smartphones and tablets</source>
-        <translation type="unfinished"></translation>
+        <translation>Smartphones και ταμπλέτες</translation>
     </message>
     <message>
         <source>Portable devices</source>
-        <translation type="unfinished"></translation>
+        <translation>Φορητές συσκευές</translation>
     </message>
     <message>
         <source>Multimedia system (Home cinema)</source>
-        <translation type="unfinished"></translation>
+        <translation>Σύστημα πολυμέσων (Οικιακός κινηματογράφος)</translation>
     </message>
     <message>
         <source>For the WEB</source>
-        <translation type="unfinished"></translation>
+        <translation>Για το διαδίκτυο</translation>
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished">Κωδικοποιητής βίντεο:</translation>
+        <translation>Κωδικοποιητής βίντεο</translation>
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished">Κωδικοποιητής ήχου:</translation>
+        <translation>Κωδικοποιητής ήχου</translation>
     </message>
     <message>
         <source>Containers</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποδοχείς</translation>
     </message>
     <message>
         <source>Video standards and resolutions</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρότυπα και αναλύσεις βίντεο</translation>
     </message>
     <message>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation>Συνημμένα αρχεία (Εικόνες επισκόπησης, nfo, κλπ...)</translation>
     </message>
     <message>
         <source> This section contains information about generating video with ffDiaporama. </source>
-        <translation type="unfinished"></translation>
+        <translation> Αυτή η ενότητα περιέχει πληροφορίες σχετικά με την αποτύπωση των βίντεο με το ffDiaporama. </translation>
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished">Ευρετήριο</translation>
+        <translation>Ευρετήριο</translation>
     </message>
 </context>
 <context>
     <name>0031</name>
     <message>
         <source>Rendering videos</source>
-        <translation type="unfinished"></translation>
+        <translation>Δημιουργία των βίντεο</translation>
     </message>
     <message>
         <source>A digital video consists of a computer file called the &lt;a href=&quot;0038.html&quot;&gt;container&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ένα ψηφιακό βίντεο αποτελείται από ένα αρχείο υπολογιστή το οποίο αποκαλείται &lt;a href=&quot;0038.html&quot;&gt;υποδοχέας&lt;/a&gt;</translation>
     </message>
     <message>
         <source>In this file we find:</source>
-        <translation type="unfinished"></translation>
+        <translation>Σε αυτό το βίντεο βρίσκουμε:</translation>
     </message>
     <message>
         <source>One or more video tracks. Each track is built using a &lt;a href=&quot;0036.html&quot;&gt;Video Codec&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ένα ή περισσότερα κομμάτια βίντεο. Κάθε κομμάτι έχει δημιουργηθεί με τη χρήση ενός&lt;a href=&quot;0036.html&quot;&gt; κωδικοποιητή βίντεο&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>One or more audio tracks. Each track is built using an &lt;a href=&quot;0037.html&quot;&gt;Audio Codec&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Ένα ή περισσότερα κομμάτια ήχου. Κάθε κομμάτι έχει δημιουργηθεί με τη χρήση ενός &lt;a href=&quot;0037.html&quot;&gt;κωδικοποιητή ήχου&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>Possibly, one or more subtitles. Each subtitle is built in a subtitle format.</source>
-        <translation type="unfinished"></translation>
+        <translation>Πιθανώς, έναν ή περισσότερους υπότιτλους. Κάθε υπότιτλος έχει δημιουργηθεί με μια συγκεκριμένη μορφή υποτίτλων.</translation>
     </message>
     <message>
         <source>Possibly, a definition of tags and chapters.</source>
-        <translation type="unfinished"></translation>
+        <translation>Πιθανώς, έναν καθορισμό ετικετών και κεφαλαίων.</translation>
     </message>
     <message>
         <source>Limitations :</source>
-        <translation type="unfinished"></translation>
+        <translation>Περιορισμοί:</translation>
     </message>
     <message>
         <source>ffDiaporama does not manage subtitles.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το ffDiaporama δεν διαχειρίζεται τους υπότιτλους.</translation>
     </message>
     <message>
         <source>ffDiaporama generates files that include a single video track and a single audio track.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το ffDiaporama δημιουργεί αρχεία τα οποία συμπεριλαμβάνουν ένα κομμάτι βίντεο και ένα κομμάτι ήχου.</translation>
     </message>
     <message>
         <source>Unlike music files, which are widely portable from one device to another, videos require a certain amount of juggling between various formats to adapt to the equipment used to play them.</source>
@@ -2325,7 +2326,7 @@
     </message>
     <message>
         <source>A video rendered for a &quot;Home Cinema&quot; device can occupy several Gb and will be unreadable on a smartphone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ένα βίντεο αποτυπωμένο για μια συσκευή «οικιακού κινηματογράφου» μπορεί να απαιτεί μερικά Gb και δεν θα είναι αναγνώσιμη σε ένα Smartphone.</translation>
     </message>
     <message>
         <source>The same video rendered for a smartphone will require only one Mb, and can be played on a &quot;Home Cinema&quot; device but it will look ugly.</source>
@@ -2360,7 +2361,7 @@
     <name>0032</name>
     <message>
         <source>Smartphones and tablets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smartphones και ταμπλέτες</translation>
     </message>
     <message>
         <source>Generally speaking the main differences between these devices are:</source>
@@ -2380,35 +2381,35 @@
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος συσκευής</translation>
     </message>
     <message>
         <source>Operating system</source>
-        <translation type="unfinished"></translation>
+        <translation>Λειτουργικό σύστημα</translation>
     </message>
     <message>
         <source>Available resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαθέσιμη ανάλυση</translation>
     </message>
     <message>
         <source>Remarks</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημειώσεις</translation>
     </message>
     <message>
         <source>Smartphone</source>
-        <translation type="unfinished"></translation>
+        <translation>Smartphone</translation>
     </message>
     <message>
         <source>Nokia Symbian System S60</source>
-        <translation type="unfinished"></translation>
+        <translation>Nokia Symbian System S60</translation>
     </message>
     <message>
         <source>QVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>QVGA</translation>
     </message>
     <message>
         <source>VGA</source>
-        <translation type="unfinished"></translation>
+        <translation>VGA</translation>
     </message>
     <message>
         <source>Generally, Nokia phones working with the Symbian operating system and equipped with a camera, are capable of playing videos. Very often, those provided with a keyboard offer a 320x240 resolution (QVGA), while those with only a touch-sensitive screen offer a 640x360 resolution (VGA).</source>
@@ -2424,15 +2425,15 @@
     </message>
     <message>
         <source>Windows Mobile 6.0/6.1/6.5</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Mobile 6.0/6.1/6.5</translation>
     </message>
     <message>
         <source>HVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>HVGA</translation>
     </message>
     <message>
         <source>WVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>WVGA</translation>
     </message>
     <message>
         <source>Numerous manufacturers made phones using the Microsoft Windows Mobile 6 operating system (HP, HTC, etc.) between 2006 and 2010.</source>
@@ -2448,7 +2449,7 @@
     </message>
     <message>
         <source>Windows Phone 7</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Phone 7</translation>
     </message>
     <message>
         <source>Microsoft Windows Phone 7 is the evolution of Windows Mobil 6</source>
@@ -2460,7 +2461,7 @@
     </message>
     <message>
         <source>Android</source>
-        <translation type="unfinished"></translation>
+        <translation>Android</translation>
     </message>
     <message>
         <source>1.5/1.6</source>
@@ -2476,19 +2477,19 @@
     </message>
     <message>
         <source>Apple iOS</source>
-        <translation type="unfinished"></translation>
+        <translation>Apple iOS</translation>
     </message>
     <message>
         <source>iPhone 3G/3GS</source>
-        <translation type="unfinished"></translation>
+        <translation>iPhone 3G/3GS</translation>
     </message>
     <message>
         <source>iPhone 4</source>
-        <translation type="unfinished"></translation>
+        <translation>iPhone 4</translation>
     </message>
     <message>
         <source>HP - WebOs</source>
-        <translation type="unfinished"></translation>
+        <translation>HP - WebOs</translation>
     </message>
     <message>
         <source>WebOs arises from the repurchase of Palm by HP.</source>
@@ -2500,11 +2501,11 @@
     </message>
     <message>
         <source>Blackberry OS</source>
-        <translation type="unfinished"></translation>
+        <translation>Blackberry OS</translation>
     </message>
     <message>
         <source>RIM 240</source>
-        <translation type="unfinished"></translation>
+        <translation>RIM 240</translation>
     </message>
     <message>
         <source>Movie format is: Container: AVI - Video Codec: MPEG4 - Audio Codec: MP3</source>
@@ -2516,7 +2517,7 @@
     </message>
     <message>
         <source>Samsung BADA</source>
-        <translation type="unfinished"></translation>
+        <translation>Samsung BADA</translation>
     </message>
     <message>
         <source>Tablet</source>
@@ -2524,23 +2525,23 @@
     </message>
     <message>
         <source>Android 2.x</source>
-        <translation type="unfinished"></translation>
+        <translation>Android 2.x</translation>
     </message>
     <message>
         <source>Android 3.x</source>
-        <translation type="unfinished"></translation>
+        <translation>Android 3.x</translation>
     </message>
     <message>
         <source>Linux</source>
-        <translation type="unfinished"></translation>
+        <translation>Linux</translation>
     </message>
     <message>
         <source>800x480</source>
-        <translation type="unfinished"></translation>
+        <translation>800x480</translation>
     </message>
     <message>
         <source>854x480</source>
-        <translation type="unfinished"></translation>
+        <translation>854x480</translation>
     </message>
     <message>
         <source>Tablet examples: Archos 4/5/70/Arnova 10, Dell Streak, Creative ZiiO 7</source>
@@ -2548,11 +2549,11 @@
     </message>
     <message>
         <source>1024x600</source>
-        <translation type="unfinished"></translation>
+        <translation>1024x600</translation>
     </message>
     <message>
         <source>XGA</source>
-        <translation type="unfinished"></translation>
+        <translation>XGA</translation>
     </message>
     <message>
         <source>Tablet examples: Archos 101, Samsung Galaxy Tab, HTC Flyer, Hannspree HANNSpad SN10T, Toshiba Folio 100</source>
@@ -2560,7 +2561,7 @@
     </message>
     <message>
         <source>1024x768</source>
-        <translation type="unfinished"></translation>
+        <translation>1024x768</translation>
     </message>
     <message>
         <source>Tablet examples: HP TouchPad</source>
@@ -2568,7 +2569,7 @@
     </message>
     <message>
         <source>1280x800</source>
-        <translation type="unfinished"></translation>
+        <translation>1280x800</translation>
     </message>
     <message>
         <source>720p</source>
@@ -2580,23 +2581,23 @@
     </message>
     <message>
         <source>iPad</source>
-        <translation type="unfinished"></translation>
+        <translation>iPad</translation>
     </message>
     <message>
         <source>RIM BlackBerry</source>
-        <translation type="unfinished"></translation>
+        <translation>RIM BlackBerry</translation>
     </message>
     <message>
         <source>Playbook</source>
-        <translation type="unfinished"></translation>
+        <translation>Playbook</translation>
     </message>
     <message>
         <source>Netbook/NetPC</source>
-        <translation type="unfinished"></translation>
+        <translation>Netbook/NetPC</translation>
     </message>
     <message>
         <source>Windows/XP</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows/XP</translation>
     </message>
     <message>
         <source>Require xVid or DivX codec to be installed on the computer.</source>
@@ -2604,15 +2605,15 @@
     </message>
     <message>
         <source>Windows/Vista</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows/Vista</translation>
     </message>
     <message>
         <source>Windows/7</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows/7</translation>
     </message>
     <message>
         <source>Android/Linux</source>
-        <translation type="unfinished"></translation>
+        <translation>Android/Linux</translation>
     </message>
     <message>
         <source>As far as the resolution is concerned, note that most devices can play videos designed for lower resolution devices without difficulty. </source>
@@ -2627,7 +2628,7 @@
     <name>0033</name>
     <message>
         <source>Portable devices</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Φορητές συσκευές</translation>
     </message>
     <message>
         <source>These portable devices are usually very specific. We will not discuss therefore either operating system or resolution.</source>
@@ -2635,19 +2636,19 @@
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος συσκευής</translation>
     </message>
     <message>
         <source>Manufacturer/Model</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κατασκευαστής/Μοντέλο</translation>
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση</translation>
     </message>
     <message>
         <source>Portable player</source>
-        <translation type="unfinished"></translation>
+        <translation>Φορητός αναπαραγωγέας</translation>
     </message>
     <message>
         <source>DVD/DivX portable player (car player or travel player)</source>
@@ -2667,11 +2668,11 @@
     </message>
     <message>
         <source>iPod Classic (G5/G6)</source>
-        <translation type="unfinished"></translation>
+        <translation>iPod Classic (G5/G6)</translation>
     </message>
     <message>
         <source>iPod Nano (G3/G4/G5)</source>
-        <translation type="unfinished"></translation>
+        <translation>iPod Nano (G3/G4/G5)</translation>
     </message>
     <message>
         <source>These two portable player were especially designed for music. Therefore, their resolution is only QVGA.</source>
@@ -2683,7 +2684,7 @@
     </message>
     <message>
         <source>Apple iPod Touch</source>
-        <translation type="unfinished"></translation>
+        <translation>Apple iPod Touch</translation>
     </message>
     <message>
         <source>This portable player has a video resolution comparable to the DVD (without anamorphism).</source>
@@ -2703,38 +2704,38 @@
     </message>
     <message>
         <source>Sony PSP</source>
-        <translation type="unfinished"></translation>
+        <translation>Sony PSP</translation>
     </message>
     <message>
         <source>Resolution 320x480 / NTSC</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάλυση 320x480 / NTSC</translation>
     </message>
     <message>
         <source>-s 320x480 -b 512000 -ar 24000 -ab 64000 -f psp -r 29.97</source>
-        <translation type="unfinished"></translation>
+        <translation>-s 320x480 -b 512000 -ar 24000 -ab 64000 -f psp -r 29.97</translation>
     </message>
     <message>
         <source>-ac 2 -ar 48000 -acodec libfAAC-LC -ab 128k -r FRAME_RATE -s WIDTHxHEIGHT -vcodec libh264 -vpre slower -vpre main -level 21 -refs 2 -b BIT_RATE -bt BIT_RATE -aspect WIDTH:HEIGHT -f psp</source>
-        <translation type="unfinished"></translation>
+        <translation>-ac 2 -ar 48000 -acodec libfAAC-LC -ab 128k -r FRAME_RATE -s WIDTHxHEIGHT -vcodec libh264 -vpre slower -vpre main -level 21 -refs 2 -b BIT_RATE -bt BIT_RATE -aspect WIDTH:HEIGHT -f psp</translation>
     </message>
 </context>
 <context>
     <name>0034</name>
     <message>
         <source>Multimedia system (Home cinema)</source>
-        <translation type="unfinished"></translation>
+        <translation>Σύστημα πολυμέσων (Οικιακός κινηματογράφος)</translation>
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος συσκευής</translation>
     </message>
     <message>
         <source>Manufacturer/Model</source>
-        <translation type="unfinished"></translation>
+        <translation>Κατασκευαστής/Μοντέλο</translation>
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση</translation>
     </message>
     <message>
         <source>TV box of ADSL box</source>
@@ -2742,7 +2743,7 @@
     </message>
     <message>
         <source>France - Livebox (Orange)</source>
-        <translation type="unfinished"></translation>
+        <translation>Γαλλία - Livebox (Orange)</translation>
     </message>
     <message>
         <source>All these devices support the old DVD/DIVX format with anamorphic resolution 720x576 (PAL) for the DVD resolution</source>
@@ -2766,23 +2767,23 @@
     </message>
     <message>
         <source>France - Freebox</source>
-        <translation type="unfinished"></translation>
+        <translation>Γαλλία - Freebox</translation>
     </message>
     <message>
         <source>France - Neufbox (SFR)</source>
-        <translation type="unfinished"></translation>
+        <translation>Γαλλία - Neufbox (SFR)</translation>
     </message>
     <message>
         <source>France - Bbox (Bouygues Telecom)</source>
-        <translation type="unfinished"></translation>
+        <translation>Γαλλία - Bbox (Bouygues Telecom)</translation>
     </message>
     <message>
         <source>Multimedia hard drive and gateway</source>
-        <translation type="unfinished"></translation>
+        <translation>Πύλη και σκληρός δίσκος πολυμέσων</translation>
     </message>
     <message>
         <source>All manufacturers</source>
-        <translation type="unfinished"></translation>
+        <translation>Όλοι οι κατασκευαστές</translation>
     </message>
     <message>
         <source>Equipments supporting HD (to verify in the technical specifications of the device) support the MP4 format until the FullHD 1080p resolution</source>
@@ -2790,11 +2791,11 @@
     </message>
     <message>
         <source>Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναπαραγωγέας</translation>
     </message>
     <message>
         <source>DVD/DivX Player</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναπαραγωγέας DVD/DivX</translation>
     </message>
     <message>
         <source>These devices only support the old DVD/DIVX format with anamorphic resolution 720x576 (PAL) for the DVD resolution</source>
@@ -2806,7 +2807,7 @@
     </message>
     <message>
         <source>BlueRay player</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναπαραγωγέας BlueRay</translation>
     </message>
     <message>
         <source>&lt;B&gt;To be completed&lt;/B&gt;</source>
@@ -2818,11 +2819,11 @@
     </message>
     <message>
         <source>PS3</source>
-        <translation type="unfinished"></translation>
+        <translation>PS3</translation>
     </message>
     <message>
         <source>XBox360</source>
-        <translation type="unfinished"></translation>
+        <translation>XBox360</translation>
     </message>
     <message>
         <source> These &quot;Home Cinema&quot; devices are connected to a television set. The format choice will thus be made according to the requirements of the set used. </source>
@@ -2841,23 +2842,23 @@
     <name>0035</name>
     <message>
         <source>For the WEB</source>
-        <translation type="unfinished"></translation>
+        <translation>Για το διαδίκτυο</translation>
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος συσκευής</translation>
     </message>
     <message>
         <source>Manufacturer/Model</source>
-        <translation type="unfinished"></translation>
+        <translation>Κατασκευαστής/Μοντέλο</translation>
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση</translation>
     </message>
     <message>
         <source>Flash player (SWF)</source>
-        <translation type="unfinished"></translation>
+        <translation>Αναπαραγωγέας Flash (SWF)</translation>
     </message>
     <message>
         <source>All SWF players</source>
@@ -2869,15 +2870,15 @@
     </message>
     <message>
         <source>- For 4/3 : 320x240, 640x480, 960x720, 1440x1080</source>
-        <translation type="unfinished"></translation>
+        <translation>- Για 4/3 : 320x240, 640x480, 960x720, 1440x1080</translation>
     </message>
     <message>
         <source>- For 16/9 : 320x180, 640x360, 1280x720, 1920x1080</source>
-        <translation type="unfinished"></translation>
+        <translation>- Για 16/9 : 320x180, 640x360, 1280x720, 1920x1080</translation>
     </message>
     <message>
         <source>- For 40/17 : 320x136, 640x272, 1280x544, 1920x816</source>
-        <translation type="unfinished"></translation>
+        <translation>- Για 40/17 : 320x136, 640x272, 1280x544, 1920x816</translation>
     </message>
     <message>
         <source>Movie format is: Container: SWF(2008) - Video Codec: h264 - Audio Codec: AAC-LC</source>
@@ -2885,19 +2886,19 @@
     </message>
     <message>
         <source>Sharing and social networking</source>
-        <translation type="unfinished"></translation>
+        <translation>Κοινή χρήση και κοινωνική δικτύωση</translation>
     </message>
     <message>
         <source>Youtube</source>
-        <translation type="unfinished"></translation>
+        <translation>Youtube</translation>
     </message>
     <message>
         <source>720p - Movie format is: Container: MP4 - Video Codec: xVid - Audio Codec: MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>720p - Η μορφή ταινίας είναι: Υποδοχέας: MP4 - Κωδικοποιητής βίντεο: xVid - Κωδικοποιητής ήχου: MP3</translation>
     </message>
     <message>
         <source>Daily Motion</source>
-        <translation type="unfinished"></translation>
+        <translation>Daily Motion</translation>
     </message>
     <message>
         <source>720p - Movie format is: Container: MP4 - Video Codec: h264 - Audio Codec: AAC-LC</source>
@@ -2905,7 +2906,7 @@
     </message>
     <message>
         <source>Facebook</source>
-        <translation type="unfinished"></translation>
+        <translation>Facebook</translation>
     </message>
     <message>
         <source>Publish the video on YouTube or Daily Motion and integrate a link towards this video into Facebook</source>
@@ -2913,11 +2914,11 @@
     </message>
     <message>
         <source>HTML 5</source>
-        <translation type="unfinished"></translation>
+        <translation>HTML 5</translation>
     </message>
     <message>
         <source>webm</source>
-        <translation type="unfinished"></translation>
+        <translation>webm</translation>
     </message>
     <message>
         <source>To be added to allow the new video TAG in HTML5 browsers. </source>
@@ -2937,22 +2938,22 @@
     </message>
     <message>
         <source>developer.mozilla.org</source>
-        <translation type="unfinished"></translation>
+        <translation>developer.mozilla.org</translation>
     </message>
     <message>
         <source>mp4</source>
-        <translation type="unfinished"></translation>
+        <translation>mp4</translation>
     </message>
     <message>
         <source>ogv</source>
-        <translation type="unfinished"></translation>
+        <translation>ogv</translation>
     </message>
 </context>
 <context>
     <name>0036</name>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished">Κωδικοποιητής βίντεο:</translation>
+        <translation>Κωδικοποιητής βίντεο</translation>
     </message>
     <message>
         <source>The following table lists the video codecs which ffDiaporama can use to generate videos:</source>
@@ -2960,119 +2961,119 @@
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικοποιητής</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα</translation>
     </message>
     <message>
         <source>WIKIPEDIA/Remark</source>
-        <translation type="unfinished"></translation>
+        <translation>WIKIPEDIA/Σημείωση</translation>
     </message>
     <message>
         <source>MPJEP</source>
-        <translation type="unfinished"></translation>
+        <translation>MPJEP</translation>
     </message>
     <message>
         <source>Motion JPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>Motion JPEG</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Motion_JPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Motion_JPEG</translation>
     </message>
     <message>
         <source>MPEG2</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG2</translation>
     </message>
     <message>
         <source>MPEG-2 video</source>
-        <translation type="unfinished"></translation>
+        <translation>Βίντεο MPEG-2</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG-2</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/MPEG-2</translation>
     </message>
     <message>
         <source>MPEG4</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG4</translation>
     </message>
     <message>
         <source>DivX/XVid/MPEG-4</source>
-        <translation type="unfinished"></translation>
+        <translation>DivX/XVid/MPEG-4</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Xvid</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Xvid</translation>
     </message>
     <message>
         <source>H264HQ</source>
-        <translation type="unfinished"></translation>
+        <translation>H264HQ</translation>
     </message>
     <message>
         <source>High Quality H.264 AVC/MPEG-4 AVC</source>
-        <translation type="unfinished"></translation>
+        <translation>Υψηλή ποιότητα H.264 AVC/MPEG-4 AVC</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/H.264/MPEG-4_AVC</translation>
     </message>
     <message>
         <source>H264PQ</source>
-        <translation type="unfinished"></translation>
+        <translation>H264PQ</translation>
     </message>
     <message>
         <source>Phone Quality H.264 AVC/MPEG-4 AVC</source>
-        <translation type="unfinished"></translation>
+        <translation>Ποιότητα τηλεφώνου H.264 AVC/MPEG-4 AVC</translation>
     </message>
     <message>
         <source>X264LL</source>
-        <translation type="unfinished"></translation>
+        <translation>X264LL</translation>
     </message>
     <message>
         <source>x264 Lossless</source>
-        <translation type="unfinished"></translation>
+        <translation>Μη απωλεστικό x264</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/X264</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/X264</translation>
     </message>
     <message>
         <source>VP8</source>
-        <translation type="unfinished"></translation>
+        <translation>VP8</translation>
     </message>
     <message>
         <source>WebP (WebM-VP8)</source>
-        <translation type="unfinished"></translation>
+        <translation>WebP (WebM-VP8)</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/WebM</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/WebM</translation>
     </message>
     <message>
         <source>H263</source>
-        <translation type="unfinished"></translation>
+        <translation>H263</translation>
     </message>
     <message>
         <source>Sorenson H.263</source>
-        <translation type="unfinished"></translation>
+        <translation>Sorenson H.263</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/H.263</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/H.263</translation>
     </message>
     <message>
         <source>THEORA</source>
-        <translation type="unfinished"></translation>
+        <translation>THEORA</translation>
     </message>
     <message>
         <source>Theora VP3</source>
-        <translation type="unfinished"></translation>
+        <translation>Theora VP3</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Theora</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Theora</translation>
     </message>
     <message>
         <source>ffDiaporama uses specific settings for encoding with x264. This settings are including: </source>
@@ -3099,7 +3100,7 @@
     <name>0037</name>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished">Κωδικοποιητής ήχου:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>The following table lists the audio codecs which ffDiaporama can use to generate videos:</source>
@@ -3107,118 +3108,118 @@
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικοποιητής</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα</translation>
     </message>
     <message>
         <source>WIKIPEDIA</source>
-        <translation type="unfinished"></translation>
+        <translation>WIKIPEDIA</translation>
     </message>
     <message>
         <source>PCM</source>
-        <translation type="unfinished"></translation>
+        <translation>PCM</translation>
     </message>
     <message>
         <source>WAV / PCM signed 16-bit little-endian</source>
-        <translation type="unfinished"></translation>
+        <translation>WAV / PCM signed 16-bit little-endian</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Pulse-code_modulation</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Pulse-code_modulation</translation>
     </message>
     <message>
         <source>MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3</translation>
     </message>
     <message>
         <source>MPEG-1/2 Audio Layer III</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-1/2 Audio Layer III</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/MP3</translation>
     </message>
     <message>
         <source>AAC-LC</source>
-        <translation type="unfinished"></translation>
+        <translation>AAC-LC</translation>
     </message>
     <message>
         <source>Advanced Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Advanced Audio Codec</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Advanced_Audio_Coding</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Advanced_Audio_Coding</translation>
     </message>
     <message>
         <source>AC3</source>
-        <translation type="unfinished"></translation>
+        <translation>AC3</translation>
     </message>
     <message>
         <source>Dolby Digital</source>
-        <translation type="unfinished"></translation>
+        <translation>Dolby Digital</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Dolby_Digital</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Dolby_Digital</translation>
     </message>
     <message>
         <source>VORBIS</source>
-        <translation type="unfinished"></translation>
+        <translation>VORBIS</translation>
     </message>
     <message>
         <source>Vorbis</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorbis</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Vorbis</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Vorbis</translation>
     </message>
     <message>
         <source>MP2</source>
-        <translation type="unfinished"></translation>
+        <translation>MP2</translation>
     </message>
     <message>
         <source>MPEG-1 Layer II</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-1 Layer II</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG-2</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/MPEG-2</translation>
     </message>
     <message>
         <source>AMR</source>
-        <translation type="unfinished"></translation>
+        <translation>AMR</translation>
     </message>
     <message>
         <source>Adaptive Multi-Rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Adaptive Multi-Rate</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Adaptive_Multi-Rate_audio_codec</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Adaptive_Multi-Rate_audio_codec</translation>
     </message>
     <message>
         <source>FLAC</source>
-        <translation type="unfinished"></translation>
+        <translation>FLAC</translation>
     </message>
     <message>
         <source>Free Lossless Audio Codec</source>
-        <translation type="unfinished"></translation>
+        <translation>Free Lossless Audio Codec</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Flac</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Flac</translation>
     </message>
 </context>
 <context>
     <name>0038</name>
     <message>
         <source>Container</source>
-        <translation type="unfinished"></translation>
+        <translation>Υποδοχέας</translation>
     </message>
     <message>
         <source>The following table lists the containers which ffDiaporama can use to generate videos, as well as the available audio and video codecs for every container:</source>
@@ -3226,206 +3227,206 @@
     </message>
     <message>
         <source>Extension</source>
-        <translation type="unfinished"></translation>
+        <translation>Επέκταση</translation>
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα</translation>
     </message>
     <message>
         <source>Video Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικοποιητές βίντεο</translation>
     </message>
     <message>
         <source>Audio Codecs</source>
-        <translation type="unfinished"></translation>
+        <translation>Κωδικοποιητές ήχου</translation>
     </message>
     <message>
         <source>WIKIPEDIA</source>
-        <translation type="unfinished"></translation>
+        <translation>WIKIPEDIA</translation>
     </message>
     <message>
         <source>3GP</source>
-        <translation type="unfinished"></translation>
+        <translation>3GP</translation>
     </message>
     <message>
         <source>MPEG4, H264HQ/H264PQ</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG4, H264HQ/H264PQ</translation>
     </message>
     <message>
         <source>AMR</source>
-        <translation type="unfinished"></translation>
+        <translation>AMR</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/3GP_and_3G2</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/3GP_and_3G2</translation>
     </message>
     <message>
         <source>AVI</source>
-        <translation type="unfinished"></translation>
+        <translation>AVI</translation>
     </message>
     <message>
         <source>Audio Video Interleave</source>
-        <translation type="unfinished"></translation>
+        <translation>Audio Video Interleave</translation>
     </message>
     <message>
         <source>MJPEG, MPEG2, MPEG4, H264HQ/H264PQ</source>
-        <translation type="unfinished"></translation>
+        <translation>MJPEG, MPEG2, MPEG4, H264HQ/H264PQ</translation>
     </message>
     <message>
         <source>PCM, MP2, MP3, AAC, AC3</source>
-        <translation type="unfinished"></translation>
+        <translation>PCM, MP2, MP3, AAC, AC3</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Audio_Video_Interleave</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Audio_Video_Interleave</translation>
     </message>
     <message>
         <source>MKV</source>
-        <translation type="unfinished"></translation>
+        <translation>MKV</translation>
     </message>
     <message>
         <source>Matroska file format</source>
-        <translation type="unfinished"></translation>
+        <translation>Matroska file format</translation>
     </message>
     <message>
         <source>MPEG4, H264HQ/H264PQ, THEORA</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG4, H264HQ/H264PQ, THEORA</translation>
     </message>
     <message>
         <source>PCM, MP3, AAC, AC3, VORBIS</source>
-        <translation type="unfinished"></translation>
+        <translation>PCM, MP3, AAC, AC3, VORBIS</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Matroska</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Matroska</translation>
     </message>
     <message>
         <source>MJPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>MJPEG</translation>
     </message>
     <message>
         <source>Motion JPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>Motion JPEG</translation>
     </message>
     <message>
         <source>PCM</source>
-        <translation type="unfinished"></translation>
+        <translation>PCM</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Motion_JPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Motion_JPEG</translation>
     </message>
     <message>
         <source>MP4</source>
-        <translation type="unfinished"></translation>
+        <translation>MP4</translation>
     </message>
     <message>
         <source>MPEG-4 Part 14</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG-4 Part 14</translation>
     </message>
     <message>
         <source>MP3, AAC</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3, AAC</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG-4_Part_14</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/MPEG-4_Part_14</translation>
     </message>
     <message>
         <source>MPEG</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG</translation>
     </message>
     <message>
         <source>MPEG program stream</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG program stream</translation>
     </message>
     <message>
         <source>MPEG2</source>
-        <translation type="unfinished"></translation>
+        <translation>MPEG2</translation>
     </message>
     <message>
         <source>MP2</source>
-        <translation type="unfinished"></translation>
+        <translation>MP2</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/MPEG_program_stream</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/MPEG_program_stream</translation>
     </message>
     <message>
         <source>WEBM</source>
-        <translation type="unfinished"></translation>
+        <translation>WEBM</translation>
     </message>
     <message>
         <source>WebM</source>
-        <translation type="unfinished"></translation>
+        <translation>WebM</translation>
     </message>
     <message>
         <source>VP8</source>
-        <translation type="unfinished"></translation>
+        <translation>VP8</translation>
     </message>
     <message>
         <source>VORBIS</source>
-        <translation type="unfinished"></translation>
+        <translation>VORBIS</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/WebM</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/WebM</translation>
     </message>
     <message>
         <source>FLV</source>
-        <translation type="unfinished"></translation>
+        <translation>FLV</translation>
     </message>
     <message>
         <source>Flash file format 2005</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή αρχείου Flash 2005</translation>
     </message>
     <message>
         <source>H263</source>
-        <translation type="unfinished"></translation>
+        <translation>H263</translation>
     </message>
     <message>
         <source>MP3</source>
-        <translation type="unfinished"></translation>
+        <translation>MP3</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Adobe_Flash</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Adobe_Flash</translation>
     </message>
     <message>
         <source>Flash file format 2008</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή αρχείου Flash 2008</translation>
     </message>
     <message>
         <source>H264HQ/H264PQ</source>
-        <translation type="unfinished"></translation>
+        <translation>H264HQ/H264PQ</translation>
     </message>
     <message>
         <source>AAC</source>
-        <translation type="unfinished"></translation>
+        <translation>AAC</translation>
     </message>
     <message>
         <source>OGV</source>
-        <translation type="unfinished"></translation>
+        <translation>OGV</translation>
     </message>
     <message>
         <source>Ogg</source>
-        <translation type="unfinished"></translation>
+        <translation>Ogg</translation>
     </message>
     <message>
         <source>THEORA</source>
-        <translation type="unfinished"></translation>
+        <translation>THEORA</translation>
     </message>
     <message>
         <source>http://en.wikipedia.org/wiki/Ogg</source>
-        <translation type="unfinished"></translation>
+        <translation>http://en.wikipedia.org/wiki/Ogg</translation>
     </message>
 </context>
 <context>
     <name>0039</name>
     <message>
         <source>Video standards and resolutions</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρότυπα και αναλύσεις βίντεο</translation>
     </message>
     <message>
         <source> Standards and resolution are both fundamental properties which define a video. </source>
@@ -3437,7 +3438,7 @@
     </message>
     <message>
         <source>Standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρότυπα</translation>
     </message>
     <message>
         <source> Standards are a historic feature which continues today in spite of technological progress. </source>
@@ -3461,7 +3462,7 @@
     </message>
     <message>
         <source>Geometry</source>
-        <translation type="unfinished"></translation>
+        <translation>Γεωμετρία</translation>
     </message>
     <message>
         <source> The geometry is the ratio of Width to Height. </source>
@@ -3481,7 +3482,7 @@
     </message>
     <message>
         <source>Resolution</source>
-        <translation type="unfinished"></translation>
+        <translation>Ανάλυση</translation>
     </message>
     <message>
         <source> Unlike with photos, video resolution is not expressed in megapixels but in number of points (pixels) shown by the screen multiplied by the number of lines. </source>
@@ -3517,27 +3518,27 @@
     </message>
     <message>
         <source>Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα</translation>
     </message>
     <message>
         <source>PAL</source>
-        <translation type="unfinished"></translation>
+        <translation>PAL</translation>
     </message>
     <message>
         <source>NTSC</source>
-        <translation type="unfinished"></translation>
+        <translation>NTSC</translation>
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση</translation>
     </message>
     <message>
         <source>FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>FPS</translation>
     </message>
     <message>
         <source>RIM 240</source>
-        <translation type="unfinished"></translation>
+        <translation>RIM 240</translation>
     </message>
     <message>
         <source>4:3</source>
@@ -3545,11 +3546,11 @@
     </message>
     <message>
         <source>240x180</source>
-        <translation type="unfinished"></translation>
+        <translation>240x180</translation>
     </message>
     <message>
         <source>24 FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>24 FPS</translation>
     </message>
     <message>
         <source>Special format used on Blackberry&apos;s very small screen</source>
@@ -3561,7 +3562,7 @@
     </message>
     <message>
         <source>240x136</source>
-        <translation type="unfinished"></translation>
+        <translation>240x136</translation>
     </message>
     <message>
         <source>40:17</source>
@@ -3569,19 +3570,19 @@
     </message>
     <message>
         <source>QVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>QVGA</translation>
     </message>
     <message>
         <source>320x240</source>
-        <translation type="unfinished"></translation>
+        <translation>320x240</translation>
     </message>
     <message>
         <source>25 FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>25 FPS</translation>
     </message>
     <message>
         <source>29,97 FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>29,97 FPS</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by first generation smartphones and mobile video players.</source>
@@ -3593,19 +3594,19 @@
     </message>
     <message>
         <source>320x180</source>
-        <translation type="unfinished"></translation>
+        <translation>320x180</translation>
     </message>
     <message>
         <source>320x136</source>
-        <translation type="unfinished"></translation>
+        <translation>320x136</translation>
     </message>
     <message>
         <source>HVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>HVGA</translation>
     </message>
     <message>
         <source>426x320</source>
-        <translation type="unfinished"></translation>
+        <translation>426x320</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by second generation smartphones and mobile video players. &lt;B&gt;Because this format does not respect the traditional video geometry&lt;/B&gt;, &lt;B&gt;black bands appear to fill the screen to 480x320.&lt;/B&gt;</source>
@@ -3613,19 +3614,19 @@
     </message>
     <message>
         <source>480x270</source>
-        <translation type="unfinished"></translation>
+        <translation>480x270</translation>
     </message>
     <message>
         <source>480x204</source>
-        <translation type="unfinished"></translation>
+        <translation>480x204</translation>
     </message>
     <message>
         <source>VGA</source>
-        <translation type="unfinished"></translation>
+        <translation>VGA</translation>
     </message>
     <message>
         <source>640x480</source>
-        <translation type="unfinished"></translation>
+        <translation>640x480</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by some smartphones.</source>
@@ -3633,23 +3634,23 @@
     </message>
     <message>
         <source>640x360</source>
-        <translation type="unfinished"></translation>
+        <translation>640x360</translation>
     </message>
     <message>
         <source>640x272</source>
-        <translation type="unfinished"></translation>
+        <translation>640x272</translation>
     </message>
     <message>
         <source>SD-DVD</source>
-        <translation type="unfinished"></translation>
+        <translation>SD-DVD</translation>
     </message>
     <message>
         <source>720x576</source>
-        <translation type="unfinished"></translation>
+        <translation>720x576</translation>
     </message>
     <message>
         <source>720x480</source>
-        <translation type="unfinished"></translation>
+        <translation>720x480</translation>
     </message>
     <message>
         <source>The old television format for cathode ray tubes. Note that this format was specifically created for equipment with oval points: It is the anamorphism of the points that determines the geometry. That is why &lt;B&gt;it is absolutely necessary to avoid this format for anything other than television sets with cathode ray tubes.&lt;/B&gt;</source>
@@ -3657,7 +3658,7 @@
     </message>
     <message>
         <source>WVGA</source>
-        <translation type="unfinished"></translation>
+        <translation>WVGA</translation>
     </message>
     <message>
         <source>Used mainly on the Internet and by new generation smartphones and mobile video players. This format has become widespread and has replaced the old  QVGA, HVGA and VGA format used in the years 2000-2010. &lt;B&gt;Because this format does not respect the traditional video geometries, black bands appear to fill the screen to 800x480.&lt;/B&gt;</source>
@@ -3665,19 +3666,19 @@
     </message>
     <message>
         <source>800x450</source>
-        <translation type="unfinished"></translation>
+        <translation>800x450</translation>
     </message>
     <message>
         <source>800x340</source>
-        <translation type="unfinished"></translation>
+        <translation>800x340</translation>
     </message>
     <message>
         <source>XGA</source>
-        <translation type="unfinished"></translation>
+        <translation>XGA</translation>
     </message>
     <message>
         <source>1024x768</source>
-        <translation type="unfinished"></translation>
+        <translation>1024x768</translation>
     </message>
     <message>
         <source>Historically this format was used only by computers (fixed or portable). Now we meet it more and more on tablet computers like the iPad.</source>
@@ -3685,23 +3686,23 @@
     </message>
     <message>
         <source>1024x576</source>
-        <translation type="unfinished"></translation>
+        <translation>1024x576</translation>
     </message>
     <message>
         <source>1024x436</source>
-        <translation type="unfinished"></translation>
+        <translation>1024x436</translation>
     </message>
     <message>
         <source>720p</source>
-        <translation type="unfinished">720p</translation>
+        <translation>720p</translation>
     </message>
     <message>
         <source>960x720</source>
-        <translation type="unfinished"></translation>
+        <translation>960x720</translation>
     </message>
     <message>
         <source>23,976 FPS</source>
-        <translation type="unfinished"></translation>
+        <translation>23,976 FPS</translation>
     </message>
     <message>
         <source>Today, this format is widely used on the Internet, in particular by social networking and video-sharing sites. We also find it on certain &quot;home cinema&quot; devices.</source>
@@ -3709,19 +3710,19 @@
     </message>
     <message>
         <source>1280x720</source>
-        <translation type="unfinished"></translation>
+        <translation>1280x720</translation>
     </message>
     <message>
         <source>1280x544</source>
-        <translation type="unfinished"></translation>
+        <translation>1280x544</translation>
     </message>
     <message>
         <source>1080p</source>
-        <translation type="unfinished">1080p</translation>
+        <translation>1080p</translation>
     </message>
     <message>
         <source>1440x1080</source>
-        <translation type="unfinished"></translation>
+        <translation>1440x1080</translation>
     </message>
     <message>
         <source>This is the real &quot;home cinema&quot; format. It is used by the Blue Ray players and the &quot;home cinema&quot; devices.</source>
@@ -3729,11 +3730,11 @@
     </message>
     <message>
         <source>1920x1080</source>
-        <translation type="unfinished"></translation>
+        <translation>1920x1080</translation>
     </message>
     <message>
         <source>1920x816</source>
-        <translation type="unfinished"></translation>
+        <translation>1920x816</translation>
     </message>
     <message>
         <source>Note that many other resolutions exists but which are not used by ffDiaporama.</source>
@@ -3744,7 +3745,7 @@
     <name>003A</name>
     <message>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συνημμένα αρχεία (Εικόνες επισκόπησης, nfo, κλπ...)</translation>
     </message>
     <message>
         <source>ffDiaporama allows you to produce joint files during the rendering process.</source>
@@ -3768,7 +3769,7 @@
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συστήματα κέντρων πολυμέσων</translation>
     </message>
     <message>
         <source>XBMC .nfo files</source>
@@ -3811,7 +3812,7 @@
     </message>
     <message>
         <source>Index</source>
-        <translation type="unfinished">Ευρετήριο</translation>
+        <translation>Ευρετήριο</translation>
     </message>
 </context>
 <context>
@@ -3830,11 +3831,11 @@
     </message>
     <message>
         <source>Explanation</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξήγηση</translation>
     </message>
     <message>
         <source>Filename</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα αρχείου</translation>
     </message>
     <message>
         <source>Filename of the project file to load at application startup</source>
@@ -3842,7 +3843,8 @@
     </message>
     <message>
         <source>-lang=</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Don&apos;t translate</translatorcomment>
+        <translation>-lang=</translation>
     </message>
     <message>
         <source>The language to be used. can take the following values: </source>
@@ -3850,51 +3852,52 @@
     </message>
     <message>
         <source>&lt;B&gt;cz&lt;/B&gt; to use Czech</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;cz&lt;/B&gt; για χρήση τσέχικων</translation>
     </message>
     <message>
         <source>&lt;B&gt;de&lt;/B&gt; to use German</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;de&lt;/B&gt; για χρήση γερμανικών</translation>
     </message>
     <message>
         <source>&lt;B&gt;en&lt;/B&gt; to use English</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;en&lt;/B&gt; για χρήση αγγλικών</translation>
     </message>
     <message>
         <source>&lt;B&gt;es&lt;/B&gt; to use Spanish</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;es&lt;/B&gt; για χρήση ισπανικών</translation>
     </message>
     <message>
         <source>&lt;B&gt;el&lt;/B&gt; to use Greek</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;el&lt;/B&gt; για χρήση ελληνικών</translation>
     </message>
     <message>
         <source>&lt;B&gt;fr&lt;/B&gt; to use French</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;fr&lt;/B&gt; για χρήση γαλλικών</translation>
     </message>
     <message>
         <source>&lt;B&gt;it&lt;/B&gt; to use Italian</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;it&lt;/B&gt; για χρήση ιταλικών</translation>
     </message>
     <message>
         <source>&lt;B&gt;nl&lt;/B&gt; to use Dutch</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;nl&lt;/B&gt; για χρήση ολλανδικών</translation>
     </message>
     <message>
         <source>&lt;B&gt;pt&lt;/B&gt; to use Portuguese</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;pt&lt;/B&gt; για χρήση πορτογαλικών</translation>
     </message>
     <message>
         <source>&lt;B&gt;ru&lt;/B&gt; to use Russian</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;ru&lt;/B&gt; για χρήση ρωσικών</translation>
     </message>
     <message>
         <source>&lt;B&gt;zh-tw&lt;/B&gt; to use Taiwanese</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;zh-tw&lt;/B&gt; για χρήση ταϊβανέζικων</translation>
     </message>
     <message>
         <source>-loglevel=</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Don&apos;t translate</translatorcomment>
+        <translation>-loglevel=</translation>
     </message>
     <message>
         <source>Adjust the level of messages shown in the console: </source>
@@ -3980,7 +3983,7 @@
     </message>
     <message>
         <source>Remark: </source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση: </translation>
     </message>
     <message>
         <source>If ffDiaporama is used by several users on the same PC, there will be a separate configuration file for each user.</source>
@@ -3992,15 +3995,15 @@
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation>Αρχείο</translation>
     </message>
     <message>
         <source>Use</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση</translation>
     </message>
     <message>
         <source>ffDiaporama.xml</source>
-        <translation type="unfinished"></translation>
+        <translation>ffDiaporama.xml</translation>
     </message>
     <message>
         <source>Contains the application options for ffDiaporama</source>
@@ -4008,7 +4011,8 @@
     </message>
     <message>
         <source>Devices.xml</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Don&apos;t translate</translatorcomment>
+        <translation>Devices.xml</translation>
     </message>
     <message>
         <source>Contains the base of profiles for video generation.</source>
@@ -4020,7 +4024,7 @@
     </message>
     <message>
         <source>For example:</source>
-        <translation type="unfinished"></translation>
+        <translation>Για παράδειγμα:</translation>
     </message>
 </context>
 <context>
@@ -4047,63 +4051,63 @@
     </message>
     <message>
         <source> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot; ?&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot; standalone=&quot;yes&quot; ?&gt;</translation>
     </message>
     <message>
         <source> &lt;movie&gt; </source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;movie&gt; </translation>
     </message>
     <message>
         <source> &lt;title&gt;&lt;U&gt;&lt;B&gt;Project Title&lt;/B&gt;&lt;/U&gt;&lt;/title&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;title&gt;&lt;U&gt;&lt;B&gt;Τίτλος έργου&lt;/B&gt;&lt;/U&gt;&lt;/title&gt;</translation>
     </message>
     <message>
         <source> &lt;sorttitle&gt;&lt;U&gt;&lt;B&gt;Rendered filename&lt;/B&gt;&lt;/U&gt;&lt;/sorttitle&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;sorttitle&gt;&lt;U&gt;&lt;B&gt;Όνομα αρχείου αποτύπωσης&lt;/B&gt;&lt;/U&gt;&lt;/sorttitle&gt;</translation>
     </message>
     <message>
         <source> &lt;set&gt;&lt;B&gt;&lt;U&gt;Project Album&lt;/U&gt;&lt;/B&gt;&lt;/set&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;set&gt;&lt;B&gt;&lt;U&gt;Άλμπουμ έργου&lt;/U&gt;&lt;/B&gt;&lt;/set&gt;</translation>
     </message>
     <message>
         <source> &lt;genre&gt;&lt;B&gt;&lt;U&gt;Project Album&lt;/U&gt;&lt;/B&gt;&lt;/genre&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;genre&gt;&lt;B&gt;&lt;U&gt;Άλμπουμ έργου&lt;/U&gt;&lt;/B&gt;&lt;/genre&gt;</translation>
     </message>
     <message>
         <source> &lt;year&gt;&lt;U&gt;&lt;B&gt;Year of project date&lt;/B&gt;&lt;/U&gt;&lt;/year&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;year&gt;&lt;U&gt;&lt;B&gt;Έτος ημερομηνίας του έργου&lt;/B&gt;&lt;/U&gt;&lt;/year&gt;</translation>
     </message>
     <message>
         <source> &lt;outline&gt;&lt;U&gt;&lt;B&gt;Project Title&lt;/B&gt;&lt;/U&gt;&lt;/outline&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;outline&gt;&lt;U&gt;&lt;B&gt;Τίτλος έργου&lt;/B&gt;&lt;/U&gt;&lt;/outline&gt;</translation>
     </message>
     <message>
         <source> &lt;plot&gt;&lt;U&gt;&lt;B&gt;Project Comment&lt;/B&gt;&lt;/U&gt;&lt;/plot&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;plot&gt;&lt;U&gt;&lt;B&gt;Σχόλιο έργου&lt;/B&gt;&lt;/U&gt;&lt;/plot&gt;</translation>
     </message>
     <message>
         <source> &lt;director&gt;&lt;U&gt;&lt;B&gt;Project Author&lt;/B&gt;&lt;/U&gt;&lt;/director&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;director&gt;&lt;U&gt;&lt;B&gt;Συγγραφέας έργου&lt;/B&gt;&lt;/U&gt;&lt;/director&gt;</translation>
     </message>
     <message>
         <source> &lt;credits&gt;&lt;U&gt;&lt;B&gt;Project Author&lt;/B&gt;&lt;/U&gt;&lt;/credits&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;credits&gt;&lt;U&gt;&lt;B&gt;Συγγραφέας έργου&lt;/B&gt;&lt;/U&gt;&lt;/credits&gt;</translation>
     </message>
     <message>
         <source> &lt;runtime&gt;&lt;U&gt;&lt;B&gt;Project duration in minutes&lt;/B&gt;&lt;/U&gt;&lt;/runtime&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;runtime&gt;&lt;U&gt;&lt;B&gt;Διάρκεια έργου σε λεπτά&lt;/B&gt;&lt;/U&gt;&lt;/runtime&gt;</translation>
     </message>
     <message>
         <source> &lt;thumb&gt;&lt;U&gt;&lt;B&gt;Project thumbnail&lt;/B&gt;&lt;/U&gt;&lt;/thumb&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;thumb&gt;&lt;U&gt;&lt;B&gt;Εικόνα επισκόπησης έργου&lt;/B&gt;&lt;/U&gt;&lt;/thumb&gt;</translation>
     </message>
     <message>
         <source> &lt;/movie&gt; </source>
-        <translation type="unfinished"></translation>
+        <translation> &lt;/movie&gt; </translation>
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation>Δείτε επίσης</translation>
     </message>
     <message>
         <source>Information on XBMC movies .nfo file</source>
@@ -4118,19 +4122,19 @@
     </message>
     <message>
         <source>The Application options tab allows to define the general behavior of ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η καρτέλα Επιλογές της εφαρμογής επιτρέπει τον καθορισμό της γενικής συμπεριφοράς του ffDiaporama.</translation>
     </message>
     <message>
         <source>The Project options tab allows to define the options by default of the current project and for the new projects.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η καρτέλα επιλογών του έργου επιτρέπει τον καθορισμό των προεπιλογών του τρέχοντος και των νέων έργων.</translation>
     </message>
     <message>
         <source>The Rendering options Tab allows to define the options used by default during the generation of videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η καρτέλα επιλογών αποτύπωσης επιτρέπει τον καθορισμό των επιλογών που χρησιμοποιούνται εξ΄ ορισμού κατά τη δημιουργία των βίντεο.</translation>
     </message>
     <message>
         <source>Application options</source>
-        <translation type="unfinished">Επιλογές εφαρμογής</translation>
+        <translation>Επιλογές εφαρμογής</translation>
     </message>
     <message>
         <source>Remember Windows size and positions</source>
@@ -4138,15 +4142,15 @@
     </message>
     <message>
         <source>If this box is checked, the sizes and the positions of all windows and dialogs will be saved and reused the next time you use ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι επιλεγμένο, το μέγεθος και η θέση όλων των παραθύρων και διαλόγων θα αποθηκεύονται και θα χρησιμοποιούνται την επόμενη φορά που θα χρησιμοποιήσετε το ffDiaporama.</translation>
     </message>
     <message>
         <source>Remember last used folders</source>
-        <translation type="unfinished"></translation>
+        <translation>Απομνημόνευση των τελευταία χρησιμοποιημένων φακέλων</translation>
     </message>
     <message>
         <source>If this box is checked, the directories for images, videos, projects, music and the generation of your movie will be saved and reused the next time you use ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι επιλεγμένο, οι κατάλογοι των εικόνων, έργων, βίντεο, μουσικής και η δημιουργία της ταινίας σας θα αποθηκεύονται και θα χρησιμοποιούνται την επόμενη φορά που θα χρησιμοποιήσετε το ffDiaporama.</translation>
     </message>
     <message>
         <source>Enable &quot;raster&quot; Graphics system</source>
@@ -4162,23 +4166,23 @@
     </message>
     <message>
         <source>SDL Audio use old mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση της παλιά λειτουργίας του SDL Audio</translation>
     </message>
     <message>
         <source>&lt;B&gt;For the users Linux only: &lt;/B&gt;if this box is checked, old setting mode is use for SDL Audio. This option is useful on some Linux distribution which still use the old SDL packages (For example: Ubuntu 10.10 and 11.04, Fedora 14 and 15, etc.).</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;B&gt;Για χρήστες Linux μόνο: &lt;/B&gt;Αν αυτό το πλαίσιο είναι επιλεγμένο, χρησιμοποιείται η παλιά ρύθμιση λειτουργίας για SDL Audio. Αυτή η επιλογή είναι χρήσιμη σε μερικές διανομές Linux οι οποίες χρησιμοποιούν παλιά πακέτα SDL (π.χ.: Ubuntu 10.10 και 11.04, Fedora 14 και 15, κλπ.).</translation>
     </message>
     <message>
         <source>Memory profil</source>
-        <translation type="unfinished"></translation>
+        <translation>Προφίλ μνήμης</translation>
     </message>
     <message>
         <source>Preview options</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογές προεπισκόπησης</translation>
     </message>
     <message>
         <source>Frame rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμός καρέ</translation>
     </message>
     <message>
         <source>Defines the number of images per second which will be generated to show the preview. </source>
@@ -4186,7 +4190,7 @@
     </message>
     <message>
         <source>Note: the higher this number, the more smooth the preview will be. On the other hand, more computer resources will be required. Reduce this number on slow computers or if the gauge for your multimedia reader is frequently in the red zone.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση: όσο μεγαλύτερος είναι αυτός ο αριθμός, περισσότερο ομαλή θα είναι και η προεπισκόπηση. Όμως απαιτούνται περισσότεροι πόροι του υπολογιστή. Μειώστε αυτόν τον αριθμό σε αργούς υπολογιστές ή αν η στάθμη του αναπαραγωγέα πολυμέσων βρίσκεται συχνά στην κόκκινη ζώνη.</translation>
     </message>
     <message>
         <source>Image smoothing (smooth images during preview)</source>
@@ -4198,11 +4202,11 @@
     </message>
     <message>
         <source>Editor options</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογές επεξεργαστή</translation>
     </message>
     <message>
         <source>Coordinates unit</source>
-        <translation type="unfinished"></translation>
+        <translation>Μονάδα συντεταγμένων</translation>
     </message>
     <message>
         <source>This option allows to select the unit for the coordinates which will be used in the properties dialog. You can choose: </source>
@@ -4214,11 +4218,11 @@
     </message>
     <message>
         <source>Pixel: Coordinates (X, Y, Width and Height) are expressed in pixels relative to a screen in 1080p mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Pixel: Οι συντεταγμένες (X, Y, Πλάτος και Ύψος) εκφράζονται σε pixels σε λειτουργία οθόνης 1080p</translation>
     </message>
     <message>
         <source>Object position</source>
-        <translation type="unfinished"></translation>
+        <translation>Θέση αντικειμένου</translation>
     </message>
     <message>
         <source>This option allows you to adjust the positions occupied by new objects inserted into the timeline. </source>
@@ -4226,23 +4230,24 @@
     </message>
     <message>
         <source>If &lt;I&gt;&lt;B&gt;Insert after the current selected object&lt;/B&gt;&lt;/I&gt; is selected, then the new slides will be created after the current slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν έχετε επιλέξει την &lt;I&gt;&lt;B&gt;Εισαγωγή μετά το επιλεγμένο αντικείμενο&lt;/B&gt;&lt;/I&gt;, τότε οι νέες διαφάνειες θα δημιουργηθούν μετά την τρέχουσα διαφάνεια.
+</translation>
     </message>
     <message>
         <source>If &lt;I&gt;&lt;B&gt;Append to the end of the project&lt;/B&gt;&lt;/I&gt; is selected, then the new slides will be created at the end of the project.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν έχετε επιλέξει την &lt;I&gt;&lt;B&gt;Προσθήκη στο τέλος του έργου&lt;/B&gt;&lt;/I&gt;, τότε οι νέες διαφάνειες θα δημιουργηθούν στο τέλος του έργου.</translation>
     </message>
     <message>
         <source>Multiple file insertion</source>
-        <translation type="unfinished"></translation>
+        <translation>Πολλαπλή εισαγωγή αρχείων</translation>
     </message>
     <message>
         <source>This option allows you to adjust the way files are sorted when you select several files in &lt;I&gt;&lt;B&gt;Add file&lt;/B&gt;&lt;/I&gt;. </source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η επιλογή σας επιτρέπει να ρυθμίσετε τον τρόπο ταξινόμησης των αρχείων κατά την επιλογή μερικών αρχείων στην &lt;I&gt;&lt;B&gt;Προσθήκη αρχείων&lt;/B&gt;&lt;/I&gt;. </translation>
     </message>
     <message>
         <source>If this box is checked, files will be added in order of their numerical suffix : Example: if you select IMG_0025, IMG_0032, MVI_0029 and MVI_0040, the files will be inserted as follows : IMG_0025, MVI_0029, IMG_0032 and MVI_0040</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν αυτό το πλαίσιο είναι επιλεγμένο, τα αρχεία θα προστεθούν με την αριθμητική σειρά της κατάληξής τους. Παράδειγμα: αν επιλέξετε IMG_0025, IMG_0032, MVI_0029 και MVI_0040, τα αρχεία θα προστεθούν ως ακολούθως: IMG_0025, MVI_0029, IMG_0032 and MVI_0040</translation>
     </message>
     <message>
         <source>If this box is unchecked, files are added in alphabetical order.</source>
@@ -4250,7 +4255,7 @@
     </message>
     <message>
         <source>Object deletion</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαγραφή αντικειμένου</translation>
     </message>
     <message>
         <source>If this box is checked, a confirmation prompt will be displayed every time you remove an object: </source>
@@ -4274,15 +4279,15 @@
     </message>
     <message>
         <source>Project options</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογές έργου</translation>
     </message>
     <message>
         <source>Project properties</source>
-        <translation type="unfinished">Ιδιότητες έργου</translation>
+        <translation>Ιδιότητες έργου</translation>
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation>Τίτλος</translation>
     </message>
     <message>
         <source>Defined the automatic filling method to use for the title&apos;s project properties: </source>
@@ -4298,15 +4303,15 @@
     </message>
     <message>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Συγγραφέας</translation>
     </message>
     <message>
         <source>Default language</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένη γλώσσα</translation>
     </message>
     <message>
         <source>Defines the default value for the field Language</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει την προκαθορισμένη τιμή του πεδίου Γλώσσα</translation>
     </message>
     <message>
         <source>New project geometry</source>
@@ -4326,19 +4331,19 @@
     </message>
     <message>
         <source>Defines the default duration of the first shot for slides during their creation.</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει την προκαθορισμένη διάρκεια του πρώτου στιγμιότυπου στις διαφάνειες κατά τη δημιουργία τους.</translation>
     </message>
     <message>
         <source>Next shot duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Διάρκεια επόμενων στιγμιότυπων</translation>
     </message>
     <message>
         <source>Defines the default duration of further shots.</source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει την προκαθορισμένη διάρκεια για τα επόμενα στιγμιότυπα.</translation>
     </message>
     <message>
         <source>Default transition</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένη μετάβαση</translation>
     </message>
     <message>
         <source>Defines the transition to be inserted between inserted slides : </source>
@@ -4362,11 +4367,11 @@
     </message>
     <message>
         <source>Transition</source>
-        <translation type="unfinished"></translation>
+        <translation>Μετάβαση</translation>
     </message>
     <message>
         <source>Sets the default speed wave for the transitions of new projects</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίζει την προκαθορισμένη καμπύλη ταχύτητας για τις μεταβάσεις στα νέα έργα</translation>
     </message>
     <message>
         <source>Blocks animation</source>
@@ -4374,7 +4379,7 @@
     </message>
     <message>
         <source>Sets the default speed curve for the blocks animations of new projects</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίζει την προκαθορισμένη καμπύλη ταχύτητας για τα εφέ των τμημάτων των νέων έργων</translation>
     </message>
     <message>
         <source>Images animation</source>
@@ -4382,43 +4387,44 @@
     </message>
     <message>
         <source>Sets the default speed for the image effects animations of new projects</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμίζει την προκαθορισμένη ταχύτητα για τα εφέ των εικόνων των νέων έργων</translation>
     </message>
     <message>
         <source>Default options for new text block</source>
-        <translation type="unfinished"></translation>
+        <translation>Εξ&apos; ορισμού επιλογές για τα νέα τμήματα κειμένου</translation>
     </message>
     <message>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>Κείμενο</translation>
     </message>
     <message>
         <source>Allows to select the characters style applied to the new text blocks. This style defines the font, its size, its color and the shadow effects applied to the text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει την επιλογή του στυλ χαρακτήρων που θα εφαρμόζεται στα νέα τμήματα κειμένου. Το στυλ καθορίζει τη γραμματοσειρά, το μέγεθός της, το χρώμα της και τα εφέ σκίασης που θα εφαρμόζονται στο κείμενο.</translation>
     </message>
     <message>
         <source>Background</source>
-        <translation type="unfinished"></translation>
+        <translation>Φόντο</translation>
     </message>
     <message>
         <source>Allows to select the style of background applied to the new text blocks. This style defines the transparency of the block and its filling.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει την επιλογή στυλ για το φόντο που θα εφαρμόζεται στα νέα τμήματα κειμένου. Το στυλ καθορίζει τη διαφάνεια του τμήματος και το γέμισμά του.</translation>
     </message>
     <message>
         <source>Shape</source>
-        <translation type="unfinished"></translation>
+        <translation>Σχήμα</translation>
     </message>
     <message>
         <source>Coordinates</source>
-        <translation type="unfinished"></translation>
+        <translation>Συντεταγμένες</translation>
     </message>
     <message>
         <source>Allows to select, for every project geometry, the style of the location applied to the new text blocks. This style defines the size, the coordinates, the rotations and the geometrical constraint.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει την επιλογή, για κάθε τύπο γεωμετρίας του έργου, το στυλ τοποθέτησης που θα εφαρμόζεται σε νέα τμήματα κειμένου.
+Το στυλ επηρεάζει το μέγεθος, τις συντεταγμένες, την περιστροφή και τους γεωμετρικούς περιορισμούς.</translation>
     </message>
     <message>
         <source>Locking</source>
-        <translation type="unfinished"></translation>
+        <translation>Κλείδωμα</translation>
     </message>
     <message>
         <source>Allows to Select the geometric constraint applied to the new text blocks. </source>
@@ -4434,7 +4440,7 @@
     </message>
     <message>
         <source>Default options for new image or video block (when creating slide)</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένες επιλογές για νέα τμήματα εικόνας ή βίντεο (κατά την δημιουργία της διαφάνειας)</translation>
     </message>
     <message>
         <source>The following settings apply to all image formats:</source>
@@ -4442,11 +4448,11 @@
     </message>
     <message>
         <source>Text style</source>
-        <translation type="unfinished"></translation>
+        <translation>Στυλ κειμένου</translation>
     </message>
     <message>
         <source>Allows to select the characters style applied to the text of the blocks. This style defines the font, its size, its color and the shadow effects applied to the text.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει την επιλογή του στυλ χαρακτήρων που θα εφαρμόζεται στο κείμενο των τμημάτων. Το στυλ καθορίζει τη γραμματοσειρά, το μέγεθός της, το χρώμα της και τα εφέ σκίασης που θα εφαρμόζονται στο κείμενο.</translation>
     </message>
     <message>
         <source>For every image format and every project geometry select the style of location to applied to the new blocks. This style concerns the size, the coordinates, the rotations and the geometrical constraint.</source>
@@ -4454,15 +4460,15 @@
     </message>
     <message>
         <source>Framing styles define how to crop the image to make it compatible with the block in which is displayed.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το στυλ πλαισίωσης καθορίζει τον τρόπο περικοπής της εικόνας ώστε να γίνει συμβατή με το τμήμα που απεικονίζεται.</translation>
     </message>
     <message>
         <source>The positioning styles define the the size, coordinates, rotations and geometric constraint to apply to blocks.</source>
-        <translation type="unfinished"></translation>
+        <translation>Το στυλ τοποθέτησης καθορίζει το μέγεθος, τις συντεταγμένες, την περιστροφή και τον γεωμετρικό περιορισμό που θα εφαρμοστεί στο τμήμα.</translation>
     </message>
     <message>
         <source>Default options for new image or video block (when adding block in slide dialog)</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένες επιλογές για νέα τμήματα εικόνας ή βίντεο (κατά την προσθήκη ενός τμήματος στον διάλογο της διαφάνειας)</translation>
     </message>
     <message>
         <source>The same selection that when creating slides apply.</source>
@@ -4470,11 +4476,11 @@
     </message>
     <message>
         <source>Rendering options</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογές αποτύπωσης</translation>
     </message>
     <message>
         <source>Default video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένο όνομα βίντεο</translation>
     </message>
     <message>
         <source>This option allows to select the name which will be proposed by default during the rendering of videos. This option can be applied only if the project was saved at first.</source>
@@ -4482,7 +4488,7 @@
     </message>
     <message>
         <source>Use project name as video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση του ονόματος του έργου για το όνομα του βίντεο</translation>
     </message>
     <message>
         <source>If the project name is &quot;assembly.ffd&quot;, then &quot;assembly&quot; will be the proposed name</source>
@@ -4490,7 +4496,7 @@
     </message>
     <message>
         <source>Use project folder&apos;s name as video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση του ονόματος του φακέλου του έργου για το όνομα του βίντεο</translation>
     </message>
     <message>
         <source>If the project name is &quot;assembly.ffd&quot; and is saved in the &quot;My holidays 2011&quot; directory, then &quot;My holidays 2011&quot; will be the proposed name</source>
@@ -4498,7 +4504,7 @@
     </message>
     <message>
         <source>Use title project as video name</source>
-        <translation type="unfinished"></translation>
+        <translation>Χρήση του ονόματος του έργου για το όνομα του βίντεο</translation>
     </message>
     <message>
         <source>Use the title defined in the project properties as the name of video</source>
@@ -4506,11 +4512,11 @@
     </message>
     <message>
         <source>Default device mode rendering options</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένες επιλογές αποτύπωσης ανά λειτουργία συσκευής</translation>
     </message>
     <message>
         <source>Smartphone</source>
-        <translation type="unfinished"></translation>
+        <translation>Smartphone</translation>
     </message>
     <message>
         <source>Selects the default type and equipment model when you will click the &quot;Player and Smartphone&quot; button of the &quot;Render movie&quot; menu</source>
@@ -4518,7 +4524,7 @@
     </message>
     <message>
         <source>Multimedia system</source>
-        <translation type="unfinished">Σύστημα πολυμέσων</translation>
+        <translation>Σύστημα πολυμέσων</translation>
     </message>
     <message>
         <source>Selects the default type and equipment model when you will click the &quot;Multimedia system&quot; button of the &quot;Render movie&quot; menu</source>
@@ -4526,7 +4532,7 @@
     </message>
     <message>
         <source>For the WEB</source>
-        <translation type="unfinished"></translation>
+        <translation>Για το διαδίκτυο</translation>
     </message>
     <message>
         <source>Selects the default type and equipment model when you will click the &quot;For the Web&quot; button of the &quot;Render movie&quot; menu</source>
@@ -4534,7 +4540,7 @@
     </message>
     <message>
         <source>Lossless</source>
-        <translation type="unfinished">Μη απωλεστικό</translation>
+        <translation>Μη απωλεστικό</translation>
     </message>
     <message>
         <source>Selects the default image size to be used when you will click the &quot;Lossless&quot; button of the &quot;Render movie&quot; menu</source>
@@ -4542,11 +4548,11 @@
     </message>
     <message>
         <source>Default advanced rendering options</source>
-        <translation type="unfinished"></translation>
+        <translation>Προχωρημένες επιλογές αποτύπωσης από προεπιλογή</translation>
     </message>
     <message>
         <source>File format</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή αρχείου</translation>
     </message>
     <message>
         <source>Selects the default file type to use for the rendering out of the proposed list.</source>
@@ -4554,7 +4560,7 @@
     </message>
     <message>
         <source>Video standard</source>
-        <translation type="unfinished"></translation>
+        <translation>Πρότυπο βίντεο</translation>
     </message>
     <message>
         <source>Selects the default video standard to use: PAL or NTSC.</source>
@@ -4562,7 +4568,7 @@
     </message>
     <message>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή</translation>
     </message>
     <message>
         <source>Selects the default image format to use for the rendering out of the proposed list.</source>
@@ -4570,7 +4576,7 @@
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished">Κωδικοποιητής βίντεο:</translation>
+        <translation>Κωδικοποιητής βίντεο</translation>
     </message>
     <message>
         <source>Selects the default video codec to use for the rendering out of the proposed list.</source>
@@ -4582,7 +4588,7 @@
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished">Κωδικοποιητής ήχου:</translation>
+        <translation>Κωδικοποιητής ήχου</translation>
     </message>
     <message>
         <source>Selects the default audio codec to use for the rendering out of the proposed list.</source>
@@ -4598,11 +4604,11 @@
     </message>
     <message>
         <source>Remark: Some manufacturers produce FullHD videos 1920x1088 rather than 1920x1080. They make it to accelerate the encoding which is faster with a multiple of 16 lines. But this size is not 16:9. To keep the whole image, not only the image is deformed to fit into the screen but besides black bands appear on the sides. To avoid all these problems, by checking this box, these videos are truncated to be returned to the 1920x1080 sizes. Then 4 lines are cut at the top and bottom.</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση: Μερικοί κατασκευαστές παράγουν FullHD βίντεο 1920x1088 αντί για 1920x1080 Το κάνουν για να επιταχύνουν την κωδικοποίηση η οποία είναι ταχύτερη με ένα πολλαπλάσιο των 16 γραμμών. Αλλά αυτό το μέγεθος δεν είναι 16:9. Για να διατηρηθεί ολόκληρη η εικόνα, δεν μετασχηματίζεται μόνο η εικόνα ώστε να χωρέσει στην οθόνη αλλά εμφανίζονται και μαύρες λωρίδες στις πλευρές. Για την αποφυγή όλων αυτών των προβλημάτων, επιλέγοντας αυτό το πλαίσιο, τα βίντεο περικόπτονται στο μέγεθος 1920x1080. Έπειτα αφαιρούνται 4 γραμμές από το πάνω και το κάτω μέρος.</translation>
     </message>
     <message>
         <source>Remark: Some manufacturers produce videos using interlaced mode. They make it to accelerate the encoding. The problem is it deforms the image on which moved lines appear. For more information on interlaced video, see this Wikipedia page: </source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση: Μερικοί κατασκευαστές παράγουν βίντεο χρησιμοποιώντας τη λειτουργία απόπλεξης για να επιταχύνουν την κωδικοποίηση. Το πρόβλημα είναι ότι παραμορφώνει την εικόνα στην οποία εμφανίζονται μετακινημένες γραμμές. Για περισσότερες πληροφορίες σχετικά με την απόπλεξη βίντεο (interlaced video), ανατρέξτε στη σχετική σελίδα στη Wikipedia: </translation>
     </message>
     <message>
         <source>4:3: Corresponds to an old TV with (almost) square screen</source>
@@ -4618,7 +4624,7 @@
     </message>
     <message>
         <source>This group of settings applies to the new text blocks created in slide dialogue by means of this button: </source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η ομάδα ρυθμίσεων εφαρμόζεται στα νέα τμήματα κειμένου που δημιουργήθηκαν στον διάλογο διαφάνειας με τη βοήθεια του κουμπιού: </translation>
     </message>
     <message>
         <source>This group of settings applies to the new image or video blocks created from the main window by means of this button: </source>
@@ -4634,7 +4640,7 @@
     </message>
     <message>
         <source>Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμός bit</translation>
     </message>
     <message>
         <source>This dialog box allows you to define options for the application. It consists of the following 3 tabs:</source>
@@ -4642,31 +4648,31 @@
     </message>
     <message>
         <source>The Application options tab allows you to define the general behavior of ffDiaporama.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η καρτέλα Επιλογές της εφαρμογής επιτρέπει τον καθορισμό της γενικής συμπεριφοράς του ffDiaporama.</translation>
     </message>
     <message>
         <source>The Project options tab allows you to define the options by default of the current project and for the new projects.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η καρτέλα επιλογών του έργου επιτρέπει τον καθορισμό των προεπιλογών του τρέχοντος και των νέων έργων.</translation>
     </message>
     <message>
         <source>The Rendering options Tab allows you to define the options used by default during the generation of videos.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η καρτέλα επιλογών αποτύπωσης επιτρέπει τον καθορισμό των επιλογών που χρησιμοποιούνται εξ΄ ορισμού κατά τη δημιουργία των βίντεο.</translation>
     </message>
     <message>
         <source>Disable tooltips in dialog box</source>
-        <translation type="unfinished"></translation>
+        <translation>Απενεργοποίηση των υποδείξεων στα πλαίσια διαλόγων</translation>
     </message>
     <message>
         <source>If this box is checked, tooltips will no longer appear in dialog boxes (only what&apos;s this will be available).</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι ενεργοποιημένο, οι υποδείξεις δεν θα εμφανίζονται στα πλαίσια διαλόγων (μόνο το «Τι είναι αυτό» θα είναι διαθέσιμο).</translation>
     </message>
     <message>
         <source>Offer to open the download Web page when a new version is available</source>
-        <translation type="unfinished"></translation>
+        <translation>Να προτείνεται το άνοιγμα της ιστοσελίδας λήψεων όταν μια νέα έκδοση είναι διαθέσιμη</translation>
     </message>
     <message>
         <source>If this box is checked, a dialog box will appear at startup the next time a new version will be available. </source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι ενεργοποιημένο, θα εμφανίζεται ένας διάλογος κατά την εκκίνηση την επόμενη φορά που θα είναι διαθέσιμη μια νέα έκδοση. </translation>
     </message>
     <message>
         <source>By default, this box is checked for Windows users and unchecked for Linux users</source>
@@ -4682,11 +4688,11 @@
     </message>
     <message>
         <source>Max video preview height</source>
-        <translation type="unfinished"></translation>
+        <translation>Μέγιστο ύψος βίντεο προεπισκόπησης</translation>
     </message>
     <message>
         <source>Sets the maximum height of videos used for the preview. Beyond this height, the videos are automatically reduced for creating images. </source>
-        <translation type="unfinished"></translation>
+        <translation>Ορίζει το μέγιστο ύψος του βίντεο που χρησιμοποιείται στην προεπισκόπηση. Όταν ξεπεραστεί το ύψος, γίνεται αυτόματη σμίκρυνση του βίντεο για τη δημιουργία των εικόνων. </translation>
     </message>
     <message>
         <source>This parameter affects only the preview and does not change the quality of rendered video. </source>
@@ -4698,7 +4704,7 @@
     </message>
     <message>
         <source>This effect consumes lots of resources and can result in slow preview on small machines. Unchecking this box allows then to keep a fluid preview. </source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτό το εφέ καταναλώνει μεγάλο μέγεθος πόρων και θα έχει ως αποτέλεσμα την αργοπορία στην προεπισκόπηση σε παλιά μηχανήματα. Αποεπιλέγοντας αυτό το πλαίσιο σας επιτρέπει να διατηρήσετε μια ρέουσα προεπισκόπηση. </translation>
     </message>
     <message>
         <source>This parameter affects only the preview and does not change the quality of rendered video.</source>
@@ -4706,31 +4712,31 @@
     </message>
     <message>
         <source>Sound sample rate</source>
-        <translation type="unfinished"></translation>
+        <translation>Ρυθμός δειγματοληψίας ήχου</translation>
     </message>
     <message>
         <source>Defines the frequency of the sound generated to show the preview. </source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει τη συχνότητα του αναπαραγόμενου ήχου για την προεπισκόπηση. </translation>
     </message>
     <message>
         <source>Video cropping</source>
-        <translation type="unfinished"></translation>
+        <translation>Περικοπή βίντεο</translation>
     </message>
     <message>
         <source>Video deinterlacing</source>
-        <translation type="unfinished"></translation>
+        <translation>Απόπλεξη βίντεο</translation>
     </message>
     <message>
         <source>Various options</source>
-        <translation type="unfinished"></translation>
+        <translation>Διάφορες επιλογές</translation>
     </message>
     <message>
         <source>Short date format</source>
-        <translation type="unfinished"></translation>
+        <translation>Μορφή σύντομης ημερομηνίας</translation>
     </message>
     <message>
         <source>This option allows you to specify the format in which computed dates are displayed. </source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτή η επιλογή σας επιτρέπει να καθορίσετε τη μορφή εμφάνισης των υπολογισμένων ημερομηνιών. </translation>
     </message>
     <message>
         <source>Normally this format depends on the language used on your system, but it can be useful to change it especially if the interface is not available for your language.</source>
@@ -4738,15 +4744,15 @@
     </message>
     <message>
         <source>Enhance id3v2 comptatibility</source>
-        <translation type="unfinished"></translation>
+        <translation>Συμβατότητα id3v2</translation>
     </message>
     <message>
         <source>For more compatibility with the standard id3v2, check this box to limit Title, Author and Album fields to 30 characters</source>
-        <translation type="unfinished"></translation>
+        <translation>Για περισσότερη συμβατότητα με το πρότυπο id3v2, επιλέξτε αυτό το πλαίσιο για να περιορίσετε τον Τίτλο, τον Συγγραφέα και το Άλμπουμ στους 30 χαρακτήρες</translation>
     </message>
     <message>
         <source>Default thumbnail</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένη εικόνα επισκόπησης</translation>
     </message>
     <message>
         <source>For more information on joined files, see &lt;a href=&quot;003A.html&quot;&gt;File attachments&lt;/a&gt;</source>
@@ -4758,35 +4764,35 @@
     </message>
     <message>
         <source>Join thumbnail to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Επισύναψη μιας εικόνας επισκόπησης στα βίντεο</translation>
     </message>
     <message>
         <source>If this box is checked then a thumbnail file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι επιλεγμένο θα δημιουργηθεί ένα αρχείο εικόνας επισκόπησης με βίντεο.</translation>
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation>Επισύναψη του αρχείο .nfo για XBMC στο αρχείο του βίντεο</translation>
     </message>
     <message>
         <source>If this box is checked then a XMBC .nfo file will be created with video.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι επιλεγμένο θα δημιουργηθεί ένα αρχείο  .nfo για XMBC με βίντεο.</translation>
     </message>
     <message>
         <source>Frequency</source>
-        <translation type="unfinished"></translation>
+        <translation>Συχνότητα</translation>
     </message>
     <message>
         <source>Select the default frequency to use for audio during the rendering.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε την προκαθορισμένη συχνότητα ήχου κατά την αποτύπωση.</translation>
     </message>
     <message>
         <source>Default soundtrack rendering options</source>
-        <translation type="unfinished"></translation>
+        <translation>Προκαθορισμένες επιλογές του κομματιού ήχου</translation>
     </message>
     <message>
         <source>Other actions</source>
-        <translation type="unfinished"></translation>
+        <translation>Άλλες ενέργειες</translation>
     </message>
     <message>
         <source>At the bottom of the dialog these buttons allow you to:</source>
@@ -4802,15 +4808,15 @@
     </message>
     <message>
         <source>Allows to select the style of the shape to applied to the new text blocks. This style defines the shape (rectangle, circle, ...), the border, the opaqueness and the shadow effect applied to the block.</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει την επιλογή στυλ του σχήματος που θα εφαρμόζεται στα νέα τμήματα κειμένου. Το στυλ καθορίζει το σχήμα (ορθογώνιο, κύκλος, ...), το περίγραμμα, την αδιαφάνεια και το εφέ σκίασης που εφαρμόζεται στο τμήμα.</translation>
     </message>
     <message>
         <source>Defines the quantity of memory used as cache memory by ffDiaporama. This parameter is important because it allows to adapt ffDiaporama to your hardware. </source>
-        <translation type="unfinished"></translation>
+        <translation>Καθορίζει την ποσότητα της λανθάνουσας μνήμης που χρησιμοποιεί το ffDiaporama. Αυτή η παράμετρος είναι σημαντική διότι επιτρέπει την προσαρμογή του ffDiaporama στο υλικό σας.</translation>
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation>Συστήματα κέντρων πολυμέσων</translation>
     </message>
     <message>
         <source>Defines the model use as default thumbnail. Thumbnails are images that are generated along with the videos. These images are used as a poster by most </source>
@@ -4849,7 +4855,7 @@
     </message>
     <message>
         <source>Devices preceded by this icon are those that you defined yourself, or those from the default database that you have modified.</source>
-        <translation type="unfinished"></translation>
+        <translation>Οι συσκευές που προηγείται αυτό το εικονίδιο είναι αυτές που έχετε καθορίσει εσείς, οι αυτές από την προκαθορισμένη βάση δεδομένων που έχετε τροποποιήσει.</translation>
     </message>
     <message>
         <source>Add device: Allows you to create a new device which will be added to the database. </source>
@@ -4877,7 +4883,7 @@
     </message>
     <message>
         <source>Note that you can delete only devices which you created - those shown with this icon: </source>
-        <translation type="unfinished"></translation>
+        <translation>Σημειώστε ότι μπορείτε να διαγράψετε μια συσκευή την οποία έχετε δημιουργήσει εσείς – αυτές με το εικονίδιο:</translation>
     </message>
     <message>
         <source>Reset to default: Cancels the modifications that you made on a device defined in the default ffDiaporama database</source>
@@ -4885,7 +4891,7 @@
     </message>
     <message>
         <source>Remarks:</source>
-        <translation type="unfinished"></translation>
+        <translation>Σημειώσεις:</translation>
     </message>
     <message>
         <source>Device subtype</source>
@@ -4893,11 +4899,11 @@
     </message>
     <message>
         <source>Allows you to select the category in which the equipment is classified</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιτρέπει την επιλογή της κατηγορίας της συσκευής</translation>
     </message>
     <message>
         <source>Device model</source>
-        <translation type="unfinished"></translation>
+        <translation>Μοντέλο συσκευής</translation>
     </message>
     <message>
         <source>Enter here the name of the device (free text entry field) and then, enter all the parameters required for rendering videos that are to be associated with the device profile (File format, video Standard, etc.)</source>
@@ -4905,7 +4911,7 @@
     </message>
     <message>
         <source>The device type zone allows you to select the type of equipment to be shown in the list.</source>
-        <translation type="unfinished"></translation>
+        <translation>Η περιοχή του τύπου της συσκευής σας επιτρέπει να επιλέξετε τον τύπο του εξοπλισμού που θα εμφανίζεται στη λίστα.</translation>
     </message>
     <message>
         <source>The list shows the categories and the device types present in the database.</source>
@@ -4944,7 +4950,7 @@
     </message>
     <message>
         <source>Slide type</source>
-        <translation type="unfinished"></translation>
+        <translation>Τύπος διαφάνειας</translation>
     </message>
     <message>
         <source>You can select between: </source>
@@ -4952,7 +4958,7 @@
     </message>
     <message>
         <source>Project title</source>
-        <translation type="unfinished"></translation>
+        <translation>Τίτλος έργου</translation>
     </message>
     <message>
         <source>This type of slide is usually used early in the project as the opening credits. </source>
@@ -4964,7 +4970,7 @@
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished"></translation>
+        <translation>Τίτλος κεφαλαίου</translation>
     </message>
     <message>
         <source>This type of slide is usually used several times in the project to mark the beginning of the chapter. </source>
@@ -4976,7 +4982,7 @@
     </message>
     <message>
         <source>Credit title</source>
-        <translation type="unfinished"></translation>
+        <translation>Τίτλοι ευχαριστιών</translation>
     </message>
     <message>
         <source>This type of slide is usually used at the end of the project as the end credits. </source>
@@ -4988,7 +4994,7 @@
     </message>
     <message>
         <source>Category</source>
-        <translation type="unfinished"></translation>
+        <translation>Κατηγορία</translation>
     </message>
     <message>
         <source>Statics models</source>
@@ -5032,35 +5038,35 @@
     </message>
     <message>
         <source>Chapter name</source>
-        <translation type="unfinished"></translation>
+        <translation>Όνομα κεφαλαίου</translation>
     </message>
     <message>
         <source>Enter here the name of the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation>Εισάγετε εδώ το όνομα του κεφαλαίου.</translation>
     </message>
     <message>
         <source>Chapter date different from project date</source>
-        <translation type="unfinished"></translation>
+        <translation>Ημερομηνία κεφαλαίου διαφορετική από την ημερομηνία του έργου</translation>
     </message>
     <message>
         <source>If this box is checked, the date of the chapter is different from the date of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Αν είναι ενεργοποιημένο, η ημερομηνία του κεφαλαίου είναι διαφορετική από την ημερομηνία του έργου. </translation>
     </message>
     <message>
         <source>Remark: It is often useful to differentiate the date of the chapter of the date of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation>Σημείωση: Συχνά είναι χρήσιμο να διαφοροποιείται η ημερομηνία του κεφαλαίου από αυτή του έργου. </translation>
     </message>
     <message>
         <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation type="unfinished"></translation>
+        <translation>Για παράδειγμα, αν το έργο είναι το &quot;Οι διακοπές μου από 1 ως 15&quot;, το κεφάλαιο μπορεί να περιορίζεται στο 3.</translation>
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished"></translation>
+        <translation>Ημερομηνία γεγονότος</translation>
     </message>
     <message>
         <source>Select a date for the chapter. </source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε την ημερομηνία για το κεφάλαιο. </translation>
     </message>
     <message>
         <source>Remark: This field is enabled only if the &lt;I&gt;&lt;B&gt;Chapter date different from project date&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
@@ -5068,11 +5074,11 @@
     </message>
     <message>
         <source>Override date</source>
-        <translation type="unfinished"></translation>
+        <translation>Αντικατάσταση της ημερομηνίας</translation>
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text. </source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλέξτε το για να αντικαταστήσετε την ημερομηνία και για να σας δοθεί η δυνατότητα να εισάγετε την ημερομηνία ως ελεύθερο πολλαπλών γραμμών κείμενο. </translation>
     </message>
     <message>
         <source>Under these settings, the following two buttons allow you:</source>
@@ -5080,34 +5086,34 @@
     </message>
     <message>
         <source> Project properties</source>
-        <translation type="unfinished"></translation>
+        <translation> Ιδιότητες έργου</translation>
     </message>
     <message>
         <source>This button allows you to open &lt;a href=&quot;0108.html&quot;&gt;Project properties dialog&lt;/a&gt;.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτό το κουμπί σας επιτρέπει το άνοιγμα του &lt;a href=&quot;0108.html&quot;&gt;διαλόγου ιδιοτήτων του έργου&lt;/a&gt;.</translation>
     </message>
     <message>
         <source> Convert to standard slide</source>
-        <translation type="unfinished"></translation>
+        <translation> Μετατροπή σε τυπική διαφάνεια</translation>
     </message>
     <message>
         <source>This button allows you to convert this slide to a standard slide which are fully customizable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Αυτό το κουμπί σας επιτρέπει τη μετατροπή της διαφάνειας σε μια τυπική διαφάνεια οι οποίες είναι πλήρως προσαρμόσιμες.</translation>
     </message>
 </context>
 <context>
     <name>0104</name>
     <message>
         <source>Background properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Ιδιότητες φόντου</translation>
     </message>
     <message>
         <source>The &quot;Background properties&quot; dialog allows you to define settings for the background of the slide.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ο διάλογος ιδιοτήτων του φόντου σας επιτρέπει να καθορίσετε τις ρυθμίσεις για το φόντο της διαφάνειας.</translation>
     </message>
     <message>
         <source>Same background as preceding object.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ίδιο φόντο με το προηγούμενο αντικείμενο.</translation>
     </message>
     <message>
         <source> If this option is selected, the slide will have no background definition  but will use the same background as the previous slide: </source>
@@ -5123,7 +5129,7 @@
     </message>
     <message>
         <source>Select a new background</source>
-        <translation type="unfinished"></translation>
+        <translation>Επιλογή νέου φόντου</translation>
     </message>
     <message>
         <source> If this option is selected, the slide will have its own background definition. In that case, the following zones set properties for the background. </source>
@@ -5131,7 +5137,7 @@
     </message>
     <message>
         <source>Solid brush</source>
-        <translation type="unfinished"></translation>
+        <translation>Συμπαγές πινέλο</translation>
     </message>
     <message>
         <source>Selects a plain color.</source>
@@ -5139,7 +5145,7 @@
     </message>
     <message>
         <source>Gradient 2 colors</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαβάθμιση 2 χρωμάτων</translation>
     </message>
     <message>
         <source>Selects a gradient of 2 colors</source>
@@ -5147,7 +5153,7 @@
     </message>
     <message>
         <source>Gradient 3 colors</source>
-        <translation type="unfinished"></translation>
+        <translation>Διαβάθμιση 3 χρωμάτων</translation>
     </message>
     <message>
         <source>Selects a gradient of 3 colors</source>
@@ -5155,7 +5161,7 @@
     </message>
     <message>
         <source>Image from library</source>
-        <translation type="unfinished"></translation>
+        <translation>Εικόνα από τη βιβλιοθήκη</translation>
     </message>
     <message>
         <source>Selects a background image from the library </source>
@@ -5175,7 +5181,7 @@
     </message>
     <message>
         <source>Image disk</source>
-        <translation type="unfinished"></translation>
+        <translation></translation>
     </message>
     <message>
         <source>Allows you to select a photo or an image. </source>
@@ -5183,7 +5189,7 @@
     </message>
     <message>
         <source>File</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αρχείο</translation>
     </message>
     <message>
         <source>Indicates the name of the current file</source>
@@ -5246,35 +5252,35 @@
     </message>
     <message>
         <source>Chapter name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Όνομα κεφαλαίου</translation>
     </message>
     <message>
         <source>Enter here the name of the chapter.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εισάγετε εδώ το όνομα του κεφαλαίου.</translation>
     </message>
     <message>
         <source>Chapter date different from project date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ημερομηνία κεφαλαίου διαφορετική από την ημερομηνία του έργου</translation>
     </message>
     <message>
         <source>If this box is checked, the date of the chapter is different from the date of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αν είναι ενεργοποιημένο, η ημερομηνία του κεφαλαίου είναι διαφορετική από την ημερομηνία του έργου. </translation>
     </message>
     <message>
         <source>Remark: It is often useful to differentiate the date of the chapter of the date of the project. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σημείωση: Συχνά είναι χρήσιμο να διαφοροποιείται η ημερομηνία του κεφαλαίου από αυτή του έργου. </translation>
     </message>
     <message>
         <source>For example, if the project is &quot;My vacation from 1 to 15&quot;, the chapter may be limited to the 3.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Για παράδειγμα, αν το έργο είναι το &quot;Οι διακοπές μου από 1 ως 15&quot;, το κεφάλαιο μπορεί να περιορίζεται στο 3.</translation>
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ημερομηνία γεγονότος</translation>
     </message>
     <message>
         <source>Select a date for the chapter. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλέξτε την ημερομηνία για το κεφάλαιο. </translation>
     </message>
     <message>
         <source>Remark: This field is enabled only if the &lt;I&gt;&lt;B&gt;Chapter date different from project date&lt;/B&gt;&lt;/I&gt; check box is checked.</source>
@@ -5282,7 +5288,7 @@
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text. </source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επιλέξτε το για να αντικαταστήσετε την ημερομηνία και για να σας δοθεί η δυνατότητα να εισάγετε την ημερομηνία ως ελεύθερο πολλαπλών γραμμών κείμενο. </translation>
     </message>
     <message>
         <source>Remark: This box cannot be deactivated for the first slide of the project.</source>
@@ -5290,7 +5296,7 @@
     </message>
     <message>
         <source>Override date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αντικατάσταση της ημερομηνίας</translation>
     </message>
     <message>
         <source>This dialog allows you to define settings for the chapter information of the slide:</source>
@@ -5427,7 +5433,7 @@
     </message>
     <message>
         <source>Remark</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σημείωση</translation>
     </message>
     <message>
         <source>Project geometry</source>
@@ -5439,11 +5445,11 @@
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τίτλος</translation>
     </message>
     <message>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συγγραφέας</translation>
     </message>
     <message>
         <source>Album</source>
@@ -5515,7 +5521,7 @@
     </message>
     <message>
         <source>Chapter title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τίτλος κεφαλαίου</translation>
     </message>
     <message>
         <source>Start</source>
@@ -5543,7 +5549,7 @@
     </message>
     <message>
         <source>Format</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μορφή</translation>
     </message>
     <message>
         <source>3GP/MP4/MKV</source>
@@ -5575,7 +5581,7 @@
     </message>
     <message>
         <source>Transition</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μετάβαση</translation>
     </message>
     <message>
         <source>Defined default speed curve for transitions</source>
@@ -5599,7 +5605,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δείτε επίσης</translation>
     </message>
     <message>
         <source>TAG in ffmpeg</source>
@@ -5631,7 +5637,7 @@
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συστήματα κέντρων πολυμέσων</translation>
     </message>
     <message>
         <source>.</source>
@@ -5655,7 +5661,7 @@
     </message>
     <message>
         <source>Event date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ημερομηνία γεγονότος</translation>
     </message>
     <message>
         <source>The date of the event of the project</source>
@@ -5663,7 +5669,7 @@
     </message>
     <message>
         <source>Override date</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Αντικατάσταση της ημερομηνίας</translation>
     </message>
     <message>
         <source>Check this box to override the date and offer you to enter the date as a free multi-line text</source>
@@ -6033,7 +6039,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δείτε επίσης</translation>
     </message>
     <message>
         <source>Ken Burns effects</source>
@@ -6097,7 +6103,7 @@
     </message>
     <message>
         <source>Shape</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σχήμα</translation>
     </message>
     <message>
         <source>Select a shape for the current block.</source>
@@ -6332,7 +6338,7 @@
     </message>
     <message>
         <source>Codec</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Κωδικοποιητής</translation>
     </message>
     <message>
         <source>The audio codec used for compressed the sound</source>
@@ -6348,7 +6354,7 @@
     </message>
     <message>
         <source>Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ρυθμός bit</translation>
     </message>
     <message>
         <source>The audio compression ratio (when available)</source>
@@ -6356,7 +6362,7 @@
     </message>
     <message>
         <source>Frequency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συχνότητα</translation>
     </message>
     <message>
         <source>The frequency of sampling used by the audio track</source>
@@ -6364,7 +6370,7 @@
     </message>
     <message>
         <source>Title</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τίτλος</translation>
     </message>
     <message>
         <source>A title (when available)</source>
@@ -6408,7 +6414,7 @@
     </message>
     <message>
         <source>Frame rate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ρυθμός καρέ</translation>
     </message>
     <message>
         <source>The number of images per second of the video</source>
@@ -6532,7 +6538,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δείτε επίσης</translation>
     </message>
     <message>
         <source>Information on EXIF data</source>
@@ -6896,7 +6902,7 @@
     </message>
     <message>
         <source>Device type</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Τύπος συσκευής</translation>
     </message>
     <message>
         <source>Allows you to select a device type.</source>
@@ -6928,7 +6934,7 @@
     </message>
     <message>
         <source>File format</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Μορφή αρχείου</translation>
     </message>
     <message>
         <source>Select the type of file to be used to render the video from the displayed list.</source>
@@ -6944,7 +6950,7 @@
     </message>
     <message>
         <source>Video codec</source>
-        <translation type="unfinished">Κωδικοποιητής βίντεο:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select the video codec to be used to render the video from the displayed list.</source>
@@ -6952,7 +6958,7 @@
     </message>
     <message>
         <source>Bitrate</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ρυθμός bit</translation>
     </message>
     <message>
         <source>Select the video compression ratio from the displayed list</source>
@@ -6960,7 +6966,7 @@
     </message>
     <message>
         <source>Audio codec</source>
-        <translation type="unfinished">Κωδικοποιητής ήχου:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Select the audio codec to be used to render the video from the displayed list.</source>
@@ -7012,7 +7018,7 @@
     </message>
     <message>
         <source>Media Center Systems</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συστήματα κέντρων πολυμέσων</translation>
     </message>
     <message>
         <source>This dialog has different appearances depending on whether you clicked the Device type, Lossless, Advanced or Soundtrack button. </source>
@@ -7020,7 +7026,7 @@
     </message>
     <message>
         <source>Join thumbnail to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επισύναψη μιας εικόνας επισκόπησης στα βίντεο</translation>
     </message>
     <message>
         <source>If this box is checked then a thumbnail file will be created with video. </source>
@@ -7028,7 +7034,7 @@
     </message>
     <message>
         <source>Join XBMC .nfo file to rendered file</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Επισύναψη του αρχείο .nfo για XBMC στο αρχείο του βίντεο</translation>
     </message>
     <message>
         <source>If this box is checked then a &lt;a href=&quot;0044.html&quot;&gt;XBMC .nfo&lt;/a&gt; file will be created with video. </source>
@@ -7040,7 +7046,7 @@
     </message>
     <message>
         <source>Frequency</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συχνότητα</translation>
     </message>
     <message>
         <source>In export soundtrack mode</source>
@@ -7131,7 +7137,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δείτε επίσης</translation>
     </message>
     <message>
         <source>Description of TV margins and overscan</source>
@@ -7482,7 +7488,7 @@
     </message>
     <message>
         <source>Coordinates</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συντεταγμένες</translation>
     </message>
     <message>
         <source>&lt;B&gt;For image or video blocks: &lt;/B&gt;Allows you to select a reframing style for the image. It has the same effect as selecting a style in the dialog: &lt;a href=&quot;0110.html&quot;&gt;Correct, reframe or cut image or video&lt;/a&gt;.</source>
@@ -7546,7 +7552,7 @@
     </message>
     <message>
         <source>Shape</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σχήμα</translation>
     </message>
     <message>
         <source>Allows you to select a shape for the block. The selected shape will be used as:</source>
@@ -7626,7 +7632,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δείτε επίσης</translation>
     </message>
     <message>
         <source>Description of EXIF - Exchangeable image file format</source>
@@ -8084,7 +8090,7 @@
     </message>
     <message>
         <source>Coordinates</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συντεταγμένες</translation>
     </message>
     <message>
         <source>This settings group defines the coordinates of the block for the current shot, so, the modifications made to the following properties will apply only to current shot. To understand the differences between the properties which apply to all shots and those which apply only to the current shot, consult: &lt;a href=&quot;0010.html&quot;&gt;How ffDiaporama works&lt;/a&gt;.</source>
@@ -8152,7 +8158,7 @@
     </message>
     <message>
         <source>Shape</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σχήμα</translation>
     </message>
     <message>
         <source>Allows you to select a shape for the block. The selected shape will be used as:</source>
@@ -8364,7 +8370,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δείτε επίσης</translation>
     </message>
     <message>
         <source>Description of EXIF - Exchangeable image file format</source>
@@ -8623,7 +8629,7 @@
     </message>
     <message>
         <source>Solid brush</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συμπαγές πινέλο</translation>
     </message>
     <message>
         <source>Allows you to select a plain color.</source>
@@ -8639,7 +8645,7 @@
     </message>
     <message>
         <source>Gradient 2 colors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαβάθμιση 2 χρωμάτων</translation>
     </message>
     <message>
         <source>Allows you to select a gradient of 2 colors.</source>
@@ -8647,7 +8653,7 @@
     </message>
     <message>
         <source>Gradient 3 colors</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Διαβάθμιση 3 χρωμάτων</translation>
     </message>
     <message>
         <source>Allows you to select a gradient of 3 colors.</source>
@@ -8655,7 +8661,7 @@
     </message>
     <message>
         <source>Image from library</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Εικόνα από τη βιβλιοθήκη</translation>
     </message>
     <message>
         <source>Allows you to select an image from the library.</source>
@@ -8861,7 +8867,7 @@
     </message>
     <message>
         <source>See also</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δείτε επίσης</translation>
     </message>
     <message>
         <source>Description of LUMA</source>
@@ -8932,7 +8938,7 @@
     </message>
     <message>
         <source>Background properties</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Ιδιότητες φόντου</translation>
     </message>
     <message>
         <source>Chapter properties</source>
@@ -9008,19 +9014,19 @@
     </message>
     <message>
         <source>Rendering videos</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δημιουργία των βίντεο</translation>
     </message>
     <message>
         <source>Smartphones and tablets</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Smartphones και ταμπλέτες</translation>
     </message>
     <message>
         <source>Portable devices</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Φορητές συσκευές</translation>
     </message>
     <message>
         <source>Multimedia system (Home cinema)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Σύστημα πολυμέσων (Οικιακός κινηματογράφος)</translation>
     </message>
     <message>
         <source>For the WEB</source>
@@ -9036,15 +9042,15 @@
     </message>
     <message>
         <source>Containers</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Υποδοχείς</translation>
     </message>
     <message>
         <source>Video standards and resolutions</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Πρότυπα και αναλύσεις βίντεο</translation>
     </message>
     <message>
         <source>File attachments (Thumbnails, nfo, etc...)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Συνημμένα αρχεία (Εικόνες επισκόπησης, nfo, κλπ...)</translation>
     </message>
     <message>
         <source>Technical information on ffDiaporama</source>
@@ -9107,7 +9113,7 @@
     </message>
     <message>
         <source>Rendering videos</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Δημιουργία των βίντεο</translation>
     </message>
     <message>
         <source>Technical information on ffDiaporama</source>

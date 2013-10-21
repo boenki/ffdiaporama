@@ -580,8 +580,6 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
         // Ensure unvisible video have no sound !
         if ((!IsVisible)&&(BackgroundBrush->Video!=NULL)) BackgroundBrush->SoundVolume=0;
 
-        ComputeOptimisationFlags();
-
         return IsOk;
     }
     return false;
@@ -589,13 +587,15 @@ bool cCompositionObject::LoadFromXML(QDomElement domDocument,QString ElementName
 
 //====================================================================================================================
 
-void cCompositionObject::ComputeOptimisationFlags() {
+void cCompositionObject::ComputeOptimisationFlags(cCompositionObject *Previous) {
     QTextDocument TextDocument;
     TextDocument.setHtml(Text);
     IsTextEmpty =TextDocument.isEmpty();
-    IsFullScreen=false;
-    IsFullScreen=(IsTextEmpty)&&((BackgroundBrush->Video!=NULL)||((BackgroundBrush->Image!=NULL)&&(!BackgroundBrush->Image->IsVectorImg)))&&(IsVisible)&&(BlockAnimType==0)&&(BackgroundForm==1)&&
-                 (PenSize==0)&&(Opacity==0)&&(RotateZAxis==0)&&(RotateXAxis==0)&&(RotateYAxis==0)&&(int(x*10000)==0)&&(int(y*10000)==0)&&(int(w*10000)==10000)&&(int(h*10000)==10000);
+    IsFullScreen=(IsTextEmpty)&&((BackgroundBrush->Video!=NULL)||((BackgroundBrush->Image!=NULL)&&(!BackgroundBrush->Image->IsVectorImg)))
+                 &&(IsVisible)&&(BlockAnimType==0)&&(BackgroundForm==1)&&(PenSize==0)&&(Opacity==0)&&(RotateZAxis==0)&&(RotateXAxis==0)&&(RotateYAxis==0)
+                 &&(int(x*10000)==0)&&(int(y*10000)==0)&&(int(w*10000)==10000)&&(int(h*10000)==10000)
+                 &&((!Previous)||((x==Previous->x)&&(y==Previous->y)&&(w==Previous->w)&&(h==Previous->h)
+                                  &&(RotateXAxis==Previous->RotateXAxis)&&(RotateYAxis==Previous->RotateYAxis)&&(RotateZAxis==Previous->RotateZAxis)));
 }
 
 //====================================================================================================================
@@ -1380,7 +1380,9 @@ bool cCompositionList::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             if (!CompositionObject->LoadFromXML(Element,"Composition-"+QString("%1").arg(i),PathForRelativPath,ObjectComposition,AliasList,true)) {
                 //IsOk=false;
                 delete CompositionObject;
-            } else List.append(CompositionObject);
+            } else {
+                List.append(CompositionObject);
+            }
         }
         return IsOk;
     } else return false;
@@ -1902,6 +1904,10 @@ bool cDiaporamaObject::LoadFromXML(QDomElement domDocument,QString ElementName,Q
             if (!imagesequence->LoadFromXML(Element,"Shot-"+QString("%1").arg(i),PathForRelativPath,&ObjectComposition,AliasList)) IsOk=false;
             List.append(imagesequence);
         }
+
+        // Refresh OptimisationFlags
+        for (int Shot=0;Shot<List.count();Shot++) for (int Block=0;Block<List[Shot]->ShotComposition.List.count();Block++)
+                List[Shot]->ShotComposition.List[Block]->ComputeOptimisationFlags(Shot>0?List[Shot-1]->ShotComposition.List[Block]:NULL);
 
         //**** Compatibility with version prior to 1.5
         for (int i=0;i<ObjectComposition.List.count();i++) {

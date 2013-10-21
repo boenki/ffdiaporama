@@ -942,7 +942,8 @@ void DlgSlideProperties::RefreshControls(bool UpdateInteractiveZone) {
     InRefreshControls=true;
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
-    for (int i=0;i<CompositionList->List.count();i++) CompositionList->List[i]->ComputeOptimisationFlags();
+    for (int Shot=0;Shot<CurrentSlide->List.count();Shot++) for (int Block=0;Block<CurrentSlide->List[Shot]->ShotComposition.List.count();Block++)
+        CurrentSlide->List[Shot]->ShotComposition.List[Block]->ComputeOptimisationFlags(Shot>0?CurrentSlide->List[Shot-1]->ShotComposition.List[Block]:NULL);
 
     //***********************
     // Tools button
@@ -2756,6 +2757,9 @@ void DlgSlideProperties::s_BlockSettings_ShapeOpacity(int Style) {
     AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEOPACITY,ui->OpacityCB,false);
     CurrentCompoObject->Opacity=Style;
     ApplyToContexte(true);
+    RefreshBlockTable(CurrentCompoObjectNbr);
+    ui->ShotTable->setUpdatesEnabled(false);
+    ui->ShotTable->setUpdatesEnabled(true);
 }
 
 //========= Border pen size
@@ -2767,6 +2771,9 @@ void DlgSlideProperties::s_BlockSettings_ShapePenSize(int) {
     ui->PenColorCB->setEnabled(CurrentCompoObject->PenSize!=0);
     ui->PenStyleCB->setEnabled(CurrentCompoObject->PenSize!=0);
     ApplyToContexte(true);
+    RefreshBlockTable(CurrentCompoObjectNbr);
+    ui->ShotTable->setUpdatesEnabled(false);
+    ui->ShotTable->setUpdatesEnabled(true);
 }
 
 //========= Border pen style
@@ -2776,6 +2783,9 @@ void DlgSlideProperties::s_BlockSettings_ShapePenStyle(int index) {
     AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEPENSTYLE,ui->PenStyleCB,false);
     CurrentCompoObject->PenStyle=ui->PenStyleCB->itemData(index).toInt();
     ApplyToContexte(true);
+    RefreshBlockTable(CurrentCompoObjectNbr);
+    ui->ShotTable->setUpdatesEnabled(false);
+    ui->ShotTable->setUpdatesEnabled(true);
 }
 
 //========= Border pen color
@@ -2785,6 +2795,9 @@ void DlgSlideProperties::s_BlockSettings_ShapePenColor(int) {
     AppendPartialUndo(UNDOACTION_EDITZONE_SHAPEPENCOLOR,ui->PenColorCB,false);
     CurrentCompoObject->PenColor=ui->PenColorCB->GetCurrentColor();
     ApplyToContexte(true);
+    RefreshBlockTable(CurrentCompoObjectNbr);
+    ui->ShotTable->setUpdatesEnabled(false);
+    ui->ShotTable->setUpdatesEnabled(true);
 }
 
 //========= Shape shadow style
@@ -2796,6 +2809,9 @@ void DlgSlideProperties::s_BlockSettings_ShapeShadowFormValue(int value) {
     ui->ShadowEffectED->setEnabled(CurrentCompoObject->FormShadow!=0);
     ui->ShadowColorCB->setEnabled(CurrentCompoObject->FormShadow!=0);
     ApplyToContexte(true);
+    RefreshBlockTable(CurrentCompoObjectNbr);
+    ui->ShotTable->setUpdatesEnabled(false);
+    ui->ShotTable->setUpdatesEnabled(true);
 }
 
 //========= Shape shadow distance
@@ -2805,6 +2821,9 @@ void DlgSlideProperties::s_BlockSettings_ShapeShadowDistanceValue(int value) {
     AppendPartialUndo(UNDOACTION_EDITZONE_SHAPESHADOWDIST,ui->ShadowEffectED,false);
     CurrentCompoObject->FormShadowDistance =value;
     ApplyToContexte(true);
+    RefreshBlockTable(CurrentCompoObjectNbr);
+    ui->ShotTable->setUpdatesEnabled(false);
+    ui->ShotTable->setUpdatesEnabled(true);
 }
 
 //========= shadow color
@@ -2814,6 +2833,9 @@ void DlgSlideProperties::s_BlockSettings_ShapeShadowColor(int) {
     AppendPartialUndo(UNDOACTION_EDITZONE_SHAPESHADOWCOLOR,ui->ShadowColorCB,false);
     CurrentCompoObject->FormShadowColor=ui->ShadowColorCB->GetCurrentColor();
     ApplyToContexte(true);
+    RefreshBlockTable(CurrentCompoObjectNbr);
+    ui->ShotTable->setUpdatesEnabled(false);
+    ui->ShotTable->setUpdatesEnabled(true);
 }
 
 //====================================================================================================================

@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.7 - Trunk
 *
-* Dernier commit le : 15/10/2013
+* Dernier commit le : 20/10/2013
 **************************************************
 
 TODO :
@@ -54,12 +54,10 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige un probleme d'encodage en MJPEG avec ffmpeg 2.x
--Corrige la fuite de mémoire qui intervenait lors des encodages d'images fixes
+-Corrige le bug sur les effets ken burns [regression beta 2]
 
 English version / Bug fixes :
--Fix a rendering error using MJPEG format with ffmpeg 2.x
--Fix memory leak error when rendering static images
+-Fix bug on ken burns effect [regression beta 2]
 
 French version / Nouveautés :
 
@@ -69,14 +67,14 @@ Translation/Traductions:
 
     Local     Interface       /   WIKI
     -------------------------------------------
-    EN        100% - 1696     /   100% - 2244   Finished
-    FR        100% - 1696     /   100% - 2244   Finished
-    RU        100% - 1696     /   100% - 2244   Finished
-    PT        100% - 1696     /   100% - 2244   Finished
-    IT        100% - 1696     /   100% - 2244   Finished
-    ES        100% - 1696     /   100% - 2244   Finished
-    DE        100% - 1696     /   100% - 2244   Finished
-    EL         97% - 1657     /    10% - 232    Waiting for Dimitrios
+    EN        100% - 1695     /   100% - 2244   Finished
+    FR        100% - 1695     /   100% - 2244   Finished
+    RU        100% - 1695     /   100% - 2244   Finished
+    PT        100% - 1695     /   100% - 2244   Finished
+    IT        100% - 1695     /   100% - 2244   Finished
+    ES        100% - 1695     /   100% - 2244   Finished
+    DE        100% - 1695     /   100% - 2244   Finished
+    EL        100% - 1695     /    31% -  690   Waiting for Dimitrios
 
     NL         64% - 1088     /     0%          No contributor for this version
     ZH-TW      38% - 647      /     0%          No contributor for this version

@@ -7143,10 +7143,6 @@ Do you whant do download it now?</source>
         <translation>縮圖</translation>
     </message>
     <message>
-        <source>Image don&apos;t have EXIF metadata %1</source>
-        <translation>圖像沒有 EXIF 後設資料 %1</translation>
-    </message>
-    <message>
         <source>Video</source>
         <comment>File type</comment>
         <translation>視訊</translation>
