@@ -4,4 +4,3 @@ TEMPLATE        = subdirs
 # ffDiaporama main application
 SUBDIRS         += src/ffDiaporama
 TARGET          += ffDiaporama
-

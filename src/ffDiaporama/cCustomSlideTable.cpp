@@ -840,6 +840,7 @@ void cCustomSlideTable::mousePressEvent(QMouseEvent *event) {
 
     if (event->button()!=Qt::LeftButton) {
         QTableWidget::mousePressEvent(event);
+        IsDragOn=DRAGMODE_NOACTION;
     } else {
         if ((Diaporama->List.count()==0)||(IsDragOn==DRAGMODE_INTERNALMOVE_SLIDE)) return;
         setCursor(Qt::ArrowCursor);
@@ -886,8 +887,10 @@ void cCustomSlideTable::mouseReleaseEvent(QMouseEvent *event) {
     setCursor(Qt::ArrowCursor);
     if (event->button()==Qt::RightButton) {
         emit RightClickEvent(event);
+        IsDragOn=DRAGMODE_NOACTION;
     } else if (IsDragOn!=DRAGMODE_INTERNALMOVE_SLIDE) {
         QTableWidget::mouseReleaseEvent(event);
+        IsDragOn=DRAGMODE_NOACTION;
     } else {
         setCursor(Qt::ArrowCursor);
         IsDragOn=DRAGMODE_NOACTION;

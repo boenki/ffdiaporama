@@ -2021,16 +2021,18 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
             if (IsValide) {
                 // Check if file have at least one sound track compatible
                 if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(!(
-                    (CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
-                    (CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
+                    (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
+                    (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
                 ))) {
                     ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
                     IsValide=false;
                 }
-                if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
+                #ifndef LIBAV_09
+                if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
                     ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
                     IsValide=false;
                 }
+                #endif
             }
             if (!IsValide) {
                 delete CurrentBrush->Video;
@@ -2038,7 +2040,7 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
             } else {
                 if (ModifyFlag) emit SetModifyFlag();
                 CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
-                if (CurrentBrush->Video->LibavFile->start_time>0) CurrentBrush->Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(CurrentBrush->Video->LibavFile->start_time)/AV_TIME_BASE)*1000));
+                if (CurrentBrush->Video->LibavVideoFile->start_time>0) CurrentBrush->Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(CurrentBrush->Video->LibavVideoFile->start_time)/AV_TIME_BASE)*1000));
                 //CurrentSlide->List[0].StaticDuration=CurrentBrush->Video->StartPos.msecsTo(CurrentBrush->Video->EndPos);
             }
             break;

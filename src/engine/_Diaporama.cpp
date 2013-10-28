@@ -2754,7 +2754,7 @@ void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
     for (int i=0;i<List.count();i++) {
         if ((i<CurrentCell-1)||(i>CurrentCell+1)) {
             for (int j=0;j<List[i]->ObjectComposition.List.count();j++)
-                if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)&&(List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->LibavFile!=NULL))
+                if ((List[i]->ObjectComposition.List[j]->BackgroundBrush->Video!=NULL)&&((List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->LibavAudioFile!=NULL)||(List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->LibavVideoFile!=NULL)))
                     List[i]->ObjectComposition.List[j]->BackgroundBrush->Video->CloseCodecAndFile();
         }
     }
@@ -2763,66 +2763,6 @@ void cDiaporama::CloseUnusedLibAv(int CurrentCell) {
 //*********************************************************************************************************************************************
 // Class object for rendering
 //*********************************************************************************************************************************************
-
-// make a copy of PreviousFrame
-cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo from PreviousFrame");
-
-    FrameDuration                       =PreviousFrame->FrameDuration;
-    RenderedImage                       =NULL;                                              // Final image rendered
-    FreeRenderedImage                   =true;                                              // True if allow to delete RenderedImage during destructor
-    TransitionFamilly                   =PreviousFrame->TransitionFamilly;                  // Transition familly
-    TransitionSubType                   =PreviousFrame->TransitionSubType;                  // Transition type in the familly
-    TransitionDuration                  =PreviousFrame->TransitionDuration;                 // Transition duration (in msec)
-
-    // Current object
-    CurrentObject_Number                =PreviousFrame->CurrentObject_Number;               // Object number
-    CurrentObject_StartTime             =PreviousFrame->CurrentObject_StartTime;            // Position (in msec) of the first frame relative to the diaporama
-    CurrentObject_InObjectTime          =PreviousFrame->CurrentObject_InObjectTime;         // Position (in msec) in the object
-    CurrentObject                       =PreviousFrame->CurrentObject;                      // Link to the current object
-    CurrentObject_ShotSequenceNumber    =PreviousFrame->CurrentObject_ShotSequenceNumber;   // Number of the shot sequence in the current object
-    CurrentObject_CurrentShot           =PreviousFrame->CurrentObject_CurrentShot;          // Link to the current shot in the current object
-    CurrentObject_CurrentShotType       =PreviousFrame->CurrentObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
-    CurrentObject_ShotDuration          =PreviousFrame->CurrentObject_ShotDuration;        // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
-    CurrentObject_PCTDone               =PreviousFrame->CurrentObject_PCTDone;
-    CurrentObject_BackgroundIndex       =PreviousFrame->CurrentObject_BackgroundIndex;      // Object number containing current background definition
-    CurrentObject_BackgroundBrush       =PreviousFrame->CurrentObject_BackgroundBrush;      // Current background brush
-    CurrentObject_FreeBackgroundBrush   =false;                                             // True if allow to delete CurrentObject_BackgroundBrush during destructor
-    CurrentObject_PreparedBackground    =PreviousFrame->CurrentObject_PreparedBackground;   // Current image produce for background
-    CurrentObject_FreePreparedBackground=false;                                             // True if allow to delete CurrentObject_FreePreparedBackground during destructor
-    CurrentObject_SoundTrackMontage     =PreviousFrame->CurrentObject_SoundTrackMontage;    // Sound for playing sound from montage track
-    CurrentObject_FreeSoundTrackMontage =false;                                             // True if allow to delete CurrentObject_SoundTrackMontage during destructor
-    CurrentObject_PreparedImage         =PreviousFrame->CurrentObject_PreparedImage;        // Current image prepared
-    CurrentObject_FreePreparedImage     =false;                                             // True if allow to delete CurrentObject_PreparedImage during destructor
-    CurrentObject_MusicTrack            =PreviousFrame->CurrentObject_MusicTrack;           // Sound for playing music from music track
-    CurrentObject_FreeMusicTrack        =false;                                             // True if allow to delete CurrentObject_MusicTrack during destructor
-    CurrentObject_MusicObject           =PreviousFrame->CurrentObject_MusicObject;          // Ref to the current playing music
-
-    // Transitionnal object
-    IsTransition                        =PreviousFrame->IsTransition;                       // True if transition in progress
-    TransitionPCTDone                   =PreviousFrame->TransitionPCTDone;                  // PCT achevement for transition
-    TransitObject_Number                =PreviousFrame->TransitObject_Number;               // Object number
-    TransitObject_StartTime             =PreviousFrame->TransitObject_StartTime;            // Position (in msec) of the first frame relative to the diaporama
-    TransitObject_InObjectTime          =PreviousFrame->TransitObject_InObjectTime;         // Position (in msec) in the object
-    TransitObject                       =PreviousFrame->TransitObject;                      // Link to the current object
-    TransitObject_ShotSequenceNumber    =PreviousFrame->TransitObject_ShotSequenceNumber;   // Number of the shot sequence in the current object
-    TransitObject_CurrentShot           =PreviousFrame->TransitObject_CurrentShot;          // Link to the current shot in the current object
-    TransitObject_CurrentShotType       =PreviousFrame->TransitObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
-    TransitObject_ShotDuration          =PreviousFrame->TransitObject_ShotDuration;         // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
-    TransitObject_PCTDone               =PreviousFrame->TransitObject_PCTDone;
-    TransitObject_BackgroundIndex       =PreviousFrame->TransitObject_BackgroundIndex;      // Object number containing current background definition
-    TransitObject_BackgroundBrush       =PreviousFrame->TransitObject_BackgroundBrush;      // Current background brush
-    TransitObject_FreeBackgroundBrush   =false;                                             // True if allow to delete TransitObject_BackgroundBrush during destructor
-    TransitObject_PreparedBackground    =PreviousFrame->TransitObject_PreparedBackground;   // Current image produce for background
-    TransitObject_FreePreparedBackground=false;                                             // True if allow to delete TransitObject_PreparedBackground during destructor
-    TransitObject_SoundTrackMontage     =PreviousFrame->TransitObject_SoundTrackMontage;    // Sound for playing sound from montage track
-    TransitObject_FreeSoundTrackMontage =false;                                             // True if allow to delete TransitObject_SoundTrackMontage during destructor
-    TransitObject_PreparedImage         =PreviousFrame->TransitObject_PreparedImage;        // Current image prepared
-    TransitObject_FreePreparedImage     =false;                                             // True if allow to delete TransitObject_PreparedImage during destructor
-    TransitObject_MusicTrack            =PreviousFrame->TransitObject_MusicTrack;           // Sound for playing music from music track
-    TransitObject_FreeMusicTrack        =false;                                             // True if allow to delete TransitObject_MusicTrack during destructor
-    TransitObject_MusicObject           =PreviousFrame->TransitObject_MusicObject;          // Ref to the current playing music
-}
 
 cDiaporamaObjectInfo::cDiaporamaObjectInfo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo");
@@ -3136,6 +3076,66 @@ cDiaporamaObjectInfo::cDiaporamaObjectInfo(cDiaporamaObjectInfo *PreviousFrame,i
             }
         }
     }
+}
+
+// make a copy of PreviousFrame
+void cDiaporamaObjectInfo::Copy(cDiaporamaObjectInfo *PreviousFrame) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:cDiaporamaObjectInfo:cDiaporamaObjectInfo from PreviousFrame");
+
+    FrameDuration                       =PreviousFrame->FrameDuration;
+    RenderedImage                       =NULL;                                              // Final image rendered
+    FreeRenderedImage                   =true;                                              // True if allow to delete RenderedImage during destructor
+    TransitionFamilly                   =PreviousFrame->TransitionFamilly;                  // Transition familly
+    TransitionSubType                   =PreviousFrame->TransitionSubType;                  // Transition type in the familly
+    TransitionDuration                  =PreviousFrame->TransitionDuration;                 // Transition duration (in msec)
+
+    // Current object
+    CurrentObject_Number                =PreviousFrame->CurrentObject_Number;               // Object number
+    CurrentObject_StartTime             =PreviousFrame->CurrentObject_StartTime;            // Position (in msec) of the first frame relative to the diaporama
+    CurrentObject_InObjectTime          =PreviousFrame->CurrentObject_InObjectTime;         // Position (in msec) in the object
+    CurrentObject                       =PreviousFrame->CurrentObject;                      // Link to the current object
+    CurrentObject_ShotSequenceNumber    =PreviousFrame->CurrentObject_ShotSequenceNumber;   // Number of the shot sequence in the current object
+    CurrentObject_CurrentShot           =PreviousFrame->CurrentObject_CurrentShot;          // Link to the current shot in the current object
+    CurrentObject_CurrentShotType       =PreviousFrame->CurrentObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
+    CurrentObject_ShotDuration          =PreviousFrame->CurrentObject_ShotDuration;        // Time the static shot end (if CurrentObject_CurrentShotType=SHOTTYPE_STATIC)
+    CurrentObject_PCTDone               =PreviousFrame->CurrentObject_PCTDone;
+    CurrentObject_BackgroundIndex       =PreviousFrame->CurrentObject_BackgroundIndex;      // Object number containing current background definition
+    CurrentObject_BackgroundBrush       =PreviousFrame->CurrentObject_BackgroundBrush;      // Current background brush
+    CurrentObject_FreeBackgroundBrush   =false;                                             // True if allow to delete CurrentObject_BackgroundBrush during destructor
+    CurrentObject_PreparedBackground    =PreviousFrame->CurrentObject_PreparedBackground;   // Current image produce for background
+    CurrentObject_FreePreparedBackground=false;                                             // True if allow to delete CurrentObject_FreePreparedBackground during destructor
+    CurrentObject_SoundTrackMontage     =PreviousFrame->CurrentObject_SoundTrackMontage;    // Sound for playing sound from montage track
+    CurrentObject_FreeSoundTrackMontage =false;                                             // True if allow to delete CurrentObject_SoundTrackMontage during destructor
+    CurrentObject_PreparedImage         =PreviousFrame->CurrentObject_PreparedImage;        // Current image prepared
+    CurrentObject_FreePreparedImage     =false;                                             // True if allow to delete CurrentObject_PreparedImage during destructor
+    CurrentObject_MusicTrack            =PreviousFrame->CurrentObject_MusicTrack;           // Sound for playing music from music track
+    CurrentObject_FreeMusicTrack        =false;                                             // True if allow to delete CurrentObject_MusicTrack during destructor
+    CurrentObject_MusicObject           =PreviousFrame->CurrentObject_MusicObject;          // Ref to the current playing music
+
+    // Transitionnal object
+    IsTransition                        =PreviousFrame->IsTransition;                       // True if transition in progress
+    TransitionPCTDone                   =PreviousFrame->TransitionPCTDone;                  // PCT achevement for transition
+    TransitObject_Number                =PreviousFrame->TransitObject_Number;               // Object number
+    TransitObject_StartTime             =PreviousFrame->TransitObject_StartTime;            // Position (in msec) of the first frame relative to the diaporama
+    TransitObject_InObjectTime          =PreviousFrame->TransitObject_InObjectTime;         // Position (in msec) in the object
+    TransitObject                       =PreviousFrame->TransitObject;                      // Link to the current object
+    TransitObject_ShotSequenceNumber    =PreviousFrame->TransitObject_ShotSequenceNumber;   // Number of the shot sequence in the current object
+    TransitObject_CurrentShot           =PreviousFrame->TransitObject_CurrentShot;          // Link to the current shot in the current object
+    TransitObject_CurrentShotType       =PreviousFrame->TransitObject_CurrentShotType;      // Type of the current shot : Static/Mobil/Video
+    TransitObject_ShotDuration          =PreviousFrame->TransitObject_ShotDuration;         // Time the static shot end (if TransitObject_CurrentShotType=SHOTTYPE_STATIC)
+    TransitObject_PCTDone               =PreviousFrame->TransitObject_PCTDone;
+    TransitObject_BackgroundIndex       =PreviousFrame->TransitObject_BackgroundIndex;      // Object number containing current background definition
+    TransitObject_BackgroundBrush       =PreviousFrame->TransitObject_BackgroundBrush;      // Current background brush
+    TransitObject_FreeBackgroundBrush   =false;                                             // True if allow to delete TransitObject_BackgroundBrush during destructor
+    TransitObject_PreparedBackground    =PreviousFrame->TransitObject_PreparedBackground;   // Current image produce for background
+    TransitObject_FreePreparedBackground=false;                                             // True if allow to delete TransitObject_PreparedBackground during destructor
+    TransitObject_SoundTrackMontage     =PreviousFrame->TransitObject_SoundTrackMontage;    // Sound for playing sound from montage track
+    TransitObject_FreeSoundTrackMontage =false;                                             // True if allow to delete TransitObject_SoundTrackMontage during destructor
+    TransitObject_PreparedImage         =PreviousFrame->TransitObject_PreparedImage;        // Current image prepared
+    TransitObject_FreePreparedImage     =false;                                             // True if allow to delete TransitObject_PreparedImage during destructor
+    TransitObject_MusicTrack            =PreviousFrame->TransitObject_MusicTrack;           // Sound for playing music from music track
+    TransitObject_FreeMusicTrack        =false;                                             // True if allow to delete TransitObject_MusicTrack during destructor
+    TransitObject_MusicObject           =PreviousFrame->TransitObject_MusicObject;          // Ref to the current playing music
 }
 
 bool cDiaporamaObjectInfo::IsShotStatic(cDiaporamaObject *Object,int ShotNumber) {
