@@ -1,7 +1,7 @@
 **************************************************
 * FFDIAPORAMA 1.7 - Trunk
 *
-* Dernier commit le : 20/10/2013
+* Dernier commit le : 27/10/2013
 **************************************************
 
 TODO :
@@ -42,7 +42,6 @@ Haute       WIP     Plantage sur les systèmes 32 bits quand trop de fichiers da
                         C'est une solution provisoire car l'idéal est de décharger la mémoire si nécessaire et recharger les thumbnails au besoin
 
     Modifier le fonctionnement si le user dit non à la recherche d'un fichier manquant : supprimer le bloc !
-    Memory leak en render
 
 ----------- ------- -------------------------------------------------------------------------------------------------------
 -   : Pas encore traité
@@ -54,14 +53,8 @@ Changelog depuis le dernier SVN
 --------------------------------
 
 French version / Correction de bug :
--Corrige le bug sur les effets ken burns [regression beta 2]
--Corrige le bug de lecture de certaines vidéos (supprime les retours arrières)
--Corrige le bug de mise à jours de l'arbre des répertoires lors des renommages de répertoire depuis la table des fichiers
 
 English version / Bug fixes :
--Fix bug on ken burns effect [regression beta 2]
--Fix the reading bug of some videos (removes Backtracking)
--Fix the bug of updates the directory tree when renaming a directory from the files table
 
 French version / Nouveautés :
 
