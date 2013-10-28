@@ -2226,7 +2226,7 @@ void cVideoFile::VideoFilter_Close() {
             // LIBAV 8
 
             #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(2,23,0)         // from 2.13 to 2.23
-            int Ret=av_vsrc_buffer_add_frame(VideoFilterIn,FrameBufferYUV,FrameBufferYUV->pts,LibavFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio);
+            int Ret=av_vsrc_buffer_add_frame(VideoFilterIn,FrameBufferYUV,FrameBufferYUV->pts,LibavVideoFile->streams[VideoStreamNumber]->codec->sample_aspect_ratio);
             #else                                                       // from 2.23 to 2.60
             int Ret=av_vsrc_buffer_add_frame(VideoFilterIn,FrameBufferYUV,0);
             #endif
