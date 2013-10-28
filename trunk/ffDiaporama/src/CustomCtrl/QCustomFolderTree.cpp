@@ -476,6 +476,13 @@ public:
     }
 };
 
+#ifdef Q_OS_WIN
+QString CleanTextPath(QString Source) {
+    if (Source.contains("[")) Source=Source.left(Source.indexOf("["));
+    return Source;
+}
+#endif
+
 void QCustomFolderTree::RefreshItemByPath(QString Path,bool RefreshAll,int Level) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTree::SetSelectedItemByPath");
     Path=AdjustDirForOS(Path);
@@ -484,13 +491,12 @@ void QCustomFolderTree::RefreshItemByPath(QString Path,bool RefreshAll,int Level
 
     // Construct RealPath
     for (i=0;i<ApplicationConfig->DriveList->List.count();i++) if (RealPath.startsWith(ApplicationConfig->DriveList->List[i].Label)) {
-        if (RealPath.startsWith(QDir::separator())) RealPath=ApplicationConfig->DriveList->List[i].Path+RealPath.mid(ApplicationConfig->DriveList->List[i].Label.length()+1); else {
-            RealPath=ApplicationConfig->DriveList->List[i].Path+RealPath.mid(ApplicationConfig->DriveList->List[i].Label.length());
-            if (RealPath.endsWith("//")) RealPath=RealPath.left(RealPath.length()-1);
-            #ifdef Q_OS_LINUX
-            if (RealPath.startsWith("//")) RealPath=RealPath.mid(1);
-            #endif
-        }
+        QString PartPath=RealPath.mid(ApplicationConfig->DriveList->List[i].Label.length());
+        while (PartPath.startsWith(QDir::separator())) PartPath=PartPath.mid(1);
+        while (PartPath.endsWith(QDir::separator()))   PartPath=PartPath.left(PartPath.length()-1);
+        RealPath=ApplicationConfig->DriveList->List[i].Path;
+        if (!RealPath.endsWith(QDir::separator())) RealPath=RealPath+QDir::separator();
+        RealPath=RealPath+PartPath;
         break;
     }
     if ((Level==0)&&(IsReadOnlyDrive(RealPath))) return;
@@ -517,8 +523,13 @@ void QCustomFolderTree::RefreshItemByPath(QString Path,bool RefreshAll,int Level
 
     // Now we can search corresponding item in the tree
     i=0;
+    #ifdef Q_OS_WIN
+    while ((Folders.count()>0)&&(i<this->topLevelItemCount())&&(CleanTextPath(topLevelItem(i)->text(0))!=Folders[0])&&(CleanTextPath(topLevelItem(i)->text(0))!=Folders[0]+QDir::separator())) i++;
+    if ((Folders.count()>0)&&(i<this->topLevelItemCount())&&((CleanTextPath(topLevelItem(i)->text(0))==Folders[0])||(CleanTextPath(topLevelItem(i)->text(0))==Folders[0]+QDir::separator()))) {
+    #else
     while ((Folders.count()>0)&&(i<this->topLevelItemCount())&&(topLevelItem(i)->text(0)!=Folders[0])&&(topLevelItem(i)->text(0)!=Folders[0]+QDir::separator())) i++;
     if ((Folders.count()>0)&&(i<this->topLevelItemCount())&&((topLevelItem(i)->text(0)==Folders[0])||(topLevelItem(i)->text(0)==Folders[0]+QDir::separator()))) {
+    #endif
         // We have found the toplevel, now down the tree
         Current=topLevelItem(i);
         j=1;

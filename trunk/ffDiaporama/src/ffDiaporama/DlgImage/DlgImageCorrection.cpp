@@ -758,16 +758,18 @@ void DlgImageCorrection::s_ChangeFile() {
         if (CurrentBrush->Video->GetInformationFromFile(NewBrushFileName,NULL,NULL)&&(CurrentBrush->Video->OpenCodecAndFile())) {
             // Check if file have at least one sound track compatible
             if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(!(
-                (CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
-                (CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
+                (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
+                (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
             ))) {
                 ErrorMessage=ErrorMessage+"\n"+ffDText(ffDSection_CommonErrorMsg,1);
                 IsValide=false;
             }
-            if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
+            #ifndef LIBAV_09
+            if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
                 ErrorMessage=ErrorMessage+"\n"+ffDText(ffDSection_CommonErrorMsg,2);
                 IsValide=false;
             }
+            #endif
             if (!IsValide) {
                 CustomMessageBox(NULL,QMessageBox::Critical,ffDText(ffDSection_CommonInfoMsg,1),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
                 CurrentBrush->Video->GetInformationFromFile(OldBrushFileName,NULL,NULL);

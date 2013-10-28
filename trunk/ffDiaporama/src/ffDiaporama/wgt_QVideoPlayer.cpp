@@ -368,7 +368,7 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
     if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
     if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
     if (ThreadAssembly.isRunning())     ThreadAssembly.waitForFinished();
-    //Mutex.lock();
+    PlayerMutex.lock();
     if (SDL_GetAudioStatus()==SDL_AUDIO_PLAYING) SDL_PauseAudio(1);
     MixedMusic.ClearList();                         // Free sound buffers
     Music.ClearList();                              // Free sound buffers
@@ -378,7 +378,7 @@ void wgt_QVideoPlayer::SetPlayerToPause() {
     ui->VideoPlayerPlayPauseBT->setIcon(IconPause);
     ui->BufferState->setValue(0);
     SDLFlushBuffers();
-    //Mutex.unlock();
+    PlayerMutex.unlock();
 }
 
 //============================================================================================
@@ -498,7 +498,7 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
             if (ThreadAssembly.isRunning())     ThreadAssembly.waitForFinished();
 
             // Create a frame from actual position
-            PrepareImage(false,true,Value);         // This will add frame to the ImageList
+            PrepareImage(false,true,NULL,Value);         // This will add frame to the ImageList
             if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
             cDiaporamaObjectInfo *Frame=ImageList.DetachFirstImage();     // Then detach frame from the ImageList
             // Display frame
@@ -541,20 +541,23 @@ void wgt_QVideoPlayer::s_TimerEvent() {
     if (IsSliderProcess)                            return;     // No re-entrance
     if (!(PlayerPlayMode && !PlayerPauseMode))      return;     // Only if play mode
 
+    if (!PlayerMutex.tryLock()) return;
+
+    if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
+    if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
+    if (ThreadAssembly.isRunning())     ThreadAssembly.waitForFinished();
+
     TimerTick=!TimerTick;
 
     int64_t LastPosition=0,NextPosition=0;
 
     if (ResetPositionWanted) {
-        if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
-        if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
-        if (ThreadAssembly.isRunning())     ThreadAssembly.waitForFinished();
-        //Mutex.lock();
+        Mutex.lock();
         MixedMusic.ClearList();                         // Free sound buffers
         Music.ClearList();                              // Free sound buffers
         ImageList.ClearList();                          // Free ImageList
         ResetPositionWanted=false;
-        //Mutex.unlock();
+        Mutex.unlock();
     }
 
     // If no image in the list then create the first
@@ -573,8 +576,9 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
         } else {
 
-            PrepareImage(true,true,NextPosition);
+            PrepareImage(true,true,NULL,NextPosition);
             if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
+
         }
     }
 
@@ -594,9 +598,11 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 
     } else if (((Diaporama)&&(ImageList.List.count()<BUFFERING_NBR_FRAME))&&(!ThreadPrepareImage.isRunning()))  {
 
-        ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,true,true,NextPosition));
+        ThreadPrepareImage.setFuture(QtConcurrent::run(this,&wgt_QVideoPlayer::PrepareImage,true,true,PreviousFrame,NextPosition));
 
     }
+
+    PlayerMutex.unlock();
 
     // if TimerTick update the preview
     if ((TimerTick)&&(ui->CustomRuller!=NULL))
@@ -615,12 +621,11 @@ void wgt_QVideoPlayer::s_TimerEvent() {
 // Function use directly or with thread to prepare an image number Column at given position
 //============================================================================================
 
-void wgt_QVideoPlayer::PrepareImage(bool SoundWanted,bool AddStartPos,int64_t NextPosition) {
+void wgt_QVideoPlayer::PrepareImage(bool SoundWanted,bool AddStartPos,cDiaporamaObjectInfo *PreviousFrame,int64_t NextPosition) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::PrepareImage");
 
     if (ThreadAssembly.isRunning()) ThreadAssembly.waitForFinished();
 
-    cDiaporamaObjectInfo *PreviousFrame=ImageList.GetLastImage();
     cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame,NextPosition,Diaporama,double(1000)/WantedFPS,true);
 
     if (SoundWanted) {
@@ -659,7 +664,7 @@ void wgt_QVideoPlayer::PrepareImage(bool SoundWanted,bool AddStartPos,int64_t Ne
 
 void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Frame,int W,int H,bool SoundWanted) {
     Diaporama->DoAssembly(PCT,Frame,W,H);
-    //Mutex.lock();
+    Mutex.lock();
     // Append mixed musique to the queue
     if ((SoundWanted)&&(Frame->CurrentObject)) for (int j=0;j<Frame->CurrentObject_MusicTrack->NbrPacketForFPS;j++) {
         MixedMusic.MixAppendPacket(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,
@@ -669,7 +674,7 @@ void wgt_QVideoPlayer::StartThreadAssembly(double PCT,cDiaporamaObjectInfo *Fram
 
     // Append this image to the queue
     ImageList.AppendImage(Frame);
-    //Mutex.unlock();
+    Mutex.unlock();
 }
 
 void wgt_QVideoPlayer::PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position) {

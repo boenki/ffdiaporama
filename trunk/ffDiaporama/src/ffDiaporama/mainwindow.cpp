@@ -1128,7 +1128,9 @@ void MainWindow::s_Event_TimelineDragMoveItem() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:MainWindow::s_Event_TimelineDragMoveItem");
 
     if (ui->timeline->DragItemSource<ui->timeline->DragItemDest) ui->timeline->DragItemDest--;
-    if (ui->timeline->DragItemSource!=ui->timeline->DragItemDest) {
+    if ((ui->timeline->DragItemSource!=ui->timeline->DragItemDest)&&(ui->timeline->DragItemSource>=0)&&(ui->timeline->DragItemSource<Diaporama->List.count())
+        &&(ui->timeline->DragItemDest>=0)&&(ui->timeline->DragItemDest<Diaporama->List.count())) {
+
         Diaporama->List.move(ui->timeline->DragItemSource,ui->timeline->DragItemDest);
         SetModifyFlag(true);
         ui->timeline->SetCurrentCell(ui->timeline->DragItemDest);
@@ -1682,10 +1684,13 @@ void MainWindow::DoOpenFile() {
                 DlgWorkingTaskDialog->SetMaxValue(CurrentLoadingProjectNbrObject,0);
                 QTimer::singleShot(LATENCY,this,SLOT(DoOpenFileObject()));
                 DlgWorkingTaskDialog->exec();
+                return;
 
             }
         }
     }
+    QApplication::restoreOverrideCursor();
+    ToStatusBar("");
 }
 
 //====================================================================================================================
@@ -2160,26 +2165,37 @@ void MainWindow::s_Action_DoAddFile() {
         if ((IsValide)&&(MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)) IsValide=((cVideoFile *)MediaFile)->OpenCodecAndFile();
         if (!IsValide) {
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile,QMessageBox::Close);
-            if (MediaFile) delete MediaFile;
+            if (MediaFile) {
+                delete MediaFile;
+                MediaFile=NULL;
+            }
             Continue=false;
         }
 
         // if file is a video then check if file have at least one sound track compatible
         if (Continue && IsValide && (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(!(
-                (((cVideoFile *)MediaFile)->LibavFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
-                (((cVideoFile *)MediaFile)->LibavFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
+                (((cVideoFile *)MediaFile)->LibavAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
+                (((cVideoFile *)MediaFile)->LibavAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_U8)
             ))) {
             ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
-            if (MediaFile) delete MediaFile;
+            if (MediaFile) {
+                delete MediaFile;
+                MediaFile=NULL;
+            }
+            Continue=false;
         }
-
+        #ifndef LIBAV_09
         if (Continue && IsValide && (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(((cVideoFile *)MediaFile)->LibavFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->channels>2)) {
             ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
-            if (MediaFile) delete MediaFile;
+            if (MediaFile) {
+                delete MediaFile;
+                MediaFile=NULL;
+            }
+            Continue=false;
         }
-
+        #endif
         if (Continue) {
             if (ApplicationConfig->RememberLastDirectories) ApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
@@ -2244,7 +2260,7 @@ void MainWindow::s_Action_DoAddFile() {
                     DiaporamaObject->SlideName   =MediaFile->GetInformationValue(ChapterStr+"title");
                 } else {
                     CurrentBrush->Video->EndPos=CurrentBrush->Video->Duration;
-                    if (CurrentBrush->Video->LibavFile->start_time>0) CurrentBrush->Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(CurrentBrush->Video->LibavFile->start_time)/AV_TIME_BASE)*1000));
+                    if (CurrentBrush->Video->LibavVideoFile->start_time>0) CurrentBrush->Video->StartPos=QTime(0,0,0,0).addMSecs(int64_t((double(CurrentBrush->Video->LibavVideoFile->start_time)/AV_TIME_BASE)*1000));
                 }
             }
 
@@ -3547,9 +3563,12 @@ void MainWindow::s_Browser_RenameFile() {
         QString NewName=QFileInfo(Media->FileName).fileName();
         NewName=CustomInputDialog(this,QApplication::translate("MainWindow","Rename file"),QApplication::translate("MainWindow","New name:"),QLineEdit::Normal,NewName,&Ok);
         if (Ok && !NewName.isEmpty()) {
-            NewName=QFileInfo(Media->FileName).absolutePath()+QDir::separator()+NewName;
-            if (!QDir().rename(Media->FileName,NewName)) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Rename file"),QApplication::translate("MainWindow","Impossible to rename file!"),QMessageBox::Ok);
-                else s_Browser_RefreshHere();
+            NewName=AdjustDirForOS(QFileInfo(Media->FileName).absolutePath()+QDir::separator()+NewName);
+            if (!QDir().rename(Media->FileName,NewName)) CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Rename file"),QApplication::translate("MainWindow","Impossible to rename file!"),QMessageBox::Ok); else {
+                if (QFileInfo(NewName).isDir())
+                    ui->FolderTree->RefreshItemByPath(ui->FolderTree->GetFolderPath(ui->FolderTree->currentItem(),true),false);
+                s_Browser_RefreshHere();
+            }
         }
     }
 }

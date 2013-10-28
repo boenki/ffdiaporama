@@ -215,7 +215,8 @@ void DlgTransitionProperties::s_ChTransitionTypeCB(int NewValue) {
     // Adjust TransitionFamilly
     PreviousFrame->TransitionFamilly=NewValue;
     // Create a frame object base on PreviousFrame
-    cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame);
+    cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo();
+    Frame->Copy(PreviousFrame);
     // Ajdust Transition PCT done
     Frame->TransitionPCTDone =double(AnimationTime)/double(Frame->TransitionDuration);
 
@@ -318,7 +319,9 @@ void DlgTransitionProperties::s_TimerEvent() {
     if (AnimationTime>int(GetDoubleValue(ui->TransitionDurationCB->currentText())*double(1000))) AnimationTime=0;
 
     // Create a frame object base on PreviousFrame
-    cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo(PreviousFrame);
+    cDiaporamaObjectInfo *Frame=new cDiaporamaObjectInfo();
+    Frame->Copy(PreviousFrame);
+
     // Ajdust Transition PCT done
     Frame->TransitionPCTDone=double(AnimationTime)/double(Frame->TransitionDuration);
 

@@ -55,9 +55,13 @@ Changelog depuis le dernier SVN
 
 French version / Correction de bug :
 -Corrige le bug sur les effets ken burns [regression beta 2]
+-Corrige le bug de lecture de certaines vidéos (supprime les retours arrières)
+-Corrige le bug de mise à jours de l'arbre des répertoires lors des renommages de répertoire depuis la table des fichiers
 
 English version / Bug fixes :
 -Fix bug on ken burns effect [regression beta 2]
+-Fix the reading bug of some videos (removes Backtracking)
+-Fix the bug of updates the directory tree when renaming a directory from the files table
 
 French version / Nouveautés :
 

@@ -44,7 +44,7 @@
     <name>0011</name>
     <message>
         <source>Functional principles</source>
-        <translation>Приницпы функционирования</translation>
+        <translation>Принципы функционирования</translation>
     </message>
     <message>
         <source>The main control element of ffDiaporama is the timeline. The timeline lists the slides which compose the project.</source>
@@ -80,11 +80,11 @@
     </message>
     <message>
         <source>The upper part of the diagram represents four slides: A, B, C and D. </source>
-        <translation>В верхней части схемы представлено четрые слайда: A, B, C, D. </translation>
+        <translation>В верхней части схемы представлено четыре слайда: A, B, C, D. </translation>
     </message>
     <message>
         <source>Each slide possesses an entering transition (symbolized on the diagram by a small rectangle labelled T). The transitions can have different durations (symbolized on the diagram by the lengths TA&apos;, TB&apos;, etc.): It is possible to define the duration of the entering transition for each slide separately (or to indicate no transition: duration=0).</source>
-        <translation>Каждый слайд имеет входящий переход (передставлен на схеме как маленький прямоугольник, помеченный буквой T). Переходы могут быть разной продолжительности (представлены на схеме отрезками TA, TB и т.д.): можно задать длительность входящего перехода для каждого слайда отдельно (или вообще убрать переход: длительность= 0).</translation>
+        <translation>Каждый слайд имеет входящий переход (представлен на схеме как маленький прямоугольник, помеченный буквой T). Переходы могут быть разной продолжительности (представлены на схеме отрезками TA, TB и т.д.): можно задать длительность входящего перехода для каждого слайда отдельно (или вообще убрать переход: длительность = 0).</translation>
     </message>
     <message>
         <source>Each slide possesses a duration which is appropriate for it (symbolized on the diagram by the lengths B&apos;, C&apos;, etc.): Some last only a few seconds while others can last several minutes. The durations are expressed in seconds but are not necessarily whole numbers: a slide might last 12.234 seconds.</source>
@@ -136,7 +136,7 @@
     </message>
     <message>
         <source>The total duration of the project is not equal to the sum of the durations of the slides because the transitions make the slides overlap: Two slides of 10 seconds, each with a transition of 1 second, will give a total duration for the project of 19 seconds (and not 20 seconds)!</source>
-        <translation>Общая продолжителньность проекта не равна сумме продолжительностей составляющих его слайдов, т.к. переходы обеспечивают перекрытие слайдов: два слайда по 10 секунд, каждый с переходом в 1 секунду, соответствуют общей продолжительности проекта в 19 секунд (а не 20 секунд)!</translation>
+        <translation>Общая продолжительность проекта не равна сумме продолжительностей составляющих его слайдов, т.к. переходы обеспечивают перекрытие слайдов: два слайда по 10 секунд, каждый с переходом в 1 секунду, соответствуют общей продолжительности проекта в 19 секунд (а не 20 секунд)!</translation>
     </message>
     <message>
         <source>Shots and blocks</source>
@@ -331,7 +331,7 @@
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation>Тексты переменных, используемых в шаблонах этого типа слайда,в основном расчетные. Более подробно о текстовых переменных, см.: &lt;a href=&quot;0108.html&quot;&gt;Динамические переменные&lt;/a&gt;</translation>
+        <translation>Тексты переменных, используемых в шаблонах этого типа слайда, в основном расчетные. Более подробно о текстовых переменных, см.: &lt;a href=&quot;0108.html&quot;&gt;Динамические переменные&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Within each category, the predefined title slides are classified into the following types: </source>
@@ -797,7 +797,7 @@
     </message>
     <message>
         <source>For 2 seconds, the 1st shot is shown and we see only the whole image which occupies all the screen</source>
-        <translation>2 секунды показывается первый кадр и мы видим только целое изобржение, занимающее полный экран</translation>
+        <translation>2 секунды показывается первый кадр и мы видим только целое изображение, занимающее полный экран</translation>
     </message>
     <message>
         <source>Over the next 2 seconds, the statue appears</source>
@@ -825,11 +825,11 @@
     </message>
     <message>
         <source>You should note that videos are paused when they are invisible.</source>
-        <translation>Следует отметить, что видео становится на паузу , когда оно невидимо.</translation>
+        <translation>Следует отметить, что видео становится на паузу, когда оно невидимо.</translation>
     </message>
     <message>
         <source>Therefore a video can be displayed for several seconds in the 1st shot, then be made invisible and thus paused in a 2nd shot, then be visible in a 3rd shot and resume playing, from where it stopped at the end of the 1st shot.</source>
-        <translation>Таким образом,видео может появиться в течение нескольких секунд на первом кадре, затем стать невидимым и поставиться на паузу на втором кадре, а затем снова стать видимым на третьем кадре и продолжить воспроизводиться с того места, где оно остановилось в конце первого кадра.</translation>
+        <translation>Таким образом, видео может появиться в течение нескольких секунд на первом кадре, затем стать невидимым и поставиться на паузу на втором кадре, а затем снова стать видимым на третьем кадре и продолжить воспроизводиться с того места, где оно остановилось в конце первого кадра.</translation>
     </message>
 </context>
 <context>
@@ -840,7 +840,7 @@
     </message>
     <message>
         <source>&lt;B&gt;The settings which apply to the current shot.&lt;/B&gt; These settings are made shot by shot. So, every shot possesses its own settings and the passage from a shot to the other one is defined by the passage from one setting to an other one creating a shot animation: these are called Ken Burns effects. Here are some some: </source>
-        <translation>&lt;B&gt;Настройки, которые применяются к текущему кадру.&lt;/B&gt; Эти настройки применяются кадр за кадром. Так,  каждый кадр имеет свои собственные настройки и переход от одного кадра к другому сопровождается переходом от одних настроек к другим, создаваю короткую анимацию: их называют эффектами Кена Бернса. Вот некоторые из них:</translation>
+        <translation>&lt;B&gt;Настройки, которые применяются к текущему кадру.&lt;/B&gt; Эти настройки применяются кадр за кадром. Так,  каждый кадр имеет свои собственные настройки и переход от одного кадра к другому сопровождается переходом от одних настроек к другим, создавая короткую анимацию: их называют эффектами Кена Бернса. Вот некоторые из них:</translation>
     </message>
     <message>
         <source>Zoom on a portion of the image</source>
@@ -860,7 +860,7 @@
     </message>
     <message>
         <source>There are two types of settings in the &lt;a href=&quot;0119.html&quot;&gt;Slide properties dialog&lt;/a&gt;:</source>
-        <translation>В &lt;a href=&quot;0119.html&quot;&gt;диалоговом окне Параметры слайда&lt;/a&gt; есть два типа настроек:</translation>
+        <translation>В диалоговом окне &lt;a href=&quot;0119.html&quot;&gt;Параметры слайда&lt;/a&gt; есть два типа настроек:</translation>
     </message>
     <message>
         <source>&lt;B&gt;The settings which apply to all shots.&lt;/B&gt; These settings are made globally, that is their effects will be visible on all the shots of the slide. Here are some: </source>
@@ -1137,7 +1137,7 @@
     </message>
     <message>
         <source>A small multimedia player is displayed above on the right, near the toolbar and menu, to allow you to preview the slide show. </source>
-        <translation>Небольшой мультимедиа плеер отображается справа вверху, рядом с панелью инструментов и меню , позволяя вам просматривать слайд-шоу.</translation>
+        <translation>Небольшой мультимедиа плеер отображается справа вверху, рядом с панелью инструментов и меню, позволяя вам просматривать слайд-шоу.</translation>
     </message>
     <message>
         <source>Sheet mode</source>
@@ -1478,7 +1478,7 @@
     </message>
     <message>
         <source>Opens the about dialog. This displays information about the release, license and system information</source>
-        <translation>Открываетдиалоговое окно &quot;О программе&quot;. Оно содержит информацию о версии, лицензии и системную информацию</translation>
+        <translation>Открывает диалоговое окно &quot;О программе&quot;. Оно содержит информацию о версии, лицензии и системную информацию</translation>
     </message>
     <message>
         <source>Support and help (F1)</source>
@@ -1554,7 +1554,7 @@
     </message>
     <message>
         <source>Depending on the slide type, open the &lt;a href=&quot;0119.html&quot;&gt;slide properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide. (Equivalent to a double click on the mounting track)</source>
-        <translation>В зависимости от типа слайда откроется либо диалоговое окно &lt;a href=&quot;0119.html&quot;&gt;Параметры слайда&lt;/a&gt;, если это обычный слайд, либо диалоговое окно &lt;a href=&quot;0103.html&quot;&gt;свойств шаблона заголовокв&lt;/a&gt; если это слайд на основе  шаблона заголовков. (эквивалентно двойному щелчку на треке монтажа) </translation>
+        <translation>В зависимости от типа слайда откроется либо диалоговое окно &lt;a href=&quot;0119.html&quot;&gt;Параметры слайда&lt;/a&gt;, если это обычный слайд, либо диалоговое окно &lt;a href=&quot;0103.html&quot;&gt;свойств шаблона заголовка&lt;/a&gt; если это слайд на основе  шаблона заголовков. (эквивалентно двойному щелчку на треке монтажа) </translation>
     </message>
     <message>
         <source>F7 </source>
@@ -1562,7 +1562,7 @@
     </message>
     <message>
         <source>Open the &lt;a href=&quot;0114.html&quot;&gt;music properties dialog&lt;/a&gt; (Equivalent to a double click on the music track)</source>
-        <translation>Открывает диалоговое окно &lt;a href=&quot;0114.html&quot;&gt;Параметры музыки&lt;/a&gt; (эквивалентно войному щелчку на треке музыки)</translation>
+        <translation>Открывает диалоговое окно &lt;a href=&quot;0114.html&quot;&gt;Параметры музыки&lt;/a&gt; (эквивалентно двойному щелчку на треке музыки)</translation>
     </message>
     <message>
         <source>F8 </source>
@@ -1598,7 +1598,7 @@
     </message>
     <message>
         <source>Allows you to render only the sound track of the project. The &lt;a href=&quot;0115.html&quot;&gt;render movie dialog&lt;/a&gt; appears.</source>
-        <translation>Позволяет создать только звуковую дорожку проекта. Появится даилоговое окно &lt;a href=&quot;0115.html&quot;&gt;Создание видео&lt;/a&gt;.</translation>
+        <translation>Позволяет создать только звуковую дорожку проекта. Появится диалоговое окно &lt;a href=&quot;0115.html&quot;&gt;Создание видео&lt;/a&gt;.</translation>
     </message>
 </context>
 <context>
@@ -1733,7 +1733,7 @@
     </message>
     <message>
         <source>Copy/Cut/Paste/Remove all slide of the selection</source>
-        <translation>Копироват/вставить/удалить все выделенные слайды</translation>
+        <translation>Копировать/вставить/удалить все выделенные слайды</translation>
     </message>
     <message>
         <source>Modify the duration of the 1st shot for all the slides of the selection</source>
@@ -1781,7 +1781,7 @@
     </message>
     <message>
         <source>To modify the entering slide transition, double-click the slide transition. This action opens the &lt;a href=&quot;0122.html&quot;&gt;Define the entering slides transitions&lt;/a&gt; dialog.</source>
-        <translation>Чтобы изменить переход, дважды щелкните на преходе слайда. Это действие открывает диалоговое окно &lt;a href=&quot;0122.html&quot;&gt; Параметры перехода&lt;/a&gt;.</translation>
+        <translation>Чтобы изменить переход, дважды щелкните на переходе слайда. Это действие открывает диалоговое окно &lt;a href=&quot;0122.html&quot;&gt; Параметры перехода&lt;/a&gt;.</translation>
     </message>
     <message>
         <source>To modify the music associated with the slide, double-click the zone corresponding to the slide musical track. This action opens the &lt;a href=&quot;0114.html&quot;&gt;Define the music track&lt;/a&gt; dialog.</source>
@@ -1789,7 +1789,7 @@
     </message>
     <message>
         <source>To modify the slide (framing, filter, animation, etc.) double-click the thumbnail. This action opens the &lt;a href=&quot;0119.html&quot;&gt;slides properties dialog&lt;/a&gt; if it&apos;s a standard slide or open the &lt;a href=&quot;0103.html&quot;&gt;predefined title slide properties dialog&lt;/a&gt; if it&apos;s a predefined title slide.</source>
-        <translation>Для изменения слайда (кадрирование, фильтры, анимация, и т.д.) дважды щелкните его миниатюру. Это действие открывает &lt;a href=&quot;0119.html&quot;&gt; диалоговое окно Параметры слайда&lt;/a&gt;, если это обычный слайд или &lt;a href=&quot;0103.html&quot;&gt; диалоговое окно свойств шаблонов слайда&lt;/a&gt;, если это загаловок, созданный на основе шаблона.</translation>
+        <translation>Для изменения слайда (кадрирование, фильтры, анимация, и т.д.) дважды щелкните его миниатюру. Это действие открывает &lt;a href=&quot;0119.html&quot;&gt; диалоговое окно Параметры слайда&lt;/a&gt;, если это обычный слайд или &lt;a href=&quot;0103.html&quot;&gt; диалоговое окно свойств шаблонов слайда&lt;/a&gt;, если это заголовок, созданный на основе шаблона.</translation>
     </message>
     <message>
         <source>To select the current slide:</source>
@@ -1820,7 +1820,7 @@
     </message>
     <message>
         <source>The main advantages are, that you can view the multimedia information of specific files even without or before adding them to your project. For instance, you can filter the view to obtain information of only photos, video files or music files.</source>
-        <translation>Основное его преимущество состоит в том, что вы можете просмотреть мкльтимедиа информацию о конкретных файлах перед их добавлением в проект (без добавления). Например, можно настроить отображение только фотографий, видео или музыкальных файлов.</translation>
+        <translation>Основное его преимущество состоит в том, что вы можете просмотреть мультимедиа информацию о конкретных файлах перед их добавлением в проект (без добавления). Например, можно настроить отображение только фотографий, видео или музыкальных файлов.</translation>
     </message>
     <message>
         <source>And moreover, you can select one or more multimedia files and add them to your project with drag &amp; drop.</source>
@@ -1880,7 +1880,7 @@
     </message>
     <message>
         <source>&lt;B&gt;Refresh all&lt;/B&gt; to update the whole tree (as so if you have to insert a CD-ROM, a DVD or an USB drive, this one is shown in the tree)</source>
-        <translation>&lt;B&gt;Обновить все&lt;/B&gt;, чтобы обновить все дерево (если вы вставите CD-ROM, DVD или USB-накопитель,то после этого он отобразится в дереве)</translation>
+        <translation>&lt;B&gt;Обновить все&lt;/B&gt;, чтобы обновить все дерево (если вы вставите CD-ROM, DVD или USB-накопитель, то после этого он отобразится в дереве)</translation>
     </message>
     <message>
         <source>&lt;B&gt;Refresh from here&lt;/B&gt; to update the tree from this folder (update only what is under this folder)</source>
@@ -1920,7 +1920,7 @@
     </message>
     <message>
         <source>Select a file or a folder by clicking it</source>
-        <translation>выбрать файл или папку, нажав на его</translation>
+        <translation>выбрать файл или папку, нажав на него</translation>
     </message>
     <message>
         <source>Select several files or folders by using SHIFT and CTRL keys</source>
@@ -2004,7 +2004,7 @@
     </message>
     <message>
         <source>Image : Information about the picture shooting (Aperture and Focal / Lens / With or without flash) </source>
-        <translation>Изображение: информация о режиме съемки ( диафрагма и фокусное расстояние / объектив / наличие вспышки )</translation>
+        <translation>Изображение: информация о режиме съемки (диафрагма и фокусное расстояние / объектив / наличие вспышки)</translation>
     </message>
     <message>
         <source>Video: TAG contents (Title / Artist / Album / Year) </source>
@@ -2072,7 +2072,7 @@
     </message>
     <message>
         <source>The list of the favourite folders can be managed in the favorites menu.</source>
-        <translation>Списком Избранных папко можно управлять из меню избранного.</translation>
+        <translation>Списком Избранных папок можно управлять из меню избранного.</translation>
     </message>
     <message>
         <source>First line of the menu: </source>
@@ -2200,7 +2200,7 @@
     </message>
     <message>
         <source>Under Windows, hidden files and folders have the &lt;B&gt;Hide&lt;/B&gt; file attribute activated. </source>
-        <translation>В Windows скрытые файлы и папки имеют атрибут &lt;B&gt;Скрытый&lt;/B&gt; .</translation>
+        <translation>В Windows скрытые файлы и папки имеют атрибут &lt;B&gt;Скрытый&lt;/B&gt;. </translation>
     </message>
     <message>
         <source>Under Linux, hidden files and folders have a name beginning with a dot &quot;.&quot; </source>
@@ -2220,7 +2220,7 @@
     </message>
     <message>
         <source> One of this icon is displayed in front of the name of the option as this one is activated or not.</source>
-        <translation>Один из этих значков отображается перед названием параметра в зависимости от того активирован он или нет.</translation>
+        <translation>один из этих значков отображается перед названием параметра в зависимости от того активирован он или нет.</translation>
     </message>
     <message>
         <source>Hide filename</source>
@@ -2302,7 +2302,7 @@
     </message>
     <message>
         <source>One or more audio tracks. Each track is built using an &lt;a href=&quot;0037.html&quot;&gt;Audio Codec&lt;/a&gt;</source>
-        <translation>Один или несколько аудио треков. Каждый из них создан с помошью &lt;a href=&quot;0037.html&quot;&gt;аудио кодека&lt;/a&gt;</translation>
+        <translation>Один или несколько аудио треков. Каждый из них создан с помощью &lt;a href=&quot;0037.html&quot;&gt;аудио кодека&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Possibly, one or more subtitles. Each subtitle is built in a subtitle format.</source>
@@ -2342,7 +2342,7 @@
     </message>
     <message>
         <source>To simplify settings for the rendering operation, ffDiaporama contains predefined settings for the following devices:</source>
-        <translation>Для упрощения настройки создания видеофайлов ffDiaporama содержит предустановленные настройки для для следующих устройств:</translation>
+        <translation>Для упрощения настройки создания видеофайлов ffDiaporama содержит предустановленные настройки для следующих устройств:</translation>
     </message>
     <message>
         <source>&lt;a href=&quot;0032.html&quot;&gt;Smartphones&lt;/a&gt; and &lt;a href=&quot;0033.html&quot;&gt;portable devices&lt;/a&gt;, and small video-playing devices in general</source>
@@ -3438,7 +3438,7 @@
     </message>
     <message>
         <source>Two associated properties are the geometry and the FPS number. </source>
-        <translation>Геометрия и количество кадров в секунду (FPS) - это свзянные с ними свойства видео.</translation>
+        <translation>Геометрия и количество кадров в секунду (FPS) - это связанные с ними свойства видео.</translation>
     </message>
     <message>
         <source>Standard</source>
@@ -3957,7 +3957,7 @@
     </message>
     <message>
         <source>The primary ffDiaporama.xml file is stored in the ffDiaporama directory. This file is global for all users: it contains the default ffDiaporama application settings. </source>
-        <translation>Основной файл ffDiaporama.xml хранится в папке ffDiaporama. Этот файл является общим для для всех пользователей: он содержит параметры ffDiaporama по умолчанию.</translation>
+        <translation>Основной файл ffDiaporama.xml хранится в папке ffDiaporama. Этот файл является общим для всех пользователей: он содержит параметры ffDiaporama по умолчанию.</translation>
     </message>
     <message>
         <source>For Windows, this is C:\Program Files\ffDiaporama</source>
@@ -4127,7 +4127,7 @@
     </message>
     <message>
         <source>The Project options tab allows to define the options by default of the current project and for the new projects.</source>
-        <translation>Вкладка Параметры проекта позволяет определить настройки по умолчаню для текущего проекта и новых проектов.</translation>
+        <translation>Вкладка Параметры проекта позволяет определить настройки по умолчанию для текущего проекта и новых проектов.</translation>
     </message>
     <message>
         <source>The Rendering options Tab allows to define the options used by default during the generation of videos.</source>
@@ -4831,7 +4831,7 @@
     </message>
     <message>
         <source> Manage device allows to open the &lt;a href=&quot;0102.html&quot;&gt;Manage device dialog&lt;/a&gt;</source>
-        <translation> Уравлять устройствами, открыв диалоговое окно &lt;a href=&quot;0102.html&quot;&gt;Управление устройствами&lt;/a&gt;</translation>
+        <translation> Управлять устройствами, открыв диалоговое окно &lt;a href=&quot;0102.html&quot;&gt;Управление устройствами&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file</source>
@@ -4850,7 +4850,7 @@
     </message>
     <message>
         <source>The devices which you modify or add. These are registered in your personal configuration file.</source>
-        <translation>Устройства, которые ви изменили или добавили. Они регистрируются в вашем личном файле конфигурации.</translation>
+        <translation>Устройства, которые вы изменили или добавили. Они регистрируются в вашем личном файле конфигурации.</translation>
     </message>
     <message>
         <source>You must first create a device</source>
@@ -4993,7 +4993,7 @@
     </message>
     <message>
         <source>The texts variables that are used by the models of this slide type are generally computed. For more information on texts variables, see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
-        <translation>Тексты переменных, используемых в шаблонах этого типа слайда,в основном рассчетные. Более подробно о текстовых переменных, см.: &lt;a href=&quot;0108.html&quot;&gt;Динамические переменные&lt;/a&gt;</translation>
+        <translation>Тексты переменных, используемых в шаблонах этого типа слайда, в основном расчетные. Более подробно о текстовых переменных, см.: &lt;a href=&quot;0108.html&quot;&gt;Динамические переменные&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Category</source>
@@ -5013,7 +5013,7 @@
     </message>
     <message>
         <source>This type lists animated models ie with several shots.</source>
-        <translation>Этот тип содержит анимированные шаблоны, т.е с несколькими кадрами.</translation>
+        <translation>Этот тип содержит анимированные шаблоны, т.е. с несколькими кадрами.</translation>
     </message>
     <message>
         <source>Custom models</source>
@@ -5259,7 +5259,7 @@
     </message>
     <message>
         <source>Enter here the name of the chapter.</source>
-        <translation>Введите здась название главы.</translation>
+        <translation>Введите здесь название главы.</translation>
     </message>
     <message>
         <source>Chapter date different from project date</source>
@@ -5295,7 +5295,7 @@
     </message>
     <message>
         <source>Remark: This box cannot be deactivated for the first slide of the project.</source>
-        <translation>Примечание : этот флажок нельзя отключить для первого слайда проекта.</translation>
+        <translation>Примечание: этот флажок нельзя отключить для первого слайда проекта.</translation>
     </message>
     <message>
         <source>Override date</source>
@@ -5345,7 +5345,7 @@
     </message>
     <message>
         <source>Allows you to select the base destination folder. Click on the folder button to open the directory selector.</source>
-        <translation>Позволяет указать папку назначения. Нажатие на конопку в виде папки открывает окно выбора папок.</translation>
+        <translation>Позволяет указать папку назначения. Нажатие на кнопку в виде папки открывает окно выбора папок.</translation>
     </message>
     <message>
         <source>Project subfolder</source>
@@ -5428,7 +5428,7 @@
     </message>
     <message>
         <source>The Project tab</source>
-        <translation>Вклакдка Проект</translation>
+        <translation>Вкладка Проект</translation>
     </message>
     <message>
         <source>Settable fields</source>
@@ -5882,7 +5882,7 @@
     </message>
     <message>
         <source>Click one of the handles and, with the mouse button down, drag the mouse to modify the size (to increase or reduce the part of the image to be kept). </source>
-        <translation>Выберите один из маркеров и зажав кнопку мыши перетащите, чтобы изменить размер (для увеличения или уменьшения части изображения, которая будет сохранена). </translation>
+        <translation>Выберите один из маркеров и, зажав кнопку мыши, перетащите, чтобы изменить размер (для увеличения или уменьшения части изображения, которая будет сохранена). </translation>
     </message>
     <message>
         <source>Click the image and, with the mouse button down, drag the mouse to modify the part of the image which will be kept.</source>
@@ -6055,11 +6055,11 @@
     </message>
     <message>
         <source>Rotate image (change or restore the orientation portrait/landscape).</source>
-        <translation>Поернуть изображение (изменить или восстановить портретную/ландшафтную ориентацию).</translation>
+        <translation>Повернуть изображение (изменить или восстановить портретную/ландшафтную ориентацию).</translation>
     </message>
     <message>
         <source>Correct image (change the color and/or exposure parameters) but also applying graphical filters.</source>
-        <translation>Изменить изображение (цвет и/или экспозицию), атакже применить графические фильтры.</translation>
+        <translation>Изменить изображение (цвет и/или экспозицию), а также применить графические фильтры.</translation>
     </message>
     <message>
         <source>Define the beginning and end of a video sequence.</source>
@@ -6318,7 +6318,7 @@
     </message>
     <message>
         <source>For every track, the following information is shown: </source>
-        <translation>Для каждой из них отображается следуюшая информация:</translation>
+        <translation>Для каждой из них отображается следующая информация:</translation>
     </message>
     <message>
         <source>#</source>
@@ -6334,7 +6334,7 @@
     </message>
     <message>
         <source>The language in which is the audio track (generally cameras and camcorders indicate &lt;B&gt;und&lt;/B&gt; for undefine)</source>
-        <translation>Язык аудио дорожки (как правило, фотоаппараты и камеры указывают &lt;B&gt;und&lt;/B&gt; (неопределено))</translation>
+        <translation>Язык аудио дорожки (как правило, фотоаппараты и камеры указывают &lt;B&gt;und&lt;/B&gt; (не определено))</translation>
     </message>
     <message>
         <source>Codec</source>
@@ -6434,7 +6434,7 @@
     </message>
     <message>
         <source>For every chapter, the following information is shown: </source>
-        <translation>Для каждой из них отображается следуюшая информация: </translation>
+        <translation>Для каждой из них отображается следующая информация: </translation>
     </message>
     <message>
         <source>Chapter number</source>
@@ -6687,7 +6687,7 @@
     </message>
     <message>
         <source> The main functional principle for music tracks is that as long as you do not change the settings, the previous settings apply. So, if: </source>
-        <translation>Основным принципом функционирования музыкальных дорожек является то, что до тех пор пока вы не измените настройки применяются предудыщие параметры. Так, если:</translation>
+        <translation>Основным принципом функционирования музыкальных дорожек является то, что до тех пор пока вы не измените настройки применяются предыдущие параметры. Так, если:</translation>
     </message>
     <message>
         <source>Slide 1 - Defines a play list</source>
@@ -6871,7 +6871,7 @@
     </message>
     <message>
         <source>Or by checking the option &lt;B&gt;From&lt;/B&gt; and then entering the numbers of the start and end slides to generate a video of only a part of the project.</source>
-        <translation>или опцию &lt;B&gt;С ... По... &lt;/B&gt;, введите номера начального и конечного слайдов для создания видеофайал только из части проекта.</translation>
+        <translation>или опцию &lt;B&gt;С ... По... &lt;/B&gt;, введите номера начального и конечного слайдов для создания видеофайла только из части проекта.</translation>
     </message>
     <message>
         <source>Sound (include sound in the video)</source>
@@ -6995,7 +6995,7 @@
     </message>
     <message>
         <source> This amounts to 2 to 5 hours for a one-hour video. </source>
-        <translation>Это составляетоколо 2-5 часов на один час видео.</translation>
+        <translation>Это составляет около 2-5 часов на один час видео.</translation>
     </message>
     <message>
         <source>This duration will be much shorter for a video in VGA resolution. That is why we recommend you to carry out all tests and focusing trials at low resolution, and to render your videos in Full-HD only for the last step. </source>
@@ -7126,11 +7126,11 @@
     </message>
     <message>
         <source>Rulers can be activated or deactivated one by one.</source>
-        <translation>Линейки могут быть включены или откоючены по отдельности.</translation>
+        <translation>Линейки могут быть включены или отключены по отдельности.</translation>
     </message>
     <message>
         <source>When a ruler is activated, the mouse is attracted towards this ruler. This is valid as well for the movements of blocks as for the resizing (movements of the handles).</source>
-        <translation>Когда линейка включена, мышь притягивается к ней. Это справедливо как для перемещения блоков, так и для изменения размера ( перемещение маркера).</translation>
+        <translation>Когда линейка включена, мышь притягивается к ней. Это справедливо как для перемещения блоков, так и для изменения размера (перемещение маркера).</translation>
     </message>
     <message>
         <source>TV margins rullers are not available for thumbnails editing.</source>
@@ -7146,7 +7146,7 @@
     </message>
     <message>
         <source>This dialog allows you to enable or disable rulers.</source>
-        <translation>Это диалоговое окно позволет включить или отключить линейки.</translation>
+        <translation>Это диалоговое окно позволяет включить или отключить линейки.</translation>
     </message>
 </context>
 <context>
@@ -7321,7 +7321,7 @@
     </message>
     <message>
         <source>Rulers are displayed to facilitate the work with the mouse. See &lt;a href=&quot;0116.html&quot;&gt;Rulers settings&lt;/a&gt;</source>
-        <translation>Линеки отображаются для облегчения работы с  мышью. Смотрите &lt;a href=&quot;0116.html&quot;&gt;Свойства линеек&lt;/a&gt;</translation>
+        <translation>Линейки отображаются для облегчения работы с  мышью. Смотрите &lt;a href=&quot;0116.html&quot;&gt;Свойства линеек&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Using the mouse:</source>
@@ -7465,7 +7465,7 @@
     </message>
     <message>
         <source>Selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.</source>
-        <translation>Выбранные блоки отбражаются в красном цвете, если акцент делается на таблице блоков, или в синем цвете, если акцент делается на другом элементе.</translation>
+        <translation>Выбранные блоки отображаются в красном цвете, если акцент делается на таблице блоков, или в синем цвете, если акцент делается на другом элементе.</translation>
     </message>
     <message>
         <source>To change the blocks order, use Drag &amp; Drop or &lt;B&gt;Up&lt;/B&gt; and &lt;B&gt;Down&lt;/B&gt; functions of the contextual menu.</source>
@@ -7891,7 +7891,7 @@
     </message>
     <message>
         <source>Rulers are displayed to facilitate the work with the mouse. See &lt;a href=&quot;0116.html&quot;&gt;Rulers settings&lt;/a&gt;</source>
-        <translation>Линеки отображаются для облегчения работы с  мышью. Смотрите &lt;a href=&quot;0116.html&quot;&gt;Свойства линеек&lt;/a&gt;</translation>
+        <translation>Линейки отображаются для облегчения работы с  мышью. Смотрите &lt;a href=&quot;0116.html&quot;&gt;Свойства линеек&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Using the mouse:</source>
@@ -8031,7 +8031,7 @@
     </message>
     <message>
         <source>Selected blocks are shown on a red bottom if the focus is on the blocks table or on a blue bottom if the focus is on another element.</source>
-        <translation>Выбранные блоки отбражаются в красном цвете, если акцент делается на таблице блоков, или в синем цвете, если акцент делается на другом элементе.</translation>
+        <translation>Выбранные блоки отображаются в красном цвете, если акцент делается на таблице блоков, или в синем цвете, если акцент делается на другом элементе.</translation>
     </message>
     <message>
         <source>To change the blocks order, use Drag &amp; Drop or &lt;B&gt;Up&lt;/B&gt; and &lt;B&gt;Down&lt;/B&gt; functions of the contextual menu.</source>
@@ -8734,7 +8734,7 @@
     </message>
     <message>
         <source>This settings group is the object of style management. for more information on style management, see : &lt;a href=&quot;0016.html&quot;&gt;Using style management&lt;/a&gt;</source>
-        <translation>Эта группа параметров является объектом управления стилями. Дополнительные сведения об управлении стиялми, см.: &lt;a href=&quot;0016.html&quot;&gt; Использование управления стилями&lt;/a&gt;</translation>
+        <translation>Эта группа параметров является объектом управления стилями. Дополнительные сведения об управлении стилями, см.: &lt;a href=&quot;0016.html&quot;&gt; Использование управления стилями&lt;/a&gt;</translation>
     </message>
     <message>
         <source>Allows you to add a dynamic variable to the text. For more information on dynamic variables see: &lt;a href=&quot;0013.html&quot;&gt;Dynamic variables&lt;/a&gt;</source>
@@ -8765,7 +8765,7 @@
     </message>
     <message>
         <source>If it&apos;s what you want, then call the context transitions menu by right clicking on one of the slides of the selection from the &lt;a href=&quot;0023.html&quot;&gt;timeline&lt;/a&gt; and then select &quot;Modify the transition for all the slides of the selection&quot; option.</source>
-        <translation>Если это то, чего вы хотите,то вызовите контекстное меню переходов, щелкнув правой кнопкой мыши на одном из слайдов, выделенных на &lt;a href=&quot;0023.html&quot;&gt; линии времени&lt;/a&gt;, а затем выберите опцию «Установить длительность перехода».</translation>
+        <translation>Если это то, чего вы хотите, то вызовите контекстное меню переходов, щелкнув правой кнопкой мыши на одном из слайдов, выделенных на &lt;a href=&quot;0023.html&quot;&gt; линии времени&lt;/a&gt;, а затем выберите опцию «Установить длительность перехода».</translation>
     </message>
     <message>
         <source>This dialog allows you to define the transition duration for a set of slides:</source>
@@ -8876,7 +8876,7 @@
     </message>
     <message>
         <source>Push: The new slide takes the place of the old slide by pushing it aside.</source>
-        <translation>Сталкивание: новый слайд занимает место старого,сталкивая его в сторону.</translation>
+        <translation>Сталкивание: новый слайд занимает место старого, сталкивая его в сторону.</translation>
     </message>
 </context>
 <context>

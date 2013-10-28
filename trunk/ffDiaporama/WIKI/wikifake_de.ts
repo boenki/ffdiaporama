@@ -742,19 +742,19 @@
     </message>
     <message>
         <source>The big interest of variables is that they are inserted into text (see: &lt;a href=&quot;0120.html&quot;&gt;Edit text dialog&lt;/a&gt;) and are transformed into values ââonly when they are used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Große Verwendung finden Variablen, da sie nicht nur als Text eingefügt werden können (siehe Dialog : &lt;a href=&quot;0120.html&quot;&gt;Text ändern&lt;/a&gt;), sie können auch in Ihren Wert übersetzt werden Ã¢ÂÂÃ¢ÂÂ wenn dies gebraucht wird.</translation>
     </message>
     <message>
         <source>Current chapter number displayed as &lt;U&gt;Chapter NÂ°&lt;/U&gt; (depending on the current language)</source>
-        <translation type="unfinished"></translation>
+        <translation>Das aktuelle Kapitel wird angezeigt als &lt;U&gt;Kapitel NÂ°&lt;/U&gt; (abhängig von der aktuellen Spracheinstellung)</translation>
     </message>
     <message>
         <source>Copyright of the project construct as &lt;U&gt;Â© Year - Author&lt;/U&gt; with &lt;B&gt;&lt;I&gt;Year&lt;/I&gt;&lt;/B&gt; is the year of today&apos;s date and &lt;B&gt;&lt;I&gt;Author&lt;/I&gt;&lt;/B&gt; is the value of the &lt;B&gt;&lt;I&gt;Project author&lt;/I&gt;&lt;/B&gt; field of the &lt;a href=&quot;0108.html&quot;&gt;Project properties&lt;/a&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Copyright des Projektes wird zusammengesetzt aus dem &lt;U&gt;Â© Jahr - Autor&lt;/U&gt; mit &lt;B&gt;&lt;I&gt;Jahr&lt;/I&gt;&lt;/B&gt; das dem aktuellem Jahr entspricht und &lt;B&gt;&lt;I&gt;Autor&lt;/I&gt;&lt;/B&gt; aus dem Feld &lt;B&gt;&lt;I&gt;Projektautor&lt;/I&gt;&lt;/B&gt; im Dialog &lt;a href=&quot;0108.html&quot;&gt;Projekteigenschaften&lt;/a&gt;</translation>
     </message>
     <message>
         <source>A full text composed of: Project done the &lt;U&gt;&lt;B&gt;&lt;I&gt;short date&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; with Â«&lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;Â» on a &lt;U&gt;&lt;B&gt;&lt;I&gt;Operating system&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Number of Core/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Core/CPU) computer.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ein Volltext zusammengesetzt aus: Dem &lt;U&gt;&lt;B&gt;&lt;I&gt;Kurzdatum&lt;/I&gt;&lt;/B&gt;&lt;/U&gt;mit &lt;U&gt;&lt;B&gt;&lt;I&gt;ffDiaporama Version&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; auf einem Computer mit dem &lt;U&gt;&lt;B&gt;&lt;I&gt;Betriebssystem&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; (&lt;U&gt;&lt;B&gt;&lt;I&gt;Anzahl von Kernen/CPU&lt;/I&gt;&lt;/B&gt;&lt;/U&gt; Kernen/CPU). </translation>
     </message>
 </context>
 <context>
@@ -4828,7 +4828,7 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>Fill with project folder name when project save : The title will take the same name as the folder in which is save the .ffd file</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Projektname wird beim Speichern des Projektes festgelegt : Der Titel erhält den selben Namen wie die .ffd Datei</translation>
     </message>
 </context>
 <context>
@@ -6215,15 +6215,15 @@ Der Dialog  &lt;a href=&quot;0115.html&quot;&gt;Video umwandeln&lt;/a&gt; öffne
     </message>
     <message>
         <source>The rotation angle for the z axis. This position is expressed in degrees. Example: if Rotation=90Â°, the image is turned by a quarter to the right.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Rotationsgrad der Z-Achse. Die Position wird in Grad ausgedrückt. zum Beispiel: Bei einer Rotation von 90°, wird das Bild um ein Viertel nach Rechts gedreht.</translation>
     </message>
     <message>
         <source>Turn the image to the left (to the nearest multiple of 90Â°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Drehe das Bild nach Links (zum nächsten Vielfachem von 90°).</translation>
     </message>
     <message>
         <source>Turn the image to the right (to the nearest multiple of 90Â°).</source>
-        <translation type="unfinished"></translation>
+        <translation>Drehe das Bild nach Rechts (zum nächsten Vielfachem von 90°).</translation>
     </message>
 </context>
 <context>

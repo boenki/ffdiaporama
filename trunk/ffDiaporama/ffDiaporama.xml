@@ -30,28 +30,22 @@
     <GlobalPreferences CheckConfigAtStartup="0" ForceLanguage="" ApplyTransfoPreview="1" Smoothing="1" RestoreWindow="1" Crop1088To1080="1" QuickResamplingPreview=""/>
     <RenderDefault AudioBitRate="160" ImageSize="2" DefaultSmartphoneModel="25" DefaultNameProjectName="1" DefaultLossLess="7" Format="4" DefaultMultimediaType="0" Standard="0" DefaultForTheWEBType="0" VideoCodec="MPEG4" VideoBitRate="2500" DefaultForTheWEBModel="15" AudioCodec="aac" DefaultSmartphoneType="0" DefaultMultimediaModel="8"/>
     <ProjectDefault FixedDuration="3000" SpeedWave="0" ImageGeometry="1" DefaultTitleFilling="0" NoShotDuration="6000" DefaultAuthor="">
-        <DefaultBlock_Text Coord0ST="###GLOBALSTYLE###:120" Coord2ST="###GLOBALSTYLE###:122" Coord1ST="###GLOBALSTYLE###:121" ShapeST="###GLOBALSTYLE###:1" BackGST="###GLOBALSTYLE###:6" TextST="###GLOBALSTYLE###:1"/>
-        <DefaultBlockSL_IMG ShapeST="###GLOBALSTYLE###:1" LockLS_0="1" LockLS_1="1" LockLS_2="1" TextST="###GLOBALSTYLE###:4">
-            <IMG_GEO_0 CoordST_0="###GLOBALSTYLE###:70" CoordST_1="###GLOBALSTYLE###:0" CoordST_2="###GLOBALSTYLE###:110"/>
-            <IMG_GEO_1 CoordST_0="###GLOBALSTYLE###:52" CoordST_1="###GLOBALSTYLE###:20" CoordST_2="###GLOBALSTYLE###:92"/>
-            <IMG_GEO_2 CoordST_0="###GLOBALSTYLE###:49" CoordST_1="###GLOBALSTYLE###:17" CoordST_2="###GLOBALSTYLE###:89"/>
-            <IMG_GEO_3 CoordST_0="###GLOBALSTYLE###:64" CoordST_1="###GLOBALSTYLE###:32" CoordST_2="###GLOBALSTYLE###:102"/>
-            <IMG_GEO_4 CoordST_0="###GLOBALSTYLE###:57" CoordST_1="###GLOBALSTYLE###:25" CoordST_2="###GLOBALSTYLE###:97"/>
-            <IMG_GEO_5 CoordST_0="###GLOBALSTYLE###:40" CoordST_1="###GLOBALSTYLE###:10" CoordST_2="###GLOBALSTYLE###:80"/>
-            <IMG_GEO_6 CoordST_0="###GLOBALSTYLE###:67" CoordST_1="###GLOBALSTYLE###:37" CoordST_2="###GLOBALSTYLE###:107"/>
-            <IMG_GEO_7 CoordST_0="###GLOBALSTYLE###:60" CoordST_1="###GLOBALSTYLE###:28" CoordST_2="###GLOBALSTYLE###:100"/>
-            <IMG_GEO_8 CoordST_0="###GLOBALSTYLE###:45" CoordST_1="###GLOBALSTYLE###:13" CoordST_2="###GLOBALSTYLE###:85"/>
+        <DefaultBlock_Text BackGST="###GLOBALSTYLE###:6" ShapeST="###GLOBALSTYLE###:1" AutoLocking="0" TextST="###GLOBALSTYLE###:0" AutoSizePos="5"/>
+        <DefaultBlockSL_IMG ShapeST="###GLOBALSTYLE###:1" TextST="###GLOBALSTYLE###:4">
+            <IMG_GEO_1 AutoCompo="2" AutoFraming="14"/>
+            <IMG_GEO_2 AutoCompo="2" AutoFraming="8"/>
+            <IMG_GEO_3 AutoCompo="2" AutoFraming="4"/>
+            <IMG_GEO_4 AutoCompo="2" AutoFraming="4"/>
+            <IMG_GEO_5 AutoCompo="2" AutoFraming="4"/>
+            <IMG_GEO_6 AutoCompo="2" AutoFraming="4"/>
         </DefaultBlockSL_IMG>
-        <DefaultBlockBA_IMG ShapeST="###GLOBALSTYLE###:1" TextST="###GLOBALSTYLE###:4" LockBA_0="0" LockBA_1="0" LockBA_2="0">
-            <IMG_GEO_0 CoordST_0="###GLOBALSTYLE###:120" CoordST_1="###GLOBALSTYLE###:121" CoordST_2="###GLOBALSTYLE###:122"/>
-            <IMG_GEO_1 CoordST_0="###GLOBALSTYLE###:54" CoordST_1="###GLOBALSTYLE###:22" CoordST_2="###GLOBALSTYLE###:94"/>
-            <IMG_GEO_2 CoordST_0="###GLOBALSTYLE###:50" CoordST_1="###GLOBALSTYLE###:18" CoordST_2="###GLOBALSTYLE###:90"/>
-            <IMG_GEO_3 CoordST_0="###GLOBALSTYLE###:65" CoordST_1="###GLOBALSTYLE###:35" CoordST_2="###GLOBALSTYLE###:105"/>
-            <IMG_GEO_4 CoordST_0="###GLOBALSTYLE###:58" CoordST_1="###GLOBALSTYLE###:26" CoordST_2="###GLOBALSTYLE###:98"/>
-            <IMG_GEO_5 CoordST_0="###GLOBALSTYLE###:42" CoordST_1="###GLOBALSTYLE###:11" CoordST_2="###GLOBALSTYLE###:82"/>
-            <IMG_GEO_6 CoordST_0="###GLOBALSTYLE###:68" CoordST_1="###GLOBALSTYLE###:38" CoordST_2="###GLOBALSTYLE###:108"/>
-            <IMG_GEO_7 CoordST_0="###GLOBALSTYLE###:62" CoordST_1="###GLOBALSTYLE###:30" CoordST_2="###GLOBALSTYLE###:101"/>
-            <IMG_GEO_8 CoordST_0="###GLOBALSTYLE###:46" CoordST_1="###GLOBALSTYLE###:14" CoordST_2="###GLOBALSTYLE###:86"/>
+        <DefaultBlockBA_IMG ShapeST="###GLOBALSTYLE###:1" TextST="###GLOBALSTYLE###:4">
+            <IMG_GEO_1 AutoCompo="5" AutoFraming="14"/>
+            <IMG_GEO_2 AutoCompo="5" AutoFraming="8"/>
+            <IMG_GEO_3 AutoCompo="1" AutoFraming="4"/>
+            <IMG_GEO_4 AutoCompo="1" AutoFraming="4"/>
+            <IMG_GEO_5 AutoCompo="1" AutoFraming="4"/>
+            <IMG_GEO_6 AutoCompo="1" AutoFraming="4"/>
         </DefaultBlockBA_IMG>
     </ProjectDefault>
     <RestoreWindow>1</RestoreWindow>

@@ -102,7 +102,7 @@ public:
     QTime                   LastTimeCheck;          // time save for plaing diaporama
     bool                    TimerTick;              // To use timer 1 time for 2 call
 
-    QMutex                  Mutex;
+    QMutex                  PlayerMutex;
 
     // Thread controls
     QFutureWatcher<void>    ThreadPrepareVideo;
@@ -147,7 +147,7 @@ private slots:
 
 private:
     void    EnableWidget(bool State);
-    void    PrepareImage(bool SoundWanted,bool AddStartPos,int64_t NextPosition);
+    void    PrepareImage(bool SoundWanted,bool AddStartPos,cDiaporamaObjectInfo *PreviousFrame,int64_t NextPosition);
     void    PrepareVideoFrame(cDiaporamaObjectInfo *NewFrame,int Position);
 
     Ui::wgt_QVideoPlayer *ui;

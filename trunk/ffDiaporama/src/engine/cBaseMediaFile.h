@@ -268,18 +268,20 @@ public:
 
 class cVideoFile : public cBaseMediaFile {
 public:
-    bool                    IsOpen;                     // True if Libav open on this file
-    bool                    MusicOnly;                  // True if object is a music only file
-    bool                    IsVorbis;                   // True if vorbis version must be use instead of MP3/WAV version
-    bool                    IsMTS;                      // True if file is a MTS file
-    QTime                   StartPos;                   // Start position
-    QTime                   EndPos;                     // End position
-    QString                 Container;                  // Container type (get from file extension)
-    QTime                   Duration;                   // Duration of the video
+    bool                    IsOpen;                             // True if Libav open on this file
+    bool                    MusicOnly;                          // True if object is a music only file
+    bool                    IsVorbis;                           // True if vorbis version must be use instead of MP3/WAV version
+    bool                    IsMTS;                              // True if file is a MTS file
+    QTime                   StartPos;                           // Start position
+    QTime                   EndPos;                             // End position
+    QString                 Container;                          // Container type (get from file extension)
+    QTime                   Duration;                           // Duration of the video
     QString                 VideoCodecInfo;
     QString                 AudioCodecInfo;
-    int                     NbrChapters;                // Number of chapters in the file
-    AVFormatContext         *LibavFile;                 // LibAVFormat context
+    int                     NbrChapters;                        // Number of chapters in the file
+    AVFormatContext         *LibavAudioFile,*LibavVideoFile;    // LibAVFormat contexts
+    int64_t                 LastAudioReadedPosition;            // Use to keep the last readed position to determine if a seek is needed
+    int64_t                 LastVideoReadedPosition;            // Use to keep the last readed position to determine if a seek is needed
 
     // Video part
     AVCodec                 *VideoDecoderCodec;         // Associated LibAVCodec for video stream
@@ -295,7 +297,6 @@ public:
     AVCodec                 *AudioDecoderCodec;         // Associated LibAVCodec for audio stream
     int                     AudioStreamNumber;          // Number of the audio stream
     int                     AudioTrackNbr;              // Number of audio stream in file
-    int64_t                 LastAudioReadedPosition;    // Use to keep the last readed position to determine if a seek is needed
 
     // Audio resampling
     #if defined(LIBAV_08)
