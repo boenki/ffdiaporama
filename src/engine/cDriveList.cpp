@@ -104,7 +104,7 @@ cDriveDesc::cDriveDesc(QString ThePath,QString Alias,cBaseApplicationConfig *App
                 Label=Path+"["+QApplication::translate("QCustomFolderTree","Empty drive...")+"]";
         }
 
-    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #elif defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
         bool        IsOk=true;
 
         QProcess    Process;
@@ -381,7 +381,7 @@ void cDriveList::UpdateDriveList() {
                   )&&(!SearchDrive(Path))                                                                               // and it's not yet included
                 )) List.append(cDriveDesc(Path,"",ApplicationConfig));
         }
-    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #elif defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
 
         if (!SearchDrive("/")) List.append(cDriveDesc("/",QApplication::translate("QCustomFolderTree","System files"),ApplicationConfig));
 
@@ -442,10 +442,9 @@ QIcon cDriveList::GetFolderIcon(QString FilePath) {
 
     if (!FilePath.endsWith(QDir::separator())) FilePath=FilePath+QDir::separator();
 
-    #ifdef Q_OS_LINUX
+    #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     if (FilePath.startsWith("~")) FilePath=QDir::homePath()+FilePath.mid(1);
-    #endif
-    #ifdef Q_OS_WIN
+    #else
         if (FilePath.startsWith(PersonalFolder)) FilePath=QDir::homePath()+FilePath.mid(PersonalFolder.length());
         FilePath=AdjustDirForOS(FilePath);
     #endif

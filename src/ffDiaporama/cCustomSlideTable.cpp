@@ -504,7 +504,7 @@ void QCustomThumbItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIte
         if ((CurMusic)&&(OwnerObjectMusic==ItemIndex)) {
             QString Artist=CurMusic->GetInformationValue("artist");
             QString Title=CurMusic->GetInformationValue("title");
-            QString MusicName=((Artist!="")&&(Title!="")?Artist+"\n"+Title:QFileInfo(CurMusic->FileName).baseName());
+            QString MusicName=((Artist!="")&&(Title!="")?Artist+"\n"+Title:QFileInfo(CurMusic->FileName()).baseName());
             Pen.setWidth(1);
             Pen.setStyle(Qt::SolidLine);
             Pen.setColor(Qt::black);
@@ -656,7 +656,7 @@ void cCustomSlideTable::dragEnterEvent(QDragEnterEvent *event) {
             if (ApplicationConfig->AllowMusicExtension.contains(QFileInfo(FileList.at(i)).suffix().toLower())) {
                 // check if file contains video track
                 cVideoFile  *MediaFile=new cVideoFile(OBJECTTYPE_VIDEOFILE,ApplicationConfig);
-                if (((MediaFile)&&(MediaFile->GetInformationFromFile(QFileInfo(FileList.at(i)).absoluteFilePath(),NULL,NULL)))&&
+                if (((MediaFile)&&(MediaFile->GetInformationFromFile(QFileInfo(FileList.at(i)).absoluteFilePath(),NULL,NULL,-1)))&&
                      (MediaFile->OpenCodecAndFile())&&(MediaFile->VideoStreamNumber<0)&&(MediaFile->AudioStreamNumber>=0)) {
                     MusicFileList.append(FileList.at(i));
                     FileList.removeAt(i);

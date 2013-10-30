@@ -84,7 +84,8 @@ public:
     QList<sUndoData>  UndoDataList;
 
     cBaseApplicationConfig  *BaseApplicationConfig;
-    cSaveWindowPosition     *DlgWSP;
+    qlonglong               TypeWindowState;
+    QSplitter               *Splitter;
     QDomDocument            *Undo;                          // Save object before modification for cancel button
     QStringList             UndoData;
     QAbstractButton         *OkBt;
@@ -93,7 +94,7 @@ public:
     QAbstractButton         *HelpBt;
     QString                 HelpFile;
 
-    explicit        QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit        QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,QWidget *parent = 0);
                     ~QCustomDialog();
 
     virtual void    InitDialog();

@@ -367,7 +367,7 @@ QImage *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBrushDefinition::GetImageDiskBrush");
 
     // If not an image or a video or filename is empty then return
-    if ((Image?Image->FileName:Video?Video->FileName:"")=="") {
+    if ((Image?Image->FileName():Video?Video->FileName():"")=="") {
         QImage *Ret=new QImage(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
         QPainter Painter;
         Painter.begin(Ret);
@@ -494,7 +494,7 @@ QImage *cBrushDefinition::GetImageDiskBrush(QRectF Rect,bool PreviewMode,int64_t
 
         } else if (Image && (Image->IsVectorImg)) {
             // Vector image file
-            if (!Image->VectorImage) Image->VectorImage=new QSvgRenderer(Image->FileName);
+            if (!Image->VectorImage) Image->VectorImage=new QSvgRenderer(Image->FileName());
             if ((Image->VectorImage)&&(Image->VectorImage->isValid())) {
                 QPainter Painter;
                 Ret=new QImage(Rect.width(),Rect.height(),QImage::Format_ARGB32_Premultiplied);
@@ -647,7 +647,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
 
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
-    QString         BrushFileName=(Image?Image->FileName:Video?Video->FileName:"");
+    QString         BrushFileName=(Image?Image->FileName():Video?Video->FileName():"");
     QString         BFN;
 
     if (AdjustDirForOS(BrushFileName).startsWith(ClipArtFolder)) {
@@ -785,7 +785,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     for (int i=0;i<ApplicationConfig->AllowImageExtension.count();i++) if (ApplicationConfig->AllowImageExtension[i]==Extension) {
                         Image=new cImageFile(ApplicationConfig);
                         Image->ImageOrientation=Element.attribute("ImageOrientation").toInt();
-                        IsValide=Image->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag);
+                        IsValide=Image->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag,-1);
                         if (!IsValide) {
                             delete Image;
                             Image=NULL;
@@ -794,7 +794,7 @@ bool cBrushDefinition::LoadFromXML(QDomElement domDocument,QString ElementName,Q
                     }
                     if (Image==NULL) for (int i=0;i<ApplicationConfig->AllowVideoExtension.count();i++) if (ApplicationConfig->AllowVideoExtension[i]==Extension) {
                         Video=new cVideoFile(OBJECTTYPE_VIDEOFILE,ApplicationConfig);
-                        IsValide=Video->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag);
+                        IsValide=Video->GetInformationFromFile(BrushFileName,AliasList,ModifyFlag,-1);
                         if (!IsValide) {
                             delete Video;
                             Video=NULL;

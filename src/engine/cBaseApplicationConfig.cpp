@@ -33,7 +33,7 @@
 
 //*****************************************************************************************************************************************
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     bool SearchRasterMode(QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName) {
         ToLog(LOGMSG_DEBUGTRACE,"IN:SearchRasterMode");
 
@@ -43,7 +43,7 @@
         bool    RasterMode=true;
 
         UserConfigPath=QDir::homePath();
-        if (UserConfigPath[UserConfigPath.length()-1]!=QDir::separator()) UserConfigPath=UserConfigPath+QDir::separator();
+        if (!UserConfigPath.endsWith(QDir::separator())) UserConfigPath=UserConfigPath+QDir::separator();
         UserConfigPath  = UserConfigPath+"."+ApplicationName+QDir::separator();
         GlobalConfigFile=QFileInfo(ApplicationName+ConfigFileExt).absoluteFilePath();
         UserConfigFile  =QFileInfo(UserConfigPath+ApplicationName+ConfigFileExt).absoluteFilePath();
@@ -149,7 +149,7 @@ bool SetWorkingPath(char * const argv[],QString ApplicationName,QString ConfigFi
     if (!CheckFolder(FileToTest,QDir::currentPath())
         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+QString("..")+QDir().separator()+QString("..")+QDir().separator()+QString("..")+QDir().separator()+ApplicationName))
         &&(!CheckFolder(FileToTest,QString("..")+QDir().separator()+QString("..")+QDir().separator()+QString("..")+QDir().separator()+ApplicationName))
-        #ifdef Q_OS_LINUX
+        #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
         &&(!CheckFolder(FileToTest,ShareDir+QDir().separator()+ApplicationName))
         #endif
        ) {
@@ -174,17 +174,8 @@ int getCpuCount() {
     SYSTEM_INFO    si;
     GetSystemInfo(&si);
     cpuCount = si.dwNumberOfProcessors;
-#elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+#elif defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     cpuCount = sysconf(_SC_NPROCESSORS_ONLN);
-#elif defined(Q_OS_MACX)
-   kern_return_t            kr;
-   struct host_basic_info   hostinfo;
-   unsigned int             count;
-
-   count=HOST_BASIC_INFO_COUNT;
-   kr   =host_info(mach_host_self(),HOST_BASIC_INFO,(host_info_t)&hostinfo,&count);
-
-   if (kr==KERN_SUCCESS) cpuCount=hostinfo.avail_cpus;
 #endif
     if(cpuCount<1) cpuCount=1;
     return cpuCount;
@@ -197,6 +188,7 @@ int getCpuCount() {
 cBaseApplicationConfig::cBaseApplicationConfig(QMainWindow *TheTopLevelWindow,QString TheAllowedWEBLanguage,QString TheApplicationGroupName,QString TheApplicationName,QString TheApplicationVersion,QString TheConfigFileExt,QString TheConfigFileRootName) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::cBaseApplicationConfig");
 
+    Database                =NULL;
     PopupHelp               =NULL;
     AllowedWEBLanguage      =TheAllowedWEBLanguage;
     TopLevelWindow          =TheTopLevelWindow;            // Link to MainWindow of the application
@@ -228,34 +220,7 @@ cBaseApplicationConfig::~cBaseApplicationConfig() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBaseApplicationConfig::~cBaseApplicationConfig");
 
     delete PopupHelp;
-
-    delete DlgMusicPropertiesWSP;
-    delete DlgBackgroundPropertiesWSP;
-    delete DlgApplicationSettingsWSP;
-    delete DlgRenderVideoWSP;
-    delete DlgTransitionPropertiesWSP;
-    delete DlgTransitionDurationWSP;
-    delete DlgSlidePropertiesWSP;
-    delete DlgSlideDurationWSP;
-    delete DlgImageTransformationWSP;
-    delete DlgImageCorrectionWSP;
-    delete DlgTextEditWSP;
-    delete DlgManageStyleWSP;
-    delete DlgCheckConfigWSP;
-    delete DlgManageDevicesWSP;
-    delete DlgAboutWSP;
-    delete DlgffDPjrPropertiesWSP;
-    delete DlgInfoFileWSP;
-    delete DlgRulerDef;
-    delete DlgManageFavoriteWSP;
-    delete DlgFileExplorerWSP;
-    delete DlgImageComposerThumbWSP;
-    delete DlgChapterWSP;
-    delete DlgAutoTitleWSP;
-    delete DlgExportProjectWSP;
     delete MainWinWSP;
-    delete DlgPopupHelp;
-
     delete DriveList;
     delete ThumbnailModels;
     for (int geo=GEOMETRY_4_3;geo<=GEOMETRY_40_17;geo++) {
@@ -263,6 +228,8 @@ cBaseApplicationConfig::~cBaseApplicationConfig() {
         for (int cat=0;cat<MODELTYPE_CHAPTERTITLE_CATNUMBER;cat++) delete CptTitleModels[geo][cat];
         for (int cat=0;cat<MODELTYPE_CREDITTITLE_CATNUMBER;cat++)  delete CreditTitleModels[geo][cat];
     }
+
+    delete Database;
 }
 
 //====================================================================================================================
@@ -354,12 +321,11 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
     RestoreWindow           =true;                                                         // if true then restore windows size and position
     DisableTooltips         =false;
     MainWinWSP              =new cSaveWindowPosition("MainWindow",RestoreWindow,true);     // MainWindow - Window size and position
-    #ifdef Q_OS_LINUX
+    #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
         RasterMode          =true;                                                         // Enable or disable raster mode [Linux only]
         CheckConfigAtStartup=true;
         OpenWEBNewVersion   =false;
-    #endif
-    #ifdef Q_OS_WIN
+    #else
         CheckConfigAtStartup=false;
         OpenWEBNewVersion   =true;
     #endif
@@ -411,13 +377,14 @@ bool cBaseApplicationConfig::InitConfigurationValues(QString ForceLanguage,QAppl
         WINDOWS_PICTURES =Settings.value("My Pictures").toString();
         WINDOWS_VIDEO    =Settings.value("My Video").toString();
         WINDOWS_DOCUMENTS=Settings.value("Personal").toString();
-    #endif
-    #ifdef Q_OS_LINUX
-        #ifdef Q_OS_LINUX64
-            Plateforme="Unix/Linux 64 bits";
-        #else
-            Plateforme="Unix/Linux 32 bits";
-        #endif
+    #elif defined(Q_OS_LINUX64)
+        Plateforme="Unix/Linux 64 bits";
+    #elif defined(Q_OS_LINUX32)
+        Plateforme="Unix/Linux 32 bits";
+    #elif defined(Q_OS_SOLARIS64)
+        Plateforme="Solaris 64 bits";
+    #elif defined(Q_OS_SOLARIS32)
+        Plateforme="Solaris 32 bits";
     #endif
 
     //*******************************************************
@@ -587,7 +554,7 @@ bool cBaseApplicationConfig::LoadConfigurationFile(LoadConfigFileType TypeConfig
         // Load Global preferences
         if ((root.elementsByTagName("GlobalPreferences").length()>0)&&(root.elementsByTagName("GlobalPreferences").item(0).isElement()==true)) {
             QDomElement Element=root.elementsByTagName("GlobalPreferences").item(0).toElement();
-            #ifdef Q_OS_LINUX
+            #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
             if (Element.hasAttribute("RasterMode"))                             RasterMode              =Element.attribute("RasterMode")=="1";
             #endif
             if (Element.hasAttribute("OpenWEBNewVersion"))                      OpenWEBNewVersion       =Element.attribute("OpenWEBNewVersion")=="1";
@@ -666,7 +633,7 @@ bool cBaseApplicationConfig::SaveConfigurationFile() {
     // Save preferences
     QDomElement     Element;
     Element=domDocument.createElement("GlobalPreferences");
-    #ifdef Q_OS_LINUX
+    #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     Element.setAttribute("RasterMode",              RasterMode?"1":"0");
     #endif
     Element.setAttribute("OpenWEBNewVersion",       OpenWEBNewVersion?"1":"0");
@@ -782,43 +749,12 @@ void cBaseApplicationConfig::InitValues() {
     DefaultExportThumbnail      = true;
     DefaultExportXBMCNfo        = true;
 
-    #ifdef Q_OS_WIN
-        SDLAudioOldMode         = false;                        // If true SDL audio use old mode sample instead byte
-    #endif
-    #ifdef Q_WS_X11
-        SDLAudioOldMode         = true;                         // If true SDL audio use old mode sample instead byte
-    #endif
+    SDLAudioOldMode             = false;                    // If true SDL audio use old mode sample instead byte
 
     // Init collections
     StyleTextCollection.CollectionName          =QString(STYLENAME_TEXTSTYLE);
     StyleTextBackgroundCollection.CollectionName=QString(STYLENAME_BACKGROUNDSTYLE);
     StyleBlockShapeCollection.CollectionName    =QString(STYLENAME_BLOCKSHAPESTYLE);
-
-    DlgBackgroundPropertiesWSP  =new cSaveWindowPosition("DlgBackgroundProperties",RestoreWindow,false);
-    DlgMusicPropertiesWSP       =new cSaveWindowPosition("DlgMusicProperties",RestoreWindow,false);
-    DlgApplicationSettingsWSP   =new cSaveWindowPosition("DlgApplicationSettings",RestoreWindow,false);
-    DlgRenderVideoWSP           =new cSaveWindowPosition("DlgRenderVideoWSP",RestoreWindow,false);
-    DlgTransitionPropertiesWSP  =new cSaveWindowPosition("DlgTransitionPropertiesWSP",RestoreWindow,false);
-    DlgTransitionDurationWSP    =new cSaveWindowPosition("DlgTransitionDurationWSP",RestoreWindow,false);
-    DlgSlidePropertiesWSP       =new cSaveWinWithSplitterPos("DlgSlidePropertiesWSP",RestoreWindow,false);
-    DlgSlideDurationWSP         =new cSaveWinWithSplitterPos("DlgSlideDurationWSP",RestoreWindow,false);
-    DlgImageTransformationWSP   =new cSaveWindowPosition("DlgImageTransformationWSP",RestoreWindow,false);
-    DlgImageCorrectionWSP       =new cSaveWindowPosition("DlgImageCorrectionWSP",RestoreWindow,false);
-    DlgTextEditWSP              =new cSaveWindowPosition("DlgTextEditWSP",RestoreWindow,false);
-    DlgManageStyleWSP           =new cSaveWindowPosition("DlgManageStyleWSP",RestoreWindow,false);
-    DlgCheckConfigWSP           =new cSaveWindowPosition("DlgCheckConfigWSP",RestoreWindow,false);
-    DlgManageDevicesWSP         =new cSaveWindowPosition("DlgManageDevicesWSP",RestoreWindow,false);
-    DlgAboutWSP                 =new cSaveWindowPosition("DlgAboutWSP",RestoreWindow,false);
-    DlgffDPjrPropertiesWSP      =new cSaveWindowPosition("DlgffDPjrPropertiesWSP",RestoreWindow,false);
-    DlgInfoFileWSP              =new cSaveWindowPosition("DlgInfoFileWSP",RestoreWindow,false);
-    DlgRulerDef                 =new cSaveWindowPosition("DlgRulerDef",RestoreWindow,false);
-    DlgManageFavoriteWSP        =new cSaveWindowPosition("DlgManageFavoriteWSP",RestoreWindow,false);
-    DlgFileExplorerWSP          =new cSaveWinWithSplitterPos("DlgFileExplorerWSP",RestoreWindow,false);
-    DlgChapterWSP               =new cSaveWindowPosition("DlgChapterWSP",RestoreWindow,false);
-    DlgAutoTitleWSP             =new cSaveWindowPosition("DlgAutoTitleWSP",RestoreWindow,false);
-    DlgExportProjectWSP         =new cSaveWindowPosition("DlgExportProjectWSP",RestoreWindow,false);
-    DlgImageComposerThumbWSP    =new cSaveWinWithSplitterPos("DlgImageComposerThumbWSP",RestoreWindow,false);
-    DlgPopupHelp                =new cSaveWinWithSplitterPos("DlgPopupHelp",RestoreWindow,false);
 
     // Default new text block options
     DefaultBlock_Text_TextST    ="###GLOBALSTYLE###:0";
@@ -983,33 +919,6 @@ void cBaseApplicationConfig::SaveValueToXML(QDomElement &domDocument) {
     StyleTextCollection.SaveToXML(domDocument);
     StyleTextBackgroundCollection.SaveToXML(domDocument);
     StyleBlockShapeCollection.SaveToXML(domDocument);
-
-    // Save windows size and position
-    DlgBackgroundPropertiesWSP->SaveToXML(domDocument);
-    DlgMusicPropertiesWSP->SaveToXML(domDocument);
-    DlgApplicationSettingsWSP->SaveToXML(domDocument);
-    DlgRenderVideoWSP->SaveToXML(domDocument);
-    DlgTransitionPropertiesWSP->SaveToXML(domDocument);
-    DlgTransitionDurationWSP->SaveToXML(domDocument);
-    DlgSlidePropertiesWSP->SaveToXML(domDocument);
-    DlgSlideDurationWSP->SaveToXML(domDocument);
-    DlgImageTransformationWSP->SaveToXML(domDocument);
-    DlgImageCorrectionWSP->SaveToXML(domDocument);
-    DlgTextEditWSP->SaveToXML(domDocument);
-    DlgManageStyleWSP->SaveToXML(domDocument);
-    DlgCheckConfigWSP->SaveToXML(domDocument);
-    DlgManageDevicesWSP->SaveToXML(domDocument);
-    DlgAboutWSP->SaveToXML(domDocument);
-    DlgffDPjrPropertiesWSP->SaveToXML(domDocument);
-    DlgInfoFileWSP->SaveToXML(domDocument);
-    DlgRulerDef->SaveToXML(domDocument);
-    DlgManageFavoriteWSP->SaveToXML(domDocument);
-    DlgFileExplorerWSP->SaveToXML(domDocument);
-    DlgImageComposerThumbWSP->SaveToXML(domDocument);
-    DlgChapterWSP->SaveToXML(domDocument);
-    DlgAutoTitleWSP->SaveToXML(domDocument);
-    DlgExportProjectWSP->SaveToXML(domDocument);
-    DlgPopupHelp->SaveToXML(domDocument);
 }
 
 //====================================================================================================================
@@ -1030,7 +939,7 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
     if ((domDocument.elementsByTagName("EditorOptions").length()>0)&&(domDocument.elementsByTagName("EditorOptions").item(0).isElement()==true)) {
         QDomElement Element=domDocument.elementsByTagName("EditorOptions").item(0).toElement();
         if (Element.hasAttribute("MemCacheMaxValue"))           MemCacheMaxValue            =Element.attribute("MemCacheMaxValue").toLongLong();
-        #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32))
+        #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32) || defined(Q_OS_SOLARIS32))
         if (MemCacheMaxValue>int64_t(512*1024*1024)) MemCacheMaxValue=int64_t(512*1024*1024);
         #endif
         if (Element.hasAttribute("SDLAudioOldMode"))            SDLAudioOldMode             =Element.attribute("SDLAudioOldMode")=="1";
@@ -1171,33 +1080,6 @@ bool cBaseApplicationConfig::LoadValueFromXML(QDomElement domDocument,LoadConfig
     StyleTextCollection.LoadFromXML(domDocument,TypeConfigFile);
     StyleTextBackgroundCollection.LoadFromXML(domDocument,TypeConfigFile);
     StyleBlockShapeCollection.LoadFromXML(domDocument,TypeConfigFile);
-
-    // Load windows size and position
-    DlgBackgroundPropertiesWSP->LoadFromXML(domDocument);
-    DlgMusicPropertiesWSP->LoadFromXML(domDocument);
-    DlgApplicationSettingsWSP->LoadFromXML(domDocument);
-    DlgRenderVideoWSP->LoadFromXML(domDocument);
-    DlgTransitionPropertiesWSP->LoadFromXML(domDocument);
-    DlgTransitionDurationWSP->LoadFromXML(domDocument);
-    DlgSlidePropertiesWSP->LoadFromXML(domDocument);
-    DlgSlideDurationWSP->LoadFromXML(domDocument);
-    DlgImageTransformationWSP->LoadFromXML(domDocument);
-    DlgImageCorrectionWSP->LoadFromXML(domDocument);
-    DlgTextEditWSP->LoadFromXML(domDocument);
-    DlgManageStyleWSP->LoadFromXML(domDocument);
-    DlgCheckConfigWSP->LoadFromXML(domDocument);
-    DlgManageDevicesWSP->LoadFromXML(domDocument);
-    DlgAboutWSP->LoadFromXML(domDocument);
-    DlgffDPjrPropertiesWSP->LoadFromXML(domDocument);
-    DlgInfoFileWSP->LoadFromXML(domDocument);
-    DlgRulerDef->LoadFromXML(domDocument);
-    DlgManageFavoriteWSP->LoadFromXML(domDocument);
-    DlgFileExplorerWSP->LoadFromXML(domDocument);
-    DlgImageComposerThumbWSP->LoadFromXML(domDocument);
-    DlgChapterWSP->LoadFromXML(domDocument);
-    DlgAutoTitleWSP->LoadFromXML(domDocument);
-    DlgExportProjectWSP->LoadFromXML(domDocument);
-    DlgPopupHelp->LoadFromXML(domDocument);
 
     return true;
 }

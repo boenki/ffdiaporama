@@ -262,7 +262,7 @@ QMimeData *QCustomFolderTable::mimeData(const QList <QTableWidgetItem *>) const 
     QMimeData   *mimeData=new QMimeData;
     QList<QUrl> UrlList;
     QList<cBaseMediaFile*> SelMediaList=GetCurrentSelectedMediaFile();
-    for (int i=0;i<SelMediaList.count();i++) UrlList.append(QUrl().fromLocalFile(AdjustDirForOS(SelMediaList[i]->FileName)));
+    for (int i=0;i<SelMediaList.count();i++) UrlList.append(QUrl().fromLocalFile(AdjustDirForOS(SelMediaList[i]->FileName())));
     mimeData->setUrls(UrlList);
     return mimeData;
 }
@@ -682,6 +682,7 @@ void QCustomFolderTable::RefreshListFolder() {
 
     // Scan files and add them to table
     QDir                Folder(CurrentPath);
+    qlonglong           FolderKey=ApplicationConfig->FoldersTable->GetFolderKey(CurrentPath);
     QFileInfoList       Files=Folder.entryInfoList(QDir::Dirs|QDir::AllDirs|QDir::Files|QDir::Hidden);
     cBaseMediaFile      *MediaObject=NULL;
     int                 i,j;
@@ -707,16 +708,16 @@ void QCustomFolderTable::RefreshListFolder() {
     i=0;
     while (i<MediaList.count()) {
         j=0;
-        while ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()!=MediaList[i]->FileName)&&(((QFileInfo)Files[j]).lastModified()!=MediaList[i]->ModifDateTime)) j++;
-        if ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()==MediaList[i]->FileName)&&(((QFileInfo)Files[j]).lastModified()==MediaList[i]->ModifDateTime))
+        while ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()!=MediaList[i]->FileName())&&(((QFileInfo)Files[j]).lastModified()!=MediaList[i]->ModifDateTime)) j++;
+        if ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()==MediaList[i]->FileName())&&(((QFileInfo)Files[j]).lastModified()==MediaList[i]->ModifDateTime))
              i++;  else delete MediaList.takeAt(i);
     }
 
     // Scan folder entries to integrate new files to actual MediaList
     for (i=0;i<Files.count();i++) {
         j=0;
-        while ((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()!=MediaList[j]->FileName)) j++;
-        if (!((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()==MediaList[j]->FileName))) {
+        while ((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()!=MediaList[j]->FileName())) j++;
+        if (!((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()==MediaList[j]->FileName()))) {
             QFileInfo *File=&Files[i];
             // It's a new file => then add it
             if (ApplicationConfig->AllowImageExtension.contains(File->suffix().toLower())) {
@@ -744,7 +745,7 @@ void QCustomFolderTable::RefreshListFolder() {
                 else                                                                                MediaObject=new cUnmanagedFile(ApplicationConfig);
 
             // Check if file is valid
-            if ((MediaObject)&&(!MediaObject->GetInformationFromFile(File->absoluteFilePath(),NULL,NULL))) {
+            if ((MediaObject)&&(!MediaObject->GetInformationFromFile(File->absoluteFilePath(),NULL,NULL,FolderKey))) {
                 delete MediaObject;
                 MediaObject=NULL;
             }
@@ -875,10 +876,9 @@ void QCustomFolderTable::FillListFolder(QString Path) {
 
     // Adjust given Path
     if (Path.startsWith(QApplication::translate("QCustomFolderTree","Clipart"))) Path=ClipArtFolder+Path.mid(QApplication::translate("QCustomFolderTree","Clipart").length());
-    #ifdef Q_OS_LINUX
+    #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     if (Path.startsWith("~")) Path=QDir::homePath()+Path.mid(1);
-    #endif
-    #ifdef Q_OS_WIN
+    #else
     if (Path.startsWith(PersonalFolder)) Path=QDir::homePath()+Path.mid(PersonalFolder.length());
     Path=AdjustDirForOS(Path);
     #endif
@@ -894,6 +894,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
 
     // Scan files and add them to table
     QDir                Folder(Path);
+    qlonglong           FolderKey=ApplicationConfig->FoldersTable->GetFolderKey(Path);
     QFileInfoList       Files=Folder.entryInfoList(QDir::Dirs|QDir::AllDirs|QDir::Files|QDir::Hidden);
     cBaseMediaFile      *MediaObject=NULL;
 
@@ -918,16 +919,16 @@ void QCustomFolderTable::FillListFolder(QString Path) {
     i=0;
     while (i<MediaList.count()) {
         j=0;
-        while ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()!=MediaList[i]->FileName)) j++;
-        if ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()==MediaList[i]->FileName))
+        while ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()!=MediaList[i]->FileName())) j++;
+        if ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()==MediaList[i]->FileName()))
              i++;  else delete MediaList.takeAt(i);
     }
 
     // Scan folder entries to integrate new files to actual MediaList
     for (i=0;i<Files.count();i++) if (QFileInfo(((QFileInfo)Files[i]).absoluteFilePath()).exists()){
         j=0;
-        while ((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()!=MediaList[j]->FileName)) j++;
-        if (!((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()==MediaList[j]->FileName))) {
+        while ((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()!=MediaList[j]->FileName())) j++;
+        if (!((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()==MediaList[j]->FileName()))) {
             QFileInfo *File=&Files[i];
             // It's a new file => then add it
             if (ApplicationConfig->AllowImageExtension.contains(File->suffix().toLower())) {
@@ -954,7 +955,7 @@ void QCustomFolderTable::FillListFolder(QString Path) {
                 else                                                                                MediaObject=new cUnmanagedFile(ApplicationConfig);
 
             // Check if file is valid
-            if ((MediaObject)&&(!MediaObject->GetInformationFromFile(File->absoluteFilePath(),NULL,NULL))) {
+            if ((MediaObject)&&(!MediaObject->GetInformationFromFile(File->absoluteFilePath(),NULL,NULL,FolderKey))) {
                 delete MediaObject;
                 MediaObject=NULL;
             }
@@ -1002,7 +1003,7 @@ QStringList QCustomFolderTable::GetCurrentSelectedFiles() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::GetCurrentSelectedFiles");
     QStringList             Files;
     QList<cBaseMediaFile*>  SelMediaList=GetCurrentSelectedMediaFile();
-    for (int i=0;i<SelMediaList.count();i++) Files.append(SelMediaList.at(i)->FileName);
+    for (int i=0;i<SelMediaList.count();i++) Files.append(SelMediaList.at(i)->FileName());
     return Files;
 }
 
@@ -1141,7 +1142,7 @@ void QCustomFolderTable::DoScanMediaList() {
             MediaList[ItemIndex]->IsIconNeeded=true;
             MediaList[ItemIndex]->GetFullInformationFromFile(); // Get full information
 
-            #if (defined(Q_OS_WIN32) || defined(Q_OS_LINUX32)) && !defined(Q_OS_WIN64)
+            #if (defined(Q_OS_WIN32) || defined(Q_OS_LINUX32) || defined(Q_OS_SOLARIS32)) && !defined(Q_OS_WIN64)
             // Reduce quality of thumbnails to reduce memory used when huge number of files in folder
             if ((MediaList.count()>=LOWQUALITYITEMNBR)&&
                 (!MediaList[ItemIndex]->Icon100.isNull())&&

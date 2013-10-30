@@ -22,7 +22,7 @@
 #include "ui_DlgWorkingTask.h"
 
 DlgWorkingTask::DlgWorkingTask(QString Title,bool *CancelAction,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
-    QCustomDialog(ApplicationConfig,NULL,parent),ui(new Ui::DlgWorkingTask) {
+    QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgWorkingTask) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgWorkingTask::DlgWorkingTask");
 
     ui->setupUi(this);

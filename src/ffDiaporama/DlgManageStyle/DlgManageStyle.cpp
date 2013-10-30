@@ -37,8 +37,8 @@
 // Manage style dialog
 //============================================================================================================================
 
-DlgManageStyle::DlgManageStyle(cStyleCollection *TheCollection,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgManageStyle) {
+DlgManageStyle::DlgManageStyle(cStyleCollection *TheCollection,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+    QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgManageStyle) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageStyle::DlgManageStyle");
     ui->setupUi(this);
     OkBt        =ui->OKBT;

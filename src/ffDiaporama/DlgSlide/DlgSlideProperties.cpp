@@ -124,17 +124,19 @@ enum UNDOACTION_ID {
 // DlgSlideProperties : Slide Dialog
 //********************************************************************************************************************************
 
-DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgSlideProperties) {
+DlgSlideProperties::DlgSlideProperties(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+    QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgSlideProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::DlgSlideProperties");
 
     ui->setupUi(this);
-    OkBt        =ui->OKBT;
-    CancelBt    =ui->CancelBt;
-    HelpBt      =ui->HelpBt;
-    HelpFile    ="0119";
-    UndoBt      =ui->UndoBT;
-    CurrentShot =NULL;
+    TypeWindowState =TypeWindowState_withsplitterpos;
+    Splitter        =ui->SplitterTop;
+    OkBt            =ui->OKBT;
+    CancelBt        =ui->CancelBt;
+    HelpBt          =ui->HelpBt;
+    HelpFile        ="0119";
+    UndoBt          =ui->UndoBT;
+    CurrentShot     =NULL;
 
     FramingCB_CurrentBrush  =NULL;
     FramingCB_CurrentShot   =-1;
@@ -539,24 +541,6 @@ void DlgSlideProperties::MakeBorderStyleIcon(QComboBox *UICB) {
         Painter.end();
         UICB->setItemIcon(i,QIcon(Image));
     }
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::SaveWindowState() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::SaveWindowState");
-
-    // Save Window size and position
-    if (DlgWSP) ((cSaveWinWithSplitterPos *)DlgWSP)->SaveWindowState(this,ui->SplitterTop);
-}
-
-//====================================================================================================================
-
-void DlgSlideProperties::RestoreWindowState() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::RestoreWindowState");
-
-    // Restore window size and position
-    if (DlgWSP) ((cSaveWinWithSplitterPos *)DlgWSP)->ApplyToWindow(this,ui->SplitterTop);
 }
 
 //====================================================================================================================
@@ -1192,7 +1176,7 @@ void DlgSlideProperties::s_RefreshSceneImage() {
 void DlgSlideProperties::s_RulersBt() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_RulersBt");
 
-    DlgRulerDef Dlg(&ui->InteractiveZone->MagneticRuler,true,BaseApplicationConfig,BaseApplicationConfig->DlgRulerDef,this);
+    DlgRulerDef Dlg(&ui->InteractiveZone->MagneticRuler,true,BaseApplicationConfig,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
@@ -1315,7 +1299,7 @@ void DlgSlideProperties::ApplyGlobalPropertiesToAllShots(cCompositionObject *Glo
 void DlgSlideProperties::s_SlideSet_ChapterInformation() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::s_SlideSet_SlideNameChange");
     AppendPartialUndo(UNDOACTION_BLOCKTABLE_EDITCHAPTERINFO,ui->InteractiveZone,true);
-    DlgChapter Dlg(CurrentSlide,BaseApplicationConfig,BaseApplicationConfig->DlgChapterWSP,this);
+    DlgChapter Dlg(CurrentSlide,BaseApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()!=0) RemoveLastPartialUndo(); else CurrentSlide->Parent->UpdateChapterInformation();
     RefreshControls(true);
@@ -1940,7 +1924,7 @@ void DlgSlideProperties::s_BlockTable_AddNewFileBlock() {
     QStringList FileList;
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,
                         OBJECTTYPE_MANAGED,true,false,BaseApplicationConfig->RememberLastDirectories?BaseApplicationConfig->LastMediaPath:"",
-                        QApplication::translate("MainWindow","Add files"),BaseApplicationConfig,BaseApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("MainWindow","Add files"),BaseApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     if (FileList.count()==0) return;
@@ -2005,7 +1989,7 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
             // Create an image wrapper
             CurrentBrush->Image=new cImageFile(BaseApplicationConfig);
             bool ModifyFlag=false;
-            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag);
+            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag,-1);
             if (!IsValide) {
                 delete CurrentBrush->Image;
                 CurrentBrush->Image=NULL;
@@ -2017,7 +2001,7 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
             // Create a video wrapper
             CurrentBrush->Video=new cVideoFile(OBJECTTYPE_VIDEOFILE,BaseApplicationConfig);
             bool ModifyFlag=false;
-            IsValide=(CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag))&&(CurrentBrush->Video->OpenCodecAndFile());
+            IsValide=(CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,&ModifyFlag,-1))&&(CurrentBrush->Video->OpenCodecAndFile());
             if (IsValide) {
                 // Check if file have at least one sound track compatible
                 if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(!(
@@ -2429,8 +2413,7 @@ void DlgSlideProperties::s_BlockSettings_TextEditor() {
 
     ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
     ui->InteractiveZone->RefreshDisplay();
-    DlgTextEdit Dlg(CurrentSlide->Parent,CurrentCompoObject,BaseApplicationConfig,BaseApplicationConfig->DlgTextEditWSP,
-                    &BaseApplicationConfig->StyleTextCollection,&BaseApplicationConfig->StyleTextBackgroundCollection,this);
+    DlgTextEdit Dlg(CurrentSlide->Parent,CurrentCompoObject,BaseApplicationConfig,&BaseApplicationConfig->StyleTextCollection,&BaseApplicationConfig->StyleTextBackgroundCollection,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
@@ -2457,7 +2440,7 @@ void DlgSlideProperties::s_BlockSettings_Information() {
         else if (CurrentCompoObject->BackgroundBrush->Video!=NULL)   Media=CurrentCompoObject->BackgroundBrush->Video;
 
     if (Media) {
-        DlgInfoFile Dlg(Media,BaseApplicationConfig,BaseApplicationConfig->DlgInfoFileWSP,this);
+        DlgInfoFile Dlg(Media,BaseApplicationConfig,this);
         Dlg.InitDialog();
         Dlg.exec();
     }
@@ -2483,11 +2466,11 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
              ) Position+=CurrentSlide->List[i]->StaticDuration;
     }
 
-    QString FileName    =QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).fileName();
+    QString FileName    =CurrentBrush->Image?CurrentBrush->Image->ShortName:CurrentBrush->Video->ShortName;
     bool UpdateSlideName=(CurrentSlide->SlideName==FileName);
 
-    DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,CurrentSlide->Parent->ImageGeometry,CurrentSlide->Parent->ImageAnimSpeedWave,
-                           BaseApplicationConfig,BaseApplicationConfig->DlgImageCorrectionWSP,this);
+    DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,
+                           CurrentSlide->Parent->ImageGeometry,CurrentSlide->Parent->ImageAnimSpeedWave,BaseApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FramingCB_CurrentBrush   =NULL; // To force a refresh of ui->FramingCB !
@@ -2506,13 +2489,13 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
 
         // if Slide name is name of this file
         if (UpdateSlideName) {
-            CurrentSlide->SlideName=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).fileName();
+            CurrentSlide->SlideName=CurrentBrush->Image?CurrentBrush->Image->ShortName:CurrentBrush->Video->ShortName;
             ui->SlideNameED->setText(CurrentSlide->SlideName);
         }
 
         // Lulo object for image and video must be remove
-        if (CurrentCompoObject->BackgroundBrush->Video) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileName);
-            else if (CurrentCompoObject->BackgroundBrush->Image) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileName);
+        if (CurrentCompoObject->BackgroundBrush->Video) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileName());
+        else if (CurrentCompoObject->BackgroundBrush->Image) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileName());
 
         ApplyToContexte(true);
         s_ShotTable_DisplayDuration();

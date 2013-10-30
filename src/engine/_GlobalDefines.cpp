@@ -183,7 +183,7 @@ QString AdjustDirForOS(QString Dir) {
     bool DoubleSlashBegin=Dir.startsWith("\\\\");
     Dir.replace("\\\\","\\");
     if (DoubleSlashBegin) Dir="\\"+Dir;
-    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #elif defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     Dir.replace("\\","/");
     #endif
     return Dir;

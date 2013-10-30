@@ -42,7 +42,7 @@ int main(int argc, char* argv[]) {
 
     ToLog(LOGMSG_INFORMATION,"Start application ...");
 
-    #ifdef Q_OS_LINUX
+    #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
         #if QT_VERSION >= 0x050000
         #else
             if (SearchRasterMode(APPLICATION_NAME,CONFIGFILEEXT,CONFIGFILE_ROOTNAME)) QApplication::setGraphicsSystem("raster");

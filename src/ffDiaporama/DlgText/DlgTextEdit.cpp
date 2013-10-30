@@ -60,9 +60,9 @@ enum {
 
 //====================================================================================================================
 
-DlgTextEdit::DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *TheCurrentTextItem,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,
+DlgTextEdit::DlgTextEdit(cDiaporama *Diaporama,cCompositionObject *TheCurrentTextItem,cBaseApplicationConfig *ApplicationConfig,
                          cStyleCollection *TheStyleTextCollection,cStyleCollection *TheStyleTextBackgroundCollection,QWidget *parent):
-    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTextEdit) {
+    QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgTextEdit) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTextEdit::DlgTextEdit");
 

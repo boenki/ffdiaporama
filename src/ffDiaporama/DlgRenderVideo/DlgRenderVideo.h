@@ -61,7 +61,7 @@ public:
 
     int             W,H;
 
-    explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgRenderVideo(cDiaporama &Diaporama,int ExportMode,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgRenderVideo();
 
     // function to be overloaded

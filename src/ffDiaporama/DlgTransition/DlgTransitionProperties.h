@@ -45,7 +45,7 @@ public:
     int                     TransitionSubType;
     int                     TransitionDuration;
 
-    explicit DlgTransitionProperties(bool IsMultiple,cDiaporamaObject *TheDiaporamaObject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit DlgTransitionProperties(bool IsMultiple,cDiaporamaObject *TheDiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgTransitionProperties();
 
     // function to be overloaded

@@ -70,8 +70,8 @@ enum UNDOACTION_ID {
 
 DlgImageCorrection::DlgImageCorrection(cCompositionObject *TheCompoObject,int *TheBackgroundForm,cBrushDefinition *TheCurrentBrush,
                                        int TheVideoPosition,ffd_GEOMETRY TheProjectGeometry,int TheDefaultSpeedWave,
-                                       cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-                                       QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgImageCorrection) {
+                                       cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+                                       QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgImageCorrection) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::DlgImageCorrection");
 
@@ -300,7 +300,7 @@ void DlgImageCorrection::PrepareGlobalUndo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::PrepareGlobalUndo");
 
     // Save objects before modification for cancel button
-    UndoBrushFileName=(CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
+    UndoBrushFileName=(CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName():CurrentBrush->Video->FileName();
 
     Undo=new QDomDocument(APPLICATION_NAME);
     QDomElement root=Undo->createElement("UNDO-DLG");           // Create xml document and root
@@ -329,8 +329,8 @@ void DlgImageCorrection::DoGlobalUndo() {
         CurrentBrush->Deinterlace    =root.attribute("Deinterlace")=="1";
     }
     if (UndoReloadImage) {
-        if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(UndoBrushFileName,NULL,NULL);
-            else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(UndoBrushFileName,NULL,NULL);
+        if (CurrentBrush->Image)            CurrentBrush->Image->GetInformationFromFile(UndoBrushFileName,NULL,NULL,-1);
+            else if (CurrentBrush->Video)   CurrentBrush->Video->GetInformationFromFile(UndoBrushFileName,NULL,NULL,-1);
     }
 }
 
@@ -339,7 +339,7 @@ void DlgImageCorrection::DoGlobalUndo() {
 void DlgImageCorrection::PreparePartialUndo(int /*ActionType*/,QDomElement root) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageCorrection::PreparePartialUndo");
 
-    QString BrushFileName=(CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
+    QString BrushFileName=(CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName():CurrentBrush->Video->FileName();
     root.setAttribute("BrushFileName",BrushFileName);
     CurrentBrush->SaveToXML(root,"UNDO-DLG-OBJECT","",true,NULL);    // Save object
     if (IsVideo) {
@@ -364,14 +364,14 @@ void DlgImageCorrection::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
         CurrentBrush->SoundVolume    =GetDoubleValue(root,"SoundVolume");
         CurrentBrush->Deinterlace    =root.attribute("Deinterlace")=="1";
     }
-    if (BrushFileName!=((CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName)) {
+    if (BrushFileName!=((CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName():CurrentBrush->Video->FileName())) {
         BaseApplicationConfig->ImagesCache.RemoveImageObject(BrushFileName);
         if (CurrentBrush->Image) {
             CurrentBrush->Image->Reset();
-            CurrentBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL);
+            CurrentBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL,-1);
         } else if (CurrentBrush->Video) {
             CurrentBrush->Video->Reset(OBJECTTYPE_VIDEOFILE);
-            CurrentBrush->Video->GetInformationFromFile(BrushFileName,NULL,NULL);
+            CurrentBrush->Video->GetInformationFromFile(BrushFileName,NULL,NULL,-1);
         }
         // Redo initialisation of controls
         ImageGeometry=CurrentBrush->Video!=NULL?qreal(CurrentBrush->Video->ImageHeight)/qreal(CurrentBrush->Video->ImageWidth):qreal(CurrentBrush->Image->ImageHeight)/qreal(CurrentBrush->Image->ImageWidth);
@@ -688,7 +688,7 @@ void DlgImageCorrection::RefreshControls() {
     if (DefaultSpeedWave!=SPEEDWAVE_DISABLE) ui->SpeedWaveCB->SetCurrentValue(CurrentBrush->ImageSpeedWave);
 
     // File
-    ui->FileNameED->setText(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video?CurrentBrush->Video->FileName:"");
+    ui->FileNameED->setText(CurrentBrush->Image?CurrentBrush->Image->FileName():CurrentBrush->Video?CurrentBrush->Video->FileName():"");
 
     // Video TAB
     if ((IsVideo)&&(ui->TabWidget->currentIndex()==1)) {
@@ -723,13 +723,11 @@ void DlgImageCorrection::s_ChangeFile() {
     ui->VideoPlayer->SetPlayerToPause();
 
     bool        IsValide=true;
-    QString     ActualFilePath=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName).absolutePath();
+    QString     ActualFilePath=QFileInfo(CurrentBrush->Image?CurrentBrush->Image->FileName():CurrentBrush->Video->FileName()).absolutePath();
     QStringList FileList;
     QString     NewFile="";
     DlgFileExplorer Dlg(CurrentBrush->Image?FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE:FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_VIDEOFILE,
-                        CurrentBrush->Image?OBJECTTYPE_IMAGEFILE:OBJECTTYPE_VIDEOFILE,
-                        false,false,ActualFilePath,
-                        ffDText(ffDSection_CommonInfoMsg,0),BaseApplicationConfig,BaseApplicationConfig->DlgFileExplorerWSP,this);
+                        CurrentBrush->Image?OBJECTTYPE_IMAGEFILE:OBJECTTYPE_VIDEOFILE,false,false,ActualFilePath,ffDText(ffDSection_CommonInfoMsg,0),BaseApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
@@ -741,13 +739,13 @@ void DlgImageCorrection::s_ChangeFile() {
     if (BaseApplicationConfig->RememberLastDirectories) BaseApplicationConfig->LastMediaPath=QFileInfo(NewFile).absolutePath();     // Keep folder for next use
 
     QString NewBrushFileName=QFileInfo(NewFile).absoluteFilePath();
-    QString OldBrushFileName=CurrentBrush->Image?CurrentBrush->Image->FileName:CurrentBrush->Video->FileName;
+    QString OldBrushFileName=CurrentBrush->Image?CurrentBrush->Image->FileName():CurrentBrush->Video->FileName();
 
     BaseApplicationConfig->ImagesCache.RemoveImageObject(OldBrushFileName);
     if (!IsVideo) {
         // Image
         CurrentBrush->Image->Reset();
-        CurrentBrush->Image->GetInformationFromFile(NewBrushFileName,NULL,NULL);
+        CurrentBrush->Image->GetInformationFromFile(NewBrushFileName,NULL,NULL,-1);
         IsValide=CurrentBrush->Image->IsValide;
         if (IsValide) CurrentBrush->Image->GetFullInformationFromFile();
 
@@ -755,7 +753,7 @@ void DlgImageCorrection::s_ChangeFile() {
         // Video
         QString ErrorMessage=ffDText(ffDSection_CommonErrorMsg,0);
         CurrentBrush->Video->Reset(OBJECTTYPE_VIDEOFILE);
-        if (CurrentBrush->Video->GetInformationFromFile(NewBrushFileName,NULL,NULL)&&(CurrentBrush->Video->OpenCodecAndFile())) {
+        if (CurrentBrush->Video->GetInformationFromFile(NewBrushFileName,NULL,NULL,-1)&&(CurrentBrush->Video->OpenCodecAndFile())) {
             // Check if file have at least one sound track compatible
             if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(!(
                 (CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->sample_fmt!=AV_SAMPLE_FMT_S16)||
@@ -772,7 +770,7 @@ void DlgImageCorrection::s_ChangeFile() {
             #endif
             if (!IsValide) {
                 CustomMessageBox(NULL,QMessageBox::Critical,ffDText(ffDSection_CommonInfoMsg,1),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
-                CurrentBrush->Video->GetInformationFromFile(OldBrushFileName,NULL,NULL);
+                CurrentBrush->Video->GetInformationFromFile(OldBrushFileName,NULL,NULL,-1);
             } else CurrentBrush->Video->OpenCodecAndFile();
         }
     }

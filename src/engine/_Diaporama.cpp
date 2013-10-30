@@ -1139,7 +1139,7 @@ void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter
                     }
                 } else if ((BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(BackgroundBrush->Image)&&(BackgroundBrush->Image->IsVectorImg)) {
                     // Vector Image
-                    if (!BackgroundBrush->Image->VectorImage) BackgroundBrush->Image->VectorImage=new QSvgRenderer(BackgroundBrush->Image->FileName);
+                    if (!BackgroundBrush->Image->VectorImage) BackgroundBrush->Image->VectorImage=new QSvgRenderer(BackgroundBrush->Image->FileName());
                     if ((BackgroundBrush->Image->VectorImage)&&(BackgroundBrush->Image->VectorImage->isValid())) BackgroundBrush->Image->VectorImage->render(Painter,QRectF(-W/2,-H/2,W,H));
                 } else if ((BackgroundBrush->BrushType!=BRUSHTYPE_NOBRUSH)||(PenSize!=0)) {
                     for (int i=0;i<PolygonList.count();i++) PolygonList[i].translate(-CenterF.x(),-CenterF.y());

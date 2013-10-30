@@ -23,8 +23,8 @@
 
 //====================================================================================================================
 
-DlgAbout::DlgAbout(cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgAbout) {
+DlgAbout::DlgAbout(cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+    QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgAbout) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAbout::DlgAbout");
 
     ui->setupUi(this);

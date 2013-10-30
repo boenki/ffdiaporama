@@ -31,8 +31,8 @@
 
 //====================================================================================================================
 
-DlgCheckConfig::DlgCheckConfig(cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
-    :QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgCheckConfig) {
+DlgCheckConfig::DlgCheckConfig(cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
+    :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgCheckConfig) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgCheckConfig::DlgCheckConfig");
 
@@ -64,7 +64,7 @@ void DlgCheckConfig::DoInitDialog() {
     ui->ListWidget->addItem(new QListWidgetItem(QString("ffDiaporama:%1").arg(BaseApplicationConfig->ApplicationVersion)));
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Operating system version: %1 - %2 Core/CPU").arg(BaseApplicationConfig->Plateforme).arg(getCpuCount())));
 
-    #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32))
+#if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32) || defined(Q_OS_SOLARIS32))
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Application architecture: 32 bits")));
     #else
     ui->ListWidget->addItem(new QListWidgetItem(QIcon(ICON_GREEN),QApplication::translate("DlgCheckConfig","Application architecture: 64 bits")));

@@ -39,7 +39,7 @@ public:
     bool            *WikiFollowInterface;
     bool            DisableContentChange;
 
-    explicit        HelpPopup(cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+    explicit        HelpPopup(cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
                     ~HelpPopup();
 
     virtual void    DoInitDialog();
@@ -47,8 +47,6 @@ public:
     virtual void    DoRejet()           {/*Nothing to do*/}
     virtual void    PrepareGlobalUndo() {/*Nothing to do*/}
     virtual void    DoGlobalUndo()      {/*Nothing to do*/}
-    virtual void    SaveWindowState();
-    virtual void    RestoreWindowState();
 
     void            OpenHelp(QString HelpFile,bool ForceWindow);
     void            SaveLatestHelpFile();

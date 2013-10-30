@@ -121,10 +121,11 @@ public:
 class cBaseMediaFile : public cCustomIcon {
 public:
     int                     ObjectType;
+    qlonglong               FileKey;                        // Key index of this file in the Files table of the database
+    qlonglong               FolderKey;                      // Key index of the folder containing this file in the Folders table of the database
     bool                    IsValide;                       // if true then object if initialise
     bool                    IsInformationValide;            // if true then information list if fuly initialise
     int                     ObjectGeometry;                 // Image geometry of the embeded image or video
-    QString                 FileName;                       // filename
     QString                 ShortName;                      // filename without path
     QString                 FileExtension;                  // file extension
     int64_t                 FileSize;                       // filesize
@@ -142,8 +143,9 @@ public:
     cBaseMediaFile(cBaseApplicationConfig *ApplicationConfig);
     virtual                 ~cBaseMediaFile();
 
+    virtual QString         FileName();
     virtual void            Reset();
-    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
+    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType)=0;
     virtual void            GetFullInformationFromFile()=0;
     virtual QString         GetInformationValue(QString ValueToSearch);
@@ -169,7 +171,7 @@ class cUnmanagedFile : public cBaseMediaFile {
 public:
     explicit cUnmanagedFile(cBaseApplicationConfig *ApplicationConfig);
 
-    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
+    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
     virtual void            GetFullInformationFromFile()                    {/*Nothing to do*/}
@@ -185,7 +187,7 @@ class cFolder : public cBaseMediaFile {
 public:
     explicit cFolder(cBaseApplicationConfig *ApplicationConfig);
 
-    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
+    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
     virtual void            GetFullInformationFromFile();
@@ -218,7 +220,7 @@ public:
 
     void                    InitDefaultValues();
 
-    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
+    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual QString         GetFileTypeStr();
     virtual bool            IsFilteredFile(int RequireObjectType,int AllowedObjectType);
     virtual void            GetFullInformationFromFile();
@@ -242,7 +244,7 @@ public:
     explicit                cImageFile(cBaseApplicationConfig *ApplicationConfig);
                             ~cImageFile();
 
-    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag);
+    virtual bool            GetInformationFromFile(QString GivenFileName,QStringList *AliasList,bool *ModifyFlag,qlonglong FolderKey);
     virtual QImage          *ImageAt(bool PreviewMode);
     virtual QImage          *LoadVectorImg();
     virtual QString         GetFileTypeStr();

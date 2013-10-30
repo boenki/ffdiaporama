@@ -21,8 +21,8 @@
 #include "DlgChapter.h"
 #include "ui_DlgChapter.h"
 
-DlgChapter::DlgChapter(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgChapter) {
+DlgChapter::DlgChapter(cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+    QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgChapter) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgChapter::DlgChapter");
 
     ui->setupUi(this);

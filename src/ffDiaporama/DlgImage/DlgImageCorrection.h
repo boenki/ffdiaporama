@@ -49,7 +49,7 @@ public:
     int                     DefaultSpeedWave;
 
     explicit DlgImageCorrection(cCompositionObject *TheCurrentTextItem,int *BackgroundForm,cBrushDefinition *CurrentBrush,int TheVideoPosition,ffd_GEOMETRY TheProjectGeometry,int DefaultSpeedWave,
-                                cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent=0);
+                                cBaseApplicationConfig *ApplicationConfig,QWidget *parent=0);
     ~DlgImageCorrection();
 
     // function to be overloaded

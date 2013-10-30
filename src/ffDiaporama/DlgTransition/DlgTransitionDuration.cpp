@@ -23,8 +23,8 @@
 
 //====================================================================================================================
 
-DlgTransitionDuration::DlgTransitionDuration(int64_t Duration,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgTransitionDuration) {
+DlgTransitionDuration::DlgTransitionDuration(int64_t Duration,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+    QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgTransitionDuration) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgTransitionDuration::DlgTransitionDuration");
     ui->setupUi(this);
     OkBt            =ui->OKBT;

@@ -24,8 +24,8 @@
 #include "../DlgFileExplorer/DlgFileExplorer.h"
 #include <QMessageBox>
 
-DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(ApplicationConfig,DlgWSP,parent), ui(new Ui::DlgMusicProperties) {
+DlgMusicProperties::DlgMusicProperties(cDiaporamaObject *TheDiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+    QCustomDialog(ApplicationConfig,parent), ui(new Ui::DlgMusicProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgMusicProperties::DlgMusicProperties");
     ui->setupUi(this);
     OkBt    =ui->OKBT;
@@ -176,13 +176,13 @@ void DlgMusicProperties::RefreshControl(bool RefreshList) {
                 int j=ui->PlayListTable->rowCount();     // Item will be add at end of the list
                 ui->PlayListTable->insertRow(j);
                 QTableWidgetItem *Item;
-                Item=new QTableWidgetItem(QFileInfo(DiaporamaObject->MusicList[CurIndex].FileName).fileName()); Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,0,Item);
+                Item=new QTableWidgetItem(DiaporamaObject->MusicList[CurIndex].ShortName);                      Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,0,Item);
                 Item=new QTableWidgetItem(DiaporamaObject->MusicList[CurIndex].Duration.toString("hh:mm:ss"));  Item->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);  ui->PlayListTable->setItem(j,1,Item);
                 QComboBox *InternalCB=new QComboBox(ui->PlayListTable);
                 for (int Factor=150;Factor>=10;Factor-=10) InternalCB->addItem(QString("%1%").arg(Factor));
                 InternalCB->setCurrentIndex(InternalCB->findText(QString("%1%").arg(int(DiaporamaObject->MusicList[CurIndex].Volume*100))));
                 ui->PlayListTable->setCellWidget(j,2,InternalCB);
-                Item=new QTableWidgetItem(QFileInfo(DiaporamaObject->MusicList[CurIndex].FileName).path());     Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,3,Item);
+                Item=new QTableWidgetItem(QFileInfo(DiaporamaObject->MusicList[CurIndex].FileName()).path());     Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,3,Item);
                 #if QT_VERSION >= 0x050000
                     ui->PlayListTable->verticalHeader()->setSectionResizeMode(j,QHeaderView::ResizeToContents);
                 #else
@@ -233,7 +233,7 @@ void DlgMusicProperties::s_AddMusic() {
     QStringList FileList;
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MUSICFILE,OBJECTTYPE_MUSICFILE,
                         true,false,BaseApplicationConfig->RememberLastDirectories?BaseApplicationConfig->LastMusicPath:"",
-                        QApplication::translate("DlgMusicProperties","Add music files"),DiaporamaObject->Parent->ApplicationConfig,DiaporamaObject->Parent->ApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("DlgMusicProperties","Add music files"),DiaporamaObject->Parent->ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
 
@@ -255,13 +255,13 @@ void DlgMusicProperties::s_AddMusic() {
             int j=ui->PlayListTable->rowCount();     // Item will be add at end of the list
             ui->PlayListTable->insertRow(j);
             QTableWidgetItem *Item;
-            Item=new QTableWidgetItem(QFileInfo(DiaporamaObject->MusicList[CurIndex].FileName).fileName()); Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,0,Item);
+            Item=new QTableWidgetItem(DiaporamaObject->MusicList[CurIndex].ShortName);                      Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,0,Item);
             Item=new QTableWidgetItem(DiaporamaObject->MusicList[CurIndex].Duration.toString("hh:mm:ss"));  Item->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);  ui->PlayListTable->setItem(j,1,Item);
             QComboBox *InternalCB=new QComboBox(ui->PlayListTable);
             for (int Factor=150;Factor>=10;Factor-=10) InternalCB->addItem(QString("%1%").arg(Factor));
             InternalCB->setCurrentIndex(InternalCB->findText(QString("%1%").arg(int(DiaporamaObject->MusicList[CurIndex].Volume*100))));
             ui->PlayListTable->setCellWidget(j,2,InternalCB);
-            Item=new QTableWidgetItem(QFileInfo(DiaporamaObject->MusicList[CurIndex].FileName).path());     Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,3,Item);
+            Item=new QTableWidgetItem(QFileInfo(DiaporamaObject->MusicList[CurIndex].FileName()).path());     Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,3,Item);
             #if QT_VERSION >= 0x050000
                 ui->PlayListTable->verticalHeader()->setSectionResizeMode(j,QHeaderView::ResizeToContents);
             #else

@@ -129,7 +129,7 @@ cSaveWinWithSplitterPos::cSaveWinWithSplitterPos(QString WindowName,bool &Restor
 void cSaveWinWithSplitterPos::ApplyToWindow(QWidget *Window,QSplitter *Top) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::ApplyToWindow");
     cSaveWindowPosition::ApplyToWindow(Window);
-    if (SplitterTop!="")    Top->restoreState(QByteArray::fromHex(SplitterTop.toUtf8()));
+    if (SplitterTop!="") Top->restoreState(QByteArray::fromHex(SplitterTop.toUtf8()));
 }
 
 //***********************************************
@@ -137,7 +137,7 @@ void cSaveWinWithSplitterPos::ApplyToWindow(QWidget *Window,QSplitter *Top) {
 void cSaveWinWithSplitterPos::SaveWindowState(QWidget *Window,QSplitter *Top) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cSaveWinWithSplitterPos::SaveWindowState");
     cSaveWindowPosition::SaveWindowState(Window);
-    SplitterTop   =QString(QByteArray(Top->saveState()).toHex());
+    SplitterTop=QString(QByteArray(Top->saveState()).toHex());
 }
 
 //***********************************************

@@ -46,7 +46,7 @@ public:
     int                     CurrentObject;
     int                     HeighRow;
 
-    explicit DlgExportProject(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit DlgExportProject(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgExportProject();
     
     // function to be overloaded

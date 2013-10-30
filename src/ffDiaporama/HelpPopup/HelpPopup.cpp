@@ -26,13 +26,14 @@
 #include <QtHelp/QHelpContentModel>
 #include <QtHelp/QHelpContentWidget>
 
-HelpPopup::HelpPopup(cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *):QCustomDialog(ApplicationConfig,DlgWSP,NULL),ui(new Ui::HelpPopup) {
+HelpPopup::HelpPopup(cBaseApplicationConfig *ApplicationConfig,QWidget *):QCustomDialog(ApplicationConfig,NULL),ui(new Ui::HelpPopup) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::HelpPopup");
 
-    HelpEngine=NULL;
-    Path="ffdiaporama_";
-    QString CollectionFile=BaseApplicationConfig->StartingPath;
-    QString NameSpace="ffdiaporama_";
+    HelpEngine              =NULL;
+    Path                    ="ffdiaporama_";
+    QString CollectionFile  =BaseApplicationConfig->StartingPath;
+    QString NameSpace       ="ffdiaporama_";
+
     if (!CollectionFile.endsWith(QDir::separator())) CollectionFile=CollectionFile+QDir::separator();
     if (QFileInfo(CollectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(BaseApplicationConfig->CurrentLanguage)).exists()) {
         CollectionFile=CollectionFile+"locale"+QDir::separator()+QString("wiki_%1.qhc").arg(BaseApplicationConfig->CurrentLanguage);
@@ -59,6 +60,8 @@ HelpPopup::HelpPopup(cBaseApplicationConfig *ApplicationConfig,cSaveWindowPositi
     DisableContentChange=false;
 
     ui->setupUi(this);
+    TypeWindowState =TypeWindowState_withsplitterpos;
+    Splitter        =ui->HelpSplitter;
 }
 
 //====================================================================================================================
@@ -164,22 +167,6 @@ void HelpPopup::PageChanged() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::PageChanged");
     ui->PreviousBT->setEnabled(ui->HelpBrowserWidget->backwardHistoryCount()>0);
     ui->NextBT->setEnabled(ui->HelpBrowserWidget->isForwardAvailable());
-}
-
-//====================================================================================================================
-
-void HelpPopup::SaveWindowState() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:HelpPopup::SaveWindowState");
-    // Save Window size and position
-    if (DlgWSP) ((cSaveWinWithSplitterPos *)DlgWSP)->SaveWindowState(this,ui->HelpSplitter);
-}
-
-//====================================================================================================================
-
-void HelpPopup::RestoreWindowState() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::RestoreWindowState");
-    // Restore window size and position
-    if (DlgWSP) ((cSaveWinWithSplitterPos *)DlgWSP)->ApplyToWindow(this,ui->HelpSplitter);
 }
 
 //====================================================================================================================

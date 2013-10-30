@@ -32,8 +32,8 @@
 
 //====================================================================================================================
 
-DlgManageDevices::DlgManageDevices(cDeviceModelList *DeviceModelList,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
-    :QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgManageDevices) {
+DlgManageDevices::DlgManageDevices(cDeviceModelList *DeviceModelList,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
+    :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgManageDevices) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgManageDevices::DlgManageDevices");
 
