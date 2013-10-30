@@ -28,19 +28,21 @@
 #define LATENCY 5
 
 DlgFileExplorer::DlgFileExplorer(int AllowedFilter,int CurrentFilter,bool AllowMultipleSelection,bool AllowDragDrop,
-                QString StartupPath,QString TheBoxTitle,
-                cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-                QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgFileExplorer) {
+                QString StartupPath,QString TheBoxTitle,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+                QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgFileExplorer) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::DlgFileExplorer");
 
+    // Initialise UI
+    ui->setupUi(this);
+
+    TypeWindowState         =TypeWindowState_withsplitterpos;
+    Splitter                =ui->BrowserWidget;
     CurrentPath             =StartupPath;
     DlgWorkingTaskDialog    =NULL;
     CancelAction            =false;
     CurrentDriveCheck       =0;
 
-    // Initialise UI
-    ui->setupUi(this);
     OkBt        =ui->OKBT;
     CancelBt    =ui->CancelBt;
     HelpBt      =ui->HelpBT;
@@ -127,22 +129,6 @@ void DlgFileExplorer::PrepareGlobalUndo() {
 
 void DlgFileExplorer::DoGlobalUndo() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::DoGlobalUndo");
-}
-
-//====================================================================================================================
-
-void DlgFileExplorer::SaveWindowState() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::SaveWindowState");
-    // Save Window size and position
-    if (DlgWSP) ((cSaveWinWithSplitterPos *)DlgWSP)->SaveWindowState(this,ui->BrowserWidget);
-}
-
-//====================================================================================================================
-
-void DlgFileExplorer::RestoreWindowState() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::RestoreWindowState");
-    // Restore window size and position
-    if (DlgWSP) ((cSaveWinWithSplitterPos *)DlgWSP)->ApplyToWindow(this,ui->BrowserWidget);
 }
 
 //====================================================================================================================
@@ -477,7 +463,7 @@ void DlgFileExplorer::s_Browser_Properties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_Properties");
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
     if (Media) {
-        DlgInfoFile Dlg(Media,BaseApplicationConfig,BaseApplicationConfig->DlgInfoFileWSP,this);
+        DlgInfoFile Dlg(Media,BaseApplicationConfig,this);
         Dlg.InitDialog();
         Dlg.exec();
     }
@@ -555,7 +541,7 @@ void DlgFileExplorer::s_Browser_AddToFavorite() {
 
 void DlgFileExplorer::s_Browser_ManageFavorite() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgFileExplorer::s_Browser_ManageFavorite");
-    DlgManageFavorite Dlg(&BaseApplicationConfig->BrowserFavorites,BaseApplicationConfig,BaseApplicationConfig->DlgManageFavoriteWSP,this);
+    DlgManageFavorite Dlg(&BaseApplicationConfig->BrowserFavorites,BaseApplicationConfig,this);
     Dlg.InitDialog();
     Dlg.exec();
 }

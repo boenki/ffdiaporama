@@ -49,7 +49,7 @@ public:
     bool                StopMajFramingStyle;
     bool                NoPrepUndo;
 
-    explicit DlgImageComposer(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent = 0);
+    explicit DlgImageComposer(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent = 0);
     ~DlgImageComposer();
 
     // function to be overloaded
@@ -58,8 +58,6 @@ public:
     virtual void        DoRejet()           {/*Nothing to do*/}     // Call when user click on Cancel button
     virtual void        PrepareGlobalUndo();                        // Initiale Undo
     virtual void        DoGlobalUndo();                             // Apply Undo : call when user click on Cancel button
-    virtual void        SaveWindowState();
-    virtual void        RestoreWindowState();
 
     void                RefreshStyleControls();
     void                RefreshControls(bool UpdateInteractiveZone=true);

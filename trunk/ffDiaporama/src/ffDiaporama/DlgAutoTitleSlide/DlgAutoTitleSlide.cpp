@@ -24,8 +24,8 @@
 
 #define TIMERFREQ   200
 
-DlgAutoTitleSlide::DlgAutoTitleSlide(bool IsCreation,cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgAutoTitleSlide) {
+DlgAutoTitleSlide::DlgAutoTitleSlide(bool IsCreation,cDiaporamaObject *DiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+    QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgAutoTitleSlide) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::DlgAutoTitleSlide");
 
     ui->setupUi(this);
@@ -329,7 +329,7 @@ void DlgAutoTitleSlide::ProjectProperties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgAutoTitleSlide::ProjectProperties");
 
     Timer.stop();
-    DlgffDPjrProperties Dlg(false,CurrentSlide->Parent,BaseApplicationConfig,BaseApplicationConfig->DlgffDPjrPropertiesWSP,this);
+    DlgffDPjrProperties Dlg(false,CurrentSlide->Parent,BaseApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) emit SetModifyFlag();
     ui->ModelTable->TimerPosition=0;

@@ -40,8 +40,8 @@
 
 //====================================================================================================================
 
-DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaObject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgBackgroundProperties) {
+DlgBackgroundProperties::DlgBackgroundProperties(cDiaporamaObject *TheDiaporamaObject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+    QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgBackgroundProperties) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgBackgroundProperties::DlgBackgroundProperties");
     ui->setupUi(this);
     OkBt            =ui->OKBT;
@@ -218,7 +218,7 @@ void DlgBackgroundProperties::RefreshControls() {
         ui->ImageEditCorrectBT->setEnabled((DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK)&&(DiaporamaObject->BackgroundBrush->Image!=NULL)&&(!DiaporamaObject->BackgroundBrush->FullFilling));
 
         ui->FullFillRB->setVisible(DiaporamaObject->BackgroundBrush->BrushType==BRUSHTYPE_IMAGEDISK);
-        ui->ImageFileED->setText(DiaporamaObject->BackgroundBrush->Image?DiaporamaObject->BackgroundBrush->Image->FileName:"");
+        ui->ImageFileED->setText(DiaporamaObject->BackgroundBrush->Image?DiaporamaObject->BackgroundBrush->Image->FileName():"");
 
     } else {
 
@@ -298,7 +298,7 @@ void DlgBackgroundProperties::s_SelectFile() {
     QString     NewFile="";
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_IMAGEFILE,OBJECTTYPE_IMAGEFILE,
                         false,false,BaseApplicationConfig->RememberLastDirectories?BaseApplicationConfig->LastMediaPath:"",
-                        QApplication::translate("DlgBackgroundProperties","Select a file"),DiaporamaObject->Parent->ApplicationConfig,DiaporamaObject->Parent->ApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("DlgBackgroundProperties","Select a file"),DiaporamaObject->Parent->ApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FileList=Dlg.GetCurrentSelectedFiles();
@@ -313,7 +313,7 @@ void DlgBackgroundProperties::s_SelectFile() {
         DiaporamaObject->BackgroundBrush->Image=NULL;
     }
     DiaporamaObject->BackgroundBrush->Image=new cImageFile(BaseApplicationConfig);
-    bool IsValide=DiaporamaObject->BackgroundBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL);
+    bool IsValide=DiaporamaObject->BackgroundBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL,-1);
     if (!IsValide) {
         delete DiaporamaObject->BackgroundBrush->Image;
         DiaporamaObject->BackgroundBrush->Image=NULL;
@@ -406,8 +406,7 @@ void DlgBackgroundProperties::s_ImageEditCorrect() {
         AppendPartialUndo(UNDOACTION_EDITIMG,ui->ImageEditCorrectBT,false);
 
         //DlgImageCorrection Dlg(NULL,1,DiaporamaObject->BackgroundBrush,0,HELPFILE_DlgImageCorrection,BaseApplicationConfig,BaseApplicationConfig->DlgImageCorrectionWSP,this);
-        DlgImageCorrection Dlg(NULL,NULL,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,SPEEDWAVE_DISABLE,
-                               BaseApplicationConfig,BaseApplicationConfig->DlgImageCorrectionWSP,this);
+        DlgImageCorrection Dlg(NULL,NULL,DiaporamaObject->BackgroundBrush,0,DiaporamaObject->Parent->ImageGeometry,SPEEDWAVE_DISABLE,BaseApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
             RefreshControls();

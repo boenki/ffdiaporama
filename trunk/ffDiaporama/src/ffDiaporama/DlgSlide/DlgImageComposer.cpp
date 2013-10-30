@@ -81,18 +81,19 @@ enum UNDOACTION_ID {
 
 //====================================================================================================================
 
-DlgImageComposer::DlgImageComposer(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
-    :QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgImageComposer) {
+DlgImageComposer::DlgImageComposer(cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
+    :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgImageComposer) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::DlgImageComposer");
 
-    this->ffdProject =ffdProject;
     ui->setupUi(this);
-
-    CancelBt=ui->CancelBt;
-    OkBt    =ui->OkBt;
-    HelpBt  =ui->HelpBt;
-    HelpFile="0117";
+    TypeWindowState  =TypeWindowState_withsplitterpos;
+    Splitter         =ui->SplitterTop;
+    this->ffdProject =ffdProject;
+    CancelBt        =ui->CancelBt;
+    OkBt            =ui->OkBt;
+    HelpBt          =ui->HelpBt;
+    HelpFile        ="0117";
 
     InRefreshStyleControls              =false;
     InRefreshControls                   =false;
@@ -286,22 +287,6 @@ DlgImageComposer::~DlgImageComposer() {
 
     ffdProject->CloseUnusedLibAv(ffdProject->CurrentCol);
     delete ui;
-}
-
-//====================================================================================================================
-
-void DlgImageComposer::SaveWindowState() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::SaveWindowState");
-    // Save Window size and position
-    if (DlgWSP) ((cSaveWinWithSplitterPos *)DlgWSP)->SaveWindowState(this,ui->SplitterTop);
-}
-
-//====================================================================================================================
-
-void DlgImageComposer::RestoreWindowState() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::RestoreWindowState");
-    // Restore window size and position
-    if (DlgWSP) ((cSaveWinWithSplitterPos *)DlgWSP)->ApplyToWindow(this,ui->SplitterTop);
 }
 
 //====================================================================================================================
@@ -1063,7 +1048,7 @@ void DlgImageComposer::s_BlockTable_AddNewFileBlock() {
     QStringList FileList;
     DlgFileExplorer Dlg(FILTERALLOW_OBJECTTYPE_FOLDER|FILTERALLOW_OBJECTTYPE_MANAGED|FILTERALLOW_OBJECTTYPE_IMAGEFILE|FILTERALLOW_OBJECTTYPE_VIDEOFILE|FILTERALLOW_OBJECTTYPE_IMAGEVECTORFILE,
                         OBJECTTYPE_MANAGED,true,false,BaseApplicationConfig->RememberLastDirectories?BaseApplicationConfig->LastMediaPath:"",
-                        QApplication::translate("MainWindow","Add files"),BaseApplicationConfig,BaseApplicationConfig->DlgFileExplorerWSP,this);
+                        QApplication::translate("MainWindow","Add files"),BaseApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) FileList=Dlg.GetCurrentSelectedFiles();
     if (FileList.count()==0) return;
@@ -1127,7 +1112,7 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
         for (int i=0;i<BaseApplicationConfig->AllowImageExtension.count();i++) if (BaseApplicationConfig->AllowImageExtension[i]==Extension) {
             // Create an image wrapper
             CurrentBrush->Image=new cImageFile(BaseApplicationConfig);
-            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,&AliasList,NULL);
+            IsValide=CurrentBrush->Image->GetInformationFromFile(BrushFileName,&AliasList,NULL,-1);
             if (!IsValide) {
                 delete CurrentBrush->Image;
                 CurrentBrush->Image=NULL;
@@ -1138,7 +1123,7 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
         if (CurrentBrush->Image==NULL) for (int i=0;i<BaseApplicationConfig->AllowVideoExtension.count();i++) if (BaseApplicationConfig->AllowVideoExtension[i]==Extension) {
             // Create a video wrapper
             CurrentBrush->Video=new cVideoFile(OBJECTTYPE_VIDEOFILE,BaseApplicationConfig);
-            IsValide=(CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,NULL))&&(CurrentBrush->Video->OpenCodecAndFile());
+            IsValide=(CurrentBrush->Video->GetInformationFromFile(BrushFileName,&AliasList,NULL,-1))&&(CurrentBrush->Video->OpenCodecAndFile());
             if (IsValide) {
                 // Check if file have at least one sound track compatible
                 if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(!(
@@ -1437,8 +1422,7 @@ void DlgImageComposer::s_BlockSettings_TextEditor() {
 
     ui->InteractiveZone->DisplayMode=cInteractiveZone::DisplayMode_TextMargin;
     ui->InteractiveZone->RefreshDisplay();
-    DlgTextEdit Dlg(ffdProject,CurrentCompoObject,BaseApplicationConfig,BaseApplicationConfig->DlgTextEditWSP,
-                    &BaseApplicationConfig->StyleTextCollection,&BaseApplicationConfig->StyleTextBackgroundCollection,this);
+    DlgTextEdit Dlg(ffdProject,CurrentCompoObject,BaseApplicationConfig,&BaseApplicationConfig->StyleTextCollection,&BaseApplicationConfig->StyleTextBackgroundCollection,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {
@@ -1468,7 +1452,7 @@ void DlgImageComposer::s_BlockSettings_Information() {
         else if (CurrentCompoObject->BackgroundBrush->Video!=NULL)   Media=CurrentCompoObject->BackgroundBrush->Video;
 
     if (Media) {
-        DlgInfoFile Dlg(Media,BaseApplicationConfig,BaseApplicationConfig->DlgInfoFileWSP,this);
+        DlgInfoFile Dlg(Media,BaseApplicationConfig,this);
         Dlg.InitDialog();
         Dlg.exec();
     }
@@ -1488,8 +1472,7 @@ void DlgImageComposer::s_BlockSettings_ImageEditCorrect() {
 
     // Compute position of video
     int Position=CurrentBrush->Video?QTime(0,0,0,0).msecsTo(CurrentBrush->Video->StartPos):0;
-    DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,ffdProject->ImageGeometry,ffdProject->ImageAnimSpeedWave,
-                           BaseApplicationConfig,BaseApplicationConfig->DlgImageCorrectionWSP,this);
+    DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,ffdProject->ImageGeometry,ffdProject->ImageAnimSpeedWave,BaseApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         FramingCB_CurrentBrush   =NULL; // To force a refresh of ui->FramingCB !
@@ -1503,8 +1486,8 @@ void DlgImageComposer::s_BlockSettings_ImageEditCorrect() {
         }
 
         // Lulo object for image and video must be remove
-        if (CurrentCompoObject->BackgroundBrush->Video) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileName);
-            else if (CurrentCompoObject->BackgroundBrush->Image) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileName);
+        if (CurrentCompoObject->BackgroundBrush->Video) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileName());
+        else if (CurrentCompoObject->BackgroundBrush->Image) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileName());
 
         RefreshBlockTable(CurrentCompoObjectNbr);
     } else {
@@ -1861,7 +1844,7 @@ void DlgImageComposer::s_BlockTable_DistributeVert() {
 void DlgImageComposer::s_RulersBt() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgImageComposer::s_RulersBt");
 
-    DlgRulerDef Dlg(&ui->InteractiveZone->MagneticRuler,false,BaseApplicationConfig,BaseApplicationConfig->DlgRulerDef,this);
+    DlgRulerDef Dlg(&ui->InteractiveZone->MagneticRuler,false,BaseApplicationConfig,this);
     Dlg.InitDialog();
     connect(&Dlg,SIGNAL(RefreshDisplay()),this,SLOT(s_RefreshSceneImage()));
     if (Dlg.exec()==0) {

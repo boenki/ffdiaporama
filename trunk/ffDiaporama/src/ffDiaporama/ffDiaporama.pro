@@ -14,7 +14,7 @@ greaterThan(QT_MAJOR_VERSION, 4): {
     CONFIG += help
 }
 
-QT          += core gui xml network svg
+QT          += core gui xml network svg sql
 QMAKE_STRIP  = echo
 APPFOLDER    = ffDiaporama
 TARGET       = ffDiaporama
@@ -33,42 +33,60 @@ isEmpty(PREFIX) {
 DEFINES +=SHARE_DIR=\\\"$$PREFIX\\\"
 
 unix {
-
     CFLAGS += -W"Missing debug information for"
 
-    HARDWARE_PLATFORM = $$system(uname -m)
-    contains(HARDWARE_PLATFORM,x86_64) {
-        DEFINES+=Q_OS_LINUX64
-        message("x86_64 build")
-    } else {
-        DEFINES+=Q_OS_LINUX32
-        message("x86 build")
-    }
+    contains(DEFINES,Q_OS_SOLARIS) {
 
-    exists(/opt/ffmpeg/include/libswresample/swresample.h) {         #------ conditionnaly includes from Sam Rog packages for Ubuntu
-        message("Use SAM ROG Packages from /opt/ffmpeg")
-        INCLUDEPATH += /opt/ffmpeg/include/
-        LIBS        += -L"/opt/ffmpeg/lib"
-        DEFINES += USELIBSWRESAMPLE
-        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
-    } else:exists(/usr/include/ffmpeg/libswresample/swresample.h) {         #------ Specific for Fedora
-        message("Use ffmpeg in /usr/include/ffmpeg")
-        DEFINES += USELIBSWRESAMPLE
-        INCLUDEPATH += /usr/include/ffmpeg/
-        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
-    } else:exists(/usr/include/libswresample/swresample.h) {                #------ Specific for openSUSE
-        message("Use ffmpeg in /usr/include")
-        INCLUDEPATH += /usr/include/
-        DEFINES += USELIBSWRESAMPLE
-        LIBS    += -lswresample                                             #------ conditionnaly include libswresample
-    } else:exists(/usr/include/libavresample/avresample.h) {
-        message("Use libav 9 in /usr/include")
-        DEFINES += USELIBAVRESAMPLE
-        LIBS    += -lavresample                                             #------ conditionnaly include libavresample
+        HARDWARE_PLATFORM = $$system(uname -m)
+        contains(HARDWARE_PLATFORM,x86_64) {
+            DEFINES+=Q_OS_SOLARIS64
+            message("Solaris x86_64 build")
+        } else {
+            DEFINES+=Q_OS_SOLARIS32
+            message("Solaris x86 build")
+        }
+        message("Use ffmpeg in /opt/gnu/include")
+        INCLUDEPATH += /opt/gnu/include
+        DEFINES     += USELIBSWRESAMPLE
+        LIBS        += -lswresample
+
     } else {
-        message("Use libav 0.8+taglib in /usr/include")
-        LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV_08
-        DEFINES += USETAGLIB
+
+        HARDWARE_PLATFORM = $$system(uname -m)
+        contains(HARDWARE_PLATFORM,x86_64) {
+            DEFINES+=Q_OS_LINUX64
+            message("Linux x86_64 build")
+        } else {
+            DEFINES+=Q_OS_LINUX32
+            message("Linux x86 build")
+        }
+
+        exists(/opt/ffmpeg/include/libswresample/swresample.h) {         #------ conditionnaly includes from Sam Rog packages for Ubuntu
+            message("Use SAM ROG Packages from /opt/ffmpeg")
+            INCLUDEPATH += /opt/ffmpeg/include/
+            LIBS        += -L"/opt/ffmpeg/lib"
+            DEFINES += USELIBSWRESAMPLE
+            LIBS    += -lswresample                                             #------ conditionnaly include libswresample
+        } else:exists(/usr/include/ffmpeg/libswresample/swresample.h) {         #------ Specific for Fedora
+            message("Use ffmpeg in /usr/include/ffmpeg")
+            DEFINES += USELIBSWRESAMPLE
+            INCLUDEPATH += /usr/include/ffmpeg/
+            LIBS    += -lswresample                                             #------ conditionnaly include libswresample
+        } else:exists(/usr/include/libswresample/swresample.h) {                #------ Specific for openSUSE
+            message("Use ffmpeg in /usr/include")
+            INCLUDEPATH += /usr/include/
+            DEFINES += USELIBSWRESAMPLE
+            LIBS    += -lswresample                                             #------ conditionnaly include libswresample
+        } else:exists(/usr/include/libavresample/avresample.h) {
+            message("Use libav 9 in /usr/include")
+            DEFINES += USELIBAVRESAMPLE
+            LIBS    += -lavresample                                             #------ conditionnaly include libavresample
+        } else {
+            message("Use libav 0.8+taglib in /usr/include")
+            LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV_08
+            DEFINES += USETAGLIB
+        }
+
     }
 
     LIBS        += -lexiv2                                                  #------ Exiv2
@@ -318,7 +336,9 @@ OTHER_FILES += ../../TODO-LIST.txt \          # Developpement file
     ../../WIKI/UpdateQMFiles.cmd \
     ../../WIKI/PREPLANGUAGE.cmd \
     ../../WIKI/src_en/0013.html \
-    ../../readme.txt
+    ../../readme.txt \
+    ../../changelog.txt \
+    ../../translation.txt
 
 # Source files
 SOURCES +=  wgt_QVideoPlayer.cpp \
@@ -378,6 +398,7 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             ../engine/_Diaporama.cpp \
             ../engine/_Variables.cpp \
             ../engine/_Model.cpp \
+            ../engine/cDatabase.cpp \
             ../CustomCtrl/_QCustomDialog.cpp \
             ../CustomCtrl/cCColorComboBox.cpp \
             ../CustomCtrl/cCBrushComboBox.cpp \
@@ -393,7 +414,7 @@ SOURCES +=  wgt_QVideoPlayer.cpp \
             ../CustomCtrl/cThumbnailComboBox.cpp \
             ../CustomCtrl/cCustomTitleModelTable.cpp \
             ../CustomCtrl/_QCustomComboBox.cpp \
-    HelpPopup/HelpContent.cpp
+            HelpPopup/HelpContent.cpp
 
 # Header files
 HEADERS  += wgt_QVideoPlayer.h \
@@ -452,6 +473,7 @@ HEADERS  += wgt_QVideoPlayer.h \
             ../engine/_Diaporama.h \
             ../engine/_Variables.h \
             ../engine/_Model.h \
+            ../engine/cDatabase.h \
             ../CustomCtrl/_QCustomDialog.h \
             ../CustomCtrl/cCColorComboBox.h \
             ../CustomCtrl/cCBrushComboBox.h \
@@ -467,7 +489,7 @@ HEADERS  += wgt_QVideoPlayer.h \
             ../CustomCtrl/cThumbnailComboBox.h \
             ../CustomCtrl/cCustomTitleModelTable.h \
             ../CustomCtrl/_QCustomComboBox.h \
-    HelpPopup/HelpContent.h
+            HelpPopup/HelpContent.h
 
 # Forms files
 FORMS    += mainwindow.ui \
@@ -496,7 +518,7 @@ FORMS    += mainwindow.ui \
             DlgChapter/DlgChapter.ui \
             DlgAutoTitleSlide/DlgAutoTitleSlide.ui \
             DlgExportProject/DlgExportProject.ui \
-    HelpPopup/HelpPopup.ui
+            HelpPopup/HelpPopup.ui
 
 #--------------------------------------------------------------
 # INSTALLATION

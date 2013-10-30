@@ -34,6 +34,12 @@
 #include <QString>
 #include <QSplitter>
 
+enum Type_WindowState {
+    TypeWindowState_undefined,
+    TypeWindowState_simple,
+    TypeWindowState_withsplitterpos
+};
+
 //====================================================================================================================
 
 class cSaveWindowPosition {

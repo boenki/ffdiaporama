@@ -33,8 +33,8 @@
 #define ICON_GLOBALCONF                     ":/img/db.png"
 #define ICON_USERCONF                       ":/img/db_update.png"
 
-DlgApplicationSettings::DlgApplicationSettings(cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
-    :QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgApplicationSettings) {
+DlgApplicationSettings::DlgApplicationSettings(cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
+    :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgApplicationSettings) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::DlgApplicationSettings");
 
@@ -73,11 +73,11 @@ void DlgApplicationSettings::DoInitDialog() {
     #ifdef Q_OS_WIN
         ui->RasterModeCB->setVisible(false);
         ui->SDLAudioModeCB->setVisible(false);
-    #elif defined(Q_OS_UNIX) && !defined(Q_OS_MACX)
+    #elif defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
         ui->RasterModeCB->setChecked(ApplicationConfig->RasterMode);
     #endif
 
-    #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32))
+    #if (!defined(Q_OS_WIN64))&&(defined(Q_OS_WIN32) || defined(Q_OS_LINUX32) || defined(Q_OS_SOLARIS32))
         if      (ApplicationConfig->MemCacheMaxValue<=int64_t(256*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(0);
         else if (ApplicationConfig->MemCacheMaxValue<=int64_t(512*1024*1024))     ui->MemCacheProfilCB->setCurrentIndex(1);
         else ui->MemCacheProfilCB->setCurrentIndex(2);
@@ -377,7 +377,7 @@ bool DlgApplicationSettings::DoAccept() {
     ApplicationConfig->RememberLastDirectories  =ui->RememberLastDirectoriesCH->isChecked();
     ApplicationConfig->RestoreWindow            =ui->RestoreWindowCH->isChecked();
     ApplicationConfig->SDLAudioOldMode          =ui->SDLAudioModeCB->isChecked();
-    #ifdef Q_OS_LINUX
+    #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     ApplicationConfig->RasterMode               =ui->RasterModeCB->isChecked();
     #endif
 
@@ -524,7 +524,7 @@ void DlgApplicationSettings::DoGlobalUndo() {
 
 void DlgApplicationSettings::s_CheckConfig() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::s_CheckConfig");
-    DlgCheckConfig Dlg(ApplicationConfig,ApplicationConfig->DlgCheckConfigWSP,this);
+    DlgCheckConfig Dlg(ApplicationConfig,this);
     Dlg.InitDialog();
     Dlg.exec();
 }
@@ -533,7 +533,7 @@ void DlgApplicationSettings::s_CheckConfig() {
 
 void DlgApplicationSettings::s_ManageDevices() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgApplicationSettings::s_ManageDevices");
-    DlgManageDevices Dlg(&ApplicationConfig->DeviceModelList,ApplicationConfig,ApplicationConfig->DlgManageDevicesWSP,this);
+    DlgManageDevices Dlg(&ApplicationConfig->DeviceModelList,ApplicationConfig,this);
     Dlg.InitDialog();
     Dlg.exec();
 }

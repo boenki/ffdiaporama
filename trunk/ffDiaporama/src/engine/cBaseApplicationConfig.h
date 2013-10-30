@@ -46,6 +46,7 @@
 #include "_SpeedWave.h"
 #include "_Transition.h"
 #include "_Model.h"
+#include "cDatabase.h"
 
 //============================================
 
@@ -222,7 +223,7 @@ QString GetTextSize(int64_t Size);                                              
 bool    CheckFolder(QString FileToTest,QString PathToTest);                                                         // Check if FileToTest exist in PathToTest and if yes the change current folder to PathToTest
 bool    SetWorkingPath(char * const argv[],QString ApplicationName,QString ConfigFileExt);    // Adjust current folder
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
     bool SearchRasterMode(QString ApplicationName,QString ConfigFileExt,QString ConfigFileRootName);
 #endif
 
@@ -245,6 +246,9 @@ public:
     cDriveList              *DriveList;                                 // Drive list for multimedia file explorer
     QString                 AllowedWEBLanguage;
     HelpPopup               *PopupHelp;
+    cDatabase               *Database;
+    cSettingsTable          *SettingsTable;                             // Settings table on the database
+    cFolderTable            *FoldersTable;                              // Folders table on the database
 
     // Image cache
     cLuLoImageCache         ImagesCache;                                // cLuLoImageCache List Object
@@ -428,32 +432,7 @@ public:
     int                     Video_ThumbWidth,Video_ThumbHeight;         // Thumbnail size in big icon mode for video
 
     // Windows Size & Position
-    cSaveWindowPosition     *DlgBackgroundPropertiesWSP;                // Dialog box "Background properties" - Window size and position
-    cSaveWindowPosition     *DlgMusicPropertiesWSP;                     // Dialog box "Music properties" - Window size and position
-    cSaveWindowPosition     *DlgApplicationSettingsWSP;                 // Dialog box "Application settings" - Window size and position
-    cSaveWindowPosition     *DlgRenderVideoWSP;                         // Dialog box "Render Video" - Window size and position
-    cSaveWindowPosition     *DlgTransitionPropertiesWSP;                // Dialog box "Transition properties" - Window size and position
-    cSaveWindowPosition     *DlgTransitionDurationWSP;                  // Dialog box "Transition duration" - Window size and position
-    cSaveWinWithSplitterPos *DlgSlidePropertiesWSP;                     // Dialog box "Slide properties" - Window size and position
-    cSaveWinWithSplitterPos *DlgSlideDurationWSP;                       // Dialog box "Slide duration" - Window size and position
-    cSaveWinWithSplitterPos *DlgFileExplorerWSP;                        // Dialog box "File Explorer" - Window size and position
-    cSaveWinWithSplitterPos *DlgImageComposerThumbWSP;                  // Dialog box "Image composer for thumbnail" - Window size and position
-    cSaveWindowPosition     *DlgImageTransformationWSP;                 // Dialog box "Image Transformation" - Window size and position
-    cSaveWindowPosition     *DlgImageCorrectionWSP;                     // Dialog box "Image Correction" - Window size and position
-    cSaveWindowPosition     *DlgTextEditWSP;                            // Dialog box "Text editor" - Window size and position
-    cSaveWindowPosition     *DlgManageStyleWSP;                         // Dialog box "Manage style" - Window size and position
-    cSaveWindowPosition     *DlgCheckConfigWSP;                         // Dialog box "Check configuration" - Window size and position
-    cSaveWindowPosition     *DlgManageDevicesWSP;                       // Dialog box "Manage Devices" - Window size and position
-    cSaveWindowPosition     *DlgAboutWSP;                               // Dialog box "About" - Window size and position
-    cSaveWindowPosition     *DlgffDPjrPropertiesWSP;                    // Dialog box "Project properties" - Window size and position
-    cSaveWindowPosition     *DlgInfoFileWSP;                            // Dialog box "File Information" - Window size and position
-    cSaveWindowPosition     *DlgRulerDef;                               // Dialog box "Ruler properties" - Window size and position
-    cSaveWindowPosition     *DlgManageFavoriteWSP;                      // Dialog box "Manage favorite" - Window size and position
-    cSaveWindowPosition     *DlgChapterWSP;
-    cSaveWindowPosition     *DlgAutoTitleWSP;
-    cSaveWindowPosition     *DlgExportProjectWSP;
     cSaveWindowPosition     *MainWinWSP;                                // MainWindow - Window size and position
-    cSaveWinWithSplitterPos *DlgPopupHelp;
 
     cBaseApplicationConfig(QMainWindow *TopLevelWindow,QString AllowedWEBLanguage,QString ApplicationGroupName,QString ApplicationName,QString ApplicationVersion,QString ConfigFileExt,QString ConfigFileRootName);
     virtual ~cBaseApplicationConfig();

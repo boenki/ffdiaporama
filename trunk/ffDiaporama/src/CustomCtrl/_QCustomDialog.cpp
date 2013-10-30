@@ -78,11 +78,12 @@ int CustomMessageBox(QWidget *parent,QMessageBox::Icon icon,const QString& title
 
 //====================================================================================================================
 
-QCustomDialog::QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):QDialog(parent) {
+QCustomDialog::QCustomDialog(cBaseApplicationConfig *BaseApplicationConfig,QWidget *parent):QDialog(parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::QCustomDialog");
 
     this->BaseApplicationConfig =BaseApplicationConfig;
-    this->DlgWSP                =DlgWSP;
+    TypeWindowState             =TypeWindowState_simple;
+    Splitter                    =NULL;
     Undo                        =NULL;
     OkBt                        =NULL;
     CancelBt                    =NULL;
@@ -192,20 +193,55 @@ void QCustomDialog::help() {
 }
 
 //====================================================================================================================
+// Save Window size and position
+
 void QCustomDialog::SaveWindowState() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::SaveWindowState");
 
-    // Save Window size and position
-    if (DlgWSP) DlgWSP->SaveWindowState(this);
+    if (BaseApplicationConfig->RestoreWindow) {
+        QDomDocument    domDocument;
+        QDomElement     root=domDocument.createElement("WindowState");
+        domDocument.appendChild(root);
+
+        if (TypeWindowState==TypeWindowState_simple) {
+            cSaveWindowPosition DlgWSP(objectName(),BaseApplicationConfig->RestoreWindow,false);
+            DlgWSP.SaveWindowState(this);
+            DlgWSP.SaveToXML(root);
+            BaseApplicationConfig->SettingsTable->SetIntAndTextValue(objectName(),TypeWindowState,domDocument.toString());
+        } else if (TypeWindowState==TypeWindowState_withsplitterpos) {
+            cSaveWinWithSplitterPos DlgWSP(objectName(),BaseApplicationConfig->RestoreWindow,false);
+            DlgWSP.SaveWindowState(this,Splitter);
+            DlgWSP.SaveToXML(root);
+            BaseApplicationConfig->SettingsTable->SetIntAndTextValue(objectName(),TypeWindowState,domDocument.toString());
+        }
+    }
 }
 
 //====================================================================================================================
+// Restore window size and position
 
 void QCustomDialog::RestoreWindowState() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomDialog::RestoreWindowState");
 
-    // Restore window size and position
-    if (DlgWSP) DlgWSP->ApplyToWindow(this);
+    QString   WindowStateString;
+    if (BaseApplicationConfig->SettingsTable->GetIntAndTextValue(objectName(),&TypeWindowState,&WindowStateString)) {
+        QDomDocument    domDocument;
+        QString         errorStr;
+        int             errorLine,errorColumn;
+        if (!domDocument.setContent(WindowStateString,true,&errorStr,&errorLine,&errorColumn)) {
+            ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error reading window state of %1 from home user database","Error message").arg(objectName()));
+        } else {
+            if (TypeWindowState==TypeWindowState_simple) {
+                cSaveWindowPosition DlgWSP(objectName(),BaseApplicationConfig->RestoreWindow,false);
+                DlgWSP.LoadFromXML(domDocument.documentElement());
+                if (DlgWSP.IsInit) DlgWSP.ApplyToWindow(this);
+            } else if (TypeWindowState==TypeWindowState_withsplitterpos) {
+                cSaveWinWithSplitterPos DlgWSP(objectName(),BaseApplicationConfig->RestoreWindow,false);
+                DlgWSP.LoadFromXML(domDocument.documentElement());
+                if (DlgWSP.IsInit) DlgWSP.ApplyToWindow(this,Splitter);
+            }
+        }
+    }
 }
 
 //====================================================================================================================

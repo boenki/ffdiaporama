@@ -40,8 +40,8 @@ AVRational MakeAVRational(int num,int den) {
 
 //====================================================================================================================
 
-DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent):
-    QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgRenderVideo) {
+DlgRenderVideo::DlgRenderVideo(cDiaporama &TheDiaporama,int TheExportMode,cBaseApplicationConfig *ApplicationConfig,QWidget *parent):
+    QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgRenderVideo) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::DlgRenderVideo");
 
     ui->setupUi(this);
@@ -287,7 +287,7 @@ void DlgRenderVideo::DoInitDialog() {
 void DlgRenderVideo::ProjectProperties() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgRenderVideo::ProjectProperties");
 
-    DlgffDPjrProperties Dlg(false,Diaporama,BaseApplicationConfig,BaseApplicationConfig->DlgffDPjrPropertiesWSP,this);
+    DlgffDPjrProperties Dlg(false,Diaporama,BaseApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) emit SetModifyFlag();
 }

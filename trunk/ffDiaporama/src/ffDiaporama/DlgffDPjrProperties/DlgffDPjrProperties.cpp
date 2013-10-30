@@ -28,8 +28,8 @@
 
 //====================================================================================================================
 
-DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,cSaveWindowPosition *DlgWSP,QWidget *parent)
-    :QCustomDialog(ApplicationConfig,DlgWSP,parent),ui(new Ui::DlgffDPjrProperties) {
+DlgffDPjrProperties::DlgffDPjrProperties(bool IsPrjCreate,cDiaporama *ffdProject,cBaseApplicationConfig *ApplicationConfig,QWidget *parent)
+    :QCustomDialog(ApplicationConfig,parent),ui(new Ui::DlgffDPjrProperties) {
 
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgffDPjrProperties::DlgffDPjrProperties");
 
@@ -226,7 +226,7 @@ void DlgffDPjrProperties::AdminEditThumb() {
         QString NewName=ffdProject->ProjectThumbnail->SaveAsNewCustomModelFile(ffd_MODELTYPE_THUMBNAIL);
         ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
         ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
-        DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,BaseApplicationConfig->DlgImageComposerThumbWSP,this);
+        DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
             ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,NewName,true);
@@ -242,7 +242,7 @@ void DlgffDPjrProperties::AdminEditThumb() {
             ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
         }
     } else {
-        DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,BaseApplicationConfig->DlgImageComposerThumbWSP,this);
+        DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,this);
         Dlg.InitDialog();
         if (Dlg.exec()==0) {
             ffdProject->ProjectThumbnail->SaveModelFile(ffd_MODELTYPE_THUMBNAIL,BaseApplicationConfig->ThumbnailModels->List[BaseApplicationConfig->ThumbnailModels->SearchModel(ffdProject->ThumbnailName)].FileName,true);
@@ -265,7 +265,7 @@ void DlgffDPjrProperties::EditThumb() {
         ui->ThumbCB->PrepareTable(true,BaseApplicationConfig->ThumbnailModels);
         ui->ThumbCB->SetCurrentModel(ffdProject->ThumbnailName);
     }
-    DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,BaseApplicationConfig->DlgImageComposerThumbWSP,this);
+    DlgImageComposer Dlg(ffdProject,BaseApplicationConfig,this);
     Dlg.InitDialog();
     if (Dlg.exec()==0) {
         BaseApplicationConfig->ThumbnailModels->AppendCustomModel();
