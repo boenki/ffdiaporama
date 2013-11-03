@@ -152,11 +152,13 @@ void MainWindow::InitWindow(QString ForceLanguage,QApplication *App) {
     screen.showMessage(QApplication::translate("MainWindow","Init home user database..."),Qt::AlignHCenter|Qt::AlignBottom);
     ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Init home user database..."));
     ApplicationConfig->Database=new cDatabase(AdjustDirForOS(ApplicationConfig->UserConfigPath+"ffdiaporama.db"));
+    ApplicationConfig->Database->ApplicationConfig=ApplicationConfig;
     bool IsDBCreation=!QFileInfo(ApplicationConfig->Database->dbPath).exists();
     if (ApplicationConfig->Database->OpenDB()) {
         //==== Tables definition
         ApplicationConfig->Database->Tables.append(ApplicationConfig->SettingsTable=new cSettingsTable(ApplicationConfig->Database));
         ApplicationConfig->Database->Tables.append(ApplicationConfig->FoldersTable =new cFolderTable(ApplicationConfig->Database));
+        ApplicationConfig->Database->Tables.append(ApplicationConfig->FilesTable   =new cFilesTable(ApplicationConfig->Database));          ApplicationConfig->ImagesCache.FilesTable=ApplicationConfig->FilesTable;
         //==== End of tables definition
         if (((!IsDBCreation)&&(!ApplicationConfig->Database->CheckDatabaseVersion()))||(!ApplicationConfig->Database->ValidateTables())) {
             ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error initialising home user database..."));
@@ -485,7 +487,7 @@ MainWindow::~MainWindow() {
     delete ApplicationConfig;
 
     // Close some libav additionnals
-    #if LIBAVFILTER_VERSION_INT < AV_VERSION_INT(3,79,0)
+    #if defined(LIBAV) || (defined(FFMPEG)&&(FFMPEGVERSIONINT<201))
     avfilter_uninit();
     #endif
     avformat_network_deinit();
@@ -1783,7 +1785,7 @@ void MainWindow::DoSaveFile() {
 
     if (Diaporama->SaveFile(this)) SetModifyFlag(false);
     ToStatusBar("");
-    ui->FolderTable->RefreshListFolder();
+    s_Browser_RefreshHere();
 }
 
 //====================================================================================================================
@@ -2204,7 +2206,7 @@ void MainWindow::s_Action_DoAddFile() {
             }
             Continue=false;
         }
-        #ifndef LIBAV_09
+        #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
         if (Continue && IsValide && (MediaFile->ObjectType==OBJECTTYPE_VIDEOFILE)&&(((cVideoFile *)MediaFile)->AudioStreamNumber!=-1)&&(((cVideoFile *)MediaFile)->LibavAudioFile->streams[((cVideoFile *)MediaFile)->AudioStreamNumber]->codec->channels>2)) {
             ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
             CustomMessageBox(this,QMessageBox::Critical,QApplication::translate("MainWindow","Error","Error message"),NewFile+"\n\n"+ErrorMessage,QMessageBox::Close);
@@ -2302,7 +2304,8 @@ void MainWindow::s_Action_DoAddFile() {
                 return;
             }
 
-            if ((ApplicationConfig->Deinterlace)&&(CurrentBrush->Video!=NULL)&&((CurrentBrush->Video->FileExtension.toLower()=="mts")||(CurrentBrush->Video->FileExtension.toLower()=="m2ts")||(CurrentBrush->Video->FileExtension.toLower()=="mod"))) CurrentBrush->Deinterlace=true;
+            QString FileExtension=CurrentBrush->Video?QFileInfo(CurrentBrush->Video->FileName()).completeSuffix().toLower():"";
+            if ((ApplicationConfig->Deinterlace)&&(CurrentBrush->Video!=NULL)&&((FileExtension=="mts")||(FileExtension=="m2ts")||(FileExtension=="mod"))) CurrentBrush->Deinterlace=true;
 
             // No future need of this
             if (Image) {
@@ -2847,7 +2850,7 @@ void MainWindow::AdjustRuller() {
     ui->preview->SetActualDuration(Diaporama->GetDuration());
     ui->preview2->SetActualDuration(Diaporama->GetDuration());
     if (Diaporama->List.count()>0)  {
-        Diaporama->ProjectInfo->Duration=Diaporama->GetDuration();
+        Diaporama->ProjectInfo->Duration=QTime(0,0,0,0).addMSecs(Diaporama->GetDuration());
         Diaporama->ProjectInfo->NbrSlide=Diaporama->List.count();
         ui->preview->SetStartEndPos(
                 Diaporama->GetObjectStartPosition(Diaporama->CurrentCol),                                                           // Current slide
@@ -2969,7 +2972,7 @@ void MainWindow::DoBrowserRefreshSelectedFileInfo() {
         ui->FileIcon->setPixmap(QPixmap().fromImage(MediaObject->Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
 
         QString FStr=MediaObject->GetFileSizeStr();
-        if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName).arg(FStr)); else ui->FileInfo1a->setText(MediaObject->ShortName);
+        if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName()).arg(FStr)); else ui->FileInfo1a->setText(MediaObject->ShortName());
         FStr=MediaObject->GetInformationValue("Duration");
         if (FStr!="") ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo()).arg(FStr)); else ui->FileInfo2a->setText(MediaObject->GetTechInfo());
         ui->FileInfo3a->setText(MediaObject->GetTAGInfo());
@@ -2986,11 +2989,13 @@ void MainWindow::DoBrowserRefreshSelectedFileInfo() {
         int64_t   TotalSize    =0;
 
         for (int i=0;i<MediaList.count();i++) {
-            IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j])       IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
-            IsFind=false;   for (int j=0;j<FileExtensions.count();j++)  if (MediaList[i]->FileExtension==FileExtensions[j]) IsFind=true; if (!IsFind) FileExtensions.append(MediaList[i]->FileExtension);
+            QString FileExtension=QFileInfo(MediaList[i]->FileName()).completeSuffix();
+            IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j]) IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
+            IsFind=false;   for (int j=0;j<FileExtensions.count();j++)  if (FileExtension==FileExtensions[j])         IsFind=true; if (!IsFind) FileExtensions.append(FileExtension);
 
-            if ((MediaList[i]->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[i]->ObjectType==OBJECTTYPE_VIDEOFILE)) TotalDuration=TotalDuration+QTime(0,0,0,0).msecsTo(((cVideoFile *)MediaList[i])->Duration);
-                else if (MediaList[i]->ObjectType==OBJECTTYPE_FFDFILE)                                              TotalDuration=TotalDuration+((cffDProjectFile *)MediaList[i])->Duration;
+            if ((MediaList[i]->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[i]->ObjectType==OBJECTTYPE_VIDEOFILE)||(MediaList[i]->ObjectType==OBJECTTYPE_FFDFILE))
+                TotalDuration=TotalDuration+QTime(0,0,0,0).msecsTo(MediaList[i]->Duration);
+
             TotalSize=TotalSize+MediaList[i]->FileSize;
         }
 
@@ -3382,7 +3387,7 @@ void MainWindow::s_Browser_OpenFile() {
         else if (Media->ObjectType==OBJECTTYPE_FOLDER) {
             QString Path=ui->FolderTree->GetCurrentFolderPath();
             if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
-            Path=Path+Media->ShortName;
+            Path=Path+Media->ShortName();
             ui->FolderTree->SetSelectItemByPath(Path);
         } else if (Media->ObjectType==OBJECTTYPE_FFDFILE) {
             FileForIO=Media->FileName();
@@ -3417,8 +3422,9 @@ void MainWindow::s_Browser_RightClicked(QMouseEvent *) {
     QList<int>  ObjectTypes;
 
     for (int i=0;i<MediaList.count();i++) {
-        IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j])       IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
-        IsFind=false;   for (int j=0;j<FileExtensions.count();j++)  if (MediaList[i]->FileExtension==FileExtensions[j]) IsFind=true; if (!IsFind) FileExtensions.append(MediaList[i]->FileExtension);
+        QString FileExtension=QFileInfo(MediaList[i]->FileName()).completeSuffix();
+        IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j])   IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
+        IsFind=false;   for (int j=0;j<FileExtensions.count();j++)  if (FileExtension==FileExtensions[j])           IsFind=true; if (!IsFind) FileExtensions.append(FileExtension);
     }
 
     QMenu *ContextMenu=new QMenu(this);
@@ -3527,7 +3533,8 @@ void MainWindow::s_Browser_RemoveFile() {
         for (int i=0;i<MediaList.count();i++) {
             FileList.append(MediaList[i]->FileName());
             QString FName=MediaList[i]->FileName();
-            if (!MediaList[i]->FileExtension.isEmpty())     FName.replace("."+MediaList[i]->FileExtension,"");
+            QString FileExtension=QFileInfo(MediaList[i]->FileName()).completeSuffix();
+            if (!FileExtension.isEmpty())                   FName.replace("."+FileExtension,"");
             if (QFileInfo(FName+".jpg").exists())           FileList.append(FName+".jpg");
             if (QFileInfo(FName+"-poster.jpg").exists())    FileList.append(FName+"-poster.jpg");
             if (QFileInfo(FName+".nfo").exists())           FileList.append(FName+".nfo");
@@ -3576,7 +3583,7 @@ void MainWindow::s_Browser_RenameFile() {
     cBaseMediaFile *Media=ui->FolderTable->GetCurrentMediaFile();
     if (Media) {
         bool Ok=true;
-        QString NewName=Media->ShortName;
+        QString NewName=Media->ShortName();
         NewName=CustomInputDialog(this,QApplication::translate("MainWindow","Rename file"),QApplication::translate("MainWindow","New name:"),QLineEdit::Normal,NewName,&Ok);
         if (Ok && !NewName.isEmpty()) {
             NewName=AdjustDirForOS(QFileInfo(Media->FileName()).absolutePath()+QDir::separator()+NewName);

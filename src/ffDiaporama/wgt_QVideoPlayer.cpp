@@ -353,8 +353,10 @@ void wgt_QVideoPlayer::SetPlayerToPlay() {
     SDLFlushBuffers();
 
     // Start timer
-    TimerTick=true;
-    Timer.start(int((double((uint64_t)AV_TIME_BASE)/WantedFPS)/1000)/2);   // Start Timer
+    TimerTick           =true;
+    PreviousTimerEvent  =QTime();
+    TimerDelta          =0;
+    Timer.start(int(double(1000)/WantedFPS)/2);   // Start Timer
 }
 
 //============================================================================================
@@ -535,19 +537,49 @@ void wgt_QVideoPlayer::s_SliderMoved(int Value) {
 //============================================================================================
 // Timer event
 //============================================================================================
+
 void wgt_QVideoPlayer::s_TimerEvent() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:wgt_QVideoPlayer::s_TimerEvent");
 
     if (IsSliderProcess)                            return;     // No re-entrance
     if (!(PlayerPlayMode && !PlayerPauseMode))      return;     // Only if play mode
 
-    if (!PlayerMutex.tryLock()) return;
+    TimerTick=!TimerTick;
+
+    #ifdef Q_OS_WIN
+    // Trylock is always true on Windows instead of unix/linux system
+    if (TimerTick) {
+    #else
+    if (!PlayerMutex.tryLock()) { if (!TimerTick) return; else {
+    #endif
+        // specific case for windows because never a timer event can happens if a previous timer event was not ended
+        // so next trylock is always true
+        int Elapsed=0,Wanted=int(double(1000)/WantedFPS);
+        if (!PreviousTimerEvent.isValid()) PreviousTimerEvent.start(); else Elapsed=PreviousTimerEvent.restart();
+        if (Elapsed>Wanted) {
+            TimerDelta+=Elapsed-Wanted;
+            if (TimerDelta>=Wanted) {
+                ToLog(LOGMSG_DEBUGTRACE,"FPS preview is too high: One image lost");
+                if (ImageList.List.count()>0) {
+                    delete ImageList.DetachFirstImage(); // Remove first image if we loose one tick
+                } else {
+                    // Increase next position to one frame
+                    if (FileInfo) ActualPosition+=Wanted;
+                        else      Diaporama->CurrentPosition+=Wanted;
+                }
+                TimerDelta-=Wanted;
+            }
+        }
+    }
+    #ifdef Q_OS_WIN
+    PlayerMutex.lock();
+    #else
+    return;}
+    #endif
 
     if (ThreadPrepareVideo.isRunning()) ThreadPrepareVideo.waitForFinished();
     if (ThreadPrepareImage.isRunning()) ThreadPrepareImage.waitForFinished();
     if (ThreadAssembly.isRunning())     ThreadAssembly.waitForFinished();
-
-    TimerTick=!TimerTick;
 
     int64_t LastPosition=0,NextPosition=0;
 

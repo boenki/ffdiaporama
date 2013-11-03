@@ -228,7 +228,7 @@ void DlgFileExplorer::DoBrowserRefreshSelectedFileInfo() {
         ui->FileIcon->setPixmap(QPixmap().fromImage(MediaObject->Icon100.scaledToHeight(48,Qt::SmoothTransformation)));
 
         QString FStr=MediaObject->GetFileSizeStr();
-        if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName).arg(FStr)); else ui->FileInfo1a->setText(MediaObject->ShortName);
+        if (FStr!="") ui->FileInfo1a->setText(QString("%1 (%2)").arg(MediaObject->ShortName()).arg(FStr)); else ui->FileInfo1a->setText(MediaObject->ShortName());
         FStr=MediaObject->GetInformationValue("Duration");
         if (FStr!="") ui->FileInfo2a->setText(QString("%1-%2").arg(MediaObject->GetTechInfo()).arg(FStr)); else ui->FileInfo2a->setText(MediaObject->GetTechInfo());
         ui->FileInfo3a->setText(MediaObject->GetTAGInfo());
@@ -245,11 +245,13 @@ void DlgFileExplorer::DoBrowserRefreshSelectedFileInfo() {
         int64_t   TotalSize    =0;
 
         for (int i=0;i<MediaList.count();i++) {
-            IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j])       IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
-            IsFind=false;   for (int j=0;j<FileExtensions.count();j++)  if (MediaList[i]->FileExtension==FileExtensions[j]) IsFind=true; if (!IsFind) FileExtensions.append(MediaList[i]->FileExtension);
+            QString FileExtension=QFileInfo(MediaList[i]->FileName()).completeSuffix();
+            IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j])   IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
+            IsFind=false;   for (int j=0;j<FileExtensions.count();j++)  if (FileExtension==FileExtensions[j])           IsFind=true; if (!IsFind) FileExtensions.append(FileExtension);
 
-            if ((MediaList[i]->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[i]->ObjectType==OBJECTTYPE_VIDEOFILE)) TotalDuration=TotalDuration+QTime(0,0,0,0).msecsTo(((cVideoFile *)MediaList[i])->Duration);
-                else if (MediaList[i]->ObjectType==OBJECTTYPE_FFDFILE)                                              TotalDuration=TotalDuration+((cffDProjectFile *)MediaList[i])->Duration;
+            if ((MediaList[i]->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[i]->ObjectType==OBJECTTYPE_VIDEOFILE)||(MediaList[i]->ObjectType==OBJECTTYPE_FFDFILE))
+                TotalDuration=TotalDuration+QTime(0,0,0,0).msecsTo(MediaList[i]->Duration);
+
             TotalSize=TotalSize+MediaList[i]->FileSize;
         }
 
@@ -412,7 +414,7 @@ void DlgFileExplorer::s_Browser_OpenFolder() {
         if (Media->ObjectType==OBJECTTYPE_FOLDER) {
             QString Path=ui->FolderTree->GetCurrentFolderPath();
             if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
-            Path=Path+Media->ShortName;
+            Path=Path+Media->ShortName();
             ui->FolderTree->SetSelectItemByPath(Path);
         } else accept();
     }
@@ -434,8 +436,9 @@ void DlgFileExplorer::s_Browser_RightClicked(QMouseEvent *) {
     QList<int>  ObjectTypes;
 
     for (int i=0;i<MediaList.count();i++) {
-        IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j])       IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
-        IsFind=false;   for (int j=0;j<FileExtensions.count();j++)  if (MediaList[i]->FileExtension==FileExtensions[j]) IsFind=true; if (!IsFind) FileExtensions.append(MediaList[i]->FileExtension);
+        QString FileExtension=QFileInfo(MediaList[i]->FileName()).completeSuffix();
+        IsFind=false;   for (int j=0;j<ObjectTypes.count();j++)     if (MediaList[i]->ObjectType==ObjectTypes[j])   IsFind=true; if (!IsFind) ObjectTypes.append(MediaList[i]->ObjectType);
+        IsFind=false;   for (int j=0;j<FileExtensions.count();j++)  if (FileExtension==FileExtensions[j])           IsFind=true; if (!IsFind) FileExtensions.append(FileExtension);
     }
 
     // Single object type only

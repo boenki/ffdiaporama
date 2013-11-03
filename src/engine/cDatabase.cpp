@@ -19,6 +19,7 @@
   ======================================================================*/
 
 #include "cDatabase.h"
+#include "cBaseApplicationConfig.h"
 
 #define DATABASEVERSION 1       // Current database version
 
@@ -33,6 +34,7 @@ void DisplayLastSQLError(QSqlQuery *Query) {
 
 cDatabase::cDatabase(QString DBFNAME) {
     dbPath=DBFNAME;
+    ApplicationConfig=NULL;
 }
 
 //=====================================================================================================
@@ -337,6 +339,7 @@ cFolderTable::cFolderTable(cDatabase *Database):cDatabaseTable(Database) {
 // If folder not found in the database, then create it and all his parents
 
 qlonglong cFolderTable::GetFolderKey(QString FolderPath) {
+    if ((FolderPath==".")||(FolderPath=="..")) return -1;
     FolderPath=AdjustDirForOS(QDir(FolderPath).absolutePath());
     #ifdef Q_OS_WIN
     // On windows, network share start with \\,  so keep this information in a boolean and remove this "\"
@@ -394,9 +397,345 @@ QString cFolderTable::GetFolderPath(qlonglong FolderKey) {
             ParentKey=Query.value(0).toLongLong(&Ret);
             if (!Ret) ParentKey=-1;
         }
-        if (!Query.value(1).isNull()) Path=Query.value(1).toString();
+        Path=Query.value(1).toString();
     }
     if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
     if (ParentKey!=-1) Path=GetFolderPath(ParentKey)+Path;
     return Path;
+}
+
+//**********************************************************************************************
+// cFilesTable : encapsulate media files in the table
+//**********************************************************************************************
+
+cFilesTable::cFilesTable(cDatabase *Database):cDatabaseTable(Database) {
+    TypeTable       =TypeTable_FileTable;
+    TableName       ="MediaFiles";
+    IndexKeyName    ="Key";
+    CreateTableQuery="create table MediaFiles ("\
+                            "Key                bigint primary key,"\
+                            "ShortName          varchar(256),"\
+                            "FolderKey          bigint,"\
+                            "Timestamp          bigint,"\
+                            "IsHidden           int,"\
+                            "IsDir              int,"\
+                            "CreatDateTime      varchar(30),"\
+                            "ModifDateTime      varchar(30),"\
+                            "FileSize           bigint,"\
+                            "MediaFileType      int,"\
+                            "BasicProperties    text,"\
+                            "ExtendedProperties text,"\
+                            "Thumbnail16        binary,"\
+                            "Thumbnail100       binary"\
+                     ")";
+    CreateIndexQuery.append("CREATE INDEX idx_MediaFiles_Key ON MediaFiles (Key)");
+    CreateIndexQuery.append("CREATE INDEX idx_MediaFiles_FolderKey ON MediaFiles (FolderKey,ShortName)");
+}
+
+//=====================================================================================================
+// Get the key associated to a file
+// If file not found in the database, then create it
+
+qlonglong cFilesTable::GetFileKey(qlonglong FolderKey,QString ShortName,int MediaFileType) {
+    QSqlQuery   Query(Database->db);
+    bool        Ret=false;
+    qlonglong   FileKey=-1;
+    Query.prepare(QString("SELECT Key FROM %1 WHERE FolderKey=:FolderKey AND ShortName=:ShortName").arg(TableName));
+    Query.bindValue(":FolderKey",FolderKey,QSql::In);
+    Query.bindValue(":ShortName",ShortName,QSql::In);
+    if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) if (!Query.value(0).isNull()) {
+        Ret=true;
+        FileKey=Query.value(0).toLongLong(&Ret);
+    }
+    if (!Ret) {
+        // File not found : then add it to the table
+        QString   FullPath=((cFolderTable *)Database->GetTable(TypeTable_FolderTable))->GetFolderPath(FolderKey)+ShortName;
+        QFileInfo FileInfo(FullPath);
+        Query.prepare(QString("INSERT INTO %1 (Key,ShortName,FolderKey,Timestamp,IsHidden,IsDir,CreatDateTime,ModifDateTime,FileSize,MediaFileType) "\
+                                      "VALUES (:Key,:ShortName,:FolderKey,:Timestamp,:IsHidden,:IsDir,:CreatDateTime,:ModifDateTime,:FileSize,:MediaFileType)").arg(TableName));
+        Query.bindValue(":Key",          ++NextIndex,                                                   QSql::In);
+        Query.bindValue(":ShortName",    ShortName,                                                     QSql::In);
+        Query.bindValue(":FolderKey",    FolderKey,                                                     QSql::In);
+        Query.bindValue(":Timestamp",    FileInfo.lastModified().toMSecsSinceEpoch(),                   QSql::In);
+        Query.bindValue(":IsHidden",     FileInfo.isHidden()||FileInfo.fileName().startsWith(".")?1:0,  QSql::In);
+        Query.bindValue(":IsDir",        FileInfo.isDir()?1:0,                                          QSql::In);
+        Query.bindValue(":CreatDateTime",FileInfo.lastModified().toString(Qt::ISODate),                 QSql::In);
+        Query.bindValue(":ModifDateTime",FileInfo.created().toString(Qt::ISODate),                      QSql::In);
+        Query.bindValue(":FileSize",     FileInfo.size(),                                               QSql::In);
+        Query.bindValue(":MediaFileType",MediaFileType,                                                 QSql::In);
+        Ret=Query.exec();
+        if (!Ret) DisplayLastSQLError(&Query); else FileKey=NextIndex;
+    }
+    return FileKey;
+}
+
+//=====================================================================================================
+// Get the path associated to a folder key
+// path are always ended with a QDir::separator()
+
+QString cFilesTable::GetShortName(qlonglong FileKey) {
+    QSqlQuery   Query(Database->db);
+    QString     ShortName;
+
+    Query.prepare(QString("SELECT ShortName FROM %1 WHERE Key=:Key").arg(TableName));
+    Query.bindValue(":Key",FileKey,QSql::In);
+    if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) ShortName=Query.value(0).toString();
+    return ShortName;
+}
+
+//=====================================================================================================
+// Get the path associated to a folder key
+// path are always ended with a QDir::separator()
+
+QString cFilesTable::GetFileName(qlonglong FileKey) {
+    QSqlQuery   Query(Database->db);
+    QString     FolderPath;
+    QString     ShortName;
+    qlonglong   FolderKey=-1;
+
+    Query.prepare(QString("SELECT FolderKey,ShortName FROM %1 WHERE Key=:Key").arg(TableName));
+    Query.bindValue(":Key",FileKey,QSql::In);
+    if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) {
+        if (!Query.value(0).isNull()) {
+            bool Ret=true;
+            FolderKey=Query.value(0).toLongLong(&Ret);
+            if (Ret) FolderPath=((cFolderTable *)Database->GetTable(TypeTable_FolderTable))->GetFolderPath(FolderKey);
+        }
+        ShortName=Query.value(1).toString();
+    }
+    return FolderPath+ShortName;
+}
+
+//=====================================================================================================
+// scan all files for a given folderkey and:
+//  - delete files no longer exist
+//  - set data field to null for modified files (different timestamp)
+
+int cFilesTable::CleanTableForFolder(qlonglong FolderKey) {
+    int         NbrModif=0;
+    QSqlQuery   Query(Database->db);
+    QSqlQuery   Query2(Database->db);
+    QString     FolderPath=((cFolderTable *)Database->GetTable(TypeTable_FolderTable))->GetFolderPath(FolderKey);
+    Query.prepare(QString("SELECT Key,ShortName,Timestamp FROM %1 WHERE FolderKey=:FolderKey").arg(TableName));
+    Query.bindValue(":FolderKey",FolderKey,QSql::In);
+    if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) {
+        qlonglong FileKey=-1;
+        QString   ShortName;
+        qlonglong Timestamp;
+        bool      Ret=false;
+
+        if (!Query.value(0).isNull()) {
+            Ret=true;
+            FileKey=Query.value(0).toLongLong(&Ret);
+        }
+        if (Ret) ShortName=Query.value(1).toString();
+        if ((Ret)&&(!Query.value(2).isNull())) {
+            Ret=true;
+            Timestamp=Query.value(2).toLongLong(&Ret);
+        }
+
+        if (Ret) {
+            QFileInfo FileInfo(FolderPath+ShortName);
+            if (!FileInfo.exists()) {
+                Query2.prepare((QString("DELETE FROM %1 WHERE Key=:Key").arg(TableName)));
+                Query2.bindValue(":Key",FileKey,QSql::In);
+                if (!Query2.exec()) DisplayLastSQLError(&Query2);
+                NbrModif++;
+            } else {
+                qlonglong NewTimestamp=FileInfo.lastModified().toMSecsSinceEpoch();
+                if (NewTimestamp!=Timestamp) {
+                    Query2.prepare((QString("UPDATE %1 SET Thumbnail16=NULL,Thumbnail100=NULL,BasicProperties=NULL,ExtendedProperties=NULL,Timestamp=:Timestamp,"\
+                                            "CreatDateTime=:CreatDateTime,ModifDateTime=:ModifDateTime,FileSize=:FileSize WHERE Key=:Key").arg(TableName)));
+                    Query2.bindValue(":Key",          FileKey,                                      QSql::In);
+                    Query2.bindValue(":Timestamp",    NewTimestamp,                                 QSql::In);
+                    Query2.bindValue(":CreatDateTime",FileInfo.lastModified().toString(Qt::ISODate),QSql::In);
+                    Query2.bindValue(":ModifDateTime",FileInfo.created().toString(Qt::ISODate),     QSql::In);
+                    Query2.bindValue(":FileSize",     FileInfo.size(),                              QSql::In);
+                    if (!Query2.exec()) DisplayLastSQLError(&Query2);
+                    NbrModif++;
+                }
+            }
+        }
+    }
+    return NbrModif;
+}
+
+//=====================================================================================================
+// scan all files for a given folderkey and add new one to the table
+
+void cFilesTable::UpdateTableForFolder(qlonglong FolderKey) {
+    if (CleanTableForFolder(FolderKey)>0) {
+    }
+        QString         FolderPath=((cFolderTable *)Database->GetTable(TypeTable_FolderTable))->GetFolderPath(FolderKey);
+        QDir            Folder(FolderPath);
+        QFileInfoList   Files=Folder.entryInfoList(QDir::Dirs|QDir::AllDirs|QDir::Files|QDir::Hidden);
+        foreach(QFileInfo File,Files) {
+            QString ShortName=File.fileName();
+            if ((ShortName!=".")&&(ShortName!="..")) {
+                int ObjectType=OBJECTTYPE_UNMANAGED;
+                if (Database->ApplicationConfig->AllowImageExtension.contains(File.suffix().toLower())) {
+                    ObjectType=OBJECTTYPE_IMAGEFILE;
+                    // Special case for folder Thumbnails
+                    if (File.fileName()=="folder.jpg") {
+                        ObjectType=OBJECTTYPE_THUMBNAIL;
+                    } else if ((File.fileName().toLower().endsWith("-poster.jpg"))||(File.fileName().toLower().endsWith("-poster.png"))) {  // Special case for video xbmc poster Thumbnails
+                        // Search if a video with same name exist
+                        QString ToSearch=File.fileName().left(File.fileName().toLower().indexOf("-poster."));
+                        for (int i=0;i<Files.count();i++)
+                            if ((Database->ApplicationConfig->AllowVideoExtension.contains(((QFileInfo)Files[i]).suffix().toLower()))&&(((QFileInfo)Files[i]).completeBaseName()==ToSearch))
+                                ObjectType=OBJECTTYPE_THUMBNAIL;
+                    } else if (File.suffix().toLower()=="jpg") {  // Special case for video Thumbnails
+                        // Search if a video with same name exist
+                        for (int i=0;i<Files.count();i++)
+                            if ((Database->ApplicationConfig->AllowVideoExtension.contains(((QFileInfo)Files[i]).suffix().toLower()))&&
+                                (((QFileInfo)Files[i]).completeBaseName()==File.completeBaseName())) ObjectType=OBJECTTYPE_THUMBNAIL;
+                    }
+                }   else if (Database->ApplicationConfig->AllowVideoExtension.contains(File.suffix().toLower()))   ObjectType=OBJECTTYPE_VIDEOFILE;
+                    else if (Database->ApplicationConfig->AllowMusicExtension.contains(File.suffix().toLower()))   ObjectType=OBJECTTYPE_MUSICFILE;
+                    else if (File.suffix().toLower()=="ffd")                                                       ObjectType=OBJECTTYPE_FFDFILE;
+                    else if (File.isDir())                                                                         ObjectType=OBJECTTYPE_FOLDER;
+
+                GetFileKey(FolderKey,File.fileName(),ObjectType);
+            }
+        }
+//    }
+}
+
+//=====================================================================================================
+// Write basic properties to the database
+
+bool cFilesTable::SetBasicProperties(qlonglong FileKey,QString Properties) {
+    QSqlQuery Query(Database->db);
+    Query.prepare((QString("UPDATE %1 SET BasicProperties=:BasicProperties WHERE Key=:Key").arg(TableName)));
+    Query.bindValue(":Key",            FileKey,   QSql::In);
+    Query.bindValue(":BasicProperties",Properties,QSql::In);
+    if (!Query.exec()) {
+        DisplayLastSQLError(&Query);
+        return false;
+    }
+    return true;
+}
+
+//=====================================================================================================
+// Read basic properties from the database
+
+bool cFilesTable::GetBasicProperties(qlonglong FileKey,QString *Properties,QString FileName,int64_t *FileSize,QDateTime *CreatDateTime,QDateTime *ModifDateTime) {
+    QSqlQuery Query(Database->db);
+    Query.prepare((QString("SELECT BasicProperties,Timestamp,FileSize,CreatDateTime,ModifDateTime FROM %1 WHERE Key=:Key").arg(TableName)));
+    Query.bindValue(":Key",FileKey,QSql::In);
+    if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) {
+        bool        Ret=true;
+        qlonglong   Timestamp=0;
+        if (!Query.value(0).isNull())           *Properties   =Query.value(0).toString();                           else Ret=false;
+        if ((Ret)&&(!Query.value(1).isNull()))  Timestamp     =Query.value(1).toLongLong(&Ret);                     else Ret=false;
+        if ((Ret)&&(!Query.value(2).isNull()))  *FileSize     =Query.value(2).toLongLong(&Ret);                     else Ret=false;
+        if ((Ret)&&(!Query.value(3).isNull()))  CreatDateTime->fromString(Query.value(3).toString(),Qt::ISODate);   else Ret=false;
+        if ((Ret)&&(!Query.value(4).isNull()))  ModifDateTime->fromString(Query.value(4).toString(),Qt::ISODate);   else Ret=false;
+        Ret=Ret && (Timestamp==QFileInfo(FileName).lastModified().toMSecsSinceEpoch());
+        return Ret;
+    }
+    return false;
+}
+
+//=====================================================================================================
+// Write extended properties to the database
+
+bool cFilesTable::SetExtendedProperties(qlonglong FileKey,QStringList *PropertiesList) {
+    QDomDocument domDocument;
+    QDomElement  root=domDocument.createElement("ExtendedProperties");
+    domDocument.appendChild(root);
+    for (int i=0;i<PropertiesList->count();i++) {
+        QStringList Values=PropertiesList->at(i).split("##");
+        QDomElement Element=domDocument.createElement(QString("Item-%1").arg(i));
+        Element.setAttribute("Name", Values[0]);
+        Element.setAttribute("Value",Values[1]);
+        root.appendChild(Element);
+    }
+    QSqlQuery Query(Database->db);
+    Query.prepare((QString("UPDATE %1 SET ExtendedProperties=:ExtendedProperties WHERE Key=:Key").arg(TableName)));
+    Query.bindValue(":Key",               FileKey,               QSql::In);
+    Query.bindValue(":ExtendedProperties",domDocument.toString(),QSql::In);
+    if (!Query.exec()) {
+        DisplayLastSQLError(&Query);
+        return false;
+    }
+    return true;
+}
+
+//=====================================================================================================
+// Read extended properties from the database
+
+bool cFilesTable::GetExtendedProperties(qlonglong FileKey,QStringList *PropertiesList) {
+    QSqlQuery Query(Database->db);
+    Query.prepare((QString("SELECT ExtendedProperties FROM %1 WHERE Key=:Key").arg(TableName)));
+    Query.bindValue(":Key",FileKey,QSql::In);
+    if (!Query.exec()) {
+        DisplayLastSQLError(&Query);
+        return false;
+    }
+    while (Query.next()) {
+        QDomDocument    domDocument;
+        QString         errorStr;
+        int             errorLine,errorColumn;
+        if ((domDocument.setContent(Query.value(0).toString(),true,&errorStr,&errorLine,&errorColumn))&&
+            (domDocument.elementsByTagName("ExtendedProperties").length()>0)&&
+            (domDocument.elementsByTagName("ExtendedProperties").item(0).isElement()==true)) {
+
+            QDomElement root=domDocument.elementsByTagName("ExtendedProperties").item(0).toElement();
+            int i=0;
+            while ((root.elementsByTagName(QString("Item-%1").arg(i)).length()>0)&&(root.elementsByTagName(QString("Item-%1").arg(i)).item(0).isElement()==true)) {
+                QDomElement Element=root.elementsByTagName(QString("Item-%1").arg(i)).item(0).toElement();
+                PropertiesList->append(Element.attribute("Name")+"##"+Element.attribute("Value"));
+                i++;
+            }
+        }
+    }
+    return true;
+}
+
+//=====================================================================================================
+// Write thumbnails to the database
+
+bool cFilesTable::SetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100) {
+    QSqlQuery Query(Database->db);
+    Query.prepare((QString("UPDATE %1 SET Thumbnail16=:Thumbnail16,Thumbnail100=:Thumbnail100 WHERE Key=:Key").arg(TableName)));
+    Query.bindValue(":Key",FileKey,QSql::In);
+    if (!Icon16->isNull()) {
+        QByteArray  Data;
+        QBuffer     BufData(&Data);
+        BufData.open(QIODevice::WriteOnly);
+        Icon16->save(&BufData,"PNG");
+        Query.bindValue(":Thumbnail16",Data,QSql::In|QSql::Binary);
+    } else Query.bindValue(":Thumbnail16",QVariant(QVariant::ByteArray),QSql::In|QSql::Binary);
+    if (!Icon100->isNull()) {
+        QByteArray  Data;
+        QBuffer     BufData(&Data);
+        BufData.open(QIODevice::WriteOnly);
+        Icon100->save(&BufData,"PNG");
+        Query.bindValue(":Thumbnail100",Data,QSql::In|QSql::Binary);
+    } else Query.bindValue(":Thumbnail100",QVariant(QVariant::ByteArray),QSql::In|QSql::Binary);
+    if (!Query.exec()) {
+        DisplayLastSQLError(&Query);
+        return false;
+    }
+    return true;
+}
+
+//=====================================================================================================
+// Read thumbnails properties from the database
+
+bool cFilesTable::GetThumbs(qlonglong FileKey,QImage *Icon16,QImage *Icon100) {
+    QSqlQuery Query(Database->db);
+    Query.prepare((QString("SELECT Thumbnail16,Thumbnail100 FROM %1 WHERE Key=:Key").arg(TableName)));
+    Query.bindValue(":Key",FileKey,QSql::In);
+    if (!Query.exec()) {
+        DisplayLastSQLError(&Query);
+        return false;
+    }
+    QByteArray Data;
+    while (Query.next()) {
+        Data=Query.value(0).toByteArray();    Icon16->loadFromData(Data);
+        Data=Query.value(1).toByteArray();    Icon100->loadFromData(Data);
+    }
+    return (!Icon16->isNull())&&(!Icon100->isNull());
 }

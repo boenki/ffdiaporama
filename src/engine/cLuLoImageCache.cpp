@@ -31,10 +31,10 @@
 //*********************************************************************************************************************************************
 // Constructor for image file
 
-cLuLoImageCacheObject::cLuLoImageCacheObject(QString TheFileName,QDateTime TheModifDateTime,int TheImageOrientation,QString TheFilterString,bool TheSmoothing,cLuLoImageCache *Parent) {
+cLuLoImageCacheObject::cLuLoImageCacheObject(qlonglong TheFileKey,QDateTime TheModifDateTime,int TheImageOrientation,QString TheFilterString,bool TheSmoothing,cLuLoImageCache *Parent) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCacheObject::cLuLoImageCacheObject");
 
-    FileName            =TheFileName;       // Full filename
+    FileKey             =TheFileKey;       // Full filename
     ModifDateTime       =TheModifDateTime;
     FilterString        =TheFilterString;
     Smoothing           =TheSmoothing;
@@ -67,6 +67,7 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
     LuLoImageCache->FreeMemoryToMaxValue();
 
     if (CacheRenderImage==NULL) {
+        QString FileName=LuLoImageCache->FilesTable->GetFileName(FileKey);
 
         // Load image from disk
         ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
@@ -75,21 +76,6 @@ QImage *cLuLoImageCacheObject::ValidateCacheRenderImage() {
         }
         QImageReader Img(FileName);
         CacheRenderImage=new QImage(Img.read());
-
-        #ifdef Q_OS_WIN
-        // On Windows : reduce image size to 8 MPix max
-        double  MaxValue=8000000;
-        if ((IsWindowsXP)&&(CacheRenderImage!=NULL)&&(!CacheRenderImage->isNull())&&((CacheRenderImage->width()*CacheRenderImage->height())>MaxValue)) {
-            double  ActualValue =CacheRenderImage->width()*CacheRenderImage->height();
-            double  Transfo     =sqrt(MaxValue/ActualValue);;
-            int     ImageWidth  =int(Transfo*double(CacheRenderImage->width()));
-            int     ImageHeight =int(Transfo*double(CacheRenderImage->height()));
-            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Rescale image to 8MPix"));
-            QImage *NewCacheRenderImage=new QImage(CacheRenderImage->scaled(ImageWidth,ImageHeight,Qt::IgnoreAspectRatio,Qt::SmoothTransformation));
-            delete CacheRenderImage;
-            CacheRenderImage=NewCacheRenderImage;
-        }
-        #endif
 
         if (!CacheRenderImage)
             ToLog(LOGMSG_CRITICAL,QApplication::translate("MainWindow","Error allocating memory for render image"));
@@ -138,7 +124,7 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
     LuLoImageCache->FreeMemoryToMaxValue();
 
     if (CachePreviewImage==NULL) {
-
+        QString FileName=LuLoImageCache->FilesTable->GetFileName(FileKey);
         // ValidateCacheRenderImage();
 
         // if CacheRenderImage exist then copy it
@@ -153,6 +139,7 @@ QImage *cLuLoImageCacheObject::ValidateCachePreviewImage() {
                 }
             }
         } else {
+            ToLog(LOGMSG_INFORMATION,QApplication::translate("MainWindow","Loading file :")+QFileInfo(FileName).fileName());
             // if no CacheRenderImage then load image directly at correct size
             QImageReader Img(FileName);
             if (Img.canRead()) {
@@ -210,6 +197,7 @@ cLuLoImageCache::cLuLoImageCache() {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::cLuLoImageCache");
 
     MaxValue=1024*1024*1024;
+    FilesTable=NULL;
 }
 
 //===============================================================================
@@ -224,14 +212,14 @@ cLuLoImageCache::~cLuLoImageCache() {
 //===============================================================================
 
 // Image version
-cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop) {
+cLuLoImageCacheObject *cLuLoImageCache::FindObject(qlonglong FileKey,QDateTime ModifDateTime,int ImageOrientation,bool Smoothing,bool SetAtTop) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::FindObject");
 
 
     int i=0;
-    while ((i<List.count())&&((List[i]->FileName!=FileName)||(List[i]->Smoothing!=Smoothing))) i++;
+    while ((i<List.count())&&((List[i]->FileKey!=FileKey)||(List[i]->Smoothing!=Smoothing))) i++;
 
-    if ((i<List.count())&&(List[i]->FileName==FileName)&&(List[i]->ModifDateTime==ModifDateTime)&&(List[i]->Smoothing==Smoothing)) {
+    if ((i<List.count())&&(List[i]->FileKey==FileKey)&&(List[i]->ModifDateTime==ModifDateTime)&&(List[i]->Smoothing==Smoothing)) {
         // if wanted and image found then set it to the top of the list
         if ((SetAtTop)&&(i>0)) { // If item is not the first
             cLuLoImageCacheObject *Object=List.takeAt(i);   // Detach item from the list
@@ -240,20 +228,20 @@ cLuLoImageCacheObject *cLuLoImageCache::FindObject(QString FileName,QDateTime Mo
         }
     } else {
         // Image not found then create it at top of the list
-        List.prepend(new cLuLoImageCacheObject(FileName,ModifDateTime,ImageOrientation,"",Smoothing,this));     // Append a new object at first position
+        List.prepend(new cLuLoImageCacheObject(FileKey,ModifDateTime,ImageOrientation,"",Smoothing,this));     // Append a new object at first position
         i=0;
     }
     return List[i]; // return first object
 }
 
 //===============================================================================
-// Special case for Image object : Remove all image object  of this name
-void cLuLoImageCache::RemoveImageObject(QString FileName) {
+// Special case for Image object : Remove all image object of this key
+void cLuLoImageCache::RemoveImageObject(qlonglong FileKey) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cLuLoImageCache::RemoveImageObject");
 
     int i=List.count()-1;
     while (i>=0) {
-        if (List[i]->FileName==FileName) {
+        if (List[i]->FileKey==FileKey) {
             if (List[i]->CachePreviewImage!=List[i]->CacheRenderImage) delete List[i]->CachePreviewImage;
             List[i]->CachePreviewImage=NULL;
             if (List[i]->CacheRenderImage) delete List[i]->CacheRenderImage;

@@ -58,7 +58,7 @@ void DlgInfoFile::DoInitDialog() {
         if (!MediaFile->Icon100.isNull()) {
             ui->FileIconLabel->setPixmap(QPixmap().fromImage(MediaFile->Icon100));
         } else if (MediaFile->ObjectType==OBJECTTYPE_IMAGEFILE) {
-            cLuLoImageCacheObject *ImageObject=BaseApplicationConfig->ImagesCache.FindObject(MediaFile->FileName(),MediaFile->ModifDateTime,MediaFile->ImageOrientation,true,false);
+            cLuLoImageCacheObject *ImageObject=BaseApplicationConfig->ImagesCache.FindObject(MediaFile->FileKey,MediaFile->ModifDateTime,MediaFile->ImageOrientation,true,false);
             if (ImageObject) {
                 QImage *Img=ImageObject->ValidateCachePreviewImage();
                 if ((Img)&&(!Img->isNull())) {
@@ -67,7 +67,7 @@ void DlgInfoFile::DoInitDialog() {
                 }
             }
         }
-        ui->FileNameValue->setText(MediaFile->ShortName);
+        ui->FileNameValue->setText(MediaFile->ShortName());
         ui->FileTypeValue->setText(MediaFile->GetFileTypeStr()+QString("(%1)").arg(MediaFile->GetInformationValue("Long Format")));
         ui->FileSizeValue->setText(MediaFile->GetFileSizeStr());
         ui->FileCreatedValue->setText(MediaFile->GetFileDateTimeStr(true));

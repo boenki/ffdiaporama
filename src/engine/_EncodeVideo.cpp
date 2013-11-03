@@ -135,18 +135,6 @@ void cEncodeVideo::CloseEncoder() {
                 avcodec_encode_audio2(AudioStream->codec,&pkt,NULL,&got_packet);
                 avcodec_flush_buffers(AudioStream->codec);
             }
-            /*
-            if (VideoStream) {
-                #ifdef LIBAV_09
-                pkt.data=NULL;
-                pkt.size=0;
-                pkt.pts =VideoFrameNbr++;
-                pkt.dts =AV_NOPTS_VALUE;
-                avcodec_encode_video2(VideoStream->codec,&pkt,NULL,&got_packet);
-                avcodec_flush_buffers(VideoStream->codec);
-                #endif
-            }
-            */
             av_write_trailer(Container);
             avio_close(Container->pb);
         }
@@ -172,18 +160,15 @@ void cEncodeVideo::CloseEncoder() {
         AudioFrame=NULL;
     }
     if (AudioResampler) {
-        #if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
+        #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
             audio_resample_close(AudioResampler);
-            AudioResampler=NULL;
-        #else
-            #if defined(USELIBAVRESAMPLE)
-                avresample_close(AudioResampler);
-                avresample_free(&AudioResampler);
-            #elif defined(USELIBSWRESAMPLE)
-                swr_free(&AudioResampler);
-            #endif
-            AudioResampler=NULL;
+        #elif defined(LIBAV) && (LIBAVVERSIONINT<=9)
+            avresample_close(AudioResampler);
+            avresample_free(&AudioResampler);
+        #elif defined(FFMPEG)
+            swr_free(&AudioResampler);
         #endif
+        AudioResampler=NULL;
     }
     if (AudioResamplerBuffer) {
         av_free(AudioResamplerBuffer);
@@ -463,7 +448,7 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
 
     if (codec->id==AV_CODEC_ID_MPEG2VIDEO) {
         BFrames=2;
-        #ifdef LIBAV_08
+        #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
         MinRate=VideoBitrate;
         MaxRate=VideoBitrate;
         BufSize=1000000;
@@ -499,7 +484,7 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
         av_dict_set(&opts,"deadline","good",0);
         if (VideoStream->codec->thread_count>0) av_dict_set(&opts,"cpu-used",QString("%1").arg(VideoStream->codec->thread_count).toUtf8(),0);
 
-        #if defined(LIBAV_08)
+        #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
             MinRate=VideoBitrate;
             MaxRate=VideoBitrate;
             BufSize=VideoBitrate;
@@ -584,7 +569,7 @@ bool cEncodeVideo::OpenVideoStream(sVideoCodecDef *VideoCodecDef,int VideoCodecS
         return false;
     }
 
-    #ifdef LIBAV_08
+    #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
     // Create VideoEncodeBuffer
     VideoEncodeBuffer=(u_int8_t *)av_malloc(VideoEncodeBufferSize);
     if (!VideoEncodeBuffer) {
@@ -643,25 +628,25 @@ bool cEncodeVideo::OpenAudioStream(sAudioCodecDef *AudioCodecDef,int &AudioChann
         //VideoStream->codec->profile=FF_PROFILE_AAC_MAIN;
         if (QString(AUDIOCODECDEF[2].ShortName)=="aac") {
             AudioStream->codec->strict_std_compliance = FF_COMPLIANCE_EXPERIMENTAL;
-            #if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(55,18,0)   // since ffmpeg 2.0
+            #if defined(FFMPEG)
             AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLTP;
             #endif
         }
     } else if (codec->id==AV_CODEC_ID_MP2) {
 
     } else if (codec->id==AV_CODEC_ID_MP3) {
-        #if defined(LIBAV_09) && (LIBAVUTIL_VERSION_MAJOR>=52)
+        #if (defined(LIBAV)&&(LIBAVVERSIONINT>=9))||defined(FFMPEG)
         AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_S16P;
         #endif
         av_dict_set(&opts,"reservoir","1",0);
     } else if (codec->id==AV_CODEC_ID_VORBIS) {
-        #if defined(LIBAV_09) && (LIBAVUTIL_VERSION_MAJOR>=52)
+        #if (defined(LIBAV)&&(LIBAVVERSIONINT>=9))||defined(FFMPEG)
         AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLTP;
-        #elif defined(LIBAV_09) && (LIBAVUTIL_VERSION_MAJOR<52)
+        #else
         AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLT;
         #endif
     } else if (codec->id==AV_CODEC_ID_AC3) {
-        #if defined(LIBAV_09) && (LIBAVUTIL_VERSION_MAJOR>=52)
+        #if (defined(LIBAV)&&(LIBAVVERSIONINT>=9))||defined(FFMPEG)
         AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLTP;
         #else
         AudioStream->codec->sample_fmt =AV_SAMPLE_FMT_FLT;
@@ -836,13 +821,13 @@ bool cEncodeVideo::DoEncode() {
         FrameSize=AudioStream->codec->frame_size;
         if ((!FrameSize)&&(AudioStream->codec->codec_id==AV_CODEC_ID_PCM_S16LE)) FrameSize=1024;
         if ((FrameSize==0)&&(VideoStream)) FrameSize=(AudioStream->codec->sample_rate*AudioStream->time_base.num)/AudioStream->time_base.den;
-        #if defined(LIBAV_08)
+        #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
             // LIBAV 0.8 => ToEncodeMusic use AudioStream->codec->sample_fmt format
             int ComputedFrameSize=AudioStream->codec->channels*av_get_bytes_per_sample(AudioStream->codec->sample_fmt)*FrameSize;
             if (ComputedFrameSize==0) ComputedFrameSize=RenderMusic.SoundPacketSize;
             ToEncodeMusic.SetFrameSize(ComputedFrameSize,AudioStream->codec->channels,AudioSampleRate,AudioStream->codec->sample_fmt);
         #else
-            // LIBAV 9 => ToEncodeMusic use AV_SAMPLE_FMT_S16 format
+            // LIBAV 9 AND FFMPEG => ToEncodeMusic use AV_SAMPLE_FMT_S16 format
             int ComputedFrameSize=AudioChannels*av_get_bytes_per_sample(AV_SAMPLE_FMT_S16)*FrameSize;
             if (ComputedFrameSize==0) ComputedFrameSize=RenderMusic.SoundPacketSize;
             ToEncodeMusic.SetFrameSize(ComputedFrameSize,RenderMusic.Channels,AudioSampleRate,AV_SAMPLE_FMT_S16);
@@ -862,7 +847,7 @@ bool cEncodeVideo::DoEncode() {
 
     // Init Resampler (if needed)
     if (AudioStream) {
-        #if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
+        #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
             if ((AudioStream->codec->sample_fmt!=RenderMusic.SampleFormat)||(AudioStream->codec->channels!=RenderMusic.Channels)||(AudioSampleRate!=RenderMusic.SamplingRate)) {
                 if (!AudioResamplerBuffer) {
                     AudioResamplerBufferSize=AVCODEC_MAX_AUDIO_FRAME_SIZE*ToEncodeMusic.Channels;
@@ -885,30 +870,7 @@ bool cEncodeVideo::DoEncode() {
                     Continue=false;
                 }
             }
-        #elif defined(USELIBSWRESAMPLE)
-            if ((AudioStream->codec->sample_fmt!=RenderMusic.SampleFormat)||(AudioStream->codec->channels!=RenderMusic.Channels)||(AudioSampleRate!=RenderMusic.SamplingRate)) {
-                if (!AudioResampler) {
-                    AudioResampler=swr_alloc();
-                    av_opt_set_int(AudioResampler,"in_channel_layout",     av_get_default_channel_layout(ToEncodeMusic.Channels),0);
-                    av_opt_set_int(AudioResampler,"in_sample_rate",        ToEncodeMusic.SamplingRate,0);
-                    av_opt_set_int(AudioResampler,"out_channel_layout",    AudioStream->codec->channel_layout,0);
-                    av_opt_set_int(AudioResampler,"out_sample_rate",       AudioStream->codec->sample_rate,0);
-                    av_opt_set_int(AudioResampler,"in_channel_count",      ToEncodeMusic.Channels,0);
-                    av_opt_set_int(AudioResampler,"out_channel_count",     AudioStream->codec->channels,0);
-                    #if (LIBAVUTIL_VERSION_INT>=AV_VERSION_INT(52,9,100))
-                    av_opt_set_sample_fmt(AudioResampler,"out_sample_fmt", AudioStream->codec->sample_fmt,0);
-                    av_opt_set_sample_fmt(AudioResampler,"in_sample_fmt",  ToEncodeMusic.SampleFormat,0);
-                    #else
-                    av_opt_set_int(AudioResampler,"out_sample_fmt",         AudioStream->codec->sample_fmt,0);
-                    av_opt_set_int(AudioResampler,"in_sample_fmt",          ToEncodeMusic.SampleFormat,0);
-                    #endif
-                    if (swr_init(AudioResampler)<0) {
-                        ToLog(LOGMSG_CRITICAL,QString("DoEncode: swr_alloc_set_opts failed"));
-                        Continue=false;
-                    }
-                }
-            }
-        #elif defined(USELIBAVRESAMPLE)
+        #elif defined(LIBAV) && (LIBAVVERSIONINT<=9)
             if ((AudioStream->codec->sample_fmt!=ToEncodeMusic.SampleFormat)||(AudioStream->codec->channels!=ToEncodeMusic.Channels)||(AudioSampleRate!=ToEncodeMusic.SamplingRate)) {
                 if (!AudioResamplerBuffer) {
                     int out_linesize=0;
@@ -938,6 +900,24 @@ bool cEncodeVideo::DoEncode() {
                     }
                 }
             }
+        #elif defined(FFMPEG)
+            if ((AudioStream->codec->sample_fmt!=RenderMusic.SampleFormat)||(AudioStream->codec->channels!=RenderMusic.Channels)||(AudioSampleRate!=RenderMusic.SamplingRate)) {
+                if (!AudioResampler) {
+                    AudioResampler=swr_alloc();
+                    av_opt_set_int(AudioResampler,"in_channel_layout",     av_get_default_channel_layout(ToEncodeMusic.Channels),0);
+                    av_opt_set_int(AudioResampler,"in_sample_rate",        ToEncodeMusic.SamplingRate,0);
+                    av_opt_set_int(AudioResampler,"out_channel_layout",    AudioStream->codec->channel_layout,0);
+                    av_opt_set_int(AudioResampler,"out_sample_rate",       AudioStream->codec->sample_rate,0);
+                    av_opt_set_int(AudioResampler,"in_channel_count",      ToEncodeMusic.Channels,0);
+                    av_opt_set_int(AudioResampler,"out_channel_count",     AudioStream->codec->channels,0);
+                    av_opt_set_sample_fmt(AudioResampler,"out_sample_fmt", AudioStream->codec->sample_fmt,0);
+                    av_opt_set_sample_fmt(AudioResampler,"in_sample_fmt",  ToEncodeMusic.SampleFormat,0);
+                    if (swr_init(AudioResampler)<0) {
+                        ToLog(LOGMSG_CRITICAL,QString("DoEncode: swr_alloc_set_opts failed"));
+                        Continue=false;
+                    }
+                }
+            }
         #endif
     }
 
@@ -961,7 +941,7 @@ bool cEncodeVideo::DoEncode() {
     }
 
     // Define InterleaveFrame to not compute it for each frame
-    #ifdef FFMPEG201
+    #if defined(FFMPEG)&&(FFMPEGVERSIONINT>=201)
     InterleaveFrame=(strcmp(Container->oformat->name,"avi")!=0);
     #else
     InterleaveFrame=true;
@@ -1110,7 +1090,7 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
             PacketSound=(u_int8_t *)av_malloc(RenderMusic->SoundPacketSize+4);
             memset(PacketSound,0,RenderMusic->SoundPacketSize);
         }
-        #if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
+        #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
             // LIBAV 0.8 => ToEncodeMusic must have exactly AudioStream->codec->frame_size data
             if ((AudioResampler!=NULL)&&(AudioResamplerBuffer!=NULL)) {
                 int64_t DestNbrSamples=RenderMusic->SoundPacketSize/(RenderMusic->Channels*av_get_bytes_per_sample(RenderMusic->SampleFormat));
@@ -1121,7 +1101,7 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
                 } else ToEncodeMusic->AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)AudioResamplerBuffer,DestPacketSize);
             } else ToEncodeMusic->AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)PacketSound,RenderMusic->SoundPacketSize);
         #else
-            // LIBAV 9 => ToEncodeMusic is converted during encoding process
+            // LIBAV 9 AND FFMPEG => ToEncodeMusic is converted during encoding process
             ToEncodeMusic->AppendData(Frame->CurrentObject_StartTime+Frame->CurrentObject_InObjectTime,(int16_t *)PacketSound,RenderMusic->SoundPacketSize);
         #endif
         av_free(PacketSound);
@@ -1141,9 +1121,9 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
             ToLog(LOGMSG_CRITICAL,QString("EncodeMusic: PacketSound==NULL"));
             Continue=false;
         } else {
-            #if defined(LIBAV_08) || (!defined(USELIBSWRESAMPLE) && !defined(USELIBAVRESAMPLE))
+            #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
                 DestPacket=(u_int8_t *)PacketSound;
-            #elif defined(USELIBAVRESAMPLE)
+            #elif defined(LIBAV) && (LIBAVVERSIONINT<=9)
                 // LIBAV 9 => Convert sample format (is needed)
                 if ((AudioResampler!=NULL)&&(AudioResamplerBuffer!=NULL)) {
                     DestPacket=AudioResamplerBuffer;
@@ -1158,11 +1138,7 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
                             ToLog(LOGMSG_CRITICAL,QString("failed out_data fill arrays"));
                             Continue=false;
                         } else {
-                            #if (LIBAVRESAMPLE_VERSION_INT<AV_VERSION_INT(1,0,0))
-                            DestPacketSize=avresample_convert(AudioResampler,(void **)out_data,out_linesize,out_samples,(void **)in_data,in_linesize,DestNbrSamples)*DestSampleSize;
-                            #else
                             DestPacketSize=avresample_convert(AudioResampler,out_data,out_linesize,out_samples,in_data,in_linesize,DestNbrSamples)*DestSampleSize;
-                            #endif
                             if (DestPacketSize<=0) {
                                 ToLog(LOGMSG_CRITICAL,QString("Error in avresample_convert"));
                                 Continue=false;
@@ -1171,7 +1147,7 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
                     }
                     DestPacket=out_data[0];
                 } else DestPacket=(u_int8_t *)PacketSound;
-            #elif defined(USELIBSWRESAMPLE)
+            #elif defined(FFMPEG)
                 if (AudioResampler!=NULL) {
                     int out_samples=av_rescale_rnd(swr_get_delay(AudioResampler,ToEncodeMusic->SamplingRate)+DestNbrSamples,AudioStream->codec->sample_rate,ToEncodeMusic->SamplingRate,AV_ROUND_UP);
                     av_samples_alloc(&AudioResamplerBuffer,NULL,AudioStream->codec->channels,out_samples,AudioStream->codec->sample_fmt,0);
@@ -1199,8 +1175,6 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
                         }
                     }
                 } else DestPacket=(u_int8_t *)PacketSound;
-            #else
-                DestPacket=(u_int8_t *)PacketSound;
             #endif
 
             if (Continue) {
@@ -1211,7 +1185,7 @@ void cEncodeVideo::EncodeMusic(cDiaporamaObjectInfo *Frame,cSoundBlockList *Rend
                 AVR.den                     =AudioStream->codec->sample_rate;
                 AudioFrame->nb_samples      =DestPacketSize/DestSampleSize;
                 AudioFrame->pts             =av_rescale_q(AudioFrame->nb_samples*AudioFrameNbr,AVR,AudioStream->time_base);
-                #ifdef LIBAV_09
+                #if (defined(LIBAV) && (LIBAVVERSIONINT>=9)) || defined(FFMPEG)
                 AudioFrame->format          =AudioStream->codec->sample_fmt;
                 AudioFrame->channel_layout  =AudioStream->codec->channel_layout;
                 #endif
@@ -1349,7 +1323,7 @@ void cEncodeVideo::EncodeVideo(QImage *SrcImage,bool &Continue) {
         pkt.size=0;
         pkt.data=NULL;
 
-        #ifdef LIBAV_08
+        #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
         int out_size=avcodec_encode_video(VideoStream->codec,VideoEncodeBuffer,VideoEncodeBufferSize,VideoFrame);
         if (out_size<0) {
             ToLog(LOGMSG_CRITICAL,QString("EncodeVideo: avcodec_encode_video failed"));

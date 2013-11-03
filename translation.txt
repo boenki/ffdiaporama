@@ -1,7 +1,7 @@
 **************************************************
-* FFDIAPORAMA 1.8 - Trunk
+* FFDIAPORAMA 2.0 - Trunk
 *
-* Translation state on 28/10/2013
+* Translation state on 03/11/2013
 **************************************************
 
 Local     Interface       /   WIKI

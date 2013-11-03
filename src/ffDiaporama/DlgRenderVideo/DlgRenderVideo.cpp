@@ -1025,7 +1025,7 @@ bool DlgRenderVideo::DoAccept() {
             Text=Text+QString("  <plot>%1</plot>\n").arg(Diaporama->ProjectInfo->Comment);
             Text=Text+QString("  <director>%1</director>\n").arg(Diaporama->ProjectInfo->Author);
             Text=Text+QString("  <credits>%1</credits>\n").arg(Diaporama->ProjectInfo->Author);
-            Text=Text+QString("  <runtime>%1</runtime>\n").arg(Diaporama->ProjectInfo->Duration>60000?Diaporama->ProjectInfo->Duration/60000:1);
+            Text=Text+QString("  <runtime>%1</runtime>\n").arg(QTime(0,0,0,0).msecsTo(Diaporama->ProjectInfo->Duration)>60000?QTime(0,0,0,0).msecsTo(Diaporama->ProjectInfo->Duration)/60000:1);
             if (!ThumbFileName.isEmpty()) Text=Text+QString("  <thumb>%1</thumb>\n").arg(QFileInfo(ThumbFileName).baseName()+".jpg");
             Text=Text+QString("</movie>\n");
             if (file.open(QIODevice::WriteOnly|QIODevice::Text)) {

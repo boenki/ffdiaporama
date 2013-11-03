@@ -162,7 +162,7 @@ void cBlockTableItemDelegate::paint(QPainter *Painter,const QStyleOptionViewItem
     if (MediaFile!=NULL) {
         QString SummaryText[3];
 
-        SummaryText[0]=MediaFile->ShortName+"("+MediaFile->GetFileSizeStr()+")";
+        SummaryText[0]=MediaFile->ShortName()+"("+MediaFile->GetFileSizeStr()+")";
         SummaryText[1]=MediaFile->GetImageSizeStr(cBaseMediaFile::FULLWEB);
         if (MediaFile->ObjectType==OBJECTTYPE_IMAGEFILE) {
             SummaryText[2]=MediaFile->GetInformationValue("composer");

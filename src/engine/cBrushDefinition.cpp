@@ -117,11 +117,12 @@ QBrush *GetGradientBrush(QRectF Rect,int BrushType,int GradientOrientation,QStri
 cBackgroundObject::cBackgroundObject(QString FileName,cBaseApplicationConfig *AppConfig) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:cBackgroundObject::cBackgroundObject");
 
-    IsValide            = false;
-    FilePath            = FileName;
-    ModifDateTime       = QFileInfo(FileName).created();
-    ApplicationConfig   = AppConfig;
-    Name                = QFileInfo(FileName).baseName();
+    ApplicationConfig   =AppConfig;
+    qlonglong FolderKey =ApplicationConfig->FoldersTable->GetFolderKey(QFileInfo(FileName).absolutePath());
+    IsValide            =false;
+    ModifDateTime       =QFileInfo(FileName).created();
+    Name                =QFileInfo(FileName).baseName();
+    FileKey             =ApplicationConfig->FilesTable->GetFileKey(FolderKey,QFileInfo(FileName).fileName(),OBJECTTYPE_IMAGEFILE);
 
     QString FName=QFileInfo(FileName).absoluteFilePath();
     FName=FName.left(FName.lastIndexOf("."));
@@ -131,7 +132,7 @@ cBackgroundObject::cBackgroundObject(QString FileName,cBaseApplicationConfig *Ap
         Thumbnail[GEOMETRY_40_17].load(FName+".ic3","PNG");
     } else {
         // Load file
-        QImage Image(FilePath);
+        QImage Image(FileName);
         IsValide=!Image.isNull();
 
         // Make Icon
@@ -149,7 +150,7 @@ cBackgroundObject::cBackgroundObject(QString FileName,cBaseApplicationConfig *Ap
 }
 
 QImage* cBackgroundObject::GetBackgroundImage() {
-    cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FilePath,ModifDateTime,1,ApplicationConfig->Smoothing,true);
+    cLuLoImageCacheObject *ImageObject=ApplicationConfig->ImagesCache.FindObject(FileKey,ModifDateTime,1,ApplicationConfig->Smoothing,true);
     if (ImageObject==NULL) {
         ToLog(LOGMSG_CRITICAL,"Error in cBackgroundObject::GetBackgroundImage : FindObject return NULL for background image loading !");
     } else {
@@ -648,29 +649,30 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
     QDomDocument    DomDocument;
     QDomElement     Element=DomDocument.createElement(ElementName);
     QString         BrushFileName=(Image?Image->FileName():Video?Video->FileName():"");
-    QString         BFN;
 
-    if (AdjustDirForOS(BrushFileName).startsWith(ClipArtFolder)) {
-        BFN="%CLIPARTFOLDER%"+AdjustDirForOS(BrushFileName).mid(ClipArtFolder.length());
-        #ifdef Q_OS_WIN
-        BFN=BFN.replace("\\","/");  // Force Linux mode separator
-        #endif
-    } else if (AdjustDirForOS(BrushFileName).startsWith(ModelFolder)) {
-        BFN="%MODELFOLDER%"  +AdjustDirForOS(BrushFileName).mid(ModelFolder.length());
-        #ifdef Q_OS_WIN
-        BFN=BFN.replace("\\","/");  // Force Linux mode separator
-        #endif
-    } else {
-
-        if (ReplaceList) {
-            BFN=ReplaceList->GetDestinationFileName(BrushFileName);
+    if (!BrushFileName.isEmpty()) {
+        if (AdjustDirForOS(BrushFileName).startsWith(ClipArtFolder)) {
+            BrushFileName="%CLIPARTFOLDER%"+AdjustDirForOS(BrushFileName).mid(ClipArtFolder.length());
+            #ifdef Q_OS_WIN
+            BrushFileName=BrushFileName.replace("\\","/");  // Force Linux mode separator
+            #endif
+        } else if (AdjustDirForOS(BrushFileName).startsWith(ModelFolder)) {
+            BrushFileName="%MODELFOLDER%"  +AdjustDirForOS(BrushFileName).mid(ModelFolder.length());
+            #ifdef Q_OS_WIN
+            BrushFileName=BrushFileName.replace("\\","/");  // Force Linux mode separator
+            #endif
         } else {
-            BFN=BrushFileName;
-            if ((PathForRelativPath!="")&&(BFN!="")) {
-                if (ForceAbsolutPath)
-                    BFN=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).absoluteFilePath(BFN));
-                else
-                    BFN=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).relativeFilePath(BFN));
+
+            if (ReplaceList) {
+                BrushFileName=ReplaceList->GetDestinationFileName(BrushFileName);
+            } else {
+                BrushFileName=BrushFileName;
+                if ((PathForRelativPath!="")&&(BrushFileName!="")) {
+                    if (ForceAbsolutPath)
+                        BrushFileName=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).absoluteFilePath(BrushFileName));
+                    else
+                        BrushFileName=QDir::cleanPath(QDir(QFileInfo(PathForRelativPath).absolutePath()).relativeFilePath(BrushFileName));
+                }
             }
         }
     }
@@ -697,7 +699,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
         case BRUSHTYPE_IMAGEDISK :
             if (Video!=NULL) {
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
-                    Element.setAttribute("BrushFileName",BFN);                                              // File name if image from disk
+                    Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
                     Element.setAttribute("StartPos",Video->StartPos.toString("HH:mm:ss.zzz"));              // Start position (video only)
                     Element.setAttribute("EndPos",Video->EndPos.toString("HH:mm:ss.zzz"));                  // End position (video only)
                 } else {
@@ -706,7 +708,7 @@ void cBrushDefinition::SaveToXML(QDomElement &domDocument,QString ElementName,QS
                 }
             } else if (Image!=NULL) {
                 if (TypeComposition!=COMPOSITIONTYPE_SHOT) {                                                // Global definition only !
-                    Element.setAttribute("BrushFileName",BFN);                                              // File name if image from disk
+                    Element.setAttribute("BrushFileName",BrushFileName);                                    // File name if image from disk
                     Element.setAttribute("ImageOrientation",Image->ImageOrientation);
                 }
             }

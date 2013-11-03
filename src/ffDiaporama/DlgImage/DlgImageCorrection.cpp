@@ -364,8 +364,8 @@ void DlgImageCorrection::ApplyPartialUndo(int /*ActionType*/,QDomElement root) {
         CurrentBrush->SoundVolume    =GetDoubleValue(root,"SoundVolume");
         CurrentBrush->Deinterlace    =root.attribute("Deinterlace")=="1";
     }
-    if (BrushFileName!=((CurrentBrush->Image!=NULL)?CurrentBrush->Image->FileName():CurrentBrush->Video->FileName())) {
-        BaseApplicationConfig->ImagesCache.RemoveImageObject(BrushFileName);
+    if (BrushFileName!=((CurrentBrush->Image)?CurrentBrush->Image->FileName():CurrentBrush->Video->FileName())) {
+        BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentBrush->Image?CurrentBrush->Image->FileKey:CurrentBrush->Video->FileKey);
         if (CurrentBrush->Image) {
             CurrentBrush->Image->Reset();
             CurrentBrush->Image->GetInformationFromFile(BrushFileName,NULL,NULL,-1);
@@ -741,7 +741,7 @@ void DlgImageCorrection::s_ChangeFile() {
     QString NewBrushFileName=QFileInfo(NewFile).absoluteFilePath();
     QString OldBrushFileName=CurrentBrush->Image?CurrentBrush->Image->FileName():CurrentBrush->Video->FileName();
 
-    BaseApplicationConfig->ImagesCache.RemoveImageObject(OldBrushFileName);
+    BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentBrush->Image?CurrentBrush->Image->FileKey:CurrentBrush->Video->FileKey);
     if (!IsVideo) {
         // Image
         CurrentBrush->Image->Reset();
@@ -762,7 +762,7 @@ void DlgImageCorrection::s_ChangeFile() {
                 ErrorMessage=ErrorMessage+"\n"+ffDText(ffDSection_CommonErrorMsg,1);
                 IsValide=false;
             }
-            #ifndef LIBAV_09
+            #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
             if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
                 ErrorMessage=ErrorMessage+"\n"+ffDText(ffDSection_CommonErrorMsg,2);
                 IsValide=false;

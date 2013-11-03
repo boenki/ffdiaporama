@@ -44,24 +44,6 @@
 int DISPLAYFILENAMEHEIGHT           =20;                        // Will be compute because it's not the same for all operating system
 
 //********************************************************************************************************
-// Utility functions use to sort table
-//********************************************************************************************************
-
-bool MediaListLessThan(cBaseMediaFile *Media1,cBaseMediaFile *Media2) {
-    return (QString::compare(Media1->ShortName,Media2->ShortName,Qt::CaseInsensitive)<0);
-}
-
-bool MediaListLessThanWithFolder(cBaseMediaFile *Media1,cBaseMediaFile *Media2) {
-    if ((Media1->ObjectType==OBJECTTYPE_FOLDER)&&(Media2->ObjectType==OBJECTTYPE_FOLDER))               // the 2 are folders
-        return (QString::compare(Media1->ShortName,Media2->ShortName,Qt::CaseInsensitive)<0);
-    else if ((Media1->ObjectType!=OBJECTTYPE_FOLDER)&&(Media2->ObjectType!=OBJECTTYPE_FOLDER))          // the 2 are not folders
-        return (QString::compare(Media1->ShortName,Media2->ShortName,Qt::CaseInsensitive)<0);
-    else if ((Media1->ObjectType==OBJECTTYPE_FOLDER)&&(Media2->ObjectType!=OBJECTTYPE_FOLDER))          // first is folders and second not
-        return true;
-    else return false;                                                                                      // second is folders and first not
-}
-
-//********************************************************************************************************
 // QCustomFolderTable
 //********************************************************************************************************
 
@@ -190,7 +172,7 @@ void QCustomStyledItemDelegate::paint(QPainter *Painter,const QStyleOptionViewIt
                 OptionText=QTextOption(Qt::AlignHCenter|Qt::AlignTop);                      // Setup alignement
                 OptionText.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);          // Setup word wrap text option
                 Painter->drawText(QRectF(option.rect.x()+1,option.rect.y()+option.rect.height()-1-DISPLAYFILENAMEHEIGHT,option.rect.width()-2,DISPLAYFILENAMEHEIGHT),
-                                  ParentTable->MediaList[ItemIndex]->ShortName,OptionText);
+                                  ParentTable->MediaList[ItemIndex]->ShortName(),OptionText);
             }
 
         }
@@ -312,9 +294,9 @@ QString QCustomFolderTable::GetTextForColumn(int Col,cBaseMediaFile *MediaObject
     QString TextToDisplay="";
     QString ColName      =(horizontalHeaderItem(Col)!=NULL)?horizontalHeaderItem(Col)->text():"";
 
-    if      (ColName==QApplication::translate("QCustomFolderTable","File","Column header"))             TextToDisplay=MediaObject->ShortName;
+    if      (ColName==QApplication::translate("QCustomFolderTable","File","Column header"))             TextToDisplay=MediaObject->ShortName();
     else if (ColName==QApplication::translate("QCustomFolderTable","File Type","Column header"))        TextToDisplay=MediaObject->GetFileTypeStr();
-    else if (ColName==QApplication::translate("QCustomFolderTable","File Size","Column header"))        TextToDisplay=MediaObject->FileSizeText;
+    else if (ColName==QApplication::translate("QCustomFolderTable","File Size","Column header"))        TextToDisplay=MediaObject->GetFileSizeStr();
     else if (ColName==QApplication::translate("QCustomFolderTable","File Date","Column header"))        TextToDisplay=MediaObject->GetFileDateTimeStr();
     else if (ColName==QApplication::translate("QCustomFolderTable","Duration","Column header"))         TextToDisplay=MediaObject->GetInformationValue("Duration");
     else if (ColName==QApplication::translate("QCustomFolderTable","Image Size","Column header"))       TextToDisplay=MediaObject->GetImageSizeStr(cBaseMediaFile::SIZEONLY);
@@ -669,121 +651,125 @@ void QCustomFolderTable::mouseReleaseEvent(QMouseEvent *ev) {
 
 //====================================================================================================================
 
-void QCustomFolderTable::RefreshListFolder() {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::RefreshListFolder");
+void QCustomFolderTable::FillListFolder(QString Path) {
+    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::FillListFolder");
+    ToLog(LOGMSG_INFORMATION,QApplication::translate("QCustomFolderTable","Reading directory content (%1)").arg(AdjustDirForOS(Path)));
 
     QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
 
     // Ensure scan thread is stoped
     EnsureThreadIsStopped();
 
-    // Clear selection
-    selectionModel()->clear();
+    // Set ScanMediaListProgress flag to inform that scan is not done
+    ScanMediaListProgress=true;
+
+    CurrentShowFolderNumber =0;
+    CurrentShowFilesNumber  =0;
+    CurrentShowFolderNumber =0;
+    CurrentTotalFilesNumber =0;
+    CurrentShowFolderSize   =0;
+    CurrentTotalFolderSize  =0;
+    CurrentDisplayItem      =0;
+    CurrentShowDuration     =0;
+
+    // Reset content of the table (but keep column)
+    setRowCount(0);
+
+    // Adjust given Path
+    if (Path.startsWith(QApplication::translate("QCustomFolderTree","Clipart"))) Path=ClipArtFolder+Path.mid(QApplication::translate("QCustomFolderTree","Clipart").length());
+    #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
+    if (Path.startsWith("~")) Path=QDir::homePath()+Path.mid(1);
+    #else
+    if (Path.startsWith(PersonalFolder)) Path=QDir::homePath()+Path.mid(PersonalFolder.length());
+    Path=AdjustDirForOS(Path);
+    #endif
+    if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
+
+    // Manage history
+    if ((BrowsePathList.isEmpty())||(BrowsePathList[BrowsePathList.count()-1]!=Path)) {
+        BrowsePathList.append(Path);
+        CurrentPath=Path;   // Keep current path
+    }
+    while (BrowsePathList.count()>20) BrowsePathList.removeFirst(); // Not more than 20 path in the history !
+
+    // clear actual MediaList
+    while (!MediaList.isEmpty()) delete MediaList.takeLast();
 
     // Scan files and add them to table
-    QDir                Folder(CurrentPath);
-    qlonglong           FolderKey=ApplicationConfig->FoldersTable->GetFolderKey(CurrentPath);
-    QFileInfoList       Files=Folder.entryInfoList(QDir::Dirs|QDir::AllDirs|QDir::Files|QDir::Hidden);
-    cBaseMediaFile      *MediaObject=NULL;
-    int                 i,j;
+    qlonglong FolderKey=ApplicationConfig->FoldersTable->GetFolderKey(Path);
+    ApplicationConfig->FilesTable->UpdateTableForFolder(FolderKey);
 
-    // Scan folder entries to remove all file not corresponding to showhiden filter
-    i=0;
-    while (i<Files.count()) if ((Files[i].fileName()==".")||(Files[i].fileName()=="..")||
-        ((!ShowHiddenFilesAndDir)&&((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))))
-        Files.removeAt(i); else i++;
+    // request database for files to display
+    QSqlQuery   Query(ApplicationConfig->Database->db);
+    QString     QueryString("SELECT Key,MediaFileType FROM MediaFiles WHERE FolderKey=:FolderKey");
 
-    // Compute total number of files and total folder size
-    foreach(QFileInfo File,Files) if (!File.isDir()) {
-        CurrentTotalFilesNumber++;
-        CurrentTotalFolderSize+=File.size();
+    // Construct where clause depending on current filter
+    switch (CurrentFilter) {
+        case OBJECTTYPE_IMAGEFILE:
+        case OBJECTTYPE_VIDEOFILE:
+        case OBJECTTYPE_MUSICFILE:
+        case OBJECTTYPE_FFDFILE:
+            QueryString=QueryString+QString(" AND MediaFileType=%1").arg(CurrentFilter);
+            break;
+        case OBJECTTYPE_MANAGED:
+            QueryString=QueryString+QString(" AND MediaFileType<>%1 AND MediaFileType<>%2").arg(OBJECTTYPE_UNMANAGED).arg(OBJECTTYPE_THUMBNAIL);
+            break;
+    }
+    if (!ShowHiddenFilesAndDir) QueryString=QueryString+" AND IsHidden=0";
+
+    // Construct sort order
+    if (ApplicationConfig->ShowFoldersFirst) QueryString=QueryString+" ORDER BY IsDir,ShortName";
+        else                                 QueryString=QueryString+" ORDER BY ShortName";
+
+    Query.prepare(QueryString);
+    Query.bindValue(":FolderKey",FolderKey,QSql::In);
+    if (!Query.exec()) DisplayLastSQLError(&Query); else while (Query.next()) {
+        bool Ret=true;
+        qlonglong FileKey   =Query.value(0).toLongLong(&Ret);   if (!Ret) FileKey=-1;
+        int       ObjectType=Query.value(1).toInt(&Ret);        if (!Ret) ObjectType=-1;
+        if ((FileKey!=-1)&&(ObjectType!=-1)) {
+            cBaseMediaFile *MediaObject;
+            switch (ObjectType) {
+                case OBJECTTYPE_FOLDER   : MediaObject=new cFolder(ApplicationConfig);                  break;
+                case OBJECTTYPE_UNMANAGED: MediaObject=new cUnmanagedFile(ApplicationConfig);           break;
+                case OBJECTTYPE_FFDFILE  : MediaObject=new cffDProjectFile(ApplicationConfig);          break;
+                case OBJECTTYPE_IMAGEFILE: MediaObject=new cImageFile(ApplicationConfig);               break;
+                case OBJECTTYPE_VIDEOFILE: MediaObject=new cVideoFile(ObjectType,ApplicationConfig);    break;
+                case OBJECTTYPE_MUSICFILE: MediaObject=new cMusicObject(ApplicationConfig);             break;
+                case OBJECTTYPE_THUMBNAIL: MediaObject=new cImageFile(ApplicationConfig);               break;
+            }
+            if (MediaObject) {
+                MediaObject->ObjectType=ObjectType;
+                MediaObject->FolderKey =FolderKey;
+                MediaObject->FileKey   =FileKey;
+                MediaObject->GetInformationFromFile(MediaObject->FileName(),NULL,NULL,FolderKey);
+                MediaList.append(MediaObject);
+            }
+        }
     }
 
     //**********************************************************
 
-    // Scan media list to remove all files wich are no longer present (depending on filter)
-    i=0; while (i<MediaList.count()) if (MediaList[i]->IsFilteredFile(CurrentFilter,AllowedFilter)) i++; else delete MediaList.takeAt(i);
-
-    // Scan media list to remove all files wich are no longer present in folder entries or files for which date/time has changed
-    i=0;
-    while (i<MediaList.count()) {
-        j=0;
-        while ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()!=MediaList[i]->FileName())&&(((QFileInfo)Files[j]).lastModified()!=MediaList[i]->ModifDateTime)) j++;
-        if ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()==MediaList[i]->FileName())&&(((QFileInfo)Files[j]).lastModified()==MediaList[i]->ModifDateTime))
-             i++;  else delete MediaList.takeAt(i);
-    }
-
-    // Scan folder entries to integrate new files to actual MediaList
-    for (i=0;i<Files.count();i++) {
-        j=0;
-        while ((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()!=MediaList[j]->FileName())) j++;
-        if (!((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()==MediaList[j]->FileName()))) {
-            QFileInfo *File=&Files[i];
-            // It's a new file => then add it
-            if (ApplicationConfig->AllowImageExtension.contains(File->suffix().toLower())) {
-                MediaObject=new cImageFile(ApplicationConfig);
-
-                // Special case for folder Thumbnails
-                if (File->fileName()=="folder.jpg") {
-                    MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
-                } else if ((File->fileName().toLower().endsWith("-poster.jpg"))||(File->fileName().toLower().endsWith("-poster.png"))) {  // Special case for video xbmc poster Thumbnails
-                    // Search if a video with same name exist
-                    QString ToSearch=File->fileName().left(File->fileName().toLower().indexOf("-poster."));
-                    for (int i=0;i<Files.count();i++)
-                        if ((ApplicationConfig->AllowVideoExtension.contains(((QFileInfo)Files[i]).suffix().toLower()))&&
-                            (((QFileInfo)Files[i]).completeBaseName()==ToSearch)) MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
-                } else if (File->suffix().toLower()=="jpg") {  // Special case for video Thumbnails
-                    // Search if a video with same name exist
-                    for (int i=0;i<Files.count();i++)
-                        if ((ApplicationConfig->AllowVideoExtension.contains(((QFileInfo)Files[i]).suffix().toLower()))&&
-                            (((QFileInfo)Files[i]).completeBaseName()==File->completeBaseName())) MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
-                }
-            }   else if (ApplicationConfig->AllowVideoExtension.contains(File->suffix().toLower())) MediaObject=new cVideoFile(OBJECTTYPE_VIDEOFILE,ApplicationConfig);
-                else if (ApplicationConfig->AllowMusicExtension.contains(File->suffix().toLower())) MediaObject=new cVideoFile(OBJECTTYPE_MUSICFILE,ApplicationConfig);
-                else if (File->suffix().toLower()=="ffd")                                           MediaObject=new cffDProjectFile(ApplicationConfig);
-                else if (File->isDir())                                                             MediaObject=new cFolder(ApplicationConfig);
-                else                                                                                MediaObject=new cUnmanagedFile(ApplicationConfig);
-
-            // Check if file is valid
-            if ((MediaObject)&&(!MediaObject->GetInformationFromFile(File->absoluteFilePath(),NULL,NULL,FolderKey))) {
-                delete MediaObject;
-                MediaObject=NULL;
-            }
-            // Check if file correspond to current filer
-            if ((MediaObject)&&(!MediaObject->IsFilteredFile(CurrentFilter,AllowedFilter))) {
-                delete MediaObject;
-                MediaObject=NULL;
-            }
-            // If MediaObject still exist then append it
-            if (MediaObject) MediaList.append(MediaObject);
-        }
-    }
-
-    CurrentDisplayItem=MediaList.count();
-
-    // Sort MediaList
-    if (ApplicationConfig->ShowFoldersFirst) qSort(MediaList.begin(),MediaList.end(),MediaListLessThanWithFolder);
-        else qSort(MediaList.begin(),MediaList.end(),MediaListLessThan);
-
-    // Set Rows and Columns
+    // Create column (if needed)
     if (CurrentMode==DISPLAY_ICON100) {
-        if (MediaList.count()>0) setRowCount((MediaList.count()/columnCount())+1); else setRowCount(0);
         int SizeColumn=GetWidthForIcon();
-        int RHeight=GetHeightForIcon();
+        if (viewport()->width()/SizeColumn==0) setColumnCount(1); else setColumnCount(viewport()->width()/SizeColumn);
         for (int i=0;i<columnCount();i++) setColumnWidth(i,SizeColumn);
-        for (int i=0;i<(CurrentDisplayItem/columnCount())+1;i++) setRowHeight(RHeight,SizeColumn);
-    } else {
-        setRowCount(MediaList.count());
-        for (int Row=0;Row<rowCount();Row++) setRowHeight(Row,GetHeightForIcon()+2);
     }
+
+    // Append Media to table
+    foreach(cBaseMediaFile *MediaObject,MediaList) AppendMediaToTable(MediaObject);
 
     // Update display
     DoResizeColumns();
+    if (updatesEnabled()) setUpdatesEnabled(false);
+    setUpdatesEnabled(true);
 
     // Start thread to scan files
     ScanMediaList.setFuture(QtConcurrent::run(this,&QCustomFolderTable::DoScanMediaList));
 
     QApplication::restoreOverrideCursor();
+
 }
 
 //====================================================================================================================
@@ -842,159 +828,6 @@ QString QCustomFolderTable::BrowseToUpperPath() {
         }
     }
     return Path;
-}
-
-//====================================================================================================================
-
-void QCustomFolderTable::FillListFolder(QString Path) {
-    ToLog(LOGMSG_DEBUGTRACE,"IN:QCustomFolderTable::FillListFolder");
-    ToLog(LOGMSG_INFORMATION,QApplication::translate("QCustomFolderTable","Reading directory content (%1)").arg(AdjustDirForOS(Path)));
-
-    if ((BrowsePathList.count()==0)||(BrowsePathList[BrowsePathList.count()-1]!=Path)) BrowsePathList.append(Path);
-    while (BrowsePathList.count()>20) BrowsePathList.removeFirst(); // Not more than 20 path in the history !
-
-    QApplication::setOverrideCursor(QCursor(Qt::WaitCursor));
-
-    // Ensure scan thread is stoped
-    EnsureThreadIsStopped();
-
-    // Set ScanMediaListProgress flag to inform that scan is not done
-    ScanMediaListProgress=true;
-
-    int i=0,j=0;
-    CurrentShowFolderNumber =0;
-    CurrentShowFilesNumber  =0;
-    CurrentShowFolderNumber =0;
-    CurrentTotalFilesNumber =0;
-    CurrentShowFolderSize   =0;
-    CurrentTotalFolderSize  =0;
-    CurrentDisplayItem      =0;
-    CurrentShowDuration     =0;
-
-    // Reset content of the table (but keep column)
-    setRowCount(0);
-
-    // Adjust given Path
-    if (Path.startsWith(QApplication::translate("QCustomFolderTree","Clipart"))) Path=ClipArtFolder+Path.mid(QApplication::translate("QCustomFolderTree","Clipart").length());
-    #if defined(Q_OS_LINUX) || defined(Q_OS_SOLARIS)
-    if (Path.startsWith("~")) Path=QDir::homePath()+Path.mid(1);
-    #else
-    if (Path.startsWith(PersonalFolder)) Path=QDir::homePath()+Path.mid(PersonalFolder.length());
-    Path=AdjustDirForOS(Path);
-    #endif
-    if (!Path.endsWith(QDir::separator())) Path=Path+QDir::separator();
-
-    // if new Path, clear actual MediaList
-    if (Path!=CurrentPath) {
-        // Clear MediaList
-        while (!MediaList.isEmpty()) delete MediaList.takeLast();
-        // Keep current path
-        CurrentPath=Path;
-    }
-
-    // Scan files and add them to table
-    QDir                Folder(Path);
-    qlonglong           FolderKey=ApplicationConfig->FoldersTable->GetFolderKey(Path);
-    QFileInfoList       Files=Folder.entryInfoList(QDir::Dirs|QDir::AllDirs|QDir::Files|QDir::Hidden);
-    cBaseMediaFile      *MediaObject=NULL;
-
-    // Scan folder entries to remove all file not corresponding to showhiden filter
-    i=0;
-    while (i<Files.count()) if ((Files[i].fileName()==".")||(Files[i].fileName()=="..")||
-        ((!ShowHiddenFilesAndDir)&&((Files[i].isHidden())||(Files[i].fileName().startsWith(".")))))
-        Files.removeAt(i); else i++;
-
-    // Compute total number of files and total folder size
-    foreach(QFileInfo File,Files) if (!File.isDir()) {
-        CurrentTotalFilesNumber++;
-        CurrentTotalFolderSize+=File.size();
-    }
-
-    //**********************************************************
-
-    // Scan media list to remove all files wich are no longer present (depending on filter)
-    i=0; while (i<MediaList.count()) if (MediaList[i]->IsFilteredFile(CurrentFilter,AllowedFilter)) i++; else delete MediaList.takeAt(i);
-
-    // Scan media list to remove all files wich are no longer present in folder entries
-    i=0;
-    while (i<MediaList.count()) {
-        j=0;
-        while ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()!=MediaList[i]->FileName())) j++;
-        if ((j<Files.count())&&(((QFileInfo)Files[j]).absoluteFilePath()==MediaList[i]->FileName()))
-             i++;  else delete MediaList.takeAt(i);
-    }
-
-    // Scan folder entries to integrate new files to actual MediaList
-    for (i=0;i<Files.count();i++) if (QFileInfo(((QFileInfo)Files[i]).absoluteFilePath()).exists()){
-        j=0;
-        while ((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()!=MediaList[j]->FileName())) j++;
-        if (!((j<MediaList.count())&&(((QFileInfo)Files[i]).absoluteFilePath()==MediaList[j]->FileName()))) {
-            QFileInfo *File=&Files[i];
-            // It's a new file => then add it
-            if (ApplicationConfig->AllowImageExtension.contains(File->suffix().toLower())) {
-                MediaObject=new cImageFile(ApplicationConfig);
-                // Special case for folder Thumbnails
-                if (File->fileName()=="folder.jpg") {
-                    MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
-                } else if ((File->fileName().toLower().endsWith("-poster.jpg"))||(File->fileName().toLower().endsWith("-poster.png"))) {  // Special case for video xbmc poster Thumbnails
-                    // Search if a video with same name exist
-                    QString ToSearch=File->fileName().left(File->fileName().toLower().indexOf("-poster."));
-                    for (int i=0;i<Files.count();i++)
-                        if ((ApplicationConfig->AllowVideoExtension.contains(((QFileInfo)Files[i]).suffix().toLower()))&&
-                            (((QFileInfo)Files[i]).completeBaseName()==ToSearch)) MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
-                } else if (File->suffix().toLower()=="jpg") {  // Special case for video Thumbnails
-                    // Search if a video with same name exist
-                    for (int i=0;i<Files.count();i++)
-                        if ((ApplicationConfig->AllowVideoExtension.contains(((QFileInfo)Files[i]).suffix().toLower()))&&
-                            (((QFileInfo)Files[i]).completeBaseName()==File->completeBaseName())) MediaObject->ObjectType=OBJECTTYPE_THUMBNAIL;
-                }
-            }   else if (ApplicationConfig->AllowVideoExtension.contains(File->suffix().toLower())) MediaObject=new cVideoFile(OBJECTTYPE_VIDEOFILE,ApplicationConfig);
-                else if (ApplicationConfig->AllowMusicExtension.contains(File->suffix().toLower())) MediaObject=new cVideoFile(OBJECTTYPE_MUSICFILE,ApplicationConfig);
-                else if (File->suffix().toLower()=="ffd")                                           MediaObject=new cffDProjectFile(ApplicationConfig);
-                else if (File->isDir())                                                             MediaObject=new cFolder(ApplicationConfig);
-                else                                                                                MediaObject=new cUnmanagedFile(ApplicationConfig);
-
-            // Check if file is valid
-            if ((MediaObject)&&(!MediaObject->GetInformationFromFile(File->absoluteFilePath(),NULL,NULL,FolderKey))) {
-                delete MediaObject;
-                MediaObject=NULL;
-            }
-            // Check if file correspond to current filer
-            if ((MediaObject)&&(!MediaObject->IsFilteredFile(CurrentFilter,AllowedFilter))) {
-                delete MediaObject;
-                MediaObject=NULL;
-            }
-            // If MediaObject still exist then append it
-            if (MediaObject) MediaList.append(MediaObject);
-        }
-    }
-
-    // Sort MediaList
-    if (ApplicationConfig->ShowFoldersFirst) qSort(MediaList.begin(),MediaList.end(),MediaListLessThanWithFolder);
-        else qSort(MediaList.begin(),MediaList.end(),MediaListLessThan);
-
-    //**********************************************************
-
-    // Create column (if needed)
-    if (CurrentMode==DISPLAY_ICON100) {
-        int SizeColumn=GetWidthForIcon();
-        if (viewport()->width()/SizeColumn==0) setColumnCount(1); else setColumnCount(viewport()->width()/SizeColumn);
-        for (i=0;i<columnCount();i++) setColumnWidth(i,SizeColumn);
-    }
-
-    // Append Media to table
-    foreach(MediaObject,MediaList) AppendMediaToTable(MediaObject);
-
-    // Update display
-    DoResizeColumns();
-    if (updatesEnabled()) setUpdatesEnabled(false);
-    setUpdatesEnabled(true);
-
-    // Start thread to scan files
-    ScanMediaList.setFuture(QtConcurrent::run(this,&QCustomFolderTable::DoScanMediaList));
-
-    QApplication::restoreOverrideCursor();
-
 }
 
 //====================================================================================================================
@@ -1159,10 +992,8 @@ void QCustomFolderTable::DoScanMediaList() {
                 update(model()->index(Row,Col));
             }
         }
-        if ((MediaList[ItemIndex]->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[ItemIndex]->ObjectType==OBJECTTYPE_VIDEOFILE))
-                CurrentShowDuration=CurrentShowDuration+QTime(0,0,0,0).msecsTo(((cVideoFile *)MediaList[ItemIndex])->Duration);
-            else if (MediaList[ItemIndex]->ObjectType==OBJECTTYPE_FFDFILE)
-                CurrentShowDuration=CurrentShowDuration+((cffDProjectFile *)MediaList[ItemIndex])->Duration;
+        if ((MediaList[ItemIndex]->ObjectType==OBJECTTYPE_MUSICFILE)||(MediaList[ItemIndex]->ObjectType==OBJECTTYPE_VIDEOFILE)||(MediaList[ItemIndex]->ObjectType==OBJECTTYPE_FFDFILE))
+                CurrentShowDuration=CurrentShowDuration+QTime(0,0,0,0).msecsTo(MediaList[ItemIndex]->Duration);
     }
 
     // Clear ScanMediaListProgress flag to inform that scan is done

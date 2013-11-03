@@ -983,8 +983,10 @@ void cCompositionObject::DrawCompositionObject(cDiaporamaObject *Object,QPainter
         if (IsFullScreen) {
 
             QImage *Img=BackgroundBrush->GetImageDiskBrush(QRectF(0,0,w*width,h*height),PreviewMode,Position,SoundTrackMontage,ImagePctDone,PrevCompoObject?PrevCompoObject->BackgroundBrush:NULL);
-            DestPainter->drawImage(x*width,y*height,*Img);
-            delete Img;
+            if (Img) {
+                DestPainter->drawImage(x*width,y*height,*Img);
+                delete Img;
+            }
 
         } else {
 
@@ -2067,7 +2069,7 @@ void cDiaporama::UpdateStatInformation() {
             }
 
             Text=QApplication::translate("Variables","Content:","Project statistics");
-            if (List.count())               Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%1 slides (%2)").arg(List.count()).arg(QTime(0,0,0,0).addMSecs(ProjectInfo->Duration).toString("hh:mm:ss.zzz"));
+            if (List.count())               Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%1 slides (%2)").arg(List.count()).arg(ProjectInfo->Duration.toString("hh:mm:ss.zzz"));
             if (ProjectInfo->NbrChapters)   Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%1 chapters").arg(ProjectInfo->NbrChapters);
             if (NbrVideo)                   Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%1 videos (%2)").arg(NbrVideo).arg(VideoDuration.toString("hh:mm:ss.zzz"));
             if (NbrVectorImg)               Text=Text+(Text.isEmpty()?"·":"\n·")+QApplication::translate("Variables","%3 vector images").arg(NbrVectorImg);
@@ -2087,7 +2089,7 @@ void cDiaporama::UpdateStatInformation() {
                 QString Album =List[i]->MusicList[music].GetInformationValue("album");
                 QString Date  =List[i]->MusicList[music].GetInformationValue("date");
                 QString Artist=List[i]->MusicList[music].GetInformationValue("artist");
-                QString SubText=(!TMusc.isEmpty()?TMusc:List[i]->MusicList[music].ShortName);
+                QString SubText=(!TMusc.isEmpty()?TMusc:List[i]->MusicList[music].ShortName());
                 if (!Artist.isEmpty()) {
                     if (!Date.isEmpty())  SubText=SubText+QApplication::translate("Variables"," - © %1 (%2)","Project statistics-Music").arg(Artist).arg(Date);
                         else              SubText=SubText+QApplication::translate("Variables"," - © %1",     "Project statistics-Music").arg(Artist);

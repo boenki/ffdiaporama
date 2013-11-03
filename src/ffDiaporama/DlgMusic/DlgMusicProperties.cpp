@@ -176,7 +176,7 @@ void DlgMusicProperties::RefreshControl(bool RefreshList) {
                 int j=ui->PlayListTable->rowCount();     // Item will be add at end of the list
                 ui->PlayListTable->insertRow(j);
                 QTableWidgetItem *Item;
-                Item=new QTableWidgetItem(DiaporamaObject->MusicList[CurIndex].ShortName);                      Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,0,Item);
+                Item=new QTableWidgetItem(DiaporamaObject->MusicList[CurIndex].ShortName());                    Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,0,Item);
                 Item=new QTableWidgetItem(DiaporamaObject->MusicList[CurIndex].Duration.toString("hh:mm:ss"));  Item->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);  ui->PlayListTable->setItem(j,1,Item);
                 QComboBox *InternalCB=new QComboBox(ui->PlayListTable);
                 for (int Factor=150;Factor>=10;Factor-=10) InternalCB->addItem(QString("%1%").arg(Factor));
@@ -255,7 +255,7 @@ void DlgMusicProperties::s_AddMusic() {
             int j=ui->PlayListTable->rowCount();     // Item will be add at end of the list
             ui->PlayListTable->insertRow(j);
             QTableWidgetItem *Item;
-            Item=new QTableWidgetItem(DiaporamaObject->MusicList[CurIndex].ShortName);                      Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,0,Item);
+            Item=new QTableWidgetItem(DiaporamaObject->MusicList[CurIndex].ShortName());                    Item->setTextAlignment(Qt::AlignLeft|Qt::AlignVCenter);     ui->PlayListTable->setItem(j,0,Item);
             Item=new QTableWidgetItem(DiaporamaObject->MusicList[CurIndex].Duration.toString("hh:mm:ss"));  Item->setTextAlignment(Qt::AlignHCenter|Qt::AlignVCenter);  ui->PlayListTable->setItem(j,1,Item);
             QComboBox *InternalCB=new QComboBox(ui->PlayListTable);
             for (int Factor=150;Factor>=10;Factor-=10) InternalCB->addItem(QString("%1%").arg(Factor));

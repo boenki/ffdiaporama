@@ -1133,7 +1133,7 @@ void DlgImageComposer::s_BlockTable_AddFilesBlock(QStringList FileList,int Posit
                     ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
                     IsValide=false;
                 }
-                #ifndef LIBAV_09
+                #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
                 if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
                     ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
                     IsValide=false;
@@ -1486,8 +1486,8 @@ void DlgImageComposer::s_BlockSettings_ImageEditCorrect() {
         }
 
         // Lulo object for image and video must be remove
-        if (CurrentCompoObject->BackgroundBrush->Video) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileName());
-        else if (CurrentCompoObject->BackgroundBrush->Image) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileName());
+        if (CurrentCompoObject->BackgroundBrush->Video) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileKey);
+        else if (CurrentCompoObject->BackgroundBrush->Image) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileKey);
 
         RefreshBlockTable(CurrentCompoObjectNbr);
     } else {

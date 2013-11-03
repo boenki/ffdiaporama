@@ -81,10 +81,12 @@ unix {
             message("Use libav 9 in /usr/include")
             DEFINES += USELIBAVRESAMPLE
             LIBS    += -lavresample                                             #------ conditionnaly include libavresample
+            INCLUDEPATH += /usr/include/
         } else {
             message("Use libav 0.8+taglib in /usr/include")
-            LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV_08
+            LIBS    += -ltag                                                    #------ TAGlib is used only with LIBAV 8
             DEFINES += USETAGLIB
+            INCLUDEPATH += /usr/include/
         }
 
     }
@@ -96,20 +98,21 @@ unix {
     contains(QMAKE_HOST.arch,x86_64) {
         DEFINES+=Q_OS_WIN64
         message("x86_64 build")
-        INCLUDEPATH += "../../../win_src/ffmpeg-20131014-win64-dev/include"
-        LIBS        += -L"../../../win_src/ffmpeg-20131014-win64-dev/lib"
+        INCLUDEPATH += "../../../win_src/ffmpeg-2.0.1-win64-dev/include"
+        LIBS        += -L"../../../win_src/ffmpeg-2.0.1-win64-dev/lib"
         LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x64"
     } else {
         DEFINES+=Q_OS_WIN32
         message("x86 build")
-        INCLUDEPATH += "../../../win_src/ffmpeg-20131014-win32-dev/include"
-        LIBS        += -L"../../../win_src/ffmpeg-20131014-win32-dev/lib"
+        INCLUDEPATH += "../../../win_src/ffmpeg-2.0.1-win32-dev/include"
+        LIBS        += -L"../../../win_src/ffmpeg-2.0.1-win32-dev/lib"
         LIBS        += -L"../../../win_src/SDL-1.2.15/lib/x86"
     }
 
-    CONFIG      += console
+    CONFIG      += console sql                                              #------ I don't know why, but windows version need sql module in config directive
     DEFINES     += USELIBSWRESAMPLE
 
+    INCLUDEPATH +=
     INCLUDEPATH += .                                                        #------ I don't know why, but windows need this !
     INCLUDEPATH += ../exiv2
     INCLUDEPATH += "../../../win_src/exiv2-0.23/msvc64/include"

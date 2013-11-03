@@ -1219,7 +1219,7 @@ cCompositionObject *DlgSlideProperties::GetSelectedCompositionObject() {
 void DlgSlideProperties::ApplyToContexte(bool ApplyGlobal) {
     ToLog(LOGMSG_DEBUGTRACE,"IN:DlgSlideProperties::ApplyToContexte");
 
-    if (ApplyGlobal) ApplyGlobalPropertiesToAllShots(CurrentCompoObject);
+    if ((ApplyGlobal)&&(CurrentCompoObject)) ApplyGlobalPropertiesToAllShots(CurrentCompoObject);
 
     // Apply values of previous shot to all shot for all objects
     for (int ShotNum=CurrentShotNbr+1;ShotNum<CurrentSlide->List.count();ShotNum++) for (int Block=0;Block<CurrentSlide->List[CurrentShotNbr]->ShotComposition.List.count();Block++) {
@@ -2011,7 +2011,7 @@ void DlgSlideProperties::s_BlockTable_AddFilesBlock(QStringList FileList,int Pos
                     ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only audio track with unsigned 8 bits or signed 16 bits sample format","Error message");
                     IsValide=false;
                 }
-                #ifndef LIBAV_09
+                #if defined(LIBAV) && (LIBAVVERSIONINT<=8)
                 if ((CurrentBrush->Video->AudioStreamNumber!=-1)&&(CurrentBrush->Video->LibavAudioFile->streams[CurrentBrush->Video->AudioStreamNumber]->codec->channels>2)) {
                     ErrorMessage=ErrorMessage+"\n"+QApplication::translate("MainWindow","This application support only mono or stereo audio track","Error message");
                     IsValide=false;
@@ -2466,7 +2466,7 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
              ) Position+=CurrentSlide->List[i]->StaticDuration;
     }
 
-    QString FileName    =CurrentBrush->Image?CurrentBrush->Image->ShortName:CurrentBrush->Video->ShortName;
+    QString FileName    =CurrentBrush->Image?CurrentBrush->Image->ShortName():CurrentBrush->Video->ShortName();
     bool UpdateSlideName=(CurrentSlide->SlideName==FileName);
 
     DlgImageCorrection Dlg(CurrentCompoObject,&CurrentCompoObject->BackgroundForm,CurrentCompoObject->BackgroundBrush,Position,
@@ -2489,13 +2489,13 @@ void DlgSlideProperties::s_BlockSettings_ImageEditCorrect() {
 
         // if Slide name is name of this file
         if (UpdateSlideName) {
-            CurrentSlide->SlideName=CurrentBrush->Image?CurrentBrush->Image->ShortName:CurrentBrush->Video->ShortName;
+            CurrentSlide->SlideName=CurrentBrush->Image?CurrentBrush->Image->ShortName():CurrentBrush->Video->ShortName();
             ui->SlideNameED->setText(CurrentSlide->SlideName);
         }
 
         // Lulo object for image and video must be remove
-        if (CurrentCompoObject->BackgroundBrush->Video) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileName());
-        else if (CurrentCompoObject->BackgroundBrush->Image) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileName());
+        if (CurrentCompoObject->BackgroundBrush->Video) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Video->FileKey);
+        else if (CurrentCompoObject->BackgroundBrush->Image) BaseApplicationConfig->ImagesCache.RemoveImageObject(CurrentCompoObject->BackgroundBrush->Image->FileKey);
 
         ApplyToContexte(true);
         s_ShotTable_DisplayDuration();
